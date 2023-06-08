@@ -37,7 +37,7 @@
                     </td>
                     <td class="border-t td-actions">
                         <DataTableMenu class={participacionesGruposInvestigacionSena.length < 3 ? 'z-50' : ''}>
-                            <Item on:SMUI:action={() => Inertia.visit(route('participaciones-grupos-investigacion.edit', participacionGrupoInvestigacionSena.id))}>
+                            <Item on:SMUI:action={() => Inertia.visit(route('participaciones-grupos-investigacion-sena.edit', participacionGrupoInvestigacionSena.id))}>
                                 <Text>Editar</Text>
                             </Item>
 

@@ -11,7 +11,7 @@ init({
     initialLocale: 'es',
 })
 
-InertiaProgress.init({ color: '#7e22ce' })
+InertiaProgress.init({ color: '#429f84' })
 
 createInertiaApp({
     resolve: (name) => import(`@/Pages/${name}.svelte`),

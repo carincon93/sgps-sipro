@@ -13,7 +13,7 @@
     export let submit
 </script>
 
-<form on:submit={submit}>
+<form on:submit|preventDefault={submit}>
     <fieldset class="p-8">
         <div class="mt-8">
             <Label required class="mb-4" labelFor="egresado_sena" value="¿Es egresado SENA?" />

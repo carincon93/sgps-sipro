@@ -220,6 +220,8 @@ class UserController extends Controller
         /** @var \App\Models\User */
         $authUser = DB::table('users')->where('id', Auth::user()->id)->first();
 
+        $authUser->rol_sennova_id = json_decode($authUser->rol_sennova_id);
+
         return Inertia::render('Users/Perfil', [
             'user'                                      => $authUser,
             'tiposDocumento'                            => json_decode(Storage::get('json/tipos-documento.json'), true),

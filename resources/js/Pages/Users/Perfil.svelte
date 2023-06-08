@@ -84,16 +84,16 @@
     })
 
     function submitChangeUserProfile() {
-        $form.post(route('users.change-user-profile'))
+        $form.post()
     }
 </script>
 
 <AuthenticatedLayout>
     <div class="grid grid-cols-3">
         <div>
-            <h1 class="font-black text-4xl sticky top-0 uppercase">Datos personales</h1>
+            <h1 class="font-black text-4xl uppercase">Datos personales</h1>
         </div>
-        <form on:submit={submitChangeUserProfile} class="bg-white rounded shadow col-span-2">
+        <form on:submit|preventDefault={submitChangeUserProfile} class="bg-white rounded shadow col-span-2">
             <fieldset class="p-8">
                 <div class="mt-8">
                     <Input label="Nombre completo" id="nombre" type="text" class="mt-1" bind:value={$form.nombre} error={errors.nombre} required />
