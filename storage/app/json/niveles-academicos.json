@@ -1,0 +1,11 @@
+[
+    { "value": 1, "label": "técnico" },
+    { "value": 2, "label": "tecnólogo" },
+    { "value": 3, "label": "pregrado" },
+    { "value": 4, "label": "especalización" },
+    { "value": 5, "label": "maestría" },
+    { "value": 6, "label": "doctorado" },
+    { "value": 7, "label": "ninguno" },
+    { "value": 8, "label": "técnico con especialización" },
+    { "value": 9, "label": "tecnólogo con especialización" }
+]

@@ -1,0 +1,6 @@
+[
+    { "value": 1, "label": "Bueno, en uso" },
+    { "value": 2, "label": "Bueno, sin uso" },
+    { "value": 3, "label": "En uso, sin mantenimiento" },
+    { "value": 4, "label": "Para dar de baja" }
+]

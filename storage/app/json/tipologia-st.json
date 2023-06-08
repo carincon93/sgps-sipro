@@ -1,0 +1,5 @@
+[
+    { "value": 1, "label": "Especiales" },
+    { "value": 2, "label": "Laboratorios" },
+    { "value": 3, "label": "Técnicos" }
+]

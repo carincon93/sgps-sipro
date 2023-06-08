@@ -1,0 +1,18 @@
+[
+    {
+        "value": 1,
+        "label": "Generación del conocimiento (GNC)"
+    },
+    {
+        "value": 2,
+        "label": "Desarrollo tecnólogico (DT)"
+    },
+    {
+        "value": 3,
+        "label": "Apropiación social del conocimiento (ASC)"
+    },
+    {
+        "value": 4,
+        "label": "Formación de recurso humano (FRH)"
+    }
+]

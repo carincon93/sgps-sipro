@@ -1,0 +1,18 @@
+[
+    { "value": 1, "label": "Artículos de investigación" },
+    { "value": 2, "label": "Productos tecnológicos certificados o validados" },
+    { "value": 3, "label": "Programa/Estrategia pedagógica de fomento a la CTI" },
+    { "value": 4, "label": " Eventos científicos y participación en redes de conocimiento" },
+    { "value": 5, "label": "Libros resultado de investigación " },
+    { "value": 6, "label": "Capítulos en libro resultado de investigación" },
+    { "value": 7, "label": "Productos tecnológicos patentados o en proceso de concesión de la patente" },
+    { "value": 8, "label": "Espacio/evento de participación ciudadana o de comunidad(es)" },
+    { "value": 9, "label": "Estrategias de comunicación del conocimiento, generación de contenidos impresos, multimedia y virtuales" },
+    { "value": 10, "label": "Reconocimientos" },
+    { "value": 11, "label": "Ninguno" },
+    { "value": 12, "label": "No aplica" },
+    { "value": 13, "label": "Prototipos" },
+    { "value": 14, "label": "Diseños de software/aplicaciones/sistemas de información" },
+    { "value": 15, "label": "Plantas piloto" },
+    { "value": 16, "label": "Consultorías" }
+]

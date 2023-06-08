@@ -1,0 +1,5 @@
+[
+    { "value": 1, "label": "Cédula de ciudadanía" },
+    { "value": 2, "label": "Cédula de extranjería" },
+    { "value": 3, "label": "Tarjeta de identidad" }
+]

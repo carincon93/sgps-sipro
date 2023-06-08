@@ -1,0 +1,6 @@
+[
+    { "value": 1, "label": "Microempresa" },
+    { "value": 2, "label": "Pequeña" },
+    { "value": 3, "label": "Mediana" },
+    { "value": 4, "label": "Grande" }
+]

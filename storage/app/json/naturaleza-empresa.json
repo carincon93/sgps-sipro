@@ -1,0 +1,6 @@
+[
+    { "value": 1, "label": "Pública" },
+    { "value": 2, "label": "Privado" },
+    { "value": 3, "label": "Mixta" },
+    { "value": 4, "label": "ONG" }
+]

@@ -1,0 +1,5 @@
+[
+    { "value": 1, "label": "Productos ya obtenidos" },
+    { "value": 2, "label": "Productos a obtener" },
+    { "value": 3, "label": "No aplica" }
+]

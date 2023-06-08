@@ -1,0 +1,8 @@
+[
+    { "value": 1, "label": "Software de Código Abierto" },
+    { "value": 2, "label": "Software Libre" },
+    { "value": 3, "label": "Software de Dominio Público" },
+    { "value": 4, "label": "Freeware" },
+    { "value": 5, "label": "Software Propietario" },
+    { "value": 6, "label": "Software de evaluación" }
+]

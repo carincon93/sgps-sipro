@@ -1,0 +1,11 @@
+[
+    {
+        "value": 1,
+        "label": "Licencias con plazo específico (Vitalicias, Requiere Actualizaciones)"
+    },
+    {
+        "value": 2,
+        "label": "Licencias de plazo indefinido (Vitalicias, No Caduca)"
+    },
+    { "value": 3, "label": "Licencias Libre (Software Libre o free))" }
+]

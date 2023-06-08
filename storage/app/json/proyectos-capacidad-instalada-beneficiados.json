@@ -1,0 +1,13 @@
+[
+    { "value": 1, "label": "Centro de formación" },
+    { "value": 2, "label": "Empresas" },
+    { "value": 3, "label": "Emprendedores" },
+    { "value": 4, "label": "Comunidades desplazadas" },
+    { "value": 5, "label": "Comunidades vulnerables" },
+    { "value": 6, "label": "Dirigido a mujeres" },
+    { "value": 7, "label": "Población con habilidades diversas" },
+    { "value": 8, "label": "Población indígena" },
+    { "value": 9, "label": "Víctimas del conflicto armado" },
+    { "value": 10, "label": "Ninguna" },
+    { "value": 11, "label": "Otra" }
+]

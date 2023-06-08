@@ -1,0 +1,8 @@
+[
+    { "value": 1, "label": "En diseño" },
+    { "value": 2, "label": "Iniciando ejecución" },
+    { "value": 3, "label": "En ejecución, entre 2 a 11 meses" },
+    { "value": 4, "label": "En ejecución de 11 meses a 23 meses" },
+    { "value": 5, "label": "En ejecución más de 23 meses" },
+    { "value": 6, "label": "En cierre" }
+]

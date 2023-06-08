@@ -1,0 +1,6 @@
+[
+    { "value": 1, "label": "Mercado" },
+    { "value": 2, "label": "Operacionales" },
+    { "value": 3, "label": "Legales" },
+    { "value": 4, "label": "Administrativos" }
+]

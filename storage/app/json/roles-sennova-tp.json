@@ -1,0 +1,14 @@
+[
+    { "value": 11, "label": "Articulador", "maxHoras": 48 },
+    { "value": 12, "label": "Dinamizador", "maxHoras": 48 },
+    { "value": 13, "label": "Experto tecnoparque", "maxHoras": 48 },
+    { "value": 14, "label": "Infocenter tecnoparque", "maxHoras": 48 },
+    { "value": 15, "label": "Técnico de apoyo", "maxHoras": 48 },
+    { "value": 16, "label": "Tecnólogo de apoyo", "maxHoras": 48 }
+]
+
+
+
+
+
+

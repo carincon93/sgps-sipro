@@ -1,0 +1,5 @@
+[
+    { "value": 1, "label": "Menos de 1 hora 30 minutos" },
+    { "value": 2, "label": "Entre 1 hora 30 minutos y 3 horas" },
+    { "value": 3, "label": "Más de 3 horas" }
+]
