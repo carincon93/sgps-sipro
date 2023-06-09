@@ -63,8 +63,26 @@ class User extends Authenticatable
         'link_sigep_ii',
         'grupo_etnico',
         'discapacidad',
+
+        'experiencia_laboral_sena',
+        'cursos_evaluacion_proyectos',
+        'cursos_de_evaluacion_realizados',
+        'experiencia_como_evaluador',
+        'numero_proyectos_evaluados',
+        'participacion_como_evaluador_sennova',
+        'conocimiento_iso_17025',
+        'conocimiento_iso_19011',
+        'conocimiento_iso_29119',
+        'conocimiento_iso_9001',
+        'experiencia_metodos_ensayo',
+        'meses_experiencia_metodos_ensayo',
+        'experiencia_metodos_calibracion',
+        'meses_experiencia_metodos_calibracion',
         'autorizacion_datos',
+        
+        'red_conocimiento_id',
         'rol_sennova_id',
+        'disciplina_subarea_conocimiento_id',
         'centro_formacion_id',
     ];
 
@@ -112,6 +130,26 @@ class User extends Authenticatable
     public function centroFormacion()
     {
         return $this->belongsTo(CentroFormacion::class);
+    }
+
+    /**
+     * Relationship with RedConocimiento
+     *
+     * @return object
+     */
+    public function redConocimiento()
+    {
+        return $this->belongsTo(RedConocimiento::class);
+    }
+
+    /**
+     * Relationship with DisciplinaSubareaConocimiento
+     *
+     * @return object
+     */
+    public function disciplinaSubareaConocimiento()
+    {
+        return $this->belongsTo(DisciplinaSubareaConocimiento::class);
     }
 
     /**

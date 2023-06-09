@@ -25,36 +25,55 @@ class UserProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre'                        => ['required', 'string', 'max:255'],
-            'email'                         => ['required', 'max:255', new Email, 'email', 'unique:users,email,' . auth()->user()->id . ',id'],
-            'tipo_documento'                => ['required', 'max:2'],
-            'tipo_vinculacion'              => ['required', 'max:191'],
-            'numero_documento'              => ['required', 'min:55555', 'max:9999999999999', 'integer', 'unique:users,numero_documento,' . auth()->user()->id . ',id'],
-            'numero_celular'                => ['required', 'min:0', 'max:9999999999', 'integer'],
-            'autorizacion_datos'            => ['nullable', 'boolean'],
-            'lugar_expedicion_id'           => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:municipios,id'],
-            'fecha_nacimiento'              => ['required', 'date'],
-            'genero'                        => ['required', 'integer'],
-            'tipo_vinculacion'              => ['nullable', 'integer'],
-            'horas_dedicadas'               => ['nullable', 'integer', 'min:0'],
-            'meses_dedicados'               => ['nullable', 'integer', 'min:0'],
-            'nivel_ingles'                  => ['nullable', 'integer', 'min:0'],
-            'es_temporal_sennova'           => ['nullable', 'boolean'],
-            'fecha_resolucion_nombramiento' => ['nullable', 'date_format:Y-m-d'],
-            'fecha_acta_nombramiento'       => ['nullable', 'date_format:Y-m-d'],
-            'nro_acta_nombramiento'         => ['nullable', 'integer', 'min:0'],
-            'grado_sennova'                 => ['nullable', 'integer', 'max:100'],
-            'fecha_inicio_contrato'         => ['nullable', 'date_format:Y-m-d', 'before:fecha_finalizacion_contrato'],
-            'fecha_finalizacion_contrato'   => ['nullable', 'date_format:Y-m-d', 'after:fecha_inicio_contrato'],
-            'asignacion_mensual'            => ['nullable', 'integer', 'min:0'],
-            'grupo_etnico'                  => ['nullable', 'integer'],
-            'discapacidad'                  => ['nullable', 'integer'],
-            'tiene_pasaporte_vigente'       => ['nullable', 'boolean'],
-            'tiene_visa_vigente'            => ['nullable', 'boolean'],
-            'cvlac'                         => ['nullable', 'string', 'max:255'],
-            'link_sigep_ii'                 => ['nullable', 'string', 'max:255'],
-            'centro_formacion_id'           => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
-            'rol_sennova_id'                => ['required', 'json'],
+            'nombre'                                => ['required', 'string', 'max:255'],
+            'email'                                 => ['required', 'max:255', new Email, 'email', 'unique:users,email,' . auth()->user()->id . ',id'],
+            'tipo_documento'                        => ['required', 'max:2'],
+            'tipo_vinculacion'                      => ['required', 'max:191'],
+            'numero_documento'                      => ['required', 'min:55555', 'max:9999999999999', 'integer', 'unique:users,numero_documento,' . auth()->user()->id . ',id'],
+            'numero_celular'                        => ['required', 'min:0', 'max:9999999999', 'integer'],
+            'autorizacion_datos'                    => ['nullable', 'boolean'],
+            'lugar_expedicion_id'                   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:municipios,id'],
+            'fecha_nacimiento'                      => ['required', 'date'],
+            'genero'                                => ['required', 'integer'],
+            'tipo_vinculacion'                      => ['nullable', 'integer'],
+            'horas_dedicadas'                       => ['nullable', 'integer', 'min:0'],
+            'meses_dedicados'                       => ['nullable', 'integer', 'min:0'],
+            'nivel_ingles'                          => ['nullable', 'integer', 'min:0'],
+            'es_temporal_sennova'                   => ['nullable', 'boolean'],
+            'fecha_resolucion_nombramiento'         => ['nullable', 'date_format:Y-m-d'],
+            'fecha_acta_nombramiento'               => ['nullable', 'date_format:Y-m-d'],
+            'nro_acta_nombramiento'                 => ['nullable', 'integer', 'min:0'],
+            'grado_sennova'                         => ['nullable', 'integer', 'max:100'],
+            'fecha_inicio_contrato'                 => ['nullable', 'date_format:Y-m-d', 'before:fecha_finalizacion_contrato'],
+            'fecha_finalizacion_contrato'           => ['nullable', 'date_format:Y-m-d', 'after:fecha_inicio_contrato'],
+            'asignacion_mensual'                    => ['nullable', 'integer', 'min:0'],
+            'grupo_etnico'                          => ['nullable', 'integer'],
+            'discapacidad'                          => ['nullable', 'integer'],
+            'tiene_pasaporte_vigente'               => ['nullable', 'boolean'],
+            'tiene_visa_vigente'                    => ['nullable', 'boolean'],
+            'cvlac'                                 => ['nullable', 'string', 'max:255'],
+            'link_sigep_ii'                         => ['nullable', 'string', 'max:255'],
+
+            'experiencia_laboral_sena'              => ['nullable', 'integer', 'min:0'],
+            'cursos_evaluacion_proyectos'           => ['nullable', 'boolean'],
+            'cursos_de_evaluacion_realizados'       => ['nullable', 'json'],
+            'experiencia_como_evaluador'            => ['nullable', 'boolean'],
+            'numero_proyectos_evaluados'            => ['nullable', 'integer', 'min:0'],
+            'participacion_como_evaluador_sennova'  => ['nullable', 'boolean'],
+            'conocimiento_iso_17025'                => ['nullable', 'boolean'],
+            'conocimiento_iso_19011'                => ['nullable', 'boolean'],
+            'conocimiento_iso_29119'                => ['nullable', 'boolean'],
+            'conocimiento_iso_9001'                 => ['nullable', 'boolean'],
+            'experiencia_metodos_ensayo'            => ['nullable', 'boolean'],
+            'meses_experiencia_metodos_ensayo'      => ['nullable', 'integer', 'min:0'],
+            'experiencia_metodos_calibracion'       => ['nullable', 'boolean'],
+            'meses_experiencia_metodos_calibracion' => ['nullable', 'integer', 'min:0'],
+            'autorizacion_datos'                    => ['nullable', 'boolean'],
+            'red_conocimiento_id'                   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:redes_conocimiento,id'],
+            // 'disciplina_subarea_conocimiento_id'    => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:disciplinas_subarea_conocimiento,id'],
+
+            'centro_formacion_id'                   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
+            'rol_sennova_id'                        => ['required', 'json'],
         ];
     }
 
@@ -65,6 +84,7 @@ class UserProfileRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
+        dd($this->rol_sennova_id);
         if (is_array($this->tipo_documento)) {
             $this->merge([
                 'tipo_documento' => $this->tipo_documento['value'],
@@ -130,6 +150,66 @@ class UserProfileRequest extends FormRequest
                 'lugar_expedicion_id' => $this->lugar_expedicion_id['value'],
             ]);
         }
+
+        if (is_array($this->red_conocimiento_id)) {
+            $this->merge([
+                'red_conocimiento_id' => $this->red_conocimiento_id['value'],
+            ]);
+        }
+
+        if (is_array($this->cursos_evaluacion_proyectos)) {
+            $this->merge([
+                'cursos_evaluacion_proyectos' => $this->cursos_evaluacion_proyectos['value'] == '1' ? 1 : 0,
+            ]);
+        }
+
+        if (is_array($this->experiencia_como_evaluador)) {
+            $this->merge([
+                'experiencia_como_evaluador' => $this->experiencia_como_evaluador['value'] == '1' ? 1 : 0,
+            ]);
+        }
+
+        if (is_array($this->participacion_como_evaluador_sennova)) {
+            $this->merge([
+                'participacion_como_evaluador_sennova' => $this->participacion_como_evaluador_sennova['value'] == '1' ? 1 : 0,
+            ]);
+        }
+
+        if (is_array($this->conocimiento_iso_17025)) {
+            $this->merge([
+                'conocimiento_iso_17025' => $this->conocimiento_iso_17025['value'] == '1' ? 1 : 0,
+            ]);
+        }
+
+        if (is_array($this->conocimiento_iso_19011)) {
+            $this->merge([
+                'conocimiento_iso_19011' => $this->conocimiento_iso_19011['value'] == '1' ? 1 : 0,
+            ]);
+        }
+
+        if (is_array($this->conocimiento_iso_29119)) {
+            $this->merge([
+                'conocimiento_iso_29119' => $this->conocimiento_iso_29119['value'] == '1' ? 1 : 0,
+            ]);
+        }
+
+        if (is_array($this->conocimiento_iso_9001)) {
+            $this->merge([
+                'conocimiento_iso_9001' => $this->conocimiento_iso_9001['value'] == '1' ? 1 : 0,
+            ]);
+        }
+
+        if (is_array($this->experiencia_metodos_ensayo)) {
+            $this->merge([
+                'experiencia_metodos_ensayo' => $this->experiencia_metodos_ensayo['value'] == '1' ? 1 : 0,
+            ]);
+        }
+
+        if (is_array($this->experiencia_metodos_calibracion)) {
+            $this->merge([
+                'experiencia_metodos_calibracion' => $this->experiencia_metodos_calibracion['value'] == '1' ? 1 : 0,
+            ]);
+        }        
 
         if (is_array($this->rol_sennova_id)) {
             if (isset($this->rol_sennova_id['value']) && is_numeric($this->rol_sennova_id['value'])) {

@@ -67,13 +67,13 @@ class DisciplinaSubareaConocimiento extends Model
     }
 
     /**
-     * Relationship with Ta
+     * Relationship with User
      *
      * @return object
      */
-    public function ta()
+    public function users()
     {
-        return $this->belongsToMany(Ta::class, 'ta_disciplina_subarea_conocimiento', 'disciplina_subarea_conocimiento_id', 'ta_id');
+        return $this->hasMany(User::class);
     }
 
     /**
@@ -95,6 +95,17 @@ class DisciplinaSubareaConocimiento extends Model
     {
         return $this->hasMany(ProyectoCapacidadInstalada::class);
     }
+
+    /**
+     * Relationship with Ta
+     *
+     * @return object
+     */
+    public function ta()
+    {
+        return $this->belongsToMany(Ta::class, 'ta_disciplina_subarea_conocimiento', 'disciplina_subarea_conocimiento_id', 'ta_id');
+    }
+
     /**
      * Filtrar registros
      *

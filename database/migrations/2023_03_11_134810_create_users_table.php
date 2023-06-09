@@ -51,6 +51,24 @@ return new class extends Migration
             $table->string('cvlac', 255)->nullable();
             $table->string('link_sigep_ii', 255)->nullable();
 
+            
+            $table->smallInteger('experiencia_laboral_sena')->nullable();
+            $table->boolean('cursos_evaluacion_proyectos')->nullable();
+            $table->json('cursos_de_evaluacion_realizados')->nullable();
+            $table->boolean('experiencia_como_evaluador')->nullable();
+            $table->smallInteger('numero_proyectos_evaluados')->nullable();
+            $table->boolean('participacion_como_eveluador_sennova')->nullable();
+            $table->boolean('conocimiento_iso_17025')->nullable();
+            $table->boolean('conocimiento_iso_19011')->nullable();
+            $table->boolean('conocimiento_iso_29119')->nullable();
+            $table->boolean('conocimiento_iso_9001')->nullable();
+            $table->boolean('experiencia_metodos_ensayo')->nullable();
+            $table->smallInteger('meses_experiencia_metodos_ensayo')->nullable();
+
+            $table->boolean('experiencia_metodos_calibracion')->nullable();
+            $table->smallInteger('meses_experiencia_metodos_calibracion')->nullable();
+
+            $table->integer('red_conocimiento_id')->nullable();
             $table->integer('centro_formacion_id')->nullable();
             $table->timestamps();
         });

@@ -13,6 +13,7 @@ use App\Models\Perfil\EstudioAcademico;
 use App\Models\Perfil\FormacionAcademicaSena;
 use App\Models\Perfil\ParticipacionGrupoInvestigacionSena;
 use App\Models\Perfil\ParticipacionProyectoSennova;
+use App\Models\RedConocimiento;
 use App\Models\Role;
 use App\Models\RolSennova;
 use App\Models\User;
@@ -232,6 +233,7 @@ class UserController extends Controller
             'tiposDiscapacidad'                         => json_decode(Storage::get('json/tipos-discapacidad.json'), true),
             'municipios'                                => Municipio::selectRaw('id as value, nombre as label')->get(),
             'rolesSennova'                              => RolSennova::selectRaw('id as value, nombre as label')->get(),
+            'redesConocimiento'                         => RedConocimiento::selectRaw('id as value, nombre as label')->get(),
             'centrosFormacion'                          => CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo, chr(10), \'∙ Regional: \', regionales.nombre) as label')->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->orderBy('centros_formacion.nombre', 'ASC')->get(),
             'estudiosAcademicos'                        => EstudioAcademico::where('user_id', $authUser->id)->get(),
             'formacionesAcademicasSena'                 => FormacionAcademicaSena::where('user_id', $authUser->id)->get(),
@@ -252,39 +254,7 @@ class UserController extends Controller
         /** @var \App\Models\User */
         $authUser = Auth::user();
 
-        $authUser->update(
-            [
-                'nombre'                            => $request->nombre,
-                'email'                             => $request->email,
-                'tipo_documento'                    => $request->tipo_documento,
-                'numero_documento'                  => $request->numero_documento,
-                'numero_celular'                    => $request->numero_celular,
-                'tipo_vinculacion'                  => $request->tipo_vinculacion,
-                'lugar_expedicion_id'               => $request->lugar_expedicion_id,
-                'genero'                            => $request->genero,
-                'fecha_nacimiento'                  => $request->fecha_nacimiento,
-                'horas_dedicadas'                   => $request->horas_dedicadas,
-                'meses_dedicados'                   => $request->meses_dedicados,
-                'nivel_ingles'                      => $request->nivel_ingles,
-                'es_temporal_sennova'               => $request->es_temporal_sennova,
-                'fecha_resolucion_nombramiento'     => $request->fecha_resolucion_nombramiento,
-                'fecha_acta_nombramiento'           => $request->fecha_acta_nombramiento,
-                'nro_acta_nombramiento'             => $request->nro_acta_nombramiento,
-                'grado_sennova'                     => $request->grado_sennova,
-                'fecha_inicio_contrato'             => $request->fecha_inicio_contrato,
-                'fecha_finalizacion_contrato'       => $request->fecha_finalizacion_contrato,
-                'asignacion_mensual'                => $request->asignacion_mensual,
-                'rol_sennova_id'                    => $request->rol_sennova_id,
-                'tiene_pasaporte_vigente'           => $request->tiene_pasaporte_vigente,
-                'tiene_visa_vigente'                => $request->tiene_visa_vigente,
-                'cvlac'                             => $request->cvlac,
-                'link_sigep_ii'                     => $request->link_sigep_ii,
-                'grupo_etnico'                      => $request->grupo_etnico,
-                'discapacidad'                      => $request->discapacidad,
-                'rol_sennova_id'                    => $request->rol_sennova_id,
-                'autorizacion_datos'                => $request->autorizacion_datos,
-            ]
-        );
+        $authUser->update($request->all());
 
         if ($request->hasFile('certificado_ingles')) {
             // CENSO2023 Quemado

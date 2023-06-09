@@ -15,11 +15,17 @@ class CentroFormacionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Responseb
      */
     public function index()
     {
         $this->authorize('viewAny', [CentroFormacion::class]);
+
+        dd(CentroFormacion::select('centros_formacion.id', 'centros_formacion.nombre', 'centros_formacion.codigo', 'centros_formacion.regional_id', 'centros_formacion.dinamizador_sennova_id')
+                ->with(['regional'  => function ($query) {
+                    $query->orderBy('nombre', 'ASC');
+                }])->with('dinamizadorSennova')
+                ->filterCentroFormacion(request()->only('search'))->paginate()->appends(['search' => request()->search]));
 
         return Inertia::render('CentrosFormacion/Index', [
             'filters'               => request()->all('search'),
