@@ -15,7 +15,7 @@
         tipo_proyecto: null,
         codigo_proyecto: '',
         titulo: '',
-        year_ejecucion: '',
+        fecha_inicio_proyecto: '',
         fecha_finalizacion_proyecto: '',
     })
 

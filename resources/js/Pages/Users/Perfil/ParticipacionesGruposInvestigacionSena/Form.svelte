@@ -14,7 +14,17 @@
 <form on:submit|preventDefault={submit}>
     <fieldset class="p-8">
         <div class="mt-8">
-            <Label required class="mb-4" labelFor="pertenece_grupo_investigacion_centro" value="¿Pertenece al grupo de investigación de su centro?" />
+            <Label required class="mb-4" labelFor="grupo_investigacion_id" value="Grupo de investigación al que pertenece actualmente" />
+            <Select id="grupo_investigacion_id" items={gruposInvestigacion} bind:selectedValue={$form.grupo_investigacion_id} error={errors.grupo_investigacion_id} autocomplete="off" placeholder="Seleccione una opción" required />
+        </div>
+
+        <div class="mt-8">
+            <Label required class="mb-4" labelFor="semillero_investigacion_id" value="Semillero de investigación al que pertenece actualmente" />
+            <Select id="semillero_investigacion_id" items={semillerosInvestigacion} bind:selectedValue={$form.semillero_investigacion_id} error={errors.semillero_investigacion_id} autocomplete="off" placeholder="Seleccione una opción" />
+        </div>
+
+        <div class="mt-8">
+            <Label required class="mb-4" labelFor="pertenece_grupo_investigacion_centro" value="¿Actualmente pertenece al grupo de investigación de su centro?" />
             <Select
                 id="pertenece_grupo_investigacion_centro"
                 items={[
@@ -30,12 +40,7 @@
         </div>
 
         <div class="mt-8">
-            <Label required class="mb-4" labelFor="grupo_investigacion_id" value="Grupo de investigación" />
-            <Select id="grupo_investigacion_id" items={gruposInvestigacion} bind:selectedValue={$form.grupo_investigacion_id} error={errors.grupo_investigacion_id} autocomplete="off" placeholder="Seleccione una opción" required />
-        </div>
-
-        <div class="mt-8">
-            <Label required class="mb-4" labelFor="pertenece_semillero_investigacion_centro" value="¿Pertenece al semillero de investigación de su centro?" />
+            <Label required class="mb-4" labelFor="pertenece_semillero_investigacion_centro" value="¿Actualmente pertenece al semillero de investigación de su centro?" />
             <Select
                 id="pertenece_semillero_investigacion_centro"
                 items={[
@@ -48,11 +53,6 @@
                 placeholder="Seleccione una opción"
                 required
             />
-        </div>
-
-        <div class="mt-8">
-            <Label required class="mb-4" labelFor="semillero_investigacion_id" value="Semillero de investigación" />
-            <Select id="semillero_investigacion_id" items={semillerosInvestigacion} bind:selectedValue={$form.semillero_investigacion_id} error={errors.semillero_investigacion_id} autocomplete="off" placeholder="Seleccione una opción" required />
         </div>
     </fieldset>
     <div class="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">

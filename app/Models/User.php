@@ -78,6 +78,10 @@ class User extends Authenticatable
         'meses_experiencia_metodos_ensayo',
         'experiencia_metodos_calibracion',
         'meses_experiencia_metodos_calibracion',
+        'experiencia_minima_metodos',
+        'informacion_completa',
+        'roles_fuera_sennova',
+        'tiempo_por_rol',
         'autorizacion_datos',
         
         'red_conocimiento_id',

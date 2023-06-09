@@ -25,9 +25,9 @@ class ParticipacionProyectoSennovaRequest extends FormRequest
     {
         return [
             'tipo_proyecto'                 => ['required', 'integer', 'min:1', 'max:9'],
+            'fecha_inicio_proyecto'         => ['required', 'date_format:Y-m-d'],
             'fecha_finalizacion_proyecto'   => ['required', 'date_format:Y-m-d'],
             'titulo'                        => ['required', 'string'],
-            'year_ejecucion'                => ['required', 'string', 'max:7'],
             'codigo_proyecto'               => ['required', 'string', 'max:20'],
         ];
     }

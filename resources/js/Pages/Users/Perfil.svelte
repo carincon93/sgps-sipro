@@ -25,6 +25,7 @@
     export let tiposVinculacion
     export let municipios
     export let redesConocimiento
+    export let disciplinasConocimiento
     export let nivelesIngles
     export let gruposEtnicos
     export let opcionesGenero
@@ -35,6 +36,7 @@
     export let formacionesAcademicasSena
     export let participacionesGruposInvestigacionSena
     export let participacionesProyectosSennova
+    export let rolesSennovaRelacionados
 
     $: $title = 'Perfil'
 
@@ -65,7 +67,6 @@
         meses_dedicados: user.meses_dedicados,
         nivel_ingles: user.nivel_ingles,
         certificado_ingles: null,
-        es_temporal_sennova: user.es_temporal_sennova,
         fecha_resolucion_nombramiento: user.fecha_resolucion_nombramiento,
         fecha_acta_nombramiento: user.fecha_acta_nombramiento,
         nro_acta_nombramiento: user.nro_acta_nombramiento,
@@ -74,37 +75,47 @@
         fecha_inicio_contrato: user.fecha_inicio_contrato,
         fecha_finalizacion_contrato: user.fecha_finalizacion_contrato,
         asignacion_mensual: user.asignacion_mensual,
-        rol_sennova_id: user.rol_sennova_id,
-        tiene_pasaporte_vigente: user.tiene_pasaporte_vigente,
-        tiene_visa_vigente: user.tiene_visa_vigente,
+        rol_sennova_id: rolesSennovaRelacionados.length > 0 ? rolesSennovaRelacionados : null,
+        tiempo_por_rol: user.tiempo_por_rol,
+        roles_fuera_sennova: user.roles_fuera_sennova,
+        tiene_pasaporte_vigente: user.tiene_pasaporte_vigente ? 1 : 2,
+        tiene_visa_vigente: user.tiene_visa_vigente ? 1 : 2,
         cvlac: user.cvlac,
         link_sigep_ii: user.link_sigep_ii,
         grupo_etnico: user.grupo_etnico,
         discapacidad: user.discapacidad,
 
         red_conocimiento_id: user.red_conocimiento_id,
+        disciplina_subarea_conocimiento_id: user.disciplina_subarea_conocimiento_id,
         experiencia_laboral_sena: user.experiencia_laboral_sena,
-        cursos_evaluacion_proyectos: user.cursos_evaluacion_proyectos,
         cursos_de_evaluacion_realizados: user.cursos_de_evaluacion_realizados,
-        experiencia_como_evaluador: user.experiencia_como_evaluador,
         numero_proyectos_evaluados: user.numero_proyectos_evaluados,
-        participacion_como_evaluador_sennova: user.participacion_como_evaluador_sennova,
-        conocimiento_iso_17025: user.conocimiento_iso_17025,
-        conocimiento_iso_19011: user.conocimiento_iso_19011,
-        conocimiento_iso_29119: user.conocimiento_iso_29119,
-        conocimiento_iso_9001: user.conocimiento_iso_9001,
-        experiencia_metodos_ensayo: user.experiencia_metodos_ensayo,
+
         meses_experiencia_metodos_ensayo: user.meses_experiencia_metodos_ensayo,
-        experiencia_metodos_calibracion: user.experiencia_metodos_calibracion,
         meses_experiencia_metodos_calibracion: user.meses_experiencia_metodos_calibracion,
 
         autorizacion_datos: user.autorizacion_datos,
+        informacion_completa: user.informacion_completa ? 1 : 2,
         centro_formacion_id: user.centro_formacion_id,
+
+        es_temporal_sennova: user.es_temporal_sennova ? 1 : 2,
+        cursos_evaluacion_proyectos: user.cursos_evaluacion_proyectos ? 1 : 2,
+        experiencia_como_evaluador: user.experiencia_como_evaluador ? 1 : 2,
+        participacion_como_evaluador_sennova: user.participacion_como_evaluador_sennova ? 1 : 2,
+        conocimiento_iso_17025: user.conocimiento_iso_17025 ? 1 : 2,
+        conocimiento_iso_19011: user.conocimiento_iso_19011 ? 1 : 2,
+        conocimiento_iso_29119: user.conocimiento_iso_29119 ? 1 : 2,
+        conocimiento_iso_9001: user.conocimiento_iso_9001 ? 1 : 2,
+        experiencia_metodos_ensayo: user.experiencia_metodos_ensayo ? 1 : 2,
+        experiencia_metodos_calibracion: user.experiencia_metodos_calibracion ? 1 : 2,
+        experiencia_minima_metodos: user.experiencia_minima_metodos ? 1 : 2,
     })
 
     function submitChangeUserProfile() {
         $form.post(route('users.change-user-profile'))
     }
+
+    console.log(user.rol_sennova_id)
 </script>
 
 <AuthenticatedLayout>
@@ -112,7 +123,7 @@
         <div>
             <h1 class="font-black text-4xl uppercase">Datos personales</h1>
         </div>
-        <form on:submit|preventDefault={submitChangeUserProfile} class="bg-white rounded shadow col-span-2" novalidate>
+        <form on:submit|preventDefault={submitChangeUserProfile} id="informacion-basica" class="bg-white rounded shadow col-span-2">
             <fieldset class="p-8 space-y-14">
                 <div class="mt-8">
                     <Input label="Nombre completo" id="nombre" type="text" class="mt-1" bind:value={$form.nombre} error={errors.nombre} required />
@@ -242,8 +253,25 @@
                 </div>
 
                 <div class="mt-8">
+                    <Label labelFor="tiempo_por_rol" value="Por favor indique el tiempo que ha estado en cada rol. Separados por coma (,): Ejemplo: Dinamizador SENNOVA - 12 meses *" />
+
+                    <Tags id="tiempo_por_rol" class="mt-4" enforceWhitelist={false} bind:tags={$form.tiempo_por_rol} placeholder="Nombre del semillero" error={errors.tiempo_por_rol} />
+                </div>
+
+                <div class="mt-8">
+                    <Label labelFor="roles_fuera_sennova" value="Si ha estado en otros roles fuera de SENNOVA por favor indíquelos en el siguiente campo y seperados por coma (,)" />
+
+                    <Tags id="roles_fuera_sennova" class="mt-4" enforceWhitelist={false} bind:tags={$form.roles_fuera_sennova} placeholder="Nombre del semillero" error={errors.roles_fuera_sennova} />
+                </div>
+
+                <div class="mt-8">
                     <Label required class="mb-4" labelFor="red_conocimiento_id" value="Red de conocimiento sectorial en la cual se desempeña" />
                     <Select id="red_conocimiento_id" items={redesConocimiento} bind:selectedValue={$form.red_conocimiento_id} error={errors.red_conocimiento_id} autocomplete="off" placeholder="Seleccione una red de conocimiento" required />
+                </div>
+
+                <div class="mt-8">
+                    <Label required class="mb-4" labelFor="disciplina_subarea_conocimiento_id" value="Disciplinas de conocimiento" />
+                    <Select id="disciplina_subarea_conocimiento_id" items={disciplinasConocimiento} bind:selectedValue={$form.disciplina_subarea_conocimiento_id} error={errors.disciplina_subarea_conocimiento_id} autocomplete="off" placeholder="Seleccione una discplina de conocimiento" required />
                 </div>
 
                 <div class="mt-8">
@@ -424,6 +452,22 @@
                 {/if}
 
                 <div class="mt-8">
+                    <Label required class="mb-4" labelFor="experiencia_minima_metodos" value="¿Cuenta con experiencia técnica mínimo de doce (12) meses relacionada por lo menos con dos (2) métodos de ensayo o dos (2) métodos de calibración o dos (2) productos de base tecnológica (TICs)?" />
+                    <Select
+                        id="experiencia_minima_metodos"
+                        items={[
+                            { value: 1, label: 'Si' },
+                            { value: 2, label: 'No' },
+                        ]}
+                        bind:selectedValue={$form.experiencia_minima_metodos}
+                        error={errors.experiencia_minima_metodos}
+                        autocomplete="off"
+                        placeholder="Seleccione una opción"
+                        required
+                    />
+                </div>
+
+                <div class="mt-8">
                     <Label required class="mb-4" labelFor="tiene_pasaporte_vigente" value="¿Tiene pasaporte vigente?" />
                     <Select
                         id="tiene_pasaporte_vigente"
@@ -527,7 +571,7 @@
 
     <div class="grid gap-4 grid-cols-3">
         <div>
-            <h1 class="font-black text-4xl uppercase">Participación proyectos SENNOVA</h1>
+            <h1 class="font-black text-4xl uppercase">Participación en proyectos SENNOVA</h1>
         </div>
 
         <div class="bg-white rounded shadow col-span-2">
@@ -536,6 +580,27 @@
     </div>
 
     <hr class="w-full my-20" />
+
+    <h1 class="font-black text-4xl uppercase">Confirmación de información completa</h1>
+
+    <div class="mt-8 pb-20">
+        <Label required class="mb-4" labelFor="informacion_completa" value="Confirmo que he completado la información solicitada" />
+        <Select
+            id="informacion_completa"
+            items={[
+                { value: 1, label: 'Si' },
+                { value: 2, label: 'No' },
+            ]}
+            bind:selectedValue={$form.informacion_completa}
+            error={errors.informacion_completa}
+            autocomplete="off"
+            placeholder="Seleccione una opción"
+            required
+        />
+        <LoadingButton loading={$form.processing} type="submit" class="mt-8" form="informacion-basica">Guardar</LoadingButton>
+    </div>
+
+    <!-- <hr class="w-full my-20" />
 
     <div class="grid gap-4 grid-cols-3">
         <div>
@@ -558,5 +623,5 @@
                 <LoadingButton loading={$formChangePassword.processing} type="submit" bind:disabled={$formChangePassword.autorizacion_datos}>Cambiar contraseña</LoadingButton>
             </div>
         </form>
-    </div>
+    </div> -->
 </AuthenticatedLayout>

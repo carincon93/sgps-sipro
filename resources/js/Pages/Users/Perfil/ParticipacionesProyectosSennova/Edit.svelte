@@ -17,7 +17,7 @@
         tipo_proyecto: participacionProyectoSennova.tipo_proyecto,
         codigo_proyecto: participacionProyectoSennova.codigo_proyecto,
         titulo: participacionProyectoSennova.titulo,
-        year_ejecucion: participacionProyectoSennova.year_ejecucion,
+        fecha_inicio_proyecto: participacionProyectoSennova.fecha_inicio_proyecto,
         fecha_finalizacion_proyecto: participacionProyectoSennova.fecha_finalizacion_proyecto,
     })
 

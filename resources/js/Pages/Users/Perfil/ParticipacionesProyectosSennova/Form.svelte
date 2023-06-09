@@ -27,8 +27,8 @@
         </div>
 
         <div class="mt-8">
-            <Label labelFor="year_ejecucion" value="Año de ejecución" />
-            <input id="year_ejecucion" type="month" class="mt-1 block w-full p-4" error={errors.year_ejecucion} bind:value={$form.year_ejecucion} required />
+            <Label labelFor="fecha_inicio_proyecto" value="Fecha de inicio del proyecto" />
+            <input id="fecha_inicio_proyecto" type="date" class="mt-1 block w-full p-4" error={errors.fecha_inicio_proyecto} bind:value={$form.fecha_inicio_proyecto} required />
         </div>
 
         <div class="mt-8">

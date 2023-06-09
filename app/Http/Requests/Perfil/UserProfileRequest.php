@@ -44,17 +44,17 @@ class UserProfileRequest extends FormRequest
             'fecha_acta_nombramiento'               => ['nullable', 'date_format:Y-m-d'],
             'nro_acta_nombramiento'                 => ['nullable', 'integer', 'min:0'],
             'grado_sennova'                         => ['nullable', 'integer', 'max:100'],
-            'fecha_inicio_contrato'                 => ['nullable', 'date_format:Y-m-d', 'before:fecha_finalizacion_contrato'],
-            'fecha_finalizacion_contrato'           => ['nullable', 'date_format:Y-m-d', 'after:fecha_inicio_contrato'],
-            'asignacion_mensual'                    => ['nullable', 'integer', 'min:0'],
+            'fecha_inicio_contrato'                 => ['required', 'date_format:Y-m-d', 'before:fecha_finalizacion_contrato'],
+            'fecha_finalizacion_contrato'           => ['required', 'date_format:Y-m-d', 'after:fecha_inicio_contrato'],
+            'asignacion_mensual'                    => ['required', 'integer', 'min:0'],
             'grupo_etnico'                          => ['nullable', 'integer'],
             'discapacidad'                          => ['nullable', 'integer'],
             'tiene_pasaporte_vigente'               => ['nullable', 'boolean'],
             'tiene_visa_vigente'                    => ['nullable', 'boolean'],
-            'cvlac'                                 => ['nullable', 'string', 'max:255'],
-            'link_sigep_ii'                         => ['nullable', 'string', 'max:255'],
+            'cvlac'                                 => ['required', 'string', 'max:255'],
+            'link_sigep_ii'                         => ['required', 'string', 'max:255'],
 
-            'experiencia_laboral_sena'              => ['nullable', 'integer', 'min:0'],
+            'experiencia_laboral_sena'              => ['required', 'integer', 'min:0'],
             'cursos_evaluacion_proyectos'           => ['nullable', 'boolean'],
             'cursos_de_evaluacion_realizados'       => ['nullable', 'json'],
             'experiencia_como_evaluador'            => ['nullable', 'boolean'],
@@ -68,9 +68,13 @@ class UserProfileRequest extends FormRequest
             'meses_experiencia_metodos_ensayo'      => ['nullable', 'integer', 'min:0'],
             'experiencia_metodos_calibracion'       => ['nullable', 'boolean'],
             'meses_experiencia_metodos_calibracion' => ['nullable', 'integer', 'min:0'],
+            'experiencia_minima_metodos'            => ['nullable', 'boolean'],
             'autorizacion_datos'                    => ['nullable', 'boolean'],
+            'informacion_completa'                  => ['nullable', 'boolean'],
+            'tiempo_por_rol'                        => ['required', 'json'],
+            'roles_fuera_sennova'                   => ['nullable', 'json'],
             'red_conocimiento_id'                   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:redes_conocimiento,id'],
-            // 'disciplina_subarea_conocimiento_id'    => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:disciplinas_subarea_conocimiento,id'],
+            'disciplina_subarea_conocimiento_id'    => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:disciplinas_subarea_conocimiento,id'],
 
             'centro_formacion_id'                   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
             'rol_sennova_id'                        => ['required', 'json'],
@@ -156,6 +160,12 @@ class UserProfileRequest extends FormRequest
             ]);
         }
 
+        if (is_array($this->disciplina_subarea_conocimiento_id)) {
+            $this->merge([
+                'disciplina_subarea_conocimiento_id' => $this->disciplina_subarea_conocimiento_id['value'],
+            ]);
+        }
+
         if (is_array($this->cursos_evaluacion_proyectos)) {
             $this->merge([
                 'cursos_evaluacion_proyectos' => $this->cursos_evaluacion_proyectos['value'] == '1' ? 1 : 0,
@@ -208,7 +218,19 @@ class UserProfileRequest extends FormRequest
             $this->merge([
                 'experiencia_metodos_calibracion' => $this->experiencia_metodos_calibracion['value'] == '1' ? 1 : 0,
             ]);
-        }        
+        }
+
+        if (is_array($this->experiencia_minima_metodos)) {
+            $this->merge([
+                'experiencia_minima_metodos' => $this->experiencia_minima_metodos['value'] == '1' ? 1 : 0,
+            ]);
+        }
+
+        if (is_array($this->informacion_completa)) {
+            $this->merge([
+                'informacion_completa' => $this->informacion_completa['value'] == '1' ? 1 : 0,
+            ]);
+        }
 
         if (is_array($this->rol_sennova_id)) {
             if (isset($this->rol_sennova_id['value']) && is_numeric($this->rol_sennova_id['value'])) {

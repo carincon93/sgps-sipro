@@ -8,6 +8,7 @@ use App\Http\Requests\Perfil\UserProfileRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\CentroFormacion;
+use App\Models\DisciplinaSubareaConocimiento;
 use App\Models\Municipio;
 use App\Models\Perfil\EstudioAcademico;
 use App\Models\Perfil\FormacionAcademicaSena;
@@ -221,8 +222,6 @@ class UserController extends Controller
         /** @var \App\Models\User */
         $authUser = DB::table('users')->where('id', Auth::user()->id)->first();
 
-        $authUser->rol_sennova_id = json_decode($authUser->rol_sennova_id);
-
         return Inertia::render('Users/Perfil', [
             'user'                                      => $authUser,
             'tiposDocumento'                            => json_decode(Storage::get('json/tipos-documento.json'), true),
@@ -232,11 +231,13 @@ class UserController extends Controller
             'gruposEtnicos'                             => json_decode(Storage::get('json/grupos-etnicos.json'), true),
             'tiposDiscapacidad'                         => json_decode(Storage::get('json/tipos-discapacidad.json'), true),
             'municipios'                                => Municipio::selectRaw('id as value, nombre as label')->get(),
-            'rolesSennova'                              => RolSennova::selectRaw('id as value, nombre as label')->get(),
+            'rolesSennova'                              => RolSennova::selectRaw('id as value, nombre as label')->distinct('nombre')->get(),
             'redesConocimiento'                         => RedConocimiento::selectRaw('id as value, nombre as label')->get(),
+            'disciplinasConocimiento'                   => DisciplinaSubareaConocimiento::selectRaw('id as value, nombre as label')->orderBy('nombre', 'ASC')->get(),
             'centrosFormacion'                          => CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo, chr(10), \'∙ Regional: \', regionales.nombre) as label')->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->orderBy('centros_formacion.nombre', 'ASC')->get(),
             'estudiosAcademicos'                        => EstudioAcademico::where('user_id', $authUser->id)->get(),
             'formacionesAcademicasSena'                 => FormacionAcademicaSena::where('user_id', $authUser->id)->get(),
+            'rolesSennovaRelacionados'                  => RolSennova::select('roles_sennova.id as value', 'roles_sennova.nombre as label')->whereIn('id', json_decode($authUser->rol_sennova_id))->get(),
             'participacionesGruposInvestigacionSena'    => ParticipacionGrupoInvestigacionSena::with('semilleroInvestigacion', 'grupoInvestigacion')->where('user_id', $authUser->id)->get(),
             'participacionesProyectosSennova'           => ParticipacionProyectoSennova::where('user_id', $authUser->id)->get(),
         ]);

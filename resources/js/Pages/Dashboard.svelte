@@ -159,8 +159,11 @@
             </div>
         </div>
         <div slot="actions">
-            <div class="p-4">
-                <a use:inertia class="overflow-hidden shadow-sm sm:rounded-lg px-6 py-2 bg-app-500 text-white flex justify-around items-center flex-col text-center" href={route('users.perfil')}>Ir al CENSO SENNOVA 2023</a>
+            <div class="p-4 flex">
+                {#if authUser.informacion_completa}
+                    <Button variant="outlined" on:click={() => (dialogOpen = false)}>Ya he completado el CENSO</Button>
+                {/if}
+                <a use:inertia class="ml-2 overflow-hidden shadow-sm rounded px-6 py-2 bg-app-500 text-white flex justify-around items-center flex-col text-center" href={route('users.perfil')}>Ir al CENSO SENNOVA 2023</a>
             </div>
         </div>
     </Dialog>

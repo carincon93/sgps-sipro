@@ -23,7 +23,7 @@
                 <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Tipo de proyecto </th>
                 <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Código </th>
                 <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Título </th>
-                <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Año de ejecución </th>
+                <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Fecha de inicio </th>
                 <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl text-center th-actions"> Acciones </th>
             </tr>
         </thead>
@@ -43,7 +43,7 @@
                     </td>
 
                     <td class="border-t">
-                        <p class="px-6 py-4">{participacionProyectoSennova.year_ejecucion}</p>
+                        <p class="px-6 py-4">{participacionProyectoSennova.fecha_inicio_proyecto}</p>
                     </td>
                     <td class="border-t td-actions">
                         <DataTableMenu class={participacionesProyectosSennova.length < 3 ? 'z-50' : ''}>

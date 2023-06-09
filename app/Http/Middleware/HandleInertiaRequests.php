@@ -43,7 +43,7 @@ class HandleInertiaRequests extends Middleware
                 'ambientes_modernizacion' => Gate::inspect('viewAny', [AmbienteModernizacion::class])->allowed()
             ]),
             'auth' => [
-                'user'                  => $request->user() ? $request->user()->only('id', 'nombre', 'nombre_usuario', 'email', 'roles', 'can', 'can_by_user', 'centro_formacion_id') : null,
+                'user'                  => $request->user() ? $request->user()->only('id', 'nombre', 'nombre_usuario', 'email', 'roles', 'can', 'can_by_user', 'centro_formacion_id', 'informacion_completa') : null,
                 'notificaciones'        => $request->user() ? $request->user()->unreadNotifications()->orderBy('created_at', 'DESC')->take(3)->get() : null,
                 'numeroNotificaciones'  => $request->user() ? $request->user()->unreadNotifications()->count() : 0
             ],
