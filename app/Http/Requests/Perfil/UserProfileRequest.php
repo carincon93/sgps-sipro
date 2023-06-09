@@ -84,7 +84,6 @@ class UserProfileRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        dd($this->rol_sennova_id);
         if (is_array($this->tipo_documento)) {
             $this->merge([
                 'tipo_documento' => $this->tipo_documento['value'],
