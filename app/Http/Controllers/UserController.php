@@ -237,7 +237,7 @@ class UserController extends Controller
             'centrosFormacion'                          => CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo, chr(10), \'∙ Regional: \', regionales.nombre) as label')->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->orderBy('centros_formacion.nombre', 'ASC')->get(),
             'estudiosAcademicos'                        => EstudioAcademico::where('user_id', $authUser->id)->get(),
             'formacionesAcademicasSena'                 => FormacionAcademicaSena::where('user_id', $authUser->id)->get(),
-            'rolesSennovaRelacionados'                  => RolSennova::select('roles_sennova.id as value', 'roles_sennova.nombre as label')->whereIn('id', json_decode($authUser->rol_sennova_id))->get(),
+            'rolesSennovaRelacionados'                  => RolSennova::select('roles_sennova.id as value', 'roles_sennova.nombre as label')->whereIn('id', [json_decode($authUser->rol_sennova_id)])->get(),
             'participacionesGruposInvestigacionSena'    => ParticipacionGrupoInvestigacionSena::with('semilleroInvestigacion', 'grupoInvestigacion')->where('user_id', $authUser->id)->get(),
             'participacionesProyectosSennova'           => ParticipacionProyectoSennova::where('user_id', $authUser->id)->get(),
         ]);

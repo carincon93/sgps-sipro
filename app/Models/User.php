@@ -56,7 +56,6 @@ class User extends Authenticatable
         'fecha_inicio_contrato',
         'fecha_finalizacion_contrato',
         'asignacion_mensual',
-        'rol_sennova_id',
         'tiene_pasaporte_vigente',
         'tiene_visa_vigente',
         'cvlac',
