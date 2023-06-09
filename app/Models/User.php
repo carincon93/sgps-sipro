@@ -306,16 +306,6 @@ class User extends Authenticatable
     }
 
     /**
-     * getTipoDocumentoTextAttribute
-     *
-     * @return void
-     */
-    public function getRolSennovaIdAttribute($value)
-    {
-        return RolSennova::selectRaw('id as value, nombre as label')->whereIn('id', json_decode($value))->get();
-    }
-
-    /**
      * getPermissionsAttribute
      *
      * @return void
