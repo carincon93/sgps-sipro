@@ -1,5 +1,4 @@
 <script>
-    import Label from '@/Shared/Label'
     import InputError from './InputError'
     import Textfield from '@smui/textfield'
     import { onMount } from 'svelte'
@@ -32,9 +31,7 @@
 </script>
 
 <div class={$$restProps.class} bind:this={container}>
-    <Label {label} {id} />
-
-    <Textfield {disabled} variant="outlined" {...props} bind:this={input} {type} {value} on:input={update} {label} />
+    <Textfield {disabled} variant="outlined" {...props} bind:this={input} {type} {value} on:input={update} label={!props.required ? label + ' (Opcional)' : label} />
     {#if error}
         <InputError message={error} />
     {/if}

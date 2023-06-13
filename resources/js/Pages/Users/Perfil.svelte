@@ -151,7 +151,7 @@
                 </div>
 
                 <div class="mt-8">
-                    <Label labelFor="fecha_nacimiento" value="Fecha de nacimiento *" />
+                    <Label required labelFor="fecha_nacimiento" value="Fecha de nacimiento" />
                     <input id="fecha_nacimiento" type="date" class="mt-1 block w-full p-4" error={errors.fecha_nacimiento} bind:value={$form.fecha_nacimiento} required />
                 </div>
 
@@ -165,17 +165,18 @@
                 </div>
 
                 <div class="mt-8">
-                    <Input label="Número de horas dedicadas" id="horas_dedicadas" type="number" input$min="0" input$max="9999999999999" class="mt-1" bind:value={$form.horas_dedicadas} error={errors.horas_dedicadas} required />
-                    <small>Número de horas semanales de dedicación en actividades de CTeI</small>
+                    <Label class="mb-4" labelFor="red_conocimiento_id" value="Red de conocimiento sectorial en la cual se desempeña" />
+                    <Select id="red_conocimiento_id" items={redesConocimiento} bind:selectedValue={$form.red_conocimiento_id} error={errors.red_conocimiento_id} autocomplete="off" placeholder="Seleccione una red de conocimiento" />
                 </div>
 
                 <div class="mt-8">
-                    <Input label="Número de meses" id="meses_dedicados" type="number" input$min="0" input$max="9999999999999" class="mt-1" bind:value={$form.meses_dedicados} error={errors.meses_dedicados} required />
-                    <small>Número de meses de dedicación en actividades de CTeI</small>
+                    <Label required class="mb-4" labelFor="disciplina_subarea_conocimiento_id" value="Disciplina de conocimiento" />
+                    <Select id="disciplina_subarea_conocimiento_id" items={disciplinasConocimiento} bind:selectedValue={$form.disciplina_subarea_conocimiento_id} error={errors.disciplina_subarea_conocimiento_id} autocomplete="off" placeholder="Seleccione una discplina de conocimiento" required />
                 </div>
 
                 <div class="mt-8">
-                    <Input label="Tiempo de experiencia laboral en el SENA" id="experiencia_laboral_sena" type="number" input$min="0" input$max="9999999999999" class="mt-1" bind:value={$form.experiencia_laboral_sena} error={errors.experiencia_laboral_sena} required />
+                    <Label required class="mb-4" labelFor="centro_formacion_id" value="Centro de formación" />
+                    <Select id="centro_formacion_id" items={centrosFormacion} bind:selectedValue={$form.centro_formacion_id} error={errors.centro_formacion_id} autocomplete="off" placeholder="Busque por el nombre del centro de formación" required />
                 </div>
 
                 <div class="mt-8">
@@ -184,9 +185,63 @@
                     <small>Indique el nivel de inglés certificado (marco europeo)</small>
                 </div>
 
+                {#if $form.nivel_ingles?.value != 7}
+                    <div class="mt-8">
+                        <Label class="mb-4" labelFor="certificado_ingles" value="Por favor seleccione el certificado" />
+                        <File id="certificado_ingles" maxSize="10000" bind:value={$form.certificado_ingles} valueDb={authUser.certificado_ingles} error={errors.certificado_ingles} />
+                    </div>
+                {/if}
+
                 <div class="mt-8">
-                    <Label class="mb-4" labelFor="certificado_ingles" value="Seleccionar certificado" />
-                    <File id="certificado_ingles" maxSize="10000" bind:value={$form.certificado_ingles} valueDb={authUser.certificado_ingles} error={errors.certificado_ingles} />
+                    <Input label="Enlace CvLac" id="cvlac" type="url" class="mt-1" bind:value={$form.cvlac} error={errors.cvlac} />
+                    <small>Debe incluir el http:// o https://</small>
+                </div>
+
+                <div class="mt-8">
+                    <Input label="Enlace a SIGEP II" id="link_sigep_ii" type="url" class="mt-1" bind:value={$form.link_sigep_ii} error={errors.link_sigep_ii} />
+                    <small>Debe incluir el http:// o https://</small>
+                </div>
+
+                <div class="mt-8">
+                    <Label required class="mb-4" labelFor="grupo_etnico" value="Preferencia étnica" />
+                    <Select id="grupo_etnico" items={gruposEtnicos} bind:selectedValue={$form.grupo_etnico} error={errors.grupo_etnico} autocomplete="off" placeholder="Seleccione una opción" required />
+                </div>
+
+                <div class="mt-8">
+                    <Label required class="mb-4" labelFor="discapacidad" value="Si cuenta con algún tipo de discapacidad. Por favor seleccione cual discapacidad." />
+                    <Select id="discapacidad" items={tiposDiscapacidad} bind:selectedValue={$form.discapacidad} error={errors.discapacidad} autocomplete="off" placeholder="Seleccione una opción" required />
+                </div>
+
+                <div class="mt-8">
+                    <Label required class="mb-4" labelFor="tiene_pasaporte_vigente" value="¿Tiene pasaporte vigente?" />
+                    <Select
+                        id="tiene_pasaporte_vigente"
+                        items={[
+                            { value: 1, label: 'Si' },
+                            { value: 2, label: 'No' },
+                        ]}
+                        bind:selectedValue={$form.tiene_pasaporte_vigente}
+                        error={errors.tiene_pasaporte_vigente}
+                        autocomplete="off"
+                        placeholder="Seleccione una opción"
+                        required
+                    />
+                </div>
+
+                <div class="mt-8">
+                    <Label required class="mb-4" labelFor="tiene_visa_vigente" value="¿Tiene Visa vigente?" />
+                    <Select
+                        id="tiene_visa_vigente"
+                        items={[
+                            { value: 1, label: 'Si' },
+                            { value: 2, label: 'No' },
+                        ]}
+                        bind:selectedValue={$form.tiene_visa_vigente}
+                        error={errors.tiene_visa_vigente}
+                        autocomplete="off"
+                        placeholder="Seleccione una opción"
+                        required
+                    />
                 </div>
 
                 <div class="mt-8">
@@ -207,12 +262,12 @@
 
                 {#if $form.es_temporal_sennova?.value == 1}
                     <div class="mt-8">
-                        <Label labelFor="fecha_resolucion_nombramiento" value="Fecha de resolución de nombramiento" />
+                        <Label required labelFor="fecha_resolucion_nombramiento" value="Fecha de resolución de nombramiento" />
                         <input id="fecha_resolucion_nombramiento" type="date" class="mt-1 block w-full p-4" error={errors.fecha_resolucion_nombramiento} bind:value={$form.fecha_resolucion_nombramiento} required />
                     </div>
 
                     <div class="mt-8">
-                        <Label labelFor="fecha_acta_nombramiento" value="Fecha del acta de nombramiento" />
+                        <Label required labelFor="fecha_acta_nombramiento" value="Fecha del acta de nombramiento" />
                         <input id="fecha_acta_nombramiento" type="date" class="mt-1 block w-full p-4" error={errors.fecha_acta_nombramiento} bind:value={$form.fecha_acta_nombramiento} required />
                     </div>
 
@@ -221,7 +276,7 @@
                     </div>
 
                     <div class="mt-8">
-                        <Label class="mb-4" labelFor="archivo_acta_resolucion" value="Seleccionar acta" />
+                        <Label required class="mb-4" labelFor="archivo_acta_resolucion" value="Seleccionar acta" />
                         <File id="archivo_acta_resolucion" maxSize="10000" bind:value={$form.archivo_acta_resolucion} valueDb={authUser.archivo_acta_resolucion} error={errors.archivo_acta_resolucion} />
                     </div>
 
@@ -229,6 +284,26 @@
                         <Input label="Grado SENNOVA" id="grado_sennova" type="number" input$min="0" input$max="9999999999999" class="mt-1" bind:value={$form.grado_sennova} error={errors.grado_sennova} required />
                     </div>
                 {/if}
+
+                <div class="mt-8">
+                    <Label labelFor="rol_sennova_id" value="Roles SENNOVA" />
+                    <SelectMulti id="rol_sennova_id" bind:selectedValue={$form.rol_sennova_id} items={rolesSennova} isMulti={true} error={errors.rol_sennova_id} placeholder="Seleccione los roles SENNOVA correspondientes" required />
+                    <small>Tenga en cuenta que el primer rol SENNOVA seleccionado es el rol principal</small>
+                </div>
+
+                <div class="mt-8">
+                    <Label required={$form.rol_sennova_id?.length > 0} labelFor="tiempo_por_rol" value="Por favor indique el tiempo que ha estado en cada rol. Separados por coma (,)" />
+
+                    <Tags id="tiempo_por_rol" class="mt-4" enforceWhitelist={false} bind:tags={$form.tiempo_por_rol} placeholder="Ejemplo: Dinamizador SENNOVA - 12 meses" error={errors.tiempo_por_rol} />
+                </div>
+
+                <div class="mt-8">
+                    <Label labelFor="roles_fuera_sennova" value="Si ha estado en otros roles fuera de SENNOVA por favor indíquelos en el siguiente campo. Separados por coma (,)" />
+
+                    <Tags id="roles_fuera_sennova" class="mt-4" enforceWhitelist={false} bind:tags={$form.roles_fuera_sennova} placeholder="Indique el rol" error={errors.roles_fuera_sennova} />
+                </div>
+
+                <h1 class="text-2xl font-medium">Información del contrato</h1>
 
                 <div class="mt-8">
                     <Label labelFor="fecha_inicio_contrato" value="Fecha de inicio del contrato" />
@@ -245,37 +320,19 @@
                 </div>
 
                 <div class="mt-8">
-                    <Label labelFor="rol_sennova_id" value="Roles SENNOVA" />
-                    <SelectMulti id="rol_sennova_id" bind:selectedValue={$form.rol_sennova_id} items={rolesSennova} isMulti={true} error={errors.rol_sennova_id} placeholder="Seleccione los roles SENNOVA correspondientes" required />
-                    <small>Tenga en cuenta que el primer rol SENNOVA seleccionado es el rol principal</small>
+                    <Input label="Tiempo de experiencia laboral en el SENA" id="experiencia_laboral_sena" type="number" input$min="0" input$max="9999999999999" class="mt-1" bind:value={$form.experiencia_laboral_sena} error={errors.experiencia_laboral_sena} required />
+                    <small>Tiempo en meses</small>
                 </div>
 
                 <div class="mt-8">
-                    <Label labelFor="tiempo_por_rol" value="Por favor indique el tiempo que ha estado en cada rol. Separados por coma (,) *" />
-
-                    <Tags id="tiempo_por_rol" class="mt-4" enforceWhitelist={false} bind:tags={$form.tiempo_por_rol} placeholder="Ejemplo: Dinamizador SENNOVA - 12 meses" error={errors.tiempo_por_rol} />
+                    <Input label="Número de horas semanales de dedicación en actividades de CTeI" id="horas_dedicadas" type="number" input$min="0" input$max="9999999999999" class="mt-1" bind:value={$form.horas_dedicadas} error={errors.horas_dedicadas} required />
                 </div>
 
                 <div class="mt-8">
-                    <Label labelFor="roles_fuera_sennova" value="Si ha estado en otros roles fuera de SENNOVA por favor indíquelos en el siguiente campo y seperados por coma (,)" />
-
-                    <Tags id="roles_fuera_sennova" class="mt-4" enforceWhitelist={false} bind:tags={$form.roles_fuera_sennova} placeholder="Mencione los roles" error={errors.roles_fuera_sennova} />
+                    <Input label="NúmerNúmero de meses de dedicación en actividades de CTeI" id="meses_dedicados" type="number" input$min="0" input$max="9999999999999" class="mt-1" bind:value={$form.meses_dedicados} error={errors.meses_dedicados} required />
                 </div>
 
-                <div class="mt-8">
-                    <Label required class="mb-4" labelFor="red_conocimiento_id" value="Red de conocimiento sectorial en la cual se desempeña" />
-                    <Select id="red_conocimiento_id" items={redesConocimiento} bind:selectedValue={$form.red_conocimiento_id} error={errors.red_conocimiento_id} autocomplete="off" placeholder="Seleccione una red de conocimiento" required />
-                </div>
-
-                <div class="mt-8">
-                    <Label required class="mb-4" labelFor="disciplina_subarea_conocimiento_id" value="Disciplinas de conocimiento" />
-                    <Select id="disciplina_subarea_conocimiento_id" items={disciplinasConocimiento} bind:selectedValue={$form.disciplina_subarea_conocimiento_id} error={errors.disciplina_subarea_conocimiento_id} autocomplete="off" placeholder="Seleccione una discplina de conocimiento" required />
-                </div>
-
-                <div class="mt-8">
-                    <Label required class="mb-4" labelFor="centro_formacion_id" value="Centro de formación" />
-                    <Select id="centro_formacion_id" items={centrosFormacion} bind:selectedValue={$form.centro_formacion_id} error={errors.centro_formacion_id} autocomplete="off" placeholder="Busque por el nombre del centro de formación" required />
-                </div>
+                <h1 class="text-2xl font-medium">Información de evaluador</h1>
 
                 <div class="mt-8">
                     <Label required class="mb-4" labelFor="cursos_evaluacion_proyectos" value="¿Ha realizado cursos complementarios relacionados con evaluación de proyectos?" />
@@ -338,6 +395,8 @@
                         required
                     />
                 </div>
+
+                <h1 class="text-2xl font-medium">Cursos</h1>
 
                 <div class="mt-8">
                     <Label required class="mb-4" labelFor="conocimiento_iso_17025" value="¿Ha realizado cursos o tiene conocimiento de las norma Norma ISO/IEC 17025:2017?" />
@@ -463,56 +522,6 @@
                         placeholder="Seleccione una opción"
                         required
                     />
-                </div>
-
-                <div class="mt-8">
-                    <Label required class="mb-4" labelFor="tiene_pasaporte_vigente" value="¿Tiene pasaporte vigente?" />
-                    <Select
-                        id="tiene_pasaporte_vigente"
-                        items={[
-                            { value: 1, label: 'Si' },
-                            { value: 2, label: 'No' },
-                        ]}
-                        bind:selectedValue={$form.tiene_pasaporte_vigente}
-                        error={errors.tiene_pasaporte_vigente}
-                        autocomplete="off"
-                        placeholder="Seleccione una opción"
-                        required
-                    />
-                </div>
-
-                <div class="mt-8">
-                    <Label required class="mb-4" labelFor="tiene_visa_vigente" value="¿Tiene Visa vigente?" />
-                    <Select
-                        id="tiene_visa_vigente"
-                        items={[
-                            { value: 1, label: 'Si' },
-                            { value: 2, label: 'No' },
-                        ]}
-                        bind:selectedValue={$form.tiene_visa_vigente}
-                        error={errors.tiene_visa_vigente}
-                        autocomplete="off"
-                        placeholder="Seleccione una opción"
-                        required
-                    />
-                </div>
-
-                <div class="mt-8">
-                    <Input label="Enlace CvLac" id="cvlac" type="url" class="mt-1" bind:value={$form.cvlac} error={errors.cvlac} />
-                </div>
-
-                <div class="mt-8">
-                    <Input label="Enlace a SIGEP II" id="link_sigep_ii" type="url" class="mt-1" bind:value={$form.link_sigep_ii} error={errors.link_sigep_ii} />
-                </div>
-
-                <div class="mt-8">
-                    <Label required class="mb-4" labelFor="grupo_etnico" value="Preferencia étnica" />
-                    <Select id="grupo_etnico" items={gruposEtnicos} bind:selectedValue={$form.grupo_etnico} error={errors.grupo_etnico} autocomplete="off" placeholder="Seleccione una opción" required />
-                </div>
-
-                <div class="mt-8">
-                    <Label required class="mb-4" labelFor="discapacidad" value="Tipo de discapacidad" />
-                    <Select id="discapacidad" items={tiposDiscapacidad} bind:selectedValue={$form.discapacidad} error={errors.discapacidad} autocomplete="off" placeholder="Seleccione una opción" required />
                 </div>
 
                 <div class="mt-8">

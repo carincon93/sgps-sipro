@@ -29,11 +29,11 @@
             {#each participacionesGruposInvestigacionSena as participacionGrupoInvestigacionSena}
                 <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
                     <td class="border-t">
-                        <p class="px-6 py-4 focus:text-app-500">{participacionGrupoInvestigacionSena.grupo_investigacion.nombre}</p>
+                        <p class="px-6 py-4 focus:text-app-500">{participacionGrupoInvestigacionSena.grupo_investigacion ? participacionGrupoInvestigacionSena.grupo_investigacion?.nombre : 'No pertenece al grupo de investigación de su centro'}</p>
                     </td>
 
                     <td class="border-t">
-                        <p class="px-6 py-4">{participacionGrupoInvestigacionSena.semillero_investigacion.nombre}</p>
+                        <p class="px-6 py-4">{participacionGrupoInvestigacionSena.semillero_investigacion ? participacionGrupoInvestigacionSena.semillero_investigacion.nombre : 'No pertenece al semillero de investigación de su centro'}</p>
                     </td>
                     <td class="border-t td-actions">
                         <DataTableMenu class={participacionesGruposInvestigacionSena.length < 3 ? 'z-50' : ''}>

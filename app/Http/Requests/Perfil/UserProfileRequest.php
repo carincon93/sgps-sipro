@@ -51,8 +51,8 @@ class UserProfileRequest extends FormRequest
             'discapacidad'                          => ['nullable', 'integer'],
             'tiene_pasaporte_vigente'               => ['nullable', 'boolean'],
             'tiene_visa_vigente'                    => ['nullable', 'boolean'],
-            'cvlac'                                 => ['required', 'string', 'max:255'],
-            'link_sigep_ii'                         => ['required', 'string', 'max:255'],
+            'cvlac'                                 => ['nullable', 'string', 'max:255'],
+            'link_sigep_ii'                         => ['nullable', 'string', 'max:255'],
 
             'experiencia_laboral_sena'              => ['required', 'integer', 'min:0'],
             'cursos_evaluacion_proyectos'           => ['nullable', 'boolean'],
