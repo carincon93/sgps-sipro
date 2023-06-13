@@ -1,0 +1,9 @@
+[
+    { "value": 1, "label": "Tecnología" },
+    { "value": 2, "label": "Especialización técnica profesional" },
+    { "value": 3, "label": "Especialización tecnológica" },
+    { "value": 4, "label": "Técnico" },
+    { "value": 5, "label": "Auxiliar" },
+    { "value": 6, "label": "Operario" },
+    { "value": 7, "label": "Profundización técnica" }
+]

@@ -1,0 +1,6 @@
+[
+    { "value": 1, "label": "Presencial" },
+    { "value": 2, "label": "A distancia" },
+    { "value": 3, "label": "Virtual" },
+    { "value": 4, "label": "Presencial / Virtual" }
+]

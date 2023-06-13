@@ -1,0 +1,5 @@
+[
+    { "value": 1, "label": "Infraestructura del SENA" },
+    { "value": 2, "label": "Infraestructura de entidad pública" },
+    { "value": 3, "label": "Infraestructura entidad privada" }
+]

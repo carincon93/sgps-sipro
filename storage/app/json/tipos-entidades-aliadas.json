@@ -1,0 +1,7 @@
+[
+    { "value": 1, "label": "Empresa" },
+    { "value": 2, "label": "Universidad" },
+    { "value": 3, "label": "Entidades sin ánimo de lucro" },
+    { "value": 4, "label": "Centro de formación SENA" },
+    { "value": 5, "label": "Otra" }
+]

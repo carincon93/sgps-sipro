@@ -1,0 +1,6 @@
+[
+    { "value": 1, "label": "Planta" },
+    { "value": 2, "label": "Planta temporal" },
+    { "value": 3, "label": "Contratista" },
+    { "value": 4, "label": "Aprendiz en semillero de investigación" }
+]

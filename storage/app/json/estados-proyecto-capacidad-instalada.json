@@ -1,0 +1,5 @@
+[
+    { "value": 1, "label": "Propuesta" },
+    { "value": 2, "label": "En ejecución" },
+    { "value": 3, "label": "Finalizado" }
+]

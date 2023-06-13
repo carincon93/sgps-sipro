@@ -1,0 +1,8 @@
+[
+    { "value": 1, "label": "No priorizado anexo 1C. Comuníquese con el Dinamizador SENNOVA." },
+    { "value": 2, "label": "Pre-aprobado" },
+    { "value": 3, "label": "Proyecto con asignación de apoyo técnico para la formulación" },
+    { "value": 4, "label": "Sin evaluar" },
+    { "value": 5, "label": "Pre-aprobado con observaciones" },
+    { "value": 6, "label": "Rechazado" }
+]

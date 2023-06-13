@@ -1,3 +1,5 @@
 *
 !public/
+!json/
+!fonts/
 !.gitignore

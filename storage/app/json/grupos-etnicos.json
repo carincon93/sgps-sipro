@@ -1,0 +1,11 @@
+[
+    { "value": 1, "label": "Afrocolombiano" },
+    { "value": 2, "label": "Indígena" },
+    { "value": 3, "label": "Minorías" },
+    { "value": 4, "label": "Negro" },
+    { "value": 5, "label": "Ninguna" },
+    { "value": 6, "label": "Otra" },
+    { "value": 7, "label": "Palenquero" },
+    { "value": 8, "label": "Raizal" },
+    { "value": 9, "label": "RROM" }
+]

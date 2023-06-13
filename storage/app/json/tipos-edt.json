@@ -1,0 +1,5 @@
+[
+    { "value": 1, "label": "Presencial" },
+    { "value": 2, "label": "Virtual" },
+    { "value": 3, "label": "Mixto" }
+]

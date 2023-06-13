@@ -1,0 +1,7 @@
+[
+    { "value": 1, "label": "Formulación" },
+    { "value": 2, "label": "Primera evaluación" },
+    { "value": 3, "label": "Subsanación" },
+    { "value": 4, "label": "Segunda evaluación" },
+    { "value": 5, "label": "Cierre" }
+]

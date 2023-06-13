@@ -1,0 +1,10 @@
+[
+    {"value": 1, "label": "Ingeniería y Tecnología"},
+    {"value": 2, "label": "Ciencias Agrícolas"},
+    {"value": 3, "label": "Ciencias Sociales"},
+    {"value": 4, "label": "Ciencias Naturales"},
+    {"value": 5, "label": "Ciencias Médicas y de Salud"},
+    {"value": 6, "label": "Multidisciplinario y humanidades"},
+    {"value": 7, "label": "Industrias Creativas, cuarta revolución y sostenibilidad y medio ambiente"},
+    {"value": 8, "label": "Niños y jóvenes "}
+]

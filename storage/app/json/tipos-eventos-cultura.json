@@ -1,0 +1,5 @@
+[
+    { "value": 1, "label": "Congreso" },
+    { "value": 2, "label": "Simposio" },
+    { "value": 3, "label": "Encuentro" }
+]

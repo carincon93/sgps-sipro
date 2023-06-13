@@ -1,0 +1,6 @@
+[
+    { "value": 1, "label": "Facilitador tecnoacademia", "maxHoras": 48 },
+    { "value": 2, "label": "Infocenter tecnoacademia", "maxHoras": 48 },
+    { "value": 3, "label": "Dinamizador tecnoacademia", "maxHoras": 48 },
+    { "value": 4, "label": "Psicopedagogo tecnoacademia", "maxHoras": 48 }
+]

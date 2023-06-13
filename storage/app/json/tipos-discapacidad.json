@@ -1,0 +1,10 @@
+[
+    { "value": 1, "label": "Auditiva" },
+    { "value": 2, "label": "Física" },
+    { "value": 3, "label": "Intelectual" },
+    { "value": 4, "label": "Psicosocial" },
+    { "value": 5, "label": "Sordoseguera" },
+    { "value": 6, "label": "Ninguna" },
+    { "value": 7, "label": "Múltiples" },
+    { "value": 8, "label": "Visual" }
+]

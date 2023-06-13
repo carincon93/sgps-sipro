@@ -1,0 +1,5 @@
+[
+    { "value": 1, "label": "A nivel del objetivo general" },
+    { "value": 2, "label": "A nivel de productos" },
+    { "value": 3, "label": "A nivel de actividades" }
+]
