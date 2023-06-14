@@ -23,8 +23,9 @@
     import DataTableMenu from '@/Shared/DataTableMenu'
     import { Item, Text } from '@smui/list'
 
-    let dialogOpen = false
-    let dialogNotifications = false
+    let dialogMenuNavegacion = false
+    let dialogNotificationes = false
+    let dialogSoporte = false
     let showingNavigationDropdown = false
 
     let authUser = $page.props.auth
@@ -44,8 +45,6 @@
     })
 
     let allowed = $page.props.allowed
-
-    let showSupportMsg = false
 </script>
 
 <svelte:head>
@@ -67,14 +66,14 @@
 
                     <!-- Navigation Links -->
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex sm:items-center">
-                        <Button on:click={() => (dialogOpen = true)} variant={null}>Menú de navegación</Button>
+                        <Button on:click={() => (dialogMenuNavegacion = true)} variant={null}>Menú de navegación</Button>
                     </div>
                 </div>
 
                 <div class="hidden sm:flex sm:items-center sm:ml-6">
                     <!-- Settings Dropdown -->
                     <div class="mr-5 ml-5 relative">
-                        <button on:click={() => (dialogNotifications = true)} class="flex items-center hover:text-app-600 {authUser.numeroNotificaciones > 0 ? 'tada' : ''}">
+                        <button on:click={() => (dialogNotificationes = true)} class="flex items-center hover:text-app-600 {authUser.numeroNotificaciones > 0 ? 'tada' : ''}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                             </svg>
@@ -160,37 +159,22 @@
         <Loading {loading} />
         <slot />
 
-        <div class="bg-app-600 bottom-4 fixed left-3 p-3 rounded-full text-white flex">
+        <button class="bg-app-600 bottom-4 fixed left-3 p-3 rounded-full text-white flex tada" type="button" on:click={() => (dialogSoporte = true)}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M16.712 4.33a9.027 9.027 0 011.652 1.306c.51.51.944 1.064 1.306 1.652M16.712 4.33l-3.448 4.138m3.448-4.138a9.014 9.014 0 00-9.424 0M19.67 7.288l-4.138 3.448m4.138-3.448a9.014 9.014 0 010 9.424m-4.138-5.976a3.736 3.736 0 00-.88-1.388 3.737 3.737 0 00-1.388-.88m2.268 2.268a3.765 3.765 0 010 2.528m-2.268-4.796a3.765 3.765 0 00-2.528 0m4.796 4.796c-.181.506-.475.982-.88 1.388a3.736 3.736 0 01-1.388.88m2.268-2.268l4.138 3.448m0 0a9.027 9.027 0 01-1.306 1.652c-.51.51-1.064.944-1.652 1.306m0 0l-3.448-4.138m3.448 4.138a9.014 9.014 0 01-9.424 0m5.976-4.138a3.765 3.765 0 01-2.528 0m0 0a3.736 3.736 0 01-1.388-.88 3.737 3.737 0 01-.88-1.388m2.268 2.268L7.288 19.67m0 0a9.024 9.024 0 01-1.652-1.306 9.027 9.027 0 01-1.306-1.652m0 0l4.138-3.448M4.33 16.712a9.014 9.014 0 010-9.424m4.138 5.976a3.765 3.765 0 010-2.528m0 0c.181-.506.475-.982.88-1.388a3.736 3.736 0 011.388-.88m-2.268 2.268L4.33 7.288m6.406 1.18L7.288 4.33m0 0a9.024 9.024 0 00-1.652 1.306A9.025 9.025 0 004.33 7.288"
+                />
             </svg>
 
-            <span
-                class="ml-2 hover:cursor-pointer font-black"
-                on:click={() => {
-                    showSupportMsg = !showSupportMsg
-                }}>¿Necesita ayuda? Clic aquí</span
-            >
-
-            <small class="ml-2 {showSupportMsg ? '' : 'hidden'}">
-                Realice la siguiente configuración: <a href="/images/borrar-cache.gif" class="bg-gray-800 hover:bg-gray-700 inline-block px-2 py-1 rounded-sm text-white text-xs" target="_blank">Ver configuración</a>
-                Si continua con problemas envié un correo a la dirección <a class="underline" href="mailto:sgpssipro@sena.edu.co">sgpssipro@sena.edu.co</a> desde una cuenta @sena.edu.co
-            </small>
-
-            {#if showSupportMsg}
-                <span
-                    class="ml-2 hover:cursor-pointer font-black underline"
-                    on:click={() => {
-                        showSupportMsg = !showSupportMsg
-                    }}>Cerrar</span
-                >
-            {/if}
-        </div>
+            <span class="ml-2 hover:cursor-pointer font-black">Nuevo formulario de soporte</span>
+        </button>
     </main>
 </div>
 
 <!-- Dialog -->
-<Dialog bind:open={dialogOpen} id="main-menu" fullscreen>
+<Dialog bind:open={dialogMenuNavegacion} id="main-menu" fullscreen>
     <div slot="title" class="mb-6 text-center text-app-600">
         <div class="">Menú de navegación</div>
     </div>
@@ -297,12 +281,29 @@
     </div>
     <div slot="actions">
         <div class="p-4">
-            <Button on:click={() => (dialogOpen = false)} variant={null}>Cancelar</Button>
+            <Button on:click={() => (dialogMenuNavegacion = false)} variant={null}>Cancelar</Button>
         </div>
     </div>
 </Dialog>
 
-<Dialog bind:open={dialogNotifications} id="notificaciones" fullscreen hexBgColor="#7e22ce">
+<Dialog bind:open={dialogSoporte} id="soporte" fullscreen hexBgColor="#97c7c9">
+    <div slot="title" class="mb-6 text-center text-app-600">
+        <div class="text-white mb-3">Soporte</div>
+        <img src="/images/notifications.png" alt="" class="w-80 mx-auto" />
+    </div>
+    <div slot="content" class="text-white scrollbar style-scrollbar">
+        <div>
+            <iframe title="Formulario de retroalimentación" width="100%" height="500px" src="https://forms.office.com/r/6206w44sM4?embed=true" frameborder="0" marginwidth="0" marginheight="0" style="border: none; max-width:100%; max-height:100vh" allowfullscreen webkitallowfullscreen mozallowfullscreen msallowfullscreen />
+        </div>
+    </div>
+    <div slot="actions">
+        <div class="p-4">
+            <Button on:click={() => (dialogSoporte = false)} class="!text-white !border-white hover:opacity-90 transition-all" variant="outlined">Cancelar</Button>
+        </div>
+    </div>
+</Dialog>
+
+<Dialog bind:open={dialogNotificationes} id="notificaciones" fullscreen hexBgColor="#97c7c9">
     <div slot="title" class="mb-6 text-center text-app-600">
         <div class="text-white mb-3">Notificaciones recientes</div>
         <img src="/images/notifications.png" alt="" class="w-80 mx-auto" />
@@ -338,15 +339,15 @@
     </div>
     <div slot="actions">
         <div class="p-4">
-            <Button on:click={() => (dialogNotifications = false)} class="!text-white !border-white hover:opacity-90 transition-all" variant="outlined">Cancelar</Button>
+            <Button on:click={() => (dialogNotificationes = false)} class="!text-white !border-white hover:opacity-90 transition-all" variant="outlined">Cancelar</Button>
         </div>
     </div>
 </Dialog>
 
 <style>
     .tada {
-        -webkit-animation: tada 1.5s ease infinite;
-        animation: tada 1.5s ease infinite;
+        -webkit-animation: tada 2.5s ease infinite;
+        animation: tada 2.5s ease infinite;
     }
 
     @-webkit-keyframes tada {
@@ -356,21 +357,21 @@
         }
         10%,
         20% {
-            -webkit-transform: scale3d(0.95, 0.95, 0.95) rotate3d(0, 0, 1, -10deg);
-            transform: scale3d(0.95, 0.95, 0.95) rotate3d(0, 0, 1, -10deg);
+            -webkit-transform: scale3d(0.95, 0.95, 0.95) rotate3d(0, 0, 1, -2deg);
+            transform: scale3d(0.95, 0.95, 0.95) rotate3d(0, 0, 1, -2deg);
         }
         30%,
         50%,
         70%,
         90% {
-            -webkit-transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 10deg);
-            transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 10deg);
+            -webkit-transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 2deg);
+            transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 2deg);
         }
         40%,
         60%,
         80% {
-            -webkit-transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, -10deg);
-            transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, -10deg);
+            -webkit-transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, -2deg);
+            transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, -2deg);
         }
         to {
             -webkit-transform: scale3d(1, 1, 1);
@@ -384,21 +385,21 @@
         }
         10%,
         20% {
-            -webkit-transform: scale3d(0.95, 0.95, 0.95) rotate3d(0, 0, 1, -10deg);
-            transform: scale3d(0.95, 0.95, 0.95) rotate3d(0, 0, 1, -10deg);
+            -webkit-transform: scale3d(0.95, 0.95, 0.95) rotate3d(0, 0, 1, -2deg);
+            transform: scale3d(0.95, 0.95, 0.95) rotate3d(0, 0, 1, -2deg);
         }
         30%,
         50%,
         70%,
         90% {
-            -webkit-transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 10deg);
-            transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 10deg);
+            -webkit-transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 2deg);
+            transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, 2deg);
         }
         40%,
         60%,
         80% {
-            -webkit-transform: rotate3d(0, 0, 1, -10deg);
-            transform: rotate3d(0, 0, 1, -10deg);
+            -webkit-transform: rotate3d(0, 0, 1, -2deg);
+            transform: rotate3d(0, 0, 1, -2deg);
         }
         to {
             -webkit-transform: scale3d(1, 1, 1);
