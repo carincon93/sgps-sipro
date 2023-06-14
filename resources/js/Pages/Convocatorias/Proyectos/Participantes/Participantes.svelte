@@ -81,7 +81,6 @@
         user_id: 0,
         cantidad_meses: 0,
         cantidad_horas: 0,
-        centro_formacion_id: null,
         rol_sennova: null,
     })
 

@@ -890,7 +890,7 @@ class ProyectoController extends Controller
         }
 
         try {
-            if ($proyecto->participantes()->where('id', $request->user_id)->exists()) {
+            if ($proyecto->participantes()->where('proyecto_participantes.user_id', $request->user_id)->exists()) {
                 return back()->with('error', 'El recurso ya está vinculado.');
             }
 
@@ -1194,7 +1194,7 @@ class ProyectoController extends Controller
         return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
-    /**  
+    /**
      * descargarPdf
      *
      * @param  mixed $convocatoria

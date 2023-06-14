@@ -31,7 +31,7 @@
 </script>
 
 <div class={$$restProps.class} bind:this={container}>
-    <Textfield {disabled} variant="outlined" {...props} bind:this={input} {type} {value} on:input={update} label={!props.required ? label + ' (Opcional)' : label} />
+    <Textfield {disabled} variant="outlined" {...props} bind:this={input} {type} {value} on:input={update} label={!props.required && label ? label + ' (Opcional)' : label} />
     {#if error}
         <InputError message={error} />
     {/if}
