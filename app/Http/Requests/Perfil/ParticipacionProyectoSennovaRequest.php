@@ -24,11 +24,12 @@ class ParticipacionProyectoSennovaRequest extends FormRequest
     public function rules()
     {
         return [
-            'tipo_proyecto'                 => ['required', 'integer', 'min:1', 'max:9'],
-            'fecha_inicio_proyecto'         => ['required', 'date_format:Y-m-d'],
-            'fecha_finalizacion_proyecto'   => ['required', 'date_format:Y-m-d'],
-            'titulo'                        => ['required', 'string'],
-            'codigo_proyecto'               => ['required', 'string', 'max:20'],
+            'ha_formulado_proyectos_sennova'    => ['required', 'boolean'],
+            'tipo_proyecto'                     => ['required', 'integer', 'min:1', 'max:9'],
+            'fecha_inicio_proyecto'             => ['required', 'date_format:Y-m-d'],
+            'fecha_finalizacion_proyecto'       => ['required', 'date_format:Y-m-d'],
+            'titulo'                            => ['required', 'string'],
+            'codigo_proyecto'                   => ['required', 'string', 'max:20'],
         ];
     }
 
@@ -39,6 +40,12 @@ class ParticipacionProyectoSennovaRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
+        if (is_array($this->ha_formulado_proyectos_sennova)) {
+            $this->merge([
+                'ha_formulado_proyectos_sennova' => $this->ha_formulado_proyectos_sennova['value'] == '1' ? 1 : 0,
+            ]);
+        }
+
         if (is_array($this->tipo_proyecto)) {
             $this->merge([
                 'tipo_proyecto' => $this->tipo_proyecto['value'],

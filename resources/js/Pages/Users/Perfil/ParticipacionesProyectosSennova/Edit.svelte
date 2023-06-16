@@ -13,7 +13,7 @@
     $: $title = 'Editar participación'
 
     let form = useForm({
-        _method: 'put',
+        ha_formulado_proyectos_sennova: false,
         tipo_proyecto: participacionProyectoSennova.tipo_proyecto,
         codigo_proyecto: participacionProyectoSennova.codigo_proyecto,
         titulo: participacionProyectoSennova.titulo,
@@ -22,7 +22,7 @@
     })
 
     function submit() {
-        $form.post(route('participaciones-proyectos-sennova.update', participacionProyectoSennova.id), {
+        $form.put(route('participaciones-proyectos-sennova.update', participacionProyectoSennova.id), {
             preserveScroll: true,
         })
     }

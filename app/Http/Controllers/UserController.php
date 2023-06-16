@@ -21,7 +21,6 @@ use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -107,7 +106,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        // 
+        //
     }
 
     /**
@@ -220,7 +219,7 @@ class UserController extends Controller
     public function showPerfil()
     {
         /** @var \App\Models\User */
-        $authUser = DB::table('users')->where('id', Auth::user()->id)->first();
+        $authUser = User::where('id', Auth::user()->id)->first();
 
         return Inertia::render('Users/Perfil', [
             'user'                                      => $authUser,
@@ -230,6 +229,7 @@ class UserController extends Controller
             'opcionesGenero'                            => json_decode(Storage::get('json/generos.json'), true),
             'gruposEtnicos'                             => json_decode(Storage::get('json/grupos-etnicos.json'), true),
             'tiposDiscapacidad'                         => json_decode(Storage::get('json/tipos-discapacidad.json'), true),
+            'subareasExperiencia'                       => json_decode(Storage::get('json/subareas-experiencia.json'), true),
             'municipios'                                => Municipio::selectRaw('id as value, nombre as label')->get(),
             'rolesSennova'                              => RolSennova::selectRaw('id as value, nombre as label')->distinct('nombre')->get(),
             'redesConocimiento'                         => RedConocimiento::selectRaw('id as value, nombre as label')->get(),

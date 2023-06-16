@@ -396,7 +396,7 @@
                 <div class="py-24">
                     <div class="grid grid-cols-1">
                         <div>
-                            <Label required class="mb-4" labelFor="proyeccion_extensionismo_tecnologico" value="Cómo proyecta la articulación en el {convocatoria.year}, el Tecnoparque con la línea de Extensionismo Tecnológico?" />
+                            <Label required class="mb-4" labelFor="proyeccion_extensionismo_tecnologico" value="¿Cómo proyecta la articulación en el {convocatoria.year}, el Tecnoparque con la línea de Extensionismo Tecnológico?" />
                         </div>
                         <div>
                             <Textarea maxlength="40000" id="proyeccion_extensionismo_tecnologico" error={errors.proyeccion_extensionismo_tecnologico} bind:value={$form.proyeccion_extensionismo_tecnologico} on:blur={() => syncTpColumnLong('proyeccion_extensionismo_tecnologico', $form)} required />

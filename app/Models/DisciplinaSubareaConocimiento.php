@@ -67,16 +67,6 @@ class DisciplinaSubareaConocimiento extends Model
     }
 
     /**
-     * Relationship with User
-     *
-     * @return object
-     */
-    public function users()
-    {
-        return $this->hasMany(User::class);
-    }
-
-    /**
      * Relationship with AmbienteModernizacion
      *
      * @return object

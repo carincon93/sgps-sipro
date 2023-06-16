@@ -32,7 +32,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-       'nombre',
+        'nombre',
         'email',
         'password',
         'tipo_documento',
@@ -46,22 +46,18 @@ class User extends Authenticatable
         'horas_dedicadas',
         'meses_dedicados',
         'nivel_ingles',
-        'certificado_ingles',
-        'es_temporal_sennova',
         'fecha_resolucion_nombramiento',
         'fecha_acta_nombramiento',
         'nro_acta_nombramiento',
-        'archivo_acta_resolucion',
         'grado_sennova',
         'fecha_inicio_contrato',
         'fecha_finalizacion_contrato',
         'asignacion_mensual',
-        'tiene_pasaporte_vigente',
-        'tiene_visa_vigente',
         'cvlac',
         'link_sigep_ii',
         'grupo_etnico',
         'discapacidad',
+        'subarea_experiencia_laboral',
 
         'experiencia_laboral_sena',
         'cursos_evaluacion_proyectos',
@@ -85,7 +81,7 @@ class User extends Authenticatable
 
         'red_conocimiento_id',
         'rol_sennova_id',
-        'disciplina_subarea_conocimiento_id',
+        'disciplinas_subarea_conocimiento_id',
         'centro_formacion_id',
     ];
 
@@ -144,16 +140,6 @@ class User extends Authenticatable
     public function redConocimiento()
     {
         return $this->belongsTo(RedConocimiento::class);
-    }
-
-    /**
-     * Relationship with DisciplinaSubareaConocimiento
-     *
-     * @return object
-     */
-    public function disciplinaSubareaConocimiento()
-    {
-        return $this->belongsTo(DisciplinaSubareaConocimiento::class);
     }
 
     /**

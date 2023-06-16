@@ -32,16 +32,7 @@ class ProyectoPresupuestoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->codigo_linea_programatica                = $proyecto->lineaProgramatica->codigo;
-        $proyecto->total_maquinaria_industrial              = PresupuestoValidationTrait::totalSegundoGrupoPresupuestalProyecto($proyecto, '2040115');
-        $proyecto->total_viaticos                           = PresupuestoValidationTrait::totalSegundoGrupoPresupuestalProyecto($proyecto, '2042186') + PresupuestoValidationTrait::totalSegundoGrupoPresupuestalProyecto($proyecto, '2041102');
-        $proyecto->total_mantenimiento_maquinaria           = PresupuestoValidationTrait::totalSegundoGrupoPresupuestalProyecto($proyecto, '2040516');
-        $proyecto->total_servicios_especiales_construccion  = PresupuestoValidationTrait::totalSegundoGrupoPresupuestalProyecto($proyecto, '2045110');
-        $proyecto->total_equipo_sistemas                    = PresupuestoValidationTrait::totalSegundoGrupoPresupuestalProyecto($proyecto, '2040106');
-        $proyecto->otras_compras_equipos                    = PresupuestoValidationTrait::totalSegundoGrupoPresupuestalProyecto($proyecto, '2040125');
-        $proyecto->software                                 = PresupuestoValidationTrait::totalSegundoGrupoPresupuestalProyecto($proyecto, '2040108');
-        $proyecto->viaticos_exterior                        = PresupuestoValidationTrait::totalSegundoGrupoPresupuestalProyecto($proyecto, '2041104');
-        $proyecto->viaticos_interior                        = PresupuestoValidationTrait::totalSegundoGrupoPresupuestalProyecto($proyecto, '2041102');
+        $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
 
         $salarioMinimo = json_decode(Storage::get('json/salario-minimo.json'), true);
         $proyecto->salarios_minimos = ($salarioMinimo['value'] * 100);

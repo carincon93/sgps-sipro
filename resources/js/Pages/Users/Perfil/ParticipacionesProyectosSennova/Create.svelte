@@ -12,6 +12,7 @@
     $: $title = 'Añadir participación'
 
     let form = useForm({
+        ha_formulado_proyectos_sennova: false,
         tipo_proyecto: null,
         codigo_proyecto: '',
         titulo: '',

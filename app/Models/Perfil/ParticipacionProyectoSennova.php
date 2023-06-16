@@ -31,6 +31,7 @@ class ParticipacionProyectoSennova extends Model
      * @var array
      */
     protected $fillable = [
+        'ha_formulado_proyectos_sennova',
         'tipo_proyecto',
         'codigo_proyecto',
         'titulo',
