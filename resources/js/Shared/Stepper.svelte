@@ -44,7 +44,7 @@
 </script>
 
 <!-- Stepper -->
-<div class="flex justify-around my-8" id="stepper" bind:this={container}>
+<div class="flex justify-around my-8 relative" id="stepper" bind:this={container}>
     <div class="w-10/12 step">
         <a use:inertia active={activeProyecto} href={route('convocatorias.proyectos.edit', [convocatoria.id, proyecto.id])} class="flex flex-col items-center">
             <div class="rounded-full bg-white w-11 h-11 text-center flex items-center justify-center shadow mb-2 step-number" />
@@ -90,7 +90,7 @@
         <div class="w-10/12 step{proyecto.codigo_linea_programatica != 23 ? ' ml-5' : ''}">
             <a use:inertia active={route().current('convocatorias.proyectos.presupuesto.index')} href={route('convocatorias.proyectos.presupuesto.index', [convocatoria.id, proyecto.id])} class="flex flex-col items-center">
                 <div class="rounded-full bg-white w-11 h-11 text-center flex items-center justify-center shadow mb-2 step-number" />
-                <p class="text-sm text-center">Presupuesto</p>
+                <p class="text-sm text-center">Rubríca presupuestal</p>
             </a>
         </div>
         {#if proyecto.codigo_linea_programatica == 70}
@@ -290,7 +290,7 @@
 
 <style>
     #stepper a[active='true'] .rounded-full {
-        background: #7e22ce;
+        background: var(--mdc-theme-primary);
         color: #fff;
     }
 
@@ -305,7 +305,7 @@
     }
 
     .total {
-        bottom: -26px;
-        box-shadow: -1px -9px 17px 0px rgb(103 58 183 / 34%);
+        bottom: -32px;
+        box-shadow: -1px -9px 17px 0px rgb(var(--mdc-theme-primary) / 34%);
     }
 </style>

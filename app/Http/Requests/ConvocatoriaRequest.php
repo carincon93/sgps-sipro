@@ -24,25 +24,9 @@ class ConvocatoriaRequest extends FormRequest
     public function rules()
     {
         return [
-            'descripcion'                               => ['required'],
-            'esta_activa'                               => ['required_if:tipo_convocatoria,1', 'nullable', 'boolean'],
-            'fecha_finalizacion_fase'                   => ['required', 'date', 'date_format:Y-m-d'],
-            'min_fecha_inicio_proyectos_idi'            => ['required_if:tipo_convocatoria,1', 'nullable', 'date', 'date_format:Y-m-d', 'before:max_fecha_finalizacion_proyectos_idi'],
-            'max_fecha_finalizacion_proyectos_idi'      => ['required_if:tipo_convocatoria,1', 'nullable', 'date', 'date_format:Y-m-d', 'after:min_fecha_inicio_proyectos_idi'],
-            'min_fecha_inicio_proyectos_cultura'        => ['required_if:tipo_convocatoria,1', 'nullable', 'date', 'date_format:Y-m-d', 'before:max_fecha_finalizacion_proyectos_cultura'],
-            'max_fecha_finalizacion_proyectos_cultura'  => ['required_if:tipo_convocatoria,1', 'nullable', 'date', 'date_format:Y-m-d', 'after:min_fecha_inicio_proyectos_cultura'],
-            'min_fecha_inicio_proyectos_st'             => ['required_if:tipo_convocatoria,1', 'nullable', 'date', 'date_format:Y-m-d', 'before:max_fecha_finalizacion_proyectos_st'],
-            'max_fecha_finalizacion_proyectos_st'       => ['required_if:tipo_convocatoria,1', 'nullable', 'date', 'date_format:Y-m-d', 'after:min_fecha_inicio_proyectos_st'],
-            'min_fecha_inicio_proyectos_ta'             => ['required_if:tipo_convocatoria,1', 'nullable', 'date', 'date_format:Y-m-d', 'before:max_fecha_finalizacion_proyectos_ta'],
-            'min_fecha_inicio_proyectos_tp'             => ['required_if:tipo_convocatoria,1', 'nullable', 'date', 'date_format:Y-m-d', 'before:max_fecha_finalizacion_proyectos_tp'],
-            'max_fecha_finalizacion_proyectos_ta'       => ['required_if:tipo_convocatoria,1', 'nullable', 'date', 'date_format:Y-m-d', 'after:min_fecha_inicio_proyectos_ta'],
-            'max_fecha_finalizacion_proyectos_tp'       => ['required_if:tipo_convocatoria,1', 'nullable', 'date', 'date_format:Y-m-d', 'after:min_fecha_inicio_proyectos_tp'],
-            'hora_finalizacion_fase'                    => ['required'],
-            'idi_activa'                                => ['nullable', 'boolean'],
-            'st_activa'                                 => ['nullable', 'boolean'],
-            'ta_activa'                                 => ['nullable', 'boolean'],
-            'tp_activa'                                 => ['nullable', 'boolean'],
-            'cultura_activa'                            => ['nullable', 'boolean'],
+            'descripcion'                  => ['required'],
+            'esta_activa'                  => ['required_if:tipo_convocatoria,1', 'nullable', 'boolean'],
+            'lineas_programaticas_activas' => ['nullable', 'json'],
         ];
     }
 
@@ -57,6 +41,22 @@ class ConvocatoriaRequest extends FormRequest
             $this->merge([
                 'tipo_convocatoria' => $this->tipo_convocatoria['value']
             ]);
+        }
+
+        if (is_array($this->lineas_programaticas_activas)) {
+            if (isset($this->lineas_programaticas_activas['value']) && is_numeric($this->lineas_programaticas_activas['value'])) {
+                $this->merge([
+                    'lineas_programaticas_activas' => $this->lineas_programaticas_activas['value'],
+                ]);
+            } else {
+                $lineas_programaticas = [];
+                foreach ($this->lineas_programaticas_activas as $linea_programatica) {
+                    if (is_array($linea_programatica)) {
+                        array_push($lineas_programaticas, $linea_programatica['value']);
+                    }
+                }
+                $this->merge(['lineas_programaticas_activas' => json_encode($lineas_programaticas)]);
+            }
         }
     }
 }

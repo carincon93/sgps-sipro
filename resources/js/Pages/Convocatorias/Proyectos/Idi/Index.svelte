@@ -53,7 +53,20 @@
 <AuthenticatedLayout>
     <DataTable class="mt-20" routeParams={[convocatoria.id]} bind:filters showFilters={true}>
         <div slot="title">
-            I+D+i {#if convocatoria.tipo_convocatoria == 2}- Proyectos de ejercicio (DEMO){/if}
+            Investigación aplicada y semilleros de investigación en centros de formación - Línea 66
+            <br />
+
+            Actualización y modernización tecnológica de los centros de formación - Línea 23
+            <br />
+
+            Dotación tecnológica de ambientes de formación para las nuevas sedes - Línea 23
+            <br />
+
+            Fomento de la innovación y desarrollo tecnológico en las empresas - Línea 82
+
+            <br />
+
+            {#if convocatoria.tipo_convocatoria == 2}- Proyectos de ejercicio (DEMO){/if}
 
             <InfoMessage class="mt-10 text-xl">Ahora se listan únicamente los proyectos que usted ha creado y también en los que está asociado.</InfoMessage>
         </div>

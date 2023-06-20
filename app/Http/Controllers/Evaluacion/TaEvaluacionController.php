@@ -37,7 +37,7 @@ class TaEvaluacionController extends Controller
      */
     public function create(Convocatoria $convocatoria)
     {
-        // 
+        //
     }
 
     /**
@@ -48,7 +48,7 @@ class TaEvaluacionController extends Controller
      */
     public function store(TaEvaluacionRequest $request)
     {
-        // 
+        //
     }
 
     /**
@@ -59,7 +59,7 @@ class TaEvaluacionController extends Controller
      */
     public function show(Convocatoria $convocatoria, TaEvaluacion $taEvaluacion)
     {
-        //   
+        //
     }
 
     /**
@@ -89,7 +89,7 @@ class TaEvaluacionController extends Controller
         }
 
         return Inertia::render('Convocatorias/Evaluaciones/Ta/Edit', [
-            'convocatoria'                              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_ta', 'max_fecha_finalizacion_proyectos_ta', 'fecha_maxima_ta', 'year'),
+            'convocatoria'                              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_70', 'max_fecha_finalizacion_proyectos_linea_70', 'fecha_maxima_ta', 'year'),
             'ta'                                        => $ta,
             'taEvaluacion'                              => $taEvaluacion,
             'otrasEvaluaciones'                         => TaEvaluacion::with('evaluacion.evaluador')->whereHas('evaluacion', function ($query) use ($ta) {

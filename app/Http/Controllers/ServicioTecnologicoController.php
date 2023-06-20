@@ -53,7 +53,7 @@ class ServicioTecnologicoController extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/ServiciosTecnologicos/Create', [
-            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_st', 'max_fecha_finalizacion_proyectos_st', 'fecha_maxima_st'),
+            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_68', 'max_fecha_finalizacion_proyectos_linea_68', 'fecha_maxima_st'),
             'roles'                     => collect(json_decode(Storage::get('json/roles-sennova-st.json'), true)),
             'sectoresProductivos'       => collect(json_decode(Storage::get('json/sectores-productivos.json'), true)),
             'tiposProyectoSt'           => $tipoProyectoSt,
@@ -124,7 +124,7 @@ class ServicioTecnologicoController extends Controller
      */
     public function show(Convocatoria $convocatoria, ServicioTecnologico $servicioTecnologico)
     {
-        // 
+        //
     }
 
     /**
@@ -156,7 +156,7 @@ class ServicioTecnologicoController extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/ServiciosTecnologicos/Edit', [
-            'convocatoria'                              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_st', 'max_fecha_finalizacion_proyectos_st', 'fecha_maxima_st', 'mostrar_recomendaciones'),
+            'convocatoria'                              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_68', 'max_fecha_finalizacion_proyectos_linea_68', 'fecha_maxima_st', 'mostrar_recomendaciones'),
             'servicioTecnologico'                       => $servicioTecnologico,
             'lineasProgramaticas'                       => SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 3)->values()->all(),
             'estadosSistemaGestion'                     => SelectHelper::estadosSistemaGestion(),

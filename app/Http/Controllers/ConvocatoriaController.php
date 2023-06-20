@@ -5,31 +5,18 @@ namespace App\Http\Controllers;
 use App\Helpers\SelectHelper;
 use App\Http\Requests\ConvocatoriaRequest;
 use App\Models\Convocatoria;
+use App\Models\Idi;
+use App\Models\LineaProgramatica;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ConvocatoriaController extends Controller
 {
-    /**
-     * Display the dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function dashboard(Convocatoria $convocatoria)
-    {
-        if ($convocatoria->tipo_convocatoria == 3) {
-            return redirect()->route('nuevos-proyectos-ta-tp', $convocatoria);
-        }
-
-        return Inertia::render('Convocatorias/Dashboard', [
-            'convocatoria' => $convocatoria
-        ]);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -42,7 +29,7 @@ class ConvocatoriaController extends Controller
         return Inertia::render('Convocatorias/Index', [
             'filters'               => request()->all('search'),
             'convocatorias'         => Convocatoria::orderBy('id', 'DESC')->filterConvocatoria(request()->only('search'))->paginate()->appends(['search' => request()->search]),
-            'convocatoriaActiva'    => Convocatoria::where('esta_activa', 1)->first(),
+            'convocatoria_activa'   => Convocatoria::where('esta_activa', 1)->first(),
         ]);
     }
 
@@ -76,14 +63,14 @@ class ConvocatoriaController extends Controller
         $convocatoria->descripcion                              = $request->descripcion;
         $convocatoria->min_fecha_inicio_proyectos_idi           = $request->min_fecha_inicio_proyectos_idi;
         $convocatoria->max_fecha_finalizacion_proyectos_idi     = $request->max_fecha_finalizacion_proyectos_idi;
-        $convocatoria->min_fecha_inicio_proyectos_cultura       = $request->min_fecha_inicio_proyectos_cultura;
+        $convocatoria->min_fecha_inicio_proyectos_linea_65       = $request->min_fecha_inicio_proyectos_linea_65;
         $convocatoria->max_fecha_finalizacion_proyectos_cultura = $request->max_fecha_finalizacion_proyectos_cultura;
-        $convocatoria->min_fecha_inicio_proyectos_st            = $request->min_fecha_inicio_proyectos_st;
-        $convocatoria->max_fecha_finalizacion_proyectos_st      = $request->max_fecha_finalizacion_proyectos_st;
-        $convocatoria->min_fecha_inicio_proyectos_ta            = $request->min_fecha_inicio_proyectos_ta;
-        $convocatoria->max_fecha_finalizacion_proyectos_ta      = $request->max_fecha_finalizacion_proyectos_ta;
-        $convocatoria->min_fecha_inicio_proyectos_tp            = $request->min_fecha_inicio_proyectos_tp;
-        $convocatoria->max_fecha_finalizacion_proyectos_tp      = $request->max_fecha_finalizacion_proyectos_tp;
+        $convocatoria->min_fecha_inicio_proyectos_linea_68            = $request->min_fecha_inicio_proyectos_linea_68;
+        $convocatoria->max_fecha_finalizacion_proyectos_linea_68      = $request->max_fecha_finalizacion_proyectos_linea_68;
+        $convocatoria->min_fecha_inicio_proyectos_linea_70            = $request->min_fecha_inicio_proyectos_linea_70;
+        $convocatoria->max_fecha_finalizacion_proyectos_linea_70      = $request->max_fecha_finalizacion_proyectos_linea_70;
+        $convocatoria->min_fecha_inicio_proyectos_linea_69            = $request->min_fecha_inicio_proyectos_linea_69;
+        $convocatoria->max_fecha_finalizacion_proyectos_linea_69      = $request->max_fecha_finalizacion_proyectos_linea_69;
         $convocatoria->fecha_finalizacion_fase                  = $request->fecha_finalizacion_fase;
         $convocatoria->hora_finalizacion_fase                   = $request->hora_finalizacion_fase;
         $convocatoria->visible                                  = $request->visible;
@@ -140,8 +127,10 @@ class ConvocatoriaController extends Controller
         $this->authorize('update', [Convocatoria::class, $convocatoria]);
 
         return Inertia::render('Convocatorias/Edit', [
-            'convocatoria' => $convocatoria,
-            'fases'        => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
+            'convocatoria'                                  => $convocatoria,
+            'lineas_programaticas'                          => LineaProgramatica::selectRaw("id as value, CONCAT(nombre, ' - Código: ', codigo) as label")->orderBy('nombre', 'ASC')->get(),
+            'lineas_programaticas_activas_relacionadas'     => LineaProgramatica::selectRaw('id as value, nombre as label')->whereIn('id', json_decode($convocatoria->lineas_programaticas_activas))->orderBy('nombre', 'ASC')->get(),
+            'fases'                                         => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
         ]);
     }
 
@@ -156,20 +145,7 @@ class ConvocatoriaController extends Controller
     {
         $this->authorize('update', [Convocatoria::class, $convocatoria]);
 
-        $convocatoria->descripcion                              = $request->descripcion;
-        $convocatoria->min_fecha_inicio_proyectos_idi           = $request->min_fecha_inicio_proyectos_idi;
-        $convocatoria->max_fecha_finalizacion_proyectos_idi     = $request->max_fecha_finalizacion_proyectos_idi;
-        $convocatoria->min_fecha_inicio_proyectos_cultura       = $request->min_fecha_inicio_proyectos_cultura;
-        $convocatoria->max_fecha_finalizacion_proyectos_cultura = $request->max_fecha_finalizacion_proyectos_cultura;
-        $convocatoria->min_fecha_inicio_proyectos_st            = $request->min_fecha_inicio_proyectos_st;
-        $convocatoria->max_fecha_finalizacion_proyectos_st      = $request->max_fecha_finalizacion_proyectos_st;
-        $convocatoria->min_fecha_inicio_proyectos_ta            = $request->min_fecha_inicio_proyectos_ta;
-        $convocatoria->max_fecha_finalizacion_proyectos_ta      = $request->max_fecha_finalizacion_proyectos_ta;
-        $convocatoria->min_fecha_inicio_proyectos_tp            = $request->min_fecha_inicio_proyectos_tp;
-        $convocatoria->max_fecha_finalizacion_proyectos_tp      = $request->max_fecha_finalizacion_proyectos_tp;
-        $convocatoria->fecha_finalizacion_fase                  = $request->fecha_finalizacion_fase;
-        $convocatoria->hora_finalizacion_fase                   = $request->hora_finalizacion_fase;
-        $convocatoria->visible                                  = $request->visible;
+        $convocatoria->update($request->validated());
 
         if ($request->esta_activa) {
             $convocatoriaFormulacionActiva = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 1)->first();
@@ -191,20 +167,11 @@ class ConvocatoriaController extends Controller
             }
         }
 
-        $convocatoria->esta_activa              = $request->esta_activa;
-        $convocatoria->idi_activa               = $request->idi_activa;
-        $convocatoria->st_activa                = $request->st_activa;
-        $convocatoria->ta_activa                = $request->ta_activa;
-        $convocatoria->tp_activa                = $request->tp_activa;
-        $convocatoria->cultura_activa           = $request->cultura_activa;
-        $convocatoria->mostrar_recomendaciones  = $request->mostrar_recomendaciones;
         if ($request->mostrar_recomendaciones == true) {
             $convocatoria->proyectos()->update(['mostrar_recomendaciones' => true]);
         } else {
             $convocatoria->proyectos()->update(['mostrar_recomendaciones' => false]);
         }
-
-        $convocatoria->save();
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
@@ -229,6 +196,59 @@ class ConvocatoriaController extends Controller
     }
 
     /**
+     * Display the lineasProgramaticas.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function lineasProgramaticas(Convocatoria $convocatoria)
+    {
+        if ($convocatoria->tipo_convocatoria == 3) {
+            return redirect()->route('nuevos-proyectos-ta-tp', $convocatoria);
+        }
+
+        return Inertia::render('Convocatorias/LineasProgramaticas', [
+            'convocatoria'          => $convocatoria,
+            'lineas_programaticas'  => LineaProgramatica::select('id', 'nombre', 'codigo')->get()
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function proyectosPorLineaProgramatica(Convocatoria $convocatoria, LineaProgramatica $lineaProgramatica)
+    {
+        switch ($lineaProgramatica->id) {
+            case 1:
+            case 2:
+            case 3:
+            case 29:
+                return redirect()->route('convocatorias.idi.index', [$convocatoria]);
+                break;
+
+            case 4:
+                return redirect()->route('convocatorias.tp.index', [$convocatoria]);
+                break;
+
+            case 5:
+                return redirect()->route('convocatorias.ta.index', [$convocatoria]);
+                break;
+
+            case 9:
+                return redirect()->route('convocatorias.cultura-innovacion.index', [$convocatoria]);
+                break;
+
+            case 10:
+                return redirect()->route('convocatorias.st.index', [$convocatoria]);
+                break;
+            default:
+                return back();
+                break;
+        }
+    }
+
+    /**
      * updateFase
      *
      * @param  mixed $request
@@ -241,7 +261,9 @@ class ConvocatoriaController extends Controller
             $evaluacion->update(['estado' => $evaluacion->verificar_estado_evaluacion]);
         }
 
-        $convocatoria->fase = $request->fase['value'];
+        $convocatoria->fase                     = $request->fase['value'];
+        $convocatoria->fecha_finalizacion_fase  = $request->fecha_finalizacion_fase;
+        $convocatoria->hora_finalizacion_fase   = $request->hora_finalizacion_fase;
         $convocatoria->save();
 
         if ($request->fase['value'] == 1) { // Formulación

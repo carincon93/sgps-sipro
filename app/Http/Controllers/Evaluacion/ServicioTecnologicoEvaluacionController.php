@@ -35,7 +35,7 @@ class ServicioTecnologicoEvaluacionController extends Controller
      */
     public function create(Convocatoria $convocatoria)
     {
-        //   
+        //
     }
 
     /**
@@ -46,7 +46,7 @@ class ServicioTecnologicoEvaluacionController extends Controller
      */
     public function store(ServicioTecnologicoEvaluacionRequest $request, Convocatoria $convocatoria)
     {
-        //   
+        //
     }
 
     /**
@@ -57,7 +57,7 @@ class ServicioTecnologicoEvaluacionController extends Controller
      */
     public function show(Convocatoria $convocatoria, ServicioTecnologicoEvaluacion $servicioTecnologicoEvaluacion)
     {
-        //    
+        //
     }
 
     /**
@@ -88,7 +88,7 @@ class ServicioTecnologicoEvaluacionController extends Controller
         }
 
         return Inertia::render('Convocatorias/Evaluaciones/ServiciosTecnologicos/Edit', [
-            'convocatoria'                              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_st', 'max_fecha_finalizacion_proyectos_st', 'fecha_maxima_st', 'mostrar_recomendaciones', 'year'),
+            'convocatoria'                              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_68', 'max_fecha_finalizacion_proyectos_linea_68', 'fecha_maxima_st', 'mostrar_recomendaciones', 'year'),
             'servicioTecnologico'                       => $servicioTecnologico,
             'servicioTecnologicoEvaluacion'             => $servicioTecnologicoEvaluacion,
             'servicioTecnologicoSegundaEvaluacion'      => ServicioTecnologicoEvaluacion::whereHas('evaluacion', function ($query) use ($servicioTecnologico) {

@@ -233,9 +233,9 @@ class UserController extends Controller
             'subareasExperiencia'                       => SubareaExperiencia::selectRaw("subareas_experiencia.id as value, CONCAT(subareas_experiencia.nombre,' - Área de experiencia: ', areas_experiencia.nombre) as label")->join('areas_experiencia', 'subareas_experiencia.area_experiencia_id', 'areas_experiencia.id')->orderBy('subareas_experiencia.nombre', 'ASC')->get(),
             'municipios'                                => Municipio::selectRaw('id as value, nombre as label')->get(),
             'rolesSennova'                              => RolSennova::selectRaw("roles_sennova.id as value, CASE
-                WHEN linea_programatica_id IS NOT NULL THEN CONCAT(roles_sennova.nombre,  chr(10), ' - Línea programática ', lineas_programaticas.codigo)
-                ELSE roles_sennova.nombre
-            END as label")->leftJoin('lineas_programaticas', 'roles_sennova.linea_programatica_id', 'lineas_programaticas.id')->distinct('roles_sennova.nombre')->get(),
+                                                                WHEN linea_programatica_id IS NOT NULL THEN CONCAT(roles_sennova.nombre,  chr(10), ' - Línea programática ', lineas_programaticas.codigo)
+                                                                ELSE roles_sennova.nombre
+                                                            END as label")->leftJoin('lineas_programaticas', 'roles_sennova.linea_programatica_id', 'lineas_programaticas.id')->distinct('roles_sennova.nombre')->get(),
             'redesConocimiento'                         => RedConocimiento::selectRaw('id as value, nombre as label')->get(),
             'disciplinasConocimiento'                   => DisciplinaSubareaConocimiento::selectRaw('id as value, nombre as label')->orderBy('nombre', 'ASC')->get(),
             'centrosFormacion'                          => CentroFormacion::selectRaw('centros_formacion.id as value, CONCAT(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo, chr(10), \'∙ Regional: \', INITCAP(regionales.nombre)) as label')->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->orderBy('centros_formacion.nombre', 'ASC')->get(),

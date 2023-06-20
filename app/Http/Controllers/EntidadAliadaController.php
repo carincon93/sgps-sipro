@@ -427,7 +427,7 @@ class EntidadAliadaController extends Controller
                         $detener = true;
                         $tipo = $entidadAliada->tipo;
                     } else if ($entidadAliada->tipo == 'Universidad' && $detener == false) {
-                        // Universidad 
+                        // Universidad
                         $puntaje = 2.5;
                         $tipo = $entidadAliada->tipo;
                     }

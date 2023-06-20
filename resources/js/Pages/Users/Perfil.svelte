@@ -118,7 +118,7 @@
 <AuthenticatedLayout>
     <div class="grid grid-cols-3">
         <div>
-            <h1 class="font-black text-4xl uppercase">Perfil</h1>
+            <h1 class="font-black text-4xl uppercase">{user.nombre}</h1>
         </div>
         <form on:submit|preventDefault={submitChangeUserProfile} id="informacion-basica" class="bg-white rounded shadow col-span-2">
             <fieldset class="p-8 space-y-14">

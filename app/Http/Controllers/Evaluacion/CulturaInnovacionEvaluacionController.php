@@ -37,7 +37,7 @@ class CulturaInnovacionEvaluacionController extends Controller
      */
     public function create(Convocatoria $convocatoria)
     {
-        // 
+        //
     }
 
     /**
@@ -48,7 +48,7 @@ class CulturaInnovacionEvaluacionController extends Controller
      */
     public function store(Convocatoria $convocatoria, CulturaInnovacionEvaluacionRequest $request)
     {
-        // 
+        //
     }
 
     /**
@@ -59,7 +59,7 @@ class CulturaInnovacionEvaluacionController extends Controller
      */
     public function show(Convocatoria $convocatoria, CulturaInnovacionEvaluacion $culturaInnovacionEvaluacion)
     {
-        // 
+        //
     }
 
     /**
@@ -80,7 +80,7 @@ class CulturaInnovacionEvaluacionController extends Controller
         $culturaInnovacion->proyecto->centroFormacion;
 
         return Inertia::render('Convocatorias/Evaluaciones/CulturaInnovacion/Edit', [
-            'convocatoria'                              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_cultura', 'max_fecha_finalizacion_proyectos_cultura', 'campos_convocatoria', 'year'),
+            'convocatoria'                              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_65', 'max_fecha_finalizacion_proyectos_cultura', 'campos_convocatoria', 'year'),
             'culturaInnovacion'                         => $culturaInnovacion,
             'culturaInnovacionEvaluacion'               => $culturaInnovacionEvaluacion,
             'mesasSectorialesRelacionadas'              => $culturaInnovacion->mesasSectoriales()->pluck('id'),

@@ -47,7 +47,7 @@ class CulturaInnovacionController extends Controller
         $centrosFormacion = CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo) as label')->orderBy('centros_formacion.nombre', 'ASC')->get();
 
         return Inertia::render('Convocatorias/Proyectos/CulturaInnovacion/Create', [
-            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_cultura', 'max_fecha_finalizacion_proyectos_cultura', 'fecha_maxima_cultura'),
+            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_65', 'max_fecha_finalizacion_proyectos_cultura', 'fecha_maxima_cultura'),
             'roles'                 => collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true)),
             'centrosFormacion'      => $centrosFormacion,
             'lineasInvestigacion'   => SelectHelper::lineasInvestigacion(),
@@ -159,7 +159,7 @@ class CulturaInnovacionController extends Controller
         $culturaInnovacion->mostrar_requiere_subsanacion = $culturaInnovacion->proyecto->mostrar_requiere_subsanacion;
 
         return Inertia::render('Convocatorias/Proyectos/CulturaInnovacion/Edit', [
-            'convocatoria'                              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_cultura', 'max_fecha_finalizacion_proyectos_cultura', 'fecha_maxima_cultura', 'mostrar_recomendaciones', 'campos_convocatoria'),
+            'convocatoria'                              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_65', 'max_fecha_finalizacion_proyectos_cultura', 'fecha_maxima_cultura', 'mostrar_recomendaciones', 'campos_convocatoria'),
             'culturaInnovacion'                         => $culturaInnovacion,
             'mesasSectorialesRelacionadas'              => $culturaInnovacion->mesasSectoriales()->pluck('mesas_sectoriales.id'),
             'lineasTecnoacademiaRelacionadas'           => $culturaInnovacion->tecnoacademiaLineasTecnoacademia()->pluck('tecnoacademia_linea_tecnoacademia.id'),

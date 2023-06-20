@@ -53,7 +53,7 @@
 <AuthenticatedLayout>
     <DataTable class="mt-20" routeParams={[convocatoria.id]} bind:filters showFilters={true}>
         <div slot="title">
-            Apropiación de la cultura de la innovación
+            Apropiación de la ciencia y la tecnología y cultura de la innovación y la competitividad - Línea 65
             <InfoMessage class="mt-10 text-xl">Ahora se listan únicamente los proyectos que usted ha creado y también en los que está asociado.</InfoMessage>
         </div>
 

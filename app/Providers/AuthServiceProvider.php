@@ -65,7 +65,7 @@ class AuthServiceProvider extends ServiceProvider
 
             // Si el usuario tiene alguno de los siguiente permisos de cualquier línea programática: CREAR, EDITAR, ELIMINAR o VISUALIZACIÓN
             if ($lineaProgramatica && $convocatoria->esta_activa == true) {
-                if ($lineaProgramatica->codigo == 23 && $convocatoria->idi_activa || $lineaProgramatica->codigo == 65 && $convocatoria->cultura_activa || $lineaProgramatica->codigo == 66 && $convocatoria->idi_activa || $lineaProgramatica->codigo == 68 && $convocatoria->st_activa || $lineaProgramatica->codigo == 69 && $convocatoria->tp_activa || $lineaProgramatica->codigo == 70 && $convocatoria->ta_activa || $lineaProgramatica->codigo == 82 && $convocatoria->idi_activa) {
+                if ($lineaProgramatica->codigo == 23 && $convocatoria->idi_activa || $lineaProgramatica->codigo == 65 && $convocatoria->proyectos_linea_65_activo || $lineaProgramatica->codigo == 66 && $convocatoria->idi_activa || $lineaProgramatica->codigo == 68 && $convocatoria->proyectos_linea_68_activo || $lineaProgramatica->codigo == 69 && $convocatoria->proyectos_linea_69_activo || $lineaProgramatica->codigo == 70 && $convocatoria->proyectos_linea_70_activo || $lineaProgramatica->codigo == 82 && $convocatoria->idi_activa) {
                     return $user->getAllPermissions()->whereIn('id', [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21])->count() > 0;
                 }
             }

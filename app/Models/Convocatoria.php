@@ -33,26 +33,12 @@ class Convocatoria extends Model
     protected $fillable = [
         'descripcion',
         'esta_activa',
-        'min_fecha_inicio_proyectos_idi',
-        'max_fecha_finalizacion_proyectos_idi',
-        'min_fecha_inicio_proyectos_cultura',
-        'max_fecha_finalizacion_proyectos_cultura',
-        'min_fecha_inicio_proyectos_st',
-        'max_fecha_finalizacion_proyectos_st',
-        'min_fecha_inicio_proyectos_ta',
-        'min_fecha_inicio_proyectos_tp',
-        'max_fecha_finalizacion_proyectos_ta',
-        'max_fecha_finalizacion_proyectos_tp',
         'fecha_finalizacion_fase',
         'fase',
         'mostrar_recomendaciones',
         'hora_finalizacion_fase',
         'tipo_convocatoria',
-        'idi_activa',
-        'st_activa',
-        'ta_activa',
-        'tp_activa',
-        'cultura_activa',
+        'lineas_programaticas_activas',
     ];
 
     /**
@@ -209,7 +195,7 @@ class Convocatoria extends Model
      */
     public function getFechaMaximaCulturaAttribute()
     {
-        return "Las fechas de ejecución deben estar dentro del rango: " . Carbon::parse($this->min_fecha_inicio_proyectos_cultura, 'UTC')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY') . " y " . Carbon::parse($this->max_fecha_finalizacion_proyectos_cultura, 'UTC')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY') . ".";
+        return "Las fechas de ejecución deben estar dentro del rango: " . Carbon::parse($this->min_fecha_inicio_proyectos_linea_65, 'UTC')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY') . " y " . Carbon::parse($this->max_fecha_finalizacion_proyectos_cultura, 'UTC')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY') . ".";
     }
 
     /**
@@ -219,7 +205,7 @@ class Convocatoria extends Model
      */
     public function getFechaMaximaTaAttribute()
     {
-        return "Las fechas de ejecución deben estar dentro del rango: " . Carbon::parse($this->min_fecha_inicio_proyectos_ta, 'UTC')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY') . " y " . Carbon::parse($this->max_fecha_finalizacion_proyectos_ta, 'UTC')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY') . ".";
+        return "Las fechas de ejecución deben estar dentro del rango: " . Carbon::parse($this->min_fecha_inicio_proyectos_linea_70, 'UTC')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY') . " y " . Carbon::parse($this->max_fecha_finalizacion_proyectos_linea_70, 'UTC')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY') . ".";
     }
 
     /**
@@ -229,7 +215,7 @@ class Convocatoria extends Model
      */
     public function getFechaMaximaTpAttribute()
     {
-        return "Las fechas de ejecución deben estar dentro del rango: " . Carbon::parse($this->min_fecha_inicio_proyectos_tp, 'UTC')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY') . " y " . Carbon::parse($this->max_fecha_finalizacion_proyectos_tp, 'UTC')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY') . ".";
+        return "Las fechas de ejecución deben estar dentro del rango: " . Carbon::parse($this->min_fecha_inicio_proyectos_linea_69, 'UTC')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY') . " y " . Carbon::parse($this->max_fecha_finalizacion_proyectos_linea_69, 'UTC')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY') . ".";
     }
 
     /**
@@ -239,7 +225,7 @@ class Convocatoria extends Model
      */
     public function getFechaMaximaStAttribute()
     {
-        return "Las fechas de ejecución deben estar dentro del rango: " . Carbon::parse($this->min_fecha_inicio_proyectos_st, 'UTC')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY') . " y " . Carbon::parse($this->max_fecha_finalizacion_proyectos_st, 'UTC')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY') . ".";
+        return "Las fechas de ejecución deben estar dentro del rango: " . Carbon::parse($this->min_fecha_inicio_proyectos_linea_68, 'UTC')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY') . " y " . Carbon::parse($this->max_fecha_finalizacion_proyectos_linea_68, 'UTC')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY') . ".";
     }
 
     public function getCamposConvocatoriaAttribute()

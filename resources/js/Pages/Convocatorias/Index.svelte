@@ -14,7 +14,7 @@
 
     export let errors
     export let convocatorias
-    export let convocatoriaActiva
+    export let convocatoria_activa
 
     let authUser = $page.props.auth.user
     let isSuperAdmin = checkRole(authUser, [1])
@@ -27,10 +27,10 @@
 
     let dialogEliminar = false
     let allowedToDestroy = false
-    let convocatoriaId
+    let convocatoria_id
     function destroy() {
         if (allowedToDestroy) {
-            $deleteForm.delete(route('convocatorias.destroy', [convocatoriaId]), {
+            $deleteForm.delete(route('convocatorias.destroy', [convocatoria_id]), {
                 preserveScroll: true,
                 onFinish: () => {
                     dialogEliminar = false
@@ -44,15 +44,15 @@
     <header class="pt-[8rem]" slot="header">
         <div class="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
             <div>
-                {#if convocatoriaActiva}
+                {#if convocatoria_activa}
                     <h1 class="font-bold text-5xl">
-                        Convocatoria activa: {convocatoriaActiva?.year}
+                        Convocatoria activa: {convocatoria_activa?.year}
                     </h1>
 
                     {#if isSuperAdmin || checkRole(authUser, [11]) || checkPermission(authUser, [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18, 19, 14, 15, 16, 20, 21])}
-                        <Button on:click={() => Inertia.visit(route('convocatorias.dashboard', convocatoriaActiva?.id))} variant="raised" class="mt-4 inline-block">
+                        <Button on:click={() => Inertia.visit(route('convocatorias.lineas-programaticas', convocatoria_activa?.id))} variant="raised" class="mt-4 inline-block">
                             Revisar convocatoria
-                            {convocatoriaActiva?.year}
+                            {convocatoria_activa?.year}
                         </Button>
                     {/if}
                 {:else}
@@ -85,7 +85,7 @@
                         <div>
                             {#if isSuperAdmin}
                                 <div class="bg-white flex w-full justify-end">
-                                    <DataTableMenu class="min-w-0">
+                                    <DataTableMenu class="!min-w-0">
                                         <Item on:SMUI:action={() => Inertia.visit(route('convocatorias.edit', convocatoria.id))} disabled={!isSuperAdmin} class={!isSuperAdmin ? 'hidden' : ''}>
                                             <Text>Editar convocatoria</Text>
                                         </Item>
@@ -99,22 +99,25 @@
                                         </Item>
 
                                         <Separator disabled={!isSuperAdmin} class={!isSuperAdmin ? 'hidden' : ''} />
-                                        <Item on:SMUI:action={() => ((convocatoriaId = convocatoria.id), (dialogEliminar = true), (allowedToDestroy = isSuperAdmin))} disabled={!isSuperAdmin} class={!isSuperAdmin ? 'hidden' : ''}>
+                                        <Item on:SMUI:action={() => ((convocatoria_id = convocatoria.id), (dialogEliminar = true), (allowedToDestroy = isSuperAdmin))} disabled={!isSuperAdmin} class={!isSuperAdmin ? 'hidden' : ''}>
                                             <Text>Eliminar convocatoria</Text>
                                         </Item>
                                     </DataTableMenu>
                                 </div>
                             {/if}
-                            <a use:inertia href={route('convocatorias.dashboard', convocatoria.id)} class="bg-white overflow-hidden shadow-sm px-6 py-2 hover:bg-app-500 hover:text-white h-72 flex justify-center items-center flex-col">
-                                <span class="mb-5 text-center">{convocatoria.tipo_convocatoria == 1 ? 'Proyectos de convocatoria' : convocatoria.tipo_convocatoria == 2 ? 'Proyectos de ejercicio (DEMO)' : 'Nuevas TecnoAcademias - Nuevos Tecnoparques'}</span>
-                                {#if convocatoria.tipo_convocatoria == 1}
-                                    <h1 class="text-4xl text-center my-4">
+                            <a use:inertia href={route('convocatorias.lineas-programaticas.index', convocatoria.id)} class="bg-white overflow-hidden shadow-sm px-6 py-2 hover:bg-app-500 hover:text-white h-72 flex justify-center items-center flex-col">
+                                <h1 class="text-2xl text-center my-4">
+                                    {#if convocatoria.tipo_convocatoria == 1}
+                                        {convocatoria.descripcion}
+                                        <br />
                                         {convocatoria.year}
-                                    </h1>
-                                {/if}
-                                <p class="text-xs">
-                                    {convocatoria.descripcion}
-                                </p>
+                                    {:else if convocatoria.tipo_convocatoria == 2}
+                                        Proyectos de ejercicio (DEMO)
+                                    {:else}
+                                        Nuevas TecnoAcademias - Nuevos Tecnoparques
+                                    {/if}
+                                </h1>
+
                                 <div class="bg-gray-700 text-white p-2 rounded-sm mt-4 flex">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 mr-2">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

@@ -560,8 +560,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
      *
      */
     Route::get('nuevos-proyectos-ta-tp', [ConvocatoriaController::class, 'nuevosProyectosTaTp'])->name('nuevos-proyectos-ta-tp');
-    Route::get('convocatorias/{convocatoria}/dashboard', [ConvocatoriaController::class, 'dashboard'])->name('convocatorias.dashboard');
+    Route::get('convocatorias/{convocatoria}/lineas-programaticas', [ConvocatoriaController::class, 'lineasProgramaticas'])->name('convocatorias.lineas-programaticas');
     Route::put('convocatorias/{convocatoria}/update-fase', [ConvocatoriaController::class, 'updateFase'])->name('convocatorias.update-fase');
+
+    Route::get('convocatorias/{convocatoria}/lineas-programaticas/{linea_programatica}', [ConvocatoriaController::class, 'proyectosPorLineaProgramatica'])->name('convocatorias.lineas-programaticas.proyectos');
+    Route::get('convocatorias/{convocatoria}/lineas-programaticas', [ConvocatoriaController::class, 'lineasProgramaticas'])->name('convocatorias.lineas-programaticas.index');
 
     Route::resource('convocatorias', ConvocatoriaController::class)->parameters(['convocatorias' => 'convocatoria'])->except(['show']);
 

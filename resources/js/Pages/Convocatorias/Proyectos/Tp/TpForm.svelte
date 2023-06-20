@@ -79,13 +79,13 @@
         <div class="mt-4 flex {errors.fecha_inicio ? '' : 'items-center'}">
             <Label labelFor="fecha_inicio" class={errors.fecha_inicio ? 'top-3.5 relative' : ''} value="Del" />
             <div class="ml-4">
-                <input id="fecha_inicio" type="date" class="mt-1 block w-full p-4" min={convocatoria.min_fecha_inicio_proyectos_tp} max={convocatoria.max_fecha_finalizacion_proyectos_tp} error={errors.fecha_inicio} bind:value={$form.fecha_inicio} required disabled={evaluacion ? 'disabled' : undefined} />
+                <input id="fecha_inicio" type="date" class="mt-1 block w-full p-4" min={convocatoria.min_fecha_inicio_proyectos_linea_69} max={convocatoria.max_fecha_finalizacion_proyectos_linea_69} error={errors.fecha_inicio} bind:value={$form.fecha_inicio} required disabled={evaluacion ? 'disabled' : undefined} />
             </div>
         </div>
         <div class="mt-4 flex {errors.fecha_finalizacion ? '' : 'items-center'}">
             <Label labelFor="fecha_finalizacion" class={errors.fecha_finalizacion ? 'top-3.5 relative' : ''} value="hasta" />
             <div class="ml-4">
-                <input id="fecha_finalizacion" type="date" class="mt-1 block w-full p-4" min={convocatoria.min_fecha_inicio_proyectos_tp} max={convocatoria.max_fecha_finalizacion_proyectos_tp} error={errors.fecha_finalizacion} bind:value={$form.fecha_finalizacion} required disabled={evaluacion ? 'disabled' : undefined} />
+                <input id="fecha_finalizacion" type="date" class="mt-1 block w-full p-4" min={convocatoria.min_fecha_inicio_proyectos_linea_69} max={convocatoria.max_fecha_finalizacion_proyectos_linea_69} error={errors.fecha_finalizacion} bind:value={$form.fecha_finalizacion} required disabled={evaluacion ? 'disabled' : undefined} />
             </div>
         </div>
     </div>

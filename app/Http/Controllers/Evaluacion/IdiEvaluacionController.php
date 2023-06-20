@@ -58,7 +58,7 @@ class IdiEvaluacionController extends Controller
      */
     public function show(Convocatoria $convocatoria, IdiEvaluacion $idiEvaluacion)
     {
-        // 
+        //
     }
 
     /**

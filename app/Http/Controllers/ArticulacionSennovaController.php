@@ -75,7 +75,7 @@ class ArticulacionSennovaController extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/ArticulacionSennova/Index', [
-            'convocatoria'                                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year', 'min_fecha_inicio_proyectos_ta', 'max_fecha_finalizacion_proyectos_ta'),
+            'convocatoria'                                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year', 'min_fecha_inicio_proyectos_linea_70', 'max_fecha_finalizacion_proyectos_linea_70'),
             'proyecto'                                      => $proyecto->only(
                 'id',
                 'precio_proyecto',
@@ -189,7 +189,7 @@ class ArticulacionSennovaController extends Controller
         }
 
         return Inertia::render('Convocatorias/Evaluaciones/ArticulacionSennova/Index', [
-            'convocatoria'                                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year', 'min_fecha_inicio_proyectos_ta', 'max_fecha_finalizacion_proyectos_ta'),
+            'convocatoria'                                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year', 'min_fecha_inicio_proyectos_linea_70', 'max_fecha_finalizacion_proyectos_linea_70'),
             'evaluacion'                                    => $evaluacion,
             'proyecto'                                      => $evaluacion->proyecto->only(
                 'id',

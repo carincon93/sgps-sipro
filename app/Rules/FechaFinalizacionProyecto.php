@@ -33,11 +33,11 @@ class FechaFinalizacionProyecto implements Rule
         if ($this->proyecto && $this->proyecto->idi()->exists() || $this->tipoProyecto == 'idi') {
             $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_idi;
         } elseif ($this->proyecto && $this->proyecto->ta()->exists() || $this->tipoProyecto == 'ta') {
-            $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_ta;
+            $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_linea_70;
         } elseif ($this->proyecto && $this->proyecto->tp()->exists() || $this->tipoProyecto == 'tp') {
-            $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_tp;
+            $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_linea_69;
         } elseif ($this->proyecto && $this->proyecto->servicioTecnologico()->exists() || $this->tipoProyecto == 'st') {
-            $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_st;
+            $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_linea_68;
         } elseif ($this->proyecto && $this->proyecto->culturaInnovacion()->exists() || $this->tipoProyecto == 'cultura') {
             $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_cultura;
         }
@@ -55,11 +55,11 @@ class FechaFinalizacionProyecto implements Rule
         if ($this->proyecto && $this->proyecto->idi()->exists() || $this->tipoProyecto == 'idi') {
             $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_idi;
         } elseif ($this->proyecto && $this->proyecto->ta()->exists() || $this->tipoProyecto == 'ta') {
-            $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_ta;
+            $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_linea_70;
         } elseif ($this->proyecto && $this->proyecto->tp()->exists() || $this->tipoProyecto == 'tp') {
-            $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_ta;
+            $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_linea_70;
         } elseif ($this->proyecto && $this->proyecto->servicioTecnologico()->exists() || $this->tipoProyecto == 'st') {
-            $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_st;
+            $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_linea_68;
         } elseif ($this->proyecto && $this->proyecto->culturaInnovacion()->exists() || $this->tipoProyecto == 'cultura') {
             $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_cultura;
         }

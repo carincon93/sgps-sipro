@@ -57,7 +57,7 @@ class TpController extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/Tp/Create', [
-            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_tp', 'max_fecha_finalizacion_proyectos_tp', 'fecha_maxima_tp'),
+            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_69', 'max_fecha_finalizacion_proyectos_linea_69', 'fecha_maxima_tp'),
             'rolesTp'               => collect(json_decode(Storage::get('json/roles-sennova-tp.json'), true)),
             'nodosTecnoParque'      => $nodosTecnoParque,
             'allowedToCreate'       => Gate::inspect('formular-proyecto', [4, $convocatoria])->allowed()
@@ -138,7 +138,7 @@ class TpController extends Controller
         $tp->mostrar_requiere_subsanacion   = $tp->proyecto->mostrar_requiere_subsanacion;
 
         return Inertia::render('Convocatorias/Proyectos/Tp/Edit', [
-            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_tp', 'max_fecha_finalizacion_proyectos_tp', 'fecha_maxima_tp', 'mostrar_recomendaciones', 'year', 'descripcion'),
+            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_69', 'max_fecha_finalizacion_proyectos_linea_69', 'fecha_maxima_tp', 'mostrar_recomendaciones', 'year', 'descripcion'),
             'tp'                    => $tp,
             'regionales'            => SelectHelper::regionales(),
             'lineasProgramaticas'   => LineaProgramatica::selectRaw('id as value, concat(nombre, \' ∙ \', codigo) as label, codigo')->where('lineas_programaticas.categoria_proyecto', 1)->get(),
@@ -223,7 +223,7 @@ class TpController extends Controller
     }
 
     /**
-     * 
+     *
      */
     public function replicateRow($request, $tp, $proyecto)
     {
