@@ -137,11 +137,11 @@ class WebController extends Controller
                 $tipologiaSt = '%técnicos%';
             }
             return response(ConvocatoriaRolSennova::selectRaw("convocatoria_rol_sennova.id as value, convocatoria_rol_sennova.perfil, convocatoria_rol_sennova.mensaje,
-                CASE nivel_academico
+                 nivel_academico
                     WHEN '7' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Ninguno', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
                     WHEN '1' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Técnico', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
                     WHEN '2' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Tecnólogo', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                    WHEN '3' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Pregrado', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
+                  CASE  WHEN '3' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Pregrado', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
                     WHEN '4' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Especalización', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
                     WHEN '5' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Maestría', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
                     WHEN '6' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Doctorado', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
@@ -177,7 +177,7 @@ class WebController extends Controller
 
     /**
      * Programas de formación
-     * 
+     *
      */
     public function programasFormacion($centroFormacion)
     {
@@ -186,7 +186,7 @@ class WebController extends Controller
 
     /**
      * Estados de sistema de gestión
-     * 
+     *
      */
     public function estadosSistemaGestion($tipoProyectoSt)
     {
@@ -199,7 +199,7 @@ class WebController extends Controller
 
     /**
      * Regionales
-     * 
+     *
      * Trae las regiones
      */
     public function regiones()
@@ -233,7 +233,7 @@ class WebController extends Controller
 
     /**
      * Centros de formación
-     * 
+     *
      * Trae los subdirectores
      */
     function subdirectores($rol)
@@ -247,9 +247,9 @@ class WebController extends Controller
 
     /**
      * Líneas de investigación
-     * 
+     *
      * Trae los grupos de investigación
-     * 
+     *
      */
     public function gruposInvestigacion()
     {
@@ -258,7 +258,7 @@ class WebController extends Controller
 
     /**
      * Semilleros de investigación
-     * 
+     *
      * Trae las líneas de investigación
      */
     public function lineasInvestigacion($centroFormacion)
@@ -276,7 +276,7 @@ class WebController extends Controller
 
     /**
      * Web api
-     * 
+     *
      * Trae las Tecnoacademias
      */
     public function tecnoacademias()
@@ -286,7 +286,7 @@ class WebController extends Controller
 
     /**
      * Web api
-     * 
+     *
      * Trae las tecnoacademias por centro de formacion
      */
     public function tecnoacademiasCentroFormacion($centroFormacion)
@@ -302,7 +302,7 @@ class WebController extends Controller
 
     /**
      * Web api
-     * 
+     *
      * Trae las líneas tecnoacademia
      */
     public function lineasTecnoacademia($tecnoacademia)
@@ -312,7 +312,7 @@ class WebController extends Controller
 
     /**
      * Web api
-     * 
+     *
      * Trae los nodos tecnoparque
      */
     public function nodosTecnoparque($centroFormacion)
@@ -322,7 +322,7 @@ class WebController extends Controller
 
     /**
      * Web api
-     * 
+     *
      * Trae las líneas programáticas
      */
     public function líneasProgramaticas($categoriaProyecto)
@@ -339,8 +339,8 @@ class WebController extends Controller
 
     /**
      * Web api
-     * 
-     * Trae las redes de conocimiento 
+     *
+     * Trae las redes de conocimiento
      */
     public function redesConocimiento()
     {
@@ -349,7 +349,7 @@ class WebController extends Controller
 
     /**
      * Web api
-     * 
+     *
      * Trae los programas de formación por línea de investigación
      */
     public function líneaInvestigacionProgramaFormacion($lineaInvestigacionId)
@@ -359,7 +359,7 @@ class WebController extends Controller
 
     /**
      * Web api
-     * 
+     *
      * Trae las áreas de conocimiento
      */
     public function areasConocimiento()
@@ -369,7 +369,7 @@ class WebController extends Controller
 
     /**
      * Web api
-     * 
+     *
      * Trae las subáreas de conocimiento
      */
     public function subareasConocimiento($areaConocimiento)
@@ -379,7 +379,7 @@ class WebController extends Controller
 
     /**
      * Web api
-     * 
+     *
      * Trae las disciplinas de subáreas de conocimiento
      */
     public function disciplinasSubareaConocimiento($subareaConocimiento)
@@ -389,7 +389,7 @@ class WebController extends Controller
 
     /**
      * Web api
-     * 
+     *
      * Trae los tipos de proyecto de capacidad instalada
      */
     public function tiposProyectoCapacidadInstalada()
@@ -399,7 +399,7 @@ class WebController extends Controller
 
     /**
      * Web api
-     * 
+     *
      * Trae los subtipos de proyecto de capacidad instalada
      */
     public function subtiposProyectoCapacidadInstalada($tipoProyCapacidadInstalada)
@@ -409,7 +409,7 @@ class WebController extends Controller
 
     /**
      * Web api
-     * 
+     *
      * Trae los semilleros de investigacion
      */
     public function semillerosInvestigacion($lineaInvestigacion)
@@ -419,7 +419,7 @@ class WebController extends Controller
 
     /**
      * Web api
-     * 
+     *
      * Trae los actividades económicas
      */
     public function actividadesEconomicas()
@@ -429,7 +429,7 @@ class WebController extends Controller
 
     /**
      * Web api
-     * 
+     *
      * Trae las temáticas estrategicas SENA
      */
     public function tematicasEstrategicas()
@@ -439,7 +439,7 @@ class WebController extends Controller
 
     /**
      * Web api
-     * 
+     *
      * Trae las subtipologías Minciencias
      */
     public function subtipologiasMinciencias()

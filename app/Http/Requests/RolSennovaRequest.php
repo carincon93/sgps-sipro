@@ -26,6 +26,21 @@ class RolSennovaRequest extends FormRequest
         return [
             'nombre'                => ['required', 'max:191'],
             'sumar_al_presupuesto'  => ['required', 'boolean'],
+            'linea_programatica_id' => ['nullable', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_programaticas,id'],
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        if (is_array($this->linea_programatica_id)) {
+            $this->merge([
+                'linea_programatica_id' => $this->linea_programatica_id['value'],
+            ]);
+        }
     }
 }

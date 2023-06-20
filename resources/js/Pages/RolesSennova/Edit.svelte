@@ -8,6 +8,7 @@
 
     export let errors
     export let rolSennova
+    export let lineasProgramaticas
 
     $: $title = rolSennova ? rolSennova.nombre : null
 
@@ -22,6 +23,7 @@
     let form = useForm({
         nombre: rolSennova.nombre,
         sumar_al_presupuesto: rolSennova.sumar_al_presupuesto,
+        linea_programatica_id: rolSennova.linea_programatica_id,
     })
 
     function submit() {
@@ -52,7 +54,7 @@
         </div>
 
         <div class="bg-white rounded shadow col-span-2">
-            <Form {errors} {rolSennova} {isSuperAdmin} {form} {submit} />
+            <Form {errors} {rolSennova} {isSuperAdmin} {form} {lineasProgramaticas} {submit} />
         </div>
     </div>
 </AuthenticatedLayout>

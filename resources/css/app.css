@@ -6,8 +6,23 @@
 :root {
     --mdc-theme-primary: #429f84;
     --mdc-theme-secondary: #285d4f;
+    --mdc-theme-background: #fff;
     --mdc-theme-on-primary: #fff;
-    --mdc-theme-error: #d93025;
+    --mdc-theme-surface: #fff;
+    --mdc-theme-error: #b71c1c;
+    --mdc-theme-on-primary: #fff;
+    --mdc-theme-on-secondary: #fff;
+    --mdc-theme-on-surface: #000;
+    --mdc-theme-on-error: #fff;
+    --mdc-switch-selected-track-color: #4fbe9f;
+    --mdc-switch-unselected-hover-track-color: #4fbe9f;
+    --mdc-switch-selected-hover-handle-color: #4fbe9f;
+    --mdc-switch-selected-hover-track-color: #4fbe9f;
+    --mdc-switch-unselected-pressed-track-color: #4fbe9f;
+    --mdc-switch-selected-pressed-handle-color: #4fbe9f;
+    --mdc-switch-selected-focus-track-color: #4fbe9f;
+    --mdc-switch-selected-focus-handle-color: #4fbe9f;
+    --mdc-switch-selected-pressed-track-color: #4fbe9f;
     --foreground-rgb: 0, 0, 0;
     --background-start-rgb: 214, 219, 220;
     --background-end-rgb: 255, 255, 255;
@@ -33,10 +48,6 @@ main {
     background-image: conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops));
 }
 
-.fill-white {
-    fill: white;
-}
-
 button:focus,
 a:focus {
     outline: none;
@@ -45,10 +56,6 @@ a:focus {
 text {
     font-family: 'Nunito', sans-serif !important;
     font-size: 10px;
-}
-
-.bg-mistyrose {
-    background-color: mistyrose;
 }
 
 .outline-none-important {
@@ -148,40 +155,6 @@ fieldset[disabled] .selectedItem {
     height: 48px !important;
 }
 
-.btn-spinner,
-.btn-spinner:after {
-    border-radius: 50%;
-    width: 1.5em;
-    height: 1.5em;
-}
-
-.btn-spinner {
-    font-size: 10px;
-    position: relative;
-    text-indent: -9999em;
-    border-top: 0.2em solid white;
-    border-right: 0.2em solid white;
-    border-bottom: 0.2em solid white;
-    border-left: 0.2em solid transparent;
-    transform: translateZ(0);
-    animation: spinning 1s infinite linear;
-}
-
-@keyframes spinning {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-.welcome-wallpaper {
-    background-image: url(/images/welcome-wallpaper.jpg);
-    background-size: cover;
-    background-attachment: fixed;
-}
-
 .mdc-notched-outline--notched .mdc-notched-outline__notch {
     border-right: 0px;
     border-left: 0px;
@@ -268,23 +241,6 @@ th.th-actions {
 
 .overflow-x-scroll {
     overflow-x: scroll;
-}
-
-.evaluacion-select .selectedItem {
-    line-height: 1.4 !important;
-    height: auto !important;
-    overflow-x: auto !important;
-}
-.evaluacion-select .selection {
-    white-space: unset !important;
-}
-
-.evaluacion-select-multi .multiSelectItem {
-    height: auto !important;
-}
-
-.evaluacion-select-multi .multiSelectItem_label {
-    white-space: unset !important;
 }
 
 .tagify div {

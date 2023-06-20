@@ -2,10 +2,12 @@
     import Input from '@/Shared/Input'
     import Label from '@/Shared/Label'
     import LoadingButton from '@/Shared/LoadingButton'
+    import Select from '@/Shared/Select'
     import Switch from '@/Shared/Switch'
 
     export let errors
     export let rolSennova
+    export let lineasProgramaticas
     export let isSuperAdmin
     export let form
     export let submit
@@ -16,9 +18,15 @@
         <div class="mt-8">
             <Input label="Nombre" id="nombre" type="text" class="mt-1" bind:value={$form.nombre} error={errors.nombre} required />
         </div>
+
         <div class="mt-8">
             <Label required class="mb-4" labelFor="nombre" value="¿Este rol suma al presupuesto del proyecto" />
             <Switch bind:checked={$form.sumar_al_presupuesto} />
+        </div>
+
+        <div class="mt-8">
+            <Label class="mb-4" labelFor="linea_programatica_id" value="Línea programática" />
+            <Select id="linea_programatica_id" items={lineasProgramaticas} bind:selectedValue={$form.linea_programatica_id} error={errors.linea_programatica_id} autocomplete="off" placeholder="Seleccione una línea programática" />
         </div>
     </fieldset>
     <div class="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">

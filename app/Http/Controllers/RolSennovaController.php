@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RolSennovaRequest;
+use App\Models\LineaProgramatica;
 use App\Models\RolSennova;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -34,7 +35,9 @@ class RolSennovaController extends Controller
     {
         $this->authorize('create', [RolSennova::class]);
 
-        return Inertia::render('RolesSennova/Create');
+        return Inertia::render('RolesSennova/Create', [
+            'lineasProgramaticas' => LineaProgramatica::selectRaw("id as value, CONCAT(nombre, ' - ', codigo) as label")->orderBy('nombre', 'ASC')->get()
+        ]);
     }
 
     /**
@@ -47,11 +50,7 @@ class RolSennovaController extends Controller
     {
         $this->authorize('create', [RolSennova::class]);
 
-        $rolSennova = new RolSennova();
-        $rolSennova->nombre                 = $request->nombre;
-        $rolSennova->sumar_al_presupuesto   = $request->sumar_al_presupuesto;
-
-        $rolSennova->save();
+        $rolSennova = RolSennova::create($request->validated());
 
         return redirect()->route('roles-sennova.index')->with('success', 'El recurso se ha creado correctamente.');
     }
@@ -78,7 +77,8 @@ class RolSennovaController extends Controller
         $this->authorize('update', [RolSennova::class, $rolSennova]);
 
         return Inertia::render('RolesSennova/Edit', [
-            'rolSennova' => $rolSennova,
+            'rolSennova'            => $rolSennova,
+            'lineasProgramaticas'   => LineaProgramatica::selectRaw("id as value, CONCAT(nombre, ' - ', codigo) as label")->orderBy('nombre', 'ASC')->get()
         ]);
     }
 
@@ -93,10 +93,7 @@ class RolSennovaController extends Controller
     {
         $this->authorize('update', [RolSennova::class, $rolSennova]);
 
-        $rolSennova->nombre                 = $request->nombre;
-        $rolSennova->sumar_al_presupuesto   = $request->sumar_al_presupuesto;
-
-        $rolSennova->save();
+        $rolSennova->update($request->validated());
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }

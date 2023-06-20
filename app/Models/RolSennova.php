@@ -25,7 +25,8 @@ class RolSennova extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
-        'sumar_al_presupuesto'
+        'sumar_al_presupuesto',
+        'linea_programatica_id'
     ];
 
     /**
@@ -45,6 +46,16 @@ class RolSennova extends Model
     protected $casts = [
         //
     ];
+
+    /**
+     * Relationship with LineaProgramatica
+     *
+     * @return object
+     */
+    public function lineaProgramatica()
+    {
+        return $this->hasMany(LineaProgramatica::class);
+    }
 
     /**
      * Relationship with ConvocatoriaRolSennova

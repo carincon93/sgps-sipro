@@ -88,6 +88,16 @@ class LineaProgramatica extends Model
     }
 
     /**
+     * Relationship with RolSennova
+     *
+     * @return void
+     */
+    public function rolesSennova()
+    {
+        return $this->hasMany(RolSennova::class);
+    }
+
+    /**
      * Relationship with Anexo
      *
      * @return object

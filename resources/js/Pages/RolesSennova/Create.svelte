@@ -7,6 +7,7 @@
     import Form from './Form'
 
     export let errors
+    export let lineasProgramaticas
 
     $: $title = 'Crear rol SENNOVA'
 
@@ -19,6 +20,7 @@
     let form = useForm({
         nombre: '',
         sumar_al_presupuesto: false,
+        linea_programatica_id: null,
     })
 
     function submit() {
@@ -47,7 +49,7 @@
         </div>
 
         <div class="bg-white rounded shadow col-span-2">
-            <Form {errors} {isSuperAdmin} {form} {submit} />
+            <Form {errors} {isSuperAdmin} {form} {lineasProgramaticas} {submit} />
         </div>
     </div>
 </AuthenticatedLayout>

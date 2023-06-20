@@ -231,7 +231,10 @@ class UserController extends Controller
             'tiposDiscapacidad'                         => json_decode(Storage::get('json/tipos-discapacidad.json'), true),
             'subareasExperiencia'                       => json_decode(Storage::get('json/subareas-experiencia.json'), true),
             'municipios'                                => Municipio::selectRaw('id as value, nombre as label')->get(),
-            'rolesSennova'                              => RolSennova::selectRaw('id as value, nombre as label')->distinct('nombre')->get(),
+            'rolesSennova'                              => RolSennova::selectRaw("roles_sennova.id as value, CASE
+                WHEN linea_programatica_id IS NOT NULL THEN concat(roles_sennova.nombre,  chr(10), ' - Línea programática ', lineas_programaticas.codigo)
+                ELSE roles_sennova.nombre
+            END as label")->leftJoin('lineas_programaticas', 'roles_sennova.linea_programatica_id', 'lineas_programaticas.id')->distinct('roles_sennova.nombre')->get(),
             'redesConocimiento'                         => RedConocimiento::selectRaw('id as value, nombre as label')->get(),
             'disciplinasConocimiento'                   => DisciplinaSubareaConocimiento::selectRaw('id as value, nombre as label')->orderBy('nombre', 'ASC')->get(),
             'centrosFormacion'                          => CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo, chr(10), \'∙ Regional: \', INITCAP(regionales.nombre)) as label')->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->orderBy('centros_formacion.nombre', 'ASC')->get(),
