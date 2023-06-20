@@ -17,6 +17,7 @@ use App\Models\Perfil\ParticipacionProyectoSennova;
 use App\Models\RedConocimiento;
 use App\Models\Role;
 use App\Models\RolSennova;
+use App\Models\SubareaExperiencia;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -229,15 +230,15 @@ class UserController extends Controller
             'opcionesGenero'                            => json_decode(Storage::get('json/generos.json'), true),
             'gruposEtnicos'                             => json_decode(Storage::get('json/grupos-etnicos.json'), true),
             'tiposDiscapacidad'                         => json_decode(Storage::get('json/tipos-discapacidad.json'), true),
-            'subareasExperiencia'                       => json_decode(Storage::get('json/subareas-experiencia.json'), true),
+            'subareasExperiencia'                       => SubareaExperiencia::selectRaw("subareas_experiencia.id as value, CONCAT(subareas_experiencia.nombre,' - Área de experiencia: ', areas_experiencia.nombre) as label")->join('areas_experiencia', 'subareas_experiencia.area_experiencia_id', 'areas_experiencia.id')->orderBy('subareas_experiencia.nombre', 'ASC')->get(),
             'municipios'                                => Municipio::selectRaw('id as value, nombre as label')->get(),
             'rolesSennova'                              => RolSennova::selectRaw("roles_sennova.id as value, CASE
-                WHEN linea_programatica_id IS NOT NULL THEN concat(roles_sennova.nombre,  chr(10), ' - Línea programática ', lineas_programaticas.codigo)
+                WHEN linea_programatica_id IS NOT NULL THEN CONCAT(roles_sennova.nombre,  chr(10), ' - Línea programática ', lineas_programaticas.codigo)
                 ELSE roles_sennova.nombre
             END as label")->leftJoin('lineas_programaticas', 'roles_sennova.linea_programatica_id', 'lineas_programaticas.id')->distinct('roles_sennova.nombre')->get(),
             'redesConocimiento'                         => RedConocimiento::selectRaw('id as value, nombre as label')->get(),
             'disciplinasConocimiento'                   => DisciplinaSubareaConocimiento::selectRaw('id as value, nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'centrosFormacion'                          => CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo, chr(10), \'∙ Regional: \', INITCAP(regionales.nombre)) as label')->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->orderBy('centros_formacion.nombre', 'ASC')->get(),
+            'centrosFormacion'                          => CentroFormacion::selectRaw('centros_formacion.id as value, CONCAT(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo, chr(10), \'∙ Regional: \', INITCAP(regionales.nombre)) as label')->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->orderBy('centros_formacion.nombre', 'ASC')->get(),
             'estudiosAcademicos'                        => EstudioAcademico::where('user_id', $authUser->id)->get(),
             'formacionesAcademicasSena'                 => FormacionAcademicaSena::where('user_id', $authUser->id)->get(),
             'rolesSennovaRelacionados'                  => RolSennova::select('roles_sennova.id as value', 'roles_sennova.nombre as label')->whereIn('id', [json_decode($authUser->rol_sennova_id)])->get(),
