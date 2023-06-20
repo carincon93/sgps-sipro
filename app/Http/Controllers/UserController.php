@@ -234,7 +234,7 @@ class UserController extends Controller
             'rolesSennova'                              => RolSennova::selectRaw('id as value, nombre as label')->distinct('nombre')->get(),
             'redesConocimiento'                         => RedConocimiento::selectRaw('id as value, nombre as label')->get(),
             'disciplinasConocimiento'                   => DisciplinaSubareaConocimiento::selectRaw('id as value, nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'centrosFormacion'                          => CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo, chr(10), \'∙ Regional: \', regionales.nombre) as label')->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->orderBy('centros_formacion.nombre', 'ASC')->get(),
+            'centrosFormacion'                          => CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo, chr(10), \'∙ Regional: \', INITCAP(regionales.nombre)) as label')->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->orderBy('centros_formacion.nombre', 'ASC')->get(),
             'estudiosAcademicos'                        => EstudioAcademico::where('user_id', $authUser->id)->get(),
             'formacionesAcademicasSena'                 => FormacionAcademicaSena::where('user_id', $authUser->id)->get(),
             'rolesSennovaRelacionados'                  => RolSennova::select('roles_sennova.id as value', 'roles_sennova.nombre as label')->whereIn('id', [json_decode($authUser->rol_sennova_id)])->get(),
