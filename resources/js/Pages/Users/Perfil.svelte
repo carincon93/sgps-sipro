@@ -168,7 +168,7 @@
                 </div>
 
                 <div class="mt-8">
-                    <Label required class="mb-4" labelFor="disciplinas_subarea_conocimiento" value="Disciplinas de conocimiento" />
+                    <Label required class="mb-4" labelFor="disciplinas_subarea_conocimiento" value="Disciplinas de conocimiento en la cuales se desempeña" />
                     <SelectMulti id="disciplinas_subarea_conocimiento" bind:selectedValue={$form.disciplinas_subarea_conocimiento} items={disciplinasConocimiento} isMulti={true} error={errors.disciplinas_subarea_conocimiento} placeholder="Seleccione las disciplinas de conocimiento" required />
                 </div>
 
