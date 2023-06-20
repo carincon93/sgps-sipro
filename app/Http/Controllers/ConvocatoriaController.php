@@ -59,23 +59,7 @@ class ConvocatoriaController extends Controller
     {
         $this->authorize('create', [Convocatoria::class]);
 
-        $convocatoria = new Convocatoria();
-        $convocatoria->descripcion                              = $request->descripcion;
-        $convocatoria->min_fecha_inicio_proyectos_idi           = $request->min_fecha_inicio_proyectos_idi;
-        $convocatoria->max_fecha_finalizacion_proyectos_idi     = $request->max_fecha_finalizacion_proyectos_idi;
-        $convocatoria->min_fecha_inicio_proyectos_linea_65       = $request->min_fecha_inicio_proyectos_linea_65;
-        $convocatoria->max_fecha_finalizacion_proyectos_cultura = $request->max_fecha_finalizacion_proyectos_cultura;
-        $convocatoria->min_fecha_inicio_proyectos_linea_68            = $request->min_fecha_inicio_proyectos_linea_68;
-        $convocatoria->max_fecha_finalizacion_proyectos_linea_68      = $request->max_fecha_finalizacion_proyectos_linea_68;
-        $convocatoria->min_fecha_inicio_proyectos_linea_70            = $request->min_fecha_inicio_proyectos_linea_70;
-        $convocatoria->max_fecha_finalizacion_proyectos_linea_70      = $request->max_fecha_finalizacion_proyectos_linea_70;
-        $convocatoria->min_fecha_inicio_proyectos_linea_69            = $request->min_fecha_inicio_proyectos_linea_69;
-        $convocatoria->max_fecha_finalizacion_proyectos_linea_69      = $request->max_fecha_finalizacion_proyectos_linea_69;
-        $convocatoria->fecha_finalizacion_fase                  = $request->fecha_finalizacion_fase;
-        $convocatoria->hora_finalizacion_fase                   = $request->hora_finalizacion_fase;
-        $convocatoria->visible                                  = $request->visible;
-        $convocatoria->tipo_convocatoria                        = $request->tipo_convocatoria;
-        $convocatoria->fase                                     = 1;
+        $convocatoria = Convocatoria::create($request->validated());
 
         $convocatoriaFormulacionActiva = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 1)->first();
         if ($convocatoriaFormulacionActiva && $request->esta_activa && $request->tipo_convocatoria == 1) {
@@ -94,10 +78,6 @@ class ConvocatoriaController extends Controller
             $convocatoriaTaTpActiva->esta_activa = false;
             $convocatoriaTaTpActiva->save();
         }
-
-        $convocatoria->esta_activa = $request->esta_activa;
-
-        $convocatoria->save();
 
         DB::select('SELECT public."crear_convocatoria_presupuesto"(' . $request->convocatoria_id['value'] . ',' . $convocatoria->id . ')');
         DB::select('SELECT public."crear_convocatoria_rol_sennova"(' . $request->convocatoria_id['value'] . ',' . $convocatoria->id . ')');

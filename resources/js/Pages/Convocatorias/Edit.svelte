@@ -147,14 +147,12 @@
                             <InputError message={errors.esta_activa} />
                         </div>
 
-                        {#if $form.esta_activa}
-                            <div>
-                                <div class="mt-10 mb-20">
-                                    <Label required labelFor="lineas_programaticas_activas" class="mb-4" value="Seleccione las líneas programáticas las cuales quiere activar" />
-                                    <SelectMulti id="lineas_programaticas_activas" bind:selectedValue={$form.lineas_programaticas_activas} items={lineas_programaticas} isMulti={true} error={errors.lineas_programaticas_activas} placeholder="Seleccione las líneas programáticas" required />
-                                </div>
+                        <div>
+                            <div class="mt-10 mb-20">
+                                <Label required labelFor="lineas_programaticas_activas" class="mb-4" value="Seleccione las líneas programáticas las cuales quiere activar" />
+                                <SelectMulti id="lineas_programaticas_activas" bind:selectedValue={$form.lineas_programaticas_activas} items={lineas_programaticas} isMulti={true} error={errors.lineas_programaticas_activas} placeholder="Seleccione las líneas programáticas" required />
                             </div>
-                        {/if}
+                        </div>
 
                         <div class="mt-10 mb-20">
                             <Label required labelFor="visible" value="Defina la visibilidad de la convocatoria. (Si la opción está habilitada permite a los usuarios visualizar la convocatoria)" class="inline-block mb-4" />
