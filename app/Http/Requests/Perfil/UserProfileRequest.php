@@ -49,6 +49,7 @@ class UserProfileRequest extends FormRequest
             'asignacion_mensual'                    => ['required', 'integer', 'min:0'],
             'grupo_etnico'                          => ['nullable', 'integer'],
             'discapacidad'                          => ['nullable', 'integer'],
+            'subarea_experiencia_laboral'           => ['nullable', 'integer'],
             'tiene_pasaporte_vigente'               => ['nullable', 'boolean'],
             'tiene_visa_vigente'                    => ['nullable', 'boolean'],
             'cvlac'                                 => ['nullable', 'string', 'max:255'],
@@ -74,10 +75,11 @@ class UserProfileRequest extends FormRequest
             'tiempo_por_rol'                        => ['required', 'json'],
             'roles_fuera_sennova'                   => ['nullable', 'json'],
             'red_conocimiento_id'                   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:redes_conocimiento,id'],
-            'disciplina_subarea_conocimiento_id'    => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:disciplinas_subarea_conocimiento,id'],
+            'disciplinas_subarea_conocimiento'      => ['required', 'json'],
 
             'centro_formacion_id'                   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
-            'rol_sennova_id'                        => ['required', 'json'],
+            'rol_sennova_id'                        => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:roles_sennova,id'],
+            'otros_roles_sennova'                   => ['nullable', 'json'],
         ];
     }
 
@@ -97,6 +99,12 @@ class UserProfileRequest extends FormRequest
         if (is_array($this->tipo_vinculacion)) {
             $this->merge([
                 'tipo_vinculacion' => $this->tipo_vinculacion['value'],
+            ]);
+        }
+
+        if (is_array($this->subarea_experiencia_laboral)) {
+            $this->merge([
+                'subarea_experiencia_laboral' => $this->subarea_experiencia_laboral['value'],
             ]);
         }
 
@@ -124,24 +132,6 @@ class UserProfileRequest extends FormRequest
             ]);
         }
 
-        if (is_array($this->es_temporal_sennova)) {
-            $this->merge([
-                'es_temporal_sennova' => $this->es_temporal_sennova['value'] == '1' ? 1 : 0,
-            ]);
-        }
-
-        if (is_array($this->tiene_pasaporte_vigente)) {
-            $this->merge([
-                'tiene_pasaporte_vigente' => $this->tiene_pasaporte_vigente['value'] == '1' ? 1 : 0,
-            ]);
-        }
-
-        if (is_array($this->tiene_visa_vigente)) {
-            $this->merge([
-                'tiene_visa_vigente' => $this->tiene_visa_vigente['value'] == '1' ? 1 : 0,
-            ]);
-        }
-
         if (is_array($this->centro_formacion_id)) {
             $this->merge([
                 'centro_formacion_id' => $this->centro_formacion_id['value'],
@@ -160,9 +150,9 @@ class UserProfileRequest extends FormRequest
             ]);
         }
 
-        if (is_array($this->disciplina_subarea_conocimiento_id)) {
+        if (is_array($this->rol_sennova_id)) {
             $this->merge([
-                'disciplina_subarea_conocimiento_id' => $this->disciplina_subarea_conocimiento_id['value'],
+                'rol_sennova_id' => $this->rol_sennova_id['value'],
             ]);
         }
 
@@ -232,19 +222,35 @@ class UserProfileRequest extends FormRequest
             ]);
         }
 
-        if (is_array($this->rol_sennova_id)) {
-            if (isset($this->rol_sennova_id['value']) && is_numeric($this->rol_sennova_id['value'])) {
+        if (is_array($this->disciplinas_subarea_conocimiento)) {
+            if (isset($this->disciplinas_subarea_conocimiento['value']) && is_numeric($this->disciplinas_subarea_conocimiento['value'])) {
                 $this->merge([
-                    'rol_sennova_id' => $this->rol_sennova_id['value'],
+                    'disciplinas_subarea_conocimiento' => $this->disciplinas_subarea_conocimiento['value'],
+                ]);
+            } else {
+                $disciplinaSubareaConocimiento = [];
+                foreach ($this->disciplinas_subarea_conocimiento as $rolSennova) {
+                    if (is_array($rolSennova)) {
+                        array_push($disciplinaSubareaConocimiento, $rolSennova['value']);
+                    }
+                }
+                $this->merge(['disciplinas_subarea_conocimiento' => json_encode($disciplinaSubareaConocimiento)]);
+            }
+        }
+
+        if (is_array($this->otros_roles_sennova)) {
+            if (isset($this->otros_roles_sennova['value']) && is_numeric($this->otros_roles_sennova['value'])) {
+                $this->merge([
+                    'otros_roles_sennova' => $this->otros_roles_sennova['value'],
                 ]);
             } else {
                 $rolesSennova = [];
-                foreach ($this->rol_sennova_id as $rolSennova) {
+                foreach ($this->otros_roles_sennova as $rolSennova) {
                     if (is_array($rolSennova)) {
                         array_push($rolesSennova, $rolSennova['value']);
                     }
                 }
-                $this->merge(['rol_sennova_id' => json_encode($rolesSennova)]);
+                $this->merge(['otros_roles_sennova' => json_encode($rolesSennova)]);
             }
         }
     }

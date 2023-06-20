@@ -81,7 +81,8 @@ class User extends Authenticatable
 
         'red_conocimiento_id',
         'rol_sennova_id',
-        'disciplinas_subarea_conocimiento_id',
+        'otros_roles_sennova',
+        'disciplinas_subarea_conocimiento',
         'centro_formacion_id',
     ];
 

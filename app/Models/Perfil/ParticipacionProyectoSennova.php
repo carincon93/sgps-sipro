@@ -75,7 +75,7 @@ class ParticipacionProyectoSennova extends Model
         $id         = $this->tipo_proyecto;
         $key        = "label";
 
-        return $this->getJsonItem($filePath, $id, $key);
+        return $this->tipo_proyecto ? $this->getJsonItem($filePath, $id, $key) : null;
     }
 
     private function getJsonItem($filePath, $id, $key)

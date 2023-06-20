@@ -36,7 +36,7 @@
                         <p class="px-6 py-4">{participacionGrupoInvestigacionSena.semillero_investigacion ? participacionGrupoInvestigacionSena.semillero_investigacion.nombre : 'No pertenece al semillero de investigación de su centro'}</p>
                     </td>
                     <td class="border-t td-actions">
-                        <DataTableMenu class={participacionesGruposInvestigacionSena.length < 3 ? 'z-50' : ''}>
+                        <DataTableMenu class="{participacionesGruposInvestigacionSena.length < 3 ? 'z-50' : ''} flex items-center justify-center">
                             <Item on:SMUI:action={() => Inertia.visit(route('participaciones-grupos-investigacion-sena.edit', participacionGrupoInvestigacionSena.id))}>
                                 <Text>Editar</Text>
                             </Item>

@@ -42,7 +42,7 @@
                         <p class="px-6 py-4">{formacionAcademicaSena.titulo_obtenido}</p>
                     </td>
                     <td class="border-t td-actions">
-                        <DataTableMenu class={formacionesAcademicasSena.length < 3 ? 'z-50' : ''}>
+                        <DataTableMenu class="{formacionesAcademicasSena.length < 3 ? 'z-50' : ''} flex items-center justify-center">
                             <Item on:SMUI:action={() => Inertia.visit(route('formaciones-academicas-sena.edit', formacionAcademicaSena.id))}>
                                 <Text>Editar</Text>
                             </Item>

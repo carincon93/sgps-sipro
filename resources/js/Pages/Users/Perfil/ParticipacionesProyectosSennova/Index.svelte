@@ -30,23 +30,29 @@
         <tbody>
             {#each participacionesProyectosSennova as participacionProyectoSennova}
                 <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
-                    <td class="border-t">
-                        <p class="px-6 py-4 focus:text-app-500">{participacionProyectoSennova.tipo_proyecto_text}</p>
-                    </td>
+                    {#if participacionProyectoSennova.ha_formulado_proyectos_sennova}
+                        <td class="border-t">
+                            <p class="px-6 py-4 focus:text-app-500">{participacionProyectoSennova.tipo_proyecto_text}</p>
+                        </td>
 
-                    <td class="border-t">
-                        <p class="px-6 py-4">{participacionProyectoSennova.codigo_proyecto}</p>
-                    </td>
+                        <td class="border-t">
+                            <p class="px-6 py-4">{participacionProyectoSennova.codigo_proyecto}</p>
+                        </td>
 
-                    <td class="border-t">
-                        <p class="px-6 py-4">{participacionProyectoSennova.titulo}</p>
-                    </td>
+                        <td class="border-t">
+                            <p class="px-6 py-4">{participacionProyectoSennova.titulo}</p>
+                        </td>
 
-                    <td class="border-t">
-                        <p class="px-6 py-4">{participacionProyectoSennova.fecha_inicio_proyecto}</p>
-                    </td>
+                        <td class="border-t">
+                            <p class="px-6 py-4">{participacionProyectoSennova.fecha_inicio_proyecto}</p>
+                        </td>
+                    {:else}
+                        <td class="border-t" colspan="4">
+                            <p class="px-6 py-4">No he participado en proyectos SENNOVA</p>
+                        </td>
+                    {/if}
                     <td class="border-t td-actions">
-                        <DataTableMenu class={participacionesProyectosSennova.length < 3 ? 'z-50' : ''}>
+                        <DataTableMenu class="{participacionesProyectosSennova.length < 3 ? 'z-50' : ''} flex items-center justify-center">
                             <Item on:SMUI:action={() => Inertia.visit(route('participaciones-proyectos-sennova.edit', participacionProyectoSennova.id))}>
                                 <Text>Editar</Text>
                             </Item>

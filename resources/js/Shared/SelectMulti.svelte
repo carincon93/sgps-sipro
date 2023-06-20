@@ -29,7 +29,7 @@
     }
 </script>
 
-<SelectMulti isDisabled={disabled} inputAttributes={{ id: id }} bind:value={selectedValue} {items} containerClasses="items {classes}" multiple={isMulti} {groupBy} placeholder={required ? placeholder + ' *' : placeholder} autocomplete="off" />
+<SelectMulti isDisabled={disabled} inputAttributes={{ id: id }} bind:value={selectedValue} {items} containerClasses="items {classes}" multiple={isMulti} {groupBy} placeholder={required ? placeholder + ' *' : placeholder} autocomplete="off" on:focus on:blur />
 <InputError message={error} />
 
 <style>

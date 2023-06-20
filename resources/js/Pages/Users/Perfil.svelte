@@ -13,7 +13,6 @@
     import InfoMessage from '@/Shared/InfoMessage'
     import Checkbox from '@smui/checkbox'
     import FormField from '@smui/form-field'
-    import File from '@/Shared/File'
     import EstudioAcademico from './Perfil/EstudiosAcademicos/Index'
     import FormacionAcademicaSena from './Perfil/FormacionesAcademicasSena/Index'
     import ParticipacionGruposInvestigacion from './Perfil/ParticipacionesGruposInvestigacionSena/Index'
@@ -38,6 +37,7 @@
     export let participacionesGruposInvestigacionSena
     export let participacionesProyectosSennova
     export let rolesSennovaRelacionados
+    export let disciplinasConocimientoRelacionadas
 
     $: $title = 'Perfil'
 
@@ -73,16 +73,18 @@
         fecha_inicio_contrato: user.fecha_inicio_contrato,
         fecha_finalizacion_contrato: user.fecha_finalizacion_contrato,
         asignacion_mensual: user.asignacion_mensual,
-        rol_sennova_id: rolesSennovaRelacionados.length > 0 ? rolesSennovaRelacionados : null,
+        rol_sennova_id: user.rol_sennova_id,
+        otros_roles_sennova: rolesSennovaRelacionados.length > 0 ? rolesSennovaRelacionados : null,
         tiempo_por_rol: user.tiempo_por_rol,
         roles_fuera_sennova: user.roles_fuera_sennova,
         cvlac: user.cvlac,
         link_sigep_ii: user.link_sigep_ii,
         grupo_etnico: user.grupo_etnico,
         discapacidad: user.discapacidad,
+        subarea_experiencia_laboral: user.subarea_experiencia_laboral,
 
         red_conocimiento_id: user.red_conocimiento_id,
-        disciplina_subarea_conocimiento_id: user.disciplina_subarea_conocimiento_id,
+        disciplinas_subarea_conocimiento: disciplinasConocimientoRelacionadas.length > 0 ? disciplinasConocimientoRelacionadas : null,
         experiencia_laboral_sena: user.experiencia_laboral_sena,
         cursos_de_evaluacion_realizados: user.cursos_de_evaluacion_realizados,
         numero_proyectos_evaluados: user.numero_proyectos_evaluados,
@@ -107,7 +109,9 @@
     })
 
     function submitChangeUserProfile() {
-        $form.put(route('users.change-user-profile'))
+        $form.put(route('users.change-user-profile'), {
+            preserveScroll: true,
+        })
     }
 </script>
 
@@ -157,13 +161,15 @@
                 </div>
 
                 <h1 class="text-2xl font-medium">EXPERIENCIA PROFESIONAL Y/O ACADÉMICA</h1>
-                <div>Área en la cual tiene experiencia profesional</div>
-                <div>Subárea de Experiencia profesional</div>
+                <div />
+                <div class="mt-8">
+                    <Label required class="mb-4" labelFor="subarea_experiencia_laboral" value="Subárea de experiencia profesional" />
+                    <Select id="subarea_experiencia_laboral" items={subareasExperiencia} bind:selectedValue={$form.subarea_experiencia_laboral} error={errors.subarea_experiencia_laboral} autocomplete="off" placeholder="Seleccione una subárea" required />
+                </div>
 
                 <div class="mt-8">
-                    <Label required class="mb-4" labelFor="disciplina_subarea_conocimiento_id" value="Disciplina de conocimiento" />
-                    SELECT MULTI
-                    <Select id="disciplina_subarea_conocimiento_id" items={disciplinasConocimiento} bind:selectedValue={$form.disciplina_subarea_conocimiento_id} error={errors.disciplina_subarea_conocimiento_id} autocomplete="off" placeholder="Seleccione una discplina de conocimiento" required />
+                    <Label required class="mb-4" labelFor="disciplinas_subarea_conocimiento" value="Disciplinas de conocimiento" />
+                    <SelectMulti id="disciplinas_subarea_conocimiento" bind:selectedValue={$form.disciplinas_subarea_conocimiento} items={disciplinasConocimiento} isMulti={true} error={errors.disciplinas_subarea_conocimiento} placeholder="Seleccione las disciplinas de conocimiento" required />
                 </div>
 
                 <div class="mt-8">
@@ -263,18 +269,24 @@
                 </div>
 
                 <div class="mt-8">
-                    <Label labelFor="rol_sennova_id" value="Roles SENNOVA en los cuales ha sido contratado/vinculado" />
-                    <SelectMulti id="rol_sennova_id" bind:selectedValue={$form.rol_sennova_id} items={rolesSennova} isMulti={true} error={errors.rol_sennova_id} placeholder="Seleccione los roles SENNOVA correspondientes" />
+                    <Label labelFor="otros_roles_sennova" value="Roles SENNOVA en los cuales ha sido contratado/vinculado" />
+                    <SelectMulti id="otros_roles_sennova" bind:selectedValue={$form.otros_roles_sennova} items={rolesSennova} isMulti={true} error={errors.otros_roles_sennova} placeholder="Seleccione los roles SENNOVA correspondientes" />
+
+                    {#if $form.otros_roles_sennova}
+                        <p class="mt-8 mb-4">A continuación, indique el tiempo que ha estado en cada rol SENNOVA.</p>
+                        <strong>Importante:</strong> Para ello copie la siguiente lista de roles en el campo en blanco:
+                        <p class="text-xs mt-2">
+                            {#each $form.otros_roles_sennova as otroRolSennova, index}
+                                {index + 1 + '. ' + otroRolSennova.label} - (Tiempo en meses),
+                                <br />
+                            {/each}
+                        </p>
+                        <Tags id="tiempo_por_rol" class="mt-2" enforceWhitelist={false} bind:tags={$form.tiempo_por_rol} placeholder="Por favor indique el rol y el tiempo" error={errors.tiempo_por_rol} />
+                    {/if}
                 </div>
 
                 <div class="mt-8">
-                    <Label required={$form.rol_sennova_id?.length > 0} labelFor="tiempo_por_rol" value="Por favor indique el tiempo que ha estado en cada rol. Separados por coma (,)" />
-
-                    <Tags id="tiempo_por_rol" class="mt-4" enforceWhitelist={false} bind:tags={$form.tiempo_por_rol} placeholder="Ejemplo: Dinamizador SENNOVA - 12 meses" error={errors.tiempo_por_rol} />
-                </div>
-
-                <div class="mt-8">
-                    <Label labelFor="roles_fuera_sennova" value="Si ha estado en otros roles fuera de SENNOVA por favor indíquelos en el siguiente campo. Separados por coma (,)" />
+                    <Label labelFor="roles_fuera_sennova" value="Si ha estado en otros roles fuera de SENNOVA por favor indiquelos en el siguiente campo. Separados por coma (,)" />
 
                     <Tags id="roles_fuera_sennova" class="mt-4" enforceWhitelist={false} bind:tags={$form.roles_fuera_sennova} placeholder="Indique el rol" error={errors.roles_fuera_sennova} />
                 </div>

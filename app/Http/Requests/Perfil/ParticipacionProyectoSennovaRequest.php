@@ -25,11 +25,11 @@ class ParticipacionProyectoSennovaRequest extends FormRequest
     {
         return [
             'ha_formulado_proyectos_sennova'    => ['required', 'boolean'],
-            'tipo_proyecto'                     => ['required', 'integer', 'min:1', 'max:9'],
-            'fecha_inicio_proyecto'             => ['required', 'date_format:Y-m-d'],
-            'fecha_finalizacion_proyecto'       => ['required', 'date_format:Y-m-d'],
-            'titulo'                            => ['required', 'string'],
-            'codigo_proyecto'                   => ['required', 'string', 'max:20'],
+            'tipo_proyecto'                     => ['nullable', 'required_if:ha_formulado_proyectos_sennova,true', 'integer', 'min:1', 'max:9'],
+            'fecha_inicio_proyecto'             => ['nullable', 'required_if:ha_formulado_proyectos_sennova,true', 'date_format:Y-m-d'],
+            'fecha_finalizacion_proyecto'       => ['nullable', 'required_if:ha_formulado_proyectos_sennova,true', 'date_format:Y-m-d'],
+            'titulo'                            => ['nullable', 'required_if:ha_formulado_proyectos_sennova,true', 'string'],
+            'codigo_proyecto'                   => ['nullable', 'required_if:ha_formulado_proyectos_sennova,true', 'string', 'max:20'],
         ];
     }
 

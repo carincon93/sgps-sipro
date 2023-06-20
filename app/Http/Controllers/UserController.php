@@ -240,6 +240,7 @@ class UserController extends Controller
             'rolesSennovaRelacionados'                  => RolSennova::select('roles_sennova.id as value', 'roles_sennova.nombre as label')->whereIn('id', [json_decode($authUser->rol_sennova_id)])->get(),
             'participacionesGruposInvestigacionSena'    => ParticipacionGrupoInvestigacionSena::with('semilleroInvestigacion', 'grupoInvestigacion')->where('user_id', $authUser->id)->get(),
             'participacionesProyectosSennova'           => ParticipacionProyectoSennova::where('user_id', $authUser->id)->get(),
+            'disciplinasConocimientoRelacionadas'       => DisciplinaSubareaConocimiento::selectRaw('id as value, nombre as label')->whereIn('id', [json_decode($authUser->disciplinas_subarea_conocimiento)])->orderBy('nombre', 'ASC')->get(),
         ]);
     }
 
