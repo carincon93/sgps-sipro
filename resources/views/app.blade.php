@@ -15,6 +15,20 @@
         @viteReactRefresh
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.svelte"])
         @inertiaHead
+
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        window.google
+        google.charts.load('current', {
+            packages: ['gantt'],
+            language: 'es'
+        })
+
+        google.charts.load('current', {
+            packages: ['orgchart'],
+            language: 'es'
+        })
+    </script>
     </head>
     <body class="font-sans antialiased" id="body">
         @inertia

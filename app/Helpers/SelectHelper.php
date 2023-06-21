@@ -6,7 +6,7 @@ use App\Models\Actividad;
 use App\Models\ActividadEconomica;
 use App\Models\Anexo;
 use App\Models\AreaConocimiento;
-use App\Models\AreaTematicaEni;
+use App\Models\ProyectoConvocatoria\AreaTematicaEni;
 use App\Models\LineaInvestigacion;
 use App\Models\RedConocimiento;
 use App\Models\DisciplinaSubareaConocimiento;
@@ -50,8 +50,8 @@ class SelectHelper
 {
     /**
      * Web api
-     * 
-     * Trae los centros de formación 
+     *
+     * Trae los centros de formación
      */
     public static function centrosFormacion()
     {
@@ -60,7 +60,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae las actividades por resultado
      */
     public static function resultadosActividades()
@@ -70,7 +70,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los tipos de beneficiados TA
      */
     public static function tiposBeneficiadosTa()
@@ -80,7 +80,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los tipos de productos IDi
      */
     public static function tiposProductosIdi()
@@ -90,7 +90,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae el primer grupo presupuestal
      */
     public static function primerGrupoPresupuestal()
@@ -102,7 +102,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los conceptos internos SENA
      */
     public static function segundoGrupoPresupuestal($convocatoria, $lineaProgramatica)
@@ -118,7 +118,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae el tercer grupo presupuestal
      */
     public static function tercerGrupoPresupuestal($convocatoria, $lineaProgramatica)
@@ -134,7 +134,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los usos presupuestales
      */
     public static function usosPresupuestales($convocatoria, $lineaProgramatica)
@@ -151,7 +151,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae las líneas programáticas
      */
     public static function lineasProgramaticas()
@@ -161,7 +161,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los anexos
      */
     public static function anexos()
@@ -174,7 +174,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los tipos de proyectos ST
      */
     public static function tiposProyectosSt()
@@ -194,7 +194,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los programas de formación
      */
     public static function programasFormacion()
@@ -204,9 +204,9 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Estados de sistema de gestión
-     * 
+     *
      */
     public static function estadosSistemaGestion()
     {
@@ -218,7 +218,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae las regiones
      */
     public static function regiones()
@@ -228,7 +228,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae las regionales
      */
     public static function regionales()
@@ -238,9 +238,9 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los grupos de investigación
-     * 
+     *
      */
     public static function gruposInvestigacion()
     {
@@ -249,7 +249,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae las líneas de investigación
      */
     public static function lineasInvestigacion()
@@ -259,7 +259,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los municipios
      */
     public static function municipios()
@@ -269,7 +269,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los areasTematicasEni
      */
     public static function areasTematicasEni()
@@ -279,7 +279,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae las Tecnoacademias
      */
     public static function tecnoacademias()
@@ -295,7 +295,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae las líneas tecnoacademia
      */
     public static function lineasTecnoacademia()
@@ -305,7 +305,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae las líneas tecnoacademia
      */
     public static function proyectosIdiTecnoacademia()
@@ -315,7 +315,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los nodos tecnoparque
      */
     public static function nodosTecnoparque()
@@ -325,7 +325,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae las líneas programáticas
      */
     public static function líneasProgramaticas()
@@ -335,8 +335,8 @@ class SelectHelper
 
     /**
      * Web api
-     * 
-     * Trae las redes de conocimiento 
+     *
+     * Trae las redes de conocimiento
      */
     public static function redesConocimiento()
     {
@@ -345,7 +345,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los programas de formación por línea de investigación
      */
     public static function líneaInvestigacionProgramaFormacion()
@@ -355,7 +355,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae las áreas de conocimiento
      */
     public static function areasConocimiento()
@@ -365,7 +365,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae las subáreas de conocimiento
      */
     public static function subareasConocimiento()
@@ -375,7 +375,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae las disciplinas de subáreas de conocimiento
      */
     public static function disciplinasSubareaConocimiento()
@@ -385,7 +385,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los tipos de proyecto de capacidad instalada
      */
     public static function tiposProyectoCapacidadInstalada()
@@ -395,7 +395,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los subtipos de proyecto de capacidad instalada
      */
     public static function subtiposProyectoCapacidadInstalada()
@@ -405,7 +405,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los semilleros de investigacion
      */
     public static function semillerosInvestigacion()
@@ -418,7 +418,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae las actividades económicas
      */
     public static function actividadesEconomicas()
@@ -428,7 +428,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae las temáticas estrategicas SENA
      */
     public static function tematicasEstrategicas()
@@ -438,7 +438,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los diseños curriculares
      */
     public static function disenoCurriculares()
@@ -448,7 +448,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los programas SENNOVA
      */
     public static function programasSennova()
@@ -458,7 +458,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los codigos de proyectos SGPS
      */
     public static function codigoProyectoSgps()
@@ -471,7 +471,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae las subtipologías Minciencias
      */
     public static function subtipologiasMinciencias()
@@ -481,7 +481,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae las tipologías del ambiente
      */
     public static function tipologiasAmbiente()
@@ -491,7 +491,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae las convocatorias
      */
     public static function convocatorias()
@@ -501,7 +501,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los roles SENNOVA
      */
     public static function rolesSennova()
@@ -511,7 +511,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los usuarios por rol
      */
     public static function usuariosPorRol($rol)
@@ -569,7 +569,7 @@ class SelectHelper
 
     /**
      * Web api
-     * 
+     *
      * Trae los centros de formación - Cultura innovación
      */
     public static function culturaInnovacionCentrosFormacion()

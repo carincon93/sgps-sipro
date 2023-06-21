@@ -179,7 +179,7 @@
                 {requiereJustificacionSectorAgricola}
             />
 
-            {#if isSuperAdmin || idi.proyecto.mostrar_recomendaciones}
+            <!-- {#if isSuperAdmin || idi.proyecto.mostrar_recomendaciones}
                 <div class="py-24">
                     <h1>Ortografía</h1>
                     {#each idi.proyecto.evaluaciones as evaluacion, i}
@@ -228,16 +228,16 @@
                         <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                     {/if}
                 </div>
-            {/if}
+            {/if} -->
         </fieldset>
 
         <div>
-            <InfoMessage>
+            <!-- <InfoMessage>
                 Se recomienda que antes de dar clic en el botón <strong>Guardar</strong> descargue el borrador de Generalidades en archivo Word. De esta manera si ocurre un error al guardar puede recuperar la información registrada. Luego de descargar el borrador de clic en el botón <strong>Guardar</strong>. Revise que se muestra un mensaje en verde que dice '<strong>
                     El recurso se ha modificado correctamente</strong
                 >'. Si después de unos segundos no se muestra el mensaje y al recargar el aplicativo observa que la información no se ha guardado por favor envie un correo a <a href="mailto:sgpssipro@sena.edu.co" class="underline">sgpssipro@sena.edu.co</a>
                 desde una cuenta <strong>@sena.edu.co</strong> y describa detalladamente lo ocurrido (Importante adjuntar el borrador e indicar el código del proyecto).
-            </InfoMessage>
+            </InfoMessage> -->
             <div class="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
                 <small class="flex items-center text-app-700">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -245,7 +245,8 @@
                     </svg>
                     {idi.updated_at}
                 </small>
-                <Button type="button" on:click={() => (dialogGuardar = true)}>Descargar Generalidades en Word</Button>
+
+                <!-- <Button type="button" on:click={() => (dialogGuardar = true)}>Descargar Generalidades en Word</Button> -->
 
                 {#if idi.proyecto.allowed.to_update}
                     <LoadingButton loading={$form.processing} form="idi-form">Guardar información</LoadingButton>

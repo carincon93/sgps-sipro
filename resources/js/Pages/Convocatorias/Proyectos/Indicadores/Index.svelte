@@ -13,16 +13,18 @@
     export let idi
     export let errors
 
+    console.log(idi)
+
     let form = useForm({
-        productividad_beneficiaros: idi.productividad_beneficiaros,
-        generacion_empleo_beneficiarios: idi.generacion_empleo_beneficiarios,
-        creacion_nuevos_desarrollos: idi.creacion_nuevos_desarrollos,
-        generacion_conocimientos_beneficiarios: idi.generacion_conocimientos_beneficiarios,
-        generacion_valor_beneficiarios: idi.generacion_valor_beneficiarios,
-        fortalecimiento_programas_formacion: idi.fortalecimiento_programas_formacion,
-        transferencia_tecnologias: idi.transferencia_tecnologias,
-        calidad_formacion: idi.calidad_formacion,
-        impacto_ambiental_proyectos: idi.impacto_ambiental_proyectos,
+        productividad_beneficiaros: idi.productividad_beneficiaros ? idi.productividad_beneficiaros : '',
+        generacion_empleo_beneficiarios: idi.generacion_empleo_beneficiarios ? idi.generacion_empleo_beneficiarios : '',
+        creacion_nuevos_desarrollos: idi.creacion_nuevos_desarrollos ? idi.creacion_nuevos_desarrollos : '',
+        generacion_conocimientos_beneficiarios: idi.generacion_conocimientos_beneficiarios ? idi.generacion_conocimientos_beneficiarios : '',
+        generacion_valor_beneficiarios: idi.generacion_valor_beneficiarios ? idi.generacion_valor_beneficiarios : '',
+        fortalecimiento_programas_formacion: idi.fortalecimiento_programas_formacion ? idi.fortalecimiento_programas_formacion : '',
+        transferencia_tecnologias: idi.transferencia_tecnologias ? idi.transferencia_tecnologias : '',
+        calidad_formacion: idi.calidad_formacion ? idi.calidad_formacion : '',
+        impacto_ambiental_proyectos: idi.impacto_ambiental_proyectos ? idi.impacto_ambiental_proyectos : '',
     })
 
     function submit() {

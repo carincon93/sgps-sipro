@@ -295,7 +295,7 @@
     }
 
     #stepper a .rounded-full:hover {
-        background: #c4b5fd;
+        background: var(--mdc-theme-primary);
         transition: cubic-bezier(0.075, 0.82, 0.165, 1);
         color: #fff;
     }
@@ -306,6 +306,5 @@
 
     .total {
         bottom: -32px;
-        box-shadow: -1px -9px 17px 0px rgb(var(--mdc-theme-primary) / 34%);
     }
 </style>

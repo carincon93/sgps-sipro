@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\ProyectoConvocatoria;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -44,13 +44,13 @@ class AreaTematicaEni extends Model
     ];
 
     /**
-     * Relationship with Idi
+     * Relationship with Proyecto
      *
      * @return object
      */
-    public function idi()
+    public function proyectos()
     {
-        return $this->belongsToMany(Idi::class, 'idi_areas_tematicas_eni', 'area_tematica_eni_id', 'idi_id');
+        return $this->belongsToMany(Proyecto::class, 'proyecto_areas_tematicas_eni', 'area_tematica_eni_id', 'proyecto_id');
     }
 
     /**

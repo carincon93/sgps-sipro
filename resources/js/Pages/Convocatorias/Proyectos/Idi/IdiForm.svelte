@@ -1,5 +1,5 @@
 <script>
-    import { route, monthDiff } from '@/Utils'
+    import { route } from '@/Utils'
     import { Inertia } from '@inertiajs/inertia'
 
     import Select from '@/Shared/Select'
@@ -79,10 +79,6 @@
         })
     }
 
-    // $: if ($form.fecha_inicio && $form.fecha_finalizacion) {
-    //     $form.max_meses_ejecucion = monthDiff($form.fecha_inicio, $form.fecha_finalizacion)
-    // }
-
     async function syncColumnLong(column, form) {
         return new Promise((resolve) => {
             if (typeof column !== undefined && typeof form !== undefined && idi.proyecto.allowed.to_update) {
@@ -106,7 +102,7 @@
 <div class="py-24">
     <Label required disabled={evaluacion ? 'disabled' : undefined} labelFor="titulo" class="font-medium inline-block mb-10 text-center text-gray-700 text-sm w-full" value="Descripción llamativa que orienta el enfoque del proyecto, indica el cómo y el para qué. (Máximo 20 palabras)" />
     <Textarea label="Título" id="titulo" sinContador={true} error={errors.titulo} bind:value={$form.titulo} classes="bg-transparent block border-0 {errors.titulo ? '' : 'outline-none-important'} mt-1 outline-none text-4xl text-center w-full" required disabled={evaluacion ? 'disabled' : undefined} />
-    {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
+    <!-- {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
         <RecomendacionEvaluador class="mt-8">
             {#each idi.proyecto.evaluaciones as evaluacion, i}
                 {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
@@ -120,7 +116,7 @@
                 <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
             {/if}
         </RecomendacionEvaluador>
-    {/if}
+    {/if} -->
 
     <slot name="titulo" />
 </div>
@@ -129,19 +125,18 @@
         <p class="text-center">Fecha de ejecución</p>
     {/if}
     <small class="text-red-400 block text-center"> * Campo obligatorio </small>
-    <InfoMessage message={convocatoria.fecha_maxima_idi} class="my-5" />
 
     <div class="mt-4 flex items-start justify-around">
         <div class="mt-4 flex {errors.fecha_inicio ? '' : 'items-center'}">
             <Label required disabled={evaluacion ? 'disabled' : undefined} labelFor="fecha_inicio" class={errors.fecha_inicio ? 'top-3.5 relative' : ''} value="Del" />
             <div class="ml-4">
-                <input id="fecha_inicio" type="date" class="mt-1 block w-full p-4" min={convocatoria.min_fecha_inicio_proyectos_idi} max={convocatoria.max_fecha_finalizacion_proyectos_idi} bind:value={$form.fecha_inicio} required disabled={evaluacion ? 'disabled' : undefined} />
+                <input id="fecha_inicio" type="date" class="mt-1 block w-full p-4" bind:value={$form.fecha_inicio} required disabled={evaluacion ? 'disabled' : undefined} />
             </div>
         </div>
         <div class="mt-4 flex {errors.fecha_finalizacion ? '' : 'items-center'}">
             <Label required disabled={evaluacion ? 'disabled' : undefined} labelFor="fecha_finalizacion" class={errors.fecha_finalizacion ? 'top-3.5 relative' : ''} value="hasta" />
             <div class="ml-4">
-                <input id="fecha_finalizacion" type="date" class="mt-1 block w-full p-4" min={convocatoria.min_fecha_inicio_proyectos_idi} max={convocatoria.max_fecha_finalizacion_proyectos_idi} bind:value={$form.fecha_finalizacion} required disabled={evaluacion ? 'disabled' : undefined} />
+                <input id="fecha_finalizacion" type="date" class="mt-1 block w-full p-4" bind:value={$form.fecha_finalizacion} required disabled={evaluacion ? 'disabled' : undefined} />
             </div>
         </div>
     </div>
@@ -153,7 +148,7 @@
         </div>
     {/if}
 
-    {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
+    <!-- {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
         <RecomendacionEvaluador class="mt-8">
             {#each idi.proyecto.evaluaciones as evaluacion, i}
                 {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
@@ -167,7 +162,7 @@
                 <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
             {/if}
         </RecomendacionEvaluador>
-    {/if}
+    {/if} -->
 
     <slot name="fechas" />
 </div>
@@ -215,7 +210,7 @@
         </div>
     </div>
 
-    {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
+    <!-- {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
         <RecomendacionEvaluador class="mt-8">
             {#each idi.proyecto.evaluaciones as evaluacion, i}
                 {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
@@ -229,7 +224,7 @@
                 <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
             {/if}
         </RecomendacionEvaluador>
-    {/if}
+    {/if} -->
 
     <slot name="red-conocimiento" />
 </div>
@@ -262,7 +257,7 @@
                 <Select id="disciplina_subarea_conocimiento_id" items={arrayDisciplinasSubareaConocimiento} bind:selectedValue={$form.disciplina_subarea_conocimiento_id} error={errors.disciplina_subarea_conocimiento_id} autocomplete="off" placeholder="Busque por el nombre de la disciplina de subáreas de conocimiento" required disabled={evaluacion ? 'disabled' : undefined} />
             </div>
         </div>
-        {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
+        <!-- {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
             <RecomendacionEvaluador class="mt-8">
                 {#each idi.proyecto.evaluaciones as evaluacion, i}
                     {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
@@ -276,7 +271,7 @@
                     <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                 {/if}
             </RecomendacionEvaluador>
-        {/if}
+        {/if} -->
 
         <slot name="disciplina-subarea-conocimiento" />
     {/if}
@@ -291,7 +286,7 @@
             <Select id="actividad_economica_id" items={actividadesEconomicas} bind:selectedValue={$form.actividad_economica_id} error={errors.actividad_economica_id} autocomplete="off" placeholder="Busque por el nombre de la actividad económica" required disabled={evaluacion ? 'disabled' : undefined} />
         </div>
     </div>
-    {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
+    <!-- {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
         <RecomendacionEvaluador class="mt-8">
             {#each idi.proyecto.evaluaciones as evaluacion, i}
                 {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
@@ -305,7 +300,7 @@
                 <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
             {/if}
         </RecomendacionEvaluador>
-    {/if}
+    {/if} -->
 
     <slot name="actividad-economica" />
 </div>
@@ -319,7 +314,7 @@
             <Select id="tematica_estrategica_id" items={tematicasEstrategicas} bind:selectedValue={$form.tematica_estrategica_id} error={errors.tematica_estrategica_id} autocomplete="off" placeholder="Busque por el nombre de la temática estratégica" required disabled={evaluacion ? 'disabled' : undefined} />
         </div>
     </div>
-    {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
+    <!-- {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
         <RecomendacionEvaluador class="mt-8">
             {#each idi.proyecto.evaluaciones as evaluacion, i}
                 {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
@@ -333,7 +328,7 @@
                 <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
             {/if}
         </RecomendacionEvaluador>
-    {/if}
+    {/if} -->
 
     <slot name="tematica-estrategica" />
 </div>
@@ -416,7 +411,7 @@
         </div>
     </div>
     {#if tieneVideo}
-        {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
+        <!-- {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
             <RecomendacionEvaluador class="mt-8">
                 {#each idi.proyecto.evaluaciones as evaluacion, i}
                     {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
@@ -430,7 +425,7 @@
                     <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                 {/if}
             </RecomendacionEvaluador>
-        {/if}
+        {/if} -->
 
         <slot name="video" />
     {/if}
@@ -453,7 +448,7 @@
         </div>
     </div>
     {#if requiereJustificacionIndustria4}
-        {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
+        <!-- {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
             <RecomendacionEvaluador class="mt-8">
                 {#each idi.proyecto.evaluaciones as evaluacion, i}
                     {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
@@ -467,7 +462,7 @@
                     <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                 {/if}
             </RecomendacionEvaluador>
-        {/if}
+        {/if} -->
 
         <slot name="industria4" />
     {/if}
@@ -491,7 +486,7 @@
         </div>
 
         {#if requiereJustificacionEconomiaNaranja}
-            {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
+            <!-- {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
                 <RecomendacionEvaluador class="mt-8">
                     {#each idi.proyecto.evaluaciones as evaluacion, i}
                         {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
@@ -505,7 +500,7 @@
                         <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                     {/if}
                 </RecomendacionEvaluador>
-            {/if}
+            {/if} -->
 
             <slot name="economia-naranja" />
         {/if}
@@ -544,7 +539,7 @@
         </div>
     </div>
     {#if requiereJustificacionPoliticaDiscapacidad}
-        {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
+        <!-- {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
             <RecomendacionEvaluador class="mt-8">
                 {#each idi.proyecto.evaluaciones as evaluacion, i}
                     {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
@@ -558,7 +553,7 @@
                     <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                 {/if}
             </RecomendacionEvaluador>
-        {/if}
+        {/if} -->
 
         <slot name="politica-discapacidad" />
     {/if}
@@ -854,7 +849,7 @@
         </div>
     </div>
 
-    {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
+    <!-- {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
         <RecomendacionEvaluador class="mt-8">
             {#each idi.proyecto.evaluaciones as evaluacion, i}
                 {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
@@ -868,7 +863,7 @@
                 <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
             {/if}
         </RecomendacionEvaluador>
-    {/if}
+    {/if} -->
 
     <slot name="resumen" />
 </div>
@@ -970,12 +965,12 @@
             <InfoMessage class="mb-2" message="Lista de las referencias utilizadas en cada apartado del proyecto. Utilizar normas APA- Última edición (http://biblioteca.sena.edu.co/images/PDF/InstructivoAPA.pdf)." />
         </div>
         <div>
-            <Textarea label="Bibliografía" maxlength="40000" id="bibliografia" error={errors.bibliografia} bind:value={$form.bibliografia} on:blur={() => syncColumnLong('bibliografia', $form)} required disabled={evaluacion ? 'disabled' : undefined} />
+            <Textarea maxlength="40000" id="bibliografia" error={errors.bibliografia} bind:value={$form.bibliografia} on:blur={() => syncColumnLong('bibliografia', $form)} required disabled={evaluacion ? 'disabled' : undefined} />
         </div>
     </div>
 
     <div>
-        {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
+        <!-- {#if (isSuperAdmin && !evaluacion) || (idi.proyecto.mostrar_recomendaciones && !evaluacion)}
             <RecomendacionEvaluador class="mt-8">
                 {#each idi.proyecto.evaluaciones as evaluacion, i}
                     {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
@@ -989,12 +984,12 @@
                     <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                 {/if}
             </RecomendacionEvaluador>
-        {/if}
+        {/if} -->
 
         <slot name="bibliografia" />
     </div>
 </div>
 
-<div class="py-24">
+<!-- <div class="py-24">
     <slot name="items-finales" />
-</div>
+</div> -->
