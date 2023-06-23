@@ -176,38 +176,6 @@
                 </tbody>
             </table>
         </div>
-
-        <h1 class="mt-24 mb-8 text-center text-3xl" id="objetivos-especificos">Objetivos específicos</h1>
-        <p class="mb-6">
-            A continuación, se listan los objetivos específicos relacionados con la entidad aliada. Si dice 'Sin información registrada' por favor diríjase a las <a href="#actividades" class="text-app-400">actividades</a> y relacione alguna.
-        </p>
-        <div class="bg-white rounded shadow">
-            <table class="w-full whitespace-no-wrap table-fixed data-table">
-                <thead>
-                    <tr class="text-left font-bold">
-                        <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Descripción </th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {#each objetivosEspecificosRelacionados as { id, descripcion }}
-                        <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
-                            <td class="border-t">
-                                <p class="px-6 py-4 focus:text-app-500">
-                                    {descripcion ? descripcion : 'Sin información registrada'}
-                                </p>
-                            </td>
-                        </tr>
-                    {/each}
-
-                    {#if objetivosEspecificosRelacionados.length === 0}
-                        <tr>
-                            <td class="border-t px-6 py-4" colspan="4"> Sin información registrada </td>
-                        </tr>
-                    {/if}
-                </tbody>
-            </table>
-        </div>
     {/if}
 
     <Dialog bind:open={dialogEliminar}>

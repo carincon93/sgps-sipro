@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -30,22 +31,34 @@ class PasswordResetLinkController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'email' => 'required|email',
+            'email'             => 'required|email|exists:users,email',
+            'numero_documento'  => 'required|integer|exists:users,numero_documento',
         ]);
 
         // We will send the password reset link to this user. Once we have attempted
         // to send the link, we will examine the response then see the message we
         // need to show to the user. Finally, we'll send out a proper response.
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        // $status = Password::sendResetLink(
+        //     $request->only('email')
+        // );
 
-        if ($status == Password::RESET_LINK_SENT) {
-            return back()->with('status', __($status));
+        // if ($status == Password::RESET_LINK_SENT) {
+        //     return back()->with('status', __($status));
+        // }
+
+        // throw ValidationException::withMessages([
+        //     'email' => [trans($status)],
+        // ]);
+
+        $user = User::where('email', $request->email)->where('numero_documento', $request->numero_documento)->first();
+
+        if ($user && $request->email == $user->email && $request->numero_documento == $user->numero_documento) {
+            $user->update([
+                'password' => $user::makePassword($request->numero_documento)
+            ]);
+            return back()->with('success', 'Se ha restablecido la contraseña.');
         }
 
-        throw ValidationException::withMessages([
-            'email' => [trans($status)],
-        ]);
+        return back()->with('error', 'No se ha podido restablecer la contraseña.');
     }
 }
