@@ -91,6 +91,7 @@ class EntidadAliadaController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
+
         $entidadAliada = new EntidadAliada();
         $entidadAliada->tipo         = $request->tipo;
         $entidadAliada->nombre       = $request->nombre;
@@ -101,6 +102,7 @@ class EntidadAliadaController extends Controller
         $entidadAliada->proyecto()->associate($proyecto);
 
         $entidadAliada->save();
+        $request->merge(['entidad_aliada_id' => $entidadAliada->id]);
 
         if ($proyecto->idi()->exists()) {
             $request->validate([
@@ -109,8 +111,6 @@ class EntidadAliadaController extends Controller
                 'codigo_gruplac'                            => 'nullable|max:191',
                 'enlace_gruplac'                            => 'nullable|url|string',
                 'actividades_transferencia_conocimiento'    => 'required|max:10000',
-                'carta_intencion'                           => 'required_if:tipo_convocatoria,1|nullable|file|max:10240',
-                'carta_propiedad_intelectual'               => 'required_if:tipo_convocatoria,1|nullable|file|max:10240',
                 'recursos_especie'                          => 'required|numeric',
                 'descripcion_recursos_especie'              => 'required|string',
                 'recursos_dinero'                           => 'required|numeric',
@@ -118,39 +118,36 @@ class EntidadAliadaController extends Controller
                 'actividad_id*'                             => 'required|min:0|max:2147483647|integer|exists:actividades,id',
             ]);
 
-            $entidadAliadaIdi = new EntidadAliadaIdi();
-            $entidadAliadaIdi->descripcion_convenio                     = $request->descripcion_convenio;
-            $entidadAliadaIdi->grupo_investigacion                      = $request->grupo_investigacion;
-            $entidadAliadaIdi->codigo_gruplac                           = $request->codigo_gruplac;
-            $entidadAliadaIdi->enlace_gruplac                           = $request->enlace_gruplac;
-            $entidadAliadaIdi->actividades_transferencia_conocimiento   = $request->actividades_transferencia_conocimiento;
-            $entidadAliadaIdi->recursos_especie                         = $request->recursos_especie;
-            $entidadAliadaIdi->descripcion_recursos_especie             = $request->descripcion_recursos_especie;
-            $entidadAliadaIdi->recursos_dinero                          = $request->recursos_dinero;
-            $entidadAliadaIdi->descripcion_recursos_dinero              = $request->descripcion_recursos_dinero;
-            $entidadAliadaIdi->carta_intencion                          = $request->carta_intencion;
-            $entidadAliadaIdi->carta_propiedad_intelectual              = $request->carta_propiedad_intelectual;
+            $entidadAliadaIdi = EntidadAliadaIdi::create($request->all());
 
             $entidadAliada->actividades()->attach($request->actividad_id);
 
-            if ($entidadAliada->entidadAliadaIdi()->save($entidadAliadaIdi)) {
-                $this->saveFilesSharepoint($request, $convocatoria, $proyecto, $entidadAliada);
+             $request->validate([
+                'carta_intencion'                           => 'required_if:tipo_convocatoria,1|nullable|file|max:10240',
+                'carta_propiedad_intelectual'               => 'required_if:tipo_convocatoria,1|nullable|file|max:10240',
+            ]);
+            if ($request->hasFile('carta_intencion')) {
+                $this->saveFilesSharepoint($request->carta_intencion, mb_strtoupper($convocatoria->descripcion), $entidadAliadaIdi, 'carta_intencion');
+            }
+
+            if ($request->hasFile('carta_propiedad_intelectual')) {
+                $this->saveFilesSharepoint($request->carta_propiedad_intelectual, mb_strtoupper($convocatoria->descripcion), $entidadAliadaIdi, 'carta_propiedad_intelectual');
             }
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.edit', [$convocatoria, $proyecto, $entidadAliada])->with('success', 'El recurso se ha creado correctamente.');
         } elseif ($proyecto->ta()->exists() || $proyecto->tp()->exists()) {
             $request->validate([
-                'soporte_convenio'              => 'nullable|file|max:10240',
                 'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
                 'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
             ]);
 
-            $entidadAliadaTaTp = new EntidadAliadaTaTp();
-            $entidadAliadaTaTp->fecha_inicio_convenio         = $request->fecha_inicio_convenio;
-            $entidadAliadaTaTp->fecha_fin_convenio            = $request->fecha_fin_convenio;
+            $entidadAliadaTaTp = EntidadAliadaTaTp::create($request->all());
 
-            if ($entidadAliada->entidadAliadaTaTp()->save($entidadAliadaTaTp)) {
-                $this->saveFilesSharepoint($request, $convocatoria, $proyecto, $entidadAliada);
+            $request->validate([
+                'soporte_convenio' > 'nullable|file|max:10240',
+            ]);
+            if ($request->hasFile('soporte_convenio')) {
+                $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion), $entidadAliadaTaTp, 'soporte_convenio');
             }
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
@@ -221,7 +218,7 @@ class EntidadAliadaController extends Controller
         $entidadAliada->tipo_empresa = $request->tipo_empresa;
         $entidadAliada->nit          = $request->nit;
 
-        if ($entidadAliada->entidadAliadaIdi()->exists()) {
+        if ($proyecto->idi()->exists()) {
             $request->validate([
                 'descripcion_convenio'                      => 'nullable|string',
                 'grupo_investigacion'                       => 'nullable|max:191',
@@ -235,76 +232,43 @@ class EntidadAliadaController extends Controller
                 'actividad_id*'                             => 'required|min:0|max:2147483647|integer|exists:actividades,id',
             ]);
 
-            $entidadAliada->entidadAliadaIdi()->update([
-                'descripcion_convenio'                        => $request->tiene_convenio ? $request->descripcion_convenio : null,
-                'grupo_investigacion'                         => $request->tiene_grupo_investigacion ? $request->grupo_investigacion : null,
-                'codigo_gruplac'                              => $request->tiene_grupo_investigacion ? $request->codigo_gruplac : null,
-                'enlace_gruplac'                              => $request->tiene_grupo_investigacion ? $request->enlace_gruplac : null,
-                'actividades_transferencia_conocimiento'      => $request->actividades_transferencia_conocimiento,
-                'recursos_especie'                            => $request->recursos_especie,
-                'descripcion_recursos_especie'                => $request->descripcion_recursos_especie,
-                'recursos_dinero'                             => $request->recursos_dinero,
-                'descripcion_recursos_dinero'                 => $request->descripcion_recursos_dinero
-            ]);
+            $entidadAliadaIdi = $entidadAliada->entidadAliadaIdi;
 
-            $entidadAliada->actividades()->sync($request->actividad_id);
-        } elseif ($proyecto->idi()->exists()) {
+            $entidadAliadaIdi->update($request->all());
+
+            $entidadAliada->actividades()->attach($request->actividad_id);
+
+             $request->validate([
+                'carta_intencion'                           => 'required_if:tipo_convocatoria,1|nullable|file|max:10240',
+                'carta_propiedad_intelectual'               => 'required_if:tipo_convocatoria,1|nullable|file|max:10240',
+            ]);
+            if ($request->hasFile('carta_intencion')) {
+                $this->saveFilesSharepoint($request->carta_intencion, mb_strtoupper($convocatoria->descripcion), $entidadAliadaIdi, 'carta_intencion');
+            }
+
+            if ($request->hasFile('carta_propiedad_intelectual')) {
+                $this->saveFilesSharepoint($request->carta_propiedad_intelectual, mb_strtoupper($convocatoria->descripcion), $entidadAliadaIdi, 'carta_propiedad_intelectual');
+            }
+
+            return redirect()->route('convocatorias.proyectos.entidades-aliadas.edit', [$convocatoria, $proyecto, $entidadAliada])->with('success', 'El recurso se ha creado correctamente.');
+        } elseif ($proyecto->ta()->exists() || $proyecto->tp()->exists()) {
             $request->validate([
-                'descripcion_convenio'                      => 'nullable|string',
-                'grupo_investigacion'                       => 'nullable|max:191',
-                'codigo_gruplac'                            => 'nullable|max:191',
-                'enlace_gruplac'                            => 'nullable|url|string',
-                'actividades_transferencia_conocimiento'    => 'required|max:10000',
-                'recursos_especie'                          => 'required|numeric',
-                'descripcion_recursos_especie'              => 'required|string',
-                'recursos_dinero'                           => 'required|numeric',
-                'descripcion_recursos_dinero'               => 'required|string',
-                'actividad_id*'                             => 'required|min:0|max:2147483647|integer|exists:actividades,id',
+                'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
+                'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
             ]);
 
-            $entidadAliadaIdi = new EntidadAliadaIdi();
-            $entidadAliadaIdi->descripcion_convenio                     = $request->descripcion_convenio;
-            $entidadAliadaIdi->grupo_investigacion                      = $request->grupo_investigacion;
-            $entidadAliadaIdi->codigo_gruplac                           = $request->codigo_gruplac;
-            $entidadAliadaIdi->enlace_gruplac                           = $request->enlace_gruplac;
-            $entidadAliadaIdi->actividades_transferencia_conocimiento   = $request->actividades_transferencia_conocimiento;
-            $entidadAliadaIdi->recursos_especie                         = $request->recursos_especie;
-            $entidadAliadaIdi->descripcion_recursos_especie             = $request->descripcion_recursos_especie;
-            $entidadAliadaIdi->recursos_dinero                          = $request->recursos_dinero;
-            $entidadAliadaIdi->descripcion_recursos_dinero              = $request->descripcion_recursos_dinero;
+            $entidadAliadaTaTp = $entidadAliada->entidadAliadaTaTp;
 
-            $entidadAliada->actividades()->sync($request->actividad_id);
+            $entidadAliadaTaTp->update($request->all());
 
-            $entidadAliada->entidadAliadaIdi()->save($entidadAliadaIdi);
-        }
-
-        $entidadAliada->proyecto()->associate($proyecto);
-
-        if ($entidadAliada->save()) {
-            if ($proyecto->idi()->exists()) {
-                $request->validate([
-                    'carta_intencion'             => 'nullable|file|max:10240',
-                    'carta_propiedad_intelectual' => 'nullable|file|max:10240',
-                ]);
-                $this->saveFilesSharepoint($request, $convocatoria, $proyecto, $entidadAliada);
+            $request->validate([
+                'soporte_convenio' > 'nullable|file|max:10240',
+            ]);
+            if ($request->hasFile('soporte_convenio')) {
+                $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion), $entidadAliadaTaTp, 'soporte_convenio');
             }
 
-            if ($proyecto->ta()->exists() || $proyecto->tp()->exists()) {
-                $request->validate([
-                    'soporte_convenio'      => 'nullable|file|max:10240',
-                    'fecha_inicio_convenio' => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
-                    'fecha_fin_convenio'    => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
-                ]);
-
-                $entidadAliada->entidadAliadaTaTp()->update([
-                    'fecha_inicio_convenio' => $request->fecha_inicio_convenio,
-                    'fecha_fin_convenio'    => $request->fecha_fin_convenio,
-                ]);
-
-                if ($request->hasFile('soporte_convenio')) {
-                    $this->saveFilesSharepoint($request, $convocatoria, $proyecto, $entidadAliada);
-                }
-            }
+            return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
         }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
@@ -325,33 +289,16 @@ class EntidadAliadaController extends Controller
         return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
-    public function saveFilesSharepoint(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidadAliada)
+    public function saveFilesSharepoint($tmpFile, $modulo, $modelo, $campoBd)
     {
-        $response = [];
+        $entidadAliada  = $modelo;
+        $proyecto       = Proyecto::find($entidadAliada->entidadAliada->proyecto_id);
 
-        if ($request->hasFile('carta_intencion')) {
-            $entidadAliada->entidadAliadaIdi->ruta_final_sharepoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ENTIDADES ALIADAS';
+        $entidadAliadaSharePoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ENTIDADES ALIADAS';
 
-            $response = SharepointHelper::saveFilesSharepoint($request, 'carta_intencion', $entidadAliada->entidadAliadaIdi, $entidadAliada->id . 'carta_intencion');
-        }
+        $sharePointPath = "$modulo/$entidadAliadaSharePoint";
 
-        if ($request->hasFile('carta_propiedad_intelectual')) {
-            $entidadAliada->entidadAliadaIdi->ruta_final_sharepoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ENTIDADES ALIADAS';
-
-            $response = SharepointHelper::saveFilesSharepoint($request, 'carta_propiedad_intelectual', $entidadAliada->entidadAliadaIdi, $entidadAliada->id . 'carta_propiedad_intelectual');
-        }
-
-        if ($request->hasFile('soporte_convenio')) {
-            $entidadAliada->entidadAliadaTaTp->ruta_final_sharepoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ENTIDADES ALIADAS';
-
-            $response = SharepointHelper::saveFilesSharepoint($request, 'soporte_convenio', $entidadAliada->entidadAliadaTaTp, $entidadAliada->id . 'soporte_convenio');
-        }
-
-        if (count($response) > 0 && $response['success']) {
-            return back()->with('success', 'Los archivos se han cargado correctamente');
-        } else if (count($response) > 0 && $response['success'] == false) {
-            return back()->with('error', 'No se han podido cargar los archivos. Por favor vuelva a intentar');
-        }
+        SharepointHelper::saveFilesSharepoint($tmpFile, $modelo, $sharePointPath, $campoBd);
     }
 
     public function downloadServerFile(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidadAliada)

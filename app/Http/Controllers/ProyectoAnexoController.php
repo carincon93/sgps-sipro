@@ -86,10 +86,11 @@ class ProyectoAnexoController extends Controller
 
         $proyectoAnexo = ProyectoAnexo::updateOrCreate(
             ['proyecto_id'  => $proyecto->id, 'anexo_id' => $anexo->id],
-            // ['archivo'      => $request->archivo]
         );
 
-        $this->saveFilesSharepoint($request, $convocatoria, $proyecto, $proyectoAnexo);
+        if ($request->hasFile('archivo')) {
+            $this->saveFilesSharepoint($request->archivo, mb_strtoupper($convocatoria->descripcion), $proyectoAnexo, 'archivo');
+        }
 
         return back()->with('success', 'El recurso se ha creado correctamente.');
     }
@@ -152,21 +153,16 @@ class ProyectoAnexoController extends Controller
         return redirect()->route('convocatorias.proyectos.proyecto-anexos.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
-    public function saveFilesSharepoint(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoAnexo $proyectoAnexo)
+    public function saveFilesSharepoint($tmpFile, $modulo, $modelo, $campoBd)
     {
-        $response = [];
+        $anexo              = $modelo;
+        $proyecto           = Proyecto::find($anexo->proyecto_id);
 
-        if ($request->hasFile('archivo')) {
-            $proyectoAnexo->ruta_final_sharepoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ANEXOS';
+        $anexoSharePoint    = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ANEXOS';
 
-            $response = SharepointHelper::saveFilesSharepoint($request, 'archivo', $proyectoAnexo, $proyectoAnexo->id . 'archivo');
-        }
+        $sharePointPath     = "$modulo/$anexoSharePoint";
 
-        if (count($response) > 0 && $response['success']) {
-            return back()->with('success', 'Los archivos se han cargado correctamente');
-        } else if (count($response) > 0 && $response['success'] == false) {
-            return back()->with('error', 'No se han podido cargar los archivos. Por favor vuelva a intentar');
-        }
+        SharepointHelper::saveFilesSharepoint($tmpFile, $modelo, $sharePointPath, $campoBd);
     }
 
     public function downloadServerFile(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoAnexo $proyectoAnexo)

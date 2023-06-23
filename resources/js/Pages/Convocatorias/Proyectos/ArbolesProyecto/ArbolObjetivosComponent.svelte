@@ -324,13 +324,13 @@
         showImpactoForm = true
         impactoId = impacto.id
 
-        $formImpacto.id = efectoIndirecto.impacto.id
+        $formImpacto.id = impacto.id
         $formImpacto.efecto_indirecto_id = efectoIndirecto.id
-        $formImpacto.descripcion = efectoIndirecto.impacto.descripcion ? efectoIndirecto.impacto.descripcion : ''
-        $formImpacto.tipo = efectoIndirecto.impacto.tipo
+        $formImpacto.descripcion = impacto.descripcion ? impacto.descripcion : ''
+        $formImpacto.tipo = impacto.tipo
             ? {
-                  value: efectoIndirecto.impacto.tipo,
-                  label: tiposImpacto.find((item) => item.value == efectoIndirecto.impacto.tipo)?.label,
+                  value: impacto.tipo,
+                  label: tiposImpacto.find((item) => item.value == impacto.tipo)?.label,
               }
             : null
     }
@@ -510,15 +510,15 @@
         showActividadForm = true
         actividadId = actividad.id
 
-        $formActividad.id = causaIndirecta.actividad.id
-        $formActividad.fecha_inicio = causaIndirecta.actividad.fecha_inicio
-        $formActividad.fecha_finalizacion = causaIndirecta.actividad.fecha_finalizacion
-        $formActividad.causa_indirecta_id = causaIndirecta.actividad.causa_indirecta_id
+        $formActividad.id = actividad.id
+        $formActividad.fecha_inicio = actividad.fecha_inicio
+        $formActividad.fecha_finalizacion = actividad.fecha_finalizacion
+        $formActividad.causa_indirecta_id = actividad.causa_indirecta_id
         $formActividad.objetivo_especifico_id = actividad.objetivo_especifico_id
-        $formActividad.descripcion = causaIndirecta.actividad ? causaIndirecta.actividad.descripcion : ''
+        $formActividad.descripcion = actividad.descripcion ? actividad.descripcion : ''
         $formActividad.resultado_id = {
-            value: causaIndirecta.actividad.resultado_id,
-            label: resultados.find((item) => item.value == causaIndirecta.actividad.resultado_id)?.label,
+            value: actividad.resultado_id,
+            label: resultados.find((item) => item.value == actividad.resultado_id)?.label,
         }
     }
 
@@ -624,9 +624,7 @@
                 <span class="bg-clip-text text-transparent m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max"> 1. Causas directas e indirectas </span>
             </div>
 
-            <InfoMessage class="mr-6 my-4">
-                Recuerde que al crear una causa directa se genera automáticamente el objetivo específico en la sección de la derecha. Pasa igual si se crea una causa indirecta, se genera la actividad respectiva. Recuerde que ambos ítems deben tener relación.
-            </InfoMessage>
+            <InfoMessage class="mr-6 my-4">Recuerde que al crear una causa directa se genera automáticamente el objetivo específico en la sección de la derecha. Pasa igual si se crea una causa indirecta, se genera la actividad respectiva. Recuerde que ambos ítems deben tener relación.</InfoMessage>
 
             {#each causasDirectas as causaDirecta, i}
                 <div class="my-20 shadow p-2" style="background-color: #ffffff75">
@@ -771,9 +769,7 @@
                 <span class="bg-clip-text text-transparent m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max"> 2. Objetivos específicos y actividades </span>
             </div>
 
-            <InfoMessage class="mr-6 my-4">
-                Si desea generar un objetivo específico debe primero crear la causa directa en la sección de la izquierda. Pasa  igual si desea generar una actividad, debe primero generar una causa indirecta. Recuerde que ambos ítems deben tener relación.
-            </InfoMessage>
+            <InfoMessage class="mr-6 my-4">Si desea generar un objetivo específico debe primero crear la causa directa en la sección de la izquierda. Pasa igual si desea generar una actividad, debe primero generar una causa indirecta. Recuerde que ambos ítems deben tener relación.</InfoMessage>
 
             {#each causasDirectas as causaDirecta, i}
                 <div class="my-20 shadow p-2 pb-[76px]" style="background-color: #ffffff75">

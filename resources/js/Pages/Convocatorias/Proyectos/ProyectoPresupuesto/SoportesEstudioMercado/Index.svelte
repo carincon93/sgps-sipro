@@ -169,7 +169,7 @@
                     </div>
 
                     <div class="col-span-2">
-                        <Label class="mb-4" labelFor="soporte" value="Soporte PDF o ZIP de la primer empresa" />
+                        <Label required class="mb-4" labelFor="soporte" value="Soporte PDF o ZIP de la primer empresa" />
                         <File
                             class="w-full"
                             id="soporte_primer_empresa"
@@ -194,7 +194,7 @@
                     </div>
 
                     <div class="col-span-2">
-                        <Label class="mb-4" labelFor="soporte" value="Soporte PDF o ZIP de la segunda empresa" />
+                        <Label required class="mb-4" labelFor="soporte" value="Soporte PDF o ZIP de la segunda empresa" />
                         <File
                             class="w-full"
                             id="soporte_segunda_empresa"

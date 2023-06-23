@@ -90,7 +90,7 @@
         <div class="w-10/12 step{proyecto.codigo_linea_programatica != 23 ? ' ml-5' : ''}">
             <a use:inertia active={route().current('convocatorias.proyectos.presupuesto.index')} href={route('convocatorias.proyectos.presupuesto.index', [convocatoria.id, proyecto.id])} class="flex flex-col items-center">
                 <div class="rounded-full bg-white w-11 h-11 text-center flex items-center justify-center shadow mb-2 step-number" />
-                <p class="text-xs text-center">Rubríca presupuestal</p>
+                <p class="text-xs text-center">Rubros presupuestales</p>
             </a>
         </div>
         {#if proyecto.codigo_linea_programatica == 70}
@@ -176,7 +176,7 @@
         </a>
     </div>
 </div>
-
+<!--
 <Dialog bind:open={dialogFiles} id="notificaciones" size="calc(100% - 32px)" fullscreen hexBgColor="#7e22ce">
     <div slot="title" class="mb-6 text-center text-app-600" />
     <div slot="content" class="text-white scrollbar style-scrollbar">
@@ -284,7 +284,7 @@
     <Tooltip label="Información sobre los archivos del proyecto">
         <small class="text-center block leading-tight">Clic en el icono para mostrar archivos</small>
     </Tooltip>
-</div>
+</div> -->
 
 <style>
     #stepper a[active='true'] .rounded-full {

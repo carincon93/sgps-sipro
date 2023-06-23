@@ -292,7 +292,7 @@
         <p class="my-8">Se debe evidenciar que la metodología se presente de forma organizada y de manera secuencial, de acuerdo con el ciclo P-H-V-A “Planificar – Hacer – Verificar - Actuar” para alcanzar el objetivo general y cada uno de los objetivos específicos.</p>
     </InfoMessage>
 
-    {#if isSuperAdmin || proyecto.mostrar_recomendaciones}
+    <!-- {#if isSuperAdmin || proyecto.mostrar_recomendaciones}
         <div class="my-14">
             <RecomendacionEvaluador>
                 {#each proyecto.evaluaciones as evaluacion, i}
@@ -330,7 +330,7 @@
                 {/if}
             </RecomendacionEvaluador>
         </div>
-    {/if}
+    {/if} -->
 
     <form on:submit|preventDefault={submit}>
         <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
@@ -404,7 +404,7 @@
                     <div>
                         <Textarea maxlength="40000" id="impacto_municipios" error={errors.impacto_municipios} bind:value={$form.impacto_municipios} on:blur={() => syncTaColumnLong('impacto_municipios', $form)} required />
                     </div>
-                    {#if isSuperAdmin || proyecto.mostrar_recomendaciones}
+                    <!-- {#if isSuperAdmin || proyecto.mostrar_recomendaciones}
                         <RecomendacionEvaluador class="mt-8">
                             {#each proyecto.evaluaciones as evaluacion, i}
                                 {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
@@ -418,7 +418,7 @@
                                 <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                             {/if}
                         </RecomendacionEvaluador>
-                    {/if}
+                    {/if} -->
                 </div>
 
                 <div class="py-24 grid grid-cols-2 gap-4">
@@ -488,7 +488,7 @@
                     </div>
                 {/if}
 
-                {#if isSuperAdmin || proyecto.mostrar_recomendaciones}
+                <!-- {#if isSuperAdmin || proyecto.mostrar_recomendaciones}
                     <RecomendacionEvaluador class="mt-8">
                         {#each proyecto.evaluaciones as evaluacion, i}
                             {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
@@ -502,7 +502,7 @@
                             <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                         {/if}
                     </RecomendacionEvaluador>
-                {/if}
+                {/if} -->
 
                 <div class="py-24 grid grid-cols-2 gap-4">
                     <div>
@@ -539,7 +539,7 @@
                             <Textarea maxlength="40000" id="proyectos_macro" error={errors.proyectos_macro} bind:value={$form.proyectos_macro} on:blur={() => syncTaColumnLong('proyectos_macro', $form)} required />
                         </div>
                     </div>
-                    {#if isSuperAdmin || proyecto.mostrar_recomendaciones}
+                    <!-- {#if isSuperAdmin || proyecto.mostrar_recomendaciones}
                         <RecomendacionEvaluador class="mt-8">
                             {#each proyecto.evaluaciones as evaluacion, i}
                                 {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
@@ -553,7 +553,7 @@
                                 <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                             {/if}
                         </RecomendacionEvaluador>
-                    {/if}
+                    {/if} -->
                 </div>
 
                 <div>
@@ -617,7 +617,7 @@
                         </div>
                     </div>
 
-                    {#if (isSuperAdmin && proyecto.evaluaciones.length > 0) || (proyecto.mostrar_recomendaciones && proyecto.evaluaciones.length > 0)}
+                    <!-- {#if (isSuperAdmin && proyecto.evaluaciones.length > 0) || (proyecto.mostrar_recomendaciones && proyecto.evaluaciones.length > 0)}
                         <RecomendacionEvaluador class="mt-8">
                             {#each proyecto.evaluaciones as evaluacion, i}
                                 {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
@@ -631,7 +631,7 @@
                                 <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                             {/if}
                         </RecomendacionEvaluador>
-                    {/if}
+                    {/if} -->
                 </div>
 
                 <div class="py-24">
@@ -679,9 +679,9 @@
                 </div>
             {/if}
         </fieldset>
-        <div class="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
+        <div class="shadow-inner bg-app-200 border-app-400 flex items-center justify-between px-8 py-4">
             {#if proyecto.allowed.to_update}
-                <LoadingButton loading={$form.processing} class="ml-auto" type="submit">Guardar</LoadingButton>
+                <LoadingButton loading={$form.processing} class="ml-auto" type="submit">Guardar información de la metodología</LoadingButton>
             {/if}
         </div>
     </form>
@@ -760,7 +760,7 @@
             {/if}
         </div>
     </InfoMessage>
-
+<!--
     {#if proyecto.codigo_linea_programatica == 23 || proyecto.codigo_linea_programatica == 65 || proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82}
         {#if isSuperAdmin || proyecto.mostrar_recomendaciones}
             <RecomendacionEvaluador class="mt-8">
@@ -781,13 +781,13 @@
                 {/if}
             </RecomendacionEvaluador>
         {/if}
-    {/if}
+    {/if} -->
 
     {#if showGantt}
         <Button on:click={() => (showGantt = false)} class="mt-6">Ocultar diagrama de Gantt</Button>
     {/if}
 
-    {#if showGantt || to_pdf}
+    {#if showGantt}
         <Gantt
             items={actividadesGantt}
             request={{

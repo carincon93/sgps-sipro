@@ -107,44 +107,6 @@ class ProyectoPresupuestoController extends Controller
 
         $convocatoriaPresupuesto = ConvocatoriaPresupuesto::find($request->convocatoria_presupuesto_id);
 
-        if ($proyecto->lineaProgramatica->codigo != 69 && $proyecto->lineaProgramatica->codigo != 70) {
-            if (PresupuestoValidationTrait::viaticosValidation($proyecto, $convocatoriaPresupuesto, null, $request->valor_total, 4594000)) {
-                return back()->with('error', "La sumatoria de todos los rubros de viáticos no debe superar el valor de $4.594.000");
-            }
-        } else if ($proyecto->lineaProgramatica->codigo == 69) {
-            if (PresupuestoValidationTrait::viaticosValidation($proyecto, $convocatoriaPresupuesto, null, $request->valor_total, 10000000)) {
-                return back()->with('error', "La sumatoria de todos los rubros de viáticos no debe superar el valor de $10.000.000");
-            }
-        }
-
-        /**
-         * Línea 66
-         */
-        if ($proyecto->lineaProgramatica->codigo == 66) {
-            if (PresupuestoValidationTrait::serviciosEspecialesConstruccionValidation($proyecto, $convocatoriaPresupuesto, null, $request->valor_total)) {
-                return back()->with('error', "Este estudio de mercado supera el 5% del total del rubro 'Maquinaria industrial'. Vuelva a diligenciar.");
-            }
-
-            if (PresupuestoValidationTrait::serviciosMantenimientoValidation($proyecto, $convocatoriaPresupuesto, null, $request->valor_total)) {
-                $porcentajeProyecto = $proyecto->getPrecioProyectoAttribute() * 0.05;
-                return back()->with('error', "Este estudio de mercado supera el 5% ($ {$porcentajeProyecto}) del COP total del proyecto. Vuelva a diligenciar.");
-            }
-        }
-
-        /**
-         * Línea 23
-         */
-        if ($proyecto->lineaProgramatica->codigo == 23) {
-            if (PresupuestoValidationTrait::adecuacionesYContruccionesValidation($proyecto, $convocatoriaPresupuesto, null, $request->valor_total)) {
-                return back()->with('error', "Antes de diligenciar información sobre este rubro de 'Adecuaciones y construcciones' tenga en cuenta que el total NO debe superar el valor de 100 salarios mínimos.");
-            }
-
-            if (PresupuestoValidationTrait::serviciosMantenimientoValidation($proyecto, $convocatoriaPresupuesto, null, $request->valor_total)) {
-                $porcentajeProyecto = $proyecto->getPrecioProyectoAttribute() * 0.05;
-                return back()->with('error', "Este estudio de mercado supera el 5% ($ {$porcentajeProyecto}) del COP total del proyecto. Vuelva a diligenciar.");
-            }
-        }
-
         $presupuesto = new ProyectoPresupuesto();
         $presupuesto->descripcion               = $request->descripcion;
         $presupuesto->justificacion             = $request->justificacion;
@@ -259,44 +221,6 @@ class ProyectoPresupuestoController extends Controller
 
         $convocatoriaPresupuesto = ConvocatoriaPresupuesto::find($request->convocatoria_presupuesto_id);
 
-        if ($proyecto->lineaProgramatica->codigo != 69 && $proyecto->lineaProgramatica->codigo != 70) {
-            if (PresupuestoValidationTrait::viaticosValidation($proyecto, $convocatoriaPresupuesto, $presupuesto, $request->valor_total, 4594000)) {
-                return back()->with('error', "La sumatoria de todos los rubros de viáticos no debe superar el valor de $4.594.000");
-            }
-        } else if ($proyecto->lineaProgramatica->codigo == 69) {
-            if (PresupuestoValidationTrait::viaticosValidation($proyecto, $convocatoriaPresupuesto, $presupuesto, $request->valor_total, 10000000)) {
-                return back()->with('error', "La sumatoria de todos los rubros de viáticos no debe superar el valor de $10.000.000");
-            }
-        }
-
-        /**
-         * Línea 66
-         */
-        if ($proyecto->lineaProgramatica->codigo == 66) {
-            if (PresupuestoValidationTrait::serviciosEspecialesConstruccionValidation($proyecto, $convocatoriaPresupuesto, $presupuesto, $request->valor_total)) {
-                return back()->with('error', "Este estudio de mercado supera el 5% del total del rubro 'Maquinaria industrial'. Vuelva a diligenciar.");
-            }
-
-            if (PresupuestoValidationTrait::serviciosMantenimientoValidation($proyecto, $convocatoriaPresupuesto, $presupuesto, $request->valor_total)) {
-                $porcentajeProyecto = $proyecto->getPrecioProyectoAttribute() * 0.05;
-                return back()->with('error', "Este estudio de mercado supera el 5% del ($ {$porcentajeProyecto}) COP total del proyecto. Vuelva a diligenciar.");
-            }
-        }
-
-        /**
-         * Línea 23
-         */
-        if ($proyecto->lineaProgramatica->codigo == 23) {
-            if (PresupuestoValidationTrait::adecuacionesYContruccionesValidation($proyecto, $convocatoriaPresupuesto, $presupuesto, $request->valor_total)) {
-                return back()->with('error', "Antes de diligenciar información sobre este rubro de 'Adecuaciones y construcciones' tenga en cuenta que el total NO debe superar el valor de 100 salarios mínimos.");
-            }
-
-            if (PresupuestoValidationTrait::serviciosMantenimientoValidation($proyecto, $convocatoriaPresupuesto, null, $request->valor_total)) {
-                $porcentajeProyecto = $proyecto->getPrecioProyectoAttribute() * 0.05;
-                return back()->with('error', "Este estudio de mercado supera el 5% ($ {$porcentajeProyecto}) del COP total del proyecto. Vuelva a diligenciar.");
-            }
-        }
-
         $presupuesto->descripcion               = $request->descripcion;
         $presupuesto->justificacion             = $request->justificacion;
         $presupuesto->valor_total               = $request->valor_total;
@@ -368,7 +292,7 @@ class ProyectoPresupuestoController extends Controller
         ]);
 
         if ($request->hasFile('formato_estudio_mercado')) {
-            $this->saveFilesSharepoint($request, $convocatoria, $proyecto, $presupuesto);
+            $this->saveFilesSharepoint($request->formato_estudio_mercado, mb_strtoupper($convocatoria->descripcion), $presupuesto, 'formato_estudio_mercado');
         }
 
         $presupuesto->update(['valor_total' => $request->valor_total]);
@@ -376,23 +300,16 @@ class ProyectoPresupuestoController extends Controller
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
-    public function saveFilesSharepoint(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto)
+    public function saveFilesSharepoint($tmpFile, $modulo, $modelo, $campoBd)
     {
-        $presupuesto->ruta_final_sharepoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ESTUDIOS MERCADO';
+        $presupuesto = $modelo;
+        $proyecto    = Proyecto::find($presupuesto->proyecto_id);
 
-        $response = [];
+        $estudioMercadoSharePoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ESTUDIOS MERCADO';
 
-        if ($request->hasFile('formato_estudio_mercado')) {
-            $response = SharepointHelper::saveFilesSharepoint($request, 'formato_estudio_mercado', $presupuesto, $presupuesto->id . 'formato_estudio_mercado');
-        }
+        $sharePointPath = "$modulo/$estudioMercadoSharePoint";
 
-        ProyectoPresupuesto::where('id', $presupuesto->id)->update(['formato_estudio_mercado' => $response['sharePointPath']]);
-
-        if (count($response) > 0 && $response['success']) {
-            return back()->with('success', 'Los archivos se han cargado correctamente');
-        } else if (count($response) > 0 && $response['success'] == false) {
-            return back()->with('error', 'No se han podido cargar los archivos. Por favor vuelva a intentar');
-        }
+        SharepointHelper::saveFilesSharepoint($tmpFile, $modelo, $sharePointPath, $campoBd);
     }
 
     public function downloadServerFile(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto)

@@ -77,22 +77,20 @@ class SoporteEstudioMercadoController extends Controller
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
 
-        $soporte = SoporteEstudioMercado::updateOrCreate(['id' => $request->id_primer_empresa], [
+        $soportePrimerEmpresa = SoporteEstudioMercado::updateOrCreate(['id' => $request->id_primer_empresa], [
             'empresa'                   => $request->nombre_primer_empresa,
             'proyecto_presupuesto_id'   => $presupuesto->id
         ]);
         if ($request->hasFile('soporte_primer_empresa')) {
-            $request->soporte = $request->soporte_primer_empresa;
-            $this->saveFilesSharepoint($request, 'soporte_primer_empresa', $convocatoria, $proyecto, $presupuesto, $soporte);
+            $this->saveFilesSharepoint($request->soporte_primer_empresa, mb_strtoupper($convocatoria->descripcion), $soportePrimerEmpresa, 'soporte_primer_empresa');
         }
 
-        $soporte = SoporteEstudioMercado::updateOrCreate(['id' => $request->id_segunda_empresa], [
+        $soporteSegundaEmpresa = SoporteEstudioMercado::updateOrCreate(['id' => $request->id_segunda_empresa], [
             'empresa'                   => $request->nombre_segunda_empresa,
             'proyecto_presupuesto_id'   => $presupuesto->id
         ]);
         if ($request->hasFile('soporte_segunda_empresa')) {
-            $request->soporte = $request->soporte_segunda_empresa;
-            $this->saveFilesSharepoint($request, 'soporte_segunda_empresa', $convocatoria, $proyecto, $presupuesto, $soporte);
+            $this->saveFilesSharepoint($request->soporte_segunda_empresa, mb_strtoupper($convocatoria->descripcion), $soporteSegundaEmpresa, 'soporte_segunda_empresa');
         }
 
         if ($request->hasFile('soporte_tercer_empresa')) {
@@ -102,13 +100,12 @@ class SoporteEstudioMercadoController extends Controller
 
             ]);
 
-            $soporte = SoporteEstudioMercado::updateOrCreate(['id' => $request->id_tercer_empresa], [
+            $soporteTerceraEmpresa = SoporteEstudioMercado::updateOrCreate(['id' => $request->id_tercer_empresa], [
                 'empresa'                   => $request->nombre_tercer_empresa,
                 'proyecto_presupuesto_id'   => $presupuesto->id
             ]);
             if ($request->hasFile('soporte_tercer_empresa')) {
-                $request->soporte = $request->soporte_tercer_empresa;
-                $this->saveFilesSharepoint($request, 'soporte_tercer_empresa', $convocatoria, $proyecto, $presupuesto, $soporte);
+                $this->saveFilesSharepoint($request->soporte_tercer_empresa, mb_strtoupper($convocatoria->descripcion), $soporteTerceraEmpresa, 'soporte_tercer_empresa');
             }
         }
 
@@ -187,21 +184,16 @@ class SoporteEstudioMercadoController extends Controller
         return redirect()->route('convocatorias.proyectos.presupuesto.soportes.index', [$convocatoria, $proyecto, $presupuesto])->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
-    public function saveFilesSharepoint(Request $request, $nombreArchivo, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto, SoporteEstudioMercado $soporte)
+    public function saveFilesSharepoint($tmpFile, $modulo, $modelo, $campoBd)
     {
-        $soporte->ruta_final_sharepoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ESTUDIOS MERCADO/COTIZACIONES';
+        $estudioMercado = $modelo;
+        $proyecto       = Proyecto::find($estudioMercado->proyectoPresupuesto->proyecto_id);
 
-        $response = [];
+        $soporteEstudioMercadoSharePoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ESTUDIOS MERCADO/COTIZACIONES';
 
-        if ($request->hasFile($nombreArchivo)) {
-            $response = SharepointHelper::saveFilesSharepoint($request, 'soporte', $soporte, $soporte->id . $nombreArchivo);
-        }
+        $sharePointPath = "$modulo/$soporteEstudioMercadoSharePoint";
 
-        if (count($response) > 0 && $response['success']) {
-            return back()->with('success', 'Los archivos se han cargado correctamente');
-        } else if (count($response) > 0 && $response['success'] == false) {
-            return back()->with('error', 'No se han podido cargar los archivos. Por favor vuelva a intentar');
-        }
+        SharepointHelper::saveFilesSharepoint($tmpFile, $modelo, $sharePointPath, $campoBd);
     }
 
     public function downloadServerFile(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto, SoporteEstudioMercado $soporte)
