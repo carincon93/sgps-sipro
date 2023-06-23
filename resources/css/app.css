@@ -319,4 +319,18 @@ th.th-actions {
     border-color: transparent;
 }
 
+.item.active.svelte-apvs86.svelte-apvs86.svelte-apvs86 {
+    background: #7ab4a6 !important;
+}
 
+.item.hover.svelte-apvs86.svelte-apvs86.svelte-apvs86:not(.active) {
+    background: #eff1f1 !important;
+}
+
+.item.svelte-apvs86.svelte-apvs86.svelte-apvs86 {
+    height: 100% !important;
+    line-height: 22px !important;
+    padding: 10px 20px !important;
+    text-overflow: ellipsis !important;
+    white-space: break-spaces !important;
+}

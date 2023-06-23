@@ -515,7 +515,7 @@
         $formActividad.fecha_finalizacion = causaIndirecta.actividad.fecha_finalizacion
         $formActividad.causa_indirecta_id = causaIndirecta.actividad.causa_indirecta_id
         $formActividad.objetivo_especifico_id = actividad.objetivo_especifico_id
-        $formActividad.descripcion = causaIndirecta.actividad.descripcion
+        $formActividad.descripcion = causaIndirecta.actividad ? causaIndirecta.actividad.descripcion : ''
         $formActividad.resultado_id = {
             value: causaIndirecta.actividad.resultado_id,
             label: resultados.find((item) => item.value == causaIndirecta.actividad.resultado_id)?.label,
@@ -623,6 +623,10 @@
             <div class="text-3xl font-extrabold mt-28">
                 <span class="bg-clip-text text-transparent m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max"> 1. Causas directas e indirectas </span>
             </div>
+
+            <InfoMessage class="mr-6 my-4">
+                Recuerde que al crear una causa directa se genera automáticamente el objetivo específico en la sección de la derecha. Pasa igual si se crea una causa indirecta, se genera la actividad respectiva. Recuerde que ambos ítems deben tener relación.
+            </InfoMessage>
 
             {#each causasDirectas as causaDirecta, i}
                 <div class="my-20 shadow p-2" style="background-color: #ffffff75">
@@ -753,7 +757,7 @@
                 </div>
             {/each}
 
-            <Button type="button" variant={null} class="block mt-4 mb-20" labelClass="flex items-center justify-center" on:click={() => newCausaDirecta()}>
+            <Button type="button" variant={null} class="block mt-4 mb-20 mx-auto" labelClass="flex items-center justify-center" on:click={() => newCausaDirecta()}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -766,6 +770,10 @@
             <div class="text-3xl font-extrabold mt-28">
                 <span class="bg-clip-text text-transparent m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max"> 2. Objetivos específicos y actividades </span>
             </div>
+
+            <InfoMessage class="mr-6 my-4">
+                Si desea generar un objetivo específico debe primero crear la causa directa en la sección de la izquierda. Pasa  igual si desea generar una actividad, debe primero generar una causa indirecta. Recuerde que ambos ítems deben tener relación.
+            </InfoMessage>
 
             {#each causasDirectas as causaDirecta, i}
                 <div class="my-20 shadow p-2 pb-[76px]" style="background-color: #ffffff75">
@@ -914,7 +922,7 @@
         </div>
     </div>
 
-    <figure class="flex w-full items-center justify-center">
+    <figure class="flex w-full items-center justify-center mt-20">
         <img src="/images/efectos-resultados.png" alt="" />
     </figure>
     <!-- Efectos directos y efectos indirectos relacionados -->
@@ -1053,7 +1061,7 @@
                 </div>
             {/each}
 
-            <Button type="button" variant={null} class="block mt-4 mb-20" labelClass="flex items-center justify-center" on:click={() => newEfectoDirecto()}>
+            <Button type="button" variant={null} class="block mt-4 mb-20 mx-auto" labelClass="flex items-center justify-center" on:click={() => newEfectoDirecto()}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
