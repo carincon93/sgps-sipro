@@ -5,19 +5,16 @@
     import { _ } from 'svelte-i18n'
 
     import Label from '@/Shared/Label'
-    import Input from '@/Shared/Input'
     import LoadingButton from '@/Shared/LoadingButton'
     import InputError from '@/Shared/InputError'
     import Textarea from '@/Shared/Textarea'
     import Select from '@/Shared/Select'
     import InfoMessage from '@/Shared/InfoMessage'
-    import Dialog from '@/Shared/Dialog'
     import Button from '@/Shared/Button'
-    import Dropdown from '@/Shared/Dropdown'
+    import Tooltip from '@/Shared/Tooltip'
     import RecomendacionEvaluador from '@/Shared/RecomendacionEvaluador'
 
     export let errors
-    export let to_pdf
     export let convocatoria
     export let proyecto
     export let efectosDirectos
@@ -27,12 +24,6 @@
     export let objetivosEspecificos
     export let faseEvaluacion = false
 
-    let formId
-
-    let dialogOpen = false
-    let dialogTitle
-    let codigo
-
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
@@ -40,73 +31,56 @@
     let isSuperAdmin = checkRole(authUser, [1])
 
     /**
-     * Impactos
+     * Efectos indirectos
      */
-    function newImpacto(efectoDirectoId) {
-        if (proyecto.allowed.to_update) {
-            Inertia.post(
-                route('proyectos.efecto-indirecto', {
-                    proyecto: proyecto.id,
-                    efecto_directo: efectoDirectoId,
-                }),
-                [],
-                {
-                    onSuccess: () => {
-                        closeDialog()
-                    },
-
-                    preserveScroll: true,
-                },
-            )
-        }
-    }
-
-    let formImpacto = useForm({
-        id: 0,
-        efecto_indirecto_id: 0,
+    let formEfectoIndirecto = useForm({
+        id: null,
+        efecto_directo_id: null,
         descripcion: '',
-        tipo: '',
-        resultado_id: '',
     })
 
-    let showImpactoForm = false
-    let impactoEfectoIndirecto
-    let impactoEfectoIndirectoCodigo
-    function showImpactoDialog(efectoIndirecto, efectoIndirectoId, resultadoId) {
-        codigo = efectoIndirecto.impacto.id != null ? 'RES-' + resultadoId + '-IMP-' + efectoIndirecto.impacto.id : ''
-        dialogTitle = 'Impacto'
-        dialogOpen = true
-        showImpactoForm = true
-        formId = 'impacto-form'
-        impactoEfectoIndirecto = efectoIndirecto.descripcion
-        impactoEfectoIndirectoCodigo = efectoIndirecto.id
+    let showNuevoEfectoIndirectoForm = false
+    let efectoDirectoIdNuevoIndirecto = null
+    function setNuevoEfectoIndirecto(efectoDirecto) {
+        $formEfectoIndirecto.reset()
 
-        if (efectoIndirecto.impacto != null) {
-            $formImpacto.id = efectoIndirecto.impacto.id
-            $formImpacto.descripcion = efectoIndirecto.impacto.descripcion
-            $formImpacto.tipo = {
-                value: efectoIndirecto.impacto.tipo,
-                label: tiposImpacto.find((item) => item.value == efectoIndirecto.impacto.tipo)?.label,
-            }
-            $formImpacto.efecto_indirecto_id = efectoIndirecto.impacto.efectoIndirectoId
-            $formImpacto.resultado_id = resultadoId
-        } else {
-            $formImpacto.id = null
-            $formImpacto.efecto_indirecto_id = efectoIndirectoId
-            $formImpacto.resultado_id = ''
-        }
+        showNuevoEfectoIndirectoForm = true
+        showEfectoIndirectoForm = false
+        efectoDirectoIdNuevoIndirecto = efectoDirecto.id
+
+        $formEfectoIndirecto.efecto_directo_id = efectoDirecto.id
     }
 
-    function submitImpacto() {
+    let showEfectoIndirectoForm = false
+    let efectoIndirectoId = null
+    function setEfectoIndirecto(efectoDirecto, efectoIndirecto) {
+        $formEfectoIndirecto.reset()
+        if (showEfectoDirectoForm) {
+            submitEfectoDirecto()
+        }
+
+        showEfectoIndirectoForm = true
+        efectoIndirectoId = efectoIndirecto.id
+
+        $formEfectoIndirecto.id = efectoIndirecto.id
+        $formEfectoIndirecto.descripcion = efectoIndirecto.descripcion ? efectoIndirecto.descripcion : ''
+        $formEfectoIndirecto.efecto_directo_id = efectoDirecto.id
+    }
+
+    function submitEfectoIndirecto() {
         if (proyecto.allowed.to_update) {
-            $formImpacto.post(
-                route('proyectos.impacto', {
+            $formEfectoIndirecto.post(
+                route('proyectos.efecto-indirecto', {
                     proyecto: proyecto.id,
-                    impacto: $formImpacto.id,
+                    efecto_directo: $formEfectoIndirecto.efecto_directo_id,
                 }),
                 {
                     onSuccess: () => {
-                        closeDialog()
+                        showEfectoIndirectoForm = false
+                        showNuevoEfectoIndirectoForm = false
+                        $formEfectoIndirecto.reset()
+                        efectoIndirectoId = null
+                        efectoDirectoId = null
                     },
 
                     preserveScroll: true,
@@ -115,21 +89,25 @@
         }
     }
 
-    function destroyImpacto(impacto) {
+    let showEfectoIndirectoDestroyIcon = false
+    let efectoIndirectoIdToDestroy = null
+    function destroyEfectoIndirecto(efectoIndirecto) {
         if (proyecto.allowed.to_update) {
-            Inertia.post(route('proyectos.impacto.destroy', [proyecto.id, impacto.id]), [], {
-                onSuccess: () => {
-                    closeDialog()
-                },
+            Inertia.post(route('proyectos.efecto-indirecto.destroy', [proyecto.id, efectoIndirecto.id]), [], {
                 preserveScroll: true,
             })
         }
     }
 
     /**
-     * Resultados
+     * Efectos directos
      */
-    function newResultado() {
+    let formEfectoDirecto = useForm({
+        id: null,
+        descripcion: '',
+    })
+
+    function newEfectoDirecto() {
         if (proyecto.allowed.to_update) {
             Inertia.post(
                 route('proyectos.new-efecto-directo', {
@@ -143,45 +121,33 @@
         }
     }
 
-    let formResultado = useForm({
-        descripcion: '',
-        trl: '',
-    })
-
-    let showResultadoForm = false
-    let descripcionObjetivoEspecifico = []
-    let resultadoEfectoDirecto
-    $: causasDirectas
-    function showResultadoDialog(efectoDirecto, resultado) {
-        reset()
-        let objetivoEspecifico = causasDirectas.find((causaDirecta) => causaDirecta.objetivo_especifico.id == resultado.objetivo_especifico_id)
-        descripcionObjetivoEspecifico = {
-            descripcion: objetivoEspecifico ? objetivoEspecifico.objetivo_especifico?.descripcion : 'Sin información registrada',
-            numero: objetivoEspecifico ? objetivoEspecifico.objetivo_especifico?.numero : '',
+    let showEfectoDirectoForm = false
+    let efectoDirectoId = null
+    function setEfectoDirecto(efectoDirecto) {
+        $formEfectoDirecto.reset()
+        if (showEfectoIndirectoForm) {
+            submitEfectoIndirecto()
         }
-        codigo = 'RES-' + resultado.id
-        dialogTitle = 'Resultado'
-        dialogOpen = true
-        showResultadoForm = true
-        formId = 'resultado-form'
-        $formResultado.id = resultado.id
-        $formResultado.descripcion = resultado.descripcion
-        $formResultado.trl = resultado.trl
-        $formResultado.objetivo_especifico_id = { value: resultado.objetivo_especifico_id, label: objetivosEspecificos.find((item) => item.value == resultado.objetivo_especifico_id)?.label }
-        resultadoEfectoDirecto = efectoDirecto.descripcion ?? 'Sin información registrada'
+
+        showEfectoDirectoForm = true
+        efectoDirectoId = efectoDirecto.id
+
+        $formEfectoDirecto.descripcion = efectoDirecto.descripcion ? efectoDirecto.descripcion : ''
+        $formEfectoDirecto.id = efectoDirecto.id
     }
 
-    function submitResultado() {
+    function submitEfectoDirecto() {
         if (proyecto.allowed.to_update) {
-            $formResultado.post(
-                route('proyectos.resultado', {
+            $formEfectoDirecto.post(
+                route('proyectos.efecto-directo', {
                     proyecto: proyecto.id,
-                    resultado: $formResultado.id,
-                    objetivo_especifico_id: $formResultado.objetivo_especifico_id?.value,
+                    efecto_directo: $formEfectoDirecto.id,
                 }),
                 {
                     onSuccess: () => {
-                        closeDialog()
+                        showEfectoDirectoForm = false
+                        $formEfectoDirecto.reset()
+                        efectoDirectoId = null
                     },
 
                     preserveScroll: true,
@@ -190,52 +156,25 @@
         }
     }
 
-    function destroyResultado(resultado) {
+    let showEfectoDirectoDestroyIcon = false
+    let efectoDirectoIdToDestroy = null
+    function destroyEfectoDirecto(efectoDirecto) {
         if (proyecto.allowed.to_update) {
-            Inertia.post(route('proyectos.resultado.destroy', [proyecto.id, resultado.id]), [], {
-                onSuccess: () => {
-                    closeDialog()
-                },
+            Inertia.post(route('proyectos.efecto-directo.destroy', [proyecto.id, efectoDirecto.id]), [], {
                 preserveScroll: true,
             })
         }
     }
 
     /**
-     * Objetivo general
+     * Causas directas
      */
-    let formObjetivoGeneral = useForm({
-        objetivo_general: proyecto.objetivo_general,
+    let formCausaDirecta = useForm({
+        id: null,
+        descripcion: '',
     })
 
-    let showObjetivoGeneralForm = false
-    let problemaCentral
-    function showObjetivoGeneralDialog() {
-        reset()
-        dialogTitle = 'Objetivo general'
-        dialogOpen = true
-        showObjetivoGeneralForm = true
-        formId = 'objetivo-general-form'
-        problemaCentral = proyecto.problema_central
-        $formObjetivoGeneral.objetivo_general = proyecto.objetivo_general
-    }
-
-    function submitObjetivoGeneral() {
-        if (proyecto.allowed.to_update) {
-            $formObjetivoGeneral.post(route('proyectos.objetivo-general', proyecto.id), {
-                onSuccess: () => {
-                    closeDialog()
-                },
-
-                preserveScroll: true,
-            })
-        }
-    }
-
-    /**
-     * Objetivos específicos
-     */
-    function newObjetivoEspecifico() {
+    function newCausaDirecta() {
         if (proyecto.allowed.to_update) {
             Inertia.post(
                 route('proyectos.new-causa-directa', {
@@ -249,25 +188,265 @@
         }
     }
 
+    let showCausaDirectaForm = false
+    let causaDirectaId = null
+    function setCausaDirecta(causaDirecta) {
+        $formCausaDirecta.reset()
+        if (showEfectoIndirectoForm) {
+            submitEfectoIndirecto()
+        }
+
+        showCausaDirectaForm = true
+        causaDirectaId = causaDirecta.id
+
+        $formCausaDirecta.descripcion = causaDirecta.descripcion ? causaDirecta.descripcion : ''
+        $formCausaDirecta.id = causaDirecta.id
+    }
+
+    function submitCausaDirecta() {
+        if (proyecto.allowed.to_update) {
+            $formCausaDirecta.post(
+                route('proyectos.causa-directa', {
+                    proyecto: proyecto.id,
+                    causa_directa: $formCausaDirecta.id,
+                }),
+                {
+                    onSuccess: () => {
+                        showCausaDirectaForm = false
+                        $formCausaDirecta.reset()
+                        causaDirectaId = null
+                    },
+
+                    preserveScroll: true,
+                },
+            )
+        }
+    }
+
+    let showCausaDirectaDestroyIcon = false
+    let causaDirectaIdToDestroy = null
+    function destroyCausaDirecta(causaDirecta) {
+        if (proyecto.allowed.to_update) {
+            Inertia.post(route('proyectos.causa-directa.destroy', [proyecto.id, causaDirecta.id]), [], {
+                preserveScroll: true,
+            })
+        }
+    }
+
+    /**
+     * Causas indirectas
+     */
+    let formCausaIndirecta = useForm({
+        id: null,
+        causa_directa_id: null,
+        descripcion: '',
+    })
+
+    let showNuevaCausaIndirectaForm = false
+    let causaDirectaIdNuevaIndirecta = null
+    function setNuevoCausaIndirecta(causaDirecta) {
+        $formCausaIndirecta.reset()
+
+        showNuevaCausaIndirectaForm = true
+        showCausaIndirectaForm = false
+        causaDirectaIdNuevaIndirecta = causaDirecta.id
+
+        $formCausaIndirecta.causa_directa_id = causaDirecta.id
+    }
+
+    let showCausaIndirectaForm = false
+    let causaIndirectaId = null
+    function setCausaIndirecta(causaDirecta, causaIndirecta) {
+        $formCausaIndirecta.reset()
+        if (showEfectoDirectoForm) {
+            submitEfectoDirecto()
+        }
+
+        showCausaIndirectaForm = true
+        causaIndirectaId = causaIndirecta.id
+
+        $formCausaIndirecta.id = causaIndirecta.id
+        $formCausaIndirecta.descripcion = causaIndirecta.descripcion ? causaIndirecta.descripcion : ''
+        $formCausaIndirecta.causa_directa_id = causaDirecta.id
+    }
+
+    function submitCausaIndirecta() {
+        if (proyecto.allowed.to_update) {
+            $formCausaIndirecta.post(
+                route('proyectos.causa-indirecta', {
+                    proyecto: proyecto.id,
+                    causa_directa: $formCausaIndirecta.causa_directa_id,
+                }),
+                {
+                    onSuccess: () => {
+                        showCausaIndirectaForm = false
+                        showNuevaCausaIndirectaForm = false
+                        $formCausaIndirecta.reset()
+                        causaIndirectaId = null
+                        causaDirectaId = null
+                    },
+
+                    preserveScroll: true,
+                },
+            )
+        }
+    }
+
+    let showCausaIndirectaDestroyIcon = false
+    let causaIndirectaIdToDestroy = null
+    function destroyCausaIndirecta(causaIndirecta) {
+        if (proyecto.allowed.to_update) {
+            Inertia.post(route('proyectos.causa-indirecta.destroy', [proyecto.id, causaIndirecta.id]), [], {
+                preserveScroll: true,
+            })
+        }
+    }
+
+    /**
+     * Impactos
+     */
+    let formImpacto = useForm({
+        id: null,
+        efecto_indirecto_id: null,
+        descripcion: '',
+        tipo: '',
+        resultado_id: '',
+    })
+
+    let showImpactoForm = false
+    let impactoId = null
+    function setImpacto(efectoIndirecto, impacto) {
+        $formImpacto.reset()
+        if (showResultadoForm) {
+            submitResultado()
+        }
+
+        showImpactoForm = true
+        impactoId = impacto.id
+
+        $formImpacto.id = efectoIndirecto.impacto.id
+        $formImpacto.efecto_indirecto_id = efectoIndirecto.id
+        $formImpacto.descripcion = efectoIndirecto.impacto.descripcion ? efectoIndirecto.impacto.descripcion : ''
+        $formImpacto.tipo = efectoIndirecto.impacto.tipo
+            ? {
+                  value: efectoIndirecto.impacto.tipo,
+                  label: tiposImpacto.find((item) => item.value == efectoIndirecto.impacto.tipo)?.label,
+              }
+            : null
+    }
+
+    function submitImpacto() {
+        if (proyecto.allowed.to_update) {
+            $formImpacto.post(
+                route('proyectos.impacto', {
+                    proyecto: proyecto.id,
+                    impacto: $formImpacto.id,
+                }),
+                {
+                    onSuccess: () => {
+                        showImpactoForm = false
+                        resultadoId = null
+                        impactoId = null
+                        $formImpacto.reset()
+                    },
+
+                    preserveScroll: true,
+                },
+            )
+        }
+    }
+
+    let showImpactoDestroyIcon = false
+    let impactoIdToDestroy = null
+    function destroyImpacto(impacto) {
+        if (proyecto.allowed.to_update) {
+            Inertia.post(route('proyectos.impacto.destroy', [proyecto.id, impacto.id]), [], {
+                preserveScroll: true,
+            })
+        }
+    }
+
+    /**
+     * Resultados
+     */
+    let formResultado = useForm({
+        descripcion: '',
+    })
+
+    let showResultadoForm = false
+    let resultadoId = null
+    $: causasDirectas
+    function setResultado(efectoDirecto, resultado) {
+        $formResultado.reset()
+        if (showImpactoForm) {
+            submitImpacto()
+        }
+
+        showResultadoForm = true
+        resultadoId = resultado.id
+
+        $formResultado.id = resultado.id
+        $formResultado.descripcion = resultado.descripcion
+        $formResultado.objetivo_especifico_id = { value: resultado.objetivo_especifico_id, label: objetivosEspecificos.find((item) => item.value == resultado.objetivo_especifico_id)?.label }
+    }
+
+    function submitResultado() {
+        if (proyecto.allowed.to_update) {
+            $formResultado.post(
+                route('proyectos.resultado', {
+                    proyecto: proyecto.id,
+                    resultado: $formResultado.id,
+                    objetivo_especifico_id: $formResultado.objetivo_especifico_id?.value,
+                }),
+                {
+                    onSuccess: () => {
+                        showResultadoForm = false
+                        $formResultado.reset()
+                        resultadoId = null
+                    },
+
+                    preserveScroll: true,
+                },
+            )
+        }
+    }
+
+    let showResultadoDestroyIcon = false
+    let resultadoIdToDestroy = null
+    function destroyResultado(resultado) {
+        if (proyecto.allowed.to_update) {
+            Inertia.post(route('proyectos.resultado.destroy', [proyecto.id, resultado.id]), [], {
+                onSuccess: () => {
+                    closeDialog()
+                },
+                preserveScroll: true,
+            })
+        }
+    }
+
+    /**
+     * Objetivos específicos
+     */
     let formObjetivoEspecifico = useForm({
-        id: 0,
+        id: null,
         descripcion: '',
         numero: 0,
     })
 
     let showObjetivoEspecificoForm = false
-    let causaDirectaObjetivoEspecifico
-    function showObjetivoEspecificoDialog(causaDirecta, numero) {
-        reset()
-        codigo = 'OBJ-ESP-' + causaDirecta.objetivo_especifico.id
-        dialogTitle = causaDirecta.objetivo_especifico.numero
-        dialogOpen = true
+    let objetivoEspecificoId = null
+    function setObjetivoEspecifico(causaDirecta, objetivoEspecifico, numero) {
+        $formObjetivoEspecifico.reset()
+        if (showActividadForm) {
+            submitActividad()
+        }
+
         showObjetivoEspecificoForm = true
-        formId = 'objetivo-especifico-form'
+        objetivoEspecificoId = objetivoEspecifico.id
+
         $formObjetivoEspecifico.id = causaDirecta.objetivo_especifico.id
         $formObjetivoEspecifico.descripcion = causaDirecta.objetivo_especifico.descripcion
         $formObjetivoEspecifico.numero = numero
-        causaDirectaObjetivoEspecifico = causaDirecta.descripcion ?? 'Sin información registrada'
     }
 
     function submitObjetivoEspecifico() {
@@ -279,7 +458,9 @@
                 }),
                 {
                     onSuccess: () => {
-                        closeDialog()
+                        showObjetivoEspecificoForm = false
+                        $formObjetivoEspecifico.reset()
+                        objetivoEspecificoId = null
                     },
 
                     preserveScroll: true,
@@ -288,6 +469,8 @@
         }
     }
 
+    let showObjetivoEspecificoDestroyIcon = false
+    let objetivoEspecificoIdToDestroy = null
     function destroyObjetivoEspecifico(objetivoEspecifico) {
         if (proyecto.allowed.to_update) {
             Inertia.post(route('proyectos.objetivo-especifico.destroy', [proyecto.id, objetivoEspecifico.id]), [], {
@@ -302,56 +485,36 @@
     /**
      * Actividades
      */
-    function newActividad(causaDirectaId) {
-        if (proyecto.allowed.to_update) {
-            Inertia.post(
-                route('proyectos.causa-indirecta', {
-                    proyecto: proyecto.id,
-                    causa_directa: causaDirectaId,
-                }),
-                [],
-                {
-                    onSuccess: () => {
-                        closeDialog()
-                    },
-
-                    preserveScroll: true,
-                },
-            )
-        }
-    }
-
     let formActividad = useForm({
-        id: 0,
+        id: null,
         fecha_inicio: '',
         fecha_finalizacion: '',
-        causa_indirecta_id: 0,
-        objetivo_especifico_id: 0,
-        resultado_id: 0,
+        causa_indirecta_id: null,
+        objetivo_especifico_id: null,
+        resultado_id: null,
         descripcion: '',
     })
 
     let showActividadForm = false
-    let actividadCausaIndirecta
+    let actividadId = null
     let resultadosFiltrados
-    let codigoCausaIndirecta
-    function showActividadDialog(causaIndirecta, objetivoEspecificoId) {
-        reset()
-        codigo = causaIndirecta.actividad.id != null ? 'OBJ-ESP-' + objetivoEspecificoId + '-ACT-' + causaIndirecta.actividad.id : ''
-        dialogTitle = 'Actividad'
-        dialogOpen = true
-        showActividadForm = true
-        codigoCausaIndirecta = causaIndirecta.id
-        formId = 'actividad-form'
-        resultadosFiltrados = resultados.filter((item) => item.objetivo_especifico_id == objetivoEspecificoId)
+    function setActividad(causaIndirecta, actividad) {
+        $formActividad.reset()
+        if (showObjetivoEspecificoForm) {
+            submitObjetivoEspecifico()
+        }
+
+        resultadosFiltrados = resultados.filter((item) => item.objetivo_especifico_id == actividad.objetivo_especifico_id)
         resultadosFiltrados = resultadosFiltrados.filter((item) => item.label != null)
-        actividadCausaIndirecta = causaIndirecta.descripcion ?? 'Sin información registrada'
+
+        showActividadForm = true
+        actividadId = actividad.id
 
         $formActividad.id = causaIndirecta.actividad.id
         $formActividad.fecha_inicio = causaIndirecta.actividad.fecha_inicio
         $formActividad.fecha_finalizacion = causaIndirecta.actividad.fecha_finalizacion
         $formActividad.causa_indirecta_id = causaIndirecta.actividad.causa_indirecta_id
-        $formActividad.objetivo_especifico_id = objetivoEspecificoId
+        $formActividad.objetivo_especifico_id = actividad.objetivo_especifico_id
         $formActividad.descripcion = causaIndirecta.actividad.descripcion
         $formActividad.resultado_id = {
             value: causaIndirecta.actividad.resultado_id,
@@ -369,7 +532,9 @@
                 }),
                 {
                     onSuccess: () => {
-                        closeDialog()
+                        showActividadForm = false
+                        $formActividad.reset()
+                        actividadId = null
                     },
                     preserveScroll: true,
                 },
@@ -377,6 +542,8 @@
         }
     }
 
+    let showActividadDestroyIcon = false
+    let actividadIdToDestroy = null
     function destroyActividad(actividad) {
         if (proyecto.allowed.to_update) {
             Inertia.post(route('proyectos.actividad.destroy', [proyecto.id, actividad.id]), [], {
@@ -387,34 +554,9 @@
             })
         }
     }
-
-    function reset() {
-        showObjetivoGeneralForm = false
-        showActividadForm = false
-        showResultadoForm = false
-        showImpactoForm = false
-        showObjetivoEspecificoForm = false
-        dialogTitle = ''
-        codigo = ''
-        formId = ''
-
-        $formImpacto.reset()
-        $formResultado.reset()
-        $formObjetivoGeneral.reset()
-        $formObjetivoEspecifico.reset()
-        $formActividad.reset()
-    }
-
-    function closeDialog() {
-        reset()
-        dialogOpen = false
-    }
 </script>
 
-<h1 class="text-3xl {to_pdf ? '' : 'mt-24'} mb-8 text-center">Árbol de objetivos</h1>
-<p class="text-center">El árbol de objetivos se obtiene al transformar en positivo el árbol de problemas manteniendo la misma estructura y niveles de jerarquía.</p>
-
-{#if (isSuperAdmin && faseEvaluacion == false) || (proyecto.mostrar_recomendaciones && faseEvaluacion == false)}
+<!-- {#if (isSuperAdmin && faseEvaluacion == false) || (proyecto.mostrar_recomendaciones && faseEvaluacion == false)}
     <RecomendacionEvaluador class="mt-8">
         {#each proyecto.evaluaciones as evaluacion, i}
             {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
@@ -469,430 +611,620 @@
             {/if}
         {/each}
     </RecomendacionEvaluador>
-{/if}
+{/if} -->
 
 <div>
-    <!-- Resultados e impactos relacionados -->
-    <div class="resultado-container">
-        <div class="p-2">
-            <div class="text-5xl font-extrabold">
-                <span class="bg-clip-text text-transparent my-6 m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max"> Objetivo general </span>
-            </div>
-            <p class="text-center my-10">Por favor diligencie el objetivo general</p>
-            <div on:click={showObjetivoGeneralDialog} class="cell border border-app-500 h-20 flex items-center justify-center shadow-lg p-4 cursor-pointer hover:shadow-app-500/80">
-                {#if proyecto.objetivo_general != null && proyecto.objetivo_general.length > 0}
-                    <p class="leading-tight paragraph-ellipsis text-xs">
-                        {proyecto.objetivo_general}
-                    </p>
-                {:else}
-                    <p class="text-xs flex items-center">Sin información registrada aún. Por favor modifique el objetivo general</p>
-                {/if}
+    <!-- Causas directas y causas indirectas relacionados -->
+    <figure class="flex w-full items-center justify-center">
+        <img src="/images/causas-objetivos.png" alt="" />
+    </figure>
+    <div class="grid grid-cols-2 gap-4">
+        <div>
+            <div class="text-3xl font-extrabold mt-28">
+                <span class="bg-clip-text text-transparent m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max"> 1. Causas directas e indirectas </span>
             </div>
 
-            <hr class="w-full my-10" />
+            {#each causasDirectas as causaDirecta, i}
+                <div class="my-20 shadow p-2" style="background-color: #ffffff75">
+                    <small class="inline-block ml-2">Causa directa #{i + 1}</small>
+                    {#if causaDirectaId != causaDirecta.id}
+                        <!-- svelte-ignore a11y-click-events-have-key-events -->
+                        <div class="bg-white relative p-4 rounded-md parent-actions hover:cursor-text min-h-[120px] max-h-[120px] my-4 pr-14" on:click={setCausaDirecta(causaDirecta)}>
+                            {causaDirecta.descripcion ? causaDirecta.descripcion : 'Por favor diligencie esta causa directa.'}
 
-            <div class="text-5xl font-extrabold mb-10 title relative">
-                <span class="bg-clip-text text-transparent my-6 m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max box-title relative"> Objetivos específicos y actividades </span>
-            </div>
-
-            <p class="text-center my-10">Por favor genere algún objetivo específico y asocie sus respectivas actividades</p>
-
-            <div class="grid grid-cols-2 gap-2">
-                {#each causasDirectas as causaDirecta, i}
-                    <div class="p-2 border border-app-300 mr-2 shadow-inner my-20">
-                        <span class="m-auto text-app-600 block w-max"> Objetivo específico # {causaDirecta.objetivo_especifico.numero} </span>
-                        <div class="{causaDirecta.objetivo_especifico.descripcion != null && causaDirecta.objetivo_especifico.descripcion.length > 0 ? 'cell' : ''} border my-14 border-app-500 cursor-pointer shadow-lg hover:shadow-app-500/80 p-4 min-h-[160px]" on:click={showObjetivoEspecificoDialog(causaDirecta, i + 1)}>
-                            <p class="leading-tight paragraph-ellipsis text-xs">
-                                <small class="block font-bold mb-2">OBJ-ESP-{causaDirecta.objetivo_especifico.id}</small>
-                                {#if causaDirecta.objetivo_especifico.descripcion != null && causaDirecta.objetivo_especifico.descripcion.length > 0}
-                                    {causaDirecta.objetivo_especifico.descripcion}
-                                {:else}
-                                    <p class="text-xs flex items-center mt-4">Sin información registrada aún. Por favor modifique este objetivo específico</p>
-                                {/if}
-                            </p>
-                        </div>
-
-                        <div class="mb-14">
-                            <span class="m-auto text-app-600 block w-max box-title relative"> Actividades </span>
-                        </div>
-
-                        <div class="grid {causaDirecta.causas_indirectas.length > 0 ? 'grid-cols-4' : ''} gap-3">
-                            {#each causaDirecta.causas_indirectas as causaIndirecta, j}
-                                <div
-                                    class="{causaIndirecta.actividad?.descripcion != null && causaIndirecta.actividad?.descripcion.length > 0 && causaIndirecta.actividad?.descripcion != ' ' ? 'cell' : ''} border border-app-500 mb-10 relative space-x-4 cursor-pointer shadow-lg hover:shadow-app-500/80 p-4 min-h-[136px]"
-                                    style="flex: 1 0 33.333%"
-                                    on:click={showActividadDialog(causaIndirecta, causaDirecta.objetivo_especifico.id)}
-                                >
-                                    <p class="leading-tight paragraph-ellipsis text-xs">
-                                        <small class="block font-bold mb-2">OBJ-ESP-{causaDirecta.objetivo_especifico.id}-ACT-{causaIndirecta.actividad?.id}</small>
-                                        {#if causaIndirecta.actividad?.descripcion != null && causaIndirecta.actividad?.descripcion.length > 0 && causaIndirecta.actividad?.descripcion != ' '}
-                                            {causaIndirecta.actividad?.descripcion}
-                                        {:else}
-                                            <p class="flex items-center mt-4 text-xs">Sin información registrada aún. Por favor modifique esta actividad.</p>
-                                        {/if}
-                                    </p>
-                                </div>
-                            {/each}
-
-                            {#if isSuperAdmin || checkRole(authUser, [4, 5, 6, 12, 13, 15, 16, 17]) || (proyecto.codigo_linea_programatica == 69 && proyecto?.proyecto_base) || (proyecto.codigo_linea_programatica == 69 && checkPermissionByUser( authUser, [23], )) || (proyecto.codigo_linea_programatica == 70 && proyecto?.proyecto_base) || (proyecto.codigo_linea_programatica == 70 && checkPermissionByUser( authUser, [24], ))}
-                                <div class="new-item mb-10 relative flex flex-col items-center justify-center space-x-4 cursor-pointer shadow-lg hover:shadow-fuchsia-400/80 p-4 min-h-[136px]" style="flex: 1 0 33.333%" on:click={() => newActividad(causaDirecta.id)}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            <div class="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
+                                {#if showCausaDirectaDestroyIcon && causaDirecta.id == causaDirectaIdToDestroy}
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyCausaDirecta(causaDirecta))}>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                     </svg>
-                                    <p class="text-xs flex items-center">
-                                        Asociar una nueva actividad al objetivo específico con código: OBJ-ESP-{causaDirecta.objetivo_especifico.id}
-                                    </p>
-                                </div>
-                            {/if}
-                        </div>
-                    </div>
-                {/each}
 
-                {#if isSuperAdmin || checkRole(authUser, [4, 5, 6, 12, 13, 15, 16, 17]) || (proyecto.codigo_linea_programatica == 69 && proyecto?.proyecto_base) || (proyecto.codigo_linea_programatica == 69 && checkPermissionByUser( authUser, [23], )) || (proyecto.codigo_linea_programatica == 70 && proyecto?.proyecto_base) || (proyecto.codigo_linea_programatica == 70 && checkPermissionByUser( authUser, [24], ))}
-                    <div class="p-2 border border-app-300 mr-2 item my-20 cursor-pointer flex flex-col shadow-lg min-h-[570px] hover:bg-fuchsia-400 hover:text-white items-center justify-center" on:click={() => newObjetivoEspecifico()}>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                        </svg>
-                        <p class="text-xs flex items-center justify-center">
-                            <small class="block font-bold">Añadir un nuevo objetivo específico</small>
-                        </p>
-                    </div>
-                {/if}
-            </div>
-
-            <hr class="w-full my-10" />
-
-            <div class="text-5xl font-extrabold mb-10 title relative">
-                <span class="bg-clip-text text-transparent m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max"> Resultados e impactos </span>
-            </div>
-
-            <p class="text-center my-10">Por favor genere algún resultado y asocie sus respectivos impactos</p>
-
-            <div class="grid grid-cols-2 gap-2">
-                {#each efectosDirectos as efectoDirecto, i}
-                    <div class="p-2 border border-app-300 mr-2 shadow-inner my-20">
-                        <span class="m-auto text-app-600 block w-max box-title relative"> Resultado </span>
-                        <small class="block text-center">Código: {efectoDirecto?.resultado?.id}</small>
-                        <div class="{efectoDirecto.resultado?.descripcion != null && efectoDirecto.resultado?.descripcion.length > 0 ? 'cell' : ''} border border-app-500 relative my-14 shadow-lg cursor-pointer hover:shadow-app-500/80 p-4 min-h-[160px]" on:click={showResultadoDialog(efectoDirecto, efectoDirecto.resultado)}>
-                            <p class="leading-tight paragraph-ellipsis text-xs">
-                                <small class="block font-bold mb-2">RES-{efectoDirecto?.resultado?.id}</small>
-                                {#if efectoDirecto.resultado?.descripcion != null && efectoDirecto.resultado?.descripcion.length > 0}
-                                    {efectoDirecto.resultado?.descripcion}
-                                {:else}
-                                    <p class="text-xs flex items-center mt-4">Sin información registrada aún. Por favor modifique este resultado</p>
-                                {/if}
-                            </p>
-                        </div>
-
-                        <div class="mb-5">
-                            <span class="m-auto text-app-600 block w-max box-title relative"> Impactos </span>
-                        </div>
-
-                        <div class="grid {efectoDirecto.efectos_indirectos.length > 0 ? 'grid-cols-4' : ''} gap-3">
-                            {#each efectoDirecto.efectos_indirectos as efectoIndirecto}
-                                <div class="{efectoIndirecto.impacto.descripcion != null && efectoIndirecto.impacto.descripcion.length > 0 ? 'cell' : ''} border border-app-500 relative mt-10 space-x-4 cursor-pointer shadow-lg hover:shadow-app-500/80 p-4 min-h-[136px] flex-1" on:click={showImpactoDialog(efectoIndirecto, efectoDirecto.id, efectoDirecto?.resultado?.id)}>
-                                    <p class="leading-tight paragraph-ellipsis text-xs">
-                                        <small class="block font-bold mb-2">RES-{efectoDirecto?.resultado?.id}-IMP-{efectoIndirecto.impacto.id}</small>
-                                        {#if efectoIndirecto.impacto.descripcion != null && efectoIndirecto.impacto.descripcion.length > 0}
-                                            {efectoIndirecto.impacto.descripcion}
-                                        {:else}
-                                            <p class="text-xs flex items-center mt-4">Sin información registrada aún. Por favor modifique este impacto.</p>
-                                        {/if}
-                                    </p>
-                                </div>
-                            {/each}
-                            {#if isSuperAdmin || checkRole(authUser, [4, 5, 6, 12, 13, 15, 16, 17]) || (proyecto.codigo_linea_programatica == 69 && proyecto?.proyecto_base) || (proyecto.codigo_linea_programatica == 69 && checkPermissionByUser( authUser, [23], )) || (proyecto.codigo_linea_programatica == 70 && proyecto?.proyecto_base) || (proyecto.codigo_linea_programatica == 70 && checkPermissionByUser( authUser, [24], ))}
-                                <div class="new-item mt-10 relative flex flex-col items-center justify-center shadow-lg p-4 min-h-[136px] cursor-pointer hover:shadow-fuchsia-400/80" on:click={() => newImpacto(efectoDirecto.id)}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showCausaDirectaDestroyIcon = false))}>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                     </svg>
-                                    <p class="text-xs flex items-center">
-                                        Asociar un nuevo impacto al resultado con código RES-{efectoDirecto.resultado?.id}
-                                    </p>
-                                </div>
-                            {/if}
+                                {:else}
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={setCausaDirecta(causaDirecta)}>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                    </svg>
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showCausaDirectaDestroyIcon = true), (causaDirectaIdToDestroy = causaDirecta.id))}>
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                                        />
+                                    </svg>
+                                {/if}
+                            </div>
                         </div>
-                    </div>
-                {/each}
-                {#if isSuperAdmin || checkRole(authUser, [4, 5, 6, 12, 13, 15, 16, 17]) || (proyecto.codigo_linea_programatica == 69 && proyecto?.proyecto_base) || (proyecto.codigo_linea_programatica == 69 && checkPermissionByUser( authUser, [23], )) || (proyecto.codigo_linea_programatica == 70 && proyecto?.proyecto_base) || (proyecto.codigo_linea_programatica == 70 && checkPermissionByUser( authUser, [24], ))}
-                    <div class="p-2 border border-app-300 mr-2 flex flex-col item justify-center my-20 cursor-pointer shadow-lg min-h-[570px] hover:bg-fuchsia-400 hover:text-white items-center" on:click={() => newResultado()}>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    {/if}
+                    {#if showCausaDirectaForm && causaDirectaId == causaDirecta.id}
+                        <form on:submit|preventDefault={submitCausaDirecta} id="causa-directa" class="mt-4">
+                            <fieldset class="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
+                                <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} maxlength="40000" id="causa-directa-descripcion" error={errors.descripcion} bind:value={$formCausaDirecta.descripcion} required />
+                            </fieldset>
+
+                            {#if proyecto.allowed.to_update}
+                                <LoadingButton loading={$formCausaDirecta.processing} class="my-4" type="submit" form="causa-directa">Guardar información sobre la causa directa</LoadingButton>
+                            {/if}
+                            <Button class="ml-2" variant={null} on:click={() => ((showCausaDirectaForm = false), (causaDirectaId = null))}>Cancelar</Button>
+                        </form>
+                    {/if}
+
+                    <small class="ml-2 mt-6 flex items-center">
+                        Causas indirectas
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4" style="transform: scaleX(-1)">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 15l-6 6m0 0l-6-6m6 6V9a6 6 0 0112 0v3" />
                         </svg>
-                        <p class="text-xs flex items-center justify-center">
-                            <small class="block font-bold">Añadir un nuevo resultado</small>
-                        </p>
+                    </small>
+                    {#each causaDirecta.causas_indirectas as causaIndirecta, i}
+                        {#if causaIndirectaId != causaIndirecta.id}
+                            <!-- svelte-ignore a11y-click-events-have-key-events -->
+                            <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[120px] max-h-[120px] my-4 pr-14" on:click={setCausaIndirecta(causaDirecta, causaIndirecta)}>
+                                {causaIndirecta.descripcion ? causaIndirecta.descripcion : 'Por favor diligencie esta causa indirecta.'}
+                                <div class="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
+                                    {#if showCausaIndirectaDestroyIcon && causaIndirecta.id == causaIndirectaIdToDestroy}
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyCausaIndirecta(causaIndirecta))}>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                        </svg>
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showCausaIndirectaDestroyIcon = false))}>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    {:else}
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={setCausaIndirecta(causaDirecta, causaIndirecta)}>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                        </svg>
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showCausaIndirectaDestroyIcon = true), (causaIndirectaIdToDestroy = causaIndirecta.id))}>
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                                            />
+                                        </svg>
+                                    {/if}
+                                </div>
+                            </div>
+                        {/if}
+
+                        {#if showCausaIndirectaForm && causaIndirectaId == causaIndirecta.id}
+                            <form on:submit|preventDefault={submitCausaIndirecta} id="causa-indirecta" class="mt-4">
+                                <fieldset class="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
+                                    <div>
+                                        <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} maxlength="40000" id="causa-directa-descripcion" error={errors.descripcion} bind:value={$formCausaIndirecta.descripcion} required />
+                                    </div>
+                                </fieldset>
+
+                                {#if proyecto.allowed.to_update}
+                                    <LoadingButton loading={$formCausaIndirecta.processing} class="my-4" type="submit" form="causa-indirecta">Guardar información sobre la causa indirecta</LoadingButton>
+                                {/if}
+
+                                <Button class="ml-2" variant={null} on:click={() => ((showCausaIndirectaForm = false), (causaIndirectaId = null))}>Cancelar</Button>
+                            </form>
+                        {/if}
+                    {/each}
+
+                    <div class="flex items-center justify-end">
+                        <Tooltip label="Importante leer" class="mr-6 my-4">Al crear una causa indirecta se genera automáticamente la actividad en la sección de la derecha. Recuerde que ambos deben tener relación.</Tooltip>
+                        <Button class="my-4" labelClass="flex items-center justify-center" disabled={showNuevaCausaIndirectaForm ? true : undefined} variant={null} type="Button" on:click={setNuevoCausaIndirecta(causaDirecta)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+
+                            <span class="ml-2">Añadir una causa indirecta</span>
+                        </Button>
                     </div>
-                {/if}
+
+                    {#if showNuevaCausaIndirectaForm && causaDirectaIdNuevaIndirecta == causaDirecta.id}
+                        <form on:submit|preventDefault={submitCausaIndirecta} id="causa-indirecta">
+                            <fieldset class="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
+                                <div>
+                                    <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} maxlength="40000" label="Escriba la nueva causa indirecta" id="causa-directa-descripcion" error={errors.descripcion} bind:value={$formCausaIndirecta.descripcion} required />
+                                </div>
+                            </fieldset>
+
+                            {#if proyecto.allowed.to_update}
+                                <LoadingButton loading={$formCausaIndirecta.processing} class="my-4" type="submit" form="causa-indirecta">Añadir causa indirecta</LoadingButton>
+                            {/if}
+
+                            <Button class="ml-2" variant={null} on:click={() => ((showNuevaCausaIndirectaForm = false), (causaDirectaId = null))}>Cancelar</Button>
+                        </form>
+                    {/if}
+                </div>
+            {/each}
+
+            <Button type="button" variant={null} class="block mt-4 mb-20" labelClass="flex items-center justify-center" on:click={() => newCausaDirecta()}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Añadir causa directa
+            </Button>
+        </div>
+
+        <!-- Objetivos específicos y actividades relacionados -->
+        <div>
+            <div class="text-3xl font-extrabold mt-28">
+                <span class="bg-clip-text text-transparent m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max"> 2. Objetivos específicos y actividades </span>
             </div>
+
+            {#each causasDirectas as causaDirecta, i}
+                <div class="my-20 shadow p-2 pb-[76px]" style="background-color: #ffffff75">
+                    <small class="inline-block ml-2 mb-4">Objetivo específico #{i + 1}</small>
+                    {#if objetivoEspecificoId != causaDirecta.objetivo_especifico?.id}
+                        <!-- svelte-ignore a11y-click-events-have-key-events -->
+                        <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[120px] max-h-[120px] pr-14" on:click={setObjetivoEspecifico(causaDirecta, causaDirecta.objetivo_especifico, i + 1)}>
+                            {causaDirecta.objetivo_especifico?.descripcion ? causaDirecta.objetivo_especifico?.descripcion : 'Por favor diligencie este objetivo específico.'}
+                            <div class="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
+                                {#if showObjetivoEspecificoDestroyIcon && causaDirecta.objetivo_especifico?.id == objetivoEspecificoIdToDestroy}
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyObjetivoEspecifico(causaDirecta.objetivo_especifico))}>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showObjetivoEspecificoDestroyIcon = false))}>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                {:else}
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={setObjetivoEspecifico(causaDirecta, causaDirecta.objetivo_especifico, i + 1)}>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                    </svg>
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showObjetivoEspecificoDestroyIcon = true), (objetivoEspecificoIdToDestroy = causaDirecta.objetivo_especifico?.id))}>
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                                        />
+                                    </svg>
+                                {/if}
+                            </div>
+                        </div>
+                    {/if}
+                    {#if showObjetivoEspecificoForm && objetivoEspecificoId == causaDirecta.objetivo_especifico?.id}
+                        <form on:submit|preventDefault={submitObjetivoEspecifico} id="objetivo-especifico-form">
+                            <fieldset class="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
+                                <div>
+                                    <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} maxlength="40000" id="descripcion-objetivo-especifico" error={errors.descripcion} bind:value={$formObjetivoEspecifico.descripcion} required />
+                                </div>
+
+                                <Tooltip class="mt-2" label="Información sobre los objetivos específicos">
+                                    Los objetivos específicos son los medios cuantificables que llevarán al cumplimiento del objetivo general. Estos surgen de pasar a positivo las causas directas identificadas en el árbol de problemas.
+                                    <br />
+                                    La redacción de los objetivos específicos deberá iniciar con un verbo en modo infinitivo, es decir, con una palabra terminada en "ar", "er" o "ir". La estructura del objetivo debe contener al menos tres componentes: (1) la acción que se espera realizar, (2) el objeto sobre el cual recae la acción y (3) elementos adicionales de contexto o descriptivos.
+                                </Tooltip>
+                            </fieldset>
+
+                            {#if proyecto.allowed.to_update}
+                                <LoadingButton loading={$formObjetivoEspecifico.processing} class="my-4" type="submit" form="objetivo-especifico-form">Guardar información sobre el objetivo específico</LoadingButton>
+                            {/if}
+
+                            <Button class="ml-2" variant={null} on:click={() => ((showObjetivoEspecificoForm = false), (objetivoEspecificoId = null))}>Cancelar</Button>
+                        </form>
+                    {/if}
+
+                    <small class="ml-2 mt-6 flex items-center">
+                        Actividades
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4" style="transform: scaleX(-1)">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 15l-6 6m0 0l-6-6m6 6V9a6 6 0 0112 0v3" />
+                        </svg>
+                    </small>
+                    {#each causaDirecta.causas_indirectas as causaIndirecta, i}
+                        {#if actividadId != causaIndirecta.actividad?.id}
+                            <!-- svelte-ignore a11y-click-events-have-key-events -->
+                            <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[120px] max-h-[120px] my-4 pr-14" on:click={setActividad(causaIndirecta, causaIndirecta.actividad)}>
+                                {causaIndirecta.actividad?.descripcion ? causaIndirecta.actividad?.descripcion : 'Por favor diligencie esta actividad.'}
+                                <div class="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
+                                    {#if showActividadDestroyIcon && causaIndirecta.actividad?.id == actividadIdToDestroy}
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyActividad(causaIndirecta.actividad))}>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                        </svg>
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showActividadDestroyIcon = false))}>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    {:else}
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={setActividad(causaIndirecta, causaIndirecta.actividad)}>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                        </svg>
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showActividadDestroyIcon = true), (actividadIdToDestroy = causaIndirecta.actividad?.id))}>
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                                            />
+                                        </svg>
+                                    {/if}
+                                </div>
+                            </div>
+                        {/if}
+
+                        {#if showActividadForm && actividadId == causaIndirecta.actividad?.id}
+                            <form on:submit|preventDefault={submitActividad} id="actividad-form" class="mt-4">
+                                <fieldset class="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
+                                    <div>
+                                        <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} maxlength="15000" id="descripcion-actividad" error={errors.descripcion} bind:value={$formActividad.descripcion} required />
+                                    </div>
+
+                                    <Tooltip class="mt-2" label="Información sobre las actividades">
+                                        Se debe evidenciar que la descripción de las actividades se realice de manera secuencial y de forma coherente con los productos a las cuales están asociadas para alcanzar el logro de cada uno de los objetivos específicos.
+                                        <br />
+                                        Las actividades deben redactarse en verbos en modo infinitivo, es decir, en palabras que expresen acciones y terminen en “ar”, “er” o “ir”, estos no deben hacer referencia a objetivos específicos o generales. Algunos ejemplos de verbos inadecuados para describir actividades son: apropiar, asegurar, colaborar, consolidar, desarrollar, fomentar, fortalecer, garantizar,
+                                        implementar, impulsar, mejorar, movilizar, proponer, promover, entre otros.
+                                    </Tooltip>
+
+                                    {#if proyecto.codigo_linea_programatica == 69 || proyecto.codigo_linea_programatica == 70}
+                                        <div>
+                                            <Label required labelFor="resultado_id" value="Resultado" />
+                                            <Select id="resultado_id" items={resultadosFiltrados} bind:selectedValue={$formActividad.resultado_id} error={errors.resultado_id} autocomplete="off" placeholder="Seleccione un resultado" required />
+                                        </div>
+                                    {/if}
+
+                                    <div class="mt-8">
+                                        <p class="text-center">Fecha de ejecución</p>
+                                        <div class="mt-4 flex items-start justify-around">
+                                            <div class="mt-4 flex {errors.fecha_inicio ? '' : 'items-center'}">
+                                                <Label required labelFor="fecha_inicio" class={errors.fecha_inicio ? 'top-3.5 relative' : ''} value="Del" />
+                                                <div class="ml-4">
+                                                    <input id="fecha_inicio" type="date" class="mt-1 block w-full p-4" min={proyecto.fecha_inicio} max={proyecto.fecha_finalizacion} bind:value={$formActividad.fecha_inicio} required />
+                                                </div>
+                                            </div>
+                                            <div class="mt-4 flex {errors.fecha_finalizacion ? '' : 'items-center'}">
+                                                <Label required labelFor="fecha_finalizacion" class={errors.fecha_finalizacion ? 'top-3.5 relative' : ''} value="hasta" />
+                                                <div class="ml-4">
+                                                    <input id="fecha_finalizacion" type="date" class="mt-1 block w-full p-4" min={proyecto.fecha_inicio} max={proyecto.fecha_finalizacion} bind:value={$formActividad.fecha_finalizacion} required />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {#if errors.fecha_inicio || errors.fecha_finalizacion}
+                                            <InputError message={errors.fecha_inicio || errors.fecha_finalizacion} />
+                                        {/if}
+                                    </div>
+                                </fieldset>
+
+                                {#if proyecto.allowed.to_update}
+                                    <LoadingButton loading={$formActividad.processing} class="my-4" type="submit" form="actividad-form">Guardar información sobre la actividad</LoadingButton>
+                                {/if}
+
+                                <Button class="ml-2" variant={null} on:click={() => ((showActividadForm = false), (actividadId = null))}>Cancelar</Button>
+                            </form>
+                        {/if}
+                    {/each}
+                </div>
+            {/each}
         </div>
     </div>
 
-    <!-- Dialog -->
-    <Dialog bind:open={dialogOpen} id="arbol-objetivos">
-        <div slot="title">
-            <div class="mb-10 text-center">
-                <div class="text-primary">
-                    {dialogTitle}
-                </div>
-                {#if codigo}
-                    <small class="block text-primary-light">
-                        Código: {codigo}
-                    </small>
-                {/if}
-
-                <!-- {#if isSuperAdmin || checkRole(authUser, [4, 5, 6, 12, 13, 15, 16, 17]) || (proyecto.allowed.to_update && proyecto.codigo_linea_programatica != 69) || (proyecto.codigo_linea_programatica == 70 && proyecto?.proyecto_base) || proyecto.codigo_linea_programatica == 70 && checkPermissionByUser(authUser, [24])} -->
-                {#if isSuperAdmin}
-                    <Dropdown class="!bg-red-500 font-semibold shadow-red-400/80 mdc-button mdc-button--raised mdc-dialog__button mdc-ripple-upgraded ml-auto rounded-md shadow-lg text-xs" placement="bottom-end">
-                        <div class="flex items-center cursor-pointer select-none group">Eliminar</div>
-                        <div slot="dropdown" class="mt-2 py-2 shadow-xl bg-white rounded text-xs">
-                            {#if showImpactoForm}
-                                <Button variant={null} on:click={destroyImpacto($formImpacto)}>
-                                    Confirmar
-                                    <small class="flex items-center"> También se eliminará el efecto indirecto asociado </small>
-                                </Button>
-                            {:else if showResultadoForm}
-                                <Button variant={null} on:click={destroyResultado($formResultado)}>
-                                    Confirmar
-
-                                    <small class="flex items-center">También se eliminará el efecto directo asociado </small>
-                                </Button>
-                            {:else if showActividadForm}
-                                <Button variant={null} on:click={destroyActividad($formActividad)}>
-                                    Confirmar
-                                    <small class="flex items-center"> También se eliminará la causa indirecta asociada </small>
-                                </Button>
-                            {:else if showObjetivoEspecificoForm}
-                                <Button variant={null} on:click={destroyObjetivoEspecifico($formObjetivoEspecifico)}>
-                                    Confirmar
-                                    <small class="flex items-center"> También se eliminará la causa indirecta asociada </small>
-                                </Button>
-                            {/if}
-                        </div>
-                    </Dropdown>
-                {/if}
+    <figure class="flex w-full items-center justify-center">
+        <img src="/images/efectos-resultados.png" alt="" />
+    </figure>
+    <!-- Efectos directos y efectos indirectos relacionados -->
+    <div class="grid grid-cols-2 gap-4">
+        <div>
+            <div class="text-3xl font-extrabold mt-28">
+                <span class="bg-clip-text text-transparent m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max"> 3. Efectos directos e indirectos </span>
             </div>
-        </div>
-        <div slot="content">
-            {#if showActividadForm}
-                <InfoMessage class="ml-10 mb-6">
-                    Se debe evidenciar que la descripción de las actividades se realice de manera secuencial y de forma coherente con los productos a las cuales están asociadas para alcanzar el logro de cada uno de los objetivos específicos.
-                    <br />
-                    Las actividades deben redactarse en verbos en modo infinitivo, es decir, en palabras que expresen acciones y terminen en “ar”, “er” o “ir”, estos no deben hacer referencia a objetivos específicos o generales. Algunos ejemplos de verbos inadecuados para describir actividades son: apropiar, asegurar, colaborar, consolidar, desarrollar, fomentar, fortalecer, garantizar, implementar,
-                    impulsar, mejorar, movilizar, proponer, promover, entre otros.
-                </InfoMessage>
-                <p class="block font-medium mb-2 text-gray-700 text-xs">Causa indirecta (Código {codigoCausaIndirecta})</p>
-                <p class="mb-10 whitespace-pre-line">
-                    {actividadCausaIndirecta}
-                </p>
-                <form on:submit|preventDefault={submitActividad} id="actividad-form">
-                    <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
-                        {#if proyecto.codigo_linea_programatica == 69 || proyecto.codigo_linea_programatica == 70}
-                            <div>
-                                <Label required labelFor="resultado_id" value="Resultado" />
-                                <Select id="resultado_id" items={resultadosFiltrados} bind:selectedValue={$formActividad.resultado_id} error={errors.resultado_id} autocomplete="off" placeholder="Seleccione un resultado" required />
+
+            {#each efectosDirectos as efectoDirecto, i}
+                <div class="my-20 shadow p-2" style="background-color: #ffffff75">
+                    <small class="inline-block ml-2">Efecto directo</small>
+                    {#if efectoDirectoId != efectoDirecto.id}
+                        <!-- svelte-ignore a11y-click-events-have-key-events -->
+                        <div class="bg-white relative p-4 rounded-md parent-actions hover:cursor-text min-h-[120px] max-h-[120px] my-4 pr-14" on:click={setEfectoDirecto(efectoDirecto)}>
+                            {efectoDirecto.descripcion ? efectoDirecto.descripcion : 'Por favor diligencie este efecto directo.'}
+
+                            <div class="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
+                                {#if showEfectoDirectoDestroyIcon && efectoDirecto.id == efectoDirectoIdToDestroy}
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyEfectoDirecto(efectoDirecto))}>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showEfectoDirectoDestroyIcon = false))}>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                {:else}
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={setEfectoDirecto(efectoDirecto)}>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                    </svg>
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showEfectoDirectoDestroyIcon = true), (efectoDirectoIdToDestroy = efectoDirecto.id))}>
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                                        />
+                                    </svg>
+                                {/if}
+                            </div>
+                        </div>
+                    {/if}
+                    {#if showEfectoDirectoForm && efectoDirectoId == efectoDirecto.id}
+                        <form on:submit|preventDefault={submitEfectoDirecto} id="efecto-directo">
+                            <fieldset class="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
+                                <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} maxlength="40000" id="efecto-directo-descripcion" error={errors.descripcion} bind:value={$formEfectoDirecto.descripcion} required />
+                            </fieldset>
+
+                            {#if proyecto.allowed.to_update}
+                                <LoadingButton loading={$formEfectoDirecto.processing} class="my-4" type="submit" form="efecto-directo">Guardar información sobre el efecto directo</LoadingButton>
+                            {/if}
+                            <Button class="ml-2" variant={null} on:click={() => ((showEfectoDirectoForm = false), (efectoDirectoId = null))}>Cancelar</Button>
+                        </form>
+                    {/if}
+
+                    <small class="ml-2 mt-6 flex items-center">
+                        Efectos indirectos
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4" style="transform: scaleX(-1)">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 15l-6 6m0 0l-6-6m6 6V9a6 6 0 0112 0v3" />
+                        </svg>
+                    </small>
+                    {#each efectoDirecto.efectos_indirectos as efectoIndirecto, i}
+                        {#if efectoIndirectoId != efectoIndirecto.id}
+                            <!-- svelte-ignore a11y-click-events-have-key-events -->
+                            <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[120px] max-h-[120px] my-4 pr-14" on:click={setEfectoIndirecto(efectoDirecto, efectoIndirecto)}>
+                                {efectoIndirecto.descripcion ? efectoIndirecto.descripcion : 'Por favor diligencie este efecto indirecto.'}
+                                <div class="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
+                                    {#if showEfectoIndirectoDestroyIcon && efectoIndirecto.id == efectoIndirectoIdToDestroy}
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyEfectoIndirecto(efectoIndirecto))}>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                        </svg>
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showEfectoIndirectoDestroyIcon = false))}>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    {:else}
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={setEfectoIndirecto(efectoDirecto, efectoIndirecto)}>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                        </svg>
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showEfectoIndirectoDestroyIcon = true), (efectoIndirectoIdToDestroy = efectoIndirecto.id))}>
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                                            />
+                                        </svg>
+                                    {/if}
+                                </div>
                             </div>
                         {/if}
 
-                        <div class="mt-8">
-                            <p class="text-center">Fecha de ejecución</p>
-                            <div class="mt-4 flex items-start justify-around">
-                                <div class="mt-4 flex {errors.fecha_inicio ? '' : 'items-center'}">
-                                    <Label required labelFor="fecha_inicio" class={errors.fecha_inicio ? 'top-3.5 relative' : ''} value="Del" />
-                                    <div class="ml-4">
-                                        <input id="fecha_inicio" type="date" class="mt-1 block w-full p-4" min={proyecto.fecha_inicio} max={proyecto.fecha_finalizacion} bind:value={$formActividad.fecha_inicio} required />
+                        {#if showEfectoIndirectoForm && efectoIndirectoId == efectoIndirecto.id}
+                            <form on:submit|preventDefault={submitEfectoIndirecto} id="efecto-indirecto" class="mt-4">
+                                <fieldset class="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
+                                    <div>
+                                        <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} maxlength="40000" id="efecto-directo-descripcion" error={errors.descripcion} bind:value={$formEfectoIndirecto.descripcion} required />
                                     </div>
+                                </fieldset>
+
+                                {#if proyecto.allowed.to_update}
+                                    <LoadingButton loading={$formEfectoIndirecto.processing} class="my-4" type="submit" form="efecto-indirecto">Guardar información sobre el efecto indirecto</LoadingButton>
+                                {/if}
+
+                                <Button class="ml-2" variant={null} on:click={() => ((showEfectoIndirectoForm = false), (efectoIndirectoId = null))}>Cancelar</Button>
+                            </form>
+                        {/if}
+                    {/each}
+
+                    <div class="flex items-center justify-end">
+                        <Tooltip label="Importante leer" class="mr-6 my-4">Al crear un efecto indirecto se genera automáticamente el impacto en la sección de la derecha. Recuerde que ambos deben tener relación.</Tooltip>
+                        <Button class="my-4" labelClass="flex items-center justify-center" disabled={showNuevoEfectoIndirectoForm ? true : undefined} variant={null} type="Button" on:click={setNuevoEfectoIndirecto(efectoDirecto)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+
+                            <span class="ml-2">Añadir un efecto indirecto</span>
+                        </Button>
+                    </div>
+
+                    {#if showNuevoEfectoIndirectoForm && efectoDirectoIdNuevoIndirecto == efectoDirecto.id}
+                        <form on:submit|preventDefault={submitEfectoIndirecto} id="efecto-indirecto">
+                            <fieldset class="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
+                                <div>
+                                    <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} maxlength="40000" label="Escriba el nuevo efecto indirecto" id="efecto-directo-descripcion" error={errors.descripcion} bind:value={$formEfectoIndirecto.descripcion} required />
                                 </div>
-                                <div class="mt-4 flex {errors.fecha_finalizacion ? '' : 'items-center'}">
-                                    <Label required labelFor="fecha_finalizacion" class={errors.fecha_finalizacion ? 'top-3.5 relative' : ''} value="hasta" />
-                                    <div class="ml-4">
-                                        <input id="fecha_finalizacion" type="date" class="mt-1 block w-full p-4" min={proyecto.fecha_inicio} max={proyecto.fecha_finalizacion} bind:value={$formActividad.fecha_finalizacion} required />
+                            </fieldset>
+
+                            {#if proyecto.allowed.to_update}
+                                <LoadingButton loading={$formEfectoIndirecto.processing} class="my-4" type="submit" form="efecto-indirecto">Añadir efecto indirecto</LoadingButton>
+                            {/if}
+
+                            <Button class="ml-2" variant={null} on:click={() => ((showNuevoEfectoIndirectoForm = false), (efectoDirectoId = null))}>Cancelar</Button>
+                        </form>
+                    {/if}
+                </div>
+            {/each}
+
+            <Button type="button" variant={null} class="block mt-4 mb-20" labelClass="flex items-center justify-center" on:click={() => newEfectoDirecto()}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Añadir efecto directo
+            </Button>
+        </div>
+
+        <!-- Resultados e impactos relacionados -->
+        <div>
+            <div class="text-3xl font-extrabold mt-28">
+                <span class="bg-clip-text text-transparent m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max"> 4. Resultados e impactos </span>
+            </div>
+
+            {#each efectosDirectos as efectoDirecto, i}
+                <div class="my-20 shadow p-2 pb-[76px]" style="background-color: #ffffff75">
+                    <small class="inline-block ml-2 mb-4">Resultado</small>
+                    {#if resultadoId != efectoDirecto.resultado?.id}
+                        <!-- svelte-ignore a11y-click-events-have-key-events -->
+                        <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[120px] max-h-[120px] pr-14" on:click={setResultado(efectoDirecto, efectoDirecto.resultado)}>
+                            {efectoDirecto.resultado?.descripcion ? efectoDirecto.resultado?.descripcion : 'Por favor diligencie este resultado.'}
+                            <div class="absolute flex top-[40%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
+                                {#if showResultadoDestroyIcon && efectoDirecto.resultado?.id == resultadoIdToDestroy}
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyResultado(efectoDirecto.resultado))}>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showResultadoDestroyIcon = false))}>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                {:else}
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={setResultado(efectoDirecto, efectoDirecto.resultado)}>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                    </svg>
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showResultadoDestroyIcon = true), (resultadoIdToDestroy = efectoDirecto.resultado?.id))}>
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                                        />
+                                    </svg>
+                                {/if}
+                            </div>
+                        </div>
+                    {/if}
+
+                    {#if showResultadoForm && resultadoId == efectoDirecto.resultado?.id}
+                        <form on:submit|preventDefault={submitResultado} id="resultado-form">
+                            <fieldset class="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
+                                {#if objetivosEspecificos.length == 0}
+                                    <InfoMessage class="ml-10 mb-6">Por favor genere primero los objetivos específicos.</InfoMessage>
+                                {:else}
+                                    <div>
+                                        <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} maxlength="1000" id="descripcion-resultado" error={errors.descripcion} bind:value={$formResultado.descripcion} required />
                                     </div>
+
+                                    <Tooltip class="mt-2" label="Información sobre los resultados">Se debe evidenciar que los resultados son directos, medibles y cuantificables que se alcanzarán con el desarrollo de cada uno de los objetivos específicos del proyecto.</Tooltip>
+
+                                    <div class="mt-10">
+                                        <InfoMessage class="ml-10">Por seleccione un objetivo específico.</InfoMessage>
+
+                                        <Select id="objetivo-especifico" items={objetivosEspecificos} bind:selectedValue={$formResultado.objetivo_especifico_id} error={errors.objetivo_especifico_id} autocomplete="off" placeholder="Seleccione un objetivo específico" required />
+                                    </div>
+                                {/if}
+                            </fieldset>
+
+                            {#if proyecto.allowed.to_update}
+                                <LoadingButton loading={$formResultado.processing} class="my-4" type="submit" form="resultado-form">Guardar información sobre el resultado</LoadingButton>
+                            {/if}
+
+                            <Button class="ml-2" variant={null} on:click={() => ((showResultadoForm = false), (resultadoId = null))}>Cancelar</Button>
+                        </form>
+                    {/if}
+
+                    <small class="ml-2 mt-6 flex items-center">
+                        Impactos
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4" style="transform: scaleX(-1)">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 15l-6 6m0 0l-6-6m6 6V9a6 6 0 0112 0v3" />
+                        </svg>
+                    </small>
+                    {#each efectoDirecto.efectos_indirectos as efectoIndirecto, i}
+                        {#if impactoId != efectoIndirecto.impacto?.id}
+                            <!-- svelte-ignore a11y-click-events-have-key-events -->
+                            <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[120px] max-h-[120px] my-4 pr-14" on:click={setImpacto(efectoIndirecto, efectoIndirecto.impacto)}>
+                                {efectoIndirecto.impacto?.descripcion ? efectoIndirecto.impacto?.descripcion : 'Por favor diligencie este impacto.'}
+                                <div class="absolute flex top-[40%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
+                                    {#if showImpactoDestroyIcon && efectoIndirecto.impacto?.id == impactoIdToDestroy}
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyImpacto(efectoIndirecto.impacto))}>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                        </svg>
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showImpactoDestroyIcon = false))}>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    {:else}
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={setImpacto(efectoIndirecto, efectoIndirecto.impacto)}>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                        </svg>
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showImpactoDestroyIcon = true), (impactoIdToDestroy = efectoIndirecto.impacto?.id))}>
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                                            />
+                                        </svg>
+                                    {/if}
                                 </div>
                             </div>
-                            {#if errors.fecha_inicio || errors.fecha_finalizacion}
-                                <InputError message={errors.fecha_inicio || errors.fecha_finalizacion} />
-                            {/if}
-                        </div>
-
-                        <div class="mt-8">
-                            <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} label="Descripción" maxlength="15000" id="descripcion-actividad" error={errors.descripcion} bind:value={$formActividad.descripcion} required />
-                        </div>
-                    </fieldset>
-                </form>
-            {:else if showObjetivoEspecificoForm}
-                {#if proyecto.codigo_linea_programatica == 68}
-                    <InfoMessage class="ml-10 mb-6">
-                        <p>
-                            Los objetivos específicos son los medios cuantificables que llevarán al cumplimiento del objetivo general. Estos surgen de pasar a positivo las causas directas identificadas en el árbol de problemas.
-                            <br />
-                            La redacción de los objetivos específicos deberá iniciar con un verbo en modo infinitivo, es decir, con una palabra terminada en "ar", "er" o "ir". La estructura del objetivo debe contener al menos tres componentes: (1) la acción que se espera realizar, (2) el objeto sobre el cual recae la acción y (3) elementos adicionales de contexto o descriptivos.
-                        </p>
-                    </InfoMessage>
-                {/if}
-                <form on:submit|preventDefault={submitObjetivoEspecifico} id="objetivo-especifico-form">
-                    <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
-                        <p class="block font-medium mb-2 text-gray-700 text-xs">Causa directa</p>
-
-                        <p class="mb-20 whitespace-pre-line">
-                            {causaDirectaObjetivoEspecifico}
-                        </p>
-                        <div>
-                            <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} label="Descripción" maxlength="40000" id="descripcion-objetivo-especifico" error={errors.descripcion} bind:value={$formObjetivoEspecifico.descripcion} required />
-                        </div>
-                    </fieldset>
-                </form>
-            {:else if showObjetivoGeneralForm}
-                <form on:submit|preventDefault={submitObjetivoGeneral} id="objetivo-general-form">
-                    <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
-                        {#if proyecto.codigo_linea_programatica == 68}
-                            <InfoMessage class="ml-10 mb-6">
-                                <p>
-                                    El objetivo general se origina al convertir en positivo el problema principal (tronco) identificado en el árbol de problemas.
-                                    <br />
-                                    La redacción deberá iniciar con un verbo en modo infinitivo, es decir, con una palabra terminada en "ar", "er" o "ir". La estructura del objetivo debe contener al menos tres componentes: (1) la acción que se espera realizar, (2) el objeto sobre el cual recae la acción y (3) elementos adicionales de contexto o descriptivos.
-                                    <br />
-                                    El objetivo general debe expresar el fin concreto del proyecto en correspondencia directa con el título del proyecto y la pregunta de la formulación del problema, el cual debe ser claro, medible, alcanzable y consistente con el proyecto que está formulando. Debe responde al ¿Qué?, ¿Cómo? y el ¿Para qué?
-                                </p>
-                            </InfoMessage>
-                        {:else}
-                            <InfoMessage class="ml-10 mb-6" message="Establece que pretende alcanzar la investigación. Se inicia con un verbo en modo infinitivo, es medible y alcanzable. Responde al Qué, Cómo y el Para qué" />
                         {/if}
-                        <p class="block font-medium mb-2 text-gray-700 text-xs">Problema central</p>
 
-                        <p class="mb-20 whitespace-pre-line">
-                            {problemaCentral ? problemaCentral : 'Sin información registrada'}
-                        </p>
-                        <div>
-                            <Label required class="mb-4" labelFor="objetivo-general" value="Objetivo general" />
-                            <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} label="Descripción" maxlength="10000" id="objetivo-general" error={errors.objetivo_general} bind:value={$formObjetivoGeneral.objetivo_general} required />
-                        </div>
-                    </fieldset>
-                </form>
-            {:else if showResultadoForm}
-                <InfoMessage class="ml-10 mb-6">Se debe evidenciar que los resultados son directos, medibles y cuantificables que se alcanzarán con el desarrollo de cada uno de los objetivos específicos del proyecto.</InfoMessage>
-                <p class="block font-medium mb-2 text-gray-700 text-xs">Efecto directo</p>
-                <p class="mb-20 whitespace-pre-line">
-                    {resultadoEfectoDirecto}
-                </p>
+                        {#if showImpactoForm && impactoId == efectoIndirecto.impacto?.id}
+                            <form on:submit|preventDefault={submitImpacto} id="impacto-form" class="mt-4">
+                                <fieldset class="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
+                                    <div>
+                                        <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} maxlength="10000" id="descripcion-impacto" error={errors.descripcion} bind:value={$formImpacto.descripcion} required />
+                                        <Tooltip class="mt-2" label="Información sobre el impacto">Se busca medir la contribución potencial que genera el proyecto en los siguientes ámbitos: tecnológico, económico, ambiental, social, centro de formación, sector productivo</Tooltip>
+                                    </div>
 
-                {#if descripcionObjetivoEspecifico}
-                    <p class="block font-medium mb-2 text-gray-700 text-xs">
-                        Objetivo específico #{descripcionObjetivoEspecifico.numero} - Relacionado
-                    </p>
-                    <p class="mb-20 whitespace-pre-line">
-                        {descripcionObjetivoEspecifico.descripcion}
-                    </p>
-                {/if}
+                                    <div class="mt-8">
+                                        <Label labelFor="tipo-impacto" class="mb-4" value="Tipo" />
+                                        {#if $formImpacto.tipo?.value == 4}
+                                            <Tooltip class="my-6" label="Información sobre el tipo de impacto">
+                                                Se busca minimizar y/o evitar los impactos negativos sobre el medio ambiente, tales como contaminación del aire, contaminación de corrientes de agua naturales, ruido, destrucción del paisaje, separación de comunidades que operan como unidades, etc. Por otro lado, se busca identificar diversas acciones de impacto ambiental positivo, tales como:
+                                                producción limpia y sustentable, protección medioambiental, uso de residuos y reciclaje.
+                                            </Tooltip>
+                                        {:else if $formImpacto.tipo?.value == 2}
+                                            <Tooltip class="my-6" label="Información sobre el tipo de impacto">
+                                                Se busca medir la contribución potencial del proyecto en cualquiera de los siguientes ámbitos: generación y aplicación de nuevos conocimientos y tecnologías, desarrollo de infraestructura científico- tecnológica, articulación de diferentes proyectos para lograr un objetivo común, mejoramiento de la infraestructura, desarrollo de capacidades de
+                                                gestión tecnológica.
+                                            </Tooltip>
+                                        {:else if $formImpacto.tipo?.value == 5}
+                                            <Tooltip class="my-6" label="Información sobre el tipo de impacto">Se busca medir la contribución potencial del proyecto al desarrollo de la comunidad Sena (Aprendices, instructores y a la formación)</Tooltip>
+                                        {:else if $formImpacto.tipo?.value == 6}
+                                            <Tooltip>Se busca medir la contribución potencial del proyecto al desarrollo del sector productivo en concordancia con el sector priorizado de Colombia Productiva y a la mesa técnica a la que pertenece el proyecto.</Tooltip>
+                                        {/if}
+                                        <Select id="tipo-impacto" items={tiposImpacto} bind:selectedValue={$formImpacto.tipo} error={errors.tipo} autocomplete="off" placeholder="Seleccione un tipo" required />
+                                    </div>
+                                </fieldset>
 
-                <form on:submit|preventDefault={submitResultado} id="resultado-form">
-                    <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
-                        {#if objetivosEspecificos.length == 0}
-                            <InfoMessage class="ml-10 mb-6">Por favor genere primero los objetivos específicos.</InfoMessage>
-                        {:else}
-                            <div class="mb-10">
-                                <InfoMessage class="ml-10">Por seleccione un objetivo específico.</InfoMessage>
+                                {#if proyecto.allowed.to_update}
+                                    <LoadingButton loading={$formImpacto.processing} class="my-4" type="submit" form="impacto-form">Guardar información sobre el impacto</LoadingButton>
+                                {/if}
 
-                                <Select id="objetivo-especifico" items={objetivosEspecificos} bind:selectedValue={$formResultado.objetivo_especifico_id} error={errors.objetivo_especifico_id} autocomplete="off" placeholder="Seleccione un objetivo específico" required />
-                            </div>
-
-                            {#if proyecto.codigo_linea_programatica == 23 || proyecto.codigo_linea_programatica == 65 || proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82}
-                                <div class="mb-10">
-                                    <Input label="TRL" id="trl" type="number" input$max="9" input$min="1" class="block w-full" error={errors.trl} bind:value={$formResultado.trl} required />
-                                </div>
-                            {/if}
-                            <div class="mb-20">
-                                <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} label="Descripción" maxlength="1000" id="descripcion-resultado" error={errors.descripcion} bind:value={$formResultado.descripcion} required />
-                            </div>
+                                <Button class="ml-2" variant={null} on:click={() => ((showImpactoForm = false), (impactoId = null))}>Cancelar</Button>
+                            </form>
                         {/if}
-                    </fieldset>
-                </form>
-            {:else if showImpactoForm}
-                <InfoMessage class="ml-10 mb-6">Se busca medir la contribución potencial que genera el proyecto en los siguientes ámbitos: tecnológico, económico, ambiental, social, centro de formación, sector productivo</InfoMessage>
-
-                <p class="block font-medium mb-2 text-gray-700 text-xs">Efecto indirecto (Código {impactoEfectoIndirectoCodigo})</p>
-
-                <p class="mt-4 whitespace-pre-line">
-                    {impactoEfectoIndirecto ? impactoEfectoIndirecto : 'Sin información registrada aún'}
-                </p>
-
-                <form on:submit|preventDefault={submitImpacto} id="impacto-form">
-                    <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
-                        <div class="mt-8">
-                            <Label labelFor="tipo-impacto" value="Tipo" />
-                            <Select id="tipo-impacto" items={tiposImpacto} bind:selectedValue={$formImpacto.tipo} error={errors.tipo} autocomplete="off" placeholder="Seleccione un tipo" required />
-                            {#if $formImpacto.tipo?.value == 4}
-                                <InfoMessage
-                                    class="ml-10 mb-6"
-                                    message="Se busca minimizar y/o evitar los impactos negativos sobre el medio ambiente, tales como contaminación del aire, contaminación de corrientes de agua naturales, ruido, destrucción del paisaje, separación de comunidades que operan como unidades, etc. Por otro lado, se busca identificar diversas acciones de impacto ambiental positivo, tales como: producción limpia y sustentable, protección medioambiental, uso de residuos y reciclaje."
-                                />
-                            {:else if $formImpacto.tipo?.value == 2}
-                                <InfoMessage
-                                    class="ml-10 mb-6"
-                                    message="Se busca medir la contribución potencial del proyecto en cualquiera de los siguientes ámbitos: generación y aplicación de nuevos conocimientos y tecnologías, desarrollo de infraestructura científico- tecnológica, articulación de diferentes proyectos para lograr un objetivo común, mejoramiento de la infraestructura, desarrollo de capacidades de gestión tecnológica."
-                                />
-                            {:else if $formImpacto.tipo?.value == 5}
-                                <InfoMessage class="ml-10 mb-6" message="Se busca medir la contribución potencial del proyecto al desarrollo de la comunidad Sena (Aprendices, instructores y a la formación)" />
-                            {:else if $formImpacto.tipo?.value == 6}
-                                <InfoMessage class="ml-10 mb-6" message="Se busca medir la contribución potencial del proyecto al desarrollo del sector productivo en concordancia con el sector priorizado de Colombia Productiva y a la mesa técnica a la que pertenece el proyecto." />
-                            {/if}
-                        </div>
-                        <div class="mt-8">
-                            <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} label="Descripción" maxlength="10000" id="descripcion-impacto" error={errors.descripcion} bind:value={$formImpacto.descripcion} required />
-                        </div>
-                    </fieldset>
-                </form>
-            {/if}
+                    {/each}
+                </div>
+            {/each}
         </div>
-        <div slot="actions" class="flex w-full">
-            <Button on:click={closeDialog} type="button" variant={null}>Cancelar</Button>
-            {#if proyecto.allowed.to_update && formId}
-                <LoadingButton loading={$formImpacto.processing || $formActividad.processing || $formObjetivoEspecifico.processing || $formObjetivoGeneral.processing || $formResultado.processing} class="btn-gray ml-auto" type="submit" form={formId}>Guardar</LoadingButton>
-            {/if}
-        </div>
-    </Dialog>
+    </div>
 </div>
 
-{#if to_pdf}
-    <style>
-        nav,
-        button.absolute.bottom-1\.5,
-        .bg-gray-200.p-4.rounded.border-orangered.border.mb-5 {
-            display: none !important;
-        }
-    </style>
-{/if}
-
 <style>
-    .title:before {
+    form {
+        position: relative;
+    }
+
+    form:before {
         content: '';
-        top: -80px;
         position: absolute;
-        z-index: -1;
-        right: 50%;
-        width: 2px;
-        height: 85px;
-        background: #d2d6ff;
+        width: 102.8%;
+        height: 102%;
+        background: rgb(208 225 213 / 66%);
+        left: -8px;
+        right: 0;
+        top: -10px;
     }
 
-    .cell {
-        background: linear-gradient(165deg, #9458ffbf 25%, rgb(143 96 227) 51%, #734cb9 100%);
-        color: #fff;
-    }
-
-    .new-item {
-        background: linear-gradient(165deg, #d143a0bf 25%, rgb(227 96 192) 51%, #e6499e 100%);
-        color: #fff;
-    }
-
-    .box-title::before {
-        content: '';
-        top: 20px;
-        position: absolute;
-        right: 50%;
-        width: 2px;
-        height: 60px;
-        background: #d2d6ff;
-        z-index: auto;
+    .parent-actions:hover .child-actions {
+        opacity: 1;
     }
 </style>

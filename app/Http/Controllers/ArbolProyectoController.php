@@ -110,15 +110,19 @@ class ArbolProyectoController extends Controller
                 $proyecto->problema_central         = $proyecto->idi->problema_central;
                 $proyecto->justificacion_problema   = $proyecto->idi->justificacion_problema;
                 $proyecto->identificacion_problema  = $proyecto->idi->identificacion_problema;
+                $proyecto->objetivo_general         = $proyecto->idi->objetivo_general;
                 break;
             case $proyecto->ta()->exists():
                 $proyecto->problema_central         = $proyecto->ta->problema_central;
+                $proyecto->objetivo_general         = $proyecto->idi->objetivo_general;
                 $proyecto->proyecto_base            = $proyecto->ta->proyecto_base;
+
                 break;
             case $proyecto->tp()->exists():
                 $proyecto->justificacion_problema   = $proyecto->tp->justificacion_problema;
                 $proyecto->identificacion_problema  = $proyecto->tp->identificacion_problema;
                 $proyecto->problema_central         = $proyecto->tp->problema_central;
+                $proyecto->objetivo_general         = $proyecto->idi->objetivo_general;
                 $proyecto->proyecto_base            = $proyecto->tp->proyecto_base;
                 break;
             case $proyecto->servicioTecnologico()->exists():
@@ -128,6 +132,7 @@ class ArbolProyectoController extends Controller
                 $proyecto->problema_central         = $proyecto->culturaInnovacion->problema_central;
                 $proyecto->justificacion_problema   = $proyecto->culturaInnovacion->justificacion_problema;
                 $proyecto->identificacion_problema  = $proyecto->culturaInnovacion->identificacion_problema;
+                $proyecto->objetivo_general         = $proyecto->idi->objetivo_general;
                 $proyecto->tipo_proyecto            = $proyecto->culturaInnovacion->tipo_proyecto;
                 break;
             default:
@@ -136,10 +141,9 @@ class ArbolProyectoController extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/ArbolesProyecto/ArbolProblemas', [
             'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
-            'proyecto'          => $proyecto->only('id', 'precio_proyecto', 'identificacion_problema', 'problema_central', 'justificacion_problema', 'pregunta_formulacion_problema', 'codigo_linea_programatica', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto', 'proyecto_base'),
+            'proyecto'          => $proyecto->only('id', 'precio_proyecto', 'identificacion_problema', 'problema_central', 'justificacion_problema', 'pregunta_formulacion_problema', 'objetivo_general', 'codigo_linea_programatica', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto', 'proyecto_base'),
             'efectosDirectos'   => $efectosDirectos,
             'causasDirectas'    => $causasDirectas,
-            'to_pdf'            => ($request->to_pdf == 1) ? true : false
         ]);
     }
 
@@ -293,15 +297,17 @@ class ArbolProyectoController extends Controller
         switch ($proyecto) {
             case $proyecto->idi()->exists():
                 $request->validate([
-                    'identificacion_problema'  => 'required|string|max:40000',
-                    'problema_central'         => 'required|string|max:40000',
-                    'justificacion_problema'   => 'required|string|max:40000',
+                    'identificacion_problema'   => 'required|string|max:40000',
+                    'problema_central'          => 'required|string|max:40000',
+                    'justificacion_problema'    => 'required|string|max:40000',
+                    'objetivo_general'          => 'required|string|max:40000',
                 ]);
 
                 $idi = $proyecto->idi;
                 $idi->identificacion_problema   = $request->identificacion_problema;
                 $idi->problema_central          = $request->problema_central;
                 $idi->justificacion_problema    = $request->justificacion_problema;
+                $idi->objetivo_general          = $request->objetivo_general;
 
                 $idi->save();
                 break;
@@ -310,21 +316,27 @@ class ArbolProyectoController extends Controller
 
                 $request->validate([
                     'problema_central' => 'required|string|max:40000',
+                    'objetivo_general' => 'required|string|max:40000',
+
                 ]);
                 $ta->problema_central = $request->problema_central;
+                $ta->objetivo_general = $request->objetivo_general;
 
                 $ta->save();
                 break;
             case $proyecto->tp()->exists():
                 $tp = $proyecto->tp;
                 $request->validate([
-                    'identificacion_problema'  => 'required|string|max:40000',
-                    'problema_central'         => 'required|string|max:40000',
-                    'justificacion_problema'   => 'required|string|max:40000',
+                    'identificacion_problema'   => 'required|string|max:40000',
+                    'problema_central'          => 'required|string|max:40000',
+                    'justificacion_problema'    => 'required|string|max:40000',
+                    'objetivo_general'          => 'required|string|max:40000',
                 ]);
-                $tp->identificacion_problema  = $request->identificacion_problema;
-                $tp->justificacion_problema   = $request->justificacion_problema;
-                $tp->problema_central = $request->problema_central;
+                $tp->identificacion_problema    = $request->identificacion_problema;
+                $tp->justificacion_problema     = $request->justificacion_problema;
+                $tp->problema_central           = $request->problema_central;
+                $tp->objetivo_general           = $request->objetivo_general;
+
 
                 $tp->save();
                 break;
@@ -334,21 +346,25 @@ class ArbolProyectoController extends Controller
                     'identificacion_problema'  => 'required|string|max:40000',
                     'problema_central'         => 'required|string|max:40000',
                     'justificacion_problema'   => 'required|string|max:40000',
+                    'objetivo_general'         => 'required|string|max:40000',
                 ]);
 
                 $culturaInnovacion = $proyecto->culturaInnovacion;
                 $culturaInnovacion->identificacion_problema  = $request->identificacion_problema;
                 $culturaInnovacion->problema_central         = $request->problema_central;
                 $culturaInnovacion->justificacion_problema   = $request->justificacion_problema;
+                $culturaInnovacion->objetivo_general         = $request->objetivo_general;
 
                 $culturaInnovacion->save();
                 break;
             case $proyecto->servicioTecnologico()->exists():
                 $request->validate([
                     'problema_central' => 'required|string|max:40000',
+                    'objetivo_general' => 'required|string|max:40000',
                 ]);
                 $servicioTecnologico                   = $proyecto->servicioTecnologico;
                 $servicioTecnologico->problema_central = $request->problema_central;
+                $servicioTecnologico->objetivo_general = $request->objetivo_general;
 
                 $servicioTecnologico->save();
                 break;
@@ -397,7 +413,6 @@ class ArbolProyectoController extends Controller
         /** @var \App\Models\User */
         $authUser = Auth::user();
 
-        // if ($proyecto->lineaProgramatica->codigo == 69 && $authUser->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $authUser->hasRole([1, 5, 17]) == false) {
         if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
 
             return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
@@ -450,7 +465,6 @@ class ArbolProyectoController extends Controller
         /** @var \App\Models\User */
         $authUser = Auth::user();
 
-        // if ($proyecto->lineaProgramatica->codigo == 69 && $authUser->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $authUser->hasRole([1, 5, 17]) == false) {
         if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
 
             return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
@@ -484,7 +498,6 @@ class ArbolProyectoController extends Controller
         /** @var \App\Models\User */
         $authUser = Auth::user();
 
-        // if ($proyecto->lineaProgramatica->codigo == 69 && $authUser->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $authUser->hasRole([1, 5, 17]) == false) {
         if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
 
             return back()->with('error', 'No se puede eliminar este recurso debido a que es información predefinida.');
@@ -502,7 +515,6 @@ class ArbolProyectoController extends Controller
         /** @var \App\Models\User */
         $authUser = Auth::user();
 
-        // if ($proyecto->lineaProgramatica->codigo == 69 && $authUser->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $authUser->hasRole([1, 5, 17]) == false) {
         if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
 
             return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
@@ -630,9 +642,7 @@ class ArbolProyectoController extends Controller
         /** @var \App\Models\User */
         $authUser = Auth::user();
 
-        // if ($proyecto->lineaProgramatica->codigo == 69 && $authUser->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $authUser->hasRole([1, 5, 17]) == false) {
         if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
-
             return back()->with('error', 'No se puede eliminar este recurso debido a que es información predefinida.');
         }
 
@@ -653,8 +663,6 @@ class ArbolProyectoController extends Controller
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
         $proyecto->load('evaluaciones.idiEvaluacion');
-
-        $this->generateTree($proyecto);
 
         $efectosDirectos    = $proyecto->efectosDirectos()->with('efectosIndirectos.impacto', 'resultado')->get();
 
@@ -700,7 +708,6 @@ class ArbolProyectoController extends Controller
                 break;
         }
 
-
         $objetivosEspecificos = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
 
         $arrObjetivosEspecificos = collect([]);
@@ -710,8 +717,8 @@ class ArbolProyectoController extends Controller
 
 
         return Inertia::render('Convocatorias/Proyectos/ArbolesProyecto/ArbolObjetivos', [
-            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
-            'proyecto'              => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'identificacion_problema', 'problema_central', 'objetivo_general', 'fecha_inicio', 'fecha_finaliz<acion', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'resultados', 'tipo_proyecto', 'proyecto_base'),
+            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
+            'proyecto'              => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'identificacion_problema', 'problema_central', 'objetivo_general', 'fecha_inicio', 'fecha_finalizacion', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'resultados', 'tipo_proyecto', 'proyecto_base'),
             'efectosDirectos'       => $efectosDirectos,
             'causasDirectas'        => $causasDirectas,
             'tiposImpacto'          => $tiposImpacto,
@@ -722,7 +729,6 @@ class ArbolProyectoController extends Controller
                 })
             )->get(),
             'objetivosEspecificos'  => $arrObjetivosEspecificos,
-            'to_pdf'                => ($request->to_pdf == 1) ? true : false
         ]);
     }
 
@@ -989,20 +995,13 @@ class ArbolProyectoController extends Controller
         /** @var \App\Models\User */
         $authUser = Auth::user();
 
-        // if ($proyecto->lineaProgramatica->codigo == 69 && $authUser->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $authUser->hasRole([1, 5, 17]) == false) {
         if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
-
             return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
         }
 
-        $impacto->descripcion    = $request->descripcion;
-        $impacto->tipo           = $request->tipo;
+        $impacto->update($request->validated());
 
-        if ($impacto->save()) {
-            return back()->with('success', 'El recurso se ha guardado correctamente.');
-        }
-
-        return back()->with('error', 'Hubo un error mientras se actulizaba el impacto. Vuelva a intentar');
+        return back()->with('success', 'El recurso se ha guardado correctamente.');
     }
 
     /**
@@ -1047,18 +1046,11 @@ class ArbolProyectoController extends Controller
         /** @var \App\Models\User */
         $authUser = Auth::user();
 
-        // if ($proyecto->lineaProgramatica->codigo == 69 && $authUser->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $authUser->hasRole([1, 5, 17]) == false) {
         if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
         }
 
-        $resultado->fill($request->all());
-
-        if ($proyecto->idi()->exists() || $proyecto->culturaInnovacion()->exists()) {
-            $request->validate([
-                'trl' => ['required', 'integer', 'between:1,9'],
-            ]);
-        }
+        $resultado->fill($request->validated());
 
         if ($resultado->save()) {
             return back()->with('success', 'El recurso se ha guardado correctamente.');
@@ -1115,8 +1107,7 @@ class ArbolProyectoController extends Controller
             return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
         }
 
-        $objetivoEspecifico->descripcion = $request->descripcion;
-        $objetivoEspecifico->numero      = $request->numero;
+        $objetivoEspecifico->fill($request->validated());
 
         if ($objetivoEspecifico->save()) {
             return back()->with('success', 'El recurso se ha guardado correctamente.');
@@ -1168,19 +1159,11 @@ class ArbolProyectoController extends Controller
         /** @var \App\Models\User */
         $authUser = Auth::user();
 
-        // if ($proyecto->lineaProgramatica->codigo == 69 && $authUser->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $authUser->hasRole([1, 5, 17]) == false) {
         if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
-
             return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
         }
 
-        $actividad->fecha_inicio        = $request->fecha_inicio;
-        $actividad->fecha_finalizacion  = $request->fecha_finalizacion;
-        $actividad->descripcion         = $request->descripcion;
-        $actividad->objetivoEspecifico()->associate($request->objetivo_especifico_id);
-        if ($request->resultado_id) {
-            $actividad->resultado()->associate($request->resultado_id);
-        }
+        $actividad->update($request->validated());
 
         if ($actividad->save()) {
             return back()->with('success', 'El recurso se ha guardado correctamente.');

@@ -52,9 +52,9 @@
 </svelte:head>
 
 <div class="min-h-screen app-wrapper">
-    <nav class="fixed top-0 left-0 right-0 z-[999]">
+    <nav class="fixed top-0 left-0 right-0 z-[9999]">
         <!-- Primary Navigation Menu -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style="margin: 10px auto; backdrop-filter: blur(5px); background-color: #ffffff47;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 rounded-full" style="margin: 10px auto; backdrop-filter: blur(5px); background-color: rgb(255 255 255 / 65%);">
             <div class="flex justify-between h-16">
                 <div class="flex">
                     <!-- Logo -->
