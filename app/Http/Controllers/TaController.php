@@ -339,8 +339,8 @@ class TaController extends Controller
 
     public function saveFilesSharepoint($tmpFile, $modulo, $modelo, $campoBd)
     {
-        $aulaMovil  = $modelo;
-        $proyecto   = Proyecto::find($aulaMovil->ta->proyecto->id);
+        $ta         = $modelo;
+        $proyecto   = Proyecto::find($ta->proyecto->id);
 
         $aulaMovilSharePoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/AULAS MOVILES';
 

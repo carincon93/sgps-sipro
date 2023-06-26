@@ -154,7 +154,7 @@
     {/if}
 
     <!-- Page Content -->
-    <main class="lg:px-8 max-w-7xl !pt-[8rem] relative z-10 md:p-12 mx-auto px-4 py-8 sm:px-6">
+    <main class="lg:px-8 max-w-7xl !pt-[5rem] relative z-10 md:p-12 mx-auto px-4 py-8 sm:px-6">
         <FlashMessages />
         <Loading {loading} />
         <slot />

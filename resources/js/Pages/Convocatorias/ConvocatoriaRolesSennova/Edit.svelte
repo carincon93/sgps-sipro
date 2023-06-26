@@ -28,7 +28,7 @@
         linea_programatica_id: convocatoriaRolSennova.linea_programatica_id,
         rol_sennova_id: convocatoriaRolSennova.rol_sennova_id,
         perfil: convocatoriaRolSennova.perfil,
-        mensaje: convocatoriaRolSennova.mensaje,
+        mensaje: convocatoriaRolSennova.mensaje ? convocatoriaRolSennova.mensaje : '',
     })
 
     function submit() {

@@ -64,11 +64,7 @@ class SharepointHelper
             }
             return true;
         } catch (\Throwable  $e) {
-            Log::debug($e->getMessage());
-
-            if ($e) {
-                abort($e->getStatusCode());
-            }
+            Log::debug($e);
         }
     }
 
