@@ -62,7 +62,7 @@
         actividades_economicas: actividadesEconomicasRelacionadas?.length > 0 ? actividadesEconomicasRelacionadas : null,
         tematicas_estrategicas: tematicasEstrategicasRelacionadas?.length > 0 ? tematicasEstrategicasRelacionadas : null,
         proyecto_idi_tecnoacademia_id: proyectosIdiTecnoacademiaRelacionados?.length > 0 ? proyectosIdiTecnoacademiaRelacionados : null,
-        proyectos_ejecucion: proyecto.proyectos_ejecucion,
+        proyectos_ejecucion: proyecto.proyectos_ejecucion ? proyecto.proyectos_ejecucion : '',
         semilleros_en_formalizacion: proyecto.semilleros_en_formalizacion,
         articulacion_semillero: proyecto.articulacion_semillero,
         articulacion_centro_formacion: proyecto.articulacion_centro_formacion,

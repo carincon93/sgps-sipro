@@ -8,7 +8,7 @@
 
     export let error
     export let id
-    export let value
+    export let value = ''
     export let label
     export let disabled
     export let sinContador = false

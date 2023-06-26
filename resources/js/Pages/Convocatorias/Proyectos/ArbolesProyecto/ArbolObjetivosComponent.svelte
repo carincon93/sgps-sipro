@@ -631,7 +631,7 @@
                     <small class="inline-block ml-2">Causa directa #{i + 1}</small>
                     {#if causaDirectaId != causaDirecta.id}
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
-                        <div class="bg-white relative p-4 rounded-md parent-actions hover:cursor-text min-h-[120px] max-h-[120px] my-4 pr-14" on:click={setCausaDirecta(causaDirecta)}>
+                        <div class="bg-white relative p-4 rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style="overflow: hidden; -webkit-line-clamp: 4; -webkit-box-orient: vertical; display: -webkit-box;" on:click={setCausaDirecta(causaDirecta)}>
                             {causaDirecta.descripcion ? causaDirecta.descripcion : 'Por favor diligencie esta causa directa.'}
 
                             <div class="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
@@ -681,7 +681,7 @@
                     {#each causaDirecta.causas_indirectas as causaIndirecta, i}
                         {#if causaIndirectaId != causaIndirecta.id}
                             <!-- svelte-ignore a11y-click-events-have-key-events -->
-                            <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[120px] max-h-[120px] my-4 pr-14" on:click={setCausaIndirecta(causaDirecta, causaIndirecta)}>
+                            <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style="overflow: hidden; -webkit-line-clamp: 4; -webkit-box-orient: vertical; display: -webkit-box;" on:click={setCausaIndirecta(causaDirecta, causaIndirecta)}>
                                 {causaIndirecta.descripcion ? causaIndirecta.descripcion : 'Por favor diligencie esta causa indirecta.'}
                                 <div class="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                     {#if showCausaIndirectaDestroyIcon && causaIndirecta.id == causaIndirectaIdToDestroy}
@@ -776,7 +776,7 @@
                     <small class="inline-block ml-2 mb-4">Objetivo específico #{i + 1}</small>
                     {#if objetivoEspecificoId != causaDirecta.objetivo_especifico?.id}
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
-                        <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[120px] max-h-[120px] pr-14" on:click={setObjetivoEspecifico(causaDirecta, causaDirecta.objetivo_especifico, i + 1)}>
+                        <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] pr-14" on:click={setObjetivoEspecifico(causaDirecta, causaDirecta.objetivo_especifico, i + 1)}>
                             {causaDirecta.objetivo_especifico?.descripcion ? causaDirecta.objetivo_especifico?.descripcion : 'Por favor diligencie este objetivo específico.'}
                             <div class="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                 {#if showObjetivoEspecificoDestroyIcon && causaDirecta.objetivo_especifico?.id == objetivoEspecificoIdToDestroy}
@@ -834,7 +834,7 @@
                     {#each causaDirecta.causas_indirectas as causaIndirecta, i}
                         {#if actividadId != causaIndirecta.actividad?.id}
                             <!-- svelte-ignore a11y-click-events-have-key-events -->
-                            <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[120px] max-h-[120px] my-4 pr-14" on:click={setActividad(causaIndirecta, causaIndirecta.actividad)}>
+                            <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style="overflow: hidden; -webkit-line-clamp: 4; -webkit-box-orient: vertical; display: -webkit-box;" on:click={setActividad(causaIndirecta, causaIndirecta.actividad)}>
                                 {causaIndirecta.actividad?.descripcion ? causaIndirecta.actividad?.descripcion : 'Por favor diligencie esta actividad.'}
                                 <div class="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                     {#if showActividadDestroyIcon && causaIndirecta.actividad?.id == actividadIdToDestroy}
@@ -933,7 +933,7 @@
                     <small class="inline-block ml-2">Efecto directo</small>
                     {#if efectoDirectoId != efectoDirecto.id}
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
-                        <div class="bg-white relative p-4 rounded-md parent-actions hover:cursor-text min-h-[120px] max-h-[120px] my-4 pr-14" on:click={setEfectoDirecto(efectoDirecto)}>
+                        <div class="bg-white relative p-4 rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style="overflow: hidden; -webkit-line-clamp: 4; -webkit-box-orient: vertical; display: -webkit-box;" on:click={setEfectoDirecto(efectoDirecto)}>
                             {efectoDirecto.descripcion ? efectoDirecto.descripcion : 'Por favor diligencie este efecto directo.'}
 
                             <div class="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
@@ -983,7 +983,7 @@
                     {#each efectoDirecto.efectos_indirectos as efectoIndirecto, i}
                         {#if efectoIndirectoId != efectoIndirecto.id}
                             <!-- svelte-ignore a11y-click-events-have-key-events -->
-                            <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[120px] max-h-[120px] my-4 pr-14" on:click={setEfectoIndirecto(efectoDirecto, efectoIndirecto)}>
+                            <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style="overflow: hidden; -webkit-line-clamp: 4; -webkit-box-orient: vertical; display: -webkit-box;" on:click={setEfectoIndirecto(efectoDirecto, efectoIndirecto)}>
                                 {efectoIndirecto.descripcion ? efectoIndirecto.descripcion : 'Por favor diligencie este efecto indirecto.'}
                                 <div class="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                     {#if showEfectoIndirectoDestroyIcon && efectoIndirecto.id == efectoIndirectoIdToDestroy}
@@ -1076,7 +1076,7 @@
                     <small class="inline-block ml-2 mb-4">Resultado</small>
                     {#if resultadoId != efectoDirecto.resultado?.id}
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
-                        <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[120px] max-h-[120px] pr-14" on:click={setResultado(efectoDirecto, efectoDirecto.resultado)}>
+                        <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] pr-14" on:click={setResultado(efectoDirecto, efectoDirecto.resultado)}>
                             {efectoDirecto.resultado?.descripcion ? efectoDirecto.resultado?.descripcion : 'Por favor diligencie este resultado.'}
                             <div class="absolute flex top-[40%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                 {#if showResultadoDestroyIcon && efectoDirecto.resultado?.id == resultadoIdToDestroy}
@@ -1141,7 +1141,7 @@
                     {#each efectoDirecto.efectos_indirectos as efectoIndirecto, i}
                         {#if impactoId != efectoIndirecto.impacto?.id}
                             <!-- svelte-ignore a11y-click-events-have-key-events -->
-                            <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[120px] max-h-[120px] my-4 pr-14" on:click={setImpacto(efectoIndirecto, efectoIndirecto.impacto)}>
+                            <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style="overflow: hidden; -webkit-line-clamp: 4; -webkit-box-orient: vertical; display: -webkit-box;" on:click={setImpacto(efectoIndirecto, efectoIndirecto.impacto)}>
                                 {efectoIndirecto.impacto?.descripcion ? efectoIndirecto.impacto?.descripcion : 'Por favor diligencie este impacto.'}
                                 <div class="absolute flex top-[40%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                     {#if showImpactoDestroyIcon && efectoIndirecto.impacto?.id == impactoIdToDestroy}
