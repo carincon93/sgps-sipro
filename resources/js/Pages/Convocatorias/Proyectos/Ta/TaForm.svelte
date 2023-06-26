@@ -55,7 +55,6 @@
     {#if ta.proyecto.allowed.to_update}
         <small class="text-red-400 block text-center"> * Campo obligatorio </small>
     {/if}
-    <InfoMessage message={convocatoria.fecha_maxima_ta} class="my-5" />
 
     <div class="mt-4 flex items-start justify-around">
         <div class="mt-4 flex {errors.fecha_inicio ? '' : 'items-center'}">
