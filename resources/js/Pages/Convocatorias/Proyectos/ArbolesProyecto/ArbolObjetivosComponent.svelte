@@ -444,8 +444,8 @@
         showObjetivoEspecificoForm = true
         objetivoEspecificoId = objetivoEspecifico.id
 
-        $formObjetivoEspecifico.id = causaDirecta.objetivo_especifico.id
-        $formObjetivoEspecifico.descripcion = causaDirecta.objetivo_especifico.descripcion
+        $formObjetivoEspecifico.id = objetivoEspecifico.id
+        $formObjetivoEspecifico.descripcion = objetivoEspecifico.descripcion ? objetivoEspecifico.descripcion : ''
         $formObjetivoEspecifico.numero = numero
     }
 

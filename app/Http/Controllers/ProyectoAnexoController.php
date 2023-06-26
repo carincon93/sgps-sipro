@@ -89,7 +89,7 @@ class ProyectoAnexoController extends Controller
         );
 
         if ($request->hasFile('archivo')) {
-            $this->saveFilesSharepoint($request->archivo, mb_strtoupper($convocatoria->descripcion), $proyectoAnexo, 'archivo');
+            $this->saveFilesSharepoint($request->archivo, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $proyectoAnexo, 'archivo');
         }
 
         return back()->with('success', 'El recurso se ha creado correctamente.');
