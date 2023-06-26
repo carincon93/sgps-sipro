@@ -92,17 +92,16 @@
             <div class="mt-44">
                 <p class="text-center">Fecha de ejecución</p>
                 <small class="text-red-400 block text-center"> * Campo obligatorio </small>
-                <InfoMessage message={convocatoria.fecha_maxima_cultura} class="my-5" />
 
                 <div class="mt-4 flex items-start justify-around">
                     <div class="mt-4 flex {errors.fecha_inicio ? '' : 'items-center'}">
-                        <Label labelFor="fecha_inicio" class={errors.fecha_inicio ? 'top-3.5 relative' : ''} value="Del" />
+                        <Label required labelFor="fecha_inicio" class={errors.fecha_inicio ? 'top-3.5 relative' : ''} value="Del" />
                         <div class="ml-4">
                             <input id="fecha_inicio" type="date" class="mt-1 block w-full p-4" min={convocatoria.min_fecha_inicio_proyectos_linea_65} max={convocatoria.max_fecha_finalizacion_proyectos_cultura} error={errors.fecha_inicio} bind:value={$form.fecha_inicio} required />
                         </div>
                     </div>
                     <div class="mt-4 flex {errors.fecha_finalizacion ? '' : 'items-center'}">
-                        <Label labelFor="fecha_finalizacion" class={errors.fecha_finalizacion ? 'top-3.5 relative' : ''} value="hasta" />
+                        <Label required labelFor="fecha_finalizacion" class={errors.fecha_finalizacion ? 'top-3.5 relative' : ''} value="hasta" />
                         <div class="ml-4">
                             <input id="fecha_finalizacion" type="date" class="mt-1 block w-full p-4" min={convocatoria.min_fecha_inicio_proyectos_linea_65} max={convocatoria.max_fecha_finalizacion_proyectos_cultura} error={errors.fecha_finalizacion} bind:value={$form.fecha_finalizacion} required />
                         </div>

@@ -72,9 +72,6 @@
 <div class="py-24">
     <p class="text-center">Fecha de ejecución</p>
     <small class="text-red-400 block text-center"> * Campo obligatorio </small>
-    {#if convocatoria.fecha_maxima_cultura}
-        <InfoMessage message={convocatoria.fecha_maxima_cultura} class="my-5" />
-    {/if}
 
     <div class="mt-4 flex items-start justify-around">
         <div class="mt-4 flex {errors.fecha_inicio ? '' : 'items-center'}">
