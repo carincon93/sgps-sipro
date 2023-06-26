@@ -28,8 +28,8 @@ class TpRequest extends FormRequest
         if ($this->isMethod('PUT')) {
             return [
                 'nodo_tecnoparque_id'                       => ['required', 'min:0', 'max:2147483647', 'exists:nodos_tecnoparque,id'],
-                'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion', new FechaInicioProyecto($this->route('convocatoria'), 'tp', null)],
-                'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio', new FechaFinalizacionProyecto($this->route('convocatoria'), 'tp', null)],
+                'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
+                'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
                 'max_meses_ejecucion'                       => ['required', 'numeric', 'min:1', 'max:12'],
                 'pdf_proyecto_general'                      => ['nullable', 'file', 'max:10240'],
                 'municipios*'                               => ['required', 'integer', 'min:0', 'max:2147483647', 'exists:municipios,id'],
@@ -37,8 +37,8 @@ class TpRequest extends FormRequest
         } else {
             return [
                 'nodo_tecnoparque_id'                       => ['required', 'min:0', 'max:2147483647', 'exists:nodos_tecnoparque,id'],
-                'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion', new FechaInicioProyecto($this->route('convocatoria'), 'tp', null)],
-                'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio', new FechaFinalizacionProyecto($this->route('convocatoria'), 'tp', null)],
+                'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
+                'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
                 'max_meses_ejecucion'                       => ['required', 'numeric', 'min:1', 'max:12'],
                 'rol_sennova'                               => ['required', 'min:0', 'max:2147483647', 'integer'],
                 'cantidad_horas'                            => ['required', 'numeric', 'min:1', 'max:168'],

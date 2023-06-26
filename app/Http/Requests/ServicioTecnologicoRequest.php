@@ -29,8 +29,8 @@ class ServicioTecnologicoRequest extends FormRequest
         if ($this->isMethod('PUT')) {
             return [
                 'titulo'                                    => ['required', 'string', new MaxWords(40)],
-                'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion', new FechaInicioProyecto($this->route('convocatoria'), 'st', null)],
-                'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio', new FechaFinalizacionProyecto($this->route('convocatoria'), 'st', null)],
+                'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
+                'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
                 'max_meses_ejecucion'                       => ['required', 'numeric', 'min:1', 'max:12'],
                 'pregunta_formulacion_problema'             => ['required', 'string', new MaxWords(50)],
                 'programas_formacion*'                      => ['required', 'integer', 'min:0', 'max:2147483647', 'exists:programas_formacion,id'],
@@ -40,8 +40,8 @@ class ServicioTecnologicoRequest extends FormRequest
                 'tipo_proyecto_st_id'                       => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tipos_proyecto_st,id'],
                 'estado_sistema_gestion_id'                 => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:estados_sistema_gestion,id'],
                 'titulo'                                    => ['required', 'string', new MaxWords(40)],
-                'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion', new FechaInicioProyecto($this->route('convocatoria'), 'st', null)],
-                'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio', new FechaFinalizacionProyecto($this->route('convocatoria'), 'st', null)],
+                'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
+                'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
                 'max_meses_ejecucion'                       => ['required', 'numeric', 'min:1', 'max:12'],
                 'rol_sennova'                               => ['required', 'min:0', 'max:2147483647', 'integer'],
                 'sector_productivo'                         => ['required', 'min:0', 'max:2147483647', 'integer'],
