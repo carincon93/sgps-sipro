@@ -159,6 +159,9 @@ class TpController extends Controller
     public function update(TpRequest $request, Convocatoria $convocatoria, Tp $tp)
     {
         $this->authorize('modificar-proyecto-autor', [$tp->proyecto]);
+        $request->validate([
+
+        ]);
 
         $tp->fecha_inicio                           = $request->fecha_inicio;
         $tp->fecha_finalizacion                     = $request->fecha_finalizacion;
@@ -179,11 +182,11 @@ class TpController extends Controller
         $tp->logros_vigencia_anterior               = $request->logros_vigencia_anterior;
         $tp->nodoTecnoparque()->associate($request->nodo_tecnoparque_id);
 
-        if ($request->hasFile('pdf_proyecto_general')) {
-            $this->saveFilesSharepoint($request, $tp);
-        }
-
         $tp->save();
+
+        if ($request->hasFile('pdf_proyecto_general')) {
+            $this->saveFilesSharepoint($request->pdf_proyecto_general, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $tp, 'pdf_proyecto_general');
+        }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
@@ -331,25 +334,16 @@ class TpController extends Controller
         }
     }
 
-    public function saveFilesSharepoint(Request $request, Tp $tp)
+    public function saveFilesSharepoint($tmpFile, $modulo, $modelo, $campoBd)
     {
-        $request->validate([
-            'pdf_proyecto_general' => 'nullable|file|max:10240',
-        ]);
+        $tp             = $modelo;
+        $proyecto       = Proyecto::find($tp->proyecto->id);
 
-        $response = [];
+        $tpSharePoint   = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/PDF Proyecto';
 
-        if ($request->hasFile('pdf_proyecto_general')) {
-            $tp->ruta_final_sharepoint = $tp->proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $tp->proyecto->lineaProgramatica->codigo . '/' . $tp->proyecto->codigo . '/PDF Proyecto';
+        $sharePointPath = "$modulo/$tpSharePoint";
 
-            $response = SharepointHelper::saveFilesSharepoint($request, 'pdf_proyecto_general', $tp, $tp->id . 'pdf_proyecto_general');
-        }
-
-        if (count($response) > 0 && $response['success']) {
-            return back()->with('success', 'Los archivos se han cargado correctamente');
-        } else if (count($response) > 0 && $response['success'] == false) {
-            return back()->with('error', 'No se han podido cargar los archivos. Por favor vuelva a intentar');
-        }
+        SharepointHelper::saveFilesSharepoint($tmpFile, $modelo, $sharePointPath, $campoBd);
     }
 
     public function downloadFileSharepoint(Convocatoria $convocatoria, Tp $tp, $tipoArchivo)

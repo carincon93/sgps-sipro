@@ -186,10 +186,11 @@ class TaController extends Controller
         $ta->logros_vigencia_anterior               = $request->logros_vigencia_anterior;
         $ta->proyecto->tecnoacademiaLineasTecnoacademia()->sync($request->tecnoacademia_linea_tecnoacademia_id);
 
-        if ($request->hasFile('pdf_proyecto_general')) {
-            $this->savePdfSharepoint($request, $ta);
-        }
         $ta->save();
+
+        if ($request->hasFile('pdf_proyecto_general')) {
+            $this->saveFilesSharepoint($request->pdf_proyecto_general, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $ta, 'pdf_proyecto_general');
+        }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
@@ -276,6 +277,11 @@ class TaController extends Controller
     {
         $message = '';
 
+         $request->validate([
+            'soat'              => 'nullable|file|max:10240|mimetypes:application/pdf',
+            'tecnicomecanica'   => 'nullable|file|max:10240|mimetypes:application/pdf',
+        ]);
+
         if ($request->id) {
             $aulaMovil = AulaMovil::find($request->id);
 
@@ -292,14 +298,12 @@ class TaController extends Controller
 
             $aulaMovil->save();
 
-            if ($aulaMovil->save()) {
-                if ($request->hasFile('soat')) {
-                    $this->saveFilesSharepoint($request, $convocatoria, $ta, $aulaMovil);
-                }
+            if ($request->hasFile('soat')) {
+                $this->saveFilesSharepoint($request->soat, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $aulaMovil, 'soat');
+            }
 
-                if ($request->hasFile('tecnicomecanica')) {
-                    $this->saveFilesSharepoint($request, $convocatoria, $ta, $aulaMovil);
-                }
+            if ($request->hasFile('tecnicomecanica')) {
+                $this->saveFilesSharepoint($request->tecnicomecanica, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $aulaMovil, 'tecnicomecanica');
             }
 
             $message = 'El recurso se ha modificado correctamente.';
@@ -319,14 +323,12 @@ class TaController extends Controller
 
             $aulaMovil->save();
 
-            if ($aulaMovil->save()) {
-                if ($request->hasFile('soat')) {
-                    $this->saveFilesSharepoint($request, $convocatoria, $ta, $aulaMovil);
-                }
+            if ($request->hasFile('soat')) {
+                $this->saveFilesSharepoint($request->soat, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $aulaMovil, 'soat');
+            }
 
-                if ($request->hasFile('tecnicomecanica')) {
-                    $this->saveFilesSharepoint($request, $convocatoria, $ta, $aulaMovil);
-                }
+            if ($request->hasFile('tecnicomecanica')) {
+                $this->saveFilesSharepoint($request->tecnicomecanica, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $aulaMovil, 'tecnicomecanica');
             }
 
             $message = 'El recurso se ha creado correctamente.';
@@ -335,34 +337,16 @@ class TaController extends Controller
         return back()->with('success', $message);
     }
 
-    public function saveFilesSharepoint(Request $request, Convocatoria $convocatoria, Ta $ta, AulaMovil $aulaMovil)
+    public function saveFilesSharepoint($tmpFile, $modulo, $modelo, $campoBd)
     {
-        $request->validate([
-            'soat'              => 'nullable|file|max:10240|mimetypes:application/pdf',
-            'tecnicomecanica'   => 'nullable|file|max:10240|mimetypes:application/pdf',
-        ]);
+        $aulaMovil  = $modelo;
+        $proyecto   = Proyecto::find($aulaMovil->ta->proyecto->id);
 
-        $response = [];
+        $aulaMovilSharePoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/AULAS MOVILES';
 
-        if ($request->hasFile('soat')) {
-            $aulaMovil->ruta_final_sharepoint = $ta->proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $ta->proyecto->lineaProgramatica->codigo . '/' . $ta->proyecto->codigo . '/AULAS MOVILES';
+        $sharePointPath = "$modulo/$aulaMovilSharePoint";
 
-            $response = SharepointHelper::saveFilesSharepoint($request, 'soat', $aulaMovil, $aulaMovil->id . 'soat');
-            AulaMovil::where('id', $aulaMovil->id)->update(['soat' => $response['sharePointPath']]);
-        }
-
-        if ($request->hasFile('tecnicomecanica')) {
-            $aulaMovil->ruta_final_sharepoint = $ta->proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $ta->proyecto->lineaProgramatica->codigo . '/' . $ta->proyecto->codigo . '/AULAS MOVILES';
-
-            $response = SharepointHelper::saveFilesSharepoint($request, 'tecnicomecanica', $aulaMovil, $aulaMovil->id . 'tecnicomecanica');
-            AulaMovil::where('id', $aulaMovil->id)->update(['tecnicomecanica' => $response['sharePointPath']]);
-        }
-
-        if (count($response) > 0 && $response['success']) {
-            return back()->with('success', 'Los archivos se han cargado correctamente');
-        } else if (count($response) > 0 && $response['success'] == false) {
-            return back()->with('error', 'No se han podido cargar los archivos. Por favor vuelva a intentar');
-        }
+        SharepointHelper::saveFilesSharepoint($tmpFile, $modelo, $sharePointPath, $campoBd);
     }
 
     public function downloadFileSharepoint(Convocatoria $convocatoria, Ta $ta, AulaMovil $aulaMovil, $tipoArchivo)
