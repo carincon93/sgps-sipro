@@ -213,6 +213,8 @@ class GrupoInvestigacionController extends Controller
 
     public function downloadFileSharepoint(GrupoInvestigacion $grupoInvestigacion, $tipoArchivo)
     {
-        SharepointHelper::downloadFileSharepoint($grupoInvestigacion, $tipoArchivo);
+        $sharePointPath = $grupoInvestigacion[$tipoArchivo];
+
+        SharepointHelper::downloadFile($sharePointPath);
     }
 }

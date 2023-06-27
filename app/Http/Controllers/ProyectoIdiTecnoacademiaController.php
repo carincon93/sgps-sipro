@@ -288,7 +288,9 @@ class ProyectoIdiTecnoacademiaController extends Controller
 
     public function downloadFileSharepoint(ProyectoIdiTecnoacademia $proyectoIdiTecnoacademia, $tipoArchivo)
     {
-        SharepointHelper::downloadFileSharepoint($proyectoIdiTecnoacademia, $tipoArchivo);
+        $sharePointPath = $proyectoIdiTecnoacademia[$tipoArchivo];
+
+        SharepointHelper::downloadFile($sharePointPath);
     }
 
     /**
@@ -360,7 +362,7 @@ class ProyectoIdiTecnoacademiaController extends Controller
     }
 
     /**
-     * unlinkParticipante 
+     * unlinkParticipante
      *
      * @param  mixed $request
      * @param  mixed $proyectoIdiTecnoacademia
@@ -560,7 +562,9 @@ class ProyectoIdiTecnoacademiaController extends Controller
 
     public function downloadFileProductoSharepoint(ProyectoIdiTecnoacademia $proyectoIdiTecnoacademia, ProyectoIdiTecnoacademiaProducto $producto, $tipoArchivo)
     {
-        SharepointHelper::downloadFileSharepoint($producto, $tipoArchivo);
+        $sharePointPath = $producto[$tipoArchivo];
+
+        SharepointHelper::downloadFile($sharePointPath);
     }
 
     public function cambiarAutorPrincipal(ProyectoIdiTecnoacademia $proyectoIdiTecnoacademia, $integrante)

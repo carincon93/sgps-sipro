@@ -351,9 +351,9 @@ class TaController extends Controller
 
     public function downloadFileSharepoint(Convocatoria $convocatoria, Ta $ta, AulaMovil $aulaMovil, $tipoArchivo)
     {
-        $aulaMovil->ruta_final_sharepoint = $ta->proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $ta->proyecto->lineaProgramatica->codigo . '/' . $ta->proyecto->codigo . '/AULAS MOVILES';
+        $sharePointPath = $aulaMovil[$tipoArchivo];
 
-        SharepointHelper::downloadFileSharepoint($aulaMovil, $tipoArchivo);
+        SharepointHelper::downloadFile($sharePointPath);
     }
 
     public function destroyAulaMovil(Convocatoria $convocatoria, Ta $ta, AulaMovil $aulaMovil)
@@ -523,8 +523,8 @@ class TaController extends Controller
 
     public function downloadPdfSharepoint(Convocatoria $convocatoria, Ta $ta, $tipoArchivo)
     {
-        $ta->ruta_final_sharepoint = $ta->proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $ta->proyecto->lineaProgramatica->codigo . '/' . $ta->proyecto->codigo . '/PDF Proyecto';
+        $sharePointPath = $ta[$tipoArchivo];
 
-        SharepointHelper::downloadFileSharepoint($ta, $tipoArchivo);
+        SharepointHelper::downloadFile($sharePointPath);
     }
 }

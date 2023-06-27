@@ -176,6 +176,8 @@ class AnexoController extends Controller
 
     public function downloadFileSharepoint(Anexo $anexo, $tipoArchivo)
     {
-        SharepointHelper::downloadFileSharepoint($anexo, $tipoArchivo);
+        $sharePointPath = $anexo[$tipoArchivo];
+
+        SharepointHelper::downloadFile($sharePointPath);
     }
 }

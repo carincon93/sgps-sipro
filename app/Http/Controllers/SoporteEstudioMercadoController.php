@@ -203,9 +203,9 @@ class SoporteEstudioMercadoController extends Controller
 
     public function downloadFileSharepoint(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto, SoporteEstudioMercado $soporte, $tipoArchivo)
     {
-        $soporte->ruta_final_sharepoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ESTUDIOS MERCADO/COTIZACIONES';
+        $sharePointPath = $soporte[$tipoArchivo];
 
-        SharepointHelper::downloadFileSharepoint($soporte, $tipoArchivo);
+        SharepointHelper::downloadFile($sharePointPath);
     }
 
     /**

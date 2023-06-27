@@ -348,8 +348,8 @@ class TpController extends Controller
 
     public function downloadFileSharepoint(Convocatoria $convocatoria, Tp $tp, $tipoArchivo)
     {
-        $tp->ruta_final_sharepoint = $tp->proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $tp->proyecto->lineaProgramatica->codigo . '/' . $tp->proyecto->codigo . '/PDF Proyecto';
+        $sharePointPath = $tp[$tipoArchivo];
 
-        SharepointHelper::downloadFileSharepoint($tp, $tipoArchivo);
+        SharepointHelper::downloadFile($sharePointPath);
     }
 }

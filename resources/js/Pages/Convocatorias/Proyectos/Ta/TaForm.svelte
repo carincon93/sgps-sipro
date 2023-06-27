@@ -99,8 +99,8 @@
 
 {#if convocatoria.descripcion?.includes('proyectos de tecnoacademia y tecnoparque')}
     <div class="py-24">
-        <Label class="mb-4" labelFor="pdf_proyecto_general" value="Archivo en formato (.pdf) del proyecto general" />
-        <File id="pdf_proyecto_general" maxSize="10000" bind:value={$form.pdf_proyecto_general} valueDb={ta.pdf_proyecto_general} error={errors.pdf_proyecto_general} route={ta.pdf_proyecto_general?.includes('http') ? null : route('convocatorias.ta.download-pdf-sharepoint', [convocatoria.id, ta, 'pdf_proyecto_general'])} />
+        <Label  class="mb-4" labelFor="pdf_proyecto_general" value="Archivo en formato (.pdf) del proyecto general" />
+        <File id="pdf_proyecto_general" maxSize="10000" bind:value={$form.pdf_proyecto_general} valueDb={ta.pdf_proyecto_general} error={errors.pdf_proyecto_general} route={ta.pdf_proyecto_general?.includes('http') ? null : route('convocatorias.ta.download-pdf-sharepoint', [convocatoria.id, ta, 'pdf_proyecto_general'])}  />
     </div>
 {/if}
 

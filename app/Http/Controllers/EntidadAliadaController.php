@@ -314,13 +314,14 @@ class EntidadAliadaController extends Controller
 
     public function downloadFileSharepoint(Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidadAliada, $tipoArchivo)
     {
+        $sharePointPath = '';
         if ($entidadAliada->entidadAliadaIdi()->exists()) {
-            $entidadAliada->entidadAliadaIdi->ruta_final_sharepoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ENTIDADES ALIADAS';
-            SharepointHelper::downloadFileSharepoint($entidadAliada->entidadAliadaIdi, $tipoArchivo);
+            $sharePointPath = $entidadAliada->entidadAliadaIdi[$tipoArchivo];
         } else if ($entidadAliada->entidadAliadaTaTp()->exists()) {
-            $entidadAliada->entidadAliadaTaTp->ruta_final_sharepoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ENTIDADES ALIADAS';
-            SharepointHelper::downloadFileSharepoint($entidadAliada->entidadAliadaTaTp, $tipoArchivo);
+            $sharePointPath = $entidadAliada->entidadAliadaTaTp[$tipoArchivo];
         }
+
+        SharepointHelper::downloadFile($sharePointPath);
     }
 
     /**
