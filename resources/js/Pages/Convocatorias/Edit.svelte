@@ -27,10 +27,12 @@
     let authUser = $page.props.auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
+
     let formFase = useForm({
         fase: convocatoria.fase,
         fecha_finalizacion_fase: convocatoria.fecha_finalizacion_fase,
         hora_finalizacion_fase: convocatoria.hora_finalizacion_fase,
+        year: convocatoria.year + '-01',
     })
 
     function submitFase() {
@@ -86,6 +88,13 @@
                             </div>
                             <div>
                                 <Select id="fase" items={fases} bind:selectedValue={$formFase.fase} error={errors.fase} autocomplete="off" placeholder="Seleccione una fase" required />
+                            </div>
+
+                            <div>
+                                <Label required labelFor="year" value="Año" />
+                            </div>
+                            <div>
+                                <input id="year" type="month" class="mt-1 block w-full p-4" error={errors.year} bind:value={$formFase.year} required />
                             </div>
 
                             {#if $formFase.fase?.label}

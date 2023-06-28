@@ -14,8 +14,8 @@
 
     export let errors
     export let convocatorias
-    export let lineas_programaticas
-    export let tipos_convocatoria
+    export let lineasProgramaticas
+    export let tiposConvocatoria
 
     $: $title = 'Crear convocatoria'
 
@@ -32,6 +32,7 @@
         visible: false,
         fecha_finalizacion_fase: '',
         hora_finalizacion_fase: '',
+        year: '',
         convocatoria_id: null,
         tipo_convocatoria: null,
     })
@@ -76,6 +77,11 @@
                         <InputError message={errors.fecha_finalizacion_fase} />
                     {/if}
 
+                    <div>
+                        <Label required labelFor="year" value="Año" />
+                        <input id="year" type="month" class="mt-1 block w-full p-4" error={errors.year} bind:value={$form.year} required />
+                    </div>
+
                     <div class="mt-4 mb-20">
                         <div class="mt-4">
                             <Label required labelFor="hora_finalizacion_fase" value="Hora límite de la fase de formulación" />
@@ -89,7 +95,7 @@
                             <Label required class="mb-4" labelFor="tipo_convocatoria" value="Seleccione un tipo de convocatoria (Proyectos de convocatoria para habilitar la formulación de proyectos de todas las líneas - Proyectos demo I+D+i para permitir el ejercicio de formulación)" />
                         </div>
                         <div>
-                            <Select id="tipo_convocatoria" items={tipos_convocatoria} bind:selectedValue={$form.tipo_convocatoria} error={errors.tipo_convocatoria} autocomplete="off" placeholder="Seleccione un tipo de convocatoria" required />
+                            <Select id="tipo_convocatoria" items={tiposConvocatoria} bind:selectedValue={$form.tipo_convocatoria} error={errors.tipo_convocatoria} autocomplete="off" placeholder="Seleccione un tipo de convocatoria" required />
                         </div>
                     </div>
 
@@ -132,7 +138,7 @@
                     <div>
                         <div class="mt-10 mb-20">
                             <Label required labelFor="lineas_programaticas_activas" class="mb-4" value="Seleccione las líneas programáticas las cuales quiere activar" />
-                            <SelectMulti id="lineas_programaticas_activas" bind:selectedValue={$form.lineas_programaticas_activas} items={lineas_programaticas} isMulti={true} error={errors.lineas_programaticas_activas} placeholder="Seleccione las líneas programáticas" required />
+                            <SelectMulti id="lineas_programaticas_activas" bind:selectedValue={$form.lineas_programaticas_activas} items={lineasProgramaticas} isMulti={true} error={errors.lineas_programaticas_activas} placeholder="Seleccione las líneas programáticas" required />
                         </div>
                     </div>
                 </fieldset>

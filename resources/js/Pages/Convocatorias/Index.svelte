@@ -44,21 +44,9 @@
     <header class="pt-[8rem]" slot="header">
         <div class="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
             <div>
-                {#if convocatoria_activa}
-                    <h1 class="font-bold text-5xl">
-                        Convocatoria activa: {convocatoria_activa?.year}
-                    </h1>
-
-                    {#if isSuperAdmin || checkRole(authUser, [11]) || checkPermission(authUser, [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18, 19, 14, 15, 16, 20, 21])}
-                        <Button on:click={() => Inertia.visit(route('convocatorias.lineas-programaticas', convocatoria_activa?.id))} variant="raised" class="mt-4 inline-block">
-                            Revisar convocatoria
-                            {convocatoria_activa?.year}
-                        </Button>
-                    {/if}
-                {:else}
-                    <h1 class="font-bold text-5xl">Aún no hay una convocatoria activa.</h1>
-                    <p>Debe crear una nueva convocatoria y activarla o activar una convocatoria previamente creada.</p>
-                {/if}
+                <h1 class="font-bold text-5xl">
+                    Lista de convocatorias
+                </h1>
             </div>
             <div>
                 <figure>
@@ -68,7 +56,6 @@
         </div>
     </header>
     <div class={isSuperAdmin ? 'py-12' : ''}>
-        <h1 class="text-3xl m-10 text-center">Lista de convocatorias</h1>
         {#if isSuperAdmin}
             <div class="flex justify-center items-center flex-col">
                 <p>A continuación, se listan todas las convocatorias, si desea crear una nueva de clic en el siguiente botón.</p>
@@ -112,9 +99,9 @@
                                         <br />
                                         {convocatoria.year}
                                     {:else if convocatoria.tipo_convocatoria == 2}
-                                        Proyectos de ejercicio (DEMO)
+                                        Proyectos de ejercicio (DEMO) {convocatoria.year}
                                     {:else}
-                                        Nuevas TecnoAcademias - Nuevos Tecnoparques
+                                        Nuevas TecnoAcademias - Nuevos Tecnoparques {convocatoria.year}
                                     {/if}
                                 </h1>
 
