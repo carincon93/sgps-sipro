@@ -99,7 +99,7 @@
                                         <br />
                                         {convocatoria.year}
                                     {:else if convocatoria.tipo_convocatoria == 2}
-                                        Proyectos de ejercicio (DEMO) {convocatoria.year}
+                                        Proyectos de ejercicio (DEMO)
                                     {:else}
                                         Nuevas TecnoAcademias - Nuevos Tecnoparques {convocatoria.year}
                                     {/if}

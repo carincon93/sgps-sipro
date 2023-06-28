@@ -47,6 +47,7 @@
         esta_activa: convocatoria.esta_activa,
         visible: convocatoria.visible,
         mostrar_recomendaciones: convocatoria.mostrar_recomendaciones,
+        year: convocatoria.year + '-01',
         lineas_programaticas_activas: lineas_programaticas_activas_relacionadas.length > 0 ? lineas_programaticas_activas_relacionadas : null,
     })
 
