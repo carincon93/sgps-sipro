@@ -14,7 +14,6 @@
 
     export let errors
     export let convocatorias
-    export let convocatoria_activa
 
     let authUser = $page.props.auth.user
     let isSuperAdmin = checkRole(authUser, [1])
@@ -44,9 +43,7 @@
     <header class="pt-[8rem]" slot="header">
         <div class="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
             <div>
-                <h1 class="font-bold text-5xl">
-                    Lista de convocatorias
-                </h1>
+                <h1 class="font-bold text-5xl">Lista de convocatorias</h1>
             </div>
             <div>
                 <figure>

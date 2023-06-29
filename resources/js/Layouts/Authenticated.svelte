@@ -231,7 +231,7 @@
             {/if}
 
             {#if isSuperAdmin || checkRole(authUser.user, [4]) || checkPermission(authUser.user, [8, 17])}
-                <Button on:click={() => Inertia.visit(route('nuevos-proyectos-ta-tp'))} variant={route().current('nuevos-proyectos-ta-tp') ? 'raised' : 'outlined'} class="p-2">Nuevos proyectos Tecnoacademia - Tecnoparque</Button>
+                <Button on:click={() => Inertia.visit(route('convocatorias.index'))} variant={route().current('convocatorias.index') ? 'raised' : 'outlined'} class="p-2">Nuevos proyectos Tecnoacademia - Tecnoparque</Button>
             {/if}
 
             {#if isSuperAdmin}
