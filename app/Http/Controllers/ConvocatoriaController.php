@@ -183,10 +183,6 @@ class ConvocatoriaController extends Controller
      */
     public function lineasProgramaticas(Convocatoria $convocatoria)
     {
-        if ($convocatoria->tipo_convocatoria == 3) {
-            return redirect()->route('nuevos-proyectos-ta-tp', $convocatoria);
-        }
-
         return Inertia::render('Convocatorias/LineasProgramaticas', [
             'convocatoria'          => $convocatoria,
             'lineas_programaticas'  => LineaProgramatica::select('id', 'nombre', 'codigo')->get()
