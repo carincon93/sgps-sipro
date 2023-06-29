@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import Checkbox from '@/Components/Checkbox';
 import GuestLayout from '@/Layouts/GuestLayout';
-import InputError from '@/Components/InputError';
 import PasswordInput from '@/Components/PasswordInput';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
@@ -41,13 +40,13 @@ export default function Login({ status }) {
                         label="Correo electrónico SENA"
                         required
                         value={data.email}
+                        error={errors.email}
                         className="mt-1 block w-full"
                         autoComplete="email"
                         isFocused={true}
                         onChange={(e) => setData('email', e.target.value)}
                     />
 
-                    <InputError message={errors.email} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
@@ -58,12 +57,12 @@ export default function Login({ status }) {
                         label="Contraseña"
                         required
                         value={data.password}
+                        error={errors.password}
                         className="mt-1 block w-full"
                         autoComplete="current-password"
                         onChange={(e) => setData('password', e.target.value)}
                     />
 
-                    <InputError message={errors.password} className="mt-2" />
                 </div>
 
                 <div className="block mt-4">
@@ -72,7 +71,6 @@ export default function Login({ status }) {
                         checked={data.remember}
                         onChange={(e) => setData('remember', e.target.checked)}
                         label='Mantener la sesión activa'
-                        prevData={data}
                     />
                 </div>
 
