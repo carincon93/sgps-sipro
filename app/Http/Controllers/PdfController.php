@@ -27,6 +27,7 @@ class PdfController extends Controller
     {
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', -1);
+
         $datos = null;
         $tipoProyectoSt = null;
         if (!empty($proyecto->idi)) {
@@ -55,7 +56,7 @@ class PdfController extends Controller
 
         $proyecto->load('efectosDirectos.resultado');
 
-        $pdf = PDF::loadView('Convocatorias.Proyectos.ResumenPdf', [
+        PDF::loadView('Convocatorias.Proyectos.ResumenPdf', [
             'convocatoria'              => $convocatoria,
             'proyecto'                  => $proyecto,
             'datos'                     => $datos,
@@ -69,50 +70,50 @@ class PdfController extends Controller
             'tiposSoftware'             => collect(json_decode(Storage::get('json/tipos-software.json'), true))
         ]);
 
-        // Get the file content from the response
-        $fileContent = $pdf->setWarnings(false)->output();
+        // // Get the file content from the response
+        // $fileContent = $pdf->setWarnings(false)->output();
 
-        // Set the filename
-        $filename = 'file.pdf';
+        // // Set the filename
+        // $filename = 'file.pdf';
 
-        // Create a temporary file
-        $tmpFile = tmpfile();
+        // // Create a temporary file
+        // $tmpFile = tmpfile();
 
-        // Write the file content to the temporary file
-        fwrite($tmpFile, $fileContent);
+        // // Write the file content to the temporary file
+        // fwrite($tmpFile, $fileContent);
 
-        // Create a new file object from the temporary file
-        $file = new \Illuminate\Http\UploadedFile(
-            stream_get_meta_data($tmpFile)['uri'],
-            $filename,
-            'application/pdf',
-            null,
-            true
-        );
+        // // Create a new file object from the temporary file
+        // $file = new \Illuminate\Http\UploadedFile(
+        //     stream_get_meta_data($tmpFile)['uri'],
+        //     $filename,
+        //     'application/pdf',
+        //     null,
+        //     true
+        // );
 
-        $request = new Request();
+        // $request = new Request();
 
-        // Set the file object in the request
-        $request->merge([
-            'pdf_proyecto' => $file,
-        ]);
+        // // Set the file object in the request
+        // $request->merge([
+        //     'pdf_proyecto' => $file,
+        // ]);
 
-        $modulo = 'CONVOCATORIAS2023';
-        $centroFormacionSharePoint  = $proyecto->centroFormacion->nombre_carpeta_sharepoint;
-        $sharePointPath             = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
+        // $modulo = 'CONVOCATORIAS2023';
+        // $centroFormacionSharePoint  = $proyecto->centroFormacion->nombre_carpeta_sharepoint;
+        // $sharePointPath             = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
 
-        // $response = self::saveFilesSharepoint($request, 'CONVOCATORIA2023', $proyecto, $proyecto, 'pdf_proyecto');
+        // // $response = self::saveFilesSharepoint($request, 'CONVOCATORIA2023', $proyecto, $proyecto, 'pdf_proyecto');
 
-        $path = Storage::put($sharePointPath . '/' . $save . '.pdf', $fileContent);
-        if (!empty($response['sharePointPath'])) {
-            ProyectoPdfVersion::create([
-                'proyecto_id'     => $proyecto->id,
-                'version'         => $response['nombreArchivo'],
-                'estado'          => 1
-            ]);
+        // $path = Storage::put($sharePointPath . '/' . $save . '.pdf', $fileContent);
+        // if (!empty($response['sharePointPath'])) {
+        //     ProyectoPdfVersion::create([
+        //         'proyecto_id'     => $proyecto->id,
+        //         'version'         => $response['nombreArchivo'],
+        //         'estado'          => 1
+        //     ]);
 
-            ProyectoPdfVersion::where('proyecto_id', $proyecto->id)->update(['estado' => 1]);
-        }
+        //     ProyectoPdfVersion::where('proyecto_id', $proyecto->id)->update(['estado' => 1]);
+        // }
     }
 
     static function saveFilesSharepoint(Request $request, $modulo, $proyecto, $modelo, $campoBd)
