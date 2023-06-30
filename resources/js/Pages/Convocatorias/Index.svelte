@@ -65,7 +65,7 @@
         <div class="grid grid-cols-3 gap-4">
             {#if isSuperAdmin || checkRole(authUser, [11]) || checkPermission(authUser, [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18, 19, 14, 15, 16, 20, 21])}
                 {#each convocatorias.data as convocatoria (convocatoria.id)}
-                    {#if (convocatoria.tipo_convocatoria != 3 && convocatoria.visible) || isSuperAdmin || checkRole(authUser, [5, 17, 18, 19, 20])}
+                    {#if (convocatoria.visible) || isSuperAdmin || checkRole(authUser, [5, 17, 18, 19, 20])}
                         <div>
                             {#if isSuperAdmin}
                                 <div class="bg-white flex w-full justify-end">
