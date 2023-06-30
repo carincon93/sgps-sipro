@@ -217,7 +217,7 @@ class ConvocatoriaController extends Controller
                 break;
 
             case 10:
-                return redirect()->route('convocatorias.st.index', [$convocatoria]);
+                return redirect()->route('convocatorias.servicios-tecnologicos.index', [$convocatoria]);
                 break;
             default:
                 return back();
