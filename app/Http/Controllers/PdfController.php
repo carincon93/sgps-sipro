@@ -70,7 +70,7 @@ class PdfController extends Controller
             'tiposSoftware'             => collect(json_decode(Storage::get('json/tipos-software.json'), true))
         ]);
 
-        return $pdf->download('invoice.pdf');
+        return $pdf->download($proyecto->codigo.'.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
