@@ -492,6 +492,6 @@ class AmbienteModernizacionController extends Controller
     {
         $sharePointPath = $ambienteModernizacion[$tipoArchivo];
 
-        SharepointHelper::downloadFile($sharePointPath);
+        return SharepointHelper::downloadFile($sharePointPath);
     }
 }

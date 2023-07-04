@@ -321,7 +321,7 @@ class ProyectoPresupuestoController extends Controller
     {
         $sharePointPath = $presupuesto[$tipoArchivo];
 
-        SharepointHelper::downloadFile($sharePointPath);
+        return SharepointHelper::downloadFile($sharePointPath);
     }
 
     /**

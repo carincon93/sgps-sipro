@@ -215,6 +215,6 @@ class GrupoInvestigacionController extends Controller
     {
         $sharePointPath = $grupoInvestigacion[$tipoArchivo];
 
-        SharepointHelper::downloadFile($sharePointPath);
+        return SharepointHelper::downloadFile($sharePointPath);
     }
 }

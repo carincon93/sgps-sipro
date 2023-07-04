@@ -290,7 +290,7 @@ class ProyectoIdiTecnoacademiaController extends Controller
     {
         $sharePointPath = $proyectoIdiTecnoacademia[$tipoArchivo];
 
-        SharepointHelper::downloadFile($sharePointPath);
+        return SharepointHelper::downloadFile($sharePointPath);
     }
 
     /**
@@ -564,7 +564,7 @@ class ProyectoIdiTecnoacademiaController extends Controller
     {
         $sharePointPath = $producto[$tipoArchivo];
 
-        SharepointHelper::downloadFile($sharePointPath);
+        return SharepointHelper::downloadFile($sharePointPath);
     }
 
     public function cambiarAutorPrincipal(ProyectoIdiTecnoacademia $proyectoIdiTecnoacademia, $integrante)

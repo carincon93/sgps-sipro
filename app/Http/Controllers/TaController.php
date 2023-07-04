@@ -353,7 +353,7 @@ class TaController extends Controller
     {
         $sharePointPath = $aulaMovil[$tipoArchivo];
 
-        SharepointHelper::downloadFile($sharePointPath);
+        return SharepointHelper::downloadFile($sharePointPath);
     }
 
     public function destroyAulaMovil(Convocatoria $convocatoria, Ta $ta, AulaMovil $aulaMovil)
@@ -525,6 +525,6 @@ class TaController extends Controller
     {
         $sharePointPath = $ta[$tipoArchivo];
 
-        SharepointHelper::downloadFile($sharePointPath);
+        return SharepointHelper::downloadFile($sharePointPath);
     }
 }

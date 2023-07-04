@@ -219,6 +219,6 @@ class SemilleroInvestigacionController extends Controller
     {
         $sharePointPath = $semilleroInvestigacion[$tipoArchivo];
 
-        SharepointHelper::downloadFile($sharePointPath);
+        return SharepointHelper::downloadFile($sharePointPath);
     }
 }

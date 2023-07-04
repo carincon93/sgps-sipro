@@ -206,7 +206,7 @@ class SoporteEstudioMercadoController extends Controller
     {
         $sharePointPath = $soporte[$tipoArchivo];
 
-        SharepointHelper::downloadFile($sharePointPath);
+        return SharepointHelper::downloadFile($sharePointPath);
     }
 
     /**

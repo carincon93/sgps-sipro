@@ -350,6 +350,6 @@ class TpController extends Controller
     {
         $sharePointPath = $tp[$tipoArchivo];
 
-        SharepointHelper::downloadFile($sharePointPath);
+        return SharepointHelper::downloadFile($sharePointPath);
     }
 }

@@ -178,6 +178,6 @@ class AnexoController extends Controller
     {
         $sharePointPath = $anexo[$tipoArchivo];
 
-        SharepointHelper::downloadFile($sharePointPath);
+        return SharepointHelper::downloadFile($sharePointPath);
     }
 }
