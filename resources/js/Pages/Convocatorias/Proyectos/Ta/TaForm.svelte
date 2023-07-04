@@ -336,7 +336,8 @@
             <InfoMessage message="Lista de las referencias utilizadas en cada apartado del proyecto. Utilizar normas APA- Última edición (http://biblioteca.sena.edu.co/images/PDF/InstructivoAPA.pdf)." />
         </div>
         <div>
-            <Textarea maxlength="40000" id="bibliografia" error={errors.bibliografia} bind:value={$form.bibliografia} on:blur={() => syncColumnLong('bibliografia', $form)} required disabled={evaluacion ? 'disabled' : undefined} />
+            <!-- <Textarea maxlength="40000" id="bibliografia" error={errors.bibliografia} bind:value={$form.bibliografia} on:blur={() => syncColumnLong('bibliografia', $form)} required disabled={evaluacion ? 'disabled' : undefined} /> -->
+                
         </div>
     </div>
     {#if (isSuperAdmin && !evaluacion) || (ta.proyecto.mostrar_recomendaciones && !evaluacion)}

@@ -181,8 +181,12 @@
                             route={soportesEstudioMercado[0]?.soporte?.includes('http') == true || soportesEstudioMercado[0]?.soporte?.includes('http') == undefined ? null : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [convocatoria, proyecto, proyectoPresupuesto, soportesEstudioMercado[0]?.id, 'soporte'])}
                         />
 
+                        {#if soportesEstudioMercado[0]?.soporte}
+                            <span>Soporte cargado correctamente.</span>
+                        {/if}
+
                         {#if soportesEstudioMercado[0]?.id}
-                            <Button class="mt-14" on:click={() => ((soporteEstudioMercadoId = soportesEstudioMercado[0]?.id), (dialogEliminar = true), (allowedToDestroy = proyecto.allowed.to_update))} type="button">Eliminar soporte</Button>
+                            <Button class="mt-14" on:click={() => ((soporteEstudioMercadoId = soportesEstudioMercado[0]?.id), (dialogEliminar = true), (allowedToDestroy = proyecto.allowed.to_update))} type="button">Eliminar soporte #{soportesEstudioMercado[0]?.id}</Button>
                         {/if}
                     </div>
                 </div>
@@ -205,8 +209,11 @@
                             error={errors.soporte_segunda_empresa}
                             route={soportesEstudioMercado[1]?.soporte?.includes('http') == true || soportesEstudioMercado[1]?.soporte?.includes('http') == undefined ? null : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [convocatoria, proyecto, proyectoPresupuesto, soportesEstudioMercado[1]?.id, 'soporte'])}
                         />
+                        {#if soportesEstudioMercado[1]?.soporte}
+                            <span>Soporte cargado correctamente.</span>
+                        {/if}
                         {#if soportesEstudioMercado[1]?.id}
-                            <Button class="mt-14" on:click={() => ((soporteEstudioMercadoId = soportesEstudioMercado[1]?.id), (dialogEliminar = true), (allowedToDestroy = proyecto.allowed.to_update))} type="button">Eliminar soporte</Button>
+                            <Button class="mt-14" on:click={() => ((soporteEstudioMercadoId = soportesEstudioMercado[1]?.id), (dialogEliminar = true), (allowedToDestroy = proyecto.allowed.to_update))} type="button">Eliminar soporte #{soportesEstudioMercado[1]?.id}</Button>
                         {/if}
                     </div>
                 </div>
@@ -231,8 +238,12 @@
                             route={soportesEstudioMercado[2]?.soporte?.includes('http') == true || soportesEstudioMercado[2]?.soporte?.includes('http') == undefined ? null : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [convocatoria, proyecto, proyectoPresupuesto, soportesEstudioMercado[2]?.id, 'soporte'])}
                         />
 
+                        {#if soportesEstudioMercado[2]?.soporte}
+                            <span>Soporte cargado correctamente.</span>
+                        {/if}
+
                         {#if soportesEstudioMercado[2]?.id}
-                            <Button class="mt-14" on:click={() => ((soporteEstudioMercadoId = soportesEstudioMercado[2]?.id), (dialogEliminar = true), (allowedToDestroy = proyecto.allowed.to_update))} type="button">Eliminar soporte</Button>
+                            <Button class="mt-14" on:click={() => ((soporteEstudioMercadoId = soportesEstudioMercado[2]?.id), (dialogEliminar = true), (allowedToDestroy = proyecto.allowed.to_update))} type="button">Eliminar soporte #{soportesEstudioMercado[2]?.id}</Button>
                         {/if}
                     </div>
                 </div>
