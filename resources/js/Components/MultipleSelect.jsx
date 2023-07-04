@@ -5,8 +5,8 @@ import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
-import { Tooltip } from '@mui/material';
-import { useState } from 'react';
+import { FormHelperText, Tooltip } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -19,58 +19,52 @@ const MenuProps = {
   },
 };
 
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
+export default function MultipleSelectCheckmarks({items, id, error, selectedValues}) {
+  const [itemsSelected, setItemSelected] = useState([])
 
-export default function MultipleSelectCheckmarks({items}) {
-  const [personName, setPersonName] = useState([]);
+  useEffect(() => {
+    const selectedLabels = selectedValues.map((selectedValue) =>
+        items.find((item) => item.value === selectedValue)?.label
+    );
+
+    setItemSelected(selectedLabels);
+
+    console.log(selectedLabels)
+  }, [])
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
+    setItemSelected(
       // On autofill we get a stringified value.
       typeof value.label === 'string' ? value.split(',') : value,
-    );
-  };
-
-  const handleMenuItemChange = (event) => {
-    console.log(event.target);
+    )
   }
 
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
+        <InputLabel id={`${id}-multiple-checkbox-label`}>Tag</InputLabel>
         <Select
-          labelId="demo-multiple-checkbox-label"
-          id="demo-multiple-checkbox"
+          labelId={`${id}-multiple-checkbox-label`}
+          id={`${id}-multiple-checkbox`}
           multiple
-          value={personName}
+          value={itemsSelected}
           onChange={handleChange}
           input={<OutlinedInput label="Tag" />}
           renderValue={(selected) => selected.join(', ')}
           MenuProps={MenuProps}
         >
           {items.map((item) => (
-            <MenuItem key={item.value} value={item.label} data-name="test" onClick={(e) => handleMenuItemChange(e)} >
-              {/* <Checkbox checked={personName.indexOf(name) > -1} /> */}
-                <ListItemText primary={item.label} />
+            <MenuItem key={item.value} value={item.label} data-id={item.value}  >
+              <Checkbox checked={itemsSelected.indexOf(item.label) > -1} />
+              <ListItemText primary={item.label} name="test" />
             </MenuItem>
           ))}
         </Select>
+        {error && <FormHelperText id={`component-error-${id}`} className="!text-red-600">{error}</FormHelperText> }
       </FormControl>
     </div>
-  );
+  )
 }

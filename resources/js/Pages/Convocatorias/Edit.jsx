@@ -10,14 +10,14 @@ import Switch from '@/Components/Switch';
 import Autocomplete from '@/Components/Autocomplete';
 import MultipleSelect from '@/Components/MultipleSelect';
 
-const EditConvocatoria = ({ auth, errors, convocatoria, lineas_programaticas, lineas_programaticas_activas_relacionadas, fases }) => {
+const EditConvocatoria = ({ auth, errors, convocatoria, lineas_programaticas, lineasProgramaticasActivasRelacionadas, fases }) => {
 
   // Validar si el usuario autenticado es SuperAdmin
   const authUser = auth.user;
   const isSuperAdmin = checkRole(authUser, [1]);
 
     const submitFase = (e) => {
-        e.preventDefault();
+        e.preventDefault()
 
         postFase(route('convocatorias.update-fase', convocatoria.id))
     };
@@ -28,17 +28,19 @@ const { data: dataFase, setData: setDataFase, post: postFase, processing: proces
     hora_finalizacion_fase: convocatoria.hora_finalizacion_fase,
   });
 
-  const { data: dataConvocatoria, setData: setDataConvocatoria, post: postConvocatoria, processing: processingConvocatoria, errors: errorsConvocatoria, reset: resetConvocatoria } = useForm({
+  const { data: dataConvocatoria, setData: setDataConvocatoria, put: putConvocatoria, processing: processingConvocatoria, errors: errorsConvocatoria, reset: resetConvocatoria } = useForm({
     descripcion: convocatoria.descripcion,
     esta_activa: convocatoria.esta_activa,
     visible: convocatoria.visible,
     mostrar_recomendaciones: convocatoria.mostrar_recomendaciones,
-    lineas_programaticas_activas: lineas_programaticas_activas_relacionadas.length > 0 ? lineas_programaticas_activas_relacionadas : null,
+    lineas_programaticas_activas: lineasProgramaticasActivasRelacionadas.length > 0 ? lineasProgramaticasActivasRelacionadas : null,
   });
 
-  const submitInfo = () => {
+  const submitInfo = (e) => {
+    e.preventDefault()
+
     if (isSuperAdmin) {
-      postConvocatoria(route('convocatorias.update', convocatoria.id), {
+      putConvocatoria(route('convocatorias.update', convocatoria.id), {
         preserveScroll: true,
       });
     }
@@ -153,7 +155,7 @@ const { data: dataFase, setData: setDataFase, post: postFase, processing: proces
               <div>
                 <div className="mt-10 mb-20">
                   <Label required labelFor="lineas_programaticas_activas" className="mb-4" value="Seleccione las líneas programáticas las cuales quiere activar" />
-                  <MultipleSelect id="lineas_programaticas_activas" selectedValue={dataConvocatoria.lineas_programaticas_activas} onChange={(e) => setDataConvocatoria('lineas_programaticas_activas', e.target.value)} items={lineas_programaticas} isMulti={true} error={errors.lineas_programaticas_activas} placeholder="Seleccione las líneas programáticas" required />
+                  <MultipleSelect id="lineas_programaticas_activas" selectedValues={dataConvocatoria.lineas_programaticas_activas} items={lineas_programaticas} error={errors.lineas_programaticas_activas} placeholder="Seleccione las líneas programáticas" required />
                 </div>
               </div>
 
