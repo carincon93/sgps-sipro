@@ -4,15 +4,15 @@
     import { route, checkRole } from '@/Utils'
     import { _ } from 'svelte-i18n'
 
-    import Pagination from '@/Shared/Pagination'
-    import DataTable from '@/Shared/DataTable'
-    import Input from '@/Shared/Input'
-    import Label from '@/Shared/Label'
-    import Switch from '@/Shared/Switch'
-    import Textarea from '@/Shared/Textarea'
-    import InfoMessage from '@/Shared/InfoMessage'
-    import LoadingButton from '@/Shared/LoadingButton'
-    import EvaluationStepper from '@/Shared/EvaluationStepper'
+    import Pagination from '@/Components/Pagination'
+    import DataTable from '@/Components/DataTable'
+    import Input from '@/Components/Input'
+    import Label from '@/Components/Label'
+    import Switch from '@/Components/Switch'
+    import Textarea from '@/Components/Textarea'
+    import InfoMessage from '@/Components/InfoMessage'
+    import PrimaryButton from '@/Components/PrimaryButton'
+    import EvaluationStepper from '@/Components/EvaluationStepper'
 
     import Create from '../../Proyectos/Anexos/Create'
 
@@ -29,7 +29,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let anexosSTInfo = {
@@ -94,63 +94,63 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
+    <header className="pt-[8rem]" slot="header">
         <EvaluationStepper {convocatoria} {evaluacion} {proyecto} />
     </header>
 
-    <a class="bg-orangered-900 bottom-0 fixed flex hover:bg-orangered-600 mb-5 ml-10 px-6 py-2 rounded-3xl shadow-2xl text-center text-white z-50" href="#evaluacion">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <a className="bg-orangered-900 bottom-0 fixed flex hover:bg-orangered-600 mb-5 ml-10 px-6 py-2 rounded-3xl shadow-2xl text-center text-white z-50" href="#evaluacion">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
         </svg>
         Ir a la evaluación
     </a>
 
     {#if proyecto.codigo_linea_programatica == 68}
-        <h1 class="mt-24 mb-8 text-center text-3xl">Especificaciones e infraestructura</h1>
+        <h1 className="mt-24 mb-8 text-center text-3xl">Especificaciones e infraestructura</h1>
 
-        <form class="mt-4 p-4">
+        <form className="mt-4 p-4">
             <fieldset disabled={isSuperAdmin || (checkRole(authUser, [11, 5]) && proyecto.finalizado == true) ? undefined : true}>
-                <div class="mt-4">
-                    <Label labelFor="infraestructura_adecuada" value="¿Cuenta con infraestructura adecuada y propia para el funcionamiento de la línea servicios tecnológicos en el centro de formación?" class="inline-block mb-4" />
+                <div className="mt-4">
+                    <Label labelFor="infraestructura_adecuada" value="¿Cuenta con infraestructura adecuada y propia para el funcionamiento de la línea servicios tecnológicos en el centro de formación?" className="inline-block mb-4" />
                     <br />
                     <Switch disabled checked={anexosSTInfo.infraestructura_adecuada} />
                 </div>
-                <div class="mt-4">
-                    <Label labelFor="especificaciones_area" value="Relacione las especificaciones del área donde se desarrollan las actividades de servicios tecnológicos en el centro de formación" class="inline-block mb-4" />
+                <div className="mt-4">
+                    <Label labelFor="especificaciones_area" value="Relacione las especificaciones del área donde se desarrollan las actividades de servicios tecnológicos en el centro de formación" className="inline-block mb-4" />
                     <Textarea disabled label="Especificaciones del área" maxlength="40000" id="especificaciones_area" value={anexosSTInfo.especificaciones_area} />
                 </div>
-                <div class="mt-4">
-                    <Label labelFor="video" value="Enlace del video de las instalaciones donde se desarrollan las actividades de la línea servicios tecnológicos. (Youtube, Vídeo en Google Drive con visualización pública)" class="inline-block mb-4" />
-                    <Input disabled label="Enlace del video" type="url" class="mt-1" value={anexosSTInfo.video} />
+                <div className="mt-4">
+                    <Label labelFor="video" value="Enlace del video de las instalaciones donde se desarrollan las actividades de la línea servicios tecnológicos. (Youtube, Vídeo en Google Drive con visualización pública)" className="inline-block mb-4" />
+                    <Input disabled label="Enlace del video" type="url" className="mt-1" value={anexosSTInfo.video} />
                     <InfoMessage message="El vídeo debe incluir durante el recorrido en las instalaciones, una voz en off que justifique puntualmente el proyecto e incluya: el impacto a la formación, al sector productivo y a la política nacional de ciencia, tecnología e innovación." />
                 </div>
             </fieldset>
         </form>
     {/if}
 
-    <DataTable class="mt-20" routeParams={[convocatoria.id, evaluacion.id]}>
+    <DataTable className="mt-20" routeParams={[convocatoria.id, evaluacion.id]}>
         <div slot="title">Anexos</div>
 
         <thead slot="thead">
-            <tr class="text-left font-bold">
-                <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Nombre</th>
-                <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Archivo</th>
+            <tr className="text-left font-bold">
+                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Nombre</th>
+                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Archivo</th>
             </tr>
         </thead>
 
         <tbody slot="tbody">
             {#each anexos.data as anexo (anexo.id)}
                 <tr>
-                    <td class="border-t">
-                        <p class="px-6 py-4 focus:text-app-500">
+                    <td className="border-t">
+                        <p className="px-6 py-4 focus:text-app-500">
                             {anexo.nombre}
                             <br />
                             {#if anexo.obligatorio}
-                                <span class="text-red-500">* El anexo es obligatorio</span>
+                                <span className="text-red-500">* El anexo es obligatorio</span>
                             {/if}
                             {#if anexo.archivo}
-                                <a target="_blank" class="text-app-400 underline mt-4 mb-4 flex" download href={anexo.archivo}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <a target="_blank" className="text-app-400 underline mt-4 mb-4 flex" download href={anexo.archivo}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                     </svg>
                                     Descargar formato para diligenciar dando clic en este enlace.
@@ -158,7 +158,7 @@
                             {/if}
                         </p>
                     </td>
-                    <td class="border-t">
+                    <td className="border-t">
                         <Create {errors} {convocatoria} {proyecto} {anexo} bind:proyectoAnexo />
                     </td>
                 </tr>
@@ -166,7 +166,7 @@
 
             {#if anexos.data.length === 0}
                 <tr>
-                    <td class="border-t px-6 py-4" colspan="4">Sin información registrada</td>
+                    <td className="border-t px-6 py-4" colspan="4">Sin información registrada</td>
                 </tr>
             {/if}
         </tbody>
@@ -174,60 +174,60 @@
     <Pagination links={anexos.links} />
 
     {#if proyecto.codigo_linea_programatica == 23 || proyecto.codigo_linea_programatica == 65 || proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82}
-        <hr class="mt-10 mb-10" />
+        <hr className="mt-10 mb-10" />
 
-        <h1 class="text-3xl mt-24 mb-8 text-center" id="evaluacion">Evaluación</h1>
+        <h1 className="text-3xl mt-24 mb-8 text-center" id="evaluacion">Evaluación</h1>
 
-        <div class="mt-16">
+        <div className="mt-16">
             <form on:submit|preventDefault={submitEstrategiaRegionalEvaluacion}>
                 <InfoMessage>
-                    <div class="mt-4">
+                    <div className="mt-4">
                         <p>¿Los anexos son correctos? Por favor seleccione si Cumple o No cumple.</p>
                         <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formEstrategiaRegionalEvaluacion.anexos_requiere_comentario} />
                         {#if $formEstrategiaRegionalEvaluacion.anexos_requiere_comentario == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" class="mt-4" maxlength="40000" id="anexos_comentario" bind:value={$formEstrategiaRegionalEvaluacion.anexos_comentario} error={errors.anexos_comentario} required />
+                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="anexos_comentario" bind:value={$formEstrategiaRegionalEvaluacion.anexos_comentario} error={errors.anexos_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
-                <div class="shadow-inner bg-app-200 border-app-400 bottom-0 flex items-center justify-between mt-14 px-8 py-4 sticky">
+                <div className="flex items-center justify-between mt-14 px-8 py-4">
                     {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
-                        <LoadingButton loading={$formEstrategiaRegionalEvaluacion.processing} class="ml-auto" type="submit">Guardar</LoadingButton>
+                        <PrimaryButton loading={$formEstrategiaRegionalEvaluacion.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
                     {/if}
                 </div>
             </form>
         </div>
     {:else if proyecto.codigo_linea_programatica == 68}
-        <hr class="mt-10 mb-10" />
+        <hr className="mt-10 mb-10" />
 
-        <h1 class="text-3xl mt-24 mb-8 text-center" id="evaluacion">Evaluación</h1>
+        <h1 className="text-3xl mt-24 mb-8 text-center" id="evaluacion">Evaluación</h1>
 
-        <div class="mt-16">
+        <div className="mt-16">
             <form on:submit|preventDefault={submitServicioTecnologicoEvaluacion}>
                 <InfoMessage>
-                    <div class="mt-4">
+                    <div className="mt-4">
                         <p>¿Los anexos son correctos? Por favor seleccione si Cumple o No cumple.</p>
                         <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formServicioTecnologicoEvaluacion.anexos_requiere_comentario} />
                         {#if $formServicioTecnologicoEvaluacion.anexos_requiere_comentario == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" class="mt-4" maxlength="40000" id="anexos_comentario" bind:value={$formServicioTecnologicoEvaluacion.anexos_comentario} error={errors.anexos_comentario} required />
+                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="anexos_comentario" bind:value={$formServicioTecnologicoEvaluacion.anexos_comentario} error={errors.anexos_comentario} required />
                         {/if}
                     </div>
 
-                    <div class="mt-4">
+                    <div className="mt-4">
                         <p>¿El video es correcto? Por favor seleccione si Cumple o No cumple.</p>
                         <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formServicioTecnologicoEvaluacion.video_requiere_comentario} />
                         {#if $formServicioTecnologicoEvaluacion.video_requiere_comentario == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" class="mt-4" maxlength="40000" id="video_comentario" bind:value={$formServicioTecnologicoEvaluacion.video_comentario} error={errors.video_comentario} required />
+                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="video_comentario" bind:value={$formServicioTecnologicoEvaluacion.video_comentario} error={errors.video_comentario} required />
                         {/if}
                     </div>
 
-                    <div class="mt-4">
+                    <div className="mt-4">
                         <p>¿Las especificaciones del área son correctas? Por favor seleccione si Cumple o No cumple.</p>
                         <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formServicioTecnologicoEvaluacion.especificaciones_area_requiere_comentario} />
                         {#if $formServicioTecnologicoEvaluacion.especificaciones_area_requiere_comentario == false}
                             <Textarea
                                 disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
-                                class="mt-4"
+                                className="mt-4"
                                 maxlength="40000"
                                 id="especificaciones_area_comentario"
                                 bind:value={$formServicioTecnologicoEvaluacion.especificaciones_area_comentario}
@@ -237,26 +237,26 @@
                         {/if}
                     </div>
                 </InfoMessage>
-                <div class="shadow-inner bg-app-200 border-app-400 bottom-0 flex items-center justify-between mt-14 px-8 py-4 sticky">
+                <div className="flex items-center justify-between mt-14 px-8 py-4">
                     {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
-                        <LoadingButton loading={$formServicioTecnologicoEvaluacion.processing} class="ml-auto" type="submit">Guardar</LoadingButton>
+                        <PrimaryButton loading={$formServicioTecnologicoEvaluacion.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
                     {/if}
                 </div>
             </form>
         </div>
     {:else if proyecto.codigo_linea_programatica == 70}
-        <hr class="mt-10 mb-10" />
+        <hr className="mt-10 mb-10" />
 
-        <h1 class="text-3xl mt-24 mb-8 text-center" id="evaluacion">Evaluación</h1>
+        <h1 className="text-3xl mt-24 mb-8 text-center" id="evaluacion">Evaluación</h1>
 
-        <div class="mt-16">
+        <div className="mt-16">
             <form on:submit|preventDefault={submitTaEvaluacion}>
                 <InfoMessage>
-                    <div class="mt-4">
+                    <div className="mt-4">
                         {#if checkRole(authUser, [5]) && evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
-                                <div class="mb-8">
-                                    <h4>Evaluador(a): <span class="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
+                                <div className="mb-8">
+                                    <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
                                     {evaluacion.anexos_comentario ? evaluacion.anexos_comentario : 'Estado: El evaluador(a) da cumplimiento a los anexos'}
                                     <br />
                                 </div>
@@ -265,36 +265,36 @@
                         <p>¿Los anexos son correctos? Por favor seleccione si Cumple o No cumple.</p>
                         <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formTaEvaluacion.anexos_requiere_comentario} />
                         {#if $formTaEvaluacion.anexos_requiere_comentario == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" class="mt-4" maxlength="40000" id="anexos_comentario" bind:value={$formTaEvaluacion.anexos_comentario} error={errors.anexos_comentario} required />
+                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="anexos_comentario" bind:value={$formTaEvaluacion.anexos_comentario} error={errors.anexos_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
-                <div class="shadow-inner bg-app-200 border-app-400 bottom-0 flex items-center justify-between mt-14 px-8 py-4 sticky">
+                <div className="flex items-center justify-between mt-14 px-8 py-4">
                     {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
-                        <LoadingButton loading={$formTaEvaluacion.processing} class="ml-auto" type="submit">Guardar</LoadingButton>
+                        <PrimaryButton loading={$formTaEvaluacion.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
                     {/if}
                 </div>
             </form>
         </div>
     {:else if proyecto.codigo_linea_programatica == 69}
-        <hr class="mt-10 mb-10" />
+        <hr className="mt-10 mb-10" />
 
-        <h1 class="text-3xl mt-24 mb-8 text-center" id="evaluacion">Evaluación</h1>
+        <h1 className="text-3xl mt-24 mb-8 text-center" id="evaluacion">Evaluación</h1>
 
-        <div class="mt-16">
+        <div className="mt-16">
             <form on:submit|preventDefault={submitTpEvaluacion}>
                 <InfoMessage>
-                    <div class="mt-4">
+                    <div className="mt-4">
                         <p>¿Los anexos son correctos? Por favor seleccione si Cumple o No cumple.</p>
                         <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formTpEvaluacion.anexos_requiere_comentario} />
                         {#if $formTpEvaluacion.anexos_requiere_comentario == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" class="mt-4" maxlength="40000" id="anexos_comentario" bind:value={$formTpEvaluacion.anexos_comentario} error={errors.anexos_comentario} required />
+                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="anexos_comentario" bind:value={$formTpEvaluacion.anexos_comentario} error={errors.anexos_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
-                <div class="shadow-inner bg-app-200 border-app-400 bottom-0 flex items-center justify-between mt-14 px-8 py-4 sticky">
+                <div className="flex items-center justify-between mt-14 px-8 py-4">
                     {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
-                        <LoadingButton loading={$formTpEvaluacion.processing} class="ml-auto" type="submit">Guardar</LoadingButton>
+                        <PrimaryButton loading={$formTpEvaluacion.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
                     {/if}
                 </div>
             </form>

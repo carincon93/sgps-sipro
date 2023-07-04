@@ -43,9 +43,10 @@ class ConvocatoriaController extends Controller
         $this->authorize('create', [Convocatoria::class]);
 
         return Inertia::render('Convocatorias/Create', [
-            'fases'             => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
-            'tiposConvocatoria' => collect(json_decode(Storage::get('json/tipos-convocatoria.json'), true)),
-            'convocatorias'     => SelectHelper::convocatorias(),
+            'fases'                 => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
+            'lineasProgramaticas'   => LineaProgramatica::selectRaw("id as value, CONCAT(nombre, ' - Código: ', codigo) as label")->orderBy('nombre', 'ASC')->get(),
+            'tiposConvocatoria'     => collect(json_decode(Storage::get('json/tipos-convocatoria.json'), true)),
+            'convocatorias'         => SelectHelper::convocatorias(),
         ]);
     }
 
@@ -108,7 +109,7 @@ class ConvocatoriaController extends Controller
 
         return Inertia::render('Convocatorias/Edit', [
             'convocatoria'                               => $convocatoria,
-            'lineas_programaticas'                       => LineaProgramatica::selectRaw("id as value, CONCAT(nombre, ' - Código: ', codigo) as label")->orderBy('nombre', 'ASC')->get(),
+            'lineasProgramaticas'                        => LineaProgramatica::selectRaw("id as value, CONCAT(nombre, ' - Código: ', codigo) as label")->orderBy('nombre', 'ASC')->get(),
             'lineasProgramaticasActivasRelacionadas'     => LineaProgramatica::select("id")->whereIn('id', $convocatoria->lineas_programaticas_activas ? json_decode($convocatoria->lineas_programaticas_activas) : [])->pluck('id')->flatten(),
             'fases'                                      => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
         ]);

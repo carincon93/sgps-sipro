@@ -18,7 +18,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let form = useForm({
@@ -35,16 +35,16 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
+    <header className="pt-[8rem]" slot="header">
         <Header {proyectoCapacidadInstalada} />
     </header>
 
-    <div class="grid grid-cols-3 gap-4">
-        <div class="sticky top-0">
-            <h1 class="font-black text-4xl uppercase">Nuevo producto</h1>
+    <div className="grid grid-cols-3 gap-4">
+        <div className="sticky top-0">
+            <h1 className="font-black text-4xl uppercase">Nuevo producto</h1>
         </div>
 
-        <div class="bg-white rounded shadow col-span-2">
+        <div className="bg-white rounded shadow col-span-2">
             <Form {errors} {proyectoCapacidadInstalada} {resultados} {tipologiasMinciencias} {form} {submit} />
         </div>
     </div>

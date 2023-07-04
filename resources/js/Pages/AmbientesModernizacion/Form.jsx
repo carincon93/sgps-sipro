@@ -2,21 +2,21 @@
     import { route } from '@/Utils'
     import { Inertia } from '@inertiajs/inertia'
 
-    import Button from '@/Shared/Button'
-    import LoadingButton from '@/Shared/LoadingButton'
-    import InputError from '@/Shared/InputError'
+    import Button from '@/Components/Button'
+    import PrimaryButton from '@/Components/PrimaryButton'
+    import InputError from '@/Components/InputError'
     import Checkbox from '@smui/checkbox'
     import FormField from '@smui/form-field'
-    import SelectMulti from '@/Shared/SelectMulti'
-    import Tags from '@/Shared/Tags'
-    import InfoMessage from '@/Shared/InfoMessage'
-    import Label from '@/Shared/Label'
-    import Select from '@/Shared/Select'
-    import Input from '@/Shared/Input'
-    import Textarea from '@/Shared/Textarea'
-    import File from '@/Shared/File'
-    import Dialog from '@/Shared/Dialog'
-    import Export2Word from '@/Shared/Export2Word'
+    import MultipleSelect from '@/Components/MultipleSelect'
+    import Tags from '@/Components/Tags'
+    import InfoMessage from '@/Components/InfoMessage'
+    import Label from '@/Components/Label'
+    import Select from '@/Components/Select'
+    import Input from '@/Components/Input'
+    import Textarea from '@/Components/Textarea'
+    import File from '@/Components/File'
+    import Dialog from '@/Components/Dialog'
+    import Export2Word from '@/Components/Export2Word'
 
     export let submit
     export let errors
@@ -106,20 +106,20 @@
 </script>
 
 <form on:submit|preventDefault={submit} id="semillero-investigacion-form">
-    <fieldset class="p-8 divide-y" disabled={ambienteModernizacion?.allowed.to_update || allowedToCreate ? undefined : true}>
+    <fieldset className="p-8 divide-y" disabled={ambienteModernizacion?.allowed.to_update || allowedToCreate ? undefined : true}>
         {#if allowedToCreate}
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label required class="mb-4" labelFor="centro_formacion_id" value="Centro de formación" />
+                    <Label required className="mb-4" labelFor="centro_formacion_id" value="Centro de formación" />
                 </div>
                 <div>
                     <Select id="centro_formacion_id" items={centrosFormacion} bind:selectedValue={$form.centro_formacion_id} selectFunctions={[(event) => selectLineaInvestigacion(event)]} error={errors.centro_formacion_id} autocomplete="off" placeholder="Busque por el nombre del centro de formación" required />
                 </div>
             </div>
 
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label required class="mb-4" labelFor="codigo_proyecto_sgps_id" value="1. Código proyecto SGPS" />
+                    <Label required className="mb-4" labelFor="codigo_proyecto_sgps_id" value="1. Código proyecto SGPS" />
                 </div>
                 <div>
                     <Select id="codigo_proyecto_sgps_id" items={codigosSgps} bind:selectedValue={$form.codigo_proyecto_sgps_id} error={errors.codigo_proyecto_sgps_id} autocomplete="off" placeholder="Busque por el título/código del proyecto" required />
@@ -127,33 +127,33 @@
             </div>
         {/if}
 
-        <div class="py-24">
-            <Label required labelFor="nombre_ambiente" class="font-medium inline-block mb-10 text-center text-gray-700 text-sm w-full" value="2. Nombre del ambiente(s) de formación modernizado por Sennova. Ejemplo: Ambiente de soldadura - Ambiente de confecciones" />
+        <div className="py-24">
+            <Label required labelFor="nombre_ambiente" className="font-medium inline-block mb-10 text-center text-gray-700 text-sm w-full" value="2. Nombre del ambiente(s) de formación modernizado por Sennova. Ejemplo: Ambiente de soldadura - Ambiente de confecciones" />
             <Textarea label="Nombre" id="nombre_ambiente" sinContador={true} error={errors.nombre_ambiente} bind:value={$form.nombre_ambiente} classes="bg-transparent block border-0 {errors.nombre_ambiente ? '' : 'outline-none-important'} mt-1 outline-none text-4xl text-center w-full" required />
         </div>
 
-        <div class="py-24 grid grid-cols-2">
+        <div className="py-24 grid grid-cols-2">
             <div>
-                <Label required class="mb-4" labelFor="tipologia_ambiente_id" value="3. Tipologías de los ambientes (Circular 3-2018- 143)" />
-                <a href={'/storage/documentos-descarga/Circular-3-2018-143.pdf'} target="_blank" class="underline text-app-500">Ver Circular 3-2018-143</a>
+                <Label required className="mb-4" labelFor="tipologia_ambiente_id" value="3. Tipologías de los ambientes (Circular 3-2018- 143)" />
+                <a href={'/storage/documentos-descarga/Circular-3-2018-143.pdf'} target="_blank" className="underline text-app-500">Ver Circular 3-2018-143</a>
             </div>
             <div>
                 <Select id="tipologia_ambiente_id" items={tipologiasAmbientes} bind:selectedValue={$form.tipologia_ambiente_id} error={errors.tipologia_ambiente_id} autocomplete="off" placeholder="Seleccione una tipología" required />
             </div>
         </div>
 
-        <div class="py-24 grid grid-cols-2">
+        <div className="py-24 grid grid-cols-2">
             <div>
-                <Label required class="mb-4" labelFor="area_conocimiento_id" value="4. Área de conocimiento relacionada con el ambiente modernizado por Sennova" />
+                <Label required className="mb-4" labelFor="area_conocimiento_id" value="4. Área de conocimiento relacionada con el ambiente modernizado por Sennova" />
             </div>
             <div>
                 <Select id="area_conocimiento_id" items={areasConocimiento} bind:selectedValue={$form.area_conocimiento_id} selectFunctions={[(event) => selectAreaConocimiento(event)]} error={errors.area_conocimiento_id} autocomplete="off" placeholder="Busque por el nombre de la área de conocimiento" required />
             </div>
         </div>
         {#if $form.area_conocimiento_id}
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label required class="mb-4" labelFor="subarea_conocimiento_id" value="Subárea relacionada con el ambiente modernizado por Sennova" />
+                    <Label required className="mb-4" labelFor="subarea_conocimiento_id" value="Subárea relacionada con el ambiente modernizado por Sennova" />
                 </div>
                 <div>
                     <Select id="subarea_conocimiento_id" items={arraySubareasConocimiento} bind:selectedValue={$form.subarea_conocimiento_id} selectFunctions={[(event) => selectSubreaConocimiento(event)]} error={errors.subarea_conocimiento_id} autocomplete="off" placeholder="Busque por el nombre de la subárea de conocimiento" required />
@@ -161,9 +161,9 @@
             </div>
         {/if}
         {#if $form.subarea_conocimiento_id}
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label required class="mb-4" labelFor="disciplina_subarea_conocimiento_id" value="Disciplina relacionada con el ambiente modernizado por Sennova" />
+                    <Label required className="mb-4" labelFor="disciplina_subarea_conocimiento_id" value="Disciplina relacionada con el ambiente modernizado por Sennova" />
                 </div>
                 <div>
                     <Select id="disciplina_subarea_conocimiento_id" items={arrayDisciplinasSubareaConocimiento} bind:selectedValue={$form.disciplina_subarea_conocimiento_id} error={errors.disciplina_subarea_conocimiento_id} autocomplete="off" placeholder="Busque por el nombre de la disciplina de subáreas de conocimiento" required />
@@ -171,27 +171,27 @@
             </div>
         {/if}
 
-        <div class="py-24 grid grid-cols-2">
+        <div className="py-24 grid grid-cols-2">
             <div>
-                <Label required class="mb-4" labelFor="red_conocimiento_id" value="5. Red de conocimiento relacionada con el ambiente modernizado por Sennova (resolución 335 de 2012)" />
+                <Label required className="mb-4" labelFor="red_conocimiento_id" value="5. Red de conocimiento relacionada con el ambiente modernizado por Sennova (resolución 335 de 2012)" />
             </div>
             <div>
                 <Select id="red_conocimiento_id" items={redesConocimiento} bind:selectedValue={$form.red_conocimiento_id} error={errors.red_conocimiento_id} autocomplete="off" placeholder="Busque por el nombre de la red de conocimiento sectorial" required />
             </div>
         </div>
 
-        <div class="py-24 grid grid-cols-2">
+        <div className="py-24 grid grid-cols-2">
             <div>
-                <Label required class="mb-4" labelFor="actividad_economica_id" value="6. Código CIIU relacionado con el ambiente modernizado por Sennova" />
+                <Label required className="mb-4" labelFor="actividad_economica_id" value="6. Código CIIU relacionado con el ambiente modernizado por Sennova" />
             </div>
             <div>
                 <Select id="actividad_economica_id" items={actividadesEconomicas} bind:selectedValue={$form.actividad_economica_id} error={errors.actividad_economica_id} autocomplete="off" placeholder="Busque por el nombre de la actividad económica" required />
             </div>
         </div>
 
-        <div class="py-24 grid grid-cols-2">
+        <div className="py-24 grid grid-cols-2">
             <div>
-                <Label required class="mb-4" labelFor="tematica_estrategica_id" value="7. Temática estratégica SENA relacionada con el ambiente modernizado por Sennova" />
+                <Label required className="mb-4" labelFor="tematica_estrategica_id" value="7. Temática estratégica SENA relacionada con el ambiente modernizado por Sennova" />
             </div>
             <div>
                 <Select id="tematica_estrategica_id" items={tematicasEstrategicas} bind:selectedValue={$form.tematica_estrategica_id} error={errors.tematica_estrategica_id} autocomplete="off" placeholder="Busque por el nombre de la línea de investigación" required />
@@ -199,9 +199,9 @@
         </div>
 
         {#if $form.centro_formacion_id?.value}
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label required class="mb-4" labelFor="linea_investigacion_id" value="8. Línea investigación relacionada con el ambiente modernizado por Sennova" />
+                    <Label required className="mb-4" labelFor="linea_investigacion_id" value="8. Línea investigación relacionada con el ambiente modernizado por Sennova" />
                 </div>
                 <div>
                     <Select id="linea_investigacion_id" items={arrayLineasInvestigacion} bind:selectedValue={$form.linea_investigacion_id} error={errors.linea_investigacion_id} autocomplete="off" placeholder="Busque por el nombre de la línea de investigación, centro de formación, grupo de investigación o regional" required />
@@ -209,25 +209,25 @@
             </div>
         {/if}
 
-        <div class="py-24 grid grid-cols-2">
+        <div className="py-24 grid grid-cols-2">
             <div>
-                <Label required class="mb-4" labelFor="alineado_mesas_sectoriales" value="9. ¿El proyecto se alinea con las Mesas Sectoriales?" />
+                <Label required className="mb-4" labelFor="alineado_mesas_sectoriales" value="9. ¿El proyecto se alinea con las Mesas Sectoriales?" />
             </div>
             <div>
                 <Select items={opcionesSiNo} id="alineado_mesas_sectoriales" bind:selectedValue={$form.alineado_mesas_sectoriales} error={errors.alineado_mesas_sectoriales} autocomplete="off" placeholder="Seleccione una opción" required />
             </div>
         </div>
         {#if $form.alineado_mesas_sectoriales?.value == 1}
-            <div class="bg-app-100 p-5 py-24">
+            <div className="bg-app-100 p-5 py-24">
                 <InputError message={errors.mesa_sectorial_id} />
-                <div class="grid grid-cols-2">
+                <div className="grid grid-cols-2">
                     <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5" style="transform: translateX(-50px);">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5" style="transform: translateX(-50px);">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <p class="text-app-600">Por favor seleccione la o las mesas sectoriales con la cual o las cuales se alinea el proyecto</p>
+                        <p className="text-app-600">Por favor seleccione la o las mesas sectoriales con la cual o las cuales se alinea el proyecto</p>
                     </div>
-                    <div class="bg-white grid grid-cols-2 max-w-xl overflow-y-scroll shadow-2xl mt-4 h-80">
+                    <div className="bg-white grid grid-cols-2 max-w-xl overflow-y-scroll shadow-2xl mt-4 h-80">
                         {#each mesasSectoriales as { id, nombre }, i}
                             <FormField>
                                 <Checkbox bind:group={$form.mesa_sectorial_id} value={id} />
@@ -239,9 +239,9 @@
             </div>
         {/if}
 
-        <div class="py-24 grid grid-cols-2">
+        <div className="py-24 grid grid-cols-2">
             <div>
-                <Label required class="mb-4" labelFor="financiado_anteriormente" value="10. ¿El ambiente de formación ha sido financiado en más de una vigencia por Sennova?" />
+                <Label required className="mb-4" labelFor="financiado_anteriormente" value="10. ¿El ambiente de formación ha sido financiado en más de una vigencia por Sennova?" />
             </div>
             <div>
                 <Select items={opcionesSiNo} id="financiado_anteriormente" bind:selectedValue={$form.financiado_anteriormente} error={errors.financiado_anteriormente} autocomplete="off" placeholder="Seleccione una opción" required />
@@ -249,29 +249,29 @@
         </div>
 
         {#if !allowedToCreate}
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label required class="mb-4" labelFor="numero_tecnicas_tecnologias" value="11. Relacione el número de técnicas o tecnologías adquiridas y/o mejoradas con el ambiente de aprendizaje, modernizado por SENNOVA. " />
+                    <Label required className="mb-4" labelFor="numero_tecnicas_tecnologias" value="11. Relacione el número de técnicas o tecnologías adquiridas y/o mejoradas con el ambiente de aprendizaje, modernizado por SENNOVA. " />
                 </div>
                 <div>
-                    <Input label="Número total" id="numero_tecnicas_tecnologias" type="number" input$min="0" input$max="999999" class="mt-1" error={errors.numero_tecnicas_tecnologias} placeholder="Escriba el número de técnicas o tecnologías adquiridas" bind:value={$form.numero_tecnicas_tecnologias} required />
+                    <Input label="Número total" id="numero_tecnicas_tecnologias" type="number" input$min="0" input$max="999999" className="mt-1" error={errors.numero_tecnicas_tecnologias} placeholder="Escriba el número de técnicas o tecnologías adquiridas" bind:value={$form.numero_tecnicas_tecnologias} required />
                 </div>
             </div>
 
             {#if $form.financiado_anteriormente?.value == 1}
-                <div class="py-24 grid grid-cols-2">
+                <div className="py-24 grid grid-cols-2">
                     <div>
-                        <Label required class="mb-4" labelFor="codigos_proyectos_id" value="12. Si la respuesta anterior fue afirmativa, relacione los códigos y nombres de los proyectos beneficiados y/o ejecutados en el ambiente modernizado por Sennova de convocatoria (SGPS) o de capacidad instalada (CAP)" />
+                        <Label required className="mb-4" labelFor="codigos_proyectos_id" value="12. Si la respuesta anterior fue afirmativa, relacione los códigos y nombres de los proyectos beneficiados y/o ejecutados en el ambiente modernizado por Sennova de convocatoria (SGPS) o de capacidad instalada (CAP)" />
                     </div>
                     <div>
-                        <SelectMulti id="codigos_proyectos_id" bind:selectedValue={$form.codigos_proyectos_id} items={codigosSgps} isMulti={true} error={errors.codigos_proyectos_id} placeholder="Buscar por el código/título del proyecto" required />
+                        <MultipleSelect id="codigos_proyectos_id" bind:selectedValue={$form.codigos_proyectos_id} items={codigosSgps}  error={errors.codigos_proyectos_id} placeholder="Buscar por el código/título del proyecto" required />
                     </div>
                 </div>
             {/if}
 
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label required class="mb-4" labelFor="estado_general_maquinaria" value="13. Estado general de maquinaria y equipo instalados en el ambiente de aprendizaje, modernizado por SENNOVA." />
+                    <Label required className="mb-4" labelFor="estado_general_maquinaria" value="13. Estado general de maquinaria y equipo instalados en el ambiente de aprendizaje, modernizado por SENNOVA." />
                 </div>
                 <div>
                     <Select items={estados} id="estado_general_maquinaria" bind:selectedValue={$form.estado_general_maquinaria} error={errors.estado_general_maquinaria} autocomplete="off" placeholder="Seleccione una opción" required />
@@ -279,9 +279,9 @@
             </div>
 
             {#if $form.estado_general_maquinaria?.value == 2 || $form.estado_general_maquinaria?.value == 3}
-                <div class="py-24 grid grid-cols-2">
+                <div className="py-24 grid grid-cols-2">
                     <div>
-                        <Label required class="mb-4" labelFor="razon_estado_general" value="14. Si la respuesta anterior fue regular o malo, describa la razón. Para mayor especificidad listar máquina por máquina para identificación a partir del tiempo de vida útil." />
+                        <Label required className="mb-4" labelFor="razon_estado_general" value="14. Si la respuesta anterior fue regular o malo, describa la razón. Para mayor especificidad listar máquina por máquina para identificación a partir del tiempo de vida útil." />
                     </div>
                     <div>
                         <Textarea
@@ -299,9 +299,9 @@
                 </div>
             {/if}
 
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label required class="mb-4" labelFor="ambiente_activo" value="15. ¿A la fecha el ambiente modernizado por Sennova está activo para realizar procesos de formación?" />
+                    <Label required className="mb-4" labelFor="ambiente_activo" value="15. ¿A la fecha el ambiente modernizado por Sennova está activo para realizar procesos de formación?" />
                 </div>
                 <div>
                     <Select items={opcionesSiNo} id="ambiente_activo" bind:selectedValue={$form.ambiente_activo} error={errors.ambiente_activo} autocomplete="off" placeholder="Seleccione una opción" required />
@@ -309,27 +309,27 @@
             </div>
 
             {#if $form.ambiente_activo?.value == 1}
-                <div class="py-24 grid grid-cols-2 pl-4">
+                <div className="py-24 grid grid-cols-2 pl-4">
                     <div>
-                        <Label required class="mb-4" labelFor="programas_formacion_calificados" value="Si la respuesta anterior fue afirmativa, seleccione los programas de formación con registro calificado beneficiados." />
+                        <Label required className="mb-4" labelFor="programas_formacion_calificados" value="Si la respuesta anterior fue afirmativa, seleccione los programas de formación con registro calificado beneficiados." />
                     </div>
                     <div>
-                        <SelectMulti id="programas_formacion_calificados" bind:selectedValue={$form.programas_formacion_calificados} items={programasFormacionConRegistro} isMulti={true} error={errors.programas_formacion_calificados} placeholder="Buscar por el nombre del programa de formación" required />
+                        <MultipleSelect id="programas_formacion_calificados" bind:selectedValue={$form.programas_formacion_calificados} items={programasFormacionConRegistro}  error={errors.programas_formacion_calificados} placeholder="Buscar por el nombre del programa de formación" required />
                     </div>
                 </div>
 
-                <div class="py-24 grid grid-cols-2 pl-4">
+                <div className="py-24 grid grid-cols-2 pl-4">
                     <div>
-                        <Label required={programasFormacionSinRegistro.length > 0 ? 'required' : undefined} class="mb-4" labelFor="programas_formacion" value="Si la respuesta anterior fue afirmativa, seleccione los programas de formación beneficiados." />
+                        <Label required={programasFormacionSinRegistro.length > 0 ? 'required' : undefined} className="mb-4" labelFor="programas_formacion" value="Si la respuesta anterior fue afirmativa, seleccione los programas de formación beneficiados." />
                     </div>
                     <div>
-                        <SelectMulti id="programas_formacion" bind:selectedValue={$form.programas_formacion} items={programasFormacionSinRegistro} isMulti={true} error={errors.programas_formacion} placeholder="Buscar por el nombre del programa de formación" required={programasFormacionSinRegistro.length > 0 ? 'required' : undefined} />
+                        <MultipleSelect id="programas_formacion" bind:selectedValue={$form.programas_formacion} items={programasFormacionSinRegistro}  error={errors.programas_formacion} placeholder="Buscar por el nombre del programa de formación" required={programasFormacionSinRegistro.length > 0 ? 'required' : undefined} />
                     </div>
                 </div>
             {:else if $form.ambiente_activo?.value == 2}
-                <div class="py-24 grid grid-cols-2 pl-4">
+                <div className="py-24 grid grid-cols-2 pl-4">
                     <div>
-                        <Label required class="mb-4" labelFor="justificacion_ambiente_inactivo" value="Si la respuesta anterior fue negativa, justifique la respuesta" />
+                        <Label required className="mb-4" labelFor="justificacion_ambiente_inactivo" value="Si la respuesta anterior fue negativa, justifique la respuesta" />
                     </div>
                     <div>
                         <Textarea
@@ -347,9 +347,9 @@
                 </div>
             {/if}
 
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label required class="mb-4" labelFor="ambiente_activo_procesos_idi" value="16. ¿A la fecha el ambiente modernizado por Sennova está activo para realizar procesos de investigación, desarrollo tecnológico y/o innovación con semilleros o programas de formación?" />
+                    <Label required className="mb-4" labelFor="ambiente_activo_procesos_idi" value="16. ¿A la fecha el ambiente modernizado por Sennova está activo para realizar procesos de investigación, desarrollo tecnológico y/o innovación con semilleros o programas de formación?" />
                 </div>
                 <div>
                     <Select items={opcionesSiNo} id="ambiente_activo_procesos_idi" bind:selectedValue={$form.ambiente_activo_procesos_idi} error={errors.ambiente_activo_procesos_idi} autocomplete="off" placeholder="Seleccione una opción" required />
@@ -357,38 +357,38 @@
             </div>
 
             {#if $form.ambiente_activo_procesos_idi?.value == 1}
-                <div class="py-24 grid grid-cols-2 pl-4">
+                <div className="py-24 grid grid-cols-2 pl-4">
                     <div>
-                        <Label required class="mb-4" labelFor="numero_proyectos_beneficiados" value="Si la respuesta anterior fue afirmativa, relacione el número de proyectos beneficiados y/o ejecutados en el ambiente modernizado por Sennova" />
+                        <Label required className="mb-4" labelFor="numero_proyectos_beneficiados" value="Si la respuesta anterior fue afirmativa, relacione el número de proyectos beneficiados y/o ejecutados en el ambiente modernizado por Sennova" />
                     </div>
                     <div>
-                        <Input label="Número de proyectos" id="numero_proyectos_beneficiados" type="number" input$min="0" input$max="999999" class="mt-1" error={errors.numero_proyectos_beneficiados} placeholder="Escriba el número de proyectos" bind:value={$form.numero_proyectos_beneficiados} required />
+                        <Input label="Número de proyectos" id="numero_proyectos_beneficiados" type="number" input$min="0" input$max="999999" className="mt-1" error={errors.numero_proyectos_beneficiados} placeholder="Escriba el número de proyectos" bind:value={$form.numero_proyectos_beneficiados} required />
                     </div>
                 </div>
 
-                <div class="py-24 grid grid-cols-2 pl-4">
+                <div className="py-24 grid grid-cols-2 pl-4">
                     <div>
-                        <Label required class="mb-4" labelFor="cod_proyectos_beneficiados" value="Si la respuesta anterior fue afirmativa, relacione los códigos y nombres de los proyectos beneficiados y/o ejecutados en el ambiente modernizado por Sennova" />
+                        <Label required className="mb-4" labelFor="cod_proyectos_beneficiados" value="Si la respuesta anterior fue afirmativa, relacione los códigos y nombres de los proyectos beneficiados y/o ejecutados en el ambiente modernizado por Sennova" />
                     </div>
                     <div>
-                        <Tags id="cod_proyectos_beneficiados" class="mt-4" enforceWhitelist={false} bind:tags={$form.cod_proyectos_beneficiados} placeholder="Códigos SGPS" error={errors.cod_proyectos_beneficiados} required />
+                        <Tags id="cod_proyectos_beneficiados" className="mt-4" enforceWhitelist={false} bind:tags={$form.cod_proyectos_beneficiados} placeholder="Códigos SGPS" error={errors.cod_proyectos_beneficiados} required />
                         <InfoMessage>Separar códigos por coma o dar Enter una vez finalice de escribir</InfoMessage>
                     </div>
                 </div>
 
-                <div class="py-24 grid grid-cols-2 pl-4">
+                <div className="py-24 grid grid-cols-2 pl-4">
                     <div>
-                        <Label required class="mb-4" labelFor="semilleros_investigacion_id" value="Si la respuesta anterior fue afirmativa, relacione los semilleros de investigación beneficiados con el ambiente modernizado por Sennova" />
+                        <Label required className="mb-4" labelFor="semilleros_investigacion_id" value="Si la respuesta anterior fue afirmativa, relacione los semilleros de investigación beneficiados con el ambiente modernizado por Sennova" />
                     </div>
                     <div>
-                        <SelectMulti id="semilleros_investigacion_id" bind:selectedValue={$form.semilleros_investigacion_id} items={semillerosInvestigacion} isMulti={true} error={errors.semilleros_investigacion_id} placeholder="Buscar por el nombre del semillero de investigación" required />
+                        <MultipleSelect id="semilleros_investigacion_id" bind:selectedValue={$form.semilleros_investigacion_id} items={semillerosInvestigacion}  error={errors.semilleros_investigacion_id} placeholder="Buscar por el nombre del semillero de investigación" required />
                     </div>
                 </div>
             {/if}
 
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label required class="mb-4" labelFor="ambiente_formacion_complementaria" value="17. ¿El ambiente de formación ha generado formación complementaria después de la modernización con Sennova?" />
+                    <Label required className="mb-4" labelFor="ambiente_formacion_complementaria" value="17. ¿El ambiente de formación ha generado formación complementaria después de la modernización con Sennova?" />
                 </div>
                 <div>
                     <Select items={opcionesSiNo} id="ambiente_formacion_complementaria" bind:selectedValue={$form.ambiente_formacion_complementaria} error={errors.ambiente_formacion_complementaria} autocomplete="off" placeholder="Seleccione una opción" required />
@@ -396,77 +396,77 @@
             </div>
 
             {#if $form.ambiente_formacion_complementaria?.value == 1}
-                <div class="py-24 grid grid-cols-2 pl-4">
+                <div className="py-24 grid grid-cols-2 pl-4">
                     <div>
-                        <Label required class="mb-4" labelFor="numero_total_cursos_comp" value="Si la respuesta anterior fue afirmativa, relacione el número total de cursos complementarios que se ha brindado formación complementaria" />
+                        <Label required className="mb-4" labelFor="numero_total_cursos_comp" value="Si la respuesta anterior fue afirmativa, relacione el número total de cursos complementarios que se ha brindado formación complementaria" />
                     </div>
                     <div>
-                        <Input label="Número total" id="numero_total_cursos_comp" type="number" input$min="0" input$max="999999" class="mt-1" error={errors.numero_total_cursos_comp} placeholder="Escriba el número de proyectos" bind:value={$form.numero_total_cursos_comp} required />
-                    </div>
-                </div>
-
-                <div class="py-24 grid grid-cols-2 pl-4">
-                    <div>
-                        <Label required class="mb-4" labelFor="numero_cursos_empresas" value="Si la respuesta anterior fue afirmativa, relacione el número de cursos complementarios a empresas que se ha brindado formación complementaria" />
-                    </div>
-                    <div>
-                        <Input id="numero_cursos_empresas" type="number" input$min="0" input$max="999999" class="mt-1" error={errors.numero_cursos_empresas} placeholder="Escriba el número de proyectos" bind:value={$form.numero_cursos_empresas} required />
+                        <Input label="Número total" id="numero_total_cursos_comp" type="number" input$min="0" input$max="999999" className="mt-1" error={errors.numero_total_cursos_comp} placeholder="Escriba el número de proyectos" bind:value={$form.numero_total_cursos_comp} required />
                     </div>
                 </div>
 
-                <div class="py-24 grid grid-cols-2 pl-4">
+                <div className="py-24 grid grid-cols-2 pl-4">
                     <div>
-                        <Label required={$form.numero_cursos_empresas > 0 ? 'required' : undefined} class="mb-4" labelFor="datos_empresa" value="Si la respuesta anterior fue afirmativa, relacione el NIT y nombre de las empresas (cuando aplique) que se ha brindada formación complementaria" />
+                        <Label required className="mb-4" labelFor="numero_cursos_empresas" value="Si la respuesta anterior fue afirmativa, relacione el número de cursos complementarios a empresas que se ha brindado formación complementaria" />
                     </div>
                     <div>
-                        <Tags id="datos_empresa" class="mt-4" enforceWhitelist={false} bind:tags={$form.datos_empresa} placeholder="Empresas" error={errors.datos_empresa} required={$form.numero_cursos_empresas > 0 ? 'required' : undefined} />
+                        <Input id="numero_cursos_empresas" type="number" input$min="0" input$max="999999" className="mt-1" error={errors.numero_cursos_empresas} placeholder="Escriba el número de proyectos" bind:value={$form.numero_cursos_empresas} required />
+                    </div>
+                </div>
+
+                <div className="py-24 grid grid-cols-2 pl-4">
+                    <div>
+                        <Label required={$form.numero_cursos_empresas > 0 ? 'required' : undefined} className="mb-4" labelFor="datos_empresa" value="Si la respuesta anterior fue afirmativa, relacione el NIT y nombre de las empresas (cuando aplique) que se ha brindada formación complementaria" />
+                    </div>
+                    <div>
+                        <Tags id="datos_empresa" className="mt-4" enforceWhitelist={false} bind:tags={$form.datos_empresa} placeholder="Empresas" error={errors.datos_empresa} required={$form.numero_cursos_empresas > 0 ? 'required' : undefined} />
                         <InfoMessage>Separar empresas por coma o dar Enter una vez finalice de escribir</InfoMessage>
                     </div>
                 </div>
 
-                <div class="py-24 grid grid-cols-2 pl-4">
+                <div className="py-24 grid grid-cols-2 pl-4">
                     <div>
-                        <Label required class="mb-4" labelFor="numero_personas_certificadas" value="Si la respuesta anterior fue afirmativa, relacione el número total de personas certificadas de las empresas que se ha brindado formación complementaria." />
+                        <Label required className="mb-4" labelFor="numero_personas_certificadas" value="Si la respuesta anterior fue afirmativa, relacione el número total de personas certificadas de las empresas que se ha brindado formación complementaria." />
                     </div>
                     <div>
-                        <Input id="numero_personas_certificadas" type="number" input$min="0" input$max="999999" class="mt-1" error={errors.numero_personas_certificadas} placeholder="Escriba el número total de personas certificadas" bind:value={$form.numero_personas_certificadas} required />
+                        <Input id="numero_personas_certificadas" type="number" input$min="0" input$max="999999" className="mt-1" error={errors.numero_personas_certificadas} placeholder="Escriba el número total de personas certificadas" bind:value={$form.numero_personas_certificadas} required />
                     </div>
                 </div>
 
-                <div class="py-24 grid grid-cols-2 pl-4">
+                <div className="py-24 grid grid-cols-2 pl-4">
                     <div>
-                        <Label class="mb-4" labelFor="cursos_complementarios" value="Si la respuesta anterior fue afirmativa, relacione los códigos y nombres Sena de cada curso de formación complementario" />
+                        <Label className="mb-4" labelFor="cursos_complementarios" value="Si la respuesta anterior fue afirmativa, relacione los códigos y nombres Sena de cada curso de formación complementario" />
                     </div>
                     <div>
-                        <Tags id="cursos_complementarios" class="mt-4" enforceWhitelist={false} bind:tags={$form.cursos_complementarios} placeholder="Cursos de formación complementarios" error={errors.cursos_complementarios} />
+                        <Tags id="cursos_complementarios" className="mt-4" enforceWhitelist={false} bind:tags={$form.cursos_complementarios} placeholder="Cursos de formación complementarios" error={errors.cursos_complementarios} />
                         <InfoMessage>Separar cursos por coma o dar Enter una vez finalice de escribir</InfoMessage>
                     </div>
                 </div>
             {/if}
 
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label required class="mb-4" labelFor="coordenada_latitud_ambiente" value="18. Diligencie la coordenada latitud (W) del ambiente de formación modernizado por Sennova (generado en Google maps). Ejemplo: -74.062916" />
+                    <Label required className="mb-4" labelFor="coordenada_latitud_ambiente" value="18. Diligencie la coordenada latitud (W) del ambiente de formación modernizado por Sennova (generado en Google maps). Ejemplo: -74.062916" />
                 </div>
                 <div>
-                    <Input label="Latitud" id="coordenada_latitud_ambiente" type="text" class="mt-1" error={errors.coordenada_latitud_ambiente} placeholder="Escriba la latitud" bind:value={$form.coordenada_latitud_ambiente} required />
-                    <InfoMessage>Más información en el siguiente enlace <a href="https://support.google.com/maps/answer/18539?hl=es-MX&co=GENIE.Platform%3DAndroid&oco=1" class="underline" target="_blank">https://support.google.com/maps/answer/18539?hl=es-MX&co=GENIE.Platform%3DAndroid&oco=1</a> (sección “Cómo obtener las coordenadas de un lugar”)</InfoMessage>
-                </div>
-            </div>
-
-            <div class="py-24 grid grid-cols-2">
-                <div>
-                    <Label required class="mb-4" labelFor="coordenada_longitud_ambiente" value="19. Diligencie la coordenada longitud (N) del ambiente de formación modernizado por Sennova (generado en Google maps). Ejemplo: 4.643244" />
-                </div>
-                <div>
-                    <Input label="Longitud" id="coordenada_longitud_ambiente" type="text" class="mt-1" error={errors.coordenada_longitud_ambiente} placeholder="Escriba la latitud" bind:value={$form.coordenada_longitud_ambiente} required />
-                    <InfoMessage>Más información en el siguiente enlace <a href="https://support.google.com/maps/answer/18539?hl=es-MX&co=GENIE.Platform%3DAndroid&oco=1" class="underline" target="_blank">https://support.google.com/maps/answer/18539?hl=es-MX&co=GENIE.Platform%3DAndroid&oco=1</a> (sección “Cómo obtener las coordenadas de un lugar”)</InfoMessage>
+                    <Input label="Latitud" id="coordenada_latitud_ambiente" type="text" className="mt-1" error={errors.coordenada_latitud_ambiente} placeholder="Escriba la latitud" bind:value={$form.coordenada_latitud_ambiente} required />
+                    <InfoMessage>Más información en el siguiente enlace <a href="https://support.google.com/maps/answer/18539?hl=es-MX&co=GENIE.Platform%3DAndroid&oco=1" className="underline" target="_blank">https://support.google.com/maps/answer/18539?hl=es-MX&co=GENIE.Platform%3DAndroid&oco=1</a> (sección “Cómo obtener las coordenadas de un lugar”)</InfoMessage>
                 </div>
             </div>
 
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label required class="mb-4" labelFor="impacto_procesos_formacion" value="20. Describa el impacto generado en los procesos de formación" />
+                    <Label required className="mb-4" labelFor="coordenada_longitud_ambiente" value="19. Diligencie la coordenada longitud (N) del ambiente de formación modernizado por Sennova (generado en Google maps). Ejemplo: 4.643244" />
+                </div>
+                <div>
+                    <Input label="Longitud" id="coordenada_longitud_ambiente" type="text" className="mt-1" error={errors.coordenada_longitud_ambiente} placeholder="Escriba la latitud" bind:value={$form.coordenada_longitud_ambiente} required />
+                    <InfoMessage>Más información en el siguiente enlace <a href="https://support.google.com/maps/answer/18539?hl=es-MX&co=GENIE.Platform%3DAndroid&oco=1" className="underline" target="_blank">https://support.google.com/maps/answer/18539?hl=es-MX&co=GENIE.Platform%3DAndroid&oco=1</a> (sección “Cómo obtener las coordenadas de un lugar”)</InfoMessage>
+                </div>
+            </div>
+
+            <div className="py-24 grid grid-cols-2">
+                <div>
+                    <Label required className="mb-4" labelFor="impacto_procesos_formacion" value="20. Describa el impacto generado en los procesos de formación" />
                 </div>
                 <div>
                     <Textarea
@@ -483,9 +483,9 @@
                 </div>
             </div>
 
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label required class="mb-4" labelFor="pertinencia_sector_productivo" value="21. Describa la pertinencia obtenida con el sector productivo" />
+                    <Label required className="mb-4" labelFor="pertinencia_sector_productivo" value="21. Describa la pertinencia obtenida con el sector productivo" />
                 </div>
                 <div>
                     <Textarea
@@ -502,29 +502,29 @@
                 </div>
             </div>
 
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label required class="mb-4" labelFor="numero_publicaciones" value="22. Relacione el número de publicaciones derivadas con el ambiente de aprendizaje después de ejecutar el proyecto de modernización SENNOVA." />
+                    <Label required className="mb-4" labelFor="numero_publicaciones" value="22. Relacione el número de publicaciones derivadas con el ambiente de aprendizaje después de ejecutar el proyecto de modernización SENNOVA." />
                 </div>
                 <div>
-                    <Input label="Número total" id="numero_publicaciones" type="number" input$min="0" input$max="999999" class="mt-1" error={errors.numero_publicaciones} placeholder="Escriba el número de técnicas o tecnologías adquiridas" bind:value={$form.numero_publicaciones} required />
-                </div>
-            </div>
-
-            <div class="py-24 grid grid-cols-2">
-                <div>
-                    <Label required class="mb-4" labelFor="numero_aprendices_beneficiados" value="23. Relacione el número de aprendices beneficiados con el ambiente de aprendizaje después de ejecutar el proyecto de modernización SENNOVA. " />
-                </div>
-                <div>
-                    <Input label="Número total" id="numero_aprendices_beneficiados" type="number" input$min="0" input$max="999999" class="mt-1" error={errors.numero_aprendices_beneficiados} placeholder="Escriba el número de técnicas o tecnologías adquiridas" bind:value={$form.numero_aprendices_beneficiados} required />
+                    <Input label="Número total" id="numero_publicaciones" type="number" input$min="0" input$max="999999" className="mt-1" error={errors.numero_publicaciones} placeholder="Escriba el número de técnicas o tecnologías adquiridas" bind:value={$form.numero_publicaciones} required />
                 </div>
             </div>
 
-            <h1 class="py-24 text-center">Describa de forma general (en los que aplique) el aporte del proyecto ejecutado de modernización SENNOVA a los indicadores de los proyectos relacionados en el artículo 5 del acuerdo 003 del 02 de febrero de 2012.</h1>
-
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label class="mb-4" labelFor="productividad_beneficiarios" value="24. Productividad y competitividad del (los) beneficiario(s) final(es) del proyecto." />
+                    <Label required className="mb-4" labelFor="numero_aprendices_beneficiados" value="23. Relacione el número de aprendices beneficiados con el ambiente de aprendizaje después de ejecutar el proyecto de modernización SENNOVA. " />
+                </div>
+                <div>
+                    <Input label="Número total" id="numero_aprendices_beneficiados" type="number" input$min="0" input$max="999999" className="mt-1" error={errors.numero_aprendices_beneficiados} placeholder="Escriba el número de técnicas o tecnologías adquiridas" bind:value={$form.numero_aprendices_beneficiados} required />
+                </div>
+            </div>
+
+            <h1 className="py-24 text-center">Describa de forma general (en los que aplique) el aporte del proyecto ejecutado de modernización SENNOVA a los indicadores de los proyectos relacionados en el artículo 5 del acuerdo 003 del 02 de febrero de 2012.</h1>
+
+            <div className="py-24 grid grid-cols-2">
+                <div>
+                    <Label className="mb-4" labelFor="productividad_beneficiarios" value="24. Productividad y competitividad del (los) beneficiario(s) final(es) del proyecto." />
                 </div>
                 <div>
                     <Textarea
@@ -540,9 +540,9 @@
                 </div>
             </div>
 
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label class="mb-4" labelFor="generacion_empleo" value="25. Generación o mantenimiento de empleo por parte del (los) beneficiario(s) del proyecto." />
+                    <Label className="mb-4" labelFor="generacion_empleo" value="25. Generación o mantenimiento de empleo por parte del (los) beneficiario(s) del proyecto." />
                 </div>
                 <div>
                     <Textarea
@@ -558,9 +558,9 @@
                 </div>
             </div>
 
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label class="mb-4" labelFor="creacion_empresas" value="26. Creación de nuevas empresas y diseño y desarrollo de nuevos productos, procesos o servicios" />
+                    <Label className="mb-4" labelFor="creacion_empresas" value="26. Creación de nuevas empresas y diseño y desarrollo de nuevos productos, procesos o servicios" />
                 </div>
                 <div>
                     <Textarea
@@ -576,9 +576,9 @@
                 </div>
             </div>
 
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label class="mb-4" labelFor="incorporacion_nuevos_conocimientos" value="27. Incorporación de nuevos conocimientos y competencias laborales en el talento humano en la(s) empresa(s) beneficiaria(s) del proyecto" />
+                    <Label className="mb-4" labelFor="incorporacion_nuevos_conocimientos" value="27. Incorporación de nuevos conocimientos y competencias laborales en el talento humano en la(s) empresa(s) beneficiaria(s) del proyecto" />
                 </div>
                 <div>
                     <Textarea
@@ -594,9 +594,9 @@
                 </div>
             </div>
 
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label class="mb-4" labelFor="valor_agregado_entidades" value="28. Generación de valor agregado en la(s) entidad(es) beneficiaria(s) del proyecto" />
+                    <Label className="mb-4" labelFor="valor_agregado_entidades" value="28. Generación de valor agregado en la(s) entidad(es) beneficiaria(s) del proyecto" />
                 </div>
                 <div>
                     <Textarea
@@ -612,9 +612,9 @@
                 </div>
             </div>
 
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label class="mb-4" labelFor="fortalecimiento_programas_formacion" value="29. Fortalecimiento de programas de formación del Sena" />
+                    <Label className="mb-4" labelFor="fortalecimiento_programas_formacion" value="29. Fortalecimiento de programas de formación del Sena" />
                 </div>
                 <div>
                     <Textarea
@@ -630,9 +630,9 @@
                 </div>
             </div>
 
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label class="mb-4" labelFor="transferencia_tecnologias" value="30. Transferencia de tecnologías al Sena y a los sectores productivos relacionados" />
+                    <Label className="mb-4" labelFor="transferencia_tecnologias" value="30. Transferencia de tecnologías al Sena y a los sectores productivos relacionados" />
                 </div>
                 <div>
                     <Textarea
@@ -648,9 +648,9 @@
                 </div>
             </div>
 
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label class="mb-4" labelFor="cobertura_perntinencia_formacion" value="31. Cobertura, calidad y pertinencia de la formación" />
+                    <Label className="mb-4" labelFor="cobertura_perntinencia_formacion" value="31. Cobertura, calidad y pertinencia de la formación" />
                 </div>
                 <div>
                     <Textarea
@@ -666,19 +666,19 @@
                 </div>
             </div>
 
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label class="mb-4" labelFor="palabras_clave_ambiente" value="32. Palabras claves relacionadas con el ambiente de formación modernizado por Sennova" />
+                    <Label className="mb-4" labelFor="palabras_clave_ambiente" value="32. Palabras claves relacionadas con el ambiente de formación modernizado por Sennova" />
                 </div>
                 <div>
-                    <Tags id="palabras_clave_ambiente" class="mt-4" enforceWhitelist={false} bind:tags={$form.palabras_clave_ambiente} placeholder="Palabras clave" error={errors.palabras_clave_ambiente} />
+                    <Tags id="palabras_clave_ambiente" className="mt-4" enforceWhitelist={false} bind:tags={$form.palabras_clave_ambiente} placeholder="Palabras clave" error={errors.palabras_clave_ambiente} />
                     <InfoMessage>Separar palabras clave por coma o dar Enter una vez finalice de escribir</InfoMessage>
                 </div>
             </div>
 
-            <div class="py-24 grid grid-cols-2">
+            <div className="py-24 grid grid-cols-2">
                 <div>
-                    <Label class="mb-4" labelFor="observaciones_generales_ambiente" value="33. Observaciones generales del ambiente modernizado por Sennova" />
+                    <Label className="mb-4" labelFor="observaciones_generales_ambiente" value="33. Observaciones generales del ambiente modernizado por Sennova" />
                 </div>
                 <div>
                     <Textarea
@@ -694,16 +694,16 @@
                 </div>
             </div>
 
-            <div class="py-24">
-                <Label class="mb-4" labelFor="soporte_fotos_ambiente" value="Archivo formato (.pdf) con fotos del ambiente modernizado con el proyecto Sennova" />
+            <div className="py-24">
+                <Label className="mb-4" labelFor="soporte_fotos_ambiente" value="Archivo formato (.pdf) con fotos del ambiente modernizado con el proyecto Sennova" />
                 <File id="soporte_fotos_ambiente" maxSize="10000" bind:value={$form.soporte_fotos_ambiente} valueDb={ambienteModernizacion.soporte_fotos_ambiente} error={errors.soporte_fotos_ambiente} route={ambienteModernizacion.soporte_fotos_ambiente?.includes('http') ? null : route('ambientes-modernizacion.download-file-sharepoint', [ambienteModernizacion, 'soporte_fotos_ambiente'])} />
             </div>
         {/if}
     </fieldset>
-    <div class="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
+    <div className="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
         {#if ambienteModernizacion}
-            <small class="flex items-center text-app-700">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <small className="flex items-center text-app-700">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 {ambienteModernizacion.updated_at}
@@ -711,12 +711,12 @@
         {/if}
 
         {#if ambienteModernizacion?.allowed.to_update}
-            <Button on:click={() => (dialogGuardar = true)} class="ml-auto" type="button">Revisar información antes de guardar</Button>
+            <Button on:click={() => (dialogGuardar = true)} className="ml-auto" type="button">Revisar información antes de guardar</Button>
         {:else if allowedToCreate}
             <span />
-            <LoadingButton loading={$form.processing} form="semillero-investigacion-form">Guardar</LoadingButton>
+            <PrimaryButton loading={$form.processing} form="semillero-investigacion-form">Guardar</PrimaryButton>
         {:else}
-            <span class="inline-block ml-1.5"> El semillero no se puede modificar </span>
+            <span className="inline-block ml-1.5"> El semillero no se puede modificar </span>
         {/if}
     </div>
 </form>
@@ -724,24 +724,24 @@
 {#if ambienteModernizacion?.allowed.to_update}
     <Dialog bind:open={dialogGuardar}>
         <div slot="title">
-            <div class="m-auto relative text-app-600">
+            <div className="m-auto relative text-app-600">
                 <figure>
-                    <img src="/images/megaphone.png" alt="" class="m-auto w-20" />
+                    <img src="/images/megaphone.png" alt="" className="m-auto w-20" />
                 </figure>
             </div>
         </div>
-        <div slot="header-info" class="ml-10 shadow-md">
+        <div slot="header-info" className="ml-10 shadow-md">
             <InfoMessage>
                 Se recomienda que antes de dar clic en el botón <strong>Guardar</strong> descargue el borrador en archivo Word. De esta manera si ocurre un error al guardar puede recuperar la información registrada. Luego de descargar el borrador de clic en el botón <strong>Guardar</strong>. Revise que se muestra un mensaje en verde que dice '<strong>
                     El recurso se ha modificado correctamente</strong
-                >'. Si después de unos segundos no se muestra el mensaje y al recargar el aplicativo observa que la información no se ha guardado por favor envie un correo a <a href="mailto:sgpssipro@sena.edu.co" class="underline">sgpssipro@sena.edu.co</a>
+                >'. Si después de unos segundos no se muestra el mensaje y al recargar el aplicativo observa que la información no se ha guardado por favor envie un correo a <a href="mailto:sgpssipro@sena.edu.co" className="underline">sgpssipro@sena.edu.co</a>
                 desde una cuenta <strong>@sena.edu.co</strong> y describa detalladamente lo ocurrido (Importante adjuntar el borrador e indicar el código del proyecto).
             </InfoMessage>
         </div>
         <div slot="content">
             <Export2Word id="borrador" showButton={false} bind:this={exportComponent}>
-                <h1 class="font-black text-center my-10">Información del seguimiento post-cierre de ambientes de modernización</h1>
-                <p class="capitalize" style="white-space: pre-line; margin-bottom: 4rem">
+                <h1 className="font-black text-center my-10">Información del seguimiento post-cierre de ambientes de modernización</h1>
+                <p className="capitalize" style="white-space: pre-line; margin-bottom: 4rem">
                     <strong>Regional:</strong>
                     {ambienteModernizacion?.seguimiento_ambiente_modernizacion.centro_formacion.regional.nombre}
                 </p>
@@ -806,7 +806,7 @@
                     <strong>9. ¿El proyecto se alinea con las Mesas Sectoriales?</strong>
                     {$form.alineado_mesas_sectoriales ? $form.alineado_mesas_sectoriales?.label : 'Sin información registrada'}
                 </p>
-                <ul class="list-disc p-4">
+                <ul className="list-disc p-4">
                     {#each mesasSectoriales as { id, nombre }, i}
                         {#each $form.mesa_sectorial_id as mesaSectorialRelacionada}
                             {#if id == mesaSectorialRelacionada}
@@ -1022,14 +1022,14 @@
             </Export2Word>
         </div>
         <div slot="actions">
-            <div class="p-4">
+            <div className="p-4">
                 <Button on:click={() => (dialogGuardar = false)} variant={null}>Cancelar</Button>
                 {#if ambienteModernizacion}
                     <Button variant="raised" type="button" on:click={() => exportComponent.export2Word(ambienteModernizacion.seguimiento_ambiente_modernizacion.codigo)}>Descargar borrador en Word</Button>
                     {#if ambienteModernizacion?.allowed.to_update || allowedToCreate}
-                        <LoadingButton loading={$form.processing} form="semillero-investigacion-form">Guardar</LoadingButton>
+                        <PrimaryButton loading={$form.processing} form="semillero-investigacion-form">Guardar</PrimaryButton>
                     {:else}
-                        <span class="inline-block ml-1.5"> El semillero no se puede modificar </span>
+                        <span className="inline-block ml-1.5"> El semillero no se puede modificar </span>
                     {/if}
                 {/if}
             </div>

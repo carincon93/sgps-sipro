@@ -5,12 +5,12 @@
     import { _ } from 'svelte-i18n'
     import { Inertia } from '@inertiajs/inertia'
 
-    import Button from '@/Shared/Button'
-    import LoadingButton from '@/Shared/LoadingButton'
-    import Stepper from '@/Shared/Stepper'
-    import InfoMessage from '@/Shared/InfoMessage'
-    import Dialog from '@/Shared/Dialog'
-    import Export2Word from '@/Shared/Export2Word'
+    import Button from '@/Components/Button'
+    import PrimaryButton from '@/Components/PrimaryButton'
+    import Stepper from '@/Components/Stepper'
+    import InfoMessage from '@/Components/InfoMessage'
+    import Dialog from '@/Components/Dialog'
+    import Export2Word from '@/Components/Export2Word'
 
     import TaForm from './TaForm.svelte'
 
@@ -27,7 +27,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let form = useForm({
@@ -83,92 +83,92 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
+    <header className="pt-[8rem]" slot="header">
         <Stepper {convocatoria} proyecto={ta} />
     </header>
 
     <form on:submit|preventDefault={submit} id="ta-form">
-        <fieldset class="p-8 divide-y" disabled={ta.proyecto.allowed.to_update ? undefined : true}>
+        <fieldset className="p-8 divide-y" disabled={ta.proyecto.allowed.to_update ? undefined : true}>
             <TaForm {errors} {form} {isSuperAdmin} {authUser} {convocatoria} {ta} {lineasTecnoacademia} {lineasProgramaticas} />
             {#if isSuperAdmin || ta.proyecto.mostrar_recomendaciones}
-                <div class="py-24">
+                <div className="py-24">
                     <h1>Ortografía</h1>
                     {#each ta.proyecto.evaluaciones as evaluacion, i}
                         {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
-                            <div class="bg-zinc-900 text-white p-4 rounded border mb-5">
-                                <div class="text-xs flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <div className="bg-zinc-900 text-white p-4 rounded border mb-5">
+                                <div className="text-xs flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                                     </svg>
                                     Evaluador COD-{evaluacion.id}:
                                 </div>
-                                <p class="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion.ortografia_comentario ? evaluacion.ta_evaluacion.ortografia_comentario : 'Sin recomendación'}</p>
+                                <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion.ortografia_comentario ? evaluacion.ta_evaluacion.ortografia_comentario : 'Sin recomendación'}</p>
                             </div>
                         {/if}
                     {/each}
                     {#if ta.proyecto.evaluaciones.length == 0}
-                        <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
+                        <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                     {/if}
                 </div>
             {/if}
 
             {#if isSuperAdmin || ta.proyecto.mostrar_recomendaciones}
-                <div class="py-24">
+                <div className="py-24">
                     <h1>Redacción</h1>
                     {#each ta.proyecto.evaluaciones as evaluacion, i}
                         {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
-                            <div class="bg-zinc-900 text-white p-4 rounded border mb-5">
-                                <div class="text-xs flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <div className="bg-zinc-900 text-white p-4 rounded border mb-5">
+                                <div className="text-xs flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                                     </svg>
                                     Evaluador COD-{evaluacion.id}:
                                 </div>
-                                <p class="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion.redaccion_comentario ? evaluacion.ta_evaluacion.redaccion_comentario : 'Sin recomendación'}</p>
+                                <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion.redaccion_comentario ? evaluacion.ta_evaluacion.redaccion_comentario : 'Sin recomendación'}</p>
                             </div>
                         {/if}
                     {/each}
                     {#if ta.proyecto.evaluaciones.length == 0}
-                        <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
+                        <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                     {/if}
                 </div>
             {/if}
 
             {#if isSuperAdmin || ta.proyecto.mostrar_recomendaciones}
-                <div class="py-24">
+                <div className="py-24">
                     <h1>Normas APA</h1>
                     {#each ta.proyecto.evaluaciones as evaluacion, i}
                         {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
-                            <div class="bg-zinc-900 text-white p-4 rounded border mb-5">
-                                <div class="text-xs flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <div className="bg-zinc-900 text-white p-4 rounded border mb-5">
+                                <div className="text-xs flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                                     </svg>
                                     Evaluador COD-{evaluacion.id}:
                                 </div>
-                                <p class="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion.normas_apa_comentario ? evaluacion.ta_evaluacion.normas_apa_comentario : 'Sin recomendación'}</p>
+                                <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion.normas_apa_comentario ? evaluacion.ta_evaluacion.normas_apa_comentario : 'Sin recomendación'}</p>
                             </div>
                         {/if}
                     {/each}
                     {#if ta.proyecto.evaluaciones.length == 0}
-                        <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
+                        <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                     {/if}
                 </div>
             {/if}
         </fieldset>
 
-        <div class="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
-            <small class="flex items-center text-app-700">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <div className="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
+            <small className="flex items-center text-app-700">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 {ta.updated_at}
             </small>
 
             {#if ta.proyecto.allowed.to_update}
-                <LoadingButton loading={$form.processing} form="ta-form">Guardar información</LoadingButton>
+                <PrimaryButton loading={$form.processing} form="ta-form">Guardar información</PrimaryButton>
             {:else}
-                <span class="inline-block ml-1.5"> El proyecto no se puede modificar </span>
+                <span className="inline-block ml-1.5"> El proyecto no se puede modificar </span>
             {/if}
         </div>
     </form>

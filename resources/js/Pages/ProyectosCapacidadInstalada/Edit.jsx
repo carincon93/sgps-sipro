@@ -5,14 +5,14 @@
     import { route, checkRole, checkPermission } from '@/Utils'
     import { _ } from 'svelte-i18n'
 
-    import Dialog from '@/Shared/Dialog'
-    import Button from '@/Shared/Button'
-    import Label from '@/Shared/Label'
-    import Textarea from '@/Shared/Textarea'
-    import SelectMulti from '@/Shared/SelectMulti'
-    import InfoMessage from '@/Shared/InfoMessage'
-    import LoadingButton from '@/Shared/LoadingButton'
-    import Export2Word from '@/Shared/Export2Word'
+    import Dialog from '@/Components/Dialog'
+    import Button from '@/Components/Button'
+    import Label from '@/Components/Label'
+    import Textarea from '@/Components/Textarea'
+    import MultipleSelect from '@/Components/MultipleSelect'
+    import InfoMessage from '@/Components/InfoMessage'
+    import PrimaryButton from '@/Components/PrimaryButton'
+    import Export2Word from '@/Components/Export2Word'
 
     import Header from './Shared/Header'
     import Form from './Form'
@@ -41,7 +41,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let proyectoDialogOpen = true
@@ -139,7 +139,7 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
+    <header className="pt-[8rem]" slot="header">
         <Header {proyectoCapacidadInstalada} active={true} />
     </header>
 
@@ -171,45 +171,45 @@
         {roles}
         {programasFormacion}
     >
-        <div class="mt-44 grid grid-cols-1">
+        <div className="mt-44 grid grid-cols-1">
             <div>
-                <Label required class="mb-4" labelFor="planteamiento_problema" value="Planteamiento del problema" />
+                <Label required className="mb-4" labelFor="planteamiento_problema" value="Planteamiento del problema" />
             </div>
             <div>
                 <Textarea maxlength="40000" id="planteamiento_problema" error={errors.planteamiento_problema} bind:value={$formPlanteamientoProblema.planteamiento_problema} on:blur={() => syncColumnLong('planteamiento_problema', $formPlanteamientoProblema)} required />
             </div>
         </div>
 
-        <div class="mt-44 grid grid-cols-1">
+        <div className="mt-44 grid grid-cols-1">
             <div>
-                <Label required class="mb-4" labelFor="justificacion" value="Justificación" />
+                <Label required className="mb-4" labelFor="justificacion" value="Justificación" />
             </div>
             <div>
                 <Textarea maxlength="40000" id="justificacion" error={errors.justificacion} bind:value={$formJustificacion.justificacion} on:blur={() => syncColumnLong('justificacion', $formJustificacion)} required />
             </div>
         </div>
 
-        <div class="mt-44 grid grid-cols-1">
+        <div className="mt-44 grid grid-cols-1">
             <div>
-                <Label required class="mb-4" labelFor="objetivo_general" value="Objetivo general" />
+                <Label required className="mb-4" labelFor="objetivo_general" value="Objetivo general" />
             </div>
             <div>
                 <Textarea maxlength="40000" id="objetivo_general" error={errors.objetivo_general} bind:value={$formObjetivoGeneral.objetivo_general} on:blur={() => syncColumnLong('objetivo_general', $formObjetivoGeneral)} required />
             </div>
         </div>
 
-        <div class="mt-44 grid grid-cols-1">
+        <div className="mt-44 grid grid-cols-1">
             <div>
-                <Label required class="mb-4" labelFor="metodologia" value="Metodología" />
+                <Label required className="mb-4" labelFor="metodologia" value="Metodología" />
             </div>
             <div>
                 <Textarea maxlength="40000" id="metodologia" error={errors.metodologia} bind:value={$formMetodologia.metodologia} on:blur={() => syncColumnLong('metodologia', $formMetodologia)} required />
             </div>
         </div>
 
-        <div class="mt-44 grid grid-cols-1">
+        <div className="mt-44 grid grid-cols-1">
             <div>
-                <Label required class="mb-4" labelFor="infraestructura_desarrollo_proyecto" value="Infraestructura para el desarrollo del proyecto" />
+                <Label required className="mb-4" labelFor="infraestructura_desarrollo_proyecto" value="Infraestructura para el desarrollo del proyecto" />
             </div>
             <div>
                 <Textarea
@@ -224,75 +224,75 @@
             </div>
         </div>
 
-        <div class="mt-44 grid grid-cols-1">
+        <div className="mt-44 grid grid-cols-1">
             <div>
-                <Label required class="mb-4" labelFor="materiales_formacion_a_usar" value="Materiales de formación a utilizar" />
+                <Label required className="mb-4" labelFor="materiales_formacion_a_usar" value="Materiales de formación a utilizar" />
             </div>
             <div>
                 <Textarea label="Describir los materiales de formación que se van a utilizar" maxlength="40000" id="materiales_formacion_a_usar" error={errors.materiales_formacion_a_usar} bind:value={$formMaterialesFormacion.materiales_formacion_a_usar} on:blur={() => syncColumnLong('materiales_formacion_a_usar', $formMaterialesFormacion)} required />
             </div>
         </div>
 
-        <div class="mt-44 grid grid-cols-2">
+        <div className="mt-44 grid grid-cols-2">
             <div>
-                <Label required class="mb-4" labelFor="programas_formacion_registro_calificado" value="Nombre de los programas de formación con registro calificado" />
+                <Label required className="mb-4" labelFor="programas_formacion_registro_calificado" value="Nombre de los programas de formación con registro calificado" />
             </div>
             <div>
-                <SelectMulti id="programas_formacion_registro_calificado" bind:selectedValue={$form.programas_formacion_registro_calificado} items={programasFormacionConRegistro} isMulti={true} error={errors.programas_formacion_registro_calificado} placeholder="Buscar por el nombre del programa de formación" required />
-            </div>
-        </div>
-
-        <div class="mt-44 grid grid-cols-2">
-            <div>
-                <Label required class="mb-4" labelFor="programas_formacion_sin_registro_calificado" value="Nombre de los programas de formación a los cuales está asociado el proyecto " />
-            </div>
-            <div>
-                <SelectMulti id="programas_formacion_sin_registro_calificado" bind:selectedValue={$form.programas_formacion_sin_registro_calificado} items={programasFormacionSinRegistro} isMulti={true} error={errors.programas_formacion_sin_registro_calificado} placeholder="Buscar por el nombre del programa de formación" required />
+                <MultipleSelect id="programas_formacion_registro_calificado" bind:selectedValue={$form.programas_formacion_registro_calificado} items={programasFormacionConRegistro}  error={errors.programas_formacion_registro_calificado} placeholder="Buscar por el nombre del programa de formación" required />
             </div>
         </div>
 
-        <div class="mt-44 grid grid-cols-1">
+        <div className="mt-44 grid grid-cols-2">
             <div>
-                <Label required class="mb-4" labelFor="conclusiones" value="Conclusiones" />
+                <Label required className="mb-4" labelFor="programas_formacion_sin_registro_calificado" value="Nombre de los programas de formación a los cuales está asociado el proyecto " />
+            </div>
+            <div>
+                <MultipleSelect id="programas_formacion_sin_registro_calificado" bind:selectedValue={$form.programas_formacion_sin_registro_calificado} items={programasFormacionSinRegistro}  error={errors.programas_formacion_sin_registro_calificado} placeholder="Buscar por el nombre del programa de formación" required />
+            </div>
+        </div>
+
+        <div className="mt-44 grid grid-cols-1">
+            <div>
+                <Label required className="mb-4" labelFor="conclusiones" value="Conclusiones" />
             </div>
             <div>
                 <Textarea maxlength="40000" id="conclusiones" error={errors.conclusiones} bind:value={$formConclusiones.conclusiones} on:blur={() => syncColumnLong('conclusiones', $formConclusiones)} required />
             </div>
         </div>
 
-        <div class="mt-44 grid grid-cols-1">
+        <div className="mt-44 grid grid-cols-1">
             <div>
-                <Label required class="mb-4" labelFor="bibliografia" value="Bibliografía" />
-                <InfoMessage class="mb-2" message="Lista de las referencias utilizadas en cada apartado del proyecto. Utilizar normas APA- Última edición (http://biblioteca.sena.edu.co/images/PDF/InstructivoAPA.pdf)." />
+                <Label required className="mb-4" labelFor="bibliografia" value="Bibliografía" />
+                <InfoMessage className="mb-2" message="Lista de las referencias utilizadas en cada apartado del proyecto. Utilizar normas APA- Última edición (http://biblioteca.sena.edu.co/images/PDF/InstructivoAPA.pdf)." />
             </div>
             <div>
                 <Textarea maxlength="40000" id="bibliografia" error={errors.bibliografia} bind:value={$formBibliografia.bibliografia} on:blur={() => syncColumnLong('bibliografia', $formBibliografia)} required />
             </div>
         </div>
 
-        <div class="shadow-inner bg-app-200 border-app-400 bottom-0 flex items-center justify-between mt-14 px-8 py-4 sticky" slot="buttons">
-            <small class="flex items-center text-app-700">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <div className="flex items-center justify-between mt-14 px-8 py-4" slot="buttons">
+            <small className="flex items-center text-app-700">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 {proyectoCapacidadInstalada.updated_at}
             </small>
-            <Button on:click={() => (dialogGuardar = true)} class="ml-auto" type="button">Revisar información antes de guardar</Button>
+            <Button on:click={() => (dialogGuardar = true)} className="ml-auto" type="button">Revisar información antes de guardar</Button>
         </div>
     </Form>
 
     <Dialog bind:open={proyectoDialogOpen} id="informacion">
-        <div slot="title" class="flex items-center flex-col mt-4">
+        <div slot="title" className="flex items-center flex-col mt-4">
             <figure>
-                <img src={'/images/proyecto.png'} alt="Proyecto" class="h-32 mb-6" />
+                <img src={'/images/proyecto.png'} alt="Proyecto" className="h-32 mb-6" />
             </figure>
             Código del proyecto: {proyectoCapacidadInstalada.codigo}
         </div>
         <div slot="content">
             <div>
-                <h1 class="text-center mt-4 mb-4">Para terminar el numeral de <strong>Información básica</strong> por favor continue diligenciando los siguientes campos:</h1>
-                <p class="text-center mb-4">Si ya están completos omita esta información.</p>
-                <ul class="list-disc">
+                <h1 className="text-center mt-4 mb-4">Para terminar el numeral de <strong>Información básica</strong> por favor continue diligenciando los siguientes campos:</h1>
+                <p className="text-center mb-4">Si ya están completos omita esta información.</p>
+                <ul className="list-disc">
                     <li>Justificación</li>
                     <li>Plan tecnológico</li>
                     <li>Objetivo general</li>
@@ -306,7 +306,7 @@
             </div>
         </div>
         <div slot="actions">
-            <div class="p-4">
+            <div className="p-4">
                 <Button on:click={() => (proyectoDialogOpen = false)} variant={null}>Omitir</Button>
                 {#if proyectoCapacidadInstalada.allowed.to_update}
                     <Button variant="raised" on:click={() => (proyectoDialogOpen = false)} on:click={() => Inertia.visit('#beneficia_a')}>Continuar diligenciando</Button>
@@ -317,23 +317,23 @@
 
     <Dialog bind:open={dialogGuardar}>
         <div slot="title">
-            <div class="m-auto relative text-app-600">
+            <div className="m-auto relative text-app-600">
                 <figure>
-                    <img src="/images/megaphone.png" alt="" class="m-auto w-20" />
+                    <img src="/images/megaphone.png" alt="" className="m-auto w-20" />
                 </figure>
             </div>
         </div>
-        <div slot="header-info" class="ml-10 shadow-md">
+        <div slot="header-info" className="ml-10 shadow-md">
             <InfoMessage>
                 Se recomienda que antes de dar clic en el botón <strong>Guardar</strong> descargue el borrador en archivo Word. De esta manera si ocurre un error al guardar puede recuperar la información registrada. Luego de descargar el borrador de clic en el botón <strong>Guardar</strong>. Revise que se muestra un mensaje en verde que dice '<strong>
                     El recurso se ha modificado correctamente</strong
-                >'. Si después de unos segundos no se muestra el mensaje y al recargar el aplicativo observa que la información no se ha guardado por favor envie un correo a <a href="mailto:sgpssipro@sena.edu.co" class="underline">sgpssipro@sena.edu.co</a>
+                >'. Si después de unos segundos no se muestra el mensaje y al recargar el aplicativo observa que la información no se ha guardado por favor envie un correo a <a href="mailto:sgpssipro@sena.edu.co" className="underline">sgpssipro@sena.edu.co</a>
                 desde una cuenta <strong>@sena.edu.co</strong> y describa detalladamente lo ocurrido (Importante adjuntar el borrador e indicar el código del proyecto).
             </InfoMessage>
         </div>
         <div slot="content">
             <Export2Word id="borrador" showButton={false} bind:this={exportComponent}>
-                <h1 class="font-black text-center my-10">Información del proyecto</h1>
+                <h1 className="font-black text-center my-10">Información del proyecto</h1>
                 <p style="white-space: pre-line; margin-bottom: 4rem">
                     <strong>Centro de formación:</strong>
                     {$form.centro_formacion_id ? $form.centro_formacion_id?.label : 'Sin información registrada'}
@@ -449,13 +449,13 @@
             </Export2Word>
         </div>
         <div slot="actions">
-            <div class="p-4">
+            <div className="p-4">
                 <Button on:click={() => (dialogGuardar = false)} variant={null}>Cancelar</Button>
                 <Button variant="raised" type="button" on:click={() => exportComponent.export2Word(proyectoCapacidadInstalada.codigo)}>Descargar borrador en Word</Button>
                 {#if proyectoCapacidadInstalada.allowed.to_update}
-                    <LoadingButton loading={$form.processing} form="capacidad-instalada-form">Guardar</LoadingButton>
+                    <PrimaryButton loading={$form.processing} form="capacidad-instalada-form">Guardar</PrimaryButton>
                 {:else}
-                    <span class="inline-block ml-1.5"> El proyecto no se puede modificar </span>
+                    <span className="inline-block ml-1.5"> El proyecto no se puede modificar </span>
                 {/if}
             </div>
         </div>

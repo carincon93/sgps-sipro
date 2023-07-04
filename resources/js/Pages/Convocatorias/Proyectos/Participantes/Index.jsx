@@ -1,6 +1,6 @@
 <script>
     import AuthenticatedLayout, { title } from '@/Layouts/Authenticated'
-    import Stepper from '@/Shared/Stepper'
+    import Stepper from '@/Components/Stepper'
     import SemillerosInvestigacion from './SemillerosInvestigacion'
     import Participantes from './Participantes'
 
@@ -17,15 +17,15 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
+    <header className="pt-[8rem]" slot="header">
         <Stepper {convocatoria} {proyecto} />
     </header>
 
-    <div class="py-12">
-        <div class="mt-16">
+    <div className="py-12">
+        <div className="mt-16">
             <Participantes {centrosFormacion} {autorPrincipal} {convocatoria} {proyecto} {errors} {tiposDocumento} {tiposVinculacion} {roles} />
         </div>
-        <hr class="my-16" />
+        <hr className="my-16" />
 
         {#if proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82 || proyecto.codigo_linea_programatica == 69 || proyecto.codigo_linea_programatica == 70 || proyecto.codigo_linea_programatica == 65}
             <div>

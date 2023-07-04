@@ -10,7 +10,7 @@ import Switch from '@/Components/Switch';
 import Autocomplete from '@/Components/Autocomplete';
 import MultipleSelect from '@/Components/MultipleSelect';
 
-const EditConvocatoria = ({ auth, errors, convocatoria, lineas_programaticas, lineasProgramaticasActivasRelacionadas, fases }) => {
+const EditConvocatoria = ({ auth, errors, convocatoria, lineasProgramaticas, lineasProgramaticasActivasRelacionadas, fases }) => {
 
   // Validar si el usuario autenticado es SuperAdmin
   const authUser = auth.user;
@@ -67,11 +67,11 @@ const { data: dataFase, setData: setDataFase, post: postFase, processing: proces
 
       <div className="grid grid-cols-3">
         <div>
-          <h1 className="font-black text-4xl uppercase">Editar convocatoria</h1>
+          <h1 className="font-black text-4xl uppercase">Fase</h1>
         </div>
         <div className="col-span-2">
           {convocatoria.tipo_convocatoria == 1 || convocatoria.tipo_convocatoria == 3 ? (
-            <form onSubmit={submitFase} className="bg-white rounded shadow">
+            <form onSubmit={submitFase} className="rounded shadow">
               <fieldset className="p-8" disabled={isSuperAdmin ? undefined : true}>
                 <div className="grid grid-cols-2">
                   <div>
@@ -128,7 +128,7 @@ const { data: dataFase, setData: setDataFase, post: postFase, processing: proces
                   )}
                 </p>
               </fieldset>
-              <div className="shadow-inner bg-app-200 border-app-400 bottom-0 flex items-center justify-between mt-14 px-8 py-4 sticky">
+              <div className="flex items-center justify-between mt-14 px-8 py-4">
                 {isSuperAdmin && (
                   <PrimaryButton className="ml-auto" type="submit" disabled={processingFase}>
                     Editar fase
@@ -138,59 +138,55 @@ const { data: dataFase, setData: setDataFase, post: postFase, processing: proces
             </form>
           ) : null}
         </div>
-
-        <div className="bg-white rounded shadow">
-          <form onSubmit={submitInfo}>
-            <fieldset className="p-8" disabled={isSuperAdmin ? undefined : true}>
-              <div className="mt-8">
-                <Textarea label="Descripción" maxlength="40000" id="descripcion" error={errors.descripcion} value={dataConvocatoria.descripcion} onChange={(e) => setDataConvocatoria('descripcion', e.target.value)} required />
-              </div>
-
-              <div className="mt-10 mb-20">
-                <Label required labelFor="esta_activa" value="¿Desea activar esta convocatoria? (Si la opción está habilitada permite a los usuarios formular proyectos. Tenga en cuenta que solo puede activar una convocatoria por tipo --Proyectos de convocatoria - Proyectos de ejecicio DEMO)" className="inline-block mb-4" />
-                <br />
-                <Switch checked={dataConvocatoria.esta_activa} onChange={(e) => setDataConvocatoria('esta_activa', e.target.checked)} />
-              </div>
-
-              <div>
-                <div className="mt-10 mb-20">
-                  <Label required labelFor="lineas_programaticas_activas" className="mb-4" value="Seleccione las líneas programáticas las cuales quiere activar" />
-                  <MultipleSelect id="lineas_programaticas_activas" selectedValues={dataConvocatoria.lineas_programaticas_activas} items={lineas_programaticas} error={errors.lineas_programaticas_activas} placeholder="Seleccione las líneas programáticas" required />
-                </div>
-              </div>
-
-              <div className="mt-10 mb-20">
-                <Label required labelFor="visible" value="Defina la visibilidad de la convocatoria. (Si la opción está habilitada permite a los usuarios visualizar la convocatoria)" className="inline-block mb-4" />
-                <br />
-                <Switch checked={dataConvocatoria.visible} onChange={(e) => setDataConvocatoria('visible', e.target.checked)} onMessage="Visible" offMessage="Oculta" />
-              </div>
-
-              {(convocatoria.tipo_convocatoria == 1 || convocatoria.tipo_convocatoria == 3) && (
-                <div className="mt-4 mb-20">
-                  <Label required labelFor="mostrar_recomendaciones" value="¿Desea que el formulador visualice las recomendaciones hechas por los evaluadores?" className="inline-block mb-4" />
-                  <br />
-                  <Switch checked={dataConvocatoria.mostrar_recomendaciones} onChange={(e) => setDataConvocatoria('mostrar_recomendaciones', e.target.checked)} />
-                </div>
-              )}
-            </fieldset>
-            <div className="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
-              {convocatoria && (
-                <small className="flex items-center text-app-700">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                  </svg>
-                  Si no desea hacer cambios en los datos, puede dejar el formulario en blanco.
-                </small>
-              )}
-
-              {isSuperAdmin && (
-                <PrimaryButton type="submit" disabled={processingConvocatoria}>
-                  Editar convocatoria
-                </PrimaryButton>
-              )}
-            </div>
-          </form>
         </div>
+
+        <div className="grid grid-cols-3 mt-10">
+            <div>
+                <h1 className="font-black text-4xl uppercase">Información de la convocatoria</h1>
+            </div>
+            <div className="col-span-2">
+                <form onSubmit={submitInfo} className="rounded shadow">
+                    <fieldset className="p-8" disabled={isSuperAdmin ? undefined : true}>
+                    <div className="mt-8">
+                        <Textarea label="Descripción" maxlength="40000" id="descripcion" error={errors.descripcion} value={dataConvocatoria.descripcion} onChange={(e) => setDataConvocatoria('descripcion', e.target.value)} required />
+                    </div>
+
+                    <div className="mt-10 mb-20">
+                        <Label required labelFor="esta_activa" value="¿Desea activar esta convocatoria? (Si la opción está habilitada permite a los usuarios formular proyectos. Tenga en cuenta que solo puede activar una convocatoria por tipo --Proyectos de convocatoria - Proyectos de ejecicio DEMO)" className="inline-block mb-4" />
+                        <br />
+                        <Switch checked={dataConvocatoria.esta_activa} onChange={(e) => setDataConvocatoria('esta_activa', e.target.checked)} />
+                    </div>
+
+                    <div>
+                        <div className="mt-10 mb-20">
+                        <Label required labelFor="lineas_programaticas_activas" className="mb-4" value="Seleccione las líneas programáticas las cuales quiere activar" />
+                        <MultipleSelect id="lineas_programaticas_activas" selectedValues={dataConvocatoria.lineas_programaticas_activas} items={lineasProgramaticas} error={errors.lineas_programaticas_activas} placeholder="Seleccione las líneas programáticas" required />
+                        </div>
+                    </div>
+
+                    <div className="mt-10 mb-20">
+                        <Label required labelFor="visible" value="Defina la visibilidad de la convocatoria. (Si la opción está habilitada permite a los usuarios visualizar la convocatoria)" className="inline-block mb-4" />
+                        <br />
+                        <Switch checked={dataConvocatoria.visible} onChange={(e) => setDataConvocatoria('visible', e.target.checked)} onMessage="Visible" offMessage="Oculta" />
+                    </div>
+
+                    {(convocatoria.tipo_convocatoria == 1 || convocatoria.tipo_convocatoria == 3) && (
+                        <div className="mt-4 mb-20">
+                        <Label required labelFor="mostrar_recomendaciones" value="¿Desea que el formulador visualice las recomendaciones hechas por los evaluadores?" className="inline-block mb-4" />
+                        <br />
+                        <Switch checked={dataConvocatoria.mostrar_recomendaciones} onChange={(e) => setDataConvocatoria('mostrar_recomendaciones', e.target.checked)} />
+                        </div>
+                    )}
+                    </fieldset>
+                    <div className="flex items-center justify-between mt-14 px-8 py-4">
+                    {isSuperAdmin && (
+                        <PrimaryButton type="submit" disabled={processingConvocatoria}>
+                        Editar convocatoria
+                        </PrimaryButton>
+                    )}
+                    </div>
+                </form>
+            </div>
       </div>
     </AuthenticatedLayout>
   );

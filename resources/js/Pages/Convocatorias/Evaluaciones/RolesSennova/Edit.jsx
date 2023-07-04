@@ -4,10 +4,10 @@
     import { route, checkRole } from '@/Utils'
     import { _ } from 'svelte-i18n'
 
-    import LoadingButton from '@/Shared/LoadingButton'
-    import InfoMessage from '@/Shared/InfoMessage'
-    import Textarea from '@/Shared/Textarea'
-    import Switch from '@/Shared/Switch'
+    import PrimaryButton from '@/Components/PrimaryButton'
+    import InfoMessage from '@/Components/InfoMessage'
+    import Textarea from '@/Components/Textarea'
+    import Switch from '@/Components/Switch'
 
     import Form from '../../Proyectos/RolesSennova/Form'
 
@@ -28,7 +28,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let rolSennovaInfo = useForm({
@@ -59,38 +59,38 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
-        <div class="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
+    <header className="pt-[8rem]" slot="header">
+        <div className="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
             <div>
-                <h1 class="overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap">
-                    <a use:inertia href={route('convocatorias.evaluaciones.proyecto-rol-sennova.index', [convocatoria.id, evaluacion.id])} class="text-app-400 hover:text-app-600"> Roles SENNOVA </a>
-                    <span class="text-app-400 font-medium">/</span>
+                <h1 className="overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap">
+                    <a use:inertia href={route('convocatorias.evaluaciones.proyecto-rol-sennova.index', [convocatoria.id, evaluacion.id])} className="text-app-400 hover:text-app-600"> Roles SENNOVA </a>
+                    <span className="text-app-400 font-medium">/</span>
                     {proyectoRolSennova.convocatoria_rol_sennova.rol_sennova.nombre}
                 </h1>
             </div>
         </div>
     </header>
 
-    <div class="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-3 gap-4">
         <div>
-            <h1 class="font-black text-4xl sticky top-0 uppercase">Roles SENNOVA</h1>
+            <h1 className="font-black text-4xl sticky top-0 uppercase">Roles SENNOVA</h1>
         </div>
-        <div class="col-span-2">
+        <div className="col-span-2">
             <Form {proyecto} {errors} {proyectoRolSennova} {convocatoriaRolesSennova} form={rolSennovaInfo} {actividades} {lineasTecnologicas} {isSuperAdmin} {evaluacion} />
 
-            <form class="mt-10" on:submit|preventDefault={submit}>
+            <form className="mt-10" on:submit|preventDefault={submit}>
                 <InfoMessage>
-                    <div class="mt-4">
+                    <div className="mt-4">
                         <p>¿El rol es correcto? Por favor seleccione si Cumple o No cumple.</p>
                         <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$form.correcto} />
                         {#if $form.correcto == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" class="mt-4" maxlength="40000" id="comentario" bind:value={$form.comentario} error={errors.comentario} required />
+                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="comentario" bind:value={$form.comentario} error={errors.comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
-                <div class="shadow-inner bg-app-200 border-app-400 bottom-0 flex items-center justify-between mt-14 px-8 py-4 sticky">
+                <div className="flex items-center justify-between mt-14 px-8 py-4">
                     {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
-                        <LoadingButton loading={$form.processing} class="ml-auto" type="submit">Evaluar</LoadingButton>
+                        <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Evaluar</PrimaryButton>
                     {/if}
                 </div>
             </form>

@@ -5,12 +5,12 @@
     import { route, checkRole, checkPermission } from '@/Utils'
     import { _ } from 'svelte-i18n'
 
-    import Button from '@/Shared/Button'
-    import LoadingButton from '@/Shared/LoadingButton'
-    import Stepper from '@/Shared/Stepper'
-    import InfoMessage from '@/Shared/InfoMessage'
-    import Dialog from '@/Shared/Dialog'
-    import Export2Word from '@/Shared/Export2Word'
+    import Button from '@/Components/Button'
+    import PrimaryButton from '@/Components/PrimaryButton'
+    import Stepper from '@/Components/Stepper'
+    import InfoMessage from '@/Components/InfoMessage'
+    import Dialog from '@/Components/Dialog'
+    import Export2Word from '@/Components/Export2Word'
 
     import IdiForm from './IdiForm'
 
@@ -49,7 +49,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let proyectoDialogOpen = true
@@ -140,12 +140,12 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
+    <header className="pt-[8rem]" slot="header">
         <Stepper {convocatoria} proyecto={idi} />
     </header>
 
     <form on:submit|preventDefault={submit} id="idi-form">
-        <fieldset class="p-8 divide-y" disabled={idi.proyecto.allowed.to_update ? undefined : true}>
+        <fieldset className="p-8 divide-y" disabled={idi.proyecto.allowed.to_update ? undefined : true}>
             <IdiForm
                 {isSuperAdmin}
                 {lineasProgramaticas}
@@ -180,82 +180,74 @@
             />
 
             <!-- {#if isSuperAdmin || idi.proyecto.mostrar_recomendaciones}
-                <div class="py-24">
+                <div className="py-24">
                     <h1>Ortografía</h1>
                     {#each idi.proyecto.evaluaciones as evaluacion, i}
                         {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
-                            <div class="bg-zinc-900 p-4 rounded shadow text-white my-2">
-                                <p class="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                <p class="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion.ortografia_comentario ? evaluacion.idi_evaluacion.ortografia_comentario : 'Sin recomendación'}</p>
+                            <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
+                                <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
+                                <p className="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion.ortografia_comentario ? evaluacion.idi_evaluacion.ortografia_comentario : 'Sin recomendación'}</p>
                             </div>
                         {/if}
                     {/each}
                     {#if idi.proyecto.evaluaciones.length == 0}
-                        <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
+                        <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                     {/if}
                 </div>
             {/if}
 
             {#if isSuperAdmin || idi.proyecto.mostrar_recomendaciones}
-                <div class="py-24">
+                <div className="py-24">
                     <h1>Redacción</h1>
                     {#each idi.proyecto.evaluaciones as evaluacion, i}
                         {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
-                            <div class="bg-zinc-900 p-4 rounded shadow text-white my-2">
-                                <p class="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                <p class="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion.redaccion_comentario ? evaluacion.idi_evaluacion.redaccion_comentario : 'Sin recomendación'}</p>
+                            <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
+                                <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
+                                <p className="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion.redaccion_comentario ? evaluacion.idi_evaluacion.redaccion_comentario : 'Sin recomendación'}</p>
                             </div>
                         {/if}
                     {/each}
                     {#if idi.proyecto.evaluaciones.length == 0}
-                        <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
+                        <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                     {/if}
                 </div>
             {/if}
 
             {#if isSuperAdmin || idi.proyecto.mostrar_recomendaciones}
-                <div class="py-24">
+                <div className="py-24">
                     <h1>Normas APA</h1>
                     {#each idi.proyecto.evaluaciones as evaluacion, i}
                         {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
-                            <div class="bg-zinc-900 p-4 rounded shadow text-white my-2">
-                                <p class="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                <p class="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion.normas_apa_comentario ? evaluacion.idi_evaluacion.normas_apa_comentario : 'Sin recomendación'}</p>
+                            <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
+                                <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
+                                <p className="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion.normas_apa_comentario ? evaluacion.idi_evaluacion.normas_apa_comentario : 'Sin recomendación'}</p>
                             </div>
                         {/if}
                     {/each}
                     {#if idi.proyecto.evaluaciones.length == 0}
-                        <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
+                        <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                     {/if}
                 </div>
             {/if} -->
         </fieldset>
 
-        <div>
-            <!-- <InfoMessage>
-                Se recomienda que antes de dar clic en el botón <strong>Guardar</strong> descargue el borrador de Generalidades en archivo Word. De esta manera si ocurre un error al guardar puede recuperar la información registrada. Luego de descargar el borrador de clic en el botón <strong>Guardar</strong>. Revise que se muestra un mensaje en verde que dice '<strong>
-                    El recurso se ha modificado correctamente</strong
-                >'. Si después de unos segundos no se muestra el mensaje y al recargar el aplicativo observa que la información no se ha guardado por favor envie un correo a <a href="mailto:sgpssipro@sena.edu.co" class="underline">sgpssipro@sena.edu.co</a>
-                desde una cuenta <strong>@sena.edu.co</strong> y describa detalladamente lo ocurrido (Importante adjuntar el borrador e indicar el código del proyecto).
-            </InfoMessage> -->
-            <!-- <div class="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4"> -->
-                <!-- <small class="flex items-center text-app-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    {idi.updated_at}
-                </small> -->
 
-                <!-- <Button type="button" on:click={() => (dialogGuardar = true)}>Descargar Generalidades en Word</Button> -->
+            <div className="flex items-center justify-between mt-14 px-8 py-4">
+                <small className="flex items-center text-app-700">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {idi.updated_at}
+            </small>
 
-                <!-- {#if idi.proyecto.allowed.to_update}
-                    <LoadingButton loading={$form.processing} form="idi-form">Guardar información</LoadingButton>
-                {:else}
-                    <span class="inline-block ml-1.5"> El proyecto no se puede modificar </span>
-                {/if} -->
-            <!-- </div> -->
+
+                {#if idi.proyecto.allowed.to_update}
+                <PrimaryButton loading={$form.processing} form="idi-form">Guardar información</PrimaryButton>
+            {:else}
+                <span className="inline-block ml-1.5"> El proyecto no se puede modificar </span>
+            {/if}
         </div>
     </form>
 
-    
+
 </AuthenticatedLayout>

@@ -5,12 +5,12 @@
     import { _ } from 'svelte-i18n'
     import { Inertia } from '@inertiajs/inertia'
 
-    import Button from '@/Shared/Button'
-    import LoadingButton from '@/Shared/LoadingButton'
-    import InfoMessage from '@/Shared/InfoMessage'
-    import Stepper from '@/Shared/Stepper'
-    import Dialog from '@/Shared/Dialog'
-    import Export2Word from '@/Shared/Export2Word'
+    import Button from '@/Components/Button'
+    import PrimaryButton from '@/Components/PrimaryButton'
+    import InfoMessage from '@/Components/InfoMessage'
+    import Stepper from '@/Components/Stepper'
+    import Dialog from '@/Components/Dialog'
+    import Export2Word from '@/Components/Export2Word'
     import CulturaInnovacionForm from './CulturaInnovacionForm'
 
     export let errors
@@ -42,7 +42,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let form = useForm({
@@ -154,12 +154,12 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
+    <header className="pt-[8rem]" slot="header">
         <Stepper {convocatoria} proyecto={culturaInnovacion} />
     </header>
 
     <form on:submit|preventDefault={submit} id="cultura-innovacion-form">
-        <fieldset class="p-8 divide-y" disabled={culturaInnovacion.proyecto.allowed.to_update ? undefined : true}>
+        <fieldset className="p-8 divide-y" disabled={culturaInnovacion.proyecto.allowed.to_update ? undefined : true}>
             <CulturaInnovacionForm
                 {isSuperAdmin}
                 {convocatoria}
@@ -191,55 +191,55 @@
             />
 
             {#if isSuperAdmin || culturaInnovacion.proyecto.mostrar_recomendaciones}
-                <div class="py-24">
-                    <hr class="mt-10 mb-10" />
+                <div className="py-24">
+                    <hr className="mt-10 mb-10" />
                     <h1>Ortografía</h1>
                     {#each culturaInnovacion.proyecto.evaluaciones as evaluacion, i}
                         {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
-                            <div class="bg-zinc-900 p-4 rounded shadow text-white my-2">
-                                <p class="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                <p class="whitespace-pre-line">{evaluacion.cultura_innovacion_evaluacion.ortografia_comentario ? evaluacion.cultura_innovacion_evaluacion.ortografia_comentario : 'Sin recomendación'}</p>
+                            <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
+                                <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
+                                <p className="whitespace-pre-line">{evaluacion.cultura_innovacion_evaluacion.ortografia_comentario ? evaluacion.cultura_innovacion_evaluacion.ortografia_comentario : 'Sin recomendación'}</p>
                             </div>
                         {/if}
                     {/each}
                     {#if culturaInnovacion.proyecto.evaluaciones.length == 0}
-                        <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
+                        <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                     {/if}
                 </div>
             {/if}
 
             {#if isSuperAdmin || culturaInnovacion.proyecto.mostrar_recomendaciones}
-                <div class="py-24">
-                    <hr class="mt-10 mb-10" />
+                <div className="py-24">
+                    <hr className="mt-10 mb-10" />
                     <h1>Redacción</h1>
                     {#each culturaInnovacion.proyecto.evaluaciones as evaluacion, i}
                         {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
-                            <div class="bg-zinc-900 p-4 rounded shadow text-white my-2">
-                                <p class="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                <p class="whitespace-pre-line">{evaluacion.cultura_innovacion_evaluacion.redaccion_comentario ? evaluacion.cultura_innovacion_evaluacion.redaccion_comentario : 'Sin recomendación'}</p>
+                            <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
+                                <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
+                                <p className="whitespace-pre-line">{evaluacion.cultura_innovacion_evaluacion.redaccion_comentario ? evaluacion.cultura_innovacion_evaluacion.redaccion_comentario : 'Sin recomendación'}</p>
                             </div>
                         {/if}
                     {/each}
                     {#if culturaInnovacion.proyecto.evaluaciones.length == 0}
-                        <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
+                        <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                     {/if}
                 </div>
             {/if}
 
             {#if isSuperAdmin || culturaInnovacion.proyecto.mostrar_recomendaciones}
-                <div class="py-24">
-                    <hr class="mt-10 mb-10" />
+                <div className="py-24">
+                    <hr className="mt-10 mb-10" />
                     <h1>Normas APA</h1>
                     {#each culturaInnovacion.proyecto.evaluaciones as evaluacion, i}
                         {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
-                            <div class="bg-zinc-900 p-4 rounded shadow text-white my-2">
-                                <p class="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                <p class="whitespace-pre-line">{evaluacion.cultura_innovacion_evaluacion.normas_apa_comentario ? evaluacion.cultura_innovacion_evaluacion.normas_apa_comentario : 'Sin recomendación'}</p>
+                            <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
+                                <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
+                                <p className="whitespace-pre-line">{evaluacion.cultura_innovacion_evaluacion.normas_apa_comentario ? evaluacion.cultura_innovacion_evaluacion.normas_apa_comentario : 'Sin recomendación'}</p>
                             </div>
                         {/if}
                     {/each}
                     {#if culturaInnovacion.proyecto.evaluaciones.length == 0}
-                        <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
+                        <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                     {/if}
                 </div>
             {/if}
@@ -248,12 +248,12 @@
             <InfoMessage>
                 Se recomienda que antes de dar clic en el botón <strong>Guardar</strong> descargue el borrador de Generalidades en archivo Word. De esta manera si ocurre un error al guardar puede recuperar la información registrada. Luego de descargar el borrador de clic en el botón <strong>Guardar</strong>. Revise que se muestra un mensaje en verde que dice '<strong>
                     El recurso se ha modificado correctamente</strong
-                >'. Si después de unos segundos no se muestra el mensaje y al recargar el aplicativo observa que la información no se ha guardado por favor envie un correo a <a href="mailto:sgpssipro@sena.edu.co" class="underline">sgpssipro@sena.edu.co</a>
+                >'. Si después de unos segundos no se muestra el mensaje y al recargar el aplicativo observa que la información no se ha guardado por favor envie un correo a <a href="mailto:sgpssipro@sena.edu.co" className="underline">sgpssipro@sena.edu.co</a>
                 desde una cuenta <strong>@sena.edu.co</strong> y describa detalladamente lo ocurrido (Importante adjuntar el borrador e indicar el código del proyecto).
             </InfoMessage>
-            <div class="shadow-inner bg-app-200 border-app-400 bottom-0 flex items-center justify-between mt-14 px-8 py-4 sticky">
-                <small class="flex items-center text-app-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <div className="flex items-center justify-between mt-14 px-8 py-4">
+                <small className="flex items-center text-app-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     {culturaInnovacion.updated_at}
@@ -261,36 +261,36 @@
                 <Button type="button" on:click={() => (dialogGuardar = true)}>Descargar Generalidades en Word</Button>
 
                 {#if culturaInnovacion.proyecto.allowed.to_update}
-                    <LoadingButton loading={$form.processing} form="cultura-innovacion-form">Guardar información</LoadingButton>
+                    <PrimaryButton loading={$form.processing} form="cultura-innovacion-form">Guardar información</PrimaryButton>
                 {:else}
-                    <span class="inline-block ml-1.5"> El proyecto no se puede modificar </span>
+                    <span className="inline-block ml-1.5"> El proyecto no se puede modificar </span>
                 {/if}
             </div>
         </div>
     </form>
 
     <Dialog bind:open={proyectoDialogOpen} id="informacion">
-        <div slot="title" class="flex items-center flex-col mt-4">
+        <div slot="title" className="flex items-center flex-col mt-4">
             <figure>
-                <img src={'/images/proyecto.png'} alt="Proyecto" class="h-32 mb-6" />
+                <img src={'/images/proyecto.png'} alt="Proyecto" className="h-32 mb-6" />
             </figure>
             Código del proyecto: {culturaInnovacion.proyecto.codigo}
         </div>
         <div slot="content">
             <div>
                 {#if JSON.parse(culturaInnovacion.proyecto.estado)?.requiereSubsanar == true && culturaInnovacion.proyecto.mostrar_recomendaciones == true && culturaInnovacion.proyecto.mostrar_requiere_subsanacion == true}
-                    <!-- <h1 class="text-center mb-4 font-black text-2xl">Este proyecto requiere ser subsanado</h1> -->
+                    <!-- <h1 className="text-center mb-4 font-black text-2xl">Este proyecto requiere ser subsanado</h1> -->
                     <p>Por favor revise las observaciones de los evaluadores en cada uno de los campos y secciones.</p>
                     <p>Importante: Se ha agregado una sección de <strong>Comentarios generales</strong>, revise si hay comentarios de los evaluadores y por favor escriba la respectiva respuesta.</p>
                 {:else if JSON.parse(culturaInnovacion.proyecto.estado)?.requiereSubsanar == false && culturaInnovacion.proyecto.mostrar_recomendaciones == true && culturaInnovacion.proyecto.mostrar_requiere_subsanacion == true}
                     <div>
-                        <!-- <h1 class="text-center mb-4 font-black text-2xl">Este proyecto no requiere subsanación</h1> -->
+                        <!-- <h1 className="text-center mb-4 font-black text-2xl">Este proyecto no requiere subsanación</h1> -->
                         <p><strong>Tenga en cuenta:</strong> El estado final de los proyectos se conocerá cuando finalice la etapa de segunda evaluación (Estado Rechazado, pre – aprobado con observaciones y Preaprobado).</p>
                     </div>
                 {:else}
-                    <h1 class="text-center mt-4 mb-4">Para terminar el numeral de <strong>Generalidades</strong> por favor continue diligenciando los siguientes campos:</h1>
-                    <p class="text-center mb-4">Si ya están completos omita esta información.</p>
-                    <ul class="list-disc">
+                    <h1 className="text-center mt-4 mb-4">Para terminar el numeral de <strong>Generalidades</strong> por favor continue diligenciando los siguientes campos:</h1>
+                    <p className="text-center mb-4">Si ya están completos omita esta información.</p>
+                    <ul className="list-disc">
                         <li>Video</li>
                         <li>Industria 4.0</li>
                         <li>Sector agrícola</li>
@@ -313,7 +313,7 @@
             </div>
         </div>
         <div slot="actions">
-            <div class="p-4">
+            <div className="p-4">
                 <Button on:click={() => (proyectoDialogOpen = false)} variant={null}>Omitir</Button>
                 {#if culturaInnovacion.proyecto.allowed.to_update}
                     <Button variant="raised" on:click={() => (proyectoDialogOpen = false)} on:click={() => Inertia.visit('#tematica_estrategica_id')}>Continuar diligenciando</Button>
@@ -324,15 +324,15 @@
 
     <Dialog bind:open={dialogGuardar}>
         <div slot="title">
-            <div class="m-auto relative text-app-600">
+            <div className="m-auto relative text-app-600">
                 <figure>
-                    <img src="/images/megaphone.png" alt="" class="m-auto w-20" />
+                    <img src="/images/megaphone.png" alt="" className="m-auto w-20" />
                 </figure>
             </div>
         </div>
         <div slot="content">
             <Export2Word id="borrador" showButton={false} bind:this={exportComponent}>
-                <h1 class="font-black text-center my-10">Información del proyecto</h1>
+                <h1 className="font-black text-center my-10">Información del proyecto</h1>
 
                 <p style="white-space: pre-line; margin-bottom: 4rem">
                     <strong>Descripción llamativa que orienta el enfoque del proyecto, indica el cómo y el para qué. (Máximo 20 palabras):</strong>
@@ -481,7 +481,7 @@
 
                 <div style="margin-bottom: 4rem">
                     Mesas sectoriales relacionadas:
-                    <ul class="list-disc p-4">
+                    <ul className="list-disc p-4">
                         {#each mesasSectoriales as { id, nombre }, i}
                             {#each $form.mesa_sectorial_id as mesaSectorialRelacionada}
                                 {#if id == mesaSectorialRelacionada}
@@ -503,7 +503,7 @@
                     {$form.tecnoacademia_id ? $form.tecnoacademia_id?.label : 'Sin información registrada'}
                     <br />
                     Líneas tecnológicas relacionadas
-                    <ul class="list-disc p-4">
+                    <ul className="list-disc p-4">
                         {#each arrayLineasTecnoacademia as { value, label }, i}
                             {#each $form.linea_tecnologica_id as lineaTecnologica}
                                 {#if value == lineaTecnologica}
@@ -607,7 +607,7 @@
             </Export2Word>
         </div>
         <div slot="actions">
-            <div class="p-4">
+            <div className="p-4">
                 <Button on:click={() => (dialogGuardar = false)} variant={null}>Cancelar</Button>
                 <Button variant="raised" type="button" on:click={() => exportComponent.export2Word(culturaInnovacion.proyecto.codigo)}>Descargar Generalidades en Word</Button>
             </div>

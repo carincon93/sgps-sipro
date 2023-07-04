@@ -15,20 +15,9 @@ export default function Dashboard({ auth, convocatorias, convocatoria_activa }) 
                 <div className="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
                     <div>
                         {convocatoria_activa ?
-                            <>
-                                <h1 className="font-bold text-5xl">
-                                    Lista de convocatorias
-                                </h1>
-
-                                {isSuperAdmin || checkRole(authUser, [11]) || checkPermission(authUser, [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18, 19, 14, 15, 16, 20, 21]) &&
-                                    // <Button on:click={() => Inertia.visit(route('convocatorias.lineas-programaticas', convocatoria_activa?.id))} variant="raised" className="mt-4 inline-block">
-                                    //     Revisar convocatoria
-                                    //     {convocatoria_activa?.year}
-                                    // </Button>
-                                    <></>
-                                }
-                            </>
-
+                            <h1 className="font-bold text-5xl">
+                                Lista de convocatorias
+                            </h1>
                         : (
                             <>
                                 <h1 className="font-bold text-5xl">Aún no hay una convocatoria activa.</h1>
@@ -48,7 +37,7 @@ export default function Dashboard({ auth, convocatorias, convocatoria_activa }) 
                     <div className="flex justify-center items-center flex-col my-20">
                         <p>A continuación, se listan todas las convocatorias, si desea crear una nueva de clic en el siguiente botón.</p>
                         <div>
-                            {/* <Button on:click={() => Inertia.visit(route('convocatorias.create'))} className="mt-8 mb-20" variant="raised">Crear convocatoria</Button> */}
+                            <Link href={route('convocatorias.create')} className="mt-8 mb-20">Crear convocatoria</Link>
                         </div>
                     </div>
                 }

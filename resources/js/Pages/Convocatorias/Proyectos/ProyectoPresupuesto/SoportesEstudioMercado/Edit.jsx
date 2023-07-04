@@ -17,7 +17,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let form = useForm({
@@ -36,30 +36,30 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
-        <div class="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
+    <header className="pt-[8rem]" slot="header">
+        <div className="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
             <div>
-                <h1 class="flex">
-                    <a use:inertia href={route('convocatorias.proyectos.presupuesto.index', [convocatoria.id, proyecto.id])} class="text-app-400 hover:text-app-600 overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap inline-block"> Presupuesto </a>
-                    <span class="text-app-400 font-medium ml-2 mr-2">/</span>
-                    <a use:inertia href={route('convocatorias.proyectos.presupuesto.edit', [convocatoria.id, proyecto.id, proyectoPresupuesto.id])} class="text-app-400 hover:text-app-600 overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap inline-block">
+                <h1 className="flex">
+                    <a use:inertia href={route('convocatorias.proyectos.presupuesto.index', [convocatoria.id, proyecto.id])} className="text-app-400 hover:text-app-600 overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap inline-block"> Presupuesto </a>
+                    <span className="text-app-400 font-medium ml-2 mr-2">/</span>
+                    <a use:inertia href={route('convocatorias.proyectos.presupuesto.edit', [convocatoria.id, proyecto.id, proyectoPresupuesto.id])} className="text-app-400 hover:text-app-600 overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap inline-block">
                         {proyectoPresupuesto.convocatoria_presupuesto.presupuesto_sennova.uso_presupuestal.descripcion}
                     </a>
-                    <span class="text-app-400 font-medium ml-2 mr-2">/</span>
-                    <a use:inertia href={route('convocatorias.proyectos.presupuesto.soportes.index', [convocatoria.id, proyecto.id, proyectoPresupuesto.id])} class="text-app-400 hover:text-app-600 overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap inline-block"> Soportes </a>
-                    <span class="text-app-400 font-medium ml-2 mr-2">/</span>
+                    <span className="text-app-400 font-medium ml-2 mr-2">/</span>
+                    <a use:inertia href={route('convocatorias.proyectos.presupuesto.soportes.index', [convocatoria.id, proyecto.id, proyectoPresupuesto.id])} className="text-app-400 hover:text-app-600 overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap inline-block"> Soportes </a>
+                    <span className="text-app-400 font-medium ml-2 mr-2">/</span>
                     {soporteEstudioMercado.empresa}
                 </h1>
             </div>
         </div>
     </header>
 
-    <div class="grid grid-cols-3 gap-4">
-        <div class="sticky top-0">
-            <h1 class="font-black text-4xl uppercase">Editar estudio de mercado</h1>
+    <div className="grid grid-cols-3 gap-4">
+        <div className="sticky top-0">
+            <h1 className="font-black text-4xl uppercase">Editar estudio de mercado</h1>
         </div>
 
-        <div class="bg-white rounded shadow col-span-2">
+        <div className="bg-white rounded shadow col-span-2">
             <Form {errors} {proyecto} {soporteEstudioMercado} {form} {submit} />
         </div>
     </div>

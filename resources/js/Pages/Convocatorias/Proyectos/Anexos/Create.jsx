@@ -3,10 +3,10 @@
     import { route, checkRole, checkPermission } from '@/Utils'
     import { _ } from 'svelte-i18n'
 
-    import LoadingButton from '@/Shared/LoadingButton'
-    import File from '@/Shared/File'
-    import Label from '@/Shared/Label'
-    import PercentageProgress from '@/Shared/PercentageProgress'
+    import PrimaryButton from '@/Components/PrimaryButton'
+    import File from '@/Components/File'
+    import Label from '@/Components/Label'
+    import PercentageProgress from '@/Components/PercentageProgress'
 
     export let errors
     export let convocatoria
@@ -17,7 +17,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let form = useForm({
@@ -43,23 +43,23 @@
     }
 </script>
 
-<form on:submit|preventDefault={submit} class="mt-4 p-4">
+<form on:submit|preventDefault={submit} className="mt-4 p-4">
     <fieldset disabled={proyecto?.allowed?.to_update && anexo.habilitado == true ? undefined : true}>
-        <div class="mt-20">
+        <div className="mt-20">
             <Label value="Archivo/anexo" />
 
             <File id="archivo" maxSize="10000" bind:value={$form.archivo} change={[() => submit()]} valueDb={archivo} error={errors.archivo} route={archivo?.includes('http') == true || archivo?.includes('http') == undefined ? null : route('convocatorias.proyectos.proyecto-anexos.download-file-sharepoint', [convocatoria.id, proyecto.id, proyectoAnexoId, 'archivo'])} />
 
             {#if fechaActualizacion}
-                <div class="mt-4">
+                <div className="mt-4">
                     <strong>Fecha de carga del archivo: </strong>{fechaActualizacion}.
                 </div>
             {/if}
         </div>
         <div>
-            <LoadingButton loading={$form.processing} class="w-full mt-4" type="submit">
+            <PrimaryButton loading={$form.processing} className="w-full mt-4" type="submit">
                 Cargar {anexo.nombre}
-            </LoadingButton>
+            </PrimaryButton>
         </div>
         {#if $form.progress}
             <PercentageProgress percentage={$form.progress.percentage} />

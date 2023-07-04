@@ -4,10 +4,10 @@
     import { route, checkRole } from '@/Utils'
     import { _ } from 'svelte-i18n'
 
-    import Label from '@/Shared/Label'
-    import Select from '@/Shared/Select'
-    import Textarea from '@/Shared/Textarea'
-    import InfoMessage from '@/Shared/InfoMessage'
+    import Label from '@/Components/Label'
+    import Select from '@/Components/Select'
+    import Textarea from '@/Components/Textarea'
+    import InfoMessage from '@/Components/InfoMessage'
 
     export let errors
     export let convocatoria
@@ -24,7 +24,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let analisisRiesgoInfo = {
@@ -39,28 +39,28 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
-        <div class="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
+    <header className="pt-[8rem]" slot="header">
+        <div className="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
             <div>
-                <h1 class="overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap">
-                    <a use:inertia href={route('convocatorias.evaluaciones.analisis-riesgos', [convocatoria.id, evaluacion.id])} class="text-app-400 hover:text-app-600">Análisis de riesgos</a>
-                    <span class="text-app-400 font-medium">/</span>
+                <h1 className="overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap">
+                    <a use:inertia href={route('convocatorias.evaluaciones.analisis-riesgos', [convocatoria.id, evaluacion.id])} className="text-app-400 hover:text-app-600">Análisis de riesgos</a>
+                    <span className="text-app-400 font-medium">/</span>
                     {analisisRiesgo.tipo}
                 </h1>
             </div>
         </div>
     </header>
 
-    <div class="bg-white rounded shadow max-w-3xl">
+    <div className="bg-white rounded shadow max-w-3xl">
         <form>
-            <fieldset class="p-8" disabled={isSuperAdmin || (checkRole(authUser, [11, 5]) && proyecto.finalizado == true) ? undefined : true}>
-                <div class="mt-4">
-                    <Label class="mb-4" labelFor="nivel" value="Nivel de riesgo" />
+            <fieldset className="p-8" disabled={isSuperAdmin || (checkRole(authUser, [11, 5]) && proyecto.finalizado == true) ? undefined : true}>
+                <div className="mt-4">
+                    <Label className="mb-4" labelFor="nivel" value="Nivel de riesgo" />
                     <Select disabled={true} id="nivel" items={nivelesRiesgo} bind:selectedValue={analisisRiesgoInfo.nivel} autocomplete="off" placeholder="Seleccione el nivel del riesgo" />
                 </div>
 
-                <div class="mt-8">
-                    <Label class="mb-4" labelFor="tipo" value="Tipo de riesgo" />
+                <div className="mt-8">
+                    <Label className="mb-4" labelFor="tipo" value="Tipo de riesgo" />
                     <Select disabled={true} id="tipo" items={tiposRiesgo} bind:selectedValue={analisisRiesgoInfo.tipo} autocomplete="off" placeholder="Seleccione el tipo de riesgo" />
                     {#if analisisRiesgoInfo.tipo?.value == 1}
                         <InfoMessage message="Es la probabilidad de variaciones en las condiciones del mercado como el precio, la calidad y la disponibilidad de los materiales e insumos, la competencia (oferta/demanda) del producto/servicios ofrecidos, la tasa de cambiaria y los asociados a la tecnología utilizada (obsolescencia)." />
@@ -77,25 +77,25 @@
                     {/if}
                 </div>
 
-                <div class="mt-8">
+                <div className="mt-8">
                     <Textarea disabled label="Descripción" maxlength="800" id="descripcion" value={analisisRiesgoInfo.descripcion} />
                 </div>
 
-                <div class="mt-8">
-                    <Label class="mb-4" labelFor="probabilidad" value="Probabilidad" />
+                <div className="mt-8">
+                    <Label className="mb-4" labelFor="probabilidad" value="Probabilidad" />
                     <Select disabled={true} id="probabilidad" items={probabilidadesRiesgo} bind:selectedValue={analisisRiesgoInfo.probabilidad} error={errors.probabilidad} autocomplete="off" placeholder="Seleccione la probabilidad" />
                 </div>
 
-                <div class="mt-8">
-                    <Label class="mb-4" labelFor="impacto" value="Impacto" />
+                <div className="mt-8">
+                    <Label className="mb-4" labelFor="impacto" value="Impacto" />
                     <Select disabled={true} id="impacto" items={impactosRiesgo} bind:selectedValue={analisisRiesgoInfo.impacto} autocomplete="off" placeholder="Seleccione la probabilidad" />
                 </div>
 
-                <div class="mt-8">
+                <div className="mt-8">
                     <Textarea disabled label="Efectos" maxlength="800" id="efectos" value={analisisRiesgoInfo.efectos} />
                 </div>
 
-                <div class="mt-8">
+                <div className="mt-8">
                     <Textarea disabled label="Medidas de mitigación" maxlength="800" id="medidas_mitigacion" value={analisisRiesgoInfo.medidas_mitigacion} />
                 </div>
             </fieldset>

@@ -4,7 +4,7 @@
     import { route, checkRole, checkPermission } from '@/Utils'
     import { _ } from 'svelte-i18n'
 
-    import LoadingButton from '@/Shared/LoadingButton'
+    import PrimaryButton from '@/Components/PrimaryButton'
     import Form from './Form'
 
     export let errors
@@ -28,7 +28,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let formPlanteamientoProblema = useForm({
@@ -96,14 +96,14 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
-        <div class="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
+    <header className="pt-[8rem]" slot="header">
+        <div className="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
             <div>
                 <h1>
                     {#if allowedToCreate}
-                        <a use:inertia href={route('proyectos-capacidad-instalada.index')} class="text-app-400 hover:text-app-600"> Proyectos de capacidad instalada </a>
+                        <a use:inertia href={route('proyectos-capacidad-instalada.index')} className="text-app-400 hover:text-app-600"> Proyectos de capacidad instalada </a>
                     {/if}
-                    <span class="text-app-400 font-medium">/</span>
+                    <span className="text-app-400 font-medium">/</span>
                     Crear
                 </h1>
             </div>
@@ -137,11 +137,11 @@
         {roles}
         {allowedToCreate}
     >
-        <div class="shadow-inner bg-app-200 border-app-400 bottom-0 flex items-center justify-between mt-14 px-8 py-4 sticky" slot="buttons">
+        <div className="flex items-center justify-between mt-14 px-8 py-4" slot="buttons">
             {#if allowedToCreate}
-                <LoadingButton loading={$form.processing} class="ml-auto" type="submit">Guardar y continuar</LoadingButton>
+                <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar y continuar</PrimaryButton>
             {:else}
-                <span class="inline-block"> No tiene permisos para crear un proyecto. </span>
+                <span className="inline-block"> No tiene permisos para crear un proyecto. </span>
             {/if}
         </div>
     </Form>

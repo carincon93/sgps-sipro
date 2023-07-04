@@ -4,15 +4,15 @@
     import { route, checkRole, checkPermission, checkPermissionByUser } from '@/Utils'
     import { _ } from 'svelte-i18n'
 
-    import Stepper from '@/Shared/Stepper'
-    import Dialog from '@/Shared/Dialog'
-    import Button from '@/Shared/Button'
-    import InfoMessage from '@/Shared/InfoMessage'
-    import Label from '@/Shared/Label'
-    import Password from '@/Shared/Password'
-    import Textarea from '@/Shared/Textarea'
-    import LoadingButton from '@/Shared/LoadingButton'
-    import Switch from '@/Shared/Switch'
+    import Stepper from '@/Components/Stepper'
+    import Dialog from '@/Components/Dialog'
+    import Button from '@/Components/Button'
+    import InfoMessage from '@/Components/InfoMessage'
+    import Label from '@/Components/Label'
+    import Password from '@/Components/Password'
+    import Textarea from '@/Components/Textarea'
+    import PrimaryButton from '@/Components/PrimaryButton'
+    import Switch from '@/Components/Switch'
 
     export let errors
     export let convocatoria
@@ -52,7 +52,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let proyectoCompleto = false
@@ -119,13 +119,13 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
+    <header className="pt-[8rem]" slot="header">
         <Stepper {convocatoria} {proyecto} />
     </header>
 
-    <div class="mt-20">
+    <div className="mt-20">
         {#if proyecto.codigo_linea_programatica == 68}
-            <InfoMessage class="mb-2">
+            <InfoMessage className="mb-2">
                 <h1><strong>Información importante</strong></h1>
                 <p>De acuerdo con el presupuesto solicitado el proyecto se compromete a cumplir adicionalmente las siguientes metas, las cuales están alineadas al cumplimento del Plan Nacional de Desarrollo y de los CONPES:</p>
                 <ul>
@@ -140,35 +140,35 @@
         {/if}
 
         {#if convocatoria.tipo_convocatoria == 1 || convocatoria.tipo_convocatoria == 3}
-            <InfoMessage class="mb-2">
-                <h1 class="text-3xl"><strong>¡Tenga en cuenta!</strong></h1>
+            <InfoMessage className="mb-2">
+                <h1 className="text-3xl"><strong>¡Tenga en cuenta!</strong></h1>
                 <p>
                     Esta es una opción para notificar al Dinamizador que ha finalizado de diligenciar/subsanar el proyecto y de esta manera haga una revisión con el objetivo de confirmar o hacer un comentario de ajuste. Si el Dinamizador por alguna razón NO confirma el proyecto
                     <strong>la plataforma lo hará automáticamente al finalizar cada fase ya sea de formulación o de subsanación.</strong>
                 </p>
             </InfoMessage>
         {/if}
-        <hr class="mt-10 mb-10" />
+        <hr className="mt-10 mb-10" />
         {#if (isSuperAdmin && proyecto.finalizado == true && proyecto.habilitado_para_evaluar == false) || (checkRole(authUser, [4, 21]) && proyecto.finalizado == true && proyecto.habilitado_para_evaluar == false)}
             <InfoMessage>
                 <p>¿El proyecto está completo?</p>
                 <Switch bind:checked={proyectoCompleto} />
                 {#if proyectoCompleto}
                     <br />
-                    <Button on:click={() => (enviarProyectoDialogOpen = true)} variant="raised" class="mt-10">Confirmar proyecto</Button>
+                    <Button on:click={() => (enviarProyectoDialogOpen = true)} variant="raised" className="mt-10">Confirmar proyecto</Button>
                     <br />
-                    <small class="mb-2 mt-8">Si desea confirmar el proyecto de clic en <strong>Confirmar proyecto</strong> y a continuación, escriba la contraseña de su usuario.</small>
+                    <small className="mb-2 mt-8">Si desea confirmar el proyecto de clic en <strong>Confirmar proyecto</strong> y a continuación, escriba la contraseña de su usuario.</small>
                 {:else if proyectoCompleto == false}
                     <form on:submit|preventDefault={submitComentario}>
                         <fieldset disabled={isSuperAdmin || (checkRole(authUser, [4, 21]) && proyecto.finalizado == true) ? undefined : true}>
-                            <div class="mt-8">
-                                <p class="mb-2">Si considera que el proyecto está incompleto por favor haga un comentario al proponente detallando que información o ítems debe completar.</p>
+                            <div className="mt-8">
+                                <p className="mb-2">Si considera que el proyecto está incompleto por favor haga un comentario al proponente detallando que información o ítems debe completar.</p>
                                 <Textarea label="Comentario" maxlength="40000" id="comentario" error={errors.comentario} bind:value={$comentarioForm.comentario} required />
                             </div>
                         </fieldset>
-                        <div class="mt-10 flex items-center">
+                        <div className="mt-10 flex items-center">
                             {#if isSuperAdmin || (checkRole(authUser, [4, 21]) && proyecto.finalizado == true)}
-                                <LoadingButton loading={$comentarioForm.processing} class="ml-auto" type="submit">Enviar comentario</LoadingButton>
+                                <PrimaryButton loading={$comentarioForm.processing} className="ml-auto" type="submit">Enviar comentario</PrimaryButton>
                             {/if}
                         </div>
                     </form>
@@ -177,15 +177,15 @@
         {:else if proyecto.allowed.to_update}
             {#if proyecto.finalizado == false && proyecto.modificable == true && generalidades && problemaCentral && efectosDirectos && efectosIndirectos && causasDirectas && causasIndirectas && objetivoGeneral && resultados && objetivosEspecificos && actividades && impactos && metodologia && propuestaSostenibilidad && productosActividades && resultadoProducto && analisisRiesgo && anexos && soportesEstudioMercado && estudiosMercadoArchivo}
                 {#if convocatoria.tipo_convocatoria == 1 || convocatoria.tipo_convocatoria == 3}
-                    <InfoMessage class="mb-2" message="Si desea finalizar el proyecto de clic en <strong>Finalizar proyecto</strong> y a continuación, escriba la contraseña de su usuario. Se le notificará al dinamizador SENNOVA de su centro de formación para que haga la respectiva revisión y radicación del proyecto." />
+                    <InfoMessage className="mb-2" message="Si desea finalizar el proyecto de clic en <strong>Finalizar proyecto</strong> y a continuación, escriba la contraseña de su usuario. Se le notificará al dinamizador SENNOVA de su centro de formación para que haga la respectiva revisión y radicación del proyecto." />
                     <Button on:click={() => (dialogFinalizarProyecto = true)} variant="raised">Finalizar proyecto</Button>
                 {:else}
-                    <InfoMessage class="mb-2" message="El proyecto está completo." />
+                    <InfoMessage className="mb-2" message="El proyecto está completo." />
                 {/if}
             {:else if proyecto.finalizado == false}
-                <InfoMessage class="mb-2" alertMsg={true}>
+                <InfoMessage className="mb-2" alertMsg={true}>
                     <p><strong>La información del proyecto está incompleta. Para poder finalizar el proyecto debe completar los siguientes ítems:</strong></p>
-                    <ul class="list-disc p-4">
+                    <ul className="list-disc p-4">
                         {#if !generalidades}
                             <li>Generalidades</li>
                         {/if}
@@ -264,13 +264,13 @@
             {/if}
         {/if}
     </div>
-    <hr class="mt-10 mb-10" />
+    <hr className="mt-10 mb-10" />
     {#if proyecto.finalizado == true && proyecto.habilitado_para_evaluar == false && !checkRole(authUser, [1, 4])}
-        <InfoMessage class="mb-2" message="El proyecto se ha finalizado con éxito. Espere la respuesta del dinamizador SENNOVA." />
+        <InfoMessage className="mb-2" message="El proyecto se ha finalizado con éxito. Espere la respuesta del dinamizador SENNOVA." />
     {:else if proyecto.habilitado_para_evaluar == true}
-        <InfoMessage class="mb-2" message="El dinamizador SENNOVA ha confirmado el proyecto." />
+        <InfoMessage className="mb-2" message="El dinamizador SENNOVA ha confirmado el proyecto." />
     {/if}
-    <hr class="mt-10 mb-10" />
+    <hr className="mt-10 mb-10" />
     <div>
         <InfoMessage>
             <h1><strong>Historial de acciones</strong></h1>
@@ -285,7 +285,7 @@
             {/if}
         </InfoMessage>
     </div>
-    <hr class="mt-10 mb-10" />
+    <hr className="mt-10 mb-10" />
     <div>
         <InfoMessage>
             <h1><strong>Versiones del proyecto</strong></h1>
@@ -310,22 +310,22 @@
     </div>
 
     <Dialog bind:open={dialogFinalizarProyecto}>
-        <div slot="title" class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div slot="title" className="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
             Finalizar proyecto
         </div>
         <div slot="content">
-            <InfoMessage class="mb-2" message="¿Está seguro (a) que desea finalizar el proyecto?<br />Una vez finalizado el proyecto no se podrá modificar." />
+            <InfoMessage className="mb-2" message="¿Está seguro (a) que desea finalizar el proyecto?<br />Una vez finalizado el proyecto no se podrá modificar." />
 
-            <form on:submit|preventDefault={finalizarProyecto} id="finalizar-proyecto" class="mt-10 mb-28" on:load={($form.password = '')}>
-                <Label labelFor="password" value="Ingrese su contraseña para confirmar que desea finalizar este proyecto" class="mb-4" />
-                <Password id="password" class="w-full" bind:value={$form.password} error={errors.password} required autocomplete="current-password" />
+            <form on:submit|preventDefault={finalizarProyecto} id="finalizar-proyecto" className="mt-10 mb-28" on:load={($form.password = '')}>
+                <Label labelFor="password" value="Ingrese su contraseña para confirmar que desea finalizar este proyecto" className="mb-4" />
+                <Password id="password" className="w-full" bind:value={$form.password} error={errors.password} required autocomplete="current-password" />
             </form>
         </div>
         <div slot="actions">
-            <div class="p-4">
+            <div className="p-4">
                 <Button on:click={() => (dialogFinalizarProyecto = false)} variant={null}>Cancelar</Button>
                 <Button variant="raised" form="finalizar-proyecto">Finalizar proyecto</Button>
             </div>
@@ -333,22 +333,22 @@
     </Dialog>
 
     <Dialog bind:open={enviarProyectoDialogOpen}>
-        <div slot="title" class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div slot="title" className="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
             Confirmar proyecto
         </div>
         <div slot="content">
-            <InfoMessage class="mb-2" message="¿Está seguro (a) que desea confirmar el proyecto del proyecto?<br />Una vez confirmado el proyecto no se podrá modificar." />
+            <InfoMessage className="mb-2" message="¿Está seguro (a) que desea confirmar el proyecto del proyecto?<br />Una vez confirmado el proyecto no se podrá modificar." />
 
-            <form on:submit|preventDefault={enviarProyecto} id="confirmar-proyecto" class="mt-10 mb-28" on:load={($form.password = '')}>
-                <Label labelFor="password" value="Ingrese su contraseña para confirmar el proyecto" class="mb-4" />
-                <Password id="password" class="w-full" bind:value={$form.password} error={errors.password} required autocomplete="current-password" />
+            <form on:submit|preventDefault={enviarProyecto} id="confirmar-proyecto" className="mt-10 mb-28" on:load={($form.password = '')}>
+                <Label labelFor="password" value="Ingrese su contraseña para confirmar el proyecto" className="mb-4" />
+                <Password id="password" className="w-full" bind:value={$form.password} error={errors.password} required autocomplete="current-password" />
             </form>
         </div>
         <div slot="actions">
-            <div class="p-4">
+            <div className="p-4">
                 <Button on:click={() => (enviarProyectoDialogOpen = false)} variant={null}>Cancelar</Button>
                 <Button variant="raised" form="confirmar-proyecto">Confirmar proyecto</Button>
             </div>

@@ -5,13 +5,13 @@
     import { _ } from 'svelte-i18n'
     import axios from 'axios'
 
-    import Button from '@/Shared/Button'
-    import LoadingButton from '@/Shared/LoadingButton'
-    import EvaluationStepper from '@/Shared/EvaluationStepper'
-    import Textarea from '@/Shared/Textarea'
-    import InfoMessage from '@/Shared/InfoMessage'
-    import Dialog from '@/Shared/Dialog'
-    import Switch from '@/Shared/Switch'
+    import Button from '@/Components/Button'
+    import PrimaryButton from '@/Components/PrimaryButton'
+    import EvaluationStepper from '@/Components/EvaluationStepper'
+    import Textarea from '@/Components/Textarea'
+    import InfoMessage from '@/Components/InfoMessage'
+    import Dialog from '@/Components/Dialog'
+    import Switch from '@/Components/Switch'
 
     import TaForm from '../../Proyectos/Ta/TaForm.svelte'
 
@@ -50,7 +50,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let taInfo = useForm({
@@ -186,7 +186,7 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
+    <header className="pt-[8rem]" slot="header">
         <EvaluationStepper {convocatoria} evaluacion={taEvaluacion.evaluacion} proyecto={ta.proyecto} />
     </header>
 
@@ -194,11 +194,11 @@
         <TaForm {errors} evaluacion={taEvaluacion.evaluacion} form={taInfo} {isSuperAdmin} {convocatoria} {ta} {lineasTecnoacademia} {lineasProgramaticas}>
             <div slot="fechas">
                 <InfoMessage>
-                    <div class="mt-4">
+                    <div className="mt-4">
                         {#if checkRole(authUser, [5]) && taEvaluacion.evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
-                                <div class="mb-8">
-                                    <h4>Evaluador(a): <span class="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
+                                <div className="mb-8">
+                                    <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
                                     {evaluacion.fecha_ejecucion_comentario ? evaluacion.fecha_ejecucion_comentario : 'Estado: El evaluador(a) da cumplimiento al ítem'}
                                     <br />
                                 </div>
@@ -210,7 +210,7 @@
                             <Textarea
                                 disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
-                                class="mt-4"
+                                className="mt-4"
                                 maxlength="40000"
                                 id="fecha_ejecucion_comentario"
                                 bind:value={$form.fecha_ejecucion_comentario}
@@ -224,11 +224,11 @@
 
             <div slot="resumen-regional">
                 <InfoMessage>
-                    <div class="mt-4">
+                    <div className="mt-4">
                         {#if checkRole(authUser, [5]) && taEvaluacion.evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
-                                <div class="mb-8">
-                                    <h4>Evaluador(a): <span class="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
+                                <div className="mb-8">
+                                    <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
                                     {evaluacion.resumen_regional_comentario ? evaluacion.resumen_regional_comentario : 'Estado: El evaluador(a) da cumplimiento al ítem'}
                                     <hr />
                                 </div>
@@ -240,7 +240,7 @@
                             <Textarea
                                 disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
-                                class="mt-4"
+                                className="mt-4"
                                 maxlength="40000"
                                 id="resumen_regional_comentario"
                                 bind:value={$form.resumen_regional_comentario}
@@ -254,11 +254,11 @@
 
             <div slot="antecedentes">
                 <InfoMessage>
-                    <div class="mt-4">
+                    <div className="mt-4">
                         {#if checkRole(authUser, [5]) && taEvaluacion.evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
-                                <div class="mb-8">
-                                    <h4>Evaluador(a): <span class="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
+                                <div className="mb-8">
+                                    <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
                                     {evaluacion.antecedentes_tecnoacademia_comentario ? evaluacion.antecedentes_tecnoacademia_comentario : 'Estado: El evaluador(a) da cumplimiento al ítem'}
                                     <hr />
                                 </div>
@@ -270,7 +270,7 @@
                             <Textarea
                                 disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
-                                class="mt-4"
+                                className="mt-4"
                                 maxlength="40000"
                                 id="antecedentes_tecnoacademia_comentario"
                                 bind:value={$form.antecedentes_tecnoacademia_comentario}
@@ -284,11 +284,11 @@
 
             <div slot="retos-oportunidades">
                 <InfoMessage>
-                    <div class="mt-4">
+                    <div className="mt-4">
                         {#if checkRole(authUser, [5]) && taEvaluacion.evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
-                                <div class="mb-8">
-                                    <h4>Evaluador(a): <span class="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
+                                <div className="mb-8">
+                                    <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
                                     {evaluacion.retos_oportunidades_comentario ? evaluacion.retos_oportunidades_comentario : 'Estado: El evaluador(a) da cumplimiento al ítem'}
                                     <hr />
                                 </div>
@@ -300,7 +300,7 @@
                             <Textarea
                                 disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
-                                class="mt-4"
+                                className="mt-4"
                                 maxlength="40000"
                                 id="retos_oportunidades_comentario"
                                 bind:value={$form.retos_oportunidades_comentario}
@@ -314,11 +314,11 @@
 
             <div slot="lineas-tecnologicas">
                 <InfoMessage>
-                    <div class="mt-4">
+                    <div className="mt-4">
                         {#if checkRole(authUser, [5]) && taEvaluacion.evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
-                                <div class="mb-8">
-                                    <h4>Evaluador(a): <span class="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
+                                <div className="mb-8">
+                                    <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
                                     {evaluacion.lineas_tecnologicas_centro_comentario ? evaluacion.lineas_tecnologicas_centro_comentario : 'Estado: El evaluador(a) da cumplimiento al ítem'}
                                     <hr />
                                 </div>
@@ -330,7 +330,7 @@
                             <Textarea
                                 disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
-                                class="mt-4"
+                                className="mt-4"
                                 maxlength="40000"
                                 id="lineas_tecnologicas_centro_comentario"
                                 bind:value={$form.lineas_tecnologicas_centro_comentario}
@@ -344,11 +344,11 @@
 
             <div slot="bibliografia">
                 <InfoMessage>
-                    <div class="mt-4">
+                    <div className="mt-4">
                         {#if checkRole(authUser, [5]) && taEvaluacion.evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
-                                <div class="mb-8">
-                                    <h4>Evaluador(a): <span class="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
+                                <div className="mb-8">
+                                    <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
                                     {evaluacion.bibliografia_comentario ? evaluacion.bibliografia_comentario : 'Estado: El evaluador(a) da cumplimiento al ítem'}
                                     <hr />
                                 </div>
@@ -360,7 +360,7 @@
                             <Textarea
                                 disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
-                                class="mt-4"
+                                className="mt-4"
                                 maxlength="40000"
                                 id="bibliografia_comentario"
                                 bind:value={$form.bibliografia_comentario}
@@ -373,15 +373,15 @@
             </div>
 
             <div slot="items-finales">
-                <hr class="mt-10 mb-10" />
+                <hr className="mt-10 mb-10" />
 
                 <h1>Ortografía</h1>
                 <InfoMessage>
-                    <div class="mt-4">
+                    <div className="mt-4">
                         {#if checkRole(authUser, [5]) && taEvaluacion.evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
-                                <div class="mb-8">
-                                    <h4>Evaluador(a): <span class="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
+                                <div className="mb-8">
+                                    <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
                                     {evaluacion.ortografia_comentario ? evaluacion.ortografia_comentario : 'Estado: El evaluador(a) da cumplimiento al ítem'}
                                     <br />
                                 </div>
@@ -390,19 +390,19 @@
                         <p>¿La ortografía es correcta? Por favor seleccione si Cumple o No cumple.</p>
                         <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.ortografia_requiere_comentario} />
                         {#if $form.ortografia_requiere_comentario == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} label="Comentario" class="mt-4" maxlength="40000" id="ortografia_comentario" bind:value={$form.ortografia_comentario} error={errors.ortografia_comentario} required />
+                            <Textarea disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="ortografia_comentario" bind:value={$form.ortografia_comentario} error={errors.ortografia_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
 
-                <hr class="mt-10 mb-10" />
+                <hr className="mt-10 mb-10" />
                 <h1>Redacción</h1>
                 <InfoMessage>
-                    <div class="mt-4">
+                    <div className="mt-4">
                         {#if checkRole(authUser, [5]) && taEvaluacion.evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
-                                <div class="mb-8">
-                                    <h4>Evaluador(a): <span class="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
+                                <div className="mb-8">
+                                    <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
                                     {evaluacion.redaccion_comentario ? evaluacion.redaccion_comentario : 'Estado: El evaluador(a) da cumplimiento al ítem'}
                                     <br />
                                 </div>
@@ -411,19 +411,19 @@
                         <p>¿La redacción es correcta? Por favor seleccione si Cumple o No cumple.</p>
                         <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.redaccion_requiere_comentario} />
                         {#if $form.redaccion_requiere_comentario == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} label="Comentario" class="mt-4" maxlength="40000" id="redaccioncomentario" bind:value={$form.redaccion_comentario} error={errors.redaccion_comentario} />
+                            <Textarea disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="redaccioncomentario" bind:value={$form.redaccion_comentario} error={errors.redaccion_comentario} />
                         {/if}
                     </div>
                 </InfoMessage>
 
-                <hr class="mt-10 mb-10" />
+                <hr className="mt-10 mb-10" />
                 <h1>Normas APA</h1>
                 <InfoMessage>
-                    <div class="mt-4">
+                    <div className="mt-4">
                         {#if checkRole(authUser, [5]) && taEvaluacion.evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
-                                <div class="mb-8">
-                                    <h4>Evaluador(a): <span class="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
+                                <div className="mb-8">
+                                    <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
                                     {evaluacion.normas_apa_comentario ? evaluacion.normas_apa_comentario : 'Estado: El evaluador(a) da cumplimiento al ítem'}
                                     <br />
                                 </div>
@@ -432,78 +432,78 @@
                         <p>¿Las normas APA son correctas? Por favor seleccione si Cumple o No cumple.</p>
                         <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.normas_apa_requiere_comentario} />
                         {#if $form.normas_apa_requiere_comentario == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} label="Comentario" class="mt-4" maxlength="40000" id="normas_apa_comentario" bind:value={$form.normas_apa_comentario} error={errors.normas_apa_comentario} required />
+                            <Textarea disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="normas_apa_comentario" bind:value={$form.normas_apa_comentario} error={errors.normas_apa_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
             </div>
         </TaForm>
 
-        <div class="shadow-inner bg-app-200 border-app-400 bottom-0 flex items-center justify-between mt-14 px-8 py-4 sticky">
+        <div className="flex items-center justify-between mt-14 px-8 py-4">
             {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && taEvaluacion.evaluacion.finalizado == false && taEvaluacion.evaluacion.habilitado == true && taEvaluacion.evaluacion.modificable == true)}
                 {#if $form.clausula_confidencialidad}
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-500 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <span class="text-green-500">Ha aceptado la cláusula de confidencialidad</span>
+                    <span className="text-green-500">Ha aceptado la cláusula de confidencialidad</span>
                 {:else}
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-500 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <span class="text-red-500">No ha aceptado la cláusula de confidencialidad</span>
+                    <span className="text-red-500">No ha aceptado la cláusula de confidencialidad</span>
                 {/if}
 
-                <LoadingButton loading={$form.processing} class="ml-auto" type="submit">Guardar</LoadingButton>
+                <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
             {/if}
         </div>
     </form>
 
     <Dialog bind:open={proyectoDialogOpen} id="informacion">
-        <div slot="title" class="flex items-center flex-col mt-4">
+        <div slot="title" className="flex items-center flex-col mt-4">
             <figure>
-                <img src={'/images/feedback.png'} alt="Evaluación" class="h-32 mb-6" />
+                <img src={'/images/feedback.png'} alt="Evaluación" className="h-32 mb-6" />
             </figure>
             Código del proyecto: {ta.proyecto.codigo}
         </div>
         <div slot="content">
             <div>
-                <h1 class="text-center mt-4 mb-4">Cláusula de confidencialidad</h1>
-                <p class="mb-4">
+                <h1 className="text-center mt-4 mb-4">Cláusula de confidencialidad</h1>
+                <p className="mb-4">
                     Al hacer clic en el botón Aceptar, dejo constancia del tratamiento confidencial que daré a la información relacionada con el proceso de evaluación que incluye, sin limitarse a esta, la información sobre proyectos, centros de formación, formuladores, autores y coautores de proyectos, resultados del proceso de evaluación en sus dos etapas. Por tanto, declaro que me abstendré de
                     usar o divulgar para cualquier fin y por cualquier medio la información enunciada.
                 </p>
             </div>
         </div>
         <div slot="actions">
-            <div class="p-4">
+            <div className="p-4">
                 <Button on:click={() => (($form.clausula_confidencialidad = true), (proyectoDialogOpen = false))} variant={null}>Aceptar</Button>
             </div>
         </div>
     </Dialog>
 
     <Dialog bind:open={dialogSegundaEvaluacion} id="informacion">
-        <div slot="title" class="flex items-center flex-col mt-4">
+        <div slot="title" className="flex items-center flex-col mt-4">
             <figure>
-                <img src={'/images/feedback.png'} alt="Evaluación" class="h-32 mb-6" />
+                <img src={'/images/feedback.png'} alt="Evaluación" className="h-32 mb-6" />
             </figure>
             Código del proyecto: {ta.proyecto.codigo}
         </div>
         <div slot="content">
             <div>
-                <h1 class="text-center mt-4 mb-4">Importante</h1>
+                <h1 className="text-center mt-4 mb-4">Importante</h1>
 
                 <p>Antes de iniciar a la segunda evaluación por favor diríjase a la sección <strong>Comentarios generales</strong> y verifique si el proponente hizo alguna aclaración sobre algún ítem.</p>
 
                 {#if ta.proyecto.pdf_versiones}
-                    <hr class="m-10 block" />
-                    <h1 class="text-center mt-4 mb-4">Version del proyecto (.pdf)</h1>
-                    <p class="mt-4">También revise la versión del proyecto en .pdf para ir verificando los cambios realizados en los diferentes campos.</p>
+                    <hr className="m-10 block" />
+                    <h1 className="text-center mt-4 mb-4">Version del proyecto (.pdf)</h1>
+                    <p className="mt-4">También revise la versión del proyecto en .pdf para ir verificando los cambios realizados en los diferentes campos.</p>
                     <ul>
                         {#each ta.proyecto.pdf_versiones as version}
                             <li>
                                 {#if version.estado == 1}
-                                    <a class="text-white underline" href={route('convocatorias.proyectos.version', [convocatoria.id, ta.id, version.version])}> {version.version}.pdf - Descargar</a>
-                                    <small class="block">{version.created_at}</small>
+                                    <a className="text-white underline" href={route('convocatorias.proyectos.version', [convocatoria.id, ta.id, version.version])}> {version.version}.pdf - Descargar</a>
+                                    <small className="block">{version.created_at}</small>
                                 {/if}
                             </li>
                         {/each}
@@ -512,7 +512,7 @@
             </div>
         </div>
         <div slot="actions">
-            <div class="p-4">
+            <div className="p-4">
                 <Button on:click={() => (dialogSegundaEvaluacion = false)} variant={null}>Aceptar</Button>
             </div>
         </div>

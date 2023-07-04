@@ -6,12 +6,12 @@
     import { checkRole, checkPermission } from '@/Utils'
     import ScrollBooster from 'scrollbooster'
 
-    import Stepper from '@/Shared/Stepper'
-    import InfoMessage from '@/Shared/InfoMessage'
-    import Label from '@/Shared/Label'
-    import Textarea from '@/Shared/Textarea'
-    import LoadingButton from '@/Shared/LoadingButton'
-    import RecomendacionEvaluador from '@/Shared/RecomendacionEvaluador'
+    import Stepper from '@/Components/Stepper'
+    import InfoMessage from '@/Components/InfoMessage'
+    import Label from '@/Components/Label'
+    import Textarea from '@/Components/Textarea'
+    import PrimaryButton from '@/Components/PrimaryButton'
+    import RecomendacionEvaluador from '@/Components/RecomendacionEvaluador'
 
     export let errors
     export let convocatoria
@@ -26,7 +26,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let form = useForm({
@@ -78,7 +78,7 @@
                     [
                         {
                             v: 'act' + producto.v + actividad.id,
-                            f: '<strong>Actividad</strong><div>' + actividad.descripcion + '</div><div><strong>Roles:</strong><ul class="list-inside">' + actividad.proyecto_roles_sennova.map((proyectoRol) => '<li>' + proyectoRol.convocatoria_rol_sennova.rol_sennova.nombre + '</li>') + '</ul></div>',
+                            f: '<strong>Actividad</strong><div>' + actividad.descripcion + '</div><div><strong>Roles:</strong><ul className="list-inside">' + actividad.proyecto_roles_sennova.map((proyectoRol) => '<li>' + proyectoRol.convocatoria_rol_sennova.rol_sennova.nombre + '</li>') + '</ul></div>',
                         },
                         producto.v,
                         actividad.descripcion,
@@ -106,43 +106,43 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
+    <header className="pt-[8rem]" slot="header">
         {#if !to_pdf}
             <Stepper {convocatoria} {proyecto} />
         {/if}
     </header>
     {#if !to_pdf}
-        <h1 class="text-3xl mt-24 text-center">Propuesta de sostenibilidad</h1>
+        <h1 className="text-3xl mt-24 text-center">Propuesta de sostenibilidad</h1>
 
         {#if isSuperAdmin || proyecto.mostrar_recomendaciones}
-            <div class="my-14">
-                <RecomendacionEvaluador class="mt-8">
+            <div className="my-14">
+                <RecomendacionEvaluador className="mt-8">
                     {#each proyecto.evaluaciones as evaluacion, i}
                         {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
-                            <div class="bg-zinc-900 p-4 rounded shadow text-white my-2">
-                                <p class="text-xs">Evaluador COD-{evaluacion.id}:</p>
+                            <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
+                                <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
                                 {#if evaluacion.idi_evaluacion}
-                                    <p class="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion?.cadena_valor_comentario ? evaluacion.idi_evaluacion.cadena_valor_comentario : 'Sin recomendación'}</p>
+                                    <p className="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion?.cadena_valor_comentario ? evaluacion.idi_evaluacion.cadena_valor_comentario : 'Sin recomendación'}</p>
                                 {:else if evaluacion.cultura_innovacion_evaluacion}
-                                    <p class="whitespace-pre-line text-xs">{evaluacion.cultura_innovacion_evaluacion?.cadena_valor_comentario ? evaluacion.cultura_innovacion_evaluacion.cadena_valor_comentario : 'Sin recomendación'}</p>
+                                    <p className="whitespace-pre-line text-xs">{evaluacion.cultura_innovacion_evaluacion?.cadena_valor_comentario ? evaluacion.cultura_innovacion_evaluacion.cadena_valor_comentario : 'Sin recomendación'}</p>
                                 {:else if evaluacion.ta_evaluacion}
-                                    <p class="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion?.cadena_valor_comentario ? evaluacion.ta_evaluacion.cadena_valor_comentario : 'Sin recomendación'}</p>
+                                    <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion?.cadena_valor_comentario ? evaluacion.ta_evaluacion.cadena_valor_comentario : 'Sin recomendación'}</p>
                                 {:else if evaluacion.tp_evaluacion}
-                                    <p class="whitespace-pre-line text-xs">{evaluacion.tp_evaluacion?.cadena_valor_comentario ? evaluacion.tp_evaluacion.cadena_valor_comentario : 'Sin recomendación'}</p>
+                                    <p className="whitespace-pre-line text-xs">{evaluacion.tp_evaluacion?.cadena_valor_comentario ? evaluacion.tp_evaluacion.cadena_valor_comentario : 'Sin recomendación'}</p>
                                 {:else if evaluacion.servicio_tecnologico_evaluacion}
-                                    <hr class="mt-10 mb-10 border-black-200" />
-                                    <h1 class="font-black">Propuesta de sostenibilidad</h1>
+                                    <hr className="mt-10 mb-10 border-black-200" />
+                                    <h1 className="font-black">Propuesta de sostenibilidad</h1>
 
-                                    <p class="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.propuesta_sostenibilidad_comentario ? 'Recomendación: ' + evaluacion.servicio_tecnologico_evaluacion.propuesta_sostenibilidad_comentario : 'Sin recomendación'}</p>
+                                    <p className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.propuesta_sostenibilidad_comentario ? 'Recomendación: ' + evaluacion.servicio_tecnologico_evaluacion.propuesta_sostenibilidad_comentario : 'Sin recomendación'}</p>
 
-                                    <hr class="mt-10 mb-10 border-black-200" />
-                                    <h1 class="font-black">Impactos</h1>
+                                    <hr className="mt-10 mb-10 border-black-200" />
+                                    <h1 className="font-black">Impactos</h1>
 
-                                    <ul class="list-disc pl-4">
-                                        <li class="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.impacto_ambiental_comentario ? 'Recomendación impacto ambiental: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_ambiental_comentario : 'Sin recomendación'}</li>
-                                        <li class="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.impacto_social_centro_comentario ? 'Recomendación impacto social en el centro de formación: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_social_centro_comentario : 'Sin recomendación'}</li>
-                                        <li class="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.impacto_social_productivo_comentario ? 'Recomendación impacto social en el sector productivo: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_social_productivo_comentario : 'Sin recomendación'}</li>
-                                        <li class="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.impacto_tecnologico_comentario ? 'Recomendación impacto tecnológico: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_tecnologico_comentario : 'Sin recomendación'}</li>
+                                    <ul className="list-disc pl-4">
+                                        <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.impacto_ambiental_comentario ? 'Recomendación impacto ambiental: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_ambiental_comentario : 'Sin recomendación'}</li>
+                                        <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.impacto_social_centro_comentario ? 'Recomendación impacto social en el centro de formación: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_social_centro_comentario : 'Sin recomendación'}</li>
+                                        <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.impacto_social_productivo_comentario ? 'Recomendación impacto social en el sector productivo: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_social_productivo_comentario : 'Sin recomendación'}</li>
+                                        <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.impacto_tecnologico_comentario ? 'Recomendación impacto tecnológico: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_tecnologico_comentario : 'Sin recomendación'}</li>
                                     </ul>
                                 {/if}
                             </div>
@@ -150,72 +150,72 @@
                     {/each}
 
                     {#if proyecto.evaluaciones.length == 0}
-                        <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
+                        <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                     {/if}
                 </RecomendacionEvaluador>
             </div>
         {/if}
 
         {#if proyecto.codigo_linea_programatica == 70}
-            <p class="text-center mb-24">A continuación, plantee las acciones concretas que contribuirán a la sostenibilidad financiera de la TecnoAcademia y su aporte a la sostenibilidad ambiental y social del territorio.</p>
+            <p className="text-center mb-24">A continuación, plantee las acciones concretas que contribuirán a la sostenibilidad financiera de la TecnoAcademia y su aporte a la sostenibilidad ambiental y social del territorio.</p>
         {/if}
 
         <form on:submit|preventDefault={submit}>
             <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
                 {#if proyecto.codigo_linea_programatica != 70}
-                    <div class="mt-8">
-                        <Label required class="mb-4" labelFor="propuesta_sostenibilidad" value="Propuesta de sostenibilidad" />
+                    <div className="mt-8">
+                        <Label required className="mb-4" labelFor="propuesta_sostenibilidad" value="Propuesta de sostenibilidad" />
                         {#if proyecto.codigo_linea_programatica == 68}
-                            <InfoMessage class="mb-6">
+                            <InfoMessage className="mb-6">
                                 Se deben mencionar aquellos factores que pueden comprometer la viabilidad, desarrollo de los objetivos y resultados del proyecto a través del tiempo.
                                 <br />
                                 Para definir la propuesta de sostenibilidad se deben tener en cuenta los impactos definidos en el árbol de objetivos (ambiental, social - en el centro de formación, social - en el sector productivo, tecnológico)
                             </InfoMessage>
                         {:else}
-                            <InfoMessage class="mb-2" message="Identificar los efectos que tiene el desarrollo del proyecto de investigación ya sea positivos o negativos. Se recomienda establecer las acciones pertinentes para mitigar los impactos negativos ambientales identificados y anexar el respectivo permiso ambiental cuando aplique. Tener en cuenta si aplica el decreto 1376 de 2013." />
+                            <InfoMessage className="mb-2" message="Identificar los efectos que tiene el desarrollo del proyecto de investigación ya sea positivos o negativos. Se recomienda establecer las acciones pertinentes para mitigar los impactos negativos ambientales identificados y anexar el respectivo permiso ambiental cuando aplique. Tener en cuenta si aplica el decreto 1376 de 2013." />
                         {/if}
                         <Textarea label="Propuesta de sostenibilidad" maxlength="40000" id="propuesta_sostenibilidad" error={errors.propuesta_sostenibilidad} bind:value={$form.propuesta_sostenibilidad} required />
                     </div>
                 {:else if proyecto.codigo_linea_programatica == 70}
-                    <div class="mt-8">
+                    <div className="mt-8">
                         <Textarea label="Propuesta de sostenibilidad social" maxlength="40000" id="propuesta_sostenibilidad_social" error={errors.propuesta_sostenibilidad_social} bind:value={$form.propuesta_sostenibilidad_social} required />
                     </div>
-                    <div class="mt-8">
+                    <div className="mt-8">
                         <Textarea label="Propuesta de sostenibilidad ambiental" maxlength="40000" id="propuesta_sostenibilidad_ambiental" error={errors.propuesta_sostenibilidad_ambiental} bind:value={$form.propuesta_sostenibilidad_ambiental} required />
                     </div>
-                    <div class="mt-8">
+                    <div className="mt-8">
                         <Textarea label="Propuesta de sostenibilidad financiera" maxlength="40000" id="propuesta_sostenibilidad_financiera" error={errors.propuesta_sostenibilidad_financiera} bind:value={$form.propuesta_sostenibilidad_financiera} required />
                     </div>
                 {/if}
             </fieldset>
-            <div class="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
-                <small class="flex items-center text-app-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <div className="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
+                <small className="flex items-center text-app-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     {proyecto.updated_at}
                 </small>
                 {#if proyecto.allowed.to_update}
-                    <LoadingButton loading={$form.processing} class="ml-auto" type="submit">Guardar propuesta de sostenibilidad</LoadingButton>
+                    <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar propuesta de sostenibilidad</PrimaryButton>
                 {:else}
-                    <span class="inline-block ml-1.5"> El proyecto no se puede modificar </span>
+                    <span className="inline-block ml-1.5"> El proyecto no se puede modificar </span>
                 {/if}
             </div>
         </form>
 
-        <hr class="mb-20 mt-20" />
+        <hr className="mb-20 mt-20" />
 
-        <h1 class="text-3xl m-24 text-center">Cadena de valor</h1>
+        <h1 className="text-3xl m-24 text-center">Cadena de valor</h1>
 
-        <p class="text-center my-10">Para que pueda moverse fácilmente haga un clic sostenido sobre el gráfico de la cadena de valor y arrastre hacia cualquier dirección</p>
+        <p className="text-center my-10">Para que pueda moverse fácilmente haga un clic sostenido sobre el gráfico de la cadena de valor y arrastre hacia cualquier dirección</p>
 
         {#if productos.length == 0}
             <InfoMessage
                 message="No ha generado productos por lo tanto tiene la cadena de valor incompleta.<br />Por favor realice los siguientes pasos:<div>1. Diríjase a <strong>Productos</strong> y genere los productos correspondientes</div><div>2. Luego diríjase a <strong>Actividades</strong> y asocie los productos y rubros correspondientes. De esta manera completa la cadena de valor.</div>"
             />
         {/if}
-        <div class="mt-10">
-            <div id="orgchart_div" class="overflow-hidden" style="margin: 0 -100px;" />
+        <div className="mt-10">
+            <div id="orgchart_div" className="overflow-hidden" style="margin: 0 -100px;" />
         </div>
     {:else}
         <div id="orgchart_div" style="width: 100%;" />

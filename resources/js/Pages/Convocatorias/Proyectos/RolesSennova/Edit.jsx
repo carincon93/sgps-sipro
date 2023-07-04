@@ -4,7 +4,7 @@
     import { route, checkRole, checkPermission } from '@/Utils'
     import { _ } from 'svelte-i18n'
 
-    import RecomendacionEvaluador from '@/Shared/RecomendacionEvaluador'
+    import RecomendacionEvaluador from '@/Components/RecomendacionEvaluador'
 
     import Form from './Form'
 
@@ -24,7 +24,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let form = useForm({
@@ -52,41 +52,41 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
-        <div class="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
+    <header className="pt-[8rem]" slot="header">
+        <div className="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
             <div>
-                <h1 class="overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap">
-                    <a use:inertia href={route('convocatorias.proyectos.proyecto-rol-sennova.index', [convocatoria.id, proyecto.id])} class="text-app-400 hover:text-app-600"> Roles SENNOVA </a>
-                    <span class="text-app-400 font-medium">/</span>
+                <h1 className="overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap">
+                    <a use:inertia href={route('convocatorias.proyectos.proyecto-rol-sennova.index', [convocatoria.id, proyecto.id])} className="text-app-400 hover:text-app-600"> Roles SENNOVA </a>
+                    <span className="text-app-400 font-medium">/</span>
                     {rolSennova.nombre}
                 </h1>
             </div>
         </div>
     </header>
 
-    <div class="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-3 gap-4">
         <div>
-            <h1 class="font-black text-4xl sticky top-0 uppercase">Roles SENNOVA</h1>
+            <h1 className="font-black text-4xl sticky top-0 uppercase">Roles SENNOVA</h1>
 
             {#if isSuperAdmin || proyecto.mostrar_recomendaciones}
-                <RecomendacionEvaluador class="!w-full mt-10">
+                <RecomendacionEvaluador className="!w-full mt-10">
                     {#each proyectoRolSennova.proyecto_roles_evaluaciones as evaluacionRol, i}
-                        <div class="bg-zinc-900 p-4 rounded shadow text-white my-2">
-                            <p class="text-xs">Evaluador COD-{evaluacionRol.evaluacion.id}:</p>
+                        <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
+                            <p className="text-xs">Evaluador COD-{evaluacionRol.evaluacion.id}:</p>
                             {#if evaluacionRol.correcto == false && evaluacionRol.evaluacion.habilitado}
-                                <p class="whitespace-pre-line">{evaluacionRol.comentario ? evaluacionRol.comentario : 'Sin recomendación'}</p>
+                                <p className="whitespace-pre-line">{evaluacionRol.comentario ? evaluacionRol.comentario : 'Sin recomendación'}</p>
                             {:else}
                                 Aprobado
                             {/if}
                         </div>
                     {/each}
                     {#if proyectoRolSennova.proyecto_roles_evaluaciones.length == 0}
-                        <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
+                        <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
                     {/if}
                 </RecomendacionEvaluador>
             {/if}
         </div>
-        <div class="col-span-2">
+        <div className="col-span-2">
             <Form {errors} {proyecto} {proyectoRolSennova} {convocatoriaRolesSennova} {form} {submit} {actividades} {lineasTecnologicas} {isSuperAdmin} />
         </div>
     </div>

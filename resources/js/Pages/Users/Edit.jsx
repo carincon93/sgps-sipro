@@ -5,7 +5,7 @@
     import { _ } from 'svelte-i18n'
     import { Inertia } from '@inertiajs/inertia'
 
-    import DataTableMenu from '@/Shared/DataTableMenu'
+    import DataTableMenu from '@/Components/DataTableMenu'
     import { Item, Text, Separator } from '@smui/list'
 
     import Form from './Form'
@@ -25,7 +25,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let form = useForm({
@@ -55,12 +55,12 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
-        <div class="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
+    <header className="pt-[8rem]" slot="header">
+        <div className="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
             <div>
-                <h1 class="overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap">
-                    <a use:inertia href={route('users.index')} class="text-app-400 hover:text-app-600"> Usuarios </a>
-                    <span class="text-app-400 font-medium">/</span>
+                <h1 className="overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap">
+                    <a use:inertia href={route('users.index')} className="text-app-400 hover:text-app-600"> Usuarios </a>
+                    <span className="text-app-400 font-medium">/</span>
                     {usuario.nombre}
                 </h1>
             </div>
@@ -69,39 +69,39 @@
 
     <Form {submit} {form} {errors} {usuario} {tiposDocumento} {tiposVinculacion} {roles} {centrosFormacion} />
 
-    <h1 class="mt-24 mb-8 text-center text-3xl">Proyectos asociados</h1>
-    <div class="bg-white rounded shadow">
-        <table class="w-full whitespace-no-wrap table-fixed data-table">
+    <h1 className="mt-24 mb-8 text-center text-3xl">Proyectos asociados</h1>
+    <div className="bg-white rounded shadow">
+        <table className="w-full whitespace-no-wrap table-fixed data-table">
             <thead>
-                <tr class="text-left font-bold">
-                    <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Código </th>
-                    <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Título </th>
-                    <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Fecha de ejecución </th>
-                    <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl text-center th-actions"> Acciones </th>
+                <tr className="text-left font-bold">
+                    <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Código </th>
+                    <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Título </th>
+                    <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Fecha de ejecución </th>
+                    <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl text-center th-actions"> Acciones </th>
                 </tr>
             </thead>
 
             <tbody>
                 {#each proyectos as proyecto}
-                    <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
-                        <td class="border-t">
-                            <p class="px-6 py-4 focus:text-app-500">
+                    <tr className="hover:bg-gray-100 focus-within:bg-gray-100">
+                        <td className="border-t">
+                            <p className="px-6 py-4 focus:text-app-500">
                                 {proyecto.codigo}
                             </p>
                         </td>
-                        <td class="border-t">
-                            <p class="px-6 py-4 focus:text-app-500">
+                        <td className="border-t">
+                            <p className="px-6 py-4 focus:text-app-500">
                                 {proyecto.idi ? proyecto.idi.titulo : proyecto.cultura_innovacion ? proyecto.cultura_innovacion.titulo : proyecto.servicio_tecnologico ? proyecto.servicio_tecnologico.titulo : proyecto.tp?.nodo_tecnoparque ? proyecto.tp?.titulo : proyecto.tecnoacademia_lineas_tecnoacademia ? proyecto.tecnoacademia_lineas_tecnoacademia[0]?.tecnoacademia.nombre : null}
                             </p>
                         </td>
-                        <td class="border-t">
-                            <p class="px-6 py-4">
+                        <td className="border-t">
+                            <p className="px-6 py-4">
                                 {proyecto.idi ? proyecto.idi.fecha_ejecucion : proyecto.cultura_innovacion ? proyecto.cultura_innovacion.fecha_ejecucion : proyecto.servicio_tecnologico ? proyecto.servicio_tecnologico.fecha_ejecucion : proyecto.ta ? proyecto.ta.fecha_ejecucion : proyecto.tp ? proyecto.tp?.fecha_ejecucion : null}
                             </p>
                         </td>
-                        <td class="border-t td-actions">
-                            <DataTableMenu class={proyecto.length < 3 ? 'z-50' : ''}>
-                                <Item on:SMUI:action={() => Inertia.visit(route('convocatorias.proyectos.edit', [proyecto.convocatoria_id, proyecto.id]))} disabled={isSuperAdmin || !checkRole(authUser, [3, 4, 21]) == false ? false : true} class={!isSuperAdmin && !checkRole(authUser, [3, 4, 21]) ? 'hidden' : ''}>
+                        <td className="border-t td-actions">
+                            <DataTableMenu className={proyecto.length < 3 ? 'z-50' : ''}>
+                                <Item on:SMUI:action={() => Inertia.visit(route('convocatorias.proyectos.edit', [proyecto.convocatoria_id, proyecto.id]))} disabled={isSuperAdmin || !checkRole(authUser, [3, 4, 21]) == false ? false : true} className={!isSuperAdmin && !checkRole(authUser, [3, 4, 21]) ? 'hidden' : ''}>
                                     <Text>Ver detalles</Text>
                                 </Item>
                             </DataTableMenu>
@@ -111,7 +111,7 @@
 
                 {#if proyectos.length === 0}
                     <tr>
-                        <td class="border-t px-6 py-4" colspan="4"> Sin información registrada </td>
+                        <td className="border-t px-6 py-4" colspan="4"> Sin información registrada </td>
                     </tr>
                 {/if}
             </tbody>

@@ -5,9 +5,9 @@
     import { _ } from 'svelte-i18n'
     import { Inertia } from '@inertiajs/inertia'
 
-    import Pagination from '@/Shared/Pagination'
-    import DataTable from '@/Shared/DataTable'
-    import DataTableMenu from '@/Shared/DataTableMenu'
+    import Pagination from '@/Components/Pagination'
+    import DataTable from '@/Components/DataTable'
+    import DataTableMenu from '@/Components/DataTableMenu'
     import { Item, Text, Separator } from '@smui/list'
 
     export let evaluaciones
@@ -17,35 +17,35 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 </script>
 
 <AuthenticatedLayout>
-    <DataTable class="mt-20" showFilters={false} showSearchInput={false}>
+    <DataTable className="mt-20" showFilters={false} showSearchInput={false}>
         <div slot="title">Evaluaciones activas</div>
 
         <thead slot="thead">
-            <tr class="text-left font-bold">
-                <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Código</th>
-                <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Título</th>
-                <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Centro de formación</th>
-                <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Evaluador</th>
-                <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Estado evaluación</th>
-                <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Estado proyecto</th>
-                <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl text-center th-actions">Acciones</th>
+            <tr className="text-left font-bold">
+                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Código</th>
+                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Título</th>
+                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Centro de formación</th>
+                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Evaluador</th>
+                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Estado evaluación</th>
+                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Estado proyecto</th>
+                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl text-center th-actions">Acciones</th>
             </tr>
         </thead>
         <tbody slot="tbody">
             {#each evaluaciones.data as evaluacion}
-                <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
-                    <td class="border-t" style="border-left: 1px solid limegreen">
-                        <p class="px-6 py-4 focus:text-app-500">
+                <tr className="hover:bg-gray-100 focus-within:bg-gray-100">
+                    <td className="border-t" style="border-left: 1px solid limegreen">
+                        <p className="px-6 py-4 focus:text-app-500">
                             {evaluacion.proyecto.codigo}
                         </p>
                     </td>
-                    <td class="border-t">
-                        <p class="px-6 py-4">
+                    <td className="border-t">
+                        <p className="px-6 py-4">
                             {evaluacion.proyecto.idi
                                 ? evaluacion.proyecto.idi.titulo
                                 : evaluacion.proyecto.cultura_innovacion
@@ -59,18 +59,18 @@
                                 : null}
                         </p>
                     </td>
-                    <td class="border-t">
-                        <p class="px-6 py-4">
+                    <td className="border-t">
+                        <p className="px-6 py-4">
                             {evaluacion.proyecto.centro_formacion.nombre + ' - Código: ' + evaluacion.proyecto.centro_formacion.codigo}
                         </p>
                     </td>
-                    <td class="border-t">
-                        <p class="px-6 py-4">
+                    <td className="border-t">
+                        <p className="px-6 py-4">
                             {evaluacion.evaluador.nombre}
                         </p>
                     </td>
-                    <td class="border-t">
-                        <p class="px-6 py-4">
+                    <td className="border-t">
+                        <p className="px-6 py-4">
                             <br />
                             {evaluacion.verificar_estado_evaluacion}
                             <br />
@@ -78,8 +78,8 @@
                         </p>
                     </td>
 
-                    <td class="border-t">
-                        <p class="px-6 py-4">
+                    <td className="border-t">
+                        <p className="px-6 py-4">
                             {#if evaluacion.proyecto.estado_evaluacion_idi}
                                 {evaluacion.estado_proyecto_por_evaluador?.estado}
                                 {#if isSuperAdmin || checkRole(authUser, [20, 18, 19, 5, 17])}
@@ -127,9 +127,9 @@
                             {/if}
                         </p>
                     </td>
-                    <td class="border-t td-actions">
-                        <DataTableMenu class={evaluaciones.data.length < 3 ? 'z-50' : ''}>
-                            <Item on:SMUI:action={() => Inertia.visit(route('evaluaciones.edit', evaluacion.id))} disabled={!evaluacion.allowed.to_view} class={!evaluacion.allowed.to_view ? 'hidden' : ''}>
+                    <td className="border-t td-actions">
+                        <DataTableMenu className={evaluaciones.data.length < 3 ? 'z-50' : ''}>
+                            <Item on:SMUI:action={() => Inertia.visit(route('evaluaciones.edit', evaluacion.id))} disabled={!evaluacion.allowed.to_view} className={!evaluacion.allowed.to_view ? 'hidden' : ''}>
                                 <Text>Ver detalles</Text>
                             </Item>
                         </DataTableMenu>
@@ -139,7 +139,7 @@
 
             {#if evaluaciones.data.length === 0}
                 <tr>
-                    <td class="border-t px-6 py-4" colspan="6">Sin información registrada</td>
+                    <td className="border-t px-6 py-4" colspan="6">Sin información registrada</td>
                 </tr>
             {/if}
         </tbody>

@@ -99,8 +99,8 @@
 
 {#if convocatoria.descripcion?.includes('proyectos de tecnoacademia y tecnoparque')}
     <div className="py-24">
-        <Label required className="mb-4" labelFor="pdf_proyecto_general" value="Archivo en formato (.pdf) del proyecto general" />
-        <File id="pdf_proyecto_general" maxSize="10000" bind:value={$form.pdf_proyecto_general} valueDb={ta.pdf_proyecto_general} error={errors.pdf_proyecto_general} route={ta.pdf_proyecto_general?.includes('http') ? null : route('convocatorias.ta.download-pdf-sharepoint', [convocatoria.id, ta, 'pdf_proyecto_general'])} required />
+        <Label className="mb-4" labelFor="pdf_proyecto_general" value="Archivo en formato (.pdf) del proyecto general" />
+        <File id="pdf_proyecto_general" maxSize="10000" bind:value={$form.pdf_proyecto_general} valueDb={ta.pdf_proyecto_general} error={errors.pdf_proyecto_general} route={ta.pdf_proyecto_general?.includes('http') ? null : route('convocatorias.ta.download-pdf-sharepoint', [convocatoria.id, ta, 'pdf_proyecto_general'])} />
     </div>
 {/if}
 
@@ -140,7 +140,7 @@
                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="tecnoacademia_linea_tecnoacademia_id" value="Líneas temáticas a ejecutar en la vigencia del proyecto:" />
             </div>
             <div>
-                <MultipleSelect id="tecnoacademia_linea_tecnoacademia_id" bind:selectedValue={$form.tecnoacademia_linea_tecnoacademia_id} items={arrayLineasTecnoacademia}  error={errors.tecnoacademia_linea_tecnoacademia_id} placeholder="Buscar por el nombre de la línea" required disabled={evaluacion ? 'disabled' : undefined} />
+                <MultipleSelect id="tecnoacademia_linea_tecnoacademia_id" bind:selectedValue={$form.tecnoacademia_linea_tecnoacademia_id} items={arrayLineasTecnoacademia} error={errors.tecnoacademia_linea_tecnoacademia_id} placeholder="Buscar por el nombre de la línea" required disabled={evaluacion ? 'disabled' : undefined} />
             </div>
         </div>
     </div>
@@ -336,7 +336,7 @@
             <InfoMessage message="Lista de las referencias utilizadas en cada apartado del proyecto. Utilizar normas APA- Última edición (http://biblioteca.sena.edu.co/images/PDF/InstructivoAPA.pdf)." />
         </div>
         <div>
-            <Textarea maxlength="40000" id="bibliografia" error={errors.bibliografia} bind:value={$form.bibliografia} on:blur={() => syncColumnLong('bibliografia', $form)} required disabled={evaluacion ? 'disabled' : undefined} />
+            <!-- <Textarea maxlength="40000" id="bibliografia" error={errors.bibliografia} bind:value={$form.bibliografia} on:blur={() => syncColumnLong('bibliografia', $form)} required disabled={evaluacion ? 'disabled' : undefined} /> -->
         </div>
     </div>
     {#if (isSuperAdmin && !evaluacion) || (ta.proyecto.mostrar_recomendaciones && !evaluacion)}

@@ -5,7 +5,7 @@
     import { _ } from 'svelte-i18n'
 
     import Form from './Form'
-    import InfoMessage from '@/Shared/InfoMessage'
+    import InfoMessage from '@/Components/InfoMessage'
 
     export let convocatoria
     export let proyecto
@@ -27,7 +27,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let form = useForm({
@@ -65,25 +65,25 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
-        <div class="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
+    <header className="pt-[8rem]" slot="header">
+        <div className="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
             <div>
                 <h1>
-                    <a use:inertia href={route('convocatorias.proyectos.presupuesto.index', [convocatoria.id, proyecto.id])} class="text-app-400 hover:text-app-600"> Presupuestos </a>
-                    <span class="text-app-400 font-medium">/</span>
+                    <a use:inertia href={route('convocatorias.proyectos.presupuesto.index', [convocatoria.id, proyecto.id])} className="text-app-400 hover:text-app-600"> Presupuestos </a>
+                    <span className="text-app-400 font-medium">/</span>
                     Crear
                 </h1>
             </div>
         </div>
     </header>
 
-    <div class="grid grid-cols-3 gap-4">
-        <div class="sticky top-0">
-            <h1 class="font-black text-4xl uppercase">Nuevo rubro</h1>
-            <InfoMessage class="mt-10">Para mayor información consultar en la plataforma CompromISO la guía descripción de los rubros presupuestales SENA, código: GRF-G-004</InfoMessage>
+    <div className="grid grid-cols-3 gap-4">
+        <div className="sticky top-0">
+            <h1 className="font-black text-4xl uppercase">Nuevo rubro</h1>
+            <InfoMessage className="mt-10">Para mayor información consultar en la plataforma CompromISO la guía descripción de los rubros presupuestales SENA, código: GRF-G-004</InfoMessage>
         </div>
 
-        <div class="bg-white rounded shadow col-span-2">
+        <div className="bg-white rounded shadow col-span-2">
             <Form {errors} {proyecto} {convocatoria} {tiposLicencia} {tiposSoftware} {opcionesServiciosEdicion} {form} {submit} {presupuestoSennova} {segundoGrupoPresupuestal} {tercerGrupoPresupuestal} {usosPresupuestales} {conceptosViaticos} {distanciasMunicipios} {frecuenciasSemanales} {proyectoRolesSennova} {municipios} {formMunicipio} />
         </div>
     </div>

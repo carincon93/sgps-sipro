@@ -23,13 +23,13 @@ export default function MultipleSelectCheckmarks({items, id, error, selectedValu
   const [itemsSelected, setItemSelected] = useState([])
 
   useEffect(() => {
-    const selectedLabels = selectedValues.map((selectedValue) =>
-        items.find((item) => item.value === selectedValue)?.label
-    );
+    // const selectedLabels = selectedValues.map((selectedValue) =>
+    //     items.find((item) => item.value === selectedValue)?.label
+    // );
 
-    setItemSelected(selectedLabels);
+    // setItemSelected(selectedLabels);
 
-    console.log(selectedLabels)
+    // console.log(selectedLabels)
   }, [])
 
   const handleChange = (event) => {
@@ -44,7 +44,7 @@ export default function MultipleSelectCheckmarks({items, id, error, selectedValu
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
+      <FormControl className='w-full'>
         <InputLabel id={`${id}-multiple-checkbox-label`}>Tag</InputLabel>
         <Select
           labelId={`${id}-multiple-checkbox-label`}

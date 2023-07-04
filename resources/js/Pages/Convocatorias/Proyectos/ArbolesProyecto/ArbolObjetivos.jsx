@@ -4,7 +4,7 @@
     import { checkRole, checkPermission } from '@/Utils'
     import { _ } from 'svelte-i18n'
 
-    import Stepper from '@/Shared/Stepper'
+    import Stepper from '@/Components/Stepper'
     import ArbolObjetivosComponent from './ArbolObjetivosComponent'
 
     export let errors
@@ -22,12 +22,12 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
+    <header className="pt-[8rem]" slot="header">
         {#if !to_pdf}
             <Stepper {convocatoria} {proyecto} />
         {/if}

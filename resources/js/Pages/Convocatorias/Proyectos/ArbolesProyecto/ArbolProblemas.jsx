@@ -1,7 +1,7 @@
 <script>
     import AuthenticatedLayout, { title } from '@/Layouts/Authenticated'
 
-    import Stepper from '@/Shared/Stepper'
+    import Stepper from '@/Components/Stepper'
     import ArbolProblemasComponent from './ArbolProblemasComponent'
 
     export let errors
@@ -15,7 +15,7 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
+    <header className="pt-[8rem]" slot="header">
         {#if !to_pdf}
             <Stepper {convocatoria} {proyecto} />
         {/if}

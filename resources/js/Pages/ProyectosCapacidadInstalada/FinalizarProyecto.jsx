@@ -4,9 +4,9 @@
     import { route, checkRole, checkPermission } from '@/Utils'
     import { _ } from 'svelte-i18n'
 
-    import Label from '@/Shared/Label'
-    import Select from '@/Shared/Select'
-    import LoadingButton from '@/Shared/LoadingButton'
+    import Label from '@/Components/Label'
+    import Select from '@/Components/Select'
+    import PrimaryButton from '@/Components/PrimaryButton'
 
     import Header from './Shared/Header'
 
@@ -19,7 +19,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let form = useForm({
@@ -34,15 +34,15 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
+    <header className="pt-[8rem]" slot="header">
         <Header {proyectoCapacidadInstalada} />
     </header>
 
     <form on:submit|preventDefault={submit}>
-        <fieldset class="p-8" disabled={proyectoCapacidadInstalada.allowed.to_update ? undefined : true}>
-            <div class="mt-44 grid grid-cols-2">
+        <fieldset className="p-8" disabled={proyectoCapacidadInstalada.allowed.to_update ? undefined : true}>
+            <div className="mt-44 grid grid-cols-2">
                 <div>
-                    <Label required class="mb-4" labelFor="estado_proyecto" value="Estado del proyecto" />
+                    <Label required className="mb-4" labelFor="estado_proyecto" value="Estado del proyecto" />
                 </div>
                 <div>
                     <Select id="estado_proyecto" items={estadosProyectoCapacidadInstalada} bind:selectedValue={$form.estado_proyecto} error={errors.centro_formacion_id} autocomplete="off" placeholder="Seleccione un estado" required />
@@ -50,15 +50,15 @@
             </div>
         </fieldset>
 
-        <div class="shadow-inner bg-app-200 border-app-400 bottom-0 flex items-center justify-between mt-14 px-8 py-4 sticky">
-            <span class="inline-block"> Si finaliza el proyecto no se podrá modificar </span>
+        <div className="flex items-center justify-between mt-14 px-8 py-4">
+            <span className="inline-block"> Si finaliza el proyecto no se podrá modificar </span>
 
             {#if proyectoCapacidadInstalada.allowed.to_update}
-                <LoadingButton loading={$form.processing} class="ml-auto" type="submit">
+                <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">
                     {$_('Save')}
-                </LoadingButton>
+                </PrimaryButton>
             {:else}
-                <span class="inline-block"> El proyecto no se puede modificar </span>
+                <span className="inline-block"> El proyecto no se puede modificar </span>
             {/if}
         </div>
     </form>

@@ -1,11 +1,11 @@
 <script>
-    import Label from '@/Shared/Label'
-    import InputError from '@/Shared/InputError'
-    import LoadingButton from '@/Shared/LoadingButton'
-    import Textarea from '@/Shared/Textarea'
-    import InfoMessage from '@/Shared/InfoMessage'
-    import Select from '@/Shared/Select'
-    import Input from '@/Shared/Input'
+    import Label from '@/Components/Label'
+    import InputError from '@/Components/InputError'
+    import PrimaryButton from '@/Components/PrimaryButton'
+    import Textarea from '@/Components/Textarea'
+    import InfoMessage from '@/Components/InfoMessage'
+    import Select from '@/Components/Select'
+    import Input from '@/Components/Input'
 
     export let errors
     export let proyecto
@@ -69,24 +69,24 @@
     }
 </script>
 
-<form on:submit|preventDefault={submit} id="form-proyecto-presupuesto" class="bg-white rounded shadow">
-    <fieldset class="p-8" disabled={proyecto.allowed.to_update ? undefined : true}>
+<form on:submit|preventDefault={submit} id="form-proyecto-presupuesto" className="bg-white rounded shadow">
+    <fieldset className="p-8" disabled={proyecto.allowed.to_update ? undefined : true}>
         <fieldset disabled={method == 'PUT' ? true : undefined}>
-            <div class="mt-8">
+            <div className="mt-8">
                 <Label required labelFor="segundo_grupo_presupuestal_id" value="Rubro concepto interno SENA" />
                 <Select id="segundo_grupo_presupuestal_id" items={segundoGrupoPresupuestal} bind:selectedValue={$form.segundo_grupo_presupuestal_id} selectFunctions={[(event) => selectSegundoGrupoPresupuestal(event)]} error={errors.segundo_grupo_presupuestal_id} autocomplete="off" placeholder="Seleccione una opción" required />
             </div>
         </fieldset>
 
         {#if $form.segundo_grupo_presupuestal_id}
-            <div class="mt-8">
+            <div className="mt-8">
                 <Label required labelFor="tercer_grupo_presupuestal_id" value="Rubro concepto ministerio de hacienda" />
                 <Select id="tercer_grupo_presupuestal_id" items={arrayTecerGrupoPresupuestal} bind:selectedValue={$form.tercer_grupo_presupuestal_id} selectFunctions={[(event) => selectTercerGrupoPresupuestal(event)]} error={errors.tercer_grupo_presupuestal_id} autocomplete="off" placeholder="Seleccione una opción" required />
             </div>
         {/if}
 
         {#if $form.segundo_grupo_presupuestal_id && $form.tercer_grupo_presupuestal_id}
-            <div class="mt-8">
+            <div className="mt-8">
                 <Label required labelFor="convocatoria_presupuesto_id" value="Uso presupuestal" />
                 <Select id="convocatoria_presupuesto_id" items={arrayUsosPresupuestales} bind:selectedValue={$form.convocatoria_presupuesto_id} selectFunctions={[(event) => selectUsoPresupuestal(event)]} error={errors.convocatoria_presupuesto_id} autocomplete="off" placeholder="Seleccione una opción" required />
             </div>
@@ -99,25 +99,25 @@
         {#if requiereEstudioMercado == false && $form.convocatoria_presupuesto_id}
             <InfoMessage message="<strong>Importante:</strong> El uso presupuestal seleccionado no requiere de estudio de mercado." />
 
-            <div class="mt-10">
-                <Input label="Valor total" id="valor_total" type="number" input$min="0" class="mt-1" bind:value={$form.valor_total} error={errors.valor_total} required />
+            <div className="mt-10">
+                <Input label="Valor total" id="valor_total" type="number" input$min="0" className="mt-1" bind:value={$form.valor_total} error={errors.valor_total} required />
             </div>
         {/if}
 
-        <hr class="mt-10 mb-10" />
+        <hr className="mt-10 mb-10" />
 
-        <div class="mt-8">
+        <div className="mt-8">
             <Textarea label="Describa los bienes o servicios a adquirir. Sea específico" maxlength="40000" id="descripcion" error={errors.descripcion} bind:value={$form.descripcion} required />
         </div>
 
-        <div class="mt-8">
+        <div className="mt-8">
             <Textarea label="Justificación de la necesidad: ¿por qué se requiere este producto o servicio?" maxlength="40000" id="justificacion" error={errors.justificacion} bind:value={$form.justificacion} required />
         </div>
 
         {#if $form.codigo_uso_presupuestal == '2010100600203101'}
-            <div class="mt-8">
-                <Label required class="mb-4" labelFor="tipo_licencia" value="Tipo de licencia" />
-                <select id="tipo_licencia" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:border-app-200 focus:ring-app-200 p-4" bind:value={$form.tipo_licencia} required>
+            <div className="mt-8">
+                <Label required className="mb-4" labelFor="tipo_licencia" value="Tipo de licencia" />
+                <select id="tipo_licencia" className="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:border-app-200 focus:ring-app-200 p-4" bind:value={$form.tipo_licencia} required>
                     <option value="">Seleccione el tipo de licencia </option>
                     {#each tiposLicencia as { value, label }}
                         <option {value}>{label}</option>
@@ -125,9 +125,9 @@
                 </select>
             </div>
 
-            <div class="mt-8">
-                <Label required class="mb-4" labelFor="tipo_software" value="Tipo de software" />
-                <select id="tipo_software" class="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:border-app-200 focus:ring-app-200 p-4" bind:value={$form.tipo_software} required>
+            <div className="mt-8">
+                <Label required className="mb-4" labelFor="tipo_software" value="Tipo de software" />
+                <select id="tipo_software" className="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:border-app-200 focus:ring-app-200 p-4" bind:value={$form.tipo_software} required>
                     <option value="">Seleccione el tipo de software </option>
                     {#each tiposSoftware as { value, label }}
                         <option {value}>{label}</option>
@@ -135,30 +135,30 @@
                 </select>
             </div>
 
-            <div class="mt-8">
+            <div className="mt-8">
                 <p>Periodo de uso</p>
-                <div class="mt-8">
-                    <Label required class="mb-4" labelFor="fecha_inicio" value="Fecha de inicio" />
-                    <input label="Fecha de inicio" id="fecha_inicio" type="date" class="mt-1 p-4" bind:value={$form.fecha_inicio} required />
+                <div className="mt-8">
+                    <Label required className="mb-4" labelFor="fecha_inicio" value="Fecha de inicio" />
+                    <input label="Fecha de inicio" id="fecha_inicio" type="date" className="mt-1 p-4" bind:value={$form.fecha_inicio} required />
                 </div>
-                <div class="mt-8">
-                    <Label required class="mb-4" labelFor="fecha_finalizacion" value="Fecha de finalización (Cuando aplique)" />
-                    <input label="Fecha de finalización" id="fecha_finalizacion" type="date" class="mt-1 p-4" bind:value={$form.fecha_finalizacion} />
+                <div className="mt-8">
+                    <Label required className="mb-4" labelFor="fecha_finalizacion" value="Fecha de finalización (Cuando aplique)" />
+                    <input label="Fecha de finalización" id="fecha_finalizacion" type="date" className="mt-1 p-4" bind:value={$form.fecha_finalizacion} />
                 </div>
             </div>
             {#if errors.fecha_inicio || errors.fecha_finalizacion}
                 <InputError message={errors.fecha_inicio || errors.fecha_finalizacion} />
             {/if}
         {:else if ($form.codigo_uso_presupuestal == '2020200800901' && convocatoria.campos_convocatoria.find((element) => element.campo == 'nodo_editorial').convocatoriaId == convocatoria.id) || ($form.servicio_edicion_info && convocatoria.campos_convocatoria.find((element) => element.campo == 'nodo_editorial').convocatoriaId == convocatoria.id)}
-            <div class="mt-8">
-                <Label required class="mb-4" labelFor="servicio_edicion_info" value="Nodo editorial" />
+            <div className="mt-8">
+                <Label required className="mb-4" labelFor="servicio_edicion_info" value="Nodo editorial" />
                 <Select id="servicio_edicion_info" items={opcionesServiciosEdicion} bind:selectedValue={$form.servicio_edicion_info} error={errors.servicio_edicion_info} autocomplete="off" placeholder="Seleccione una opción" required />
             </div>
         {/if}
 
         {#if proyecto.linea_programatica.codigo == 69}
             {#if $form.segundo_grupo_presupuestal_id?.codigo == '2041102' || $form.segundo_grupo_presupuestal_id?.codigo == '2041101' || $form.segundo_grupo_presupuestal_id?.codigo == '2041104'}
-                <div class="mt-8">
+                <div className="mt-8">
                     <Label required labelFor="concepto_viaticos" value="Concepto" />
                     <Select id="concepto_viaticos" items={conceptosViaticos} bind:selectedValue={$form.concepto_viaticos} error={errors.concepto_viaticos} autocomplete="off" placeholder="Seleccione una opción" required />
                 </div>
@@ -168,19 +168,19 @@
         <slot name="viaticos" />
     </fieldset>
 
-    <div class="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
+    <div className="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
         {#if proyectoPresupuesto}
-            <small class="flex items-center text-app-700">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <small className="flex items-center text-app-700">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 {proyectoPresupuesto.updated_at}
             </small>
         {/if}
         {#if proyecto.allowed.to_update}
-            <LoadingButton loading={$form.processing} class="ml-auto" type="submit">Guardar</LoadingButton>
+            <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
         {:else}
-            <span class="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
+            <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
         {/if}
     </div>
 </form>

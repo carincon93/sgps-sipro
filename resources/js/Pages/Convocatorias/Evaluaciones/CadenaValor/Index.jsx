@@ -6,13 +6,13 @@
     import { checkRole } from '@/Utils'
     import ScrollBooster from 'scrollbooster'
 
-    import EvaluationStepper from '@/Shared/EvaluationStepper'
-    import InfoMessage from '@/Shared/InfoMessage'
-    import Label from '@/Shared/Label'
-    import Textarea from '@/Shared/Textarea'
-    import LoadingButton from '@/Shared/LoadingButton'
-    import Input from '@/Shared/Input'
-    import Switch from '@/Shared/Switch'
+    import EvaluationStepper from '@/Components/EvaluationStepper'
+    import InfoMessage from '@/Components/InfoMessage'
+    import Label from '@/Components/Label'
+    import Textarea from '@/Components/Textarea'
+    import PrimaryButton from '@/Components/PrimaryButton'
+    import Input from '@/Components/Input'
+    import Switch from '@/Components/Switch'
 
     export let errors
     export let convocatoria
@@ -28,7 +28,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let propuestaSostenibilidadInfo = {
@@ -72,7 +72,7 @@
                     [
                         {
                             v: 'act' + producto.v + actividad.id,
-                            f: '<strong>Actividad</strong><div>' + actividad.descripcion + '</div><div><strong>Roles:</strong><ul class="list-inside">' + actividad.proyecto_roles_sennova.map((proyectoRol) => '<li>' + proyectoRol.convocatoria_rol_sennova.rol_sennova.nombre + '</li>') + '</ul></div>',
+                            f: '<strong>Actividad</strong><div>' + actividad.descripcion + '</div><div><strong>Roles:</strong><ul className="list-inside">' + actividad.proyecto_roles_sennova.map((proyectoRol) => '<li>' + proyectoRol.convocatoria_rol_sennova.rol_sennova.nombre + '</li>') + '</ul></div>',
                         },
                         producto.v,
                         actividad.descripcion,
@@ -164,23 +164,23 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
+    <header className="pt-[8rem]" slot="header">
         <EvaluationStepper {convocatoria} {evaluacion} {proyecto} />
     </header>
 
-    <a class="bg-orangered-900 bottom-0 fixed flex hover:bg-orangered-600 mb-5 ml-10 px-6 py-2 rounded-3xl shadow-2xl text-center text-white z-50" href="#evaluacion">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <a className="bg-orangered-900 bottom-0 fixed flex hover:bg-orangered-600 mb-5 ml-10 px-6 py-2 rounded-3xl shadow-2xl text-center text-white z-50" href="#evaluacion">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
         </svg>
         Ir a la evaluación
     </a>
 
-    <h1 class="text-3xl mt-24 mb-10 text-center">Impactos</h1>
+    <h1 className="text-3xl mt-24 mb-10 text-center">Impactos</h1>
 
     <form>
         <fieldset disabled={isSuperAdmin || (checkRole(authUser, [11, 5]) && proyecto.modificable == true) ? undefined : true}>
             {#each impactos as impacto}
-                <div class="mt-4">
+                <div className="mt-4">
                     {#if impacto.tipo == 1}
                         <strong>Impacto social</strong>
                         <Textarea disabled label="" maxlength="40000" value={impacto.descripcion} />
@@ -204,51 +204,51 @@
             {/each}
 
             {#if proyecto.codigo_linea_programatica != 70}
-                <div class="mt-4">
-                    <h1 class="text-3xl mt-24 mb-10 text-center">Propuesta de sostenibilidad</h1>
+                <div className="mt-4">
+                    <h1 className="text-3xl mt-24 mb-10 text-center">Propuesta de sostenibilidad</h1>
                     {#if proyecto.codigo_linea_programatica == 68}
-                        <InfoMessage class="mb-2">
+                        <InfoMessage className="mb-2">
                             Se deben mencionar aquellos factores que pueden comprometer la viabilidad, desarrollo de los objetivos y resultados del proyecto a través del tiempo.
                             <br />
                             Para definir la propuesta de sostenibilidad se deben tener en cuenta los impactos definidos en el árbol de objetivos (ambiental, social - en el centro de formación, social - en el sector productivo, tecnológico)
                         </InfoMessage>
                     {:else}
-                        <InfoMessage class="mb-2" message="Identificar los efectos que tiene el desarrollo del proyecto de investigación ya sea positivos o negativos. Se recomienda establecer las acciones pertinentes para mitigar los impactos negativos ambientales identificados y anexar el respectivo permiso ambiental cuando aplique. Tener en cuenta si aplica el decreto 1376 de 2013." />
+                        <InfoMessage className="mb-2" message="Identificar los efectos que tiene el desarrollo del proyecto de investigación ya sea positivos o negativos. Se recomienda establecer las acciones pertinentes para mitigar los impactos negativos ambientales identificados y anexar el respectivo permiso ambiental cuando aplique. Tener en cuenta si aplica el decreto 1376 de 2013." />
                     {/if}
                     <Textarea disabled label="Propuesta de sostenibilidad" maxlength="40000" id="propuesta_sostenibilidad" value={propuestaSostenibilidadInfo.propuesta_sostenibilidad} />
                 </div>
             {:else if proyecto.codigo_linea_programatica == 70}
-                <div class="mt-4">
+                <div className="mt-4">
                     <Textarea disabled label="Propuesta de sostenibilidad social" maxlength="40000" id="propuesta_sostenibilidad_social" value={propuestaSostenibilidadInfo.propuesta_sostenibilidad_social} />
                 </div>
-                <div class="mt-4">
+                <div className="mt-4">
                     <Textarea disabled label="Propuesta de sostenibilidad ambiental" maxlength="40000" id="propuesta_sostenibilidad_ambiental" value={propuestaSostenibilidadInfo.propuesta_sostenibilidad_ambiental} />
                 </div>
-                <div class="mt-4">
+                <div className="mt-4">
                     <Textarea disabled label="Propuesta de sostenibilidad financiera" maxlength="40000" id="propuesta_sostenibilidad_financiera" value={propuestaSostenibilidadInfo.propuesta_sostenibilidad_financiera} />
                 </div>
             {/if}
         </fieldset>
     </form>
 
-    <hr class="mb-20 mt-20" />
+    <hr className="mb-20 mt-20" />
 
-    <h1 class="text-3xl m-24 text-center">Cadena de valor</h1>
+    <h1 className="text-3xl m-24 text-center">Cadena de valor</h1>
 
-    <div class="mt-10">
-        <div id="orgchart_div" style="width: 100%;" class="overflow-hidden" />
+    <div className="mt-10">
+        <div id="orgchart_div" style="width: 100%;" className="overflow-hidden" />
     </div>
 
     {#if proyecto.codigo_linea_programatica == 23 || proyecto.codigo_linea_programatica == 65 || proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82}
-        <hr class="mt-10 mb-10" />
+        <hr className="mt-10 mb-10" />
 
-        <h1 class="text-3xl mt-24 mb-8 text-center" id="evaluacion">Evaluación</h1>
+        <h1 className="text-3xl mt-24 mb-8 text-center" id="evaluacion">Evaluación</h1>
 
-        <div class="mt-16">
+        <div className="mt-16">
             <form on:submit|preventDefault={submitEstrategiaRegionalEvaluacion}>
                 <InfoMessage>
                     <h1>Criterios de evaluacion</h1>
-                    <ul class="list-disc p-4">
+                    <ul className="list-disc p-4">
                         <li>
                             <strong>{proyecto.codigo_linea_programatica == 23 || proyecto.codigo_linea_programatica == 65 ? '0 a 12' : proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82 ? '0 a 9' : ''}</strong> El presupuesto esta sobre o subdimensionado y / o no está directamente relacionado con el desarrollo de las actividades para el logro de los objetivos propuestos.
                             Los soportes que evidencian el costo del bien a adquirir no son pertinentes y tampoco confiables
@@ -263,7 +263,7 @@
                         </li>
                     </ul>
 
-                    <Label class="mt-4 mb-4" labelFor="cadena_valor_puntaje" value={proyecto.codigo_linea_programatica == 23 || proyecto.codigo_linea_programatica == 65 ? 'Puntaje (Máximo 25)' : proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82 ? 'Puntaje (Máximo 20)' : 'Puntaje (Máximo 0)'} />
+                    <Label className="mt-4 mb-4" labelFor="cadena_valor_puntaje" value={proyecto.codigo_linea_programatica == 23 || proyecto.codigo_linea_programatica == 65 ? 'Puntaje (Máximo 25)' : proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82 ? 'Puntaje (Máximo 20)' : 'Puntaje (Máximo 0)'} />
                     <Input
                         disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                         label="Puntaje"
@@ -272,39 +272,39 @@
                         input$step="1"
                         input$min="0"
                         input$max={proyecto.codigo_linea_programatica == 23 || proyecto.codigo_linea_programatica == 65 ? 25 : proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82 ? 20 : 0}
-                        class="mt-1"
+                        className="mt-1"
                         bind:value={$formEstrategiaRegionalEvaluacion.cadena_valor_puntaje}
                         placeholder="Puntaje"
                         autocomplete="off"
                         error={errors.cadena_valor_puntaje}
                     />
 
-                    <div class="mt-4">
+                    <div className="mt-4">
                         <p>¿La cadena de valor, propuesta de sostenibilidad, impacto social, impacto tecnológico o impacto en el centro de formación son correctos? Por favor seleccione si Cumple o No cumple.</p>
                         <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formEstrategiaRegionalEvaluacion.cadena_valor_requiere_comentario} />
                         {#if $formEstrategiaRegionalEvaluacion.cadena_valor_requiere_comentario == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" class="mt-4" maxlength="40000" id="cadena_valor_comentario" bind:value={$formEstrategiaRegionalEvaluacion.cadena_valor_comentario} error={errors.cadena_valor_comentario} required />
+                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="cadena_valor_comentario" bind:value={$formEstrategiaRegionalEvaluacion.cadena_valor_comentario} error={errors.cadena_valor_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
-                <div class="shadow-inner bg-app-200 border-app-400 bottom-0 flex items-center justify-between mt-14 px-8 py-4 sticky">
+                <div className="flex items-center justify-between mt-14 px-8 py-4">
                     {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
-                        <LoadingButton loading={$formEstrategiaRegionalEvaluacion.processing} class="ml-auto" type="submit">Guardar</LoadingButton>
+                        <PrimaryButton loading={$formEstrategiaRegionalEvaluacion.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
                     {/if}
                 </div>
             </form>
         </div>
     {:else if proyecto.codigo_linea_programatica == 68}
-        <hr class="mt-10 mb-10" />
+        <hr className="mt-10 mb-10" />
 
-        <h1 class="text-3xl mt-24 mb-8 text-center" id="evaluacion">Evaluación</h1>
+        <h1 className="text-3xl mt-24 mb-8 text-center" id="evaluacion">Evaluación</h1>
 
-        <div class="mt-16">
+        <div className="mt-16">
             <form on:submit|preventDefault={submitServicioTecnologicoEvaluacion}>
                 <InfoMessage>
-                    <h1 class="font-black">Propuesta de sostenibilidad</h1>
+                    <h1 className="font-black">Propuesta de sostenibilidad</h1>
                     <h1>Criterios de evaluacion</h1>
-                    <ul class="list-disc p-4">
+                    <ul className="list-disc p-4">
                         <li>
                             Se deben mencionar aquellos factores que pueden comprometer la viabilidad, desarrollo de los objetivos y resultados del proyecto a través del tiempo.
                             <br />
@@ -312,7 +312,7 @@
                         </li>
                     </ul>
 
-                    <Label class="mt-4 mb-4" labelFor="propuesta_sostenibilidad_puntaje" value="Puntaje (Máximo 3)" />
+                    <Label className="mt-4 mb-4" labelFor="propuesta_sostenibilidad_puntaje" value="Puntaje (Máximo 3)" />
                     <Input
                         disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                         label="Puntaje"
@@ -321,21 +321,21 @@
                         input$step="1"
                         input$min="0"
                         input$max="3"
-                        class="mt-1"
+                        className="mt-1"
                         bind:value={$formServicioTecnologicoEvaluacion.propuesta_sostenibilidad_puntaje}
                         placeholder="Puntaje"
                         autocomplete="off"
                         error={errors.propuesta_sostenibilidad_puntaje}
                     />
 
-                    <div class="mt-4">
+                    <div className="mt-4">
                         <p>¿La propuesta de sostenibilidad es correcto? Por favor seleccione si Cumple o No cumple.</p>
                         <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formServicioTecnologicoEvaluacion.propuesta_sostenibilidad_requiere_comentario} />
                         {#if $formServicioTecnologicoEvaluacion.propuesta_sostenibilidad_requiere_comentario == false}
                             <Textarea
                                 disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
-                                class="mt-4"
+                                className="mt-4"
                                 maxlength="40000"
                                 id="propuesta_sostenibilidad_comentario"
                                 bind:value={$formServicioTecnologicoEvaluacion.propuesta_sostenibilidad_comentario}
@@ -345,11 +345,11 @@
                         {/if}
                     </div>
 
-                    <hr class="mt-10 mb-10 border-app-300" />
-                    <h1 class="font-black">Impacto ambiental</h1>
+                    <hr className="mt-10 mb-10 border-app-300" />
+                    <h1 className="font-black">Impacto ambiental</h1>
                     <h1>Criterios de evaluacion</h1>
 
-                    <ul class="list-disc p-4">
+                    <ul className="list-disc p-4">
                         <li>
                             Se deben mencionar aquellos factores que pueden comprometer la viabilidad, desarrollo de los objetivos y resultados del proyecto a través del tiempo.
                             <br />
@@ -357,7 +357,7 @@
                         </li>
                     </ul>
 
-                    <Label class="mt-4 mb-4" labelFor="impacto_ambiental_puntaje" value="Puntaje (Máximo 1)" />
+                    <Label className="mt-4 mb-4" labelFor="impacto_ambiental_puntaje" value="Puntaje (Máximo 1)" />
                     <Input
                         disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                         label="Puntaje"
@@ -366,21 +366,21 @@
                         input$step="1"
                         input$min="0"
                         input$max="1"
-                        class="mt-1"
+                        className="mt-1"
                         bind:value={$formServicioTecnologicoEvaluacion.impacto_ambiental_puntaje}
                         placeholder="Puntaje"
                         autocomplete="off"
                         error={errors.impacto_ambiental_puntaje}
                     />
 
-                    <div class="mt-4">
+                    <div className="mt-4">
                         <p>¿El impacto ambiental es correcto? Por favor seleccione si Cumple o No cumple.</p>
                         <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formServicioTecnologicoEvaluacion.impacto_ambiental_requiere_comentario} />
                         {#if $formServicioTecnologicoEvaluacion.impacto_ambiental_requiere_comentario == false}
                             <Textarea
                                 disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
-                                class="mt-4"
+                                className="mt-4"
                                 maxlength="40000"
                                 id="impacto_ambiental_comentario"
                                 bind:value={$formServicioTecnologicoEvaluacion.impacto_ambiental_comentario}
@@ -390,15 +390,15 @@
                         {/if}
                     </div>
 
-                    <hr class="mt-10 mb-10 border-app-300" />
-                    <h1 class="font-black">Impacto social en el centro de formación</h1>
+                    <hr className="mt-10 mb-10 border-app-300" />
+                    <h1 className="font-black">Impacto social en el centro de formación</h1>
                     <h1>Criterios de evaluacion</h1>
 
-                    <ul class="list-disc p-4">
+                    <ul className="list-disc p-4">
                         <li>Se busca medir la contribución potencial del proyecto al desarrollo de la comunidad Sena (Aprendices, instructores y a la formación)</li>
                     </ul>
 
-                    <Label class="mt-4 mb-4" labelFor="impacto_social_centro_puntaje" value="Puntaje (Máximo 1)" />
+                    <Label className="mt-4 mb-4" labelFor="impacto_social_centro_puntaje" value="Puntaje (Máximo 1)" />
                     <Input
                         disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                         label="Puntaje"
@@ -407,21 +407,21 @@
                         input$step="1"
                         input$min="0"
                         input$max="1"
-                        class="mt-1"
+                        className="mt-1"
                         bind:value={$formServicioTecnologicoEvaluacion.impacto_social_centro_puntaje}
                         placeholder="Puntaje"
                         autocomplete="off"
                         error={errors.impacto_social_centro_puntaje}
                     />
 
-                    <div class="mt-4">
+                    <div className="mt-4">
                         <p>¿El impacto social en el centro de formación es correcto? Por favor seleccione si Cumple o No cumple.</p>
                         <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formServicioTecnologicoEvaluacion.impacto_social_centro_requiere_comentario} />
                         {#if $formServicioTecnologicoEvaluacion.impacto_social_centro_requiere_comentario == false}
                             <Textarea
                                 disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
-                                class="mt-4"
+                                className="mt-4"
                                 maxlength="40000"
                                 id="impacto_social_centro_comentario"
                                 bind:value={$formServicioTecnologicoEvaluacion.impacto_social_centro_comentario}
@@ -431,15 +431,15 @@
                         {/if}
                     </div>
 
-                    <hr class="mt-10 mb-10 border-app-300" />
-                    <h1 class="font-black">Impacto social en el sector productivo</h1>
+                    <hr className="mt-10 mb-10 border-app-300" />
+                    <h1 className="font-black">Impacto social en el sector productivo</h1>
                     <h1>Criterios de evaluacion</h1>
 
-                    <ul class="list-disc p-4">
+                    <ul className="list-disc p-4">
                         <li>Se busca medir la contribución potencial del proyecto al desarrollo del sector productivo en concordancia con el sector priorizado de Colombia Productiva y a la mesa técnica a la que pertenece el proyecto.</li>
                     </ul>
 
-                    <Label class="mt-4 mb-4" labelFor="impacto_social_productivo_puntaje" value="Puntaje (Máximo 1)" />
+                    <Label className="mt-4 mb-4" labelFor="impacto_social_productivo_puntaje" value="Puntaje (Máximo 1)" />
                     <Input
                         disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                         label="Puntaje"
@@ -448,21 +448,21 @@
                         input$step="1"
                         input$min="0"
                         input$max="1"
-                        class="mt-1"
+                        className="mt-1"
                         bind:value={$formServicioTecnologicoEvaluacion.impacto_social_productivo_puntaje}
                         placeholder="Puntaje"
                         autocomplete="off"
                         error={errors.impacto_social_productivo_puntaje}
                     />
 
-                    <div class="mt-4">
+                    <div className="mt-4">
                         <p>¿El impacto social en el sector productivo es correcto? Por favor seleccione si Cumple o No cumple.</p>
                         <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formServicioTecnologicoEvaluacion.impacto_social_productivo_requiere_comentario} />
                         {#if $formServicioTecnologicoEvaluacion.impacto_social_productivo_requiere_comentario == false}
                             <Textarea
                                 disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
-                                class="mt-4"
+                                className="mt-4"
                                 maxlength="40000"
                                 id="impacto_social_productivo_comentario"
                                 bind:value={$formServicioTecnologicoEvaluacion.impacto_social_productivo_comentario}
@@ -472,15 +472,15 @@
                         {/if}
                     </div>
 
-                    <hr class="mt-10 mb-10 border-app-300" />
-                    <h1 class="font-black">Impacto tecnológico</h1>
+                    <hr className="mt-10 mb-10 border-app-300" />
+                    <h1 className="font-black">Impacto tecnológico</h1>
                     <h1>Criterios de evaluacion</h1>
 
-                    <ul class="list-disc p-4">
+                    <ul className="list-disc p-4">
                         <li>Se busca medir la contribución potencial del proyecto al desarrollo de la comunidad Sena (Aprendices, instructores y a la formación)</li>
                     </ul>
 
-                    <Label class="mt-4 mb-4" labelFor="impacto_tecnologico_puntaje" value="Puntaje (Máximo 1)" />
+                    <Label className="mt-4 mb-4" labelFor="impacto_tecnologico_puntaje" value="Puntaje (Máximo 1)" />
                     <Input
                         disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                         label="Puntaje"
@@ -489,21 +489,21 @@
                         input$step="1"
                         input$min="0"
                         input$max="1"
-                        class="mt-1"
+                        className="mt-1"
                         bind:value={$formServicioTecnologicoEvaluacion.impacto_tecnologico_puntaje}
                         placeholder="Puntaje"
                         autocomplete="off"
                         error={errors.impacto_tecnologico_puntaje}
                     />
 
-                    <div class="mt-4">
+                    <div className="mt-4">
                         <p>¿El impacto tecnológico es correcto? Por favor seleccione si Cumple o No cumple.</p>
                         <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formServicioTecnologicoEvaluacion.impacto_tecnologico_requiere_comentario} />
                         {#if $formServicioTecnologicoEvaluacion.impacto_tecnologico_requiere_comentario == false}
                             <Textarea
                                 disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
-                                class="mt-4"
+                                className="mt-4"
                                 maxlength="40000"
                                 id="impacto_tecnologico_comentario"
                                 bind:value={$formServicioTecnologicoEvaluacion.impacto_tecnologico_comentario}
@@ -513,55 +513,55 @@
                         {/if}
                     </div>
                 </InfoMessage>
-                <div class="shadow-inner bg-app-200 border-app-400 bottom-0 flex items-center justify-between mt-14 px-8 py-4 sticky">
+                <div className="flex items-center justify-between mt-14 px-8 py-4">
                     {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
-                        <LoadingButton loading={$formServicioTecnologicoEvaluacion.processing} class="ml-auto" type="submit">Guardar</LoadingButton>
+                        <PrimaryButton loading={$formServicioTecnologicoEvaluacion.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
                     {/if}
                 </div>
             </form>
         </div>
     {:else if proyecto.codigo_linea_programatica == 70}
-        <hr class="mt-10 mb-10" />
+        <hr className="mt-10 mb-10" />
 
-        <h1 class="text-3xl mt-24 mb-8 text-center" id="evaluacion">Evaluación</h1>
+        <h1 className="text-3xl mt-24 mb-8 text-center" id="evaluacion">Evaluación</h1>
 
-        <div class="mt-16">
+        <div className="mt-16">
             <form on:submit|preventDefault={submitTaEvaluacion}>
                 <InfoMessage>
-                    <div class="mt-4">
+                    <div className="mt-4">
                         <p>¿La cadena de valor, propuesta de sostenibilidad, impacto social, impacto tecnológico o impacto en el centro de formación son correctos? Por favor seleccione si Cumple o No cumple.</p>
                         <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formTaEvaluacion.cadena_valor_requiere_comentario} />
                         {#if $formTaEvaluacion.cadena_valor_requiere_comentario == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" class="mt-4" maxlength="40000" id="cadena_valor_comentario" bind:value={$formTaEvaluacion.cadena_valor_comentario} error={errors.cadena_valor_comentario} required />
+                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="cadena_valor_comentario" bind:value={$formTaEvaluacion.cadena_valor_comentario} error={errors.cadena_valor_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
-                <div class="shadow-inner bg-app-200 border-app-400 bottom-0 flex items-center justify-between mt-14 px-8 py-4 sticky">
+                <div className="flex items-center justify-between mt-14 px-8 py-4">
                     {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
-                        <LoadingButton loading={$formTaEvaluacion.processing} class="ml-auto" type="submit">Guardar</LoadingButton>
+                        <PrimaryButton loading={$formTaEvaluacion.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
                     {/if}
                 </div>
             </form>
         </div>
     {:else if proyecto.codigo_linea_programatica == 69}
-        <hr class="mt-10 mb-10" />
+        <hr className="mt-10 mb-10" />
 
-        <h1 class="text-3xl mt-24 mb-8 text-center" id="evaluacion">Evaluación</h1>
+        <h1 className="text-3xl mt-24 mb-8 text-center" id="evaluacion">Evaluación</h1>
 
-        <div class="mt-16">
+        <div className="mt-16">
             <form on:submit|preventDefault={submitTpEvaluacion}>
                 <InfoMessage>
-                    <div class="mt-4">
+                    <div className="mt-4">
                         <p>¿La cadena de valor, propuesta de sostenibilidad, impacto social, impacto tecnológico o impacto en el centro de formación son correctos? Por favor seleccione si Cumple o No cumple.</p>
                         <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formTpEvaluacion.cadena_valor_requiere_comentario} />
                         {#if $formTpEvaluacion.cadena_valor_requiere_comentario == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" class="mt-4" maxlength="40000" id="cadena_valor_comentario" bind:value={$formTpEvaluacion.cadena_valor_comentario} error={errors.cadena_valor_comentario} required />
+                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="cadena_valor_comentario" bind:value={$formTpEvaluacion.cadena_valor_comentario} error={errors.cadena_valor_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
-                <div class="shadow-inner bg-app-200 border-app-400 bottom-0 flex items-center justify-between mt-14 px-8 py-4 sticky">
+                <div className="flex items-center justify-between mt-14 px-8 py-4">
                     {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
-                        <LoadingButton loading={$formTpEvaluacion.processing} class="ml-auto" type="submit">Guardar</LoadingButton>
+                        <PrimaryButton loading={$formTpEvaluacion.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
                     {/if}
                 </div>
             </form>

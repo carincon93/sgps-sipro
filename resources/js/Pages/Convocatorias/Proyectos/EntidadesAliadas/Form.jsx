@@ -1,16 +1,16 @@
 <script>
     import { route } from '@/Utils'
 
-    import Label from '@/Shared/Label'
-    import LoadingButton from '@/Shared/LoadingButton'
-    import Textarea from '@/Shared/Textarea'
-    import Input from '@/Shared/Input'
-    import Switch from '@/Shared/Switch'
-    import Select from '@/Shared/Select'
+    import Label from '@/Components/Label'
+    import PrimaryButton from '@/Components/PrimaryButton'
+    import Textarea from '@/Components/Textarea'
+    import Input from '@/Components/Input'
+    import Switch from '@/Components/Switch'
+    import Select from '@/Components/Select'
     import Checkbox from '@smui/checkbox'
     import FormField from '@smui/form-field'
-    import InputError from '@/Shared/InputError'
-    import File from '@/Shared/File'
+    import InputError from '@/Components/InputError'
+    import File from '@/Components/File'
 
     export let errors
     export let convocatoria
@@ -26,82 +26,82 @@
 </script>
 
 <form on:submit|preventDefault={submit}>
-    <fieldset class="p-8" disabled={proyecto.allowed.to_update ? undefined : true}>
-        <div class="mt-8">
-            <Label required class="mb-4" labelFor="tipo" value="Tipo de entidad aliada" />
+    <fieldset className="p-8" disabled={proyecto.allowed.to_update ? undefined : true}>
+        <div className="mt-8">
+            <Label required className="mb-4" labelFor="tipo" value="Tipo de entidad aliada" />
             <Select id="tipo" items={tiposEntidadAliada} bind:selectedValue={$form.tipo} error={errors.tipo} autocomplete="off" placeholder="Seleccione el tipo de entidad" required />
         </div>
 
-        <div class="mt-8">
+        <div className="mt-8">
             <Textarea label="Nombre de la entidad aliada/Centro de formación" maxlength="255" id="nombre" error={errors.nombre} bind:value={$form.nombre} required />
         </div>
 
-        <div class="mt-8">
-            <Label required class="mb-4" labelFor="naturaleza" value="Naturaleza de la entidad" />
+        <div className="mt-8">
+            <Label required className="mb-4" labelFor="naturaleza" value="Naturaleza de la entidad" />
             <Select id="naturaleza" items={naturalezaEntidadAliada} bind:selectedValue={$form.naturaleza} error={errors.naturaleza} autocomplete="off" placeholder="Seleccione la naturaleza de la entidad" required />
         </div>
 
-        <div class="mt-8">
-            <Label required class="mb-4" labelFor="tipo_empresa" value="Tipo de empresa" />
+        <div className="mt-8">
+            <Label required className="mb-4" labelFor="tipo_empresa" value="Tipo de empresa" />
             <Select id="tipo_empresa" items={tiposEmpresa} bind:selectedValue={$form.tipo_empresa} error={errors.tipo_empresa} autocomplete="off" placeholder="Seleccione el tipo de empresa" required />
         </div>
 
-        <div class="mt-8">
-            <Input label="NIT" id="nit" type="text" class="mt-1" bind:value={$form.nit} error={errors.nit} required />
+        <div className="mt-8">
+            <Input label="NIT" id="nit" type="text" className="mt-1" bind:value={$form.nit} error={errors.nit} required />
         </div>
 
         {#if proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82}
-            <div class="mt-8">
+            <div className="mt-8">
                 <p>¿Hay convenio?</p>
                 <Switch bind:checked={$form.tiene_convenio} />
             </div>
             {#if $form.tiene_convenio}
-                <div class="mt-8">
+                <div className="mt-8">
                     <Textarea label="Descipción del convenio" maxlength="400" id="descripcion_convenio" error={errors.descripcion_convenio} bind:value={$form.descripcion_convenio} required />
                 </div>
             {/if}
 
-            <div class="mt-8">
+            <div className="mt-8">
                 <p>¿La entidad aliada tiene grupo de investigación?</p>
                 <Switch bind:checked={$form.tiene_grupo_investigacion} />
             </div>
             {#if $form.tiene_grupo_investigacion}
-                <div class="mt-8">
+                <div className="mt-8">
                     <Textarea label="Grupo de investigación" maxlength="191" id="grupo_investigacion" error={errors.grupo_investigacion} bind:value={$form.grupo_investigacion} required />
                 </div>
 
-                <div class="mt-8">
-                    <Input label="Código del GrupLAC" id="codigo_gruplac" type="text" class="mt-1" error={errors.codigo_gruplac} placeholder="Ejemplo: COL0000000" bind:value={$form.codigo_gruplac} required={!form.tiene_grupo_investigacion ? undefined : 'required'} />
+                <div className="mt-8">
+                    <Input label="Código del GrupLAC" id="codigo_gruplac" type="text" className="mt-1" error={errors.codigo_gruplac} placeholder="Ejemplo: COL0000000" bind:value={$form.codigo_gruplac} required={!form.tiene_grupo_investigacion ? undefined : 'required'} />
                 </div>
 
-                <div class="mt-8">
-                    <Input label="Enlace del GrupLAC" id="enlace_gruplac" type="url" class="mt-1" error={errors.enlace_gruplac} placeholder="Ejemplo: https://scienti.minciencias.gov.co/gruplac/jsp/Medicion/graficas/verPerfiles.jsp?id_convocatoria=0nroIdGrupo=0000000" bind:value={$form.enlace_gruplac} required={!form.tiene_grupo_investigacion ? undefined : 'required'} />
+                <div className="mt-8">
+                    <Input label="Enlace del GrupLAC" id="enlace_gruplac" type="url" className="mt-1" error={errors.enlace_gruplac} placeholder="Ejemplo: https://scienti.minciencias.gov.co/gruplac/jsp/Medicion/graficas/verPerfiles.jsp?id_convocatoria=0nroIdGrupo=0000000" bind:value={$form.enlace_gruplac} required={!form.tiene_grupo_investigacion ? undefined : 'required'} />
                 </div>
             {/if}
 
-            <div class="mt-8">
-                <Input label="Recursos en especie entidad aliada ($COP)" id="recursos_especie" type="number" input$min="0" class="mt-1" error={errors.recursos_especie} placeholder="COP" bind:value={$form.recursos_especie} required />
+            <div className="mt-8">
+                <Input label="Recursos en especie entidad aliada ($COP)" id="recursos_especie" type="number" input$min="0" className="mt-1" error={errors.recursos_especie} placeholder="COP" bind:value={$form.recursos_especie} required />
             </div>
 
-            <div class="mt-8">
+            <div className="mt-8">
                 <Textarea label="Descripción de los recursos en especie aportados" maxlength="2500" id="descripcion_recursos_especie" error={errors.descripcion_recursos_especie} bind:value={$form.descripcion_recursos_especie} required />
             </div>
 
-            <div class="mt-8">
-                <Input label="Recursos en dinero entidad aliada ($COP)" id="recursos_dinero" type="number" input$min="0" class="mt-1" error={errors.recursos_dinero} placeholder="COP" bind:value={$form.recursos_dinero} required />
+            <div className="mt-8">
+                <Input label="Recursos en dinero entidad aliada ($COP)" id="recursos_dinero" type="number" input$min="0" className="mt-1" error={errors.recursos_dinero} placeholder="COP" bind:value={$form.recursos_dinero} required />
             </div>
 
-            <div class="mt-8">
+            <div className="mt-8">
                 <Textarea label="Descripción de la destinación del dinero aportado" maxlength="2500" id="descripcion_recursos_dinero" error={errors.descripcion_recursos_dinero} bind:value={$form.descripcion_recursos_dinero} required />
             </div>
 
-            <div class="mt-8">
+            <div className="mt-8">
                 <Textarea label="Metodología o actividades de transferencia al centro de formación" maxlength="2500" id="actividades_transferencia_conocimiento" error={errors.actividades_transferencia_conocimiento} bind:value={$form.actividades_transferencia_conocimiento} required />
             </div>
 
             {#if convocatoria.tipo_convocatoria == 1 || convocatoria.tipo_convocatoria == 3}
-                <div class="mt-8">
-                    <Label class="mb-4" labelFor="carta_intencion" value="ANEXO 7. Carta de intención o acta que soporta el trabajo articulado con entidades aliadas (diferentes al SENA)" />
+                <div className="mt-8">
+                    <Label className="mb-4" labelFor="carta_intencion" value="ANEXO 7. Carta de intención o acta que soporta el trabajo articulado con entidades aliadas (diferentes al SENA)" />
 
                     <File
                         id="carta_intencion"
@@ -113,8 +113,8 @@
                     />
                 </div>
 
-                <div class="mt-8">
-                    <Label class="mb-4" labelFor="carta_propiedad_intelectual" value="ANEXO 8. Propiedad intelectual" />
+                <div className="mt-8">
+                    <Label className="mb-4" labelFor="carta_propiedad_intelectual" value="ANEXO 8. Propiedad intelectual" />
 
                     <File
                         id="carta_propiedad_intelectual"
@@ -127,8 +127,8 @@
                 </div>
             {/if}
         {:else if proyecto.codigo_linea_programatica == 69 || proyecto.codigo_linea_programatica == 70}
-            <div class="mt-8">
-                <Label class="mb-4" labelFor="soporte_convenio" value="Archivo del convenio" />
+            <div className="mt-8">
+                <Label className="mb-4" labelFor="soporte_convenio" value="Archivo del convenio" />
 
                 <File
                     id="soporte_convenio"
@@ -140,19 +140,19 @@
                 />
             </div>
 
-            <div class="mt-8">
-                <p class="text-center">Fechas de vigencia Convenio/Acuerdos</p>
-                <div class="mt-4 flex items-start justify-around">
-                    <div class="mt-4 flex {errors.fecha_inicio_convenio ? '' : 'items-center'}">
-                        <Label required labelFor="fecha_inicio_convenio" class={errors.fecha_inicio_convenio ? 'top-3.5 relative' : ''} value="Del" />
-                        <div class="ml-4">
-                            <input id="fecha_inicio_convenio" type="date" class="mt-1 block w-full p-4" bind:value={$form.fecha_inicio_convenio} required />
+            <div className="mt-8">
+                <p className="text-center">Fechas de vigencia Convenio/Acuerdos</p>
+                <div className="mt-4 flex items-start justify-around">
+                    <div className="mt-4 flex {errors.fecha_inicio_convenio ? '' : 'items-center'}">
+                        <Label required labelFor="fecha_inicio_convenio" className={errors.fecha_inicio_convenio ? 'top-3.5 relative' : ''} value="Del" />
+                        <div className="ml-4">
+                            <input id="fecha_inicio_convenio" type="date" className="mt-1 block w-full p-4" bind:value={$form.fecha_inicio_convenio} required />
                         </div>
                     </div>
-                    <div class="mt-4 flex {errors.fecha_fin_convenio ? '' : 'items-center'}">
-                        <Label required labelFor="fecha_fin_convenio" class={errors.fecha_fin_convenio ? 'top-3.5 relative' : ''} value="hasta" />
-                        <div class="ml-4">
-                            <input id="fecha_fin_convenio" type="date" class="mt-1 block w-full p-4" bind:value={$form.fecha_fin_convenio} required />
+                    <div className="mt-4 flex {errors.fecha_fin_convenio ? '' : 'items-center'}">
+                        <Label required labelFor="fecha_fin_convenio" className={errors.fecha_fin_convenio ? 'top-3.5 relative' : ''} value="hasta" />
+                        <div className="ml-4">
+                            <input id="fecha_fin_convenio" type="date" className="mt-1 block w-full p-4" bind:value={$form.fecha_fin_convenio} required />
                         </div>
                     </div>
                 </div>
@@ -163,21 +163,21 @@
         {/if}
 
         {#if $form.progress}
-            <progress value={$form.progress.percentage} max="100" class="mt-4">
+            <progress value={$form.progress.percentage} max="100" className="mt-4">
                 {$form.progress.percentage}%
             </progress>
         {/if}
 
         {#if proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82}
-            <h6 class="mt-20 mb-12 text-2xl" id="actividades">Actividades</h6>
+            <h6 className="mt-20 mb-12 text-2xl" id="actividades">Actividades</h6>
 
-            <div class="bg-white rounded shadow overflow-hidden">
-                <div class="p-4">
-                    <Label required class="mb-4" labelFor="actividad_id" value="Relacione alguna actividad" />
+            <div className="bg-white rounded shadow overflow-hidden">
+                <div className="p-4">
+                    <Label required className="mb-4" labelFor="actividad_id" value="Relacione alguna actividad" />
                     <InputError message={errors.actividad_id} />
                 </div>
                 {#if proyecto.allowed.to_update}
-                    <div class="grid grid-cols-2">
+                    <div className="grid grid-cols-2">
                         {#each actividades as { id, descripcion }, i}
                             <FormField>
                                 <Checkbox bind:group={$form.actividad_id} value={id} />
@@ -186,12 +186,12 @@
                         {/each}
                     </div>
                 {:else}
-                    <div class="p-2">
-                        <ul class="list-disc p-4">
+                    <div className="p-2">
+                        <ul className="list-disc p-4">
                             {#each actividades as { id, descripcion }, i}
                                 {#each $form.actividad_id as actividad}
                                     {#if id == actividad}
-                                        <li class="first-letter-uppercase mb-4">{descripcion}</li>
+                                        <li className="first-letter-uppercase mb-4">{descripcion}</li>
                                     {/if}
                                 {/each}
                             {/each}
@@ -201,19 +201,19 @@
             </div>
         {/if}
     </fieldset>
-    <div class="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
+    <div className="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
         {#if entidadAliada}
-            <small class="flex items-center text-app-700">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <small className="flex items-center text-app-700">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 {entidadAliada.updated_at}
             </small>
         {/if}
         {#if proyecto.allowed.to_update}
-            <LoadingButton loading={$form.processing} class="ml-auto" type="submit">Guardar</LoadingButton>
+            <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
         {:else}
-            <span class="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
+            <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
         {/if}
     </div>
 </form>

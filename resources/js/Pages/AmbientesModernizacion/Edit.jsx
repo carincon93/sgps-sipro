@@ -5,14 +5,14 @@
     import { _ } from 'svelte-i18n'
     import { Inertia } from '@inertiajs/inertia'
 
-    import Input from '@/Shared/Input'
-    import Label from '@/Shared/Label'
-    import LoadingButton from '@/Shared/LoadingButton'
-    import Select from '@/Shared/Select'
-    import Textarea from '@/Shared/Textarea'
-    import Dialog from '@/Shared/Dialog'
-    import Button from '@/Shared/Button'
-    import DataTableMenu from '@/Shared/DataTableMenu'
+    import Input from '@/Components/Input'
+    import Label from '@/Components/Label'
+    import PrimaryButton from '@/Components/PrimaryButton'
+    import Select from '@/Components/Select'
+    import Textarea from '@/Components/Textarea'
+    import Dialog from '@/Components/Dialog'
+    import Button from '@/Components/Button'
+    import DataTableMenu from '@/Components/DataTableMenu'
     import { Item, Text, Separator } from '@smui/list'
 
     import Form from './Form'
@@ -84,7 +84,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let formRazonEstadoGeneral = useForm({
@@ -272,12 +272,12 @@
 </script>
 
 <AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
-        <div class="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
+    <header className="pt-[8rem]" slot="header">
+        <div className="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
             <div>
-                <h1 class="overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap">
-                    <a use:inertia href={route('ambientes-modernizacion.index')} class="text-app-400 hover:text-app-600"> Ambientes de modernización </a>
-                    <span class="text-app-400 font-medium">/</span>
+                <h1 className="overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap">
+                    <a use:inertia href={route('ambientes-modernizacion.index')} className="text-app-400 hover:text-app-600"> Ambientes de modernización </a>
+                    <span className="text-app-400 font-medium">/</span>
                     {ambienteModernizacion.nombre_ambiente}
                 </h1>
             </div>
@@ -285,31 +285,31 @@
     </header>
 
     <div>
-        <div class="mt-44 grid grid-cols-2">
-            <div><p class="block font-medium text-sm text-gray-700 mb-4">Regional:</p></div>
+        <div className="mt-44 grid grid-cols-2">
+            <div><p className="block font-medium text-sm text-gray-700 mb-4">Regional:</p></div>
             <div>
-                <p class="capitalize">{ambienteModernizacion.seguimiento_ambiente_modernizacion.centro_formacion.regional.nombre}</p>
+                <p className="capitalize">{ambienteModernizacion.seguimiento_ambiente_modernizacion.centro_formacion.regional.nombre}</p>
                 <p>Código: {ambienteModernizacion.seguimiento_ambiente_modernizacion.centro_formacion.regional.codigo}</p>
             </div>
         </div>
 
-        <div class="mt-44 grid grid-cols-2">
-            <div><p class="block font-medium text-sm text-gray-700 mb-4">Centro de formación:</p></div>
+        <div className="mt-44 grid grid-cols-2">
+            <div><p className="block font-medium text-sm text-gray-700 mb-4">Centro de formación:</p></div>
             <div>
                 <p>{ambienteModernizacion.seguimiento_ambiente_modernizacion.centro_formacion.nombre}</p>
                 <p>Código: {ambienteModernizacion.seguimiento_ambiente_modernizacion.centro_formacion.codigo}</p>
             </div>
         </div>
 
-        <div class="mt-44 grid grid-cols-2">
-            <div><p class="block font-medium text-sm text-gray-700 mb-4">Año de modernización:</p></div>
+        <div className="mt-44 grid grid-cols-2">
+            <div><p className="block font-medium text-sm text-gray-700 mb-4">Año de modernización:</p></div>
             <div>
                 <p>{ambienteModernizacion.year_modernizacion}</p>
             </div>
         </div>
 
-        <div class="mt-44 grid grid-cols-2">
-            <div><p class="block font-medium text-sm text-gray-700 mb-4">1. Código proyecto SGPS:</p></div>
+        <div className="mt-44 grid grid-cols-2">
+            <div><p className="block font-medium text-sm text-gray-700 mb-4">1. Código proyecto SGPS:</p></div>
             <div>
                 <p>
                     {ambienteModernizacion.seguimiento_ambiente_modernizacion.codigo_proyecto_sgps.titulo}
@@ -359,96 +359,96 @@
         bind:dialogGuardar
     />
 
-    <hr class="w-full block my-20" />
+    <hr className="w-full block my-20" />
 
-    <div class="mb-20">
-        <h1 class="text-center text-2xl">Relacione únicamente los equipos y maquinaría adquirida con la ejecución del proyecto de modernización SENNOVA:</h1>
+    <div className="mb-20">
+        <h1 className="text-center text-2xl">Relacione únicamente los equipos y maquinaría adquirida con la ejecución del proyecto de modernización SENNOVA:</h1>
         {#if ambienteModernizacion.allowed.to_update}
-            <div class="flex justify-end mt-10">
+            <div className="flex justify-end mt-10">
                 <Button on:click={() => ((equipoFormDialog = true), $formEquipo.reset())} variant="raised" type="button">Crear equipo</Button>
             </div>
         {/if}
 
-        <table class="w-full bg-white whitespace-no-wrap table-fixed data-table mt-10">
+        <table className="w-full bg-white whitespace-no-wrap table-fixed data-table mt-10">
             <thead>
-                <tr class="text-left font-bold">
-                    <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full text-xs">Número de inventario SENA del equipo o maquina</th>
-                    <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full text-xs">Información del equipo o maquina</th>
-                    <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full text-xs">Información del cuentadante</th>
-                    <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full text-xs">Descripción general técnica del equipo o maquina</th>
-                    <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full text-xs">Estado del equipo o maquina</th>
-                    <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full text-xs">Información de funcionamiento y mantenimiento</th>
-                    <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full text-xs">Observaciones generales</th>
-                    <th class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full text-xs">Acciones</th>
+                <tr className="text-left font-bold">
+                    <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full text-xs">Número de inventario SENA del equipo o maquina</th>
+                    <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full text-xs">Información del equipo o maquina</th>
+                    <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full text-xs">Información del cuentadante</th>
+                    <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full text-xs">Descripción general técnica del equipo o maquina</th>
+                    <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full text-xs">Estado del equipo o maquina</th>
+                    <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full text-xs">Información de funcionamiento y mantenimiento</th>
+                    <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full text-xs">Observaciones generales</th>
+                    <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full text-xs">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 {#each equiposAmbienteModernizacion as equipoAmbienteModernizacion}
-                    <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
-                        <td class="border-t px-6 pt-6 pb-4 text-xs">
-                            <div class="my-4">
+                    <tr className="hover:bg-gray-100 focus-within:bg-gray-100">
+                        <td className="border-t px-6 pt-6 pb-4 text-xs">
+                            <div className="my-4">
                                 {equipoAmbienteModernizacion.numero_inventario_equipo}
                             </div>
                         </td>
-                        <td class="border-t px-6 pt-6 pb-4 text-xs">
-                            <div class="my-4">
+                        <td className="border-t px-6 pt-6 pb-4 text-xs">
+                            <div className="my-4">
                                 <strong>Marca:</strong>
                                 {equipoAmbienteModernizacion.marca}
                             </div>
-                            <div class="my-4">
+                            <div className="my-4">
                                 <strong>Nombre del equipo:</strong>
                                 {equipoAmbienteModernizacion.nombre_equipo}
                             </div>
 
-                            <div class="my-4">
+                            <div className="my-4">
                                 <strong>Promedio de horas de uso al año:</strong>
                                 {equipoAmbienteModernizacion.horas_promedio_uso}
                             </div>
 
-                            <div class="my-4">
+                            <div className="my-4">
                                 <strong>Año de adquisición del equipo o maquina:</strong>
                                 {equipoAmbienteModernizacion.year_adquisicion}
                             </div>
                         </td>
-                        <td class="border-t px-6 pt-6 pb-4 text-xs">
-                            <div class="my-4">
+                        <td className="border-t px-6 pt-6 pb-4 text-xs">
+                            <div className="my-4">
                                 <strong>Nombre del cuentadante:</strong>
                                 {equipoAmbienteModernizacion.nombre_cuentadante}
                             </div>
-                            <div class="my-4">
+                            <div className="my-4">
                                 <strong>Cédula del cuentadante:</strong>
                                 {equipoAmbienteModernizacion.cedula_cuentadante}
                             </div>
 
-                            <div class="my-4">
+                            <div className="my-4">
                                 <strong>Rol del cuentadante:</strong>
                                 {equipoAmbienteModernizacion.rol_cuentadante}
                             </div>
                         </td>
-                        <td class="border-t px-6 pt-6 pb-4 text-xs">
-                            <p class="paragraph-ellipsis">
+                        <td className="border-t px-6 pt-6 pb-4 text-xs">
+                            <p className="paragraph-ellipsis">
                                 {equipoAmbienteModernizacion.descripcion_tecnica_equipo}
                             </p>
                         </td>
 
-                        <td class="border-t px-6 pt-6 pb-4 text-xs">{equipoAmbienteModernizacion.estado_equipo}</td>
-                        <td class="border-t px-6 pt-6 pb-4 text-xs">
-                            <div class="my-4">
+                        <td className="border-t px-6 pt-6 pb-4 text-xs">{equipoAmbienteModernizacion.estado_equipo}</td>
+                        <td className="border-t px-6 pt-6 pb-4 text-xs">
+                            <div className="my-4">
                                 <strong>¿El equipo o maquina está en funcionamiento?</strong>
                                 {equipoAmbienteModernizacion.equipo_en_funcionamiento_text}
                             </div>
-                            <div class="my-4">
+                            <div className="my-4">
                                 <strong>¿Con qué frecuencia requiere mantenimiento preventivo el equipo o maquina?</strong>
                                 {equipoAmbienteModernizacion.frecuencia_mantenimiento}
                             </div>
                         </td>
-                        <td class="border-t px-6 pt-6 pb-4 text-xs">
-                            <p class="paragraph-ellipsis">
+                        <td className="border-t px-6 pt-6 pb-4 text-xs">
+                            <p className="paragraph-ellipsis">
                                 {equipoAmbienteModernizacion.observaciones_generales}
                             </p>
                         </td>
 
-                        <td class="border-t px-6 pt-6 pb-4">
+                        <td className="border-t px-6 pt-6 pb-4">
                             <DataTableMenu>
                                 {#if ambienteModernizacion.allowed.to_update}
                                     <Item on:SMUI:action={() => configurarDialogoEquipo(equipoAmbienteModernizacion)}>
@@ -464,8 +464,8 @@
                     </tr>
                 {/each}
                 {#if equiposAmbienteModernizacion.length === 0}
-                    <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
-                        <td class="border-t px-6 pt-6 pb-4" colspan="9"> Sin información registrada </td>
+                    <tr className="hover:bg-gray-100 focus-within:bg-gray-100">
+                        <td className="border-t px-6 pt-6 pb-4" colspan="9"> Sin información registrada </td>
                     </tr>
                 {/if}
             </tbody>
@@ -473,94 +473,94 @@
     </div>
 
     <Dialog bind:open={equipoFormDialog} size="950px">
-        <div slot="title" class="flex items-center flex-col mt-4">Registrar equipo</div>
+        <div slot="title" className="flex items-center flex-col mt-4">Registrar equipo</div>
         <div slot="content">
             <form on:submit|preventDefault={submitEquipo} id="equipo-ambiente-modernizacion">
-                <fieldset class="p-8" disabled={ambienteModernizacion.allowed.to_update ? undefined : true}>
-                    <div class="mt-8">
-                        <Label required class="mb-4" labelFor="numero_inventario_equipo" value="Número de inventario del equipo o máquina" />
-                        <Input id="numero_inventario_equipo" type="text" class="mt-1" error={errors.numero_inventario_equipo} placeholder="Escriba el número de inventario del equipo/maquina" bind:value={$formEquipo.numero_inventario_equipo} required />
+                <fieldset className="p-8" disabled={ambienteModernizacion.allowed.to_update ? undefined : true}>
+                    <div className="mt-8">
+                        <Label required className="mb-4" labelFor="numero_inventario_equipo" value="Número de inventario del equipo o máquina" />
+                        <Input id="numero_inventario_equipo" type="text" className="mt-1" error={errors.numero_inventario_equipo} placeholder="Escriba el número de inventario del equipo/maquina" bind:value={$formEquipo.numero_inventario_equipo} required />
                     </div>
 
-                    <div class="mt-8">
-                        <Label required class="mb-4" labelFor="year_adquisicion" value="Año de adquisición del equipo o maquina" />
+                    <div className="mt-8">
+                        <Label required className="mb-4" labelFor="year_adquisicion" value="Año de adquisición del equipo o maquina" />
                         <Select items={years} id="year_adquisicion" reload={true} bind:selectedValue={$formEquipo.year_adquisicion} error={errors.year_adquisicion} autocomplete="off" placeholder="Seleccione una opción" required />
                     </div>
 
-                    <div class="mt-8">
-                        <Label required class="mb-4" labelFor="nombre_equipo" value="Nombre del equipo o máquina" />
-                        <Input id="nombre_equipo" type="text" class="mt-1" error={errors.nombre_equipo} placeholder="Escriba el número de inventario del equipo/maquina" bind:value={$formEquipo.nombre_equipo} required />
+                    <div className="mt-8">
+                        <Label required className="mb-4" labelFor="nombre_equipo" value="Nombre del equipo o máquina" />
+                        <Input id="nombre_equipo" type="text" className="mt-1" error={errors.nombre_equipo} placeholder="Escriba el número de inventario del equipo/maquina" bind:value={$formEquipo.nombre_equipo} required />
                     </div>
 
-                    <div class="mt-8">
-                        <Label required class="mb-4" labelFor="marca" value="Marca" />
-                        <Input id="marca" type="text" class="mt-1" error={errors.marca} placeholder="Escriba marca" bind:value={$formEquipo.marca} required />
+                    <div className="mt-8">
+                        <Label required className="mb-4" labelFor="marca" value="Marca" />
+                        <Input id="marca" type="text" className="mt-1" error={errors.marca} placeholder="Escriba marca" bind:value={$formEquipo.marca} required />
                     </div>
 
-                    <div class="mt-8">
-                        <Label required class="mb-4" labelFor="descripcion_tecnica_equipo" value="Descripción general técnica del equipo o máquina" />
+                    <div className="mt-8">
+                        <Label required className="mb-4" labelFor="descripcion_tecnica_equipo" value="Descripción general técnica del equipo o máquina" />
                         <Textarea maxlength="40000" id="descripcion_tecnica_equipo" error={errors.descripcion_tecnica_equipo} bind:value={$formEquipo.descripcion_tecnica_equipo} required />
                     </div>
 
-                    <div class="mt-8">
-                        <Label required class="mb-4" labelFor="horas_promedio_uso" value="Promedio de horas de uso al año" />
-                        <Input id="horas_promedio_uso" type="number" input$min="0" class="mt-1" error={errors.horas_promedio_uso} placeholder="Escriba horas_promedio_uso" bind:value={$formEquipo.horas_promedio_uso} required />
+                    <div className="mt-8">
+                        <Label required className="mb-4" labelFor="horas_promedio_uso" value="Promedio de horas de uso al año" />
+                        <Input id="horas_promedio_uso" type="number" input$min="0" className="mt-1" error={errors.horas_promedio_uso} placeholder="Escriba horas_promedio_uso" bind:value={$formEquipo.horas_promedio_uso} required />
                     </div>
 
-                    <div class="mt-8">
-                        <Label required class="mb-4" labelFor="estado_equipo" value="Estado del equipo o máquina (Bueno, Regular, Malo)" />
+                    <div className="mt-8">
+                        <Label required className="mb-4" labelFor="estado_equipo" value="Estado del equipo o máquina (Bueno, Regular, Malo)" />
                         <Select items={estadosEquipo} id="estado_equipo" bind:selectedValue={$formEquipo.estado_equipo} error={errors.estado_equipo} autocomplete="off" placeholder="Seleccione una opción" required />
                     </div>
 
-                    <div class="mt-8">
-                        <Label required class="mb-4" labelFor="equipo_en_funcionamiento" value="¿El equipo o máquina está funcionamiento? SI/NO" />
+                    <div className="mt-8">
+                        <Label required className="mb-4" labelFor="equipo_en_funcionamiento" value="¿El equipo o máquina está funcionamiento? SI/NO" />
                         <Select items={opcionesSiNo} id="equipo_en_funcionamiento" bind:selectedValue={$formEquipo.equipo_en_funcionamiento} error={errors.equipo_en_funcionamiento} autocomplete="off" placeholder="Seleccione una opción" required />
                     </div>
 
-                    <div class="mt-8">
-                        <Label required class="mb-4" labelFor="frecuencia_mantenimiento" value="¿Con qué frecuencia requiere mantenimiento preventivo el equipo o maquina?" />
+                    <div className="mt-8">
+                        <Label required className="mb-4" labelFor="frecuencia_mantenimiento" value="¿Con qué frecuencia requiere mantenimiento preventivo el equipo o maquina?" />
                         <Select items={opcionesFrecuencia} id="frecuencia_mantenimiento" bind:selectedValue={$formEquipo.frecuencia_mantenimiento} error={errors.frecuencia_mantenimiento} autocomplete="off" placeholder="Seleccione una opción" required />
                     </div>
 
-                    <div class="mt-8">
-                        <Label required class="mb-4" labelFor="observaciones_generales" value="Observaciones generales" />
+                    <div className="mt-8">
+                        <Label required className="mb-4" labelFor="observaciones_generales" value="Observaciones generales" />
                         <Textarea maxlength="40000" id="observaciones_generales" error={errors.observaciones_generales} bind:value={$formEquipo.observaciones_generales} required />
                     </div>
 
-                    <hr class="w-full my-24" />
+                    <hr className="w-full my-24" />
 
-                    <h1 class="text-cener font-black mb-14">Información del cuentadante</h1>
+                    <h1 className="text-cener font-black mb-14">Información del cuentadante</h1>
 
-                    <div class="mt-8">
-                        <Label required class="mb-4" labelFor="nombre_cuentadante" value="Nombre completo" />
+                    <div className="mt-8">
+                        <Label required className="mb-4" labelFor="nombre_cuentadante" value="Nombre completo" />
                         <Input id="nombre_cuentadante" type="text" error={errors.nombre_cuentadante} bind:value={$formEquipo.nombre_cuentadante} required />
                     </div>
 
-                    <div class="mt-8">
-                        <Label required class="mb-4" labelFor="cedula_cuentadante" value="Número de cédula" />
+                    <div className="mt-8">
+                        <Label required className="mb-4" labelFor="cedula_cuentadante" value="Número de cédula" />
                         <Input id="cedula_cuentadante" type="number" input$min="0" error={errors.cedula_cuentadante} bind:value={$formEquipo.cedula_cuentadante} required />
                     </div>
 
-                    <div class="mt-4 mb-20">
-                        <Label required class="mb-4" labelFor="rol_cuentadante" value="Rol del cuentadante" />
+                    <div className="mt-4 mb-20">
+                        <Label required className="mb-4" labelFor="rol_cuentadante" value="Rol del cuentadante" />
                         <Select id="rol_cuentadante" items={roles} bind:selectedValue={$formEquipo.rol_cuentadante} error={errors.rol_cuentadante} autocomplete="off" placeholder="Seleccione un rol SENNOVA" required />
                     </div>
                 </fieldset>
             </form>
         </div>
         <div slot="actions">
-            <div class="p-4">
+            <div className="p-4">
                 <Button on:click={() => (equipoFormDialog = false)} variant={null}>Cancelar</Button>
                 {#if ambienteModernizacion.allowed.to_update}
-                    <LoadingButton type="submit" loading={$formEquipo.processing} form="equipo-ambiente-modernizacion">Guardar</LoadingButton>
+                    <PrimaryButton type="submit" loading={$formEquipo.processing} form="equipo-ambiente-modernizacion">Guardar</PrimaryButton>
                 {/if}
             </div>
         </div>
     </Dialog>
 
     <Dialog bind:open={destroyEquipoDialog}>
-        <div slot="title" class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div slot="title" className="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
             Eliminar recurso
@@ -575,7 +575,7 @@
             </p>
         </div>
         <div slot="actions">
-            <div class="p-4">
+            <div className="p-4">
                 <Button on:click={() => ((destroyEquipoDialog = false), (equipoAmbienteModernizacionId = null))} variant={null}>Cancelar</Button>
                 <Button variant="raised" on:click={destroyEquipo}>Confirmar</Button>
             </div>
@@ -583,26 +583,26 @@
     </Dialog>
 
     <Dialog bind:open={infoDialog} id="informacion">
-        <div slot="title" class="flex items-center flex-col mt-4">
+        <div slot="title" className="flex items-center flex-col mt-4">
             <figure>
-                <img src={'/images/proyecto.png'} alt="Proyecto" class="h-32 mb-6" />
+                <img src={'/images/proyecto.png'} alt="Proyecto" className="h-32 mb-6" />
             </figure>
             Código del proyecto: {ambienteModernizacion.seguimiento_ambiente_modernizacion.codigo}
         </div>
         <div slot="content">
             <ul>
-                <li class="flex items-center">
+                <li className="flex items-center">
                     {#if ambienteModernizacion.finalizado}
-                        <a class="bg-app-500 mx-auto p-2 rounded text-white text-xs" href={route('ambientes-modernizacion.descargar-pdf', [ambienteModernizacion.id])}>Descargar PDF</a>
+                        <a className="bg-app-500 mx-auto p-2 rounded text-white text-xs" href={route('ambientes-modernizacion.descargar-pdf', [ambienteModernizacion.id])}>Descargar PDF</a>
                     {/if}
                 </li>
             </ul>
             <div>
-                <h1 class="text-center mt-4 mb-4">Para terminar de diligenciar toda la información del seguimiento post cierre del ambiente de modernización por favor de clic en <strong>Continuar diligenciando</strong>, si ya actualizó todos los campos de clic en <strong>Omitir</strong></h1>
+                <h1 className="text-center mt-4 mb-4">Para terminar de diligenciar toda la información del seguimiento post cierre del ambiente de modernización por favor de clic en <strong>Continuar diligenciando</strong>, si ya actualizó todos los campos de clic en <strong>Omitir</strong></h1>
             </div>
         </div>
         <div slot="actions">
-            <div class="p-4">
+            <div className="p-4">
                 <Button on:click={() => (infoDialog = false)} variant={null}>Omitir</Button>
                 <Button variant="raised" on:click={() => (infoDialog = false)} on:click={() => Inertia.visit('#financiado_anteriormente')}>Continuar diligenciando</Button>
             </div>

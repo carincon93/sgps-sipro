@@ -4,15 +4,15 @@
     import { route, checkRole, checkPermissionByUser } from '@/Utils'
     import { _ } from 'svelte-i18n'
 
-    import Label from '@/Shared/Label'
-    import LoadingButton from '@/Shared/LoadingButton'
-    import InputError from '@/Shared/InputError'
-    import Textarea from '@/Shared/Textarea'
-    import Select from '@/Shared/Select'
-    import InfoMessage from '@/Shared/InfoMessage'
-    import Button from '@/Shared/Button'
-    import Tooltip from '@/Shared/Tooltip'
-    import RecomendacionEvaluador from '@/Shared/RecomendacionEvaluador'
+    import Label from '@/Components/Label'
+    import PrimaryButton from '@/Components/PrimaryButton'
+    import InputError from '@/Components/InputError'
+    import Textarea from '@/Components/Textarea'
+    import Select from '@/Components/Select'
+    import InfoMessage from '@/Components/InfoMessage'
+    import Button from '@/Components/Button'
+    import Tooltip from '@/Components/Tooltip'
+    import RecomendacionEvaluador from '@/Components/RecomendacionEvaluador'
 
     export let errors
     export let convocatoria
@@ -27,7 +27,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
+    let authUser = $auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     /**
@@ -557,55 +557,55 @@
 </script>
 
 <!-- {#if (isSuperAdmin && faseEvaluacion == false) || (proyecto.mostrar_recomendaciones && faseEvaluacion == false)}
-    <RecomendacionEvaluador class="mt-8">
+    <RecomendacionEvaluador className="mt-8">
         {#each proyecto.evaluaciones as evaluacion, i}
             {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
-                <div class="bg-zinc-900 p-4 rounded shadow text-white my-2">
-                    <p class="text-xs">Evaluador COD-{evaluacion.id}:</p>
+                <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
+                    <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
 
                     {#if evaluacion.idi_evaluacion}
-                        <h1 class="font-black mt-10">Objetivos</h1>
-                        <p class="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion?.objetivos_comentario ? evaluacion.idi_evaluacion.objetivos_comentario : 'Sin recomendación'}</p>
+                        <h1 className="font-black mt-10">Objetivos</h1>
+                        <p className="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion?.objetivos_comentario ? evaluacion.idi_evaluacion.objetivos_comentario : 'Sin recomendación'}</p>
 
-                        <hr class="mt-10 mb-10 border-black-200" />
-                        <h1 class="font-black">Resultados</h1>
+                        <hr className="mt-10 mb-10 border-black-200" />
+                        <h1 className="font-black">Resultados</h1>
 
-                        <p class="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion?.resultados_comentario ? evaluacion.idi_evaluacion.resultados_comentario : 'Sin recomendación'}</p>
+                        <p className="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion?.resultados_comentario ? evaluacion.idi_evaluacion.resultados_comentario : 'Sin recomendación'}</p>
                     {:else if evaluacion.cultura_innovacion_evaluacion}
-                        <h1 class="font-black mt-10">Objetivos</h1>
-                        <p class="whitespace-pre-line text-xs">{evaluacion.cultura_innovacion_evaluacion?.objetivos_comentario ? evaluacion.cultura_innovacion_evaluacion.objetivos_comentario : 'Sin recomendación'}</p>
+                        <h1 className="font-black mt-10">Objetivos</h1>
+                        <p className="whitespace-pre-line text-xs">{evaluacion.cultura_innovacion_evaluacion?.objetivos_comentario ? evaluacion.cultura_innovacion_evaluacion.objetivos_comentario : 'Sin recomendación'}</p>
 
-                        <hr class="mt-10 mb-10 border-black-200" />
-                        <h1 class="font-black">Resultados</h1>
+                        <hr className="mt-10 mb-10 border-black-200" />
+                        <h1 className="font-black">Resultados</h1>
 
-                        <p class="whitespace-pre-line text-xs">{evaluacion.cultura_innovacion_evaluacion?.resultados_comentario ? evaluacion.cultura_innovacion_evaluacion.resultados_comentario : 'Sin recomendación'}</p>
+                        <p className="whitespace-pre-line text-xs">{evaluacion.cultura_innovacion_evaluacion?.resultados_comentario ? evaluacion.cultura_innovacion_evaluacion.resultados_comentario : 'Sin recomendación'}</p>
                     {:else if evaluacion.servicio_tecnologico_evaluacion}
-                        <h1 class="font-black mt-10">Objetivo general</h1>
+                        <h1 className="font-black mt-10">Objetivo general</h1>
 
-                        <p class="whitespace-pre-line text-xs">{evaluacion.servicio_tecnologico_evaluacion?.objetivo_general_comentario ? evaluacion.servicio_tecnologico_evaluacion.objetivo_general_comentario : 'Sin recomendación'}</p>
+                        <p className="whitespace-pre-line text-xs">{evaluacion.servicio_tecnologico_evaluacion?.objetivo_general_comentario ? evaluacion.servicio_tecnologico_evaluacion.objetivo_general_comentario : 'Sin recomendación'}</p>
 
-                        <hr class="mt-10 mb-10 border-black-200" />
-                        <h1 class="font-black">Objetivos específicos</h1>
+                        <hr className="mt-10 mb-10 border-black-200" />
+                        <h1 className="font-black">Objetivos específicos</h1>
 
-                        <ul class="list-disc pl-4">
-                            <li class="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.primer_objetivo_comentario ? 'Recomendación primer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.primer_objetivo_comentario : 'Sin recomendación'}</li>
-                            <li class="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.segundo_objetivo_comentario ? 'Recomendación segundo objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.segundo_objetivo_comentario : 'Sin recomendación'}</li>
-                            <li class="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.tercer_objetivo_comentario ? 'Recomendación tercer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.tercer_objetivo_comentario : 'Sin recomendación'}</li>
-                            <li class="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.cuarto_objetivo_comentario ? 'Recomendación cuarto objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.cuarto_objetivo_comentario : 'Sin recomendación'}</li>
+                        <ul className="list-disc pl-4">
+                            <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.primer_objetivo_comentario ? 'Recomendación primer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.primer_objetivo_comentario : 'Sin recomendación'}</li>
+                            <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.segundo_objetivo_comentario ? 'Recomendación segundo objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.segundo_objetivo_comentario : 'Sin recomendación'}</li>
+                            <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.tercer_objetivo_comentario ? 'Recomendación tercer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.tercer_objetivo_comentario : 'Sin recomendación'}</li>
+                            <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.cuarto_objetivo_comentario ? 'Recomendación cuarto objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.cuarto_objetivo_comentario : 'Sin recomendación'}</li>
                         </ul>
 
-                        <hr class="mt-10 mb-10 border-black-200" />
-                        <h1 class="font-black">Resultados</h1>
-                        <ul class="list-disc pl-4">
-                            <li class="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.resultados_primer_obj_comentario ? 'Recomendación resultados del primer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_primer_obj_comentario : 'Sin recomendación'}</li>
-                            <li class="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.resultados_segundo_obj_comentario ? 'Recomendación resultados del segundo objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_segundo_obj_comentario : 'Sin recomendación'}</li>
-                            <li class="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.resultados_tercer_obj_comentario ? 'Recomendación resultados del tercer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_tercer_obj_comentario : 'Sin recomendación'}</li>
-                            <li class="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.resultados_cuarto_obj_comentario ? 'Recomendación resultados del cuarto objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_cuarto_obj_comentario : 'Sin recomendación'}</li>
+                        <hr className="mt-10 mb-10 border-black-200" />
+                        <h1 className="font-black">Resultados</h1>
+                        <ul className="list-disc pl-4">
+                            <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.resultados_primer_obj_comentario ? 'Recomendación resultados del primer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_primer_obj_comentario : 'Sin recomendación'}</li>
+                            <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.resultados_segundo_obj_comentario ? 'Recomendación resultados del segundo objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_segundo_obj_comentario : 'Sin recomendación'}</li>
+                            <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.resultados_tercer_obj_comentario ? 'Recomendación resultados del tercer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_tercer_obj_comentario : 'Sin recomendación'}</li>
+                            <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.resultados_cuarto_obj_comentario ? 'Recomendación resultados del cuarto objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_cuarto_obj_comentario : 'Sin recomendación'}</li>
                         </ul>
                     {:else if evaluacion.ta_evaluacion}
-                        <p class="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion?.arbol_objetivos_comentario ? evaluacion.ta_evaluacion.arbol_objetivos_comentario : 'Sin recomendación'}</p>
+                        <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion?.arbol_objetivos_comentario ? evaluacion.ta_evaluacion.arbol_objetivos_comentario : 'Sin recomendación'}</p>
                     {:else if evaluacion.tp_evaluacion}
-                        <p class="whitespace-pre-line text-xs">{evaluacion.tp_evaluacion?.arbol_objetivos_comentario ? evaluacion.tp_evaluacion.arbol_objetivos_comentario : 'Sin recomendación'}</p>
+                        <p className="whitespace-pre-line text-xs">{evaluacion.tp_evaluacion?.arbol_objetivos_comentario ? evaluacion.tp_evaluacion.arbol_objetivos_comentario : 'Sin recomendación'}</p>
                     {/if}
                 </div>
             {/if}
@@ -615,40 +615,40 @@
 
 <div>
     <!-- Causas directas y causas indirectas relacionados -->
-    <figure class="flex w-full items-center justify-center">
+    <figure className="flex w-full items-center justify-center">
         <img src="/images/causas-objetivos.png" alt="" />
     </figure>
-    <div class="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-2 gap-4">
         <div>
-            <div class="text-3xl font-extrabold mt-28">
-                <span class="bg-clip-text text-transparent m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max"> 1. Causas directas e indirectas </span>
+            <div className="text-3xl font-extrabold mt-28">
+                <span className="bg-clip-text text-transparent m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max"> 1. Causas directas e indirectas </span>
             </div>
 
-            <InfoMessage class="mr-6 my-4">Recuerde que al crear una causa directa se genera automáticamente el objetivo específico en la sección de la derecha. Pasa igual si se crea una causa indirecta, se genera la actividad respectiva. Recuerde que ambos ítems deben tener relación.</InfoMessage>
+            <InfoMessage className="mr-6 my-4">Recuerde que al crear una causa directa se genera automáticamente el objetivo específico en la sección de la derecha. Pasa igual si se crea una causa indirecta, se genera la actividad respectiva. Recuerde que ambos ítems deben tener relación.</InfoMessage>
 
             {#each causasDirectas as causaDirecta, i}
-                <div class="my-20 shadow p-2" style="background-color: #ffffff75">
-                    <small class="inline-block ml-2">Causa directa #{i + 1}</small>
+                <div className="my-20 shadow p-2" style="background-color: #ffffff75">
+                    <small className="inline-block ml-2">Causa directa #{i + 1}</small>
                     {#if causaDirectaId != causaDirecta.id}
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
-                        <div class="bg-white relative p-4 rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style="overflow: hidden; -webkit-line-clamp: 4; -webkit-box-orient: vertical; display: -webkit-box;" on:click={setCausaDirecta(causaDirecta)}>
+                        <div className="bg-white relative p-4 rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style="overflow: hidden; -webkit-line-clamp: 4; -webkit-box-orient: vertical; display: -webkit-box;" on:click={setCausaDirecta(causaDirecta)}>
                             {causaDirecta.descripcion ? causaDirecta.descripcion : 'Por favor diligencie esta causa directa.'}
 
-                            <div class="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
+                            <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                 {#if showCausaDirectaDestroyIcon && causaDirecta.id == causaDirectaIdToDestroy}
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyCausaDirecta(causaDirecta))}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyCausaDirecta(causaDirecta))}>
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                     </svg>
 
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showCausaDirectaDestroyIcon = false))}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showCausaDirectaDestroyIcon = false))}>
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                 {:else}
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={setCausaDirecta(causaDirecta)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 hover:cursor-pointer" on:click={setCausaDirecta(causaDirecta)}>
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                     </svg>
 
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showCausaDirectaDestroyIcon = true), (causaDirectaIdToDestroy = causaDirecta.id))}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showCausaDirectaDestroyIcon = true), (causaDirectaIdToDestroy = causaDirecta.id))}>
                                         <path
                                             stroke-linecap="round"
                                             stroke-linejoin="round"
@@ -660,44 +660,44 @@
                         </div>
                     {/if}
                     {#if showCausaDirectaForm && causaDirectaId == causaDirecta.id}
-                        <form on:submit|preventDefault={submitCausaDirecta} id="causa-directa" class="mt-4">
-                            <fieldset class="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
+                        <form on:submit|preventDefault={submitCausaDirecta} id="causa-directa" className="mt-4">
+                            <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                 <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} maxlength="40000" id="causa-directa-descripcion" error={errors.descripcion} bind:value={$formCausaDirecta.descripcion} required />
                             </fieldset>
 
                             {#if proyecto.allowed.to_update}
-                                <LoadingButton loading={$formCausaDirecta.processing} class="my-4" type="submit" form="causa-directa">Guardar información sobre la causa directa</LoadingButton>
+                                <PrimaryButton loading={$formCausaDirecta.processing} className="my-4" type="submit" form="causa-directa">Guardar información sobre la causa directa</PrimaryButton>
                             {/if}
-                            <Button class="ml-2" variant={null} on:click={() => ((showCausaDirectaForm = false), (causaDirectaId = null))}>Cancelar</Button>
+                            <Button className="ml-2" variant={null} on:click={() => ((showCausaDirectaForm = false), (causaDirectaId = null))}>Cancelar</Button>
                         </form>
                     {/if}
 
-                    <small class="ml-2 mt-6 flex items-center">
+                    <small className="ml-2 mt-6 flex items-center">
                         Causas indirectas
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4" style="transform: scaleX(-1)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-2 w-4 h-4" style="transform: scaleX(-1)">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 15l-6 6m0 0l-6-6m6 6V9a6 6 0 0112 0v3" />
                         </svg>
                     </small>
                     {#each causaDirecta.causas_indirectas as causaIndirecta, i}
                         {#if causaIndirectaId != causaIndirecta.id}
                             <!-- svelte-ignore a11y-click-events-have-key-events -->
-                            <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style="overflow: hidden; -webkit-line-clamp: 4; -webkit-box-orient: vertical; display: -webkit-box;" on:click={setCausaIndirecta(causaDirecta, causaIndirecta)}>
+                            <div className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style="overflow: hidden; -webkit-line-clamp: 4; -webkit-box-orient: vertical; display: -webkit-box;" on:click={setCausaIndirecta(causaDirecta, causaIndirecta)}>
                                 {causaIndirecta.descripcion ? causaIndirecta.descripcion : 'Por favor diligencie esta causa indirecta.'}
-                                <div class="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
+                                <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                     {#if showCausaIndirectaDestroyIcon && causaIndirecta.id == causaIndirectaIdToDestroy}
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyCausaIndirecta(causaIndirecta))}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyCausaIndirecta(causaIndirecta))}>
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                         </svg>
 
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showCausaIndirectaDestroyIcon = false))}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showCausaIndirectaDestroyIcon = false))}>
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                         </svg>
                                     {:else}
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={setCausaIndirecta(causaDirecta, causaIndirecta)}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 hover:cursor-pointer" on:click={setCausaIndirecta(causaDirecta, causaIndirecta)}>
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                         </svg>
 
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showCausaIndirectaDestroyIcon = true), (causaIndirectaIdToDestroy = causaIndirecta.id))}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showCausaIndirectaDestroyIcon = true), (causaIndirectaIdToDestroy = causaIndirecta.id))}>
                                             <path
                                                 stroke-linecap="round"
                                                 stroke-linejoin="round"
@@ -710,53 +710,53 @@
                         {/if}
 
                         {#if showCausaIndirectaForm && causaIndirectaId == causaIndirecta.id}
-                            <form on:submit|preventDefault={submitCausaIndirecta} id="causa-indirecta" class="mt-4">
-                                <fieldset class="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
+                            <form on:submit|preventDefault={submitCausaIndirecta} id="causa-indirecta" className="mt-4">
+                                <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                     <div>
                                         <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} maxlength="40000" id="causa-directa-descripcion" error={errors.descripcion} bind:value={$formCausaIndirecta.descripcion} required />
                                     </div>
                                 </fieldset>
 
                                 {#if proyecto.allowed.to_update}
-                                    <LoadingButton loading={$formCausaIndirecta.processing} class="my-4" type="submit" form="causa-indirecta">Guardar información sobre la causa indirecta</LoadingButton>
+                                    <PrimaryButton loading={$formCausaIndirecta.processing} className="my-4" type="submit" form="causa-indirecta">Guardar información sobre la causa indirecta</PrimaryButton>
                                 {/if}
 
-                                <Button class="ml-2" variant={null} on:click={() => ((showCausaIndirectaForm = false), (causaIndirectaId = null))}>Cancelar</Button>
+                                <Button className="ml-2" variant={null} on:click={() => ((showCausaIndirectaForm = false), (causaIndirectaId = null))}>Cancelar</Button>
                             </form>
                         {/if}
                     {/each}
 
-                    <div class="flex items-center justify-end">
-                        <Tooltip label="Importante leer" class="mr-6 my-4">Al crear una causa indirecta se genera automáticamente la actividad en la sección de la derecha. Recuerde que ambos deben tener relación.</Tooltip>
-                        <Button class="my-4" labelClass="flex items-center justify-center" disabled={showNuevaCausaIndirectaForm ? true : undefined} variant={null} type="Button" on:click={setNuevoCausaIndirecta(causaDirecta)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <div className="flex items-center justify-end">
+                        <Tooltip label="Importante leer" className="mr-6 my-4">Al crear una causa indirecta se genera automáticamente la actividad en la sección de la derecha. Recuerde que ambos deben tener relación.</Tooltip>
+                        <Button className="my-4" labelClass="flex items-center justify-center" disabled={showNuevaCausaIndirectaForm ? true : undefined} variant={null} type="Button" on:click={setNuevoCausaIndirecta(causaDirecta)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
 
-                            <span class="ml-2">Añadir una causa indirecta</span>
+                            <span className="ml-2">Añadir una causa indirecta</span>
                         </Button>
                     </div>
 
                     {#if showNuevaCausaIndirectaForm && causaDirectaIdNuevaIndirecta == causaDirecta.id}
                         <form on:submit|preventDefault={submitCausaIndirecta} id="causa-indirecta">
-                            <fieldset class="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
+                            <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                 <div>
                                     <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} maxlength="40000" label="Escriba la nueva causa indirecta" id="causa-directa-descripcion" error={errors.descripcion} bind:value={$formCausaIndirecta.descripcion} required />
                                 </div>
                             </fieldset>
 
                             {#if proyecto.allowed.to_update}
-                                <LoadingButton loading={$formCausaIndirecta.processing} class="my-4" type="submit" form="causa-indirecta">Añadir causa indirecta</LoadingButton>
+                                <PrimaryButton loading={$formCausaIndirecta.processing} className="my-4" type="submit" form="causa-indirecta">Añadir causa indirecta</PrimaryButton>
                             {/if}
 
-                            <Button class="ml-2" variant={null} on:click={() => ((showNuevaCausaIndirectaForm = false), (causaDirectaId = null))}>Cancelar</Button>
+                            <Button className="ml-2" variant={null} on:click={() => ((showNuevaCausaIndirectaForm = false), (causaDirectaId = null))}>Cancelar</Button>
                         </form>
                     {/if}
                 </div>
             {/each}
 
-            <Button type="button" variant={null} class="block mt-4 mb-20 mx-auto" labelClass="flex items-center justify-center" on:click={() => newCausaDirecta()}>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+            <Button type="button" variant={null} className="block mt-4 mb-20 mx-auto" labelClass="flex items-center justify-center" on:click={() => newCausaDirecta()}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 mr-2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 Añadir causa directa
@@ -765,34 +765,34 @@
 
         <!-- Objetivos específicos y actividades relacionados -->
         <div>
-            <div class="text-3xl font-extrabold mt-28">
-                <span class="bg-clip-text text-transparent m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max"> 2. Objetivos específicos y actividades </span>
+            <div className="text-3xl font-extrabold mt-28">
+                <span className="bg-clip-text text-transparent m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max"> 2. Objetivos específicos y actividades </span>
             </div>
 
-            <InfoMessage class="mr-6 my-4">Si desea generar un objetivo específico debe primero crear la causa directa en la sección de la izquierda. Pasa igual si desea generar una actividad, debe primero generar una causa indirecta. Recuerde que ambos ítems deben tener relación.</InfoMessage>
+            <InfoMessage className="mr-6 my-4">Si desea generar un objetivo específico debe primero crear la causa directa en la sección de la izquierda. Pasa igual si desea generar una actividad, debe primero generar una causa indirecta. Recuerde que ambos ítems deben tener relación.</InfoMessage>
 
             {#each causasDirectas as causaDirecta, i}
-                <div class="my-20 shadow p-2 pb-[76px]" style="background-color: #ffffff75">
-                    <small class="inline-block ml-2 mb-4">Objetivo específico #{i + 1}</small>
+                <div className="my-20 shadow p-2 pb-[76px]" style="background-color: #ffffff75">
+                    <small className="inline-block ml-2 mb-4">Objetivo específico #{i + 1}</small>
                     {#if objetivoEspecificoId != causaDirecta.objetivo_especifico?.id}
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
-                        <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] pr-14" on:click={setObjetivoEspecifico(causaDirecta, causaDirecta.objetivo_especifico, i + 1)}>
+                        <div className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] pr-14" on:click={setObjetivoEspecifico(causaDirecta, causaDirecta.objetivo_especifico, i + 1)}>
                             {causaDirecta.objetivo_especifico?.descripcion ? causaDirecta.objetivo_especifico?.descripcion : 'Por favor diligencie este objetivo específico.'}
-                            <div class="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
+                            <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                 {#if showObjetivoEspecificoDestroyIcon && causaDirecta.objetivo_especifico?.id == objetivoEspecificoIdToDestroy}
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyObjetivoEspecifico(causaDirecta.objetivo_especifico))}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyObjetivoEspecifico(causaDirecta.objetivo_especifico))}>
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                     </svg>
 
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showObjetivoEspecificoDestroyIcon = false))}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showObjetivoEspecificoDestroyIcon = false))}>
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                 {:else}
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={setObjetivoEspecifico(causaDirecta, causaDirecta.objetivo_especifico, i + 1)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 hover:cursor-pointer" on:click={setObjetivoEspecifico(causaDirecta, causaDirecta.objetivo_especifico, i + 1)}>
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                     </svg>
 
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showObjetivoEspecificoDestroyIcon = true), (objetivoEspecificoIdToDestroy = causaDirecta.objetivo_especifico?.id))}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showObjetivoEspecificoDestroyIcon = true), (objetivoEspecificoIdToDestroy = causaDirecta.objetivo_especifico?.id))}>
                                         <path
                                             stroke-linecap="round"
                                             stroke-linejoin="round"
@@ -805,12 +805,12 @@
                     {/if}
                     {#if showObjetivoEspecificoForm && objetivoEspecificoId == causaDirecta.objetivo_especifico?.id}
                         <form on:submit|preventDefault={submitObjetivoEspecifico} id="objetivo-especifico-form">
-                            <fieldset class="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
+                            <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                 <div>
                                     <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} maxlength="40000" id="descripcion-objetivo-especifico" error={errors.descripcion} bind:value={$formObjetivoEspecifico.descripcion} required />
                                 </div>
 
-                                <Tooltip class="mt-2" label="Información sobre los objetivos específicos">
+                                <Tooltip className="mt-2" label="Información sobre los objetivos específicos">
                                     Los objetivos específicos son los medios cuantificables que llevarán al cumplimiento del objetivo general. Estos surgen de pasar a positivo las causas directas identificadas en el árbol de problemas.
                                     <br />
                                     La redacción de los objetivos específicos deberá iniciar con un verbo en modo infinitivo, es decir, con una palabra terminada en "ar", "er" o "ir". La estructura del objetivo debe contener al menos tres componentes: (1) la acción que se espera realizar, (2) el objeto sobre el cual recae la acción y (3) elementos adicionales de contexto o descriptivos.
@@ -818,39 +818,39 @@
                             </fieldset>
 
                             {#if proyecto.allowed.to_update}
-                                <LoadingButton loading={$formObjetivoEspecifico.processing} class="my-4" type="submit" form="objetivo-especifico-form">Guardar información sobre el objetivo específico</LoadingButton>
+                                <PrimaryButton loading={$formObjetivoEspecifico.processing} className="my-4" type="submit" form="objetivo-especifico-form">Guardar información sobre el objetivo específico</PrimaryButton>
                             {/if}
 
-                            <Button class="ml-2" variant={null} on:click={() => ((showObjetivoEspecificoForm = false), (objetivoEspecificoId = null))}>Cancelar</Button>
+                            <Button className="ml-2" variant={null} on:click={() => ((showObjetivoEspecificoForm = false), (objetivoEspecificoId = null))}>Cancelar</Button>
                         </form>
                     {/if}
 
-                    <small class="ml-2 mt-6 flex items-center">
+                    <small className="ml-2 mt-6 flex items-center">
                         Actividades
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4" style="transform: scaleX(-1)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-2 w-4 h-4" style="transform: scaleX(-1)">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 15l-6 6m0 0l-6-6m6 6V9a6 6 0 0112 0v3" />
                         </svg>
                     </small>
                     {#each causaDirecta.causas_indirectas as causaIndirecta, i}
                         {#if actividadId != causaIndirecta.actividad?.id}
                             <!-- svelte-ignore a11y-click-events-have-key-events -->
-                            <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style="overflow: hidden; -webkit-line-clamp: 4; -webkit-box-orient: vertical; display: -webkit-box;" on:click={setActividad(causaIndirecta, causaIndirecta.actividad)}>
+                            <div className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style="overflow: hidden; -webkit-line-clamp: 4; -webkit-box-orient: vertical; display: -webkit-box;" on:click={setActividad(causaIndirecta, causaIndirecta.actividad)}>
                                 {causaIndirecta.actividad?.descripcion ? causaIndirecta.actividad?.descripcion : 'Por favor diligencie esta actividad.'}
-                                <div class="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
+                                <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                     {#if showActividadDestroyIcon && causaIndirecta.actividad?.id == actividadIdToDestroy}
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyActividad(causaIndirecta.actividad))}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyActividad(causaIndirecta.actividad))}>
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                         </svg>
 
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showActividadDestroyIcon = false))}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showActividadDestroyIcon = false))}>
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                         </svg>
                                     {:else}
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={setActividad(causaIndirecta, causaIndirecta.actividad)}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 hover:cursor-pointer" on:click={setActividad(causaIndirecta, causaIndirecta.actividad)}>
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                         </svg>
 
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showActividadDestroyIcon = true), (actividadIdToDestroy = causaIndirecta.actividad?.id))}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showActividadDestroyIcon = true), (actividadIdToDestroy = causaIndirecta.actividad?.id))}>
                                             <path
                                                 stroke-linecap="round"
                                                 stroke-linejoin="round"
@@ -863,13 +863,13 @@
                         {/if}
 
                         {#if showActividadForm && actividadId == causaIndirecta.actividad?.id}
-                            <form on:submit|preventDefault={submitActividad} id="actividad-form" class="mt-4">
-                                <fieldset class="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
+                            <form on:submit|preventDefault={submitActividad} id="actividad-form" className="mt-4">
+                                <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                     <div>
                                         <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} maxlength="15000" id="descripcion-actividad" error={errors.descripcion} bind:value={$formActividad.descripcion} required />
                                     </div>
 
-                                    <Tooltip class="mt-2" label="Información sobre las actividades">
+                                    <Tooltip className="mt-2" label="Información sobre las actividades">
                                         Se debe evidenciar que la descripción de las actividades se realice de manera secuencial y de forma coherente con los productos a las cuales están asociadas para alcanzar el logro de cada uno de los objetivos específicos.
                                         <br />
                                         Las actividades deben redactarse en verbos en modo infinitivo, es decir, en palabras que expresen acciones y terminen en “ar”, “er” o “ir”, estos no deben hacer referencia a objetivos específicos o generales. Algunos ejemplos de verbos inadecuados para describir actividades son: apropiar, asegurar, colaborar, consolidar, desarrollar, fomentar, fortalecer, garantizar,
@@ -883,19 +883,19 @@
                                         </div>
                                     {/if}
 
-                                    <div class="mt-8">
-                                        <p class="text-center">Fecha de ejecución</p>
-                                        <div class="mt-4 flex items-start justify-around">
-                                            <div class="mt-4 flex {errors.fecha_inicio ? '' : 'items-center'}">
-                                                <Label required labelFor="fecha_inicio" class={errors.fecha_inicio ? 'top-3.5 relative' : ''} value="Del" />
-                                                <div class="ml-4">
-                                                    <input id="fecha_inicio" type="date" class="mt-1 block w-full p-4" min={proyecto.fecha_inicio} max={proyecto.fecha_finalizacion} bind:value={$formActividad.fecha_inicio} required />
+                                    <div className="mt-8">
+                                        <p className="text-center">Fecha de ejecución</p>
+                                        <div className="mt-4 flex items-start justify-around">
+                                            <div className="mt-4 flex {errors.fecha_inicio ? '' : 'items-center'}">
+                                                <Label required labelFor="fecha_inicio" className={errors.fecha_inicio ? 'top-3.5 relative' : ''} value="Del" />
+                                                <div className="ml-4">
+                                                    <input id="fecha_inicio" type="date" className="mt-1 block w-full p-4" min={proyecto.fecha_inicio} max={proyecto.fecha_finalizacion} bind:value={$formActividad.fecha_inicio} required />
                                                 </div>
                                             </div>
-                                            <div class="mt-4 flex {errors.fecha_finalizacion ? '' : 'items-center'}">
-                                                <Label required labelFor="fecha_finalizacion" class={errors.fecha_finalizacion ? 'top-3.5 relative' : ''} value="hasta" />
-                                                <div class="ml-4">
-                                                    <input id="fecha_finalizacion" type="date" class="mt-1 block w-full p-4" min={proyecto.fecha_inicio} max={proyecto.fecha_finalizacion} bind:value={$formActividad.fecha_finalizacion} required />
+                                            <div className="mt-4 flex {errors.fecha_finalizacion ? '' : 'items-center'}">
+                                                <Label required labelFor="fecha_finalizacion" className={errors.fecha_finalizacion ? 'top-3.5 relative' : ''} value="hasta" />
+                                                <div className="ml-4">
+                                                    <input id="fecha_finalizacion" type="date" className="mt-1 block w-full p-4" min={proyecto.fecha_inicio} max={proyecto.fecha_finalizacion} bind:value={$formActividad.fecha_finalizacion} required />
                                                 </div>
                                             </div>
                                         </div>
@@ -906,10 +906,10 @@
                                 </fieldset>
 
                                 {#if proyecto.allowed.to_update}
-                                    <LoadingButton loading={$formActividad.processing} class="my-4" type="submit" form="actividad-form">Guardar información sobre la actividad</LoadingButton>
+                                    <PrimaryButton loading={$formActividad.processing} className="my-4" type="submit" form="actividad-form">Guardar información sobre la actividad</PrimaryButton>
                                 {/if}
 
-                                <Button class="ml-2" variant={null} on:click={() => ((showActividadForm = false), (actividadId = null))}>Cancelar</Button>
+                                <Button className="ml-2" variant={null} on:click={() => ((showActividadForm = false), (actividadId = null))}>Cancelar</Button>
                             </form>
                         {/if}
                     {/each}
@@ -918,39 +918,39 @@
         </div>
     </div>
 
-    <figure class="flex w-full items-center justify-center mt-20">
+    <figure className="flex w-full items-center justify-center mt-20">
         <img src="/images/efectos-resultados.png" alt="" />
     </figure>
     <!-- Efectos directos y efectos indirectos relacionados -->
-    <div class="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-2 gap-4">
         <div>
-            <div class="text-3xl font-extrabold mt-28">
-                <span class="bg-clip-text text-transparent m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max"> 3. Efectos directos e indirectos </span>
+            <div className="text-3xl font-extrabold mt-28">
+                <span className="bg-clip-text text-transparent m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max"> 3. Efectos directos e indirectos </span>
             </div>
 
             {#each efectosDirectos as efectoDirecto, i}
-                <div class="my-20 shadow p-2" style="background-color: #ffffff75">
-                    <small class="inline-block ml-2">Efecto directo</small>
+                <div className="my-20 shadow p-2" style="background-color: #ffffff75">
+                    <small className="inline-block ml-2">Efecto directo</small>
                     {#if efectoDirectoId != efectoDirecto.id}
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
-                        <div class="bg-white relative p-4 rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style="overflow: hidden; -webkit-line-clamp: 4; -webkit-box-orient: vertical; display: -webkit-box;" on:click={setEfectoDirecto(efectoDirecto)}>
+                        <div className="bg-white relative p-4 rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style="overflow: hidden; -webkit-line-clamp: 4; -webkit-box-orient: vertical; display: -webkit-box;" on:click={setEfectoDirecto(efectoDirecto)}>
                             {efectoDirecto.descripcion ? efectoDirecto.descripcion : 'Por favor diligencie este efecto directo.'}
 
-                            <div class="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
+                            <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                 {#if showEfectoDirectoDestroyIcon && efectoDirecto.id == efectoDirectoIdToDestroy}
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyEfectoDirecto(efectoDirecto))}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyEfectoDirecto(efectoDirecto))}>
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                     </svg>
 
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showEfectoDirectoDestroyIcon = false))}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showEfectoDirectoDestroyIcon = false))}>
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                 {:else}
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={setEfectoDirecto(efectoDirecto)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 hover:cursor-pointer" on:click={setEfectoDirecto(efectoDirecto)}>
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                     </svg>
 
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showEfectoDirectoDestroyIcon = true), (efectoDirectoIdToDestroy = efectoDirecto.id))}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showEfectoDirectoDestroyIcon = true), (efectoDirectoIdToDestroy = efectoDirecto.id))}>
                                         <path
                                             stroke-linecap="round"
                                             stroke-linejoin="round"
@@ -963,43 +963,43 @@
                     {/if}
                     {#if showEfectoDirectoForm && efectoDirectoId == efectoDirecto.id}
                         <form on:submit|preventDefault={submitEfectoDirecto} id="efecto-directo">
-                            <fieldset class="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
+                            <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                 <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} maxlength="40000" id="efecto-directo-descripcion" error={errors.descripcion} bind:value={$formEfectoDirecto.descripcion} required />
                             </fieldset>
 
                             {#if proyecto.allowed.to_update}
-                                <LoadingButton loading={$formEfectoDirecto.processing} class="my-4" type="submit" form="efecto-directo">Guardar información sobre el efecto directo</LoadingButton>
+                                <PrimaryButton loading={$formEfectoDirecto.processing} className="my-4" type="submit" form="efecto-directo">Guardar información sobre el efecto directo</PrimaryButton>
                             {/if}
-                            <Button class="ml-2" variant={null} on:click={() => ((showEfectoDirectoForm = false), (efectoDirectoId = null))}>Cancelar</Button>
+                            <Button className="ml-2" variant={null} on:click={() => ((showEfectoDirectoForm = false), (efectoDirectoId = null))}>Cancelar</Button>
                         </form>
                     {/if}
 
-                    <small class="ml-2 mt-6 flex items-center">
+                    <small className="ml-2 mt-6 flex items-center">
                         Efectos indirectos
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4" style="transform: scaleX(-1)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-2 w-4 h-4" style="transform: scaleX(-1)">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 15l-6 6m0 0l-6-6m6 6V9a6 6 0 0112 0v3" />
                         </svg>
                     </small>
                     {#each efectoDirecto.efectos_indirectos as efectoIndirecto, i}
                         {#if efectoIndirectoId != efectoIndirecto.id}
                             <!-- svelte-ignore a11y-click-events-have-key-events -->
-                            <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style="overflow: hidden; -webkit-line-clamp: 4; -webkit-box-orient: vertical; display: -webkit-box;" on:click={setEfectoIndirecto(efectoDirecto, efectoIndirecto)}>
+                            <div className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style="overflow: hidden; -webkit-line-clamp: 4; -webkit-box-orient: vertical; display: -webkit-box;" on:click={setEfectoIndirecto(efectoDirecto, efectoIndirecto)}>
                                 {efectoIndirecto.descripcion ? efectoIndirecto.descripcion : 'Por favor diligencie este efecto indirecto.'}
-                                <div class="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
+                                <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                     {#if showEfectoIndirectoDestroyIcon && efectoIndirecto.id == efectoIndirectoIdToDestroy}
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyEfectoIndirecto(efectoIndirecto))}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyEfectoIndirecto(efectoIndirecto))}>
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                         </svg>
 
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showEfectoIndirectoDestroyIcon = false))}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showEfectoIndirectoDestroyIcon = false))}>
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                         </svg>
                                     {:else}
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={setEfectoIndirecto(efectoDirecto, efectoIndirecto)}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 hover:cursor-pointer" on:click={setEfectoIndirecto(efectoDirecto, efectoIndirecto)}>
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                         </svg>
 
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showEfectoIndirectoDestroyIcon = true), (efectoIndirectoIdToDestroy = efectoIndirecto.id))}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showEfectoIndirectoDestroyIcon = true), (efectoIndirectoIdToDestroy = efectoIndirecto.id))}>
                                             <path
                                                 stroke-linecap="round"
                                                 stroke-linejoin="round"
@@ -1012,53 +1012,53 @@
                         {/if}
 
                         {#if showEfectoIndirectoForm && efectoIndirectoId == efectoIndirecto.id}
-                            <form on:submit|preventDefault={submitEfectoIndirecto} id="efecto-indirecto" class="mt-4">
-                                <fieldset class="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
+                            <form on:submit|preventDefault={submitEfectoIndirecto} id="efecto-indirecto" className="mt-4">
+                                <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                     <div>
                                         <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} maxlength="40000" id="efecto-directo-descripcion" error={errors.descripcion} bind:value={$formEfectoIndirecto.descripcion} required />
                                     </div>
                                 </fieldset>
 
                                 {#if proyecto.allowed.to_update}
-                                    <LoadingButton loading={$formEfectoIndirecto.processing} class="my-4" type="submit" form="efecto-indirecto">Guardar información sobre el efecto indirecto</LoadingButton>
+                                    <PrimaryButton loading={$formEfectoIndirecto.processing} className="my-4" type="submit" form="efecto-indirecto">Guardar información sobre el efecto indirecto</PrimaryButton>
                                 {/if}
 
-                                <Button class="ml-2" variant={null} on:click={() => ((showEfectoIndirectoForm = false), (efectoIndirectoId = null))}>Cancelar</Button>
+                                <Button className="ml-2" variant={null} on:click={() => ((showEfectoIndirectoForm = false), (efectoIndirectoId = null))}>Cancelar</Button>
                             </form>
                         {/if}
                     {/each}
 
-                    <div class="flex items-center justify-end">
-                        <Tooltip label="Importante leer" class="mr-6 my-4">Al crear un efecto indirecto se genera automáticamente el impacto en la sección de la derecha. Recuerde que ambos deben tener relación.</Tooltip>
-                        <Button class="my-4" labelClass="flex items-center justify-center" disabled={showNuevoEfectoIndirectoForm ? true : undefined} variant={null} type="Button" on:click={setNuevoEfectoIndirecto(efectoDirecto)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <div className="flex items-center justify-end">
+                        <Tooltip label="Importante leer" className="mr-6 my-4">Al crear un efecto indirecto se genera automáticamente el impacto en la sección de la derecha. Recuerde que ambos deben tener relación.</Tooltip>
+                        <Button className="my-4" labelClass="flex items-center justify-center" disabled={showNuevoEfectoIndirectoForm ? true : undefined} variant={null} type="Button" on:click={setNuevoEfectoIndirecto(efectoDirecto)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
 
-                            <span class="ml-2">Añadir un efecto indirecto</span>
+                            <span className="ml-2">Añadir un efecto indirecto</span>
                         </Button>
                     </div>
 
                     {#if showNuevoEfectoIndirectoForm && efectoDirectoIdNuevoIndirecto == efectoDirecto.id}
                         <form on:submit|preventDefault={submitEfectoIndirecto} id="efecto-indirecto">
-                            <fieldset class="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
+                            <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                 <div>
                                     <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} maxlength="40000" label="Escriba el nuevo efecto indirecto" id="efecto-directo-descripcion" error={errors.descripcion} bind:value={$formEfectoIndirecto.descripcion} required />
                                 </div>
                             </fieldset>
 
                             {#if proyecto.allowed.to_update}
-                                <LoadingButton loading={$formEfectoIndirecto.processing} class="my-4" type="submit" form="efecto-indirecto">Añadir efecto indirecto</LoadingButton>
+                                <PrimaryButton loading={$formEfectoIndirecto.processing} className="my-4" type="submit" form="efecto-indirecto">Añadir efecto indirecto</PrimaryButton>
                             {/if}
 
-                            <Button class="ml-2" variant={null} on:click={() => ((showNuevoEfectoIndirectoForm = false), (efectoDirectoId = null))}>Cancelar</Button>
+                            <Button className="ml-2" variant={null} on:click={() => ((showNuevoEfectoIndirectoForm = false), (efectoDirectoId = null))}>Cancelar</Button>
                         </form>
                     {/if}
                 </div>
             {/each}
 
-            <Button type="button" variant={null} class="block mt-4 mb-20 mx-auto" labelClass="flex items-center justify-center" on:click={() => newEfectoDirecto()}>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+            <Button type="button" variant={null} className="block mt-4 mb-20 mx-auto" labelClass="flex items-center justify-center" on:click={() => newEfectoDirecto()}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 mr-2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 Añadir efecto directo
@@ -1067,32 +1067,32 @@
 
         <!-- Resultados e impactos relacionados -->
         <div>
-            <div class="text-3xl font-extrabold mt-28">
-                <span class="bg-clip-text text-transparent m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max"> 4. Resultados e impactos </span>
+            <div className="text-3xl font-extrabold mt-28">
+                <span className="bg-clip-text text-transparent m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max"> 4. Resultados e impactos </span>
             </div>
 
             {#each efectosDirectos as efectoDirecto, i}
-                <div class="my-20 shadow p-2 pb-[76px]" style="background-color: #ffffff75">
-                    <small class="inline-block ml-2 mb-4">Resultado</small>
+                <div className="my-20 shadow p-2 pb-[76px]" style="background-color: #ffffff75">
+                    <small className="inline-block ml-2 mb-4">Resultado</small>
                     {#if resultadoId != efectoDirecto.resultado?.id}
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
-                        <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] pr-14" on:click={setResultado(efectoDirecto, efectoDirecto.resultado)}>
+                        <div className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] pr-14" on:click={setResultado(efectoDirecto, efectoDirecto.resultado)}>
                             {efectoDirecto.resultado?.descripcion ? efectoDirecto.resultado?.descripcion : 'Por favor diligencie este resultado.'}
-                            <div class="absolute flex top-[40%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
+                            <div className="absolute flex top-[40%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                 {#if showResultadoDestroyIcon && efectoDirecto.resultado?.id == resultadoIdToDestroy}
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyResultado(efectoDirecto.resultado))}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyResultado(efectoDirecto.resultado))}>
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                     </svg>
 
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showResultadoDestroyIcon = false))}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showResultadoDestroyIcon = false))}>
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                 {:else}
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={setResultado(efectoDirecto, efectoDirecto.resultado)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 hover:cursor-pointer" on:click={setResultado(efectoDirecto, efectoDirecto.resultado)}>
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                     </svg>
 
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showResultadoDestroyIcon = true), (resultadoIdToDestroy = efectoDirecto.resultado?.id))}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showResultadoDestroyIcon = true), (resultadoIdToDestroy = efectoDirecto.resultado?.id))}>
                                         <path
                                             stroke-linecap="round"
                                             stroke-linejoin="round"
@@ -1106,18 +1106,18 @@
 
                     {#if showResultadoForm && resultadoId == efectoDirecto.resultado?.id}
                         <form on:submit|preventDefault={submitResultado} id="resultado-form">
-                            <fieldset class="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
+                            <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                 {#if objetivosEspecificos.length == 0}
-                                    <InfoMessage class="ml-10 mb-6">Por favor genere primero los objetivos específicos.</InfoMessage>
+                                    <InfoMessage className="ml-10 mb-6">Por favor genere primero los objetivos específicos.</InfoMessage>
                                 {:else}
                                     <div>
                                         <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} maxlength="1000" id="descripcion-resultado" error={errors.descripcion} bind:value={$formResultado.descripcion} required />
                                     </div>
 
-                                    <Tooltip class="mt-2" label="Información sobre los resultados">Se debe evidenciar que los resultados son directos, medibles y cuantificables que se alcanzarán con el desarrollo de cada uno de los objetivos específicos del proyecto.</Tooltip>
+                                    <Tooltip className="mt-2" label="Información sobre los resultados">Se debe evidenciar que los resultados son directos, medibles y cuantificables que se alcanzarán con el desarrollo de cada uno de los objetivos específicos del proyecto.</Tooltip>
 
-                                    <div class="mt-10">
-                                        <InfoMessage class="ml-10">Por seleccione un objetivo específico.</InfoMessage>
+                                    <div className="mt-10">
+                                        <InfoMessage className="ml-10">Por seleccione un objetivo específico.</InfoMessage>
 
                                         <Select id="objetivo-especifico" items={objetivosEspecificos} bind:selectedValue={$formResultado.objetivo_especifico_id} error={errors.objetivo_especifico_id} autocomplete="off" placeholder="Seleccione un objetivo específico" required />
                                     </div>
@@ -1125,39 +1125,39 @@
                             </fieldset>
 
                             {#if proyecto.allowed.to_update}
-                                <LoadingButton loading={$formResultado.processing} class="my-4" type="submit" form="resultado-form">Guardar información sobre el resultado</LoadingButton>
+                                <PrimaryButton loading={$formResultado.processing} className="my-4" type="submit" form="resultado-form">Guardar información sobre el resultado</PrimaryButton>
                             {/if}
 
-                            <Button class="ml-2" variant={null} on:click={() => ((showResultadoForm = false), (resultadoId = null))}>Cancelar</Button>
+                            <Button className="ml-2" variant={null} on:click={() => ((showResultadoForm = false), (resultadoId = null))}>Cancelar</Button>
                         </form>
                     {/if}
 
-                    <small class="ml-2 mt-6 flex items-center">
+                    <small className="ml-2 mt-6 flex items-center">
                         Impactos
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4" style="transform: scaleX(-1)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-2 w-4 h-4" style="transform: scaleX(-1)">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 15l-6 6m0 0l-6-6m6 6V9a6 6 0 0112 0v3" />
                         </svg>
                     </small>
                     {#each efectoDirecto.efectos_indirectos as efectoIndirecto, i}
                         {#if impactoId != efectoIndirecto.impacto?.id}
                             <!-- svelte-ignore a11y-click-events-have-key-events -->
-                            <div class="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style="overflow: hidden; -webkit-line-clamp: 4; -webkit-box-orient: vertical; display: -webkit-box;" on:click={setImpacto(efectoIndirecto, efectoIndirecto.impacto)}>
+                            <div className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style="overflow: hidden; -webkit-line-clamp: 4; -webkit-box-orient: vertical; display: -webkit-box;" on:click={setImpacto(efectoIndirecto, efectoIndirecto.impacto)}>
                                 {efectoIndirecto.impacto?.descripcion ? efectoIndirecto.impacto?.descripcion : 'Por favor diligencie este impacto.'}
-                                <div class="absolute flex top-[40%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
+                                <div className="absolute flex top-[40%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                     {#if showImpactoDestroyIcon && efectoIndirecto.impacto?.id == impactoIdToDestroy}
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyImpacto(efectoIndirecto.impacto))}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), destroyImpacto(efectoIndirecto.impacto))}>
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                         </svg>
 
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showImpactoDestroyIcon = false))}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showImpactoDestroyIcon = false))}>
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                         </svg>
                                     {:else}
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hover:cursor-pointer" on:click={setImpacto(efectoIndirecto, efectoIndirecto.impacto)}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 hover:cursor-pointer" on:click={setImpacto(efectoIndirecto, efectoIndirecto.impacto)}>
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                         </svg>
 
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showImpactoDestroyIcon = true), (impactoIdToDestroy = efectoIndirecto.impacto?.id))}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="ml-2 w-5 h-5 hover:cursor-pointer" on:click={(e) => (e.stopPropagation(), (showImpactoDestroyIcon = true), (impactoIdToDestroy = efectoIndirecto.impacto?.id))}>
                                             <path
                                                 stroke-linecap="round"
                                                 stroke-linejoin="round"
@@ -1170,27 +1170,27 @@
                         {/if}
 
                         {#if showImpactoForm && impactoId == efectoIndirecto.impacto?.id}
-                            <form on:submit|preventDefault={submitImpacto} id="impacto-form" class="mt-4">
-                                <fieldset class="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
+                            <form on:submit|preventDefault={submitImpacto} id="impacto-form" className="mt-4">
+                                <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                     <div>
                                         <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} maxlength="10000" id="descripcion-impacto" error={errors.descripcion} bind:value={$formImpacto.descripcion} required />
-                                        <Tooltip class="mt-2" label="Información sobre el impacto">Se busca medir la contribución potencial que genera el proyecto en los siguientes ámbitos: tecnológico, económico, ambiental, social, centro de formación, sector productivo</Tooltip>
+                                        <Tooltip className="mt-2" label="Información sobre el impacto">Se busca medir la contribución potencial que genera el proyecto en los siguientes ámbitos: tecnológico, económico, ambiental, social, centro de formación, sector productivo</Tooltip>
                                     </div>
 
-                                    <div class="mt-8">
-                                        <Label labelFor="tipo-impacto" class="mb-4" value="Tipo" />
+                                    <div className="mt-8">
+                                        <Label labelFor="tipo-impacto" className="mb-4" value="Tipo" />
                                         {#if $formImpacto.tipo?.value == 4}
-                                            <Tooltip class="my-6" label="Información sobre el tipo de impacto">
+                                            <Tooltip className="my-6" label="Información sobre el tipo de impacto">
                                                 Se busca minimizar y/o evitar los impactos negativos sobre el medio ambiente, tales como contaminación del aire, contaminación de corrientes de agua naturales, ruido, destrucción del paisaje, separación de comunidades que operan como unidades, etc. Por otro lado, se busca identificar diversas acciones de impacto ambiental positivo, tales como:
                                                 producción limpia y sustentable, protección medioambiental, uso de residuos y reciclaje.
                                             </Tooltip>
                                         {:else if $formImpacto.tipo?.value == 2}
-                                            <Tooltip class="my-6" label="Información sobre el tipo de impacto">
+                                            <Tooltip className="my-6" label="Información sobre el tipo de impacto">
                                                 Se busca medir la contribución potencial del proyecto en cualquiera de los siguientes ámbitos: generación y aplicación de nuevos conocimientos y tecnologías, desarrollo de infraestructura científico- tecnológica, articulación de diferentes proyectos para lograr un objetivo común, mejoramiento de la infraestructura, desarrollo de capacidades de
                                                 gestión tecnológica.
                                             </Tooltip>
                                         {:else if $formImpacto.tipo?.value == 5}
-                                            <Tooltip class="my-6" label="Información sobre el tipo de impacto">Se busca medir la contribución potencial del proyecto al desarrollo de la comunidad Sena (Aprendices, instructores y a la formación)</Tooltip>
+                                            <Tooltip className="my-6" label="Información sobre el tipo de impacto">Se busca medir la contribución potencial del proyecto al desarrollo de la comunidad Sena (Aprendices, instructores y a la formación)</Tooltip>
                                         {:else if $formImpacto.tipo?.value == 6}
                                             <Tooltip>Se busca medir la contribución potencial del proyecto al desarrollo del sector productivo en concordancia con el sector priorizado de Colombia Productiva y a la mesa técnica a la que pertenece el proyecto.</Tooltip>
                                         {/if}
@@ -1199,10 +1199,10 @@
                                 </fieldset>
 
                                 {#if proyecto.allowed.to_update}
-                                    <LoadingButton loading={$formImpacto.processing} class="my-4" type="submit" form="impacto-form">Guardar información sobre el impacto</LoadingButton>
+                                    <PrimaryButton loading={$formImpacto.processing} className="my-4" type="submit" form="impacto-form">Guardar información sobre el impacto</PrimaryButton>
                                 {/if}
 
-                                <Button class="ml-2" variant={null} on:click={() => ((showImpactoForm = false), (impactoId = null))}>Cancelar</Button>
+                                <Button className="ml-2" variant={null} on:click={() => ((showImpactoForm = false), (impactoId = null))}>Cancelar</Button>
                             </form>
                         {/if}
                     {/each}

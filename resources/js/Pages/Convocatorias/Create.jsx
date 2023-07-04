@@ -1,147 +1,144 @@
-<script>
-    import AuthenticatedLayout, { title } from '@/Layouts/Authenticated'
-    import { inertia, useForm, page } from '@inertiajs/inertia-svelte'
-    import { route, checkRole, checkPermission } from '@/Utils'
-    import { _ } from 'svelte-i18n'
 
-    import Label from '@/Shared/Label'
-    import InputError from '@/Shared/InputError'
-    import LoadingButton from '@/Shared/LoadingButton'
-    import Textarea from '@/Shared/Textarea'
-    import Switch from '@/Shared/Switch'
-    import Select from '@/Shared/Select'
-    import SelectMulti from '@/Shared/SelectMulti'
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import Label from '@/Components/Label';
+import InputError from '@/Components/InputError';
+import PrimaryButton from '@/Components/PrimaryButton';
+import Textarea from '@/Components/Textarea';
+import Switch from '@/Components/Switch';
+import MultipleSelect from '@/Components/MultipleSelect';
+import Autocomplete from '@/Components/Autocomplete';
+import { useForm } from '@inertiajs/react';
+import { route, checkRole } from '@/Utils';
 
-    export let errors
-    export let convocatorias
-    export let lineas_programaticas
-    export let tipos_convocatoria
+const CreateConvocatoria = ({ auth, convocatorias, lineasProgramaticas, tiposConvocatoria }) => {
 
-    $: $title = 'Crear convocatoria'
+    // Validar si el usuario autenticado es SuperAdmin
+  const authUser = auth.user;
+  const isSuperAdmin = checkRole(authUser, [1]);
 
-    /**
-     * Validar si el usuario autenticado es SuperAdmin
-     */
-    let authUser = $page.props.auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+  const { data, setData, post, processing, errors, reset } = useForm({
+    descripcion: '',
+    esta_activa: false,
+    lineas_programaticas_activas: null,
+    visible: false,
+    fecha_finalizacion_fase: '',
+    hora_finalizacion_fase: '',
+    convocatoria_id: null,
+    tipo_convocatoria: null,
+  });
 
-    let form = useForm({
-        descripcion: '',
-        esta_activa: false,
-        lineas_programaticas_activas: null,
-        visible: false,
-        fecha_finalizacion_fase: '',
-        hora_finalizacion_fase: '',
-        convocatoria_id: null,
-        tipo_convocatoria: null,
-    })
-
-    function submit() {
-        if (isSuperAdmin) {
-            $form.post(route('convocatorias.store'))
-        }
+  const submit = (e) => {
+    e.preventDefault();
+    if (isSuperAdmin) {
+      post(route('convocatorias.store'));
     }
-</script>
+  };
 
-<AuthenticatedLayout>
-    <header class="pt-[8rem]" slot="header">
-        <div class="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
-            <div>
-                <h1>
-                    <a use:inertia href={route('convocatorias.index')} class="text-app-400 hover:text-app-600"> Convocatorias </a>
-                    <span class="text-app-400 font-medium">/</span>
-                    Crear
-                </h1>
-            </div>
+  return (
+    <AuthenticatedLayout
+        user={auth.user}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Lista de convocatorias</h2>}
+    >
+      <header className="pt-[8rem]" slot="header">
+        <div className="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
+          <div>
+            <h1>
+              <a href={route('convocatorias.index')} className="text-app-400 hover:text-app-600">Convocatorias</a>
+              <span className="text-app-400 font-medium">/</span>
+              Crear
+            </h1>
+          </div>
         </div>
-    </header>
+      </header>
 
-    <div class="grid grid-cols-3">
+      <div className="grid grid-cols-3">
         <div>
-            <h1 class="font-black text-4xl sticky top-0 uppercase">Nueva convocatoria</h1>
+          <h1 className="font-black text-4xl sticky top-0 uppercase">Nueva convocatoria</h1>
         </div>
-        <div class="bg-white rounded shadow col-span-2">
-            <form on:submit|preventDefault={submit}>
-                <fieldset class="p-8" disabled={isSuperAdmin ? undefined : true}>
-                    <div class="mt-4 mb-20">
-                        {#if $form.fase}
-                            <p class="text-center">Fecha de finalización de la fase: {$form.fase?.label.toLowerCase()}</p>
-                        {/if}
-                        <div class="mt-4">
-                            <Label required labelFor="fecha_finalizacion_fase" value="Fecha límite de la fase de formulación" />
-                            <input id="fecha_finalizacion_fase" type="date" class="mt-1 p-2" bind:value={$form.fecha_finalizacion_fase} required />
-                        </div>
-                    </div>
-                    {#if errors.fecha_finalizacion_fase}
-                        <InputError message={errors.fecha_finalizacion_fase} />
-                    {/if}
-
-                    <div class="mt-4 mb-20">
-                        <div class="mt-4">
-                            <Label required labelFor="hora_finalizacion_fase" value="Hora límite de la fase de formulación" />
-                            <input id="hora_finalizacion_fase" type="time" step="1" class="mt-1 p-2 border rounded border-gray-300" bind:value={$form.hora_finalizacion_fase} required />
-                            <InputError message={errors.hora_finalizacion_fase} />
-                        </div>
-                    </div>
-
-                    <div class="mt-44 mb-20 grid grid-cols-2">
-                        <div>
-                            <Label required class="mb-4" labelFor="tipo_convocatoria" value="Seleccione un tipo de convocatoria (Proyectos de convocatoria para habilitar la formulación de proyectos de todas las líneas - Proyectos demo I+D+i para permitir el ejercicio de formulación)" />
-                        </div>
-                        <div>
-                            <Select id="tipo_convocatoria" items={tipos_convocatoria} bind:selectedValue={$form.tipo_convocatoria} error={errors.tipo_convocatoria} autocomplete="off" placeholder="Seleccione un tipo de convocatoria" required />
-                        </div>
-                    </div>
-
-                    <div class="mt-44 mb-20 grid grid-cols-2">
-                        <div>
-                            <Label class="mb-4" labelFor="fase" value="Fase" />
-                        </div>
-                        <div>Formulación</div>
-                    </div>
-
-                    <div class="mt-44 mb-20 grid grid-cols-2">
-                        <div>
-                            <Label required class="mb-4" labelFor="convocatoria_id" value="Seleccione una convocatoria de la cual desee copiar los presupuestos y roles SENNOVA" />
-                        </div>
-                        <div>
-                            <Select id="convocatoria_id" items={convocatorias} bind:selectedValue={$form.convocatoria_id} error={errors.convocatoria_id} autocomplete="off" placeholder="Seleccione una convocatoria" required />
-                        </div>
-                    </div>
-
-                    <div class="mt-8">
-                        <Textarea label="Descripción" maxlength="40000" id="descripcion" error={errors.descripcion} bind:value={$form.descripcion} required />
-                    </div>
-
-                    <div class="mt-10 mb-20">
-                        <Label required labelFor="esta_activa" value="¿Desea activar esta convocatoria? (Si la opción está habilitada permite a los usuarios formular proyectos. Tenga en cuenta que solo puede activar una convocatoria por tipo --Proyectos de convocatoria - Proyectos de ejecicio DEMO)" class="inline-block mb-4" />
-                        <br />
-                        <Switch bind:checked={$form.esta_activa} />
-                        <InputError message={errors.esta_activa} />
-                    </div>
-
-                    <div class="mt-10 mb-20">
-                        <Label required labelFor="visible" value="Defina la visibilidad de la convocatoria. (Si la opción está habilitada permite a los usuarios visualizar la convocatoria)" class="inline-block mb-4" />
-                        <br />
-                        <Switch bind:checked={$form.visible} onMessage="Visible" offMessage="Oculta" />
-                        <InputError message={errors.visible} />
-                    </div>
-
-                    <hr />
-
-                    <div>
-                        <div class="mt-10 mb-20">
-                            <Label required labelFor="lineas_programaticas_activas" class="mb-4" value="Seleccione las líneas programáticas las cuales quiere activar" />
-                            <SelectMulti id="lineas_programaticas_activas" bind:selectedValue={$form.lineas_programaticas_activas} items={lineas_programaticas} isMulti={true} error={errors.lineas_programaticas_activas} placeholder="Seleccione las líneas programáticas" required />
-                        </div>
-                    </div>
-                </fieldset>
-                <div class="shadow-inner bg-app-200 border-app-400 bottom-0 flex items-center justify-between mt-14 px-8 py-4 sticky">
-                    {#if isSuperAdmin}
-                        <LoadingButton loading={$form.processing} class="ml-auto" type="submit">Crear convocatoria</LoadingButton>
-                    {/if}
+        <div className="bg-white rounded shadow col-span-2">
+          <form onSubmit={submit}>
+            <fieldset className="p-8" disabled={isSuperAdmin ? undefined : true}>
+              <div className="mt-4 mb-20">
+                {data.fase && <p className="text-center">Fecha de finalización de la fase: {data.fase.label.toLowerCase()}</p>}
+                <div className="mt-4">
+                  <Label required labelFor="fecha_finalizacion_fase" value="Fecha límite de la fase de formulación" />
+                  <input id="fecha_finalizacion_fase" type="date" className="mt-1 p-2" value={data.fecha_finalizacion_fase} onChange={(e) => setData('fecha_finalizacion_fase', e.target.value)} required />
                 </div>
-            </form>
+              </div>
+              {errors.fecha_finalizacion_fase && <InputError error={errors.fecha_finalizacion_fase} />}
+
+              <div className="mt-4 mb-20">
+                <div className="mt-4">
+                  <Label required labelFor="hora_finalizacion_fase" value="Hora límite de la fase de formulación" />
+                  <input id="hora_finalizacion_fase" type="time" step="1" className="mt-1 p-2 border rounded border-gray-300" value={data.hora_finalizacion_fase} onChange={(e) => setData('hora_finalizacion_fase', e.target.value)} required />
+                  {errors.hora_finalizacion_fase && <InputError message={errors.hora_finalizacion_fase} />}
+                </div>
+              </div>
+
+              <div className="mt-44 mb-20 grid grid-cols-2">
+                <div>
+                  <Label required className="mb-4" labelFor="tipo_convocatoria" value="Seleccione un tipo de convocatoria (Proyectos de convocatoria para habilitar la formulación de proyectos de todas las líneas - Proyectos demo I+D+i para permitir el ejercicio de formulación)" />
+                </div>
+                <div>
+                  <Autocomplete id="tipo_convocatoria" items={tiposConvocatoria} value={data.tipo_convocatoria} onChange={(e) => setData('tipo_convocatoria', e.target.value)} error={errors.tipo_convocatoria} autoComplete={false} placeholder="Seleccione un tipo de convocatoria" required />
+                </div>
+              </div>
+
+              <div className="mt-44 mb-20 grid grid-cols-2">
+                <div>
+                  <Label className="mb-4" labelFor="fase" value="Fase" />
+                </div>
+                <div>Formulación</div>
+              </div>
+
+              <div className="mt-44 mb-20 grid grid-cols-2">
+                <div>
+                  <Label required className="mb-4" labelFor="convocatoria_id" value="Seleccione una convocatoria de la cual desee copiar los presupuestos y roles SENNOVA" />
+                </div>
+                <div>
+                  <Autocomplete id="convocatoria_id" items={convocatorias} value={data.convocatoria_id} onChange={(e) => setData('convocatoria_id', e.target.value)} error={errors.convocatoria_id} autoComplete={false} placeholder="Seleccione una convocatoria" required />
+                </div>
+              </div>
+
+              <div className="mt-8">
+                <Textarea label="Descripción" maxlength="40000" id="descripcion" error={errors.descripcion} value={data.descripcion} onChange={(e) => setData('descripcion', e.target.value)} required />
+              </div>
+
+              <div className="mt-10 mb-20">
+                <Label required labelFor="esta_activa" value="¿Desea activar esta convocatoria? (Si la opción está habilitada permite a los usuarios formular proyectos. Tenga en cuenta que solo puede activar una convocatoria por tipo --Proyectos de convocatoria - Proyectos de ejecicio DEMO)" className="inline-block mb-4" />
+                <br />
+                <Switch checked={data.esta_activa} onChange={(e) => setData('esta_activa', e.target.checked)} />
+                {errors.esta_activa && <InputError message={errors.esta_activa} />}
+              </div>
+
+              <div className="mt-10 mb-20">
+                <Label required labelFor="visible" value="Defina la visibilidad de la convocatoria. (Si la opción está habilitada permite a los usuarios visualizar la convocatoria)" className="inline-block mb-4" />
+                <br />
+                <Switch checked={data.visible} onChange={(e) => setData('visible', e.target.checked)} onMessage="Visible" offMessage="Oculta" />
+                {errors.visible && <InputError message={errors.visible} />}
+              </div>
+
+              <hr />
+
+              <div>
+                <div className="mt-10 mb-20">
+                  <Label required labelFor="lineas_programaticas_activas" className="mb-4" value="Seleccione las líneas programáticas las cuales quiere activar" />
+                  <MultipleSelect id="lineas_programaticas_activas" selectedValues={data.lineas_programaticas_activas} items={lineasProgramaticas} error={errors.lineas_programaticas_activas} placeholder="Seleccione las líneas programáticas" required />
+                </div>
+              </div>
+            </fieldset>
+            <div className="flex items-center justify-between mt-14 px-8 py-4">
+              {isSuperAdmin && (
+                <PrimaryButton disabled={processing} className="ml-auto" type="submit">
+                  Crear convocatoria
+                </PrimaryButton>
+              )}
+            </div>
+          </form>
         </div>
-    </div>
-</AuthenticatedLayout>
+      </div>
+    </AuthenticatedLayout>
+  );
+};
+
+export default CreateConvocatoria;
