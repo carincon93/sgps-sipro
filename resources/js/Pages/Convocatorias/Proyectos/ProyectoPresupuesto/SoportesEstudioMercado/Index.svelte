@@ -122,6 +122,10 @@
                     error={errors.formato_estudio_mercado}
                     route={proyectoPresupuesto?.formato_estudio_mercado?.includes('http') ? null : route('convocatorias.proyectos.presupuesto.download-file-sharepoint', [convocatoria, proyecto, proyectoPresupuesto, 'formato_estudio_mercado'])}
                 />
+
+                {#if proyectoPresupuesto?.formato_estudio_mercado}
+                    <span class="block">Estudio de mercado cargado correctamente.</span>
+                {/if}
             </div>
 
             <h1 class="mt-24 mb-8 text-center text-3xl">Valor total</h1>
@@ -182,7 +186,7 @@
                         />
 
                         {#if soportesEstudioMercado[0]?.soporte}
-                            <span>Soporte cargado correctamente.</span>
+                            <span class="block">Soporte cargado correctamente.</span>
                         {/if}
 
                         {#if soportesEstudioMercado[0]?.id}
@@ -210,7 +214,7 @@
                             route={soportesEstudioMercado[1]?.soporte?.includes('http') == true || soportesEstudioMercado[1]?.soporte?.includes('http') == undefined ? null : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [convocatoria, proyecto, proyectoPresupuesto, soportesEstudioMercado[1]?.id, 'soporte'])}
                         />
                         {#if soportesEstudioMercado[1]?.soporte}
-                            <span>Soporte cargado correctamente.</span>
+                            <span class="block">Soporte cargado correctamente.</span>
                         {/if}
                         {#if soportesEstudioMercado[1]?.id}
                             <Button class="mt-14" on:click={() => ((soporteEstudioMercadoId = soportesEstudioMercado[1]?.id), (dialogEliminar = true), (allowedToDestroy = proyecto.allowed.to_update))} type="button">Eliminar soporte #{soportesEstudioMercado[1]?.id}</Button>
@@ -239,7 +243,7 @@
                         />
 
                         {#if soportesEstudioMercado[2]?.soporte}
-                            <span>Soporte cargado correctamente.</span>
+                            <span class="block">Soporte cargado correctamente.</span>
                         {/if}
 
                         {#if soportesEstudioMercado[2]?.id}

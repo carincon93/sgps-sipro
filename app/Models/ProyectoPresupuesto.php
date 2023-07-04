@@ -37,6 +37,7 @@ class ProyectoPresupuesto extends Model
         'valor_total',
         'software',
         'codigo_uso_presupuestal',
+        'formato_estudio_mercado',
         'concepto_viaticos'
     ];
 
