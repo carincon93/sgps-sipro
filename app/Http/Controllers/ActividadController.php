@@ -511,8 +511,8 @@ class ActividadController extends Controller
                 $programasFormacion                                         = SelectHelper::programasFormacion()->where('centro_formacion_id', $evaluacion->proyecto->centroFormacion->id)->values()->all();
                 $modalidades                                                = json_decode(Storage::get('json/modalidades-estudio.json'), true);
                 $nivelesFormacion                                           = json_decode(Storage::get('json/nivel-formacion.json'), true);
-                $proyectoDisenosCurriculares                                = $evaluacion->proyecto->disenosCurriculares()->selectRaw('id as value, concat(nombre, \' ∙ Código: \', codigo) as label')->get();
-                $proyectoProgramasFormacionArticulados                      = $evaluacion->proyecto->taProgramasFormacion()->selectRaw('id as value, concat(programas_formacion.nombre, chr(10), \'∙ Código: \', programas_formacion.codigo) as label')->where('programas_formacion.registro_calificado', true)->get();
+                $proyectoDisenosCurriculares                                = $evaluacion->proyecto->disenosCurriculares()->selectRaw('disenos_curriculares.id as value, concat(disenos_curriculares.nombre, \' ∙ Código: \', disenos_curriculares.codigo) as label')->get();
+                $proyectoProgramasFormacionArticulados                      = $evaluacion->proyecto->taProgramasFormacion()->selectRaw('programas_formacion.id as value, concat(programas_formacion.nombre, chr(10), \'∙ Código: \', programas_formacion.codigo) as label')->where('programas_formacion.registro_calificado', true)->get();
                 break;
             case $evaluacion->proyecto->tp()->exists():
                 $evaluacion->tpEvaluacion;

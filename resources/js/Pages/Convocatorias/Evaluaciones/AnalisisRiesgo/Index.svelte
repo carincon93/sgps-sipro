@@ -46,7 +46,7 @@
     }
 
     let formTaEvaluacion = useForm({
-        analisis_riesgos_comentario: evaluacion.ta_evaluacion?.analisis_riesgos_comentario,
+        analisis_riesgos_comentario: evaluacion.ta_evaluacion?.analisis_riesgos_comentario ? evaluacion.ta_evaluacion?.analisis_riesgos_comentario : '',
         analisis_riesgos_requiere_comentario: evaluacion.ta_evaluacion?.analisis_riesgos_comentario == null ? true : false,
     })
     function submitTaEvaluacion() {
@@ -58,7 +58,7 @@
     }
 
     let formTpEvaluacion = useForm({
-        analisis_riesgos_comentario: evaluacion.tp_evaluacion?.analisis_riesgos_comentario,
+        analisis_riesgos_comentario: evaluacion.tp_evaluacion?.analisis_riesgos_comentario ? evaluacion.tp_evaluacion?.analisis_riesgos_comentario : '',
         analisis_riesgos_requiere_comentario: evaluacion.tp_evaluacion?.analisis_riesgos_comentario == null ? true : false,
     })
     function submitTpEvaluacion() {
@@ -71,15 +71,15 @@
 
     let formServicioTecnologicoEvaluacion = useForm({
         riesgos_objetivo_general_puntaje: evaluacion.servicio_tecnologico_evaluacion?.riesgos_objetivo_general_puntaje,
-        riesgos_objetivo_general_comentario: evaluacion.servicio_tecnologico_evaluacion?.riesgos_objetivo_general_comentario,
+        riesgos_objetivo_general_comentario: evaluacion.servicio_tecnologico_evaluacion?.riesgos_objetivo_general_comentario ? evaluacion.servicio_tecnologico_evaluacion?.riesgos_objetivo_general_comentario : '',
         riesgos_objetivo_general_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.riesgos_objetivo_general_comentario == null ? true : false,
 
         riesgos_productos_puntaje: evaluacion.servicio_tecnologico_evaluacion?.riesgos_productos_puntaje,
-        riesgos_productos_comentario: evaluacion.servicio_tecnologico_evaluacion?.riesgos_productos_comentario,
+        riesgos_productos_comentario: evaluacion.servicio_tecnologico_evaluacion?.riesgos_productos_comentario ? evaluacion.servicio_tecnologico_evaluacion?.riesgos_productos_comentario : '',
         riesgos_productos_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.riesgos_productos_comentario == null ? true : false,
 
         riesgos_actividades_puntaje: evaluacion.servicio_tecnologico_evaluacion?.riesgos_actividades_puntaje,
-        riesgos_actividades_comentario: evaluacion.servicio_tecnologico_evaluacion?.riesgos_actividades_comentario,
+        riesgos_actividades_comentario: evaluacion.servicio_tecnologico_evaluacion?.riesgos_actividades_comentario ? evaluacion.servicio_tecnologico_evaluacion?.riesgos_actividades_comentario : '',
         riesgos_actividades_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.riesgos_actividades_comentario == null ? true : false,
     })
     function submitServicioTecnologicoEvaluacion() {

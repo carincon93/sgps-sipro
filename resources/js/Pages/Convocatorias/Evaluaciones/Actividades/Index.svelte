@@ -101,7 +101,7 @@
         metodologia_requiere_comentario: evaluacion.ta_evaluacion ? (evaluacion.ta_evaluacion?.metodologia_comentario == null ? true : false) : null,
 
         municipios_requiere_comentario: evaluacion.ta_evaluacion?.municipios_comentario == null ? true : false,
-        municipios_comentario: evaluacion.ta_evaluacion?.municipios_comentario,
+        municipios_comentario: evaluacion.ta_evaluacion?.municipios_comentario ? evaluacion.ta_evaluacion?.municipios_comentario : '',
 
         instituciones_comentario: evaluacion.ta_evaluacion ? evaluacion.ta_evaluacion?.instituciones_comentario : '',
         instituciones_requiere_comentario: evaluacion.ta_evaluacion ? (evaluacion.ta_evaluacion?.instituciones_comentario == null ? true : false) : null,
@@ -118,10 +118,10 @@
     }
 
     let formTpEvaluacion = useForm({
-        metodologia_comentario: evaluacion.tp_evaluacion?.metodologia_comentario,
+        metodologia_comentario: evaluacion.tp_evaluacion?.metodologia_comentario ? evaluacion.tp_evaluacion?.metodologia_comentario : '',
         metodologia_requiere_comentario: evaluacion.tp_evaluacion?.metodologia_comentario == null ? true : false,
         municipios_requiere_comentario: evaluacion.tp_evaluacion?.municipios_comentario == null ? true : false,
-        municipios_comentario: evaluacion.tp_evaluacion?.municipios_comentario,
+        municipios_comentario: evaluacion.tp_evaluacion?.municipios_comentario ? evaluacion.tp_evaluacion?.municipios_comentario : '',
     })
     function submitTpEvaluacion() {
         if (isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
@@ -133,23 +133,23 @@
 
     let formServicioTecnologicoEvaluacion = useForm({
         metodologia_puntaje: evaluacion.servicio_tecnologico_evaluacion?.metodologia_puntaje,
-        metodologia_comentario: evaluacion.servicio_tecnologico_evaluacion?.metodologia_comentario,
+        metodologia_comentario: evaluacion.servicio_tecnologico_evaluacion?.metodologia_comentario ? evaluacion.servicio_tecnologico_evaluacion?.metodologia_comentario : '',
         metodologia_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.metodologia_comentario == null ? true : false,
 
         actividades_primer_obj_puntaje: evaluacion.servicio_tecnologico_evaluacion?.actividades_primer_obj_puntaje,
-        actividades_primer_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.actividades_primer_obj_comentario,
+        actividades_primer_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.actividades_primer_obj_comentario ? evaluacion.servicio_tecnologico_evaluacion?.actividades_primer_obj_comentario : '',
         actividades_primer_obj_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.actividades_primer_obj_comentario == null ? true : false,
 
         actividades_segundo_obj_puntaje: evaluacion.servicio_tecnologico_evaluacion?.actividades_segundo_obj_puntaje,
-        actividades_segundo_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.actividades_segundo_obj_comentario,
+        actividades_segundo_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.actividades_segundo_obj_comentario ? evaluacion.servicio_tecnologico_evaluacion?.actividades_segundo_obj_comentario : '',
         actividades_segundo_obj_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.actividades_segundo_obj_comentario == null ? true : false,
 
         actividades_tercer_obj_puntaje: evaluacion.servicio_tecnologico_evaluacion?.actividades_tercer_obj_puntaje,
-        actividades_tercer_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.actividades_tercer_obj_comentario,
+        actividades_tercer_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.actividades_tercer_obj_comentario ? evaluacion.servicio_tecnologico_evaluacion?.actividades_tercer_obj_comentario : '',
         actividades_tercer_obj_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.actividades_tercer_obj_comentario == null ? true : false,
 
         actividades_cuarto_obj_puntaje: evaluacion.servicio_tecnologico_evaluacion?.actividades_cuarto_obj_puntaje,
-        actividades_cuarto_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.actividades_cuarto_obj_comentario,
+        actividades_cuarto_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.actividades_cuarto_obj_comentario ? evaluacion.servicio_tecnologico_evaluacion?.actividades_cuarto_obj_comentario : '',
         actividades_cuarto_obj_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.actividades_cuarto_obj_comentario == null ? true : false,
     })
     function submitServicioTecnologicoEvaluacion() {

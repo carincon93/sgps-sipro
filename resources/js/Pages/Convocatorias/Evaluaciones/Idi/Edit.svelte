@@ -123,53 +123,53 @@
     let form = useForm({
         clausula_confidencialidad: idiEvaluacion.evaluacion.clausula_confidencialidad,
         titulo_puntaje: idiEvaluacion.titulo_puntaje,
-        titulo_comentario: idiEvaluacion.titulo_comentario,
+        titulo_comentario: idiEvaluacion.titulo_comentario ? idiEvaluacion.titulo_comentario : '',
         titulo_requiere_comentario: idiEvaluacion.titulo_comentario == null ? true : false,
         video_puntaje: idiEvaluacion.video_puntaje,
-        video_comentario: idiEvaluacion.video_comentario,
+        video_comentario: idiEvaluacion.video_comentario ? idiEvaluacion.video_comentario : '',
         video_requiere_comentario: idiEvaluacion.video_comentario == null ? true : false,
         resumen_puntaje: idiEvaluacion.resumen_puntaje,
-        resumen_comentario: idiEvaluacion.resumen_comentario,
+        resumen_comentario: idiEvaluacion.resumen_comentario ? idiEvaluacion.resumen_comentario : '',
         resumen_requiere_comentario: idiEvaluacion.resumen_comentario == null ? true : false,
         problema_central_puntaje: idiEvaluacion.problema_central_puntaje,
-        problema_central_comentario: idiEvaluacion.problema_central_comentario,
+        problema_central_comentario: idiEvaluacion.problema_central_comentario ? idiEvaluacion.problema_central_comentario : '',
         problema_central_requiere_comentario: idiEvaluacion.problema_central_comentario == null ? true : false,
         ortografia_puntaje: idiEvaluacion.ortografia_puntaje,
-        ortografia_comentario: idiEvaluacion.ortografia_comentario,
+        ortografia_comentario: idiEvaluacion.ortografia_comentario ? idiEvaluacion.ortografia_comentario : '',
         ortografia_requiere_comentario: idiEvaluacion.ortografia_comentario == null ? true : false,
         redaccion_puntaje: idiEvaluacion.redaccion_puntaje,
-        redaccion_comentario: idiEvaluacion.redaccion_comentario,
+        redaccion_comentario: idiEvaluacion.redaccion_comentario ? idiEvaluacion.redaccion_comentario : '',
         redaccion_requiere_comentario: idiEvaluacion.redaccion_comentario == null ? true : false,
         normas_apa_puntaje: idiEvaluacion.normas_apa_puntaje,
-        normas_apa_comentario: idiEvaluacion.normas_apa_comentario,
+        normas_apa_comentario: idiEvaluacion.normas_apa_comentario ? idiEvaluacion.normas_apa_comentario : '',
         normas_apa_requiere_comentario: idiEvaluacion.normas_apa_comentario == null ? true : false,
 
         justificacion_economia_naranja_requiere_comentario: idiEvaluacion.justificacion_economia_naranja_comentario == null ? true : false,
-        justificacion_economia_naranja_comentario: idiEvaluacion.justificacion_economia_naranja_comentario,
+        justificacion_economia_naranja_comentario: idiEvaluacion.justificacion_economia_naranja_comentario ? idiEvaluacion.justificacion_economia_naranja_comentario : '',
 
         justificacion_industria_4_requiere_comentario: idiEvaluacion.justificacion_industria_4_comentario == null ? true : false,
-        justificacion_industria_4_comentario: idiEvaluacion.justificacion_industria_4_comentario,
+        justificacion_industria_4_comentario: idiEvaluacion.justificacion_industria_4_comentario ? idiEvaluacion.justificacion_industria_4_comentario : '',
 
         bibliografia_requiere_comentario: idiEvaluacion.bibliografia_comentario == null ? true : false,
-        bibliografia_comentario: idiEvaluacion.bibliografia_comentario,
+        bibliografia_comentario: idiEvaluacion.bibliografia_comentario ? idiEvaluacion.bibliografia_comentario : '',
 
         fechas_requiere_comentario: idiEvaluacion.fechas_comentario == null ? true : false,
-        fechas_comentario: idiEvaluacion.fechas_comentario,
+        fechas_comentario: idiEvaluacion.fechas_comentario ? idiEvaluacion.fechas_comentario : '',
 
         justificacion_politica_discapacidad_requiere_comentario: idiEvaluacion.justificacion_politica_discapacidad_comentario == null ? true : false,
-        justificacion_politica_discapacidad_comentario: idiEvaluacion.justificacion_politica_discapacidad_comentario,
+        justificacion_politica_discapacidad_comentario: idiEvaluacion.justificacion_politica_discapacidad_comentario ? idiEvaluacion.justificacion_politica_discapacidad_comentario : '',
 
         actividad_economica_requiere_comentario: idiEvaluacion.actividad_economica_comentario == null ? true : false,
-        actividad_economica_comentario: idiEvaluacion.actividad_economica_comentario,
+        actividad_economica_comentario: idiEvaluacion.actividad_economica_comentario ? idiEvaluacion.actividad_economica_comentario : '',
 
         disciplina_subarea_conocimiento_requiere_comentario: idiEvaluacion.disciplina_subarea_conocimiento_comentario == null ? true : false,
-        disciplina_subarea_conocimiento_comentario: idiEvaluacion.disciplina_subarea_conocimiento_comentario,
+        disciplina_subarea_conocimiento_comentario: idiEvaluacion.disciplina_subarea_conocimiento_comentario ? idiEvaluacion.disciplina_subarea_conocimiento_comentario : '',
 
         red_conocimiento_requiere_comentario: idiEvaluacion.red_conocimiento_comentario == null ? true : false,
-        red_conocimiento_comentario: idiEvaluacion.red_conocimiento_comentario,
+        red_conocimiento_comentario: idiEvaluacion.red_conocimiento_comentario ? idiEvaluacion.red_conocimiento_comentario : '',
 
         tematica_estrategica_requiere_comentario: idiEvaluacion.tematica_estrategica_comentario == null ? true : false,
-        tematica_estrategica_comentario: idiEvaluacion.tematica_estrategica_comentario,
+        tematica_estrategica_comentario: idiEvaluacion.tematica_estrategica_comentario ? idiEvaluacion.tematica_estrategica_comentario : '',
     })
     function submit() {
         if (idiEvaluacion.evaluacion.allowed.to_update) {

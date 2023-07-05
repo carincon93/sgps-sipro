@@ -189,50 +189,50 @@
     let form = useForm({
         clausula_confidencialidad: culturaInnovacionEvaluacion.evaluacion.clausula_confidencialidad,
         titulo_puntaje: culturaInnovacionEvaluacion.titulo_puntaje,
-        titulo_comentario: culturaInnovacionEvaluacion.titulo_comentario,
+        titulo_comentario: culturaInnovacionEvaluacion.titulo_comentario ? culturaInnovacionEvaluacion.titulo_comentario : '',
         titulo_requiere_comentario: culturaInnovacionEvaluacion.titulo_comentario == null ? true : false,
         video_puntaje: culturaInnovacionEvaluacion.video_puntaje,
-        video_comentario: culturaInnovacionEvaluacion.video_comentario,
+        video_comentario: culturaInnovacionEvaluacion.video_comentario ? culturaInnovacionEvaluacion.video_comentario : '',
         video_requiere_comentario: culturaInnovacionEvaluacion.video_comentario == null ? true : false,
         resumen_puntaje: culturaInnovacionEvaluacion.resumen_puntaje,
-        resumen_comentario: culturaInnovacionEvaluacion.resumen_comentario,
+        resumen_comentario: culturaInnovacionEvaluacion.resumen_comentario ? culturaInnovacionEvaluacion.resumen_comentario : '',
         resumen_requiere_comentario: culturaInnovacionEvaluacion.resumen_comentario == null ? true : false,
         antecedentes_puntaje: culturaInnovacionEvaluacion.antecedentes_puntaje,
-        antecedentes_comentario: culturaInnovacionEvaluacion.antecedentes_comentario,
+        antecedentes_comentario: culturaInnovacionEvaluacion.antecedentes_comentario ? culturaInnovacionEvaluacion.antecedentes_comentario : '',
         antecedentes_requiere_comentario: culturaInnovacionEvaluacion.antecedentes_comentario == null ? true : false,
         ortografia_puntaje: culturaInnovacionEvaluacion.ortografia_puntaje,
-        ortografia_comentario: culturaInnovacionEvaluacion.ortografia_comentario,
+        ortografia_comentario: culturaInnovacionEvaluacion.ortografia_comentario ? culturaInnovacionEvaluacion.ortografia_comentario : '',
         ortografia_requiere_comentario: culturaInnovacionEvaluacion.ortografia_comentario == null ? true : false,
         redaccion_puntaje: culturaInnovacionEvaluacion.redaccion_puntaje,
-        redaccion_comentario: culturaInnovacionEvaluacion.redaccion_comentario,
+        redaccion_comentario: culturaInnovacionEvaluacion.redaccion_comentario ? culturaInnovacionEvaluacion.redaccion_comentario : '',
         redaccion_requiere_comentario: culturaInnovacionEvaluacion.redaccion_comentario == null ? true : false,
         normas_apa_puntaje: culturaInnovacionEvaluacion.normas_apa_puntaje,
-        normas_apa_comentario: culturaInnovacionEvaluacion.normas_apa_comentario,
+        normas_apa_comentario: culturaInnovacionEvaluacion.normas_apa_comentario ? culturaInnovacionEvaluacion.normas_apa_comentario : '',
         normas_apa_requiere_comentario: culturaInnovacionEvaluacion.normas_apa_comentario == null ? true : false,
 
         justificacion_economia_naranja_requiere_comentario: culturaInnovacionEvaluacion.justificacion_economia_naranja_comentario == null ? true : false,
-        justificacion_economia_naranja_comentario: culturaInnovacionEvaluacion.justificacion_economia_naranja_comentario,
+        justificacion_economia_naranja_comentario: culturaInnovacionEvaluacion.justificacion_economia_naranja_comentario ? culturaInnovacionEvaluacion.justificacion_economia_naranja_comentario : '',
 
         justificacion_industria_4_requiere_comentario: culturaInnovacionEvaluacion.justificacion_industria_4_comentario == null ? true : false,
-        justificacion_industria_4_comentario: culturaInnovacionEvaluacion.justificacion_industria_4_comentario,
+        justificacion_industria_4_comentario: culturaInnovacionEvaluacion.justificacion_industria_4_comentario ? culturaInnovacionEvaluacion.justificacion_industria_4_comentario : '',
 
         bibliografia_requiere_comentario: culturaInnovacionEvaluacion.bibliografia_comentario == null ? true : false,
-        bibliografia_comentario: culturaInnovacionEvaluacion.bibliografia_comentario,
+        bibliografia_comentario: culturaInnovacionEvaluacion.bibliografia_comentario ? culturaInnovacionEvaluacion.bibliografia_comentario : '',
 
         fechas_requiere_comentario: culturaInnovacionEvaluacion.fechas_comentario == null ? true : false,
-        fechas_comentario: culturaInnovacionEvaluacion.fechas_comentario,
+        fechas_comentario: culturaInnovacionEvaluacion.fechas_comentario ? culturaInnovacionEvaluacion.fechas_comentario : '',
 
         justificacion_politica_discapacidad_requiere_comentario: culturaInnovacionEvaluacion.justificacion_politica_discapacidad_comentario == null ? true : false,
-        justificacion_politica_discapacidad_comentario: culturaInnovacionEvaluacion.justificacion_politica_discapacidad_comentario,
+        justificacion_politica_discapacidad_comentario: culturaInnovacionEvaluacion.justificacion_politica_discapacidad_comentario ? culturaInnovacionEvaluacion.justificacion_politica_discapacidad_comentario : '',
 
         actividad_economica_requiere_comentario: culturaInnovacionEvaluacion.actividad_economica_comentario == null ? true : false,
-        actividad_economica_comentario: culturaInnovacionEvaluacion.actividad_economica_comentario,
+        actividad_economica_comentario: culturaInnovacionEvaluacion.actividad_economica_comentario ? culturaInnovacionEvaluacion.actividad_economica_comentario : '',
 
         area_conocimiento_requiere_comentario: culturaInnovacionEvaluacion.area_conocimiento_comentario == null ? true : false,
-        area_conocimiento_comentario: culturaInnovacionEvaluacion.area_conocimiento_comentario,
+        area_conocimiento_comentario: culturaInnovacionEvaluacion.area_conocimiento_comentario ? culturaInnovacionEvaluacion.area_conocimiento_comentario : '',
 
         tematica_estrategica_requiere_comentario: culturaInnovacionEvaluacion.tematica_estrategica_comentario == null ? true : false,
-        tematica_estrategica_comentario: culturaInnovacionEvaluacion.tematica_estrategica_comentario,
+        tematica_estrategica_comentario: culturaInnovacionEvaluacion.tematica_estrategica_comentario ? culturaInnovacionEvaluacion.tematica_estrategica_comentario : '',
     })
     function submit() {
         if (isSuperAdmin || (checkRole(authUser, [11, 5]) && culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == true && culturaInnovacionEvaluacion.evaluacion.modificable == true)) {
