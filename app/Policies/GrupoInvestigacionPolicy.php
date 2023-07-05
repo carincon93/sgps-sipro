@@ -65,7 +65,7 @@ class GrupoInvestigacionPolicy
      */
     public function update(User $user, GrupoInvestigacion $grupoInvestigacion)
     {
-        if ($user->hasRole(4) && $user->dinamizadorCentroFormacion && $user->dinamizadorCentroFormacion->id == $grupoInvestigacion->centroFormacion->id) {
+        if ($user->hasRole(4) && $user->dinamizadorCentroFormacion && optional($user->dinamizadorCentroFormacion)->id == optional($grupoInvestigacion->centroFormacion)->id) {
             return true;
         }
 
