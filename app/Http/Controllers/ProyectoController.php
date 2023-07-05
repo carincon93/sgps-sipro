@@ -502,6 +502,7 @@ class ProyectoController extends Controller
             'objetivosEspecificos'          => ProyectoValidationTrait::objetivosEspecificos($proyecto),
             'actividades'                   => ProyectoValidationTrait::actividades($proyecto),
             'impactos'                      => ProyectoValidationTrait::impactos($proyecto),
+            'edt'                           => ProyectoValidationTrait::edt($proyecto),
             // 'actividadesPresupuesto'    => ProyectoValidationTrait::actividadesPresupuesto($proyecto),
             'resultadoProducto'             => ProyectoValidationTrait::resultadoProducto($proyecto),
             'analisisRiesgo'                => ProyectoValidationTrait::analisisRiesgo($proyecto),
@@ -1331,25 +1332,6 @@ class ProyectoController extends Controller
         }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
-    }
-
-    public function downloadFileSharepoint(Proyecto $proyecto, $fileId, $file)
-    {
-        $path = $proyecto->all_files->where('id', $fileId)->where('tipo_archivo', $file)->first()['ruta_' . $file];
-
-        $pathExplode = explode("/", $path);
-
-        $folderName = '';
-
-        foreach ($pathExplode as $key => $shortPath) {
-            if ($key > 3 && $key < count($pathExplode) - 1) {
-                $folderName .= '/' . $shortPath;
-            }
-        }
-
-        $fileName = end($pathExplode);
-
-        SharepointHelper::downloadFile($folderName, $fileName);
     }
 
     public function cambiarAutorPrincipal(Convocatoria $convocatoria, Proyecto $proyecto, $integrante)

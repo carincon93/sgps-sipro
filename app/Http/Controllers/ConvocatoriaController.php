@@ -182,10 +182,6 @@ class ConvocatoriaController extends Controller
      */
     public function lineasProgramaticas(Convocatoria $convocatoria)
     {
-        if ($convocatoria->tipo_convocatoria == 3) {
-            return redirect()->route('nuevos-proyectos-ta-tp', $convocatoria);
-        }
-
         return Inertia::render('Convocatorias/LineasProgramaticas', [
             'convocatoria'         => $convocatoria,
             'lineasProgramaticas'  => LineaProgramatica::select('id', 'nombre', 'codigo')->get()
@@ -220,7 +216,7 @@ class ConvocatoriaController extends Controller
                 break;
 
             case 10:
-                return redirect()->route('convocatorias.st.index', [$convocatoria]);
+                return redirect()->route('convocatorias.servicios-tecnologicos.index', [$convocatoria]);
                 break;
             default:
                 return back();
@@ -244,6 +240,7 @@ class ConvocatoriaController extends Controller
         $convocatoria->fase                     = $request->fase['value'];
         $convocatoria->fecha_finalizacion_fase  = $request->fecha_finalizacion_fase;
         $convocatoria->hora_finalizacion_fase   = $request->hora_finalizacion_fase;
+        $convocatoria->year                     = date('Y', strtotime($request->year));
         $convocatoria->save();
 
         if ($request->fase['value'] == 1) { // Formulación

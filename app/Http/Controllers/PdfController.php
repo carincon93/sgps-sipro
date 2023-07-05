@@ -27,6 +27,7 @@ class PdfController extends Controller
     {
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', -1);
+
         $datos = null;
         $tipoProyectoSt = null;
         if (!empty($proyecto->idi)) {
@@ -69,6 +70,8 @@ class PdfController extends Controller
             'tiposSoftware'             => collect(json_decode(Storage::get('json/tipos-software.json'), true))
         ]);
 
+        return $pdf->download($proyecto->codigo.'.pdf');
+
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
 
@@ -103,16 +106,16 @@ class PdfController extends Controller
 
         // $response = self::saveFilesSharepoint($request, 'CONVOCATORIA2023', $proyecto, $proyecto, 'pdf_proyecto');
 
-        $path = Storage::put($sharePointPath . '/' . $save . '.pdf', $fileContent);
-        if (!empty($response['sharePointPath'])) {
-            ProyectoPdfVersion::create([
-                'proyecto_id'     => $proyecto->id,
-                'version'         => $response['nombreArchivo'],
-                'estado'          => 1
-            ]);
+        $path = Storage::put($sharePointPath . '/' . $proyecto->codigo . '.pdf', $fileContent);
+        // if (!empty($response['sharePointPath'])) {
+        //     ProyectoPdfVersion::create([
+        //         'proyecto_id'     => $proyecto->id,
+        //         'version'         => $response['nombreArchivo'],
+        //         'estado'          => 1
+        //     ]);
 
-            ProyectoPdfVersion::where('proyecto_id', $proyecto->id)->update(['estado' => 1]);
-        }
+        //     ProyectoPdfVersion::where('proyecto_id', $proyecto->id)->update(['estado' => 1]);
+        // }
     }
 
     static function saveFilesSharepoint(Request $request, $modulo, $proyecto, $modelo, $campoBd)

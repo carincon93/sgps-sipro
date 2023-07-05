@@ -386,7 +386,7 @@ class AmbienteModernizacionController extends Controller
     }
 
     /**
-     * 
+     *
      */
     public function replicateRow($ambienteModernizacion)
     {
@@ -490,6 +490,8 @@ class AmbienteModernizacionController extends Controller
 
     public function downloadFileSharepoint(AmbienteModernizacion $ambienteModernizacion, $tipoArchivo)
     {
-        SharepointHelper::downloadFileSharepoint($ambienteModernizacion, $tipoArchivo);
+        $sharePointPath = $ambienteModernizacion[$tipoArchivo];
+
+        return SharepointHelper::downloadFile($sharePointPath);
     }
 }

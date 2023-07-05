@@ -81,8 +81,9 @@ class SoporteEstudioMercadoController extends Controller
             'empresa'                   => $request->nombre_primer_empresa,
             'proyecto_presupuesto_id'   => $presupuesto->id
         ]);
+
         if ($request->hasFile('soporte_primer_empresa')) {
-            $this->saveFilesSharepoint($request->soporte_primer_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soportePrimerEmpresa, 'soporte_primer_empresa');
+            $this->saveFilesSharepoint($request->soporte_primer_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soportePrimerEmpresa, 'soporte');
         }
 
         $soporteSegundaEmpresa = SoporteEstudioMercado::updateOrCreate(['id' => $request->id_segunda_empresa], [
@@ -90,7 +91,7 @@ class SoporteEstudioMercadoController extends Controller
             'proyecto_presupuesto_id'   => $presupuesto->id
         ]);
         if ($request->hasFile('soporte_segunda_empresa')) {
-            $this->saveFilesSharepoint($request->soporte_segunda_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soporteSegundaEmpresa, 'soporte_segunda_empresa');
+            $this->saveFilesSharepoint($request->soporte_segunda_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soporteSegundaEmpresa, 'soporte');
         }
 
         if ($request->hasFile('soporte_tercer_empresa')) {
@@ -105,7 +106,7 @@ class SoporteEstudioMercadoController extends Controller
                 'proyecto_presupuesto_id'   => $presupuesto->id
             ]);
             if ($request->hasFile('soporte_tercer_empresa')) {
-                $this->saveFilesSharepoint($request->soporte_tercer_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soporteTerceraEmpresa, 'soporte_tercer_empresa');
+                $this->saveFilesSharepoint($request->soporte_tercer_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soporteTerceraEmpresa, 'soporte');
             }
         }
 
@@ -203,9 +204,9 @@ class SoporteEstudioMercadoController extends Controller
 
     public function downloadFileSharepoint(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto, SoporteEstudioMercado $soporte, $tipoArchivo)
     {
-        $soporte->ruta_final_sharepoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ESTUDIOS MERCADO/COTIZACIONES';
+        $sharePointPath = $soporte[$tipoArchivo];
 
-        SharepointHelper::downloadFileSharepoint($soporte, $tipoArchivo);
+        return SharepointHelper::downloadFile($sharePointPath);
     }
 
     /**

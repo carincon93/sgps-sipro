@@ -26,6 +26,7 @@ class ConvocatoriaRequest extends FormRequest
         return [
             'descripcion'                  => ['required'],
             'esta_activa'                  => ['required_if:tipo_convocatoria,1', 'nullable', 'boolean'],
+            'year'                         => ['required', 'integer', 'max:' . date('Y') + 2],
             'lineas_programaticas_activas' => ['nullable', 'json'],
         ];
     }
@@ -37,7 +38,10 @@ class ConvocatoriaRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        dd($this);
+        $this->merge([
+            'year' => date('Y', strtotime($this->year))
+        ]);
+
         if (is_array($this->tipo_convocatoria)) {
             $this->merge([
                 'tipo_convocatoria' => $this->tipo_convocatoria['value']

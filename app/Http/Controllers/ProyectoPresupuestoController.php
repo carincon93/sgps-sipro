@@ -319,9 +319,9 @@ class ProyectoPresupuestoController extends Controller
 
     public function downloadFileSharepoint(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto, $tipoArchivo)
     {
-        $presupuesto->ruta_final_sharepoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ESTUDIOS MERCADO';
+        $sharePointPath = $presupuesto[$tipoArchivo];
 
-        SharepointHelper::downloadFileSharepoint($presupuesto, $tipoArchivo);
+        return SharepointHelper::downloadFile($sharePointPath);
     }
 
     /**

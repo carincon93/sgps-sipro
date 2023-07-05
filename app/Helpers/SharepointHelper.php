@@ -250,18 +250,17 @@ class SharepointHelper
             $response = $client->sendAsync($request)->wait();
 
             $contentType = $response->getHeader('Content-Type')[0];
+            $fileContent = $response->getBody();
 
-            return [
-                'content'                   => $response->getBody(),
-                'content-type'              => $contentType,
-                'content-disposition'       => 'inline; filename="' . end($pathExplode) . '"',
-                'content-transfer-encoding' => 'binary',
-                'accept-ranges'             => 'bytes',
-                'filename'                  => end($pathExplode)
-            ];
+            return response($fileContent)
+                ->header('Content-Type', $contentType)
+                ->header('Content-Disposition', 'attachment; filename="' . end($pathExplode) . '"')
+                ->header('Content-Transfer-Encoding', 'binary')
+                ->header('Accept-Ranges', 'bytes')
+                ->header('Filename', end($pathExplode));
         } catch (ClientException $e) {
             // $response = $e->getResponse();
-            // Log::debug($e->getMessage());
+            Log::debug($e->getMessage());
 
             // abort($response->getStatusCode());
         }

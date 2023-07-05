@@ -114,7 +114,7 @@ class ArbolProyectoController extends Controller
                 break;
             case $proyecto->ta()->exists():
                 $proyecto->problema_central         = $proyecto->ta->problema_central;
-                $proyecto->objetivo_general         = $proyecto->idi->objetivo_general;
+                $proyecto->objetivo_general         = $proyecto->ta->objetivo_general;
                 $proyecto->proyecto_base            = $proyecto->ta->proyecto_base;
 
                 break;
@@ -122,7 +122,7 @@ class ArbolProyectoController extends Controller
                 $proyecto->justificacion_problema   = $proyecto->tp->justificacion_problema;
                 $proyecto->identificacion_problema  = $proyecto->tp->identificacion_problema;
                 $proyecto->problema_central         = $proyecto->tp->problema_central;
-                $proyecto->objetivo_general         = $proyecto->idi->objetivo_general;
+                $proyecto->objetivo_general         = $proyecto->tp->objetivo_general;
                 $proyecto->proyecto_base            = $proyecto->tp->proyecto_base;
                 break;
             case $proyecto->servicioTecnologico()->exists():
@@ -132,7 +132,7 @@ class ArbolProyectoController extends Controller
                 $proyecto->problema_central         = $proyecto->culturaInnovacion->problema_central;
                 $proyecto->justificacion_problema   = $proyecto->culturaInnovacion->justificacion_problema;
                 $proyecto->identificacion_problema  = $proyecto->culturaInnovacion->identificacion_problema;
-                $proyecto->objetivo_general         = $proyecto->idi->objetivo_general;
+                $proyecto->objetivo_general         = $proyecto->culturaInnovacion->objetivo_general;
                 $proyecto->tipo_proyecto            = $proyecto->culturaInnovacion->tipo_proyecto;
                 break;
             default:

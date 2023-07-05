@@ -172,9 +172,9 @@ class ProyectoAnexoController extends Controller
 
     public function downloadFileSharepoint(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoAnexo $proyectoAnexo, $tipoArchivo)
     {
-        $proyectoAnexo->ruta_final_sharepoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ANEXOS';
+        $sharePointPath = $proyectoAnexo[$tipoArchivo];
 
-        SharepointHelper::downloadFileSharepoint($proyectoAnexo, $tipoArchivo);
+        return SharepointHelper::downloadFile($sharePointPath);
     }
 
     /**
