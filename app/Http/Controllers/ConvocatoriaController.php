@@ -27,9 +27,8 @@ class ConvocatoriaController extends Controller
         $this->authorize('listar-convocatorias');
 
         return Inertia::render('Convocatorias/Index', [
-            'filters'               => request()->all('search'),
-            'convocatorias'         => Convocatoria::orderBy('id', 'DESC')->filterConvocatoria(request()->only('search'))->paginate()->appends(['search' => request()->search]),
-            'convocatoria_activa'   => Convocatoria::where('esta_activa', 1)->first(),
+            'filters'       => request()->all('search'),
+            'convocatorias' => Convocatoria::orderBy('id', 'DESC')->filterConvocatoria(request()->only('search'))->paginate()->appends(['search' => request()->search]),
         ]);
     }
 
@@ -188,8 +187,8 @@ class ConvocatoriaController extends Controller
         }
 
         return Inertia::render('Convocatorias/LineasProgramaticas', [
-            'convocatoria'          => $convocatoria,
-            'lineas_programaticas'  => LineaProgramatica::select('id', 'nombre', 'codigo')->get()
+            'convocatoria'         => $convocatoria,
+            'lineasProgramaticas'  => LineaProgramatica::select('id', 'nombre', 'codigo')->get()
         ]);
     }
 

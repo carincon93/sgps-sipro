@@ -10,7 +10,7 @@
 
     $title = 'Panel de control'
 
-    let authUser = $auth.user
+    let authUser = auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 </script>
 

@@ -11,7 +11,7 @@
 
     $: $title = lineaTecnoparque ? lineaTecnoparque.nombre : null
 
-    let authUser = $auth.user
+    let authUser = auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let form = useForm({

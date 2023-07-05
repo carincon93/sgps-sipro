@@ -29,7 +29,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $auth.user
+    let authUser = auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     let proyectoDialogOpen = true
