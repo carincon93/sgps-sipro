@@ -44,7 +44,7 @@ class UserProfileRequest extends FormRequest
             'nro_acta_nombramiento'                 => ['nullable', 'integer', 'min:0'],
             'fecha_inicio_contrato'                 => ['nullable', 'date_format:Y-m-d', 'before:fecha_finalizacion_contrato'],
             'fecha_finalizacion_contrato'           => ['nullable', 'date_format:Y-m-d', 'after:fecha_inicio_contrato'],
-            'asignacion_mensual'                    => ['required', 'integer', 'min:0'],
+            'asignacion_mensual'                    => ['nullable', 'integer', 'min:0'],
             'grupo_etnico'                          => ['nullable', 'integer'],
             'discapacidad'                          => ['nullable', 'integer'],
             'subarea_experiencia_laboral'           => ['nullable', 'integer'],
@@ -53,7 +53,7 @@ class UserProfileRequest extends FormRequest
             'cvlac'                                 => ['nullable', 'string', 'max:255'],
             'link_sigep_ii'                         => ['nullable', 'string', 'max:255'],
 
-            'experiencia_laboral_sena'              => ['required', 'integer', 'min:0'],
+            'experiencia_laboral_sena'              => ['nullable', 'integer', 'min:0'],
             'cursos_evaluacion_proyectos'           => ['nullable', 'boolean'],
             'cursos_de_evaluacion_realizados'       => ['nullable', 'json'],
             'experiencia_como_evaluador'            => ['nullable', 'boolean'],
@@ -70,13 +70,13 @@ class UserProfileRequest extends FormRequest
             'experiencia_minima_metodos'            => ['nullable', 'boolean'],
             'autorizacion_datos'                    => ['nullable', 'boolean'],
             'informacion_completa'                  => ['nullable', 'boolean'],
-            'tiempo_por_rol'                        => ['required', 'json'],
+            'tiempo_por_rol'                        => ['nullable', 'json'],
             'roles_fuera_sennova'                   => ['nullable', 'json'],
-            'red_conocimiento_id'                   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:redes_conocimiento,id'],
-            'disciplinas_subarea_conocimiento'      => ['required', 'json'],
+            'red_conocimiento_id'                   => ['nullable', 'min:0', 'max:2147483647', 'integer', 'exists:redes_conocimiento,id'],
+            'disciplinas_subarea_conocimiento'      => ['nullable', 'json'],
 
             'centro_formacion_id'                   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
-            'rol_sennova_id'                        => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:roles_sennova,id'],
+            'rol_sennova_id'                        => ['nullable', 'min:0', 'max:2147483647', 'integer', 'exists:roles_sennova,id'],
             'otros_roles_sennova'                   => ['nullable', 'json'],
         ];
     }
