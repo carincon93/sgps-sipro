@@ -1,8 +1,10 @@
+import Menu from "@/Components/Menu"
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout"
 import { checkRole } from "@/Utils"
 import { Link } from "@inertiajs/react"
+import { MenuItem } from "@mui/material"
 
-export default function Dashboard({ auth, convocatorias, convocatoria_activa }) {
+export default function Dashboard({ auth, convocatorias }) {
 
     let isSuperAdmin = checkRole(auth.user, [1])
 
@@ -14,16 +16,9 @@ export default function Dashboard({ auth, convocatorias, convocatoria_activa }) 
             <header className="pt-[8rem]" slot="header">
                 <div className="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
                     <div>
-                        {convocatoria_activa ?
-                            <h1 className="font-bold text-5xl">
-                                Lista de convocatorias
-                            </h1>
-                        : (
-                            <>
-                                <h1 className="font-bold text-5xl">Aún no hay una convocatoria activa.</h1>
-                                <p>Debe crear una nueva convocatoria y activarla o activar una convocatoria previamente creada.</p>
-                            </>
-                        )}
+                        <h1 className="font-bold text-5xl">
+                            Lista de convocatorias
+                        </h1>
                     </div>
                     <div>
                         <figure>
@@ -49,24 +44,24 @@ export default function Dashboard({ auth, convocatorias, convocatoria_activa }) 
                                 <div key={convocatoria.id}>
                                     {isSuperAdmin &&
                                         <div className="bg-white flex w-full justify-end">
-                                            {/* <DataTableMenu className="!min-w-0">
-                                                <Item on:SMUI:action={() => Inertia.visit(route('convocatorias.edit', convocatoria.id))} disabled={!isSuperAdmin} className={!isSuperAdmin ? 'hidden' : ''}>
+                                            <Menu className="!min-w-0">
+                                                <MenuItem onClick={() => Inertia.visit(route('convocatorias.edit', convocatoria.id))} disabled={!isSuperAdmin} className={!isSuperAdmin ? 'hidden' : ''}>
                                                     <Text>Editar convocatoria</Text>
-                                                </Item>
+                                                </MenuItem>
 
-                                                <Item on:SMUI:action={() => Inertia.visit(route('convocatorias.convocatoria-rol-sennova.index', convocatoria.id))}>
+                                                <MenuItem onClick={() => Inertia.visit(route('convocatorias.convocatoria-rol-sennova.index', convocatoria.id))}>
                                                     <Text>Roles SENNOVA</Text>
-                                                </Item>
+                                                </MenuItem>
 
-                                                <Item on:SMUI:action={() => Inertia.visit(route('convocatorias.convocatoria-presupuesto.index', convocatoria.id))}>
+                                                <MenuItem onClick={() => Inertia.visit(route('convocatorias.convocatoria-presupuesto.index', convocatoria.id))}>
                                                     <Text>Rúbrica presupuestal SENNOVA</Text>
-                                                </Item>
+                                                </MenuItem>
 
                                                 <Separator disabled={!isSuperAdmin} className={!isSuperAdmin ? 'hidden' : ''} />
-                                                <Item on:SMUI:action={() => ((convocatoria_id = convocatoria.id), (dialogEliminar = true), (allowedToDestroy = isSuperAdmin))} disabled={!isSuperAdmin} className={!isSuperAdmin ? 'hidden' : ''}>
+                                                <MenuItem onClick={() => ((convocatoria_id = convocatoria.id), (dialogEliminar = true), (allowedToDestroy = isSuperAdmin))} disabled={!isSuperAdmin} className={!isSuperAdmin ? 'hidden' : ''}>
                                                     <Text>Eliminar convocatoria</Text>
-                                                </Item>
-                                            </DataTableMenu> */}
+                                                </MenuItem>
+                                            </Menu>
                                         </div>
                                     }
                                     <Link href={route('convocatorias.lineas-programaticas.index', convocatoria.id)} className="bg-white overflow-hidden shadow-md px-6 py-2 hover:bg-app-500 hover:text-white h-72 flex justify-center items-center flex-col">

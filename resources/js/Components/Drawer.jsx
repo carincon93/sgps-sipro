@@ -15,7 +15,9 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import MailIcon from '@mui/icons-material/Mail'
 import ApplicationLogo from './ApplicationLogo'
+import { route } from '@/Utils'
 import { useState } from 'react'
+import { Inertia } from '@inertiajs/inertia'
 
 const drawerWidth = 280
 
@@ -151,7 +153,7 @@ export default function MiniDrawer({user, children}) {
                 <ApplicationLogo />
             </DrawerHeader>
             <List className="!p-4">
-                <ListItem disablePadding sx={{ display: 'block' }}>
+                <ListItem disablePadding sx={{ display: 'block' }} >
                     <ListItemButton
                         sx={{
                             borderRadius: '20px',
@@ -159,6 +161,7 @@ export default function MiniDrawer({user, children}) {
                             justifyContent: open ? 'initial' : 'center',
                             px: 2.5,
                         }}
+                        onClick={() => Inertia.visit(route('convocatorias.index'))}
                     >
                         <ListItemIcon
                             sx={{
