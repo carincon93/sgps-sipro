@@ -106,8 +106,8 @@ class TaEvaluacionController extends Controller
             'programasFormacionSinRegistroCalificado'   => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),
             'proyectoMunicipios'                        => $ta->proyecto->municipios()->select('municipios.id as value', 'municipios.nombre as label', 'regionales.nombre as group', 'regionales.codigo')->join('regionales', 'regionales.id', 'municipios.regional_id')->get(),
             'proyectoMunicipiosImpactar'                => $ta->proyecto->municipiosAImpactar()->select('municipios.id as value', 'municipios.nombre as label', 'regionales.nombre as group', 'regionales.codigo')->join('regionales', 'regionales.id', 'municipios.regional_id')->get(),
-            'disenosCurricularesRelacionados'           => $ta->proyecto->disenosCurriculares()->selectRaw('id as value, concat(nombre, \' ∙ Código: \', codigo) as label')->get(),
-            'programasFormacionSinRegistroRelacionados' => $ta->proyecto->taProgramasFormacion()->selectRaw('id as value, concat(programas_formacion.nombre, chr(10), \'∙ Código: \', programas_formacion.codigo) as label')->where('programas_formacion.registro_calificado', true)->get(),
+            'disenosCurricularesRelacionados'           => $ta->proyecto->disenosCurriculares()->selectRaw('disenos_curriculares.id as value, concat(disenos_curriculares.nombre, \' ∙ Código: \', codigo) as label')->get(),
+            'programasFormacionSinRegistroRelacionados' => $ta->proyecto->taProgramasFormacion()->selectRaw('programas_formacion.id as value, concat(programas_formacion.nombre, chr(10), \'∙ Código: \', programas_formacion.codigo) as label')->where('programas_formacion.registro_calificado', true)->get(),
             'tecnoacademias'                            => $tecnoacademias,
         ]);
     }
