@@ -402,8 +402,6 @@ class ProyectoRolSennovaController extends Controller
         $proyectoRolSennova->load('convocatoriaRolSennova.rolSennova');
         $proyectoRolSennova->load('actividades');
 
-        $objetivosEspecificos = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
-
         if ($proyecto->codigo_linea_programatica == 68) {
             $proyecto->max_meses_ejecucion = $proyecto->servicioTecnologico->max_meses_ejecucion;
         }
@@ -426,7 +424,7 @@ class ProyectoRolSennovaController extends Controller
             'proyectoRolEvaluacion'                     => ProyectoRolEvaluacion::where('evaluacion_id', $evaluacion->id)->where('proyecto_rol_sennova_id', $proyectoRolSennova->id)->first(),
             'convocatoriaRolesSennova'                  => SelectHelper::convocatoriaRolesSennova($convocatoria->id, $proyecto->id, $proyecto->lineaProgramatica->id),
             'actividades'                               => $proyectoRolSennova->actividades,
-            'proyectoActividadesRelacionadas'           => $proyectoRolSennova->actividades()->pluck('id'),
+            'proyectoActividadesRelacionadas'           => $proyectoRolSennova->actividades()->pluck('actividades.id'),
             'proyectoLineasTecnologicasRelacionadas'    => $lineasTecnologicasRelacionadas ?? null,
             'lineasTecnologicas'                        => $lineasTecnologicas ?? null
         ]);
