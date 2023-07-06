@@ -59,7 +59,7 @@
         municipios: proyectoMunicipios?.length > 0 ? proyectoMunicipios : null,
         municipios_impactar: proyectoMunicipiosImpactar?.length > 0 ? proyectoMunicipiosImpactar : null,
         otras_nuevas_instituciones: proyecto.otras_nuevas_instituciones,
-        otras_nombre_instituciones_programas: proyecto.otras_nombre_instituciones_programas,
+        otras_nombre_instituciones_programas: proyecto.otras_nombre_instituciones_programas ? proyecto.otras_nombre_instituciones_programas : '',
         otras_nombre_instituciones: proyecto.otras_nombre_instituciones,
         impacto_municipios: proyecto.impacto_municipios,
         nombre_instituciones: proyecto.nombre_instituciones,
@@ -85,7 +85,7 @@
     let showGantt = false
     let formEstrategiaRegionalEvaluacion = useForm({
         metodologia_puntaje: evaluacion.idi_evaluacion ? evaluacion.idi_evaluacion?.metodologia_puntaje : evaluacion.cultura_innovacion_evaluacion ? evaluacion.cultura_innovacion_evaluacion.metodologia_puntaje : null,
-        metodologia_comentario: evaluacion.idi_evaluacion ? evaluacion.idi_evaluacion?.metodologia_comentario : evaluacion.cultura_innovacion_evaluacion ? evaluacion.cultura_innovacion_evaluacion.metodologia_comentario : null,
+        metodologia_comentario: evaluacion.idi_evaluacion ? (evaluacion.idi_evaluacion?.metodologia_comentario ? evaluacion.idi_evaluacion?.metodologia_comentario : '') : evaluacion.cultura_innovacion_evaluacion ? (evaluacion.cultura_innovacion_evaluacion.metodologia_comentario ? evaluacion.cultura_innovacion_evaluacion.metodologia_comentario : '') : '',
         metodologia_requiere_comentario: evaluacion.idi_evaluacion ? (evaluacion.idi_evaluacion?.metodologia_comentario == null ? true : false) : evaluacion.cultura_innovacion_evaluacion ? (evaluacion.cultura_innovacion_evaluacion.metodologia_comentario == null ? true : false) : null,
     })
     function submitEstrategiaRegionalEvaluacion() {
@@ -97,18 +97,19 @@
     }
 
     let formTaEvaluacion = useForm({
-        metodologia_comentario: evaluacion.ta_evaluacion ? evaluacion.ta_evaluacion?.metodologia_comentario : '',
+        metodologia_comentario:  evaluacion.ta_evaluacion?.metodologia_comentario ? evaluacion.ta_evaluacion?.metodologia_comentario : '',
         metodologia_requiere_comentario: evaluacion.ta_evaluacion ? (evaluacion.ta_evaluacion?.metodologia_comentario == null ? true : false) : null,
 
         municipios_requiere_comentario: evaluacion.ta_evaluacion?.municipios_comentario == null ? true : false,
         municipios_comentario: evaluacion.ta_evaluacion?.municipios_comentario ? evaluacion.ta_evaluacion?.municipios_comentario : '',
 
-        instituciones_comentario: evaluacion.ta_evaluacion ? evaluacion.ta_evaluacion?.instituciones_comentario : '',
+        instituciones_comentario: evaluacion.ta_evaluacion?.instituciones_comentario ? evaluacion.ta_evaluacion?.instituciones_comentario : '',
         instituciones_requiere_comentario: evaluacion.ta_evaluacion ? (evaluacion.ta_evaluacion?.instituciones_comentario == null ? true : false) : null,
 
-        proyectos_macro_comentario: evaluacion.ta_evaluacion ? evaluacion.ta_evaluacion?.proyectos_macro_comentario : '',
+        proyectos_macro_comentario: evaluacion.ta_evaluacion?.proyectos_macro_comentario ? evaluacion.ta_evaluacion?.proyectos_macro_comentario : '',
         proyectos_macro_requiere_comentario: evaluacion.ta_evaluacion ? (evaluacion.ta_evaluacion?.proyectos_macro_comentario == null ? true : false) : null,
     })
+
     function submitTaEvaluacion() {
         if (isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
             $formTaEvaluacion.put(route('convocatorias.evaluaciones.actividades.guardar-evaluacion', [convocatoria.id, evaluacion.id]), {

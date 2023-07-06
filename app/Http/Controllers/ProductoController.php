@@ -494,7 +494,7 @@ class ProductoController extends Controller
                     return $objetivoEspecifico->id;
                 })
             )->orderBy('fecha_inicio', 'ASC')->get(),
-            'actividadesRelacionadas'   => $producto->actividades()->pluck('id'),
+            'actividadesRelacionadas'   => $producto->actividades()->pluck('actividades.id'),
             'resultados'                => $resultados->where('label', '!=', null)->flatten(),
             'subtipologiasMinciencias'  => SelectHelper::subtipologiasMinciencias(),
             'tiposProducto'             => json_decode(Storage::get('json/tipos-producto.json'), true),
