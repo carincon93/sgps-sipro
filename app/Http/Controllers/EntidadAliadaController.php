@@ -447,7 +447,7 @@ class EntidadAliadaController extends Controller
                     return $objetivoEspecifico->id;
                 })
             )->orderBy('fecha_inicio', 'ASC')->get(),
-            'actividadesRelacionadas'           => $entidadAliada->actividades()->pluck('id'),
+            'actividadesRelacionadas'           => $entidadAliada->actividades()->pluck('actividades.id'),
             'objetivosEspecificosRelacionados'  => $entidadAliada->actividades()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico'),
             'tiposEntidadAliada'                => json_decode(Storage::get('json/tipos-entidades-aliadas.json'), true),
             'naturalezaEntidadAliada'           => json_decode(Storage::get('json/naturaleza-empresa.json'), true),
