@@ -80,13 +80,13 @@
     }
 
     let formTaTpEvaluacion = useForm({
-        articulacion_sennova_comentario: evaluacion.ta_evaluacion ? evaluacion.ta_evaluacion.articulacion_sennova_comentario : evaluacion.tp_evaluacion ? evaluacion.tp_evaluacion.articulacion_sennova_comentario : '',
+        articulacion_sennova_comentario: evaluacion.ta_evaluacion ? (evaluacion.ta_evaluacion.articulacion_sennova_comentario ? evaluacion.ta_evaluacion.articulacion_sennova_comentario : '' ) : evaluacion.tp_evaluacion ? (evaluacion.tp_evaluacion.articulacion_sennova_comentario ? evaluacion.tp_evaluacion.articulacion_sennova_comentario : '') : '',
         articulacion_sennova_requiere_comentario: evaluacion.ta_evaluacion ? (evaluacion.ta_evaluacion.articulacion_sennova_comentario == null ? true : false) : evaluacion.tp_evaluacion ? (evaluacion.tp_evaluacion.articulacion_sennova_comentario == null ? true : false) : null,
-        impacto_centro_formacion_comentario: evaluacion.ta_evaluacion ? evaluacion.ta_evaluacion.impacto_centro_formacion_comentario : evaluacion.tp_evaluacion ? evaluacion.tp_evaluacion.impacto_centro_formacion_comentario : '',
+        impacto_centro_formacion_comentario: evaluacion.ta_evaluacion ? (evaluacion.ta_evaluacion.impacto_centro_formacion_comentario ? evaluacion.ta_evaluacion.impacto_centro_formacion_comentario : '') : evaluacion.tp_evaluacion ? (evaluacion.tp_evaluacion.impacto_centro_formacion_comentario ? evaluacion.tp_evaluacion.impacto_centro_formacion_comentario : '') : '',
         impacto_centro_formacion_requiere_comentario: evaluacion.ta_evaluacion ? (evaluacion.ta_evaluacion.impacto_centro_formacion_comentario == null ? true : false) : evaluacion.tp_evaluacion ? (evaluacion.tp_evaluacion.impacto_centro_formacion_comentario == null ? true : false) : null,
 
-        lineas_medulares_centro_comentario: evaluacion.ta_evaluacion ? evaluacion.ta_evaluacion.lineas_medulares_centro_comentario : '',
-        articulacion_sennova_requiere_comentario: evaluacion.ta_evaluacion ? (evaluacion.ta_evaluacion.lineas_medulares_centro_comentario == null ? true : false) : null,
+        lineas_medulares_centro_comentario: evaluacion.ta_evaluacion.lineas_medulares_centro_comentario ? evaluacion.ta_evaluacion.lineas_medulares_centro_comentario : '',
+        lineas_medulares_centro_requiere_comentario: evaluacion.ta_evaluacion ? (evaluacion.ta_evaluacion.lineas_medulares_centro_comentario == null ? true : false) : null,
     })
     function submitTaTpEvaluacion() {
         if (isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {

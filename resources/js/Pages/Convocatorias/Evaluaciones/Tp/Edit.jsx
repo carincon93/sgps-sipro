@@ -85,28 +85,28 @@
 
     let form = useForm({
         clausula_confidencialidad: tpEvaluacion.evaluacion.clausula_confidencialidad,
-        fecha_ejecucion_comentario: tpEvaluacion.fecha_ejecucion_comentario,
+        fecha_ejecucion_comentario: tpEvaluacion.fecha_ejecucion_comentario ? tpEvaluacion.fecha_ejecucion_comentario : '',
         fecha_ejecucion_requiere_comentario: tpEvaluacion.fecha_ejecucion_comentario == null ? true : false,
-        resumen_regional_comentario: tpEvaluacion.resumen_regional_comentario,
+        resumen_regional_comentario: tpEvaluacion.resumen_regional_comentario ? tpEvaluacion.resumen_regional_comentario : '',
         resumen_regional_requiere_comentario: tpEvaluacion.resumen_regional_comentario == null ? true : false,
-        antecedentes_regional_comentario: tpEvaluacion.antecedentes_regional_comentario,
+        antecedentes_regional_comentario: tpEvaluacion.antecedentes_regional_comentario ? tpEvaluacion.antecedentes_regional_comentario : '',
         antecedentes_regional_requiere_comentario: tpEvaluacion.antecedentes_regional_comentario == null ? true : false,
-        instituciones_comentario: tpEvaluacion.instituciones_comentario,
+        instituciones_comentario: tpEvaluacion.instituciones_comentario ? tpEvaluacion.instituciones_comentario : '',
         instituciones_requiere_comentario: tpEvaluacion.instituciones_comentario == null ? true : false,
 
-        retos_oportunidades_comentario: tpEvaluacion.retos_oportunidades_comentario,
+        retos_oportunidades_comentario: tpEvaluacion.retos_oportunidades_comentario ? tpEvaluacion.retos_oportunidades_comentario : '',
         retos_oportunidades_requiere_comentario: tpEvaluacion.retos_oportunidades_comentario == null ? true : false,
-        pertinencia_territorio_comentario: tpEvaluacion.pertinencia_territorio_comentario,
+        pertinencia_territorio_comentario: tpEvaluacion.pertinencia_territorio_comentario ? tpEvaluacion.pertinencia_territorio_comentario : '',
         pertinencia_territorio_requiere_comentario: tpEvaluacion.pertinencia_territorio_comentario == null ? true : false,
 
-        bibliografia_comentario: tpEvaluacion.bibliografia_comentario,
+        bibliografia_comentario: tpEvaluacion.bibliografia_comentario ? tpEvaluacion.bibliografia_comentario : '',
         bibliografia_requiere_comentario: tpEvaluacion.bibliografia_comentario == null ? true : false,
 
-        ortografia_comentario: tpEvaluacion.ortografia_comentario,
+        ortografia_comentario: tpEvaluacion.ortografia_comentario ? tpEvaluacion.ortografia_comentario : '',
         ortografia_requiere_comentario: tpEvaluacion.ortografia_comentario == null ? true : false,
-        redaccion_comentario: tpEvaluacion.redaccion_comentario,
+        redaccion_comentario: tpEvaluacion.redaccion_comentario ? tpEvaluacion.redaccion_comentario : '',
         redaccion_requiere_comentario: tpEvaluacion.redaccion_comentario == null ? true : false,
-        normas_apa_comentario: tpEvaluacion.normas_apa_comentario,
+        normas_apa_comentario: tpEvaluacion.normas_apa_comentario ? tpEvaluacion.normas_apa_comentario : '',
         normas_apa_requiere_comentario: tpEvaluacion.normas_apa_comentario == null ? true : false,
     })
     function submit() {

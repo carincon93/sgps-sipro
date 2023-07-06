@@ -31,7 +31,7 @@
     let isSuperAdmin = checkRole(authUser, [1])
 
     let formTaEvaluacion = useForm({
-        edt_comentario: evaluacion.ta_evaluacion.edt_comentario,
+        edt_comentario: evaluacion.ta_evaluacion.edt_comentario ? evaluacion.ta_evaluacion.edt_comentario : '',
         edt_requiere_comentario: evaluacion.ta_evaluacion.edt_comentario == null ? true : false,
     })
     function submitTaEvaluacion() {

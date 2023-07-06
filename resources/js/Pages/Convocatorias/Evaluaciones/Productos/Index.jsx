@@ -50,7 +50,7 @@
     }
 
     let formTaEvaluacion = useForm({
-        productos_comentario: evaluacion.ta_evaluacion?.productos_comentario,
+        productos_comentario: evaluacion.ta_evaluacion?.productos_comentario ? evaluacion.ta_evaluacion?.productos_comentario : '',
         productos_requiere_comentario: evaluacion.ta_evaluacion?.productos_comentario == null ? true : false,
     })
     function submitTaEvaluacion() {
@@ -62,7 +62,7 @@
     }
 
     let formTpEvaluacion = useForm({
-        productos_comentario: evaluacion.tp_evaluacion?.productos_comentario,
+        productos_comentario: evaluacion.tp_evaluacion?.productos_comentario ? evaluacion.tp_evaluacion?.productos_comentario : '',
         productos_requiere_comentario: evaluacion.tp_evaluacion?.productos_comentario == null ? true : false,
     })
     function submitTpEvaluacion() {
@@ -75,19 +75,19 @@
 
     let formServicioTecnologicoEvaluacion = useForm({
         productos_primer_obj_puntaje: evaluacion.servicio_tecnologico_evaluacion?.productos_primer_obj_puntaje,
-        productos_primer_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.productos_primer_obj_comentario,
+        productos_primer_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.productos_primer_obj_comentario ? evaluacion.servicio_tecnologico_evaluacion?.productos_primer_obj_comentario : '',
         productos_primer_obj_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.productos_primer_obj_comentario == null ? true : false,
 
         productos_segundo_obj_puntaje: evaluacion.servicio_tecnologico_evaluacion?.productos_segundo_obj_puntaje,
-        productos_segundo_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.productos_segundo_obj_comentario,
+        productos_segundo_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.productos_segundo_obj_comentario ? evaluacion.servicio_tecnologico_evaluacion?.productos_segundo_obj_comentario : '',
         productos_segundo_obj_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.productos_segundo_obj_comentario == null ? true : false,
 
         productos_tercer_obj_puntaje: evaluacion.servicio_tecnologico_evaluacion?.productos_tercer_obj_puntaje,
-        productos_tercer_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.productos_tercer_obj_comentario,
+        productos_tercer_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.productos_tercer_obj_comentario ? evaluacion.servicio_tecnologico_evaluacion?.productos_tercer_obj_comentario : '',
         productos_tercer_obj_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.productos_tercer_obj_comentario == null ? true : false,
 
         productos_cuarto_obj_puntaje: evaluacion.servicio_tecnologico_evaluacion?.productos_cuarto_obj_puntaje,
-        productos_cuarto_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.productos_cuarto_obj_comentario,
+        productos_cuarto_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.productos_cuarto_obj_comentario ? evaluacion.servicio_tecnologico_evaluacion?.productos_cuarto_obj_comentario : '',
         productos_cuarto_obj_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.productos_cuarto_obj_comentario == null ? true : false,
     })
     function submitServicioTecnologicoEvaluacion() {

@@ -72,40 +72,40 @@
         clausula_confidencialidad: servicioTecnologicoEvaluacion.evaluacion.clausula_confidencialidad,
 
         fechas_requiere_comentario: servicioTecnologicoEvaluacion.fecha_ejecucion_comentario == null ? true : false,
-        fecha_ejecucion_comentario: servicioTecnologicoEvaluacion.fecha_ejecucion_comentario,
+        fecha_ejecucion_comentario: servicioTecnologicoEvaluacion.fecha_ejecucion_comentario ? servicioTecnologicoEvaluacion.fecha_ejecucion_comentario : '',
 
         titulo_puntaje: servicioTecnologicoEvaluacion.titulo_puntaje,
-        titulo_comentario: servicioTecnologicoEvaluacion.titulo_comentario,
+        titulo_comentario: servicioTecnologicoEvaluacion.titulo_comentario ? servicioTecnologicoEvaluacion.titulo_comentario : '',
         titulo_requiere_comentario: servicioTecnologicoEvaluacion.titulo_comentario == null ? true : false,
 
         resumen_puntaje: servicioTecnologicoEvaluacion.resumen_puntaje,
-        resumen_comentario: servicioTecnologicoEvaluacion.resumen_comentario,
+        resumen_comentario: servicioTecnologicoEvaluacion.resumen_comentario ? servicioTecnologicoEvaluacion.resumen_comentario : '',
         resumen_requiere_comentario: servicioTecnologicoEvaluacion.resumen_comentario == null ? true : false,
 
         antecedentes_puntaje: servicioTecnologicoEvaluacion.antecedentes_puntaje,
-        antecedentes_comentario: servicioTecnologicoEvaluacion.antecedentes_comentario,
+        antecedentes_comentario: servicioTecnologicoEvaluacion.antecedentes_comentario ? servicioTecnologicoEvaluacion.antecedentes_comentario : '',
         antecedentes_requiere_comentario: servicioTecnologicoEvaluacion.antecedentes_comentario == null ? true : false,
 
         identificacion_problema_puntaje: servicioTecnologicoEvaluacion.identificacion_problema_puntaje,
-        identificacion_problema_comentario: servicioTecnologicoEvaluacion.identificacion_problema_comentario,
+        identificacion_problema_comentario: servicioTecnologicoEvaluacion.identificacion_problema_comentario ? servicioTecnologicoEvaluacion.identificacion_problema_comentario : '',
         identificacion_problema_requiere_comentario: servicioTecnologicoEvaluacion.identificacion_problema_comentario == null ? true : false,
 
         pregunta_formulacion_problema_puntaje: servicioTecnologicoEvaluacion.pregunta_formulacion_problema_puntaje,
-        pregunta_formulacion_problema_comentario: servicioTecnologicoEvaluacion.pregunta_formulacion_problema_comentario,
+        pregunta_formulacion_problema_comentario: servicioTecnologicoEvaluacion.pregunta_formulacion_problema_comentario ? servicioTecnologicoEvaluacion.pregunta_formulacion_problema_comentario : '',
         pregunta_formulacion_problema_requiere_comentario: servicioTecnologicoEvaluacion.pregunta_formulacion_problema_comentario == null ? true : false,
 
         justificacion_problema_puntaje: servicioTecnologicoEvaluacion.justificacion_problema_puntaje,
-        justificacion_problema_comentario: servicioTecnologicoEvaluacion.justificacion_problema_comentario,
+        justificacion_problema_comentario: servicioTecnologicoEvaluacion.justificacion_problema_comentario ? servicioTecnologicoEvaluacion.justificacion_problema_comentario : '',
         justificacion_problema_requiere_comentario: servicioTecnologicoEvaluacion.justificacion_problema_comentario == null ? true : false,
 
         bibliografia_requiere_comentario: servicioTecnologicoEvaluacion.bibliografia_comentario == null ? true : false,
-        bibliografia_comentario: servicioTecnologicoEvaluacion.bibliografia_comentario,
+        bibliografia_comentario: servicioTecnologicoEvaluacion.bibliografia_comentario ? servicioTecnologicoEvaluacion.bibliografia_comentario : '',
 
-        ortografia_comentario: servicioTecnologicoEvaluacion.ortografia_comentario,
+        ortografia_comentario: servicioTecnologicoEvaluacion.ortografia_comentario ? servicioTecnologicoEvaluacion.ortografia_comentario : '',
         ortografia_requiere_comentario: servicioTecnologicoEvaluacion.ortografia_comentario == null ? true : false,
-        redaccion_comentario: servicioTecnologicoEvaluacion.redaccion_comentario,
+        redaccion_comentario: servicioTecnologicoEvaluacion.redaccion_comentario ? servicioTecnologicoEvaluacion.redaccion_comentario : '',
         redaccion_requiere_comentario: servicioTecnologicoEvaluacion.redaccion_comentario == null ? true : false,
-        normas_apa_comentario: servicioTecnologicoEvaluacion.normas_apa_comentario,
+        normas_apa_comentario: servicioTecnologicoEvaluacion.normas_apa_comentario ? servicioTecnologicoEvaluacion.normas_apa_comentario : '',
         normas_apa_requiere_comentario: servicioTecnologicoEvaluacion.normas_apa_comentario == null ? true : false,
     })
 

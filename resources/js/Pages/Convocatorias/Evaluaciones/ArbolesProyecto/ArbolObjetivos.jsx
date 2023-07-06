@@ -50,39 +50,39 @@
 
     let formServicioTecnologicoEvaluacion = useForm({
         objetivo_general_puntaje: evaluacion.servicio_tecnologico_evaluacion?.objetivo_general_puntaje,
-        objetivo_general_comentario: evaluacion.servicio_tecnologico_evaluacion?.objetivo_general_comentario,
+        objetivo_general_comentario: evaluacion.servicio_tecnologico_evaluacion?.objetivo_general_comentario ? evaluacion.servicio_tecnologico_evaluacion?.objetivo_general_comentario : '',
         objetivo_general_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.objetivo_general_comentario == null ? true : false,
 
         primer_objetivo_puntaje: evaluacion.servicio_tecnologico_evaluacion?.primer_objetivo_puntaje,
-        primer_objetivo_comentario: evaluacion.servicio_tecnologico_evaluacion?.primer_objetivo_comentario,
+        primer_objetivo_comentario: evaluacion.servicio_tecnologico_evaluacion?.primer_objetivo_comentario ? evaluacion.servicio_tecnologico_evaluacion?.primer_objetivo_comentario : '',
         primer_objetivo_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.primer_objetivo_comentario == null ? true : false,
 
         segundo_objetivo_puntaje: evaluacion.servicio_tecnologico_evaluacion?.segundo_objetivo_puntaje,
-        segundo_objetivo_comentario: evaluacion.servicio_tecnologico_evaluacion?.segundo_objetivo_comentario,
+        segundo_objetivo_comentario: evaluacion.servicio_tecnologico_evaluacion?.segundo_objetivo_comentario ? evaluacion.servicio_tecnologico_evaluacion?.segundo_objetivo_comentario : '',
         segundo_objetivo_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.segundo_objetivo_comentario == null ? true : false,
 
         tercer_objetivo_puntaje: evaluacion.servicio_tecnologico_evaluacion?.tercer_objetivo_puntaje,
-        tercer_objetivo_comentario: evaluacion.servicio_tecnologico_evaluacion?.tercer_objetivo_comentario,
+        tercer_objetivo_comentario: evaluacion.servicio_tecnologico_evaluacion?.tercer_objetivo_comentario ? evaluacion.servicio_tecnologico_evaluacion?.tercer_objetivo_comentario : '',
         tercer_objetivo_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.tercer_objetivo_comentario == null ? true : false,
 
         cuarto_objetivo_puntaje: evaluacion.servicio_tecnologico_evaluacion?.cuarto_objetivo_puntaje,
-        cuarto_objetivo_comentario: evaluacion.servicio_tecnologico_evaluacion?.cuarto_objetivo_comentario,
+        cuarto_objetivo_comentario: evaluacion.servicio_tecnologico_evaluacion?.cuarto_objetivo_comentario ? evaluacion.servicio_tecnologico_evaluacion?.cuarto_objetivo_comentario : '',
         cuarto_objetivo_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.cuarto_objetivo_comentario == null ? true : false,
 
         resultados_primer_obj_puntaje: evaluacion.servicio_tecnologico_evaluacion?.resultados_primer_obj_puntaje,
-        resultados_primer_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.resultados_primer_obj_comentario,
+        resultados_primer_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.resultados_primer_obj_comentario ? evaluacion.servicio_tecnologico_evaluacion?.resultados_primer_obj_comentario : '',
         resultados_primer_obj_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.resultados_primer_obj_comentario == null ? true : false,
 
         resultados_segundo_obj_puntaje: evaluacion.servicio_tecnologico_evaluacion?.resultados_segundo_obj_puntaje,
-        resultados_segundo_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.resultados_segundo_obj_comentario,
+        resultados_segundo_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.resultados_segundo_obj_comentario ? evaluacion.servicio_tecnologico_evaluacion?.resultados_segundo_obj_comentario : '',
         resultados_segundo_obj_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.resultados_segundo_obj_comentario == null ? true : false,
 
         resultados_tercer_obj_puntaje: evaluacion.servicio_tecnologico_evaluacion?.resultados_tercer_obj_puntaje,
-        resultados_tercer_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.resultados_tercer_obj_comentario,
+        resultados_tercer_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.resultados_tercer_obj_comentario ? evaluacion.servicio_tecnologico_evaluacion?.resultados_tercer_obj_comentario : '',
         resultados_tercer_obj_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.resultados_tercer_obj_comentario == null ? true : false,
 
         resultados_cuarto_obj_puntaje: evaluacion.servicio_tecnologico_evaluacion?.resultados_cuarto_obj_puntaje,
-        resultados_cuarto_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.resultados_cuarto_obj_comentario,
+        resultados_cuarto_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.resultados_cuarto_obj_comentario ? evaluacion.servicio_tecnologico_evaluacion?.resultados_cuarto_obj_comentario : '',
         resultados_cuarto_obj_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.resultados_cuarto_obj_comentario == null ? true : false,
     })
     function submitServicioTecnologicoEvaluacion() {
@@ -94,7 +94,7 @@
     }
 
     let formTpEvaluacion = useForm({
-        arbol_objetivos_comentario: evaluacion.tp_evaluacion?.arbol_objetivos_comentario,
+        arbol_objetivos_comentario: evaluacion.tp_evaluacion?.arbol_objetivos_comentario ? evaluacion.tp_evaluacion?.arbol_objetivos_comentario : '',
         arbol_objetivos_requiere_comentario: evaluacion.tp_evaluacion?.arbol_objetivos_comentario == null ? true : false,
     })
     function submitTpEvaluacion() {

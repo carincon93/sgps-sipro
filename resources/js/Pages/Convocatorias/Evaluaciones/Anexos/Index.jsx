@@ -51,7 +51,7 @@
     }
 
     let formTaEvaluacion = useForm({
-        anexos_comentario: evaluacion.ta_evaluacion?.anexos_comentario,
+        anexos_comentario: evaluacion.ta_evaluacion?.anexos_comentario ? evaluacion.ta_evaluacion?.anexos_comentario : '',
         anexos_requiere_comentario: evaluacion.ta_evaluacion?.anexos_comentario == null ? true : false,
     })
     function submitTaEvaluacion() {
@@ -63,7 +63,7 @@
     }
 
     let formTpEvaluacion = useForm({
-        anexos_comentario: evaluacion.tp_evaluacion?.anexos_comentario,
+        anexos_comentario: evaluacion.tp_evaluacion?.anexos_comentario ? evaluacion.tp_evaluacion?.anexos_comentario : '',
         anexos_requiere_comentario: evaluacion.tp_evaluacion?.anexos_comentario == null ? true : false,
     })
     function submitTpEvaluacion() {
@@ -75,13 +75,13 @@
     }
 
     let formServicioTecnologicoEvaluacion = useForm({
-        anexos_comentario: evaluacion.servicio_tecnologico_evaluacion?.anexos_comentario,
+        anexos_comentario: evaluacion.servicio_tecnologico_evaluacion?.anexos_comentario ? evaluacion.servicio_tecnologico_evaluacion?.anexos_comentario : '',
         anexos_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.anexos_comentario == null ? true : false,
 
-        video_comentario: evaluacion.servicio_tecnologico_evaluacion?.video_comentario,
+        video_comentario: evaluacion.servicio_tecnologico_evaluacion?.video_comentario ? evaluacion.servicio_tecnologico_evaluacion?.video_comentario : '',
         video_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.video_comentario == null ? true : false,
 
-        especificaciones_area_comentario: evaluacion.servicio_tecnologico_evaluacion?.especificaciones_area_comentario,
+        especificaciones_area_comentario: evaluacion.servicio_tecnologico_evaluacion?.especificaciones_area_comentario ? evaluacion.servicio_tecnologico_evaluacion?.especificaciones_area_comentario : '',
         especificaciones_area_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.especificaciones_area_comentario == null ? true : false,
     })
     function submitServicioTecnologicoEvaluacion() {

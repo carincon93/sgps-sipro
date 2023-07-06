@@ -467,6 +467,7 @@ class ArticulacionSennovaController extends Controller
             $evaluacion->taEvaluacion()->update([
                 'articulacion_sennova_comentario'       => $request->articulacion_sennova_requiere_comentario == false ? $request->articulacion_sennova_comentario : null,
                 'impacto_centro_formacion_comentario'   => $request->impacto_centro_formacion_requiere_comentario == false ? $request->impacto_centro_formacion_comentario : null,
+                'lineas_medulares_centro_comentario'    => $request->lineas_medulares_centro_requiere_comentario == false ? $request->lineas_medulares_centro_comentario : null,
             ]);
         } else if ($evaluacion->tpEvaluacion()->exists()) {
 

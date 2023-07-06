@@ -50,7 +50,7 @@
     }
 
     let formTaEvaluacion = useForm({
-        entidad_aliada_comentario: evaluacion.ta_evaluacion?.entidad_aliada_comentario,
+        entidad_aliada_comentario: evaluacion.ta_evaluacion?.entidad_aliada_comentario ? evaluacion.ta_evaluacion?.entidad_aliada_comentario : '',
         entidad_aliada_requiere_comentario: evaluacion.ta_evaluacion?.entidad_aliada_comentario == null ? true : false,
     })
     function submitTaEvaluacion() {

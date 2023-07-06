@@ -44,7 +44,7 @@
 
     let formServicioTecnologicoEvaluacion = useForm({
         arbol_problemas_puntaje: evaluacion.servicio_tecnologico_evaluacion?.arbol_problemas_puntaje,
-        arbol_problemas_comentario: evaluacion.servicio_tecnologico_evaluacion?.arbol_problemas_comentario,
+        arbol_problemas_comentario: evaluacion.servicio_tecnologico_evaluacion?.arbol_problemas_comentario ? evaluacion.servicio_tecnologico_evaluacion?.arbol_problemas_comentario : '',
         arbol_problemas_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.arbol_problemas_comentario == null ? true : false,
     })
     function submitServicioTecnologicoEvaluacion() {
@@ -56,7 +56,7 @@
     }
 
     let formTpEvaluacion = useForm({
-        arbol_problemas_comentario: evaluacion.tp_evaluacion?.arbol_problemas_comentario,
+        arbol_problemas_comentario: evaluacion.tp_evaluacion?.arbol_problemas_comentario ? evaluacion.tp_evaluacion?.arbol_problemas_comentario : '',
         arbol_problemas_requiere_comentario: evaluacion.tp_evaluacion?.arbol_problemas_comentario == null ? true : false,
     })
     function submitTpEvaluacion() {
