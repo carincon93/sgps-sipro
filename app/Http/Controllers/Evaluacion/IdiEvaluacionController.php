@@ -87,8 +87,8 @@ class IdiEvaluacionController extends Controller
             'idiSegundaEvaluacion'                      => IdiEvaluacion::whereHas('evaluacion', function ($query) use ($idi) {
                 $query->where('evaluaciones.proyecto_id', $idi->id)->where('evaluaciones.habilitado', true);
             })->where('idi_evaluaciones.id', '!=', $idiEvaluacion->id)->first(),
-            'mesasSectorialesRelacionadas'              => $idi->mesasSectoriales()->pluck('id'),
-            'lineasTecnoacademiaRelacionadas'           => $idi->proyecto->tecnoacademiaLineasTecnoacademia()->pluck('id'),
+            'mesasSectorialesRelacionadas'              => $idi->mesasSectoriales()->pluck('mesas_sectoriales.id'),
+            'lineasTecnoacademiaRelacionadas'           => $idi->proyecto->tecnoacademiaLineasTecnoacademia()->pluck('tecnoacademia_linea_tecnoacademia.id'),
             'tecnoacademia'                             => $idi->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $idi->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
             'mesasSectoriales'                          => MesaSectorial::select('id', 'nombre')->get('id'),
             'tecnoacademias'                            => SelectHelper::tecnoacademias(),
