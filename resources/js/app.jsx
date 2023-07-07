@@ -3,13 +3,10 @@ import '../css/app.css';
 
 import { createRoot } from 'react-dom/client'
 import { createInertiaApp } from '@inertiajs/react'
-import { InertiaProgress } from '@inertiajs/progress'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
-
-InertiaProgress.init({ color: '#429f84' })
 
 const theme = createTheme({
     palette: {
@@ -31,6 +28,16 @@ createInertiaApp({
         root.render(<ThemeProvider theme={theme}><App {...props} /></ThemeProvider>);
     },
     progress: {
-        color: '#4B5563',
+        // The delay after which the progress bar will appear, in milliseconds...
+        delay: 250,
+
+        // The color of the progress bar...
+        color: '#1f2937',
+
+        // Whether to include the default NProgress styles...
+        includeCSS: true,
+
+        // Whether the NProgress spinner will be shown...
+        showSpinner: true,
     },
 });

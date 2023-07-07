@@ -137,4 +137,12 @@ select {
     opacity: 0.15;
 }
 
+#nprogress .bar, #nprogress .spinner {
+    z-index: 99999 !important;
+}
+
+#nprogress .spinner {
+    top: 22px !important;
+    right: 170px !important;
+}
 

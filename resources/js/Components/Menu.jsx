@@ -1,11 +1,12 @@
 import Button from '@mui/material/Button';
-import {Menu as MenuMui} from '@mui/material/Menu';
+import Menu from '@mui/material/Menu';
 import { useState } from 'react';
 
-export default function Menu({children, ...props}) {
+export default function BasicMenu({children, ...props}) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
+    event.stopPropagation()
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -21,9 +22,9 @@ export default function Menu({children, ...props}) {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        Dashboard
+        {props.text}
       </Button>
-      <MenuMui
+      <Menu
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
@@ -33,7 +34,7 @@ export default function Menu({children, ...props}) {
         }}
       >
         {children}
-      </MenuMui>
+      </Menu>
     </div>
   );
 }

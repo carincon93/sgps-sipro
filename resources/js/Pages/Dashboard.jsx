@@ -3,8 +3,8 @@ import { route, checkRole, checkPermission } from '@/Utils'
 import { Link } from '@inertiajs/react'
 
 export default function Dashboard({ auth }) {
-
-    let isSuperAdmin = checkRole(auth.user, [1])
+    const authUser = auth.user;
+    const isSuperAdmin = checkRole(authUser, [1]);
 
     return (
         <AuthenticatedLayout
