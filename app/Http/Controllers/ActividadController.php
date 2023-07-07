@@ -713,6 +713,8 @@ class ActividadController extends Controller
             return $resultado->productos;
         })->flatten();
 
+        dd($actividad->proyectoPresupuesto());
+
         return Inertia::render('Convocatorias/Evaluaciones/Actividades/Edit', [
             'convocatoria'                   => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
             'evaluacion'                     => $evaluacion->only('id'),
@@ -720,8 +722,8 @@ class ActividadController extends Controller
             'productos'                      => $productos,
             'proyectoPresupuesto'            => ProyectoPresupuesto::where('proyecto_id', $evaluacion->proyecto->id)->with('convocatoriaPresupuesto.presupuestoSennova.segundoGrupoPresupuestal:id,nombre', 'convocatoriaPresupuesto.presupuestoSennova.tercerGrupoPresupuestal:id,nombre', 'convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal:id,descripcion')->get(),
             'actividad'                      => $actividad,
-            'productosRelacionados'          => $actividad->productos()->pluck('id'),
-            'proyectoPresupuestoRelacionado' => $actividad->proyectoPresupuesto()->pluck('id')
+            'productosRelacionados'          => $actividad->productos()->pluck('productos.id'),
+            'proyectoPresupuestoRelacionado' => $actividad->proyectoPresupuesto()->pluck('proyecto_presupuesto.id')
         ]);
     }
 }
