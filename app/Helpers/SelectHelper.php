@@ -264,7 +264,7 @@ class SelectHelper
      */
     public static function municipios()
     {
-        return Municipio::select('municipios.id as value', 'municipios.nombre as label', 'regionales.nombre as group', 'regionales.codigo')->join('regionales', 'regionales.id', 'municipios.regional_id')->get();
+        return Municipio::selectRaw("municipios.id as value, municipios.nombre as label, INITCAP(regionales.nombre) as group")->join('regionales', 'regionales.id', 'municipios.regional_id')->get();
     }
 
     /**

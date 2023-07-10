@@ -1,8 +1,8 @@
-import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import { useState } from 'react';
+import ButtonMui from '@/Components/Button';
 
-export default function BasicMenu({children, ...props}) {
+export default function MenuMui({children, ...props}) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -14,16 +14,20 @@ export default function BasicMenu({children, ...props}) {
   };
 
   return (
-    <div>
-      <Button
+    <>
+      <ButtonMui
         id="basic-button"
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
+        backgroundColor='transparent'
+        backgroundColorHover="#37415129"
+        colorHover="#374151"
+        {...props}
       >
         {props.text}
-      </Button>
+      </ButtonMui>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -35,6 +39,6 @@ export default function BasicMenu({children, ...props}) {
       >
         {children}
       </Menu>
-    </div>
+    </>
   );
 }

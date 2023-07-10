@@ -56,9 +56,12 @@ class PasswordResetLinkController extends Controller
             $user->update([
                 'password' => $user::makePassword($request->numero_documento)
             ]);
-            return back()->with('success', 'Se ha restablecido la contraseña.');
+
+            return back()->with([
+                'status' => sprintf('Se ha restablecido la contraseña. Ahora su contraseña es: sena%s*', $request->numero_documento),
+                'error' => false]);
         }
 
-        return back()->with('error', 'No se ha podido restablecer la contraseña.');
+        return back()->with(['status' => 'No se ha podido restablecer la contraseña.', 'error' => true]);
     }
 }

@@ -1,27 +1,30 @@
 import GuestLayout from '@/Layouts/GuestLayout'
+
+import AlertMui from '@/Components/Alert'
 import Autocomplete from '@/Components/Autocomplete'
+import Checkbox from '@/Components/Checkbox'
 import DatePicker from '@/Components/DatePicker'
 import PasswordInput from '@/Components/PasswordInput'
 import PrimaryButton from '@/Components/PrimaryButton'
 import TextInput from '@/Components/TextInput'
+
 import { Head, Link, useForm } from '@inertiajs/react'
 
-export default function Login({ tiposDocumento, tiposVinculacion, roles, centrosFormacion, municipios, opcionesGenero, user, status }) {
+export default function Login({ tiposDocumento, tiposVinculacion, roles, centrosFormacion, municipios, opcionesGenero, user, status, ...props }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        nombre: user.nombre,
-        email: user.email,
-        password: user.password,
-        password_confirmation: user.password_confirmation,
-        tipo_documento: tiposDocumento.find((item) => item.value == user.tipo_documento),
-        numero_documento: user.numero_documento,
-        lugar_expedicion_id: municipios.find((item) => item.value == user.lugar_expedicion_id),
-        genero: opcionesGenero.find((item) => item.value == user.genero),
-        fecha_nacimiento: user.fecha_nacimiento,
-        numero_celular: user.numero_celular,
-        tipo_vinculacion: tiposVinculacion.find((item) => item.value == user.tipo_vinculacion),
-        centro_formacion_id: centrosFormacion.find((item) => item.value == user.centro_formacion_id),
-        autorizacion_datos: user.autorizacion_datos,
-        role_id: [],
+        nombre: user?.nombre,
+        email: user?.email,
+        password: user?.password,
+        password_confirmation: user?.password_confirmation,
+        tipo_documento: user?.tipo_documento,
+        numero_documento: user?.numero_documento,
+        lugar_expedicion_id: user?.lugar_expedicion_id,
+        genero: user?.genero,
+        fecha_nacimiento: user?.fecha_nacimiento,
+        numero_celular: user?.numero_celular,
+        tipo_vinculacion: user?.tipo_vinculacion,
+        centro_formacion_id: user?.centro_formacion_id,
+        autorizacion_datos: user?.autorizacion_datos ?? false,
     })
 
     const submit = (e) => {
@@ -32,14 +35,14 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
 
     return (
         <GuestLayout>
-            <Head title="Iniciar sesión" />
+            <Head title="Registro" />
 
-            {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
+            {status && <AlertMui error={props.flash?.error}>{status}</AlertMui>}
 
             {user &&
-                <p className="bg-app-200 text-app-700 p-4 rounded shadow mt-6">
-                    El usuario con número de documento {user.numero_documento} ya está registrado en el sistema. Por favor inicie sesión haciendo <a use:inertia href="/" className="underline">clic aquí</a>. Si no recuerda la contraseña la puede recuperar en el siguiente enlace: <a use:inertia href="/forgot-password" className="underline">Recuperar contraseña</a>
-                </p>
+                <AlertMui>
+                    El usuario con número de documento {user.numero_documento} ya está registrado en el sistema. Por favor inicie sesión haciendo. Si no recuerda la contraseña la puede recuperar en la opcion: Recuperar contraseña.
+                </AlertMui>
             }
             <form onSubmit={submit} className="mt-20 w-[22rem]">
                 <div>
@@ -50,8 +53,8 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                         className="mt-1 w-full"
                         value={data.nombre}
                         error={errors.nombre}
-                        required
                         onChange={(e) => setData('nombre', e.target.value)}
+                        required
                     />
                 </div>
 
@@ -63,13 +66,13 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                         className="mt-1 w-full"
                         value={data.email}
                         error={errors.email}
-                        required
                         onChange={(e) => setData('email', e.target.value)}
+                        required
                     />
                     {errors.email == "El campo correo electrónico ya ha sido tomado." &&
-                        <p className="bg-red-200 text-red-500 p-4 rounded shadow mb-6 absolute top-0 right-[-26rem] w-[400px]">
+                        <AlertMui severity="error">
                             El correo electrónico ya fue registrado, Por favor inicie sesión haciendo <Link href="/" className="underline">clic aquí</Link>. Si no recuerda la contraseña la puede recuperar en el siguiente enlace <Link href="/forgot-password" className="underline">Recuperar contraseña</Link>
-                        </p>
+                        </AlertMui>
                     }
                 </div>
 
@@ -81,8 +84,8 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                         className="mt-1 w-full"
                         value={data.password}
                         error={errors.password}
-                        required
                         onChange={(e) => setData('password', e.target.value)}
+                        required
                     />
                 </div>
 
@@ -94,8 +97,8 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                         className="mt-1 w-full"
                         value={data.password_confirmation}
                         error={errors.password_confirmation}
-                        required
                         onChange={(e) => setData('password_confirmation', e.target.value)}
+                        required
                     />
                 </div>
 
@@ -103,13 +106,13 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                     <Autocomplete
                         id="tipo_documento"
                         options={tiposDocumento}
-                        value={data.tipo_documento}
-                        autoComplete={false}
+                        selectedValue={data.tipo_documento}
+                        error={errors.tipo_documento}
+                        onChange={(event, newValue) => {
+                            setData('tipo_documento', newValue.value)
+                        }}
                         label="Tipo de documento"
                         required
-                        onChange={(event, newValue) => {
-                            setData('tipo_documento', newValue);
-                        }}
                     />
                 </div>
 
@@ -123,8 +126,8 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                         className="mt-1 w-full"
                         value={data.numero_documento}
                         error={errors.numero_documento}
-                        required
                         onChange={(e) => setData('numero_documento', e.target.value)}
+                        required
                     />
                 </div>
 
@@ -132,14 +135,13 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                     <Autocomplete
                         id="lugar_expedicion_id"
                         options={municipios}
-                        value={data.lugar_expedicion_id}
+                        selectedValue={data.lugar_expedicion_id}
                         error={errors.lugar_expedicion_id}
-                        autoComplete={false}
+                        onChange={(event, newValue) => {
+                            setData('lugar_expedicion_id', newValue.value)
+                        }}
                         label="Lugar de expedición"
                         required
-                        onChange={(event, newValue) => {
-                            setData('lugar_expedicion_id', newValue);
-                        }}
                     />
                 </div>
 
@@ -148,13 +150,13 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                         id="genero"
                         options={opcionesGenero}
                         className="mt-1 w-full"
-                        value={data.genero}
-                        autoComplete={false}
+                        selectedValue={data.genero}
+                        error={errors.genero}
+                        onChange={(event, newValue) => {
+                            setData('genero', newValue.value)
+                        }}
                         label="Género"
                         required
-                        onChange={(event, newValue) => {
-                            setData('genero', newValue);
-                        }}
                     />
                 </div>
 
@@ -172,8 +174,8 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                         className="mt-1 w-full"
                         value={data.numero_celular}
                         error={errors.numero_celular}
-                        required
                         onChange={(e) => setData('numero_celular', e.target.value)}
+                        required
                     />
                 </div>
 
@@ -181,14 +183,13 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                     <Autocomplete
                         id="tipo_vinculacion"
                         options={tiposVinculacion}
-                        value={data.tipo_vinculacion}
+                        selectedValue={data.tipo_vinculacion}
                         error={errors.tipo_vinculacion}
-                        autoComplete={false}
+                        onChange={(event, newValue) => {
+                            setData('tipo_vinculacion', newValue.value)
+                        }}
                         label="Tipo de vinculación"
                         required
-                        onChange={(event, newValue) => {
-                            setData('tipo_vinculacion', newValue);
-                        }}
                     />
                 </div>
 
@@ -196,21 +197,27 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                     <Autocomplete
                         id="centro_formacion_id"
                         options={centrosFormacion}
-                        value={data.centro_formacion_id}
+                        selectedValue={data.centro_formacion_id}
                         error={errors.centro_formacion_id}
-                        autoComplete={false}
+                        onChange={(event, newValue) => {
+                            setData('centro_formacion_id', newValue.value)
+                        }}
                         label="Centro de formación"
                         required
-                        onChange={(event, newValue) => {
-                            setData('centro_formacion_id', newValue);
-                        }}
                     />
                 </div>
 
-                <hr className="mt-4" />
+                <div className="block mt-8">
+                    <AlertMui hiddenIcon={true}>Los datos proporcionados serán tratados de acuerdo con la política de tratamiento de datos personales del SENA y a la ley 1581 de 2012 (Acuerdo No. 0009 del 2016)</AlertMui>
 
-                <div className="block mt-4">
-                    <p>Los datos proporcionados serán tratados de acuerdo con la política de tratamiento de datos personales del SENA y a la ley 1581 de 2012 (Acuerdo No. 0009 del 2016)</p>
+                <Checkbox
+                    className="mt-8"
+                    name="autorizacion_datos"
+                    checked={data.autorizacion_datos}
+                    error={errors.autorizacion_datos}
+                    onChange={(e) => setData('autorizacion_datos', e.target.checked)}
+                    label="Autorizo el tratamiento de mis datos personales."
+                />
                 </div>
 
                 <div className="flex options-center justify-end mt-4">
@@ -221,7 +228,7 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                         Ya tengo una cuenta
                     </Link>
 
-                    <PrimaryButton type="submit" disabled={processing}>Continuar</PrimaryButton>
+                    <PrimaryButton type="submit" disabled={processing || !data.autorizacion_datos}>Continuar</PrimaryButton>
                 </div>
             </form>
         </GuestLayout>

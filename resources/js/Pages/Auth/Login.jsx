@@ -1,10 +1,13 @@
-import { useEffect } from 'react';
+import GuestLayout from '@/Layouts/GuestLayout'
+
+import AlertMui from '@/Components/Alert';
 import Checkbox from '@/Components/Checkbox';
-import GuestLayout from '@/Layouts/GuestLayout';
 import PasswordInput from '@/Components/PasswordInput';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
+
 import { Head, useForm } from '@inertiajs/react';
+import { useEffect } from 'react';
 
 export default function Login({ status }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -29,7 +32,7 @@ export default function Login({ status }) {
         <GuestLayout>
             <Head title="Iniciar sesión" />
 
-            {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
+            {status && <AlertMui error={props.flash?.error}>{status}</AlertMui>}
 
             <form onSubmit={submit} className="w-[22rem] my-10 relative">
                 <div>
@@ -70,7 +73,7 @@ export default function Login({ status }) {
                         name="remember"
                         checked={data.remember}
                         onChange={(e) => setData('remember', e.target.checked)}
-                        label='Mantener la sesión activa'
+                        label="Mantener la sesión activa"
                     />
                 </div>
 

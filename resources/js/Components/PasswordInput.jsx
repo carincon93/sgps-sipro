@@ -8,7 +8,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { useState } from 'react'
 import { FormHelperText } from '@mui/material'
 
-export default function PasswordInput({ disabled = false, id = '', name = '', className = '', size = 'medium', label = '', variant = 'outlined', ...props }) {
+export default function PasswordInput({ disabled = false, id = '', name = '', className = '', size = 'medium', label = '', value = '', error = '', variant = 'outlined', ...props }) {
     const [showPassword, setShowPassword] = useState(false)
 
     const handleClickShowPassword = () => setShowPassword((show) => !show)
@@ -18,10 +18,10 @@ export default function PasswordInput({ disabled = false, id = '', name = '', cl
     }
 
     return (
-        <FormControl variant={variant} {...props} disabled={disabled} className={className} size={size}>
+        <FormControl variant={variant} {...props} disabled={disabled} className={className} size={size} error={error ? true : false}>
             <InputLabel htmlFor={`${variant}-adornment-password`}>{label}</InputLabel>
                 <OutlinedInput
-                    id={`outlined-adornment-password-${props.id}`}
+                    id={`outlined-adornment-password-${id}`}
                     type={showPassword ? 'text' : 'password'}
                     name={name}
                     endAdornment={
@@ -33,7 +33,7 @@ export default function PasswordInput({ disabled = false, id = '', name = '', cl
                     }
                     label={label}
                 />
-                {props.error && <FormHelperText id={`component-error-${id}`} className="!text-red-600">{props.error}</FormHelperText> }
+                {error && <FormHelperText id={`component-error-${id}`} className="!text-red-600 !ml-0">{error}</FormHelperText> }
         </FormControl>
     )
 }

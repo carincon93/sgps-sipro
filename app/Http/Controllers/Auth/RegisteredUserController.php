@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRegisterRequest;
+use App\Http\Requests\RegisteredUserRequest;
 use App\Models\CentroFormacion;
 use App\Models\Municipio;
 use App\Models\Role;
@@ -42,7 +42,7 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(UserRegisterRequest $request): RedirectResponse
+    public function store(RegisteredUserRequest $request): RedirectResponse
     {
         $user = User::create([
             'nombre'                => $request->nombre,
@@ -59,8 +59,6 @@ class RegisteredUserController extends Controller
             'genero'                => $request->genero,
             'fecha_nacimiento'      => $request->fecha_nacimiento
         ]);
-
-        $user->syncRoles($request->role_id);
 
         event(new Registered($user));
 
