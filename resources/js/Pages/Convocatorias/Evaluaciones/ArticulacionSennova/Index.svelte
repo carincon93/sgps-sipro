@@ -85,7 +85,7 @@
         impacto_centro_formacion_comentario: evaluacion.ta_evaluacion ? (evaluacion.ta_evaluacion.impacto_centro_formacion_comentario ? evaluacion.ta_evaluacion.impacto_centro_formacion_comentario : '') : evaluacion.tp_evaluacion ? (evaluacion.tp_evaluacion.impacto_centro_formacion_comentario ? evaluacion.tp_evaluacion.impacto_centro_formacion_comentario : '') : '',
         impacto_centro_formacion_requiere_comentario: evaluacion.ta_evaluacion ? (evaluacion.ta_evaluacion.impacto_centro_formacion_comentario == null ? true : false) : evaluacion.tp_evaluacion ? (evaluacion.tp_evaluacion.impacto_centro_formacion_comentario == null ? true : false) : null,
 
-        lineas_medulares_centro_comentario: evaluacion.ta_evaluacion.lineas_medulares_centro_comentario ? evaluacion.ta_evaluacion.lineas_medulares_centro_comentario : '',
+        lineas_medulares_centro_comentario: evaluacion.ta_evaluacion?.lineas_medulares_centro_comentario ? evaluacion.ta_evaluacion?.lineas_medulares_centro_comentario : '',
         lineas_medulares_centro_requiere_comentario: evaluacion.ta_evaluacion ? (evaluacion.ta_evaluacion.lineas_medulares_centro_comentario == null ? true : false) : null,
     })
     function submitTaTpEvaluacion() {
