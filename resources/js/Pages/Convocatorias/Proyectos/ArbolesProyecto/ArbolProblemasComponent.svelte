@@ -41,7 +41,7 @@
     }
 </script>
 
-<!--
+
 {#if (isSuperAdmin && faseEvaluacion == false) || (proyecto.mostrar_recomendaciones && faseEvaluacion == false)}
     <RecomendacionEvaluador class="mt-8">
         {#each proyecto.evaluaciones as evaluacion, i}
@@ -67,7 +67,7 @@
             <p class="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
         {/if}
     </RecomendacionEvaluador>
-{/if} -->
+{/if}
 
 <div>
     <div class="efecto-directo-container">

@@ -290,7 +290,7 @@ class ArbolProyectoController extends Controller
         $authUser = Auth::user();
 
         // if ($proyecto->lineaProgramatica->codigo == 69 && $authUser->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $authUser->hasRole([1, 5, 17]) == false) {
-        if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
+        if ($authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
         }
 
@@ -383,7 +383,7 @@ class ArbolProyectoController extends Controller
         $authUser = Auth::user();
 
         // if ($proyecto->lineaProgramatica->codigo == 69 && $authUser->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $authUser->hasRole([1, 5, 17]) == false) {
-        if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
+        if ($authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
         }
 
@@ -413,8 +413,7 @@ class ArbolProyectoController extends Controller
         /** @var \App\Models\User */
         $authUser = Auth::user();
 
-        if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
-
+        if ($authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
         }
 
@@ -440,8 +439,7 @@ class ArbolProyectoController extends Controller
         $authUser = Auth::user();
 
         // if ($proyecto->lineaProgramatica->codigo == 69 && $authUser->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $authUser->hasRole([1, 5, 17]) == false) {
-        if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
-
+        if ($authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede eliminar este recurso debido a que es información predefinida.');
         }
 
@@ -465,8 +463,7 @@ class ArbolProyectoController extends Controller
         /** @var \App\Models\User */
         $authUser = Auth::user();
 
-        if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
-
+        if ($authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
         }
 
@@ -498,8 +495,7 @@ class ArbolProyectoController extends Controller
         /** @var \App\Models\User */
         $authUser = Auth::user();
 
-        if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
-
+        if ($authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede eliminar este recurso debido a que es información predefinida.');
         }
 
@@ -515,8 +511,7 @@ class ArbolProyectoController extends Controller
         /** @var \App\Models\User */
         $authUser = Auth::user();
 
-        if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
-
+        if ($authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
         }
 
@@ -556,8 +551,7 @@ class ArbolProyectoController extends Controller
         $authUser = Auth::user();
 
         // if ($proyecto->lineaProgramatica->codigo == 69 && $authUser->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $authUser->hasRole([1, 5, 17]) == false) {
-        if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
-
+        if ($authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
         }
 
@@ -583,8 +577,7 @@ class ArbolProyectoController extends Controller
         $authUser = Auth::user();
 
         // if ($proyecto->lineaProgramatica->codigo == 69 && $authUser->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $authUser->hasRole([1, 5, 17]) == false) {
-        if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
-
+        if ($authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede eliminar este recurso debido a que es información predefinida.');
         }
 
@@ -609,8 +602,7 @@ class ArbolProyectoController extends Controller
         $authUser = Auth::user();
 
         // if ($proyecto->lineaProgramatica->codigo == 69 && $authUser->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $authUser->hasRole([1, 5, 17]) == false) {
-        if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
-
+        if ($authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
         }
 
@@ -642,7 +634,7 @@ class ArbolProyectoController extends Controller
         /** @var \App\Models\User */
         $authUser = Auth::user();
 
-        if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
+        if ($authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede eliminar este recurso debido a que es información predefinida.');
         }
 
@@ -933,8 +925,7 @@ class ArbolProyectoController extends Controller
         $authUser = Auth::user();
 
         // if ($proyecto->lineaProgramatica->codigo == 69 && $authUser->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $authUser->hasRole([1, 5, 17]) == false) {
-        if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
-
+        if ($authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
         }
 
@@ -995,7 +986,7 @@ class ArbolProyectoController extends Controller
         /** @var \App\Models\User */
         $authUser = Auth::user();
 
-        if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
+        if ($authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
         }
 
@@ -1020,8 +1011,7 @@ class ArbolProyectoController extends Controller
         $authUser = Auth::user();
 
         // if ($proyecto->lineaProgramatica->codigo == 69 && $authUser->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $authUser->hasRole([1, 5, 17]) == false) {
-        if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
-
+        if ($authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede eliminar este recurso debido a que es información predefinida.');
         }
 
@@ -1046,7 +1036,7 @@ class ArbolProyectoController extends Controller
         /** @var \App\Models\User */
         $authUser = Auth::user();
 
-        if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
+        if ($authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
         }
 
@@ -1075,8 +1065,7 @@ class ArbolProyectoController extends Controller
         $authUser = Auth::user();
 
         // if ($proyecto->lineaProgramatica->codigo == 69 && $authUser->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $authUser->hasRole([1, 5, 17]) == false) {
-        if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
-
+        if ($authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede eliminar este recurso debido a que es información predefinida.');
         }
 
@@ -1102,8 +1091,7 @@ class ArbolProyectoController extends Controller
         $authUser = Auth::user();
 
         // if ($proyecto->lineaProgramatica->codigo == 69 && $authUser->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $authUser->hasRole([1, 5, 17]) == false) {
-        if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
-
+        if ($authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
         }
 
@@ -1132,8 +1120,7 @@ class ArbolProyectoController extends Controller
         $authUser = Auth::user();
 
         // if ($proyecto->lineaProgramatica->codigo == 69 && $authUser->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $authUser->hasRole([1, 5, 17]) == false) {
-        if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
-
+        if ($authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede eliminar este recurso debido a que es información predefinida.');
         }
 
@@ -1159,7 +1146,7 @@ class ArbolProyectoController extends Controller
         /** @var \App\Models\User */
         $authUser = Auth::user();
 
-        if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
+        if ($authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
         }
 
@@ -1188,8 +1175,7 @@ class ArbolProyectoController extends Controller
         $authUser = Auth::user();
 
         // if ($proyecto->lineaProgramatica->codigo == 69 && $authUser->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $authUser->hasRole([1, 5, 17]) == false) {
-        if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
-
+        if ($authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $authUser->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
             return back()->with('error', 'No se puede eliminar este recurso debido a que es información predefinida.');
         }
 

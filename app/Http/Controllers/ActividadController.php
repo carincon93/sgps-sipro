@@ -713,8 +713,6 @@ class ActividadController extends Controller
             return $resultado->productos;
         })->flatten();
 
-        dd($actividad->proyectoPresupuesto());
-
         return Inertia::render('Convocatorias/Evaluaciones/Actividades/Edit', [
             'convocatoria'                   => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
             'evaluacion'                     => $evaluacion->only('id'),
