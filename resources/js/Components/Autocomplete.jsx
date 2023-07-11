@@ -20,6 +20,7 @@ export default function Autocomplete({ id = '', label = '', className = '', erro
                 options={options}
                 disableClearable={true}
                 getOptionLabel={(option) => option.label}
+                isOptionEqualToValue={(option, value) => option.value === value.value}
                 renderOption={(props, option) => {
                     return (
                         <li {...props} key={option.value}>

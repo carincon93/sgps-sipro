@@ -8,7 +8,14 @@ export default function SelectMultiple({ id = '', label = '', className = '', er
 
     useEffect(() => {
         const selectedValues = Array.isArray(bdValues) ? bdValues : [bdValues]
-        const optionsSelected = options.filter((option) => selectedValues.includes(option.value))
+
+        const optionsSelected = options
+            .map((option) => {
+                const { value, label } = option
+                return { value, label }
+            })
+            .filter((option) => selectedValues.includes(option.value))
+
         setSelectedOptions(optionsSelected)
     }, [bdValues, options])
 
@@ -20,15 +27,9 @@ export default function SelectMultiple({ id = '', label = '', className = '', er
                 className={className}
                 id={id}
                 value={selectedOptions}
-                options={
-                    isGroupable
-                        ? options.map((option) => ({
-                              ...option,
-                              firstLetter: option?.group[0].toUpperCase(),
-                          }))
-                        : options
-                }
+                options={isGroupable ? options.sort((a, b) => a.group.toString().localeCompare(b.group.toString())) : options}
                 groupBy={(option) => option.group}
+                isOptionEqualToValue={(option, value) => option.value === value.value}
                 disableClearable={true}
                 getOptionLabel={(option) => option.label}
                 renderOption={(props, option) => {

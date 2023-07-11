@@ -20,8 +20,6 @@ const Form = ({ data, setData, errors, ...props }) => {
         setArrayLineasTecnoacademia(filteredLineasTecnoacademia)
     }
 
-    console.log(data.municipios)
-
     return (
         <>
             <div>
@@ -40,7 +38,7 @@ const Form = ({ data, setData, errors, ...props }) => {
                                         </div>
                                     }
                                 >
-                                    <Typography className="inline-block">Hover me</Typography>
+                                    <Typography className="inline-block">Evaluación {i + 1}</Typography>
                                 </Tooltip>
                             ) : null,
                         )}
@@ -89,7 +87,7 @@ const Form = ({ data, setData, errors, ...props }) => {
                                         </div>
                                     }
                                 >
-                                    <Typography className="inline-block">Hover me</Typography>
+                                    <Typography className="inline-block">Evaluación {i + 1}</Typography>
                                 </Tooltip>
                             ) : null,
                         )}
@@ -187,7 +185,7 @@ const Form = ({ data, setData, errors, ...props }) => {
                                         </div>
                                     }
                                 >
-                                    <Typography className="inline-block">Hover me</Typography>
+                                    <Typography className="inline-block">Evaluación {i + 1}</Typography>
                                 </Tooltip>
                             ) : null,
                         )}
@@ -230,7 +228,7 @@ const Form = ({ data, setData, errors, ...props }) => {
                                         </div>
                                     }
                                 >
-                                    <Typography className="inline-block">Hover me</Typography>
+                                    <Typography className="inline-block">Evaluación {i + 1}</Typography>
                                 </Tooltip>
                             ) : null,
                         )}
@@ -272,7 +270,7 @@ const Form = ({ data, setData, errors, ...props }) => {
                                         </div>
                                     }
                                 >
-                                    <Typography className="inline-block">Hover me</Typography>
+                                    <Typography className="inline-block">Evaluación {i + 1}</Typography>
                                 </Tooltip>
                             ) : null,
                         )}
@@ -317,7 +315,7 @@ const Form = ({ data, setData, errors, ...props }) => {
                                         </div>
                                     }
                                 >
-                                    <Typography className="inline-block">Hover me</Typography>
+                                    <Typography className="inline-block">Evaluación {i + 1}</Typography>
                                 </Tooltip>
                             ) : null,
                         )}
@@ -465,7 +463,7 @@ const Form = ({ data, setData, errors, ...props }) => {
                                                 </div>
                                             }
                                         >
-                                            <Typography className="inline-block">Hover me</Typography>
+                                            <Typography className="inline-block">Evaluación {i + 1}</Typography>
                                         </Tooltip>
                                     ) : null,
                                 )}
@@ -509,7 +507,7 @@ const Form = ({ data, setData, errors, ...props }) => {
                                                 </div>
                                             }
                                         >
-                                            <Typography className="inline-block">Hover me</Typography>
+                                            <Typography className="inline-block">Evaluación {i + 1}</Typography>
                                         </Tooltip>
                                     ) : null,
                                 )}
@@ -554,7 +552,7 @@ const Form = ({ data, setData, errors, ...props }) => {
                                                 </div>
                                             }
                                         >
-                                            <Typography className="inline-block">Hover me</Typography>
+                                            <Typography className="inline-block">Evaluación {i + 1}</Typography>
                                         </Tooltip>
                                     ) : null,
                                 )}
@@ -577,7 +575,7 @@ const Form = ({ data, setData, errors, ...props }) => {
                             <SwitchMui checked={props.requiereJustificacionSectorAgricola} onChange={() => props.setRequiereJustificacionSectorAgricola(!props.requiereJustificacionSectorAgricola)} />
                         </div>
                         {props.requiereJustificacionSectorAgricola && (
-                            <Textarea label="Justificación" id="impacto_sector_agricola" onChange={(e) => setData('impacto_sector_agricola', e.target.value)} error={errors.impacto_sector_agricola} value={data.impacto_sector_agricola} onBlur={() => syncColumnLong('impacto_sector_agricola', $form)} required={props.requiereJustificacionSectorAgricola ? true : undefined} />
+                            <Textarea label="Justificación" id="impacto_sector_agricola" onChange={(e) => setData('impacto_sector_agricola', e.target.value)} error={errors.impacto_sector_agricola} value={data.impacto_sector_agricola} required={props.requiereJustificacionSectorAgricola ? true : undefined} />
                         )}
                     </div>
                 </div>
@@ -590,7 +588,7 @@ const Form = ({ data, setData, errors, ...props }) => {
                     </div>
                     <div>
                         <div className="flex items-center mb-14">
-                            <SwitchMui checked={props.requiereJustificacionPoliticaDiscapacidad} onChange={() => setRequiereJustificacionPoliticaDiscapacidad(!props.requiereJustificacionPoliticaDiscapacidad)} />
+                            <SwitchMui checked={props.requiereJustificacionPoliticaDiscapacidad} onChange={() => props.setRequiereJustificacionPoliticaDiscapacidad(!props.requiereJustificacionPoliticaDiscapacidad)} />
                         </div>
                         {props.requiereJustificacionPoliticaDiscapacidad && (
                             <>
@@ -615,7 +613,7 @@ const Form = ({ data, setData, errors, ...props }) => {
                                                 </div>
                                             }
                                         >
-                                            <Typography className="inline-block">Hover me</Typography>
+                                            <Typography className="inline-block">Evaluación {i + 1}</Typography>
                                         </Tooltip>
                                     ) : null,
                                 )}
@@ -967,7 +965,7 @@ const Form = ({ data, setData, errors, ...props }) => {
                                         </div>
                                     }
                                 >
-                                    <Typography className="inline-block">Hover me</Typography>
+                                    <Typography className="inline-block">Evaluación {i + 1}</Typography>
                                 </Tooltip>
                             ) : null,
                         )}
@@ -1071,7 +1069,7 @@ const Form = ({ data, setData, errors, ...props }) => {
                                 }))
                             }}
                             error={errors.programas_formacion}
-                            placeholder="Seleccione los  programas de formación"
+                            placeholder="Seleccione los programas de formación"
                             required
                             disabled={props.evaluacion ? 'disabled' : undefined}
                         />
@@ -1151,7 +1149,7 @@ const Form = ({ data, setData, errors, ...props }) => {
                                         </div>
                                     }
                                 >
-                                    <Typography className="inline-block">Hover me</Typography>
+                                    <Typography className="inline-block">Evaluación {i + 1}</Typography>
                                 </Tooltip>
                             ) : null,
                         )}
