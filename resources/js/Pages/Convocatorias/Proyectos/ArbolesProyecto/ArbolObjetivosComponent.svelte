@@ -556,7 +556,7 @@
     }
 </script>
 
-<!-- {#if (isSuperAdmin && faseEvaluacion == false) || (proyecto.mostrar_recomendaciones && faseEvaluacion == false)}
+{#if (isSuperAdmin && faseEvaluacion == false) || (proyecto.mostrar_recomendaciones && faseEvaluacion == false)}
     <RecomendacionEvaluador class="mt-8">
         {#each proyecto.evaluaciones as evaluacion, i}
             {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
@@ -611,7 +611,7 @@
             {/if}
         {/each}
     </RecomendacionEvaluador>
-{/if} -->
+{/if}
 
 <div>
     <!-- Causas directas y causas indirectas relacionados -->
