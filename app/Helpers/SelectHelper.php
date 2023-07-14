@@ -27,6 +27,7 @@ use App\Models\TercerGrupoPresupuestal;
 use App\Models\PresupuestoSennova;
 use App\Models\Tecnoacademia;
 use App\Models\LineaTecnoacademia;
+use App\Models\MesaSectorial;
 use App\Models\Municipio;
 use App\Models\NodoTecnoparque;
 use App\Models\PrimerGrupoPresupuestal;
@@ -401,6 +402,16 @@ class SelectHelper
     public static function subtiposProyectoCapacidadInstalada()
     {
         return SubtipoProyectoCapacidadInstalada::select('subtipos_proyecto_capacidad_instalada.id as value', 'subtipos_proyecto_capacidad_instalada.subtipo as label', 'subtipos_proyecto_capacidad_instalada.tipo_proyecto_capacidad_instalada_id')->orderBy('subtipos_proyecto_capacidad_instalada.subtipo', 'ASC')->get();
+    }
+
+    /**
+     * Web api
+     *
+     * Trae las áreas de conocimiento
+     */
+    public static function mesasSectoriales()
+    {
+        return MesaSectorial::select('mesas_sectoriales.id as value', 'mesas_sectoriales.nombre as label')->orderBy('mesas_sectoriales.nombre', 'ASC')->get();
     }
 
     /**

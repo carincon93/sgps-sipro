@@ -175,6 +175,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Relationship with RolSennova
+     *
+     * @return object
+     */
+    public function rolSennova()
+    {
+        return $this->hasOne(RolSennova::class);
+    }
+
+    /**
      * Relationship with User
      *
      * @return object

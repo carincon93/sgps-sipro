@@ -1,545 +1,289 @@
-<script>
-    import { Inertia } from '@inertiajs/inertia'
-    import { useForm, page } from '@inertiajs/inertia-svelte'
-    import { route, checkRole, checkPermission } from '@/Utils'
-    import { _ } from 'svelte-i18n'
-    import axios from 'axios'
+import AlertMui from '@/Components/Alert'
+import MenuMui from '@/Components/Menu'
+import PrimaryButton from '@/Components/PrimaryButton'
+import TableMui from '@/Components/Table'
 
-    import Input from '@/Components/Input'
-    import Label from '@/Components/Label'
-    import Select from '@/Components/Select'
-    import PrimaryButton from '@/Components/PrimaryButton'
-    import DataTableMenu from '@/Components/DataTableMenu'
-    import { Item, Text, Separator } from '@smui/list'
-    import Dialog from '@/Components/Dialog'
-    import Button from '@/Components/Button'
-    import InfoMessage from '@/Components/InfoMessage'
-    import Checkbox from '@smui/checkbox'
-    import FormField from '@smui/form-field'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { Chip, Divider, MenuItem, TableCell, TableRow } from '@mui/material'
 
-    export let errors
-    export let convocatoria
-    export let proyecto
-    export let tiposDocumento
-    export let tiposVinculacion
-    export let centrosFormacion
-    export let roles
-    export let autorPrincipal
+import SearchBar from '@/Components/SearchBar'
+import Autocomplete from '@/Components/Autocomplete'
+import TextInput from '@/Components/TextInput'
 
-    let resultados = []
+import { router, useForm } from '@inertiajs/react'
+import { useState } from 'react'
 
-    /**
-     * Validar si el usuario autenticado es SuperAdmin
-     */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
-
-    /**
-     * Buscar
-     */
-    let form = useForm({
-        search_participante: '',
-    })
-    let formID
-    let dialogOpen = false
-    let dialogTitle
-
-    let sended = false
-    function submit() {
-        if (proyecto.allowed.to_update) {
-            sended = false
-            try {
-                axios
-                    .post(route('convocatorias.proyectos.participantes.users', { convocatoria: convocatoria.id, proyecto: proyecto.id }), $form)
-                    .then((response) => {
-                        resultados = response.data
-                        sended = true
-                    })
-                    .catch((error) => {})
-            } catch (error) {}
-        }
-    }
-
-    function removeParticipante(id) {
-        if (proyecto.allowed.to_update) {
-            Inertia.post(
-                route('convocatorias.proyectos.participantes.users.unlink', {
-                    proyecto: proyecto.id,
-                    convocatoria: convocatoria.id,
-                }),
-                { user_id: id, _method: 'DELETE' },
-                { preserveScroll: true },
-            )
-        }
-    }
-
+const Participantes = ({ authUser, convocatoria, proyecto, rolesSennova, nuevoParticipante, autorPrincipal }) => {
     /**
      * Participantes
      */
-    let formParticipante = useForm({
-        _method: null,
-        user_id: 0,
-        cantidad_meses: 0,
-        cantidad_horas: 0,
+    const formParticipante = useForm({
+        user_id: null,
+        cantidad_meses: '',
+        cantidad_horas: '',
         rol_sennova: null,
     })
 
-    function showParticipante(user, method = null) {
-        reset()
-        dialogTitle = user.nombre
-        dialogOpen = true
-        formID = 'participante-form'
-        $formParticipante._method = method
-        $formParticipante.user_id = user.id
-        if (user.pivot) {
-            $formParticipante.cantidad_meses = user.pivot.cantidad_meses
-            $formParticipante.cantidad_horas = user.pivot.cantidad_horas
-            $formParticipante.rol_sennova = { value: user.pivot.rol_sennova, label: roles.find((item) => item.value == user.pivot.rol_sennova)?.label }
-        }
-    }
+    const [participanteAModificarId, setParticipanteAModificarId] = useState(null)
 
-    function submitParticipante() {
+    const formNuevoParticipante = useForm({
+        user_id: null,
+        cantidad_meses: '',
+        cantidad_horas: '',
+        rol_sennova: null,
+    })
+
+    const submitNuevoParticipante = () => {
         if (proyecto.allowed.to_update) {
-            $formParticipante.post(
+            formNuevoParticipante.post(
                 route('convocatorias.proyectos.participantes.users.link', {
                     proyecto: proyecto.id,
                     convocatoria: convocatoria.id,
                 }),
                 {
-                    onSuccess: () => {
-                        closeDialog()
-                    },
-
                     preserveScroll: true,
                 },
             )
         }
     }
 
-    /**
-     * Registrar nuevo participante
-     */
-    let formNuevoParticipante = useForm({
-        nombre: '',
-        email: '',
-        tipo_documento: '',
-        numero_documento: '',
-        numero_celular: '',
-        tipo_vinculacion: '',
-        cantidad_meses: 0,
-        cantidad_horas: 0,
-        centro_formacion_id: null,
-        rol_sennova: null,
-        autorizacion_datos: false,
-    })
+    proyecto.participantes.sort((a, b) => a.nombre.localeCompare(b.nombre))
 
-    let formNuevoParticipanteId
-    let openNuevoParticipanteDialog = false
-    function showRegister() {
-        reset()
-        openNuevoParticipanteDialog = true
-        formNuevoParticipanteId = 'nuevo-participante-form'
-    }
+    return (
+        <>
+            <h1 className="text-4xl text-center">Participantes</h1>
 
-    function submitRegister() {
-        if (proyecto.allowed.to_update) {
-            $formNuevoParticipante.post(route('convocatorias.proyectos.participantes.users.register', { convocatoria: convocatoria.id, proyecto: proyecto.id }), {
-                onSuccess: () => {
-                    closeDialog()
-                },
+            {proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82 || proyecto.codigo_linea_programatica == 23 ? (
+                <>
+                    <AlertMui hiddenIcon={true} className="my-8">
+                        <h1 className="mb-4 text-3xl font-black">Importante</h1>
+                        Debe relacionar mínimo 2 aprendices con el rol de "Aprendiz en semillero de investigación
+                        <br />
+                        Debe relacionar mínimo 1 instructor con el rol de “Instructor investigador
+                    </AlertMui>
+                </>
+            ) : null}
 
-                preserveScroll: true,
-            })
-        }
-    }
+            <h1 className="mt-24 mb-8 text-center text-3xl">Participantes vinculados</h1>
 
-    function reset() {
-        //Participante - form
-        $formParticipante.reset()
-        //Nuevo participante - form
-        $formNuevoParticipante.reset()
-    }
-
-    function closeDialog() {
-        reset()
-        dialogOpen = false
-        openNuevoParticipanteDialog = false
-    }
-
-    let nuevoAutorPrinciaplId = null
-    let dialogAutorPrincipal = false
-
-    function showNuevoAutor(participante) {
-        dialogAutorPrincipal = true
-        nuevoAutorPrinciaplId = participante.id
-    }
-
-    let confirmarAutor = false
-    function submitNuevoAutorPrincipal() {
-        if (proyecto.allowed.to_update) {
-            confirmarAutor = true
-            Inertia.post(route('convocatorias.proyectos.participantes.nuevo-autor-principal', [convocatoria.id, proyecto.id, nuevoAutorPrinciaplId]), [], {
-                onSuccess: () => {
-                    dialogAutorPrincipal = false
-                    confirmarAutor = false
-                },
-
-                preserveScroll: true,
-            })
-        }
-    }
-</script>
-
-<div className="bg-app-100 p-4">
-    <h1 className="text-4xl text-center">Participantes</h1>
-
-    {#if proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82 || proyecto.codigo_linea_programatica == 23}
-        <h1 className="mt-24 mb-8 text-center text-3xl font-black">Reglas</h1>
-        <div className="bg-white rounded shadow mb-20">
-            <table className="w-full whitespace-no-wrap table-fixed data-table">
-                <tbody>
-                    <tr className="hover:bg-gray-100 focus-within:bg-gray-100">
-                        <td className="border-t p-4"> Debe relacionar mínimo 2 aprendices con el rol de "Aprendiz en semillero de investigación" </td>
-                    </tr>
-
-                    <tr className="hover:bg-gray-100 focus-within:bg-gray-100">
-                        <td className="border-t p-4"> Debe relacionar mínimo 1 instructor con el rol de “Instructor investigador” </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    {/if}
-
-    <p className="text-center m-auto mt-8">Realice la búsqueda de participantes por nombre, número de documento o por el correo electrónico institucional</p>
-    <form on:submit|preventDefault={submit} on:input={() => (sended = false)}>
-        <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
-            <div className="mt-4 flex flex-row">
-                <Input label="Escriba el nombre, número de documento o el correo electrónico instiucional" id="search_participante" type="search" className="mt-1 m-auto block flex-1" bind:value={$form.search_participante} input$minLength="4" autocomplete="off" required />
-                <PrimaryButton loading={$form.processing} className="m-auto ml-1" type="submit">Buscar</PrimaryButton>
-            </div>
-        </fieldset>
-    </form>
-
-    {#if sended}
-        <h1 className="mt-24 mb-8 text-center text-3xl">Resultados de la búsqueda de participantes</h1>
-        <InfoMessage message="Una vez arroje los resultados de clic en los tres puntos y seleccione la opción <strong>Vincular</strong>" />
-        <div className="bg-white rounded shadow">
-            <table className="w-full whitespace-no-wrap table-fixed data-table">
-                <thead>
-                    <tr className="text-left font-bold">
-                        <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Nombre</th>
-                        <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Correo electrónico</th>
-                        <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Centro de formación</th>
-                        <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Regional</th>
-                        <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl text-center th-actions">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {#each resultados as resultado (resultado.id)}
-                        <tr className="hover:bg-gray-100 focus-within:bg-gray-100">
-                            <td className="border-t">
-                                <p className="px-6 py-4 focus:text-app-500">
-                                    {resultado.nombre}
-                                </p>
-                            </td>
-                            <td className="border-t">
-                                <p className="px-6 py-4">
-                                    {resultado.email}
-                                </p>
-                            </td>
-                            <td className="border-t">
-                                <p className="px-6 py-4">
-                                    {resultado.centro_formacion ? resultado.centro_formacion.nombre : ''}
-                                </p>
-                            </td>
-                            <td className="border-t">
-                                <p className="px-6 py-4">
-                                    {resultado.centro_formacion ? resultado.centro_formacion.regional.nombre : ''}
-                                </p>
-                            </td>
-                            <td className="border-t td-actions">
-                                <DataTableMenu className={resultados.length < 3 ? 'z-50' : ''}>
-                                    <Item on:SMUI:action={() => showParticipante(resultado, 'POST')}>
-                                        <Text>Vincular</Text>
-                                    </Item>
-                                </DataTableMenu>
-                            </td>
-                        </tr>
-                    {/each}
-
-                    {#if resultados.length === 0}
-                        <tr>
-                            <td className="border-t px-6 py-4" colspan="5">
-                                {$_('No data recorded')}
-                                <Button on:click={() => showRegister()} type="button" variant={null}>Crear participante</Button>
-                            </td>
-                        </tr>
-                    {/if}
-                </tbody>
-            </table>
-        </div>
-    {/if}
-</div>
-
-<h1 className="mt-24 mb-8 text-center text-3xl">Participantes vinculados</h1>
-<div className="bg-white rounded shadow">
-    <table className="w-full whitespace-no-wrap table-fixed data-table">
-        <thead>
-            <tr className="text-left font-bold">
-                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Nombre</th>
-                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Correo electrónico</th>
-                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Centro de formación</th>
-                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Regional</th>
-                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">Participación</th>
-                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl text-center th-actions">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {#each proyecto.participantes as participante (participante.id)}
-                <tr className="hover:bg-gray-100 focus-within:bg-gray-100">
-                    <td className="border-t">
-                        <p className="px-6 py-4 focus:text-app-500">
+            <TableMui className="mt-20" rows={['Nombre', 'Centro de formación', 'Rol SENNOVA', 'Participación', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                {proyecto.participantes.map((participante, i) => (
+                    <TableRow key={i}>
+                        <TableCell>
                             {participante.nombre}
-                            {#if participante.id == autorPrincipal?.id}
-                                <span className="inline-block text-xs bg-green-100 py-1 px-4 rounded-full shadow">Autor(a) principal</span>
-                            {/if}
-                        </p>
-                    </td>
-                    <td className="border-t">
-                        <p className="px-6 py-4">
-                            {participante.email}
-                        </p>
-                    </td>
-                    <td className="border-t">
-                        <p className="px-6 py-4">
+                            {participante.id == autorPrincipal?.id && <Chip className="ml-2" size="small" label="Autor(a) principal" />}
+                            <br />
+                            <Chip className="mt-2" label={participante.email} />
+                        </TableCell>
+                        <TableCell>
                             {participante.centro_formacion ? participante.centro_formacion.nombre : ''}
-                        </p>
-                    </td>
-                    <td className="border-t">
-                        <p className="px-6 py-4">
-                            {participante.centro_formacion ? participante.centro_formacion.regional.nombre : ''}
-                        </p>
-                    </td>
-                    <td className="border-t">
-                        <p className="px-6 py-4">
-                            {participante.pivot.cantidad_meses.replace('.', ',')} meses - {participante.pivot.cantidad_horas} horas semanales
-                        </p>
-                    </td>
-                    <td className="border-t td-actions">
-                        <DataTableMenu className={proyecto.participantes.length < 3 ? 'z-50' : ''}>
-                            <Item on:SMUI:action={() => showParticipante(participante, 'PUT')} disabled={!proyecto.allowed.to_update} className={!proyecto.allowed.to_update ? 'hidden' : ''}>
-                                <Text>Editar</Text>
-                            </Item>
-                            <Item on:SMUI:action={() => showNuevoAutor(participante)} disabled={!proyecto.allowed.to_update} className={!proyecto.allowed.to_update ? 'hidden' : ''}>
-                                <Text>Convertir en autor principal</Text>
-                            </Item>
-                            <Separator className={!proyecto.allowed.to_update ? 'hidden' : ''} />
-                            <Item on:SMUI:action={() => removeParticipante(participante.id)} disabled={(!proyecto.allowed.to_update && authUser.id != participante.id) || (!proyecto.allowed.to_update && !participante.formulador)} className={(!proyecto.allowed.to_update && authUser.id != participante.id) || (!proyecto.allowed.to_update && !participante.formulador) ? 'hidden' : ''}>
-                                <Text>Quitar</Text>
-                            </Item>
-                        </DataTableMenu>
-                    </td>
-                </tr>
-            {/each}
-
-            {#if proyecto.participantes.length === 0}
-                <tr>
-                    <td className="border-t px-6 py-4" colspan="6">{$_('No data recorded')}</td>
-                </tr>
-            {/if}
-        </tbody>
-    </table>
-</div>
-
-<!-- Dialog -->
-<Dialog bind:open={dialogOpen} id="participante" height="450">
-    <div slot="title">
-        <div className="mb-10 text-center">
-            <div className="text-primary">
-                {#if $formParticipante._method != null}
-                    Editar información del participante: {dialogTitle}
-                {:else}
-                    Vincular participante: {dialogTitle}
-                {/if}
-            </div>
-        </div>
-    </div>
-    <div slot="content">
-        <form on:submit|preventDefault={submitParticipante} id="participante-form">
-            <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
-                <p className="block font-medium mb-10 text-gray-700 text-sm">Por favor diligencie la siguiente información sobre la vinculación del participante.</p>
-                <div className="mt-8">
-                    <Label required className="mb-4" labelFor="rol_sennova" value="Rol SENNOVA" />
-                    <Select id="rol_sennova" items={roles} bind:selectedValue={$formParticipante.rol_sennova} error={errors.rol_sennova} autocomplete="off" placeholder="Seleccione un rol SENNOVA" required />
-                </div>
-
-                <div className="mt-8">
-                    <Input label="Número de meses de vinculación al proyecto" id="cantidad_meses" type="number" input$step="0.1" input$min="1" input$max={proyecto.diff_meses} className="mt-1" bind:value={$formParticipante.cantidad_meses} placeholder="Número de meses de vinculación" autocomplete="off" error={errors.cantidad_meses} required />
-                    <InfoMessage className="pl-4">
-                        <small>
-                            El proyecto se ejecutará entre {proyecto.fecha_inicio} y {proyecto.fecha_finalizacion}, por lo tanto el número de meses máximo es: {proyecto.diff_meses}
                             <br />
-                            <span className="flex">
-                                Uitlice las flechas <span className="flex flex-col relative top-[-0.4rem]">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-4 h-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
-                                    </svg>
+                            <Chip className="mt-2" label={participante.centro_formacion ? participante.centro_formacion.regional.nombre : ''} />
+                        </TableCell>
+                        {participante.id == participanteAModificarId ? (
+                            <>
+                                <TableCell>
+                                    <Autocomplete
+                                        id="rol_sennova"
+                                        size="small"
+                                        options={rolesSennova}
+                                        selectedValue={formParticipante.data.rol_sennova}
+                                        error={formParticipante.errors.rol_sennova}
+                                        onChange={(event, newValue) => {
+                                            formParticipante.setData('rol_sennova', newValue.value)
+                                        }}
+                                        label="Seleccione el rol SENNOVA"
+                                        required
+                                    />
+                                </TableCell>
+                                <TableCell>
+                                    <div className="flex items-center justify-center">
+                                        <TextInput
+                                            id="cantidad_meses"
+                                            type="number"
+                                            name="cantidad_meses"
+                                            inputProps={{
+                                                min: 1,
+                                                max: proyecto.diff_meses,
+                                                step: '0.1',
+                                            }}
+                                            size="small"
+                                            required
+                                            value={formParticipante.data.cantidad_meses}
+                                            error={formParticipante.errors.cantidad_meses}
+                                            onChange={(e) => formParticipante.setData('cantidad_meses', e.target.value)}
+                                            className="!inline-block !w-20 !mr-2"
+                                        />{' '}
+                                        meses
+                                        <TextInput
+                                            id="cantidad_horas"
+                                            type="number"
+                                            name="cantidad_horas"
+                                            size="small"
+                                            required
+                                            value={formParticipante.data.cantidad_horas}
+                                            error={formParticipante.errors.cantidad_horas}
+                                            onChange={(e) => {
+                                                formParticipante.setData('cantidad_horas', e.target.value)
+                                            }}
+                                            className="!inline-block !w-16 !mx-2"
+                                        />{' '}
+                                        horas semanales
+                                    </div>
+                                </TableCell>
+                            </>
+                        ) : (
+                            <>
+                                <TableCell>{rolesSennova.filter((rolSennova) => rolSennova.value == participante.pivot.rol_sennova)[0]?.label}</TableCell>
+                                <TableCell>
+                                    {participante.pivot.cantidad_meses.replace('.', ',')} meses - {participante.pivot.cantidad_horas} horas semanales
+                                </TableCell>
+                            </>
+                        )}
 
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-4 h-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                    </svg>
-                                </span> que aparecen dentro del campo para ajustar los decimales.
-                            </span>
-                        </small>
-                    </InfoMessage>
-                </div>
+                        {participante.id != participanteAModificarId ? (
+                            <TableCell>
+                                <MenuMui text={<MoreVertIcon />}>
+                                    <MenuItem
+                                        onClick={() =>
+                                            router.post(route('convocatorias.proyectos.participantes.nuevo-autor-principal', [convocatoria.id, proyecto.id, participante.id]), [], {
+                                                preserveScroll: true,
+                                            })
+                                        }
+                                        disabled={!proyecto.allowed.to_update}
+                                        className={!proyecto.allowed.to_update ? 'hidden' : ''}
+                                    >
+                                        Convertir en autor principal
+                                    </MenuItem>
+                                    <Divider className={!proyecto.allowed.to_update ? 'hidden' : ''} />
+                                    <MenuItem
+                                        onClick={() => {
+                                            formParticipante.reset()
+                                            formParticipante.setData({
+                                                user_id: participante.id,
+                                                cantidad_meses: participante.pivot.cantidad_meses,
+                                                cantidad_horas: participante.pivot.cantidad_horas,
+                                                rol_sennova: participante.pivot.rol_sennova,
+                                            })
+                                            setParticipanteAModificarId(participante.id)
+                                        }}
+                                        disabled={!proyecto.allowed.to_update}
+                                        className={!proyecto.allowed.to_update ? 'hidden' : ''}
+                                    >
+                                        Editar
+                                    </MenuItem>
+                                    <MenuItem
+                                        onClick={() =>
+                                            router.delete(
+                                                route('convocatorias.proyectos.participantes.users.unlink', {
+                                                    proyecto: proyecto.id,
+                                                    convocatoria: convocatoria.id,
+                                                    user: participante.id,
+                                                }),
+                                                { preserveScroll: true },
+                                            )
+                                        }
+                                        disabled={(!proyecto.allowed.to_update && authUser.id != participante.id) || (!proyecto.allowed.to_update && !participante.formulador)}
+                                        className={(!proyecto.allowed.to_update && authUser.id != participante.id) || (!proyecto.allowed.to_update && !participante.formulador) ? 'hidden' : ''}
+                                    >
+                                        Quitar
+                                    </MenuItem>
+                                </MenuMui>
+                            </TableCell>
+                        ) : (
+                            <TableCell>
+                                <PrimaryButton
+                                    onClick={() => {
+                                        formParticipante.put(
+                                            route('convocatorias.proyectos.participantes.users.update', {
+                                                proyecto: proyecto.id,
+                                                convocatoria: convocatoria.id,
+                                            }),
+                                            { preserveScroll: true },
+                                        )
+                                    }}
+                                    disabled={formParticipante.processing}
+                                >
+                                    Guardar
+                                </PrimaryButton>
+                            </TableCell>
+                        )}
+                    </TableRow>
+                ))}
 
-                <div className="mt-8">
-                    <Input label="Número de horas semanales dedicadas para el desarrollo del proyecto" id="cantidad_horas" type="number" input$step="1" input$min="1" input$max={$formParticipante.rol_sennova?.maxHoras} className="mt-1" bind:value={$formParticipante.cantidad_horas} placeholder="Número de horas semanales dedicadas para el desarrollo del proyecto" autocomplete="off" required />
-                </div>
-            </fieldset>
-        </form>
-    </div>
-
-    <div slot="actions" className="flex w-full">
-        <Button on:click={closeDialog} type="button" variant={null}>
-            {$_('Cancel')}
-        </Button>
-        <PrimaryButton loading={$formParticipante.processing} className="ml-auto" type="submit" form={formID}>
-            {$_('Save')}
-        </PrimaryButton>
-    </div>
-</Dialog>
-
-<!-- Dialog Register -->
-<Dialog bind:open={openNuevoParticipanteDialog} id="nuevo-participante">
-    <div slot="title">
-        <div className="mb-10 text-center">
-            <div className="text-primary">Registar nuevo participante</div>
-        </div>
-    </div>
-    <div slot="content">
-        <form on:submit|preventDefault={submitRegister} id={formNuevoParticipanteId}>
-            <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
-                <div className="mt-8">
-                    <Input label="Nombre completo" id="nombre_nuevo_participante" type="text" className="mt-1" bind:value={$formNuevoParticipante.nombre} error={errors.nombre} required />
-                </div>
-
-                <div className="mt-8">
-                    <Input label="Correo electrónico institucional" id="email_nuevo_participante" type="email" className="mt-1" bind:value={$formNuevoParticipante.email} error={errors.email} required />
-                </div>
-
-                <div className="mt-8">
-                    <Label required className="mb-4" labelFor="tipo_documento_nuevo_participante" value="Tipo de documento" />
-                    <Select id="tipo_documento_nuevo_participante" items={tiposDocumento} bind:selectedValue={$formNuevoParticipante.tipo_documento} error={errors.tipo_documento} autocomplete="off" placeholder="Seleccione un tipo de documento" required />
-                </div>
-
-                <div className="mt-8">
-                    <Input label="Número de documento" id="numero_documento_nuevo_participante" type="number" input$min="55555" input$max="9999999999999" className="mt-1" bind:value={$formNuevoParticipante.numero_documento} error={errors.numero_documento} required />
-                </div>
-
-                <div className="mt-8">
-                    <Input label="Número de celular" id="numero_celular_nuevo_participante" type="number" input$min="3000000000" input$max="9999999999" className="mt-1" bind:value={$formNuevoParticipante.numero_celular} error={errors.numero_celular} required />
-                </div>
-
-                <div className="mt-8">
-                    <Label required className="mb-4" labelFor="centro_formacion_id_nuevo_participante" value="Centro de formación" />
-                    <Select id="centro_formacion_id_nuevo_participante" items={centrosFormacion} bind:selectedValue={$formNuevoParticipante.centro_formacion_id} error={errors.centro_formacion_id} autocomplete="off" placeholder="Busque por el nombre del centro de formación" required />
-                </div>
-
-                <div className="mt-8">
-                    <Label required className="mb-4" labelFor="tipo_vinculacion_nuevo_participante" value="Tipo de vinculación" />
-                    <Select id="tipo_vinculacion_nuevo_participante" items={tiposVinculacion} bind:selectedValue={$formNuevoParticipante.tipo_vinculacion} error={errors.tipo_vinculacion} autocomplete="off" placeholder="Seleccione el tipo de vinculación" required />
-                </div>
-
-                <p className="block font-medium mt-10 mb-10 text-gray-700 text-sm">Por favor diligencie la siguiente información sobre la vinculación del participante.</p>
-                <div className="mt-8">
-                    <Label required className="mb-4" labelFor="rol_sennova" value="Rol SENNOVA" />
-                    <Select id="rol_sennova" items={roles} bind:selectedValue={$formNuevoParticipante.rol_sennova} error={errors.rol_sennova} autocomplete="off" placeholder="Seleccione un rol SENNOVA" required />
-                </div>
-
-                <div className="mt-8">
-                    <Input label="Número de meses de vinculación al proyecto" id="cantidad_meses_nuevo_participante" type="number" input$step="0.1" input$min="1" input$max={proyecto.diff_meses} className="mt-1" bind:value={$formNuevoParticipante.cantidad_meses} placeholder="Número de meses de vinculación" autocomplete="off" error={errors.cantidad_meses} required />
-
-                    <InfoMessage>
-                        <small>
-                            El proyecto se ejecutará entre {proyecto.fecha_inicio} y {proyecto.fecha_finalizacion}, por lo tanto el número de meses máximo es: {proyecto.diff_meses}
+                {nuevoParticipante && (
+                    <TableRow sx={{ backgroundColor: '#e5f6fd' }}>
+                        <TableCell>
+                            {nuevoParticipante.nombre}
                             <br />
-                            <span className="flex">
-                                Uitlice las flechas <span className="flex flex-col relative top-[-0.4rem]">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-4 h-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
-                                    </svg>
+                            <Chip className="mt-2" label={nuevoParticipante.email} />
+                        </TableCell>
+                        <TableCell>
+                            {nuevoParticipante.centro_formacion ? nuevoParticipante.centro_formacion.nombre : ''}
+                            <br />
+                            <Chip className="mt-2" label={nuevoParticipante.centro_formacion ? nuevoParticipante.centro_formacion.regional.nombre : ''} />
+                        </TableCell>
+                        <TableCell>
+                            <Autocomplete
+                                id="rol_sennova"
+                                size="small"
+                                options={rolesSennova}
+                                selectedValue={formNuevoParticipante.data.rol_sennova ?? nuevoParticipante.rol_sennova_id}
+                                error={formNuevoParticipante.errors.rol_sennova}
+                                onChange={(event, newValue) => {
+                                    formNuevoParticipante.setData('rol_sennova', newValue.value)
+                                }}
+                                label="Seleccione el rol SENNOVA"
+                                required
+                            />
+                        </TableCell>
+                        <TableCell>
+                            <div className="flex items-center justify-center">
+                                <TextInput
+                                    id="cantidad_meses"
+                                    type="number"
+                                    name="cantidad_meses"
+                                    inputProps={{
+                                        min: 1,
+                                        max: proyecto.diff_meses,
+                                        step: '0.1',
+                                    }}
+                                    size="small"
+                                    required
+                                    value={formNuevoParticipante.data.cantidad_meses}
+                                    error={formNuevoParticipante.errors.cantidad_meses}
+                                    className="!inline-block !w-20 !mr-2"
+                                    onChange={(e) => formNuevoParticipante.setData('cantidad_meses', e.target.value)}
+                                />{' '}
+                                meses
+                                <TextInput id="cantidad_horas" type="number" name="cantidad_horas" size="small" required value={formNuevoParticipante.data.cantidad_horas} error={formNuevoParticipante.errors.cantidad_horas} className="!inline-block !w-16 !mx-2" onChange={(e) => formNuevoParticipante.setData('cantidad_horas', e.target.value)} /> horas semanales
+                            </div>
+                        </TableCell>
 
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-4 h-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                    </svg>
-                                </span> que aparecen dentro del campo para ajustar los decimales.
-                            </span>
-                        </small>
-                    </InfoMessage>
-                </div>
+                        <TableCell>
+                            <PrimaryButton
+                                onClick={() => {
+                                    formNuevoParticipante.setData('user_id', nuevoParticipante.id), submitNuevoParticipante()
+                                }}
+                                disabled={formNuevoParticipante.processing}
+                            >
+                                Vincular
+                            </PrimaryButton>
+                        </TableCell>
+                    </TableRow>
+                )}
+                <TableRow sx={{ backgroundColor: '#e5f6fd' }}>
+                    <TableCell colSpan={6} className="!align-top">
+                        <p>Agregar participante</p>
+                        <AlertMui hiddenIcon={true} className="mt-5">
+                            1. Escriba el nombre, número de documento o el correo electrónico institucional del participante.
+                        </AlertMui>
+                        <SearchBar placeholder="Buscar participantes" inputBackground="white" routeParams={[convocatoria.id, proyecto.id]} />
+                    </TableCell>
+                </TableRow>
+            </TableMui>
+        </>
+    )
+}
 
-                <div className="mt-8">
-                    <Input
-                        label="Número de horas semanales dedicadas para el desarrollo del proyecto"
-                        id="cantidad_horas_nuevo_participante"
-                        type="number"
-                        input$step="1"
-                        input$min="1"
-                        input$max={$formNuevoParticipante.rol_sennova?.maxHoras}
-                        className="mt-1"
-                        bind:value={$formNuevoParticipante.cantidad_horas}
-                        placeholder="Número de horas semanales dedicadas para el desarrollo del proyecto"
-                        autocomplete="off"
-                        required
-                    />
-                </div>
-
-                <div className="mt-8">
-                    <InfoMessage message="Los datos proporcionados serán tratados de acuerdo con la política de tratamiento de datos personales del SENA y a la ley 1581 de 2012 (acuerdo No. 0009 del 2016" />
-                    <FormField>
-                        <Checkbox bind:checked={$formNuevoParticipante.autorizacion_datos} />
-                        <span slot="label">¿La persona autoriza el tratamiento de datos personales?. <a href="https://www.sena.edu.co/es-co/transparencia/Documents/proteccion_datos_personales_sena_2016.pdf" target="_blank" className="text-app-500">Leer acuerdo No. 0009 del 2016</a></span>
-                    </FormField>
-                </div>
-            </fieldset>
-        </form>
-    </div>
-
-    <div slot="actions" className="flex w-full">
-        <Button on:click={closeDialog} type="button" variant={null}>
-            {$_('Cancel')}
-        </Button>
-        <PrimaryButton loading={$formNuevoParticipante.processing} className="ml-auto" type="submit" form={formNuevoParticipanteId}>
-            {$_('Save')}
-        </PrimaryButton>
-    </div>
-</Dialog>
-
-<Dialog bind:open={dialogAutorPrincipal}>
-    <div slot="title" className="flex items-center">Cambiar de autor principal</div>
-    <div slot="content">
-        <p>
-            ¿Está seguro(a) que desea convertir a este usuario en autor principal?
-            <br />
-            Solo debe haber un autor principal por proyecto y será el único que podrá modificar la información.
-        </p>
-    </div>
-    <div slot="actions">
-        <div className="p-4">
-            <Button on:click={() => (dialogAutorPrincipal = false)} variant={null}>Cancelar</Button>
-            <PrimaryButton loading={confirmarAutor} type="submit" on:click={submitNuevoAutorPrincipal}>Confirmar</PrimaryButton>
-        </div>
-    </div>
-</Dialog>
-
-<style>
-    :global(#nuevo-participante-dialog .mdc-dialog__surface) {
-        max-width: 1050px;
-    }
-
-    :global(#participante-dialog .mdc-dialog__surface) {
-        max-width: 1050px;
-    }
-</style>
+export default Participantes

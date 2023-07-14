@@ -15,8 +15,8 @@ import RadioMui from '@/Components/Radio'
 const Form = ({ data, setData, errors, ...props }) => {
     const [arrayLineasTecnoacademia, setArrayLineasTecnoacademia] = useState([])
 
-    const selectLineasTecnoacademia = (event) => {
-        const filteredLineasTecnoacademia = props.lineasTecnoacademia.filter((obj) => obj.tecnoacademia_id === event.detail?.value)
+    const selectLineasTecnoacademia = (selectedTecnoAcademia) => {
+        const filteredLineasTecnoacademia = props.lineasTecnoacademia.filter((obj) => obj.tecnoacademia_id === selectedTecnoAcademia.value)
         setArrayLineasTecnoacademia(filteredLineasTecnoacademia)
     }
 
@@ -574,9 +574,7 @@ const Form = ({ data, setData, errors, ...props }) => {
                         <div className="flex items-center mb-14">
                             <SwitchMui checked={props.requiereJustificacionSectorAgricola} onChange={() => props.setRequiereJustificacionSectorAgricola(!props.requiereJustificacionSectorAgricola)} />
                         </div>
-                        {props.requiereJustificacionSectorAgricola && (
-                            <Textarea label="Justificación" id="impacto_sector_agricola" onChange={(e) => setData('impacto_sector_agricola', e.target.value)} error={errors.impacto_sector_agricola} value={data.impacto_sector_agricola} required={props.requiereJustificacionSectorAgricola ? true : undefined} />
-                        )}
+                        {props.requiereJustificacionSectorAgricola && <Textarea label="Justificación" id="impacto_sector_agricola" onChange={(e) => setData('impacto_sector_agricola', e.target.value)} error={errors.impacto_sector_agricola} value={data.impacto_sector_agricola} required={props.requiereJustificacionSectorAgricola ? true : undefined} />}
                     </div>
                 </div>
             </div>
@@ -838,7 +836,7 @@ const Form = ({ data, setData, errors, ...props }) => {
                         />
                     </div>
                 </div>
-                {data.relacionado_mesas_sectoriales?.value === 1 && (props.isSuperAdmin || props.idi.proyecto.allowed.to_update) && (
+                {data.relacionado_mesas_sectoriales == 1 && (props.isSuperAdmin || props.idi.proyecto.allowed.to_update) && (
                     <div className="bg-app-100 p-5 mt-10">
                         <InputError message={errors.mesa_sectorial_id} />
                         <div className="grid grid-cols-2">
@@ -848,25 +846,23 @@ const Form = ({ data, setData, errors, ...props }) => {
                                 </svg>
                                 <p className="text-app-600">Por favor seleccione la o las mesas sectoriales con la cual o las cuales se alinea el proyecto</p>
                             </div>
-                            <div className="bg-white grid grid-cols-2 max-w-xl overflow-y-scroll shadow-2xl mt-4 h-80">
-                                {props.mesasSectoriales.map(({ id, nombre }, i) => (
-                                    <></>
-                                    // <React.Fragment key={id}>
-                                    //     <Checkbox
-                                    //         name="mesa_sectorial_id"
-                                    //         value={id}
-                                    //         checked={data.mesa_sectorial_id?.includes(id)}
-                                    //         onChange={(e) => {
-                                    //             if (e.target.checked) {
-                                    //                 data.mesa_sectorial_id = [...(data.mesa_sectorial_id || []), id]
-                                    //             } else {
-                                    //                 data = (data.mesa_sectorial_id || []).filter((value) => value !== id)
-                                    //             }
-                                    //         }}
-                                    //     />
-                                    //     <span>{nombre}</span>
-                                    // </React.Fragment>
-                                ))}
+                            <div>
+                                <SelectMultiple
+                                    id="mesa_sectorial_id"
+                                    bdValues={data.mesa_sectorial_id}
+                                    options={props.mesasSectoriales}
+                                    onChange={(event, newValue) => {
+                                        const selectedValues = newValue.map((option) => option.value)
+                                        setData((prevData) => ({
+                                            ...prevData,
+                                            mesa_sectorial_id: selectedValues,
+                                        }))
+                                    }}
+                                    error={errors.mesa_sectorial_id}
+                                    placeholder="Seleccione las mesas sectoriales"
+                                    required
+                                    disabled={props.evaluacion ? 'disabled' : undefined}
+                                />
                             </div>
                         </div>
                     </div>
@@ -896,7 +892,7 @@ const Form = ({ data, setData, errors, ...props }) => {
                         />
                     </div>
                 </div>
-                {data.relacionado_tecnoacademia?.value === 1 && (props.isSuperAdmin || props.idi.proyecto.allowed.to_update) && (
+                {data.relacionado_tecnoacademia == 1 && (props.isSuperAdmin || props.idi.proyecto.allowed.to_update) && (
                     <div className="bg-app-100 p-5 mt-10">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5" style={{ transform: 'translateX(-50px)' }}>
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -907,33 +903,36 @@ const Form = ({ data, setData, errors, ...props }) => {
                                 <p className="text-app-600">Por favor seleccione la Tecnoacademia con la cual articuló el proyecto</p>
                             </div>
                             <div>
-                                <Autocomplete id="tecnoacademia_id" options={props.tecnoacademias} value={data.tecnoacademia_id} onChange={(e) => (data.tecnoacademia_id = e.target.value)} getItemValue={(item) => item.label} required disabled={props.evaluacion ? 'disabled' : undefined} />
-                                {arrayLineasTecnoacademia?.length > 0 && (
-                                    <div className="bg-white grid grid-cols-2 max-w-xl overflow-y-scroll shadow-2xl mt-4 h-80">
-                                        {arrayLineasTecnoacademia.map(({ value, label }) => (
-                                            <></>
-                                            // <React.Fragment key={value}>
-                                            //     <Label className="p-3 border-t border-b flex items-center text-sm" labelFor={`linea-tecnologica-${value}`} value={label} />
-                                            //     <div className="border-b border-t flex items-center justify-center">
-                                            //         <input
-                                            //             type="checkbox"
-                                            //             name="linea_tecnologica_id"
-                                            //             value={value}
-                                            //             checked={data.linea_tecnologica_id?.includes(value)}
-                                            //             onChange={(e) => {
-                                            //                 if (e.target.checked) {
-                                            //                     data = [...(data.linea_tecnologica_id || []), value]
-                                            //                 } else {
-                                            //                     data = (data.linea_tecnologica_id || []).filter((v) => v !== value)
-                                            //                 }
-                                            //             }}
-                                            //             className="rounded text-app-500"
-                                            //         />
-                                            //     </div>
-                                            // </React.Fragment>
-                                        ))}
-                                    </div>
-                                )}
+                                <Autocomplete
+                                    id="tecnoacademia_id"
+                                    options={props.tecnoacademias}
+                                    value={data.tecnoacademia_id}
+                                    onChange={(event, newValue) => {
+                                        setData('tecnoacademia_id'), newValue,
+                                        selectLineasTecnoacademia(newValue)
+                                    }}
+                                    getItemValue={(item) => item.label}
+                                    required
+                                    disabled={props.evaluacion ? 'disabled' : undefined}
+                                />
+                                <div className="mt-4">
+                                    <SelectMultiple
+                                        id="linea_tecnologica_id"
+                                        bdValues={data.linea_tecnologica_id}
+                                        options={arrayLineasTecnoacademia}
+                                        onChange={(event, newValue) => {
+                                            const selectedValues = newValue.map((option) => option.value)
+                                            setData((prevData) => ({
+                                                ...prevData,
+                                                linea_tecnologica_id: selectedValues,
+                                            }))
+                                        }}
+                                        error={errors.linea_tecnologica_id}
+                                        label="Seleccione las líneas tecnológicas"
+                                        required
+                                        disabled={props.evaluacion ? 'disabled' : undefined}
+                                    />
+                                </div>
                             </div>
                         </div>
                         <InputError message={errors.linea_tecnologica_id} />

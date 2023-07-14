@@ -1,36 +1,18 @@
-<script>
-    import AuthenticatedLayout, { title } from '@/Layouts/Authenticated'
-    import Stepper from '@/Components/Stepper'
-    import SemillerosInvestigacion from './SemillerosInvestigacion'
-    import Participantes from './Participantes'
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
-    export let errors
-    export let convocatoria
-    export let proyecto
-    export let tiposDocumento
-    export let tiposVinculacion
-    export let roles
-    export let autorPrincipal
-    export let centrosFormacion
+import Participantes from './Participantes'
+import SemillerosInvestigacion from './SemillerosInvestigacion'
 
-    $: $title = 'Participantes'
-</script>
+const Index = ({ convocatoria, nuevoParticipante, nuevoSemilleroInvestigacion, rolesSennova, proyecto, autorPrincipal }) => {
+    return (
+        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
+            <div className="py-12">
+                <Participantes autorPrincipal={autorPrincipal} convocatoria={convocatoria} rolesSennova={rolesSennova} proyecto={proyecto} nuevoParticipante={nuevoParticipante} />
 
-<AuthenticatedLayout>
-    <header className="pt-[8rem]" slot="header">
-        <Stepper {convocatoria} {proyecto} />
-    </header>
-
-    <div className="py-12">
-        <div className="mt-16">
-            <Participantes {centrosFormacion} {autorPrincipal} {convocatoria} {proyecto} {errors} {tiposDocumento} {tiposVinculacion} {roles} />
-        </div>
-        <hr className="my-16" />
-
-        {#if proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82 || proyecto.codigo_linea_programatica == 69 || proyecto.codigo_linea_programatica == 70 || proyecto.codigo_linea_programatica == 65}
-            <div>
-                <SemillerosInvestigacion {convocatoria} {proyecto} {errors} />
+                {proyecto.codigo_linea_programatica === 66 || proyecto.codigo_linea_programatica === 82 || proyecto.codigo_linea_programatica === 69 || proyecto.codigo_linea_programatica === 70 || proyecto.codigo_linea_programatica === 65 ? <SemillerosInvestigacion convocatoria={convocatoria} proyecto={proyecto} nuevoSemilleroInvestigacion={nuevoSemilleroInvestigacion} /> : null}
             </div>
-        {/if}
-    </div>
-</AuthenticatedLayout>
+        </AuthenticatedLayout>
+    )
+}
+
+export default Index

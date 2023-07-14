@@ -44,13 +44,11 @@ class HandleInertiaRequests extends Middleware
                 'notificaciones'        => $request->user() ? $request->user()->unreadNotifications()->orderBy('created_at', 'DESC')->take(3)->get() : null,
                 'numeroNotificaciones'  => $request->user() ? $request->user()->unreadNotifications()->count() : 0
             ],
-            'flash' => function () {
-                return [
-                    'success'   => Session::get('success'),
-                    'error'     => Session::get('error'),
-                    'warn'      => Session::get('warn'),
-                ];
-            },
+            'flash' => [
+                'success'   => fn () => $request->session()->get('success'),
+                'error'     => fn () => $request->session()->get('error'),
+                'warn'      => fn () => $request->session()->get('warn'),
+            ],
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),

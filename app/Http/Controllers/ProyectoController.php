@@ -21,6 +21,7 @@ use App\Models\ProgramaFormacion;
 use App\Models\Proyecto;
 use App\Models\SemilleroInvestigacion;
 use App\Models\ProyectoPdfVersion;
+use App\Models\RolSennova;
 use App\Notifications\ComentarioProyecto;
 use App\Notifications\EvaluacionFinalizada;
 use App\Notifications\ProyectoFinalizado;
@@ -762,43 +763,17 @@ class ProyectoController extends Controller
             return redirect()->route('convocatorias.tp.edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
         }
 
-        if ($proyecto->codigo_linea_programatica == 23 || $proyecto->codigo_linea_programatica == 65) {
-
-            if ($proyecto->codigo_linea_programatica == 65) {
-                $proyecto->tipo_proyecto = $proyecto->culturaInnovacion->tipo_proyecto;
-            }
-
-            $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true));
-
-            $rolesSennova = $rolesSennova->filter(function ($value, $key) {
-                return $value['label'] != 'Formador de formadores';
-            })->toArray();
-        } else if ($proyecto->codigo_linea_programatica == 66 || $proyecto->codigo_linea_programatica == 82) {
-            $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true));
-            if ($proyecto->idi()->exists() && !$proyecto->idi->articulacion_eni) {
-                $rolesSennova = $rolesSennova->filter(function ($value, $key) {
-                    return $value['label'] != 'Formador de formadores';
-                })->toArray();
-            }
-        } elseif ($proyecto->codigo_linea_programatica == 70) {
-            $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-ta.json'), true));
-        } elseif ($proyecto->codigo_linea_programatica == 69) {
-            $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-tp.json'), true));
-        } elseif ($proyecto->codigo_linea_programatica == 68) {
-            $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-st.json'), true));
-        }
-
         $proyecto->load('participantes.centroFormacion.regional');
         $proyecto->load('semillerosInvestigacion.lineaInvestigacion.grupoInvestigacion');
 
         return Inertia::render('Convocatorias/Proyectos/Participantes/Index', [
-            'convocatoria'          => $convocatoria,
-            'proyecto'              => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'diff_meses', 'participantes', 'semillerosInvestigacion', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'fecha_inicio', 'fecha_finalizacion', 'tipo_proyecto'),
-            'tiposDocumento'        => json_decode(Storage::get('json/tipos-documento.json'), true),
-            'tiposVinculacion'      => json_decode(Storage::get('json/tipos-vinculacion.json'), true),
-            'centrosFormacion'      => SelectHelper::centrosFormacion(),
-            'roles'                 => $rolesSennova,
-            'autorPrincipal'        => $proyecto->participantes()->where('proyecto_participantes.es_formulador', true)->first(),
+            'convocatoria'                  => $convocatoria,
+            'proyecto'                      => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'diff_meses', 'participantes', 'semillerosInvestigacion', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'fecha_inicio', 'fecha_finalizacion', 'tipo_proyecto'),
+            'rolesSennova'                  => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'nuevoParticipante'             => User::select('users.id', 'users.nombre', 'users.email', 'users.centro_formacion_id')->with('centroFormacion', 'centroFormacion.regional')->orderBy('users.nombre', 'ASC')->filterUser(request()->only('search'))->first(),
+            'nuevoSemilleroInvestigacion'   => SemilleroInvestigacion::select('semilleros_investigacion.id', 'semilleros_investigacion.nombre', 'semilleros_investigacion.linea_investigacion_id')->with('lineaInvestigacion', 'lineaInvestigacion.grupoInvestigacion')->orderBy('semilleros_investigacion.nombre', 'ASC')->filterSemilleroInvestigacion(request()->only('search'))->first(),
+            'centrosFormacion'              => SelectHelper::centrosFormacion(),
+            'autorPrincipal'                => $proyecto->participantes()->where('proyecto_participantes.es_formulador', true)->first(),
         ]);
     }
 
@@ -846,33 +821,6 @@ class ProyectoController extends Controller
     }
 
     /**
-     * filterParticipantes
-     *
-     * @param  mixed $request
-     * @param  mixed $convocatoria
-     * @param  mixed $proyecto
-     * @return void
-     */
-    public function filterParticipantes(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
-    {
-        if (!empty($request->search_participante)) {
-            $query = User::orderBy('users.nombre', 'ASC')
-                ->filterUser(['search' => $request->search_participante])
-                ->with('centroFormacion.regional')->take(6);
-
-            if ($proyecto->participantes->count() > 0) {
-                $query->whereNotIn('users.id', explode(',', $proyecto->participantes->implode('id', ',')));
-            }
-
-            $users = $query->get()->take(5);
-
-            return $users->makeHidden('can', 'roles', 'user_name', 'permissions')->toJson();
-        }
-
-        return null;
-    }
-
-    /**
      * linkParticipante
      *
      * @param  mixed $request
@@ -886,22 +834,12 @@ class ProyectoController extends Controller
 
         $data = $request->only('cantidad_horas', 'cantidad_meses', 'rol_sennova');
 
-        if (is_array($data['rol_sennova'])) {
-            $data['rol_sennova'] = $data['rol_sennova']['value'];
+        if ($proyecto->participantes()->where('proyecto_participantes.user_id', $request->user_id)->exists()) {
+            return back()->with('error', 'El recurso ya está vinculado.');
         }
 
-        try {
-            if ($proyecto->participantes()->where('proyecto_participantes.user_id', $request->user_id)->exists()) {
-                return back()->with('error', 'El recurso ya está vinculado.');
-            }
-
-            $proyecto->participantes()->attach($request->user_id, $data);
-            return back()->with('success', 'El recurso se ha vinculado correctamente.');
-        } catch (\Throwable $th) {
-            return back()->with('error', 'Oops! Algo salió mal.');
-        }
-
-        return back()->with('error', 'Oops! Algo salió mal.');
+        $proyecto->participantes()->attach($request->user_id, $data);
+        return back()->with('success', 'El recurso se ha vinculado correctamente.');
     }
 
     /**
@@ -912,15 +850,13 @@ class ProyectoController extends Controller
      * @param  mixed $proyecto
      * @return void
      */
-    public function unlinkParticipante(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
+    public function unlinkParticipante( Convocatoria $convocatoria, Proyecto $proyecto, User $user)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto]);
 
-        $request->validate(['user_id' => 'required']);
-
         try {
-            if ($proyecto->participantes()->where('id', $request->user_id)->exists()) {
-                $proyecto->participantes()->detach($request->user_id);
+            if ($proyecto->participantes()->where('user_id', $user->id)->exists()) {
+                $proyecto->participantes()->detach($user->id);
                 return back()->with('success', 'El recurso se ha desvinculado correctamente.');
             }
             return back()->with('success', 'El recurso ya está desvinculado.');
@@ -943,11 +879,11 @@ class ProyectoController extends Controller
         $this->authorize('modificar-proyecto-autor', [$proyecto]);
 
         try {
-            $integrante = $proyecto->participantes()->where('users.id', $request->user_id)->first();
+            $participante = $proyecto->participantes()->where('users.id', $request->user_id)->first();
 
-            if ($integrante) {
+            if ($participante) {
                 $proyecto->participantes()
-                    ->updateExistingPivot($request->user_id, ['rol_sennova' => is_array($request->rol_sennova) ? $request->rol_sennova['value'] : $request->rol_sennova, 'cantidad_meses' => $request->cantidad_meses, 'cantidad_horas' => $request->cantidad_horas]);
+                    ->updateExistingPivot($request->user_id, ['rol_sennova' => $request->rol_sennova, 'cantidad_meses' => $request->cantidad_meses, 'cantidad_horas' => $request->cantidad_horas]);
 
                 return back()->with('success', 'El recurso se ha actualizado correctamente.');
             }
@@ -959,89 +895,24 @@ class ProyectoController extends Controller
     }
 
     /**
-     * registerParticipante
-     *
-     * @param  mixed $request
-     * @param  mixed $convocatoria
-     * @param  mixed $proyecto
-     * @return void
-     */
-    public function registerParticipante(NuevoProponenteRequest $request, Convocatoria $convocatoria, Proyecto $proyecto)
-    {
-        $this->authorize('modificar-proyecto-autor', [$proyecto]);
-
-        $user = new User();
-
-        $user->nombre               = $request->nombre;
-        $user->email                = $request->email;
-        $user->password             = $user::makePassword($request->numero_documento);
-        $user->tipo_documento       = $request->tipo_documento;
-        $user->numero_documento     = $request->numero_documento;
-        $user->numero_celular       = $request->numero_celular;
-        $user->habilitado           = 0;
-        $user->tipo_vinculacion     = $request->tipo_vinculacion;
-        $user->autorizacion_datos   = $request->autorizacion_datos;
-        $user->centroFormacion()->associate($request->centro_formacion_id);
-
-        $user->save();
-
-        $user->assignRole(14);
-
-        $data = $request->only('cantidad_horas', 'cantidad_meses', 'rol_sennova');
-        $data['user_id'] = $user->id;
-
-        return $this->linkParticipante(new ProponenteRequest($data), $convocatoria, $proyecto);
-    }
-
-    /**
-     * filterSemillerosInvestigacion
-     *
-     * @param  mixed $request
-     * @param  mixed $convocatoria
-     * @param  mixed $proyecto
-     * @return void
-     */
-    public function filterSemillerosInvestigacion(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
-    {
-        if (!empty($request->search_semillero_investigacion)) {
-            $query = SemilleroInvestigacion::select('semilleros_investigacion.id', 'semilleros_investigacion.nombre', 'semilleros_investigacion.linea_investigacion_id')
-                ->orderBy('semilleros_investigacion.nombre', 'ASC')
-                ->filterSemilleroInvestigacion(['search' => $request->search_semillero_investigacion])
-                ->with('lineaInvestigacion.grupoInvestigacion');
-
-            if ($proyecto->semillerosInvestigacion->count() > 0) {
-                $query->whereNotIn('semilleros_investigacion.id', explode(',', $proyecto->semillerosInvestigacion->implode('id', ',')));
-            }
-
-            $semillerosInvestigacion = $query->get();
-
-            return $semillerosInvestigacion->makeHidden('created_at', 'updated_at')->toJson();
-        }
-
-        return null;
-    }
-
-    /**
      * linkSemilleroInvestigacion
      *
-     * @param  mixed $request
      * @param  mixed $convocatoria
      * @param  mixed $proyecto
      * @return void
      */
-    public function linkSemilleroInvestigacion(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
+    public function linkSemilleroInvestigacion(Convocatoria $convocatoria, Proyecto $proyecto, SemilleroInvestigacion $semilleroInvestigacion)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto]);
 
-        $request->validate(['semillero_investigacion_id' => 'required']);
-
         try {
-            if ($proyecto->semillerosInvestigacion()->where('id', $request->semillero_investigacion_id)->exists()) {
+            if ($proyecto->semillerosInvestigacion()->where('semilleros_investigacion.id', $semilleroInvestigacion->id)->exists()) {
                 return back()->with('error', 'El recurso ya está vinculado.');
             }
-            $proyecto->semillerosInvestigacion()->attach($request->semillero_investigacion_id);
+            $proyecto->semillerosInvestigacion()->attach($semilleroInvestigacion->id);
             return back()->with('success', 'El recurso se ha vinculado correctamente.');
         } catch (\Throwable $th) {
+            dd($th);
             return back()->with('error', 'Oops! Algo salió mal.');
         }
 
@@ -1051,20 +922,17 @@ class ProyectoController extends Controller
     /**
      * unlinkSemilleroInvestigacion
      *
-     * @param  mixed $request
      * @param  mixed $convocatoria
      * @param  mixed $proyecto
      * @return void
      */
-    public function unlinkSemilleroInvestigacion(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
+    public function unlinkSemilleroInvestigacion(Convocatoria $convocatoria, Proyecto $proyecto, SemilleroInvestigacion $semilleroInvestigacion)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto]);
 
-        $request->validate(['semillero_investigacion_id' => 'required']);
-
         try {
-            if ($proyecto->semillerosInvestigacion()->where('id', $request->semillero_investigacion_id)->exists()) {
-                $proyecto->semillerosInvestigacion()->detach($request->semillero_investigacion_id);
+            if ($proyecto->semillerosInvestigacion()->where('semilleros_investigacion.id', $semilleroInvestigacion->id)->exists()) {
+                $proyecto->semillerosInvestigacion()->detach($semilleroInvestigacion->id);
                 return back()->with('success', 'El recurso se ha desvinculado correctamente.');
             }
             return back()->with('success', 'El recurso ya está desvinculado.');

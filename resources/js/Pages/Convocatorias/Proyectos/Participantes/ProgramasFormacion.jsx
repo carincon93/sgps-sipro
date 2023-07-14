@@ -5,10 +5,10 @@
     import { _ } from 'svelte-i18n'
     import axios from 'axios'
 
-    import Input from '@/Components/Input'
-    import PrimaryButton from '@/Components/PrimaryButton'
-    import DataTableMenu from '@/Components/DataTableMenu'
-    import InfoMessage from '@/Components/InfoMessage'
+    import Input from '@/Shared/Input'
+    import LoadingButton from '@/Shared/LoadingButton'
+    import DataTableMenu from '@/Shared/DataTableMenu'
+    import InfoMessage from '@/Shared/InfoMessage'
     import { Item, Text, Separator } from '@smui/list'
 
     export let convocatoria
@@ -19,7 +19,7 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
+    let authUser = $page.props.auth.user
     let isSuperAdmin = checkRole(authUser, [1])
 
     /**
@@ -80,7 +80,7 @@
         <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
             <div className="mt-4 flex flex-row">
                 <Input label="Escriba el ID o el nombre completo del programa de formación" id="search_programa_formacion" type="search" className="mt-1 m-auto block flex-1" bind:value={$form.search_programa_formacion} input$minLength="4" autocomplete="off" required />
-                <PrimaryButton loading={$form.processing} className="m-auto ml-1" type="submit">Buscar</PrimaryButton>
+                <LoadingButton loading={$form.processing} className="m-auto ml-1" type="submit">Buscar</LoadingButton>
             </div>
         </fieldset>
     </form>

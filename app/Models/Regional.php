@@ -124,4 +124,9 @@ class Regional extends Model
     {
         return "Última modificación de este formulario: " . Carbon::parse($value, 'UTC')->timezone('America/Bogota')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY [a las] HH:mm:ss');
     }
+
+    public function getNombreAttribute($value)
+    {
+        return ucfirst($value);
+    }
 }

@@ -192,7 +192,7 @@ class IdiController extends Controller
             'mesasSectorialesRelacionadas'              => $idi->mesasSectoriales()->pluck('mesas_sectoriales.id'),
             'lineasTecnoacademiaRelacionadas'           => $idi->proyecto->tecnoacademiaLineasTecnoacademia()->pluck('tecnoacademia_linea_tecnoacademia.id'),
             'tecnoacademia'                             => $idi->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $idi->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
-            'mesasSectoriales'                          => MesaSectorial::select('id', 'nombre')->get('id'),
+            'mesasSectoriales'                          => SelectHelper::mesasSectoriales(),
             'areasConocimiento'                         => SelectHelper::areasConocimiento(),
             'subareasConocimiento'                      => SelectHelper::subareasConocimiento(),
             'disciplinasSubareaConocimiento'            => SelectHelper::disciplinasSubareaConocimiento(),

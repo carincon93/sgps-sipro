@@ -167,6 +167,11 @@ class LineaInvestigacion extends Model
         });
     }
 
+    public function getNombreAttribute($value)
+    {
+        return ucfirst($value);
+    }
+
     /**
      * getUpdatedAtAttribute
      *

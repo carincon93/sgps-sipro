@@ -176,6 +176,11 @@ class SemilleroInvestigacion extends Model
         });
     }
 
+    public function getNombreAttribute($value)
+    {
+        return ucfirst($value);
+    }
+
     /**
      * getUpdatedAtAttribute
      *

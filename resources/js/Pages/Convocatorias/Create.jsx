@@ -8,6 +8,7 @@ import MultipleSelect from '@/Components/SelectMultiple'
 import Autocomplete from '@/Components/Autocomplete'
 import { useForm } from '@inertiajs/react'
 import { route, checkRole } from '@/Utils'
+import DatePicker from '@/Components/DatePicker'
 
 const CreateConvocatoria = ({ auth, convocatorias, lineasProgramaticas, tiposConvocatoria }) => {
     // Validar si el usuario autenticado es SuperAdmin
@@ -59,7 +60,7 @@ const CreateConvocatoria = ({ auth, convocatorias, lineasProgramaticas, tiposCon
                                 {data.fase && <p className="text-center">Fecha de finalización de la fase: {data.fase.label.toLowerCase()}</p>}
                                 <div className="mt-4">
                                     <Label required labelFor="fecha_finalizacion_fase" value="Fecha límite de la fase de formulación" />
-                                    <input id="fecha_finalizacion_fase" type="date" className="mt-1 p-2" value={data.fecha_finalizacion_fase} onChange={(e) => setData('fecha_finalizacion_fase', e.target.value)} required />
+                                    <DatePicker variant="outlined" id="fecha_finalizacion_fase" className="w-full" value={data.fecha_finalizacion_fase} onChange={(e) => setData('fecha_finalizacion_fase', e.target.value)} required />
                                 </div>
                             </div>
                             {errors.fecha_finalizacion_fase && <InputError error={errors.fecha_finalizacion_fase} />}

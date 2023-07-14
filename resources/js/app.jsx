@@ -1,12 +1,13 @@
-import './bootstrap';
-import '../css/app.css';
+import './bootstrap'
+import '../css/app.css'
 
 import { createRoot } from 'react-dom/client'
 import { createInertiaApp } from '@inertiajs/react'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { useEffect } from 'react'
 
-const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
+const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel'
 
 const theme = createTheme({
     palette: {
@@ -19,13 +20,17 @@ const theme = createTheme({
     },
 })
 
-
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`, import.meta.glob('./Pages/**/*.jsx')),
     setup({ el, App, props }) {
-        const root = createRoot(el);
-        root.render(<ThemeProvider theme={theme}><App {...props} /></ThemeProvider>);
+        const root = createRoot(el)
+
+        root.render(
+            <ThemeProvider theme={theme}>
+                <App {...props} />
+            </ThemeProvider>,
+        )
     },
     progress: {
         // The delay after which the progress bar will appear, in milliseconds...
@@ -40,4 +45,4 @@ createInertiaApp({
         // Whether the NProgress spinner will be shown...
         showSpinner: true,
     },
-});
+})
