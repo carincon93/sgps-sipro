@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { Link, router, useForm } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
@@ -14,14 +13,6 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Chip, Divider, MenuItem, TableCell, TableRow } from '@mui/material'
 
 const Index = ({ auth, convocatoria, idi, errors, allowedToCreate }) => {
-    const { data, post, put, reset, processing } = useForm({
-        password: '',
-    })
-
-    const [proyectoId, setProyectoId] = useState(null)
-    const [openDialog, setOpenDialog] = useState(false)
-    const [allowedToDestroy, setAllowedToDestroy] = useState(false)
-
     const authUser = auth.user
     const isSuperAdmin = checkRole(authUser, [1])
 

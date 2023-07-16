@@ -4,18 +4,28 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import AlertMui from '@/Components/Alert'
 import ButtonMui from '@/Components/Button'
+import DialogMui from '@/Components/Dialog'
 import MenuMui from '@/Components/Menu'
 import PaginationMui from '@/Components/Pagination'
 import PrimaryButton from '@/Components/PrimaryButton'
 import TableMui from '@/Components/Table'
 import TextInput from '@/Components/TextInput'
+import ToolTipMui from '@/Components/Tooltip'
 
-import { Divider, MenuItem, TableCell, TableRow } from '@mui/material'
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { useState } from 'react'
+import { Chip, MenuItem, TableCell, TableRow } from '@mui/material'
 
-const RolesSennova = ({ auth, convocatoria, proyecto, proyectoRolesSennova }) => {
+import { useState } from 'react'
+import { checkRole } from '@/Utils'
+import Form from './Form'
+
+const RolesSennova = ({ auth, convocatoria, proyecto, proyectoRolesSennova, convocatoriaRolesSennova, actividades, lineasTecnologicas, proyectoActividadesRelacionadas, proyectoLineasTecnologicasRelacionadas }) => {
+    const authUser = auth.user
+    const isSuperAdmin = checkRole(authUser, [1])
+
+    const [dialogStatus, setDialogStatus] = useState(false)
+    const [method, setMethod] = useState('')
+    const [proyectoRolSennova, setProyectoRolSennova] = useState(null)
     const [proyectoRolSennovaIdToDestroy, setProyectoRolSennovaIdToDestroy] = useState(null)
 
     const form = useForm({
@@ -70,45 +80,82 @@ const RolesSennova = ({ auth, convocatoria, proyecto, proyectoRolesSennova }) =>
                 </form>
             )}
             {proyecto.allowed.to_update && (
-                <ButtonMui onClick={() => router.visit(route('convocatorias.proyectos.proyecto-rol-sennova.create', [convocatoria.id, proyecto.id]))} variant="raised">
+                <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setProyectoRolSennova(null))} variant="raised">
                     Añadir Rol SENNOVA
                 </ButtonMui>
             )}
 
-            <TableMui className="mt-20" rows={['Nombre', 'Nivel académico', 'Asignación mensual', 'Acciones']} sxCellThead={{ width: '320px' }}>
+            <TableMui className="mt-20" rows={['Nombre', 'Asignación mensual', 'Evaluación', 'Acciones']} sxCellThead={{ width: '320px' }}>
                 {proyectoRolesSennova.data.map((proyectoRolSennova, i) => (
                     <TableRow key={i}>
-                        <TableCell>{proyectoRolSennova?.convocatoria_rol_sennova?.rol_sennova?.nombre}</TableCell>
-                        <TableCell>{proyectoRolSennova?.convocatoria_rol_sennova?.nivel_academico}</TableCell>
+                        <TableCell>
+                            {proyectoRolSennova?.convocatoria_rol_sennova?.rol_sennova?.nombre}
+                            <br />
+                            <Chip label={proyectoRolSennova?.convocatoria_rol_sennova?.nivel_academico} />
+                        </TableCell>
                         <TableCell>
                             ${new Intl.NumberFormat('de-DE').format(!isNaN(proyectoRolSennova?.convocatoria_rol_sennova?.asignacion_mensual) ? proyectoRolSennova?.convocatoria_rol_sennova?.asignacion_mensual : 0)} / Meses: {proyectoRolSennova.numero_meses} / Cantidad: {proyectoRolSennova.numero_roles}
                         </TableCell>
                         <TableCell>
+                            {isSuperAdmin || proyecto.mostrar_recomendaciones ? (
+                                <>
+                                    {proyectoRolSennova.proyecto_roles_evaluaciones.map((evaluacion, i) =>
+                                        isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado) ? (
+                                            <ToolTipMui
+                                                key={i}
+                                                title={
+                                                    <div>
+                                                        <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
+                                                        <p className="whitespace-pre-line text-xs text-justify">{evaluacion.comentario ? evaluacion.comentario : 'Aprobado'}</p>
+                                                    </div>
+                                                }
+                                            >
+                                                Evaluación {i + 1}
+                                            </ToolTipMui>
+                                        ) : null,
+                                    )}
+                                    {proyectoRolSennova.proyecto_roles_evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El ítem no ha sido evaluado aún.</p> : null}
+                                </>
+                            ) : null}
+                        </TableCell>
+                        <TableCell>
                             <MenuMui text={<MoreVertIcon />}>
-                                <MenuItem onClick={() => router.visit(route('convocatorias.proyectos.proyecto-rol-sennova.edit', [convocatoria.id, proyecto.id, proyectoRolSennova.id]))} disabled={!proyecto.allowed.to_update} className={!proyecto.allowed.to_update ? 'hidden' : ''}>
-                                    Editar
-                                </MenuItem>
-                                <MenuItem
-                                    onClick={() => {
-                                        setProyectoRolSennovaIdToDestroy(proyectoRolSennova.id)
-                                    }}
-                                >
-                                    Eliminar
-                                </MenuItem>
-                                {proyectoRolSennova.id === proyectoRolSennovaIdToDestroy && (
-                                    <MenuItem
-                                        sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
-                                        onClick={(e) => {
-                                            e.stopPropagation()
-                                            if (proyecto.allowed.to_update) {
-                                                router.delete(route('convocatorias.proyectos.proyecto-rol-sennova.destroy', [convocatoria.id, proyecto.id, proyectoRolSennova.id]), {
-                                                    preserveScroll: true,
-                                                })
-                                            }
-                                        }}
-                                    >
-                                        Confirmar
-                                    </MenuItem>
+                                {proyectoRolSennova.id !== proyectoRolSennovaIdToDestroy ? (
+                                    <div>
+                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('editar'), setProyectoRolSennova(proyectoRolSennova))} disabled={!proyecto.allowed.to_update} className={!proyecto.allowed.to_update ? 'hidden' : ''}>
+                                            Editar
+                                        </MenuItem>
+                                        <MenuItem
+                                            onClick={() => {
+                                                setProyectoRolSennovaIdToDestroy(proyectoRolSennova.id)
+                                            }}
+                                        >
+                                            Eliminar
+                                        </MenuItem>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <MenuItem
+                                            onClick={(e) => {
+                                                setProyectoRolSennovaIdToDestroy(null)
+                                            }}
+                                        >
+                                            Cancelar
+                                        </MenuItem>
+                                        <MenuItem
+                                            sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                if (proyecto.allowed.to_update) {
+                                                    router.delete(route('convocatorias.proyectos.proyecto-rol-sennova.destroy', [convocatoria.id, proyecto.id, proyectoRolSennova.id]), {
+                                                        preserveScroll: true,
+                                                    })
+                                                }
+                                            }}
+                                        >
+                                            Confirmar
+                                        </MenuItem>
+                                    </div>
                                 )}
                             </MenuMui>
                         </TableCell>
@@ -117,6 +164,28 @@ const RolesSennova = ({ auth, convocatoria, proyecto, proyectoRolesSennova }) =>
             </TableMui>
 
             <PaginationMui links={proyectoRolesSennova.links} />
+
+            <DialogMui
+                open={dialogStatus}
+                fullWidth={true}
+                maxWidth="lg"
+                blurEnabled={true}
+                dialogContent={
+                    <Form
+                        isSuperAdmin={isSuperAdmin}
+                        setDialogStatus={setDialogStatus}
+                        method={method}
+                        convocatoria={convocatoria}
+                        proyecto={proyecto}
+                        proyectoRolSennova={proyectoRolSennova}
+                        convocatoriaRolesSennova={convocatoriaRolesSennova}
+                        actividades={actividades}
+                        lineasTecnologicas={lineasTecnologicas}
+                        proyectoActividadesRelacionadas={proyectoActividadesRelacionadas}
+                        proyectoLineasTecnologicasRelacionadas={proyectoLineasTecnologicasRelacionadas}
+                    />
+                }
+            />
         </AuthenticatedLayout>
     )
 }
