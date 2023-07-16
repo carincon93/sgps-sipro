@@ -8,11 +8,11 @@ import Autocomplete from '@/Components/Autocomplete'
 import DatePicker from '@/Components/DatePicker'
 import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
+import SelectMultiple from '@/Components/SelectMultiple'
 import SwitchMui from '@/Components/Switch'
 import Textarea from '@/Components/Textarea'
-import SelectMultiple from '@/Components/SelectMultiple'
 
-import { Paper } from '@mui/material'
+import { Grid, Paper } from '@mui/material'
 
 const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, lineasProgramaticasActivasRelacionadas, fases }) => {
     // Validar si el usuario autenticado es SuperAdmin
@@ -25,27 +25,13 @@ const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, lineasProgramat
         postFase(route('convocatorias.update-fase', convocatoria.id))
     }
 
-    const {
-        data: dataFase,
-        setData: setDataFase,
-        post: postFase,
-        processing: processingFase,
-        errors: errorsFase,
-        reset: resetFase,
-    } = useForm({
+    const formFase = useForm({
         fase: fases.find((item) => item.value == convocatoria.fase),
         fecha_finalizacion_fase: convocatoria.fecha_finalizacion_fase,
         hora_finalizacion_fase: convocatoria.hora_finalizacion_fase,
     })
 
-    const {
-        data: dataConvocatoria,
-        setData: setDataConvocatoria,
-        put: putConvocatoria,
-        processing: processingConvocatoria,
-        errors: errorsConvocatoria,
-        reset: resetConvocatoria,
-    } = useForm({
+    const formConvocatoria = useForm({
         descripcion: convocatoria.descripcion,
         esta_activa: convocatoria.esta_activa,
         visible: convocatoria.visible,
@@ -65,12 +51,13 @@ const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, lineasProgramat
 
     return (
         <AuthenticatedLayout user={auth.user} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Lista de convocatorias</h2>}>
-            <div className="grid grid-cols-3">
-                <div>
-                    <h1 className="font-black text-2xl">Fase</h1>
-                </div>
+            <Grid item md={4}>
+                <h1 className="font-black text-2xl">Fase</h1>
+            </Grid>
+
+            <Grid item md={8} className="drop-shadow-lg">
                 {convocatoria.tipo_convocatoria == 1 || convocatoria.tipo_convocatoria == 3 ? (
-                    <Paper elevation={0} sx={{ padding: 2 }} className="col-span-2 drop-shadow-lg">
+                    <Paper elevation={0} sx={{ padding: 2 }}>
                         <form onSubmit={submitFase}>
                             <fieldset className="p-8" disabled={isSuperAdmin ? undefined : true}>
                                 <div className="grid grid-cols-2 space-y-2">
@@ -78,16 +65,16 @@ const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, lineasProgramat
                                         <Label required className="mb-4" labelFor="fase" value="Fase" />
                                     </div>
                                     <div>
-                                        <Autocomplete id="fase" options={fases} value={dataFase.fase} onChange={(e) => setDataFase('fase', e.target.value)} error={errors.fase} autoComplete={false} placeholder="Seleccione una fase" required />
+                                        <Autocomplete id="fase" options={fases} value={formFase.data.fase} onChange={(event, newValue) => formFase.setData('fase', newValue.value)} error={errors.fase} autoComplete={false} placeholder="Seleccione una fase" required />
                                     </div>
 
-                                    {dataFase.fase?.label && (
+                                    {formFase.data.fase?.label && (
                                         <>
                                             <div>
-                                                <Label required labelFor="fecha_finalizacion_fase" value={`Fecha de finalización de la fase: ${dataFase.fase.label.toLowerCase()}`} />
+                                                <Label required labelFor="fecha_finalizacion_fase" value={`Fecha de finalización de la fase: ${formFase.data.fase.label.toLowerCase()}`} />
                                             </div>
                                             <div>
-                                                <DatePicker variant="outlined" id="fecha_finalizacion_fase" className="w-full" value={dataFase.fecha_finalizacion_fase} onChange={(e) => setDataFase('fecha_finalizacion_fase', e.target.value)} required />
+                                                <DatePicker variant="outlined" id="fecha_finalizacion_fase" className="w-full" value={formFase.data.fecha_finalizacion_fase} onChange={(e) => formFase.setData('fecha_finalizacion_fase', e.target.value)} required />
                                             </div>
                                         </>
                                     )}
@@ -96,46 +83,46 @@ const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, lineasProgramat
                                         <Label required labelFor="hora_finalizacion_fase" value="Hora límite" />
                                     </div>
                                     <div>
-                                        <input id="hora_finalizacion_fase" type="time" step="1" className="p-2 border rounded border-gray-300" value={dataFase.hora_finalizacion_fase} onChange={(e) => setDataFase('hora_finalizacion_fase', e.target.value)} required />
+                                        <input id="hora_finalizacion_fase" type="time" step="1" className="p-2 border rounded border-gray-300" value={formFase.data.hora_finalizacion_fase} onChange={(e) => formFase.setData('hora_finalizacion_fase', e.target.value)} required />
                                     </div>
                                 </div>
 
                                 <AlertMui className="mt-10" hiddenIcon={true}>
-                                    {dataFase.fase?.value === 1 && (
+                                    {formFase.data.fase?.value === 1 && (
                                         <>
                                             <strong>Tenga en cuenta</strong>
-                                            <p>La fase de {dataFase.fase.label.toLowerCase()} permitirá a los formuladores crear, modificar y eliminar proyectos.</p>
+                                            <p>La fase de {formFase.data.fase.label.toLowerCase()} permitirá a los formuladores crear, modificar y eliminar proyectos.</p>
                                         </>
                                     )}
-                                    {dataFase.fase?.value === 2 && (
+                                    {formFase.data.fase?.value === 2 && (
                                         <>
                                             <strong>Tenga en cuenta</strong>
-                                            <p>La fase de {dataFase.fase.label.toLowerCase()} bloqueará a los formuladores las acciones de crear, modificar y eliminar proyectos.</p>
+                                            <p>La fase de {formFase.data.fase.label.toLowerCase()} bloqueará a los formuladores las acciones de crear, modificar y eliminar proyectos.</p>
                                         </>
                                     )}
-                                    {dataFase.fase?.value === 3 && (
+                                    {formFase.data.fase?.value === 3 && (
                                         <>
                                             <strong>Tenga en cuenta</strong>
-                                            <p>La fase de {dataFase.fase.label.toLowerCase()} permitirá a los formuladores modificar aquellos proyectos que pueden ser subsanados y a los evaluadores se le bloqueará la acción de modificar las evaluaciones.</p>
+                                            <p>La fase de {formFase.data.fase.label.toLowerCase()} permitirá a los formuladores modificar aquellos proyectos que pueden ser subsanados y a los evaluadores se le bloqueará la acción de modificar las evaluaciones.</p>
                                         </>
                                     )}
-                                    {dataFase.fase?.value === 4 && (
+                                    {formFase.data.fase?.value === 4 && (
                                         <>
                                             <strong>Tenga en cuenta</strong>
-                                            <p>La fase de {dataFase.fase.label.toLowerCase()} bloqueará a los formuladores la acción de modificar aquellos proyectos que pasaron a etapa de subsanación y a los evaluadores se le habilitarán aquellas evaluaciones de proyectos subsanados.</p>
+                                            <p>La fase de {formFase.data.fase.label.toLowerCase()} bloqueará a los formuladores la acción de modificar aquellos proyectos que pasaron a etapa de subsanación y a los evaluadores se le habilitarán aquellas evaluaciones de proyectos subsanados.</p>
                                         </>
                                     )}
-                                    {dataFase.fase?.value === 5 && (
+                                    {formFase.data.fase?.value === 5 && (
                                         <>
                                             <strong>Tenga en cuenta</strong>
-                                            <p>La fase de {dataFase.fase.label.toLowerCase()} bloqueará a los formuladores la modificación de proyectos y a los evaluadores la modificación de las evaluaciones.</p>
+                                            <p>La fase de {formFase.data.fase.label.toLowerCase()} bloqueará a los formuladores la modificación de proyectos y a los evaluadores la modificación de las evaluaciones.</p>
                                         </>
                                     )}
                                 </AlertMui>
                             </fieldset>
                             <div className="flex items-center justify-between mt-14 px-8 py-4">
                                 {isSuperAdmin && (
-                                    <PrimaryButton className="ml-auto" type="submit" disabled={processingFase}>
+                                    <PrimaryButton className="ml-auto" type="submit" disabled={formFase.processing}>
                                         Guardar información sobre la fase
                                     </PrimaryButton>
                                 )}
@@ -143,23 +130,24 @@ const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, lineasProgramat
                         </form>
                     </Paper>
                 ) : null}
-            </div>
+            </Grid>
 
-            <div className="grid grid-cols-3 mt-10">
-                <div>
-                    <h1 className="font-black text-2xl">Información de la convocatoria</h1>
-                </div>
-                <Paper elevation={0} sx={{ padding: 2 }} className="col-span-2 drop-shadow-lg">
+            <Grid item md={4}>
+                <h1 className="font-black text-2xl">Información de la convocatoria</h1>
+            </Grid>
+
+            <Grid item md={8} className="drop-shadow-lg">
+                <Paper elevation={0} sx={{ padding: 2 }}>
                     <form onSubmit={submitInfo}>
                         <fieldset className="p-8" disabled={isSuperAdmin ? undefined : true}>
                             <div className="mt-8">
-                                <Textarea label="Descripción" id="descripcion" error={errors.descripcion} value={dataConvocatoria.descripcion} onChange={(e) => setDataConvocatoria('descripcion', e.target.value)} required />
+                                <Textarea label="Descripción" id="descripcion" error={errors.descripcion} value={formConvocatoria.data.descripcion} onChange={(e) => formConvocatoria.setData('descripcion', e.target.value)} required />
                             </div>
 
                             <div className="mt-10 mb-20">
                                 <Label required labelFor="esta_activa" value="¿Desea activar esta convocatoria? (Si la opción está habilitada permite a los usuarios formular proyectos. Tenga en cuenta que solo puede activar una convocatoria por tipo --Proyectos de convocatoria - Proyectos de ejecicio DEMO)" className="inline-block mb-4" />
                                 <br />
-                                <SwitchMui checked={dataConvocatoria.esta_activa} onChange={(e) => setDataConvocatoria('esta_activa', e.target.checked)} />
+                                <SwitchMui checked={formConvocatoria.data.esta_activa} onChange={(e) => formConvocatoria.setData('esta_activa', e.target.checked)} />
                             </div>
 
                             <div>
@@ -167,12 +155,12 @@ const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, lineasProgramat
                                     <Label required labelFor="lineas_programaticas_activas" className="mb-4" value="Seleccione las líneas programáticas las cuales quiere activar" />
                                     <SelectMultiple
                                         id="lineas_programaticas_activas"
-                                        bdValues={dataConvocatoria.lineas_programaticas_activas}
+                                        bdValues={formConvocatoria.data.lineas_programaticas_activas}
                                         options={lineasProgramaticas}
                                         error={errors.lineas_programaticas_activas}
                                         onChange={(event, newValue) => {
                                             const selectedValues = newValue.map((option) => option.value)
-                                            setDataConvocatoria((prevData) => ({
+                                            formConvocatoria.setData((prevData) => ({
                                                 ...prevData,
                                                 lineas_programaticas_activas: selectedValues,
                                             }))
@@ -185,27 +173,27 @@ const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, lineasProgramat
                             <div className="mt-10 mb-20">
                                 <Label required labelFor="visible" value="Defina la visibilidad de la convocatoria. (Si la opción está habilitada permite a los usuarios visualizar la convocatoria)" className="inline-block mb-4" />
                                 <br />
-                                <SwitchMui checked={dataConvocatoria.visible} onChange={(e) => setDataConvocatoria('visible', e.target.checked)} onMessage="Visible" offMessage="Oculta" />
+                                <SwitchMui checked={formConvocatoria.data.visible} onChange={(e) => formConvocatoria.setData('visible', e.target.checked)} onMessage="Visible" offMessage="Oculta" />
                             </div>
 
                             {(convocatoria.tipo_convocatoria == 1 || convocatoria.tipo_convocatoria == 3) && (
                                 <div className="mt-4 mb-20">
                                     <Label required labelFor="mostrar_recomendaciones" value="¿Desea que el formulador visualice las recomendaciones hechas por los evaluadores?" className="inline-block mb-4" />
                                     <br />
-                                    <SwitchMui checked={dataConvocatoria.mostrar_recomendaciones} onChange={(e) => setDataConvocatoria('mostrar_recomendaciones', e.target.checked)} />
+                                    <SwitchMui checked={formConvocatoria.data.mostrar_recomendaciones} onChange={(e) => formConvocatoria.setData('mostrar_recomendaciones', e.target.checked)} />
                                 </div>
                             )}
                         </fieldset>
                         <div className="flex items-center justify-between mt-14 px-8 py-4">
                             {isSuperAdmin && (
-                                <PrimaryButton className="ml-auto" type="submit" disabled={processingConvocatoria}>
+                                <PrimaryButton className="ml-auto" type="submit" disabled={formConvocatoria.processing}>
                                     Guardar información sobre la convocatoria
                                 </PrimaryButton>
                             )}
                         </div>
                     </form>
                 </Paper>
-            </div>
+            </Grid>
         </AuthenticatedLayout>
     )
 }

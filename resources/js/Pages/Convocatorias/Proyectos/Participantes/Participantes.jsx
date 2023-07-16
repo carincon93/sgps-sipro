@@ -70,8 +70,9 @@ const Participantes = ({ authUser, convocatoria, proyecto, rolesSennova, nuevoPa
                 {proyecto.participantes.map((participante, i) => (
                     <TableRow key={i}>
                         <TableCell>
+                            {participante.id == autorPrincipal?.id && <Chip className="!bg-green-100 !text-xs mb-2" size="small" label="Autor(a) principal" />}
+                            <br />
                             {participante.nombre}
-                            {participante.id == autorPrincipal?.id && <Chip className="ml-2" size="small" label="Autor(a) principal" />}
                             <br />
                             <Chip className="mt-2" label={participante.email} />
                         </TableCell>

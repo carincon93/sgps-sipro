@@ -137,7 +137,8 @@ select {
     opacity: 0.15;
 }
 
-#nprogress .bar, #nprogress .spinner {
+#nprogress .bar,
+#nprogress .spinner {
     z-index: 99999 !important;
 }
 
@@ -146,3 +147,17 @@ select {
     right: 170px !important;
 }
 
+.parent-actions:hover .child-actions {
+    opacity: 1;
+}
+
+form.form-arbol-objetivos:before {
+    content: '';
+    position: absolute;
+    width: 102.3%;
+    height: 102%;
+    background: rgb(234 234 234 / 66%);
+    left: -8px;
+    right: 0;
+    top: -10px;
+}

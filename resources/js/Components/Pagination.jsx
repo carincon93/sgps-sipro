@@ -3,7 +3,7 @@ import Pagination from '@mui/material/Pagination'
 import { useState } from 'react'
 import { router } from '@inertiajs/react'
 
-export default function PaginationControlled({ links = [], routeParams = '', ...props }) {
+export default function PaginationMui({ links = [], routeParams = '', ...props }) {
     const searchParams = new URLSearchParams(window.location.search)
 
     const [page, setPage] = useState(searchParams.get('page') ? Number(searchParams.get('page')) : 1)

@@ -78,7 +78,7 @@ const CreateConvocatoria = ({ auth, convocatorias, lineasProgramaticas, tiposCon
                                     <Label required className="mb-4" labelFor="tipo_convocatoria" value="Seleccione un tipo de convocatoria (Proyectos de convocatoria para habilitar la formulación de proyectos de todas las líneas - Proyectos demo I+D+i para permitir el ejercicio de formulación)" />
                                 </div>
                                 <div>
-                                    <Autocomplete id="tipo_convocatoria" items={tiposConvocatoria} value={data.tipo_convocatoria} onChange={(e) => setData('tipo_convocatoria', e.target.value)} error={errors.tipo_convocatoria} autoComplete={false} placeholder="Seleccione un tipo de convocatoria" required />
+                                    <Autocomplete id="tipo_convocatoria" items={tiposConvocatoria} value={data.tipo_convocatoria} onChange={(event, newValue) => setData('tipo_convocatoria', newValue.value)} error={errors.tipo_convocatoria} autoComplete={false} placeholder="Seleccione un tipo de convocatoria" required />
                                 </div>
                             </div>
 
@@ -94,7 +94,7 @@ const CreateConvocatoria = ({ auth, convocatorias, lineasProgramaticas, tiposCon
                                     <Label required className="mb-4" labelFor="convocatoria_id" value="Seleccione una convocatoria de la cual desee copiar los presupuestos y roles SENNOVA" />
                                 </div>
                                 <div>
-                                    <Autocomplete id="convocatoria_id" items={convocatorias} value={data.convocatoria_id} onChange={(e) => setData('convocatoria_id', e.target.value)} error={errors.convocatoria_id} autoComplete={false} placeholder="Seleccione una convocatoria" required />
+                                    <Autocomplete id="convocatoria_id" items={convocatorias} value={data.convocatoria_id} onChange={(event, newValue) => setData('convocatoria_id', newValue.value)} error={errors.convocatoria_id} autoComplete={false} placeholder="Seleccione una convocatoria" required />
                                 </div>
                             </div>
 

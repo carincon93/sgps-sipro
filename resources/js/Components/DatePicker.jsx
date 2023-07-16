@@ -3,8 +3,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker as DatePickerMui } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { useEffect, useRef, useState } from 'react'
+import { FormHelperText } from '@mui/material'
 
-const DatePicker = ({ id, name, size = 'small', label, value = null, onChange, required, disabled, ...props }) => {
+const DatePicker = ({ id, name, size = 'small', label = '', value = null, onChange, error = '', required, disabled, ...props }) => {
     const inputRef = useRef(null)
     const [newValue, setNewValue] = useState(null)
 
@@ -23,37 +24,43 @@ const DatePicker = ({ id, name, size = 'small', label, value = null, onChange, r
     }, [value])
 
     return (
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePickerMui
-                format="DD-MM-YYYY"
-                label={label}
-                slotProps={{
-                    textField: {
-                        id: id,
-                        name: name,
-                        size: size,
-                        inputRef: inputRef,
-                        required: required ? true : undefined,
-                    },
-                }}
-                value={newValue}
-                onChange={(newValue) => {
-                    const month = newValue?.$M
-                    const day = newValue?.$D
-                    const year = newValue?.$y
-
-                    onChange({
-                        target: {
+        <>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePickerMui
+                    format="YYYY-MM-DD"
+                    label={label}
+                    slotProps={{
+                        textField: {
+                            id: id,
                             name: name,
-                            value: `${month + 1 <= 9 ? '0' + (month + 1) : month + 1}-${day <= 9 ? '0' + day : day}-${year}`,
+                            size: size,
+                            inputRef: inputRef,
+                            required: required ? true : undefined,
                         },
-                    })
-                }}
-                disabled={disabled}
-                {...props}
-            />
-        </LocalizationProvider>
+                    }}
+                    value={newValue}
+                    onChange={(newValue) => {
+                        const month = newValue?.$M
+                        const day = newValue?.$D
+                        const year = newValue?.$y
 
+                        onChange({
+                            target: {
+                                name: name,
+                                value: `${year}-${month + 1 <= 9 ? '0' + (month + 1) : month + 1}-${day <= 9 ? '0' + day : day}`,
+                            },
+                        })
+                    }}
+                    disabled={disabled}
+                    {...props}
+                />
+            </LocalizationProvider>
+            {error && (
+                <FormHelperText id={`component-error-${id}`} className="!text-red-600">
+                    {error}
+                </FormHelperText>
+            )}
+        </>
     )
 }
 

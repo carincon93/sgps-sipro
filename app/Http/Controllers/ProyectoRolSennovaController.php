@@ -82,12 +82,12 @@ class ProyectoRolSennovaController extends Controller
             'proyecto'                  => $proyecto->only('id', 'diff_meses', 'modificable', 'max_meses_ejecucion', 'codigo_linea_programatica', 'mostrar_recomendaciones', 'allowed', 'fecha_inicio', 'fecha_finalizacion'),
             'lineaProgramatica'         => $proyecto->lineaProgramatica->only('id'),
             'convocatoriaRolesSennova'  => SelectHelper::convocatoriaRolesSennova($convocatoria->id, $proyecto->id, $proyecto->lineaProgramatica->id),
-            'actividades'               => Actividad::whereIn(
+            'actividades'               => Actividad::select('id as value', 'descripcion as label')->whereIn(
                 'objetivo_especifico_id',
                 $objetivosEspecificos->map(function ($objetivoEspecifico) {
                     return $objetivoEspecifico->id;
                 })
-            )->with('objetivoEspecifico')->get(),
+            )->orderBy('actividades.descripcion')->with('objetivoEspecifico')->get(),
             'lineasTecnologicas'        => $lineasTecnologicas ?? null
         ]);
     }

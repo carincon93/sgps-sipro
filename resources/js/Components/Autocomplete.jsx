@@ -1,10 +1,23 @@
-import TextField from '@mui/material/TextField'
 import AutocompleteMui from '@mui/material/Autocomplete'
+import TextField from '@mui/material/TextField'
 import { FormHelperText } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { makeStyles } from '@mui/styles'
+
+import ToolTipMui from './Tooltip'
+
+import React, { useEffect, useState } from 'react'
+
+const useStyles = makeStyles((theme) => ({
+    popper: {
+        '&.MuiAutocomplete-popper': {
+            whiteSpace: 'pre-line',
+        },
+    },
+}))
 
 export default function Autocomplete({ id = '', label = '', className = '', error = '', options = [], selectedValue, ...props }) {
     const [selectedOption, setSelectedOption] = useState(null)
+    const classes = useStyles()
 
     useEffect(() => {
         setSelectedOption(options.find((option) => option.value == selectedValue) || null)
@@ -15,6 +28,7 @@ export default function Autocomplete({ id = '', label = '', className = '', erro
             <AutocompleteMui
                 disablePortal
                 className={className}
+                classes={{ popper: classes.popper }}
                 id={id}
                 value={selectedOption}
                 options={options}
@@ -23,9 +37,15 @@ export default function Autocomplete({ id = '', label = '', className = '', erro
                 isOptionEqualToValue={(option, value) => option.value === value.value}
                 renderOption={(props, option) => {
                     return (
-                        <li {...props} key={option.value}>
-                            {option.label}
-                        </li>
+                        <React.Fragment key={option.value}>
+                            {option.tooltip ? (
+                                <ToolTipMui title={option.tooltip} className="!block">
+                                    <li {...props}>{option.label}</li>
+                                </ToolTipMui>
+                            ) : (
+                                <li {...props}>{option.label}</li>
+                            )}
+                        </React.Fragment>
                     )
                 }}
                 renderInput={(params) => <TextField {...params} label={label} />}

@@ -1,37 +1,12 @@
-<script>
-    import AuthenticatedLayout, { title } from '@/Layouts/Authenticated'
-    import { page } from '@inertiajs/inertia-svelte'
-    import { checkRole, checkPermission } from '@/Utils'
-    import { _ } from 'svelte-i18n'
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
+import ArbolObjetivosComponent from './ArbolObjetivosComponent'
 
-    import Stepper from '@/Components/Stepper'
-    import ArbolObjetivosComponent from './ArbolObjetivosComponent'
+const ArbolObjetivos = ({ auth, convocatoria, proyecto, efectosDirectos, causasDirectas, tiposImpacto, resultados, objetivosEspecificos }) => {
+    return (
+        <AuthenticatedLayout>
+            <ArbolObjetivosComponent auth={auth} convocatoria={convocatoria} proyecto={proyecto} efectosDirectos={efectosDirectos} causasDirectas={causasDirectas} tiposImpacto={tiposImpacto} resultados={resultados} objetivosEspecificos={objetivosEspecificos} />
+        </AuthenticatedLayout>
+    )
+}
 
-    export let errors
-    export let to_pdf
-    export let convocatoria
-    export let proyecto
-    export let efectosDirectos
-    export let causasDirectas
-    export let tiposImpacto
-    export let resultados
-    export let objetivosEspecificos
-
-    $: $title = 'Árbol de objetivos'
-
-    /**
-     * Validar si el usuario autenticado es SuperAdmin
-     */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
-</script>
-
-<AuthenticatedLayout>
-    <header className="pt-[8rem]" slot="header">
-        {#if !to_pdf}
-            <Stepper {convocatoria} {proyecto} />
-        {/if}
-    </header>
-
-    <ArbolObjetivosComponent {errors} {convocatoria} {proyecto} {efectosDirectos} {causasDirectas} {tiposImpacto} {resultados} {objetivosEspecificos} />
-</AuthenticatedLayout>
+export default ArbolObjetivos

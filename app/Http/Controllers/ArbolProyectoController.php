@@ -516,12 +516,7 @@ class ArbolProyectoController extends Controller
         $authUser = Auth::user();
 
         if ($proyecto->lineaProgramatica->codigo == 69 && $proyecto->tp->proyecto_base == false && (string)$authUser->can_by_user->search(24) === "" || $proyecto->lineaProgramatica->codigo == 70 && $proyecto->ta->proyecto_base == false && (string)$authUser->can_by_user->search(23) === "") {
-
             return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
-        }
-
-        if ($proyecto->lineaProgramatica->codigo == 23 && $proyecto->causasDirectas()->count() > 3 || $proyecto->lineaProgramatica->codigo == 66 && $proyecto->causasDirectas()->count() > 3  || $proyecto->lineaProgramatica->codigo == 82 && $proyecto->causasDirectas()->count() > 3) {
-            return back()->with('error', 'No se ha podido generar porque ha superado la cantidad máxima permitida de 4 ítems.');
         }
 
         $causaDirecta = $proyecto->causasDirectas()->create([

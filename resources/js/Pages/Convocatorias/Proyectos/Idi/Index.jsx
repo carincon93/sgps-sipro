@@ -78,23 +78,25 @@ const Index = ({ auth, convocatoria, idi, errors, allowedToCreate }) => {
                                 <AlertMui hiddenIcon={true}>
                                     {proyecto?.estado_evaluacion_idi?.estado}
                                     <div>Puntaje: {proyecto?.estado_evaluacion_idi?.puntaje}</div>
-                                    {isSuperAdmin || checkRole(authUser, [18]) ? (
-                                        <small>
-                                            Número de recomendaciones: {proyecto?.estado_evaluacion_idi?.numeroRecomendaciones}
-                                            <br />
-                                            Evaluaciones: {proyecto?.estado_evaluacion_idi?.evaluacionesHabilitadas} habilitada(s) / {proyecto?.estado_evaluacion_idi?.evaluacionesFinalizadas} finalizada(s)
-                                            <br />
-                                            {proyecto?.estado_evaluacion_idi?.alerta && (
-                                                <AlertMui severity="error" className="mt-4" hiddenIcon={true}>
-                                                    Importante: {proyecto?.estado_evaluacion_idi?.alerta}
-                                                </AlertMui>
-                                            )}
-                                        </small>
-                                    ) : null}
+                                    <small>
+                                        Número de recomendaciones: {proyecto?.estado_evaluacion_idi?.numeroRecomendaciones}
+                                        <br />
+                                        Evaluaciones: {proyecto?.estado_evaluacion_idi?.evaluacionesHabilitadas} habilitada(s) / {proyecto?.estado_evaluacion_idi?.evaluacionesFinalizadas} finalizada(s)
+                                    </small>
                                 </AlertMui>
                             ) : (
                                 <AlertMui hiddenIcon={true}>Aún no tiene permisos para ver el estado de evaluación de este proyecto.</AlertMui>
                             )}
+
+                            {isSuperAdmin || checkRole(authUser, [18]) ? (
+                                <>
+                                    {proyecto?.estado_evaluacion_idi?.alerta && (
+                                        <AlertMui severity="error" className="mt-4" hiddenIcon={true}>
+                                            Importante: {proyecto?.estado_evaluacion_idi?.alerta}
+                                        </AlertMui>
+                                    )}
+                                </>
+                            ) : null}
                         </TableCell>
 
                         <TableCell>

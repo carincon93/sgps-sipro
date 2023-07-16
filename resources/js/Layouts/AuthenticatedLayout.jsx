@@ -2,6 +2,7 @@ import MiniDrawer from '@/Components/Drawer'
 import SnackbarMui from '@/Components/Snackbar'
 
 import { usePage } from '@inertiajs/react'
+import { Grid } from '@mui/material'
 import { useEffect } from 'react'
 import { useState } from 'react'
 
@@ -22,7 +23,9 @@ export default function Authenticated({ header, children }) {
     return (
         <>
             <MiniDrawer user={auth.user}>
-                <div className="md:max-w-full 2xl:max-w-[1536px] px-6 mx-auto">{children}</div>
+                <Grid container={true} maxWidth="lg" spacing={2} justifyContent="center" alignItems="center" className="!m-auto py-4">
+                    {children}
+                </Grid>
             </MiniDrawer>
             {flash.success || flash.error || flash.warn ? <SnackbarMui pageStatus={true} severity={severity} message={flash.success || flash.error || flash.warn} /> : null}
         </>
