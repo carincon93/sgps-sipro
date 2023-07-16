@@ -147,6 +147,10 @@ select {
     right: 170px !important;
 }
 
+.MuiGrid-root.MuiGrid-item {
+    padding-right: 16px;
+}
+
 .parent-actions:hover .child-actions {
     opacity: 1;
 }

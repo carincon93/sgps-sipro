@@ -16,10 +16,24 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function Autocomplete({ id = '', label = '', className = '', error = '', options = [], selectedValue, ...props }) {
-    const [selectedOption, setSelectedOption] = useState(null)
     const classes = useStyles()
 
+    const [selectedOption, setSelectedOption] = useState(null)
+    const [optionsFiltered, setOptions] = useState([])
+
     useEffect(() => {
+        const tmpOptionsFiltered = options.map((option) => {
+            if (option.tooltip) {
+                const { value, label, tooltip } = option
+                return { value, label, tooltip }
+            } else {
+                const { value, label } = option
+                return { value, label }
+            }
+        })
+
+        setOptions(tmpOptionsFiltered)
+
         setSelectedOption(options.find((option) => option.value == selectedValue) || null)
     }, [selectedValue])
 
@@ -31,7 +45,7 @@ export default function Autocomplete({ id = '', label = '', className = '', erro
                 classes={{ popper: classes.popper }}
                 id={id}
                 value={selectedOption}
-                options={options}
+                options={optionsFiltered}
                 disableClearable={true}
                 getOptionLabel={(option) => option.label}
                 isOptionEqualToValue={(option, value) => option.value === value.value}

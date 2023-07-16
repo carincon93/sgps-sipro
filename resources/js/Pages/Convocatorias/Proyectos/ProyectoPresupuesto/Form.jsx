@@ -1,186 +1,192 @@
-<script>
-    import Label from '@/Components/Label'
-    import InputError from '@/Components/InputError'
-    import PrimaryButton from '@/Components/PrimaryButton'
-    import Textarea from '@/Components/Textarea'
-    import InfoMessage from '@/Components/InfoMessage'
-    import Select from '@/Components/Select'
-    import Input from '@/Components/Input'
+import AlertMui from '@/Components/Alert'
+import Autocomplete from '@/Components/Autocomplete'
+import ButtonMui from '@/Components/Button'
+import DatePicker from '@/Components/DatePicker'
+import Label from '@/Components/Label'
+import PrimaryButton from '@/Components/PrimaryButton'
+import TextInput from '@/Components/TextInput'
+import Textarea from '@/Components/Textarea'
+import { useForm } from '@inertiajs/react'
+import { Grid, Paper } from '@mui/material'
+import { useEffect, useState } from 'react'
 
-    export let errors
-    export let proyecto
-    export let convocatoria
-    export let proyectoPresupuesto
-    export let tiposLicencia
-    export let tiposSoftware
-    export let opcionesServiciosEdicion
-    export let form
-    export let submit
-    export let segundoGrupoPresupuestal
-    export let tercerGrupoPresupuestal
-    export let usosPresupuestales
-    export let conceptosViaticos
-    export let formMunicipio
-    export let method = ''
-
-    let arrayTecerGrupoPresupuestal = tercerGrupoPresupuestal.filter(function (obj) {
-        return obj.segundo_grupo_presupuestal_id == $form.segundo_grupo_presupuestal_id
+const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, rubroPresupuestal, tiposLicencia, tiposSoftware, opcionesServiciosEdicion, segundoGrupoPresupuestal, tercerGrupoPresupuestal, usosPresupuestales, conceptosViaticos }) => {
+    const form = useForm({
+        segundo_grupo_presupuestal_id: rubroPresupuestal?.convocatoria_presupuesto?.presupuesto_sennova?.segundo_grupo_presupuestal_id ?? null,
+        tercer_grupo_presupuestal_id: rubroPresupuestal?.convocatoria_presupuesto?.presupuesto_sennova?.tercer_grupo_presupuestal_id ?? null,
+        convocatoria_presupuesto_id: rubroPresupuestal?.convocatoria_presupuesto_id ?? null,
+        descripcion: rubroPresupuestal?.descripcion ?? '',
+        justificacion: rubroPresupuestal?.justificacion ?? '',
+        numero_items: rubroPresupuestal?.numero_items ?? '',
+        tipo_software: rubroPresupuestal?.software_info?.tipo_software ?? '',
+        tipo_licencia: rubroPresupuestal?.software_info?.tipo_licencia ?? '',
+        fecha_inicio: rubroPresupuestal?.software_info?.fecha_inicio ?? '',
+        fecha_finalizacion: rubroPresupuestal?.software_info?.fecha_finalizacion ?? '',
+        servicio_edicion_info: rubroPresupuestal?.servicio_edicion_info?.info ?? '',
+        valor_total: rubroPresupuestal?.valor_total ?? '',
+        concepto_viaticos: rubroPresupuestal?.concepto_viaticos ?? '',
     })
-    function selectSegundoGrupoPresupuestal(event) {
-        arrayUsosPresupuestales = []
-        arrayTecerGrupoPresupuestal = []
-        $form.tercer_grupo_presupuestal_id = null
-        $form.convocatoria_presupuesto_id = null
 
-        if (proyecto.linea_programatica.codigo == 69 || proyecto.linea_programatica.codigo == 70) {
-            if (event.detail?.codigo != '2041102' || event.detail?.codigo != '2041101' || event.detail?.codigo != '20411204110401') {
-                $form.concepto_viaticos = null
-                $formMunicipio.proyecto_rol_sennova_id = null
-                $formMunicipio.actividad_a_realizar = ''
-                $formMunicipio.distancia_municipio = null
-                $formMunicipio.frecuencia_semanal = null
-                $formMunicipio.numero_visitas = 0
-                $formMunicipio.municipios = null
-            }
+    const [arrayTecerGrupoPresupuestal, setArrayTecerGrupoPresupuestal] = useState([])
+    const [arrayUsosPresupuestales, setArrayUsosPresupuestales] = useState([])
+    const [requiereEstudioMercado, setRequiereEstudioMercado] = useState(true)
+    const [codigoUsoPresupuestal, setCodigoUsoPresupuestal] = useState('')
+    const [codigoSegundoGrupoPresupuestal, setCodigoSegundoGrupoPresupuestal] = useState('')
+    useEffect(() => {
+        setRequiereEstudioMercado(true)
+        setArrayTecerGrupoPresupuestal([])
+        setArrayUsosPresupuestales([])
+
+        setTimeout(() => {
+            const filteredTecerGrupoPresupuestal = tercerGrupoPresupuestal.filter((obj) => obj.segundo_grupo_presupuestal_id == form.data.segundo_grupo_presupuestal_id)
+            setArrayTecerGrupoPresupuestal(filteredTecerGrupoPresupuestal)
+            setCodigoSegundoGrupoPresupuestal(segundoGrupoPresupuestal.find((obj) => obj.value == form.data.segundo_grupo_presupuestal_id)?.codigo)
+        }, 500)
+    }, [form.data.segundo_grupo_presupuestal_id])
+
+    useEffect(() => {
+        setRequiereEstudioMercado(true)
+        setArrayUsosPresupuestales([])
+
+        setTimeout(() => {
+            const filteredUsosPresupuestales = usosPresupuestales.filter((obj) => obj.segundo_grupo_presupuestal_id == form.data.segundo_grupo_presupuestal_id && obj.tercer_grupo_presupuestal_id == form.data.tercer_grupo_presupuestal_id)
+            setArrayUsosPresupuestales(filteredUsosPresupuestales)
+        }, 500)
+    }, [form.data.tercer_grupo_presupuestal_id])
+
+    useEffect(() => {
+        setCodigoUsoPresupuestal(arrayUsosPresupuestales.find((obj) => obj.value == form.data.convocatoria_presupuesto_id)?.codigo_uso_presupuestal)
+        setRequiereEstudioMercado(arrayUsosPresupuestales.find((item) => item.value == form.data.convocatoria_presupuesto_id)?.requiere_estudio_mercado)
+    }, [form.data.convocatoria_presupuesto_id])
+
+    const submit = (e) => {
+        e.preventDefault()
+        if (proyecto.allowed.to_update) {
+            method == 'crear'
+                ? form.post(route('convocatorias.proyectos.presupuesto.store', [convocatoria.id, proyecto.id]), {
+                      onSuccess: () => setDialogStatus(false),
+                      preserveScroll: true,
+                  })
+                : form.put(route('convocatorias.proyectos.presupuesto.update', [convocatoria.id, proyecto.id, rubroPresupuestal.id]), {
+                      onSuccess: () => setDialogStatus(false),
+                      preserveScroll: true,
+                  })
         }
-
-        arrayTecerGrupoPresupuestal = tercerGrupoPresupuestal.filter(function (obj) {
-            return obj.segundo_grupo_presupuestal_id == event.detail?.value
-        })
     }
 
-    let arrayUsosPresupuestales = usosPresupuestales.filter(function (obj) {
-        return obj.tercer_grupo_presupuestal_id == $form.tercer_grupo_presupuestal_id
-    })
-    function selectTercerGrupoPresupuestal(event) {
-        arrayUsosPresupuestales = usosPresupuestales.filter(function (obj) {
-            return obj.segundo_grupo_presupuestal_id == $form.segundo_grupo_presupuestal_id?.value && obj.tercer_grupo_presupuestal_id == event.detail?.value
-        })
-    }
+    return (
+        <Grid container spacing={2}>
+            <Grid item md={4}>
+                <h1 className="font-black text-right text-2xl mr-10">Rol SENNOVA</h1>
+            </Grid>
 
-    let mensaje = ''
-    let requiereEstudioMercado = arrayUsosPresupuestales.filter(function (obj) {
-        return obj.requiere_estudio_mercado == true && obj.value == $form.convocatoria_presupuesto_id ? true : null
-    })
-    function selectUsoPresupuestal(event) {
-        mensaje = event.detail?.mensaje
-        requiereEstudioMercado = event.detail?.requiere_estudio_mercado
-        $form.codigo_uso_presupuestal = event.detail?.codigo_uso_presupuestal
-    }
-</script>
+            <Grid item md={8}>
+                <Paper className="p-8">
+                    <form onSubmit={submit} id="form-proyecto-presupuesto">
+                        <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+                            <div className={`${arrayTecerGrupoPresupuestal.length == 0 ? 'mb-[13.8rem]' : 'mb-0'}`}>
+                                <Label required labelFor="segundo_grupo_presupuestal_id" value="Rubro concepto interno SENA" />
+                                <Autocomplete id="segundo_grupo_presupuestal_id" options={segundoGrupoPresupuestal} selectedValue={form.data.segundo_grupo_presupuestal_id} onChange={(e, newValue) => form.setData('segundo_grupo_presupuestal_id', newValue.value)} error={form.errors.segundo_grupo_presupuestal_id} placeholder="Seleccione una opción" required />
+                            </div>
 
-<form on:submit|preventDefault={submit} id="form-proyecto-presupuesto" className="bg-white rounded shadow">
-    <fieldset className="p-8" disabled={proyecto.allowed.to_update ? undefined : true}>
-        <fieldset disabled={method == 'PUT' ? true : undefined}>
-            <div className="mt-8">
-                <Label required labelFor="segundo_grupo_presupuestal_id" value="Rubro concepto interno SENA" />
-                <Select id="segundo_grupo_presupuestal_id" items={segundoGrupoPresupuestal} bind:selectedValue={$form.segundo_grupo_presupuestal_id} selectFunctions={[(event) => selectSegundoGrupoPresupuestal(event)]} error={errors.segundo_grupo_presupuestal_id} autocomplete="off" placeholder="Seleccione una opción" required />
-            </div>
-        </fieldset>
+                            {arrayTecerGrupoPresupuestal.length > 0 && (
+                                <div className={`mt-8 ${arrayUsosPresupuestales.length == 0 ? 'mb-[7rem]' : 'mb-0'}`}>
+                                    <Label required labelFor="tercer_grupo_presupuestal_id" value="Rubro concepto ministerio de hacienda" />
+                                    <Autocomplete id="tercer_grupo_presupuestal_id" options={arrayTecerGrupoPresupuestal} selectedValue={form.data.tercer_grupo_presupuestal_id} onChange={(e, newValue) => form.setData('tercer_grupo_presupuestal_id', newValue.value)} error={form.errors.tercer_grupo_presupuestal_id} placeholder="Seleccione una opción" required />
+                                </div>
+                            )}
 
-        {#if $form.segundo_grupo_presupuestal_id}
-            <div className="mt-8">
-                <Label required labelFor="tercer_grupo_presupuestal_id" value="Rubro concepto ministerio de hacienda" />
-                <Select id="tercer_grupo_presupuestal_id" items={arrayTecerGrupoPresupuestal} bind:selectedValue={$form.tercer_grupo_presupuestal_id} selectFunctions={[(event) => selectTercerGrupoPresupuestal(event)]} error={errors.tercer_grupo_presupuestal_id} autocomplete="off" placeholder="Seleccione una opción" required />
-            </div>
-        {/if}
+                            {arrayUsosPresupuestales.length > 0 && (
+                                <div className="mt-8">
+                                    <Label required labelFor="convocatoria_presupuesto_id" value="Uso presupuestal" />
+                                    <Autocomplete id="convocatoria_presupuesto_id" options={arrayUsosPresupuestales} selectedValue={form.data.convocatoria_presupuesto_id} onChange={(e, newValue) => form.setData('convocatoria_presupuesto_id', newValue.value)} error={form.errors.convocatoria_presupuesto_id} placeholder="Seleccione una opción" required />
+                                </div>
+                            )}
 
-        {#if $form.segundo_grupo_presupuestal_id && $form.tercer_grupo_presupuestal_id}
-            <div className="mt-8">
-                <Label required labelFor="convocatoria_presupuesto_id" value="Uso presupuestal" />
-                <Select id="convocatoria_presupuesto_id" items={arrayUsosPresupuestales} bind:selectedValue={$form.convocatoria_presupuesto_id} selectFunctions={[(event) => selectUsoPresupuestal(event)]} error={errors.convocatoria_presupuesto_id} autocomplete="off" placeholder="Seleccione una opción" required />
-            </div>
+                            {!requiereEstudioMercado && (
+                                <>
+                                    <AlertMui hiddenIcon={true}>
+                                        <strong>Importante:</strong> El uso presupuestal seleccionado no requiere de estudio de mercado.
+                                    </AlertMui>
 
-            {#if mensaje}
-                <InfoMessage message={mensaje} />
-            {/if}
-        {/if}
+                                    <div className="mt-10">
+                                        <TextInput label="Valor total" id="valor_total" type="number" inputProps={{ min: 0 }} className="mt-1" value={form.data.valor_total} onChange={(e) => form.setData('valor_total', e.target.value)} error={form.errors.valor_total} required />
+                                    </div>
+                                </>
+                            )}
 
-        {#if requiereEstudioMercado == false && $form.convocatoria_presupuesto_id}
-            <InfoMessage message="<strong>Importante:</strong> El uso presupuestal seleccionado no requiere de estudio de mercado." />
+                            <div className="mt-8">
+                                <Textarea label="Describa los bienes o servicios a adquirir. Sea específico" id="descripcion" error={form.errors.descripcion} value={form.data.descripcion} onChange={(e) => form.setData('descripcion', e.target.value)} required />
+                            </div>
 
-            <div className="mt-10">
-                <Input label="Valor total" id="valor_total" type="number" input$min="0" className="mt-1" bind:value={$form.valor_total} error={errors.valor_total} required />
-            </div>
-        {/if}
+                            <div className="mt-8">
+                                <Textarea label="Justificación de la necesidad: ¿por qué se requiere este producto o servicio?" id="justificacion" error={form.errors.justificacion} value={form.data.justificacion} onChange={(e) => form.setData('justificacion', e.target.value)} required />
+                            </div>
 
-        <hr className="mt-10 mb-10" />
+                            {codigoUsoPresupuestal == '2010100600203101' && (
+                                <>
+                                    <div className="mt-8">
+                                        <Autocomplete id="tipo_licencia" options={tiposLicencia} label="Tipo de licencia" selectedValue={form.data.tipo_licencia} onChange={(e, newValue) => form.setData('tipo_licencia', newValue.value)} error={form.errors.tipo_licencia} placeholder="Seleccione una opción" required />
+                                    </div>
 
-        <div className="mt-8">
-            <Textarea label="Describa los bienes o servicios a adquirir. Sea específico" maxlength="40000" id="descripcion" error={errors.descripcion} bind:value={$form.descripcion} required />
-        </div>
+                                    <div className="mt-8">
+                                        <Autocomplete id="tipo_software" options={tiposSoftware} label="Tipo de software" selectedValue={form.data.tipo_software} onChange={(e, newValue) => form.setData('tipo_software', newValue.value)} error={form.errors.tipo_software} placeholder="Seleccione una opción" required />
+                                    </div>
 
-        <div className="mt-8">
-            <Textarea label="Justificación de la necesidad: ¿por qué se requiere este producto o servicio?" maxlength="40000" id="justificacion" error={errors.justificacion} bind:value={$form.justificacion} required />
-        </div>
+                                    <div className="mt-8">
+                                        <h1 className="font-black">Periodo de uso</h1>
+                                        <div className="mt-8 flex justify-between">
+                                            <Label required className="mb-4" labelFor="fecha_inicio" value="Fecha de inicio" />
+                                            <DatePicker label="Fecha de inicio" id="fecha_inicio" type="date" className="mt-1 p-4" value={form.data.fecha_inicio} onChange={(e) => form.setData('fecha_inicio', e.target.value)} required />
+                                        </div>
+                                        <div className="mt-8 flex justify-between">
+                                            <Label className="mb-4" labelFor="fecha_finalizacion" value="Fecha de finalización (Cuando aplique)" />
+                                            <DatePicker label="Fecha de finalización" id="fecha_finalizacion" type="date" className="mt-1 p-4" value={form.data.fecha_finalizacion} onChange={(e) => form.setData('fecha_finalizacion', e.target.value)} />
+                                        </div>
+                                    </div>
+                                </>
+                            )}
 
-        {#if $form.codigo_uso_presupuestal == '2010100600203101'}
-            <div className="mt-8">
-                <Label required className="mb-4" labelFor="tipo_licencia" value="Tipo de licencia" />
-                <select id="tipo_licencia" className="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:border-app-200 focus:ring-app-200 p-4" bind:value={$form.tipo_licencia} required>
-                    <option value="">Seleccione el tipo de licencia </option>
-                    {#each tiposLicencia as { value, label }}
-                        <option {value}>{label}</option>
-                    {/each}
-                </select>
-            </div>
+                            {codigoUsoPresupuestal == '2020200800901' && (
+                                <div className="mt-8">
+                                    <Label required className="mb-4" labelFor="servicio_edicion_info" value="Nodo editorial" />
+                                    <Autocomplete id="servicio_edicion_info" options={opcionesServiciosEdicion} selectedValue={form.data.servicio_edicion_info} error={form.errors.servicio_edicion_info} onChange={(e, newValue) => form.setData('servicio_edicion_info', newValue.value)} placeholder="Seleccione una opción" required />
+                                </div>
+                            )}
 
-            <div className="mt-8">
-                <Label required className="mb-4" labelFor="tipo_software" value="Tipo de software" />
-                <select id="tipo_software" className="w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50 focus:border-app-200 focus:ring-app-200 p-4" bind:value={$form.tipo_software} required>
-                    <option value="">Seleccione el tipo de software </option>
-                    {#each tiposSoftware as { value, label }}
-                        <option {value}>{label}</option>
-                    {/each}
-                </select>
-            </div>
+                            {proyecto.codigo_linea_programatica == 69 && (
+                                <>
+                                    {(codigoSegundoGrupoPresupuestal == '2041102' || codigoSegundoGrupoPresupuestal == '2041101' || codigoSegundoGrupoPresupuestal == '2041104') && (
+                                        <div className="mt-8">
+                                            <Label required labelFor="concepto_viaticos" value="Concepto" />
+                                            <Autocomplete id="concepto_viaticos" options={conceptosViaticos} selectedValue={form.data.concepto_viaticos} error={form.errors.concepto_viaticos} onChange={(e, newValue) => form.setData('concepto_viaticos', newValue.value)} placeholder="Seleccione una opción" required />
+                                        </div>
+                                    )}
+                                </>
+                            )}
+                        </fieldset>
 
-            <div className="mt-8">
-                <p>Periodo de uso</p>
-                <div className="mt-8">
-                    <Label required className="mb-4" labelFor="fecha_inicio" value="Fecha de inicio" />
-                    <input label="Fecha de inicio" id="fecha_inicio" type="date" className="mt-1 p-4" bind:value={$form.fecha_inicio} required />
-                </div>
-                <div className="mt-8">
-                    <Label required className="mb-4" labelFor="fecha_finalizacion" value="Fecha de finalización (Cuando aplique)" />
-                    <input label="Fecha de finalización" id="fecha_finalizacion" type="date" className="mt-1 p-4" bind:value={$form.fecha_finalizacion} />
-                </div>
-            </div>
-            {#if errors.fecha_inicio || errors.fecha_finalizacion}
-                <InputError message={errors.fecha_inicio || errors.fecha_finalizacion} />
-            {/if}
-        {:else if ($form.codigo_uso_presupuestal == '2020200800901' && convocatoria.campos_convocatoria.find((element) => element.campo == 'nodo_editorial').convocatoriaId == convocatoria.id) || ($form.servicio_edicion_info && convocatoria.campos_convocatoria.find((element) => element.campo == 'nodo_editorial').convocatoriaId == convocatoria.id)}
-            <div className="mt-8">
-                <Label required className="mb-4" labelFor="servicio_edicion_info" value="Nodo editorial" />
-                <Select id="servicio_edicion_info" items={opcionesServiciosEdicion} bind:selectedValue={$form.servicio_edicion_info} error={errors.servicio_edicion_info} autocomplete="off" placeholder="Seleccione una opción" required />
-            </div>
-        {/if}
+                        {rubroPresupuestal && <small className="flex items-center mt-14 text-app-700">{rubroPresupuestal.updated_at}</small>}
 
-        {#if proyecto.linea_programatica.codigo == 69}
-            {#if $form.segundo_grupo_presupuestal_id?.codigo == '2041102' || $form.segundo_grupo_presupuestal_id?.codigo == '2041101' || $form.segundo_grupo_presupuestal_id?.codigo == '2041104'}
-                <div className="mt-8">
-                    <Label required labelFor="concepto_viaticos" value="Concepto" />
-                    <Select id="concepto_viaticos" items={conceptosViaticos} bind:selectedValue={$form.concepto_viaticos} error={errors.concepto_viaticos} autocomplete="off" placeholder="Seleccione una opción" required />
-                </div>
-            {/if}
-        {/if}
+                        <div className="flex items-center justify-between mt-14 py-4">
+                            {proyecto.allowed.to_update ? (
+                                <>
+                                    <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
+                                        {method == 'crear' ? 'Añadir' : 'Modificar'} rubro presupuestal
+                                    </PrimaryButton>
+                                    <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
+                                        Cancelar
+                                    </ButtonMui>
+                                </>
+                            ) : (
+                                <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
+                            )}
+                        </div>
+                    </form>
+                </Paper>
+            </Grid>
+        </Grid>
+    )
+}
 
-        <slot name="viaticos" />
-    </fieldset>
-
-    <div className="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
-        {#if proyectoPresupuesto}
-            <small className="flex items-center text-app-700">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                {proyectoPresupuesto.updated_at}
-            </small>
-        {/if}
-        {#if proyecto.allowed.to_update}
-            <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
-        {:else}
-            <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
-        {/if}
-    </div>
-</form>
+export default Form

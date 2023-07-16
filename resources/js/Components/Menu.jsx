@@ -30,7 +30,7 @@ export default function MenuMui({ children, ...props }) {
 
     return (
         <>
-            <ButtonMui id="basic-button" aria-controls={open ? 'basic-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined} onClick={handleClick} backgroundColor="transparent" backgroundColorHover="#37415129" colorHover="#374151" {...props}>
+            <ButtonMui id="basic-button" aria-controls={open ? 'basic-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined} onClick={handleClick} primary={false} {...props}>
                 {props.text}
             </ButtonMui>
             <Menu

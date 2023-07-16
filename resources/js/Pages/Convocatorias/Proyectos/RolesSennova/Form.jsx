@@ -177,7 +177,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyectoRo
                                     <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
                                         {method == 'crear' ? 'Añadir' : 'Modificar'} rol SENNOVA
                                     </PrimaryButton>
-                                    <ButtonMui type="button" backgroundColorHover="transparent" colorHover="#374151" onClick={() => setDialogStatus(false)}>
+                                    <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
                                         Cancelar
                                     </ButtonMui>
                                 </>

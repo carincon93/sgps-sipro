@@ -1,28 +1,30 @@
-import Button from '@mui/material/Button';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Button from '@mui/material/Button'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 
-export default function ButtonMui({children, backgroundColor = 'white', backgroundColorHover = '#374151', color = '#374151', colorHover = 'white', variant = 'contained', ...props}) {
+export default function ButtonMui({ children, primary = true, variant = 'contained', ...props }) {
     const theme = createTheme({
         components: {
             MuiButton: {
                 styleOverrides: {
                     root: {
                         boxShadow: 'none',
-                        backgroundColor: backgroundColor,
-                        color: color,
+                        backgroundColor: primary ? '#374151' : 'white',
+                        color: primary ? 'white' : '#374151',
                         '&:hover': {
                             boxShadow: 'none',
-                            color: colorHover,
-                            backgroundColor: backgroundColorHover,
+                            color: primary ? '#374151' : 'white',
+                            backgroundColor: primary ? 'white' : '#374151',
                         },
                     },
                 },
             },
         },
-    });
-  return (
-    <ThemeProvider theme={theme}>
-        <Button variant={variant} {...props}>{children}</Button>
-    </ThemeProvider>
-  );
+    })
+    return (
+        <ThemeProvider theme={theme}>
+            <Button variant={variant} {...props}>
+                {children}
+            </Button>
+        </ThemeProvider>
+    )
 }

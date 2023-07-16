@@ -9,8 +9,13 @@ export default function SelectMultiple({ id = '', label = '', className = '', er
 
     useEffect(() => {
         const tmpOptionsFiltered = options.map((option) => {
-            const { value, label, group, tooltip } = option
-            return { value, label, group, tooltip }
+            if (option.tooltip != undefined) {
+                const { value, label, group, tooltip } = option
+                return { value, label, group, tooltip }
+            } else {
+                const { value, label, group } = option
+                return { value, label, group }
+            }
         })
 
         setOptions(tmpOptionsFiltered)

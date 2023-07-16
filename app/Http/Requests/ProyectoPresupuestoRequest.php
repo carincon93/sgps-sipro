@@ -37,16 +37,6 @@ class ProyectoPresupuestoRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->convocatoria_presupuesto_id)) {
-            $this->merge([
-                'convocatoria_presupuesto_id' => $this->convocatoria_presupuesto_id['value'],
-            ]);
-        }
-
-        if (is_array($this->concepto_viaticos)) {
-            $this->merge([
-                'concepto_viaticos' => $this->concepto_viaticos['value'],
-            ]);
-        }
+        //
     }
 }

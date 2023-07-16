@@ -34,19 +34,40 @@ class ProyectoPresupuestoController extends Controller
 
         $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
 
-        $salarioMinimo = json_decode(Storage::get('json/salario-minimo.json'), true);
-        $proyecto->salarios_minimos = ($salarioMinimo['value'] * 100);
-
-        if ($proyecto->culturaInnovacion()->exists()) {
-            $proyecto->tipo_proyecto = $proyecto->culturaInnovacion->tipo_proyecto;
-        }
-
         return Inertia::render('Convocatorias/Proyectos/ProyectoPresupuesto/Index', [
-            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
-            'proyecto'                  => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'codigo', 'diff_meses', 'total_proyecto_presupuesto', 'total_maquinaria_industrial', 'total_servicios_especiales_construccion', 'total_viaticos', 'total_mantenimiento_maquinaria', 'salarios_minimos', 'en_subsanacion', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
-            'filters'                   => request()->all('search', 'presupuestos'),
-            'proyectoPresupuesto'       => ProyectoPresupuesto::select('proyecto_presupuesto.id', 'proyecto_presupuesto.descripcion', 'proyecto_presupuesto.convocatoria_presupuesto_id', 'proyecto_presupuesto.proyecto_id', 'proyecto_presupuesto.valor_total')->where('proyecto_id', $proyecto->id)->filterProyectoPresupuesto(request()->only('search', 'presupuestos'))->with('convocatoriaPresupuesto.presupuestoSennova.tercerGrupoPresupuestal:id,nombre', 'convocatoriaPresupuesto.presupuestoSennova.segundoGrupoPresupuestal:id,nombre,codigo', 'convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal:id,descripcion')->orderBy('proyecto_presupuesto.id')->paginate()->appends(['search' => request()->search, 'presupuestos' => request()->presupuestos]),
-            'segundoGrupoPresupuestal'  => SegundoGrupoPresupuestal::orderBy('nombre', 'ASC')->get('nombre'),
+            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'campos_convocatoria'),
+            'proyecto'                  => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'codigo', 'diff_meses', 'total_proyecto_presupuesto', 'total_maquinaria_industrial', 'total_servicios_especiales_construccion', 'total_viaticos', 'total_mantenimiento_maquinaria', 'en_subsanacion', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed'),
+            'rubrosPresupuestales'      => ProyectoPresupuesto::select('proyecto_presupuesto.*')->where('proyecto_presupuesto.proyecto_id', $proyecto->id)
+                                            ->filterProyectoPresupuesto(request()->only('search', 'presupuestos'))
+                                            ->with('convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal', 'proyectoPresupuestosEvaluaciones.evaluacion', 'softwareInfo', 'servicioEdicionInfo', 'taTpViaticosMunicipios', 'convocatoriaPresupuesto.presupuestoSennova.tercerGrupoPresupuestal:id,nombre', 'convocatoriaPresupuesto.presupuestoSennova.segundoGrupoPresupuestal:id,nombre,codigo', 'convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal:id,descripcion')
+                                            ->orderBy('proyecto_presupuesto.id')
+                                            ->paginate()
+                                            ->appends(['search' => request()->search, 'presupuestos' => request()->presupuestos]),
+            'segundoGrupoPresupuestal'  => SelectHelper::segundoGrupoPresupuestal($convocatoria->id, $proyecto->lineaProgramatica->id),
+            'tercerGrupoPresupuestal'   => SelectHelper::tercerGrupoPresupuestal($convocatoria->id, $proyecto->lineaProgramatica->id),
+            'usosPresupuestales'        => SelectHelper::usosPresupuestales($convocatoria->id, $proyecto->lineaProgramatica->id),
+            'municipios'                => SelectHelper::municipios(),
+            'tiposLicencia'             => json_decode(Storage::get('json/tipos-licencia-software.json'), true),
+            'opcionesServiciosEdicion'  => json_decode(Storage::get('json/opciones-servicios-edicion.json'), true),
+            'tiposSoftware'             => json_decode(Storage::get('json/tipos-software.json'), true),
+            'conceptosViaticos'         => json_decode(Storage::get('json/conceptos-viaticos.json'), true),
+            'distanciasMunicipios'      => json_decode(Storage::get('json/distancia-municipios.json'), true),
+            'frecuenciasSemanales'      => json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true),
+            'proyectoRolesSennova'      => $proyecto->proyectoRolesSennova()->selectRaw("proyecto_rol_sennova.id as value, convocatoria_rol_sennova.perfil, convocatoria_rol_sennova.mensaje,
+                                            CASE nivel_academico
+                                                WHEN '7' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Ninguno', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
+                                                WHEN '1' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Técnico', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
+                                                WHEN '2' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Tecnólogo', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
+                                                WHEN '3' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Pregrado', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
+                                                WHEN '4' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Especalización', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
+                                                WHEN '5' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Maestría', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
+                                                WHEN '6' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Doctorado', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
+                                                WHEN '8' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Técnico con especialización', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
+                                                WHEN '9' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Tecnólogo con especialización', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
+                                            END as label")
+                                            ->join('convocatoria_rol_sennova', 'proyecto_rol_sennova.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')
+                                            ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
+                                            ->get()
         ]);
     }
 
@@ -59,40 +80,7 @@ class ProyectoPresupuestoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->lineaProgramatica;
-
-        $proyectoRolesSennova = $proyecto->proyectoRolesSennova()->selectRaw("proyecto_rol_sennova.id as value, convocatoria_rol_sennova.perfil, convocatoria_rol_sennova.mensaje,
-            CASE nivel_academico
-                WHEN '7' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Ninguno', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                WHEN '1' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Técnico', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                WHEN '2' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Tecnólogo', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                WHEN '3' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Pregrado', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                WHEN '4' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Especalización', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                WHEN '5' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Maestría', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                WHEN '6' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Doctorado', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                WHEN '8' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Técnico con especialización', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                WHEN '9' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Tecnólogo con especialización', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-            END as label")
-            ->join('convocatoria_rol_sennova', 'proyecto_rol_sennova.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')
-            ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
-            ->get();
-
-        return Inertia::render('Convocatorias/Proyectos/ProyectoPresupuesto/Create', [
-            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'campos_convocatoria'),
-            'proyecto'                  => $proyecto,
-            'segundoGrupoPresupuestal'  => SelectHelper::segundoGrupoPresupuestal($convocatoria->id, $proyecto->lineaProgramatica->id),
-            'tercerGrupoPresupuestal'   => SelectHelper::tercerGrupoPresupuestal($convocatoria->id, $proyecto->lineaProgramatica->id),
-            'usosPresupuestales'        => SelectHelper::usosPresupuestales($convocatoria->id, $proyecto->lineaProgramatica->id),
-            'municipios'                => SelectHelper::municipios(),
-            'tiposLicencia'             => json_decode(Storage::get('json/tipos-licencia-software.json'), true),
-            'opcionesServiciosEdicion'  => json_decode(Storage::get('json/opciones-servicios-edicion.json'), true),
-            'tiposSoftware'             => json_decode(Storage::get('json/tipos-software.json'), true),
-            'distanciasMunicipios'      => json_decode(Storage::get('json/distancia-municipios.json'), true),
-            'frecuenciasSemanales'      => json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true),
-            'conceptosViaticos'         => json_decode(Storage::get('json/conceptos-viaticos.json'), true),
-            'proyectoRolesSennova'      => $proyectoRolesSennova ?? null
-
-        ]);
+        //
     }
 
     /**
@@ -105,17 +93,8 @@ class ProyectoPresupuestoController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $convocatoriaPresupuesto = ConvocatoriaPresupuesto::find($request->convocatoria_presupuesto_id);
-
-        $presupuesto = new ProyectoPresupuesto();
-        $presupuesto->descripcion               = $request->descripcion;
-        $presupuesto->justificacion             = $request->justificacion;
-        $presupuesto->valor_total               = $request->valor_total;
-        $presupuesto->concepto_viaticos         = $request->concepto_viaticos;
-
-        $presupuesto->proyecto()->associate($proyecto);
-        $presupuesto->convocatoriaPresupuesto()->associate($convocatoriaPresupuesto);
-        $presupuesto->save();
+        $request->merge(['proyecto_id' => $proyecto->id]);
+        $presupuesto = ProyectoPresupuesto::create($request->all());
 
         if ($request->codigo_uso_presupuestal == '2010100600203101') {
             $request->validate([
@@ -134,14 +113,13 @@ class ProyectoPresupuestoController extends Controller
 
             $presupuesto->softwareInfo()->save($softwareInfo);
         } else if ($request->codigo_uso_presupuestal == '2020200800901') {
-            $request->servicio_edicion_info = $request->servicio_edicion_info['value'];
             $servicioEdicionInfo = new ServicioEdicionInfo();
             $servicioEdicionInfo->info = $request->servicio_edicion_info;
 
             $presupuesto->servicioEdicionInfo()->save($servicioEdicionInfo);
         }
 
-        return redirect()->route('convocatorias.proyectos.presupuesto.soportes.index', [$convocatoria, $proyecto, $presupuesto])->with('success', 'El recurso se ha creado correctamente.');
+        return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
     /**
@@ -165,47 +143,7 @@ class ProyectoPresupuestoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $presupuesto->load('proyectoPresupuestosEvaluaciones.evaluacion');
-
-        $presupuesto->softwareInfo;
-        $presupuesto->servicioEdicionInfo;
-        $presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal;
-        $proyecto->lineaProgramatica;
-        $presupuesto->taTpViaticosPresupuesto;
-
-        $proyectoRolesSennova = $proyecto->proyectoRolesSennova()->selectRaw("proyecto_rol_sennova.id as value, convocatoria_rol_sennova.perfil, convocatoria_rol_sennova.mensaje,
-            CASE nivel_academico
-                WHEN '7' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Ninguno', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                WHEN '1' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Técnico', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                WHEN '2' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Tecnólogo', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                WHEN '3' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Pregrado', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                WHEN '4' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Especalización', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                WHEN '5' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Maestría', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                WHEN '6' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Doctorado', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                WHEN '8' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Técnico con especialización', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                WHEN '9' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Tecnólogo con especialización', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-            END as label")
-            ->join('convocatoria_rol_sennova', 'proyecto_rol_sennova.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')
-            ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
-            ->get();
-
-        return Inertia::render('Convocatorias/Proyectos/ProyectoPresupuesto/Edit', [
-            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'campos_convocatoria'),
-            'proyecto'                  => $proyecto,
-            'proyectoPresupuesto'       => $presupuesto,
-            'segundoGrupoPresupuestal'  => SelectHelper::segundoGrupoPresupuestal($convocatoria->id, $proyecto->lineaProgramatica->id),
-            'tercerGrupoPresupuestal'   => SelectHelper::tercerGrupoPresupuestal($convocatoria->id, $proyecto->lineaProgramatica->id),
-            'usosPresupuestales'        => SelectHelper::usosPresupuestales($convocatoria->id, $proyecto->lineaProgramatica->id),
-            'municipios'                => SelectHelper::municipios(),
-            'tiposLicencia'             => json_decode(Storage::get('json/tipos-licencia-software.json'), true),
-            'opcionesServiciosEdicion'  => json_decode(Storage::get('json/opciones-servicios-edicion.json'), true),
-            'tiposSoftware'             => json_decode(Storage::get('json/tipos-software.json'), true),
-            'conceptosViaticos'         => json_decode(Storage::get('json/conceptos-viaticos.json'), true),
-            'distanciasMunicipios'      => json_decode(Storage::get('json/distancia-municipios.json'), true),
-            'frecuenciasSemanales'      => json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true),
-            'proyectoRolesSennova'      => $proyectoRolesSennova ?? null,
-            'taTpViaticosMunicipios'    => $presupuesto->taTpViaticosMunicipios()->exists() ? $presupuesto->taTpViaticosMunicipios()->with('municipio')->get() : collect([])
-        ]);
+        //
     }
 
     /**
@@ -219,15 +157,9 @@ class ProyectoPresupuestoController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $convocatoriaPresupuesto = ConvocatoriaPresupuesto::find($request->convocatoria_presupuesto_id);
+        dd($request->all());
 
-        $presupuesto->descripcion               = $request->descripcion;
-        $presupuesto->justificacion             = $request->justificacion;
-        $presupuesto->valor_total               = $request->valor_total;
-        $presupuesto->concepto_viaticos         = $request->concepto_viaticos;
-
-        $presupuesto->proyecto()->associate($proyecto);
-        $presupuesto->convocatoriaPresupuesto()->associate($convocatoriaPresupuesto);
+        $presupuesto->fill($request->all());
         $presupuesto->save();
 
         $softwareInfo = SoftwareInfo::where('proyecto_presupuesto_id', $presupuesto->id)->first();
@@ -255,7 +187,6 @@ class ProyectoPresupuestoController extends Controller
 
         $servicioEdicionInfo = ServicioEdicionInfo::where('proyecto_presupuesto_id', $presupuesto->id)->first();
         if ($request->codigo_uso_presupuestal == '2020200800901') {
-            $request->servicio_edicion_info = $request->servicio_edicion_info['value'];
             $presupuesto->servicioEdicionInfo()->updateOrCreate(
                 ['id' => $servicioEdicionInfo ? $servicioEdicionInfo->id : null],
                 [

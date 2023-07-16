@@ -638,7 +638,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                 Guardar información sobre la causa directa
                                             </PrimaryButton>
                                         )}
-                                        <ButtonMui backgroundColor="transparent" onClick={() => (setShowCausaDirectaForm(false), setCausaDirectaId(null))}>
+                                        <ButtonMui primary={false} onClick={() => (setShowCausaDirectaForm(false), setCausaDirectaId(null))}>
                                             Cancelar
                                         </ButtonMui>
                                     </form>
@@ -714,7 +714,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                     </PrimaryButton>
                                                 )}
 
-                                                <ButtonMui backgroundColor="transparent" onClick={() => (setShowCausaIndirectaForm(false), setCausaIndirectaId(null))}>
+                                                <ButtonMui primary={false} onClick={() => (setShowCausaIndirectaForm(false), setCausaIndirectaId(null))}>
                                                     Cancelar
                                                 </ButtonMui>
                                             </form>
@@ -726,7 +726,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                     <TooltipMui className="relative" title={<p>Al crear una causa indirecta se genera automáticamente la actividad en la sección de la derecha. Recuerde que ambos deben tener relación.</p>}>
                                         Importante leer
                                     </TooltipMui>
-                                    <ButtonMui backgroundColor="#374151" backgroundColorHover="white" color="white" colorHover="#374151" className="my-4 !ml-2 flex items-center justify-center" disabled={showNuevaCausaIndirectaForm ? true : undefined} type="Button" onClick={() => setNuevoCausaIndirecta(causaDirecta)}>
+                                    <ButtonMui primary={true} className="my-4 !ml-2 flex items-center justify-center" disabled={showNuevaCausaIndirectaForm ? true : undefined} type="Button" onClick={() => setNuevoCausaIndirecta(causaDirecta)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
@@ -749,7 +749,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                             </PrimaryButton>
                                         )}
 
-                                        <ButtonMui backgroundColor="transparent" onClick={() => (setShowNuevaCausaIndirectaForm(false), setCausaDirectaId(null))}>
+                                        <ButtonMui primary={false} onClick={() => (setShowNuevaCausaIndirectaForm(false), setCausaDirectaId(null))}>
                                             Cancelar
                                         </ButtonMui>
                                     </form>
@@ -840,7 +840,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                 Guardar información sobre el objetivo específico
                                             </PrimaryButton>
                                         )}
-                                        <ButtonMui backgroundColor="transparent" onClick={() => (setShowObjetivoEspecificoForm(false), setObjetivoEspecificoId(null))}>
+                                        <ButtonMui primary={false} onClick={() => (setShowObjetivoEspecificoForm(false), setObjetivoEspecificoId(null))}>
                                             Cancelar
                                         </ButtonMui>
                                     </form>
@@ -951,7 +951,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                     </PrimaryButton>
                                                 )}
 
-                                                <ButtonMui backgroundColor="transparent" onClick={() => (setShowActividadForm(false), setActividadId(null))}>
+                                                <ButtonMui primary={false} onClick={() => (setShowActividadForm(false), setActividadId(null))}>
                                                     Cancelar
                                                 </ButtonMui>
                                             </form>
@@ -1024,7 +1024,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                 Guardar información sobre el efecto directo
                                             </PrimaryButton>
                                         )}
-                                        <ButtonMui backgroundColor="transparent" onClick={() => (setShowEfectoDirectoForm(false), setEfectoDirectoId(null))}>
+                                        <ButtonMui primary={false} onClick={() => (setShowEfectoDirectoForm(false), setEfectoDirectoId(null))}>
                                             Cancelar
                                         </ButtonMui>
                                     </form>
@@ -1094,7 +1094,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                         Guardar información sobre el efecto indirecto
                                                     </PrimaryButton>
                                                 )}
-                                                <ButtonMui backgroundColor="transparent" onClick={() => (setShowEfectoIndirectoForm(false), setEfectoIndirectoId(null))}>
+                                                <ButtonMui primary={false} onClick={() => (setShowEfectoIndirectoForm(false), setEfectoIndirectoId(null))}>
                                                     Cancelar
                                                 </ButtonMui>
                                             </form>
@@ -1106,7 +1106,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                         Importante leer
                                     </TooltipMui>
 
-                                    <ButtonMui backgroundColor="#374151" backgroundColorHover="white" color="white" colorHover="#374151" className="my-4 !ml-2 flex items-center justify-center" disabled={showNuevoEfectoIndirectoForm ? true : undefined} type="Button" onClick={() => setNuevoEfectoIndirecto(efectoDirecto)}>
+                                    <ButtonMui primary={true} className="my-4 !ml-2 flex items-center justify-center" disabled={showNuevoEfectoIndirectoForm ? true : undefined} type="Button" onClick={() => setNuevoEfectoIndirecto(efectoDirecto)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
@@ -1133,7 +1133,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                 Añadir efecto indirecto
                                             </PrimaryButton>
                                         )}
-                                        <ButtonMui backgroundColor="transparent" onClick={() => (setShowNuevoEfectoIndirectoForm(false), setEfectoDirectoId(null))}>
+                                        <ButtonMui primary={false} onClick={() => (setShowNuevoEfectoIndirectoForm(false), setEfectoDirectoId(null))}>
                                             Cancelar
                                         </ButtonMui>
                                     </form>
@@ -1231,7 +1231,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                 Guardar información sobre el resultado
                                             </PrimaryButton>
                                         )}
-                                        <ButtonMui backgroundColor="transparent" onClick={() => (setShowResultadoForm(false), setResultadoId(null))}>
+                                        <ButtonMui primary={false} onClick={() => (setShowResultadoForm(false), setResultadoId(null))}>
                                             Cancelar
                                         </ButtonMui>
                                     </form>
@@ -1346,7 +1346,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                     </PrimaryButton>
                                                 )}
 
-                                                <ButtonMui backgroundColor="transparent" onClick={() => (setShowImpactoForm(false), setImpactoId(null))}>
+                                                <ButtonMui primary={false} onClick={() => (setShowImpactoForm(false), setImpactoId(null))}>
                                                     Cancelar
                                                 </ButtonMui>
                                             </form>
