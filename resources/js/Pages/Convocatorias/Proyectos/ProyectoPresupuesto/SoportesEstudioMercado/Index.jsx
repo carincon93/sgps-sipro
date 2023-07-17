@@ -1,33 +1,43 @@
-<script>
-    import AuthenticatedLayout, { title } from '@/Layouts/Authenticated'
-    import { inertia, page, useForm } from '@inertiajs/inertia-svelte'
-    import { route, checkRole, checkPermission } from '@/Utils'
-    import { _ } from 'svelte-i18n'
-    import { Inertia } from '@inertiajs/inertia'
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
-    import Dialog from '@/Components/Dialog'
-    import Button from '@/Components/Button'
-    import InfoMessage from '@/Components/InfoMessage'
-    import Input from '@/Components/Input'
-    import Label from '@/Components/Label'
-    import File from '@/Components/File'
-    import PrimaryButton from '@/Components/PrimaryButton'
+import AlertMui from '@/Components/Alert'
+import Button from '@/Components/Button'
+import Label from '@/Components/Label'
+import PrimaryButton from '@/Components/PrimaryButton'
+import TextInput from '@/Components/TextInput'
 
-    export let errors
-    export let convocatoria
-    export let proyecto
-    export let proyectoPresupuesto
-    export let soportesEstudioMercado
+import { route, checkRole } from '@/Utils'
 
-    $title = 'Soportes'
+import { router, useForm } from '@inertiajs/react'
 
+import DownloadIcon from '@mui/icons-material/Download'
+import { Grid } from '@mui/material'
+import FileInput from '@/Components/FileInput'
+import ButtonMui from '@/Components/Button'
+import TabsMui from '@/Components/TabsMui'
+
+const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, proyectoPresupuesto, soportesEstudioMercado }) => {
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    const authUser = auth.user
+    const isSuperAdmin = checkRole(authUser, [1])
 
-    let formSoporte = useForm({
+    const form = useForm({
+        formato_estudio_mercado: null,
+        valor_total: proyectoPresupuesto.valor_total,
+    })
+
+    const submitEstudioMercado = (e) => {
+        e.preventDefault()
+        if (proyecto.allowed.to_update) {
+            form.post(route('convocatorias.proyectos.presupuesto.estudio-mercado.store', [convocatoria.id, proyecto.id, proyectoPresupuesto]), {
+                preserveScroll: true,
+            })
+        }
+    }
+
+    const formSoporte = useForm({
         id_primer_empresa: soportesEstudioMercado[0]?.id,
         nombre_primer_empresa: soportesEstudioMercado[0] ? soportesEstudioMercado[0]?.empresa : '',
         soporte_primer_empresa: null,
@@ -39,249 +49,195 @@
         soporte_tercer_empresa: null,
     })
 
-    function submitSoportes() {
+    const submitSoportes = (e) => {
+        e.preventDefault()
         if (proyecto.allowed.to_update) {
-            $formSoporte.post(route('convocatorias.proyectos.presupuesto.soportes.store', [convocatoria.id, proyecto.id, proyectoPresupuesto]), {
+            formSoporte.post(route('convocatorias.proyectos.presupuesto.soportes.store', [convocatoria.id, proyecto.id, proyectoPresupuesto]), {
                 preserveScroll: true,
             })
         }
     }
 
-    let form = useForm({
-        valor_total: proyectoPresupuesto.valor_total,
-        formato_estudio_mercado: null,
-    })
-    function submitEstudioMercado() {
+    const destroySoporte = (soporteEstudioMercadoId) => {
         if (proyecto.allowed.to_update) {
-            $form.post(route('convocatorias.proyectos.presupuesto.estudio-mercado.store', [convocatoria.id, proyecto.id, proyectoPresupuesto]), {
+            router.delete(route('convocatorias.proyectos.presupuesto.soportes.destroy', [convocatoria.id, proyecto.id, proyectoPresupuesto.id, soporteEstudioMercadoId]), {
                 preserveScroll: true,
             })
         }
     }
 
-    let dialogEliminar = false
-    let allowedToDestroy = false
-    let soporteEstudioMercadoId
-    let deleteLoading = false
-    function destroy() {
-        if (allowedToDestroy) {
-            Inertia.delete(route('convocatorias.proyectos.presupuesto.soportes.destroy', [convocatoria.id, proyecto.id, proyectoPresupuesto.id, soporteEstudioMercadoId]), {
-                preserveScroll: true,
-                onStart: () => {
-                    deleteLoading = true
-                },
-                onFinish: () => {
-                    ;(dialogEliminar = false), (deleteLoading = false)
-                },
-            })
-        }
-    }
-</script>
-
-<AuthenticatedLayout>
-    <header className="pt-[8rem]" slot="header">
-        <div className="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
-            <div>
-                <h1 className="flex">
-                    <a use:inertia href={route('convocatorias.proyectos.presupuesto.index', [convocatoria.id, proyecto.id]) + '?page=' + proyectoPresupuesto.item_page + '&#PRE-' + proyectoPresupuesto.id} className="text-app-400 hover:text-app-600 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
-                        </svg>
-                        Volver a la lista de rubros
-                    </a>
-                    <span className="text-app-400 font-medium ml-2 mr-2">/</span>
-                    <a use:inertia href={route('convocatorias.proyectos.presupuesto.edit', [convocatoria.id, proyecto.id, proyectoPresupuesto.id])} className="text-app-400 hover:text-app-600 overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap inline-block">
-                        {proyectoPresupuesto.convocatoria_presupuesto.presupuesto_sennova.uso_presupuestal.descripcion}
-                    </a>
-                    <span className="text-app-400 font-medium ml-2 mr-2">/</span>
-                    Soportes
-                </h1>
-            </div>
-        </div>
-    </header>
-
-    {#if convocatoria.tipo_convocatoria == 1 || convocatoria.tipo_convocatoria == 3}
-        <h1 className="mt-24 mb-8 text-center text-3xl">Estudio de mercado</h1>
-
-        <a href="/storage/documentos-descarga/Formato%20_guia_4_Estudio_de_mercado.xlsx" target="_blank" className="bg-gray-800 hover:bg-gray-700 block mt-1 mb-10 mx-auto p-2 rounded text-center text-white w-44" rel="noopener noreferrer">Descargar Formato guía 4: Estudio de mercado</a>
-
-        <form className="mb-20" on:submit|preventDefault={submitEstudioMercado}>
-            <InfoMessage>
-                <span className="text-5xl font-black">1.</span> En el Excel <strong>Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong> agruegue todos los ítems que pertenezcan al uso presupuestal <strong>{proyectoPresupuesto.convocatoria_presupuesto.presupuesto_sennova.uso_presupuestal.descripcion}</strong>. Luego debe subirlo al sistema desde el siguiente campo:
-            </InfoMessage>
-
-            <div className="mt-8">
-                <Label required={proyectoPresupuesto?.formato_estudio_mercado ? undefined : true} className="mb-4" labelFor="formato_estudio_mercado" value="Estudio de mercado - Convocatoria Sennova {convocatoria.year}" />
-                <File
-                    required={proyectoPresupuesto?.formato_estudio_mercado ? undefined : true}
-                    id="formato_estudio_mercado"
-                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                    maxSize="10000"
-                    bind:value={$form.formato_estudio_mercado}
-                    valueDb={proyectoPresupuesto?.formato_estudio_mercado}
-                    error={errors.formato_estudio_mercado}
-                    route={proyectoPresupuesto?.formato_estudio_mercado?.includes('http') ? null : route('convocatorias.proyectos.presupuesto.download-file-sharepoint', [convocatoria, proyecto, proyectoPresupuesto, 'formato_estudio_mercado'])}
-                />
-
-                {#if proyectoPresupuesto?.formato_estudio_mercado}
-                    <span class="block">Estudio de mercado cargado correctamente.</span>
-                {/if}
-            </div>
-
-            <h1 className="mt-24 mb-8 text-center text-3xl">Valor total</h1>
-
-            <div className="mt-14">
-                <InfoMessage>
-                    <span className="text-5xl font-black">2.</span> En el siguiente campo indique el valor total que arrojó el <strong>Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong> en la casilla <strong>TOTAL</strong>
-
-                    <figure className="mt-2">
-                        <img src="/images/estudio-mercado.jpg" alt="" className="shadow" />
-                    </figure>
-                </InfoMessage>
-
-                <Input label="Valor total" id="valor_total" type="number" input$min="0" className="mt-1" bind:value={$form.valor_total} error={errors.valor_total} required />
-            </div>
-
-            <div className="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
-                {#if proyecto.allowed.to_update}
-                    <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar estudio de mercado y valor total</PrimaryButton>
-                {:else}
-                    <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
-                {/if}
-            </div>
-        </form>
-
-        <h1 className="mt-24 mb-8 text-center text-3xl">Soportes</h1>
-
-        <InfoMessage className="mb-8">
-            <span className="text-5xl font-black">3.</span>
-            Tenga en cuenta que en el Excel <strong>Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong> deberá relacionar mínimo 2 empresas (Máximo 3).
-            <figure className="my-4">
-                <img src="/images/soportes.jpg" alt="" className="shadow mx-auto" />
-            </figure>
-            <br />
-            En la siguiente sección deberá adjuntar todos los soportes dados por las empresas. Para ello se recomienda unir los soportes de <stong>cada empresa</stong> en un PDF o ZIP. Revise que los valores en los soportes sean iguales a los valores relacionados en el Excel. (Los soportes pueden ser precotizaciones, precios de catálogos de canales comerciales oficiales de proveedores o de almacenes
-            de grandes superficies, o valores de acuerdos marco de precios de Colombia Compra. Los valores del estudio deberán corresponder a proveedores ubicados en Colombia y tener una fecha no mayor a 4 meses.)
-        </InfoMessage>
-
-        <form on:submit|preventDefault={submitSoportes}>
-            <fieldset disabled={proyecto.allowed.to_update ? undefined : true} className="divide-y">
-                <div className="grid grid-cols-3 gap-12 py-24">
+    return (
+        <AuthenticatedLayout>
+            <Grid item md={12}>
+                <TabsMui tabs={[{ label: 'Estudio de mercado' }, { label: 'Soportes / Cotizaciones' }]}>
                     <div>
-                        <Label required className="mb-4" labelFor="soporte" value="Nombre de la primer empresa" />
-                        <Input id="nombre_primer_empresa" type="text" className="mt-1" bind:value={$formSoporte.nombre_primer_empresa} error={errors.nombre_primer_empresa} required />
+                        <h1 className="mt-24 mb-8 text-center text-3xl">Estudio de mercado</h1>
+
+                        <form className="mb-20" onSubmit={submitEstudioMercado}>
+                            <AlertMui hiddenIcon={true}>
+                                <span className="text-5xl font-black">1.</span>
+                                <a href="/storage/documentos-descarga/Formato%20_guia_4_Estudio_de_mercado.xlsx" className="my-4 inline-block underline" target="_blank">
+                                    <DownloadIcon />
+                                    <strong>Descargar el Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>
+                                </a>
+                                <br />
+                                <p className="ml-14">
+                                    A continuación, diligencie todos los ítems que pertenezcan al uso presupuestal <strong>{proyectoPresupuesto.convocatoria_presupuesto.presupuesto_sennova.uso_presupuestal.descripcion}</strong>. Luego debe subirlo al sistema desde el siguiente campo:
+                                </p>
+                            </AlertMui>
+
+                            <div className="mt-14">
+                                <FileInput
+                                    id="formato_estudio_mercado"
+                                    value={form.data.formato_estudio_mercado}
+                                    filename={proyectoPresupuesto?.filename}
+                                    extension={proyectoPresupuesto?.extension}
+                                    label={`2.1. Seleccione el Estudio de mercado - Convocatoria Sennova ` + convocatoria.year}
+                                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                    downloadRoute={proyectoPresupuesto?.formato_estudio_mercado?.includes('http') ? null : route('convocatorias.proyectos.presupuesto.download-file-sharepoint', [convocatoria, proyecto, proyectoPresupuesto, 'formato_estudio_mercado'])}
+                                    onChange={(e) => form.setData('formato_estudio_mercado', e.target.files[0])}
+                                    error={form.errors.formato_estudio_mercado}
+                                />
+
+                                <AlertMui hiddenIcon={true} className="mt-10">
+                                    <span className="text-5xl font-black">2.</span>
+                                    <p className="mt-4">
+                                        {' '}
+                                        A continuación, indique el valor total que arrojó el <strong>Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong> en la casilla <strong>TOTAL</strong>.
+                                    </p>
+                                    <figure className="mt-2">
+                                        <img src="/images/estudio-mercado.jpg" alt="" className="shadow" />
+                                    </figure>
+                                    <br />
+                                    Ahora ingrese el valor total en el siguiente campo:
+                                </AlertMui>
+                                <TextInput
+                                    label="Valor total"
+                                    id="valor_total"
+                                    type="number"
+                                    inputProps={{
+                                        min: 0,
+                                    }}
+                                    className="!mt-4"
+                                    value={form.data.valor_total}
+                                    error={form.errors.valor_total}
+                                    onChange={(e) => form.setData('valor_total', e.target.value)}
+                                    required
+                                />
+                            </div>
+
+                            <div className="flex items-center justify-between mt-14 py-4">
+                                {proyecto.allowed.to_update ? (
+                                    <PrimaryButton className="ml-auto" disabled={form.processing} type="submit">
+                                        Guardar estudio de mercado y valor total
+                                    </PrimaryButton>
+                                ) : (
+                                    <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
+                                )}
+                            </div>
+                        </form>
                     </div>
-
-                    <div className="col-span-2">
-                        <Label required className="mb-4" labelFor="soporte" value="Soporte PDF o ZIP de la primer empresa" />
-                        <File
-                            className="w-full"
-                            id="soporte_primer_empresa"
-                            accept=".zip,application/pdf"
-                            maxSize="10000"
-                            bind:value={$formSoporte.soporte_primer_empresa}
-                            valueDb={soportesEstudioMercado[0]?.soporte}
-                            error={errors.soporte_primer_empresa}
-                            route={soportesEstudioMercado[0]?.soporte?.includes('http') == true || soportesEstudioMercado[0]?.soporte?.includes('http') == undefined ? null : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [convocatoria, proyecto, proyectoPresupuesto, soportesEstudioMercado[0]?.id, 'soporte'])}
-                        />
-
-                        {#if soportesEstudioMercado[0]?.soporte}
-                            <span class="block">Soporte cargado correctamente.</span>
-                        {/if}
-
-                        {#if soportesEstudioMercado[0]?.id}
-                            <Button className="mt-14" on:click={() => ((soporteEstudioMercadoId = soportesEstudioMercado[0]?.id), (dialogEliminar = true), (allowedToDestroy = proyecto.allowed.to_update))} type="button">Eliminar soporte</Button>
-                        {/if}
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-3 gap-12 py-24">
                     <div>
-                        <Label required className="mb-4" labelFor="soporte" value="Nombre de la segunda empresa" />
-                        <Input id="nombre_segunda_empresa" type="text" className="mt-1" bind:value={$formSoporte.nombre_segunda_empresa} error={errors.nombre_segunda_empresa} required />
+                        <h1 className="mt-24 mb-8 text-center text-3xl">Soportes</h1>
+
+                        <AlertMui className="mb-8" hiddenIcon={true}>
+                            <span className="text-5xl font-black">3.</span>
+                            <br />
+                            Tenga en cuenta que en el Excel <strong>Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong> deberá relacionar mínimo 2 empresas (Máximo 3).
+                            <figure className="my-4">
+                                <img src="/images/soportes.jpg" alt="" className="shadow mx-auto" />
+                            </figure>
+                            <br />
+                            En la siguiente sección deberá adjuntar todos los soportes dados por las empresas. Para ello se recomienda unir los soportes de <strong>cada empresa</strong> en un PDF o ZIP. Revise que los valores en los soportes sean iguales a los valores relacionados en el Excel. (Los soportes pueden ser precotizaciones, precios de catálogos de canales comerciales oficiales de
+                            proveedores o de almacenes de grandes superficies, o valores de acuerdos marco de precios de Colombia Compra. (Los valores del estudio deberán corresponder a proveedores ubicados en Colombia y tener una fecha no mayor a 4 meses).
+                        </AlertMui>
+
+                        <form onSubmit={submitSoportes}>
+                            <fieldset disabled={proyecto.allowed.to_update ? false : true} className="divide-y">
+                                <div className="grid grid-cols-3 gap-12 py-24">
+                                    <div>
+                                        <Label required className="mb-4" labelFor="soporte" value="Nombre de la primer empresa" />
+                                        <TextInput id="nombre_primer_empresa" type="text" className="mt-1" value={formSoporte.data.nombre_primer_empresa} error={formSoporte.errors.nombre_primer_empresa} required />
+                                    </div>
+
+                                    <div className="col-span-2">
+                                        <Label required className="mb-4" labelFor="soporte_primer_empresa" value="Soporte PDF o ZIP de la primer empresa" />
+                                        <FileInput
+                                            id="soporte_primer_empresa"
+                                            value={formSoporte.data.soporte_primer_empresa}
+                                            filename={soportesEstudioMercado[0] ? soportesEstudioMercado[0]?.filename : ''}
+                                            extension={soportesEstudioMercado[0] ? soportesEstudioMercado[0]?.extension : ''}
+                                            label="Seleccione el soporte de la primer empresa"
+                                            accept=".zip,application/pdf"
+                                            downloadRoute={soportesEstudioMercado[0]?.soporte?.includes('http') == true || soportesEstudioMercado[0]?.soporte?.includes('http') == undefined ? null : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [convocatoria, proyecto, proyectoPresupuesto, soportesEstudioMercado[0]?.id, 'soporte'])}
+                                            onDelete={() => destroySoporte(soportesEstudioMercado[0]?.id)}
+                                            onChange={(e) => formSoporte.setData('soporte_primer_empresa', e.target.files[0])}
+                                            error={formSoporte.errors.soporte_primer_empresa}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-3 gap-12 py-24">
+                                    <div>
+                                        <Label required className="mb-4" labelFor="soporte" value="Nombre de la segunda empresa" />
+                                        <TextInput id="nombre_segunda_empresa" type="text" className="mt-1" value={formSoporte.data.nombre_segunda_empresa} error={formSoporte.errors.nombre_segunda_empresa} required />
+                                    </div>
+
+                                    <div className="col-span-2">
+                                        <Label required className="mb-4" labelFor="soporte_segunda_empresa" value="Soporte PDF o ZIP de la segunda empresa" />
+                                        <FileInput
+                                            id="soporte_segunda_empresa"
+                                            value={formSoporte.data.soporte_segunda_empresa}
+                                            filename={soportesEstudioMercado[1] ? soportesEstudioMercado[1]?.filename : ''}
+                                            extension={soportesEstudioMercado[1] ? soportesEstudioMercado[1]?.extension : ''}
+                                            label="Seleccione el soporte de la segunda empresa"
+                                            accept=".zip,application/pdf"
+                                            downloadRoute={soportesEstudioMercado[1]?.soporte?.includes('http') == true || soportesEstudioMercado[1]?.soporte?.includes('http') == undefined ? null : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [convocatoria, proyecto, proyectoPresupuesto, soportesEstudioMercado[1]?.id, 'soporte'])}
+                                            onDelete={() => destroySoporte(soportesEstudioMercado[1]?.id)}
+                                            onChange={(e) => formSoporte.setData('soporte_segunda_empresa', e.target.files[0])}
+                                            error={formSoporte.errors.soporte_segunda_empresa}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-3 gap-12 py-24">
+                                    <div>
+                                        <Label className="mb-4" labelFor="soporte" value="Nombre de la tercer empresa" />
+                                        <TextInput id="nombre_tercer_empresa" type="text" className="mt-1" value={formSoporte.data.nombre_tercer_empresa} error={formSoporte.errors.nombre_tercer_empresa} required />
+                                    </div>
+
+                                    <div className="col-span-2">
+                                        <Label className="mb-4" labelFor="soporte_tercer_empresa" value="Soporte PDF o ZIP de la tercer empresa" />
+                                        <FileInput
+                                            id="soporte_tercer_empresa"
+                                            value={formSoporte.data.soporte_tercer_empresa}
+                                            filename={soportesEstudioMercado[2] ? soportesEstudioMercado[2]?.filename : ''}
+                                            extension={soportesEstudioMercado[2] ? soportesEstudioMercado[2]?.extension : ''}
+                                            label="Seleccione el soporte de la tercer empresa"
+                                            accept=".zip,application/pdf"
+                                            downloadRoute={soportesEstudioMercado[2]?.soporte?.includes('http') == true || soportesEstudioMercado[2]?.soporte?.includes('http') == undefined ? null : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [convocatoria, proyecto, proyectoPresupuesto, soportesEstudioMercado[2]?.id, 'soporte'])}
+                                            onDelete={() => destroySoporte(soportesEstudioMercado[2]?.id)}
+                                            onChange={(e) => formSoporte.setData('soporte_tercer_empresa', e.target.files[0])}
+                                            error={formSoporte.errors.soporte_tercer_empresa}
+                                        />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div className="flex items-center justify-between py-4">
+                                {proyecto.allowed.to_update ? (
+                                    <PrimaryButton disabled={formSoporte.processing} className="ml-auto" type="submit">
+                                        Cargar soporte(s)
+                                    </PrimaryButton>
+                                ) : (
+                                    <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
+                                )}
+                            </div>
+                        </form>
                     </div>
+                </TabsMui>
+            </Grid>
+        </AuthenticatedLayout>
+    )
+}
 
-                    <div className="col-span-2">
-                        <Label required className="mb-4" labelFor="soporte" value="Soporte PDF o ZIP de la segunda empresa" />
-                        <File
-                            className="w-full"
-                            id="soporte_segunda_empresa"
-                            accept=".zip,application/pdf"
-                            maxSize="10000"
-                            bind:value={$formSoporte.soporte_segunda_empresa}
-                            valueDb={soportesEstudioMercado[1]?.soporte}
-                            error={errors.soporte_segunda_empresa}
-                            route={soportesEstudioMercado[1]?.soporte?.includes('http') == true || soportesEstudioMercado[1]?.soporte?.includes('http') == undefined ? null : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [convocatoria, proyecto, proyectoPresupuesto, soportesEstudioMercado[1]?.id, 'soporte'])}
-                        />
-                        {#if soportesEstudioMercado[1]?.soporte}
-                            <span class="block">Soporte cargado correctamente.</span>
-                        {/if}
-                        {#if soportesEstudioMercado[1]?.id}
-                            <Button className="mt-14" on:click={() => ((soporteEstudioMercadoId = soportesEstudioMercado[1]?.id), (dialogEliminar = true), (allowedToDestroy = proyecto.allowed.to_update))} type="button">Eliminar soporte</Button>
-                        {/if}
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-3 gap-12 py-24">
-                    <div>
-                        <Label required={$formSoporte.soporte_tercer_empresa || $formSoporte.nombre_tercer_empresa ? 'required' : undefined} className="mb-4" labelFor="soporte" value="Nombre de la tercer empresa" />
-                        <Input id="nombre_tercer_empresa" type="text" className="mt-1" bind:value={$formSoporte.nombre_tercer_empresa} error={errors.nombre_tercer_empresa} required={$formSoporte.soporte_tercer_empresa ? 'required' : undefined} />
-                    </div>
-
-                    <div className="col-span-2">
-                        <Label required={($formSoporte.nombre_tercer_empresa && soportesEstudioMercado[2] == null) || ($formSoporte.soporte_tercer_empresa && soportesEstudioMercado[2] == null) ? 'required' : undefined} className="mb-4" labelFor="soporte" value="Soporte PDF o ZIP de la tercer empresa" />
-                        <File
-                            className="w-full"
-                            required={$formSoporte.nombre_tercer_empresa && soportesEstudioMercado[2] == null ? 'required' : undefined}
-                            id="soporte_tercer_empresa"
-                            accept=".zip,application/pdf"
-                            maxSize="10000"
-                            bind:value={$formSoporte.soporte_tercer_empresa}
-                            valueDb={soportesEstudioMercado[2]?.soporte}
-                            error={errors.soporte_tercer_empresa}
-                            route={soportesEstudioMercado[2]?.soporte?.includes('http') == true || soportesEstudioMercado[2]?.soporte?.includes('http') == undefined ? null : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [convocatoria, proyecto, proyectoPresupuesto, soportesEstudioMercado[2]?.id, 'soporte'])}
-                        />
-
-                        {#if soportesEstudioMercado[2]?.soporte}
-                            <span class="block">Soporte cargado correctamente.</span>
-                        {/if}
-
-                        {#if soportesEstudioMercado[2]?.id}
-                            <Button className="mt-14" on:click={() => ((soporteEstudioMercadoId = soportesEstudioMercado[2]?.id), (dialogEliminar = true), (allowedToDestroy = proyecto.allowed.to_update))} type="button">Eliminar soporte</Button>
-                        {/if}
-                    </div>
-                </div>
-            </fieldset>
-            <div className="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
-                {#if proyecto.allowed.to_update}
-                    <PrimaryButton loading={$formSoporte.processing} className="ml-auto" type="submit">Cargar soporte(s)</PrimaryButton>
-                {:else}
-                    <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
-                {/if}
-            </div>
-        </form>
-    {:else if convocatoria.tipo_convocatoria == 2}
-        <InfoMessage className="mt-20" alertMsg={true}>No se permite el cargue de archivos anexos porque es un proyecto DEMO de ejercicio y no es un proyecto oficial.</InfoMessage>
-    {/if}
-
-    <Dialog bind:open={dialogEliminar}>
-        <div slot="title">
-            <div className="text-center">Eliminar recurso</div>
-            <div className="relative bg-app-100 text-app-600 p-5 h-44 w-1/3 m-auto my-10" style="border-radius: 41% 59% 70% 30% / 32% 40% 60% 68% ;">
-                <figure>
-                    <img src="/images/eliminar.png" alt="" className="h-44 m-auto" />
-                </figure>
-            </div>
-            <div className="text-center">
-                ¿Está seguro (a) que desea eliminar este elemento?<br />Una vez eliminado todos sus recursos y datos se eliminarán de forma permanente.
-            </div>
-        </div>
-        <div slot="content" />
-        <div slot="actions">
-            <div className="p-4">
-                <Button on:click={() => (dialogEliminar = false)} variant={null}>Cancelar</Button>
-                <PrimaryButton loading={deleteLoading} variant="raised" type="button" on:click={() => destroy()}>Confirmar</PrimaryButton>
-            </div>
-        </div>
-    </Dialog>
-</AuthenticatedLayout>
+export default SoporteEstudioMercado

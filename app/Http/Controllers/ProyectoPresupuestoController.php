@@ -156,9 +156,7 @@ class ProyectoPresupuestoController extends Controller
     public function update(ProyectoPresupuestoRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto)
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
-
-        dd($request->all());
-
+        
         $presupuesto->fill($request->all());
         $presupuesto->save();
 

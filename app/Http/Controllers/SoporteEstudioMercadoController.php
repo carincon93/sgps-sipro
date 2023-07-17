@@ -76,7 +76,6 @@ class SoporteEstudioMercadoController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-
         $soportePrimerEmpresa = SoporteEstudioMercado::updateOrCreate(['id' => $request->id_primer_empresa], [
             'empresa'                   => $request->nombre_primer_empresa,
             'proyecto_presupuesto_id'   => $presupuesto->id
@@ -95,12 +94,6 @@ class SoporteEstudioMercadoController extends Controller
         }
 
         if ($request->hasFile('soporte_tercer_empresa')) {
-            $request->validate([
-                'nombre_tercer_empresa' => 'max:191|string',
-                'soporte_tecer_empresa' => 'nullable|file|max:10000000|mimetypes:application/zip,application/octet-stream,application/x-zip-compressed,multipart/x-zip,application/pdf',
-
-            ]);
-
             $soporteTerceraEmpresa = SoporteEstudioMercado::updateOrCreate(['id' => $request->id_tercer_empresa], [
                 'empresa'                   => $request->nombre_tercer_empresa,
                 'proyecto_presupuesto_id'   => $presupuesto->id
