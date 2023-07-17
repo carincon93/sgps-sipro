@@ -1,22 +1,23 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import AlertMui from '@/Components/Alert'
+import ButtonMui from '@/Components/Button'
 import DialogMui from '@/Components/Dialog'
 import MenuMui from '@/Components/Menu'
 import Pagination from '@/Components/Pagination'
 import TableMui from '@/Components/Table'
+import ToolTipMui from '@/Components/Tooltip'
 
+import FolderSharedIcon from '@mui/icons-material/FolderShared'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
+import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
-import { router } from '@inertiajs/react'
-import React, { useState } from 'react'
+import { Link, router } from '@inertiajs/react'
+import { useState } from 'react'
 
 import { route, checkRole } from '@/Utils'
 
 import Form from './Form'
-import ToolTipMui from '@/Components/Tooltip'
-import ButtonMui from '@/Components/Button'
 
 const RubrosPresupuestales = ({ auth, convocatoria, proyecto, rubrosPresupuestales, segundoGrupoPresupuestal, tercerGrupoPresupuestal, usosPresupuestales, tiposLicencia, tiposSoftware, opcionesServiciosEdicion, conceptosViaticos }) => {
     /**
@@ -69,15 +70,16 @@ const RubrosPresupuestales = ({ auth, convocatoria, proyecto, rubrosPresupuestal
                                 </div>
                             </TableCell>
                             <TableCell>
-                                <div className="mt-3 px-6">${new Intl.NumberFormat('de-DE').format(presupuesto.valor_total)} COP</div>
+                                <div>${new Intl.NumberFormat('de-DE').format(presupuesto.valor_total)} COP</div>
                                 {presupuesto.convocatoria_presupuesto.presupuesto_sennova.requiere_estudio_mercado ? (
-                                    <ButtonMui onClick={() => router.visit(route('convocatorias.proyectos.presupuesto.soportes.index', [convocatoria.id, proyecto.id, presupuesto.id]))} disabled={!presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.requiere_estudio_mercado}>
-                                        Ir a los estudios de mercado
-                                    </ButtonMui>
+                                    <Link href={route('convocatorias.proyectos.presupuesto.soportes.index', [convocatoria.id, proyecto.id, presupuesto.id])} disabled={!presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.requiere_estudio_mercado}>
+                                        <Chip label="Ir a los estudios de mercado" icon={<FolderSharedIcon className="!text-green-700 !ml-2" />} className="!bg-green-200 !text-green-700 mt-4 !px-1 hover:cursor-pointer" />
+                                    </Link>
                                 ) : (
-                                    <p>No requiere de estudios de mercado</p>
+                                    <Chip label="No requiere de estudios de mercado" className="!bg-blue-200 !text-blue-500 mt-4" />
                                 )}
-                                {!presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.sumar_al_presupuesto && <span className="text-red-400 text-center text-xs px-6"> Este uso presupuestal NO suma al total del presupuesto </span>}
+
+                                {!presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.sumar_al_presupuesto && <Chip label="Este uso presupuestal NO suma al total del presupuesto" className="!bg-blue-200 !text-blue-500 mt-4" />}
                             </TableCell>
                             <TableCell>
                                 {isSuperAdmin || proyecto.mostrar_recomendaciones ? (

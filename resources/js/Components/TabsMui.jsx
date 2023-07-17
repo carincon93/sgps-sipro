@@ -45,7 +45,7 @@ export default function TabsMui({ children, tabs = [] }) {
 
     return (
         <>
-            <AppBar position="static">
+            <AppBar position="static" color="transparent" sx={{ boxShadow: 'none' }}>
                 <Tabs value={value} onChange={handleChange} indicatorColor="secondary" textColor="inherit" variant="fullWidth" aria-label="full width tabs">
                     {tabs.map((tab, i) => (
                         <Tab key={i} label={tab.label} {...a11yProps(i)} />
