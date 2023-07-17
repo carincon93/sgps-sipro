@@ -94,13 +94,13 @@ class SoporteEstudioMercado extends Model
     {
         $fileInfo = pathinfo($this->soporte);
 
-        return $fileInfo['filename'];
+        return $fileInfo['filename'] ?? '';
     }
 
     public function getExtensionAttribute()
     {
         $fileInfo = pathinfo($this->soporte);
 
-        return $fileInfo['extension'];
+        return $fileInfo['extension'] ?? '';
     }
 }

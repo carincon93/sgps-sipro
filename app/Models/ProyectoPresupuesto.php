@@ -189,14 +189,14 @@ class ProyectoPresupuesto extends Model
     {
         $fileInfo = pathinfo($this->formato_estudio_mercado);
 
-        return $fileInfo['filename'];
+        return $fileInfo['filename'] ?? '';
     }
 
     public function getExtensionAttribute()
     {
         $fileInfo = pathinfo($this->formato_estudio_mercado);
 
-        return $fileInfo['extension'];
+        return $fileInfo['extension'] ?? '';
     }
 
     /**

@@ -29,7 +29,7 @@ class SoporteEstudioMercadoController extends Controller
          * Denega el acceso si el rubro no requiere de estudio de mercado.
          */
         if (!$presupuesto->convocatoriaPresupuesto->presupuestoSennova->requiere_estudio_mercado && $presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal->codigo != '020202008005096') {
-            return redirect()->route('convocatorias.proyectos.presupuesto.edit', [$convocatoria, $proyecto, $presupuesto])->with('warn', 'Este rubro presupuestal no requiere estudio de mercado.');
+            return back()->with('warn', 'Este rubro presupuestal no requiere estudio de mercado.');
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectoPresupuesto/SoportesEstudioMercado/Index', [
