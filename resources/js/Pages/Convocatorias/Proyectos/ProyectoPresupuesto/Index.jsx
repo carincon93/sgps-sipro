@@ -70,6 +70,13 @@ const RubrosPresupuestales = ({ auth, convocatoria, proyecto, rubrosPresupuestal
                             </TableCell>
                             <TableCell>
                                 <div className="mt-3 px-6">${new Intl.NumberFormat('de-DE').format(presupuesto.valor_total)} COP</div>
+                                {presupuesto.convocatoria_presupuesto.presupuesto_sennova.requiere_estudio_mercado ? (
+                                    <ButtonMui onClick={() => router.visit(route('convocatorias.proyectos.presupuesto.soportes.index', [convocatoria.id, proyecto.id, presupuesto.id]))} disabled={!presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.requiere_estudio_mercado}>
+                                        Ir a los estudios de mercado
+                                    </ButtonMui>
+                                ) : (
+                                    <p>No requiere de estudios de mercado</p>
+                                )}
                                 {!presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.sumar_al_presupuesto && <span className="text-red-400 text-center text-xs px-6"> Este uso presupuestal NO suma al total del presupuesto </span>}
                             </TableCell>
                             <TableCell>

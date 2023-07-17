@@ -10,6 +10,9 @@ const useStyles = makeStyles({
 export default forwardRef(function TextInput({ type = 'text', id = '', label = '', error = '', value = '', variant = 'outlined', className = '', inputBackground = '', isFocused = false, ...props }, ref) {
     const classes = useStyles({ background: inputBackground })
 
+    if (value === null) {
+        value = ''
+    }
     return (
         <>
             <TextField
