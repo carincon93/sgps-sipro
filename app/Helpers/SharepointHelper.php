@@ -28,8 +28,8 @@ class SharepointHelper
             $options = [
                 'form_params' => [
                     'grant_type'    => 'client_credentials',
-                    'client_id'     => '3af81ccc-ebb4-4b5a-9650-dd37d716a8e3@cbc2c381-2f2e-4d93-91d1-506c9316ace7',
-                    'client_secret' => 'Qft6c8Lb4wGKhmSZs2CoWvbdUSHMvRNvhYD3fAANXqs=',
+                    'client_id'     => 'ef11353e-34a8-4b0b-8e68-9b2b81f6a259@cbc2c381-2f2e-4d93-91d1-506c9316ace7',
+                    'client_secret' => 'f1AiNV15EHuPI3Jv0HakSbQYk6o1l26ZvTnjGZ5Tw/4=',
                     'resource'      => '00000003-0000-0ff1-ce00-000000000000/sena4.sharepoint.com@cbc2c381-2f2e-4d93-91d1-506c9316ace7'
                 ]
             ];
