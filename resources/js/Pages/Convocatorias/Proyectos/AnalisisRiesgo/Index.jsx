@@ -73,7 +73,7 @@ const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisisRiesgos, nivele
 
                 {isSuperAdmin || proyecto.allowed.to_update ? (
                     <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setAnalisisRiesgo(null))} variant="raised">
-                        Crear producto
+                        Añadir análisis de riesgo
                     </ButtonMui>
                 ) : null}
             </Grid>

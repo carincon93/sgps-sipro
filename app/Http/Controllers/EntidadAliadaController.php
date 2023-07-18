@@ -32,6 +32,8 @@ class EntidadAliadaController extends Controller
 
         $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
 
+        $objetivoEspecificos = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
+
         if ($proyecto->codigo_linea_programatica == 70) {
             $proyecto->infraestructura_tecnoacademia = $proyecto->ta->infraestructura_tecnoacademia;
         }
@@ -48,8 +50,20 @@ class EntidadAliadaController extends Controller
             'proyecto'          => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'infraestructura_tecnoacademia', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed'),
             'filters'           => request()->all('search'),
             'entidadesAliadas'  => EntidadAliada::where('proyecto_id', $proyecto->id)->orderBy('nombre', 'ASC')
-                ->filterEntidadAliada(request()->only('search'))->select('id', 'nombre', 'tipo')->paginate(),
-            'infraestructuraTecnoacademia'  => json_decode(Storage::get('json/infraestructura-tecnoacademia.json'), true)
+                                    ->filterEntidadAliada(request()->only('search'))->with('actividades', 'actividades.objetivoEspecifico', 'miembrosEntidadAliada', 'entidadAliadaIdi', 'entidadAliadaTaTp')->paginate(),
+            'infraestructuraTecnoacademia'  => json_decode(Storage::get('json/infraestructura-tecnoacademia.json'), true),
+
+
+
+            'actividades'     => Actividad::whereIn(
+                'objetivo_especifico_id',
+                $objetivoEspecificos->map(function ($objetivoEspecifico) {
+                    return $objetivoEspecifico->id;
+                })
+            )->orderBy('fecha_inicio', 'ASC')->get(),
+            'tiposEntidadAliada'                => json_decode(Storage::get('json/tipos-entidades-aliadas.json'), true),
+            'naturalezaEntidadAliada'           => json_decode(Storage::get('json/naturaleza-empresa.json'), true),
+            'tiposEmpresa'                      => json_decode(Storage::get('json/tipos-empresa.json'), true),
         ]);
     }
 
@@ -62,23 +76,7 @@ class EntidadAliadaController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $objetivoEspecifico = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
-
-        $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
-
-        return Inertia::render('Convocatorias/Proyectos/EntidadesAliadas/Create', [
-            'convocatoria'  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'tipo_convocatoria'),
-            'proyecto'      => $proyecto->only('id', 'codigo_linea_programatica', 'modificable', 'mostrar_recomendaciones', 'allowed'),
-            'actividades'   => Actividad::whereIn(
-                'objetivo_especifico_id',
-                $objetivoEspecifico->map(function ($objetivoEspecifico) {
-                    return $objetivoEspecifico->id;
-                })
-            )->orderBy('fecha_inicio', 'ASC')->get(),
-            'tiposEntidadAliada'            => json_decode(Storage::get('json/tipos-entidades-aliadas.json'), true),
-            'naturalezaEntidadAliada'       => json_decode(Storage::get('json/naturaleza-empresa.json'), true),
-            'tiposEmpresa'                  => json_decode(Storage::get('json/tipos-empresa.json'), true),
-        ]);
+        //
     }
 
     /**
@@ -175,30 +173,7 @@ class EntidadAliadaController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $objetivoEspecificos = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
-
-        $entidadAliada->miembrosEntidadAliada->only('id', 'nombre', 'email', 'numero_celular');
-        $entidadAliada->entidadAliadaIdi;
-        $entidadAliada->entidadAliadaTaTp;
-
-        $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
-
-        return Inertia::render('Convocatorias/Proyectos/EntidadesAliadas/Edit', [
-            'convocatoria'    => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
-            'proyecto'        => $proyecto->only('id', 'modificable', 'codigo_linea_programatica', 'mostrar_recomendaciones', 'allowed'),
-            'entidadAliada'   => $entidadAliada,
-            'actividades'     => Actividad::whereIn(
-                'objetivo_especifico_id',
-                $objetivoEspecificos->map(function ($objetivoEspecifico) {
-                    return $objetivoEspecifico->id;
-                })
-            )->orderBy('fecha_inicio', 'ASC')->get(),
-            'actividadesRelacionadas'           => $entidadAliada->actividades()->pluck('actividades.id'),
-            'objetivosEspecificosRelacionados'  => $entidadAliada->actividades()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico'),
-            'tiposEntidadAliada'                => json_decode(Storage::get('json/tipos-entidades-aliadas.json'), true),
-            'naturalezaEntidadAliada'           => json_decode(Storage::get('json/naturaleza-empresa.json'), true),
-            'tiposEmpresa'                      => json_decode(Storage::get('json/tipos-empresa.json'), true),
-        ]);
+        //
     }
 
     /**
