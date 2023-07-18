@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function Autocomplete({ id = '', label = '', className = '', error = '', options = [], selectedValue, ...props }) {
+export default function Autocomplete({ id = '', label = '', className = '', error = '', options = [], isGroupable = false, selectedValue, ...props }) {
     const classes = useStyles()
 
     const [selectedOption, setSelectedOption] = useState(null)
@@ -26,6 +26,12 @@ export default function Autocomplete({ id = '', label = '', className = '', erro
             if (option.tooltip) {
                 const { value, label, tooltip } = option
                 return { value, label, tooltip }
+            } else if (option.group) {
+                const { value, label, group } = option
+                return { value, label, group }
+            } else if (option.group && option.tooltip) {
+                const { value, label, group, tooltip } = option
+                return { value, label, group, tooltip }
             } else {
                 const { value, label } = option
                 return { value, label }
@@ -45,7 +51,7 @@ export default function Autocomplete({ id = '', label = '', className = '', erro
                 classes={{ popper: classes.popper }}
                 id={id}
                 value={selectedOption}
-                options={optionsFiltered}
+                options={isGroupable ? optionsFiltered.sort((a, b) => a.group.toString().localeCompare(b.group.toString())) : optionsFiltered}
                 disableClearable={true}
                 getOptionLabel={(option) => option.label}
                 isOptionEqualToValue={(option, value) => option.value === value.value}

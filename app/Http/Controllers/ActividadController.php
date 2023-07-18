@@ -141,7 +141,6 @@ class ActividadController extends Controller
                     return $objetivoEspecifico->id;
                 })
             )->where('fecha_inicio', '<>', null)->orderBy('fecha_inicio', 'ASC')->get(),
-            'to_pdf'          => ($request->to_pdf == 1) ? true : false,
             'talentosOtrosDepartamentos'            => $talentosOtrosDepartamentos ?? null,
             'proyectoMunicipios'                    => $proyectoMunicipios ?? null,
             'proyectoMunicipiosImpactar'            => $proyectoMunicipiosImpactar ?? null,
@@ -151,7 +150,6 @@ class ActividadController extends Controller
             'proyectoProgramasFormacionArticulados' => $proyectoProgramasFormacionArticulados ?? null,
             'proyectoDisenosCurriculares'           => $proyectoDisenosCurriculares ?? null,
             'regionales'                            => SelectHelper::regionales(),
-            'departamentos'                         => Regional::select('regionales.id as value', 'regionales.nombre as label')->orderBy('nombre')->get(),
             'municipios'                            => SelectHelper::municipios(),
             'disenosCurriculares'                   => SelectHelper::disenoCurriculares()->where('habilitado_convocatoria', true)->values()->all(),
             'tecnoacademiaRelacionada'              => $proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia : null,

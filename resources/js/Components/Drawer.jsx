@@ -160,9 +160,7 @@ export default function MiniDrawer({ user, children }) {
                                     mr: open ? 3 : 'auto',
                                     justifyContent: 'center',
                                 }}
-                            >
-                                <MailIcon />
-                            </ListItemIcon>
+                            ></ListItemIcon>
                             <ListItemText primary="Convocatorias" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
                     </ListItem>

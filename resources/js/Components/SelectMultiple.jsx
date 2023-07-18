@@ -38,7 +38,6 @@ export default function SelectMultiple({ id = '', label = '', className = '', er
                 id={id}
                 value={selectedOptions}
                 options={isGroupable ? optionsFiltered.sort((a, b) => a.group.toString().localeCompare(b.group.toString())) : optionsFiltered}
-                groupBy={(option) => option.group}
                 isOptionEqualToValue={(option, value) => option.value === value.value}
                 disableClearable={true}
                 getOptionLabel={(option) => option.label}

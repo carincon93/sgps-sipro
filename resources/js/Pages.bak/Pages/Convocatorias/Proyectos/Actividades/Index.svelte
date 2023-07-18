@@ -814,22 +814,16 @@
                     <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t">
                             <p class="focus:text-app-500 my-2 paragraph-ellipsis px-6">
-                                {actividad.descripcion}
                             </p>
                         </td>
 
                         <td class="border-t">
                             <p class="focus:text-app-500 my-2 paragraph-ellipsis px-6">
-                                {#if actividad.fecha_inicio}
-                                    Del {actividad.fecha_inicio} al {actividad.fecha_finalizacion}
-                                {:else}
-                                    <span class="bg-red-100 text-red-400 hover:bg-red-200 px-2 py-1 rounded-3xl text-center inline-block mt-2 mb-2">Sin fechas definidas</span>
-                                {/if}
+                                
                             </p>
                         </td>
                         <td class="border-t">
                             <p class="focus:text-app-500 my-2 paragraph-ellipsis px-6">
-                                {actividad.objetivo_especifico.descripcion}
                             </p>
                         </td>
 

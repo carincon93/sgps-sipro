@@ -970,11 +970,11 @@ const Form = ({
                                             <Autocomplete
                                                 id="tecnoacademia_id"
                                                 options={tecnoacademias}
-                                                value={form.data.tecnoacademia_id}
+                                                selectedValue={form.data.tecnoacademia_id}
                                                 onChange={(event, newValue) => {
                                                     form.setData('tecnoacademia_id'), newValue, selectLineasTecnoacademia(newValue)
                                                 }}
-                                                getItemValue={(item) => item.label}
+                                                // getItemValue={(item) => item.label}
                                                 required
                                                 disabled={evaluacion ? 'disabled' : undefined}
                                             />
@@ -1098,6 +1098,7 @@ const Form = ({
                                         bdValues={form.data.municipios}
                                         options={municipios}
                                         isGroupable={true}
+                                        groupBy={(option) => option.group}
                                         onChange={(event, newValue) => {
                                             const selectedValues = newValue.map((option) => option.value)
                                             form.setData((prevData) => ({
@@ -1106,7 +1107,7 @@ const Form = ({
                                             }))
                                         }}
                                         error={form.errors.municipios}
-                                        placeholder="Seleccione municipios"
+                                        placeholder="Seleccionar municipios"
                                         required
                                         disabled={evaluacion ? 'disabled' : undefined}
                                     />
