@@ -507,7 +507,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
 
     const [showActividadForm, setShowActividadForm] = useState(false)
     const [actividadId, setActividadId] = useState(null)
-    let resultadosFiltrados
+    const [resultadosFiltrados, setResultadosFiltrados] = useState(null)
 
     const setActividad = (causaIndirecta, actividad) => {
         formActividad.reset()
@@ -515,8 +515,8 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
         //     submitObjetivoEspecifico()
         // }
 
-        resultadosFiltrados = resultados.filter((item) => item.objetivo_especifico_id === actividad.objetivo_especifico_id)
-        resultadosFiltrados = resultadosFiltrados.filter((item) => item.label != null)
+        const resultadosPorObjetivo = resultados.filter((item) => item.objetivo_especifico_id === actividad.objetivo_especifico_id)
+        setResultadosFiltrados(resultadosPorObjetivo.filter((item) => item.label != null))
 
         setShowActividadForm(true)
         setActividadId(actividad.id)

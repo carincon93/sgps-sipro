@@ -1,248 +1,175 @@
-<script>
-    import AuthenticatedLayout, { title } from '@/Layouts/Authenticated'
-    import { inertia, useForm, page } from '@inertiajs/inertia-svelte'
-    import { route, checkRole, checkPermission } from '@/Utils'
-    import { _ } from 'svelte-i18n'
+import AlertMui from '@/Components/Alert'
+import Autocomplete from '@/Components/Autocomplete'
+import ButtonMui from '@/Components/Button'
+import DatePicker from '@/Components/DatePicker'
+import Label from '@/Components/Label'
+import PrimaryButton from '@/Components/PrimaryButton'
+import SelectMultiple from '@/Components/SelectMultiple'
+import Textarea from '@/Components/Textarea'
 
-    import Label from '@/Shared/Label'
-    import LoadingButton from '@/Shared/LoadingButton'
-    import Checkbox from '@smui/checkbox'
-    import FormField from '@smui/form-field'
-    import Textarea from '@/Shared/Textarea'
-    import InputError from '@/Shared/InputError'
-    import InfoMessage from '@/Shared/InfoMessage'
-    import Select from '@/Shared/Select'
+import { useForm } from '@inertiajs/react'
+import { Grid, Paper } from '@mui/material'
+import { useEffect } from 'react'
+import { useState } from 'react'
 
-    export let errors
-    export let convocatoria
-    export let proyecto
-    export let actividad
-    export let proyectoRoles
-    export let proyectoRolRelacionado
-    export let proyectoPresupuesto
-    export let proyectoPresupuestoRelacionado
-    export let resultadosFiltrados
-
-    $: $title = actividad ? actividad.nombre : null
-
-    /**
-     * Validar si el usuario autenticado es SuperAdmin
-     */
-    let authUser = $page.props.auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
-
-    let opcionesSiNo = [
-        { value: 1, label: 'Si' },
-        { value: 2, label: 'No' },
-    ]
-
-    let form = useForm({
-        resultado_id: actividad.resultado_id,
-        descripcion: actividad.descripcion,
-        fecha_inicio: actividad.fecha_inicio,
-        fecha_finalizacion: actividad.fecha_finalizacion,
-        proyecto_presupuesto_id: proyectoPresupuestoRelacionado,
-        proyecto_rol_sennova_id: proyectoRolRelacionado,
-        requiere_rubros: proyectoPresupuestoRelacionado.length == 0 ? { value: 2, label: 'No' } : { value: 1, label: 'Si' },
+const Form = ({ isSuperAdmin, method = '', setDialogStatus, convocatoria, proyecto, actividad, proyectoPresupuesto, proyectoRoles, productos, ...props }) => {
+    const [resultadosFiltrados, setResultadosFiltrados] = useState([])
+    const form = useForm({
+        resultado_id: actividad?.resultado_id ?? '',
+        descripcion: actividad?.descripcion ?? '',
+        fecha_inicio: actividad?.fecha_inicio ?? '',
+        fecha_finalizacion: actividad?.fecha_finalizacion ?? null,
+        proyecto_presupuesto_id: '' ?? null,
+        proyecto_rol_sennova_id: '' ?? null,
+        requiere_rubros: actividad?.proyecto_presupuesto.length == 0 ? 2 : 1,
     })
 
     function submit() {
         if (proyecto.allowed.to_update) {
-            $form.put(route('convocatorias.proyectos.actividades.update', [convocatoria.id, proyecto.id, actividad.id]), {
+            form.put(route('convocatorias.proyectos.actividades.update', [convocatoria.id, proyecto.id, actividad.id]), {
                 preserveScroll: true,
             })
         }
     }
-</script>
 
-<AuthenticatedLayout>
+    useEffect(() => {
+        const tmpOptionsFiltered = actividad.objetivo_especifico.resultados.map((option) => {
+            const { id, descripcion } = option
+            return { value: id, label: descripcion }
+        })
 
+        setResultadosFiltrados(tmpOptionsFiltered)
+    }, [actividad])
 
-    <div class="grid grid-cols-3 gap-4">
-        <div class="sticky top-0">
-            <h1 class="font-black text-4xl uppercase">Editar actividad</h1>
-        </div>
+    return (
+        <Grid container spacing={2}>
+            <Grid item md={4}>
+                <h1 className="font-black text-right text-2xl mr-10">Editar actividad</h1>
+            </Grid>
 
-        <div class="bg-white rounded shadow col-span-2">
-            <form on:submit|preventDefault={submit}>
-                <fieldset class="p-8" disabled={proyecto.allowed.to_update ? undefined : true}>
-                    <div class="mt-8">
-                        <p class="text-center">Fecha de ejecución</p>
-                        <div class="mt-4 flex items-start justify-around">
-                            <div class="mt-4 flex ">
-                                <Label required labelFor="fecha_inicio"  value="Fecha de inicio" />
-                                <div class="ml-4">
-                                    <input id="fecha_inicio" type="date" class="mt-1 block w-full p-4" min={proyecto.fecha_inicio} max={proyecto.fecha_finalizacion} bind:value={$form.fecha_inicio} required />
+            <Grid item md={8}>
+                <Paper className="p-8">
+                    <form onSubmit={submit}>
+                        <fieldset className="p-8" disabled={proyecto.allowed.to_update ? false : true}>
+                            <div className="mt-8">
+                                <p className="text-center">Fecha de ejecución</p>
+                                <div className="ml-2 mt-4">
+                                    <div className={`mt-4 flex ${form.errors.fecha_inicio ? '' : 'items-center'}`}>
+                                        <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
+                                        <div className="ml-14">
+                                            <DatePicker id="fecha_inicio" className="mt-1 block w-full p-4" min={actividad.fecha_inicio} max={actividad.fecha_finalizacion} value={form.data.fecha_inicio} onChange={(e) => form.setData('fecha_inicio', e.target.value)} error={form.errors.fecha_inicio} required />
+                                        </div>
+                                    </div>
+                                    <div className={`mt-4 flex ${form.errors.fecha_finalizacion ? '' : 'items-center'}`}>
+                                        <Label required labelFor="fecha_finalizacion" value="Fecha de finalización" />
+                                        <div className="ml-4">
+                                            <DatePicker id="fecha_finalizacion" className="mt-1 block w-full p-4" min={actividad.fecha_inicio} max={actividad.fecha_finalizacion} value={form.data.fecha_finalizacion} onChange={(e) => form.setData('fecha_finalizacion', e.target.value)} error={form.errors.fecha_finalizacion} required />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="mt-4 flex">
-                                <Label required labelFor="fecha_finalizacion"  value="Fecha de finalización" />
-                                <div class="ml-4">
-                                    <input id="fecha_finalizacion" type="date" class="mt-1 block w-full p-4" min={proyecto.fecha_inicio} max={proyecto.fecha_finalizacion} bind:value={$form.fecha_finalizacion} required />
+
+                            <div className="mt-20">
+                                <Label labelFor="resultado_id" value="Resultado" />
+                                <Autocomplete id="resultado_id" options={resultadosFiltrados} selectedValue={form.data.resultado_id} error={form.errors.resultado_id} onChange={(event, newValue) => form.setData('resultado_id', newValue.value)} placeholder="Seleccione un resultado" required />
+                            </div>
+
+                            <div className="mt-20">
+                                <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} label="Descripción" id="descripcion" error={form.errors.descripcion} value={form.data.descripcion} onChange={(e) => form.setData('descripcion', e.target.value)} required />
+                            </div>
+
+                            <h6 className="mt-20 mb-12 text-2xl">Rubros presupuestales</h6>
+
+                            <AlertMui className="mb-6" hiddenIcon={true}>
+                                Si la actividad no requiere asociar un rubro presupuestal. (Ej: Actividad de PQRS) <br /> Por favor, cambie la siguiente opción a <strong>No</strong>
+                                <hr className="mb-10" />
+                                IMPORTANTE: Solo para actividades que no requieran asociar algún rubro presupuestal. Para el resto de actividades SI debe asociar un rubro para poder completar la<strong className="ml-1.5"> Cadena de valor</strong>.
+                                <div className="mt-4">
+                                    <span className="font-black mr-2">Opción seleccionada:</span>
+                                    <br />
+                                    <Autocomplete
+                                        options={[
+                                            { value: 1, label: 'Si' },
+                                            { value: 2, label: 'No' },
+                                        ]}
+                                        id="requiere_rubros"
+                                        selectedValue={form.data.requiere_rubros}
+                                        error={form.errors.requiere_rubros}
+                                        onChange={(event, newValue) => form.setData('requiere_rubros', newValue.value)}
+                                        placeholder="Seleccione una opción"
+                                        required
+                                    />
                                 </div>
-                            </div>
-                        </div>
+                            </AlertMui>
+                            {form.data.requiere_rubros == 1 && (
+                                <div className="bg-white max-h-[600px] overflow-y-auto rounded shadow">
+                                    <div className="p-4">
+                                        <Label required className="mb-4" labelFor="proyecto_presupuesto_id" value="Relacione algún rubro" />
+                                    </div>
 
-                    </div>
+                                    <div>
+                                        <SelectMultiple
+                                            id="proyecto_presupuesto_id"
+                                            bdValues={form.data.proyecto_presupuesto_id}
+                                            options={proyectoPresupuesto}
+                                            error={form.errors.proyecto_presupuesto_id}
+                                            onChange={(event, newValue) => {
+                                                const selectedValues = newValue.map((option) => option.value)
+                                                form.setData((prevData) => ({
+                                                    ...prevData,
+                                                    proyecto_presupuesto_id: selectedValues,
+                                                }))
+                                            }}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                            )}
 
-                    <div class="mt-20">
-                        <Label labelFor="resultado_id" value="Resultado" />
-                        <Select id="resultado_id" items={resultadosFiltrados} bind:selectedValue={$form.resultado_id} error={errors.resultado_id} autocomplete="off" placeholder="Seleccione un resultado" required />
-                    </div>
-
-                    <div class="mt-20">
-                        <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} label="Descripción" maxlength="15000" id="descripcion" error={errors.descripcion} bind:value={$form.descripcion} required />
-                    </div>
-
-                    <h6 class="mt-20 mb-12 text-2xl">Rubros presupuestales</h6>
-
-                    <AlertMui class="ml-10 mb-6 shadow">
-                        Si la actividad no requiere asociar un rubro presupuestal. (Ej: Actividad de PQRS) <br /> Por favor, cambie la siguiente opción a <strong>No</strong>
-                        <hr class="mb-10" />
-                        IMPORTANTE: Solo para actividades que no requieran asociar algún rubro presupuestal. Para el resto de actividades SI debe asociar un rubro para poder completar la<strong class="ml-1.5"> Cadena de valor</strong>.
-                        <div class="mt-4">
-                            <span class="font-black mr-2">Opción seleccionada:</span>
-                            <br />
-                            <Select items={opcionesSiNo} id="requiere_rubros" bind:selectedValue={$form.requiere_rubros} error={errors.requiere_rubros} autocomplete="off" placeholder="Seleccione una opción" required />
-                        </div>
-                    </AlertMui>
-                    {#if $form.requiere_rubros?.value == 1}
-                        <div class="bg-white max-h-[600px] overflow-y-auto rounded shadow">
-                            <div class="p-4">
-                                <Label required class="mb-4" labelFor="proyecto_presupuesto_id" value="Relacione algún rubro" />
-                                <InputError message={errors.proyecto_presupuesto_id} />
-                            </div>
-                            {#if isSuperAdmin || proyecto.allowed.to_update}
+                            <h6 className="mt-20 mb-12 text-2xl">Roles</h6>
+                            <AlertMui hiddenIcon={true}>Si la actividad tiene un responsable por favor seleccione el rol de la siguiente lista</AlertMui>
+                            <div className="bg-white rounded shadow overflow-hidden">
+                                <div className="p-4">
+                                    <Label className="mb-4" labelFor="proyecto_rol_sennova_id" value="Relacione algún rol" />
+                                </div>
                                 <div>
-                                    {#each proyectoPresupuesto as presupuesto}
-                                        <FormField class="border-b border-l w-full odd:bg-white even:bg-slate-50">
-                                            <Checkbox bind:group={$form.proyecto_presupuesto_id} value={presupuesto.id} />
-                                            <span slot="label">
-                                                <div class="mb-4 mt-4">
-                                                    <small>
-                                                        Código: PRE-{presupuesto.id}
-                                                    </small>
-                                                    <small class="block">Concepto interno SENA</small>
-                                                    {presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.segundo_grupo_presupuestal.nombre}
-                                                </div>
-                                                <div class="mb-4">
-                                                    <small class="block">Rubro</small>
-                                                    {presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.tercer_grupo_presupuestal.nombre}
-                                                </div>
-                                                <div class="mb-4">
-                                                    <small class="block">Uso presupuestal</small>
-                                                    {presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.uso_presupuestal.descripcion}
-                                                </div>
-                                                <div class="mb-4">
-                                                    <small class="block">Descripción</small>
-                                                    {presupuesto.descripcion}
-                                                </div>
-                                                <div class="mb-4">
-                                                    <small class="block">Valor total</small>
-                                                    ${new Intl.NumberFormat('de-DE').format(presupuesto.valor_total)} COP
-                                                </div>
-                                            </span>
-                                        </FormField>
-                                    {/each}
-                                    {#if proyectoPresupuesto.length == 0}
-                                        <p class="p-4">Sin información registrada</p>
-                                    {/if}
+                                    <SelectMultiple
+                                        id="proyecto_rol_sennova_id"
+                                        bdValues={form.data.proyecto_rol_sennova_id}
+                                        options={proyectoRoles}
+                                        error={form.errors.proyecto_rol_sennova_id}
+                                        onChange={(event, newValue) => {
+                                            const selectedValues = newValue.map((option) => option.value)
+                                            form.setData((prevData) => ({
+                                                ...prevData,
+                                                proyecto_rol_sennova_id: selectedValues,
+                                            }))
+                                        }}
+                                        required
+                                    />
                                 </div>
-                            {:else}
-                                <div class="p-2">
-                                    <ul class="list-disc p-4">
-                                        {#each proyectoPresupuesto as presupuesto}
-                                            {#each $form.proyecto_presupuesto_id as proyectoPresupuesto}
-                                                {#if presupuesto.id == proyectoPresupuesto}
-                                                    <li class="mb-4">
-                                                        <div class="mb-8 mt-4">
-                                                            <small class="block">Concepto interno SENA</small>
-                                                            {presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.segundo_grupo_presupuestal.nombre}
-                                                        </div>
-                                                        <div class="mb-8">
-                                                            <small class="block">Rubro</small>
-                                                            {presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.tercer_grupo_presupuestal.nombre}
-                                                        </div>
-                                                        <div class="mb-8">
-                                                            <small class="block">Uso presupuestal</small>
-                                                            {presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.uso_presupuestal.descripcion}
-                                                        </div>
-                                                        <div class="mb-8">
-                                                            <small class="block">Descripción</small>
-                                                            {presupuesto.descripcion}
-                                                        </div>
-                                                    </li>
-                                                {/if}
-                                            {/each}
-                                        {/each}
-                                    </ul>
-                                </div>
-                            {/if}
+                            </div>
+                        </fieldset>
+                        <div className="flex items-center justify-between mt-14 px-8 py-4">
+                            {actividad && <small className="flex items-center text-app-700">{actividad.updated_at}</small>}
+                            {proyecto.allowed.to_update ? (
+                                <>
+                                    <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
+                                        {method == 'crear' ? 'Añadir' : 'Modificar'} actividad
+                                    </PrimaryButton>
+                                    <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
+                                        Cancelar
+                                    </ButtonMui>
+                                </>
+                            ) : (
+                                <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
+                            )}
                         </div>
-                    {/if}
+                    </form>
+                </Paper>
+            </Grid>
+        </Grid>
+    )
+}
 
-                    <h6 class="mt-20 mb-12 text-2xl">Roles</h6>
-                    <InfoMessage class="ml-10 mb-6">Si la actividad tiene un responsable por favor seleccione el rol de la siguiente lista</InfoMessage>
-                    <div class="bg-white rounded shadow overflow-hidden">
-                        <div class="p-4">
-                            <Label class="mb-4" labelFor="proyecto_rol_sennova_id" value="Relacione algún rol" />
-                            <InputError message={errors.proyecto_rol_sennova_id} />
-                        </div>
-                        {#if isSuperAdmin || proyecto.allowed.to_update}
-                            <div class="flex flex-col">
-                                {#each proyectoRoles as rol}
-                                    <FormField class="border-b border-l">
-                                        <Checkbox bind:group={$form.proyecto_rol_sennova_id} value={rol.id} />
-                                        <span slot="label">
-                                            <div class="mb-8">
-                                                <small class="block">Nombre</small>
-                                                {rol.convocatoria_rol_sennova.rol_sennova.nombre}
-                                                <br />
-                                                Nivel académico:
-                                                {rol.convocatoria_rol_sennova.nivel_academico_formateado}
-                                            </div>
-                                        </span>
-                                    </FormField>
-                                {/each}
-                                {#if proyectoRoles.length == 0}
-                                    <p class="p-4">Sin información registrada</p>
-                                {/if}
-                            </div>
-                        {:else}
-                            <div class="p-2">
-                                <ul class="list-disc p-4">
-                                    {#each proyectoRoles as rol}
-                                        {#if rol.id == rol}
-                                            <li class="mb-4">
-                                                <div class="mb-8">
-                                                    <small class="block">Nombre</small>
-                                                    {rol.convocatoria_rol_sennova.rol_sennova.nombre}
-                                                </div>
-                                            </li>
-                                        {/if}
-                                    {/each}
-                                </ul>
-                            </div>
-                        {/if}
-                    </div>
-                </fieldset>
-                <div class="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
-                    {#if actividad}
-                        <small class="flex items-center text-app-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            {actividad.updated_at}
-                        </small>
-                    {/if}
-                    {#if proyecto.allowed.to_update}
-                        <LoadingButton loading={$form.processing} class="ml-auto" type="submit">Guardar</LoadingButton>
-                    {:else}
-                        <span class="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
-                    {/if}
-                </div>
-            </form>
-        </div>
-    </div>
-</AuthenticatedLayout>
-)}
+export default Form

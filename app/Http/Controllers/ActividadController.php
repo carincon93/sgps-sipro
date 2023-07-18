@@ -38,6 +38,14 @@ class ActividadController extends Controller
         $objetivoEspecifico = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
         $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
 
+        $resultados = $proyecto->efectosDirectos()->whereHas('resultado', function ($query) {
+            $query->where('descripcion', '!=', null);
+        })->with('resultado')->get()->pluck('resultado')->flatten();
+
+        $productos = $resultados->map(function ($resultado) {
+            return $resultado->productos;
+        })->flatten();
+
         switch ($proyecto) {
             case $proyecto->idi()->exists():
                 $proyecto->metodologia = $proyecto->idi->metodologia;
@@ -91,7 +99,7 @@ class ActividadController extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/Actividades/Index', [
-            'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'year'),
+            'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'year', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
             'proyecto'          => $proyecto->only(
                 'id',
                 'codigo_linea_programatica',
@@ -133,7 +141,7 @@ class ActividadController extends Controller
                 $objetivoEspecifico->map(function ($objetivoEspecifico) {
                     return $objetivoEspecifico->id;
                 })
-            )->with('objetivoEspecifico')->orderBy('objetivo_especifico_id', 'ASC')
+            )->with('productos', 'proyectoPresupuesto', 'proyectoRolesSennova', 'objetivoEspecifico', 'objetivoEspecifico.resultados')->orderBy('objetivo_especifico_id', 'ASC')
                 ->filterActividad(request()->only('search'))->paginate()->appends(['search' => request()->search]),
             'actividadesGantt'  => Actividad::whereIn(
                 'objetivo_especifico_id',
@@ -154,6 +162,13 @@ class ActividadController extends Controller
             'disenosCurriculares'                   => SelectHelper::disenoCurriculares()->where('habilitado_convocatoria', true)->values()->all(),
             'tecnoacademiaRelacionada'              => $proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia : null,
             'aulasMoviles'                          => AulaMovil::where('ta_id', $proyecto->id)->get(),
+
+            'proyectoPresupuesto'                   => ProyectoPresupuesto::select('proyecto_presupuesto.id as value', 'proyecto_presupuesto.descripcion as label')->where('proyecto_presupuesto.proyecto_id', $proyecto->id)->with('convocatoriaPresupuesto.presupuestoSennova.segundoGrupoPresupuestal:id,nombre', 'convocatoriaPresupuesto.presupuestoSennova.tercerGrupoPresupuestal:id,nombre', 'convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal:id,descripcion')->get(),
+            'proyectoRoles'                         => ProyectoRolSennova::select('proyecto_rol_sennova.id as value', 'roles_sennova.nombre as label')
+                                                        ->join('convocatoria_rol_sennova', 'proyecto_rol_sennova.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')
+                                                        ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
+                                                        ->where('proyecto_rol_sennova.proyecto_id', $proyecto->id)->with('convocatoriaRolSennova.rolSennova:id,nombre')->get(),
+            'productos'                             => $productos,
         ]);
     }
 
@@ -201,28 +216,7 @@ class ActividadController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
-
-        $resultados = $proyecto->efectosDirectos()->whereHas('resultado', function ($query) {
-            $query->where('descripcion', '!=', null);
-        })->with('resultado')->get()->pluck('resultado')->flatten();
-
-        $productos = $resultados->map(function ($resultado) {
-            return $resultado->productos;
-        })->flatten();
-
-        return Inertia::render('Convocatorias/Proyectos/Actividades/Edit', [
-            'convocatoria'                   => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
-            'proyecto'                       => $proyecto->only('id', 'fecha_inicio', 'fecha_finalizacion', 'modificable', 'mostrar_recomendaciones', 'codigo_linea_programatica', 'allowed'),
-            'actividad'                      => $actividad,
-            'productos'                      => $productos,
-            'productosRelacionados'          => $actividad->productos()->pluck('productos.id'),
-            'proyectoPresupuesto'            => ProyectoPresupuesto::where('proyecto_id', $proyecto->id)->with('convocatoriaPresupuesto.presupuestoSennova.segundoGrupoPresupuestal:id,nombre', 'convocatoriaPresupuesto.presupuestoSennova.tercerGrupoPresupuestal:id,nombre', 'convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal:id,descripcion')->get(),
-            'proyectoPresupuestoRelacionado' => $actividad->proyectoPresupuesto()->pluck('proyecto_presupuesto.id'),
-            'proyectoRoles'                  => ProyectoRolSennova::where('proyecto_id', $proyecto->id)->with('convocatoriaRolSennova.rolSennova:id,nombre')->get(),
-            'proyectoRolRelacionado'         => $actividad->proyectoRolesSennova()->pluck('proyecto_rol_sennova.id'),
-            'resultadosFiltrados'            => $actividad->objetivoEspecifico->resultados()->selectRaw('resultados.id as value, CONCAT(\'Resultado con código  \', resultados.id, \' - \' ,coalesce(resultados.descripcion, \' sin descripción. Por favor completar en el árbol de objetivos.\')) as label')->get()
-        ]);
+        //
     }
 
     /**

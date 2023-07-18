@@ -2,6 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import AlertMui from '@/Components/Alert'
 import Autocomplete from '@/Components/Autocomplete'
+import DialogMui from '@/Components/Dialog'
 import Label from '@/Components/Label'
 import MenuMui from '@/Components/Menu'
 import PrimaryButton from '@/Components/PrimaryButton'
@@ -22,8 +23,9 @@ import { route, checkRole } from '@/Utils'
 import { useState, useEffect } from 'react'
 import { router, useForm } from '@inertiajs/react'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
+import Form from './Form'
 
-const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunicipios, proyectoMunicipiosImpactar, municipios, regionales, programasFormacion, modalidades, nivelesFormacion, disenosCurriculares, proyectoProgramasFormacionArticulados, proyectoDisenosCurriculares, tecnoacademiaRelacionada, aulasMoviles, talentosOtrosDepartamentos }) => {
+const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunicipios, proyectoMunicipiosImpactar, municipios, regionales, programasFormacion, modalidades, nivelesFormacion, disenosCurriculares, proyectoProgramasFormacionArticulados, proyectoDisenosCurriculares, tecnoacademiaRelacionada, aulasMoviles, talentosOtrosDepartamentos, proyectoPresupuesto, proyectoRoles, productos }) => {
     const authUser = auth.user
     const isSuperAdmin = checkRole(authUser, [1])
 
@@ -66,20 +68,6 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
         if (proyecto.allowed.to_update) {
             form.put(route('convocatorias.proyectos.metodologia', [convocatoria.id, proyecto.id]), {
                 preserveScroll: true,
-            })
-        }
-    }
-
-    let actividadId
-    let dialogEliminar
-    let allowedToDestroy
-    const destroy = () => {
-        if (allowedToDestroy && actividadId) {
-            router.delete(route('convocatorias.proyectos.actividades.destroy', [convocatoria.id, proyecto.id, actividadId]), {
-                preserveScroll: true,
-                onFinish: () => {
-                    dialogEliminar = false
-                },
             })
         }
     }
@@ -284,17 +272,25 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                                         <Label required={form.otras_nombre_instituciones_programas ? false : true} className="mb-4" labelFor="nombre_instituciones_programas" value="Instituciones donde se están ejecutando los programas y que se espera continuar con el proyecto de TecnoAcademias" />
                                     </div>
                                     <div>
-                                        <Autocomplete id="departamento_instituciones_programas" selectedValue={municipioIEEjecucion} options={regionales} placeholder="Seleccione un departamento" />
+                                        <Autocomplete
+                                            id="departamento_instituciones_programas"
+                                            selectedValue={municipioIEArticulacion}
+                                            onChange={(event, newValue) => {
+                                                setMunicipioIEArticulacion(newValue.value)
+                                            }}
+                                            options={regionales}
+                                            placeholder="Seleccione un departamento"
+                                        />
 
                                         <Tags
                                             id="nombre_instituciones_programas"
                                             className="mt-4"
-                                            whitelist={whitelistInstitucionesEducativasEjecutar}
+                                            whitelist={whitelistInstitucionesEducativasArticular}
                                             tags={form.data.nombre_instituciones_programas}
                                             value={form.data.nombre_instituciones_programas}
                                             onChange={(e) => form.setData('nombre_instituciones_programas', e.target.value)}
                                             placeholder="Nombre(s) de la(s) IE"
-                                            error={whitelistInstitucionesEducativasEjecutar.length == 0 ? 'No hay instituciones educativas registradas para el municipio seleccionado' : form.errors.nombre_instituciones_programas}
+                                            error={whitelistInstitucionesEducativasArticular.length == 0 ? 'No hay instituciones educativas registradas para el municipio seleccionado' : form.errors.nombre_instituciones_programas}
                                             required={form.data.nombre_instituciones_programas ? false : true}
                                         />
                                         <div className="mt-10">
@@ -615,6 +611,8 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                         </TableRow>
                     ))}
                 </TableMui>
+
+                <DialogMui open={dialogStatus} fullWidth={true} maxWidth="lg" blurEnabled={true} dialogContent={<Form isSuperAdmin={isSuperAdmin} setDialogStatus={setDialogStatus} method={method} proyecto={proyecto} convocatoria={convocatoria} actividad={actividad} proyectoPresupuesto={proyectoPresupuesto} proyectoRoles={proyectoRoles} productos={productos} />} />
             </Grid>
         </AuthenticatedLayout>
     )
