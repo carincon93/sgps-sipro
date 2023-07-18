@@ -51,7 +51,7 @@ const Participantes = ({ authUser, convocatoria, proyecto, rolesSennova, nuevoPa
 
     return (
         <>
-            <h1 className="text-4xl text-center">Participantes</h1>
+            <h1 className="text-3xl text-center">Participantes vinculados</h1>
 
             {proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82 || proyecto.codigo_linea_programatica == 23 ? (
                 <>
@@ -63,8 +63,6 @@ const Participantes = ({ authUser, convocatoria, proyecto, rolesSennova, nuevoPa
                     </AlertMui>
                 </>
             ) : null}
-
-            <h1 className="mt-24 mb-8 text-center text-3xl">Participantes vinculados</h1>
 
             <TableMui className="mt-20" rows={['Nombre', 'Centro de formación', 'Rol SENNOVA', 'Participación', 'Acciones']} sxCellThead={{ width: '320px' }}>
                 {proyecto.participantes.map((participante, i) => (
