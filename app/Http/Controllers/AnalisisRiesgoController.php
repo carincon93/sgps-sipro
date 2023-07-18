@@ -37,11 +37,15 @@ class AnalisisRiesgoController extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/AnalisisRiesgo/Index', [
-            'convocatoria'    => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
-            'proyecto'        => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
-            'filters'         => request()->all('search'),
-            'analisisRiesgos' => AnalisisRiesgo::where('proyecto_id', $proyecto->id)->orderBy('descripcion', 'ASC')
+            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
+            'proyecto'              => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
+            'filters'               => request()->all('search'),
+            'analisisRiesgos'       => AnalisisRiesgo::where('proyecto_id', $proyecto->id)->orderBy('descripcion', 'ASC')
                 ->filterAnalisisRiesgo(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+            'nivelesRiesgo'         => json_decode(Storage::get('json/niveles-riesgo.json'), true),
+            'tiposRiesgo'           => json_decode(Storage::get('json/tipos-riesgo.json'), true),
+            'probabilidadesRiesgo'  => json_decode(Storage::get('json/probabilidades-riesgo.json'), true),
+            'impactosRiesgo'        => json_decode(Storage::get('json/impactos-riesgo.json'), true)
         ]);
     }
 
@@ -54,14 +58,7 @@ class AnalisisRiesgoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        return Inertia::render('Convocatorias/Proyectos/AnalisisRiesgo/Create', [
-            'convocatoria'          => $convocatoria,
-            'proyecto'              => $proyecto,
-            'nivelesRiesgo'         => json_decode(Storage::get('json/niveles-riesgo.json'), true),
-            'tiposRiesgo'           => json_decode(Storage::get('json/tipos-riesgo.json'), true),
-            'probabilidadesRiesgo'  => json_decode(Storage::get('json/probabilidades-riesgo.json'), true),
-            'impactosRiesgo'        => json_decode(Storage::get('json/impactos-riesgo.json'), true)
-        ]);
+        //
     }
 
     /**
@@ -99,9 +96,7 @@ class AnalisisRiesgoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        return Inertia::render('Convocatorias/Proyectos/AnalisisRiesgo/Show', [
-            'analisisRiesgo' => $analisisRiesgo
-        ]);
+        //
     }
 
     /**
@@ -114,15 +109,7 @@ class AnalisisRiesgoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        return Inertia::render('Convocatorias/Proyectos/AnalisisRiesgo/Edit', [
-            'convocatoria'         => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
-            'proyecto'             => $proyecto,
-            'analisisRiesgo'       => $analisisRiesgo,
-            'nivelesRiesgo'        => json_decode(Storage::get('json/niveles-riesgo.json'), true),
-            'tiposRiesgo'          => json_decode(Storage::get('json/tipos-riesgo.json'), true),
-            'probabilidadesRiesgo' => json_decode(Storage::get('json/probabilidades-riesgo.json'), true),
-            'impactosRiesgo'       => json_decode(Storage::get('json/impactos-riesgo.json'), true)
-        ]);
+        //
     }
 
     /**
