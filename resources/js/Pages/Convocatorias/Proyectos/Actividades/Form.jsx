@@ -44,7 +44,7 @@ const Form = ({ isSuperAdmin, method = '', setDialogStatus, convocatoria, proyec
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
-                <h1 className="font-black text-right text-2xl mr-10">Editar actividad</h1>
+                <h1 className="font-black text-right text-2xl mr-10">Modificar actividad</h1>
             </Grid>
 
             <Grid item md={8}>
@@ -54,16 +54,16 @@ const Form = ({ isSuperAdmin, method = '', setDialogStatus, convocatoria, proyec
                             <div className="mt-8">
                                 <p className="text-center">Fecha de ejecución</p>
                                 <div className="ml-2 mt-4">
-                                    <div className={`mt-4 flex ${form.errors.fecha_inicio ? '' : 'items-center'}`}>
+                                    <div>
                                         <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
                                         <div className="ml-14">
-                                            <DatePicker id="fecha_inicio" className="mt-1 block w-full p-4" min={actividad.fecha_inicio} max={actividad.fecha_finalizacion} value={form.data.fecha_inicio} onChange={(e) => form.setData('fecha_inicio', e.target.value)} error={form.errors.fecha_inicio} required />
+                                            <DatePicker id="fecha_inicio" className="mt-1 block w-full p-4" min={proyecto.fecha_inicio} max={proyecto.fecha_finalizacion} value={form.data.fecha_inicio} onChange={(e) => form.setData('fecha_inicio', e.target.value)} error={form.errors.fecha_inicio} required />
                                         </div>
                                     </div>
-                                    <div className={`mt-4 flex ${form.errors.fecha_finalizacion ? '' : 'items-center'}`}>
+                                    <div>
                                         <Label required labelFor="fecha_finalizacion" value="Fecha de finalización" />
                                         <div className="ml-4">
-                                            <DatePicker id="fecha_finalizacion" className="mt-1 block w-full p-4" min={actividad.fecha_inicio} max={actividad.fecha_finalizacion} value={form.data.fecha_finalizacion} onChange={(e) => form.setData('fecha_finalizacion', e.target.value)} error={form.errors.fecha_finalizacion} required />
+                                            <DatePicker id="fecha_finalizacion" className="mt-1 block w-full p-4" min={proyecto.fecha_inicio} max={proyecto.fecha_finalizacion} value={form.data.fecha_finalizacion} onChange={(e) => form.setData('fecha_finalizacion', e.target.value)} error={form.errors.fecha_finalizacion} required />
                                         </div>
                                     </div>
                                 </div>

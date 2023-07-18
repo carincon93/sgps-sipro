@@ -59,24 +59,23 @@ class ProductoController extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/Productos/Index', [
-            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
-            'proyecto'              => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
-            'filters'               => request()->all('search'),
-            'validacionResultados'  => $validacionResultados,
-            'productos'             => Producto::whereIn(
-                'resultado_id',
-                $resultado->map(function ($resultado) {
-                    return $resultado->id;
-                })
-            )->with('resultado.objetivoEspecifico', 'productoTaTp')->orderBy('resultado_id', 'ASC')
-                ->filterProducto(request()->only('search'))->paginate()->appends(['search' => request()->search]),
-            'productosGantt'        => Producto::whereIn(
-                'resultado_id',
-                $resultado->map(function ($resultado) {
-                    return $resultado->id;
-                })
-            )->orderBy('fecha_inicio', 'ASC')->get(),
-            'to_pdf'          => ($request->to_pdf == 1) ? true : false
+            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
+            'proyecto'                  => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
+            'filters'                   => request()->all('search'),
+            'validacionResultados'      => $validacionResultados,
+            'productos'                 => Producto::whereIn(
+                                            'resultado_id',
+                                                $resultado->map(function ($resultado) {
+                                                    return $resultado->id;
+                                                })
+                                            )->with('actividades', 'resultado.objetivoEspecifico', 'productoTaTp')->orderBy('resultado_id', 'ASC')->filterProducto(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+
+            'resultados'                => Resultado::select('resultados.id as value', 'resultados.descripcion as label', 'resultados.id as id')->whereHas('efectoDirecto', function ($query) use ($proyecto) {
+                                                $query->where('efectos_directos.proyecto_id', $proyecto->id);
+                                            })->where('resultados.descripcion', '!=', null)->with('actividades')->get(),
+            'subtipologiasMinciencias'  => SelectHelper::subtipologiasMinciencias(),
+            'tiposProducto'             => json_decode(Storage::get('json/tipos-producto.json'), true),
+
         ]);
     }
 
@@ -89,23 +88,7 @@ class ProductoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->idi;
-        $proyecto->culturaInnovacion;
-        $proyecto->ta;
-        $proyecto->tp;
-        $proyecto->servicioTecnologico;
-
-        $proyectoId = $proyecto->id;
-
-        return Inertia::render('Convocatorias/Proyectos/Productos/Create', [
-            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
-            'proyecto'                  => $proyecto,
-            'resultados'                => Resultado::select('resultados.id as value', 'resultados.descripcion as label', 'resultados.id as id')->whereHas('efectoDirecto', function ($query) use ($proyectoId) {
-                $query->where('efectos_directos.proyecto_id', $proyectoId);
-            })->where('resultados.descripcion', '!=', null)->with('actividades')->get(),
-            'subtipologiasMinciencias'  => SelectHelper::subtipologiasMinciencias(),
-            'tiposProducto'             => json_decode(Storage::get('json/tipos-producto.json'), true),
-        ]);
+        //
     }
 
     /**
@@ -206,32 +189,7 @@ class ProductoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
-
-        $proyecto->idi;
-        $producto->productoIdi;
-        $proyecto->culturaInnovacion;
-        $producto->productoCulturaInnovacion;
-        $proyecto->ta;
-        $proyecto->tp;
-        $producto->productoTaTp;
-        $proyecto->servicioTecnologico;
-        $producto->productoServicioTecnologico;
-        $producto->resultado;
-
-        $proyectoId = $proyecto->id;
-
-        return Inertia::render('Convocatorias/Proyectos/Productos/Edit', [
-            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
-            'proyecto'                  => $proyecto,
-            'producto'                  => $producto,
-            'actividadesRelacionadas'   => $producto->actividades()->pluck('actividades.id'),
-            'resultados'                => Resultado::select('resultados.id as value', 'resultados.descripcion as label', 'resultados.id as id')->whereHas('efectoDirecto', function ($query) use ($proyectoId) {
-                $query->where('efectos_directos.proyecto_id', $proyectoId);
-            })->where('resultados.descripcion', '!=', null)->with('actividades')->get(),
-            'subtipologiasMinciencias'  => SelectHelper::subtipologiasMinciencias(),
-            'tiposProducto'             => json_decode(Storage::get('json/tipos-producto.json'), true),
-        ]);
+        //
     }
 
     /**
