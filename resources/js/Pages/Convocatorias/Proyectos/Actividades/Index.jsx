@@ -25,7 +25,7 @@ import { router, useForm } from '@inertiajs/react'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Form from './Form'
 
-const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunicipios, proyectoMunicipiosImpactar, municipios, regionales, programasFormacion, modalidades, nivelesFormacion, disenosCurriculares, proyectoProgramasFormacionArticulados, proyectoDisenosCurriculares, tecnoacademiaRelacionada, aulasMoviles, talentosOtrosDepartamentos, proyectoPresupuesto, proyectoRoles, productos }) => {
+const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunicipios, proyectoMunicipiosImpactar, municipios, regionales, programasFormacion, disenosCurriculares, proyectoProgramasFormacionArticulados, proyectoDisenosCurriculares, tecnoacademiaRelacionada, aulasMoviles, talentosOtrosDepartamentos, proyectoPresupuesto, proyectoRoles, productos }) => {
     const authUser = auth.user
     const isSuperAdmin = checkRole(authUser, [1])
 
@@ -547,9 +547,11 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                 </form>
             </Grid>
 
-            <Grid item md={12}>
-                <AulaMovil auth={auth} convocatoria={convocatoria} proyecto={proyecto} aulasMoviles={aulasMoviles} />
-            </Grid>
+            {tecnoacademiaRelacionada?.modalidad == 2 && (
+                <Grid item md={12}>
+                    <AulaMovil auth={auth} convocatoria={convocatoria} proyecto={proyecto} aulasMoviles={aulasMoviles} />
+                </Grid>
+            )}
 
             <Grid item md={12}>
                 <TableMui className="mt-20" rows={['Descripción', 'Fechas', 'Objetivo específico', 'Acciones']} sxCellThead={{ width: '320px' }}>
