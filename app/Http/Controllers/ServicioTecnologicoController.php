@@ -26,7 +26,7 @@ class ServicioTecnologicoController extends Controller
      */
     public function index(Convocatoria $convocatoria)
     {
-        return Inertia::render('Convocatorias/Proyectos/ServiciosTecnologicos/Index', [
+        return Inertia::render('Convocatorias/Proyectos/ProyectosLinea68/Index', [
             'convocatoria'          => $convocatoria,
             'filters'               => request()->all('search', 'estructuracion_proyectos'),
             'serviciosTecnologicos' => ServicioTecnologico::getProyectosPorRol($convocatoria)->appends(['search' => request()->search, 'estructuracion_proyectos' => request()->estructuracion_proyectos]),
@@ -52,7 +52,7 @@ class ServicioTecnologicoController extends Controller
             $tipoProyectoSt = SelectHelper::tiposProyectosSt();
         }
 
-        return Inertia::render('Convocatorias/Proyectos/ServiciosTecnologicos/Create', [
+        return Inertia::render('Convocatorias/Proyectos/ProyectosLinea68/Create', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_68', 'max_fecha_finalizacion_proyectos_linea_68', 'fecha_maxima_st'),
             'roles'                     => collect(json_decode(Storage::get('json/roles-sennova-st.json'), true)),
             'sectoresProductivos'       => collect(json_decode(Storage::get('json/sectores-productivos.json'), true)),
@@ -155,7 +155,7 @@ class ServicioTecnologicoController extends Controller
             $tipoProyectoSt = SelectHelper::tiposProyectosSt();
         }
 
-        return Inertia::render('Convocatorias/Proyectos/ServiciosTecnologicos/Edit', [
+        return Inertia::render('Convocatorias/Proyectos/ProyectosLinea68/Edit', [
             'convocatoria'                              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_68', 'max_fecha_finalizacion_proyectos_linea_68', 'fecha_maxima_st', 'mostrar_recomendaciones'),
             'servicioTecnologico'                       => $servicioTecnologico,
             'lineasProgramaticas'                       => SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 3)->values()->all(),

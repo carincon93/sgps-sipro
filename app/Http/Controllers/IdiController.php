@@ -25,7 +25,7 @@ class IdiController extends Controller
      */
     public function index(Convocatoria $convocatoria)
     {
-        return Inertia::render('Convocatorias/Proyectos/Idi/Index', [
+        return Inertia::render('Convocatorias/Proyectos/ProyectosLinea66/Index', [
             'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'tipo_convocatoria'),
             'filters'           => request()->all('search', 'estructuracion_proyectos'),
             'idi'               => Idi::getProyectosPorRol($convocatoria)->appends(['search' => request()->search, 'estructuracion_proyectos' => request()->estructuracion_proyectos]),
@@ -51,7 +51,7 @@ class IdiController extends Controller
             $centrosFormacion = SelectHelper::centrosFormacion();
         }
 
-        return Inertia::render('Convocatorias/Proyectos/Idi/Create', [
+        return Inertia::render('Convocatorias/Proyectos/ProyectosLinea66/Create', [
             'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_idi', 'max_fecha_finalizacion_proyectos_idi', 'fecha_maxima_idi', 'campos_convocatoria'),
             'roles'                             => collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true)),
             'centrosFormacion'                  => $centrosFormacion,
@@ -186,7 +186,7 @@ class IdiController extends Controller
         $idi->mostrar_recomendaciones = $idi->proyecto->mostrar_recomendaciones;
         $idi->mostrar_requiere_subsanacion = $idi->proyecto->mostrar_requiere_subsanacion;
 
-        return Inertia::render('Convocatorias/Proyectos/Idi/Edit', [
+        return Inertia::render('Convocatorias/Proyectos/ProyectosLinea66/Edit', [
             'convocatoria'                              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_idi', 'max_fecha_finalizacion_proyectos_idi', 'fecha_maxima_idi', 'mostrar_recomendaciones', 'campos_convocatoria'),
             'idi'                                       => $idi,
             'mesasSectorialesRelacionadas'              => $idi->mesasSectoriales()->pluck('mesas_sectoriales.id'),

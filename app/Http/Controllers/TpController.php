@@ -30,7 +30,7 @@ class TpController extends Controller
      */
     public function index(Convocatoria $convocatoria)
     {
-        return Inertia::render('Convocatorias/Proyectos/Tp/Index', [
+        return Inertia::render('Convocatorias/Proyectos/ProyectosLinea69/Index', [
             'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'tipo_convocatoria'),
             'filters'           => request()->all('search', 'estructuracion_proyectos'),
             'proyectosTp'       => Tp::getProyectosPorRol($convocatoria)->appends(['search' => request()->search, 'estructuracion_proyectos' => request()->estructuracion_proyectos]),
@@ -56,7 +56,7 @@ class TpController extends Controller
             $nodosTecnoParque = SelectHelper::nodosTecnoparque();
         }
 
-        return Inertia::render('Convocatorias/Proyectos/Tp/Create', [
+        return Inertia::render('Convocatorias/Proyectos/ProyectosLinea69/Create', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_69', 'max_fecha_finalizacion_proyectos_linea_69', 'fecha_maxima_tp'),
             'rolesTp'               => collect(json_decode(Storage::get('json/roles-sennova-tp.json'), true)),
             'nodosTecnoParque'      => $nodosTecnoParque,
@@ -137,7 +137,7 @@ class TpController extends Controller
         $tp->mostrar_recomendaciones        = $tp->proyecto->mostrar_recomendaciones;
         $tp->mostrar_requiere_subsanacion   = $tp->proyecto->mostrar_requiere_subsanacion;
 
-        return Inertia::render('Convocatorias/Proyectos/Tp/Edit', [
+        return Inertia::render('Convocatorias/Proyectos/ProyectosLinea69/Edit', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_69', 'max_fecha_finalizacion_proyectos_linea_69', 'fecha_maxima_tp', 'mostrar_recomendaciones', 'year', 'descripcion'),
             'tp'                    => $tp,
             'regionales'            => SelectHelper::regionales(),

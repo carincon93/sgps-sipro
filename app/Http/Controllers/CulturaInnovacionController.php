@@ -27,7 +27,7 @@ class CulturaInnovacionController extends Controller
      */
     public function index(Convocatoria $convocatoria)
     {
-        return Inertia::render('Convocatorias/Proyectos/CulturaInnovacion/Index', [
+        return Inertia::render('Convocatorias/Proyectos/ProyectosLinea65/Index', [
             'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'fase'),
             'filters'           => request()->all('search', 'estructuracion_proyectos'),
             'culturaInnovacion' => CulturaInnovacion::getProyectosPorRol($convocatoria)->appends(['search' => request()->search, 'estructuracion_proyectos' => request()->estructuracion_proyectos]),
@@ -46,7 +46,7 @@ class CulturaInnovacionController extends Controller
 
         $centrosFormacion = CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo) as label')->orderBy('centros_formacion.nombre', 'ASC')->get();
 
-        return Inertia::render('Convocatorias/Proyectos/CulturaInnovacion/Create', [
+        return Inertia::render('Convocatorias/Proyectos/ProyectosLinea65/Create', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_65', 'max_fecha_finalizacion_proyectos_cultura', 'fecha_maxima_cultura'),
             'roles'                 => collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true)),
             'centrosFormacion'      => $centrosFormacion,
@@ -158,7 +158,7 @@ class CulturaInnovacionController extends Controller
         $culturaInnovacion->mostrar_recomendaciones = $culturaInnovacion->proyecto->mostrar_recomendaciones;
         $culturaInnovacion->mostrar_requiere_subsanacion = $culturaInnovacion->proyecto->mostrar_requiere_subsanacion;
 
-        return Inertia::render('Convocatorias/Proyectos/CulturaInnovacion/Edit', [
+        return Inertia::render('Convocatorias/Proyectos/ProyectosLinea65/Edit', [
             'convocatoria'                              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_65', 'max_fecha_finalizacion_proyectos_cultura', 'fecha_maxima_cultura', 'mostrar_recomendaciones', 'campos_convocatoria'),
             'culturaInnovacion'                         => $culturaInnovacion,
             'mesasSectorialesRelacionadas'              => $culturaInnovacion->mesasSectoriales()->pluck('mesas_sectoriales.id'),

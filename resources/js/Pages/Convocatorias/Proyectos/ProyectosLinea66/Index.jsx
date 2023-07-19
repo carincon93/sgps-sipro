@@ -1,20 +1,22 @@
-import { Link, router } from '@inertiajs/react'
-
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
-import { route, checkRole } from '@/Utils'
-
-import AlertDialog from '@/Components/Dialog'
 import AlertMui from '@/Components/Alert'
 import MenuMui from '@/Components/Menu'
 import TableMui from '@/Components/Table'
 
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { Chip, Divider, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
+import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
-const Index = ({ auth, convocatoria, idi, errors, allowedToCreate }) => {
+import { useState } from 'react'
+import { Link, router } from '@inertiajs/react'
+
+import { route, checkRole } from '@/Utils'
+
+const Index = ({ auth, convocatoria, idi, allowedToCreate }) => {
     const authUser = auth.user
     const isSuperAdmin = checkRole(authUser, [1])
+
+    const [proyectoLinea66ToDestroy, setProyectoLinea66ToDestroy] = useState(null)
 
     return (
         <AuthenticatedLayout user={authUser} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
@@ -35,7 +37,7 @@ const Index = ({ auth, convocatoria, idi, errors, allowedToCreate }) => {
                 <div>
                     {allowedToCreate && (
                         <Link href={route('convocatorias.idi.create', [convocatoria.id])} variant="raised">
-                            Crear proyecto I+D+i
+                            Formular un nuevo proyecto
                         </Link>
                     )}
                 </div>
@@ -49,13 +51,11 @@ const Index = ({ auth, convocatoria, idi, errors, allowedToCreate }) => {
                                 <div>
                                     <Chip className="mb-4" label={proyecto?.codigo} />
 
-                                    {/* {proyecto?.mostrar_recomendaciones &&
-                    proyecto?.mostrar_requiere_subsanacion &&
-                    JSON.parse(proyecto?.estado)?.requiereSubsanar && (
-                      <span className="bg-red-100 inline-block mt-2 p-2 rounded text-red-400">
-                        Requiere ser subsanado
-                      </span>
-                    )} */}
+                                    {JSON.parse(proyecto.estado_cord_sennova)?.requiereSubsanar && proyecto.mostrar_recomendaciones == true && proyecto.mostrar_requiere_subsanacion == true ? (
+                                        <AlertMui hiddenIcon={true}>Requiere ser subsanado</AlertMui>
+                                    ) : (
+                                        JSON.parse(proyecto.estado)?.requiereSubsanar && proyecto.mostrar_recomendaciones == true && proyecto.mostrar_requiere_subsanacion == true && <AlertMui hiddenIcon={true}>Requiere ser subsanado</AlertMui>
+                                    )}
                                 </div>
                                 <p>{titulo}</p>
                             </TableCell>
@@ -94,29 +94,49 @@ const Index = ({ auth, convocatoria, idi, errors, allowedToCreate }) => {
                             </TableCell>
 
                             <TableCell>
-                                <MenuMui text={<MoreVertIcon />} className="">
-                                    <MenuItem onClick={() => router.visit(route('convocatorias.idi.edit', [convocatoria.id, id]))} disabled={!proyecto?.allowed?.to_view} className={!proyecto?.allowed?.to_view ? 'hidden' : ''}>
-                                        Ver detalles
-                                    </MenuItem>
-                                    <Divider className={!proyecto?.allowed?.to_destroy ? 'hidden' : ''} />
-                                    <MenuItem
-                                        onClick={() => {
-                                            setProyectoId(id)
-                                            setOpenDialog(true)
-                                            setAllowedToDestroy(proyecto?.allowed?.to_destroy)
-                                        }}
-                                        disabled={!proyecto?.allowed?.to_destroy}
-                                        className={!proyecto?.allowed?.to_destroy ? 'hidden' : ''}
-                                    >
-                                        Eliminar
-                                    </MenuItem>
+                                <MenuMui text={<MoreVertIcon />}>
+                                    {proyecto.id !== proyectoLinea66ToDestroy ? (
+                                        <div>
+                                            <MenuItem onClick={() => router.visit(route('convocatorias.idi.edit', [convocatoria.id, id]))} disabled={!proyecto?.allowed?.to_view} className={!proyecto?.allowed?.to_view ? 'hidden' : ''}>
+                                                Editar
+                                            </MenuItem>
+                                            <MenuItem
+                                                onClick={() => {
+                                                    setProyectoLinea66ToDestroy(proyecto.id)
+                                                }}
+                                            >
+                                                Eliminar
+                                            </MenuItem>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <MenuItem
+                                                onClick={(e) => {
+                                                    setProyectoLinea66ToDestroy(null)
+                                                }}
+                                            >
+                                                Cancelar
+                                            </MenuItem>
+                                            <MenuItem
+                                                sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
+                                                onClick={(e) => {
+                                                    e.stopPropagation()
+                                                    if (proyecto.allowed.to_update) {
+                                                        router.delete(route('convocatorias.idi.destroy', [convocatoria.id, proyecto.id]), {
+                                                            preserveScroll: true,
+                                                        })
+                                                    }
+                                                }}
+                                            >
+                                                Confirmar
+                                            </MenuItem>
+                                        </div>
+                                    )}
                                 </MenuMui>
                             </TableCell>
                         </TableRow>
                     ))}
                 </TableMui>
-
-                {/* <AlertDialog open={openDialog}>Eliminar</AlertDialog> */}
             </Grid>
         </AuthenticatedLayout>
     )

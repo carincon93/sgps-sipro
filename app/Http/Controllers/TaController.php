@@ -30,7 +30,7 @@ class TaController extends Controller
      */
     public function index(Convocatoria $convocatoria)
     {
-        return Inertia::render('Convocatorias/Proyectos/Ta/Index', [
+        return Inertia::render('Convocatorias/Proyectos/ProyectosLinea70/Index', [
             'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'tipo_convocatoria'),
             'filters'           => request()->all('search', 'estructuracion_proyectos'),
             'proyectosTa'       => Ta::getProyectosPorRol($convocatoria)->appends(['search' => request()->search, 'estructuracion_proyectos' => request()->estructuracion_proyectos]),
@@ -56,7 +56,7 @@ class TaController extends Controller
             $tecnoacademias = SelectHelper::tecnoacademias();
         }
 
-        return Inertia::render('Convocatorias/Proyectos/Ta/Create', [
+        return Inertia::render('Convocatorias/Proyectos/ProyectosLinea70/Create', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_70', 'max_fecha_finalizacion_proyectos_linea_70', 'fecha_maxima_ta'),
             'tecnoacademias'        => $tecnoacademias,
             'lineasTecnoacademia'   => SelectHelper::lineasTecnoacademia(),
@@ -145,7 +145,7 @@ class TaController extends Controller
             $tecnoacademias = SelectHelper::tecnoacademias();
         }
 
-        return Inertia::render('Convocatorias/Proyectos/Ta/Edit', [
+        return Inertia::render('Convocatorias/Proyectos/ProyectosLinea70/Edit', [
             'convocatoria'                          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_70', 'max_fecha_finalizacion_proyectos_linea_70', 'fecha_maxima_ta', 'mostrar_recomendaciones', 'descripcion'),
             'ta'                                    => $ta,
             'tecnoacademiaRelacionada'              => $ta->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $ta->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia : null,
