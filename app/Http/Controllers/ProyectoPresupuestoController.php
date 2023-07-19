@@ -39,7 +39,7 @@ class ProyectoPresupuestoController extends Controller
             'proyecto'                  => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'codigo', 'diff_meses', 'total_proyecto_presupuesto', 'total_maquinaria_industrial', 'total_servicios_especiales_construccion', 'total_viaticos', 'total_mantenimiento_maquinaria', 'en_subsanacion', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed'),
             'rubrosPresupuestales'      => ProyectoPresupuesto::select('proyecto_presupuesto.*')->where('proyecto_presupuesto.proyecto_id', $proyecto->id)
                                             ->filterProyectoPresupuesto(request()->only('search', 'presupuestos'))
-                                            ->with('convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal', 'proyectoPresupuestosEvaluaciones.evaluacion', 'softwareInfo', 'servicioEdicionInfo', 'taTpViaticosMunicipios', 'convocatoriaPresupuesto.presupuestoSennova.tercerGrupoPresupuestal:id,nombre', 'convocatoriaPresupuesto.presupuestoSennova.segundoGrupoPresupuestal:id,nombre,codigo', 'convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal:id,descripcion')
+                                            ->with('convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal:id,descripcion,codigo', 'proyectoPresupuestosEvaluaciones.evaluacion', 'softwareInfo', 'servicioEdicionInfo', 'taTpViaticosMunicipios', 'convocatoriaPresupuesto.presupuestoSennova.tercerGrupoPresupuestal:id,nombre', 'convocatoriaPresupuesto.presupuestoSennova.segundoGrupoPresupuestal:id,nombre,codigo', 'convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal:id,descripcion')
                                             ->orderBy('proyecto_presupuesto.id')
                                             ->paginate()
                                             ->appends(['search' => request()->search, 'presupuestos' => request()->presupuestos]),
@@ -156,7 +156,7 @@ class ProyectoPresupuestoController extends Controller
     public function update(ProyectoPresupuestoRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto)
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
-        
+
         $presupuesto->fill($request->all());
         $presupuesto->save();
 

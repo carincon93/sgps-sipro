@@ -23,7 +23,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisisRi
         e.preventDefault()
         if (proyecto.allowed.to_update) {
             method == 'crear'
-                ? form.put(route('convocatorias.proyectos.analisis-riesgos.store', [convocatoria.id, proyecto.id]), {
+                ? form.post(route('convocatorias.proyectos.analisis-riesgos.store', [convocatoria.id, proyecto.id]), {
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
                   })

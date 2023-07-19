@@ -78,7 +78,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, proyectoPresupues
                                 <span className="text-5xl font-black">1.</span>
                                 <a href="/storage/documentos-descarga/Formato%20_guia_4_Estudio_de_mercado.xlsx" className="my-4 inline-block underline" target="_blank">
                                     <DownloadIcon />
-                                    <strong>Descargar el Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>
+                                    <strong>Descargue el Estudio de mercado - Convocatoria Sennova {convocatoria.year} haciendo clic aquí</strong>
                                 </a>
                                 <br />
                                 <p className="ml-14">

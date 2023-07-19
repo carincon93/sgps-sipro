@@ -12,6 +12,7 @@ import { checkRole } from '@/Utils'
 import { useEffect } from 'react'
 import { useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
+import ToolTipMui from '@/Components/Tooltip'
 
 const CadenaValor = ({ auth, convocatoria, proyecto, objetivos, objetivoGeneral, productos, ...props }) => {
     const authUser = auth.user
@@ -97,6 +98,54 @@ const CadenaValor = ({ auth, convocatoria, proyecto, objetivos, objetivoGeneral,
         <AuthenticatedLayout>
             <Grid item md={12}>
                 <h1 className="text-3xl mt-24 text-center">Propuesta de sostenibilidad</h1>
+
+                {isSuperAdmin || proyecto.mostrar_recomendaciones ? (
+                    <>
+                        {proyecto.evaluaciones.map((evaluacion, i) =>
+                            isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado) ? (
+                                <ToolTipMui
+                                    key={i}
+                                    title={
+                                        <div>
+                                            <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
+                                            {evaluacion.idi_evaluacion ? (
+                                                <p className="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion?.cadena_valor_comentario ? evaluacion.idi_evaluacion.cadena_valor_comentario : 'Sin recomendación'}</p>
+                                            ) : evaluacion.cultura_innovacion_evaluacion ? (
+                                                <p className="whitespace-pre-line text-xs">{evaluacion.cultura_innovacion_evaluacion?.cadena_valor_comentario ? evaluacion.cultura_innovacion_evaluacion.cadena_valor_comentario : 'Sin recomendación'}</p>
+                                            ) : evaluacion.ta_evaluacion ? (
+                                                <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion?.cadena_valor_comentario ? evaluacion.ta_evaluacion.cadena_valor_comentario : 'Sin recomendación'}</p>
+                                            ) : evaluacion.tp_evaluacion ? (
+                                                <p className="whitespace-pre-line text-xs">{evaluacion.tp_evaluacion?.cadena_valor_comentario ? evaluacion.tp_evaluacion.cadena_valor_comentario : 'Sin recomendación'}</p>
+                                            ) : (
+                                                evaluacion.servicio_tecnologico_evaluacion && (
+                                                    <>
+                                                        <hr className="mt-10 mb-10 border-black-200" />
+                                                        <h1 className="font-black">Propuesta de sostenibilidad</h1>
+
+                                                        <p className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.propuesta_sostenibilidad_comentario ? 'Recomendación: ' + evaluacion.servicio_tecnologico_evaluacion.propuesta_sostenibilidad_comentario : 'Sin recomendación'}</p>
+
+                                                        <hr className="mt-10 mb-10 border-black-200" />
+                                                        <h1 className="font-black">Impactos</h1>
+
+                                                        <ul className="list-disc pl-4">
+                                                            <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.impacto_ambiental_comentario ? 'Recomendación impacto ambiental: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_ambiental_comentario : 'Sin recomendación'}</li>
+                                                            <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.impacto_social_centro_comentario ? 'Recomendación impacto social en el centro de formación: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_social_centro_comentario : 'Sin recomendación'}</li>
+                                                            <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.impacto_social_productivo_comentario ? 'Recomendación impacto social en el sector productivo: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_social_productivo_comentario : 'Sin recomendación'}</li>
+                                                            <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.impacto_tecnologico_comentario ? 'Recomendación impacto tecnológico: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_tecnologico_comentario : 'Sin recomendación'}</li>
+                                                        </ul>
+                                                    </>
+                                                )
+                                            )}
+                                        </div>
+                                    }
+                                >
+                                    Evaluación {i + 1}
+                                </ToolTipMui>
+                            ) : null,
+                        )}
+                        {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
+                    </>
+                ) : null}
 
                 {proyecto.codigo_linea_programatica == 70 && (
                     <AlertMui hiddenIcon={true} className="text-center my-24">
