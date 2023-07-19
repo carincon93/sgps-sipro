@@ -36,7 +36,7 @@ export default function Dashboard({ auth, convocatorias }) {
 
             {isSuperAdmin || checkRole(authUser, [11]) || checkPermission(authUser, [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18, 19, 14, 15, 16, 20, 21])
                 ? convocatorias.data.map((convocatoria) =>
-                      (convocatoria.visible) || isSuperAdmin || checkRole(authUser, [5, 17, 18, 19, 20]) ? (
+                      convocatoria.visible || isSuperAdmin || checkRole(authUser, [5, 17, 18, 19, 20]) ? (
                           <Grid item md={4} key={convocatoria.id} className="mb-20 relative">
                               {isSuperAdmin && (
                                   <MenuMui className="!min-w-0 !absolute right-0 z-10" text={<EditIcon />}>
@@ -59,6 +59,7 @@ export default function Dashboard({ auth, convocatorias }) {
                                       e.stopPropagation, router.visit(route('convocatorias.lineas-programaticas.index', convocatoria.id))
                                   }}
                                   className="w-full relative overflow-hidden !shadow-md px-6 py-2 h-72 flex justify-center items-center flex-col"
+                                  primary={false}
                               >
                                   <h1 className="text-2xl text-center my-4">
                                       {convocatoria.tipo_convocatoria == 1 ? (

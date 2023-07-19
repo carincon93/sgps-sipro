@@ -10,7 +10,7 @@ import MenuMui from '@/Components/Menu'
 import TableMui from '@/Components/Table'
 
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { Chip, Divider, MenuItem, TableCell, TableRow } from '@mui/material'
+import { Chip, Divider, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 const Index = ({ auth, convocatoria, idi, errors, allowedToCreate }) => {
     const authUser = auth.user
@@ -18,102 +18,106 @@ const Index = ({ auth, convocatoria, idi, errors, allowedToCreate }) => {
 
     return (
         <AuthenticatedLayout user={authUser} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
-            <div>
-                Investigación aplicada y semilleros de investigación en centros de formación - Línea 66
-                <br />
-                Actualización y modernización tecnológica de los centros de formación - Línea 23
-                <br />
-                Dotación tecnológica de ambientes de formación para las nuevas sedes - Línea 23
-                <br />
-                Fomento de la innovación y desarrollo tecnológico en las empresas - Línea 82
-                <br />
-                {convocatoria.tipo_convocatoria == 2 && <>- Proyectos de ejercicio (DEMO)</>}
-                <AlertMui hiddenIcon={true}>A continuación, se listan únicamente los proyectos que usted ha creado y también en los que está asociado.</AlertMui>
-            </div>
+            <Grid item md={12}>
+                <div>
+                    Investigación aplicada y semilleros de investigación en centros de formación - Línea 66
+                    <br />
+                    Actualización y modernización tecnológica de los centros de formación - Línea 23
+                    <br />
+                    Dotación tecnológica de ambientes de formación para las nuevas sedes - Línea 23
+                    <br />
+                    Fomento de la innovación y desarrollo tecnológico en las empresas - Línea 82
+                    <br />
+                    {convocatoria.tipo_convocatoria == 2 && <>- Proyectos de ejercicio (DEMO)</>}
+                    <AlertMui hiddenIcon={true}>A continuación, se listan únicamente los proyectos que usted ha creado y también en los que está asociado.</AlertMui>
+                </div>
 
-            <div>
-                {allowedToCreate && (
-                    <Link href={route('convocatorias.idi.create', [convocatoria.id])} variant="raised">
-                        Crear proyecto I+D+i
-                    </Link>
-                )}
-            </div>
+                <div>
+                    {allowedToCreate && (
+                        <Link href={route('convocatorias.idi.create', [convocatoria.id])} variant="raised">
+                            Crear proyecto I+D+i
+                        </Link>
+                    )}
+                </div>
+            </Grid>
 
-            <TableMui className="mt-20" rows={['Título', 'Fecha de ejecución', 'Estado (Evaluación)', 'Acciones']}>
-                {idi.data.map(({ id, proyecto, titulo, fecha_ejecucion }) => (
-                    <TableRow key={id}>
-                        <TableCell>
-                            <div>
-                                <Chip className="mb-4" label={proyecto?.codigo} />
+            <Grid item md={12}>
+                <TableMui className="mt-20" rows={['Título', 'Fecha de ejecución', 'Estado (Evaluación)', 'Acciones']}>
+                    {idi.data.map(({ id, proyecto, titulo, fecha_ejecucion }) => (
+                        <TableRow key={id}>
+                            <TableCell>
+                                <div>
+                                    <Chip className="mb-4" label={proyecto?.codigo} />
 
-                                {/* {proyecto?.mostrar_recomendaciones &&
+                                    {/* {proyecto?.mostrar_recomendaciones &&
                     proyecto?.mostrar_requiere_subsanacion &&
                     JSON.parse(proyecto?.estado)?.requiereSubsanar && (
                       <span className="bg-red-100 inline-block mt-2 p-2 rounded text-red-400">
                         Requiere ser subsanado
                       </span>
                     )} */}
-                            </div>
-                            <p>{titulo}</p>
-                        </TableCell>
-                        <TableCell>
-                            <p>{fecha_ejecucion}</p>
-                        </TableCell>
-                        <TableCell>
-                            {isSuperAdmin ||
-                            checkRole(authUser, [18]) ||
-                            (checkRole(authUser, [4, 6]) && proyecto?.mostrar_recomendaciones && convocatoria.tipo_convocatoria == 1) ||
-                            (checkRole(authUser, [4, 6]) && proyecto?.mostrar_recomendaciones && convocatoria.tipo_convocatoria == 3) ||
-                            (convocatoria.fase == 5 && proyecto?.mostrar_recomendaciones && convocatoria.tipo_convocatoria == 1) ||
-                            (convocatoria.fase == 5 && proyecto?.mostrar_recomendaciones && convocatoria.tipo_convocatoria == 3) ? (
-                                <AlertMui hiddenIcon={true}>
-                                    {proyecto?.estado_evaluacion_idi?.estado}
-                                    <div>Puntaje: {proyecto?.estado_evaluacion_idi?.puntaje}</div>
-                                    <small>
-                                        Número de recomendaciones: {proyecto?.estado_evaluacion_idi?.numeroRecomendaciones}
-                                        <br />
-                                        Evaluaciones: {proyecto?.estado_evaluacion_idi?.evaluacionesHabilitadas} habilitada(s) / {proyecto?.estado_evaluacion_idi?.evaluacionesFinalizadas} finalizada(s)
-                                    </small>
-                                </AlertMui>
-                            ) : (
-                                <AlertMui hiddenIcon={true}>Aún no tiene permisos para ver el estado de evaluación de este proyecto.</AlertMui>
-                            )}
+                                </div>
+                                <p>{titulo}</p>
+                            </TableCell>
+                            <TableCell>
+                                <p>{fecha_ejecucion}</p>
+                            </TableCell>
+                            <TableCell>
+                                {isSuperAdmin ||
+                                checkRole(authUser, [18]) ||
+                                (checkRole(authUser, [4, 6]) && proyecto?.mostrar_recomendaciones && convocatoria.tipo_convocatoria == 1) ||
+                                (checkRole(authUser, [4, 6]) && proyecto?.mostrar_recomendaciones && convocatoria.tipo_convocatoria == 3) ||
+                                (convocatoria.fase == 5 && proyecto?.mostrar_recomendaciones && convocatoria.tipo_convocatoria == 1) ||
+                                (convocatoria.fase == 5 && proyecto?.mostrar_recomendaciones && convocatoria.tipo_convocatoria == 3) ? (
+                                    <AlertMui hiddenIcon={true}>
+                                        {proyecto?.estado_evaluacion_idi?.estado}
+                                        <div>Puntaje: {proyecto?.estado_evaluacion_idi?.puntaje}</div>
+                                        <small>
+                                            Número de recomendaciones: {proyecto?.estado_evaluacion_idi?.numeroRecomendaciones}
+                                            <br />
+                                            Evaluaciones: {proyecto?.estado_evaluacion_idi?.evaluacionesHabilitadas} habilitada(s) / {proyecto?.estado_evaluacion_idi?.evaluacionesFinalizadas} finalizada(s)
+                                        </small>
+                                    </AlertMui>
+                                ) : (
+                                    <AlertMui hiddenIcon={true}>Aún no tiene permisos para ver el estado de evaluación de este proyecto.</AlertMui>
+                                )}
 
-                            {isSuperAdmin || checkRole(authUser, [18]) ? (
-                                <>
-                                    {proyecto?.estado_evaluacion_idi?.alerta && (
-                                        <AlertMui severity="error" className="mt-4" hiddenIcon={true}>
-                                            Importante: {proyecto?.estado_evaluacion_idi?.alerta}
-                                        </AlertMui>
-                                    )}
-                                </>
-                            ) : null}
-                        </TableCell>
+                                {isSuperAdmin || checkRole(authUser, [18]) ? (
+                                    <>
+                                        {proyecto?.estado_evaluacion_idi?.alerta && (
+                                            <AlertMui severity="error" className="mt-4" hiddenIcon={true}>
+                                                Importante: {proyecto?.estado_evaluacion_idi?.alerta}
+                                            </AlertMui>
+                                        )}
+                                    </>
+                                ) : null}
+                            </TableCell>
 
-                        <TableCell>
-                            <MenuMui text={<MoreVertIcon />} className="">
-                                <MenuItem onClick={() => router.visit(route('convocatorias.idi.edit', [convocatoria.id, id]))} disabled={!proyecto?.allowed?.to_view} className={!proyecto?.allowed?.to_view ? 'hidden' : ''}>
-                                    Ver detalles
-                                </MenuItem>
-                                <Divider className={!proyecto?.allowed?.to_destroy ? 'hidden' : ''} />
-                                <MenuItem
-                                    onClick={() => {
-                                        setProyectoId(id)
-                                        setOpenDialog(true)
-                                        setAllowedToDestroy(proyecto?.allowed?.to_destroy)
-                                    }}
-                                    disabled={!proyecto?.allowed?.to_destroy}
-                                    className={!proyecto?.allowed?.to_destroy ? 'hidden' : ''}
-                                >
-                                    Eliminar
-                                </MenuItem>
-                            </MenuMui>
-                        </TableCell>
-                    </TableRow>
-                ))}
-            </TableMui>
+                            <TableCell>
+                                <MenuMui text={<MoreVertIcon />} className="">
+                                    <MenuItem onClick={() => router.visit(route('convocatorias.idi.edit', [convocatoria.id, id]))} disabled={!proyecto?.allowed?.to_view} className={!proyecto?.allowed?.to_view ? 'hidden' : ''}>
+                                        Ver detalles
+                                    </MenuItem>
+                                    <Divider className={!proyecto?.allowed?.to_destroy ? 'hidden' : ''} />
+                                    <MenuItem
+                                        onClick={() => {
+                                            setProyectoId(id)
+                                            setOpenDialog(true)
+                                            setAllowedToDestroy(proyecto?.allowed?.to_destroy)
+                                        }}
+                                        disabled={!proyecto?.allowed?.to_destroy}
+                                        className={!proyecto?.allowed?.to_destroy ? 'hidden' : ''}
+                                    >
+                                        Eliminar
+                                    </MenuItem>
+                                </MenuMui>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableMui>
 
-            <AlertDialog open={openDialog}>Eliminar</AlertDialog>
+                {/* <AlertDialog open={openDialog}>Eliminar</AlertDialog> */}
+            </Grid>
         </AuthenticatedLayout>
     )
 }

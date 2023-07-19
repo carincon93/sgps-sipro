@@ -10,12 +10,15 @@ const ConvocatoriaLineasProgramaticas = ({ auth, convocatoria, lineasProgramatic
 
     return (
         <AuthenticatedLayout user={authUser} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
-            <h1 className="text-4xl text-center mb-8">A continuación, se listan las líneas programáticas de la vigencia {convocatoria.year} en las que puede formular proyectos.</h1>
+            <Grid item md={12}>
+                <h1 className="text-4xl text-center mb-8">A continuación, se listan las líneas programáticas de la vigencia {convocatoria.year} en las que puede formular proyectos.</h1>
+            </Grid>
+
             {lineasProgramaticas.map((lineaProgramatica) => {
                 if (JSON.parse(convocatoria.lineas_programaticas_activas)?.includes(lineaProgramatica.id)) {
                     return (
-                        <Grid item md="3">
-                            <ButtonMui key={lineaProgramatica.id} onClick={() => router.visit(route('convocatorias.lineas-programaticas.proyectos', [convocatoria.id, lineaProgramatica.id]))} className="overflow-hidden z-[2] relative text-center !shadow-md rounded-lg px-6 py-2 flex justify-around items-center flex-col m-auto w-full h-96">
+                        <Grid item md={3} key={lineaProgramatica.id}>
+                            <ButtonMui primary={false} onClick={() => router.visit(route('convocatorias.lineas-programaticas.proyectos', [convocatoria.id, lineaProgramatica.id]))} className="overflow-hidden z-[2] relative text-center !shadow-md rounded-lg px-6 py-2 flex justify-around items-center flex-col m-auto w-full h-96">
                                 {lineaProgramatica.nombre + ' - ' + lineaProgramatica.codigo}
                             </ButtonMui>
                         </Grid>
