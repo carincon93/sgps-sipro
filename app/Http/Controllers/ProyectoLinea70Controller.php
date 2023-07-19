@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
-class TaController extends Controller
+class ProyectoLinea70Controller extends Controller
 {
     /**
      * Display a listing of the resource.

@@ -79,16 +79,6 @@ class Tecnoacademia extends Model
     }
 
     /**
-     * Relationship with ReglaRolTa
-     *
-     * @return void
-     */
-    public function reglasRolesTa()
-    {
-        return $this->hasMany(ReglaRolTa::class);
-    }
-
-    /**
      * Relationship with ProyectoIdiTecnoacademia
      *
      * @return void

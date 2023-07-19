@@ -99,26 +99,6 @@ class ConvocatoriaRolSennova extends Model
     }
 
     /**
-     * Relationship with ReglaRolTp
-     *
-     * @return object
-     */
-    public function reglasRolesTp()
-    {
-        return $this->hasMany(ReglaRolTp::class);
-    }
-
-    /**
-     * Relationship with ReglaRolTa
-     *
-     * @return object
-     */
-    public function reglasRolesTa()
-    {
-        return $this->hasMany(ReglaRolTa::class);
-    }
-
-    /**
      * Filtrar registros
      *
      * @param  mixed $query

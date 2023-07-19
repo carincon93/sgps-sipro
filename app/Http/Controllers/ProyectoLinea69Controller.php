@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
-class TpController extends Controller
+class ProyectoLinea69Controller extends Controller
 {
     /**
      * Display a listing of the resource.

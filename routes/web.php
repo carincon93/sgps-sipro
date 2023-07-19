@@ -18,7 +18,7 @@ use App\Http\Controllers\LineaInvestigacionController;
 use App\Http\Controllers\SemilleroInvestigacionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ConvocatoriaController;
-use App\Http\Controllers\IdiController;
+use App\Http\Controllers\ProyectoLinea66Controller;
 use App\Http\Controllers\ArbolProyectoController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProyectoController;
@@ -38,17 +38,17 @@ use App\Http\Controllers\EntidadAliadaController;
 use App\Http\Controllers\AnexoController;
 use App\Http\Controllers\ArticulacionSennovaController;
 use App\Http\Controllers\ReglaRolStController;
-use App\Http\Controllers\ReglaRolTaController;
-use App\Http\Controllers\TaController;
-use App\Http\Controllers\TpController;
+use App\Http\Controllers\ReglaRolProyectoLinea70Controller;
+use App\Http\Controllers\ProyectoLinea70Controller;
+use App\Http\Controllers\ProyectoLinea69Controller;
 use App\Http\Controllers\ProyectoAnexoController;
 use App\Http\Controllers\UsoPresupuestalController;
 use App\Http\Controllers\MiembroEntidadAliadaController;
 use App\Http\Controllers\TecnoacademiaController;
 use App\Http\Controllers\LineaTecnoacademiaController;
 use App\Http\Controllers\MesaSectorialController;
-use App\Http\Controllers\ServicioTecnologicoController;
-use App\Http\Controllers\CulturaInnovacionController;
+use App\Http\Controllers\ProyectoLinea68Controller;
+use App\Http\Controllers\ProyectoLinea65Controller;
 use App\Http\Controllers\DisenoCurricularController;
 use App\Http\Controllers\EdtController;
 use App\Http\Controllers\ProyectoCapacidadInstaladaController;
@@ -506,52 +506,50 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Idi
      *
      */
-    Route::post('convocatorias/{convocatoria}/idi/{idi}/indicadores', [IdiController::class, 'storeIndicadores'])->name('convocatorias.idi.indicadores.store');
-    Route::get('convocatorias/{convocatoria}/idi/{idi}/indicadores', [IdiController::class, 'showIndicadores'])->name('convocatorias.idi.indicadores');
-    Route::put('convocatorias/{convocatoria}/idi/{idi}/column/{column}', [IdiController::class, 'updateLongColumn'])->name('convocatorias.idi.updateLongColumn');
-    Route::resource('convocatorias.idi', IdiController::class)->parameters(['convocatorias' => 'convocatoria', 'idi' => 'idi'])->except(['show']);
+    Route::post('convocatorias/{convocatoria}/idi/{idi}/indicadores', [ProyectoLinea66Controller::class, 'storeIndicadores'])->name('convocatorias.idi.indicadores.store');
+    Route::get('convocatorias/{convocatoria}/idi/{idi}/indicadores', [ProyectoLinea66Controller::class, 'showIndicadores'])->name('convocatorias.idi.indicadores');
+    Route::put('convocatorias/{convocatoria}/idi/{idi}/column/{column}', [ProyectoLinea66Controller::class, 'updateLongColumn'])->name('convocatorias.idi.updateLongColumn');
+    Route::resource('convocatorias.idi', ProyectoLinea66Controller::class)->parameters(['convocatorias' => 'convocatoria', 'idi' => 'idi'])->except(['show']);
 
     /**
      * Cultura innovacion - Estrategia Nacional
      *
      */
-    Route::post('convocatorias/{convocatoria}/cultura-innovacion/{cultura_innovacion}/column/{column}', [CulturaInnovacionController::class, 'updateLongColumn'])->name('convocatorias.cultura-innovacion.updateLongColumn');
-    Route::resource('convocatorias.cultura-innovacion', CulturaInnovacionController::class)->parameters(['convocatorias' => 'convocatoria', 'cultura-innovacion' => 'cultura-innovacion'])->except(['show']);
+    Route::post('convocatorias/{convocatoria}/cultura-innovacion/{cultura_innovacion}/column/{column}', [ProyectoLinea65Controller::class, 'updateLongColumn'])->name('convocatorias.cultura-innovacion.updateLongColumn');
+    Route::resource('convocatorias.cultura-innovacion', ProyectoLinea65Controller::class)->parameters(['convocatorias' => 'convocatoria', 'cultura-innovacion' => 'cultura-innovacion'])->except(['show']);
 
     /**
      * Tp - Estrategia nacional
      *
      */
-    Route::get('convocatorias/{convocatoria}/tp/{tp}/download-file-sharepoint/{tipo_archivo}', [TpController::class, 'downloadFileSharepoint'])->name('convocatorias.tp.download-file-sharepoint');
-    Route::resource('convocatorias.tp', TpController::class)->parameters(['convocatorias' => 'convocatoria', 'tp' => 'tp'])->except(['show']);
-    Route::put('convocatorias/{convocatoria}/tp/{tp}/column/{column}', [TpController::class, 'updateLongColumn'])->name('convocatorias.tp.updateLongColumn');
+    Route::get('convocatorias/{convocatoria}/tp/{tp}/download-file-sharepoint/{tipo_archivo}', [ProyectoLinea69Controller::class, 'downloadFileSharepoint'])->name('convocatorias.tp.download-file-sharepoint');
+    Route::resource('convocatorias.tp', ProyectoLinea69Controller::class)->parameters(['convocatorias' => 'convocatoria', 'tp' => 'tp'])->except(['show']);
+    Route::put('convocatorias/{convocatoria}/tp/{tp}/column/{column}', [ProyectoLinea69Controller::class, 'updateLongColumn'])->name('convocatorias.tp.updateLongColumn');
 
     /**
      * Ta - Estrategia nacional
      *
      */
-    Route::get('convocatorias/{convocatoria}/ta/{ta}/download-pdf-sharepoint/{tipo_archivo}', [TaController::class, 'downloadPdfSharepoint'])->name('convocatorias.ta.download-pdf-sharepoint');
-    Route::post('convocatorias/{convocatoria}/ta/{ta}/aulas-moviles/', [TaController::class, 'aulaMovilStore'])->name('convocatorias.ta.aulas-moviles.store');
-    Route::delete('convocatorias/{convocatoria}/ta/{ta}/aulas-moviles/{aula_movil}', [TaController::class, 'destroyAulaMovil'])->name('convocatorias.ta.aulas-moviles.destroy');
-    Route::get('convocatorias/{convocatoria}/ta/{ta}/aulas-moviles/{aula_movil}/download-file-sharepoint/{tipo_archivo}', [TaController::class, 'downloadFileSharepoint'])->name('convocatorias.ta.aulas-moviles.download-file-sharepoint');
+    Route::get('convocatorias/{convocatoria}/ta/{ta}/download-pdf-sharepoint/{tipo_archivo}', [ProyectoLinea70Controller::class, 'downloadPdfSharepoint'])->name('convocatorias.ta.download-pdf-sharepoint');
+    Route::post('convocatorias/{convocatoria}/ta/{ta}/aulas-moviles/', [ProyectoLinea70Controller::class, 'aulaMovilStore'])->name('convocatorias.ta.aulas-moviles.store');
+    Route::delete('convocatorias/{convocatoria}/ta/{ta}/aulas-moviles/{aula_movil}', [ProyectoLinea70Controller::class, 'destroyAulaMovil'])->name('convocatorias.ta.aulas-moviles.destroy');
+    Route::get('convocatorias/{convocatoria}/ta/{ta}/aulas-moviles/{aula_movil}/download-file-sharepoint/{tipo_archivo}', [ProyectoLinea70Controller::class, 'downloadFileSharepoint'])->name('convocatorias.ta.aulas-moviles.download-file-sharepoint');
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/programas-formacion', [ProyectoController::class, 'storeProgramaFormacion'])->name('convocatorias.proyectos.programas-formacion.store');
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/discurriculares', [DisenoCurricularController::class, 'storeDisCurricular'])->name('convocatorias.proyectos.dis-curriculares.store');
-    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/rol/sennova/ta', [TaController::class, 'updateCantidadRolesTa'])->name('convocatorias.proyectos.rol-sennova-ta.update');
-    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/infraestructura', [TaController::class, 'updateInfraestructura'])->name('convocatorias.ta.infraestrucutra.update');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/rol/sennova/ta', [ProyectoLinea70Controller::class, 'updateCantidadRolesTa'])->name('convocatorias.proyectos.rol-sennova-ta.update');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/infraestructura', [ProyectoLinea70Controller::class, 'updateInfraestructura'])->name('convocatorias.ta.infraestrucutra.update');
 
-    Route::resource('reglas-roles-ta', ReglaRolTaController::class)->parameters(['reglas-roles-ta' => 'regla-rol-ta'])->except(['show']);
     Route::resource('convocatorias.proyectos.presupuesto.edt', EdtController::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos' => 'proyecto', 'presupuesto' => 'presupuesto', 'edt' => 'edt'])->except(['show']);
-    Route::resource('convocatorias.ta', TaController::class)->parameters(['convocatorias' => 'convocatoria', 'ta' => 'ta'])->except(['show']);
-    Route::put('convocatorias/{convocatoria}/ta/{ta}/column/{column}', [TaController::class, 'updateLongColumn'])->name('convocatorias.ta.updateLongColumn');
+    Route::resource('convocatorias.ta', ProyectoLinea70Controller::class)->parameters(['convocatorias' => 'convocatoria', 'ta' => 'ta'])->except(['show']);
+    Route::put('convocatorias/{convocatoria}/ta/{ta}/column/{column}', [ProyectoLinea70Controller::class, 'updateLongColumn'])->name('convocatorias.ta.updateLongColumn');
 
     /**
      * Servicios tecnológicos - Estrategia  nacional
      *
      */
-    Route::resource('reglas-roles-st', ReglaRolStController::class)->parameters(['reglas-roles-st' => 'regla-rol-st'])->except(['show']);
-    Route::put('convocatorias/{convocatoria}/servicios-tecnologicos/{servicio_tecnologico}/infraestructura', [ServicioTecnologicoController::class, 'updateEspecificacionesInfraestructura'])->name('convocatorias.servicios-tecnologicos.infraestructura');
-    Route::resource('convocatorias.servicios-tecnologicos', ServicioTecnologicoController::class)->parameters(['convocatorias' => 'convocatoria', 'servicios-tecnologicos' => 'servicio-tecnologico'])->except(['show']);
-    Route::put('convocatorias/{convocatoria}/servicios-tecnologicos/{servicio_tecnologico}/column/{column}', [ServicioTecnologicoController::class, 'updateLongColumn'])->name('convocatorias.servicios-tecnologicos.updateLongColumn');
+    Route::put('convocatorias/{convocatoria}/servicios-tecnologicos/{servicio_tecnologico}/infraestructura', [ProyectoLinea68Controller::class, 'updateEspecificacionesInfraestructura'])->name('convocatorias.servicios-tecnologicos.infraestructura');
+    Route::resource('convocatorias.servicios-tecnologicos', ProyectoLinea68Controller::class)->parameters(['convocatorias' => 'convocatoria', 'servicios-tecnologicos' => 'servicio-tecnologico'])->except(['show']);
+    Route::put('convocatorias/{convocatoria}/servicios-tecnologicos/{servicio_tecnologico}/column/{column}', [ProyectoLinea68Controller::class, 'updateLongColumn'])->name('convocatorias.servicios-tecnologicos.updateLongColumn');
 
     /**
      * Convocatorias

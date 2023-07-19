@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
-class ServicioTecnologicoController extends Controller
+class ProyectoLinea68Controller extends Controller
 {
     /**
      * Display a listing of the resource.

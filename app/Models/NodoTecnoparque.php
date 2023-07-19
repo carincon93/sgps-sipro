@@ -74,17 +74,6 @@ class NodoTecnoparque extends Model
     }
 
     /**
-     * Relationship with ReglaRolTp
-     *
-     * @return object
-     */
-    public function reglasRolesTp()
-    {
-        return $this->hasMany(ReglaRolTp::class);
-    }
-
-
-    /**
      * Filtrar registros
      *
      * @param  mixed $query

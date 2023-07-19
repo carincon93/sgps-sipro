@@ -13,12 +13,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Traits\ProyectoRolSennovaValidationTrait;
 use App\Models\CentroFormacion;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
-class CulturaInnovacionController extends Controller
+class ProyectoLinea65Controller extends Controller
 {
     /**
      * Display a listing of the resource.

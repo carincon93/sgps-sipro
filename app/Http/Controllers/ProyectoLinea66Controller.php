@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
-class IdiController extends Controller
+class ProyectoLinea66Controller extends Controller
 {
     /**
      * Display a listing of the resource.
