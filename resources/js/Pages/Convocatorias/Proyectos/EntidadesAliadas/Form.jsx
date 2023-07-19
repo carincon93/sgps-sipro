@@ -41,9 +41,15 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAli
     const submit = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
-            form.put(route('convocatorias.proyectos.entidades-aliadas.update', [convocatoria.id, proyecto.id, entidadAliada.id]), {
-                preserveScroll: true,
-            })
+            method == 'crear'
+                ? form.post(route('convocatorias.proyectos.entidades-aliadas.store', [convocatoria.id, proyecto.id]), {
+                      onSuccess: () => setDialogStatus(false),
+                      preserveScroll: true,
+                  })
+                : form.put(route('convocatorias.proyectos.entidades-aliadas.update', [convocatoria.id, proyecto.id, entidadAliada.id]), {
+                      onSuccess: () => setDialogStatus(false),
+                      preserveScroll: true,
+                  })
         }
     }
 

@@ -13,6 +13,7 @@ import ToolTipMui from '@/Components/Tooltip'
 import { checkRole } from '@/Utils'
 import { router, useForm } from '@inertiajs/react'
 
+import GroupAddIcon from '@mui/icons-material/GroupAdd'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 import { useState } from 'react'
@@ -93,11 +94,17 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, infr
 
             <Grid item md={12}>
                 {proyecto.codigo_linea_programatica == 70 && <AlertMui hiddenIcon={true}>En el caso de tener un acuerdo, convenio o contrato de arrendamiento para la operación de la TecnoAcademia en una infraestructura de un tercero, es indispensable, adjuntar el documento contractual una vez este creando la entidad aliada.</AlertMui>}
-                <TableMui rows={['Nombre', 'Tipo de entidad aliada', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui rows={['Nombre', 'Tipo de entidad aliada', 'Miembros', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {entidadesAliadas.data.map((entidadAliada, i) => (
                         <TableRow key={i}>
                             <TableCell>{entidadAliada.nombre}</TableCell>
                             <TableCell>{entidadAliada.tipo}</TableCell>
+
+                            <TableCell>
+                                <ButtonMui onClick={() => router.visit(route('convocatorias.proyectos.entidades-aliadas.miembros-entidad-aliada.index', [convocatoria.id, proyecto.id, entidadAliada.id]))}>
+                                    <GroupAddIcon />
+                                </ButtonMui>
+                            </TableCell>
 
                             <TableCell>
                                 <MenuMui text={<MoreVertIcon />}>

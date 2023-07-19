@@ -36,9 +36,15 @@ const Form = ({ method = '', setDialogStatus, isSuperAdmin, convocatoria, proyec
     const submit = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
-            form.put(route('convocatorias.proyectos.productos.update', [convocatoria.id, proyecto.id, producto.id]), {
-                preserveScroll: true,
-            })
+            method == 'crear'
+                ? form.post(route('convocatorias.proyectos.productos.store', [convocatoria.id, proyecto.id]), {
+                      onSuccess: () => setDialogStatus(false),
+                      preserveScroll: true,
+                  })
+                : form.put(route('convocatorias.proyectos.productos.update', [convocatoria.id, proyecto.id, producto.id]), {
+                      onSuccess: () => setDialogStatus(false),
+                      preserveScroll: true,
+                  })
         }
     }
 

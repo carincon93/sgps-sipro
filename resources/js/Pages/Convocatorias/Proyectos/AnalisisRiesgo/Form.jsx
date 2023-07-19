@@ -22,9 +22,15 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisisRi
     const submit = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
-            form.put(route('convocatorias.proyectos.analisis-riesgos.update', [convocatoria.id, proyecto.id, analisisRiesgo.id]), {
-                preserveScroll: true,
-            })
+            method == 'crear'
+                ? form.put(route('convocatorias.proyectos.analisis-riesgos.store', [convocatoria.id, proyecto.id]), {
+                      onSuccess: () => setDialogStatus(false),
+                      preserveScroll: true,
+                  })
+                : form.put(route('convocatorias.proyectos.analisis-riesgos.update', [convocatoria.id, proyecto.id, analisisRiesgo.id]), {
+                      onSuccess: () => setDialogStatus(false),
+                      preserveScroll: true,
+                  })
         }
     }
 
