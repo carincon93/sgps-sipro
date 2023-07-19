@@ -45,8 +45,7 @@ class ProyectoAnexoController extends Controller
             'filters'           => request()->all('search'),
             'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
             'proyecto'          => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'video', 'infraestructura_adecuada', 'especificaciones_area', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
-            'proyectoAnexo'     => $proyecto->proyectoAnexo()->select('proyecto_anexo.id', 'proyecto_anexo.anexo_id', 'proyecto_anexo.archivo', 'proyecto_anexo.updated_at', 'anexos.nombre')
-                ->join('anexos', 'proyecto_anexo.anexo_id', 'anexos.id')->get(),
+            'proyectoAnexo'     => $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('anexos', 'proyecto_anexo.anexo_id', 'anexos.id')->get(),
             'anexos'            => Anexo::select('anexos.id', 'anexos.nombre', 'anexos.archivo', 'anexos.obligatorio', 'anexos.habilitado')
                 ->join('anexo_lineas_programaticas', 'anexos.id', 'anexo_lineas_programaticas.anexo_id')
                 ->join('convocatoria_anexos', 'anexos.id', 'convocatoria_anexos.anexo_id')
