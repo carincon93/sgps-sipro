@@ -18,6 +18,7 @@ import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 
 import React from 'react'
+import ToolTipMui from '@/Components/Tooltip'
 
 const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos, causasDirectas, tiposImpacto, resultados, objetivosEspecificos, faseEvaluacion = false }) => {
     const authUser = auth.user
@@ -570,6 +571,75 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
 
     return (
         <>
+            {isSuperAdmin || proyecto.mostrar_recomendaciones ? (
+                <>
+                    {proyecto.evaluaciones.map((evaluacion, i) =>
+                        isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado) ? (
+                            <ToolTipMui
+                                key={i}
+                                title={
+                                    <div>
+                                        <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
+                                        {evaluacion.idi_evaluacion ? (
+                                            <>
+                                                <h1 className="font-black mt-10">Objetivos</h1>
+                                                <p className="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion?.objetivos_comentario ? evaluacion.idi_evaluacion.objetivos_comentario : 'Sin recomendación'}</p>
+
+                                                <hr className="mt-10 mb-10 border-black-200" />
+                                                <h1 className="font-black">Resultados</h1>
+
+                                                <p className="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion?.resultados_comentario ? evaluacion.idi_evaluacion.resultados_comentario : 'Sin recomendación'}</p>
+                                            </>
+                                        ) : evaluacion.cultura_innovacion_evaluacion ? (
+                                            <>
+                                                <h1 className="font-black mt-10">Objetivos</h1>
+                                                <p className="whitespace-pre-line text-xs">{evaluacion.cultura_innovacion_evaluacion?.objetivos_comentario ? evaluacion.cultura_innovacion_evaluacion.objetivos_comentario : 'Sin recomendación'}</p>
+
+                                                <hr className="mt-10 mb-10 border-black-200" />
+                                                <h1 className="font-black">Resultados</h1>
+
+                                                <p className="whitespace-pre-line text-xs">{evaluacion.cultura_innovacion_evaluacion?.resultados_comentario ? evaluacion.cultura_innovacion_evaluacion.resultados_comentario : 'Sin recomendación'}</p>
+                                            </>
+                                        ) : evaluacion.servicio_tecnologico_evaluacion ? (
+                                            <>
+                                                <h1 className="font-black mt-10">Objetivo general</h1>
+
+                                                <p className="whitespace-pre-line text-xs">{evaluacion.servicio_tecnologico_evaluacion?.objetivo_general_comentario ? evaluacion.servicio_tecnologico_evaluacion.objetivo_general_comentario : 'Sin recomendación'}</p>
+
+                                                <hr className="mt-10 mb-10 border-black-200" />
+                                                <h1 className="font-black">Objetivos específicos</h1>
+
+                                                <ul className="list-disc pl-4">
+                                                    <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.primer_objetivo_comentario ? 'Recomendación primer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.primer_objetivo_comentario : 'Sin recomendación'}</li>
+                                                    <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.segundo_objetivo_comentario ? 'Recomendación segundo objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.segundo_objetivo_comentario : 'Sin recomendación'}</li>
+                                                    <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.tercer_objetivo_comentario ? 'Recomendación tercer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.tercer_objetivo_comentario : 'Sin recomendación'}</li>
+                                                    <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.cuarto_objetivo_comentario ? 'Recomendación cuarto objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.cuarto_objetivo_comentario : 'Sin recomendación'}</li>
+                                                </ul>
+
+                                                <hr className="mt-10 mb-10 border-black-200" />
+                                                <h1 className="font-black">Resultados</h1>
+                                                <ul className="list-disc pl-4">
+                                                    <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.resultados_primer_obj_comentario ? 'Recomendación resultados del primer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_primer_obj_comentario : 'Sin recomendación'}</li>
+                                                    <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.resultados_segundo_obj_comentario ? 'Recomendación resultados del segundo objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_segundo_obj_comentario : 'Sin recomendación'}</li>
+                                                    <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.resultados_tercer_obj_comentario ? 'Recomendación resultados del tercer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_tercer_obj_comentario : 'Sin recomendación'}</li>
+                                                    <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.resultados_cuarto_obj_comentario ? 'Recomendación resultados del cuarto objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_cuarto_obj_comentario : 'Sin recomendación'}</li>
+                                                </ul>
+                                            </>
+                                        ) : evaluacion.ta_evaluacion ? (
+                                            <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion?.arbol_objetivos_comentario ? evaluacion.ta_evaluacion.arbol_objetivos_comentario : 'Sin recomendación'}</p>
+                                        ) : (
+                                            evaluacion.tp_evaluacion && <p className="whitespace-pre-line text-xs">{evaluacion.tp_evaluacion?.arbol_objetivos_comentario ? evaluacion.tp_evaluacion.arbol_objetivos_comentario : 'Sin recomendación'}</p>
+                                        )}
+                                    </div>
+                                }
+                            >
+                                Evaluación {i + 1}
+                            </ToolTipMui>
+                        ) : null,
+                    )}
+                    {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
+                </>
+            ) : null}
             <div>
                 {/* Causas directas y causas indirectas relacionados */}
                 <figure className="flex w-full items-center justify-center">

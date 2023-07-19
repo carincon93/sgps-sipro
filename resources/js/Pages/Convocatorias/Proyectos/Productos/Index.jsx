@@ -6,6 +6,8 @@ import DialogMui from '@/Components/Dialog'
 import MenuMui from '@/Components/Menu'
 import PaginationMui from '@/Components/Pagination'
 import TableMui from '@/Components/Table'
+import ToolTipMui from '@/Components/Tooltip'
+
 import { checkRole } from '@/Utils'
 
 import { router } from '@inertiajs/react'
@@ -13,6 +15,7 @@ import { router } from '@inertiajs/react'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { MenuItem, Grid, TableRow, TableCell } from '@mui/material'
 import { useState } from 'react'
+
 import Form from './Form'
 
 const Productos = ({ auth, convocatoria, proyecto, productos, validacionResultados, resultados, subtipologiasMinciencias, tiposProducto }) => {
@@ -34,6 +37,45 @@ const Productos = ({ auth, convocatoria, proyecto, productos, validacionResultad
                         {validacionResultados}
                     </AlertMui>
                 )}
+
+                {isSuperAdmin || proyecto.mostrar_recomendaciones ? (
+                    <>
+                        {proyecto.evaluaciones.map((evaluacion, i) =>
+                            isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado) ? (
+                                <ToolTipMui
+                                    key={i}
+                                    title={
+                                        <div>
+                                            <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
+                                            {evaluacion.idi_evaluacion ? (
+                                                <p class="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion?.productos_comentario ? evaluacion.idi_evaluacion.productos_comentario : 'Sin recomendación'}</p>
+                                            ) : evaluacion.cultura_innovacion_evaluacion ? (
+                                                <p class="whitespace-pre-line text-xs">{evaluacion.cultura_innovacion_evaluacion?.productos_comentario ? evaluacion.cultura_innovacion_evaluacion.productos_comentario : 'Sin recomendación'}</p>
+                                            ) : (
+                                                evaluacion.servicio_tecnologico_evaluacion && (
+                                                    <>
+                                                        <hr class="mt-10 mb-10 border-black-200" />
+                                                        <h1 class="font-black">Productos</h1>
+
+                                                        <ul class="list-disc pl-4">
+                                                            <li class="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.productos_primer_obj_comentario ? 'Recomendación productos del primer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.productos_primer_obj_comentario : 'Sin recomendación'}</li>
+                                                            <li class="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.productos_segundo_obj_comentario ? 'Recomendación productos del segundo objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.productos_segundo_obj_comentario : 'Sin recomendación'}</li>
+                                                            <li class="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.productos_tercer_obj_comentario ? 'Recomendación productos del tercer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.productos_tercer_obj_comentario : 'Sin recomendación'}</li>
+                                                            <li class="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.productos_cuarto_obj_comentario ? 'Recomendación productos del cuarto objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.productos_cuarto_obj_comentario : 'Sin recomendación'}</li>
+                                                        </ul>
+                                                    </>
+                                                )
+                                            )}
+                                        </div>
+                                    }
+                                >
+                                    Evaluación {i + 1}
+                                </ToolTipMui>
+                            ) : null,
+                        )}
+                        {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
+                    </>
+                ) : null}
 
                 {isSuperAdmin || checkRole(authUser, [5, 17]) || (proyecto.allowed.to_update && validacionResultados == null && proyecto.modificable == true && proyecto.codigo_linea_programatica != 70) ? (
                     <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setProducto(null))} variant="raised">
