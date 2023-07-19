@@ -165,3 +165,20 @@ form.form-arbol-objetivos:before {
     right: 0;
     top: -10px;
 }
+
+#orgchart_div table {
+    border-collapse: unset;
+}
+
+#orgchart_div table td.google-visualization-orgchart-node-small > div {
+    margin: auto;
+    width: 150px;
+}
+
+div#orgchart_div:hover {
+    cursor: grab;
+}
+
+div#orgchart_div:active {
+    cursor: grabbing;
+}

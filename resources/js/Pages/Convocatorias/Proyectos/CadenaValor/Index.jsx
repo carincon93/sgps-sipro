@@ -1,54 +1,43 @@
-<script>
-    import AuthenticatedLayout, { title } from '@/Layouts/Authenticated'
-    import { page, useForm } from '@inertiajs/inertia-svelte'
-    import { onMount } from 'svelte'
-    import { _ } from 'svelte-i18n'
-    import { checkRole, checkPermission } from '@/Utils'
-    import ScrollBooster from 'scrollbooster'
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
-    import Stepper from '@/Components/Stepper'
-    import InfoMessage from '@/Components/InfoMessage'
-    import Label from '@/Components/Label'
-    import Textarea from '@/Components/Textarea'
-    import PrimaryButton from '@/Components/PrimaryButton'
-    import RecomendacionEvaluador from '@/Components/RecomendacionEvaluador'
+import AlertMui from '@/Components/Alert'
+import Label from '@/Components/Label'
+import Textarea from '@/Components/Textarea'
+import PrimaryButton from '@/Components/PrimaryButton'
 
-    export let errors
-    export let convocatoria
-    export let proyecto
-    export let objetivos
-    export let objetivoGeneral
-    export let productos
-    export let to_pdf
+import SwipeRightOutlinedIcon from '@mui/icons-material/SwipeRightOutlined'
 
-    $title = 'Cadena de valor'
+import ScrollBooster from 'scrollbooster'
+import { checkRole } from '@/Utils'
+import { useEffect } from 'react'
+import { useForm } from '@inertiajs/react'
+import { Grid } from '@mui/material'
 
-    /**
-     * Validar si el usuario autenticado es SuperAdmin
-     */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+const CadenaValor = ({ auth, convocatoria, proyecto, objetivos, objetivoGeneral, productos, ...props }) => {
+    const authUser = auth.user
+    const isSuperAdmin = checkRole(authUser, [1])
 
-    let form = useForm({
+    const form = useForm({
         propuesta_sostenibilidad: proyecto.propuesta_sostenibilidad,
         propuesta_sostenibilidad_social: proyecto.propuesta_sostenibilidad_social,
         propuesta_sostenibilidad_ambiental: proyecto.propuesta_sostenibilidad_ambiental,
         propuesta_sostenibilidad_financiera: proyecto.propuesta_sostenibilidad_financiera,
     })
 
-    function submit() {
+    const submit = (e) => {
+        e.preventDefault()
         if (proyecto.allowed.to_update) {
-            $form.put(route('convocatorias.proyectos.propuesta-sostenibilidad', [convocatoria.id, proyecto.id]), {
+            form.put(route('convocatorias.proyectos.propuesta-sostenibilidad', [convocatoria.id, proyecto.id]), {
                 preserveScroll: true,
             })
         }
     }
 
-    onMount(() => {
+    useEffect(() => {
         google.charts.setOnLoadCallback(drawChart)
-    })
+    }, [])
 
-    function drawChart() {
+    const drawChart = () => {
         var data = new google.visualization.DataTable()
         data.addColumn('string', 'Name')
         data.addColumn('string', 'Manager')
@@ -103,165 +92,93 @@
 
         console.log(totalProyecto)
     }
-</script>
 
-<AuthenticatedLayout>
-    <header className="pt-[8rem]" slot="header">
-        {#if !to_pdf}
-            <Stepper {convocatoria} {proyecto} />
-        {/if}
-    </header>
-    {#if !to_pdf}
-        <h1 className="text-3xl mt-24 text-center">Propuesta de sostenibilidad</h1>
+    return (
+        <AuthenticatedLayout>
+            <Grid item md={12}>
+                <h1 className="text-3xl mt-24 text-center">Propuesta de sostenibilidad</h1>
 
-        {#if isSuperAdmin || proyecto.mostrar_recomendaciones}
-            <div className="my-14">
-                <RecomendacionEvaluador className="mt-8">
-                    {#each proyecto.evaluaciones as evaluacion, i}
-                        {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
-                            <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
-                                <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                {#if evaluacion.idi_evaluacion}
-                                    <p className="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion?.cadena_valor_comentario ? evaluacion.idi_evaluacion.cadena_valor_comentario : 'Sin recomendación'}</p>
-                                {:else if evaluacion.cultura_innovacion_evaluacion}
-                                    <p className="whitespace-pre-line text-xs">{evaluacion.cultura_innovacion_evaluacion?.cadena_valor_comentario ? evaluacion.cultura_innovacion_evaluacion.cadena_valor_comentario : 'Sin recomendación'}</p>
-                                {:else if evaluacion.ta_evaluacion}
-                                    <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion?.cadena_valor_comentario ? evaluacion.ta_evaluacion.cadena_valor_comentario : 'Sin recomendación'}</p>
-                                {:else if evaluacion.tp_evaluacion}
-                                    <p className="whitespace-pre-line text-xs">{evaluacion.tp_evaluacion?.cadena_valor_comentario ? evaluacion.tp_evaluacion.cadena_valor_comentario : 'Sin recomendación'}</p>
-                                {:else if evaluacion.servicio_tecnologico_evaluacion}
-                                    <hr className="mt-10 mb-10 border-black-200" />
-                                    <h1 className="font-black">Propuesta de sostenibilidad</h1>
+                {proyecto.codigo_linea_programatica == 70 && (
+                    <AlertMui hiddenIcon={true} className="text-center my-24">
+                        A continuación, plantee las acciones concretas que contribuirán a la sostenibilidad financiera de la TecnoAcademia y su aporte a la sostenibilidad ambiental y social del territorio.
+                    </AlertMui>
+                )}
 
-                                    <p className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.propuesta_sostenibilidad_comentario ? 'Recomendación: ' + evaluacion.servicio_tecnologico_evaluacion.propuesta_sostenibilidad_comentario : 'Sin recomendación'}</p>
-
-                                    <hr className="mt-10 mb-10 border-black-200" />
-                                    <h1 className="font-black">Impactos</h1>
-
-                                    <ul className="list-disc pl-4">
-                                        <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.impacto_ambiental_comentario ? 'Recomendación impacto ambiental: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_ambiental_comentario : 'Sin recomendación'}</li>
-                                        <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.impacto_social_centro_comentario ? 'Recomendación impacto social en el centro de formación: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_social_centro_comentario : 'Sin recomendación'}</li>
-                                        <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.impacto_social_productivo_comentario ? 'Recomendación impacto social en el sector productivo: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_social_productivo_comentario : 'Sin recomendación'}</li>
-                                        <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.impacto_tecnologico_comentario ? 'Recomendación impacto tecnológico: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_tecnologico_comentario : 'Sin recomendación'}</li>
-                                    </ul>
-                                {/if}
+                <form onSubmit={submit}>
+                    <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+                        {proyecto.codigo_linea_programatica != 70 ? (
+                            <div className="mt-8">
+                                {proyecto.codigo_linea_programatica == 68 ? (
+                                    <AlertMui className="mb-6" hiddenIcon={true}>
+                                        Se deben mencionar aquellos factores que pueden comprometer la viabilidad, desarrollo de los objetivos y resultados del proyecto a través del tiempo.
+                                        <br />
+                                        Para definir la propuesta de sostenibilidad se deben tener en cuenta los impactos definidos en el árbol de objetivos (ambiental, social - en el centro de formación, social - en el sector productivo, tecnológico)
+                                    </AlertMui>
+                                ) : (
+                                    <AlertMui className="mb-2" hiddenIcon={true}>
+                                        Identificar los efectos que tiene el desarrollo del proyecto de investigación ya sea positivos o negativos. Se recomienda establecer las acciones pertinentes para mitigar los impactos negativos ambientales identificados y anexar el respectivo permiso ambiental cuando aplique. Tener en cuenta si aplica el decreto 1376 de 2013.
+                                    </AlertMui>
+                                )}
+                                <Textarea label="Propuesta de sostenibilidad" id="propuesta_sostenibilidad" error={form.errors.propuesta_sostenibilidad} value={form.data.propuesta_sostenibilidad} onChange={(e) => form.setData('propuesta_sostenibilidad', e.target.value)} required />
                             </div>
-                        {/if}
-                    {/each}
-
-                    {#if proyecto.evaluaciones.length == 0}
-                        <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
-                    {/if}
-                </RecomendacionEvaluador>
-            </div>
-        {/if}
-
-        {#if proyecto.codigo_linea_programatica == 70}
-            <p className="text-center mb-24">A continuación, plantee las acciones concretas que contribuirán a la sostenibilidad financiera de la TecnoAcademia y su aporte a la sostenibilidad ambiental y social del territorio.</p>
-        {/if}
-
-        <form on:submit|preventDefault={submit}>
-            <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
-                {#if proyecto.codigo_linea_programatica != 70}
-                    <div className="mt-8">
-                        <Label required className="mb-4" labelFor="propuesta_sostenibilidad" value="Propuesta de sostenibilidad" />
-                        {#if proyecto.codigo_linea_programatica == 68}
-                            <InfoMessage className="mb-6">
-                                Se deben mencionar aquellos factores que pueden comprometer la viabilidad, desarrollo de los objetivos y resultados del proyecto a través del tiempo.
-                                <br />
-                                Para definir la propuesta de sostenibilidad se deben tener en cuenta los impactos definidos en el árbol de objetivos (ambiental, social - en el centro de formación, social - en el sector productivo, tecnológico)
-                            </InfoMessage>
-                        {:else}
-                            <InfoMessage className="mb-2" message="Identificar los efectos que tiene el desarrollo del proyecto de investigación ya sea positivos o negativos. Se recomienda establecer las acciones pertinentes para mitigar los impactos negativos ambientales identificados y anexar el respectivo permiso ambiental cuando aplique. Tener en cuenta si aplica el decreto 1376 de 2013." />
-                        {/if}
-                        <Textarea label="Propuesta de sostenibilidad" maxlength="40000" id="propuesta_sostenibilidad" error={errors.propuesta_sostenibilidad} bind:value={$form.propuesta_sostenibilidad} required />
+                        ) : (
+                            proyecto.codigo_linea_programatica == 70 && (
+                                <>
+                                    <div className="mt-8">
+                                        <Textarea label="Propuesta de sostenibilidad social" id="propuesta_sostenibilidad_social" error={form.errors.propuesta_sostenibilidad_social} value={form.data.propuesta_sostenibilidad_social} onChange={(e) => form.setData('propuesta_sostenibilidad_social', e.target.value)} required />
+                                    </div>
+                                    <div className="mt-8">
+                                        <Textarea label="Propuesta de sostenibilidad ambiental" id="propuesta_sostenibilidad_ambiental" error={form.errors.propuesta_sostenibilidad_ambiental} value={form.data.propuesta_sostenibilidad_ambiental} onChange={(e) => form.setData('propuesta_sostenibilidad_ambiental', e.target.value)} required />
+                                    </div>
+                                    <div className="mt-8">
+                                        <Textarea label="Propuesta de sostenibilidad financiera" id="propuesta_sostenibilidad_financiera" error={form.errors.propuesta_sostenibilidad_financiera} value={form.data.propuesta_sostenibilidad_financiera} onChange={(e) => form.setData('propuesta_sostenibilidad_financiera', e.target.value)} required />
+                                    </div>
+                                </>
+                            )
+                        )}
+                    </fieldset>
+                    <div className="flex items-center justify-between mt-14 py-4">
+                        <small className="flex items-center text-app-700">{proyecto.updated_at}</small>
+                        {proyecto.allowed.to_update ? (
+                            <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
+                                Guardar propuesta de sostenibilidad
+                            </PrimaryButton>
+                        ) : (
+                            <span className="inline-block ml-1.5"> El proyecto no se puede modificar </span>
+                        )}
                     </div>
-                {:else if proyecto.codigo_linea_programatica == 70}
-                    <div className="mt-8">
-                        <Textarea label="Propuesta de sostenibilidad social" maxlength="40000" id="propuesta_sostenibilidad_social" error={errors.propuesta_sostenibilidad_social} bind:value={$form.propuesta_sostenibilidad_social} required />
-                    </div>
-                    <div className="mt-8">
-                        <Textarea label="Propuesta de sostenibilidad ambiental" maxlength="40000" id="propuesta_sostenibilidad_ambiental" error={errors.propuesta_sostenibilidad_ambiental} bind:value={$form.propuesta_sostenibilidad_ambiental} required />
-                    </div>
-                    <div className="mt-8">
-                        <Textarea label="Propuesta de sostenibilidad financiera" maxlength="40000" id="propuesta_sostenibilidad_financiera" error={errors.propuesta_sostenibilidad_financiera} bind:value={$form.propuesta_sostenibilidad_financiera} required />
-                    </div>
-                {/if}
-            </fieldset>
-            <div className="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
-                <small className="flex items-center text-app-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    {proyecto.updated_at}
-                </small>
-                {#if proyecto.allowed.to_update}
-                    <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar propuesta de sostenibilidad</PrimaryButton>
-                {:else}
-                    <span className="inline-block ml-1.5"> El proyecto no se puede modificar </span>
-                {/if}
-            </div>
-        </form>
+                </form>
+            </Grid>
 
-        <hr className="mb-20 mt-20" />
+            <Grid item md={12}>
+                <hr className="mb-20 mt-20" />
 
-        <h1 className="text-3xl m-24 text-center">Cadena de valor</h1>
+                <h1 className="text-3xl m-24 text-center">Cadena de valor</h1>
 
-        <p className="text-center my-10">Para que pueda moverse fácilmente haga un clic sostenido sobre el gráfico de la cadena de valor y arrastre hacia cualquier dirección</p>
+                <AlertMui hiddenIcon={true} className="text-center my-10">
+                    <SwipeRightOutlinedIcon className="!w-16 !h-16" />
+                    <p>Para que pueda moverse fácilmente haga un clic sostenido sobre el gráfico de la cadena de valor y arrastre hacia cualquier dirección</p>
+                </AlertMui>
 
-        {#if productos.length == 0}
-            <InfoMessage
-                message="No ha generado productos por lo tanto tiene la cadena de valor incompleta.<br />Por favor realice los siguientes pasos:<div>1. Diríjase a <strong>Productos</strong> y genere los productos correspondientes</div><div>2. Luego diríjase a <strong>Actividades</strong> y asocie los productos y rubros correspondientes. De esta manera completa la cadena de valor.</div>"
-            />
-        {/if}
-        <div className="mt-10">
-            <div id="orgchart_div" className="overflow-hidden" style="margin: 0 -100px;" />
-        </div>
-    {:else}
-        <div id="orgchart_div" style="width: 100%;" />
-    {/if}
-</AuthenticatedLayout>
+                {productos.length == 0 && (
+                    <AlertMui hiddenIcon={true}>
+                        No ha generado productos por lo tanto tiene la cadena de valor incompleta.
+                        <br />
+                        Por favor realice los siguientes pasos:
+                        <div>
+                            1. Diríjase a <strong>Productos</strong> y genere los productos correspondientes
+                        </div>
+                        <div>
+                            2. Luego diríjase a <strong>Actividades</strong> y asocie los productos y rubros correspondientes. De esta manera completa la cadena de valor.
+                        </div>
+                    </AlertMui>
+                )}
+                <div className="mt-10">
+                    <div id="orgchart_div" className="overflow-hidden" style={{ margin: '0 -100px' }} />
+                </div>
+            </Grid>
+        </AuthenticatedLayout>
+    )
+}
 
-{#if to_pdf}
-    <style>
-        main {
-            margin: 0 !important;
-            padding: 0 !important;
-            width: 100%;
-            height: 100vh;
-        }
-        nav,
-        button.absolute.bottom-1\.5,
-        .bg-gray-200.p-4.rounded.border-orangered.border.mb-5 {
-            display: none !important;
-        }
-        .min-h-screen.bg-gray-100 {
-            background: white !important;
-        }
-        div#orgchart_div {
-            overflow: unset;
-        }
-        .bg-gray-200.p-4.rounded.border-orangered.border.mb-5 {
-            display: none;
-        }
-    </style>
-{/if}
-
-<style>
-    :global(#orgchart_div table) {
-        border-collapse: unset;
-    }
-
-    :global(#orgchart_div table td.google-visualization-orgchart-node-small > div) {
-        margin: auto;
-        width: 150px;
-    }
-
-    div#orgchart_div:hover {
-        cursor: grab;
-    }
-
-    div#orgchart_div:active {
-        cursor: grabbing;
-    }
-</style>
+export default CadenaValor
