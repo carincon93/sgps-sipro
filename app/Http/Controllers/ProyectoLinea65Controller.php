@@ -28,7 +28,6 @@ class ProyectoLinea65Controller extends Controller
     {
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea65/Index', [
             'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'fase'),
-            'filters'           => request()->all('search', 'estructuracion_proyectos'),
             'culturaInnovacion' => CulturaInnovacion::getProyectosPorRol($convocatoria)->appends(['search' => request()->search, 'estructuracion_proyectos' => request()->estructuracion_proyectos]),
             'allowedToCreate'   => Gate::inspect('formular-proyecto', [9, $convocatoria])->allowed()
         ]);
@@ -159,11 +158,15 @@ class ProyectoLinea65Controller extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea65/Edit', [
             'convocatoria'                              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_65', 'max_fecha_finalizacion_proyectos_cultura', 'fecha_maxima_cultura', 'mostrar_recomendaciones', 'campos_convocatoria'),
-            'culturaInnovacion'                         => $culturaInnovacion,
+            'proyectoLinea65'                           => $culturaInnovacion,
             'mesasSectorialesRelacionadas'              => $culturaInnovacion->mesasSectoriales()->pluck('mesas_sectoriales.id'),
             'lineasTecnoacademiaRelacionadas'           => $culturaInnovacion->tecnoacademiaLineasTecnoacademia()->pluck('tecnoacademia_linea_tecnoacademia.id'),
             'tecnoacademia'                             => $culturaInnovacion->tecnoacademiaLineasTecnoacademia()->first() ? $culturaInnovacion->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
-            'mesasSectoriales'                          => MesaSectorial::select('id', 'nombre')->get('id'),
+            'proyectoMunicipios'                        => $culturaInnovacion->proyecto->municipios()->select('municipios.id as value', 'municipios.nombre as label', 'regionales.nombre as group')->join('regionales', 'regionales.id', 'municipios.regional_id')->get(),
+            'programasFormacionConRegistroRelacionados' => $culturaInnovacion->proyecto->programasFormacion()->selectRaw('programas_formacion.id as value, concat(programas_formacion.nombre, chr(10), \'∙ Código: \', programas_formacion.codigo) as label')->where('registro_calificado', true)->get(),
+            'programasFormacionSinRegistroRelacionados' => $culturaInnovacion->proyecto->programasFormacion()->selectRaw('programas_formacion.id as value, concat(programas_formacion.nombre, chr(10), \'∙ Código: \', programas_formacion.codigo) as label')->where('registro_calificado', false)->get(),
+            'versiones'                                 => $culturaInnovacion->proyecto->PdfVersiones,
+            'mesasSectoriales'                          => MesaSectorial::select('id as value', 'nombre as label')->get('id'),
             'lineasInvestigacion'                       => SelectHelper::lineasInvestigacion()->where('centro_formacion_id', $culturaInnovacion->proyecto->centro_formacion_id)->values()->all(),
             'lineasProgramaticas'                       => SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 5)->values()->all(),
             'areasConocimiento'                         => SelectHelper::areasConocimiento(),
@@ -174,13 +177,8 @@ class ProyectoLinea65Controller extends Controller
             'lineasTecnoacademia'                       => SelectHelper::lineasTecnoacademia(),
             'programasFormacionConRegistroCalificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $culturaInnovacion->proyecto->centro_formacion_id)->values()->all(),
             'programasFormacionSinRegistroCalificado'   => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),
-            'proyectoMunicipios'                        => $culturaInnovacion->proyecto->municipios()->select('municipios.id as value', 'municipios.nombre as label', 'regionales.nombre as group')->join('regionales', 'regionales.id', 'municipios.regional_id')->get(),
-            'programasFormacionConRegistroRelacionados' => $culturaInnovacion->proyecto->programasFormacion()->selectRaw('programas_formacion.id as value, concat(programas_formacion.nombre, chr(10), \'∙ Código: \', programas_formacion.codigo) as label')->where('registro_calificado', true)->get(),
-            'programasFormacionSinRegistroRelacionados' => $culturaInnovacion->proyecto->programasFormacion()->selectRaw('programas_formacion.id as value, concat(programas_formacion.nombre, chr(10), \'∙ Código: \', programas_formacion.codigo) as label')->where('registro_calificado', false)->get(),
-            'opcionesAplicaNoAplica'                    => json_decode(Storage::get('json/opciones-aplica-no-aplica.json'), true),
             'tiposProyectos'                            => json_decode(Storage::get('json/tipos-proyectos-cultura.json'), true),
             'tiposEventos'                              => json_decode(Storage::get('json/tipos-eventos-cultura.json'), true),
-            'versiones'                                 => $culturaInnovacion->proyecto->PdfVersiones,
         ]);
     }
 

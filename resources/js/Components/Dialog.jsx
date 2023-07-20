@@ -25,8 +25,7 @@ export default function DialogMui({ open = false, blurEnabled = false, dialogTit
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
                 classes={{ paper: blurEnabled ? classes.paper : null }}
-                {...props}
-            >
+                {...props}>
                 <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">{dialogContentText}</DialogContentText>

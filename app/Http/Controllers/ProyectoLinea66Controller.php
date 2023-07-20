@@ -186,9 +186,10 @@ class ProyectoLinea66Controller extends Controller
         $idi->mostrar_recomendaciones = $idi->proyecto->mostrar_recomendaciones;
         $idi->mostrar_requiere_subsanacion = $idi->proyecto->mostrar_requiere_subsanacion;
 
+
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea66/Edit', [
             'convocatoria'                              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_idi', 'max_fecha_finalizacion_proyectos_idi', 'fecha_maxima_idi', 'mostrar_recomendaciones', 'campos_convocatoria'),
-            'idi'                                       => $idi,
+            'proyectoLinea66'                           => $idi,
             'mesasSectorialesRelacionadas'              => $idi->mesasSectoriales()->pluck('mesas_sectoriales.id'),
             'lineasTecnoacademiaRelacionadas'           => $idi->proyecto->tecnoacademiaLineasTecnoacademia()->pluck('tecnoacademia_linea_tecnoacademia.id'),
             'tecnoacademia'                             => $idi->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $idi->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,

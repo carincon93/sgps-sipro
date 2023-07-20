@@ -80,8 +80,8 @@ class IdiEvaluacion extends Model
         'tematica_estrategica_requiere_comentario',
         'tematica_estrategica_comentario',
 
-        'impacto_sector_agricola',
-        'impacto_poblacion_campesina'
+        'impacto_sector_agricola_comentario',
+        'impacto_poblacion_campesina_comentario'
     ];
 
     /**

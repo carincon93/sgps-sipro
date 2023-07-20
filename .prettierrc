@@ -4,9 +4,10 @@
     "tabWidth": 4,
     "semi": false,
     "proseWrap": "never",
-    "printWidth": 400,
+    "printWidth": 200,
     "importOrder": ["^react(.*)", "<THIRD_PARTY_MODULES>", "@/(.*)", "^[./]"],
     "importOrderCaseInsensitive": true,
     "importOrderSeparation": true,
-    "importOrderSortSpecifiers": true
+    "importOrderSortSpecifiers": true,
+    "bracketSameLine": true
 }
