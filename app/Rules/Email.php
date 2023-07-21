@@ -25,7 +25,7 @@ class Email implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (preg_match("/(.*)sena\.edu\.co$/i", $value) || preg_match("/(.*)misena\.edu\.co$/i", $value)) {
+        if (preg_match("/(.*)sena\.edu\.co$/i", $value) || preg_match("/(.*)soy.sena\.edu\.co$/i", $value)) {
             return true;
         }
 
@@ -39,6 +39,6 @@ class Email implements Rule
      */
     public function message()
     {
-        return 'Debe ser un correo @sena.edu.co o @misena.edu.co';
+        return 'Debe ser un correo @sena.edu.co o @soy.sena.edu.co';
     }
 }
