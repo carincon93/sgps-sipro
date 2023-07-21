@@ -19,12 +19,10 @@ const Create = ({
     gruposInvestigacion,
     lineasInvestigacionEni,
     areasTematicasEni,
-    roles,
+    rolesSennova,
 }) => {
     const [authUser, setAuthUser] = useState(auth.user)
     const [isSuperAdmin, setIsSuperAdmin] = useState(checkRole(authUser, [1]))
-
-    console.log(centrosFormacion)
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Formular proyecto</h2>}>
@@ -42,7 +40,7 @@ const Create = ({
                 lineasInvestigacion={lineasInvestigacion}
                 areasTematicasEni={areasTematicasEni}
                 lineasInvestigacionEni={lineasInvestigacionEni}
-                roles={roles}
+                rolesSennova={rolesSennova}
             />
         </AuthenticatedLayout>
     )

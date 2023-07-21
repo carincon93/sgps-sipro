@@ -35,7 +35,7 @@ const Form = ({
     lineasInvestigacion,
     tecnoacademias,
     municipios,
-    roles,
+    rolesSennova,
     areasTematicasEni,
     lineasInvestigacionEni,
     programasFormacionConRegistroCalificado,
@@ -413,7 +413,7 @@ const Form = ({
                                     id="rol_sennova"
                                     selectedValue={form.data.rol_sennova}
                                     onChange={(event, newValue) => form.setData('rol_sennova', newValue.value)}
-                                    options={roles}
+                                    options={rolesSennova}
                                     placeholder="Seleccione un rol SENNOVA"
                                     required
                                 />

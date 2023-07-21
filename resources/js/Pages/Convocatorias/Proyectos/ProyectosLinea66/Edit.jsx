@@ -39,6 +39,7 @@ const Edit = ({
     lineasTecnoacademiaRelacionadas,
     programasFormacionConRegistroRelacionados,
     programasFormacionSinRegistroRelacionados,
+    rolesSennova,
 }) => {
     const authUser = auth.user
     const isSuperAdmin = checkRole(authUser, [1])
@@ -101,6 +102,7 @@ const Edit = ({
                     mesasSectoriales={mesasSectoriales}
                     tecnoacademia={tecnoacademia}
                     convocatoria={convocatoria}
+                    rolesSennova={rolesSennova}
                     redesConocimiento={redesConocimiento}
                     disciplinasSubareaConocimiento={disciplinasSubareaConocimiento}
                     actividadesEconomicas={actividadesEconomicas}

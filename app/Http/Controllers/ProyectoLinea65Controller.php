@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\CentroFormacion;
+use App\Models\RolSennova;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
@@ -55,6 +56,7 @@ class ProyectoLinea65Controller extends Controller
             'tematicasEstrategicas' => SelectHelper::tematicasEstrategicas(),
             'tiposProyectos'        => json_decode(Storage::get('json/tipos-proyectos-cultura.json'), true),
             'tiposEventos'          => json_decode(Storage::get('json/tipos-eventos-cultura.json'), true),
+            'rolesSennova'          => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowedToCreate'       => Gate::inspect('formular-proyecto', [9, $convocatoria])->allowed()
         ]);
     }
@@ -177,6 +179,7 @@ class ProyectoLinea65Controller extends Controller
             'lineasTecnoacademia'                       => SelectHelper::lineasTecnoacademia(),
             'programasFormacionConRegistroCalificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $culturaInnovacion->proyecto->centro_formacion_id)->values()->all(),
             'programasFormacionSinRegistroCalificado'   => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),
+            'rolesSennova'                              => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'tiposProyectos'                            => json_decode(Storage::get('json/tipos-proyectos-cultura.json'), true),
             'tiposEventos'                              => json_decode(Storage::get('json/tipos-eventos-cultura.json'), true),
         ]);

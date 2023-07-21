@@ -1,22 +1,29 @@
-import React, { useState } from 'react'
-import { useForm } from '@inertiajs/react'
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
-const Create = ({ convocatoria, tecnoacademias, lineasTecnoacademia, allowedToCreate }) => {
-  const { data, setData, post, processing, errors, reset } = useForm({
-    fecha_inicio: null,
-    fecha_finalizacion: null,
-    max_meses_ejecucion: 0,
-    tecnoacademia_id: null,
-    centro_formacion_id: null,
-    tecnoacademia_linea_tecnoacademia_id: null,
-    linea_programatica: null,
-  })
+// import Stepper from '@/Components/Stepper';
 
-  return (
-    <>
-        Test
-    </>
-  )
+import Form from './Form'
+
+import { checkRole } from '@/Utils'
+
+const Create = ({ auth, convocatoria, centrosFormacion, lineasProgramaticas, lineasTecnoacademia, rolesSennova }) => {
+    const authUser = auth.user
+    const isSuperAdmin = checkRole(authUser, [1])
+
+    return (
+        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Formular proyecto</h2>}>
+            <Form
+                isSuperAdmin={isSuperAdmin}
+                authUser={authUser}
+                method="crear"
+                convocatoria={convocatoria}
+                centrosFormacion={centrosFormacion}
+                lineasTecnoacademia={lineasTecnoacademia}
+                lineasProgramaticas={lineasProgramaticas}
+                rolesSennova={rolesSennova}
+            />
+        </AuthenticatedLayout>
+    )
 }
 
 export default Create

@@ -14,6 +14,7 @@ use App\Models\Actividad;
 use App\Models\LineaProgramatica;
 use App\Models\Municipio;
 use App\Models\NodoTecnoparque;
+use App\Models\RolSennova;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -60,6 +61,7 @@ class ProyectoLinea69Controller extends Controller
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_69', 'max_fecha_finalizacion_proyectos_linea_69', 'fecha_maxima_tp'),
             'rolesTp'               => collect(json_decode(Storage::get('json/roles-sennova-tp.json'), true)),
             'nodosTecnoParque'      => $nodosTecnoParque,
+            'rolesSennova'          => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowedToCreate'       => Gate::inspect('formular-proyecto', [4, $convocatoria])->allowed()
         ]);
     }
@@ -127,6 +129,9 @@ class ProyectoLinea69Controller extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', [$tp->proyecto]);
 
+        /** @var \App\Models\User */
+        $authUser = Auth::user();
+
         $tp->load('proyecto.evaluaciones.tpEvaluacion');
 
         $tp->codigo_linea_programatica      = $tp->proyecto->lineaProgramatica->codigo;
@@ -137,15 +142,23 @@ class ProyectoLinea69Controller extends Controller
         $tp->mostrar_recomendaciones        = $tp->proyecto->mostrar_recomendaciones;
         $tp->mostrar_requiere_subsanacion   = $tp->proyecto->mostrar_requiere_subsanacion;
 
+          if ($authUser->hasRole(16)) {
+            $nodosTecnoParque = SelectHelper::nodosTecnoparque()->where('regional_id', $authUser->centroFormacion->regional_id)->values()->all();
+        } else {
+            $nodosTecnoParque = SelectHelper::nodosTecnoparque();
+        }
+
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea69/Edit', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_69', 'max_fecha_finalizacion_proyectos_linea_69', 'fecha_maxima_tp', 'mostrar_recomendaciones', 'year', 'descripcion'),
-            'tp'                    => $tp,
+            'proyectoLinea69'       => $tp,
             'regionales'            => SelectHelper::regionales(),
             'lineasProgramaticas'   => LineaProgramatica::selectRaw('id as value, concat(nombre, \' ∙ \', codigo) as label, codigo')->where('lineas_programaticas.categoria_proyecto', 1)->get(),
             'nodosTecnoparque'      => SelectHelper::nodosTecnoparque()->where('centro_formacion_id', $tp->proyecto->centroFormacion->id)->values()->all(),
             'municipios'            => Municipio::select('municipios.id as value', 'municipios.nombre as label', 'regionales.nombre as group', 'regionales.codigo')->join('regionales', 'regionales.id', 'municipios.regional_id')->get(),
             'proyectoMunicipios'    => $tp->proyecto->municipios()->select('municipios.id as value', 'municipios.nombre as label', 'regionales.nombre as group', 'regionales.codigo')->join('regionales', 'regionales.id', 'municipios.regional_id')->get(),
+            'rolesSennova'          => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'versiones'             => $tp->proyecto->PdfVersiones,
+            'nodosTecnoParque'      => $nodosTecnoParque,
         ]);
     }
 

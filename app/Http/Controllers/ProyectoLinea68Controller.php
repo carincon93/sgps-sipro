@@ -9,6 +9,7 @@ use App\Http\Requests\ServicioTecnologicoLongColumnRequest;
 use App\Http\Requests\ServicioTecnologicoRequest;
 use App\Models\Convocatoria;
 use App\Models\Proyecto;
+use App\Models\RolSennova;
 use App\Models\TipoProyectoSt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -58,6 +59,7 @@ class ProyectoLinea68Controller extends Controller
             'sectoresProductivos'       => collect(json_decode(Storage::get('json/sectores-productivos.json'), true)),
             'tiposProyectoSt'           => $tipoProyectoSt,
             'estadosSistemaGestion'     => SelectHelper::estadosSistemaGestion(),
+            'rolesSennova'              => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowedToCreate'           => Gate::inspect('formular-proyecto', [10, $convocatoria])->allowed()
         ]);
     }
@@ -157,13 +159,14 @@ class ProyectoLinea68Controller extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea68/Edit', [
             'convocatoria'                              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_68', 'max_fecha_finalizacion_proyectos_linea_68', 'fecha_maxima_st', 'mostrar_recomendaciones'),
-            'servicioTecnologico'                       => $servicioTecnologico,
+            'proyectoLinea68'                           => $servicioTecnologico,
             'lineasProgramaticas'                       => SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 3)->values()->all(),
             'estadosSistemaGestion'                     => SelectHelper::estadosSistemaGestion(),
             'programasFormacionConRegistroCalificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $servicioTecnologico->proyecto->centro_formacion_id)->values()->all(),
             'sectoresProductivos'                       => collect(json_decode(Storage::get('json/sectores-productivos.json'), true)),
             'tiposProyectoSt'                           => $tipoProyectoSt,
             'proyectoProgramasFormacion'                => $servicioTecnologico->proyecto->programasFormacion()->selectRaw('programas_formacion.id as value, concat(programas_formacion.nombre, chr(10), \'∙ Código: \', programas_formacion.codigo) as label')->where('programas_formacion.registro_calificado', true)->get(),
+            'rolesSennova'                              => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'versiones'                                 => $servicioTecnologico->proyecto->PdfVersiones,
         ]);
     }

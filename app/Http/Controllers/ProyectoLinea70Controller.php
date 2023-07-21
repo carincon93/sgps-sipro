@@ -15,6 +15,7 @@ use App\Models\Actividad;
 use App\Models\AulaMovil;
 use App\Models\Evaluacion\Evaluacion;
 use App\Models\Evaluacion\TaEvaluacion;
+use App\Models\RolSennova;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -60,6 +61,7 @@ class ProyectoLinea70Controller extends Controller
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_70', 'max_fecha_finalizacion_proyectos_linea_70', 'fecha_maxima_ta'),
             'tecnoacademias'        => $tecnoacademias,
             'lineasTecnoacademia'   => SelectHelper::lineasTecnoacademia(),
+            'rolesSennova'          => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowedToCreate'       => Gate::inspect('formular-proyecto', [5, $convocatoria])->allowed()
         ]);
     }
@@ -147,12 +149,13 @@ class ProyectoLinea70Controller extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea70/Edit', [
             'convocatoria'                          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_70', 'max_fecha_finalizacion_proyectos_linea_70', 'fecha_maxima_ta', 'mostrar_recomendaciones', 'descripcion'),
-            'ta'                                    => $ta,
+            'proyectoLinea70'                       => $ta,
             'tecnoacademiaRelacionada'              => $ta->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $ta->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia : null,
             'lineasTecnoacademiaRelacionadas'       => $ta->proyecto->tecnoacademiaLineasTecnoacademia()->select('tecnoacademia_linea_tecnoacademia.id as value', 'lineas_tecnoacademia.nombre')->join('lineas_tecnoacademia', 'tecnoacademia_linea_tecnoacademia.linea_tecnoacademia_id', 'lineas_tecnoacademia.id')->get(),
             'lineasProgramaticas'                   => SelectHelper::lineasProgramaticas(),
             'lineasTecnoacademia'                   => SelectHelper::lineasTecnoacademia(),
             'tecnoacademias'                        => $tecnoacademias,
+            'rolesSennova'                          => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'versiones'                             => $ta->proyecto->PdfVersiones,
         ]);
     }

@@ -104,7 +104,7 @@ class ProyectoController extends Controller
         $proyecto->update(['estado' => $proyecto->estado_evaluacion_idi ?? $proyecto->estado_evaluacion_cultura_innovacion ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_servicios_tecnologicos]);
 
         if ($request->subsanacion == true) {
-            $request->subsanacion = $request->subsanacion ? 'true' : 'false';
+            $request->merge(['subsanacion' => $request->subsanacion ? 'true' : 'false']) ;
             $proyecto->update(['estado' => $proyecto->estado]);
             sleep(2);
             $proyecto->update(
@@ -115,7 +115,7 @@ class ProyectoController extends Controller
         }
 
         if ($request->estado_cord_sennova) {
-            $request->subsanacion = $request->subsanacion ? 'true' : 'false';
+            $request->merge(['subsanacion' => $request->subsanacion ? 'true' : 'false']) ;
             $proyecto->update(['estado_cord_sennova' => $proyecto->estado]);
             sleep(2);
             $proyecto->update(

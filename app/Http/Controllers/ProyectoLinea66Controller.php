@@ -9,6 +9,7 @@ use App\Models\Convocatoria;
 use App\Models\MesaSectorial;
 use App\Http\Requests\IdiRequest;
 use App\Http\Requests\IdiLongColumnRequest;
+use App\Models\RolSennova;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -53,7 +54,6 @@ class ProyectoLinea66Controller extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea66/Create', [
             'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_idi', 'max_fecha_finalizacion_proyectos_idi', 'fecha_maxima_idi', 'campos_convocatoria'),
-            'roles'                             => collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true)),
             'centrosFormacion'                  => $centrosFormacion,
             'areasConocimiento'                 => SelectHelper::areasConocimiento(),
             'subareasConocimiento'              => SelectHelper::subareasConocimiento(),
@@ -66,6 +66,7 @@ class ProyectoLinea66Controller extends Controller
             'gruposInvestigacion'               => SelectHelper::gruposInvestigacion()->where('value', 126)->values()->all(),
             'areasTematicasEni'                 => SelectHelper::areasTematicasEni(),
             'lineasInvestigacionEni'            => SelectHelper::lineasInvestigacion()->where('grupo_investigacion_id', 126)->values()->all(),
+            'rolesSennova'                      => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowedToCreate'                   => Gate::inspect('formular-proyecto', [3, $convocatoria])->allowed()
         ]);
     }
@@ -216,6 +217,7 @@ class ProyectoLinea66Controller extends Controller
             'proyectoLineasInvestigacionEni'            => $idi->lineasInvestigacionEni()->select('lineas_investigacion.id as value', 'lineas_investigacion.nombre as label')->get(),
             'programasFormacionConRegistroRelacionados' => $idi->proyecto->programasFormacion()->selectRaw('programas_formacion.id as value, concat(programas_formacion.nombre, chr(10), \'∙ Código: \', programas_formacion.codigo) as label')->where('registro_calificado', true)->pluck('value'),
             'programasFormacionSinRegistroRelacionados' => $idi->proyecto->programasFormacion()->selectRaw('programas_formacion.id as value, concat(programas_formacion.nombre, chr(10), \'∙ Código: \', programas_formacion.codigo) as label')->where('registro_calificado', false)->pluck('value'),
+            'rolesSennova'                              => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
         ]);
     }
 

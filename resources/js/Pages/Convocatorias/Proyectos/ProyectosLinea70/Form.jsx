@@ -1,363 +1,451 @@
-<script>
-    import { Inertia } from '@inertiajs/inertia'
-    import { route, checkPermissionByUser } from '@/Utils'
+import AlertMui from '@/Components/Alert'
+import Autocomplete from '@/Components/Autocomplete'
+import DatePicker from '@/Components/DatePicker'
+import FileInput from '@/Components/FileInput'
+import Label from '@/Components/Label'
+import PrimaryButton from '@/Components/PrimaryButton'
+import SelectMultiple from '@/Components/SelectMultiple'
+import TextInput from '@/Components/TextInput'
+import Textarea from '@/Components/Textarea'
+import { checkPermissionByUser, monthDiff } from '@/Utils'
 
-    import InputError from '@/Components/InputError'
-    import Label from '@/Components/Label'
-    import Textarea from '@/Components/Textarea'
-    import MultipleSelect from '@/Components/MultipleSelect'
-    import Select from '@/Components/Select'
-    import RecomendacionEvaluador from '@/Components/RecomendacionEvaluador'
-    import InfoMessage from '@/Components/InfoMessage'
-    import File from '@/Components/File'
+import { useForm } from '@inertiajs/react'
 
-    export let isSuperAdmin
-    export let errors
-    export let authUser
-    export let convocatoria
-    export let ta
-    export let form
-    export let lineasTecnoacademia
-    export let lineasProgramaticas
-    export let evaluacion = false
+import { Grid } from '@mui/material'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
-    let arrayLineasTecnoacademia = lineasTecnoacademia.filter(function (obj) {
-        return obj.tecnoacademia_id == $form.tecnoacademia_id
+const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea70, lineasTecnoacademia, lineasProgramaticas, rolesSennova, evaluacion, ...props }) => {
+    const form = useForm({
+        centro_formacion_id: proyectoLinea70?.proyecto.centro_formacion_id ?? '',
+        fecha_inicio: proyectoLinea70?.fecha_inicio ?? '',
+        fecha_finalizacion: proyectoLinea70?.fecha_finalizacion ?? '',
+        max_meses_ejecucion: proyectoLinea70?.max_meses_ejecucion ?? '',
+        tecnoacademia_id: null,
+        tecnoacademia_linea_tecnoacademia_id: null,
+        codigo_linea_programatica: null,
+        logros_vigencia_anterior: proyectoLinea70?.logros_vigencia_anterior ?? '',
+        resumen: proyectoLinea70?.resumen ?? '',
+        resumen_regional: proyectoLinea70?.resumen_regional ?? '',
+        antecedentes: proyectoLinea70?.antecedentes ?? '',
+        antecedentes_tecnoacademia: proyectoLinea70?.antecedentes_tecnoacademia ?? '',
+        justificacion_problema: proyectoLinea70?.justificacion_problema ?? '',
+        marco_conceptual: proyectoLinea70?.marco_conceptual ?? '',
+        bibliografia: proyectoLinea70?.bibliografia ?? '',
+        pertinencia_territorio: proyectoLinea70?.pertinencia_territorio ?? '',
+        retos_oportunidades: proyectoLinea70?.retos_oportunidades ?? '',
+        lineas_tecnologicas_centro: proyectoLinea70?.lineas_tecnologicas_centro ?? '',
+        pdf_proyecto_general: null,
+
+        cantidad_meses: 0,
+        cantidad_horas: 0,
+        rol_sennova: null,
     })
-    function selectLineasTecnoacademia(event) {
-        arrayLineasTecnoacademia = lineasTecnoacademia.filter(function (obj) {
-            return obj.tecnoacademia_id == event.detail?.value
-        })
+
+    const submit = (e) => {
+        e.preventDefault()
+        if (proyectoLinea70.proyecto.allowed.to_update) {
+            method == 'crear'
+                ? form.post(route('convocatorias.ta.store', [convocatoria.id]), {
+                      preserveScroll: true,
+                  })
+                : proyectoLinea70.proyecto.allowed.to_update
+                ? form.put(route('convocatorias.ta.update', [convocatoria.id, proyectoLinea70.id]), {
+                      preserveScroll: true,
+                  })
+                : null
+        }
     }
 
-    async function syncColumnLong(column, form) {
-        return new Promise((resolve) => {
-            if (ta.proyecto.allowed.to_update) {
-                //guardar
-                Inertia.put(
-                    route('convocatorias.ta.updateLongColumn', [convocatoria.id, ta.id, column]),
-                    { [column]: form[column] },
-                    {
-                        onError: (resp) => resolve(resp),
-                        onFinish: () => resolve({}),
-                        preserveScroll: true,
-                    },
-                )
-            } else {
-                resolve({})
-            }
-        })
+    useEffect(() => {
+        form.setData('max_meses_ejecucion', monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion))
+    }, [form.data.fecha_inicio && form.data.fecha_finalizacion])
+
+    const [arrayLineasTecnoacademia, setArrayLineasTecnoacademia] = useState([])
+    const selectLineasTecnoacademia = (selectedTecnoAcademia) => {
+        const filteredLineasTecnoacademia = lineasTecnoacademia.filter((obj) => obj.tecnoacademia_id === selectedTecnoAcademia.value)
+        setArrayLineasTecnoacademia(filteredLineasTecnoacademia)
     }
-</script>
 
-<div className="py-24">
-    <p className="text-center">Fecha de ejecución</p>
-    {#if ta.proyecto.allowed.to_update}
-        <small className="text-red-400 block text-center"> * Campo obligatorio </small>
-    {/if}
+    return (
+        <form onSubmit={submit}>
+            <fieldset disabled={proyectoLinea70?.proyecto.allowed.to_update && !isSuperAdmin}>
+                <Grid container className="space-y-20">
+                    <Grid item md={6}>
+                        <Label required labelFor="fecha_inicio" error={form.errors.fecha_inicio} value="Fecha de inicio" />
+                    </Grid>
+                    <Grid item md={6}>
+                        <DatePicker
+                            variant="outlined"
+                            id="fecha_inicio"
+                            name="fecha_inicio"
+                            value={form.data.fecha_inicio}
+                            className="p-4 w-full"
+                            onChange={(e) => form.setData('fecha_inicio', e.target.value)}
+                            required
+                        />
+                    </Grid>
 
-    <div className="mt-4 flex items-start justify-around">
-        <div className="mt-4 flex {errors.fecha_inicio ? '' : 'items-center'}">
-            <Label required labelFor="fecha_inicio" className={errors.fecha_inicio ? 'top-3.5 relative' : ''} value="Del" />
-            <div className="ml-4">
-                <input id="fecha_inicio" type="date" className="mt-1 block w-full p-4" min={convocatoria.min_fecha_inicio_proyectos_linea_70} max={convocatoria.max_fecha_finalizacion_proyectos_linea_70} error={errors.fecha_inicio} bind:value={$form.fecha_inicio} required disabled={evaluacion ? 'disabled' : undefined} />
-            </div>
-        </div>
-        <div className="mt-4 flex {errors.fecha_finalizacion ? '' : 'items-center'}">
-            <Label required labelFor="fecha_finalizacion" className={errors.fecha_finalizacion ? 'top-3.5 relative' : ''} value="hasta" />
-            <div className="ml-4">
-                <input id="fecha_finalizacion" type="date" className="mt-1 block w-full p-4" min={convocatoria.min_fecha_inicio_proyectos_linea_70} max={convocatoria.max_fecha_finalizacion_proyectos_linea_70} error={errors.fecha_finalizacion} bind:value={$form.fecha_finalizacion} required disabled={evaluacion ? 'disabled' : undefined} />
-            </div>
-        </div>
-    </div>
-    {#if errors.fecha_inicio || errors.fecha_finalizacion || errors.max_meses_ejecucion}
-        <div className="mb-20 flex justify-center mt-4">
-            <InputError classes="text-center" message={errors.fecha_inicio} />
-            <InputError classes="text-center" message={errors.fecha_finalizacion} />
-            <InputError classes="text-center" message={errors.max_meses_ejecucion} />
-        </div>
-    {/if}
+                    <Grid item md={6}>
+                        <Label required labelFor="fecha_finalizacion" error={form.errors.fecha_finalizacion} value="Fecha de finalización" />
+                    </Grid>
+                    <Grid item md={6}>
+                        <DatePicker
+                            variant="outlined"
+                            id="fecha_finalizacion"
+                            name="fecha_finalizacion"
+                            value={form.data.fecha_finalizacion}
+                            className="p-4 w-full"
+                            onChange={(e) => form.setData('fecha_finalizacion', e.target.value)}
+                            required
+                        />
+                    </Grid>
 
-    {#if (isSuperAdmin && !evaluacion) || (ta.proyecto.mostrar_recomendaciones && !evaluacion)}
-        <RecomendacionEvaluador className="mt-8">
-            {#each ta.proyecto.evaluaciones as evaluacion, i}
-                {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
-                    <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
-                        <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                        <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion.fecha_ejecucion_comentario ? evaluacion.ta_evaluacion.fecha_ejecucion_comentario : 'Sin recomendación'}</p>
-                    </div>
-                {/if}
-            {/each}
-            {#if ta.proyecto.evaluaciones.length == 0}
-                <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
-            {/if}
-        </RecomendacionEvaluador>
-    {/if}
+                    {method == 'crear' && (
+                        <>
+                            <div className="py-24">
+                                <p className="text-center mt-36 mb-8">Información de mi participación en el proyecto</p>
+                            </div>
+                            <Grid item md={6}>
+                                <Label required labelFor="rol_sennova" className="mb-4" value="Rol SENNOVA" />
+                            </Grid>
+                            <Grid item md={6}>
+                                <Autocomplete
+                                    id="rol_sennova"
+                                    selectedValue={form.data.rol_sennova}
+                                    onChange={(event, newValue) => form.setData('rol_sennova', newValue.value)}
+                                    options={rolesSennova}
+                                    placeholder="Seleccione un rol SENNOVA"
+                                    required
+                                />
+                            </Grid>
 
-    <slot name="fechas" />
-</div>
+                            {form.data.fecha_inicio && form.data.fecha_finalizacion && (
+                                <>
+                                    <Grid item md={6}>
+                                        <Label required labelFor="cantidad_meses" className="mb-4" value="Número de meses de vinculación al proyecto" />
+                                    </Grid>
+                                    <Grid item md={6}>
+                                        <TextInput
+                                            type="number"
+                                            id="cantidad_meses"
+                                            inputProps={{
+                                                step: 0.1,
+                                                min: 1,
+                                                max: monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion),
+                                            }}
+                                            value={form.data.cantidad_meses}
+                                            onChange={(e) => form.setData('cantidad_meses', e.target.value)}
+                                            placeholder="Número de meses de vinculación"
+                                            required
+                                        />
+                                        {monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion) && (
+                                            <small>
+                                                El proyecto se ejecutará entre {form.data.fecha_inicio} y el {form.data.fecha_finalizacion}, por lo tanto el número de meses máximo es:{' '}
+                                                {monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion)}
+                                            </small>
+                                        )}
+                                    </Grid>
+                                </>
+                            )}
+                            <Grid item md={6}>
+                                <Label required labelFor="cantidad_horas" className="mb-4" value="Número de horas semanales dedicadas para el desarrollo del proyecto" />
+                            </Grid>
+                            <Grid item md={6}>
+                                <TextInput
+                                    type="number"
+                                    id="cantidad_horas"
+                                    inputProps={{
+                                        step: 1,
+                                        min: 1,
+                                        max: form.data.rol_sennova?.maxHoras,
+                                    }}
+                                    value={form.data.cantidad_horas}
+                                    onChange={(e) => form.setData('cantidad_horas', e.target.value)}
+                                    placeholder="Número de horas semanales dedicadas"
+                                    required
+                                />
+                            </Grid>
+                        </>
+                    )}
 
-{#if convocatoria.descripcion?.includes('proyectos de tecnoacademia y tecnoparque')}
-    <div className="py-24">
-        <Label required className="mb-4" labelFor="pdf_proyecto_general" value="Archivo en formato (.pdf) del proyecto general" />
-        <File id="pdf_proyecto_general" maxSize="10000" bind:value={$form.pdf_proyecto_general} valueDb={ta.pdf_proyecto_general} error={errors.pdf_proyecto_general} route={ta.pdf_proyecto_general?.includes('http') ? null : route('convocatorias.ta.download-pdf-sharepoint', [convocatoria.id, ta, 'pdf_proyecto_general'])} required />
-    </div>
-{/if}
+                    {method == 'editar' && (
+                        <>
+                            {convocatoria.descripcion?.includes('proyectos de tecnoacademia y tecnoparque') && (
+                                <>
+                                    <Grid item md={6}>
+                                        <Label required className="mb-4" labelFor="pdf_proyecto_general" value="Archivo en formato (.pdf) del proyecto general" />
+                                    </Grid>
 
-<fieldset className="py-24" disabled>
-    <div className="grid grid-cols-2">
-        <div>
-            <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
-        </div>
-        <div>
-            <Select id="linea_programatica_id" items={lineasProgramaticas} bind:selectedValue={$form.linea_programatica_id} error={errors.linea_programatica_id} autocomplete="off" placeholder="Busque por el nombre de la línea programática" required disabled={evaluacion ? 'disabled' : undefined} />
-        </div>
-    </div>
-    <div className="mt-44 grid grid-cols-2">
-        <div>
-            <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="centro_formacion_id" value="Centro de formación" />
-            <small> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </small>
-        </div>
-        <div className="capitalize">
-            {ta.proyecto.centro_formacion.nombre}
-        </div>
-    </div>
+                                    <Grid item md={6}>
+                                        <FileInput
+                                            id="pdf_proyecto_general"
+                                            maxSize="10000"
+                                            value={form.data.pdf_proyecto_general}
+                                            valueDb={proyectoLinea70.pdf_proyecto_general}
+                                            error={form.errors.pdf_proyecto_general}
+                                            route={
+                                                proyectoLinea70.pdf_proyecto_general?.includes('http')
+                                                    ? null
+                                                    : route('convocatorias.ta.download-pdf-sharepoint', [convocatoria.id, ta, 'pdf_proyecto_general'])
+                                            }
+                                            required
+                                        />
+                                    </Grid>
+                                </>
+                            )}
 
-    <div className="mt-44 grid grid-cols-2">
-        <div>
-            <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="tecnoacademia_id" value="TecnoAcademia" />
-        </div>
-        <div>
-            {ta.titulo}
-        </div>
-    </div>
-</fieldset>
+                            <Grid item md={6}>
+                                <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
+                            </Grid>
+                            <Grid item md={6}>
+                                {proyectoLinea70?.proyecto.linea_programatica.nombre + ' - ' + proyectoLinea70?.proyecto.linea_programatica.codigo}
+                            </Grid>
 
-{#if $form.tecnoacademia_id && arrayLineasTecnoacademia}
-    <div className="py-24">
-        <div className="grid grid-cols-2">
-            <div>
-                <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="tecnoacademia_linea_tecnoacademia_id" value="Líneas temáticas a ejecutar en la vigencia del proyecto:" />
-            </div>
-            <div>
-                <MultipleSelect id="tecnoacademia_linea_tecnoacademia_id" bind:selectedValue={$form.tecnoacademia_linea_tecnoacademia_id} items={arrayLineasTecnoacademia}  error={errors.tecnoacademia_linea_tecnoacademia_id} placeholder="Buscar por el nombre de la línea" required disabled={evaluacion ? 'disabled' : undefined} />
-            </div>
-        </div>
-    </div>
-{/if}
+                            <Grid item md={6}>
+                                <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="centro_formacion_id" value="Centro de formación" />
+                                <small> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </small>
+                            </Grid>
+                            <Grid item md={6}>
+                                <p className="first-letter:uppercase">{proyectoLinea70.proyecto.centro_formacion.nombre}</p>
+                            </Grid>
 
-<fieldset className="py-24" disabled={ta.proyecto_base || checkPermissionByUser(authUser, [23]) ? undefined : true}>
-    <div className="grid grid-cols-1">
-        <div>
-            <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="resumen" value="Resumen del proyecto" />
-            <InfoMessage message="Información necesaria para darle al lector una idea precisa de la pertinencia y calidad del proyecto. Explique en qué consiste el problema o necesidad, cómo cree que lo resolverá, cuáles son las razones que justifican su ejecución y las herramientas que se utilizarán en el desarrollo del proyecto." />
-        </div>
-        <div>
-            <Textarea maxlength="40000" id="resumen" error={errors.resumen} bind:value={$form.resumen} on:blur={() => syncColumnLong('resumen', $form)} required disabled={evaluacion ? 'disabled' : undefined} />
-        </div>
-    </div>
-</fieldset>
+                            <Grid item md={6}>
+                                <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="tecnoacademia_id" value="TecnoAcademia" />
+                            </Grid>
+                            <Grid item md={6}>
+                                <div>{proyectoLinea70.titulo}</div>
+                            </Grid>
 
-<div className="py-24">
-    <div className="grid grid-cols-1">
-        <div>
-            <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="resumen_regional" value="Complemento - Resumen ejecutivo regional" />
-        </div>
-        <div>
-            <Textarea maxlength="40000" id="resumen_regional" error={errors.resumen_regional} bind:value={$form.resumen_regional} on:blur={() => syncColumnLong('resumen_regional', $form)} required disabled={evaluacion ? 'disabled' : undefined} />
-        </div>
-    </div>
-    {#if (isSuperAdmin && !evaluacion) || (ta.proyecto.mostrar_recomendaciones && !evaluacion)}
-        <RecomendacionEvaluador className="mt-8">
-            {#each ta.proyecto.evaluaciones as evaluacion, i}
-                {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
-                    <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
-                        <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                        <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion.resumen_regional_comentario ? evaluacion.ta_evaluacion.resumen_regional_comentario : 'Sin recomendación'}</p>
-                    </div>
-                {/if}
-            {/each}
-            {#if ta.proyecto.evaluaciones.length == 0}
-                <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
-            {/if}
-        </RecomendacionEvaluador>
-    {/if}
+                            {form.data.tecnoacademia_id && arrayLineasTecnoacademia && (
+                                <>
+                                    <Grid item md={6}>
+                                        <Label
+                                            required
+                                            disabled={evaluacion ? 'disabled' : undefined}
+                                            className="mb-4"
+                                            labelFor="tecnoacademia_linea_tecnoacademia_id"
+                                            value="Líneas temáticas a ejecutar en la vigencia del proyecto:"
+                                        />
+                                    </Grid>
+                                    <Grid item md={6}>
+                                        <SelectMultiple
+                                            id="tecnoacademia_linea_tecnoacademia_id"
+                                            bdValues={form.data.tecnoacademia_linea_tecnoacademia_id}
+                                            options={arrayLineasTecnoacademia}
+                                            error={form.errors.tecnoacademia_linea_tecnoacademia_id}
+                                            placeholder="Buscar por el nombre de la línea"
+                                            required
+                                            disabled={evaluacion ? 'disabled' : undefined}
+                                        />
+                                    </Grid>
+                                </>
+                            )}
 
-    <slot name="resumen-regional" />
-</div>
+                            <Grid item md={12}>
+                                <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="resumen" value="Resumen del proyecto" />
+                                <AlertMui hiddenIcon={true}>
+                                    Información necesaria para darle al lector una idea precisa de la pertinencia y calidad del proyecto. Explique en qué consiste el problema o necesidad, cómo cree
+                                    que lo resolverá, cuáles son las razones que justifican su ejecución y las herramientas que se utilizarán en el desarrollo del proyecto.
+                                </AlertMui>
 
-<fieldset className="py-24" disabled={ta.proyecto_base || checkPermissionByUser(authUser, [23]) ? undefined : true}>
-    <div className="grid grid-cols-1">
-        <div>
-            <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="antecedentes" value="Antecedentes" />
-            <InfoMessage
-                message="Presenta las investigaciones, innovaciones o desarrollos tecnológicos que se han realizado a nivel internacional, nacional, departamental o municipal en el marco de la temática de la propuesta del proyecto; que muestran la pertinencia del proyecto, citar toda la información consignada utilizando normas APA última edición. De igual forma, relacionar los proyectos ejecutados en vigencias anteriores (incluir códigos SGPS), si el proyecto corresponde a la continuidad de proyectos SENNOVA."
-            />
-        </div>
-        <div>
-            <Textarea maxlength="40000" id="antecedentes" error={errors.antecedentes} bind:value={$form.antecedentes} on:blur={() => syncColumnLong('antecedentes', $form)} required disabled={evaluacion ? 'disabled' : undefined} />
-        </div>
-    </div>
-</fieldset>
+                                <Textarea
+                                    id="resumen"
+                                    error={form.errors.resumen}
+                                    value={form.data.resumen}
+                                    onChange={(e) => form.setData('resumen', e.target.value)}
+                                    required
+                                    disabled={proyectoLinea70.proyecto_base || checkPermissionByUser(authUser, [23]) ? undefined : true}
+                                />
+                            </Grid>
 
-<div className="py-24">
-    <div className="grid grid-cols-1">
-        <div>
-            <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="antecedentes_tecnoacademia" value="Antecedentes de la Tecnoacademia y su impacto en la región" />
-        </div>
-        <div>
-            <Textarea maxlength="40000" id="antecedentes_tecnoacademia" error={errors.antecedentes_tecnoacademia} bind:value={$form.antecedentes_tecnoacademia} on:blur={() => syncColumnLong('antecedentes_tecnoacademia', $form)} required disabled={evaluacion ? 'disabled' : undefined} />
-        </div>
-    </div>
-    {#if (isSuperAdmin && !evaluacion) || (ta.proyecto.mostrar_recomendaciones && !evaluacion)}
-        <RecomendacionEvaluador className="mt-8">
-            {#each ta.proyecto.evaluaciones as evaluacion, i}
-                {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
-                    <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
-                        <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                        <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion.antecedentes_tecnoacademia_comentario ? evaluacion.ta_evaluacion.antecedentes_tecnoacademia_comentario : 'Sin recomendación'}</p>
-                    </div>
-                {/if}
-            {/each}
-            {#if ta.proyecto.evaluaciones.length == 0}
-                <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
-            {/if}
-        </RecomendacionEvaluador>
-    {/if}
+                            <Grid item md={12}>
+                                <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="resumen_regional" value="Complemento - Resumen ejecutivo regional" />
 
-    <slot name="antecedentes" />
-</div>
+                                <Textarea
+                                    id="resumen_regional"
+                                    error={form.errors.resumen_regional}
+                                    value={form.data.resumen_regional}
+                                    onChange={(e) => form.setData('resumen_regional', e.target.value)}
+                                    required
+                                    disabled={evaluacion ? 'disabled' : undefined}
+                                />
+                            </Grid>
 
-<fieldset className="py-24" disabled={ta.proyecto_base || checkPermissionByUser(authUser, [23]) ? undefined : true}>
-    <div className="grid grid-cols-1">
-        <div>
-            <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="justificacion_problema" value="Justificación" />
-        </div>
-        <div>
-            <Textarea maxlength="40000" id="justificacion_problema" error={errors.justificacion_problema} bind:value={$form.justificacion_problema} on:blur={() => syncColumnLong('justificacion_problema', $form)} required disabled={evaluacion ? 'disabled' : undefined} />
-        </div>
-    </div>
-</fieldset>
+                            <Grid item md={12}>
+                                <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="antecedentes" value="Antecedentes" />
+                                <AlertMui hiddenIcon={true}>
+                                    Presenta las investigaciones, innovaciones o desarrollos tecnológicos que se han realizado a nivel internacional, nacional, departamental o municipal en el marco de
+                                    la temática de la propuesta del proyecto; que muestran la pertinencia del proyecto, citar toda la información consignada utilizando normas APA última edición. De
+                                    igual forma, relacionar los proyectos ejecutados en vigencias anteriores (incluir códigos SGPS), si el proyecto corresponde a la continuidad de proyectos SENNOVA."
+                                </AlertMui>
 
-<div className="py-24">
-    <div className="grid grid-cols-1">
-        <div>
-            <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="logros_vigencia_anterior" value="Logros de la vigencia {convocatoria.year - 1} en la implementación del programa de TecnoAcademia" />
-        </div>
-        <div>
-            <Textarea maxlength="40000" id="logros_vigencia_anterior" error={errors.logros_vigencia_anterior} bind:value={$form.logros_vigencia_anterior} on:blur={() => syncColumnLong('logros_vigencia_anterior', $form)} required disabled={evaluacion ? 'disabled' : undefined} />
-        </div>
-    </div>
-</div>
+                                <Textarea
+                                    id="antecedentes"
+                                    error={form.errors.antecedentes}
+                                    value={form.data.antecedentes}
+                                    onChange={(e) => form.setData('antecedentes', e.target.value)}
+                                    required
+                                    disabled={proyectoLinea70.proyecto_base || checkPermissionByUser(authUser, [23]) ? undefined : true}
+                                />
+                            </Grid>
 
-<div className="py-24">
-    <div className="grid grid-cols-1">
-        <div>
-            <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="retos_oportunidades" value="Descripción de retos y prioridades locales y regionales en los cuales la Tecnoacademia tiene impacto" />
-        </div>
-        <div>
-            <Textarea maxlength="40000" id="retos_oportunidades" error={errors.retos_oportunidades} bind:value={$form.retos_oportunidades} on:blur={() => syncColumnLong('retos_oportunidades', $form)} required disabled={evaluacion ? 'disabled' : undefined} />
-        </div>
-    </div>
-    {#if (isSuperAdmin && !evaluacion) || (ta.proyecto.mostrar_recomendaciones && !evaluacion)}
-        <RecomendacionEvaluador className="mt-8">
-            {#each ta.proyecto.evaluaciones as evaluacion, i}
-                {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
-                    <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
-                        <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                        <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion.retos_oportunidades_comentario ? evaluacion.ta_evaluacion.retos_oportunidades_comentario : 'Sin recomendación'}</p>
-                    </div>
-                {/if}
-            {/each}
-            {#if ta.proyecto.evaluaciones.length == 0}
-                <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
-            {/if}
-        </RecomendacionEvaluador>
-    {/if}
+                            <Grid item md={12}>
+                                <Label
+                                    required
+                                    disabled={evaluacion ? 'disabled' : undefined}
+                                    className="mb-4"
+                                    labelFor="antecedentes_tecnoacademia"
+                                    value="Antecedentes de la Tecnoacademia y su impacto en la región"
+                                />
 
-    <slot name="retos-oportunidades" />
-</div>
+                                <Textarea
+                                    id="antecedentes_tecnoacademia"
+                                    error={form.errors.antecedentes_tecnoacademia}
+                                    value={form.data.antecedentes_tecnoacademia}
+                                    onChange={(e) => form.setData('antecedentes_tecnoacademia', e.target.value)}
+                                    required
+                                    disabled={evaluacion ? 'disabled' : undefined}
+                                />
+                            </Grid>
 
-<div className="py-24">
-    <div className="grid grid-cols-1">
-        <div>
-            <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="pertinencia_territorio" value="Justificación y pertinencia en el territorio" />
-        </div>
-        <div>
-            <Textarea maxlength="40000" id="pertinencia_territorio" error={errors.pertinencia_territorio} bind:value={$form.pertinencia_territorio} on:blur={() => syncColumnLong('pertinencia_territorio', $form)} required disabled={evaluacion ? 'disabled' : undefined} />
-        </div>
-    </div>
-</div>
+                            <Grid item md={12}>
+                                <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="justificacion_problema" value="Justificación" />
 
-<fieldset className="py-24" disabled={ta.proyecto_base || checkPermissionByUser(authUser, [23]) ? undefined : true}>
-    <div className="grid grid-cols-1">
-        <div>
-            <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="marco_conceptual" value="Marco conceptual" />
-            <InfoMessage message="Descripción de los aspectos conceptuales y/o teóricos relacionados con el problema. Se hace la claridad que no es un listado de definiciones." />
-        </div>
-        <div>
-            <Textarea maxlength="40000" id="marco_conceptual" error={errors.marco_conceptual} bind:value={$form.marco_conceptual} on:blur={() => syncColumnLong('marco_conceptual', $form)} required disabled={evaluacion ? 'disabled' : undefined} />
-        </div>
-    </div>
-</fieldset>
+                                <Textarea
+                                    id="justificacion_problema"
+                                    error={form.errors.justificacion_problema}
+                                    value={form.data.justificacion_problema}
+                                    onChange={(e) => form.setData('justificacion_problema', e.target.value)}
+                                    required
+                                    disabled={proyectoLinea70.proyecto_base || checkPermissionByUser(authUser, [23]) ? undefined : true}
+                                />
+                            </Grid>
 
-<div className="py-24">
-    <div className="grid grid-cols-1">
-        <div>
-            <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="lineas_tecnologicas_centro" value="Líneas tecnológicas del Centro con las que se articula la TecnoAcademia" />
-        </div>
-        <div>
-            <Textarea maxlength="40000" id="lineas_tecnologicas_centro" error={errors.lineas_tecnologicas_centro} bind:value={$form.lineas_tecnologicas_centro} on:blur={() => syncColumnLong('lineas_tecnologicas_centro', $form)} required disabled={evaluacion ? 'disabled' : undefined} />
-        </div>
-    </div>
-    {#if (isSuperAdmin && !evaluacion) || (ta.proyecto.mostrar_recomendaciones && !evaluacion)}
-        <RecomendacionEvaluador className="mt-8">
-            {#each ta.proyecto.evaluaciones as evaluacion, i}
-                {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
-                    <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
-                        <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                        <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion.lineas_tecnologicas_centro_comentario ? evaluacion.ta_evaluacion.lineas_tecnologicas_centro_comentario : 'Sin recomendación'}</p>
-                    </div>
-                {/if}
-            {/each}
-            {#if ta.proyecto.evaluaciones.length == 0}
-                <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
-            {/if}
-        </RecomendacionEvaluador>
-    {/if}
+                            <Grid item md={12}>
+                                <Label
+                                    required
+                                    disabled={evaluacion ? 'disabled' : undefined}
+                                    className="mb-4"
+                                    labelFor="logros_vigencia_anterior"
+                                    value="Logros de la vigencia {convocatoria.year - 1} en la implementación del programa de TecnoAcademia"
+                                />
 
-    <slot name="lineas-tecnologicas" />
-</div>
+                                <Textarea
+                                    id="logros_vigencia_anterior"
+                                    error={form.errors.logros_vigencia_anterior}
+                                    value={form.data.logros_vigencia_anterior}
+                                    onChange={(e) => form.setData('logros_vigencia_anterior', e.target.value)}
+                                    required
+                                    disabled={evaluacion ? 'disabled' : undefined}
+                                />
+                            </Grid>
 
-<div className="py-24">
-    <div className="grid grid-cols-1">
-        <div>
-            <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="bibliografia" value="Bibliografía" />
-            <InfoMessage message="Lista de las referencias utilizadas en cada apartado del proyecto. Utilizar normas APA- Última edición (http://biblioteca.sena.edu.co/images/PDF/InstructivoAPA.pdf)." />
-        </div>
-        <div>
-            <Textarea maxlength="40000" id="bibliografia" error={errors.bibliografia} bind:value={$form.bibliografia} on:blur={() => syncColumnLong('bibliografia', $form)} required disabled={evaluacion ? 'disabled' : undefined} />
-        </div>
-    </div>
-    {#if (isSuperAdmin && !evaluacion) || (ta.proyecto.mostrar_recomendaciones && !evaluacion)}
-        <RecomendacionEvaluador className="mt-8">
-            {#each ta.proyecto.evaluaciones as evaluacion, i}
-                {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
-                    <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
-                        <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                        <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion.bibliografia ? evaluacion.ta_evaluacion.bibliografia : 'Sin recomendación'}</p>
-                    </div>
-                {/if}
-            {/each}
-            {#if ta.proyecto.evaluaciones.length == 0}
-                <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p>
-            {/if}
-        </RecomendacionEvaluador>
-    {/if}
+                            <Grid item md={12}>
+                                <Label
+                                    required
+                                    disabled={evaluacion ? 'disabled' : undefined}
+                                    className="mb-4"
+                                    labelFor="retos_oportunidades"
+                                    value="Descripción de retos y prioridades locales y regionales en los cuales la Tecnoacademia tiene impacto"
+                                />
 
-    <slot name="bibliografia" />
-</div>
+                                <Textarea
+                                    id="retos_oportunidades"
+                                    error={form.errors.retos_oportunidades}
+                                    value={form.data.retos_oportunidades}
+                                    onChange={(e) => form.setData('retos_oportunidades', e.target.value)}
+                                    required
+                                    disabled={evaluacion ? 'disabled' : undefined}
+                                />
+                            </Grid>
 
-<div className="py-24">
-    <slot name="items-finales" />
-</div>
+                            <Grid item md={12}>
+                                <Label
+                                    required
+                                    disabled={evaluacion ? 'disabled' : undefined}
+                                    className="mb-4"
+                                    labelFor="pertinencia_territorio"
+                                    value="Justificación y pertinencia en el territorio"
+                                />
+
+                                <Textarea
+                                    id="pertinencia_territorio"
+                                    error={form.errors.pertinencia_territorio}
+                                    value={form.data.pertinencia_territorio}
+                                    onChange={(e) => form.setData('pertinencia_territorio', e.target.value)}
+                                    required
+                                    disabled={evaluacion ? 'disabled' : undefined}
+                                />
+                            </Grid>
+
+                            <Grid item md={12}>
+                                <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="marco_conceptual" value="Marco conceptual" />
+                                <AlertMui hiddenIcon={true}>
+                                    Descripción de los aspectos conceptuales y/o teóricos relacionados con el problema. Se hace la claridad que no es un listado de definiciones.
+                                </AlertMui>
+
+                                <Textarea
+                                    id="marco_conceptual"
+                                    error={form.errors.marco_conceptual}
+                                    value={form.data.marco_conceptual}
+                                    onChange={(e) => form.setData('marco_conceptual', e.target.value)}
+                                    required
+                                    disabled={proyectoLinea70.proyecto_base || checkPermissionByUser(authUser, [23]) ? undefined : true}
+                                />
+                            </Grid>
+
+                            <Grid item md={12}>
+                                <Label
+                                    required
+                                    disabled={evaluacion ? 'disabled' : undefined}
+                                    className="mb-4"
+                                    labelFor="lineas_tecnologicas_centro"
+                                    value="Líneas tecnológicas del Centro con las que se articula la TecnoAcademia"
+                                />
+
+                                <Textarea
+                                    id="lineas_tecnologicas_centro"
+                                    error={form.errors.lineas_tecnologicas_centro}
+                                    value={form.data.lineas_tecnologicas_centro}
+                                    onChange={(e) => form.setData('lineas_tecnologicas_centro', e.target.value)}
+                                    required
+                                    disabled={evaluacion ? 'disabled' : undefined}
+                                />
+                            </Grid>
+
+                            <Grid item md={12}>
+                                <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="bibliografia" value="Bibliografía" />
+                                <AlertMui hiddenIcon={true}>
+                                    Lista de las referencias utilizadas en cada apartado del proyecto. Utilizar normas APA- Última edición
+                                    (http://biblioteca.sena.edu.co/images/PDF/InstructivoAPA.pdf).
+                                </AlertMui>
+
+                                <Textarea
+                                    id="bibliografia"
+                                    error={form.errors.bibliografia}
+                                    value={form.data.bibliografia}
+                                    onChange={(e) => form.setData('bibliografia', e.target.value)}
+                                    required
+                                    disabled={evaluacion ? 'disabled' : undefined}
+                                />
+                            </Grid>
+                        </>
+                    )}
+                </Grid>
+            </fieldset>
+
+            {form.isDirty && <div>There are unsaved form changes.</div>}
+
+            {method == 'crear' || proyectoLinea70.proyecto?.allowed?.to_update ? (
+                <div className="pt-8 pb-4 space-y-4">
+                    <PrimaryButton type="submit" className="ml-auto">
+                        Guardar
+                    </PrimaryButton>
+                </div>
+            ) : null}
+        </form>
+    )
+}
+
+export default Form
