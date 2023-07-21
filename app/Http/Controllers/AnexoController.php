@@ -100,7 +100,7 @@ class AnexoController extends Controller
         return Inertia::render('Anexos/Edit', [
             'anexo'                     => $anexo,
             'lineasProgramaticas'       => LineaProgramatica::orderBy('nombre', 'ASC')->get(),
-            'anexoLineasProgramaticas'  => $anexo->lineasProgramaticas()->pluck('id'),
+            'anexoLineasProgramaticas'  => $anexo->lineasProgramaticas()->pluck('lineas_programaticas.id'),
             'convocatorias'             => SelectHelper::convocatorias(),
             'convocatoriaAnexos'        => $anexo->convocatorias()->select('id as value', 'descripcion as label')->get()
         ]);

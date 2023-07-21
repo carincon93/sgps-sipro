@@ -214,7 +214,7 @@ class AmbienteModernizacionController extends Controller
             'programasFormacionCalificadosRelacionados'     => $ambienteModernizacion->programasFormacion()->selectRaw('programas_formacion.id as value, concat(programas_formacion.nombre, chr(10), \'∙ Código: \', programas_formacion.codigo) as label')->where('programas_formacion.registro_calificado', true)->get(),
             'programasFormacionNoCalificadosRelacionados'   => $ambienteModernizacion->programasFormacion()->selectRaw('programas_formacion.id as value, concat(programas_formacion.nombre, chr(10), \'∙ Código: \', programas_formacion.codigo) as label')->where('programas_formacion.registro_calificado', false)->get(),
             'semillerosRelacionados'                        => $ambienteModernizacion->semillerosInvestigacion()->select('semilleros_investigacion.nombre as label', 'semilleros_investigacion.id as value')->get(),
-            'mesasSectorialesRelacionadas'                  => $ambienteModernizacion->mesasSectoriales()->pluck('id'),
+            'mesasSectorialesRelacionadas'                  => $ambienteModernizacion->mesasSectoriales()->pluck('mesas_sectoriales.id'),
 
             'equiposAmbienteModernizacion'                  => EquipoAmbienteModernizacion::where('ambiente_modernizacion_id', $ambienteModernizacion->id)->get(),
             'roles'                                         => collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true)),
