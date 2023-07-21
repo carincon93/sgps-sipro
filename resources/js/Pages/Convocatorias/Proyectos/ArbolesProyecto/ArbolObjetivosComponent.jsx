@@ -510,7 +510,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
     const [actividadId, setActividadId] = useState(null)
     const [resultadosFiltrados, setResultadosFiltrados] = useState(null)
 
-    const setActividad = (causaIndirecta, actividad) => {
+    const setActividad = (causaDirecta, causaIndirecta, actividad) => {
         formActividad.reset()
         // if (showObjetivoEspecificoForm) {
         //     submitObjetivoEspecifico()
@@ -527,7 +527,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
             fecha_inicio: actividad.fecha_inicio,
             fecha_finalizacion: actividad.fecha_finalizacion,
             causa_indirecta_id: actividad.causa_indirecta_id,
-            objetivo_especifico_id: actividad.objetivo_especifico_id,
+            objetivo_especifico_id: causaDirecta.objetivo_especifico.id,
             descripcion: actividad.descripcion,
             resultado_id: actividad.resultado_id,
         })
@@ -583,56 +583,110 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                         {evaluacion.idi_evaluacion ? (
                                             <>
                                                 <h1 className="font-black mt-10">Objetivos</h1>
-                                                <p className="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion?.objetivos_comentario ? evaluacion.idi_evaluacion.objetivos_comentario : 'Sin recomendación'}</p>
+                                                <p className="whitespace-pre-line text-xs">
+                                                    {evaluacion.idi_evaluacion?.objetivos_comentario ? evaluacion.idi_evaluacion.objetivos_comentario : 'Sin recomendación'}
+                                                </p>
 
                                                 <hr className="mt-10 mb-10 border-black-200" />
                                                 <h1 className="font-black">Resultados</h1>
 
-                                                <p className="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion?.resultados_comentario ? evaluacion.idi_evaluacion.resultados_comentario : 'Sin recomendación'}</p>
+                                                <p className="whitespace-pre-line text-xs">
+                                                    {evaluacion.idi_evaluacion?.resultados_comentario ? evaluacion.idi_evaluacion.resultados_comentario : 'Sin recomendación'}
+                                                </p>
                                             </>
                                         ) : evaluacion.cultura_innovacion_evaluacion ? (
                                             <>
                                                 <h1 className="font-black mt-10">Objetivos</h1>
-                                                <p className="whitespace-pre-line text-xs">{evaluacion.cultura_innovacion_evaluacion?.objetivos_comentario ? evaluacion.cultura_innovacion_evaluacion.objetivos_comentario : 'Sin recomendación'}</p>
+                                                <p className="whitespace-pre-line text-xs">
+                                                    {evaluacion.cultura_innovacion_evaluacion?.objetivos_comentario
+                                                        ? evaluacion.cultura_innovacion_evaluacion.objetivos_comentario
+                                                        : 'Sin recomendación'}
+                                                </p>
 
                                                 <hr className="mt-10 mb-10 border-black-200" />
                                                 <h1 className="font-black">Resultados</h1>
 
-                                                <p className="whitespace-pre-line text-xs">{evaluacion.cultura_innovacion_evaluacion?.resultados_comentario ? evaluacion.cultura_innovacion_evaluacion.resultados_comentario : 'Sin recomendación'}</p>
+                                                <p className="whitespace-pre-line text-xs">
+                                                    {evaluacion.cultura_innovacion_evaluacion?.resultados_comentario
+                                                        ? evaluacion.cultura_innovacion_evaluacion.resultados_comentario
+                                                        : 'Sin recomendación'}
+                                                </p>
                                             </>
                                         ) : evaluacion.servicio_tecnologico_evaluacion ? (
                                             <>
                                                 <h1 className="font-black mt-10">Objetivo general</h1>
 
-                                                <p className="whitespace-pre-line text-xs">{evaluacion.servicio_tecnologico_evaluacion?.objetivo_general_comentario ? evaluacion.servicio_tecnologico_evaluacion.objetivo_general_comentario : 'Sin recomendación'}</p>
+                                                <p className="whitespace-pre-line text-xs">
+                                                    {evaluacion.servicio_tecnologico_evaluacion?.objetivo_general_comentario
+                                                        ? evaluacion.servicio_tecnologico_evaluacion.objetivo_general_comentario
+                                                        : 'Sin recomendación'}
+                                                </p>
 
                                                 <hr className="mt-10 mb-10 border-black-200" />
                                                 <h1 className="font-black">Objetivos específicos</h1>
 
                                                 <ul className="list-disc pl-4">
-                                                    <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.primer_objetivo_comentario ? 'Recomendación primer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.primer_objetivo_comentario : 'Sin recomendación'}</li>
-                                                    <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.segundo_objetivo_comentario ? 'Recomendación segundo objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.segundo_objetivo_comentario : 'Sin recomendación'}</li>
-                                                    <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.tercer_objetivo_comentario ? 'Recomendación tercer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.tercer_objetivo_comentario : 'Sin recomendación'}</li>
-                                                    <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.cuarto_objetivo_comentario ? 'Recomendación cuarto objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.cuarto_objetivo_comentario : 'Sin recomendación'}</li>
+                                                    <li className="whitespace-pre-line text-xs mb-10">
+                                                        {evaluacion.servicio_tecnologico_evaluacion?.primer_objetivo_comentario
+                                                            ? 'Recomendación primer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.primer_objetivo_comentario
+                                                            : 'Sin recomendación'}
+                                                    </li>
+                                                    <li className="whitespace-pre-line text-xs mb-10">
+                                                        {evaluacion.servicio_tecnologico_evaluacion?.segundo_objetivo_comentario
+                                                            ? 'Recomendación segundo objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.segundo_objetivo_comentario
+                                                            : 'Sin recomendación'}
+                                                    </li>
+                                                    <li className="whitespace-pre-line text-xs mb-10">
+                                                        {evaluacion.servicio_tecnologico_evaluacion?.tercer_objetivo_comentario
+                                                            ? 'Recomendación tercer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.tercer_objetivo_comentario
+                                                            : 'Sin recomendación'}
+                                                    </li>
+                                                    <li className="whitespace-pre-line text-xs mb-10">
+                                                        {evaluacion.servicio_tecnologico_evaluacion?.cuarto_objetivo_comentario
+                                                            ? 'Recomendación cuarto objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.cuarto_objetivo_comentario
+                                                            : 'Sin recomendación'}
+                                                    </li>
                                                 </ul>
 
                                                 <hr className="mt-10 mb-10 border-black-200" />
                                                 <h1 className="font-black">Resultados</h1>
                                                 <ul className="list-disc pl-4">
-                                                    <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.resultados_primer_obj_comentario ? 'Recomendación resultados del primer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_primer_obj_comentario : 'Sin recomendación'}</li>
-                                                    <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.resultados_segundo_obj_comentario ? 'Recomendación resultados del segundo objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_segundo_obj_comentario : 'Sin recomendación'}</li>
-                                                    <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.resultados_tercer_obj_comentario ? 'Recomendación resultados del tercer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_tercer_obj_comentario : 'Sin recomendación'}</li>
-                                                    <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.resultados_cuarto_obj_comentario ? 'Recomendación resultados del cuarto objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_cuarto_obj_comentario : 'Sin recomendación'}</li>
+                                                    <li className="whitespace-pre-line text-xs mb-10">
+                                                        {evaluacion.servicio_tecnologico_evaluacion?.resultados_primer_obj_comentario
+                                                            ? 'Recomendación resultados del primer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_primer_obj_comentario
+                                                            : 'Sin recomendación'}
+                                                    </li>
+                                                    <li className="whitespace-pre-line text-xs mb-10">
+                                                        {evaluacion.servicio_tecnologico_evaluacion?.resultados_segundo_obj_comentario
+                                                            ? 'Recomendación resultados del segundo objetivo específico: ' +
+                                                              evaluacion.servicio_tecnologico_evaluacion.resultados_segundo_obj_comentario
+                                                            : 'Sin recomendación'}
+                                                    </li>
+                                                    <li className="whitespace-pre-line text-xs mb-10">
+                                                        {evaluacion.servicio_tecnologico_evaluacion?.resultados_tercer_obj_comentario
+                                                            ? 'Recomendación resultados del tercer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_tercer_obj_comentario
+                                                            : 'Sin recomendación'}
+                                                    </li>
+                                                    <li className="whitespace-pre-line text-xs mb-10">
+                                                        {evaluacion.servicio_tecnologico_evaluacion?.resultados_cuarto_obj_comentario
+                                                            ? 'Recomendación resultados del cuarto objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_cuarto_obj_comentario
+                                                            : 'Sin recomendación'}
+                                                    </li>
                                                 </ul>
                                             </>
                                         ) : evaluacion.ta_evaluacion ? (
-                                            <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion?.arbol_objetivos_comentario ? evaluacion.ta_evaluacion.arbol_objetivos_comentario : 'Sin recomendación'}</p>
+                                            <p className="whitespace-pre-line text-xs">
+                                                {evaluacion.ta_evaluacion?.arbol_objetivos_comentario ? evaluacion.ta_evaluacion.arbol_objetivos_comentario : 'Sin recomendación'}
+                                            </p>
                                         ) : (
-                                            evaluacion.tp_evaluacion && <p className="whitespace-pre-line text-xs">{evaluacion.tp_evaluacion?.arbol_objetivos_comentario ? evaluacion.tp_evaluacion.arbol_objetivos_comentario : 'Sin recomendación'}</p>
+                                            evaluacion.tp_evaluacion && (
+                                                <p className="whitespace-pre-line text-xs">
+                                                    {evaluacion.tp_evaluacion?.arbol_objetivos_comentario ? evaluacion.tp_evaluacion.arbol_objetivos_comentario : 'Sin recomendación'}
+                                                </p>
+                                            )
                                         )}
                                     </div>
-                                }
-                            >
+                                }>
                                 Evaluación {i + 1}
                             </ToolTipMui>
                         ) : null,
@@ -652,14 +706,18 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                         </div>
 
                         <AlertMui hiddenIcon={true} className="mt-8">
-                            Recuerde que al crear una causa directa se genera automáticamente el objetivo específico en la sección de la derecha. Pasa igual si se crea una causa indirecta, se genera la actividad respectiva. Ambos ítems deben tener relación.
+                            Recuerde que al crear una causa directa se genera automáticamente el objetivo específico en la sección de la derecha. Pasa igual si se crea una causa indirecta, se genera
+                            la actividad respectiva. Ambos ítems deben tener relación.
                         </AlertMui>
 
                         {causasDirectas.map((causaDirecta, i) => (
                             <div key={i} className="my-20 shadow p-2" style={{ backgroundColor: '#e0dddd30' }}>
                                 <small className="inline-block ml-2">Causa directa #{i + 1}</small>
                                 {causaDirectaId !== causaDirecta.id && (
-                                    <div className="bg-white relative p-4 rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style={{ overflow: 'hidden', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', display: '-webkit-box' }} onClick={() => setCausaDirecta(causaDirecta)}>
+                                    <div
+                                        className="bg-white relative p-4 rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14"
+                                        style={{ overflow: 'hidden', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', display: '-webkit-box' }}
+                                        onClick={() => setCausaDirecta(causaDirecta)}>
                                         {causaDirecta.descripcion ? causaDirecta.descripcion : 'Por favor diligencie esta causa directa.'}
 
                                         <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
@@ -700,7 +758,14 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                 {showCausaDirectaForm && causaDirectaId === causaDirecta.id && (
                                     <form className="relative form-arbol-objetivos mt-4" onSubmit={submitCausaDirecta} id="causa-directa">
                                         <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
-                                            <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica === 70 ? true : false} id="causa-directa-descripcion" error={formCausaDirecta.errors.descripcion} value={formCausaDirecta.data.descripcion} onChange={(e) => formCausaDirecta.setData('descripcion', e.target.value)} required />
+                                            <Textarea
+                                                disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                                id="causa-directa-descripcion"
+                                                error={formCausaDirecta.errors.descripcion}
+                                                value={formCausaDirecta.data.descripcion}
+                                                onChange={(e) => formCausaDirecta.setData('descripcion', e.target.value)}
+                                                required
+                                            />
                                         </fieldset>
 
                                         {proyecto.allowed.to_update && (
@@ -716,7 +781,14 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
 
                                 <small className="ml-2 mt-6 flex items-center">
                                     Causas indirectas
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="ml-2 w-4 h-4" style={{ transform: 'scaleX(-1)' }}>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth="1.5"
+                                        stroke="currentColor"
+                                        className="ml-2 w-4 h-4"
+                                        style={{ transform: 'scaleX(-1)' }}>
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 15l-6 6m0 0l-6-6m6 6V9a6 6 0 0112 0v3" />
                                     </svg>
                                 </small>
@@ -732,8 +804,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                     WebkitBoxOrient: 'vertical',
                                                     display: '-webkit-box',
                                                 }}
-                                                onClick={() => setCausaIndirecta(causaDirecta, causaIndirecta)}
-                                            >
+                                                onClick={() => setCausaIndirecta(causaDirecta, causaIndirecta)}>
                                                 {causaIndirecta.descripcion ? causaIndirecta.descripcion : 'Por favor diligencie esta causa indirecta.'}
                                                 <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                                     {showCausaIndirectaDestroyIcon && causaIndirecta.id === causaIndirectaIdToDestroy ? (
@@ -774,7 +845,14 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                             <form className="relative form-arbol-objetivos mt-4" onSubmit={submitCausaIndirecta} id="causa-indirecta">
                                                 <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                                     <div>
-                                                        <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica === 70 ? true : false} id="causa-directa-descripcion" error={formCausaIndirecta.errors.descripcion} value={formCausaIndirecta.data.descripcion} onChange={(e) => formCausaIndirecta.setData('descripcion', e.target.value)} required />
+                                                        <Textarea
+                                                            disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                                            id="causa-directa-descripcion"
+                                                            error={formCausaIndirecta.errors.descripcion}
+                                                            value={formCausaIndirecta.data.descripcion}
+                                                            onChange={(e) => formCausaIndirecta.setData('descripcion', e.target.value)}
+                                                            required
+                                                        />
                                                     </div>
                                                 </fieldset>
 
@@ -793,10 +871,17 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                 ))}
 
                                 <div className="flex items-center justify-end mb-[1.58rem]">
-                                    <TooltipMui className="relative" title={<p>Al crear una causa indirecta se genera automáticamente la actividad en la sección de la derecha. Recuerde que ambos deben tener relación.</p>}>
+                                    <TooltipMui
+                                        className="relative"
+                                        title={<p>Al crear una causa indirecta se genera automáticamente la actividad en la sección de la derecha. Recuerde que ambos deben tener relación.</p>}>
                                         Importante leer
                                     </TooltipMui>
-                                    <ButtonMui primary={true} className="my-4 !ml-2 flex items-center justify-center" disabled={showNuevaCausaIndirectaForm ? true : undefined} type="Button" onClick={() => setNuevoCausaIndirecta(causaDirecta)}>
+                                    <ButtonMui
+                                        primary={true}
+                                        className="my-4 !ml-2 flex items-center justify-center"
+                                        disabled={showNuevaCausaIndirectaForm ? true : undefined}
+                                        type="Button"
+                                        onClick={() => setNuevoCausaIndirecta(causaDirecta)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
@@ -809,7 +894,15 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                     <form className="relative form-arbol-objetivos mt-4" onSubmit={submitCausaIndirecta} id="causa-indirecta">
                                         <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                             <div>
-                                                <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica === 70 ? true : false} label="Escriba la nueva causa indirecta" id="causa-directa-descripcion" error={formCausaIndirecta.errors.descripcion} value={formCausaIndirecta.data.descripcion} onChange={(e) => formCausaIndirecta.setData('descripcion', e.target.value)} required />
+                                                <Textarea
+                                                    disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                                    label="Escriba la nueva causa indirecta"
+                                                    id="causa-directa-descripcion"
+                                                    error={formCausaIndirecta.errors.descripcion}
+                                                    value={formCausaIndirecta.data.descripcion}
+                                                    onChange={(e) => formCausaIndirecta.setData('descripcion', e.target.value)}
+                                                    required
+                                                />
                                             </div>
                                         </fieldset>
 
@@ -842,14 +935,17 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                         </div>
 
                         <AlertMui hiddenIcon={true} className="mt-8">
-                            Si desea generar un objetivo específico debe primero crear la causa directa en la sección de la izquierda. Pasa igual si desea generar una actividad, debe primero generar una causa indirecta. Ambos ítems deben tener relación.
+                            Si desea generar un objetivo específico debe primero crear la causa directa en la sección de la izquierda. Pasa igual si desea generar una actividad, debe primero generar
+                            una causa indirecta. Ambos ítems deben tener relación.
                         </AlertMui>
 
                         {causasDirectas.map((causaDirecta, i) => (
                             <div key={i} className="my-20 shadow p-2 pb-[76px]" style={{ backgroundColor: '#e0dddd30' }}>
                                 <small className="inline-block ml-2 mb-4">Objetivo específico #{i + 1}</small>
                                 {objetivoEspecificoId !== causaDirecta.objetivo_especifico?.id && (
-                                    <div className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] pr-14" onClick={() => setObjetivoEspecifico(causaDirecta, causaDirecta.objetivo_especifico, i + 1)}>
+                                    <div
+                                        className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] pr-14"
+                                        onClick={() => setObjetivoEspecifico(causaDirecta, causaDirecta.objetivo_especifico, i + 1)}>
                                         {causaDirecta.objetivo_especifico?.descripcion ? causaDirecta.objetivo_especifico?.descripcion : 'Por favor diligencie este objetivo específico.'}
                                         <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                             {showObjetivoEspecificoDestroyIcon && causaDirecta.objetivo_especifico?.id === objetivoEspecificoIdToDestroy ? (
@@ -871,7 +967,10 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                 </>
                                             ) : (
                                                 <>
-                                                    <EditOutlinedIcon className="w-5 h-5 hover:cursor-pointer" onClick={() => setObjetivoEspecifico(causaDirecta, causaDirecta.objetivo_especifico, i + 1)} />
+                                                    <EditOutlinedIcon
+                                                        className="w-5 h-5 hover:cursor-pointer"
+                                                        onClick={() => setObjetivoEspecifico(causaDirecta, causaDirecta.objetivo_especifico, i + 1)}
+                                                    />
                                                     <DeleteForeverOutlinedIcon
                                                         className="ml-2 w-5 h-5 hover:cursor-pointer"
                                                         onClick={(e) => {
@@ -889,19 +988,27 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                     <form className="relative form-arbol-objetivos mt-4" onSubmit={submitObjetivoEspecifico} id="objetivo-especifico-form">
                                         <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                             <div>
-                                                <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica === 70 ? true : false} id="descripcion-objetivo-especifico" error={formObjetivoEspecifico.errors.descripcion} value={formObjetivoEspecifico.data.descripcion} onChange={(e) => formObjetivoEspecifico.setData('descripcion', e.target.value)} required />
+                                                <Textarea
+                                                    disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                                    id="descripcion-objetivo-especifico"
+                                                    error={formObjetivoEspecifico.errors.descripcion}
+                                                    value={formObjetivoEspecifico.data.descripcion}
+                                                    onChange={(e) => formObjetivoEspecifico.setData('descripcion', e.target.value)}
+                                                    required
+                                                />
                                             </div>
                                             <TooltipMui
                                                 className="relative"
                                                 title={
                                                     <p>
-                                                        Los objetivos específicos son los medios cuantificables que llevarán al cumplimiento del objetivo general. Estos surgen de pasar a positivo las causas directas identificadas en el árbol de problemas.
+                                                        Los objetivos específicos son los medios cuantificables que llevarán al cumplimiento del objetivo general. Estos surgen de pasar a positivo las
+                                                        causas directas identificadas en el árbol de problemas.
                                                         <br />
-                                                        La redacción de los objetivos específicos deberá iniciar con un verbo en modo infinitivo, es decir, con una palabra terminada en "ar", "er" o "ir". La estructura del objetivo debe contener al menos tres componentes: (1) la acción que se espera realizar, (2) el objeto sobre el cual recae la acción y (3) elementos adicionales de contexto o
-                                                        descriptivos.
+                                                        La redacción de los objetivos específicos deberá iniciar con un verbo en modo infinitivo, es decir, con una palabra terminada en "ar", "er" o
+                                                        "ir". La estructura del objetivo debe contener al menos tres componentes: (1) la acción que se espera realizar, (2) el objeto sobre el cual
+                                                        recae la acción y (3) elementos adicionales de contexto o descriptivos.
                                                     </p>
-                                                }
-                                            >
+                                                }>
                                                 Leer antes de diligenciar el objetivo específico
                                             </TooltipMui>
                                         </fieldset>
@@ -917,7 +1024,14 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                 )}
                                 <small className="ml-2 mt-6 flex items-center">
                                     Actividades
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="ml-2 w-4 h-4" style={{ transform: 'scaleX(-1)' }}>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth="1.5"
+                                        stroke="currentColor"
+                                        className="ml-2 w-4 h-4"
+                                        style={{ transform: 'scaleX(-1)' }}>
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 15l-6 6m0 0l-6-6m6 6V9a6 6 0 0112 0v3" />
                                     </svg>
                                 </small>
@@ -933,8 +1047,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                     WebkitBoxOrient: 'vertical',
                                                     display: '-webkit-box',
                                                 }}
-                                                onClick={() => setActividad(causaIndirecta, causaIndirecta.actividad)}
-                                            >
+                                                onClick={() => setActividad(causaDirecta, causaIndirecta, causaIndirecta.actividad)}>
                                                 {causaIndirecta.actividad?.descripcion ? causaIndirecta.actividad?.descripcion : 'Por favor diligencie esta actividad.'}
                                                 <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                                     {showActividadDestroyIcon && causaIndirecta.actividad?.id === actividadIdToDestroy ? (
@@ -956,7 +1069,10 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                         </>
                                                     ) : (
                                                         <>
-                                                            <EditOutlinedIcon className="w-5 h-5 hover:cursor-pointer" onClick={() => setActividad(causaIndirecta, causaIndirecta.actividad)} />
+                                                            <EditOutlinedIcon
+                                                                className="w-5 h-5 hover:cursor-pointer"
+                                                                onClick={() => setActividad(causaDirecta, causaIndirecta, causaIndirecta.actividad)}
+                                                            />
                                                             <DeleteForeverOutlinedIcon
                                                                 className="ml-2 w-5 h-5 hover:cursor-pointer"
                                                                 onClick={(e) => {
@@ -975,27 +1091,44 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                             <form className="relative form-arbol-objetivos mt-4" onSubmit={submitActividad} id="actividad-form">
                                                 <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                                     <div>
-                                                        <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica === 70 ? true : false} id="descripcion-actividad" error={formActividad.errors.descripcion} value={formActividad.data.descripcion} onChange={(e) => formActividad.setData('descripcion', e.target.value)} required />
+                                                        <Textarea
+                                                            disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                                            id="descripcion-actividad"
+                                                            error={formActividad.errors.descripcion}
+                                                            value={formActividad.data.descripcion}
+                                                            onChange={(e) => formActividad.setData('descripcion', e.target.value)}
+                                                            required
+                                                        />
                                                     </div>
 
                                                     <TooltipMui
                                                         className="relative"
                                                         title={
                                                             <p>
-                                                                Se debe evidenciar que la descripción de las actividades se realice de manera secuencial y de forma coherente con los productos a las cuales están asociadas para alcanzar el logro de cada uno de los objetivos específicos.
+                                                                Se debe evidenciar que la descripción de las actividades se realice de manera secuencial y de forma coherente con los productos a las
+                                                                cuales están asociadas para alcanzar el logro de cada uno de los objetivos específicos.
                                                                 <br />
-                                                                Las actividades deben redactarse en verbos en modo infinitivo, es decir, en palabras que expresen acciones y terminen en “ar”, “er” o “ir”, estos no deben hacer referencia a objetivos específicos o generales. Algunos ejemplos de verbos inadecuados para describir actividades son: apropiar, asegurar, colaborar, consolidar, desarrollar,
-                                                                fomentar, fortalecer, garantizar, implementar, impulsar, mejorar, movilizar, proponer, promover, entre otros.
+                                                                Las actividades deben redactarse en verbos en modo infinitivo, es decir, en palabras que expresen acciones y terminen en “ar”, “er” o
+                                                                “ir”, estos no deben hacer referencia a objetivos específicos o generales. Algunos ejemplos de verbos inadecuados para describir
+                                                                actividades son: apropiar, asegurar, colaborar, consolidar, desarrollar, fomentar, fortalecer, garantizar, implementar, impulsar,
+                                                                mejorar, movilizar, proponer, promover, entre otros.
                                                             </p>
-                                                        }
-                                                    >
+                                                        }>
                                                         Leer antes de diligenciar la actividad
                                                     </TooltipMui>
 
                                                     {proyecto.codigo_linea_programatica === 69 || proyecto.codigo_linea_programatica === 70 ? (
                                                         <div>
                                                             <Label required labelFor="resultado_id" value="Resultado" />
-                                                            <Autocomplete id="resultado_id" option={resultadosFiltrados} selectedValue={formActividad.data.resultado_id} onChange={(event, newValue) => formActividad.setData('resultado_id', newValue.value)} error={errors.resultado_id} placeholder="Seleccione un resultado" required />
+                                                            <Autocomplete
+                                                                id="resultado_id"
+                                                                option={resultadosFiltrados}
+                                                                selectedValue={formActividad.data.resultado_id}
+                                                                onChange={(event, newValue) => formActividad.setData('resultado_id', newValue.value)}
+                                                                error={errors.resultado_id}
+                                                                placeholder="Seleccione un resultado"
+                                                                required
+                                                            />
                                                         </div>
                                                     ) : null}
 
@@ -1003,13 +1136,31 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                         <div className={`mt-4 flex ${formActividad.errors.fecha_inicio ? '' : 'items-center'}`}>
                                                             <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
                                                             <div className="ml-14">
-                                                                <DatePicker id="fecha_inicio" className="mt-1 block w-full p-4" min={proyecto.fecha_inicio} max={proyecto.fecha_finalizacion} value={formActividad.data.fecha_inicio} onChange={(e) => formActividad.setData('fecha_inicio', e.target.value)} error={formActividad.errors.fecha_inicio} required />
+                                                                <DatePicker
+                                                                    id="fecha_inicio"
+                                                                    className="mt-1 block w-full p-4"
+                                                                    min={proyecto.fecha_inicio}
+                                                                    max={proyecto.fecha_finalizacion}
+                                                                    value={formActividad.data.fecha_inicio}
+                                                                    onChange={(e) => formActividad.setData('fecha_inicio', e.target.value)}
+                                                                    error={formActividad.errors.fecha_inicio}
+                                                                    required
+                                                                />
                                                             </div>
                                                         </div>
                                                         <div className={`mt-4 flex ${formActividad.errors.fecha_finalizacion ? '' : 'items-center'}`}>
                                                             <Label required labelFor="fecha_finalizacion" value="Fecha de finalización" />
                                                             <div className="ml-4">
-                                                                <DatePicker id="fecha_finalizacion" className="mt-1 block w-full p-4" min={proyecto.fecha_inicio} max={proyecto.fecha_finalizacion} value={formActividad.data.fecha_finalizacion} onChange={(e) => formActividad.setData('fecha_finalizacion', e.target.value)} error={formActividad.errors.fecha_finalizacion} required />
+                                                                <DatePicker
+                                                                    id="fecha_finalizacion"
+                                                                    className="mt-1 block w-full p-4"
+                                                                    min={proyecto.fecha_inicio}
+                                                                    max={proyecto.fecha_finalizacion}
+                                                                    value={formActividad.data.fecha_finalizacion}
+                                                                    onChange={(e) => formActividad.setData('fecha_finalizacion', e.target.value)}
+                                                                    error={formActividad.errors.fecha_finalizacion}
+                                                                    required
+                                                                />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1048,7 +1199,10 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                             <div key={i} className="my-20 shadow p-2" style={{ backgroundColor: '#e0dddd30' }}>
                                 <small className="inline-block ml-2">Efecto directo</small>
                                 {efectoDirectoId !== efectoDirecto.id && (
-                                    <div className="bg-white relative p-4 rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style={{ overflow: 'hidden', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', display: '-webkit-box' }} onClick={() => setEfectoDirecto(efectoDirecto)}>
+                                    <div
+                                        className="bg-white relative p-4 rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14"
+                                        style={{ overflow: 'hidden', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', display: '-webkit-box' }}
+                                        onClick={() => setEfectoDirecto(efectoDirecto)}>
                                         {efectoDirecto.descripcion ? efectoDirecto.descripcion : 'Por favor diligencie este efecto directo.'}
                                         <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                             {showEfectoDirectoDestroyIcon && efectoDirecto.id === efectoDirectoIdToDestroy ? (
@@ -1087,7 +1241,14 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                 {showEfectoDirectoForm && efectoDirectoId === efectoDirecto.id && (
                                     <form className="relative form-arbol-objetivos mt-4" onSubmit={submitEfectoDirecto} id="efecto-directo">
                                         <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
-                                            <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica === 70 ? true : false} id="efecto-directo-descripcion" error={formEfectoDirecto.errors.descripcion} value={formEfectoDirecto.data.descripcion} onChange={(e) => formEfectoDirecto.setData('descripcion', e.target.value)} required />
+                                            <Textarea
+                                                disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                                id="efecto-directo-descripcion"
+                                                error={formEfectoDirecto.errors.descripcion}
+                                                value={formEfectoDirecto.data.descripcion}
+                                                onChange={(e) => formEfectoDirecto.setData('descripcion', e.target.value)}
+                                                required
+                                            />
                                         </fieldset>
                                         {proyecto.allowed.to_update && (
                                             <PrimaryButton disabled={formEfectoDirecto.processing} className="my-4 mr-2 relative" type="submit" form="efecto-directo">
@@ -1101,14 +1262,24 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                 )}
                                 <small className="ml-2 mt-6 flex items-center">
                                     Efectos indirectos
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="ml-2 w-4 h-4" style={{ transform: 'scaleX(-1)' }}>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth="1.5"
+                                        stroke="currentColor"
+                                        className="ml-2 w-4 h-4"
+                                        style={{ transform: 'scaleX(-1)' }}>
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 15l-6 6m0 0l-6-6m6 6V9a6 6 0 0112 0v3" />
                                     </svg>
                                 </small>
                                 {efectoDirecto.efectos_indirectos.map((efectoIndirecto, j) => (
                                     <div key={j}>
                                         {efectoIndirectoId !== efectoIndirecto.id && (
-                                            <div className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14" style={{ overflow: 'hidden', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', display: '-webkit-box' }} onClick={() => setEfectoIndirecto(efectoDirecto, efectoIndirecto)}>
+                                            <div
+                                                className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] my-4 pr-14"
+                                                style={{ overflow: 'hidden', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', display: '-webkit-box' }}
+                                                onClick={() => setEfectoIndirecto(efectoDirecto, efectoIndirecto)}>
                                                 {efectoIndirecto.descripcion ? efectoIndirecto.descripcion : 'Por favor diligencie este efecto indirecto.'}
                                                 <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                                     {showEfectoIndirectoDestroyIcon && efectoIndirecto.id === efectoIndirectoIdToDestroy ? (
@@ -1172,11 +1343,18 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                     </div>
                                 ))}
                                 <div className="flex items-center justify-end mb-[1.58rem]">
-                                    <TooltipMui className="relative" title={<p>Al crear un efecto indirecto se genera automáticamente el impacto en la sección de la derecha. Ambos deben tener relación.</p>}>
+                                    <TooltipMui
+                                        className="relative"
+                                        title={<p>Al crear un efecto indirecto se genera automáticamente el impacto en la sección de la derecha. Ambos deben tener relación.</p>}>
                                         Importante leer
                                     </TooltipMui>
 
-                                    <ButtonMui primary={true} className="my-4 !ml-2 flex items-center justify-center" disabled={showNuevoEfectoIndirectoForm ? true : undefined} type="Button" onClick={() => setNuevoEfectoIndirecto(efectoDirecto)}>
+                                    <ButtonMui
+                                        primary={true}
+                                        className="my-4 !ml-2 flex items-center justify-center"
+                                        disabled={showNuevoEfectoIndirectoForm ? true : undefined}
+                                        type="Button"
+                                        onClick={() => setNuevoEfectoIndirecto(efectoDirecto)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
@@ -1229,7 +1407,9 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                             <div key={i} className="my-20 shadow p-2 pb-[76px]" style={{ backgroundColor: '#e0dddd30' }}>
                                 <small className="inline-block ml-2 mb-4">Resultado</small>
                                 {resultadoId !== efectoDirecto.resultado?.id && (
-                                    <div className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] pr-14" onClick={() => setResultado(efectoDirecto, efectoDirecto.resultado)}>
+                                    <div
+                                        className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[117px] max-h-[117px] pr-14"
+                                        onClick={() => setResultado(efectoDirecto, efectoDirecto.resultado)}>
                                         {efectoDirecto.resultado?.descripcion ? efectoDirecto.resultado?.descripcion : 'Por favor diligencie este resultado.'}
                                         <div className="absolute flex top-[40%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                             {showResultadoDestroyIcon && efectoDirecto.resultado?.id === resultadoIdToDestroy ? (
@@ -1273,8 +1453,23 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                             ) : (
                                                 <>
                                                     <div>
-                                                        <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica === 70 ? true : false} id="descripcion-resultado" error={formResultado.errors.descripcion} value={formResultado.data.descripcion} onChange={(e) => formResultado.setData('descripcion', e.target.value)} required />
-                                                        <TooltipMui className="relative" title={<p> Se debe evidenciar que los resultados son directos, medibles y cuantificables que se alcanzarán con el desarrollo de cada uno de los objetivos específicos del proyecto.</p>}>
+                                                        <Textarea
+                                                            disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                                            id="descripcion-resultado"
+                                                            error={formResultado.errors.descripcion}
+                                                            value={formResultado.data.descripcion}
+                                                            onChange={(e) => formResultado.setData('descripcion', e.target.value)}
+                                                            required
+                                                        />
+                                                        <TooltipMui
+                                                            className="relative"
+                                                            title={
+                                                                <p>
+                                                                    {' '}
+                                                                    Se debe evidenciar que los resultados son directos, medibles y cuantificables que se alcanzarán con el desarrollo de cada uno de los
+                                                                    objetivos específicos del proyecto.
+                                                                </p>
+                                                            }>
                                                             Información sobre los resultados
                                                         </TooltipMui>
                                                     </div>
@@ -1308,7 +1503,14 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                 )}
                                 <small className="ml-2 mt-6 flex items-center">
                                     Impactos
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="ml-2 w-4 h-4" style={{ transform: 'scaleX(-1)' }}>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth="1.5"
+                                        stroke="currentColor"
+                                        className="ml-2 w-4 h-4"
+                                        style={{ transform: 'scaleX(-1)' }}>
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 15l-6 6m0 0l-6-6m6 6V9a6 6 0 0112 0v3" />
                                     </svg>
                                 </small>
@@ -1324,8 +1526,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                     WebkitBoxOrient: 'vertical',
                                                     display: '-webkit-box',
                                                 }}
-                                                onClick={() => setImpacto(efectoIndirecto, efectoIndirecto.impacto)}
-                                            >
+                                                onClick={() => setImpacto(efectoIndirecto, efectoIndirecto.impacto)}>
                                                 {efectoIndirecto.impacto?.descripcion ? efectoIndirecto.impacto?.descripcion : 'Por favor diligencie este impacto.'}
                                                 <div className="absolute flex top-[40%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                                     {showImpactoDestroyIcon && efectoIndirecto.impacto?.id === impactoIdToDestroy ? (
@@ -1366,8 +1567,22 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                             <form className="relative form-arbol-objetivos mt-4" onSubmit={submitImpacto} id="impacto-form">
                                                 <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
                                                     <div>
-                                                        <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica === 70 ? true : false} id="descripcion-impacto" error={formImpacto.errors.descripcion} value={formImpacto.data.descripcion} onChange={(e) => formImpacto.setData('descripcion', e.target.value)} required />
-                                                        <TooltipMui className="relative mt-2" title={<p>Se busca medir la contribución potencial que genera el proyecto en los siguientes ámbitos: tecnológico, económico, ambiental, social, centro de formación, sector productivo</p>}>
+                                                        <Textarea
+                                                            disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                                            id="descripcion-impacto"
+                                                            error={formImpacto.errors.descripcion}
+                                                            value={formImpacto.data.descripcion}
+                                                            onChange={(e) => formImpacto.setData('descripcion', e.target.value)}
+                                                            required
+                                                        />
+                                                        <TooltipMui
+                                                            className="relative mt-2"
+                                                            title={
+                                                                <p>
+                                                                    Se busca medir la contribución potencial que genera el proyecto en los siguientes ámbitos: tecnológico, económico, ambiental,
+                                                                    social, centro de formación, sector productivo
+                                                                </p>
+                                                            }>
                                                             Leer antes de diligenciar el impacto
                                                         </TooltipMui>
                                                     </div>
@@ -1379,11 +1594,12 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                                 className="relative my-6"
                                                                 title={
                                                                     <p>
-                                                                        Se busca minimizar y/o evitar los impactos negativos sobre el medio ambiente, tales como contaminación del aire, contaminación de corrientes de agua naturales, ruido, destrucción del paisaje, separación de comunidades que operan como unidades, etc. Por otro lado, se busca identificar diversas acciones de impacto ambiental
-                                                                        positivo, tales como: producción limpia y sustentable, protección medioambiental, uso de residuos y reciclaje.
+                                                                        Se busca minimizar y/o evitar los impactos negativos sobre el medio ambiente, tales como contaminación del aire, contaminación
+                                                                        de corrientes de agua naturales, ruido, destrucción del paisaje, separación de comunidades que operan como unidades, etc. Por
+                                                                        otro lado, se busca identificar diversas acciones de impacto ambiental positivo, tales como: producción limpia y sustentable,
+                                                                        protección medioambiental, uso de residuos y reciclaje.
                                                                     </p>
-                                                                }
-                                                            >
+                                                                }>
                                                                 Leer antes de diligenciar el impacto
                                                             </TooltipMui>
                                                         )) ||
@@ -1392,21 +1608,42 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                                     className="relative my-6"
                                                                     title={
                                                                         <p>
-                                                                            Se busca medir la contribución potencial del proyecto en cualquiera de los siguientes ámbitos: generación y aplicación de nuevos conocimientos y tecnologías, desarrollo de infraestructura científico-tecnológica, articulación de diferentes proyectos para lograr un objetivo común, mejoramiento de la infraestructura,
-                                                                            desarrollo de capacidades de gestión tecnológica.
+                                                                            Se busca medir la contribución potencial del proyecto en cualquiera de los siguientes ámbitos: generación y aplicación de
+                                                                            nuevos conocimientos y tecnologías, desarrollo de infraestructura científico-tecnológica, articulación de diferentes
+                                                                            proyectos para lograr un objetivo común, mejoramiento de la infraestructura, desarrollo de capacidades de gestión
+                                                                            tecnológica.
                                                                         </p>
-                                                                    }
-                                                                >
+                                                                    }>
                                                                     Leer antes de diligenciar el impacto
                                                                 </TooltipMui>
                                                             )) ||
                                                             (formImpacto.data.tipo === 5 && (
-                                                                <TooltipMui className="relative my-6" title={<p>Se busca medir la contribución potencial del proyecto al desarrollo de la comunidad Sena (Aprendices, instructores y a la formación)</p>}>
+                                                                <TooltipMui
+                                                                    className="relative my-6"
+                                                                    title={
+                                                                        <p>
+                                                                            Se busca medir la contribución potencial del proyecto al desarrollo de la comunidad Sena (Aprendices, instructores y a la
+                                                                            formación)
+                                                                        </p>
+                                                                    }>
                                                                     Leer antes de diligenciar el impacto
                                                                 </TooltipMui>
                                                             )) ||
-                                                            (formImpacto.data.tipo === 6 && <TooltipMui className="relative">Se busca medir la contribución potencial del proyecto al desarrollo del sector productivo en concordancia con el sector priorizado de Colombia Productiva y a la mesa técnica a la que pertenece el proyecto.</TooltipMui>)}
-                                                        <Autocomplete id="tipo-impacto" options={tiposImpacto} selectedValue={formImpacto.data.tipo} onChange={(event, newValue) => formImpacto.setData('tipo', newValue.value)} error={formImpacto.errors.tipo} placeholder="Seleccione un tipo" required />
+                                                            (formImpacto.data.tipo === 6 && (
+                                                                <TooltipMui className="relative">
+                                                                    Se busca medir la contribución potencial del proyecto al desarrollo del sector productivo en concordancia con el sector priorizado
+                                                                    de Colombia Productiva y a la mesa técnica a la que pertenece el proyecto.
+                                                                </TooltipMui>
+                                                            ))}
+                                                        <Autocomplete
+                                                            id="tipo-impacto"
+                                                            options={tiposImpacto}
+                                                            selectedValue={formImpacto.data.tipo}
+                                                            onChange={(event, newValue) => formImpacto.setData('tipo', newValue.value)}
+                                                            error={formImpacto.errors.tipo}
+                                                            placeholder="Seleccione un tipo"
+                                                            required
+                                                        />
                                                     </div>
                                                 </fieldset>
 
