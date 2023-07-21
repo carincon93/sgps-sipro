@@ -9,6 +9,7 @@ import PaginationMui from '@/Components/Pagination'
 import PrimaryButton from '@/Components/PrimaryButton'
 import TableMui from '@/Components/Table'
 import ToolTipMui from '@/Components/Tooltip'
+import StepperMui from '@/Components/Stepper'
 
 import { checkRole } from '@/Utils'
 import { router, useForm } from '@inertiajs/react'
@@ -16,6 +17,7 @@ import { router, useForm } from '@inertiajs/react'
 import GroupAddIcon from '@mui/icons-material/GroupAdd'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
+
 import { useState } from 'react'
 
 import Form from './Form'
@@ -43,6 +45,10 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, infr
 
     return (
         <AuthenticatedLayout>
+            <Grid item md={12} className="!mb-20">
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto} />
+            </Grid>
+
             <Grid item md={12}>
                 <h1 className="text-3xl mb-8 text-center">Entidades aliadas</h1>
 
@@ -55,11 +61,18 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, infr
                                     title={
                                         <div>
                                             <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                            {evaluacion.idi_evaluacion && <p className="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion?.entidad_aliada_comentario ? evaluacion.idi_evaluacion.entidad_aliada_comentario : 'Sin recomendación'}</p>}
-                                            {evaluacion.ta_evaluacion && <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion?.entidad_aliada_comentario ? evaluacion.ta_evaluacion.entidad_aliada_comentario : 'Sin recomendación'}</p>}
+                                            {evaluacion.idi_evaluacion && (
+                                                <p className="whitespace-pre-line text-xs">
+                                                    {evaluacion.idi_evaluacion?.entidad_aliada_comentario ? evaluacion.idi_evaluacion.entidad_aliada_comentario : 'Sin recomendación'}
+                                                </p>
+                                            )}
+                                            {evaluacion.ta_evaluacion && (
+                                                <p className="whitespace-pre-line text-xs">
+                                                    {evaluacion.ta_evaluacion?.entidad_aliada_comentario ? evaluacion.ta_evaluacion.entidad_aliada_comentario : 'Sin recomendación'}
+                                                </p>
+                                            )}
                                         </div>
-                                    }
-                                >
+                                    }>
                                     Evaluación {i + 1}
                                 </ToolTipMui>
                             ) : null,
@@ -72,7 +85,14 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, infr
                     <form onSubmit={submit} className="mt-8 mb-40">
                         <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
                             <div>
-                                <Autocomplete id="infraestructura_tecnoacademia" options={infraestructuraTecnoacademia} selectedValue={form.data.infraestructura_tecnoacademia} error={form.errors.infraestructura_tecnoacademia} label="La infraestructura donde opera la TecnoAcademia es:" required />
+                                <Autocomplete
+                                    id="infraestructura_tecnoacademia"
+                                    options={infraestructuraTecnoacademia}
+                                    selectedValue={form.data.infraestructura_tecnoacademia}
+                                    error={form.errors.infraestructura_tecnoacademia}
+                                    label="La infraestructura donde opera la TecnoAcademia es:"
+                                    required
+                                />
                             </div>
                             {proyecto.allowed.to_update && (
                                 <div className="flex items-center justify-between mt-14 py-4">
@@ -93,7 +113,12 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, infr
             </Grid>
 
             <Grid item md={12}>
-                {proyecto.codigo_linea_programatica == 70 && <AlertMui hiddenIcon={true}>En el caso de tener un acuerdo, convenio o contrato de arrendamiento para la operación de la TecnoAcademia en una infraestructura de un tercero, es indispensable, adjuntar el documento contractual una vez este creando la entidad aliada.</AlertMui>}
+                {proyecto.codigo_linea_programatica == 70 && (
+                    <AlertMui hiddenIcon={true}>
+                        En el caso de tener un acuerdo, convenio o contrato de arrendamiento para la operación de la TecnoAcademia en una infraestructura de un tercero, es indispensable, adjuntar el
+                        documento contractual una vez este creando la entidad aliada.
+                    </AlertMui>
+                )}
                 <TableMui rows={['Nombre', 'Tipo de entidad aliada', 'Miembros', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {entidadesAliadas.data.map((entidadAliada, i) => (
                         <TableRow key={i}>
@@ -101,7 +126,8 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, infr
                             <TableCell>{entidadAliada.tipo}</TableCell>
 
                             <TableCell>
-                                <ButtonMui onClick={() => router.visit(route('convocatorias.proyectos.entidades-aliadas.miembros-entidad-aliada.index', [convocatoria.id, proyecto.id, entidadAliada.id]))}>
+                                <ButtonMui
+                                    onClick={() => router.visit(route('convocatorias.proyectos.entidades-aliadas.miembros-entidad-aliada.index', [convocatoria.id, proyecto.id, entidadAliada.id]))}>
                                     <GroupAddIcon />
                                 </ButtonMui>
                             </TableCell>
@@ -110,14 +136,16 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, infr
                                 <MenuMui text={<MoreVertIcon />}>
                                     {entidadAliada.id !== entidadAliadaToDestroy ? (
                                         <div>
-                                            <MenuItem onClick={() => (setDialogStatus(true), setMethod('editar'), setEntidadAliada(entidadAliada))} disabled={!proyecto.allowed.to_update} className={!proyecto.allowed.to_update ? 'hidden' : ''}>
+                                            <MenuItem
+                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setEntidadAliada(entidadAliada))}
+                                                disabled={!proyecto.allowed.to_update}
+                                                className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                                 Editar
                                             </MenuItem>
                                             <MenuItem
                                                 onClick={() => {
                                                     setEntidadAliadaToDestroy(entidadAliada.id)
-                                                }}
-                                            >
+                                                }}>
                                                 Eliminar
                                             </MenuItem>
                                         </div>
@@ -126,8 +154,7 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, infr
                                             <MenuItem
                                                 onClick={(e) => {
                                                     setEntidadAliadaToDestroy(null)
-                                                }}
-                                            >
+                                                }}>
                                                 Cancelar
                                             </MenuItem>
                                             <MenuItem
@@ -139,8 +166,7 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, infr
                                                             preserveScroll: true,
                                                         })
                                                     }
-                                                }}
-                                            >
+                                                }}>
                                                 Confirmar
                                             </MenuItem>
                                         </div>
@@ -158,7 +184,20 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, infr
                     fullWidth={true}
                     maxWidth="lg"
                     blurEnabled={true}
-                    dialogContent={<Form isSuperAdmin={isSuperAdmin} setDialogStatus={setDialogStatus} method={method} proyecto={proyecto} convocatoria={convocatoria} entidadAliada={entidadAliada} actividades={actividades} tiposEntidadAliada={tiposEntidadAliada} naturalezaEntidadAliada={naturalezaEntidadAliada} tiposEmpresa={tiposEmpresa} />}
+                    dialogContent={
+                        <Form
+                            isSuperAdmin={isSuperAdmin}
+                            setDialogStatus={setDialogStatus}
+                            method={method}
+                            proyecto={proyecto}
+                            convocatoria={convocatoria}
+                            entidadAliada={entidadAliada}
+                            actividades={actividades}
+                            tiposEntidadAliada={tiposEntidadAliada}
+                            naturalezaEntidadAliada={naturalezaEntidadAliada}
+                            tiposEmpresa={tiposEmpresa}
+                        />
+                    }
                 />
             </Grid>
         </AuthenticatedLayout>

@@ -134,8 +134,8 @@ class ProyectoLinea70Controller extends Controller
 
         $ta->load('proyecto.evaluaciones.taEvaluacion');
 
-        $ta->codigo_linea_programatica = $ta->proyecto->lineaProgramatica->codigo;
-        $ta->precio_proyecto           = $ta->proyecto->precioProyecto;
+        $ta->proyecto->codigo_linea_programatica = $ta->proyecto->lineaProgramatica->codigo;
+        $ta->proyecto->precio_proyecto           = $ta->proyecto->precioProyecto;
         $ta->proyecto->centroFormacion;
 
         $ta->mostrar_recomendaciones        = $ta->proyecto->mostrar_recomendaciones;

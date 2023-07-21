@@ -206,10 +206,10 @@ class Tp extends Model
                 'proyecto.centroFormacion',
                 function ($query) use ($convocatoria, $authUser) {
 
-                    if ($authUser->hasRole([2])) {
+                    if ($authUser->hasRole([2]) && !$authUser->hasRole([1])) {
                         $query->where('centros_formacion.regional_id', $authUser->centroFormacion->regional->id);
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
-                    } else if ($authUser->hasRole([3, 4, 21, 24, 27])) {
+                    } else if ($authUser->hasRole([3, 4, 21, 24, 27]) && !$authUser->hasRole([1])) {
                         $query->where('centros_formacion.id', $authUser->centro_formacion_id);
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
 

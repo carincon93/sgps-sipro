@@ -1,17 +1,20 @@
 import PropTypes from 'prop-types'
 
-import Stack from '@mui/material/Stack'
 import Stepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
 import { styled } from '@mui/material/styles'
 
 import Check from '@mui/icons-material/Check'
-import SettingsIcon from '@mui/icons-material/Settings'
 import GroupAddIcon from '@mui/icons-material/GroupAdd'
+import SettingsIcon from '@mui/icons-material/Settings'
+import SouthOutlinedIcon from '@mui/icons-material/SouthOutlined'
 import VideoLabelIcon from '@mui/icons-material/VideoLabel'
 
+import { Link } from '@inertiajs/react'
+
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector'
+import { useEffect } from 'react'
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -57,8 +60,8 @@ const QontoStepIconRoot = styled('div')(({ theme, ownerState }) => ({
     },
 }))
 
-function QontoStepIcon(props) {
-    const { active, completed, className } = props
+const QontoStepIcon = (props) => {
+    const { active, completed, className, route } = props
 
     return (
         <QontoStepIconRoot ownerState={{ active }} className={className}>
@@ -74,6 +77,7 @@ QontoStepIcon.propTypes = {
      */
     active: PropTypes.bool,
     className: PropTypes.string,
+    route: PropTypes.string,
     /**
      * Mark the step as completed. Is passed to child components.
      * @default false
@@ -122,7 +126,7 @@ const ColorlibStepIconRoot = styled('div')(({ theme, ownerState }) => ({
     }),
 }))
 
-function ColorlibStepIcon(props) {
+const ColorlibStepIcon = (props) => {
     const { active, completed, className } = props
 
     const icons = {
@@ -157,127 +161,154 @@ ColorlibStepIcon.propTypes = {
 }
 
 export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, ...props }) {
+    const isActive =
+        route().current('convocatorias.ta.edit') ||
+        route().current('convocatorias.tp.edit') ||
+        route().current('convocatorias.idi.edit') ||
+        route().current('convocatorias.servicios-tecnologicos.edit') ||
+        route().current('convocatorias.cultura-innovacion.edit')
+
     return (
-        <Stepper alternativeLabel activeStep={1} connector={<ColorlibConnector />}>
-            <Step onClick={() => route('convocatorias.proyectos.edit', [convocatoria?.id, proyecto?.id])}>
-                <StepLabel>Generalidades</StepLabel>
+        <Stepper alternativeLabel connector={<ColorlibConnector />}>
+            <Step active={isActive}>
+                <Link href={route('convocatorias.proyectos.edit', [convocatoria?.id, proyecto?.id])}>
+                    <StepLabel>Generalidades</StepLabel>
+                </Link>
             </Step>
 
             {proyecto?.codigo_linea_programatica != 69 && proyecto?.codigo_linea_programatica != 70 ? (
-                <Step
-                    className={route().current('convocatorias.proyectos.participantes') ? 'active' : ''}
-                    onClick={() => route('convocatorias.proyectos.participantes', [convocatoria?.id, proyecto?.id])}>
-                    <StepLabel>{proyecto?.codigo_linea_programatica == 68 ? 'Formulador del proyecto' : 'Participantes'}</StepLabel>
+                <Step active={route().current('convocatorias.proyectos.participantes')}>
+                    <Link href={route('convocatorias.proyectos.participantes', [convocatoria?.id, proyecto?.id])}>
+                        <StepLabel className="hover:cursor-pointer">{proyecto?.codigo_linea_programatica == 68 ? 'Formulador del proyecto' : 'Participantes'}</StepLabel>
+                    </Link>
                 </Step>
             ) : (
-                <Step
-                    className={route().current('convocatorias.proyectos.articulacion-sennova') ? 'active' : ''}
-                    onClick={() => route('convocatorias.proyectos.articulacion-sennova', [convocatoria?.id, proyecto?.id])}>
-                    <StepLabel>Articulación SENNOVA</StepLabel>
+                <Step active={route().current('convocatorias.proyectos.articulacion-sennova')}>
+                    <Link href={route('convocatorias.proyectos.articulacion-sennova', [convocatoria?.id, proyecto?.id])}>
+                        <StepLabel>Articulación SENNOVA</StepLabel>
+                    </Link>
                 </Step>
             )}
 
-            <Step
-                className={route().current('convocatorias.proyectos.arbol-problemas') ? 'active' : ''}
-                onClick={() => route('convocatorias.proyectos.arbol-problemas', [convocatoria?.id, proyecto?.id])}>
-                <StepLabel>Identificación del problema</StepLabel>
+            <Step active={route().current('convocatorias.proyectos.arbol-problemas')}>
+                <Link href={route('convocatorias.proyectos.arbol-problemas', [convocatoria?.id, proyecto?.id])}>
+                    <StepLabel>Identificación del problema</StepLabel>
+                </Link>
             </Step>
 
-            <Step
-                className={route().current('convocatorias.proyectos.arbol-objetivos') ? 'active' : ''}
-                onClick={() => route('convocatorias.proyectos.arbol-objetivos', [convocatoria?.id, proyecto?.id])}>
-                <StepLabel>Objetivos, resultados, impactos y actividades</StepLabel>
+            <Step active={route().current('convocatorias.proyectos.arbol-objetivos')}>
+                <Link href={route('convocatorias.proyectos.arbol-objetivos', [convocatoria?.id, proyecto?.id])}>
+                    <StepLabel>Objetivos, resultados, impactos y actividades</StepLabel>
+                </Link>
             </Step>
 
-            {/* {(proyecto?.codigo_linea_programatica != 23 && proyecto?.codigo_linea_programatica != 65) ||
-                (proyecto?.codigo_linea_programatica == 65 && proyecto?.tipo_proyecto != 2 && (
-                    <Step
-                        className={route().current('convocatorias.proyectos.proyecto-rol-sennova.index') ? 'active' : ''}
-                        onClick={() => route('convocatorias.proyectos.proyecto-rol-sennova.index', [convocatoria?.id, proyecto?.id])}>
+            {(proyecto?.codigo_linea_programatica != 23 && proyecto?.codigo_linea_programatica != 65) || (proyecto?.codigo_linea_programatica == 65 && proyecto?.tipo_proyecto != 2) ? (
+                <Step active={route().current('convocatorias.proyectos.proyecto-rol-sennova.index')}>
+                    <Link href={route('convocatorias.proyectos.proyecto-rol-sennova.index', [convocatoria?.id, proyecto?.id])}>
                         <StepLabel>Roles</StepLabel>
-                    </Step>
-                ))} */}
-
-            <Step
-                className={route().current('convocatorias.proyectos.presupuesto.index') ? 'active' : ''}
-                onClick={() => route('convocatorias.proyectos.presupuesto.index', [convocatoria?.id, proyecto?.id])}>
-                <StepLabel>
-                    Rubros presupuestales
-                    <small class="absolute bg-app-500 text-white px-2 py-1 rounded-full w-max text-center total">
-                        $ {new Intl.NumberFormat('de-DE').format(!isNaN(proyecto?.precio_proyecto) ? proyecto?.precio_proyecto : 0)} COP
-                    </small>
-                </StepLabel>
-            </Step>
-
-            <Step
-                className={route().current('convocatorias.proyectos.actividades.index') ? 'active' : ''}
-                onClick={() => route('convocatorias.proyectos.actividades.index', [convocatoria?.id, proyecto?.id])}>
-                <StepLabel>Metodología y actividades</StepLabel>
-            </Step>
-
-            <Step
-                className={route().current('convocatorias.proyectos.productos.index') ? 'active' : ''}
-                onClick={() => route('convocatorias.proyectos.productos.index', [convocatoria?.id, proyecto?.id])}>
-                <StepLabel>Productos</StepLabel>
-            </Step>
-
-            <Step
-                className={route().current('convocatorias.proyectos.analisis-riesgos.index') ? 'active' : ''}
-                onClick={() => route('convocatorias.proyectos.analisis-riesgos.index', [convocatoria?.id, proyecto?.id])}>
-                <StepLabel>
-                    Análisis de <br /> riesgos
-                </StepLabel>
-            </Step>
-
-            {proyecto?.codigo_linea_programatica == 66 ||
-                proyecto?.codigo_linea_programatica == 82 ||
-                proyecto?.codigo_linea_programatica == 69 ||
-                (proyecto?.codigo_linea_programatica == 70 && (
-                    <Step
-                        className={route().current('convocatorias.proyectos.entidades-aliadas.index') ? 'active' : ''}
-                        onClick={() => route('convocatorias.proyectos.entidades-aliadas.index', [convocatoria?.id, proyecto?.id])}>
-                        <StepLabel>Entidades aliadas</StepLabel>
-                    </Step>
-                ))}
-
-            {proyecto?.codigo_linea_programatica == 23 ||
-                proyecto?.codigo_linea_programatica == 66 ||
-                (proyecto?.codigo_linea_programatica == 82 && (
-                    <Step className={route().current('convocatorias.idi.indicadores') ? 'active' : ''} onClick={() => route('convocatorias.idi.indicadores', [convocatoria?.id, proyecto?.id])}>
-                        <StepLabel>Indicadores</StepLabel>
-                    </Step>
-                ))}
-
-            <Step
-                className={route().current('convocatorias.proyectos.proyecto-anexos.index') ? 'active' : ''}
-                onClick={() => route('convocatorias.proyectos.proyecto-anexos.index', [convocatoria?.id, proyecto?.id])}>
-                <StepLabel>Anexos</StepLabel>
-            </Step>
-
-            {proyecto?.codigo_linea_programatica == 68 && (
-                <Step
-                    className={route().current('convocatorias.proyectos.inventario-equipos.index') ? 'active' : ''}
-                    onClick={() => route('convocatorias.proyectos.inventario-equipos.index', [convocatoria?.id, proyecto?.id])}>
-                    <StepLabel>Inventario de equipos</StepLabel>
+                    </Link>
                 </Step>
+            ) : (
+                <></>
             )}
 
-            <Step className={route().current('convocatorias.proyectos.cadena-valor') ? 'active' : ''} onClick={() => route('convocatorias.proyectos.cadena-valor', [convocatoria?.id, proyecto?.id])}>
-                <StepLabel>Cadena de valor</StepLabel>
+            <Step active={route().current('convocatorias.proyectos.presupuesto.index') ? true : props.label == 'Estudios de mercado' ? true : props.label == 'EDT'}>
+                <Link href={route('convocatorias.proyectos.presupuesto.index', [convocatoria?.id, proyecto?.id])}>
+                    <StepLabel>
+                        Rubros presupuestales
+                        {props.label == 'Estudios de mercado' ? (
+                            <>
+                                <SouthOutlinedIcon className="!block mx-auto my-2" />
+                                Estudios de mercado
+                            </>
+                        ) : (
+                            props.label == 'EDT' && (
+                                <>
+                                    <SouthOutlinedIcon className="!block mx-auto my-2" />
+                                    EDT
+                                </>
+                            )
+                        )}
+                    </StepLabel>
+                </Link>
             </Step>
 
-            {(isSuperAdmin && convocatoria?.tipo_convocatoria == 1) ||
-                (proyecto?.mostrar_recomendaciones && convocatoria?.tipo_convocatoria == 1 && (
-                    <Step
-                        className={route().current('convocatorias.proyectos.comentarios-generales-form') ? 'active' : ''}
-                        onClick={() => route('convocatorias.proyectos.comentarios-generales-form', [convocatoria?.id, proyecto?.id])}>
-                        <StepLabel>Comentarios generales</StepLabel>
-                    </Step>
-                ))}
+            <Step active={route().current('convocatorias.proyectos.actividades.index')}>
+                <Link href={route('convocatorias.proyectos.actividades.index', [convocatoria?.id, proyecto?.id])}>
+                    <StepLabel>Metodología Actividades</StepLabel>
+                </Link>
+            </Step>
 
-            <Step className={route().current('convocatorias.proyectos.summary') ? 'active' : ''} onClick={() => route('convocatorias.proyectos.summary', [convocatoria?.id, proyecto?.id])}>
+            <Step active={route().current('convocatorias.proyectos.productos.index')}>
+                <Link href={route('convocatorias.proyectos.productos.index', [convocatoria?.id, proyecto?.id])}>
+                    <StepLabel>Productos</StepLabel>
+                </Link>
+            </Step>
+
+            <Step active={route().current('convocatorias.proyectos.analisis-riesgos.index')}>
+                <Link href={route('convocatorias.proyectos.analisis-riesgos.index', [convocatoria?.id, proyecto?.id])}>
+                    <StepLabel>
+                        Análisis de <br /> riesgos
+                    </StepLabel>
+                </Link>
+            </Step>
+
+            {proyecto?.codigo_linea_programatica == 66 || proyecto?.codigo_linea_programatica == 82 || proyecto?.codigo_linea_programatica == 69 || proyecto?.codigo_linea_programatica == 70 ? (
+                <Step active={route().current('convocatorias.proyectos.entidades-aliadas.index')}>
+                    <Link href={route('convocatorias.proyectos.entidades-aliadas.index', [convocatoria?.id, proyecto?.id])}>
+                        <StepLabel>Entidades aliadas</StepLabel>
+                    </Link>
+                </Step>
+            ) : (
+                <></>
+            )}
+
+            {proyecto?.codigo_linea_programatica == 23 || proyecto?.codigo_linea_programatica == 66 || proyecto?.codigo_linea_programatica == 82 ? (
+                <Step active={route().current('convocatorias.idi.indicadores')}>
+                    <Link href={route('convocatorias.idi.indicadores', [convocatoria?.id, proyecto?.id])}>
+                        <StepLabel>Indicadores</StepLabel>
+                    </Link>
+                </Step>
+            ) : (
+                <></>
+            )}
+
+            <Step active={route().current('convocatorias.proyectos.proyecto-anexos.index')}>
+                <Link href={route('convocatorias.proyectos.proyecto-anexos.index', [convocatoria?.id, proyecto?.id])}>
+                    <StepLabel>Anexos</StepLabel>
+                </Link>
+            </Step>
+
+            {/* {proyecto?.codigo_linea_programatica == 68 && (
+                <Step active={route().current('convocatorias.proyectos.inventario-equipos.index')}>
+                    <Link href={route('convocatorias.proyectos.inventario-equipos.index', [convocatoria?.id, proyecto?.id])}>
+                        <StepLabel>Inventario de equipos</StepLabel>
+                    </Link>
+                </Step>
+            )} */}
+
+            <Step active={route().current('convocatorias.proyectos.cadena-valor')}>
+                <Link href={route('convocatorias.proyectos.cadena-valor', [convocatoria?.id, proyecto?.id])}>
+                    <StepLabel>Cadena de valor</StepLabel>
+                </Link>
+            </Step>
+
+            {(isSuperAdmin && convocatoria?.tipo_convocatoria == 1) || (proyecto?.mostrar_recomendaciones && convocatoria?.tipo_convocatoria == 1) ? (
+                <Step active={route().current('convocatorias.proyectos.comentarios-generales-form')}>
+                    <Link href={route('convocatorias.proyectos.comentarios-generales-form', [convocatoria?.id, proyecto?.id])}>
+                        <StepLabel>Comentarios generales</StepLabel>
+                    </Link>
+                </Step>
+            ) : (
+                <></>
+            )}
+
+            <Step active={route().current('convocatorias.proyectos.summary')} onClick={() => route('convocatorias.proyectos.summary', [convocatoria?.id, proyecto?.id])}>
                 <StepLabel>Finalizar proyecto</StepLabel>
             </Step>
         </Stepper>
+        // <small className="absolute bg-app-500 text-white px-2 py-1 rounded-full w-max text-center total">
+        //                     $ {new Intl.NumberFormat('de-DE').format(!isNaN(proyecto?.precio_proyecto) ? proyecto?.precio_proyecto : 0)} COP
+        //                 </small>
     )
 }

@@ -11,10 +11,12 @@ import Tags from '@/Components/Tags'
 import Textarea from '@/Components/Textarea'
 import ToolTipMui from '@/Components/Tooltip'
 import TableMui from '@/Components/Table'
+import StepperMui from '@/Components/Stepper'
 
 import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import AulaMovil from './AulasMoviles/Index'
+import Form from './Form'
 
 import axios from 'axios'
 
@@ -22,10 +24,29 @@ import { route, checkRole } from '@/Utils'
 
 import { useState, useEffect } from 'react'
 import { router, useForm } from '@inertiajs/react'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
-import Form from './Form'
 
-const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunicipios, proyectoMunicipiosImpactar, municipios, regionales, programasFormacion, disenosCurriculares, proyectoProgramasFormacionArticulados, proyectoDisenosCurriculares, tecnoacademiaRelacionada, aulasMoviles, talentosOtrosDepartamentos, proyectoPresupuesto, proyectoRoles, productos }) => {
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+
+const Actividades = ({
+    auth,
+    convocatoria,
+    proyecto,
+    actividades,
+    proyectoMunicipios,
+    proyectoMunicipiosImpactar,
+    municipios,
+    regionales,
+    programasFormacion,
+    disenosCurriculares,
+    proyectoProgramasFormacionArticulados,
+    proyectoDisenosCurriculares,
+    tecnoacademiaRelacionada,
+    aulasMoviles,
+    talentosOtrosDepartamentos,
+    proyectoPresupuesto,
+    proyectoRoles,
+    productos,
+}) => {
     const authUser = auth.user
     const isSuperAdmin = checkRole(authUser, [1])
 
@@ -105,11 +126,18 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
 
     return (
         <AuthenticatedLayout>
+            <Grid item md={12} className="!mb-20">
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto} />
+            </Grid>
+
             <Grid item md={12}>
                 <AlertMui hiddenIcon={true}>
                     <span className="text-5xl font-black">1.</span>
                     <h1 className="text-3xl text-center">Metodología</h1>
-                    <p className="my-8">Se debe evidenciar que la metodología se presente de forma organizada y de manera secuencial, de acuerdo con el ciclo P-H-V-A “Planificar – Hacer – Verificar - Actuar” para alcanzar el objetivo general y cada uno de los objetivos específicos.</p>
+                    <p className="my-8">
+                        Se debe evidenciar que la metodología se presente de forma organizada y de manera secuencial, de acuerdo con el ciclo P-H-V-A “Planificar – Hacer – Verificar - Actuar” para
+                        alcanzar el objetivo general y cada uno de los objetivos específicos.
+                    </p>
                 </AlertMui>
 
                 {isSuperAdmin || proyecto.mostrar_recomendaciones ? (
@@ -121,27 +149,72 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                                     title={
                                         <div>
                                             <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                            {evaluacion.idi_evaluacion && <p className="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion.metodologia_comentario ? evaluacion.idi_evaluacion.metodologia_comentario : 'Sin recomendación'}</p>}
-                                            {!evaluacion.idi_evaluacion && evaluacion.cultura_innovacion_evaluacion && <p className="whitespace-pre-line text-xs">{evaluacion.cultura_innovacion_evaluacion.metodologia_comentario ? evaluacion.cultura_innovacion_evaluacion.metodologia_comentario : 'Sin recomendación'}</p>}
-                                            {!evaluacion.idi_evaluacion && !evaluacion.cultura_innovacion_evaluacion && evaluacion.ta_evaluacion && <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion.metodologia_comentario ? evaluacion.ta_evaluacion.metodologia_comentario : 'Sin recomendación'}</p>}
-                                            {!evaluacion.idi_evaluacion && !evaluacion.cultura_innovacion_evaluacion && !evaluacion.ta_evaluacion && evaluacion.tp_evaluacion && <p className="whitespace-pre-line text-xs">{evaluacion.tp_evaluacion.metodologia_comentario ? evaluacion.tp_evaluacion.metodologia_comentario : 'Sin recomendación'}</p>}
-                                            {!evaluacion.idi_evaluacion && !evaluacion.cultura_innovacion_evaluacion && !evaluacion.ta_evaluacion && !evaluacion.tp_evaluacion && evaluacion.servicio_tecnologico_evaluacion && (
-                                                <div>
-                                                    <h1 className="font-black mt-10">Metodología</h1>
-                                                    <p className="whitespace-pre-line text-xs">{evaluacion.servicio_tecnologico_evaluacion.metodologia_comentario ? evaluacion.servicio_tecnologico_evaluacion.metodologia_comentario : 'Sin recomendación'}</p>
-                                                    <hr className="mt-10 mb-10 border-black-200" />
-                                                    <h1 className="font-black">Actividades</h1>
-                                                    <ul className="list-disc pl-4">
-                                                        <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion.actividades_primer_obj_comentario ? 'Recomendación actividades del primer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.actividades_primer_obj_comentario : 'Sin recomendación'}</li>
-                                                        <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion.actividades_segundo_obj_comentario ? 'Recomendación actividades del segundo objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.actividades_segundo_obj_comentario : 'Sin recomendación'}</li>
-                                                        <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion.actividades_tercer_obj_comentario ? 'Recomendación actividades del tercer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.actividades_tercer_obj_comentario : 'Sin recomendación'}</li>
-                                                        <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion.actividades_cuarto_obj_comentario ? 'Recomendación actividades del cuarto objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.actividades_cuarto_obj_comentario : 'Sin recomendación'}</li>
-                                                    </ul>
-                                                </div>
+                                            {evaluacion.idi_evaluacion && (
+                                                <p className="whitespace-pre-line text-xs">
+                                                    {evaluacion.idi_evaluacion.metodologia_comentario ? evaluacion.idi_evaluacion.metodologia_comentario : 'Sin recomendación'}
+                                                </p>
                                             )}
+                                            {!evaluacion.idi_evaluacion && evaluacion.cultura_innovacion_evaluacion && (
+                                                <p className="whitespace-pre-line text-xs">
+                                                    {evaluacion.cultura_innovacion_evaluacion.metodologia_comentario
+                                                        ? evaluacion.cultura_innovacion_evaluacion.metodologia_comentario
+                                                        : 'Sin recomendación'}
+                                                </p>
+                                            )}
+                                            {!evaluacion.idi_evaluacion && !evaluacion.cultura_innovacion_evaluacion && evaluacion.ta_evaluacion && (
+                                                <p className="whitespace-pre-line text-xs">
+                                                    {evaluacion.ta_evaluacion.metodologia_comentario ? evaluacion.ta_evaluacion.metodologia_comentario : 'Sin recomendación'}
+                                                </p>
+                                            )}
+                                            {!evaluacion.idi_evaluacion && !evaluacion.cultura_innovacion_evaluacion && !evaluacion.ta_evaluacion && evaluacion.tp_evaluacion && (
+                                                <p className="whitespace-pre-line text-xs">
+                                                    {evaluacion.tp_evaluacion.metodologia_comentario ? evaluacion.tp_evaluacion.metodologia_comentario : 'Sin recomendación'}
+                                                </p>
+                                            )}
+                                            {!evaluacion.idi_evaluacion &&
+                                                !evaluacion.cultura_innovacion_evaluacion &&
+                                                !evaluacion.ta_evaluacion &&
+                                                !evaluacion.tp_evaluacion &&
+                                                evaluacion.servicio_tecnologico_evaluacion && (
+                                                    <div>
+                                                        <h1 className="font-black mt-10">Metodología</h1>
+                                                        <p className="whitespace-pre-line text-xs">
+                                                            {evaluacion.servicio_tecnologico_evaluacion.metodologia_comentario
+                                                                ? evaluacion.servicio_tecnologico_evaluacion.metodologia_comentario
+                                                                : 'Sin recomendación'}
+                                                        </p>
+                                                        <hr className="mt-10 mb-10 border-black-200" />
+                                                        <h1 className="font-black">Actividades</h1>
+                                                        <ul className="list-disc pl-4">
+                                                            <li className="whitespace-pre-line text-xs mb-10">
+                                                                {evaluacion.servicio_tecnologico_evaluacion.actividades_primer_obj_comentario
+                                                                    ? 'Recomendación actividades del primer objetivo específico: ' +
+                                                                      evaluacion.servicio_tecnologico_evaluacion.actividades_primer_obj_comentario
+                                                                    : 'Sin recomendación'}
+                                                            </li>
+                                                            <li className="whitespace-pre-line text-xs mb-10">
+                                                                {evaluacion.servicio_tecnologico_evaluacion.actividades_segundo_obj_comentario
+                                                                    ? 'Recomendación actividades del segundo objetivo específico: ' +
+                                                                      evaluacion.servicio_tecnologico_evaluacion.actividades_segundo_obj_comentario
+                                                                    : 'Sin recomendación'}
+                                                            </li>
+                                                            <li className="whitespace-pre-line text-xs mb-10">
+                                                                {evaluacion.servicio_tecnologico_evaluacion.actividades_tercer_obj_comentario
+                                                                    ? 'Recomendación actividades del tercer objetivo específico: ' +
+                                                                      evaluacion.servicio_tecnologico_evaluacion.actividades_tercer_obj_comentario
+                                                                    : 'Sin recomendación'}
+                                                            </li>
+                                                            <li className="whitespace-pre-line text-xs mb-10">
+                                                                {evaluacion.servicio_tecnologico_evaluacion.actividades_cuarto_obj_comentario
+                                                                    ? 'Recomendación actividades del cuarto objetivo específico: ' +
+                                                                      evaluacion.servicio_tecnologico_evaluacion.actividades_cuarto_obj_comentario
+                                                                    : 'Sin recomendación'}
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                )}
                                         </div>
-                                    }
-                                >
+                                    }>
                                     Evaluación {i + 1}
                                 </ToolTipMui>
                             ) : null,
@@ -157,7 +230,14 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                         <div className="py-24">
                             <div>
                                 <Label required className="mb-4" labelFor="metodologia" value="Metodología" />
-                                <Textarea id="metodologia" error={form.errors.metodologia} name="metodologia" value={form.data.metodologia} onChange={(e) => form.setData('', e.target.value)} required />
+                                <Textarea
+                                    id="metodologia"
+                                    error={form.errors.metodologia}
+                                    name="metodologia"
+                                    value={form.data.metodologia}
+                                    onChange={(e) => form.setData('', e.target.value)}
+                                    required
+                                />
                             </div>
                         </div>
 
@@ -169,9 +249,22 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                                             required
                                             className="mb-4"
                                             labelFor="metodologia_local"
-                                            value={proyecto.codigo_linea_programatica == 69 ? 'A continuación, describa la metodología que será implementada en el ' + convocatoria.year + ' en el nodo para lograr los objetivos propuestos en cada una de las etapas definidas para los Tecnoparques:' : 'Descripcion de la metodología aplicada a nivel local'}
+                                            value={
+                                                proyecto.codigo_linea_programatica == 69
+                                                    ? 'A continuación, describa la metodología que será implementada en el ' +
+                                                      convocatoria.year +
+                                                      ' en el nodo para lograr los objetivos propuestos en cada una de las etapas definidas para los Tecnoparques:'
+                                                    : 'Descripcion de la metodología aplicada a nivel local'
+                                            }
                                         />
-                                        <Textarea id="metodologia_local" error={form.errors.metodologia_local} name="metodologia_local" value={form.data.metodologia_local} onChange={(e) => form.setData('', e.target.value)} required />
+                                        <Textarea
+                                            id="metodologia_local"
+                                            error={form.errors.metodologia_local}
+                                            name="metodologia_local"
+                                            value={form.data.metodologia_local}
+                                            onChange={(e) => form.setData('', e.target.value)}
+                                            required
+                                        />
                                     </div>
                                 </div>
                             ))}
@@ -181,10 +274,22 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                                 <div>
                                     <div className="py-24 grid grid-cols-2 gap-4">
                                         <div>
-                                            <Label required className="mb-4" labelFor="implementacion_modelo_pedagogico" value="Implementación del Modelo Pedagógico de las TecnoAcademia en el contexto regional de la TecnoAcademia" />
+                                            <Label
+                                                required
+                                                className="mb-4"
+                                                labelFor="implementacion_modelo_pedagogico"
+                                                value="Implementación del Modelo Pedagógico de las TecnoAcademia en el contexto regional de la TecnoAcademia"
+                                            />
                                         </div>
                                         <div>
-                                            <Textarea id="implementacion_modelo_pedagogico" error={form.errors.implementacion_modelo_pedagogico} name="implementacion_modelo_pedagogico" value={form.data.implementacion_modelo_pedagogico} onChange={(e) => form.setData('', e.target.value)} required />
+                                            <Textarea
+                                                id="implementacion_modelo_pedagogico"
+                                                error={form.errors.implementacion_modelo_pedagogico}
+                                                name="implementacion_modelo_pedagogico"
+                                                value={form.data.implementacion_modelo_pedagogico}
+                                                onChange={(e) => form.setData('', e.target.value)}
+                                                required
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -242,7 +347,14 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                                         <Label required className="mb-4" labelFor="impacto_municipios" value="Descripción del beneficio o impacto generado por la TecnoAcademia en los municipios" />
                                     </div>
                                     <div>
-                                        <Textarea id="impacto_municipios" error={form.errors.impacto_municipios} name="impacto_municipios" value={form.data.impacto_municipios} onChange={(e) => form.setData('', e.target.value)} required />
+                                        <Textarea
+                                            id="impacto_municipios"
+                                            error={form.errors.impacto_municipios}
+                                            name="impacto_municipios"
+                                            value={form.data.impacto_municipios}
+                                            onChange={(e) => form.setData('', e.target.value)}
+                                            required
+                                        />
                                     </div>
 
                                     {(isSuperAdmin && proyecto.evaluaciones.length > 0) || (proyecto.mostrar_recomendaciones && proyecto.evaluaciones.length > 0) ? (
@@ -254,10 +366,11 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                                                         title={
                                                             <div>
                                                                 <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                                                <p className="whitespace-pre-line text-xs text-justify">{evaluacion.ta_evaluacion.municipios_comentario ? evaluacion.ta_evaluacion.municipios_comentario : 'Sin recomendación'}</p>
+                                                                <p className="whitespace-pre-line text-xs text-justify">
+                                                                    {evaluacion.ta_evaluacion.municipios_comentario ? evaluacion.ta_evaluacion.municipios_comentario : 'Sin recomendación'}
+                                                                </p>
                                                             </div>
-                                                        }
-                                                    >
+                                                        }>
                                                         Evaluación {i + 1}
                                                     </ToolTipMui>
                                                 ) : null,
@@ -269,7 +382,12 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
 
                                 <div className="py-24 grid grid-cols-2 gap-4">
                                     <div>
-                                        <Label required={form.otras_nombre_instituciones_programas ? false : true} className="mb-4" labelFor="nombre_instituciones_programas" value="Instituciones donde se están ejecutando los programas y que se espera continuar con el proyecto de TecnoAcademias" />
+                                        <Label
+                                            required={form.otras_nombre_instituciones_programas ? false : true}
+                                            className="mb-4"
+                                            labelFor="nombre_instituciones_programas"
+                                            value="Instituciones donde se están ejecutando los programas y que se espera continuar con el proyecto de TecnoAcademias"
+                                        />
                                     </div>
                                     <div>
                                         <Autocomplete
@@ -290,19 +408,35 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                                             value={form.data.nombre_instituciones_programas}
                                             onChange={(e) => form.setData('nombre_instituciones_programas', e.target.value)}
                                             placeholder="Nombre(s) de la(s) IE"
-                                            error={whitelistInstitucionesEducativasArticular.length == 0 ? 'No hay instituciones educativas registradas para el municipio seleccionado' : form.errors.nombre_instituciones_programas}
+                                            error={
+                                                whitelistInstitucionesEducativasArticular.length == 0
+                                                    ? 'No hay instituciones educativas registradas para el municipio seleccionado'
+                                                    : form.errors.nombre_instituciones_programas
+                                            }
                                             required={form.data.nombre_instituciones_programas ? false : true}
                                         />
                                         <div className="mt-10">
-                                            <AlertMui hiddenIcon={true}>Si no encuentra alguna institución educativa en la anterior lista por favor escriba el nombre en el siguiente campo de texto</AlertMui>
-                                            <Textarea label="Instituciones" id="otras_nombre_instituciones_programas" error={form.errors.otras_nombre_instituciones_programas} value={form.data.otras_nombre_instituciones_programas} />
+                                            <AlertMui hiddenIcon={true}>
+                                                Si no encuentra alguna institución educativa en la anterior lista por favor escriba el nombre en el siguiente campo de texto
+                                            </AlertMui>
+                                            <Textarea
+                                                label="Instituciones"
+                                                id="otras_nombre_instituciones_programas"
+                                                error={form.errors.otras_nombre_instituciones_programas}
+                                                value={form.data.otras_nombre_instituciones_programas}
+                                            />
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="py-24">
                                     <div>
-                                        <Label required className="mb-4" labelFor="proyeccion_nuevas_instituciones" value="¿Se proyecta incluir nuevas Instituciones Educativas en la nueva vigencia?" />
+                                        <Label
+                                            required
+                                            className="mb-4"
+                                            labelFor="proyeccion_nuevas_instituciones"
+                                            value="¿Se proyecta incluir nuevas Instituciones Educativas en la nueva vigencia?"
+                                        />
                                     </div>
                                     <div>
                                         <Autocomplete
@@ -322,7 +456,12 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                                 {form.proyeccion_nuevas_instituciones === 1 && (
                                     <div className="py-24 grid grid-cols-2 gap-4">
                                         <div>
-                                            <Label required={form.otras_nuevas_instituciones ? false : true} className="mb-4" labelFor="nuevas_instituciones" value="Nuevas instituciones educativas que se vincularán con el proyecto de TecnoAcademia" />
+                                            <Label
+                                                required={form.otras_nuevas_instituciones ? false : true}
+                                                className="mb-4"
+                                                labelFor="nuevas_instituciones"
+                                                value="Nuevas instituciones educativas que se vincularán con el proyecto de TecnoAcademia"
+                                            />
                                         </div>
                                         <div>
                                             <Autocomplete
@@ -345,12 +484,23 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                                                 value={form.data.nuevas_instituciones}
                                                 onChange={(e) => form.setData('nuevas_instituciones', e.target.value)}
                                                 placeholder="Nombre(s) de la(s) IE"
-                                                error={whitelistInstitucionesEducativasEjecutar.length == 0 ? 'No hay instituciones educativas registradas para el municipio seleccionado' : form.errors.nuevas_instituciones}
+                                                error={
+                                                    whitelistInstitucionesEducativasEjecutar.length == 0
+                                                        ? 'No hay instituciones educativas registradas para el municipio seleccionado'
+                                                        : form.errors.nuevas_instituciones
+                                                }
                                                 required={form.data.nuevas_instituciones ? false : true}
                                             />
                                             <div className="mt-10">
-                                                <AlertMui hiddenIcon={true}>Si no encuentra alguna institución educativa en la anterior lista por favor escriba el nombre en el siguiente campo de texto</AlertMui>
-                                                <Textarea label="Instituciones" id="otras_nuevas_instituciones" error={form.errors.otras_nuevas_instituciones} value={form.data.otras_nuevas_instituciones} />
+                                                <AlertMui hiddenIcon={true}>
+                                                    Si no encuentra alguna institución educativa en la anterior lista por favor escriba el nombre en el siguiente campo de texto
+                                                </AlertMui>
+                                                <Textarea
+                                                    label="Instituciones"
+                                                    id="otras_nuevas_instituciones"
+                                                    error={form.errors.otras_nuevas_instituciones}
+                                                    value={form.data.otras_nuevas_instituciones}
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -378,7 +528,12 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                                 {form.proyeccion_articulacion_media === 1 && (
                                     <div className="py-24 grid grid-cols-2 gap-4">
                                         <div>
-                                            <Label required={form.otras_nombre_instituciones ? false : true} className="mb-4" labelFor="nombre_instituciones" value="Instituciones donde se implementará el programa que tienen <strong>articulación con la Media</strong>" />
+                                            <Label
+                                                required={form.otras_nombre_instituciones ? false : true}
+                                                className="mb-4"
+                                                labelFor="nombre_instituciones"
+                                                value="Instituciones donde se implementará el programa que tienen <strong>articulación con la Media</strong>"
+                                            />
                                         </div>
                                         <div>
                                             <Autocomplete
@@ -401,13 +556,24 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                                                 value={form.data.nombre_instituciones}
                                                 onChange={(e) => form.setData('nombre_instituciones', e.target.value)}
                                                 placeholder="Nombre(s) de la(s) IE"
-                                                error={whitelistInstitucionesEducativasEjecutar.length == 0 ? 'No hay instituciones educativas registradas para el municipio seleccionado' : form.errors.nombre_instituciones}
+                                                error={
+                                                    whitelistInstitucionesEducativasEjecutar.length == 0
+                                                        ? 'No hay instituciones educativas registradas para el municipio seleccionado'
+                                                        : form.errors.nombre_instituciones
+                                                }
                                                 required={form.data.nombre_instituciones ? false : true}
                                             />
 
                                             <div className="mt-10">
-                                                <AlertMui hiddenIcon={true}>Si no encuentra alguna institución educativa en la anterior lista por favor escriba el nombre en el siguiente campo de texto</AlertMui>
-                                                <Textarea label="Instituciones" id="otras_nombre_instituciones" error={form.errors.otras_nombre_instituciones} value={form.data.otras_nombre_instituciones} />
+                                                <AlertMui hiddenIcon={true}>
+                                                    Si no encuentra alguna institución educativa en la anterior lista por favor escriba el nombre en el siguiente campo de texto
+                                                </AlertMui>
+                                                <Textarea
+                                                    label="Instituciones"
+                                                    id="otras_nombre_instituciones"
+                                                    error={form.errors.otras_nombre_instituciones}
+                                                    value={form.data.otras_nombre_instituciones}
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -422,10 +588,11 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                                                     title={
                                                         <div>
                                                             <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                                            <p className="whitespace-pre-line text-xs text-justify">{evaluacion.ta_evaluacion.instituciones_comentario ? evaluacion.ta_evaluacion.instituciones_comentario : 'Sin recomendación'}</p>
+                                                            <p className="whitespace-pre-line text-xs text-justify">
+                                                                {evaluacion.ta_evaluacion.instituciones_comentario ? evaluacion.ta_evaluacion.instituciones_comentario : 'Sin recomendación'}
+                                                            </p>
                                                         </div>
-                                                    }
-                                                >
+                                                    }>
                                                     Evaluación {i + 1}
                                                 </ToolTipMui>
                                             ) : null,
@@ -436,7 +603,12 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
 
                                 <div className="py-24 grid grid-cols-2 gap-4">
                                     <div>
-                                        <Label required className="mb-4" labelFor="programas_formacion_articulados" value="Programas de articulación con la Media con los cuales se espera dar continuidad a la ruta de formación de los aprendices de la TecnoAcademia" />
+                                        <Label
+                                            required
+                                            className="mb-4"
+                                            labelFor="programas_formacion_articulados"
+                                            value="Programas de articulación con la Media con los cuales se espera dar continuidad a la ruta de formación de los aprendices de la TecnoAcademia"
+                                        />
                                     </div>
                                     <div>
                                         <SelectMultiple
@@ -484,7 +656,12 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                                 <div>
                                     <div className="py-24 grid grid-cols-2 gap-4">
                                         <div>
-                                            <Label required className="mb-4" labelFor="proyectos_macro" value="Proyectos Macro o líneas de proyecto de investigación formativa y aplicada de la TecnoAcademia para la vigencia {convocatoria.year}" />
+                                            <Label
+                                                required
+                                                className="mb-4"
+                                                labelFor="proyectos_macro"
+                                                value="Proyectos Macro o líneas de proyecto de investigación formativa y aplicada de la TecnoAcademia para la vigencia {convocatoria.year}"
+                                            />
                                         </div>
                                         <div>
                                             <Textarea id="proyectos_macro" error={form.errors.proyectos_macro} value={form.data.proyectos_macro} required />
@@ -500,10 +677,11 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                                                         title={
                                                             <div>
                                                                 <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                                                <p className="whitespace-pre-line text-xs text-justify">{evaluacion.ta_evaluacion.proyectos_macro_comentario ? evaluacion.ta_evaluacion.proyectos_macro_comentario : 'Sin recomendación'}</p>
+                                                                <p className="whitespace-pre-line text-xs text-justify">
+                                                                    {evaluacion.ta_evaluacion.proyectos_macro_comentario ? evaluacion.ta_evaluacion.proyectos_macro_comentario : 'Sin recomendación'}
+                                                                </p>
                                                             </div>
-                                                        }
-                                                    >
+                                                        }>
                                                         Evaluación {i + 1}
                                                     </ToolTipMui>
                                                 ) : null,
@@ -516,7 +694,12 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                                 <div>
                                     <div className="py-24 grid grid-cols-2 gap-4">
                                         <div>
-                                            <Label required className="mb-4" labelFor="articulacion_plan_educacion" value="Articulación de la TecnoAcademia con el Plan Decenal de Educación y su regionalización en el territorio: mencionar logros de la vigencia {convocatoria.year - 1} y {convocatoria.year}" />
+                                            <Label
+                                                required
+                                                className="mb-4"
+                                                labelFor="articulacion_plan_educacion"
+                                                value="Articulación de la TecnoAcademia con el Plan Decenal de Educación y su regionalización en el territorio: mencionar logros de la vigencia {convocatoria.year - 1} y {convocatoria.year}"
+                                            />
                                         </div>
                                         <div>
                                             <Textarea id="articulacion_plan_educacion" error={form.errors.articulacion_plan_educacion} value={form.data.articulacion_plan_educacion} required />
@@ -527,7 +710,12 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                                 <div>
                                     <div className="py-24 grid grid-cols-2 gap-4">
                                         <div>
-                                            <Label required className="mb-4" labelFor="articulacion_territorios_stem" value="Artifculación de la TecnoAcademia con la Iniciativa de Territorios STEM+ del Ministerio de Educación en el Territorio" />
+                                            <Label
+                                                required
+                                                className="mb-4"
+                                                labelFor="articulacion_territorios_stem"
+                                                value="Artifculación de la TecnoAcademia con la Iniciativa de Territorios STEM+ del Ministerio de Educación en el Territorio"
+                                            />
                                         </div>
                                         <div>
                                             <Textarea id="articulacion_territorios_stem" error={form.errors.articulacion_territorios_stem} value={form.data.articulacion_territorios_stem} required />
@@ -573,14 +761,16 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                                 <MenuMui text={<MoreVertIcon />}>
                                     {actividad.id !== actividadToDestroy ? (
                                         <div>
-                                            <MenuItem onClick={() => (setDialogStatus(true), setMethod('editar'), setActividad(actividad))} disabled={!proyecto.allowed.to_update} className={!proyecto.allowed.to_update ? 'hidden' : ''}>
+                                            <MenuItem
+                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setActividad(actividad))}
+                                                disabled={!proyecto.allowed.to_update}
+                                                className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                                 Editar
                                             </MenuItem>
                                             <MenuItem
                                                 onClick={() => {
                                                     setActividadToDestroy(actividad.id)
-                                                }}
-                                            >
+                                                }}>
                                                 Eliminar
                                             </MenuItem>
                                         </div>
@@ -589,8 +779,7 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                                             <MenuItem
                                                 onClick={(e) => {
                                                     setActividadToDestroy(null)
-                                                }}
-                                            >
+                                                }}>
                                                 Cancelar
                                             </MenuItem>
                                             <MenuItem
@@ -602,8 +791,7 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                                                             preserveScroll: true,
                                                         })
                                                     }
-                                                }}
-                                            >
+                                                }}>
                                                 Confirmar
                                             </MenuItem>
                                         </div>
@@ -614,7 +802,25 @@ const Actividades = ({ auth, convocatoria, proyecto, actividades, proyectoMunici
                     ))}
                 </TableMui>
 
-                <DialogMui open={dialogStatus} fullWidth={true} maxWidth="lg" blurEnabled={true} dialogContent={<Form isSuperAdmin={isSuperAdmin} setDialogStatus={setDialogStatus} method={method} proyecto={proyecto} convocatoria={convocatoria} actividad={actividad} proyectoPresupuesto={proyectoPresupuesto} proyectoRoles={proyectoRoles} productos={productos} />} />
+                <DialogMui
+                    open={dialogStatus}
+                    fullWidth={true}
+                    maxWidth="lg"
+                    blurEnabled={true}
+                    dialogContent={
+                        <Form
+                            isSuperAdmin={isSuperAdmin}
+                            setDialogStatus={setDialogStatus}
+                            method={method}
+                            proyecto={proyecto}
+                            convocatoria={convocatoria}
+                            actividad={actividad}
+                            proyectoPresupuesto={proyectoPresupuesto}
+                            proyectoRoles={proyectoRoles}
+                            productos={productos}
+                        />
+                    }
+                />
             </Grid>
         </AuthenticatedLayout>
     )

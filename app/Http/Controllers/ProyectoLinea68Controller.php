@@ -143,8 +143,8 @@ class ProyectoLinea68Controller extends Controller
 
         $servicioTecnologico->load('proyecto.evaluaciones.servicioTecnologicoEvaluacion');
 
-        $servicioTecnologico->codigo_linea_programatica     = $servicioTecnologico->proyecto->lineaProgramatica->codigo;
-        $servicioTecnologico->precio_proyecto               = $servicioTecnologico->proyecto->precioProyecto;
+        $servicioTecnologico->proyecto->codigo_linea_programatica     = $servicioTecnologico->proyecto->lineaProgramatica->codigo;
+        $servicioTecnologico->proyecto->precio_proyecto               = $servicioTecnologico->proyecto->precioProyecto;
         $servicioTecnologico->proyecto->centroFormacion;
 
         $servicioTecnologico->mostrar_recomendaciones       = $servicioTecnologico->proyecto->mostrar_recomendaciones;

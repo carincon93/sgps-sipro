@@ -1,14 +1,17 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
-import Form from './Form'
-
 import DialogMui from '@/Components/Dialog'
 import ButtonMui from '@/Components/Button'
+import TableMui from '@/Components/Table'
+import StepperMui from '@/Components/Stepper'
+
+import Form from './Form'
 
 import { checkRole } from '@/Utils'
+
 import { Grid, TableCell, TableRow } from '@mui/material'
+
 import { useState } from 'react'
-import TableMui from '@/Components/Table'
 
 const Edit = ({
     auth,
@@ -45,6 +48,10 @@ const Edit = ({
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyectoLinea65.titulo}</h2>}>
+            <Grid item md={12} className="!mb-20">
+                <StepperMui convocatoria={convocatoria} proyecto={proyectoLinea65?.proyecto} />
+            </Grid>
+
             <Grid item md={4}>
                 Evaluación
             </Grid>

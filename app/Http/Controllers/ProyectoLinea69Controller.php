@@ -133,8 +133,8 @@ class ProyectoLinea69Controller extends Controller
 
         $tp->load('proyecto.evaluaciones.tpEvaluacion');
 
-        $tp->codigo_linea_programatica      = $tp->proyecto->lineaProgramatica->codigo;
-        $tp->precio_proyecto                = $tp->proyecto->precioProyecto;
+        $tp->proyecto->codigo_linea_programatica      = $tp->proyecto->lineaProgramatica->codigo;
+        $tp->proyecto->precio_proyecto                = $tp->proyecto->precioProyecto;
         $tp->proyecto->centroFormacion;
         $tp->proyecto->allowed;
 

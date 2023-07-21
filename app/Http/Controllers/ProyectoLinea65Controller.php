@@ -151,8 +151,8 @@ class ProyectoLinea65Controller extends Controller
 
         $culturaInnovacion->load('proyecto.evaluaciones.culturaInnovacionEvaluacion');
 
-        $culturaInnovacion->codigo_linea_programatica = $culturaInnovacion->proyecto->lineaProgramatica->codigo;
-        $culturaInnovacion->precio_proyecto           = $culturaInnovacion->proyecto->precioProyecto;
+        $culturaInnovacion->proyecto->codigo_linea_programatica = $culturaInnovacion->proyecto->lineaProgramatica->codigo;
+        $culturaInnovacion->proyecto->precio_proyecto           = $culturaInnovacion->proyecto->precioProyecto;
         $culturaInnovacion->proyecto->centroFormacion;
 
         $culturaInnovacion->mostrar_recomendaciones = $culturaInnovacion->proyecto->mostrar_recomendaciones;

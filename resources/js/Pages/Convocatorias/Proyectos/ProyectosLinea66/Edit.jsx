@@ -3,7 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import ButtonMui from '@/Components/Button'
 import DialogMui from '@/Components/Dialog'
 import TableMui from '@/Components/Table'
-// import Stepper from '@/Components/Stepper';
+import StepperMui from '@/Components/Stepper'
 
 import Form from './Form'
 
@@ -51,6 +51,10 @@ const Edit = ({
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyectoLinea66.titulo}</h2>}>
+            <Grid item md={12} className="!mb-20">
+                <StepperMui convocatoria={convocatoria} proyecto={proyectoLinea66?.proyecto} />
+            </Grid>
+
             <Grid item md={4}>
                 Evaluación
             </Grid>

@@ -55,7 +55,7 @@ const FileInput = ({ onChange, value = '', error = '', id = '', label = 'Selecci
                     </a>
                     {onDelete && (
                         <Button className="!absolute right-1" onClick={() => onDelete()} type="button">
-                            <FolderDeleteIcon />
+                            Eliminar
                         </Button>
                     )}
                 </div>

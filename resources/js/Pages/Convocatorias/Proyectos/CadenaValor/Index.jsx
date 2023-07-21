@@ -13,6 +13,7 @@ import { useEffect } from 'react'
 import { useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import ToolTipMui from '@/Components/Tooltip'
+import StepperMui from '@/Components/Stepper'
 
 const CadenaValor = ({ auth, convocatoria, proyecto, objetivos, objetivoGeneral, productos, ...props }) => {
     const authUser = auth.user
@@ -96,6 +97,10 @@ const CadenaValor = ({ auth, convocatoria, proyecto, objetivos, objetivoGeneral,
 
     return (
         <AuthenticatedLayout>
+            <Grid item md={12} className="!mb-20">
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto} />
+            </Grid>
+
             <Grid item md={12}>
                 <h1 className="text-3xl mt-24 text-center">Propuesta de sostenibilidad</h1>
 
@@ -109,36 +114,67 @@ const CadenaValor = ({ auth, convocatoria, proyecto, objetivos, objetivoGeneral,
                                         <div>
                                             <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
                                             {evaluacion.idi_evaluacion ? (
-                                                <p className="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion?.cadena_valor_comentario ? evaluacion.idi_evaluacion.cadena_valor_comentario : 'Sin recomendación'}</p>
+                                                <p className="whitespace-pre-line text-xs">
+                                                    {evaluacion.idi_evaluacion?.cadena_valor_comentario ? evaluacion.idi_evaluacion.cadena_valor_comentario : 'Sin recomendación'}
+                                                </p>
                                             ) : evaluacion.cultura_innovacion_evaluacion ? (
-                                                <p className="whitespace-pre-line text-xs">{evaluacion.cultura_innovacion_evaluacion?.cadena_valor_comentario ? evaluacion.cultura_innovacion_evaluacion.cadena_valor_comentario : 'Sin recomendación'}</p>
+                                                <p className="whitespace-pre-line text-xs">
+                                                    {evaluacion.cultura_innovacion_evaluacion?.cadena_valor_comentario
+                                                        ? evaluacion.cultura_innovacion_evaluacion.cadena_valor_comentario
+                                                        : 'Sin recomendación'}
+                                                </p>
                                             ) : evaluacion.ta_evaluacion ? (
-                                                <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion?.cadena_valor_comentario ? evaluacion.ta_evaluacion.cadena_valor_comentario : 'Sin recomendación'}</p>
+                                                <p className="whitespace-pre-line text-xs">
+                                                    {evaluacion.ta_evaluacion?.cadena_valor_comentario ? evaluacion.ta_evaluacion.cadena_valor_comentario : 'Sin recomendación'}
+                                                </p>
                                             ) : evaluacion.tp_evaluacion ? (
-                                                <p className="whitespace-pre-line text-xs">{evaluacion.tp_evaluacion?.cadena_valor_comentario ? evaluacion.tp_evaluacion.cadena_valor_comentario : 'Sin recomendación'}</p>
+                                                <p className="whitespace-pre-line text-xs">
+                                                    {evaluacion.tp_evaluacion?.cadena_valor_comentario ? evaluacion.tp_evaluacion.cadena_valor_comentario : 'Sin recomendación'}
+                                                </p>
                                             ) : (
                                                 evaluacion.servicio_tecnologico_evaluacion && (
                                                     <>
                                                         <hr className="mt-10 mb-10 border-black-200" />
                                                         <h1 className="font-black">Propuesta de sostenibilidad</h1>
 
-                                                        <p className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.propuesta_sostenibilidad_comentario ? 'Recomendación: ' + evaluacion.servicio_tecnologico_evaluacion.propuesta_sostenibilidad_comentario : 'Sin recomendación'}</p>
+                                                        <p className="whitespace-pre-line text-xs mb-10">
+                                                            {evaluacion.servicio_tecnologico_evaluacion?.propuesta_sostenibilidad_comentario
+                                                                ? 'Recomendación: ' + evaluacion.servicio_tecnologico_evaluacion.propuesta_sostenibilidad_comentario
+                                                                : 'Sin recomendación'}
+                                                        </p>
 
                                                         <hr className="mt-10 mb-10 border-black-200" />
                                                         <h1 className="font-black">Impactos</h1>
 
                                                         <ul className="list-disc pl-4">
-                                                            <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.impacto_ambiental_comentario ? 'Recomendación impacto ambiental: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_ambiental_comentario : 'Sin recomendación'}</li>
-                                                            <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.impacto_social_centro_comentario ? 'Recomendación impacto social en el centro de formación: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_social_centro_comentario : 'Sin recomendación'}</li>
-                                                            <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.impacto_social_productivo_comentario ? 'Recomendación impacto social en el sector productivo: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_social_productivo_comentario : 'Sin recomendación'}</li>
-                                                            <li className="whitespace-pre-line text-xs mb-10">{evaluacion.servicio_tecnologico_evaluacion?.impacto_tecnologico_comentario ? 'Recomendación impacto tecnológico: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_tecnologico_comentario : 'Sin recomendación'}</li>
+                                                            <li className="whitespace-pre-line text-xs mb-10">
+                                                                {evaluacion.servicio_tecnologico_evaluacion?.impacto_ambiental_comentario
+                                                                    ? 'Recomendación impacto ambiental: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_ambiental_comentario
+                                                                    : 'Sin recomendación'}
+                                                            </li>
+                                                            <li className="whitespace-pre-line text-xs mb-10">
+                                                                {evaluacion.servicio_tecnologico_evaluacion?.impacto_social_centro_comentario
+                                                                    ? 'Recomendación impacto social en el centro de formación: ' +
+                                                                      evaluacion.servicio_tecnologico_evaluacion.impacto_social_centro_comentario
+                                                                    : 'Sin recomendación'}
+                                                            </li>
+                                                            <li className="whitespace-pre-line text-xs mb-10">
+                                                                {evaluacion.servicio_tecnologico_evaluacion?.impacto_social_productivo_comentario
+                                                                    ? 'Recomendación impacto social en el sector productivo: ' +
+                                                                      evaluacion.servicio_tecnologico_evaluacion.impacto_social_productivo_comentario
+                                                                    : 'Sin recomendación'}
+                                                            </li>
+                                                            <li className="whitespace-pre-line text-xs mb-10">
+                                                                {evaluacion.servicio_tecnologico_evaluacion?.impacto_tecnologico_comentario
+                                                                    ? 'Recomendación impacto tecnológico: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_tecnologico_comentario
+                                                                    : 'Sin recomendación'}
+                                                            </li>
                                                         </ul>
                                                     </>
                                                 )
                                             )}
                                         </div>
-                                    }
-                                >
+                                    }>
                                     Evaluación {i + 1}
                                 </ToolTipMui>
                             ) : null,
@@ -149,7 +185,8 @@ const CadenaValor = ({ auth, convocatoria, proyecto, objetivos, objetivoGeneral,
 
                 {proyecto.codigo_linea_programatica == 70 && (
                     <AlertMui hiddenIcon={true} className="text-center my-24">
-                        A continuación, plantee las acciones concretas que contribuirán a la sostenibilidad financiera de la TecnoAcademia y su aporte a la sostenibilidad ambiental y social del territorio.
+                        A continuación, plantee las acciones concretas que contribuirán a la sostenibilidad financiera de la TecnoAcademia y su aporte a la sostenibilidad ambiental y social del
+                        territorio.
                     </AlertMui>
                 )}
 
@@ -161,26 +198,57 @@ const CadenaValor = ({ auth, convocatoria, proyecto, objetivos, objetivoGeneral,
                                     <AlertMui className="mb-6" hiddenIcon={true}>
                                         Se deben mencionar aquellos factores que pueden comprometer la viabilidad, desarrollo de los objetivos y resultados del proyecto a través del tiempo.
                                         <br />
-                                        Para definir la propuesta de sostenibilidad se deben tener en cuenta los impactos definidos en el árbol de objetivos (ambiental, social - en el centro de formación, social - en el sector productivo, tecnológico)
+                                        Para definir la propuesta de sostenibilidad se deben tener en cuenta los impactos definidos en el árbol de objetivos (ambiental, social - en el centro de
+                                        formación, social - en el sector productivo, tecnológico)
                                     </AlertMui>
                                 ) : (
                                     <AlertMui className="mb-2" hiddenIcon={true}>
-                                        Identificar los efectos que tiene el desarrollo del proyecto de investigación ya sea positivos o negativos. Se recomienda establecer las acciones pertinentes para mitigar los impactos negativos ambientales identificados y anexar el respectivo permiso ambiental cuando aplique. Tener en cuenta si aplica el decreto 1376 de 2013.
+                                        Identificar los efectos que tiene el desarrollo del proyecto de investigación ya sea positivos o negativos. Se recomienda establecer las acciones pertinentes
+                                        para mitigar los impactos negativos ambientales identificados y anexar el respectivo permiso ambiental cuando aplique. Tener en cuenta si aplica el decreto 1376
+                                        de 2013.
                                     </AlertMui>
                                 )}
-                                <Textarea label="Propuesta de sostenibilidad" id="propuesta_sostenibilidad" error={form.errors.propuesta_sostenibilidad} value={form.data.propuesta_sostenibilidad} onChange={(e) => form.setData('propuesta_sostenibilidad', e.target.value)} required />
+                                <Textarea
+                                    label="Propuesta de sostenibilidad"
+                                    id="propuesta_sostenibilidad"
+                                    error={form.errors.propuesta_sostenibilidad}
+                                    value={form.data.propuesta_sostenibilidad}
+                                    onChange={(e) => form.setData('propuesta_sostenibilidad', e.target.value)}
+                                    required
+                                />
                             </div>
                         ) : (
                             proyecto.codigo_linea_programatica == 70 && (
                                 <>
                                     <div className="mt-8">
-                                        <Textarea label="Propuesta de sostenibilidad social" id="propuesta_sostenibilidad_social" error={form.errors.propuesta_sostenibilidad_social} value={form.data.propuesta_sostenibilidad_social} onChange={(e) => form.setData('propuesta_sostenibilidad_social', e.target.value)} required />
+                                        <Textarea
+                                            label="Propuesta de sostenibilidad social"
+                                            id="propuesta_sostenibilidad_social"
+                                            error={form.errors.propuesta_sostenibilidad_social}
+                                            value={form.data.propuesta_sostenibilidad_social}
+                                            onChange={(e) => form.setData('propuesta_sostenibilidad_social', e.target.value)}
+                                            required
+                                        />
                                     </div>
                                     <div className="mt-8">
-                                        <Textarea label="Propuesta de sostenibilidad ambiental" id="propuesta_sostenibilidad_ambiental" error={form.errors.propuesta_sostenibilidad_ambiental} value={form.data.propuesta_sostenibilidad_ambiental} onChange={(e) => form.setData('propuesta_sostenibilidad_ambiental', e.target.value)} required />
+                                        <Textarea
+                                            label="Propuesta de sostenibilidad ambiental"
+                                            id="propuesta_sostenibilidad_ambiental"
+                                            error={form.errors.propuesta_sostenibilidad_ambiental}
+                                            value={form.data.propuesta_sostenibilidad_ambiental}
+                                            onChange={(e) => form.setData('propuesta_sostenibilidad_ambiental', e.target.value)}
+                                            required
+                                        />
                                     </div>
                                     <div className="mt-8">
-                                        <Textarea label="Propuesta de sostenibilidad financiera" id="propuesta_sostenibilidad_financiera" error={form.errors.propuesta_sostenibilidad_financiera} value={form.data.propuesta_sostenibilidad_financiera} onChange={(e) => form.setData('propuesta_sostenibilidad_financiera', e.target.value)} required />
+                                        <Textarea
+                                            label="Propuesta de sostenibilidad financiera"
+                                            id="propuesta_sostenibilidad_financiera"
+                                            error={form.errors.propuesta_sostenibilidad_financiera}
+                                            value={form.data.propuesta_sostenibilidad_financiera}
+                                            onChange={(e) => form.setData('propuesta_sostenibilidad_financiera', e.target.value)}
+                                            required
+                                        />
                                     </div>
                                 </>
                             )

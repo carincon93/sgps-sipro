@@ -7,6 +7,7 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import SelectMultiple from '@/Components/SelectMultiple'
 import Tags from '@/Components/Tags'
 import Textarea from '@/Components/Textarea'
+import StepperMui from '@/Components/Stepper'
 
 import { checkRole } from '@/Utils'
 
@@ -103,23 +104,48 @@ const ArticulacionSennova = ({
 
     return (
         <AuthenticatedLayout>
+            <Grid item md={12} className="!mb-20">
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto} />
+            </Grid>
+
             <Grid item md={12}>
                 <div className="mt-16">
-                    <Participantes centrosFormacion={centrosFormacion} autorPrincipal={autorPrincipal} convocatoria={convocatoria} proyecto={proyecto} tiposDocumento={tiposDocumento} tiposVinculacion={tiposVinculacion} rolesSennova={roles} />{' '}
+                    <Participantes
+                        centrosFormacion={centrosFormacion}
+                        autorPrincipal={autorPrincipal}
+                        convocatoria={convocatoria}
+                        proyecto={proyecto}
+                        tiposDocumento={tiposDocumento}
+                        tiposVinculacion={tiposVinculacion}
+                        rolesSennova={roles}
+                    />{' '}
                 </div>
             </Grid>
             <Grid item md={12}>
-                <h1 className="text-3xl mt-24 mb-8 text-center">Articulación SENNOVA</h1>
-
-                <p className="text-center mb-8">A continuación, registre la información relacionada con la articulación de la línea de {proyecto.codigo_linea_programatica == 70 ? 'TecnoAcademia' : proyecto.codigo_linea_programatica == 69 ? 'TecnoParque' : ''} con las otras líneas de SENNOVA en el centro y la regional:</p>
-
+                <h1
+                    className="text-3xl mt-24 mb
+                    -8 text-center">
+                    Articulación SENNOVA
+                </h1>{' '}
+                <p className="text-center mb-8">
+                    A continuación, registre la información relacionada con la articulación de la línea de{' '}
+                    {proyecto.codigo_linea_programatica == 70 ? 'TecnoAcademia' : proyecto.codigo_linea_programatica == 69 ? 'TecnoParque' : ''} con las otras líneas de SENNOVA en el centro y la
+                    regional:
+                </p>
                 <form onSubmit={submit}>
                     <fieldset disabled={proyecto.allowed.to_update ? false : true}>
                         {proyecto.codigo_linea_programatica == 70 ? (
                             <>
-                                <div className="mt-44 grid grid-cols-2">
+                                <div
+                                    className="mt-44 g
+                                           rid grid-cols-2">
                                     <div>
-                                        <Label required className="mb-4" labelFor="lineas_investigacion" value="Líneas de Investigación en las cuales se están ejecutando iniciativas o proyectos de la TecnoAcademia" />
+                                        <Label
+                                            required
+                                            className="mb-4"
+                                            labelFor="lineas_investigacion"
+                                            value="Líneas de Investigación en las cuales se están ejecutando iniciativas o proyectos de la TecnoAcademia"
+                                        />
                                     </div>
                                     <div>
                                         <SelectMultiple
@@ -229,9 +255,16 @@ const ArticulacionSennova = ({
                                         />
 
                                         <AlertMui hiddenIcon={true} className="mt-10 mb-4">
-                                            Si aún no ha registrado el proyecto en el módulo de <strong>Proyectos e iniciativas I+D+i TecnoAcademias</strong>, relacione en el siguiente campo el título del proyecto. Se recomienda hacer el registro en el módulo.
+                                            Si aú n no ha registrado el proyecto e n el módulo de <strong>Pr o yectos e iniciativas I+D+i TecnoAcademi a s</strong>, relacione en el siguiente campo el
+                                            título del proyecto. Se recomienda hacer el registro en el m ó dulo.
                                         </AlertMui>
-                                        <Textarea label="Proyectos / Iniciativas" id="proyectos_ejecucion" error={form.errors.proyectos_ejecucion} value={form.data.proyectos_ejecucion} onChange={(e) => form.setData('proyectos_ejecucion', e.target.value)} />
+                                        <Textarea
+                                            label="Proyectos / Iniciativas"
+                                            id="proyectos_ejecucion"
+                                            error={form.errors.proyectos_ejecucion}
+                                            value={form.data.proyectos_ejecucion}
+                                            onChange={(e) => form.setData('proyectos_ejecucion', e.target.value)}
+                                        />
                                     </div>
                                 </div>
 
@@ -239,8 +272,18 @@ const ArticulacionSennova = ({
                                     <div>
                                         <Label className="mb-4" labelFor="semilleros_en_formalizacion" value="Semilleros en proceso de formalización (Separados por coma)" />
                                     </div>
+
                                     <div>
-                                        <Tags id="semilleros_en_formalizacion" className="mt-4" enforceWhitelist={false} tags={form.data.semilleros_en_formalizacion} value={form.data.semilleros_en_formalizacion} onChange={(e) => form.setData('semilleros_en_formalizacion', e.target.value)} placeholder="Nombre(s) de la(s) IE" error={form.errors.semilleros_en_formalizacion} />
+                                        <Tags
+                                            id="semilleros_en_formalizacion"
+                                            className="mt-4"
+                                            enforceWhitelist={false}
+                                            tags={form.data.semilleros_en_formalizacion}
+                                            value={form.data.semilleros_en_formalizacion}
+                                            onChange={(e) => form.setData('semilleros_en_formalizacion', e.target.value)}
+                                            placeholder="Nombre(s) de la(s) IE"
+                                            error={form.errors.semilleros_en_formalizacion}
+                                        />
                                     </div>
                                 </div>
 
@@ -342,35 +385,84 @@ const ArticulacionSennova = ({
                                     <div>
                                         <Label required className="mb-4" labelFor="articulacion_centro_formacion" value="Articulación con el centro de formación" />
                                     </div>
+
                                     <div>
-                                        <Textarea id="articulacion_centro_formacion" error={form.errors.articulacion_centro_formacion} value={form.data.articulacion_centro_formacion} onChange={(e) => form.setData('articulacion_centro_formacion', e.target.value)} required />
+                                        <Textarea
+                                            id="articulacion_centro_formacion"
+                                            error={form.errors.articulacion_centro_formacion}
+                                            value={form.data.articulacion_centro_formacion}
+                                            onChange={(e) => form.setData('articulacion_centro_formacion', e.target.value)}
+                                            required
+                                        />
                                     </div>
                                 </div>
 
-                                <div className="mt-44 grid grid-cols-2">
+                                <div
+                                    className="mt-44 g
+                                  r         id grid-cols-2">
                                     <div>
-                                        <Label required className="mb-4" labelFor="articulacion_programas_centro" value="¿Articulación de la TecnoAcademia en los programas de formación del Centro? " />
+                                        <Label
+                                            required
+                                            className="mb-4"
+                                            labelFor="articulacion_programas_centro"
+                                            value="¿Articulación de la TecnoAcademia en los programas de formación del Centro? "
+                                        />
                                     </div>
+
                                     <div>
-                                        <Textarea id="articulacion_programas_centro" error={form.errors.articulacion_programas_centro} value={form.data.articulacion_programas_centro} onChange={(e) => form.setData('articulacion_programas_centro', e.target.value)} required />
+                                        <Textarea
+                                            id="articulacion_programas_centro"
+                                            error={form.errors.articulacion_programas_centro}
+                                            value={form.data.articulacion_programas_centro}
+                                            onChange={(e) => form.setData('articulacion_programas_centro', e.target.value)}
+                                            required
+                                        />
                                     </div>
                                 </div>
 
-                                <div className="mt-44 grid grid-cols-2">
+                                <div
+                                    className="mt-44 g
+r                                           id grid-cols-2">
                                     <div>
-                                        <Label required className="mb-4" labelFor="articulacion_bienestar_aprendiz" value="¿Articulación de la TecnoAcademia en las acciones de Bienestar al aprendiz del Centro?  " />
+                                        <Label
+                                            required
+                                            className="mb-4"
+                                            labelFor="articulacion_bienestar_aprendiz"
+                                            value="¿Articulación de la TecnoAcademia en las acciones de Bienestar al aprendiz del Centro?  "
+                                        />
                                     </div>
+
                                     <div>
-                                        <Textarea id="articulacion_bienestar_aprendiz" error={form.errors.articulacion_bienestar_aprendiz} value={form.data.articulacion_bienestar_aprendiz} onChange={(e) => form.setData('articulacion_bienestar_aprendiz', e.target.value)} required />
+                                        <Textarea
+                                            id="articulacion_bienestar_aprendiz"
+                                            error={form.errors.articulacion_bienestar_aprendiz}
+                                            value={form.data.articulacion_bienestar_aprendiz}
+                                            onChange={(e) => form.setData('articulacion_bienestar_aprendiz', e.target.value)}
+                                            required
+                                        />
                                     </div>
                                 </div>
 
-                                <div className="mt-44 grid grid-cols-2">
+                                <div
+                                    className="mt-44 g
+                r                           id grid-cols-2">
                                     <div>
-                                        <Label required className="mb-4" labelFor="favorecimiento_ruta_formacion" value="¿Acciones conjuntas definidas con el equipo de Articulación con la Media del Centro para favorecer la ruta de formación desde la TecnoAcademia?" />
+                                        <Label
+                                            required
+                                            className="mb-4"
+                                            labelFor="favorecimiento_ruta_formacion"
+                                            value="¿Acciones conjuntas definidas con el equipo de Articulación con la Media del Centro para favorecer la ruta de formación desde la TecnoAcademia?"
+                                        />
                                     </div>
+
                                     <div>
-                                        <Textarea id="fav" error={form.errors.favorecimiento_ruta_formacion} value={form.data.favorecimiento_ruta_formacion} onChange={(e) => form.setData('favorecimiento_ruta_formacion', e.target.value)} required />
+                                        <Textarea
+                                            id="fav"
+                                            error={form.errors.favorecimiento_ruta_formacion}
+                                            value={form.data.favorecimiento_ruta_formacion}
+                                            onChange={(e) => form.setData('favorecimiento_ruta_formacion', e.target.value)}
+                                            required
+                                        />
                                     </div>
                                 </div>
 
@@ -379,8 +471,15 @@ const ArticulacionSennova = ({
                                         <div>
                                             <Label required className="mb-4" labelFor="lineas_medulares_centro" value="Líneas medulares del Centro con las que se articula la TecnoAcademia" />
                                         </div>
+
                                         <div>
-                                            <Textarea id="lineas_medulares_centro" error={form.errors.lineas_medulares_centro} value={form.data.lineas_medulares_centro} onChange={(e) => form.setData('lineas_medulares_centro', e.target.value)} required />
+                                            <Textarea
+                                                id="lineas_medulares_centro"
+                                                error={form.errors.lineas_medulares_centro}
+                                                value={form.data.lineas_medulares_centro}
+                                                onChange={(e) => form.setData('lineas_medulares_centro', e.target.value)}
+                                                required
+                                            />
                                         </div>
                                     </div>
                                     {/* {#if isSuperAdmin || proyecto.mostrar_recomendaciones}
@@ -408,8 +507,15 @@ const ArticulacionSennova = ({
                                             <div>
                                                 <Label required className="mb-4" labelFor="impacto_centro_formacion" value="Impacto en el centro de formación" />
                                             </div>
+
                                             <div>
-                                                <Textarea id="impacto_centro_formacion" error={form.errors.impacto_centro_formacion} value={form.data.impacto_centro_formacion} onChange={(e) => form.setData('impacto_centro_formacion', e.target.value)} required />
+                                                <Textarea
+                                                    id="impacto_centro_formacion"
+                                                    error={form.errors.impacto_centro_formacion}
+                                                    value={form.data.impacto_centro_formacion}
+                                                    onChange={(e) => form.setData('impacto_centro_formacion', e.target.value)}
+                                                    required
+                                                />
                                             </div>
                                         </div>
                                         {/* {#if (isSuperAdmin && proyecto.evaluaciones.length > 0) || (proyecto.mostrar_recomendaciones && proyecto.evaluaciones.length > 0)}
@@ -430,56 +536,126 @@ const ArticulacionSennova = ({
                                     </div>
 
                                     <div className="py-24">
-                                        <div className="grid grid-cols-1">
+                                        <div
+                                            className="grid gr
+i                                                   d-cols-1">
                                             <div>
-                                                <Label required className="mb-4" labelFor="aportacion_semilleros_grupos" value="Comente la articulación y aporte del TecnoParque proyectada para el {convocatoria.year} a los semilleros y grupos de investigación." />
+                                                <Label
+                                                    required
+                                                    className="mb-4"
+                                                    labelFor="aportacion_semilleros_grupos"
+                                                    value="Comente la articulación y aporte del TecnoParque proyectada para el {convocatoria.year} a los semilleros y grupos de investigación."
+                                                />
                                             </div>
+
                                             <div>
-                                                <Textarea id="aportacion_semilleros_grupos" error={form.errors.aportacion_semilleros_grupos} value={form.data.aportacion_semilleros_grupos} onChange={(e) => form.setData('aportacion_semilleros_grupos', e.target.value)} required />
+                                                <Textarea
+                                                    id="aportacion_semilleros_grupos"
+                                                    error={form.errors.aportacion_semilleros_grupos}
+                                                    value={form.data.aportacion_semilleros_grupos}
+                                                    onChange={(e) => form.setData('aportacion_semilleros_grupos', e.target.value)}
+                                                    required
+                                                />
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="py-24">
-                                        <div className="grid grid-cols-1">
+                                        <div
+                                            className="grid gr
+                                                   id-cols-1">
                                             <div>
-                                                <Label required className="mb-4" labelFor="proyeccion_con_st" value="¿Cómo proyecta la articulación en el {convocatoria.year}, el Tecnoparque con la línea de Servicios Tecnológicos?" />
+                                                <Label
+                                                    required
+                                                    className="mb-4"
+                                                    labelFor="proyeccion_con_st"
+                                                    value="¿Cómo proyecta la articulación en el {convocatoria.year}, el Tecnoparque con la línea de Servicios Tecnológicos?"
+                                                />
                                             </div>
+
                                             <div>
-                                                <Textarea id="proyeccion_con_st" error={form.errors.proyeccion_con_st} value={form.data.proyeccion_con_st} onChange={(e) => form.setData('proyeccion_con_st', e.target.value)} required />
+                                                <Textarea
+                                                    id="proyeccion_con_st"
+                                                    error={form.errors.proyeccion_con_st}
+                                                    value={form.data.proyeccion_con_st}
+                                                    onChange={(e) => form.setData('proyeccion_con_st', e.target.value)}
+                                                    required
+                                                />
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="py-24">
-                                        <div className="grid grid-cols-1">
+                                        <div
+                                            className="grid gr
+                                                   id-cols-1">
                                             <div>
-                                                <Label required className="mb-4" labelFor="proyeccion_extensionismo_tecnologico" value="¿Cómo proyecta la articulación en el {convocatoria.year}, el Tecnoparque con la línea de Extensionismo Tecnológico?" />
+                                                <Label
+                                                    required
+                                                    className="mb-4"
+                                                    labelFor="proyeccion_extensionismo_tecnologico"
+                                                    value="¿Cómo proyecta la articulación en el {convocatoria.year}, el Tecnoparque con la línea de Extensionismo Tecnológico?"
+                                                />
                                             </div>
+
                                             <div>
-                                                <Textarea id="proyeccion_extensionismo_tecnologico" error={form.errors.proyeccion_extensionismo_tecnologico} value={form.data.proyeccion_extensionismo_tecnologico} onChange={(e) => form.setData('proyeccion_extensionismo_tecnologico', e.target.value)} required />
+                                                <Textarea
+                                                    id="proyeccion_extensionismo_tecnologico"
+                                                    error={form.errors.proyeccion_extensionismo_tecnologico}
+                                                    value={form.data.proyeccion_extensionismo_tecnologico}
+                                                    onChange={(e) => form.setData('proyeccion_extensionismo_tecnologico', e.target.value)}
+                                                    required
+                                                />
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="py-24">
-                                        <div className="grid grid-cols-1">
+                                        <div
+                                            className="grid gr
+                                             i      d-cols-1">
                                             <div>
-                                                <Label required className="mb-4" labelFor="proyeccion_centros_desarrollo" value="¿Cómo proyecta la articulación en el {convocatoria.year}, el Tecnoparque con los centros de desarrollo empresarial de la Regional?" />
+                                                <Label
+                                                    required
+                                                    className="mb-4"
+                                                    labelFor="proyeccion_centros_desarrollo"
+                                                    value="¿Cómo proyecta la articulación en el {convocatoria.year}, el Tecnoparque con los centros de desarrollo empresarial de la Regional?"
+                                                />
                                             </div>
+
                                             <div>
-                                                <Textarea id="proyeccion_centros_desarrollo" error={form.errors.proyeccion_centros_desarrollo} value={form.data.proyeccion_centros_desarrollo} onChange={(e) => form.setData('proyeccion_centros_desarrollo', e.target.value)} required />
+                                                <Textarea
+                                                    id="proyeccion_centros_desarrollo"
+                                                    error={form.errors.proyeccion_centros_desarrollo}
+                                                    value={form.data.proyeccion_centros_desarrollo}
+                                                    onChange={(e) => form.setData('proyeccion_centros_desarrollo', e.target.value)}
+                                                    required
+                                                />
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="py-24">
-                                        <div className="grid grid-cols-1">
+                                        <div
+                                            className="grid gr
+                     i                              d-cols-1">
                                             <div>
-                                                <Label required className="mb-4" labelFor="proyeccion_formacion_regional" value="¿Cómo proyecta en el {convocatoria.year}, el Tecnoparque contribuir a la formación en la Regional o en el SENA?" />
+                                                <Label
+                                                    required
+                                                    className="mb-4"
+                                                    labelFor="proyeccion_formacion_regional"
+                                                    value="¿Cómo proyecta en el {convocatoria.year}, el Tecnoparque contribuir a la formación en la Regional o en el SENA?"
+                                                />
                                             </div>
+
                                             <div>
-                                                <Textarea id="proyeccion_formacion_regional" error={form.errors.proyeccion_formacion_regional} value={form.data.proyeccion_formacion_regional} onChange={(e) => form.setData('proyeccion_formacion_regional', e.target.value)} required />
+                                                <Textarea
+                                                    id="proyeccion_formacion_regional"
+                                                    error={form.errors.proyeccion_formacion_regional}
+                                                    value={form.data.proyeccion_formacion_regional}
+                                                    onChange={(e) => form.setData('proyeccion_formacion_regional', e.target.value)}
+                                                    required
+                                                />
                                             </div>
                                         </div>
                                     </div>

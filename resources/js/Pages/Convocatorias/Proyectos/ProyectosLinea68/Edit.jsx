@@ -34,7 +34,7 @@ const Edit = ({
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyectoLinea68.titulo}</h2>}>
             <Grid item md={12} className="!mb-20">
-                <StepperMui />
+                <StepperMui convocatoria={convocatoria} proyecto={proyectoLinea68?.proyecto} />
             </Grid>
 
             <Grid item md={4}>
