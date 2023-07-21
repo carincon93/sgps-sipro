@@ -59,7 +59,6 @@ class ProyectoLinea69Controller extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea69/Create', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_69', 'max_fecha_finalizacion_proyectos_linea_69', 'fecha_maxima_tp'),
-            'rolesTp'               => collect(json_decode(Storage::get('json/roles-sennova-tp.json'), true)),
             'nodosTecnoParque'      => $nodosTecnoParque,
             'rolesSennova'          => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowedToCreate'       => Gate::inspect('formular-proyecto', [4, $convocatoria])->allowed()

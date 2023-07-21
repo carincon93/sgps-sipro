@@ -103,9 +103,10 @@ const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea
 
                     {method == 'crear' && (
                         <>
-                            <div className="py-24">
+                            <Grid item md={12}>
                                 <p className="text-center mt-36 mb-8">Información de mi participación en el proyecto</p>
-                            </div>
+                            </Grid>
+
                             <Grid item md={6}>
                                 <Label required labelFor="rol_sennova" className="mb-4" value="Rol SENNOVA" />
                             </Grid>

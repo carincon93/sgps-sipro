@@ -44,20 +44,14 @@ const Index = ({ auth, convocatoria, idi, allowedToCreate }) => {
             </Grid>
 
             <Grid item md={12}>
-                <TableMui className="mt-20" rows={['Título', 'Fecha de ejecución', 'Estado (Evaluación)', 'Acciones']}>
+                <TableMui className="mt-20" rows={['Título', 'Fecha de ejecución', 'Estado (Evaluación)', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {idi.data.map(({ id, proyecto, titulo, fecha_ejecucion }) => (
                         <TableRow key={id}>
                             <TableCell>
                                 <div>
                                     <Chip className="mb-4" label={proyecto?.codigo} />
-
-                                    {JSON.parse(proyecto.estado_cord_sennova)?.requiereSubsanar && proyecto.mostrar_recomendaciones == true && proyecto.mostrar_requiere_subsanacion == true ? (
-                                        <AlertMui hiddenIcon={true}>Requiere ser subsanado</AlertMui>
-                                    ) : (
-                                        JSON.parse(proyecto.estado)?.requiereSubsanar && proyecto.mostrar_recomendaciones == true && proyecto.mostrar_requiere_subsanacion == true && <AlertMui hiddenIcon={true}>Requiere ser subsanado</AlertMui>
-                                    )}
+                                    <p className="first-letter:uppercase mb-4">{titulo}</p>
                                 </div>
-                                <p>{titulo}</p>
                             </TableCell>
                             <TableCell>
                                 <p>{fecha_ejecucion}</p>
@@ -69,15 +63,32 @@ const Index = ({ auth, convocatoria, idi, allowedToCreate }) => {
                                 (checkRole(authUser, [4, 6]) && proyecto?.mostrar_recomendaciones && convocatoria.tipo_convocatoria == 3) ||
                                 (convocatoria.fase == 5 && proyecto?.mostrar_recomendaciones && convocatoria.tipo_convocatoria == 1) ||
                                 (convocatoria.fase == 5 && proyecto?.mostrar_recomendaciones && convocatoria.tipo_convocatoria == 3) ? (
-                                    <AlertMui hiddenIcon={true}>
-                                        {proyecto?.estado_evaluacion_idi?.estado}
-                                        <div>Puntaje: {proyecto?.estado_evaluacion_idi?.puntaje}</div>
-                                        <small>
-                                            Número de recomendaciones: {proyecto?.estado_evaluacion_idi?.numeroRecomendaciones}
-                                            <br />
-                                            Evaluaciones: {proyecto?.estado_evaluacion_idi?.evaluacionesHabilitadas} habilitada(s) / {proyecto?.estado_evaluacion_idi?.evaluacionesFinalizadas} finalizada(s)
-                                        </small>
-                                    </AlertMui>
+                                    <>
+                                        <AlertMui hiddenIcon={true}>
+                                            {proyecto?.estado_evaluacion_idi?.estado}
+                                            <div>Puntaje: {proyecto?.estado_evaluacion_idi?.puntaje}</div>
+                                            <small>
+                                                Número de recomendaciones: {proyecto?.estado_evaluacion_idi?.numeroRecomendaciones}
+                                                <br />
+                                                Evaluaciones: {proyecto?.estado_evaluacion_idi?.evaluacionesHabilitadas} habilitada(s) / {proyecto?.estado_evaluacion_idi?.evaluacionesFinalizadas}{' '}
+                                                finalizada(s)
+                                            </small>
+                                        </AlertMui>
+
+                                        {JSON.parse(proyecto.estado_cord_sennova)?.requiereSubsanar && proyecto.mostrar_recomendaciones == true && proyecto.mostrar_requiere_subsanacion == true ? (
+                                            <AlertMui hiddenIcon={true} error={true} className="mt-2">
+                                                Requiere ser subsanado
+                                            </AlertMui>
+                                        ) : (
+                                            JSON.parse(proyecto.estado)?.requiereSubsanar &&
+                                            proyecto.mostrar_recomendaciones == true &&
+                                            proyecto.mostrar_requiere_subsanacion == true && (
+                                                <AlertMui hiddenIcon={true} error={true} className="mt-2">
+                                                    Requiere ser subsanado
+                                                </AlertMui>
+                                            )
+                                        )}
+                                    </>
                                 ) : (
                                     <AlertMui hiddenIcon={true}>Aún no tiene permisos para ver el estado de evaluación de este proyecto.</AlertMui>
                                 )}
@@ -97,14 +108,16 @@ const Index = ({ auth, convocatoria, idi, allowedToCreate }) => {
                                 <MenuMui text={<MoreVertIcon />}>
                                     {proyecto.id !== proyectoLinea66ToDestroy ? (
                                         <div>
-                                            <MenuItem onClick={() => router.visit(route('convocatorias.idi.edit', [convocatoria.id, id]))} disabled={!proyecto?.allowed?.to_view} className={!proyecto?.allowed?.to_view ? 'hidden' : ''}>
+                                            <MenuItem
+                                                onClick={() => router.visit(route('convocatorias.idi.edit', [convocatoria.id, id]))}
+                                                disabled={!proyecto?.allowed?.to_view}
+                                                className={!proyecto?.allowed?.to_view ? 'hidden' : ''}>
                                                 Editar
                                             </MenuItem>
                                             <MenuItem
                                                 onClick={() => {
                                                     setProyectoLinea66ToDestroy(proyecto.id)
-                                                }}
-                                            >
+                                                }}>
                                                 Eliminar
                                             </MenuItem>
                                         </div>
@@ -113,8 +126,7 @@ const Index = ({ auth, convocatoria, idi, allowedToCreate }) => {
                                             <MenuItem
                                                 onClick={(e) => {
                                                     setProyectoLinea66ToDestroy(null)
-                                                }}
-                                            >
+                                                }}>
                                                 Cancelar
                                             </MenuItem>
                                             <MenuItem
@@ -126,8 +138,7 @@ const Index = ({ auth, convocatoria, idi, allowedToCreate }) => {
                                                             preserveScroll: true,
                                                         })
                                                     }
-                                                }}
-                                            >
+                                                }}>
                                                 Confirmar
                                             </MenuItem>
                                         </div>

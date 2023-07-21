@@ -42,11 +42,15 @@ const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea
 
     const submit = (e) => {
         e.preventDefault()
-        if (proyectoLinea69?.proyecto.allowed.to_update) {
-            form.post(route('convocatorias.tp.update', [convocatoria.id, proyectoLinea69.id]), {
-                preserveScroll: true,
-            })
-        }
+        method == 'crear'
+            ? form.post(route('convocatorias.tp.store', [convocatoria.id]), {
+                  preserveScroll: true,
+              })
+            : proyectoLinea69.proyecto.allowed.to_update
+            ? form.post(route('convocatorias.tp.update', [convocatoria.id, proyectoLinea69.id]), {
+                  preserveScroll: true,
+              })
+            : null
     }
 
     useEffect(() => {
@@ -102,6 +106,7 @@ const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea
                     <Grid item md={6}>
                         <div className="capitalize">{proyectoLinea69?.titulo}</div>
                     </Grid> */}
+
                     <Grid item md={6}>
                         <Label required labelFor="fecha_inicio" error={form.errors.fecha_inicio} value="Fecha de inicio" />
                     </Grid>
@@ -130,11 +135,12 @@ const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea
                             required
                         />
                     </Grid>
+
                     {method == 'crear' && (
                         <>
-                            <div className="py-24">
+                            <Grid item md={12}>
                                 <p className="text-center mt-36 mb-8">Información de mi participación en el proyecto</p>
-                            </div>
+                            </Grid>
 
                             <Grid item md={6}>
                                 <Label required labelFor="rol_sennova" value="Rol SENNOVA" />

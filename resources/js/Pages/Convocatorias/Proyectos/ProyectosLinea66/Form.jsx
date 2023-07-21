@@ -143,7 +143,7 @@ const Form = ({
             ? form.post(route('convocatorias.idi.store', [convocatoria.id]), {
                   preserveScroll: true,
               })
-            : idi.proyecto.allowed.to_update
+            : proyectoLinea66.proyecto.allowed.to_update
             ? form.put(route('convocatorias.idi.update', [convocatoria.id, idi.id]), {
                   preserveScroll: true,
               })
@@ -401,9 +401,9 @@ const Form = ({
 
                     {method == 'crear' && (
                         <>
-                            <div className="py-24">
+                            <Grid item md={12}>
                                 <p className="text-center mt-36 mb-8">Información de mi participación en el proyecto</p>
-                            </div>
+                            </Grid>
 
                             <Grid item md={6}>
                                 <Label required labelFor="rol_sennova" className="mb-4" value="Rol SENNOVA" />
@@ -1241,6 +1241,7 @@ const Form = ({
                     )}
                 </Grid>
             </fieldset>
+
             {form.isDirty && <div>There are unsaved form changes.</div>}
 
             {method == 'crear' || proyectoLinea66.proyecto?.allowed?.to_update ? (

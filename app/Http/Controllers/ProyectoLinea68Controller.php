@@ -55,7 +55,6 @@ class ProyectoLinea68Controller extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea68/Create', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_68', 'max_fecha_finalizacion_proyectos_linea_68', 'fecha_maxima_st'),
-            'roles'                     => collect(json_decode(Storage::get('json/roles-sennova-st.json'), true)),
             'sectoresProductivos'       => collect(json_decode(Storage::get('json/sectores-productivos.json'), true)),
             'tiposProyectoSt'           => $tipoProyectoSt,
             'estadosSistemaGestion'     => SelectHelper::estadosSistemaGestion(),

@@ -36,20 +36,16 @@ const Index = ({ auth, convocatoria, proyectosTp, allowedToCreate }) => {
             </Grid>
 
             <Grid item md={12}>
-                <TableMui className="mt-20" rows={['Nodo Tecnoparque', 'Fecha de ejecución', 'Estado (Evaluación)', 'Acciones']}>
+                <TableMui className="mt-20" rows={['Nodo Tecnoparque', 'Fecha de ejecución', 'Estado (Evaluación)', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {proyectosTp.data.map(({ id, proyecto, titulo, fecha_ejecucion }) => (
                         <TableRow key={id}>
                             <TableCell>
                                 <div>
-                                    <Chip className="mb-4" label={proyecto?.codigo} />
+                                    <Chip label={proyecto?.codigo} />
+
+                                    <p className="first-letter:uppercase my-4">{titulo}</p>
 
                                     {proyecto.proyecto_base && <small className="bg-red-100 inline-block mt-2 p-2 rounded text-red-400"> Proyecto base (Solo pueden acceder administradores) </small>}
-
-                                    {JSON.parse(proyecto.estado_cord_sennova)?.requiereSubsanar && proyecto.mostrar_recomendaciones == true && proyecto.mostrar_requiere_subsanacion == true ? (
-                                        <AlertMui hiddenIcon={true}>Requiere ser subsanado</AlertMui>
-                                    ) : (
-                                        JSON.parse(proyecto.estado)?.requiereSubsanar && proyecto.mostrar_recomendaciones == true && proyecto.mostrar_requiere_subsanacion == true && <AlertMui hiddenIcon={true}>Requiere ser subsanado</AlertMui>
-                                    )}
                                 </div>
                                 <p>{titulo}</p>
                             </TableCell>
@@ -57,15 +53,35 @@ const Index = ({ auth, convocatoria, proyectosTp, allowedToCreate }) => {
                                 <p>{fecha_ejecucion}</p>
                             </TableCell>
                             <TableCell>
-                                {isSuperAdmin || checkRole(authUser, [17]) || (checkRole(authUser, [4, 24, 16]) && proyecto?.mostrar_recomendaciones) || (checkRole(authUser, [4, 24, 16]) && proyecto?.mostrar_recomendaciones) || (convocatoria.fase == 5 && proyecto?.mostrar_recomendaciones) ? (
-                                    <AlertMui hiddenIcon={true}>
-                                        {proyecto?.estado_evaluacion_tp?.estado}
-                                        <small>
-                                            Número de recomendaciones: {proyecto?.estado_evaluacion_tp?.numeroRecomendaciones}
-                                            <br />
-                                            Evaluaciones: {proyecto?.estado_evaluacion_tp?.evaluacionesHabilitadas} habilitada(s) / {proyecto?.estado_evaluacion_tp?.evaluacionesFinalizadas} finalizada(s)
-                                        </small>
-                                    </AlertMui>
+                                {isSuperAdmin ||
+                                checkRole(authUser, [17]) ||
+                                (checkRole(authUser, [4, 24, 16]) && proyecto?.mostrar_recomendaciones) ||
+                                (checkRole(authUser, [4, 24, 16]) && proyecto?.mostrar_recomendaciones) ||
+                                (convocatoria.fase == 5 && proyecto?.mostrar_recomendaciones) ? (
+                                    <>
+                                        <AlertMui hiddenIcon={true}>
+                                            {proyecto?.estado_evaluacion_tp?.estado}
+                                            <small>
+                                                Número de recomendaciones: {proyecto?.estado_evaluacion_tp?.numeroRecomendaciones}
+                                                <br />
+                                                Evaluaciones: {proyecto?.estado_evaluacion_tp?.evaluacionesHabilitadas} habilitada(s) / {proyecto?.estado_evaluacion_tp?.evaluacionesFinalizadas}{' '}
+                                                finalizada(s)
+                                            </small>
+                                        </AlertMui>
+                                        {JSON.parse(proyecto.estado_cord_sennova)?.requiereSubsanar && proyecto.mostrar_recomendaciones == true && proyecto.mostrar_requiere_subsanacion == true ? (
+                                            <AlertMui hiddenIcon={true} error={true} className="mt-2">
+                                                Requiere ser subsanado
+                                            </AlertMui>
+                                        ) : (
+                                            JSON.parse(proyecto.estado)?.requiereSubsanar &&
+                                            proyecto.mostrar_recomendaciones == true &&
+                                            proyecto.mostrar_requiere_subsanacion == true && (
+                                                <AlertMui hiddenIcon={true} error={true} className="mt-2">
+                                                    Requiere ser subsanado
+                                                </AlertMui>
+                                            )
+                                        )}
+                                    </>
                                 ) : (
                                     <AlertMui hiddenIcon={true}>Aún no tiene permisos para ver el estado de evaluación de este proyecto.</AlertMui>
                                 )}
@@ -85,14 +101,16 @@ const Index = ({ auth, convocatoria, proyectosTp, allowedToCreate }) => {
                                 <MenuMui text={<MoreVertIcon />}>
                                     {proyecto.id !== proyectoLinea69ToDestroy ? (
                                         <div>
-                                            <MenuItem onClick={() => router.visit(route('convocatorias.tp.edit', [convocatoria.id, id]))} disabled={!proyecto?.allowed?.to_view} className={!proyecto?.allowed?.to_view ? 'hidden' : ''}>
+                                            <MenuItem
+                                                onClick={() => router.visit(route('convocatorias.tp.edit', [convocatoria.id, id]))}
+                                                disabled={!proyecto?.allowed?.to_view}
+                                                className={!proyecto?.allowed?.to_view ? 'hidden' : ''}>
                                                 Editar
                                             </MenuItem>
                                             <MenuItem
                                                 onClick={() => {
                                                     setProyectoLinea69ToDestroy(proyecto.id)
-                                                }}
-                                            >
+                                                }}>
                                                 Eliminar
                                             </MenuItem>
                                         </div>
@@ -101,8 +119,7 @@ const Index = ({ auth, convocatoria, proyectosTp, allowedToCreate }) => {
                                             <MenuItem
                                                 onClick={(e) => {
                                                     setProyectoLinea69ToDestroy(null)
-                                                }}
-                                            >
+                                                }}>
                                                 Cancelar
                                             </MenuItem>
                                             <MenuItem
@@ -114,8 +131,7 @@ const Index = ({ auth, convocatoria, proyectosTp, allowedToCreate }) => {
                                                             preserveScroll: true,
                                                         })
                                                     }
-                                                }}
-                                            >
+                                                }}>
                                                 Confirmar
                                             </MenuItem>
                                         </div>
