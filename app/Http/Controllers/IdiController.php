@@ -208,7 +208,7 @@ class IdiController extends Controller
             'gruposInvestigacion'                       => SelectHelper::gruposInvestigacion()->where('value', 126)->values()->all(),
             'areasTematicasEni'                         => SelectHelper::areasTematicasEni(),
             'lineasInvestigacionEni'                    => SelectHelper::lineasInvestigacion()->where('grupo_investigacion_id', 126)->values()->all(),
-            'programasFormacionConRegistroCalificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $idi->proyecto->centro_formacion_id)->values()->all(),
+            'programasFormacionConRegistroCalificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->values()->all(),
             'programasFormacionSinRegistroCalificado'   => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),
             'opcionesIDiDropdown'                       => json_decode(Storage::get('json/opciones-aplica-no-aplica.json'), true),
             'proyectoMunicipios'                        => $idi->proyecto->municipios()->select('municipios.id as value', 'municipios.nombre as label', 'regionales.nombre as group')->join('regionales', 'regionales.id', 'municipios.regional_id')->get(),
