@@ -898,7 +898,7 @@
             <Label required disabled={evaluacion ? 'disabled' : undefined} class="mb-4" labelFor="numero_aprendices" value="Número de los aprendices que se beneficiarán en la ejecución del proyecto" />
         </div>
         <div>
-            <Input label="Número de aprendices" id="numero_aprendices" type="number" input$min="0" input$max="9999" class="mt-1" error={errors.numero_aprendices} placeholder="Escriba el número de aprendices que se beneficiarán en la ejecución del proyecto" bind:value={$form.numero_aprendices} required disabled={evaluacion ? 'disabled' : undefined} />
+            <Input label="Número de aprendices" id="numero_aprendices" type="number" input$min="0" input$max="100000" class="mt-1" error={errors.numero_aprendices} placeholder="Escriba el número de aprendices que se beneficiarán en la ejecución del proyecto" bind:value={$form.numero_aprendices} required disabled={evaluacion ? 'disabled' : undefined} />
         </div>
     </div>
 </div>
