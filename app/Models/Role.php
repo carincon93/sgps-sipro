@@ -88,7 +88,7 @@ class Role extends SpatieRole
         /** @var \App\Models\User */
         $authUser = Auth::user();
 
-        if ($authUser->hasRole(4)) {
+        if ($authUser->hasRole(4) && !$authUser->hasRole(1)) {
             $roles = Role::select('id', 'name')->where('name', 'ilike', '%proponente%')->orderBy('name')->get('id');
         } else {
             $roles = Role::select('id', 'name')->orderBy('name')->get('id');

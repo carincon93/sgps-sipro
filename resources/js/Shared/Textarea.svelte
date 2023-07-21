@@ -25,6 +25,10 @@
         fitTextarea.watch(container.querySelector('textarea'))
         container.querySelector('textarea').setAttribute('id', id)
     })
+
+    if (!value) {
+        value = ''
+    }
 </script>
 
 <div bind:this={container}>

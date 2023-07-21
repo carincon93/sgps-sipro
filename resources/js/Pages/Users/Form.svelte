@@ -97,7 +97,14 @@
                 </div>
                 <div class="grid grid-cols-2">
                     {#each roles as { id, name }, i}
-                        {#if checkRole(authUser, [4, 21, 17, 18, 20, 19, 5])}
+                        {#if isSuperAdmin}
+                            <div class="pt-8 pb-8 border-t">
+                                <FormField>
+                                    <Checkbox bind:group={$form.role_id} value={id} />
+                                    <span slot="label">{name}</span>
+                                </FormField>
+                            </div>
+                        {:else if checkRole(authUser, [4, 21, 17, 18, 20, 19, 5])}
                             {#if name == 'proponente cultura de la innovación' || name == 'proponente i+d+i' || name == 'proponente servicios tecnológicos' || name == 'proponente tecnoacademia' || name == 'proponente tecnoparque' || name == 'Líder de semilleros' || name == 'Facilitador TecnoAcademia' || name == 'Dinamizador Tecnoparque'}
                                 <div class="pt-8 pb-8 border-t">
                                     <FormField>
@@ -106,13 +113,6 @@
                                     </FormField>
                                 </div>
                             {/if}
-                        {:else if isSuperAdmin}
-                            <div class="pt-8 pb-8 border-t">
-                                <FormField>
-                                    <Checkbox bind:group={$form.role_id} value={id} />
-                                    <span slot="label">{name}</span>
-                                </FormField>
-                            </div>
                         {/if}
                     {/each}
                 </div>

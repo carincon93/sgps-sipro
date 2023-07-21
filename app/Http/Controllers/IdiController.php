@@ -9,6 +9,7 @@ use App\Models\Convocatoria;
 use App\Models\MesaSectorial;
 use App\Http\Requests\IdiRequest;
 use App\Http\Requests\IdiLongColumnRequest;
+use App\Models\RolSennova;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -53,7 +54,7 @@ class IdiController extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/Idi/Create', [
             'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_idi', 'max_fecha_finalizacion_proyectos_idi', 'fecha_maxima_idi', 'campos_convocatoria'),
-            'roles'                             => collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true)),
+            'roles'                             => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'centrosFormacion'                  => $centrosFormacion,
             'areasConocimiento'                 => SelectHelper::areasConocimiento(),
             'subareasConocimiento'              => SelectHelper::subareasConocimiento(),
