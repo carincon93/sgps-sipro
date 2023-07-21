@@ -144,7 +144,7 @@ const Form = ({
                   preserveScroll: true,
               })
             : proyectoLinea66.proyecto.allowed.to_update
-            ? form.put(route('convocatorias.idi.update', [convocatoria.id, idi.id]), {
+            ? form.put(route('convocatorias.idi.update', [convocatoria.id, proyectoLinea66.id]), {
                   preserveScroll: true,
               })
             : null

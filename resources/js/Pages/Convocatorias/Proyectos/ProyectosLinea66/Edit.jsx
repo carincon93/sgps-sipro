@@ -47,7 +47,8 @@ const Edit = ({
     const [evaluacionIndex, setEvaluacionIndex] = useState(0)
     const [dialogStatus, setDialogStatus] = useState(false)
 
-    const comentariosEvaluaciones = Object.keys(proyectoLinea66?.proyecto.evaluaciones[evaluacionIndex].idi_evaluacion).filter((field) => field.endsWith('_comentario'))
+    const comentariosEvaluaciones =
+        proyectoLinea66?.proyecto.evaluaciones.length > 0 ? Object.keys(proyectoLinea66?.proyecto.evaluaciones[evaluacionIndex].idi_evaluacion).filter((field) => field.endsWith('_comentario')) : null
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyectoLinea66.titulo}</h2>}>
@@ -60,40 +61,44 @@ const Edit = ({
             </Grid>
 
             <Grid item md={8}>
-                <ButtonMui onClick={() => setDialogStatus(true)} primary={true}>
-                    Revisar evaluaciones
-                </ButtonMui>
-                <DialogMui
-                    fullWidth={true}
-                    maxWidth="lg"
-                    open={dialogStatus}
-                    dialogContent={
-                        <>
-                            {proyectoLinea66?.proyecto.evaluaciones.map((evaluacion, i) => (
-                                <ButtonMui onClick={() => setEvaluacionIndex(i)} primary={evaluacionIndex == i} key={i} className="!ml-2">
-                                    Ver comentarios de la evaluación #{i + 1}
-                                </ButtonMui>
-                            ))}
-                            <TableMui className="mt-20" rows={['Ítem', 'Comentario']}>
-                                {comentariosEvaluaciones
-                                    .sort((a, b) => a.toString().localeCompare(b.toString()))
-                                    .map((field, i) => (
-                                        <TableRow key={i}>
-                                            <TableCell>
-                                                <p className="first-letter:uppercase">{field.replace(/_comentario/g, '').replace(/_/g, ' ')}</p>
-                                            </TableCell>
-                                            <TableCell>{proyectoLinea66?.proyecto.evaluaciones[evaluacionIndex].idi_evaluacion[field] ?? 'Sin comentarios'}</TableCell>
-                                        </TableRow>
-                                    ))}
-                            </TableMui>
-                        </>
-                    }
-                    dialogActions={
-                        <ButtonMui onClick={() => setDialogStatus(false)} primary={true} className="!mr-6">
-                            Cerrar
+                {comentariosEvaluaciones && (
+                    <>
+                        <ButtonMui onClick={() => setDialogStatus(true)} primary={true}>
+                            Revisar evaluaciones
                         </ButtonMui>
-                    }
-                />
+                        <DialogMui
+                            fullWidth={true}
+                            maxWidth="lg"
+                            open={dialogStatus}
+                            dialogContent={
+                                <>
+                                    {proyectoLinea66?.proyecto.evaluaciones.map((evaluacion, i) => (
+                                        <ButtonMui onClick={() => setEvaluacionIndex(i)} primary={evaluacionIndex == i} key={i} className="!ml-2">
+                                            Ver comentarios de la evaluación #{i + 1}
+                                        </ButtonMui>
+                                    ))}
+                                    <TableMui className="mt-20" rows={['Ítem', 'Comentario']}>
+                                        {comentariosEvaluaciones
+                                            .sort((a, b) => a.toString().localeCompare(b.toString()))
+                                            .map((field, i) => (
+                                                <TableRow key={i}>
+                                                    <TableCell>
+                                                        <p className="first-letter:uppercase">{field.replace(/_comentario/g, '').replace(/_/g, ' ')}</p>
+                                                    </TableCell>
+                                                    <TableCell>{proyectoLinea66?.proyecto.evaluaciones[evaluacionIndex]?.idi_evaluacion[field] ?? 'Sin comentarios'}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                    </TableMui>
+                                </>
+                            }
+                            dialogActions={
+                                <ButtonMui onClick={() => setDialogStatus(false)} primary={true} className="!mr-6">
+                                    Cerrar
+                                </ButtonMui>
+                            }
+                        />
+                    </>
+                )}
             </Grid>
             <Grid item md={12}>
                 <Form
