@@ -27,7 +27,7 @@ export default function ToolTipMui({ title = {}, children, className = '', ...pr
 
     return (
         <Tooltip title={title} arrow className={`inline-block ` + className} classes={{ popper: classes.popper }} {...props}>
-            <Typography className="whitespace-pre-line">{children}</Typography>
+            <div className="whitespace-pre-line">{children}</div>
         </Tooltip>
     )
 }

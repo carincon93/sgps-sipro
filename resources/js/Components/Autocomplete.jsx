@@ -13,10 +13,21 @@ const useStyles = makeStyles((theme) => ({
             whiteSpace: 'pre-line',
         },
     },
+    root: {
+        '& .MuiFormLabel-root': {
+            background: '#ffffff',
+            padding: '0 5px',
+            borderRadius: '8px',
+            left: '-4px',
+        },
+    },
+    inputRoot: {
+        background: (props) => props.background,
+    },
 }))
 
-export default function Autocomplete({ id = '', label = '', className = '', error = '', options = [], isGroupable = false, selectedValue, ...props }) {
-    const classes = useStyles()
+export default function Autocomplete({ id = '', label = '', className = '', error = '', options = [], isGroupable = false, selectedValue, inputBackground, ...props }) {
+    const classes = useStyles({ background: inputBackground })
 
     const [selectedOption, setSelectedOption] = useState(null)
     const [optionsFiltered, setOptions] = useState([])
@@ -48,7 +59,7 @@ export default function Autocomplete({ id = '', label = '', className = '', erro
             <AutocompleteMui
                 disablePortal
                 className={className}
-                classes={{ popper: classes.popper }}
+                classes={{ popper: classes.popper, root: inputBackground ? classes.root : '', inputRoot: classes.inputRoot }}
                 id={id}
                 value={selectedOption}
                 options={isGroupable ? optionsFiltered.sort((a, b) => a.group.toString().localeCompare(b.group.toString())) : optionsFiltered}

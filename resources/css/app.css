@@ -160,7 +160,7 @@ select {
 form.form-arbol-objetivos:before {
     content: '';
     position: absolute;
-    width: 102.3%;
+    width: 104.3%;
     height: 102%;
     background: rgb(234 234 234 / 66%);
     left: -8px;

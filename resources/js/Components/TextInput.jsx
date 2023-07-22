@@ -1,13 +1,27 @@
 import { FormHelperText, TextField } from '@mui/material'
 import { makeStyles } from '@mui/styles'
+
 import { forwardRef } from 'react'
 
 const useStyles = makeStyles({
-    textField: {
-        background: (props) => props.background,
+    root: {
+        '& .MuiFormLabel-root': {
+            background: '#ffffff',
+            padding: '0 5px',
+            borderRadius: '8px',
+            left: '-4px',
+        },
+
+        '& .MuiInputBase-root': {
+            background: (props) => props.background,
+            borderRadius: '4px',
+        },
     },
 })
-export default forwardRef(function TextInput({ type = 'text', id = '', label = '', error = '', value = '', variant = 'outlined', className = '', inputBackground = '', isFocused = false, ...props }, ref) {
+export default forwardRef(function TextInput(
+    { type = 'text', id = '', label = '', error = '', value = '', variant = 'outlined', className = '', inputBackground = '', isFocused = false, ...props },
+    ref,
+) {
     const classes = useStyles({ background: inputBackground })
 
     if (value === null) {
@@ -23,7 +37,7 @@ export default forwardRef(function TextInput({ type = 'text', id = '', label = '
                 variant={variant}
                 error={error ? true : false}
                 classes={{
-                    root: classes.textField,
+                    root: inputBackground ? classes.root : '',
                 }}
                 className={'w-full ' + className}
                 {...props}
