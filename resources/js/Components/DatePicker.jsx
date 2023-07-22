@@ -5,7 +5,24 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { useEffect, useRef, useState } from 'react'
 import { FormHelperText } from '@mui/material'
 
-const DatePicker = ({ id, name, size = 'small', label = '', value = null, onChange, error = '', required, disabled, ...props }) => {
+import { makeStyles } from '@mui/styles'
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& .MuiOutlinedInput-root': {
+            background: (props) => props.background,
+            padding: '0 5px',
+            borderRadius: '8px',
+            left: '-4px',
+        },
+    },
+    inputRoot: {
+        background: (props) => props.background,
+    },
+}))
+
+const DatePicker = ({ id, name, size = 'small', label = '', value = null, onChange, error = '', inputBackground, required, disabled, ...props }) => {
+    const classes = useStyles({ background: inputBackground })
+
     const inputRef = useRef(null)
     const [newValue, setNewValue] = useState(null)
 
@@ -36,6 +53,7 @@ const DatePicker = ({ id, name, size = 'small', label = '', value = null, onChan
                             size: size,
                             inputRef: inputRef,
                             required: required ? true : undefined,
+                            classes: { root: inputBackground ? classes.root : '' },
                         },
                     }}
                     value={newValue}

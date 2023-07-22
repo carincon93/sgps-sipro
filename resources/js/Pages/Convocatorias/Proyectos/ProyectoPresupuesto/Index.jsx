@@ -77,7 +77,7 @@ const RubrosPresupuestales = ({
                                 <div className="flex flex-col focus:text-app-500 px-6 py-4" id={`PRE-${presupuesto.id}`}>
                                     <small>Código: PRE-{presupuesto.id}</small>
                                     <div className="mt-3">
-                                        <p className="paragraph-ellipsis">{presupuesto.descripcion}</p>
+                                        <p className="whitespace-pre-line line-clamp-6">{presupuesto.descripcion}</p>
                                     </div>
 
                                     <div className="mt-3">

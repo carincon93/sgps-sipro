@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
     root: {
         '& .MuiFormLabel-root': {
-            background: '#ffffff',
+            background: (props) => props.background,
             padding: '0 5px',
             borderRadius: '8px',
             left: '-4px',
