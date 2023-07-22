@@ -4,13 +4,28 @@ import ButtonMui from '@/Components/Button'
 import DatePicker from '@/Components/DatePicker'
 import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
+import SelectMultiple from '@/Components/SelectMultiple'
 import TextInput from '@/Components/TextInput'
 import Textarea from '@/Components/Textarea'
+
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 import { useEffect, useState } from 'react'
 
-const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, rubroPresupuestal, tiposLicencia, tiposSoftware, opcionesServiciosEdicion, segundoGrupoPresupuestal, tercerGrupoPresupuestal, usosPresupuestales, conceptosViaticos }) => {
+const Form = ({
+    method = '',
+    setDialogStatus,
+    convocatoria,
+    proyecto,
+    rubroPresupuestal,
+    tiposLicencia,
+    tiposSoftware,
+    opcionesServiciosEdicion,
+    segundoGrupoPresupuestal,
+    tercerGrupoPresupuestal,
+    usosPresupuestales,
+    conceptosViaticos,
+}) => {
     const form = useForm({
         segundo_grupo_presupuestal_id: rubroPresupuestal?.convocatoria_presupuesto?.presupuesto_sennova?.segundo_grupo_presupuestal_id ?? null,
         tercer_grupo_presupuestal_id: rubroPresupuestal?.convocatoria_presupuesto?.presupuesto_sennova?.tercer_grupo_presupuestal_id ?? null,
@@ -49,7 +64,9 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, rubroPresu
         setArrayUsosPresupuestales([])
 
         setTimeout(() => {
-            const filteredUsosPresupuestales = usosPresupuestales.filter((obj) => obj.segundo_grupo_presupuestal_id == form.data.segundo_grupo_presupuestal_id && obj.tercer_grupo_presupuestal_id == form.data.tercer_grupo_presupuestal_id)
+            const filteredUsosPresupuestales = usosPresupuestales.filter(
+                (obj) => obj.segundo_grupo_presupuestal_id == form.data.segundo_grupo_presupuestal_id && obj.tercer_grupo_presupuestal_id == form.data.tercer_grupo_presupuestal_id,
+            )
             setArrayUsosPresupuestales(filteredUsosPresupuestales)
         }, 500)
     }, [form.data.tercer_grupo_presupuestal_id])
@@ -86,20 +103,49 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, rubroPresu
                         <fieldset disabled={proyecto.allowed.to_update ? false : true}>
                             <div className={`${arrayTecerGrupoPresupuestal.length == 0 ? 'mb-[13.8rem]' : 'mb-0'}`}>
                                 <Label required labelFor="segundo_grupo_presupuestal_id" value="Rubro concepto interno SENA" />
-                                <Autocomplete id="segundo_grupo_presupuestal_id" options={segundoGrupoPresupuestal} selectedValue={form.data.segundo_grupo_presupuestal_id} onChange={(e, newValue) => form.setData('segundo_grupo_presupuestal_id', newValue.value)} error={form.errors.segundo_grupo_presupuestal_id} placeholder="Seleccione una opción" required />
+                                <Autocomplete
+                                    id="segundo_grupo_presupuestal_id"
+                                    options={segundoGrupoPresupuestal}
+                                    selectedValue={form.data.segundo_grupo_presupuestal_id}
+                                    onChange={(e, newValue) => form.setData('segundo_grupo_presupuestal_id', newValue.value)}
+                                    error={form.errors.segundo_grupo_presupuestal_id}
+                                    placeholder="Seleccione una opción"
+                                    required
+                                />
                             </div>
 
                             {arrayTecerGrupoPresupuestal.length > 0 && (
                                 <div className={`mt-8 ${arrayUsosPresupuestales.length == 0 ? 'mb-[7rem]' : 'mb-0'}`}>
                                     <Label required labelFor="tercer_grupo_presupuestal_id" value="Rubro concepto ministerio de hacienda" />
-                                    <Autocomplete id="tercer_grupo_presupuestal_id" options={arrayTecerGrupoPresupuestal} selectedValue={form.data.tercer_grupo_presupuestal_id} onChange={(e, newValue) => form.setData('tercer_grupo_presupuestal_id', newValue.value)} error={form.errors.tercer_grupo_presupuestal_id} placeholder="Seleccione una opción" required />
+                                    <Autocomplete
+                                        id="tercer_grupo_presupuestal_id"
+                                        options={arrayTecerGrupoPresupuestal}
+                                        selectedValue={form.data.tercer_grupo_presupuestal_id}
+                                        onChange={(e, newValue) => form.setData('tercer_grupo_presupuestal_id', newValue.value)}
+                                        error={form.errors.tercer_grupo_presupuestal_id}
+                                        placeholder="Seleccione una opción"
+                                        required
+                                    />
                                 </div>
                             )}
 
                             {arrayUsosPresupuestales.length > 0 && (
                                 <div className="mt-8">
-                                    <Label required labelFor="convocatoria_presupuesto_id" value="Uso presupuestal" />
-                                    <Autocomplete id="convocatoria_presupuesto_id" options={arrayUsosPresupuestales} selectedValue={form.data.convocatoria_presupuesto_id} onChange={(e, newValue) => form.setData('convocatoria_presupuesto_id', newValue.value)} error={form.errors.convocatoria_presupuesto_id} placeholder="Seleccione una opción" required />
+                                    <Label required labelFor="convocatoria_presupuesto_id" value="Usos presupuestales" />
+                                    <SelectMultiple
+                                        id="convocatoria_presupuesto_id"
+                                        options={arrayUsosPresupuestales}
+                                        bdValues={form.data.convocatoria_presupuesto_id}
+                                        onChange={(event, newValue) => {
+                                            const selectedValues = newValue.map((option) => option.value)
+                                            form.setData((prevData) => ({
+                                                ...prevData,
+                                                convocatoria_presupuesto_id: selectedValues,
+                                            }))
+                                        }}
+                                        error={form.errors.convocatoria_presupuesto_id}
+                                        required
+                                    />
                                 </div>
                             )}
 
@@ -110,38 +156,95 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, rubroPresu
                                     </AlertMui>
 
                                     <div className="mt-10">
-                                        <TextInput label="Valor total" id="valor_total" type="number" inputProps={{ min: 0 }} className="mt-1" value={form.data.valor_total} onChange={(e) => form.setData('valor_total', e.target.value)} error={form.errors.valor_total} required />
+                                        <TextInput
+                                            label="Valor total"
+                                            id="valor_total"
+                                            type="number"
+                                            inputProps={{ min: 0 }}
+                                            className="mt-1"
+                                            value={form.data.valor_total}
+                                            onChange={(e) => form.setData('valor_total', e.target.value)}
+                                            error={form.errors.valor_total}
+                                            required
+                                        />
                                     </div>
                                 </>
                             )}
 
                             <div className="mt-8">
-                                <Textarea label="Describa los bienes o servicios a adquirir. Sea específico" id="descripcion" error={form.errors.descripcion} value={form.data.descripcion} onChange={(e) => form.setData('descripcion', e.target.value)} required />
+                                <Textarea
+                                    label="Describa los bienes o servicios a adquirir. Sea específico"
+                                    id="descripcion"
+                                    error={form.errors.descripcion}
+                                    value={form.data.descripcion}
+                                    onChange={(e) => form.setData('descripcion', e.target.value)}
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <Textarea label="Justificación de la necesidad: ¿por qué se requiere este producto o servicio?" id="justificacion" error={form.errors.justificacion} value={form.data.justificacion} onChange={(e) => form.setData('justificacion', e.target.value)} required />
+                                <Textarea
+                                    label="Justificación de la necesidad: ¿por qué se requiere este producto o servicio?"
+                                    id="justificacion"
+                                    error={form.errors.justificacion}
+                                    value={form.data.justificacion}
+                                    onChange={(e) => form.setData('justificacion', e.target.value)}
+                                    required
+                                />
                             </div>
 
                             {codigoUsoPresupuestal == '2010100600203101' && (
                                 <>
                                     <div className="mt-8">
-                                        <Autocomplete id="tipo_licencia" options={tiposLicencia} label="Tipo de licencia" selectedValue={form.data.tipo_licencia} onChange={(e, newValue) => form.setData('tipo_licencia', newValue.value)} error={form.errors.tipo_licencia} placeholder="Seleccione una opción" required />
+                                        <Autocomplete
+                                            id="tipo_licencia"
+                                            options={tiposLicencia}
+                                            label="Tipo de licencia"
+                                            selectedValue={form.data.tipo_licencia}
+                                            onChange={(e, newValue) => form.setData('tipo_licencia', newValue.value)}
+                                            error={form.errors.tipo_licencia}
+                                            placeholder="Seleccione una opción"
+                                            required
+                                        />
                                     </div>
 
                                     <div className="mt-8">
-                                        <Autocomplete id="tipo_software" options={tiposSoftware} label="Tipo de software" selectedValue={form.data.tipo_software} onChange={(e, newValue) => form.setData('tipo_software', newValue.value)} error={form.errors.tipo_software} placeholder="Seleccione una opción" required />
+                                        <Autocomplete
+                                            id="tipo_software"
+                                            options={tiposSoftware}
+                                            label="Tipo de software"
+                                            selectedValue={form.data.tipo_software}
+                                            onChange={(e, newValue) => form.setData('tipo_software', newValue.value)}
+                                            error={form.errors.tipo_software}
+                                            placeholder="Seleccione una opción"
+                                            required
+                                        />
                                     </div>
 
                                     <div className="mt-8">
                                         <h1 className="font-black">Periodo de uso</h1>
                                         <div className="mt-8 flex justify-between">
                                             <Label required className="mb-4" labelFor="fecha_inicio" value="Fecha de inicio" />
-                                            <DatePicker label="Fecha de inicio" id="fecha_inicio" type="date" className="mt-1 p-4" value={form.data.fecha_inicio} onChange={(e) => form.setData('fecha_inicio', e.target.value)} required />
+                                            <DatePicker
+                                                label="Fecha de inicio"
+                                                id="fecha_inicio"
+                                                type="date"
+                                                className="mt-1 p-4"
+                                                value={form.data.fecha_inicio}
+                                                onChange={(e) => form.setData('fecha_inicio', e.target.value)}
+                                                required
+                                            />
                                         </div>
                                         <div className="mt-8 flex justify-between">
                                             <Label className="mb-4" labelFor="fecha_finalizacion" value="Fecha de finalización (Cuando aplique)" />
-                                            <DatePicker label="Fecha de finalización" id="fecha_finalizacion" type="date" className="mt-1 p-4" value={form.data.fecha_finalizacion} onChange={(e) => form.setData('fecha_finalizacion', e.target.value)} />
+                                            <DatePicker
+                                                label="Fecha de finalización"
+                                                id="fecha_finalizacion"
+                                                type="date"
+                                                className="mt-1 p-4"
+                                                value={form.data.fecha_finalizacion}
+                                                onChange={(e) => form.setData('fecha_finalizacion', e.target.value)}
+                                            />
                                         </div>
                                     </div>
                                 </>
@@ -150,7 +253,15 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, rubroPresu
                             {codigoUsoPresupuestal == '2020200800901' && (
                                 <div className="mt-8">
                                     <Label required className="mb-4" labelFor="servicio_edicion_info" value="Nodo editorial" />
-                                    <Autocomplete id="servicio_edicion_info" options={opcionesServiciosEdicion} selectedValue={form.data.servicio_edicion_info} error={form.errors.servicio_edicion_info} onChange={(e, newValue) => form.setData('servicio_edicion_info', newValue.value)} placeholder="Seleccione una opción" required />
+                                    <Autocomplete
+                                        id="servicio_edicion_info"
+                                        options={opcionesServiciosEdicion}
+                                        selectedValue={form.data.servicio_edicion_info}
+                                        error={form.errors.servicio_edicion_info}
+                                        onChange={(e, newValue) => form.setData('servicio_edicion_info', newValue.value)}
+                                        placeholder="Seleccione una opción"
+                                        required
+                                    />
                                 </div>
                             )}
 
@@ -159,7 +270,15 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, rubroPresu
                                     {(codigoSegundoGrupoPresupuestal == '2041102' || codigoSegundoGrupoPresupuestal == '2041101' || codigoSegundoGrupoPresupuestal == '2041104') && (
                                         <div className="mt-8">
                                             <Label required labelFor="concepto_viaticos" value="Concepto" />
-                                            <Autocomplete id="concepto_viaticos" options={conceptosViaticos} selectedValue={form.data.concepto_viaticos} error={form.errors.concepto_viaticos} onChange={(e, newValue) => form.setData('concepto_viaticos', newValue.value)} placeholder="Seleccione una opción" required />
+                                            <Autocomplete
+                                                id="concepto_viaticos"
+                                                options={conceptosViaticos}
+                                                selectedValue={form.data.concepto_viaticos}
+                                                error={form.errors.concepto_viaticos}
+                                                onChange={(e, newValue) => form.setData('concepto_viaticos', newValue.value)}
+                                                placeholder="Seleccione una opción"
+                                                required
+                                            />
                                         </div>
                                     )}
                                 </>
