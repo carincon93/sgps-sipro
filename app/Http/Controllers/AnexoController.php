@@ -102,7 +102,7 @@ class AnexoController extends Controller
             'lineasProgramaticas'       => LineaProgramatica::orderBy('nombre', 'ASC')->get(),
             'anexoLineasProgramaticas'  => $anexo->lineasProgramaticas()->pluck('lineas_programaticas.id'),
             'convocatorias'             => SelectHelper::convocatorias(),
-            'convocatoriaAnexos'        => $anexo->convocatorias()->select('id as value', 'descripcion as label')->get()
+            'convocatoriaAnexos'        => $anexo->convocatorias()->select('convocatorias.id as value', 'convocatorias.descripcion as label')->get()
         ]);
     }
 

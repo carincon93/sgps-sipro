@@ -29,9 +29,6 @@ class PresupuestoSennovaRequest extends FormRequest
             'tercer_grupo_presupuestal_id'     => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tercer_grupo_presupuestal,id'],
             'uso_presupuestal_id'              => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:usos_presupuestales,id'],
             'linea_programatica_id'            => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_programaticas,id'],
-            'requiere_estudio_mercado'         => ['required', 'boolean'],
-            'sumar_al_presupuesto'             => ['required', 'boolean'],
-            'mensaje'                          => ['nullable', 'string'],
         ];
     }
 
@@ -69,18 +66,6 @@ class PresupuestoSennovaRequest extends FormRequest
         if (is_array($this->linea_programatica_id)) {
             $this->merge([
                 'linea_programatica_id' => $this->linea_programatica_id['value'],
-            ]);
-        }
-
-        if (is_array($this->sumar_al_presupuesto)) {
-            $this->merge([
-                'sumar_al_presupuesto' => $this->sumar_al_presupuesto['value'] == '1' ? 1 : 0,
-            ]);
-        }
-
-        if (is_array($this->sumar_al_presupuesto)) {
-            $this->merge([
-                'sumar_al_presupuesto' => $this->sumar_al_presupuesto['value'] == '1' ? 1 : 0,
             ]);
         }
     }

@@ -94,6 +94,8 @@ class ProyectoPresupuestoController extends Controller
         $request->merge(['proyecto_id' => $proyecto->id]);
         $presupuesto = ProyectoPresupuesto::create($request->all());
 
+        $presupuesto->convocatoriaProyectoRubrosPresupuestales()->sync($request->convocatoria_presupuesto_id);
+
         if ($request->codigo_uso_presupuestal == '2010100600203101') {
             $request->validate([
                 'tipo_licencia'             => 'required|integer',
@@ -155,8 +157,16 @@ class ProyectoPresupuestoController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
+        if ($request->requiere_estudio_mercado == false) {
+            foreach ($presupuesto->soportesEstudioMercado() as $soporteEstudioMercado) {
+                $soporteEstudioMercado->delete();
+            }
+        }
+
         $presupuesto->fill($request->all());
         $presupuesto->save();
+
+        $presupuesto->convocatoriaProyectoRubrosPresupuestales()->sync($request->convocatoria_presupuesto_id);
 
         $softwareInfo = SoftwareInfo::where('proyecto_presupuesto_id', $presupuesto->id)->first();
         if ($request->codigo_uso_presupuestal == '2010100600203101') {
@@ -265,13 +275,12 @@ class ProyectoPresupuestoController extends Controller
 
         $evaluacion->proyecto->codigo_linea_programatica = $evaluacion->proyecto->lineaProgramatica->codigo;
 
-
         return Inertia::render('Convocatorias/Evaluaciones/ProyectoPresupuesto/Index', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'evaluacion'                => $evaluacion,
             'proyecto'                  => $evaluacion->proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'finalizado', 'codigo', 'diff_meses', 'total_proyecto_presupuesto'),
             'filters'                   => request()->all('search', 'presupuestos'),
-            'proyectoPresupuesto'       => ProyectoPresupuesto::select('proyecto_presupuesto.id', 'proyecto_presupuesto.descripcion', 'proyecto_presupuesto.convocatoria_presupuesto_id', 'proyecto_presupuesto.proyecto_id', 'proyecto_presupuesto.valor_total')->where('proyecto_id', $evaluacion->proyecto->id)->filterProyectoPresupuesto(request()->only('search', 'presupuestos'))->with('convocatoriaPresupuesto.presupuestoSennova.tercerGrupoPresupuestal:id,nombre', 'convocatoriaPresupuesto.presupuestoSennova.segundoGrupoPresupuestal:id,nombre,codigo', 'convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal:id,descripcion', 'proyectoPresupuestosEvaluaciones')->orderBy('proyecto_presupuesto.id')->paginate()->appends(['search' => request()->search, 'presupuestos' => request()->presupuestos]),
+            'proyectoPresupuesto'       => ProyectoPresupuesto::select('proyecto_presupuesto.id', 'proyecto_presupuesto.descripcion', 'proyecto_presupuesto.proyecto_id', 'proyecto_presupuesto.valor_total')->where('proyecto_id', $evaluacion->proyecto->id)->filterProyectoPresupuesto(request()->only('search', 'presupuestos'))->with('proyectoPresupuestosEvaluaciones')->orderBy('proyecto_presupuesto.id')->paginate()->appends(['search' => request()->search, 'presupuestos' => request()->presupuestos]),
             'segundoGrupoPresupuestal'  => SegundoGrupoPresupuestal::orderBy('nombre', 'ASC')->get('nombre'),
         ]);
     }
@@ -290,7 +299,6 @@ class ProyectoPresupuestoController extends Controller
         $presupuesto->load('soportesEstudioMercado');
         $presupuesto->softwareInfo;
         $presupuesto->servicioEdicionInfo;
-        $presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal;
         $evaluacion->proyecto->lineaProgramatica;
         $proyecto = $evaluacion->proyecto;
         $presupuesto->taTpViaticosPresupuesto;

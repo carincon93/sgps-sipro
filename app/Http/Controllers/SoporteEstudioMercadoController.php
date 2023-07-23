@@ -28,14 +28,23 @@ class SoporteEstudioMercadoController extends Controller
         /**
          * Denega el acceso si el rubro no requiere de estudio de mercado.
          */
-        if (!$presupuesto->convocatoriaPresupuesto->presupuestoSennova->requiere_estudio_mercado && $presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal->codigo != '020202008005096') {
-            return back()->with('warn', 'Este rubro presupuestal no requiere estudio de mercado.');
+        $rubrosRequierenEstudioMercado = true;
+        $data = $presupuesto->convocatoriaProyectoRubrosPresupuestales()->select('convocatoria_presupuesto.id', 'convocatoria_presupuesto.requiere_estudio_mercado')->get()->pluck(['requiere_estudio_mercado']);
+
+        foreach ($data as $item) {
+            if (!$item) {
+                $rubrosRequierenEstudioMercado = false;
+                break;
+            }
+        }
+        if (!$rubrosRequierenEstudioMercado) {
+            return redirect()->route('convocatorias.proyectos.presupuesto.index', [$convocatoria, $proyecto]);
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectoPresupuesto/SoportesEstudioMercado/Index', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'proyecto'                  => $proyecto->only('id', 'modificable', 'mostrar_recomendaciones', 'allowed'),
-            'proyectoPresupuesto'       => $presupuesto->load('convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal'),
+            'proyectoPresupuesto'       => $presupuesto->load('convocatoriaProyectoRubrosPresupuestales.presupuestoSennova.usoPresupuestal'),
             'filters'                   => request()->all('search'),
             'soportesEstudioMercado'    => $presupuesto->soportesEstudioMercado,
         ]);
@@ -50,20 +59,7 @@ class SoporteEstudioMercadoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        return back();
-
-        /**
-         * Denega el acceso si el rubro no requiere de estudio de mercado.
-         */
-        if (!$presupuesto->convocatoriaPresupuesto->presupuestoSennova->requiere_estudio_mercado && $presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal->codigo != '020202008005096') {
-            return redirect()->route('convocatorias.proyectos.presupuesto.index', [$convocatoria, $proyecto]);
-        }
-
-        return Inertia::render('Convocatorias/Proyectos/ProyectoPresupuesto/SoportesEstudioMercado/Create', [
-            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
-            'proyecto'                  => $proyecto->only('id', 'modificable', 'mostrar_recomendaciones', 'allowed'),
-            'proyectoPresupuesto'       => $presupuesto->load('convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal', 'soportesEstudioMercado'),
-        ]);
+        //
     }
 
     /**
@@ -127,21 +123,7 @@ class SoporteEstudioMercadoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        return back();
-
-        /**
-         * Denega el acceso si el rubro no requiere de estudio de mercado.
-         */
-        if (!$presupuesto->convocatoriaPresupuesto->presupuestoSennova->requiere_estudio_mercado && $presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal->codigo != '020202008005096') {
-            return redirect()->route('convocatorias.proyectos.presupuesto.index', [$convocatoria, $proyecto]);
-        }
-
-        return Inertia::render('Convocatorias/Proyectos/ProyectoPresupuesto/SoportesEstudioMercado/Edit', [
-            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
-            'proyecto'              => $proyecto->only('id', 'modificable', 'mostrar_recomendaciones', 'allowed'),
-            'proyectoPresupuesto'   => $presupuesto->load('convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal'),
-            'soporteEstudioMercado' => $soporte
-        ]);
+        //
     }
 
     /**
@@ -214,16 +196,16 @@ class SoporteEstudioMercadoController extends Controller
         /**
          * Denega el acceso si el rubro no requiere de estudio de mercado.
          */
-        if (!$presupuesto->convocatoriaPresupuesto->presupuestoSennova->requiere_estudio_mercado && $presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal->codigo != '020202008005096') {
-            return back()->with('error', 'Este rubro presupuestal no requiere estudio de mercado.');
-        }
+        // if (!$presupuesto->convocatoriaPresupuesto->presupuestoSennova->requiere_estudio_mercado && $presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal->codigo != '020202008005096') {
+        //     return back()->with('error', 'Este rubro presupuestal no requiere estudio de mercado.');
+        // }
 
         $evaluacion->proyecto;
 
         return Inertia::render('Convocatorias/Evaluaciones/ProyectoPresupuesto/SoportesEstudioMercado/Index', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'proyecto'                  => $evaluacion->proyecto->only('id', 'modificable', 'mostrar_recomendaciones', 'allowed'),
-            'proyectoPresupuesto'       => $presupuesto->load('convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal'),
+            'proyectoPresupuesto'       => $presupuesto->load('convocatoriaProyectoRubrosPresupuestales.presupuestoSennova.usoPresupuestal'),
             'filters'                   => request()->all('search'),
             'soportesEstudioMercado'    => $presupuesto->soportesEstudioMercado,
             'evaluacion'                => $evaluacion->only('id', 'proyecto'),
