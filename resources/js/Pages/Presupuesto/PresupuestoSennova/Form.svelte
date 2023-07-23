@@ -41,42 +41,6 @@
             <Label required class="mb-4" labelFor="linea_programatica_id" value="Línea programática" />
             <Select id="linea_programatica_id" items={lineasProgramaticas} bind:selectedValue={$form.linea_programatica_id} error={errors.linea_programatica_id} autocomplete="off" placeholder="Seleccione una línea programática" required />
         </div>
-        <div class="mt-8">
-            <Label labelFor="mensaje" value="Mensaje" />
-            <InfoMessage>
-                Escribe un mensaje si desea que se muestre cuando se seleccione el rubro.
-                <br />
-                Ejemplo: Para el proyecto solo se podrá destinar hasta $4.594.000 de viáticos, lo cual comprende la sumatoria de todos los rubros que tengan esta finalidad.
-            </InfoMessage>
-            <Textarea maxlength="40000" id="mensaje" bind:value={$form.mensaje} error={errors.mensaje} />
-        </div>
-
-        <hr class="mt-10 mb-10" />
-
-        <div class="mt-8">
-            <Label labelFor="requiere_estudio_mercado" value="¿Requiere estudio mercado? Nota: Si la opción es 'Si' el sistema solicitará al proponente el estudio de mercado" class="inline-block mb-4" />
-            <br />
-            <Switch bind:checked={$form.requiere_estudio_mercado} />
-            <InputError message={errors.requiere_estudio_mercado} />
-        </div>
-
-        <hr class="mt-10 mb-10" />
-
-        <div class="mt-8">
-            <Label labelFor="sumar_al_presupuesto" value="¿Este rubro suma al presupuesto? Nota: Si la opción es 'Si' el sistema sumará este rubro al total del precio del proyecto" class="inline-block mb-4" />
-            <br />
-            <Switch bind:checked={$form.sumar_al_presupuesto} />
-            <InputError message={errors.sumar_al_presupuesto} />
-        </div>
-
-        <hr class="mt-10 mb-10" />
-
-        <div class="mt-8">
-            <Label labelFor="habilitado" value="¿Este rubro esta habilitado? Nota: Si la opción es 'Si' el sistema hará visible el rubro en el formulario de presupuesto" class="inline-block mb-4" />
-            <br />
-            <Switch bind:checked={$form.habilitado} />
-            <InputError message={errors.habilitado} />
-        </div>
     </fieldset>
     <div class="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
         {#if presupuestoSennova}

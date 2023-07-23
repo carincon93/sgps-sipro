@@ -23,10 +23,6 @@
     let isSuperAdmin = checkRole(authUser, [1])
 
     let form = useForm({
-        requiere_estudio_mercado: presupuestoSennova.requiere_estudio_mercado,
-        sumar_al_presupuesto: presupuestoSennova.sumar_al_presupuesto,
-        mensaje: presupuestoSennova.mensaje,
-        habilitado: presupuestoSennova.habilitado,
         primer_grupo_presupuestal_id: presupuestoSennova.primer_grupo_presupuestal_id,
         segundo_grupo_presupuestal_id: presupuestoSennova.segundo_grupo_presupuestal_id,
         tercer_grupo_presupuestal_id: presupuestoSennova.tercer_grupo_presupuestal_id,

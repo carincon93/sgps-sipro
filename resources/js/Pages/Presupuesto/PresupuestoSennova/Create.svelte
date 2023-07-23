@@ -22,10 +22,6 @@
     let isSuperAdmin = checkRole(authUser, [1])
 
     let form = useForm({
-        requiere_estudio_mercado: null,
-        sumar_al_presupuesto: null,
-        mensaje: '',
-        habilitado: null,
         primer_grupo_presupuestal_id: null,
         segundo_grupo_presupuestal_id: null,
         tercer_grupo_presupuestal_id: null,

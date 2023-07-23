@@ -95,7 +95,7 @@
 
             {#if $form.segundo_grupo_presupuestal_id && $form.tercer_grupo_presupuestal_id}
                 <div class="mt-8">
-                    <Label required labelFor="convocatoria_presupuesto_id" value="Uso presupuestal" />
+                    <Label required labelFor="convocatoria_presupuesto_id" value="Usos presupuestales" />
 
                     <SelectMulti id="convocatoria_presupuesto_id" bind:selectedValue={$form.convocatoria_presupuesto_id} items={arrayUsosPresupuestales} isMulti={true} error={errors.convocatoria_presupuesto_id} placeholder="Seleccione los usos presupuestales" required />
                     {#if estudioMercadoStatus == false}
