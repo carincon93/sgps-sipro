@@ -36,8 +36,9 @@
     export let proyectoRolesSennova
     export let municipios
     export let taTpViaticosMunicipios
+    export let usosPresupuestalesRelacionados
 
-    $: $title = proyectoPresupuesto.convocatoria_presupuesto.presupuesto_sennova.uso_presupuestal ? proyectoPresupuesto.convocatoria_presupuesto.presupuesto_sennova.uso_presupuestal.descripcion : null
+    $: $title = 'Editar rubro presupuestal'
 
     /**
      * Validar si el usuario autenticado es SuperAdmin
@@ -49,9 +50,9 @@
         _method: 'put',
         codigo_uso_presupuestal: '',
 
-        segundo_grupo_presupuestal_id: proyectoPresupuesto.convocatoria_presupuesto?.presupuesto_sennova?.segundo_grupo_presupuestal_id,
-        tercer_grupo_presupuestal_id: proyectoPresupuesto.convocatoria_presupuesto?.presupuesto_sennova?.tercer_grupo_presupuestal_id,
-        convocatoria_presupuesto_id: proyectoPresupuesto.convocatoria_presupuesto_id,
+        segundo_grupo_presupuestal_id: null,
+        tercer_grupo_presupuestal_id: null,
+        convocatoria_presupuesto_id: null,
 
         descripcion: proyectoPresupuesto.descripcion,
         justificacion: proyectoPresupuesto.justificacion,
@@ -63,6 +64,7 @@
         servicio_edicion_info: proyectoPresupuesto.servicio_edicion_info?.info,
         valor_total: proyectoPresupuesto.valor_total,
         concepto_viaticos: proyectoPresupuesto.concepto_viaticos,
+        requiere_estudio_mercado: null,
     })
 
     function submit() {
@@ -141,7 +143,7 @@
                     Volver a la lista de rubros
                 </a>
                 <span class="text-app-400 font-medium mx-2">/</span>
-                {proyectoPresupuesto.convocatoria_presupuesto.presupuesto_sennova.uso_presupuestal.descripcion}
+                Editar rubro presupuestal
             </h1>
         </div>
     </header>
@@ -152,12 +154,14 @@
 
             <InfoMessage class="mt-10">Para mayor información consultar en la plataforma CompromISO la guía descripción de los rubros presupuestales SENA, código: GRF-G-004</InfoMessage>
 
-            <a href={route('convocatorias.proyectos.presupuesto.soportes.index', [convocatoria.id, proyecto.id, proyectoPresupuesto.id])} class="text-app-400 hover:text-app-600 flex items-center my-10">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-                Ir al estudio de mercado y soportes
-            </a>
+            {#if usosPresupuestalesRelacionados[0].requiere_estudio_mercado}
+                <a href={route('convocatorias.proyectos.presupuesto.soportes.index', [convocatoria.id, proyecto.id, proyectoPresupuesto.id])} class="text-app-400 hover:text-app-600 flex items-center my-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                    Ir al estudio de mercado y soportes
+                </a>
+            {/if}
 
             {#if isSuperAdmin || proyecto.mostrar_recomendaciones}
                 <RecomendacionEvaluador class="!w-full mt-10">
@@ -180,20 +184,14 @@
             {/if}
         </div>
         <div class="col-span-2">
-            <Form {errors} {proyecto} {convocatoria} {proyectoPresupuesto} {tiposLicencia} {tiposSoftware} {opcionesServiciosEdicion} {form} {submit} {segundoGrupoPresupuestal} {tercerGrupoPresupuestal} {usosPresupuestales} {conceptosViaticos} {distanciasMunicipios} {frecuenciasSemanales} {proyectoRolesSennova} {municipios} {formMunicipio} method="PUT">
+            <Form {errors} {proyecto} {convocatoria} {proyectoPresupuesto} {tiposLicencia} {tiposSoftware} {opcionesServiciosEdicion} {form} {submit} {segundoGrupoPresupuestal} {tercerGrupoPresupuestal} {usosPresupuestales} {conceptosViaticos} {distanciasMunicipios} {frecuenciasSemanales} {proyectoRolesSennova} {municipios} {formMunicipio} {usosPresupuestalesRelacionados} method="PUT">
                 <div slot="viaticos">
                     {#if proyecto.linea_programatica.codigo == 69 || proyecto.linea_programatica.codigo == 70}
                         {#if $form.segundo_grupo_presupuestal_id?.codigo == '2041102' || $form.segundo_grupo_presupuestal_id?.codigo == '2041101' || $form.segundo_grupo_presupuestal_id?.codigo == '2041104'}
                             <h1 class="text-center text-2xl mt-10">Relacione los municipios a visitar:</h1>
                             {#if proyecto.allowed.to_update}
                                 <div class="flex justify-end mt-10">
-                                    <Button
-                                        on:click={() => {
-                                            ;(municipioFormDialog = true), $formMunicipio.reset()
-                                        }}
-                                        variant="raised"
-                                        type="button">Añadir un municipio</Button
-                                    >
+                                    <Button on:click={(() => (municipioFormDialog = true), $formMunicipio.reset())} variant="raised" type="button">Añadir un municipio</Button>
                                 </div>
                             {/if}
                             <table class="w-full bg-white whitespace-no-wrap table-fixed data-table mt-10" id="municipios-viaticos">

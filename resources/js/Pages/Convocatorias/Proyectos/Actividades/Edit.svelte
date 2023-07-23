@@ -130,24 +130,29 @@
                                         <FormField class="border-b border-l w-full odd:bg-white even:bg-slate-50">
                                             <Checkbox bind:group={$form.proyecto_presupuesto_id} value={presupuesto.id} />
                                             <span slot="label">
-                                                <div class="mb-4 mt-4">
+                                                <div class="my-4">
                                                     <small>
                                                         Código: PRE-{presupuesto.id}
                                                     </small>
-                                                    <small class="block">Concepto interno SENA</small>
-                                                    {presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.segundo_grupo_presupuestal.nombre}
                                                 </div>
+
                                                 <div class="mb-4">
-                                                    <small class="block">Rubro</small>
-                                                    {presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.tercer_grupo_presupuestal.nombre}
-                                                </div>
-                                                <div class="mb-4">
-                                                    <small class="block">Uso presupuestal</small>
-                                                    {presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.uso_presupuestal.descripcion}
+                                                    <small class="block">Usos presupuestales</small>
+                                                    <ul class="list-disc ml-4">
+                                                        {#each presupuesto.convocatoria_proyecto_rubros_presupuestales as convocatoriaRubroPresupuestal}
+                                                            <li>
+                                                                <p class="first-letter:uppercase mb-2">
+                                                                    {convocatoriaRubroPresupuestal.presupuesto_sennova.uso_presupuestal.descripcion}
+                                                                </p>
+                                                            </li>
+                                                        {/each}
+                                                    </ul>
                                                 </div>
                                                 <div class="mb-4">
                                                     <small class="block">Descripción</small>
-                                                    {presupuesto.descripcion}
+                                                    <p class="line-clamp-4">
+                                                        {presupuesto.descripcion}
+                                                    </p>
                                                 </div>
                                                 <div class="mb-4">
                                                     <small class="block">Valor total</small>

@@ -90,10 +90,6 @@
                         Volver a la lista de rubros
                     </a>
                     <span class="text-app-400 font-medium ml-2 mr-2">/</span>
-                    <a use:inertia href={route('convocatorias.proyectos.presupuesto.edit', [convocatoria.id, proyecto.id, proyectoPresupuesto.id])} class="text-app-400 hover:text-app-600 overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap inline-block">
-                        {proyectoPresupuesto.convocatoria_presupuesto.presupuesto_sennova.uso_presupuestal.descripcion}
-                    </a>
-                    <span class="text-app-400 font-medium ml-2 mr-2">/</span>
                     Soportes
                 </h1>
             </div>
@@ -107,7 +103,13 @@
 
         <form class="mb-20" on:submit|preventDefault={submitEstudioMercado}>
             <InfoMessage>
-                <span class="text-5xl font-black">1.</span> En el Excel <strong>Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong> agruegue todos los ítems que pertenezcan al uso presupuestal <strong>{proyectoPresupuesto.convocatoria_presupuesto.presupuesto_sennova.uso_presupuestal.descripcion}</strong>. Luego debe subirlo al sistema desde el siguiente campo:
+                <span class="text-5xl font-black">1.</span> En el Excel <strong>Estudio de mercado - Convocatoria SENNOVA {convocatoria.year}</strong> agruegue todos los ítems que pertenezcan a los usos presupuestales:
+                {#each proyectoPresupuesto.convocatoria_proyecto_rubros_presupuestales as convocatoriaRubroPresupuestal}
+                    <p class="first-letter:uppercase ml-10 my-2 font-black">
+                        {convocatoriaRubroPresupuestal.presupuesto_sennova.uso_presupuestal.descripcion}
+                    </p>
+                {/each}
+                Luego debe subirlo al sistema desde el siguiente campo:
             </InfoMessage>
 
             <div class="mt-8">

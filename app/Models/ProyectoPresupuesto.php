@@ -31,7 +31,6 @@ class ProyectoPresupuesto extends Model
      */
     protected $fillable = [
         'proyecto_id',
-        'convocatoria_presupuesto_id',
         'descripcion',
         'justificacion',
         'valor_total',
@@ -70,16 +69,6 @@ class ProyectoPresupuesto extends Model
     }
 
     /**
-     * Relationship with ConvocatoriaPresupuesto
-     *
-     * @return object
-     */
-    public function convocatoriaPresupuesto()
-    {
-        return $this->belongsTo(ConvocatoriaPresupuesto::class);
-    }
-
-    /**
      * Relationship with Actividad
      *
      * @return object
@@ -87,6 +76,16 @@ class ProyectoPresupuesto extends Model
     public function actividades()
     {
         return $this->belongsToMany(Actividad::class, 'actividad_proyecto_presupuesto', 'proyecto_presupuesto_id', 'actividad_id');
+    }
+
+    /**
+     * Relationship with ConvocatoriaPresupuesto
+     *
+     * @return object
+     */
+    public function convocatoriaProyectoRubrosPresupuestales()
+    {
+        return $this->belongsToMany(ConvocatoriaPresupuesto::class, 'convocatoria_proyecto_rubro_presupuestal', 'proyecto_presupuesto_id', 'convocatoria_presupuesto_id');
     }
 
     /**
@@ -158,21 +157,21 @@ class ProyectoPresupuesto extends Model
      */
     public function scopeFilterProyectoPresupuesto($query, array $filters)
     {
-        $query->join('convocatoria_presupuesto', 'proyecto_presupuesto.convocatoria_presupuesto_id', 'convocatoria_presupuesto.id');
-        $query->join('presupuesto_sennova', 'convocatoria_presupuesto.presupuesto_sennova_id', 'presupuesto_sennova.id');
-        $query->join('segundo_grupo_presupuestal', 'presupuesto_sennova.segundo_grupo_presupuestal_id', 'segundo_grupo_presupuestal.id');
-        $query->when($filters['search'] ?? null, function ($query, $search) {
-            $search = str_replace('"', "", $search);
-            $search = str_replace("'", "", $search);
-            $search = str_replace(' ', '%%', $search);
-            $query->join('tercer_grupo_presupuestal', 'presupuesto_sennova.tercer_grupo_presupuestal_id', 'tercer_grupo_presupuestal.id');
-            $query->join('usos_presupuestales', 'presupuesto_sennova.uso_presupuestal_id', 'usos_presupuestales.id');
-            $query->whereRaw("unaccent(segundo_grupo_presupuestal.nombre) ilike unaccent('%" . $search . "%')");
-            $query->orWhereRaw("unaccent(tercer_grupo_presupuestal.nombre) ilike unaccent('%" . $search . "%')");
-            $query->orWhereRaw("unaccent(usos_presupuestales.descripcion) ilike unaccent('%" . $search . "%')");
-        })->when($filters['presupuestos'] ?? null, function ($query, $presupuesto) {
-            $query->whereRaw("unaccent(segundo_grupo_presupuestal.nombre) ilike unaccent('%" . $presupuesto . "%')");
-        });
+        // $query->join('convocatoria_presupuesto', 'proyecto_presupuesto.convocatoria_presupuesto_id', 'convocatoria_presupuesto.id');
+        // $query->join('presupuesto_sennova', 'convocatoria_presupuesto.presupuesto_sennova_id', 'presupuesto_sennova.id');
+        // $query->join('segundo_grupo_presupuestal', 'presupuesto_sennova.segundo_grupo_presupuestal_id', 'segundo_grupo_presupuestal.id');
+        // $query->when($filters['search'] ?? null, function ($query, $search) {
+        //     $search = str_replace('"', "", $search);
+        //     $search = str_replace("'", "", $search);
+        //     $search = str_replace(' ', '%%', $search);
+        //     $query->join('tercer_grupo_presupuestal', 'presupuesto_sennova.tercer_grupo_presupuestal_id', 'tercer_grupo_presupuestal.id');
+        //     $query->join('usos_presupuestales', 'presupuesto_sennova.uso_presupuestal_id', 'usos_presupuestales.id');
+        //     $query->whereRaw("unaccent(segundo_grupo_presupuestal.nombre) ilike unaccent('%" . $search . "%')");
+        //     $query->orWhereRaw("unaccent(tercer_grupo_presupuestal.nombre) ilike unaccent('%" . $search . "%')");
+        //     $query->orWhereRaw("unaccent(usos_presupuestales.descripcion) ilike unaccent('%" . $search . "%')");
+        // })->when($filters['presupuestos'] ?? null, function ($query, $presupuesto) {
+        //     $query->whereRaw("unaccent(segundo_grupo_presupuestal.nombre) ilike unaccent('%" . $presupuesto . "%')");
+        // });
     }
 
     /**

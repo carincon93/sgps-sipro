@@ -6,6 +6,8 @@
     import InfoMessage from '@/Shared/InfoMessage'
     import Select from '@/Shared/Select'
     import Input from '@/Shared/Input'
+    import SelectMulti from '@/Shared/SelectMulti'
+    import Button from '@/Shared/Button'
 
     export let errors
     export let proyecto
@@ -21,6 +23,7 @@
     export let usosPresupuestales
     export let conceptosViaticos
     export let formMunicipio
+    export let usosPresupuestalesRelacionados
     export let method = ''
 
     let arrayTecerGrupoPresupuestal = tercerGrupoPresupuestal.filter(function (obj) {
@@ -59,46 +62,81 @@
     }
 
     let mensaje = ''
-    let requiereEstudioMercado = arrayUsosPresupuestales.filter(function (obj) {
-        return obj.requiere_estudio_mercado == true && obj.value == $form.convocatoria_presupuesto_id ? true : null
-    })
     function selectUsoPresupuestal(event) {
         mensaje = event.detail?.mensaje
-        requiereEstudioMercado = event.detail?.requiere_estudio_mercado
         $form.codigo_uso_presupuestal = event.detail?.codigo_uso_presupuestal
+    }
+
+    let modificarUsosPresupuestales = false
+
+    let estudioMercadoSameValues = true
+    let estudioMercadoStatus = null
+    $: if ($form.convocatoria_presupuesto_id) {
+        estudioMercadoSameValues = $form.convocatoria_presupuesto_id?.every((item) => item.requiere_estudio_mercado === $form.convocatoria_presupuesto_id[0].requiere_estudio_mercado)
+        estudioMercadoSameValues ? (estudioMercadoStatus = $form.convocatoria_presupuesto_id[0].requiere_estudio_mercado) : false
+        $form.requiere_estudio_mercado = $form.convocatoria_presupuesto_id[0]?.requiere_estudio_mercado
     }
 </script>
 
 <form on:submit|preventDefault={submit} id="form-proyecto-presupuesto" class="bg-white rounded shadow">
     <fieldset class="p-8" disabled={proyecto.allowed.to_update ? undefined : true}>
-        <fieldset disabled={method == 'PUT' ? true : undefined}>
+        {#if modificarUsosPresupuestales || method == 'store'}
             <div class="mt-8">
                 <Label required labelFor="segundo_grupo_presupuestal_id" value="Rubro concepto interno SENA" />
                 <Select id="segundo_grupo_presupuestal_id" items={segundoGrupoPresupuestal} bind:selectedValue={$form.segundo_grupo_presupuestal_id} selectFunctions={[(event) => selectSegundoGrupoPresupuestal(event)]} error={errors.segundo_grupo_presupuestal_id} autocomplete="off" placeholder="Seleccione una opción" required />
             </div>
-        </fieldset>
 
-        {#if $form.segundo_grupo_presupuestal_id}
-            <div class="mt-8">
-                <Label required labelFor="tercer_grupo_presupuestal_id" value="Rubro concepto ministerio de hacienda" />
-                <Select id="tercer_grupo_presupuestal_id" items={arrayTecerGrupoPresupuestal} bind:selectedValue={$form.tercer_grupo_presupuestal_id} selectFunctions={[(event) => selectTercerGrupoPresupuestal(event)]} error={errors.tercer_grupo_presupuestal_id} autocomplete="off" placeholder="Seleccione una opción" required />
-            </div>
-        {/if}
+            {#if $form.segundo_grupo_presupuestal_id}
+                <div class="mt-8">
+                    <Label required labelFor="tercer_grupo_presupuestal_id" value="Rubro concepto ministerio de hacienda" />
+                    <Select id="tercer_grupo_presupuestal_id" items={arrayTecerGrupoPresupuestal} bind:selectedValue={$form.tercer_grupo_presupuestal_id} selectFunctions={[(event) => selectTercerGrupoPresupuestal(event)]} error={errors.tercer_grupo_presupuestal_id} autocomplete="off" placeholder="Seleccione una opción" required />
+                </div>
+            {/if}
 
-        {#if $form.segundo_grupo_presupuestal_id && $form.tercer_grupo_presupuestal_id}
-            <div class="mt-8">
-                <Label required labelFor="convocatoria_presupuesto_id" value="Uso presupuestal" />
-                <Select id="convocatoria_presupuesto_id" items={arrayUsosPresupuestales} bind:selectedValue={$form.convocatoria_presupuesto_id} selectFunctions={[(event) => selectUsoPresupuestal(event)]} error={errors.convocatoria_presupuesto_id} autocomplete="off" placeholder="Seleccione una opción" required />
-            </div>
+            {#if $form.segundo_grupo_presupuestal_id && $form.tercer_grupo_presupuestal_id}
+                <div class="mt-8">
+                    <Label required labelFor="convocatoria_presupuesto_id" value="Uso presupuestal" />
 
-            {#if mensaje}
-                <InfoMessage message={mensaje} />
+                    <SelectMulti id="convocatoria_presupuesto_id" bind:selectedValue={$form.convocatoria_presupuesto_id} items={arrayUsosPresupuestales} isMulti={true} error={errors.convocatoria_presupuesto_id} placeholder="Seleccione los usos presupuestales" required />
+                    {#if estudioMercadoStatus == false}
+                        <InfoMessage message="<strong>Importante:</strong> Los usos presupuestales seleccionados no requieren de estudio de mercado. Por favor indique el valor en el campo VALOR TOTAL" />
+                    {/if}
+
+                    {#if $form.convocatoria_presupuesto_id}
+                        <ul class="list-disc ml-6">
+                            {#each $form.convocatoria_presupuesto_id as convocatoriaPresupuesto}
+                                <li>
+                                    <p class="first-letter:uppercase my-4">
+                                        {convocatoriaPresupuesto.label} - {convocatoriaPresupuesto.requiere_estudio_mercado ? 'Requiere estudio de mercado' : 'No requiere estudio de mercado'}
+                                    </p>
+                                </li>
+                            {/each}
+                        </ul>
+                    {/if}
+                </div>
+
+                {#if mensaje}
+                    <InfoMessage message={mensaje} />
+                {/if}
             {/if}
         {/if}
 
-        {#if requiereEstudioMercado == false && $form.convocatoria_presupuesto_id}
-            <InfoMessage message="<strong>Importante:</strong> El uso presupuestal seleccionado no requiere de estudio de mercado." />
+        {#if !modificarUsosPresupuestales && usosPresupuestalesRelacionados}
+            <h1>Usos presupuestales</h1>
 
+            <ul class="mt-6 list-disc">
+                {#each usosPresupuestalesRelacionados as usoPresupuestalRelacionado}
+                    <li>
+                        <p class="first-letter:uppercase">{usoPresupuestalRelacionado.label} - {usoPresupuestalRelacionado.requiere_estudio_mercado ? 'Requiere estudio de mercado' : 'No requiere estudio de mercado'}</p>
+                    </li>
+                {/each}
+            </ul>
+        {/if}
+
+        {#if method == 'PUT'}
+            <Button on:click={() => ((modificarUsosPresupuestales = !modificarUsosPresupuestales), (estudioMercadoStatus = null))} class="mt-2" type="button">{modificarUsosPresupuestales ? 'Cancelar' : 'Modificar usos presupuestales'}</Button>
+        {/if}
+        {#if estudioMercadoStatus == false || (usosPresupuestalesRelacionados && usosPresupuestalesRelacionados[0]?.requiere_estudio_mercado == false)}
             <div class="mt-10">
                 <Input label="Valor total" id="valor_total" type="number" input$min="0" class="mt-1" bind:value={$form.valor_total} error={errors.valor_total} required />
             </div>
@@ -178,7 +216,11 @@
             </small>
         {/if}
         {#if proyecto.allowed.to_update}
-            <LoadingButton loading={$form.processing} class="ml-auto" type="submit">Guardar</LoadingButton>
+            {#if estudioMercadoSameValues}
+                <LoadingButton loading={$form.processing} class="ml-auto" type="submit">Guardar</LoadingButton>
+            {:else if estudioMercadoSameValues == false}
+                <span class="inline-block ml-1.5"> Hay algunos usos presupuestales que requieren estudio de mercado y otros no, por favor seleccione primero los que requieren de estudios, los usos presupuestales que no requieren estudios debe agruparlos en otro formulario. </span>
+            {/if}
         {:else}
             <span class="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
         {/if}

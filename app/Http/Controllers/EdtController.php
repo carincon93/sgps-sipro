@@ -36,11 +36,11 @@ class EdtController extends Controller
         }
 
         $proyecto->servicios_organizacion = false;
-        foreach ($proyecto->proyectoPresupuesto as $presupuesto) {
-            if ($presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal->codigo == '020202008005096') {
-                $proyecto->servicios_organizacion = true;
-            }
-        }
+        // foreach ($proyecto->proyectoPresupuesto as $presupuesto) {
+        //     if ($presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal->codigo == '020202008005096') {
+        //         $proyecto->servicios_organizacion = true;
+        //     }
+        // }
 
         return Inertia::render('Convocatorias/Proyectos/EDT/Index', [
             'convocatoria'     => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
@@ -61,11 +61,11 @@ class EdtController extends Controller
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
         $proyecto->servicios_organizacion = false;
-        foreach ($proyecto->proyectoPresupuesto as $presupuesto) {
-            if ($presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal->codigo == '020202008005096') {
-                $proyecto->servicios_organizacion = true;
-            }
-        }
+        // foreach ($proyecto->proyectoPresupuesto as $presupuesto) {
+        //     if ($presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal->codigo == '020202008005096') {
+        //         $proyecto->servicios_organizacion = true;
+        //     }
+        // }
 
         /**
          * Si el proyecto es diferente de la línea programática 70 se prohibe el acceso. No requiere de edt
@@ -80,9 +80,9 @@ class EdtController extends Controller
             'convocatoria'          => $convocatoria,
             'proyecto'              => $proyecto,
             'tiposEvento'           => json_decode(Storage::get('json/tipos-edt.json'), true),
-            'proyectoPresupuesto'   => $proyecto->proyectoPresupuesto()->selectRaw('id as value, concat(\'Servicios de organización y asistencia de convenciones y ferias\', chr(10), \'∙ Presupuesto: $\', valor_total) as label')->whereHas('convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal', function ($query) {
-                $query->where('codigo', '=', '020202008005096');
-            })->get()
+            // 'proyectoPresupuesto'   => $proyecto->proyectoPresupuesto()->selectRaw('id as value, concat(\'Servicios de organización y asistencia de convenciones y ferias\', chr(10), \'∙ Presupuesto: $\', valor_total) as label')->whereHas('convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal', function ($query) {
+            //     $query->where('codigo', '=', '020202008005096');
+            // })->get()
         ]);
     }
 
@@ -136,11 +136,11 @@ class EdtController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        foreach ($proyecto->proyectoPresupuesto as $presupuesto) {
-            if ($presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal->codigo == '020202008005096') {
-                $proyecto->servicios_organizacion = true;
-            }
-        }
+        // foreach ($proyecto->proyectoPresupuesto as $presupuesto) {
+        //     if ($presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal->codigo == '020202008005096') {
+        //         $proyecto->servicios_organizacion = true;
+        //     }
+        // }
 
         /**
          * Si el proyecto es diferente de la línea programática 70 se prohibe el acceso. No requiere de edt
@@ -156,9 +156,9 @@ class EdtController extends Controller
             'proyecto'              => $proyecto,
             'edt'                   => $edt,
             'tiposEvento'           => json_decode(Storage::get('json/tipos-edt.json'), true),
-            'proyectoPresupuesto'   => $proyecto->proyectoPresupuesto()->selectRaw('id as value, concat(\'Servicios de organización y asistencia de convenciones y ferias\', chr(10), \'∙ Presupuesto: $\', valor_total) as label')->whereHas('convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal', function ($query) {
-                $query->where('codigo', '=', '020202008005096');
-            })->get()
+            // 'proyectoPresupuesto'   => $proyecto->proyectoPresupuesto()->selectRaw('id as value, concat(\'Servicios de organización y asistencia de convenciones y ferias\', chr(10), \'∙ Presupuesto: $\', valor_total) as label')->whereHas('convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal', function ($query) {
+            //     $query->where('codigo', '=', '020202008005096');
+            // })->get()
         ]);
     }
 
@@ -221,11 +221,11 @@ class EdtController extends Controller
         }
 
         $evaluacion->proyecto->servicios_organizacion = false;
-        foreach ($evaluacion->proyecto->proyectoPresupuesto as $presupuesto) {
-            if ($presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal->codigo == '020202008005096') {
-                $evaluacion->proyecto->servicios_organizacion = true;
-            }
-        }
+        // foreach ($evaluacion->proyecto->proyectoPresupuesto as $presupuesto) {
+        //     if ($presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal->codigo == '020202008005096') {
+        //         $evaluacion->proyecto->servicios_organizacion = true;
+        //     }
+        // }
 
         $otrasEvaluaciones = null;
         switch ($evaluacion->proyecto) {
@@ -261,11 +261,11 @@ class EdtController extends Controller
     {
         $this->authorize('visualizar-evaluacion-autor', $evaluacion);
 
-        foreach ($evaluacion->proyecto->proyectoPresupuesto as $presupuesto) {
-            if ($presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal->codigo == '020202008005096') {
-                $evaluacion->proyecto->servicios_organizacion = true;
-            }
-        }
+        // foreach ($evaluacion->proyecto->proyectoPresupuesto as $presupuesto) {
+        //     if ($presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal->codigo == '020202008005096') {
+        //         $evaluacion->proyecto->servicios_organizacion = true;
+        //     }
+        // }
 
         /**
          * Si el proyecto es diferente de la línea programática 70 se prohibe el acceso. No requiere de edt
@@ -282,9 +282,9 @@ class EdtController extends Controller
             'evaluacion'            => $evaluacion,
             'edt'                   => $edt,
             'tiposEvento'           => json_decode(Storage::get('json/tipos-edt.json'), true),
-            'proyectoPresupuesto'   => $evaluacion->proyecto->proyectoPresupuesto()->selectRaw('id as value, concat(\'Servicios de organización y asistencia de convenciones y ferias\', chr(10), \'∙ Presupuesto: $\', valor_total) as label')->whereHas('convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal', function ($query) {
-                $query->where('codigo', '=', '020202008005096');
-            })->get()
+            // 'proyectoPresupuesto'   => $evaluacion->proyecto->proyectoPresupuesto()->selectRaw('id as value, concat(\'Servicios de organización y asistencia de convenciones y ferias\', chr(10), \'∙ Presupuesto: $\', valor_total) as label')->whereHas('convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal', function ($query) {
+            //     $query->where('codigo', '=', '020202008005096');
+            // })->get()
         ]);
     }
 

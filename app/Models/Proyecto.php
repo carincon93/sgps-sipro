@@ -505,8 +505,18 @@ class Proyecto extends Model
     {
         $total = 0;
 
+        $rubrosSumanAlPresupuesto = true;
         foreach ($this->proyectoPresupuesto as $proyectoPresupuesto) {
-            if ($proyectoPresupuesto->convocatoriaPresupuesto->presupuestoSennova->sumar_al_presupuesto) {
+            $data = $proyectoPresupuesto->convocatoriaProyectoRubrosPresupuestales()->select('convocatoria_presupuesto.id', 'convocatoria_presupuesto.sumar_al_presupuesto')->get()->pluck(['sumar_al_presupuesto']);
+
+            foreach ($data as $item) {
+                if (!$item) {
+                    $rubrosSumanAlPresupuesto = false;
+                    break;
+                }
+            }
+
+            if ($rubrosSumanAlPresupuesto) {
                 $total += $proyectoPresupuesto->valor_total;
             }
         }
@@ -541,8 +551,18 @@ class Proyecto extends Model
     {
         $total = 0;
 
+        $rubrosSumanAlPresupuesto = true;
         foreach ($this->proyectoPresupuesto as $proyectoPresupuesto) {
-            if ($proyectoPresupuesto->convocatoriaPresupuesto->presupuestoSennova->sumar_al_presupuesto && $proyectoPresupuesto->getPresupuestoAprobadoAttribute()) {
+            $data = $proyectoPresupuesto->convocatoriaProyectoRubrosPresupuestales()->select('convocatoria_presupuesto.id', 'convocatoria_presupuesto.sumar_al_presupuesto')->get()->pluck(['sumar_al_presupuesto']);
+
+            foreach ($data as $item) {
+                if (!$item) {
+                    $rubrosSumanAlPresupuesto = false;
+                    break;
+                }
+            }
+
+            if ($rubrosSumanAlPresupuesto && $proyectoPresupuesto->getPresupuestoAprobadoAttribute()) {
                 $total += $proyectoPresupuesto->valor_total;
             }
         }

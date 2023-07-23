@@ -139,12 +139,12 @@ class SelectHelper
      */
     public static function usosPresupuestales($convocatoria, $lineaProgramatica)
     {
-        return UsoPresupuestal::select('convocatoria_presupuesto.id as value', 'usos_presupuestales.descripcion as label', 'presupuesto_sennova.segundo_grupo_presupuestal_id', 'presupuesto_sennova.tercer_grupo_presupuestal_id', 'presupuesto_sennova.requiere_estudio_mercado', 'presupuesto_sennova.mensaje', 'usos_presupuestales.codigo as codigo_uso_presupuestal')
+        return UsoPresupuestal::select('convocatoria_presupuesto.id as value', 'usos_presupuestales.descripcion as label', 'presupuesto_sennova.segundo_grupo_presupuestal_id', 'presupuesto_sennova.tercer_grupo_presupuestal_id', 'convocatoria_presupuesto.requiere_estudio_mercado', 'usos_presupuestales.codigo as codigo_uso_presupuestal')
             ->join('presupuesto_sennova', 'usos_presupuestales.id', 'presupuesto_sennova.uso_presupuestal_id')
             ->join('convocatoria_presupuesto', 'presupuesto_sennova.id', 'convocatoria_presupuesto.presupuesto_sennova_id')
             ->where('convocatoria_presupuesto.convocatoria_id', $convocatoria)
             ->where('presupuesto_sennova.linea_programatica_id', $lineaProgramatica)
-            ->where('presupuesto_sennova.habilitado', true)
+            ->where('convocatoria_presupuesto.habilitado', true)
             ->orderBy('usos_presupuestales.descripcion', 'ASC')
             ->get();
     }

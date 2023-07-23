@@ -43,6 +43,7 @@
         servicio_edicion_info: '',
         valor_total: 0,
         concepto_viaticos: null,
+        requiere_estudio_mercado: null,
     })
 
     let formMunicipio = useForm({
@@ -84,7 +85,7 @@
         </div>
 
         <div class="bg-white rounded shadow col-span-2">
-            <Form {errors} {proyecto} {convocatoria} {tiposLicencia} {tiposSoftware} {opcionesServiciosEdicion} {form} {submit} {presupuestoSennova} {segundoGrupoPresupuestal} {tercerGrupoPresupuestal} {usosPresupuestales} {conceptosViaticos} {distanciasMunicipios} {frecuenciasSemanales} {proyectoRolesSennova} {municipios} {formMunicipio} />
+            <Form {errors} {proyecto} {convocatoria} {tiposLicencia} {tiposSoftware} {opcionesServiciosEdicion} {form} {submit} {presupuestoSennova} {segundoGrupoPresupuestal} {tercerGrupoPresupuestal} {usosPresupuestales} {conceptosViaticos} {distanciasMunicipios} {frecuenciasSemanales} {proyectoRolesSennova} {municipios} {formMunicipio} method="store" />
         </div>
     </div>
 </AuthenticatedLayout>

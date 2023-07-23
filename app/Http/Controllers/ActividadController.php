@@ -219,7 +219,7 @@ class ActividadController extends Controller
             'actividad'                      => $actividad,
             'productos'                      => $productos,
             'productosRelacionados'          => $actividad->productos()->pluck('productos.id'),
-            'proyectoPresupuesto'            => ProyectoPresupuesto::where('proyecto_id', $proyecto->id)->with('convocatoriaPresupuesto.presupuestoSennova.segundoGrupoPresupuestal:id,nombre', 'convocatoriaPresupuesto.presupuestoSennova.tercerGrupoPresupuestal:id,nombre', 'convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal:id,descripcion')->get(),
+            'proyectoPresupuesto'            => ProyectoPresupuesto::where('proyecto_id', $proyecto->id)->with('convocatoriaProyectoRubrosPresupuestales.presupuestoSennova.usoPresupuestal')->get(),
             'proyectoPresupuestoRelacionado' => $actividad->proyectoPresupuesto()->pluck('proyecto_presupuesto.id'),
             'proyectoRoles'                  => ProyectoRolSennova::where('proyecto_id', $proyecto->id)->with('convocatoriaRolSennova.rolSennova:id,nombre')->get(),
             'proyectoRolRelacionado'         => $actividad->proyectoRolesSennova()->pluck('proyecto_rol_sennova.id'),
@@ -718,7 +718,7 @@ class ActividadController extends Controller
             'evaluacion'                     => $evaluacion->only('id'),
             'proyecto'                       => $evaluacion->proyecto->only('id', 'fecha_inicio', 'fecha_finalizacion', 'finalizado'),
             'productos'                      => $productos,
-            'proyectoPresupuesto'            => ProyectoPresupuesto::where('proyecto_id', $evaluacion->proyecto->id)->with('convocatoriaPresupuesto.presupuestoSennova.segundoGrupoPresupuestal:id,nombre', 'convocatoriaPresupuesto.presupuestoSennova.tercerGrupoPresupuestal:id,nombre', 'convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal:id,descripcion')->get(),
+            'proyectoPresupuesto'            => ProyectoPresupuesto::where('proyecto_id', $evaluacion->proyecto->id)->with('convocatoriaProyectoRubrosPresupuestales.presupuestoSennova.usoPresupuestal')->get(),
             'actividad'                      => $actividad,
             'productosRelacionados'          => $actividad->productos()->pluck('productos.id'),
             'proyectoPresupuestoRelacionado' => $actividad->proyectoPresupuesto()->pluck('proyecto_presupuesto.id')

@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Log;
 trait ProyectoValidationTrait
 {
     /**
-     * 
+     *
      * Valida que haya información en el problema central
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
@@ -41,9 +41,9 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que haya mínimo 1 instructor investigador
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
@@ -67,9 +67,9 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que hayan mínimo 2 aprendices en semillero de investigación
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
@@ -93,9 +93,9 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que hayan al menos dos efectos directos con descripción
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
@@ -112,9 +112,9 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que hayan al menos un efecto indirecto con descripción por efecto directo
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
@@ -131,9 +131,9 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que hayan al menos dos causas directas con descripción
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
@@ -150,9 +150,9 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que hayan al menos una causas indirecta con descripción por causa directa
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
@@ -169,9 +169,9 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que haya información en el objetivo general
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
@@ -201,9 +201,9 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que haya información en cada resultado
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
@@ -224,9 +224,9 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que haya información en cada objetivo específico
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
@@ -243,9 +243,9 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que hayan al menos una actividad con descripción por causa indirecta
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
@@ -264,9 +264,9 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que hayan al menos un impacto con descripción por efecto indirecto
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
@@ -285,9 +285,9 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que las actividades tengan presupuesto asignado
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
@@ -306,9 +306,9 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que las actividades tengan presupuesto asignado
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
@@ -327,9 +327,9 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que los resultados tengan al menos un producto asignado
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
@@ -346,9 +346,9 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que haya al menos un riesgo por nivel de riesgo
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
@@ -377,19 +377,19 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que hayan anexos cargados
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
     public static function anexos(Proyecto $proyecto)
     {
-        $anexos = Anexo::join('anexo_lineas_programaticas', 'anexos.id', 'anexo_lineas_programaticas.anexo_id')->where('anexos.obligatorio', true)->where('anexo_lineas_programaticas.linea_programatica_id', $proyecto->lineaProgramatica->id)->get();
+        $anexos = Anexo::select('anexos.*')->join('anexo_lineas_programaticas', 'anexos.id', 'anexo_lineas_programaticas.anexo_id')->where('anexos.obligatorio', true)->where('anexo_lineas_programaticas.linea_programatica_id', $proyecto->lineaProgramatica->id)->get();
 
         $count = 0;
         foreach ($anexos as $anexo) {
-            if ($proyecto->proyectoAnexo()->where('anexo_id', $anexo->id)->first() && $proyecto->proyectoAnexo()->where('anexo_id', $anexo->id)->first()->exists()) {
+            if ($proyecto->proyectoAnexo()->where('proyecto_anexo.anexo_id', $anexo->id)->first() && $proyecto->proyectoAnexo()->where('proyecto_anexo.anexo_id', $anexo->id)->first()->exists()) {
                 $count++;
             }
         }
@@ -398,9 +398,9 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que generalidades se este completo
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
@@ -430,9 +430,9 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que la metodología este completa
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
@@ -462,9 +462,9 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que la propuesta de sostenibilidad este completa
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
@@ -494,9 +494,9 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que la articulación SENNOvA este completa
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
@@ -506,17 +506,28 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
-     * Valida que los estudios de mercado tengan al menos dos soportes
-     * 
+     *
+     * Valida que cada estudio de mercado tengan al menos dos soportes
+     *
      * @param  mixed $proyecto
      * @return bool
      */
     public static function soportesEstudioMercado(Proyecto $proyecto)
     {
+        $rubrosRequierenEstudioMercado = true;
+
         $countSoportes = 0;
         foreach ($proyecto->proyectoPresupuesto as $presupuesto) {
-            if ($presupuesto->convocatoriaPresupuesto->presupuestoSennova->requiere_estudio_mercado && $presupuesto->soportesEstudioMercado()->count() < 2) {
+            $data = $presupuesto->convocatoriaProyectoRubrosPresupuestales()->select('convocatoria_presupuesto.id', 'convocatoria_presupuesto.requiere_estudio_mercado')->get()->pluck(['requiere_estudio_mercado']);
+
+            foreach ($data as $item) {
+                if (!$item) {
+                    $rubrosRequierenEstudioMercado = false;
+                    break;
+                }
+            }
+
+            if ($rubrosRequierenEstudioMercado && $presupuesto->soportesEstudioMercado()->count() < 2) {
                 $countSoportes++;
             }
         }
@@ -525,17 +536,27 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
-     * Valida que los estudios de mercado tengan al menos dos soportes
-     * 
+     *
+     * Valida que el formato de estudio de mercado este cargado
+     *
      * @param  mixed $proyecto
      * @return bool
      */
     public static function estudiosMercadoArchivo(Proyecto $proyecto)
     {
+        $rubrosRequierenEstudioMercado = true;
         $countSoportes = 0;
         foreach ($proyecto->proyectoPresupuesto as $presupuesto) {
-            if ($presupuesto->convocatoriaPresupuesto->presupuestoSennova->requiere_estudio_mercado && $presupuesto->formato_estudio_mercado == null) {
+            $data = $presupuesto->convocatoriaProyectoRubrosPresupuestales()->select('convocatoria_presupuesto.id', 'convocatoria_presupuesto.requiere_estudio_mercado')->get()->pluck(['requiere_estudio_mercado']);
+
+            foreach ($data as $item) {
+                if (!$item) {
+                    $rubrosRequierenEstudioMercado = false;
+                    break;
+                }
+            }
+
+            if (!$rubrosRequierenEstudioMercado && $presupuesto->formato_estudio_mercado == null) {
                 $countSoportes++;
             }
         }
@@ -544,14 +565,16 @@ trait ProyectoValidationTrait
     }
 
     /**
-     * 
+     *
      * Valida que haya un edt por uso presupuestal 'servicios de organización y asistencia de convenciones y ferias'
-     * 
+     *
      * @param  mixed $proyecto
      * @return bool
      */
     public static function edt(Proyecto $proyecto)
     {
+        return true;
+
         $countEdt = 0;
         if ($proyecto->ta()->exists()) {
             foreach ($proyecto->proyectoPresupuesto as $presupuesto) {
