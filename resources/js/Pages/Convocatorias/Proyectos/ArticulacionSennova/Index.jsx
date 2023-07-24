@@ -118,7 +118,7 @@ const ArticulacionSennova = ({
                         tiposDocumento={tiposDocumento}
                         tiposVinculacion={tiposVinculacion}
                         rolesSennova={roles}
-                    />{' '}
+                    />
                 </div>
             </Grid>
             <Grid item md={12}>
