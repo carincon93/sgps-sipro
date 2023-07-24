@@ -48,12 +48,7 @@
                     {#if isSuperAdmin || checkRole(authUser, [11, 5])}
                         <a use:inertia href={route('convocatorias.evaluaciones.presupuesto.index', [convocatoria.id, evaluacion.id])} class="text-app-400 hover:text-app-600 overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap inline-block"> Presupuesto </a>
                     {/if}
-                    <span class="text-app-400 font-medium ml-2 mr-2">/</span>
-                    {#if isSuperAdmin || checkRole(authUser, [11, 5])}
-                        <a use:inertia href={route('convocatorias.evaluaciones.presupuesto.edit', [convocatoria.id, evaluacion.id, proyectoPresupuesto.id])} class="text-app-400 hover:text-app-600 overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap inline-block">
-                            {proyectoPresupuesto.convocatoria_presupuesto.presupuesto_sennova.uso_presupuestal.descripcion}
-                        </a>
-                    {/if}
+
                     <span class="text-app-400 font-medium ml-2 mr-2">/</span>
                     Soportes
                 </h1>
@@ -67,7 +62,13 @@
 
     <form class="mb-20" disabled>
         <InfoMessage>
-            <span class="text-5xl font-black">1.</span> En el Excel <strong>Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong> agruegue todos los ítems que pertenezcan al uso presupuestal <strong>{proyectoPresupuesto.convocatoria_presupuesto.presupuesto_sennova.uso_presupuestal.descripcion}</strong>. Luego debe subirlo al sistema desde el siguiente campo:
+            <span class="text-5xl font-black">1.</span> En el Excel <strong>Estudio de mercado - Convocatoria SENNOVA {convocatoria.year}</strong> agruegue todos los ítems que pertenezcan a los usos presupuestales:
+            {#each proyectoPresupuesto.convocatoria_proyecto_rubros_presupuestales as convocatoriaRubroPresupuestal}
+                <p class="first-letter:uppercase ml-10 my-2 font-black">
+                    {convocatoriaRubroPresupuestal.presupuesto_sennova.uso_presupuestal.descripcion}
+                </p>
+            {/each}
+            Luego debe subirlo al sistema desde el siguiente campo:
         </InfoMessage>
 
         <div class="mt-8">

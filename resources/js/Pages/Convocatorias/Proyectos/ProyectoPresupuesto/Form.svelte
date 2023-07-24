@@ -11,6 +11,7 @@
 
     export let errors
     export let proyecto
+    export let evaluacion
     export let convocatoria
     export let proyectoPresupuesto
     export let tiposLicencia
@@ -121,7 +122,7 @@
             {/if}
         {/if}
 
-        {#if !modificarUsosPresupuestales && usosPresupuestalesRelacionados}
+        {#if (!modificarUsosPresupuestales && usosPresupuestalesRelacionados) || evaluacion}
             <h1>Usos presupuestales</h1>
 
             <ul class="mt-6 list-disc">
@@ -133,7 +134,7 @@
             </ul>
         {/if}
 
-        {#if method == 'PUT'}
+        {#if method == 'PUT' && !evaluacion}
             <Button on:click={() => ((modificarUsosPresupuestales = !modificarUsosPresupuestales), (estudioMercadoStatus = null))} class="mt-2" type="button">{modificarUsosPresupuestales ? 'Cancelar' : 'Modificar usos presupuestales'}</Button>
         {/if}
         {#if estudioMercadoStatus == false || (usosPresupuestalesRelacionados && usosPresupuestalesRelacionados[0]?.requiere_estudio_mercado == false)}

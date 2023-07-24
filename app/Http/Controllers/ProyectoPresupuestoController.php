@@ -349,7 +349,7 @@ class ProyectoPresupuestoController extends Controller
             'evaluacion'                => $evaluacion,
             'proyecto'                  => $evaluacion->proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'finalizado', 'codigo', 'diff_meses', 'total_proyecto_presupuesto', 'total_maquinaria_industrial', 'total_servicios_especiales_construccion', 'total_viaticos', 'total_mantenimiento_maquinaria', 'salarios_minimos'),
             'filters'                   => request()->all('search', 'presupuestos'),
-            'proyectoPresupuesto'       => ProyectoPresupuesto::select('proyecto_presupuesto.id', 'proyecto_presupuesto.descripcion', 'proyecto_presupuesto.proyecto_id', 'proyecto_presupuesto.valor_total')->where('proyecto_id', $evaluacion->proyecto->id)->filterProyectoPresupuesto(request()->only('search', 'presupuestos'))->with('proyectoPresupuestosEvaluaciones')->orderBy('proyecto_presupuesto.id')->paginate()->appends(['search' => request()->search, 'presupuestos' => request()->presupuestos]),
+            'proyectoPresupuesto'       => ProyectoPresupuesto::select('proyecto_presupuesto.id', 'proyecto_presupuesto.descripcion', 'proyecto_presupuesto.proyecto_id', 'proyecto_presupuesto.valor_total')->where('proyecto_id', $evaluacion->proyecto->id)->filterProyectoPresupuesto(request()->only('search', 'presupuestos'))->with('convocatoriaProyectoRubrosPresupuestales.presupuestoSennova.usoPresupuestal', 'proyectoPresupuestosEvaluaciones')->orderBy('proyecto_presupuesto.id')->paginate()->appends(['search' => request()->search, 'presupuestos' => request()->presupuestos]),
             'segundoGrupoPresupuestal'  => SegundoGrupoPresupuestal::orderBy('nombre', 'ASC')->get('nombre'),
         ]);
     }
@@ -373,23 +373,24 @@ class ProyectoPresupuestoController extends Controller
         $presupuesto->taTpViaticosPresupuesto;
 
         return Inertia::render('Convocatorias/Evaluaciones/ProyectoPresupuesto/Edit', [
-            'convocatoria'                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year', 'campos_convocatoria'),
-            'evaluacion'                    => $evaluacion->only('id', 'iniciado', 'finalizado', 'habilitado', 'modificable', 'proyecto'),
-            'proyecto'                      => $evaluacion->proyecto,
-            'proyectoPresupuesto'           => $presupuesto,
-            'tiposLicencia'                 => json_decode(Storage::get('json/tipos-licencia-software.json'), true),
-            'opcionesServiciosEdicion'      => json_decode(Storage::get('json/opciones-servicios-edicion.json'), true),
-            'tiposSoftware'                 => json_decode(Storage::get('json/tipos-software.json'), true),
-            'proyectoPresupuestoEvaluacion' => ProyectoPresupuestoEvaluacion::where('evaluacion_id', $evaluacion->id)->where('proyecto_presupuesto_id', $presupuesto->id)->first(),
-            'segundoGrupoPresupuestal'      => SelectHelper::segundoGrupoPresupuestal($convocatoria->id, $proyecto->lineaProgramatica->id),
-            'tercerGrupoPresupuestal'       => SelectHelper::tercerGrupoPresupuestal($convocatoria->id, $proyecto->lineaProgramatica->id),
-            'usosPresupuestales'            => SelectHelper::usosPresupuestales($convocatoria->id, $proyecto->lineaProgramatica->id),
-            'municipios'                    => SelectHelper::municipios(),
-            'conceptosViaticos'             => json_decode(Storage::get('json/conceptos-viaticos.json'), true),
-            'distanciasMunicipios'          => json_decode(Storage::get('json/distancia-municipios.json'), true),
-            'frecuenciasSemanales'          => json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true),
-            'proyectoRolesSennova'          => $proyectoRolesSennova ?? null,
-            'taTpViaticosMunicipios'        => $presupuesto->taTpViaticosMunicipios()->exists() ? $presupuesto->taTpViaticosMunicipios()->with('municipio')->get() : collect([])
+            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year', 'campos_convocatoria'),
+            'evaluacion'                        => $evaluacion->only('id', 'iniciado', 'finalizado', 'habilitado', 'modificable', 'proyecto'),
+            'proyecto'                          => $evaluacion->proyecto,
+            'proyectoPresupuesto'               => $presupuesto,
+            'tiposLicencia'                     => json_decode(Storage::get('json/tipos-licencia-software.json'), true),
+            'opcionesServiciosEdicion'          => json_decode(Storage::get('json/opciones-servicios-edicion.json'), true),
+            'tiposSoftware'                     => json_decode(Storage::get('json/tipos-software.json'), true),
+            'proyectoPresupuestoEvaluacion'     => ProyectoPresupuestoEvaluacion::where('evaluacion_id', $evaluacion->id)->where('proyecto_presupuesto_id', $presupuesto->id)->first(),
+            'segundoGrupoPresupuestal'          => SelectHelper::segundoGrupoPresupuestal($convocatoria->id, $proyecto->lineaProgramatica->id),
+            'tercerGrupoPresupuestal'           => SelectHelper::tercerGrupoPresupuestal($convocatoria->id, $proyecto->lineaProgramatica->id),
+            'usosPresupuestales'                => SelectHelper::usosPresupuestales($convocatoria->id, $proyecto->lineaProgramatica->id),
+            'municipios'                        => SelectHelper::municipios(),
+            'conceptosViaticos'                 => json_decode(Storage::get('json/conceptos-viaticos.json'), true),
+            'distanciasMunicipios'              => json_decode(Storage::get('json/distancia-municipios.json'), true),
+            'frecuenciasSemanales'              => json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true),
+            'proyectoRolesSennova'              => $proyectoRolesSennova ?? null,
+            'usosPresupuestalesRelacionados'    => $presupuesto->convocatoriaProyectoRubrosPresupuestales()->select('convocatoria_presupuesto.id as value', 'usos_presupuestales.descripcion as label', 'convocatoria_presupuesto.requiere_estudio_mercado')->join('presupuesto_sennova', 'convocatoria_presupuesto.presupuesto_sennova_id', 'presupuesto_sennova.id')->join('usos_presupuestales', 'presupuesto_sennova.uso_presupuestal_id', 'usos_presupuestales.id')->get() ?? [],
+            'taTpViaticosMunicipios'            => $presupuesto->taTpViaticosMunicipios()->exists() ? $presupuesto->taTpViaticosMunicipios()->with('municipio')->get() : collect([])
         ]);
     }
 

@@ -97,17 +97,16 @@
                             </div>
 
                             <div class="mt-3">
-                                <small class="underline">Rubro concepto interno SENA</small>
-                                <p class="whitespace-pre-line">
-                                    {presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.segundo_grupo_presupuestal.nombre}
-                                </p>
-                            </div>
-
-                            <div class="mt-3">
-                                <small class="underline">Uso presupuestal</small>
-                                <p class="whitespace-pre-line">
-                                    {presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.uso_presupuestal.descripcion}
-                                </p>
+                                <small class="underline">Usos presupuestales</small>
+                                <ul class="list-disc ml-4">
+                                    {#each presupuesto.convocatoria_proyecto_rubros_presupuestales as convocatoriaRubroPresupuestal}
+                                        <li>
+                                            <p class="first-letter:uppercase mb-2">
+                                                {convocatoriaRubroPresupuestal.presupuesto_sennova.uso_presupuestal.descripcion}
+                                            </p>
+                                        </li>
+                                    {/each}
+                                </ul>
                             </div>
                         </div>
                     </td>
@@ -115,9 +114,9 @@
                         <div class="mt-3 px-6">
                             ${new Intl.NumberFormat('de-DE').format(presupuesto.valor_total)} COP
                         </div>
-                        {#if !presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.sumar_al_presupuesto}
+                        <!-- {#if !presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.sumar_al_presupuesto}
                             <span class="text-red-400 text-center text-xs px-6"> Este uso presupuestal NO suma al total del presupuesto </span>
-                        {/if}
+                        {/if} -->
                     </td>
                     <td class="border-t">
                         <div class="px-6 py-4">

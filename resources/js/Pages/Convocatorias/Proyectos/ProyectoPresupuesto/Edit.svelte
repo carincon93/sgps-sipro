@@ -23,6 +23,7 @@
     export let errors
     export let convocatoria
     export let proyecto
+    export let evaluacion
     export let proyectoPresupuesto
     export let tiposLicencia
     export let tiposSoftware
@@ -184,7 +185,29 @@
             {/if}
         </div>
         <div class="col-span-2">
-            <Form {errors} {proyecto} {convocatoria} {proyectoPresupuesto} {tiposLicencia} {tiposSoftware} {opcionesServiciosEdicion} {form} {submit} {segundoGrupoPresupuestal} {tercerGrupoPresupuestal} {usosPresupuestales} {conceptosViaticos} {distanciasMunicipios} {frecuenciasSemanales} {proyectoRolesSennova} {municipios} {formMunicipio} {usosPresupuestalesRelacionados} method="PUT">
+            <Form
+                {errors}
+                {proyecto}
+                {evaluacion}
+                {convocatoria}
+                {proyectoPresupuesto}
+                {tiposLicencia}
+                {tiposSoftware}
+                {opcionesServiciosEdicion}
+                {form}
+                {submit}
+                {segundoGrupoPresupuestal}
+                {tercerGrupoPresupuestal}
+                {usosPresupuestales}
+                {conceptosViaticos}
+                {distanciasMunicipios}
+                {frecuenciasSemanales}
+                {proyectoRolesSennova}
+                {municipios}
+                {formMunicipio}
+                {usosPresupuestalesRelacionados}
+                method="PUT"
+            >
                 <div slot="viaticos">
                     {#if proyecto.linea_programatica.codigo == 69 || proyecto.linea_programatica.codigo == 70}
                         {#if $form.segundo_grupo_presupuestal_id?.codigo == '2041102' || $form.segundo_grupo_presupuestal_id?.codigo == '2041101' || $form.segundo_grupo_presupuestal_id?.codigo == '2041104'}

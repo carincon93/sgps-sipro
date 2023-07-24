@@ -26,9 +26,10 @@
     export let frecuenciasSemanales
     export let proyectoRolesSennova
     export let municipios
+    export let usosPresupuestalesRelacionados
     export let taTpViaticosMunicipios
 
-    $: $title = proyectoPresupuesto.convocatoria_presupuesto.presupuesto_sennova.uso_presupuestal ? proyectoPresupuesto.convocatoria_presupuesto.presupuesto_sennova.uso_presupuestal.descripcion : null
+    $: $title = 'Evaluar rubro presupuestal'
 
     /**
      * Validar si el usuario autenticado es SuperAdmin
@@ -39,9 +40,9 @@
     let presupuestoInfo = useForm({
         codigo_uso_presupuestal: '',
 
-        segundo_grupo_presupuestal_id: proyectoPresupuesto.convocatoria_presupuesto?.presupuesto_sennova?.segundo_grupo_presupuestal_id,
-        tercer_grupo_presupuestal_id: proyectoPresupuesto.convocatoria_presupuesto?.presupuesto_sennova?.tercer_grupo_presupuestal_id,
-        convocatoria_presupuesto_id: proyectoPresupuesto.convocatoria_presupuesto_id,
+        segundo_grupo_presupuestal_id: null,
+        tercer_grupo_presupuestal_id: null,
+        convocatoria_presupuesto_id: null,
 
         descripcion: proyectoPresupuesto.descripcion,
         justificacion: proyectoPresupuesto.justificacion,
@@ -86,7 +87,7 @@
                 <h1 class="overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap">
                     <a use:inertia href={route('convocatorias.evaluaciones.presupuesto.index', [convocatoria.id, evaluacion.id])} class="text-app-400 hover:text-app-600"> Presupuesto </a>
                     <span class="text-app-400 font-medium">/</span>
-                    {proyectoPresupuesto.convocatoria_presupuesto.presupuesto_sennova.uso_presupuestal.descripcion}
+                    Evaluar rubro presupuestal
                 </h1>
             </div>
         </div>
@@ -103,7 +104,28 @@
             </a>
         </div>
         <div class="col-span-2">
-            <Form {errors} proyecto={evaluacion.proyecto} {convocatoria} {proyectoPresupuesto} {tiposLicencia} {tiposSoftware} {opcionesServiciosEdicion} form={presupuestoInfo} {submit} {segundoGrupoPresupuestal} {tercerGrupoPresupuestal} {usosPresupuestales} {conceptosViaticos} {distanciasMunicipios} {frecuenciasSemanales} {proyectoRolesSennova} {municipios} method="PUT">
+            <Form
+                {errors}
+                proyecto={evaluacion.proyecto}
+                {evaluacion}
+                {convocatoria}
+                {proyectoPresupuesto}
+                {tiposLicencia}
+                {tiposSoftware}
+                {opcionesServiciosEdicion}
+                form={presupuestoInfo}
+                {submit}
+                {segundoGrupoPresupuestal}
+                {tercerGrupoPresupuestal}
+                {usosPresupuestales}
+                {conceptosViaticos}
+                {distanciasMunicipios}
+                {frecuenciasSemanales}
+                {proyectoRolesSennova}
+                {municipios}
+                method="PUT"
+                {usosPresupuestalesRelacionados}
+            >
                 <div slot="viaticos">
                     {#if evaluacion.proyecto.linea_programatica.codigo == 69 || evaluacion.proyecto.linea_programatica.codigo == 70}
                         {#if $form.segundo_grupo_presupuestal_id?.codigo == '2041102' || $form.segundo_grupo_presupuestal_id?.codigo == '2041101' || $form.segundo_grupo_presupuestal_id?.codigo == '2041104'}
