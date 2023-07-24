@@ -129,11 +129,13 @@ const Productos = ({ auth, convocatoria, proyecto, productos, validacionResultad
                             <TableCell>{producto.nombre}</TableCell>
                             <TableCell>{producto.resultado.objetivo_especifico.descripcion}</TableCell>
                             <TableCell>
-                                {proyecto.codigo_linea_programatica != 69 && proyecto.codigo_linea_programatica != 70 ? (
-                                    <>Código {producto.resultado.id + '-' + producto.resultado.descripcion}</>
-                                ) : (
-                                    proyecto.codigo_linea_programatica == 69 || (proyecto.codigo_linea_programatica == 70 && <>{producto.producto_ta_tp?.valor_proyectado}</>)
-                                )}
+                                <>
+                                    {proyecto.codigo_linea_programatica != 69 && proyecto.codigo_linea_programatica != 70 ? (
+                                        <>Código {producto.resultado.id + '-' + producto.resultado.descripcion}</>
+                                    ) : (
+                                        proyecto.codigo_linea_programatica == 69 || (proyecto.codigo_linea_programatica == 70 && <>{producto.producto_ta_tp?.valor_proyectado}</>)
+                                    )}
+                                </>
                             </TableCell>
 
                             <TableCell>

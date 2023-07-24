@@ -10,6 +10,7 @@ import ToolTipMui from '@/Components/Tooltip'
 import StepperMui from '@/Components/Stepper'
 
 import CelebrationOutlinedIcon from '@mui/icons-material/CelebrationOutlined'
+import AirplaneTicketIcon from '@mui/icons-material/AirplaneTicket'
 import FolderSharedIcon from '@mui/icons-material/FolderShared'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
@@ -34,9 +35,6 @@ const RubrosPresupuestales = ({
     opcionesServiciosEdicion,
     conceptosViaticos,
 }) => {
-    /**
-     * Validar si el usuario autenticado es SuperAdmin
-     */
     const authUser = auth.user
     const isSuperAdmin = checkRole(authUser, [1])
 
@@ -81,19 +79,25 @@ const RubrosPresupuestales = ({
                                     </div>
 
                                     <div className="mt-3">
-                                        <small className="underline">Rubro concepto interno SENA</small>
-                                        <p className="whitespace-pre-line">{presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.segundo_grupo_presupuestal.nombre}</p>
-                                    </div>
-
-                                    <div className="mt-3">
-                                        <small className="underline">Uso presupuestal</small>
-                                        <p className="whitespace-pre-line">{presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.uso_presupuestal.descripcion}</p>
+                                        <small className="underline">Usos presupuestales</small>
+                                        <ul className="list-disc ml-4">
+                                            {presupuesto.convocatoria_proyecto_rubros_presupuestales.map((convocatoriaRubroPresupuestal, i) => (
+                                                <li key={i}>
+                                                    <p className="first-letter:uppercase mb-2">
+                                                        {convocatoriaRubroPresupuestal.presupuesto_sennova.uso_presupuestal.descripcion}{' '}
+                                                        {convocatoriaRubroPresupuestal.sumar_al_presupuesto ? null : (
+                                                            <Chip label="No suma al presupuesto" size="small" className="!bg-blue-200 hover:!bg-blue-50 !text-blue-500 mt-1" />
+                                                        )}
+                                                    </p>
+                                                </li>
+                                            ))}
+                                        </ul>
                                     </div>
                                 </div>
                             </TableCell>
                             <TableCell>
                                 <div>${new Intl.NumberFormat('de-DE').format(presupuesto.valor_total)} COP</div>
-                                {presupuesto.convocatoria_presupuesto.presupuesto_sennova.requiere_estudio_mercado ? (
+                                {presupuesto.convocatoria_proyecto_rubros_presupuestales[0]?.requiere_estudio_mercado ? (
                                     <Link href={route('convocatorias.proyectos.presupuesto.soportes.index', [convocatoria.id, proyecto.id, presupuesto.id])}>
                                         <Chip
                                             label="Ir a los estudios de mercado"
@@ -104,19 +108,23 @@ const RubrosPresupuestales = ({
                                 ) : (
                                     <Chip label="No requiere de estudios de mercado" className="!bg-blue-200 hover:!bg-blue-50 !text-blue-500 mt-4" />
                                 )}
-                                {presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.uso_presupuestal.codigo == '20202008005096' && (
-                                    <Link href={route('convocatorias.proyectos.presupuesto.edt.index', [convocatoria.id, proyecto.id, presupuesto.id])}>
-                                        <Chip
-                                            label="Debe generar el respectivo EDT para este rubro"
-                                            icon={<CelebrationOutlinedIcon className="!text-teal-700 !ml-2" />}
-                                            className="!bg-teal-200 hover:!bg-teal-50 !text-teal-700 mt-4 !px-1 hover:cursor-pointer"
-                                        />
-                                    </Link>
-                                )}
+                                {usosPresupuestales
+                                    .filter((item1) => presupuesto?.convocatoria_proyecto_rubros_presupuestales?.some((item2) => item2.id == item1.value))
+                                    .map((item) => item.codigo_uso_presupuestal)
+                                    .includes('20202008005096') &&
+                                    proyecto.codigo_linea_programatica == 70 && (
+                                        <Link href={route('convocatorias.proyectos.presupuesto.edt.index', [convocatoria.id, proyecto.id, presupuesto.id])}>
+                                            <Chip
+                                                label="Debe generar el respectivo EDT para este rubro"
+                                                icon={<CelebrationOutlinedIcon className="!text-teal-700 !ml-2" />}
+                                                className="!bg-teal-200 hover:!bg-teal-50 !text-teal-700 mt-4 !px-1 hover:cursor-pointer"
+                                            />
+                                        </Link>
+                                    )}
 
-                                {!presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.sumar_al_presupuesto && (
+                                {/* {!presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.sumar_al_presupuesto && (
                                     <Chip label="Este uso presupuestal NO suma al total del presupuesto" className="!bg-blue-200 hover:!bg-blue-50 !text-blue-500 mt-4" />
-                                )}
+                                )} */}
                             </TableCell>
                             <TableCell>
                                 {isSuperAdmin || proyecto.mostrar_recomendaciones ? (

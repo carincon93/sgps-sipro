@@ -1,7 +1,39 @@
-import { FormHelperText, TextField } from '@mui/material'
+import TextField from '@mui/material/TextField'
+
+import PropTypes from 'prop-types'
+import { forwardRef } from 'react'
+
+import { NumericFormat } from 'react-number-format'
+
+import { FormHelperText } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 
-import { forwardRef } from 'react'
+const NumericFormatCustom = forwardRef(function NumericFormatCustom(props, ref) {
+    const { onChange, ...other } = props
+
+    return (
+        <NumericFormat
+            {...other}
+            getInputRef={ref}
+            onValueChange={(values) => {
+                onChange({
+                    target: {
+                        name: props.name,
+                        value: values.value,
+                    },
+                })
+            }}
+            thousandSeparator="."
+            decimalSeparator=","
+            valueIsNumericString
+        />
+    )
+})
+
+NumericFormatCustom.propTypes = {
+    name: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+}
 
 const useStyles = makeStyles({
     root: {
@@ -18,27 +50,22 @@ const useStyles = makeStyles({
         },
     },
 })
-export default forwardRef(function TextInput(
-    { type = 'text', id = '', label = '', error = '', value = '', variant = 'outlined', className = '', inputBackground = '', isFocused = false, ...props },
-    ref,
-) {
+
+export default function TextInput({ name = '', inputBackground, error = '', isCurrency = false, className = '', ...props }) {
     const classes = useStyles({ background: inputBackground })
 
-    if (value === null) {
-        value = ''
-    }
     return (
         <>
             <TextField
-                id={id}
-                label={label}
-                type={type}
-                value={value}
-                variant={variant}
+                name={name}
                 error={error ? true : false}
+                InputProps={{
+                    inputComponent: isCurrency ? NumericFormatCustom : null,
+                }}
                 classes={{
                     root: inputBackground ? classes.root : '',
                 }}
+                variant="outlined"
                 className={'w-full ' + className}
                 {...props}
             />
@@ -49,4 +76,4 @@ export default forwardRef(function TextInput(
             )}
         </>
     )
-})
+}

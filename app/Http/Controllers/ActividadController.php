@@ -163,7 +163,7 @@ class ActividadController extends Controller
             'tecnoacademiaRelacionada'              => $proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia : null,
             'aulasMoviles'                          => AulaMovil::where('ta_id', $proyecto->id)->get(),
 
-            'proyectoPresupuesto'                   => ProyectoPresupuesto::select('proyecto_presupuesto.id as value', 'proyecto_presupuesto.descripcion as label')->where('proyecto_presupuesto.proyecto_id', $proyecto->id)->with('convocatoriaPresupuesto.presupuestoSennova.segundoGrupoPresupuestal:id,nombre', 'convocatoriaPresupuesto.presupuestoSennova.tercerGrupoPresupuestal:id,nombre', 'convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal:id,descripcion')->get(),
+            'proyectoPresupuesto'                   => ProyectoPresupuesto::select('proyecto_presupuesto.id as value', 'proyecto_presupuesto.descripcion as label')->where('proyecto_presupuesto.proyecto_id', $proyecto->id)->with('convocatoriaProyectoRubrosPresupuestales.presupuestoSennova.usoPresupuestal')->get(),
             'proyectoRoles'                         => ProyectoRolSennova::select('proyecto_rol_sennova.id as value', 'roles_sennova.nombre as label')
                                                         ->join('convocatoria_rol_sennova', 'proyecto_rol_sennova.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')
                                                         ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')

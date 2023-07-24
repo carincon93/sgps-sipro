@@ -13,7 +13,7 @@ import ToolTipMui from '@/Components/Tooltip'
 import TableMui from '@/Components/Table'
 import StepperMui from '@/Components/Stepper'
 
-import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
+import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import AulaMovil from './AulasMoviles/Index'
 import Form from './Form'
@@ -752,7 +752,7 @@ const Actividades = ({
                                         Del {actividad.fecha_inicio} al {actividad.fecha_finalizacion}
                                     </p>
                                 ) : (
-                                    <span class="bg-red-100 text-red-400 hover:bg-red-200 px-2 py-1 rounded-3xl text-center inline-block mt-2 mb-2">Sin fechas definidas</span>
+                                    <Chip className="!bg-red-100 !text-red-400 !hover:bg-red-200 px-2 py-1 my-2" label="Sin fechas definidas" />
                                 )}
                             </TableCell>
                             <TableCell>{actividad.objetivo_especifico.descripcion}</TableCell>

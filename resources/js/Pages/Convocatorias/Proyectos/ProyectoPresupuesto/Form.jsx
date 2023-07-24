@@ -9,7 +9,7 @@ import TextInput from '@/Components/TextInput'
 import Textarea from '@/Components/Textarea'
 
 import { useForm } from '@inertiajs/react'
-import { Grid, Paper } from '@mui/material'
+import { Chip, Grid, Paper } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 const Form = ({
@@ -27,12 +27,11 @@ const Form = ({
     conceptosViaticos,
 }) => {
     const form = useForm({
-        segundo_grupo_presupuestal_id: rubroPresupuestal?.convocatoria_presupuesto?.presupuesto_sennova?.segundo_grupo_presupuestal_id ?? null,
-        tercer_grupo_presupuestal_id: rubroPresupuestal?.convocatoria_presupuesto?.presupuesto_sennova?.tercer_grupo_presupuestal_id ?? null,
-        convocatoria_presupuesto_id: rubroPresupuestal?.convocatoria_presupuesto_id ?? null,
+        segundo_grupo_presupuestal_id: null,
+        tercer_grupo_presupuestal_id: null,
+        convocatoria_presupuesto_id: rubroPresupuestal?.convocatoria_proyecto_rubros_presupuestales.map((item) => item.id),
         descripcion: rubroPresupuestal?.descripcion ?? '',
         justificacion: rubroPresupuestal?.justificacion ?? '',
-        numero_items: rubroPresupuestal?.numero_items ?? '',
         tipo_software: rubroPresupuestal?.software_info?.tipo_software ?? '',
         tipo_licencia: rubroPresupuestal?.software_info?.tipo_licencia ?? '',
         fecha_inicio: rubroPresupuestal?.software_info?.fecha_inicio ?? '',
@@ -45,50 +44,95 @@ const Form = ({
     const [arrayTecerGrupoPresupuestal, setArrayTecerGrupoPresupuestal] = useState([])
     const [arrayUsosPresupuestales, setArrayUsosPresupuestales] = useState([])
     const [requiereEstudioMercado, setRequiereEstudioMercado] = useState(true)
-    const [codigoUsoPresupuestal, setCodigoUsoPresupuestal] = useState('')
+    const [codigosUsosPresupuestales, setCodigosUsosPresupuestales] = useState([])
     const [codigoSegundoGrupoPresupuestal, setCodigoSegundoGrupoPresupuestal] = useState('')
-    useEffect(() => {
-        setRequiereEstudioMercado(true)
-        setArrayTecerGrupoPresupuestal([])
-        setArrayUsosPresupuestales([])
+    const [sameValuesRequiereEstudioMercado, setSameValuesRequiereEstudioMercado] = useState(false)
+    const [modificarUsosPresupuestales, setModificarUsosPresupuestales] = useState(false)
 
-        setTimeout(() => {
-            const filteredTecerGrupoPresupuestal = tercerGrupoPresupuestal.filter((obj) => obj.segundo_grupo_presupuestal_id == form.data.segundo_grupo_presupuestal_id)
-            setArrayTecerGrupoPresupuestal(filteredTecerGrupoPresupuestal)
-            setCodigoSegundoGrupoPresupuestal(segundoGrupoPresupuestal.find((obj) => obj.value == form.data.segundo_grupo_presupuestal_id)?.codigo)
-        }, 500)
+    useEffect(() => {
+        if (form.data.segundo_grupo_presupuestal_id) {
+            setRequiereEstudioMercado(true)
+            setArrayTecerGrupoPresupuestal([])
+            setArrayUsosPresupuestales([])
+
+            setTimeout(() => {
+                const filteredTecerGrupoPresupuestal = tercerGrupoPresupuestal.filter((item) => item.segundo_grupo_presupuestal_id == form.data.segundo_grupo_presupuestal_id)
+                setArrayTecerGrupoPresupuestal(filteredTecerGrupoPresupuestal)
+                setCodigoSegundoGrupoPresupuestal(segundoGrupoPresupuestal.find((item) => item.value == form.data.segundo_grupo_presupuestal_id)?.codigo)
+            }, 500)
+        }
     }, [form.data.segundo_grupo_presupuestal_id])
 
     useEffect(() => {
-        setRequiereEstudioMercado(true)
-        setArrayUsosPresupuestales([])
+        if (form.data.tercer_grupo_presupuestal_id) {
+            setRequiereEstudioMercado(true)
 
-        setTimeout(() => {
-            const filteredUsosPresupuestales = usosPresupuestales.filter(
-                (obj) => obj.segundo_grupo_presupuestal_id == form.data.segundo_grupo_presupuestal_id && obj.tercer_grupo_presupuestal_id == form.data.tercer_grupo_presupuestal_id,
-            )
-            setArrayUsosPresupuestales(filteredUsosPresupuestales)
-        }, 500)
+            setTimeout(() => {
+                const filteredUsosPresupuestales = usosPresupuestales.filter(
+                    (item) => item.segundo_grupo_presupuestal_id == form.data.segundo_grupo_presupuestal_id && item.tercer_grupo_presupuestal_id == form.data.tercer_grupo_presupuestal_id,
+                )
+
+                setArrayUsosPresupuestales((prevArray) => [...prevArray, ...filteredUsosPresupuestales])
+            }, 500)
+        }
     }, [form.data.tercer_grupo_presupuestal_id])
 
     useEffect(() => {
-        setCodigoUsoPresupuestal(arrayUsosPresupuestales.find((obj) => obj.value == form.data.convocatoria_presupuesto_id)?.codigo_uso_presupuestal)
-        setRequiereEstudioMercado(arrayUsosPresupuestales.find((item) => item.value == form.data.convocatoria_presupuesto_id)?.requiere_estudio_mercado)
+        if (form.data.convocatoria_presupuesto_id) {
+            setSameValuesRequiereEstudioMercado(
+                arrayUsosPresupuestales
+                    .filter((item) => form.data.convocatoria_presupuesto_id?.includes(item.value))
+                    .every(
+                        (item) =>
+                            item.requiere_estudio_mercado ===
+                            arrayUsosPresupuestales.find((item) => item.value == form.data.convocatoria_presupuesto_id[form.data.convocatoria_presupuesto_id.length - 1])?.requiere_estudio_mercado,
+                    ),
+            )
+
+            if (
+                sameValuesRequiereEstudioMercado &&
+                arrayUsosPresupuestales.find((item) => item.value == form.data.convocatoria_presupuesto_id[form.data.convocatoria_presupuesto_id.length - 1])?.requiere_estudio_mercado
+            ) {
+                setRequiereEstudioMercado(true)
+            } else if (
+                sameValuesRequiereEstudioMercado &&
+                arrayUsosPresupuestales.find((item) => item.value == form.data.convocatoria_presupuesto_id[form.data.convocatoria_presupuesto_id.length - 1])?.requiere_estudio_mercado == false
+            ) {
+                setRequiereEstudioMercado(false)
+            }
+
+            setCodigosUsosPresupuestales(arrayUsosPresupuestales.filter((item) => form.data.convocatoria_presupuesto_id?.includes(item.value)))
+        }
     }, [form.data.convocatoria_presupuesto_id])
+
+    useEffect(() => {
+        if (rubroPresupuestal && rubroPresupuestal.convocatoria_proyecto_rubros_presupuestales[0].requiere_estudio_mercado === true) {
+            setRequiereEstudioMercado(true)
+        } else if (rubroPresupuestal && rubroPresupuestal.convocatoria_proyecto_rubros_presupuestales[0].requiere_estudio_mercado === false) {
+            setRequiereEstudioMercado(false)
+        }
+
+        if (rubroPresupuestal && rubroPresupuestal.convocatoria_proyecto_rubros_presupuestales.length > 0) {
+            setModificarUsosPresupuestales(true)
+        }
+
+        setCodigosUsosPresupuestales(usosPresupuestales.filter((item) => form.data.convocatoria_presupuesto_id?.includes(item.value)))
+    }, [rubroPresupuestal])
 
     const submit = (e) => {
         e.preventDefault()
-        if (proyecto.allowed.to_update) {
-            method == 'crear'
-                ? form.post(route('convocatorias.proyectos.presupuesto.store', [convocatoria.id, proyecto.id]), {
-                      onSuccess: () => setDialogStatus(false),
-                      preserveScroll: true,
-                  })
-                : form.put(route('convocatorias.proyectos.presupuesto.update', [convocatoria.id, proyecto.id, rubroPresupuestal.id]), {
-                      onSuccess: () => setDialogStatus(false),
-                      preserveScroll: true,
-                  })
-        }
+
+        method == 'crear'
+            ? form.post(route('convocatorias.proyectos.presupuesto.store', [convocatoria.id, proyecto.id]), {
+                  onSuccess: () => setDialogStatus(false),
+                  preserveScroll: true,
+              })
+            : proyecto.allowed.to_update
+            ? form.put(route('convocatorias.proyectos.presupuesto.update', [convocatoria.id, proyecto.id, rubroPresupuestal.id]), {
+                  onSuccess: () => setDialogStatus(false),
+                  preserveScroll: true,
+              })
+            : null
     }
 
     return (
@@ -99,78 +143,118 @@ const Form = ({
 
             <Grid item md={8}>
                 <Paper className="p-8">
+                    {modificarUsosPresupuestales && (
+                        <>
+                            <h1>Usos presupuestales</h1>
+
+                            <ul className="mt-6 space-y-2 list-disc">
+                                {rubroPresupuestal.convocatoria_proyecto_rubros_presupuestales.map((convocatoriaRubroPresupuestal, i) => (
+                                    <li key={i}>
+                                        <p className="first-letter:uppercase">
+                                            {convocatoriaRubroPresupuestal.presupuesto_sennova.uso_presupuestal.descripcion}
+                                            <Chip
+                                                component="span"
+                                                label={convocatoriaRubroPresupuestal.requiere_estudio_mercado ? 'Requiere estudio de mercado' : 'No requiere estudio de mercado'}
+                                                className="ml-2"
+                                                size="small"
+                                            />
+                                        </p>
+                                    </li>
+                                ))}
+                            </ul>
+                        </>
+                    )}
+
                     <form onSubmit={submit} id="form-proyecto-presupuesto">
                         <fieldset disabled={proyecto.allowed.to_update ? false : true}>
-                            <div className={`${arrayTecerGrupoPresupuestal.length == 0 ? 'mb-[13.8rem]' : 'mb-0'}`}>
-                                <Label required labelFor="segundo_grupo_presupuestal_id" value="Rubro concepto interno SENA" />
-                                <Autocomplete
-                                    id="segundo_grupo_presupuestal_id"
-                                    options={segundoGrupoPresupuestal}
-                                    selectedValue={form.data.segundo_grupo_presupuestal_id}
-                                    onChange={(e, newValue) => form.setData('segundo_grupo_presupuestal_id', newValue.value)}
-                                    error={form.errors.segundo_grupo_presupuestal_id}
-                                    placeholder="Seleccione una opción"
-                                    required
-                                />
-                            </div>
-
-                            {arrayTecerGrupoPresupuestal.length > 0 && (
-                                <div className={`mt-8 ${arrayUsosPresupuestales.length == 0 ? 'mb-[7rem]' : 'mb-0'}`}>
-                                    <Label required labelFor="tercer_grupo_presupuestal_id" value="Rubro concepto ministerio de hacienda" />
-                                    <Autocomplete
-                                        id="tercer_grupo_presupuestal_id"
-                                        options={arrayTecerGrupoPresupuestal}
-                                        selectedValue={form.data.tercer_grupo_presupuestal_id}
-                                        onChange={(e, newValue) => form.setData('tercer_grupo_presupuestal_id', newValue.value)}
-                                        error={form.errors.tercer_grupo_presupuestal_id}
-                                        placeholder="Seleccione una opción"
-                                        required
-                                    />
-                                </div>
-                            )}
-
-                            {arrayUsosPresupuestales.length > 0 && (
-                                <div className="mt-8">
-                                    <Label required labelFor="convocatoria_presupuesto_id" value="Usos presupuestales" />
-                                    <SelectMultiple
-                                        id="convocatoria_presupuesto_id"
-                                        options={arrayUsosPresupuestales}
-                                        bdValues={form.data.convocatoria_presupuesto_id}
-                                        onChange={(event, newValue) => {
-                                            const selectedValues = newValue.map((option) => option.value)
-                                            form.setData((prevData) => ({
-                                                ...prevData,
-                                                convocatoria_presupuesto_id: selectedValues,
-                                            }))
-                                        }}
-                                        error={form.errors.convocatoria_presupuesto_id}
-                                        required
-                                    />
-                                </div>
-                            )}
-
-                            {!requiereEstudioMercado && (
+                            {!modificarUsosPresupuestales && (
                                 <>
-                                    <AlertMui hiddenIcon={true}>
-                                        <strong>Importante:</strong> El uso presupuestal seleccionado no requiere de estudio de mercado.
-                                    </AlertMui>
+                                    <div className={`${arrayTecerGrupoPresupuestal.length == 0 ? 'mb-[13.8rem]' : 'mb-0'}`}>
+                                        <Label required labelFor="segundo_grupo_presupuestal_id" value="Rubro concepto interno SENA" />
+                                        <Autocomplete
+                                            id="segundo_grupo_presupuestal_id"
+                                            options={segundoGrupoPresupuestal}
+                                            selectedValue={form.data.segundo_grupo_presupuestal_id}
+                                            onChange={(e, newValue) => form.setData('segundo_grupo_presupuestal_id', newValue.value)}
+                                            error={form.errors.segundo_grupo_presupuestal_id}
+                                            placeholder="Seleccione una opción"
+                                            required
+                                        />
+                                    </div>
 
+                                    {arrayTecerGrupoPresupuestal.length > 0 && (
+                                        <div className={`mt-8 ${arrayUsosPresupuestales.length == 0 ? 'mb-[7rem]' : 'mb-0'}`}>
+                                            <Label required labelFor="tercer_grupo_presupuestal_id" value="Rubro concepto ministerio de hacienda" />
+                                            <Autocomplete
+                                                id="tercer_grupo_presupuestal_id"
+                                                options={arrayTecerGrupoPresupuestal}
+                                                selectedValue={form.data.tercer_grupo_presupuestal_id}
+                                                onChange={(e, newValue) => form.setData('tercer_grupo_presupuestal_id', newValue.value)}
+                                                error={form.errors.tercer_grupo_presupuestal_id}
+                                                placeholder="Seleccione una opción"
+                                                required
+                                            />
+                                        </div>
+                                    )}
+
+                                    {arrayUsosPresupuestales.length > 0 && (
+                                        <div className="mt-8">
+                                            <Label required labelFor="convocatoria_presupuesto_id" value="Usos presupuestales" />
+                                            <SelectMultiple
+                                                id="convocatoria_presupuesto_id"
+                                                options={arrayUsosPresupuestales}
+                                                bdValues={form.data.convocatoria_presupuesto_id}
+                                                onChange={(event, newValue) => {
+                                                    const selectedValues = newValue.map((option) => option.value)
+
+                                                    form.setData((prevData) => ({
+                                                        ...prevData,
+                                                        convocatoria_presupuesto_id: selectedValues,
+                                                    }))
+                                                }}
+                                                error={form.errors.convocatoria_presupuesto_id}
+                                                required
+                                            />
+                                        </div>
+                                    )}
+                                </>
+                            )}
+
+                            {method == 'editar' && (
+                                <ButtonMui
+                                    onClick={() => (
+                                        setModificarUsosPresupuestales(!modificarUsosPresupuestales),
+                                        form.setData((prevData) => ({
+                                            ...prevData,
+                                            segundo_grupo_presupuestal_id: [],
+                                            tercer_grupo_presupuestal_id: [],
+                                            convocatoria_presupuesto_id: [],
+                                        }))
+                                    )}
+                                    className="!my-6">
+                                    {!modificarUsosPresupuestales ? 'Cancelar' : 'Modificar usos presupuestales'}
+                                </ButtonMui>
+                            )}
+
+                            {requiereEstudioMercado == false && (
+                                <>
                                     <div className="mt-10">
                                         <TextInput
                                             label="Valor total"
                                             id="valor_total"
-                                            type="number"
-                                            inputProps={{ min: 0 }}
-                                            className="mt-1"
+                                            isCurrency={true}
+                                            inputProps={{ min: 0, prefix: '$' }}
                                             value={form.data.valor_total}
                                             onChange={(e) => form.setData('valor_total', e.target.value)}
                                             error={form.errors.valor_total}
                                             required
                                         />
+                                        <AlertMui hiddenIcon={true}>
+                                            <strong>Importante:</strong> El uso presupuestal seleccionado no requiere de estudio de mercado. Por favor diligencie el VALOR TOTAL.
+                                        </AlertMui>
                                     </div>
                                 </>
                             )}
-
                             <div className="mt-8">
                                 <Textarea
                                     label="Describa los bienes o servicios a adquirir. Sea específico"
@@ -181,7 +265,6 @@ const Form = ({
                                     required
                                 />
                             </div>
-
                             <div className="mt-8">
                                 <Textarea
                                     label="Justificación de la necesidad: ¿por qué se requiere este producto o servicio?"
@@ -192,8 +275,7 @@ const Form = ({
                                     required
                                 />
                             </div>
-
-                            {codigoUsoPresupuestal == '2010100600203101' && (
+                            {codigosUsosPresupuestales.some((item) => item.codigo_uso_presupuestal == '2010100600203101' || item.codigo_uso_presupuestal == '2020100400708') && (
                                 <>
                                     <div className="mt-8">
                                         <Autocomplete
@@ -249,8 +331,7 @@ const Form = ({
                                     </div>
                                 </>
                             )}
-
-                            {codigoUsoPresupuestal == '2020200800901' && (
+                            {codigosUsosPresupuestales.some((item) => item.codigo_uso_presupuestal == '2020200800901') && (
                                 <div className="mt-8">
                                     <Label required className="mb-4" labelFor="servicio_edicion_info" value="Nodo editorial" />
                                     <Autocomplete
@@ -264,7 +345,6 @@ const Form = ({
                                     />
                                 </div>
                             )}
-
                             {proyecto.codigo_linea_programatica == 69 && (
                                 <>
                                     {(codigoSegundoGrupoPresupuestal == '2041102' || codigoSegundoGrupoPresupuestal == '2041101' || codigoSegundoGrupoPresupuestal == '2041104') && (
@@ -290,10 +370,20 @@ const Form = ({
                         <div className="flex items-center justify-between mt-14 py-4">
                             {proyecto.allowed.to_update ? (
                                 <>
-                                    <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                        {method == 'crear' ? 'Añadir' : 'Modificar'} rubro presupuestal
-                                    </PrimaryButton>
-                                    <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
+                                    {sameValuesRequiereEstudioMercado ? (
+                                        <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
+                                            {method == 'crear' ? 'Añadir' : 'Modificar'} rubro presupuestal
+                                        </PrimaryButton>
+                                    ) : (
+                                        method == 'editar' && (
+                                            <AlertMui hiddenIcon={true} severity="error" className="r-10">
+                                                Hay algunos usos presupuestales que requieren de estudios de mercado y otros no, por favor seleccione primero los que si requieren. Aquellos usos
+                                                presupuestales que no requieren estudios debe agruparlos en otro formulario.
+                                            </AlertMui>
+                                        )
+                                    )}
+
+                                    <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)} className={!sameValuesRequiereEstudioMercado ? '!ml-2 w-full' : ''}>
                                         Cancelar
                                     </ButtonMui>
                                 </>

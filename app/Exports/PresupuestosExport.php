@@ -30,7 +30,7 @@ class PresupuestosExport implements FromCollection, WithHeadings, WithMapping, W
     public function collection()
     {
         $idproyectos = explode(',', $this->convocatoria->proyectos->implode('id', ','));
-        return ProyectoPresupuesto::whereIn('proyecto_id', $idproyectos)->whereNotIn('proyecto_id', [1052, 1113])->with('convocatoriaPresupuesto.presupuestoSennova.tercerGrupoPresupuestal:id,nombre', 'convocatoriaPresupuesto.presupuestoSennova.segundoGrupoPresupuestal:id,nombre,codigo', 'convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal:id,descripcion')->get();
+        return ProyectoPresupuesto::whereIn('proyecto_id', $idproyectos)->whereNotIn('proyecto_id', [1052, 1113])->with('convocatoriaProyectoRubrosPresupuestales.presupuestoSennova.usoPresupuestal')->get();
     }
 
     /**

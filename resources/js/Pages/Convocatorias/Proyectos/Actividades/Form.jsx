@@ -57,13 +57,31 @@ const Form = ({ isSuperAdmin, method = '', setDialogStatus, convocatoria, proyec
                                     <div>
                                         <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
                                         <div className="ml-14">
-                                            <DatePicker id="fecha_inicio" className="mt-1 block w-full p-4" min={proyecto.fecha_inicio} max={proyecto.fecha_finalizacion} value={form.data.fecha_inicio} onChange={(e) => form.setData('fecha_inicio', e.target.value)} error={form.errors.fecha_inicio} required />
+                                            <DatePicker
+                                                id="fecha_inicio"
+                                                className="mt-1 block w-full p-4"
+                                                min={proyecto.fecha_inicio}
+                                                max={proyecto.fecha_finalizacion}
+                                                value={form.data.fecha_inicio}
+                                                onChange={(e) => form.setData('fecha_inicio', e.target.value)}
+                                                error={form.errors.fecha_inicio}
+                                                required
+                                            />
                                         </div>
                                     </div>
                                     <div>
                                         <Label required labelFor="fecha_finalizacion" value="Fecha de finalización" />
                                         <div className="ml-4">
-                                            <DatePicker id="fecha_finalizacion" className="mt-1 block w-full p-4" min={proyecto.fecha_inicio} max={proyecto.fecha_finalizacion} value={form.data.fecha_finalizacion} onChange={(e) => form.setData('fecha_finalizacion', e.target.value)} error={form.errors.fecha_finalizacion} required />
+                                            <DatePicker
+                                                id="fecha_finalizacion"
+                                                className="mt-1 block w-full p-4"
+                                                min={proyecto.fecha_inicio}
+                                                max={proyecto.fecha_finalizacion}
+                                                value={form.data.fecha_finalizacion}
+                                                onChange={(e) => form.setData('fecha_finalizacion', e.target.value)}
+                                                error={form.errors.fecha_finalizacion}
+                                                required
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -71,11 +89,27 @@ const Form = ({ isSuperAdmin, method = '', setDialogStatus, convocatoria, proyec
 
                             <div className="mt-20">
                                 <Label labelFor="resultado_id" value="Resultado" />
-                                <Autocomplete id="resultado_id" options={resultadosFiltrados} selectedValue={form.data.resultado_id} error={form.errors.resultado_id} onChange={(event, newValue) => form.setData('resultado_id', newValue.value)} placeholder="Seleccione un resultado" required />
+                                <Autocomplete
+                                    id="resultado_id"
+                                    options={resultadosFiltrados}
+                                    selectedValue={form.data.resultado_id}
+                                    error={form.errors.resultado_id}
+                                    onChange={(event, newValue) => form.setData('resultado_id', newValue.value)}
+                                    placeholder="Seleccione un resultado"
+                                    required
+                                />
                             </div>
 
                             <div className="mt-20">
-                                <Textarea disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false} label="Descripción" id="descripcion" error={form.errors.descripcion} value={form.data.descripcion} onChange={(e) => form.setData('descripcion', e.target.value)} required />
+                                <Textarea
+                                    disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
+                                    label="Descripción"
+                                    id="descripcion"
+                                    error={form.errors.descripcion}
+                                    value={form.data.descripcion}
+                                    onChange={(e) => form.setData('descripcion', e.target.value)}
+                                    required
+                                />
                             </div>
 
                             <h6 className="mt-20 mb-12 text-2xl">Rubros presupuestales</h6>
@@ -83,7 +117,8 @@ const Form = ({ isSuperAdmin, method = '', setDialogStatus, convocatoria, proyec
                             <AlertMui className="mb-6" hiddenIcon={true}>
                                 Si la actividad no requiere asociar un rubro presupuestal. (Ej: Actividad de PQRS) <br /> Por favor, cambie la siguiente opción a <strong>No</strong>
                                 <hr className="mb-10" />
-                                IMPORTANTE: Solo para actividades que no requieran asociar algún rubro presupuestal. Para el resto de actividades SI debe asociar un rubro para poder completar la<strong className="ml-1.5"> Cadena de valor</strong>.
+                                IMPORTANTE: Solo para actividades que no requieran asociar algún rubro presupuestal. Para el resto de actividades SI debe asociar un rubro para poder completar la
+                                <strong className="ml-1.5">Cadena de valor</strong>.
                                 <div className="mt-4">
                                     <span className="font-black mr-2">Opción seleccionada:</span>
                                     <br />
@@ -150,8 +185,10 @@ const Form = ({ isSuperAdmin, method = '', setDialogStatus, convocatoria, proyec
                                 </div>
                             </div>
                         </fieldset>
+
+                        {actividad && <small className="flex items-center text-app-700">{actividad.updated_at}</small>}
+
                         <div className="flex items-center justify-between mt-14 px-8 py-4">
-                            {actividad && <small className="flex items-center text-app-700">{actividad.updated_at}</small>}
                             {proyecto.allowed.to_update ? (
                                 <>
                                     <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">

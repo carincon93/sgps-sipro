@@ -34,6 +34,7 @@ export default function SelectMultiple({ id = '', label = '', className = '', er
             <AutocompleteMui
                 disablePortal
                 multiple
+                limitTags={10}
                 className={className}
                 id={id}
                 value={selectedOptions}

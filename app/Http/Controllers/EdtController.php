@@ -213,7 +213,7 @@ class EdtController extends Controller
             'evaluacion'            => $evaluacion,
             'edt'                   => $edt,
             'tiposEvento'           => json_decode(Storage::get('json/tipos-edt.json'), true),
-            // 'proyectoPresupuesto'   => $evaluacion->proyecto->proyectoPresupuesto()->selectRaw('id as value, concat(\'Servicios de organización y asistencia de convenciones y ferias\', chr(10), \'∙ Presupuesto: $\', valor_total) as label')->whereHas('convocatoriaPresupuesto.presupuestoSennova.usoPresupuestal', function ($query) {
+            // 'proyectoPresupuesto'   => $evaluacion->proyecto->proyectoPresupuesto()->selectRaw('id as value, concat(\'Servicios de organización y asistencia de convenciones y ferias\', chr(10), \'∙ Presupuesto: $\', valor_total) as label')->whereHas('convocatoriaProyectoRubrosPresupuestales.presupuestoSennova.usoPresupuestal', function ($query) {
             //     $query->where('codigo', '=', '020202008005096');
             // })->get()
         ]);

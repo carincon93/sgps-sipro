@@ -84,11 +84,18 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, proyectoPresupues
                                     <strong>Descargue el Estudio de mercado - Convocatoria Sennova {convocatoria.year} haciendo clic aquí</strong>
                                 </a>
                                 <br />
-                                <p className="ml-14">
-                                    A continuación, diligencie todos los ítems que pertenezcan al uso presupuestal{' '}
-                                    <strong>{proyectoPresupuesto.convocatoria_presupuesto.presupuesto_sennova.uso_presupuestal.descripcion}</strong>. Luego debe subirlo al sistema desde el siguiente
-                                    campo:
-                                </p>
+                                <div className="ml-14">
+                                    A continuación, diligencie el <strong>Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>. Debe incluir ítems que pertenezcan a los usos
+                                    presupuestales:
+                                    <ul className="list-disc ml-4">
+                                        {proyectoPresupuesto.convocatoria_proyecto_rubros_presupuestales.map((convocatoriaRubroPresupuestal, i) => (
+                                            <li key={i}>
+                                                <p className="first-letter:uppercase mb-2 font-black">{convocatoriaRubroPresupuestal.presupuesto_sennova.uso_presupuestal.descripcion}</p>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    Luego debe subirlo al sistema desde el siguiente campo:
+                                </div>
                             </AlertMui>
 
                             <div className="mt-14">
@@ -125,9 +132,10 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, proyectoPresupues
                                 <TextInput
                                     label="Valor total"
                                     id="valor_total"
-                                    type="number"
+                                    isCurrency={true}
                                     inputProps={{
                                         min: 0,
+                                        prefix: '$',
                                     }}
                                     className="!mt-4"
                                     value={form.data.valor_total}

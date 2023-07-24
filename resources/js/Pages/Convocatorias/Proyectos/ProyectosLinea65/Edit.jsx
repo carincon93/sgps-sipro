@@ -44,7 +44,10 @@ const Edit = ({
     const [evaluacionIndex, setEvaluacionIndex] = useState(0)
     const [dialogStatus, setDialogStatus] = useState(false)
 
-    const comentariosEvaluaciones = Object.keys(proyectoLinea65?.proyecto.evaluaciones[evaluacionIndex].cultura_innovacion_evaluacion).filter((field) => field.endsWith('_comentario'))
+    const comentariosEvaluaciones =
+        proyectoLinea65?.proyecto.evaluaciones.length > 0
+            ? Object.keys(proyectoLinea65?.proyecto.evaluaciones[evaluacionIndex].cultura_innovacion_evaluacion).filter((field) => field.endsWith('_comentario'))
+            : null
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyectoLinea65.titulo}</h2>}>
@@ -72,16 +75,17 @@ const Edit = ({
                                 </ButtonMui>
                             ))}
                             <TableMui className="mt-20" rows={['Ítem', 'Comentario']}>
-                                {comentariosEvaluaciones
-                                    .sort((a, b) => a.toString().localeCompare(b.toString()))
-                                    .map((field, i) => (
-                                        <TableRow key={i}>
-                                            <TableCell>
-                                                <p className="first-letter:uppercase">{field.replace(/_comentario/g, '').replace(/_/g, ' ')}</p>
-                                            </TableCell>
-                                            <TableCell>{proyectoLinea65?.proyecto.evaluaciones[evaluacionIndex].cultura_innovacion_evaluacion[field] ?? 'Sin comentarios'}</TableCell>
-                                        </TableRow>
-                                    ))}
+                                {comentariosEvaluaciones &&
+                                    comentariosEvaluaciones
+                                        .sort((a, b) => a.toString().localeCompare(b.toString()))
+                                        .map((field, i) => (
+                                            <TableRow key={i}>
+                                                <TableCell>
+                                                    <p className="first-letter:uppercase">{field.replace(/_comentario/g, '').replace(/_/g, ' ')}</p>
+                                                </TableCell>
+                                                <TableCell>{proyectoLinea65?.proyecto.evaluaciones[evaluacionIndex].cultura_innovacion_evaluacion[field] ?? 'Sin comentarios'}</TableCell>
+                                            </TableRow>
+                                        ))}
                             </TableMui>
                         </>
                     }

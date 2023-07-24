@@ -78,16 +78,17 @@ const Edit = ({
                                         </ButtonMui>
                                     ))}
                                     <TableMui className="mt-20" rows={['Ítem', 'Comentario']}>
-                                        {comentariosEvaluaciones
-                                            .sort((a, b) => a.toString().localeCompare(b.toString()))
-                                            .map((field, i) => (
-                                                <TableRow key={i}>
-                                                    <TableCell>
-                                                        <p className="first-letter:uppercase">{field.replace(/_comentario/g, '').replace(/_/g, ' ')}</p>
-                                                    </TableCell>
-                                                    <TableCell>{proyectoLinea66?.proyecto.evaluaciones[evaluacionIndex]?.idi_evaluacion[field] ?? 'Sin comentarios'}</TableCell>
-                                                </TableRow>
-                                            ))}
+                                        {comentariosEvaluaciones &&
+                                            comentariosEvaluaciones
+                                                .sort((a, b) => a.toString().localeCompare(b.toString()))
+                                                .map((field, i) => (
+                                                    <TableRow key={i}>
+                                                        <TableCell>
+                                                            <p className="first-letter:uppercase">{field.replace(/_comentario/g, '').replace(/_/g, ' ')}</p>
+                                                        </TableCell>
+                                                        <TableCell>{proyectoLinea66?.proyecto.evaluaciones[evaluacionIndex]?.idi_evaluacion[field] ?? 'Sin comentarios'}</TableCell>
+                                                    </TableRow>
+                                                ))}
                                     </TableMui>
                                 </>
                             }
