@@ -48,41 +48,111 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
                     <form onSubmit={submit}>
                         <fieldset disabled={proyecto.allowed.to_update ? false : true}>
                             <div>
-                                <TextInput id="nombre_evento" type="text" error={form.errors.nombre_evento} value={form.data.nombre_evento} onChange={(e) => form.setData('nombre_evento', e.target.value)} label="Nombre del evento" required />
+                                <TextInput
+                                    id="nombre_evento"
+                                    type="text"
+                                    error={form.errors.nombre_evento}
+                                    value={form.data.nombre_evento}
+                                    onChange={(e) => form.setData('nombre_evento', e.target.value)}
+                                    label="Nombre del evento"
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <TextInput id="organizador" type="text" error={form.errors.organizador} value={form.data.organizador} onChange={(e) => form.setData('organizador', e.target.value)} label="Organizador" required />
+                                <TextInput
+                                    id="organizador"
+                                    type="text"
+                                    error={form.errors.organizador}
+                                    value={form.data.organizador}
+                                    onChange={(e) => form.setData('organizador', e.target.value)}
+                                    label="Organizador"
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
                                 <Label required className="mb-4" labelFor="fecha_evento" value="Fecha probable del evento" />
 
-                                <DatePicker id="fecha_evento" className="w-full" value={form.data.fecha_evento} onChange={(e) => form.setData('fecha_evento', e.target.value)} error={form.errors.fecha_evento} required />
+                                <DatePicker
+                                    id="fecha_evento"
+                                    className="w-full"
+                                    value={form.data.fecha_evento}
+                                    onChange={(e) => form.setData('fecha_evento', e.target.value)}
+                                    error={form.errors.fecha_evento}
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <Autocomplete id="tipo_evento" options={tiposEvento} selectedValue={form.data.tipo_evento} onChange={(event, newValue) => form.setData('tipo_evento', newValue.value)} error={form.errors.tipo_evento} label="Tipo de evento" required />
+                                <Autocomplete
+                                    id="tipo_evento"
+                                    options={tiposEvento}
+                                    selectedValue={form.data.tipo_evento}
+                                    onChange={(event, newValue) => form.setData('tipo_evento', newValue.value)}
+                                    error={form.errors.tipo_evento}
+                                    label="Tipo de evento"
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <Textarea id="descripcion_evento" error={form.errors.descripcion_evento} value={form.data.descripcion_evento} onChange={(e) => form.setData('descripcion_evento', e.target.value)} label="Descripción del evento" required />
+                                <Textarea
+                                    id="descripcion_evento"
+                                    error={form.errors.descripcion_evento}
+                                    value={form.data.descripcion_evento}
+                                    onChange={(e) => form.setData('descripcion_evento', e.target.value)}
+                                    label="Descripción del evento"
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <Textarea id="descripcion_participacion_entidad" error={form.errors.descripcion_participacion_entidad} value={form.data.descripcion_participacion_entidad} onChange={(e) => form.setData('descripcion_participacion_entidad', e.target.value)} label="Descripción de participación de la entidad" required />
+                                <Textarea
+                                    id="descripcion_participacion_entidad"
+                                    error={form.errors.descripcion_participacion_entidad}
+                                    value={form.data.descripcion_participacion_entidad}
+                                    onChange={(e) => form.setData('descripcion_participacion_entidad', e.target.value)}
+                                    label="Descripción de participación de la entidad"
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <TextInput id="publico_objetivo" type="text" error={form.errors.publico_objetivo} value={form.data.publico_objetivo} onChange={(e) => form.setData('publico_objetivo', e.target.value)} label="Público objetivo" required />
+                                <TextInput
+                                    id="publico_objetivo"
+                                    type="text"
+                                    error={form.errors.publico_objetivo}
+                                    value={form.data.publico_objetivo}
+                                    onChange={(e) => form.setData('publico_objetivo', e.target.value)}
+                                    label="Público objetivo"
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <TextInput id="numero_asistentes" type="number" inputProps={{ min: 0 }} error={form.errors.numero_asistentes} value={form.data.numero_asistentes} onChange={(e) => form.setData('numero_asistentes', e.target.value)} label="Número de asistentes" required />
+                                <TextInput
+                                    id="numero_asistentes"
+                                    type="number"
+                                    inputProps={{ min: 0 }}
+                                    error={form.errors.numero_asistentes}
+                                    value={form.data.numero_asistentes}
+                                    onChange={(e) => form.setData('numero_asistentes', e.target.value)}
+                                    label="Número de asistentes"
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <TextInput id="estrategia_comunicacion" type="text" error={form.errors.estrategia_comunicacion} value={form.data.estrategia_comunicacion} onChange={(e) => form.setData('estrategia_comunicacion', e.target.value)} label="Estrategia de comunicación" required />
+                                <TextInput
+                                    id="estrategia_comunicacion"
+                                    type="text"
+                                    error={form.errors.estrategia_comunicacion}
+                                    value={form.data.estrategia_comunicacion}
+                                    onChange={(e) => form.setData('estrategia_comunicacion', e.target.value)}
+                                    label="Estrategia de comunicación"
+                                    required
+                                />
                             </div>
                         </fieldset>
 

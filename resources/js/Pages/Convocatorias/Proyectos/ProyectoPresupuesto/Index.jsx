@@ -9,9 +9,10 @@ import TableMui from '@/Components/Table'
 import ToolTipMui from '@/Components/Tooltip'
 import StepperMui from '@/Components/Stepper'
 
-import CelebrationOutlinedIcon from '@mui/icons-material/CelebrationOutlined'
 import AirplaneTicketIcon from '@mui/icons-material/AirplaneTicket'
+import CelebrationOutlinedIcon from '@mui/icons-material/CelebrationOutlined'
 import FolderSharedIcon from '@mui/icons-material/FolderShared'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
@@ -21,6 +22,7 @@ import { useState } from 'react'
 import { route, checkRole } from '@/Utils'
 
 import Form from './Form'
+import React from 'react'
 
 const RubrosPresupuestales = ({
     auth,
@@ -106,25 +108,45 @@ const RubrosPresupuestales = ({
                                         />
                                     </Link>
                                 ) : (
-                                    <Chip label="No requiere de estudios de mercado" className="!bg-blue-200 hover:!bg-blue-50 !text-blue-500 mt-4" />
+                                    <Chip
+                                        icon={<InfoOutlinedIcon className="!text-blue-500 !ml-2" />}
+                                        label="No requiere de estudios de mercado"
+                                        className="!bg-blue-200 hover:!bg-blue-50 !text-blue-500 mt-4"
+                                    />
                                 )}
-                                {usosPresupuestales
-                                    .filter((item1) => presupuesto?.convocatoria_proyecto_rubros_presupuestales?.some((item2) => item2.id == item1.value))
-                                    .map((item) => item.codigo_uso_presupuestal)
-                                    .includes('20202008005096') &&
-                                    proyecto.codigo_linea_programatica == 70 && (
-                                        <Link href={route('convocatorias.proyectos.presupuesto.edt.index', [convocatoria.id, proyecto.id, presupuesto.id])}>
-                                            <Chip
-                                                label="Debe generar el respectivo EDT para este rubro"
-                                                icon={<CelebrationOutlinedIcon className="!text-teal-700 !ml-2" />}
-                                                className="!bg-teal-200 hover:!bg-teal-50 !text-teal-700 mt-4 !px-1 hover:cursor-pointer"
-                                            />
-                                        </Link>
-                                    )}
+                                
+                                {proyecto.codigo_linea_programatica == 70 && (
+                                    <>
+                                        {usosPresupuestales
+                                            .filter((item1) => presupuesto?.convocatoria_proyecto_rubros_presupuestales?.some((item2) => item2.id == item1.value))
+                                            .map((item) => item.codigo_uso_presupuestal)
+                                            .includes('20202008005096') && (
+                                            <Link href={route('convocatorias.proyectos.presupuesto.edt.index', [convocatoria.id, proyecto.id, presupuesto.id])}>
+                                                <Chip
+                                                    label="Debe generar los respectivos EDTs para este rubro"
+                                                    icon={<CelebrationOutlinedIcon className="!text-teal-700 !ml-2" />}
+                                                    className="!bg-teal-200 hover:!bg-teal-50 !text-teal-700 mt-4 !px-1 hover:cursor-pointer"
+                                                />
+                                            </Link>
+                                        )}
+                                    </>
+                                )}
 
-                                {/* {!presupuesto.convocatoria_presupuesto?.presupuesto_sennova?.sumar_al_presupuesto && (
-                                    <Chip label="Este uso presupuestal NO suma al total del presupuesto" className="!bg-blue-200 hover:!bg-blue-50 !text-blue-500 mt-4" />
-                                )} */}
+                                {presupuesto.convocatoria_proyecto_rubros_presupuestales.map((rubroPresupuestal, i) => (
+                                    <React.Fragment key={i}>
+                                        {rubroPresupuestal.presupuesto_sennova.segundo_grupo_presupuestal.codigo == '2041102' ||
+                                        rubroPresupuestal.presupuesto_sennova.segundo_grupo_presupuestal.codigo == '2041101' ||
+                                        rubroPresupuestal.presupuesto_sennova.segundo_grupo_presupuestal.codigo == '2041104' ? (
+                                            <Link href={route('convocatorias.proyectos.presupuesto.municipios.index', [convocatoria.id, proyecto.id, presupuesto.id])}>
+                                                <Chip
+                                                    label="Debe relacionar los municipios a visitar"
+                                                    icon={<AirplaneTicketIcon className="!text-teal-700 !ml-2" />}
+                                                    className="!bg-teal-200 hover:!bg-teal-50 !text-teal-700 mt-4 !px-1 hover:cursor-pointer"
+                                                />
+                                            </Link>
+                                        ) : null}
+                                    </React.Fragment>
+                                ))}
                             </TableCell>
                             <TableCell>
                                 {isSuperAdmin || proyecto.mostrar_recomendaciones ? (

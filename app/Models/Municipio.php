@@ -90,16 +90,6 @@ class Municipio extends Model
     }
 
     /**
-     * Relationship with TaTpViaticosMunicipio
-     *
-     * @return object
-     */
-    public function taTpViaticosMunicipios()
-    {
-        return $this->hasMany(TaTpViaticosMunicipio::class);
-    }
-
-    /**
      * Filtrar registros
      *
      * @param  mixed $query

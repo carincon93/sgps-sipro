@@ -122,17 +122,17 @@ const Form = ({
     const submit = (e) => {
         e.preventDefault()
 
-        method == 'crear'
-            ? form.post(route('convocatorias.proyectos.presupuesto.store', [convocatoria.id, proyecto.id]), {
-                  onSuccess: () => setDialogStatus(false),
-                  preserveScroll: true,
-              })
-            : proyecto.allowed.to_update
-            ? form.put(route('convocatorias.proyectos.presupuesto.update', [convocatoria.id, proyecto.id, rubroPresupuestal.id]), {
-                  onSuccess: () => setDialogStatus(false),
-                  preserveScroll: true,
-              })
-            : null
+        if (proyecto.allowed.to_update) {
+            method == 'crear'
+                ? form.post(route('convocatorias.proyectos.presupuesto.store', [convocatoria.id, proyecto.id]), {
+                      onSuccess: () => setDialogStatus(false),
+                      preserveScroll: true,
+                  })
+                : form.put(route('convocatorias.proyectos.presupuesto.update', [convocatoria.id, proyecto.id, rubroPresupuestal.id]), {
+                      onSuccess: () => setDialogStatus(false),
+                      preserveScroll: true,
+                  })
+        }
     }
 
     return (

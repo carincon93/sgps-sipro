@@ -5,7 +5,6 @@ import DialogMui from '@/Components/Dialog'
 import MenuMui from '@/Components/Menu'
 import PaginationMui from '@/Components/Pagination'
 import TableMui from '@/Components/Table'
-import ToolTipMui from '@/Components/Tooltip'
 import StepperMui from '@/Components/Stepper'
 
 import MoreVertIcon from '@mui/icons-material/MoreVert'
@@ -17,71 +16,63 @@ import { useState } from 'react'
 
 import Form from './Form'
 
-const EDT = ({ auth, convocatoria, proyecto, presupuesto, eventos, tiposEvento, ...props }) => {
+const Municipios = ({ auth, convocatoria, proyecto, presupuesto, taTpViaticosMunicipios, municipios, proyectoRolesSennova, distanciasMunicipios, frecuenciasSemanales, ...props }) => {
     const authUser = auth.user
     const isSuperAdmin = checkRole(authUser, [1])
 
-    const [eventoToDestroy, setEdtToDestroy] = useState(null)
+    const [municipioToDestroy, setMunicipioToDestroy] = useState(null)
     const [dialogStatus, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
-    const [edt, setEdt] = useState(null)
+    const [municipio, setMunicipio] = useState(null)
 
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} label="EDT" />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto} label="Municipios" />
             </Grid>
 
             <Grid item md={12}>
-                <h1 className="text-3xl mb-8 text-center">EDT</h1>
-
-                {isSuperAdmin || proyecto.mostrar_recomendaciones ? (
-                    <>
-                        {proyecto.evaluaciones.map((evaluacion, i) =>
-                            isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado) ? (
-                                <ToolTipMui
-                                    key={i}
-                                    title={
-                                        <div>
-                                            <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                            <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion?.edt_comentario ? evaluacion.ta_evaluacion.edt_comentario : 'Sin recomendación'}</p>
-                                        </div>
-                                    }>
-                                    Evaluación {i + 1}
-                                </ToolTipMui>
-                            ) : null,
-                        )}
-                        {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
-                    </>
-                ) : null}
+                <h1 className="text-3xl mb-8 text-center">Municipios</h1>
 
                 {isSuperAdmin || proyecto.allowed.to_update ? (
-                    <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setEdt(null))} variant="raised">
-                        Añadir EDT
+                    <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setMunicipio(null))} variant="raised">
+                        Añadir municipio
                     </ButtonMui>
                 ) : null}
             </Grid>
             <Grid item md={12}>
-                <TableMui className="mt-20" rows={['Descripción del evento', 'Fechas', 'Presupuesto', 'Acciones']} sxCellThead={{ width: '320px' }}>
-                    {eventos.data.map((evento, i) => (
+                <TableMui className="mt-20" rows={['Municipios a visitar', 'Información de la visita', 'Actividades a realizar', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    {taTpViaticosMunicipios.map((municipioAVisitar, i) => (
                         <TableRow key={i}>
-                            <TableCell>{evento.descripcion_evento}</TableCell>
-                            <TableCell>{evento.numero_asistentes}</TableCell>
-                            <TableCell>${new Intl.NumberFormat('de-DE').format(!isNaN(evento.proyecto_presupuesto.valor_total) ? evento.proyecto_presupuesto.valor_total : 0)}</TableCell>
+                            <TableCell>
+                                {municipios
+                                    .filter((item) => JSON.parse(municipioAVisitar.municipios).includes(item.value))
+                                    .map((item) => item.label)
+                                    .join(', ')}
+                            </TableCell>
+                            <TableCell>
+                                / Distancia aprox. municipios: {distanciasMunicipios.find((item) => item.value == municipioAVisitar.distancia_municipio).label}
+                                <br />/ Frecuencia semanal de visita: {frecuenciasSemanales.find((item) => item.value == municipioAVisitar.frecuencia_semanal).label}
+                                <br />/ Número de visitas: {municipioAVisitar.numero_visitas}
+                            </TableCell>
+
+                            <TableCell>
+                                <p className="line-clamp-4">{municipioAVisitar.actividad_a_realizar}</p>
+                            </TableCell>
 
                             <TableCell>
                                 <MenuMui text={<MoreVertIcon />}>
-                                    {evento.id !== eventoToDestroy ? (
+                                    {municipioAVisitar.id !== municipioToDestroy ? (
                                         <div>
                                             <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setEdt(evento))}
+                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setMunicipio(municipioAVisitar))}
                                                 disabled={!proyecto.allowed.to_update}
                                                 className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                                 Editar
                                             </MenuItem>
                                             <MenuItem
                                                 onClick={() => {
-                                                    setEdtToDestroy(evento.id)
+                                                    setMunicipioToDestroy(municipioAVisitar.id)
                                                 }}>
                                                 Eliminar
                                             </MenuItem>
@@ -90,7 +81,7 @@ const EDT = ({ auth, convocatoria, proyecto, presupuesto, eventos, tiposEvento, 
                                         <div>
                                             <MenuItem
                                                 onClick={(e) => {
-                                                    setEdtToDestroy(null)
+                                                    setMunicipioToDestroy(null)
                                                 }}>
                                                 Cancelar
                                             </MenuItem>
@@ -99,9 +90,12 @@ const EDT = ({ auth, convocatoria, proyecto, presupuesto, eventos, tiposEvento, 
                                                 onClick={(e) => {
                                                     e.stopPropagation()
                                                     if (proyecto.allowed.to_update) {
-                                                        router.delete(route('convocatorias.proyectos.presupuesto.edt.destroy', [convocatoria.id, proyecto.id, presupuesto.id, evento.id]), {
-                                                            preserveScroll: true,
-                                                        })
+                                                        router.delete(
+                                                            route('convocatorias.proyectos.presupuesto.municipios.destroy', [convocatoria.id, proyecto.id, presupuesto.id, municipioAVisitar.id]),
+                                                            {
+                                                                preserveScroll: true,
+                                                            },
+                                                        )
                                                     }
                                                 }}>
                                                 Confirmar
@@ -127,15 +121,18 @@ const EDT = ({ auth, convocatoria, proyecto, presupuesto, eventos, tiposEvento, 
                             proyecto={proyecto}
                             convocatoria={convocatoria}
                             presupuesto={presupuesto}
-                            edt={edt}
-                            tiposEvento={tiposEvento}
+                            municipioAVisitar={municipio}
+                            municipios={municipios}
+                            proyectoRolesSennova={proyectoRolesSennova}
+                            distanciasMunicipios={distanciasMunicipios}
+                            frecuenciasSemanales={frecuenciasSemanales}
                         />
                     }
                 />
             </Grid>
-            <PaginationMui links={eventos.links} />
+            <PaginationMui links={taTpViaticosMunicipios.links} />
         </AuthenticatedLayout>
     )
 }
 
-export default EDT
+export default Municipios

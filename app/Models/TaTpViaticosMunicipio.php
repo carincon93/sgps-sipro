@@ -24,7 +24,7 @@ class TaTpViaticosMunicipio extends Model
     protected $fillable = [
         'proyecto_rol_sennova_id',
         'proyecto_presupuesto_id',
-        'municipio_id',
+        'municipios',
         'actividad_a_realizar',
         'distancia_municipio',
         'frecuencia_semanal',
@@ -48,16 +48,6 @@ class TaTpViaticosMunicipio extends Model
     protected $casts = [
         //
     ];
-
-    /**
-     * Relationship with Municipio
-     *
-     * @return object
-     */
-    public function municipio()
-    {
-        return $this->belongsTo(Municipio::class);
-    }
 
     /**
      * Relationship with ProyectoPresupuesto

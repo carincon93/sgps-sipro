@@ -222,17 +222,24 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, ...pr
                 </Link>
             </Step>
 
-            {(proyecto?.codigo_linea_programatica != 23 && proyecto?.codigo_linea_programatica != 65) || (proyecto?.codigo_linea_programatica == 65 && proyecto?.tipo_proyecto != 2) ? (
+            {proyecto?.codigo_linea_programatica !== 23 && proyecto?.codigo_linea_programatica !== 65 && (
                 <Step active={route().current('convocatorias.proyectos.proyecto-rol-sennova.index')}>
                     <Link href={route('convocatorias.proyectos.proyecto-rol-sennova.index', [convocatoria?.id, proyecto?.id])}>
                         <StepLabel classes={{ root: classes.root }}>Roles</StepLabel>
                     </Link>
                 </Step>
-            ) : (
-                <></>
             )}
 
-            <Step active={route().current('convocatorias.proyectos.presupuesto.index') ? true : props.label == 'Estudios de mercado' ? true : props.label == 'EDT'}>
+            {proyecto?.codigo_linea_programatica === 65 && proyecto?.tipo_proyecto !== 2 && (
+                <Step active={route().current('convocatorias.proyectos.proyecto-rol-sennova.index')}>
+                    <Link href={route('convocatorias.proyectos.proyecto-rol-sennova.index', [convocatoria?.id, proyecto?.id])}>
+                        <StepLabel classes={{ root: classes.root }}>Roles</StepLabel>
+                    </Link>
+                </Step>
+            )}
+
+            <Step
+                active={route().current('convocatorias.proyectos.presupuesto.index') ? true : props.label == 'Estudios de mercado' ? true : props.label == 'EDT' ? true : props.label == 'Municipios'}>
                 <Link href={route('convocatorias.proyectos.presupuesto.index', [convocatoria?.id, proyecto?.id])}>
                     <StepLabel classes={{ root: classes.root }}>
                         Rubros presupuestales
@@ -241,11 +248,16 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, ...pr
                                 <SouthOutlinedIcon className="!block mx-auto my-2" />
                                 Estudios de mercado
                             </>
+                        ) : props.label == 'EDT' ? (
+                            <>
+                                <SouthOutlinedIcon className="!block mx-auto my-2" />
+                                EDT
+                            </>
                         ) : (
-                            props.label == 'EDT' && (
+                            props.label == 'Municipios' && (
                                 <>
                                     <SouthOutlinedIcon className="!block mx-auto my-2" />
-                                    EDT
+                                    Municipios
                                 </>
                             )
                         )}
@@ -279,9 +291,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, ...pr
                         <StepLabel classes={{ root: classes.root }}>Entidades aliadas</StepLabel>
                     </Link>
                 </Step>
-            ) : (
-                <></>
-            )}
+            ) : null}
 
             {proyecto?.codigo_linea_programatica == 23 || proyecto?.codigo_linea_programatica == 66 || proyecto?.codigo_linea_programatica == 82 ? (
                 <Step active={route().current('convocatorias.idi.indicadores')}>
@@ -289,9 +299,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, ...pr
                         <StepLabel classes={{ root: classes.root }}>Indicadores</StepLabel>
                     </Link>
                 </Step>
-            ) : (
-                <></>
-            )}
+            ) : null}
 
             <Step active={route().current('convocatorias.proyectos.proyecto-anexos.index')}>
                 <Link href={route('convocatorias.proyectos.proyecto-anexos.index', [convocatoria?.id, proyecto?.id])}>
@@ -313,7 +321,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, ...pr
                 </Link>
             </Step>
 
-            {(isSuperAdmin && convocatoria?.tipo_convocatoria == 1) || (proyecto?.mostrar_recomendaciones && convocatoria?.tipo_convocatoria == 1) ? (
+            {/* {(isSuperAdmin && convocatoria?.tipo_convocatoria == 1) || (proyecto?.mostrar_recomendaciones && convocatoria?.tipo_convocatoria == 1) ? (
                 <Step active={route().current('convocatorias.proyectos.comentarios-generales-form')}>
                     <Link href={route('convocatorias.proyectos.comentarios-generales-form', [convocatoria?.id, proyecto?.id])}>
                         <StepLabel classes={{ root: classes.root }}>Comentarios generales</StepLabel>
@@ -321,7 +329,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, ...pr
                 </Step>
             ) : (
                 <></>
-            )}
+            )} */}
 
             <Step active={route().current('convocatorias.proyectos.summary')} onClick={() => route('convocatorias.proyectos.summary', [convocatoria?.id, proyecto?.id])}>
                 <StepLabel classes={{ root: classes.root }}>Finalizar proyecto</StepLabel>

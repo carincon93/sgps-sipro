@@ -109,7 +109,6 @@ class ConvocatoriaController extends Controller
         return Inertia::render('Convocatorias/Edit', [
             'convocatoria'                               => $convocatoria,
             'lineasProgramaticas'                        => LineaProgramatica::selectRaw("id as value, CONCAT(nombre, ' - Código: ', codigo) as label")->orderBy('nombre', 'ASC')->get(),
-            'lineasProgramaticasActivasRelacionadas'     => LineaProgramatica::select("id")->whereIn('id', $convocatoria->lineas_programaticas_activas ? json_decode($convocatoria->lineas_programaticas_activas) : [])->pluck('id')->flatten(),
             'fases'                                      => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
         ]);
     }

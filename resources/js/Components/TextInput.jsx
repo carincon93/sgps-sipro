@@ -51,7 +51,7 @@ const useStyles = makeStyles({
     },
 })
 
-export default function TextInput({ name = '', inputBackground, error = '', isCurrency = false, className = '', ...props }) {
+export default function TextInput({ id = '', name = '', inputBackground, error = '', isCurrency = false, className = '', ...props }) {
     const classes = useStyles({ background: inputBackground })
 
     return (

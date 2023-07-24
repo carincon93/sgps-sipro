@@ -654,8 +654,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/download-file-sharepoint/{tipo_archivo}', [ProyectoPresupuestoController::class, 'downloadFileSharepoint'])->name('convocatorias.proyectos.presupuesto.download-file-sharepoint');
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/download/{formato}', [ProyectoPresupuestoController::class, 'downloadServerFile'])->name('convocatorias.proyectos.presupuesto.download');
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/estudio-mercado', [ProyectoPresupuestoController::class, 'storeEstudioMercado'])->name('convocatorias.proyectos.presupuesto.estudio-mercado.store');
-    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/municipios', [ProyectoPresupuestoController::class, 'municipiosAVisitar'])->name('convocatorias.proyectos.presupuesto.municipios.store');
-    Route::delete('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/municipios/{taTpViaticosMunicipio}', [ProyectoPresupuestoController::class, 'eliminarMunicipio'])->name('convocatorias.proyectos.presupuesto.municipios.destroy');
+
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/municipios', [ProyectoPresupuestoController::class, 'indexMunicipiosAVisitar'])->name('convocatorias.proyectos.presupuesto.municipios.index');
+    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/municipios', [ProyectoPresupuestoController::class, 'storeMunicipiosAVisitar'])->name('convocatorias.proyectos.presupuesto.municipios.store');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/municipios/{taTpViaticosMunicipio}', [ProyectoPresupuestoController::class, 'updateMunicipiosAVisitar'])->name('convocatorias.proyectos.presupuesto.municipios.update');
+    Route::delete('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/municipios/{taTpViaticosMunicipio}', [ProyectoPresupuestoController::class, 'destroyMunicipioAVisitar'])->name('convocatorias.proyectos.presupuesto.municipios.destroy');
+
     Route::resource('convocatorias.proyectos.presupuesto', ProyectoPresupuestoController::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos' => 'proyecto', 'presupuesto' => 'presupuesto'])->except(['show']);
 
     /**

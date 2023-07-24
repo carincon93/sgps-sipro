@@ -14,8 +14,7 @@ import Textarea from '@/Components/Textarea'
 
 import { Grid, Paper } from '@mui/material'
 
-const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, lineasProgramaticasActivasRelacionadas, fases }) => {
-    // Validar si el usuario autenticado es SuperAdmin
+const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, fases }) => {
     const authUser = auth.user
     const isSuperAdmin = checkRole(authUser, [1])
 
@@ -36,7 +35,7 @@ const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, lineasProgramat
         esta_activa: convocatoria.esta_activa,
         visible: convocatoria.visible,
         mostrar_recomendaciones: convocatoria.mostrar_recomendaciones,
-        lineas_programaticas_activas: lineasProgramaticasActivasRelacionadas.length > 0 ? lineasProgramaticasActivasRelacionadas : null,
+        lineas_programaticas_activas: JSON.parse(convocatoria.lineas_programaticas_activas) ?? null,
     })
 
     const submitInfo = (e) => {
@@ -65,7 +64,16 @@ const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, lineasProgramat
                                         <Label required className="mb-4" labelFor="fase" value="Fase" />
                                     </div>
                                     <div>
-                                        <Autocomplete id="fase" options={fases} value={formFase.data.fase} onChange={(event, newValue) => formFase.setData('fase', newValue.value)} error={errors.fase} autoComplete={false} placeholder="Seleccione una fase" required />
+                                        <Autocomplete
+                                            id="fase"
+                                            options={fases}
+                                            value={formFase.data.fase}
+                                            onChange={(event, newValue) => formFase.setData('fase', newValue.value)}
+                                            error={errors.fase}
+                                            autoComplete={false}
+                                            placeholder="Seleccione una fase"
+                                            required
+                                        />
                                     </div>
 
                                     {formFase.data.fase?.label && (
@@ -74,7 +82,14 @@ const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, lineasProgramat
                                                 <Label required labelFor="fecha_finalizacion_fase" value={`Fecha de finalización de la fase: ${formFase.data.fase.label.toLowerCase()}`} />
                                             </div>
                                             <div>
-                                                <DatePicker variant="outlined" id="fecha_finalizacion_fase" className="w-full" value={formFase.data.fecha_finalizacion_fase} onChange={(e) => formFase.setData('fecha_finalizacion_fase', e.target.value)} required />
+                                                <DatePicker
+                                                    variant="outlined"
+                                                    id="fecha_finalizacion_fase"
+                                                    className="w-full"
+                                                    value={formFase.data.fecha_finalizacion_fase}
+                                                    onChange={(e) => formFase.setData('fecha_finalizacion_fase', e.target.value)}
+                                                    required
+                                                />
                                             </div>
                                         </>
                                     )}
@@ -83,7 +98,15 @@ const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, lineasProgramat
                                         <Label required labelFor="hora_finalizacion_fase" value="Hora límite" />
                                     </div>
                                     <div>
-                                        <input id="hora_finalizacion_fase" type="time" step="1" className="p-2 border rounded border-gray-300" value={formFase.data.hora_finalizacion_fase} onChange={(e) => formFase.setData('hora_finalizacion_fase', e.target.value)} required />
+                                        <input
+                                            id="hora_finalizacion_fase"
+                                            type="time"
+                                            step="1"
+                                            className="p-2 border rounded border-gray-300"
+                                            value={formFase.data.hora_finalizacion_fase}
+                                            onChange={(e) => formFase.setData('hora_finalizacion_fase', e.target.value)}
+                                            required
+                                        />
                                     </div>
                                 </div>
 
@@ -103,19 +126,28 @@ const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, lineasProgramat
                                     {formFase.data.fase?.value === 3 && (
                                         <>
                                             <strong>Tenga en cuenta</strong>
-                                            <p>La fase de {formFase.data.fase.label.toLowerCase()} permitirá a los formuladores modificar aquellos proyectos que pueden ser subsanados y a los evaluadores se le bloqueará la acción de modificar las evaluaciones.</p>
+                                            <p>
+                                                La fase de {formFase.data.fase.label.toLowerCase()} permitirá a los formuladores modificar aquellos proyectos que pueden ser subsanados y a los
+                                                evaluadores se le bloqueará la acción de modificar las evaluaciones.
+                                            </p>
                                         </>
                                     )}
                                     {formFase.data.fase?.value === 4 && (
                                         <>
                                             <strong>Tenga en cuenta</strong>
-                                            <p>La fase de {formFase.data.fase.label.toLowerCase()} bloqueará a los formuladores la acción de modificar aquellos proyectos que pasaron a etapa de subsanación y a los evaluadores se le habilitarán aquellas evaluaciones de proyectos subsanados.</p>
+                                            <p>
+                                                La fase de {formFase.data.fase.label.toLowerCase()} bloqueará a los formuladores la acción de modificar aquellos proyectos que pasaron a etapa de
+                                                subsanación y a los evaluadores se le habilitarán aquellas evaluaciones de proyectos subsanados.
+                                            </p>
                                         </>
                                     )}
                                     {formFase.data.fase?.value === 5 && (
                                         <>
                                             <strong>Tenga en cuenta</strong>
-                                            <p>La fase de {formFase.data.fase.label.toLowerCase()} bloqueará a los formuladores la modificación de proyectos y a los evaluadores la modificación de las evaluaciones.</p>
+                                            <p>
+                                                La fase de {formFase.data.fase.label.toLowerCase()} bloqueará a los formuladores la modificación de proyectos y a los evaluadores la modificación de las
+                                                evaluaciones.
+                                            </p>
                                         </>
                                     )}
                                 </AlertMui>
@@ -141,11 +173,23 @@ const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, lineasProgramat
                     <form onSubmit={submitInfo}>
                         <fieldset className="p-8" disabled={isSuperAdmin ? undefined : true}>
                             <div className="mt-8">
-                                <Textarea label="Descripción" id="descripcion" error={errors.descripcion} value={formConvocatoria.data.descripcion} onChange={(e) => formConvocatoria.setData('descripcion', e.target.value)} required />
+                                <Textarea
+                                    label="Descripción"
+                                    id="descripcion"
+                                    error={errors.descripcion}
+                                    value={formConvocatoria.data.descripcion}
+                                    onChange={(e) => formConvocatoria.setData('descripcion', e.target.value)}
+                                    required
+                                />
                             </div>
 
                             <div className="mt-10 mb-20">
-                                <Label required labelFor="esta_activa" value="¿Desea activar esta convocatoria? (Si la opción está habilitada permite a los usuarios formular proyectos. Tenga en cuenta que solo puede activar una convocatoria por tipo --Proyectos de convocatoria - Proyectos de ejecicio DEMO)" className="inline-block mb-4" />
+                                <Label
+                                    required
+                                    labelFor="esta_activa"
+                                    value="¿Desea activar esta convocatoria? (Si la opción está habilitada permite a los usuarios formular proyectos. Tenga en cuenta que solo puede activar una convocatoria por tipo --Proyectos de convocatoria - Proyectos de ejecicio DEMO)"
+                                    className="inline-block mb-4"
+                                />
                                 <br />
                                 <SwitchMui checked={formConvocatoria.data.esta_activa} onChange={(e) => formConvocatoria.setData('esta_activa', e.target.checked)} />
                             </div>
@@ -171,14 +215,24 @@ const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, lineasProgramat
                             </div>
 
                             <div className="mt-10 mb-20">
-                                <Label required labelFor="visible" value="Defina la visibilidad de la convocatoria. (Si la opción está habilitada permite a los usuarios visualizar la convocatoria)" className="inline-block mb-4" />
+                                <Label
+                                    required
+                                    labelFor="visible"
+                                    value="Defina la visibilidad de la convocatoria. (Si la opción está habilitada permite a los usuarios visualizar la convocatoria)"
+                                    className="inline-block mb-4"
+                                />
                                 <br />
                                 <SwitchMui checked={formConvocatoria.data.visible} onChange={(e) => formConvocatoria.setData('visible', e.target.checked)} onMessage="Visible" offMessage="Oculta" />
                             </div>
 
                             {(convocatoria.tipo_convocatoria == 1 || convocatoria.tipo_convocatoria == 3) && (
                                 <div className="mt-4 mb-20">
-                                    <Label required labelFor="mostrar_recomendaciones" value="¿Desea que el formulador visualice las recomendaciones hechas por los evaluadores?" className="inline-block mb-4" />
+                                    <Label
+                                        required
+                                        labelFor="mostrar_recomendaciones"
+                                        value="¿Desea que el formulador visualice las recomendaciones hechas por los evaluadores?"
+                                        className="inline-block mb-4"
+                                    />
                                     <br />
                                     <SwitchMui checked={formConvocatoria.data.mostrar_recomendaciones} onChange={(e) => formConvocatoria.setData('mostrar_recomendaciones', e.target.checked)} />
                                 </div>

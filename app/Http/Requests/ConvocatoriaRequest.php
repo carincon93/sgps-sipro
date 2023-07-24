@@ -42,12 +42,6 @@ class ConvocatoriaRequest extends FormRequest
             'year' => date('Y', strtotime($this->year))
         ]);
 
-        if (is_array($this->tipo_convocatoria)) {
-            $this->merge([
-                'tipo_convocatoria' => $this->tipo_convocatoria['value']
-            ]);
-        }
-
         if (is_array($this->lineas_programaticas_activas)) {
             $this->merge([
                 'lineas_programaticas_activas' => json_encode($this->lineas_programaticas_activas)
