@@ -1,11 +1,34 @@
-import TextField from '@mui/material/TextField'
 import AutocompleteMui from '@mui/material/Autocomplete'
+import TextField from '@mui/material/TextField'
+
 import { FormHelperText } from '@mui/material'
+import { makeStyles } from '@mui/styles'
+
 import { useEffect, useState } from 'react'
 
-export default function SelectMultiple({ id = '', label = '', className = '', error = '', isGroupable = false, options = [], bdValues, ...props }) {
+const useStyles = makeStyles((theme) => ({
+    popper: {
+        '&.MuiAutocomplete-popper': {
+            whiteSpace: 'pre-line',
+        },
+    },
+    root: {
+        '& .MuiFormLabel-root': {
+            background: (props) => props.background,
+            padding: '0 5px',
+            borderRadius: '8px',
+            left: '-4px',
+        },
+    },
+    inputRoot: {
+        background: (props) => props.background,
+    },
+}))
+
+export default function SelectMultiple({ id = '', label = '', className = '', error = '', isGroupable = false, options = [], bdValues, inputBackground, ...props }) {
     const [selectedOptions, setSelectedOptions] = useState([])
     const [optionsFiltered, setOptions] = useState([])
+    const classes = useStyles({ background: inputBackground })
 
     useEffect(() => {
         const tmpOptionsFiltered = options.map((option) => {
@@ -35,6 +58,7 @@ export default function SelectMultiple({ id = '', label = '', className = '', er
                 disablePortal
                 multiple
                 limitTags={10}
+                classes={{ popper: classes.popper, root: inputBackground ? classes.root : '', inputRoot: classes.inputRoot }}
                 className={className}
                 id={id}
                 value={selectedOptions}

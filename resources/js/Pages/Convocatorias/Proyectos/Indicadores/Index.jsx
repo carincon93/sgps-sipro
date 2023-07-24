@@ -30,7 +30,7 @@ const Indicadores = ({ auth, convocatoria, idi, ...props }) => {
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} />
+                <StepperMui convocatoria={convocatoria} proyecto={idi.proyecto} />
             </Grid>
 
             <Grid item md={12} className="!mb-20">

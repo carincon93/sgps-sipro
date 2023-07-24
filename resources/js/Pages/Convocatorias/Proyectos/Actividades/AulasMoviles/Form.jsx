@@ -49,19 +49,52 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aulaMovil 
                     <form onSubmit={submit} id="form-proyecto-presupuesto">
                         <fieldset disabled={proyecto.allowed.to_update ? false : true}>
                             <div className="mt-8">
-                                <TextInput id="placa" type="text" onChange={(e) => form.setData('placa', e.target.value)} error={form.errors.placa} value={form.data.placa} label="Placa del vehículo" required />
+                                <TextInput
+                                    id="placa"
+                                    type="text"
+                                    onChange={(e) => form.setData('placa', e.target.value)}
+                                    error={form.errors.placa}
+                                    value={form.data.placa}
+                                    label="Placa del vehículo"
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <TextInput id="modelo" type="number" onChange={(e) => form.setData('modelo', e.target.value)} error={form.errors.modelo} inputProps={{ min: 0 }} value={form.data.modelo} label="Modelo del vehículo" required />
+                                <TextInput
+                                    id="modelo"
+                                    type="number"
+                                    onChange={(e) => form.setData('modelo', e.target.value)}
+                                    error={form.errors.modelo}
+                                    inputProps={{ min: 0 }}
+                                    value={form.data.modelo}
+                                    label="Modelo del vehículo"
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <Textarea id="logros_vigencia" onChange={(e) => form.setData('logros_vigencia', e.target.value)} error={form.errors.logros_vigencia} value={form.data.logros_vigencia} label="Acciones desarrolladas y logros en la vigencia actual con el Aula Móvil" required />
+                                <Textarea
+                                    id="logros_vigencia"
+                                    onChange={(e) => form.setData('logros_vigencia', e.target.value)}
+                                    error={form.errors.logros_vigencia}
+                                    value={form.data.logros_vigencia}
+                                    label="Acciones desarrolladas y logros en la vigencia actual con el Aula Móvil"
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <TextInput id="numero_municipios_visitados" type="number" onChange={(e) => form.setData('numero_municipios_visitados', e.target.value)} error={form.errors.numero_municipios_visitados} inputProps={{ min: 0 }} value={form.data.numero_municipios_visitados} label="Número de municipios visitados en la vigencia actual" required />
+                                <TextInput
+                                    id="numero_municipios_visitados"
+                                    type="number"
+                                    onChange={(e) => form.setData('numero_municipios_visitados', e.target.value)}
+                                    error={form.errors.numero_municipios_visitados}
+                                    inputProps={{ min: 0 }}
+                                    value={form.data.numero_municipios_visitados}
+                                    label="Número de municipios visitados en la vigencia actual"
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
@@ -78,23 +111,61 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aulaMovil 
                             </div>
 
                             <div className="mt-8">
-                                <TextInput id="estado" type="text" onChange={(e) => form.setData('estado', e.target.value)} error={form.errors.estado} value={form.data.estado} label="Estado actual (mecánico) del Aula Móvil" required />
+                                <TextInput
+                                    id="estado"
+                                    type="text"
+                                    onChange={(e) => form.setData('estado', e.target.value)}
+                                    error={form.errors.estado}
+                                    value={form.data.estado}
+                                    label="Estado actual (mecánico) del Aula Móvil"
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <Textarea id="modulos_interactivos" onChange={(e) => form.setData('modulos_interactivos', e.target.value)} error={form.errors.modulos_interactivos} value={form.data.modulos_interactivos} label="Módulos interactivos en el Aula Móvil" required />
+                                <Textarea
+                                    id="modulos_interactivos"
+                                    onChange={(e) => form.setData('modulos_interactivos', e.target.value)}
+                                    error={form.errors.modulos_interactivos}
+                                    value={form.data.modulos_interactivos}
+                                    label="Módulos interactivos en el Aula Móvil"
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <Textarea id="acciones_a_desarrollar" onChange={(e) => form.setData('acciones_a_desarrollar', e.target.value)} error={form.errors.acciones_a_desarrollar} value={form.data.acciones_a_desarrollar} label={`Acciones que espera desarrollar con el Aula Móvole en la vigencia ${convocatoria.year}`} required />
+                                <Textarea
+                                    id="acciones_a_desarrollar"
+                                    onChange={(e) => form.setData('acciones_a_desarrollar', e.target.value)}
+                                    error={form.errors.acciones_a_desarrollar}
+                                    value={form.data.acciones_a_desarrollar}
+                                    label={`Acciones que espera desarrollar con el Aula Móvole en la vigencia ${convocatoria.year}`}
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <TextInput id="numero_aprendices_a_beneficiar" type="number" onChange={(e) => form.setData('numero_aprendices_a_beneficiar', e.target.value)} error={form.errors.numero_aprendices_a_beneficiar} inputProps={{ min: 0 }} value={form.data.numero_aprendices_a_beneficiar} label={`Número de aprendices a beneficiar en la vigencia ${convocatoria.year}`} required />
+                                <TextInput
+                                    id="numero_aprendices_a_beneficiar"
+                                    type="number"
+                                    onChange={(e) => form.setData('numero_aprendices_a_beneficiar', e.target.value)}
+                                    error={form.errors.numero_aprendices_a_beneficiar}
+                                    inputProps={{ min: 0 }}
+                                    value={form.data.numero_aprendices_a_beneficiar}
+                                    label={`Número de aprendices a beneficiar en la vigencia ${convocatoria.year}`}
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <Textarea id="recursos_mantenimiento" onChange={(e) => form.setData('recursos_mantenimiento', e.target.value)} error={form.errors.recursos_mantenimiento} value={form.data.recursos_mantenimiento} label={`Requerimientos de recursos de Mantenimiento para la vigencia ${convocatoria.year}`} required />
+                                <Textarea
+                                    id="recursos_mantenimiento"
+                                    onChange={(e) => form.setData('recursos_mantenimiento', e.target.value)}
+                                    error={form.errors.recursos_mantenimiento}
+                                    value={form.data.recursos_mantenimiento}
+                                    label={`Requerimientos de recursos de Mantenimiento para la vigencia ${convocatoria.year}`}
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
@@ -103,9 +174,15 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aulaMovil 
                                     value={form.data.soat}
                                     filename={aulaMovil?.filename}
                                     extension={aulaMovil?.extension}
-                                    label="Seleccione un archivo"
+                                    label="Seleccione el SOAT"
                                     accept="application/pdf"
-                                    downloadRoute={aulaMovil?.soat ? (aulaMovil?.soat?.includes('http') ? null : route('convocatorias.ta.aulas-moviles.download-file-sharepoint', [convocatoria, proyecto, aulaMovil.id, 'soat'])) : null}
+                                    downloadRoute={
+                                        aulaMovil?.soat
+                                            ? aulaMovil?.soat?.includes('http')
+                                                ? null
+                                                : route('convocatorias.ta.aulas-moviles.download-file-sharepoint', [convocatoria, proyecto, aulaMovil.id, 'soat'])
+                                            : null
+                                    }
                                     onChange={(e) => form.setData('soat', e.target.files[0])}
                                     error={form.errors.soat}
                                 />
@@ -117,9 +194,15 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aulaMovil 
                                     value={form.data.tecnicomecanica}
                                     filename={aulaMovil?.filename}
                                     extension={aulaMovil?.extension}
-                                    label="Seleccione un archivo"
+                                    label="Seleccione la tecnicomecanica"
                                     accept="application/pdf"
-                                    downloadRoute={aulaMovil?.tecnicomecanica ? (aulaMovil?.tecnicomecanica?.includes('http') ? null : route('convocatorias.ta.aulas-moviles.download-file-sharepoint', [convocatoria, proyecto, aulaMovil.id, 'tecnicomecanica'])) : null}
+                                    downloadRoute={
+                                        aulaMovil?.tecnicomecanica
+                                            ? aulaMovil?.tecnicomecanica?.includes('http')
+                                                ? null
+                                                : route('convocatorias.ta.aulas-moviles.download-file-sharepoint', [convocatoria, proyecto, aulaMovil.id, 'tecnicomecánica'])
+                                            : null
+                                    }
                                     onChange={(e) => form.setData('tecnicomecanica', e.target.files[0])}
                                     error={form.errors.tecnicomecanica}
                                 />

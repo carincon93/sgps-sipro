@@ -102,7 +102,7 @@ const RubrosPresupuestales = ({
                                 {presupuesto.convocatoria_proyecto_rubros_presupuestales[0]?.requiere_estudio_mercado ? (
                                     <Link href={route('convocatorias.proyectos.presupuesto.soportes.index', [convocatoria.id, proyecto.id, presupuesto.id])}>
                                         <Chip
-                                            label="Ir a los estudios de mercado"
+                                            label="Debe cargar los estudios de mercado"
                                             icon={<FolderSharedIcon className="!text-green-700 !ml-2" />}
                                             className="!bg-green-200 hover:!bg-green-50 !text-green-700 mt-4 !px-1 hover:cursor-pointer"
                                         />
@@ -114,7 +114,7 @@ const RubrosPresupuestales = ({
                                         className="!bg-blue-200 hover:!bg-blue-50 !text-blue-500 mt-4"
                                     />
                                 )}
-                                
+
                                 {proyecto.codigo_linea_programatica == 70 && (
                                     <>
                                         {usosPresupuestales

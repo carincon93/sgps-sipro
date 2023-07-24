@@ -320,8 +320,8 @@ class ProyectoLinea66Controller extends Controller
 
         $idi->proyecto->pdfVersiones;
 
-        $idi->codigo_linea_programatica = $idi->proyecto->lineaProgramatica->codigo;
-        $idi->precio_proyecto           = $idi->proyecto->precioProyecto;
+        $idi->proyecto->codigo_linea_programatica = $idi->proyecto->lineaProgramatica->codigo;
+        $idi->proyecto->precio_proyecto           = $idi->proyecto->precioProyecto;
 
         $idi->disciplinaSubareaConocimiento->subareaConocimiento->areaConocimiento;
         $idi->proyecto->centroFormacion;
