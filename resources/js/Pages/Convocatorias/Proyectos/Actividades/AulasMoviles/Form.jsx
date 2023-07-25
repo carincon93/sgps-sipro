@@ -20,8 +20,8 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aulaMovil 
         acciones_a_desarrollar: aulaMovil?.acciones_a_desarrollar ?? '',
         numero_aprendices_a_beneficiar: aulaMovil?.numero_aprendices_a_beneficiar ?? '',
         recursos_mantenimiento: aulaMovil?.recursos_mantenimiento ?? '',
-        soat: aulaMovil?.soat ?? null,
-        tecnicomecanica: aulaMovil?.tecnicomecanica ?? null,
+        soat: null,
+        tecnicomecanica: null,
     })
 
     const submit = (e) => {
@@ -37,6 +37,8 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aulaMovil 
                   })
         }
     }
+
+    console.log(aulaMovil?.filename.tecnicomecanicaFilename)
 
     return (
         <Grid container spacing={2}>
@@ -172,15 +174,15 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aulaMovil 
                                 <FileInput
                                     id="soat"
                                     value={form.data.soat}
-                                    filename={aulaMovil?.filename}
-                                    extension={aulaMovil?.extension}
+                                    filename={aulaMovil?.filename.soatFilename}
+                                    extension={aulaMovil?.extension.soatExtension}
                                     label="Seleccione el SOAT"
                                     accept="application/pdf"
                                     downloadRoute={
-                                        aulaMovil?.soat
-                                            ? aulaMovil?.soat?.includes('http')
+                                        aulaMovil
+                                            ? aulaMovil?.soat.includes('http') == true || aulaMovil?.soat.includes('http') == undefined
                                                 ? null
-                                                : route('convocatorias.ta.aulas-moviles.download-file-sharepoint', [convocatoria, proyecto, aulaMovil.id, 'soat'])
+                                                : route('convocatorias.ta.aulas-moviles.download-file-sharepoint', [convocatoria.id, proyecto.id, aulaMovil.id, 'soat'])
                                             : null
                                     }
                                     onChange={(e) => form.setData('soat', e.target.files[0])}
@@ -192,9 +194,9 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aulaMovil 
                                 <FileInput
                                     id="tecnicomecanica"
                                     value={form.data.tecnicomecanica}
-                                    filename={aulaMovil?.filename}
-                                    extension={aulaMovil?.extension}
-                                    label="Seleccione la tecnicomecanica"
+                                    filename={aulaMovil?.filename.tecnicomecanicaFilename}
+                                    extension={aulaMovil?.extension.tecnicomecanicaExtension}
+                                    label="Seleccione la tecnicomecánica"
                                     accept="application/pdf"
                                     downloadRoute={
                                         aulaMovil?.tecnicomecanica

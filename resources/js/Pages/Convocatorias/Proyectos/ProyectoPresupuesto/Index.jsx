@@ -54,11 +54,6 @@ const RubrosPresupuestales = ({
             <Grid item md={12}>
                 <h1 className="mt-24 mb-8 text-center text-3xl">Rubros presupuestales</h1>
 
-                <AlertMui hiddenIcon={true} className="my-14">
-                    <strong>Actualmente el total del costo de los productos o servicios requeridos es de:</strong> $
-                    {new Intl.NumberFormat('de-DE').format(!isNaN(proyecto.total_proyecto_presupuesto) ? proyecto.total_proyecto_presupuesto : 0)} COP
-                </AlertMui>
-
                 {proyecto.allowed.to_update && (
                     <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setRubroPresupuestal(null))} variant="raised">
                         Añadir rubro presupuestal
@@ -67,8 +62,12 @@ const RubrosPresupuestales = ({
             </Grid>
 
             <Grid item md={12}>
+                <AlertMui hiddenIcon={true} className="mt-20">
+                    <strong>Actualmente el total del costo de los productos o servicios requeridos es de:</strong> $
+                    {new Intl.NumberFormat('de-DE').format(!isNaN(proyecto.total_proyecto_presupuesto) ? proyecto.total_proyecto_presupuesto : 0)} COP
+                </AlertMui>
                 <TableMui
-                    className="mt-20"
+                    className="mb-8"
                     rows={['Descripción del bien o servicio', 'Subtotal del costo de los productos o servicios requeridos', 'Evaluación', 'Acciones']}
                     sxCellThead={{ width: '320px' }}>
                     {rubrosPresupuestales.data.map((presupuesto, i) => (
@@ -100,12 +99,11 @@ const RubrosPresupuestales = ({
                             <TableCell>
                                 <div>${new Intl.NumberFormat('de-DE').format(presupuesto.valor_total)} COP</div>
                                 {presupuesto.convocatoria_proyecto_rubros_presupuestales[0]?.requiere_estudio_mercado ? (
-                                    <Link href={route('convocatorias.proyectos.presupuesto.soportes.index', [convocatoria.id, proyecto.id, presupuesto.id])}>
-                                        <Chip
-                                            label="Debe cargar los estudios de mercado"
-                                            icon={<FolderSharedIcon className="!text-green-700 !ml-2" />}
-                                            className="!bg-green-200 hover:!bg-green-50 !text-green-700 mt-4 !px-1 hover:cursor-pointer"
-                                        />
+                                    <Link
+                                        href={route('convocatorias.proyectos.presupuesto.soportes.index', [convocatoria.id, proyecto.id, presupuesto.id])}
+                                        className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                        <FolderSharedIcon className=" !mr-2" />
+                                        Debe cargar los estudios de mercado
                                     </Link>
                                 ) : (
                                     <Chip
@@ -121,12 +119,11 @@ const RubrosPresupuestales = ({
                                             .filter((item1) => presupuesto?.convocatoria_proyecto_rubros_presupuestales?.some((item2) => item2.id == item1.value))
                                             .map((item) => item.codigo_uso_presupuestal)
                                             .includes('20202008005096') && (
-                                            <Link href={route('convocatorias.proyectos.presupuesto.edt.index', [convocatoria.id, proyecto.id, presupuesto.id])}>
-                                                <Chip
-                                                    label="Debe generar los respectivos EDTs para este rubro"
-                                                    icon={<CelebrationOutlinedIcon className="!text-teal-700 !ml-2" />}
-                                                    className="!bg-teal-200 hover:!bg-teal-50 !text-teal-700 mt-4 !px-1 hover:cursor-pointer"
-                                                />
+                                            <Link
+                                                href={route('convocatorias.proyectos.presupuesto.edt.index', [convocatoria.id, proyecto.id, presupuesto.id])}
+                                                className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                                <CelebrationOutlinedIcon className="!mr-2" />
+                                                Debe generar los respectivos EDTs
                                             </Link>
                                         )}
                                     </>
@@ -137,12 +134,11 @@ const RubrosPresupuestales = ({
                                         {rubroPresupuestal.presupuesto_sennova.segundo_grupo_presupuestal.codigo == '2041102' ||
                                         rubroPresupuestal.presupuesto_sennova.segundo_grupo_presupuestal.codigo == '2041101' ||
                                         rubroPresupuestal.presupuesto_sennova.segundo_grupo_presupuestal.codigo == '2041104' ? (
-                                            <Link href={route('convocatorias.proyectos.presupuesto.municipios.index', [convocatoria.id, proyecto.id, presupuesto.id])}>
-                                                <Chip
-                                                    label="Debe relacionar los municipios a visitar"
-                                                    icon={<AirplaneTicketIcon className="!text-teal-700 !ml-2" />}
-                                                    className="!bg-teal-200 hover:!bg-teal-50 !text-teal-700 mt-4 !px-1 hover:cursor-pointer"
-                                                />
+                                            <Link
+                                                href={route('convocatorias.proyectos.presupuesto.municipios.index', [convocatoria.id, proyecto.id, presupuesto.id])}
+                                                className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                                <AirplaneTicketIcon className="mr-2" />
+                                                Debe relacionar los municipios a visitar
                                             </Link>
                                         ) : null}
                                     </React.Fragment>

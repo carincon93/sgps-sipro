@@ -162,7 +162,7 @@ class Producto extends Model
         return date('Y', strtotime($this->fecha_finalizacion));
     }
 
-    public function getMEsFinalizacionAttribute()
+    public function getMesFinalizacionAttribute()
     {
         return date('m', strtotime($this->fecha_finalizacion));
     }

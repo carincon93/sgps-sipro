@@ -18,9 +18,7 @@ export default function GuestLayout({ children }) {
                 </div>
             </div>
 
-            <div
-                className="mt-32 relative flex flex-col place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-green-200 after:via-sena-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-sena-700 before:dark:opacity-10 after:dark:from-green-900 after:dark:via-[#01ff67] after:dark:opacity-40 before:lg:h-[360px] w-5/12"
-            >
+            <div className="mt-32 relative flex flex-col place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-green-200 after:via-sena-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-sena-700 before:dark:opacity-10 after:dark:from-green-900 after:dark:via-[#01ff67] after:dark:opacity-40 before:lg:h-[360px] w-5/12">
                 <Link href={route('login')} className="flex items-center justify-center text-orangered-600 text-xl">
                     <ApplicationLogo fill="white" className="w-64 mr-6" />
                 </Link>
@@ -40,14 +38,13 @@ export default function GuestLayout({ children }) {
                         value={data.numero_documento}
                         className="!mt-4 block w-full"
                         label="Número de documento"
-                        isFocused={true}
                         onChange={(e) => setData('numero_documento', e.target.value)}
                     />
 
                     <Link
                         href={`/register?numero_documento=${data.numero_documento}`}
                         className="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-app-500 focus:ring-offset-2 transition ease-in-out duration-150 mt-2">
-                            Verificar
+                        Verificar
                     </Link>
                 </div>
 
@@ -76,4 +73,3 @@ export default function GuestLayout({ children }) {
         </main>
     )
 }
-

@@ -39,7 +39,7 @@ const MiembrosEntidadAliada = ({ auth, convocatoria, proyecto, entidadAliada, mi
             </Grid>
 
             <Grid item md={12}>
-                <TableMui rows={['Nombre', 'Correo electrónico', 'Número de celular', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui className="mb-8" rows={['Nombre', 'Correo electrónico', 'Número de celular', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {miembrosEntidadAliada.data.map((miembroEntidadAliada, i) => (
                         <TableRow key={i}>
                             <TableCell>{miembroEntidadAliada.nombre}</TableCell>
@@ -50,14 +50,16 @@ const MiembrosEntidadAliada = ({ auth, convocatoria, proyecto, entidadAliada, mi
                                 <MenuMui text={<MoreVertIcon />}>
                                     {miembroEntidadAliada.id !== miembroEntidadAliadaToDestroy ? (
                                         <div>
-                                            <MenuItem onClick={() => (setDialogStatus(true), setMethod('editar'), setMiembroEntidadAliada(miembroEntidadAliada))} disabled={!proyecto.allowed.to_update} className={!proyecto.allowed.to_update ? 'hidden' : ''}>
+                                            <MenuItem
+                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setMiembroEntidadAliada(miembroEntidadAliada))}
+                                                disabled={!proyecto.allowed.to_update}
+                                                className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                                 Editar
                                             </MenuItem>
                                             <MenuItem
                                                 onClick={() => {
                                                     setMiembroEntidadAliadaToDestroy(miembroEntidadAliada.id)
-                                                }}
-                                            >
+                                                }}>
                                                 Eliminar
                                             </MenuItem>
                                         </div>
@@ -66,8 +68,7 @@ const MiembrosEntidadAliada = ({ auth, convocatoria, proyecto, entidadAliada, mi
                                             <MenuItem
                                                 onClick={(e) => {
                                                     setMiembroEntidadAliadaToDestroy(null)
-                                                }}
-                                            >
+                                                }}>
                                                 Cancelar
                                             </MenuItem>
                                             <MenuItem
@@ -75,12 +76,19 @@ const MiembrosEntidadAliada = ({ auth, convocatoria, proyecto, entidadAliada, mi
                                                 onClick={(e) => {
                                                     e.stopPropagation()
                                                     if (proyecto.allowed.to_update) {
-                                                        router.delete(route('convocatorias.proyectos.entidades-aliadas.miembros-entidad-aliada.destroy', [convocatoria.id, proyecto.id, entidadAliada.id, miembroEntidadAliada.id]), {
-                                                            preserveScroll: true,
-                                                        })
+                                                        router.delete(
+                                                            route('convocatorias.proyectos.entidades-aliadas.miembros-entidad-aliada.destroy', [
+                                                                convocatoria.id,
+                                                                proyecto.id,
+                                                                entidadAliada.id,
+                                                                miembroEntidadAliada.id,
+                                                            ]),
+                                                            {
+                                                                preserveScroll: true,
+                                                            },
+                                                        )
                                                     }
-                                                }}
-                                            >
+                                                }}>
                                                 Confirmar
                                             </MenuItem>
                                         </div>
@@ -93,7 +101,24 @@ const MiembrosEntidadAliada = ({ auth, convocatoria, proyecto, entidadAliada, mi
 
                 <PaginationMui links={miembrosEntidadAliada.links} />
 
-                <DialogMui open={dialogStatus} fullWidth={true} maxWidth="lg" blurEnabled={true} dialogContent={<Form isSuperAdmin={isSuperAdmin} setDialogStatus={setDialogStatus} method={method} proyecto={proyecto} convocatoria={convocatoria} entidadAliada={entidadAliada} miembroEntidadAliada={miembroEntidadAliada} tiposDocumento={tiposDocumento} />} />
+                <DialogMui
+                    open={dialogStatus}
+                    fullWidth={true}
+                    maxWidth="lg"
+                    blurEnabled={true}
+                    dialogContent={
+                        <Form
+                            isSuperAdmin={isSuperAdmin}
+                            setDialogStatus={setDialogStatus}
+                            method={method}
+                            proyecto={proyecto}
+                            convocatoria={convocatoria}
+                            entidadAliada={entidadAliada}
+                            miembroEntidadAliada={miembroEntidadAliada}
+                            tiposDocumento={tiposDocumento}
+                        />
+                    }
+                />
             </Grid>
         </AuthenticatedLayout>
     )

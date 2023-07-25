@@ -109,12 +109,12 @@ const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisisRiesgos, nivele
             </Grid>
 
             <Grid item md={12}>
-                <TableMui className="mt-20" rows={['Descripción', 'Nivel', 'Tipo de riesgo', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui className="mt-20 mb-8" rows={['Descripción', 'Nivel', 'Tipo de riesgo', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {analisisRiesgos.data.map((analisisRiesgo, i) => (
                         <TableRow key={i}>
                             <TableCell>{analisisRiesgo.descripcion}</TableCell>
-                            <TableCell>{analisisRiesgo.nivel}</TableCell>
-                            <TableCell>{analisisRiesgo.tipo}</TableCell>
+                            <TableCell>{nivelesRiesgo.find((item) => item.value == analisisRiesgo.nivel).label}</TableCell>
+                            <TableCell>{tiposRiesgo.find((item) => item.value == analisisRiesgo.tipo).label}</TableCell>
 
                             <TableCell>
                                 <MenuMui text={<MoreVertIcon />}>

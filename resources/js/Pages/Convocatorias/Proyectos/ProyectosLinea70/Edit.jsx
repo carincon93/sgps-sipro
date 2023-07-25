@@ -11,7 +11,7 @@ import { checkRole, route } from '@/Utils'
 import { Grid, TableCell, TableRow } from '@mui/material'
 import { useState } from 'react'
 
-const Edit = ({ auth, convocatoria, proyectoLinea70, lineasProgramaticas, lineasTecnoacademia, rolesSennova }) => {
+const Edit = ({ auth, convocatoria, proyectoLinea70, lineasProgramaticas, lineasTecnoacademia, infraestructuraTecnoacademia, rolesSennova }) => {
     const authUser = auth.user
     const isSuperAdmin = checkRole(authUser, [1])
 
@@ -77,6 +77,7 @@ const Edit = ({ auth, convocatoria, proyectoLinea70, lineasProgramaticas, lineas
                     proyectoLinea70={proyectoLinea70}
                     lineasTecnoacademia={lineasTecnoacademia}
                     lineasProgramaticas={lineasProgramaticas}
+                    infraestructuraTecnoacademia={infraestructuraTecnoacademia}
                     rolesSennova={rolesSennova}
                 />
             </Grid>

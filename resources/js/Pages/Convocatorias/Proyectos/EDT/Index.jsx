@@ -62,7 +62,7 @@ const EDT = ({ auth, convocatoria, proyecto, presupuesto, eventos, tiposEvento, 
                 ) : null}
             </Grid>
             <Grid item md={12}>
-                <TableMui className="mt-20" rows={['Descripción del evento', 'Fechas', 'Presupuesto', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui className="mt-20 mb-8" rows={['Descripción del evento', 'Fechas', 'Presupuesto', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {eventos.data.map((evento, i) => (
                         <TableRow key={i}>
                             <TableCell>{evento.descripcion_evento}</TableCell>

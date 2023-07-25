@@ -41,7 +41,7 @@ const Municipios = ({ auth, convocatoria, proyecto, presupuesto, taTpViaticosMun
                 ) : null}
             </Grid>
             <Grid item md={12}>
-                <TableMui className="mt-20" rows={['Municipios a visitar', 'Información de la visita', 'Actividades a realizar', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui className="mt-20 mb-8" rows={['Municipios a visitar', 'Información de la visita', 'Actividades a realizar', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {taTpViaticosMunicipios.map((municipioAVisitar, i) => (
                         <TableRow key={i}>
                             <TableCell>

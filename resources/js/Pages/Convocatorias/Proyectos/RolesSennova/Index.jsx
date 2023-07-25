@@ -144,7 +144,7 @@ const RolesSennova = ({
             </Grid>
 
             <Grid item md={12}>
-                <TableMui className="mt-20" rows={['Nombre', 'Asignación mensual', 'Evaluación', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui className="mt-20 mb-8" rows={['Nombre', 'Asignación mensual', 'Evaluación', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {proyectoRolesSennova.data.map((proyectoRolSennova, i) => (
                         <TableRow key={i}>
                             <TableCell>

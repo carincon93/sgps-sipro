@@ -22,7 +22,7 @@ import { useState } from 'react'
 
 import Form from './Form'
 
-const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, infraestructuraTecnoacademia, actividades, tiposEntidadAliada, naturalezaEntidadAliada, tiposEmpresa, ...props }) => {
+const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, actividades, tiposEntidadAliada, naturalezaEntidadAliada, tiposEmpresa, ...props }) => {
     const authUser = auth.user
     const isSuperAdmin = checkRole(authUser, [1])
 
@@ -30,18 +30,6 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, infr
     const [dialogStatus, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
     const [entidadAliada, setEntidadAliada] = useState(null)
-
-    const form = useForm({
-        infraestructura_tecnoacademia: proyecto.infraestructura_tecnoacademia,
-    })
-
-    const submit = (e) => {
-        if (proyecto.allowed.to_update) {
-            form.put(route('convocatorias.ta.infraestrucutra.update', [convocatoria.id, proyecto.id]), {
-                preserveScroll: true,
-            })
-        }
-    }
 
     return (
         <AuthenticatedLayout>
@@ -81,30 +69,6 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, infr
                     </>
                 ) : null}
 
-                {proyecto.codigo_linea_programatica == 70 && (
-                    <form onSubmit={submit} className="mt-8 mb-40">
-                        <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
-                            <div>
-                                <Autocomplete
-                                    id="infraestructura_tecnoacademia"
-                                    options={infraestructuraTecnoacademia}
-                                    selectedValue={form.data.infraestructura_tecnoacademia}
-                                    error={form.errors.infraestructura_tecnoacademia}
-                                    label="La infraestructura donde opera la TecnoAcademia es:"
-                                    required
-                                />
-                            </div>
-                            {proyecto.allowed.to_update && (
-                                <div className="flex items-center justify-between mt-14 py-4">
-                                    <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
-                                        Guardar
-                                    </PrimaryButton>
-                                </div>
-                            )}
-                        </fieldset>
-                    </form>
-                )}
-
                 {isSuperAdmin || proyecto.allowed.to_update ? (
                     <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setEntidadAliada(null))} variant="raised">
                         Añadir entidad aliada
@@ -113,17 +77,11 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, infr
             </Grid>
 
             <Grid item md={12}>
-                {proyecto.codigo_linea_programatica == 70 && (
-                    <AlertMui hiddenIcon={true}>
-                        En el caso de tener un acuerdo, convenio o contrato de arrendamiento para la operación de la TecnoAcademia en una infraestructura de un tercero, es indispensable, adjuntar el
-                        documento contractual una vez este creando la entidad aliada.
-                    </AlertMui>
-                )}
-                <TableMui rows={['Nombre', 'Tipo de entidad aliada', 'Miembros', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui className="mt-20 mb-8" rows={['Nombre', 'Tipo de entidad aliada', 'Miembros', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {entidadesAliadas.data.map((entidadAliada, i) => (
                         <TableRow key={i}>
                             <TableCell>{entidadAliada.nombre}</TableCell>
-                            <TableCell>{entidadAliada.tipo}</TableCell>
+                            <TableCell>{tiposEntidadAliada.find((item) => item.value == entidadAliada.tipo).label}</TableCell>
 
                             <TableCell>
                                 <ButtonMui

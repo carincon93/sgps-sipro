@@ -537,7 +537,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/programas-formacion', [ProyectoController::class, 'storeProgramaFormacion'])->name('convocatorias.proyectos.programas-formacion.store');
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/discurriculares', [DisenoCurricularController::class, 'storeDisCurricular'])->name('convocatorias.proyectos.dis-curriculares.store');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/rol/sennova/ta', [ProyectoLinea70Controller::class, 'updateCantidadRolesTa'])->name('convocatorias.proyectos.rol-sennova-ta.update');
-    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/infraestructura', [ProyectoLinea70Controller::class, 'updateInfraestructura'])->name('convocatorias.ta.infraestrucutra.update');
 
     Route::resource('convocatorias.proyectos.presupuesto.edt', EdtController::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos' => 'proyecto', 'presupuesto' => 'presupuesto', 'edt' => 'edt'])->except(['show']);
     Route::resource('convocatorias.ta', ProyectoLinea70Controller::class)->parameters(['convocatorias' => 'convocatoria', 'ta' => 'ta'])->except(['show']);

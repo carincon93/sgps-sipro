@@ -18,6 +18,13 @@ class EntidadAliadaTaTp extends Model
     protected $table = 'entidad_aliada_ta_tp';
 
     /**
+     * appends
+     *
+     * @var array
+     */
+    protected $appends = ['filename', 'extension'];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -65,5 +72,19 @@ class EntidadAliadaTaTp extends Model
     public function getUpdatedAtAttribute($value)
     {
         return "Última modificación de este formulario: " . Carbon::parse($value, 'UTC')->timezone('America/Bogota')->timezone('America/Bogota')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY [a las] HH:mm:ss');
+    }
+
+    public function getFilenameAttribute()
+    {
+        $fileInfo = pathinfo($this->soporte_convenio);
+
+        return $fileInfo['filename'] ?? '';
+    }
+
+    public function getExtensionAttribute()
+    {
+        $fileInfo = pathinfo($this->soporte_convenio);
+
+        return $fileInfo['extension'] ?? '';
     }
 }

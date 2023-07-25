@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
             background: (props) => props.background,
             padding: '0 5px',
             borderRadius: '8px',
-            left: '-4px',
+            left: '-3px',
         },
     },
     inputRoot: {

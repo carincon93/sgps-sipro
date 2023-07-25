@@ -23,7 +23,6 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulasMoviles, ...props }) => 
 
     return (
         <>
-            <h1 className="text-center text-2xl">Relacione las aulas móviles</h1>
             {proyecto.allowed.to_update && (
                 <div className="flex justify-end mt-10">
                     <ButtonMui
@@ -31,14 +30,13 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulasMoviles, ...props }) => 
                             setDialogStatus(true), setMethod('crear'), setAulaMovil(null)
                         }}
                         variant="raised"
-                        type="button"
-                    >
+                        type="button">
                         Añadir aula móvil
                     </ButtonMui>
                 </div>
             )}
 
-            <TableMui className="mt-20" rows={['Placa / Modelo', 'Estado', 'Acciones']} sxCellThead={{ width: '320px' }}>
+            <TableMui className="mt-20 mb-8" rows={['Placa / Modelo', 'Estado', 'Acciones']}>
                 {aulasMoviles.map((aulaMovil, i) => (
                     <TableRow key={i}>
                         <TableCell>
@@ -50,14 +48,16 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulasMoviles, ...props }) => 
                             <MenuMui text={<MoreVertIcon />}>
                                 {aulaMovil.id !== aulaMovilToDestroy ? (
                                     <div>
-                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('editar'), setAulaMovil(aulaMovil))} disabled={!proyecto.allowed.to_update} className={!proyecto.allowed.to_update ? 'hidden' : ''}>
+                                        <MenuItem
+                                            onClick={() => (setDialogStatus(true), setMethod('editar'), setAulaMovil(aulaMovil))}
+                                            disabled={!proyecto.allowed.to_update}
+                                            className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                             Editar
                                         </MenuItem>
                                         <MenuItem
                                             onClick={() => {
                                                 setAulaMovilToDestroy(aulaMovil.id)
-                                            }}
-                                        >
+                                            }}>
                                             Eliminar
                                         </MenuItem>
                                     </div>
@@ -66,8 +66,7 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulasMoviles, ...props }) => 
                                         <MenuItem
                                             onClick={(e) => {
                                                 setAulaMovilToDestroy(null)
-                                            }}
-                                        >
+                                            }}>
                                             Cancelar
                                         </MenuItem>
                                         <MenuItem
@@ -79,8 +78,7 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulasMoviles, ...props }) => 
                                                         preserveScroll: true,
                                                     })
                                                 }
-                                            }}
-                                        >
+                                            }}>
                                             Confirmar
                                         </MenuItem>
                                     </div>
@@ -91,7 +89,13 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulasMoviles, ...props }) => 
                 ))}
             </TableMui>
 
-            <DialogMui open={dialogStatus} fullWidth={true} maxWidth="lg" blurEnabled={true} dialogContent={<Form isSuperAdmin={isSuperAdmin} setDialogStatus={setDialogStatus} method={method} proyecto={proyecto} convocatoria={convocatoria} aulaMovil={aulaMovil} />} />
+            <DialogMui
+                open={dialogStatus}
+                fullWidth={true}
+                maxWidth="lg"
+                blurEnabled={true}
+                dialogContent={<Form isSuperAdmin={isSuperAdmin} setDialogStatus={setDialogStatus} method={method} proyecto={proyecto} convocatoria={convocatoria} aulaMovil={aulaMovil} />}
+            />
         </>
     )
 }

@@ -94,6 +94,16 @@ const Form = ({ method = '', setDialogStatus, isSuperAdmin, convocatoria, proyec
                     <form onSubmit={submit}>
                         <fieldset disabled={proyecto.allowed.to_update ? false : true}>
                             <Grid container className="space-y-10">
+                                <Grid item md={12}>
+                                    {proyecto.codigo_linea_programatica == 70 && (
+                                        <AlertMui hiddenIcon={true}>
+                                            <p>
+                                                <strong>Importante:</strong> Debe modifcar las fechas de ejecución, meta y las activiades a asociar.
+                                            </p>
+                                        </AlertMui>
+                                    )}
+                                </Grid>
+
                                 <Grid item md={3}>
                                     <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
                                 </Grid>
@@ -125,16 +135,6 @@ const Form = ({ method = '', setDialogStatus, isSuperAdmin, convocatoria, proyec
                                         error={form.errors.fecha_finalizacion}
                                         required
                                     />
-                                </Grid>
-
-                                <Grid item md={12}>
-                                    {proyecto.codigo_linea_programatica == 70 && (
-                                        <AlertMui hiddenIcon={true}>
-                                            <p>
-                                                <strong>Importante:</strong> Debe modifcar las fechas de ejecución, meta y las activiades a asociar.
-                                            </p>
-                                        </AlertMui>
-                                    )}
                                 </Grid>
 
                                 {proyecto.codigo_linea_programatica != 70 || isSuperAdmin ? (

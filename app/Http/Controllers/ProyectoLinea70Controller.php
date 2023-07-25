@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ProyectoLinea70Controller extends Controller
@@ -148,7 +149,7 @@ class ProyectoLinea70Controller extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea70/Edit', [
-            'convocatoria'                          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_70', 'max_fecha_finalizacion_proyectos_linea_70', 'fecha_maxima_ta', 'mostrar_recomendaciones', 'descripcion'),
+            'convocatoria'                          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year', 'tipo_convocatoria', 'mostrar_recomendaciones', 'descripcion'),
             'proyectoLinea70'                       => $ta,
             'tecnoacademiaRelacionada'              => $ta->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $ta->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia : null,
             'lineasTecnoacademiaRelacionadas'       => $ta->proyecto->tecnoacademiaLineasTecnoacademia()->select('tecnoacademia_linea_tecnoacademia.id as value', 'lineas_tecnoacademia.nombre')->join('lineas_tecnoacademia', 'tecnoacademia_linea_tecnoacademia.linea_tecnoacademia_id', 'lineas_tecnoacademia.id')->get(),
@@ -156,7 +157,7 @@ class ProyectoLinea70Controller extends Controller
             'lineasTecnoacademia'                   => SelectHelper::lineasTecnoacademia(),
             'tecnoacademias'                        => $tecnoacademias,
             'rolesSennova'                          => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'versiones'                             => $ta->proyecto->PdfVersiones,
+            'infraestructuraTecnoacademia'          => json_decode(Storage::get('json/infraestructura-tecnoacademia.json'), true),
         ]);
     }
 
@@ -187,6 +188,7 @@ class ProyectoLinea70Controller extends Controller
         $ta->retos_oportunidades                    = $request->retos_oportunidades;
         $ta->lineas_tecnologicas_centro             = $request->lineas_tecnologicas_centro;
         $ta->logros_vigencia_anterior               = $request->logros_vigencia_anterior;
+        $ta->infraestructura_tecnoacademia          = $request->infraestructura_tecnoacademia;
         $ta->proyecto->tecnoacademiaLineasTecnoacademia()->sync($request->tecnoacademia_linea_tecnoacademia_id);
 
         $ta->save();
@@ -195,33 +197,6 @@ class ProyectoLinea70Controller extends Controller
         if ($request->hasFile('pdf_proyecto_general')) {
             $this->saveFilesSharepoint($request->pdf_proyecto_general, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $ta, $proyecto, 'pdf_proyecto_general');
         }
-
-        return back()->with('success', 'El recurso se ha actualizado correctamente.');
-    }
-
-    public function updateLongColumn(TaLongColumnRequest $request, Convocatoria $convocatoria, Ta $ta, $column)
-    {
-        $this->authorize('modificar-proyecto-autor', [$ta->proyecto]);
-
-        $ta->update($request->only($column));
-
-        return back();
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Ta  $ta
-     * @return \Illuminate\Http\Response
-     */
-    public function updateInfraestructura(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
-    {
-        $this->authorize('modificar-proyecto-autor', [$proyecto]);
-
-        $proyecto->ta()->update([
-            'infraestructura_tecnoacademia' => $request->infraestructura_tecnoacademia['value']
-        ]);
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
@@ -248,6 +223,15 @@ class ProyectoLinea70Controller extends Controller
         $ta->proyecto()->delete();
 
         return redirect()->route('convocatorias.ta.index', [$convocatoria])->with('success', 'El recurso se ha eliminado correctamente.');
+    }
+
+    public function updateLongColumn(TaLongColumnRequest $request, Convocatoria $convocatoria, Ta $ta, $column)
+    {
+        $this->authorize('modificar-proyecto-autor', [$ta->proyecto]);
+
+        $ta->update($request->only($column));
+
+        return back();
     }
 
     /**

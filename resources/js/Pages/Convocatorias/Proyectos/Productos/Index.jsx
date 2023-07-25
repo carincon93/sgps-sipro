@@ -121,9 +121,11 @@ const Productos = ({ auth, convocatoria, proyecto, productos, validacionResultad
 
             <Grid item md={12}>
                 {proyecto.codigo_linea_programatica == 70 && (
-                    <AlertMui hiddenIcon={true}>Debe asociar las fechas y actividades a cada uno de los productos haciendo clic en los tres puntos, a continuación, clic en 'Editar'.</AlertMui>
+                    <AlertMui className="mt-20" hiddenIcon={true}>
+                        Debe asociar las fechas y actividades a cada uno de los productos haciendo clic en los tres puntos, a continuación, clic en 'Editar'.
+                    </AlertMui>
                 )}
-                <TableMui rows={['Descripción', 'Objetivo específico', 'Resultado/Meta', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui className="mb-8" rows={['Descripción', 'Objetivo específico', 'Resultado/Meta', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {productos.data.map((producto, i) => (
                         <TableRow key={i}>
                             <TableCell>{producto.nombre}</TableCell>
@@ -132,9 +134,9 @@ const Productos = ({ auth, convocatoria, proyecto, productos, validacionResultad
                                 <>
                                     {proyecto.codigo_linea_programatica != 69 && proyecto.codigo_linea_programatica != 70 ? (
                                         <>Código {producto.resultado.id + '-' + producto.resultado.descripcion}</>
-                                    ) : (
-                                        proyecto.codigo_linea_programatica == 69 || (proyecto.codigo_linea_programatica == 70 && <>{producto.producto_ta_tp?.valor_proyectado}</>)
-                                    )}
+                                    ) : proyecto.codigo_linea_programatica == 69 || proyecto.codigo_linea_programatica == 70 ? (
+                                        <>{producto.producto_ta_tp?.valor_proyectado}</>
+                                    ) : null}
                                 </>
                             </TableCell>
 

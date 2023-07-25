@@ -36,11 +36,33 @@ export default function Login({ status }) {
 
             <form onSubmit={submit} className="w-[22rem] my-10 relative">
                 <div>
-                    <TextInput id="email" type="email" name="email" label="Correo electrónico SENA" required value={data.email} error={errors.email} className="mt-1 block w-full" autoComplete="email" isFocused={true} onChange={(e) => setData('email', e.target.value)} />
+                    <TextInput
+                        id="email"
+                        type="email"
+                        name="email"
+                        label="Correo electrónico SENA"
+                        required
+                        value={data.email}
+                        error={errors.email}
+                        className="block w-full"
+                        autoComplete="email"
+                        onChange={(e) => setData('email', e.target.value)}
+                    />
                 </div>
 
                 <div className="mt-4">
-                    <PasswordInput id="password" type="password" name="password" label="Contraseña" required value={data.password} error={errors.password} className="mt-1 block w-full" autoComplete="current-password" onChange={(e) => setData('password', e.target.value)} />
+                    <PasswordInput
+                        id="password"
+                        type="password"
+                        name="password"
+                        label="Contraseña"
+                        required
+                        value={data.password}
+                        error={errors.password}
+                        className="block w-full"
+                        autoComplete="current-password"
+                        onChange={(e) => setData('password', e.target.value)}
+                    />
                 </div>
 
                 <div className="block mt-4">

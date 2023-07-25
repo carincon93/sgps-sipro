@@ -18,6 +18,13 @@ class EntidadAliadaIdi extends Model
     protected $table = 'entidad_aliada_idi';
 
     /**
+     * appends
+     *
+     * @var array
+     */
+    protected $appends = ['filename', 'extension'];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -73,5 +80,25 @@ class EntidadAliadaIdi extends Model
     public function getUpdatedAtAttribute($value)
     {
         return "Última modificación de este formulario: " . Carbon::parse($value, 'UTC')->timezone('America/Bogota')->timezone('America/Bogota')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY [a las] HH:mm:ss');
+    }
+
+    public function getFilenameAttribute()
+    {
+        $cartaIntencionFileInfo               = pathinfo($this->carta_intencion);
+        $cartaPropiedadIntelectualFileInfo    = pathinfo($this->carta_propiedad_intelectual);
+
+        $arrayFileInfo = collect(['cartaIntencionFilename' => $cartaIntencionFileInfo['filename'], 'cartaPropiedadIntelectualFilename' => $cartaPropiedadIntelectualFileInfo['filename']]);
+
+        return $arrayFileInfo ?? '';
+    }
+
+    public function getExtensionAttribute()
+    {
+        $cartaIntencionFileInfo               = pathinfo($this->carta_intencion);
+        $cartaPropiedadIntelectualFileInfo    = pathinfo($this->carta_propiedad_intelectual);
+
+        $arrayFileInfo = collect(['cartaIntencionExtension' => $cartaIntencionFileInfo['extension'], 'cartaPropiedadIntelectualExtension' => $cartaPropiedadIntelectualFileInfo['extension']]);
+
+        return $arrayFileInfo ?? '';
     }
 }

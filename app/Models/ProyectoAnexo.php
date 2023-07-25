@@ -100,7 +100,7 @@ class ProyectoAnexo extends Model
         return "Última modificación de este anexo: " . Carbon::parse($value, 'UTC')->timezone('America/Bogota')->timezone('America/Bogota')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY [a las] HH:mm:ss');
     }
 
-        public function getFilenameAttribute()
+    public function getFilenameAttribute()
     {
         $fileInfo = pathinfo($this->archivo);
 

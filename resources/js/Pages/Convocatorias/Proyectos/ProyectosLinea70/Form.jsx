@@ -15,7 +15,7 @@ import { Grid } from '@mui/material'
 import { useState } from 'react'
 import { useEffect } from 'react'
 
-const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea70, lineasTecnoacademia, lineasProgramaticas, rolesSennova, evaluacion, ...props }) => {
+const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea70, lineasTecnoacademia, lineasProgramaticas, infraestructuraTecnoacademia, rolesSennova, evaluacion, ...props }) => {
     const form = useForm({
         centro_formacion_id: proyectoLinea70?.proyecto.centro_formacion_id ?? '',
         fecha_inicio: proyectoLinea70?.fecha_inicio ?? '',
@@ -35,6 +35,7 @@ const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea
         pertinencia_territorio: proyectoLinea70?.pertinencia_territorio ?? '',
         retos_oportunidades: proyectoLinea70?.retos_oportunidades ?? '',
         lineas_tecnologicas_centro: proyectoLinea70?.lineas_tecnologicas_centro ?? '',
+        infraestructura_tecnoacademia: proyectoLinea70?.infraestructura_tecnoacademia ?? '',
         pdf_proyecto_general: null,
 
         cantidad_meses: 0,
@@ -216,6 +217,27 @@ const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea
                             </Grid>
                             <Grid item md={6}>
                                 <div>{proyectoLinea70.titulo}</div>
+                            </Grid>
+
+                            <Grid item md={6}>
+                                <Label
+                                    required
+                                    disabled={evaluacion ? 'disabled' : undefined}
+                                    className="mb-4"
+                                    labelFor="tecnoacademia_id"
+                                    value="La infraestructura donde opera la TecnoAcademia es:"
+                                />
+                            </Grid>
+                            <Grid item md={6}>
+                                <Autocomplete
+                                    id="infraestructura_tecnoacademia"
+                                    options={infraestructuraTecnoacademia}
+                                    inputBackground="#fff"
+                                    selectedValue={form.data.infraestructura_tecnoacademia}
+                                    error={form.errors.infraestructura_tecnoacademia}
+                                    label="Seleccione una opción"
+                                    required
+                                />
                             </Grid>
 
                             {form.data.tecnoacademia_id && arrayLineasTecnoacademia && (

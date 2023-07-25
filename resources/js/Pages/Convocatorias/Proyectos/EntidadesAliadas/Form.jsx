@@ -1,3 +1,4 @@
+import AlertMui from '@/Components/Alert'
 import Autocomplete from '@/Components/Autocomplete'
 import ButtonMui from '@/Components/Button'
 import DatePicker from '@/Components/DatePicker'
@@ -64,19 +65,50 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAli
                     <form onSubmit={submit}>
                         <fieldset disabled={proyecto.allowed.to_update ? false : true}>
                             <div className="mt-8">
-                                <Autocomplete id="tipo" options={tiposEntidadAliada} selectedValue={form.data.tipo} onChange={(event, newValue) => form.setData('tipo', newValue.value)} error={form.errors.tipo} label="Tipo de entidad aliada" required />
+                                <Autocomplete
+                                    id="tipo"
+                                    options={tiposEntidadAliada}
+                                    selectedValue={form.data.tipo}
+                                    onChange={(event, newValue) => form.setData('tipo', newValue.value)}
+                                    error={form.errors.tipo}
+                                    label="Tipo de entidad aliada"
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <Textarea label="Nombre de la entidad aliada/Centro de formación" id="nombre" error={form.errors.nombre} value={form.data.nombre} onChange={(e) => form.setData('nombre', e.target.value)} required />
+                                <Textarea
+                                    label="Nombre de la entidad aliada/Centro de formación"
+                                    id="nombre"
+                                    error={form.errors.nombre}
+                                    value={form.data.nombre}
+                                    onChange={(e) => form.setData('nombre', e.target.value)}
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <Autocomplete id="naturaleza" options={naturalezaEntidadAliada} selectedValue={form.data.naturaleza} onChange={(event, newValue) => form.setData('naturaleza', newValue.value)} error={form.errors.naturaleza} label="Naturaleza de la entidad" required />
+                                <Autocomplete
+                                    id="naturaleza"
+                                    options={naturalezaEntidadAliada}
+                                    selectedValue={form.data.naturaleza}
+                                    onChange={(event, newValue) => form.setData('naturaleza', newValue.value)}
+                                    error={form.errors.naturaleza}
+                                    label="Naturaleza de la entidad"
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <Autocomplete id="tipo_empresa" options={tiposEmpresa} selectedValue={form.data.tipo_empresa} onChange={(event, newValue) => form.setData('tipo_empresa', newValue.value)} error={form.errors.tipo_empresa} label="Tipo de empresa" required />
+                                <Autocomplete
+                                    id="tipo_empresa"
+                                    options={tiposEmpresa}
+                                    selectedValue={form.data.tipo_empresa}
+                                    onChange={(event, newValue) => form.setData('tipo_empresa', newValue.value)}
+                                    error={form.errors.tipo_empresa}
+                                    label="Tipo de empresa"
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
@@ -91,7 +123,14 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAli
                                     </div>
                                     {form.tiene_convenio && (
                                         <div className="mt-8">
-                                            <Textarea label="Descipción del convenio" id="descripcion_convenio" error={form.errors.descripcion_convenio} value={form.data.descripcion_convenio} onChange={(e) => form.setData('descripcion_convenio', e.target.value)} required />
+                                            <Textarea
+                                                label="Descipción del convenio"
+                                                id="descripcion_convenio"
+                                                error={form.errors.descripcion_convenio}
+                                                value={form.data.descripcion_convenio}
+                                                onChange={(e) => form.setData('descripcion_convenio', e.target.value)}
+                                                required
+                                            />
                                         </div>
                                     )}
 
@@ -102,11 +141,27 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAli
                                     {form.tiene_grupo_investigacion && (
                                         <>
                                             <div className="mt-8">
-                                                <Textarea label="Grupo de investigación" id="grupo_investigacion" error={form.errors.grupo_investigacion} value={form.data.grupo_investigacion} onChange={(e) => form.setData('grupo_investigacion', e.target.value)} required />
+                                                <Textarea
+                                                    label="Grupo de investigación"
+                                                    id="grupo_investigacion"
+                                                    error={form.errors.grupo_investigacion}
+                                                    value={form.data.grupo_investigacion}
+                                                    onChange={(e) => form.setData('grupo_investigacion', e.target.value)}
+                                                    required
+                                                />
                                             </div>
 
                                             <div className="mt-8">
-                                                <TextInput label="Código del GrupLAC" id="codigo_gruplac" type="text" error={form.errors.codigo_gruplac} placeholder="Ejemplo: COL0000000" value={form.data.codigo_gruplac} onChange={(e) => form.setData('codigo_gruplac', e.target.value)} required={!form.tiene_grupo_investigacion ? undefined : 'required'} />
+                                                <TextInput
+                                                    label="Código del GrupLAC"
+                                                    id="codigo_gruplac"
+                                                    type="text"
+                                                    error={form.errors.codigo_gruplac}
+                                                    placeholder="Ejemplo: COL0000000"
+                                                    value={form.data.codigo_gruplac}
+                                                    onChange={(e) => form.setData('codigo_gruplac', e.target.value)}
+                                                    required={!form.tiene_grupo_investigacion ? undefined : 'required'}
+                                                />
                                             </div>
 
                                             <div className="mt-8">
@@ -125,39 +180,95 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAli
                                     )}
 
                                     <div className="mt-8">
-                                        <TextInput label="Recursos en especie entidad aliada ($COP)" id="recursos_especie" type="number" inputProps={{ min: 0 }} error={form.errors.recursos_especie} placeholder="COP" value={form.data.recursos_especie} onChange={(e) => form.setData('recursos_especie', e.target.value)} required />
+                                        <TextInput
+                                            label="Recursos en especie entidad aliada ($COP)"
+                                            id="recursos_especie"
+                                            type="number"
+                                            inputProps={{ min: 0 }}
+                                            error={form.errors.recursos_especie}
+                                            placeholder="COP"
+                                            value={form.data.recursos_especie}
+                                            onChange={(e) => form.setData('recursos_especie', e.target.value)}
+                                            required
+                                        />
                                     </div>
 
                                     <div className="mt-8">
-                                        <Textarea label="Descripción de los recursos en especie aportados" id="descripcion_recursos_especie" error={form.errors.descripcion_recursos_especie} value={form.data.descripcion_recursos_especie} onChange={(e) => form.setData('descripcion_recursos_especie', e.target.value)} required />
+                                        <Textarea
+                                            label="Descripción de los recursos en especie aportados"
+                                            id="descripcion_recursos_especie"
+                                            error={form.errors.descripcion_recursos_especie}
+                                            value={form.data.descripcion_recursos_especie}
+                                            onChange={(e) => form.setData('descripcion_recursos_especie', e.target.value)}
+                                            required
+                                        />
                                     </div>
 
                                     <div className="mt-8">
-                                        <TextInput label="Recursos en dinero entidad aliada ($COP)" id="recursos_dinero" type="number" inputProps={{ min: 0 }} error={form.errors.recursos_dinero} placeholder="COP" value={form.data.recursos_dinero} onChange={(e) => form.setData('recursos_dinero', e.target.value)} required />
+                                        <TextInput
+                                            label="Recursos en dinero entidad aliada ($COP)"
+                                            id="recursos_dinero"
+                                            type="number"
+                                            inputProps={{ min: 0 }}
+                                            error={form.errors.recursos_dinero}
+                                            placeholder="COP"
+                                            value={form.data.recursos_dinero}
+                                            onChange={(e) => form.setData('recursos_dinero', e.target.value)}
+                                            required
+                                        />
                                     </div>
 
                                     <div className="mt-8">
-                                        <Textarea label="Descripción de la destinación del dinero aportado" id="descripcion_recursos_dinero" error={form.errors.descripcion_recursos_dinero} value={form.data.descripcion_recursos_dinero} onChange={(e) => form.setData('descripcion_recursos_dinero', e.target.value)} required />
+                                        <Textarea
+                                            label="Descripción de la destinación del dinero aportado"
+                                            id="descripcion_recursos_dinero"
+                                            error={form.errors.descripcion_recursos_dinero}
+                                            value={form.data.descripcion_recursos_dinero}
+                                            onChange={(e) => form.setData('descripcion_recursos_dinero', e.target.value)}
+                                            required
+                                        />
                                     </div>
 
                                     <div className="mt-8">
-                                        <Textarea label="Metodología o actividades de transferencia al centro de formación" id="actividades_transferencia_conocimiento" error={form.errors.actividades_transferencia_conocimiento} value={form.data.actividades_transferencia_conocimiento} onChange={(e) => form.setData('actividades_transferencia_conocimiento', e.target.value)} required />
+                                        <Textarea
+                                            label="Metodología o actividades de transferencia al centro de formación"
+                                            id="actividades_transferencia_conocimiento"
+                                            error={form.errors.actividades_transferencia_conocimiento}
+                                            value={form.data.actividades_transferencia_conocimiento}
+                                            onChange={(e) => form.setData('actividades_transferencia_conocimiento', e.target.value)}
+                                            required
+                                        />
                                     </div>
 
                                     {convocatoria.tipo_convocatoria == 1 ||
                                         (convocatoria.tipo_convocatoria == 3 && (
                                             <>
                                                 <div className="mt-8">
-                                                    <Label className="mb-4" labelFor="carta_intencion" value="ANEXO 7. Carta de intención o acta que soporta el trabajo articulado con entidades aliadas (diferentes al SENA)" />
+                                                    <Label
+                                                        className="mb-4"
+                                                        labelFor="carta_intencion"
+                                                        value="ANEXO 7. Carta de intención o acta que soporta el trabajo articulado con entidades aliadas (diferentes al SENA)"
+                                                    />
 
                                                     <FileInput
                                                         id="carta_intencion"
                                                         value={form.data.carta_intencion}
-                                                        filename={entidadAliada?.filename}
-                                                        extension={entidadAliada?.extension}
+                                                        filename={entidadAliada?.entidad_aliada_idi.filename.cartaIntencionFilename}
+                                                        extension={entidadAliada?.entidad_aliada_idi.extension.cartaIntencionExtension}
                                                         label="Seleccione un archivo"
                                                         accept="application/pdf"
-                                                        downloadRoute={entidadAliada?.carta_intencion ? (entidadAliada?.carta_intencion?.includes('http') ? null : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidadAliada.id, 'carta_intencion'])) : null}
+                                                        downloadRoute={
+                                                            entidadAliada?.carta_intencion
+                                                                ? entidadAliada?.carta_intencion?.includes('http')
+                                                                    ? null
+                                                                    : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [
+                                                                          convocatoria,
+                                                                          proyecto,
+                                                                          entidadAliada.id,
+                                                                          'carta_intencion',
+                                                                      ])
+                                                                : null
+                                                        }
                                                         onChange={(e) => form.setData('carta_intencion', e.target.files[0])}
                                                         error={form.errors.carta_intencion}
                                                     />
@@ -169,11 +280,22 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAli
                                                     <FileInput
                                                         id="carta_propiedad_intelectual"
                                                         value={form.data.carta_propiedad_intelectual}
-                                                        filename={entidadAliada?.filename}
-                                                        extension={entidadAliada?.extension}
+                                                        filename={entidadAliada?.entidad_aliada_idi.filename.cartaPropiedadIntelectualFilename}
+                                                        extension={entidadAliada?.entidad_aliada_idi.extension.cartaPropiedadIntelectualExtension}
                                                         label="Seleccione un archivo"
                                                         accept="application/pdf"
-                                                        downloadRoute={entidadAliada?.carta_propiedad_intelectual ? (entidadAliada?.carta_propiedad_intelectual?.includes('http') ? null : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidadAliada.id, 'carta_propiedad_intelectual'])) : null}
+                                                        downloadRoute={
+                                                            entidadAliada?.carta_propiedad_intelectual
+                                                                ? entidadAliada?.carta_propiedad_intelectual?.includes('http')
+                                                                    ? null
+                                                                    : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [
+                                                                          convocatoria,
+                                                                          proyecto,
+                                                                          entidadAliada.id,
+                                                                          'carta_propiedad_intelectual',
+                                                                      ])
+                                                                : null
+                                                        }
                                                         onChange={(e) => form.setData('carta_propiedad_intelectual', e.target.files[0])}
                                                         error={form.errors.carta_propiedad_intelectual}
                                                     />
@@ -181,46 +303,69 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAli
                                             </>
                                         ))}
                                 </>
-                            ) : (
-                                proyecto.codigo_linea_programatica == 69 ||
-                                (proyecto.codigo_linea_programatica == 70 && (
-                                    <>
-                                        <div className="mt-8">
-                                            <Label className="mb-4" labelFor="soporte_convenio" value="Archivo del convenio" />
+                            ) : proyecto.codigo_linea_programatica == 69 || proyecto.codigo_linea_programatica == 70 ? (
+                                <>
+                                    <div className="mt-8">
+                                        <Label className="mb-4" labelFor="soporte_convenio" value="Archivo del convenio" />
+                                        {proyecto.codigo_linea_programatica == 70 && (
+                                            <AlertMui hiddenIcon={true}>
+                                                En el caso de tener un acuerdo, convenio o contrato de arrendamiento para la operación de la TecnoAcademia en una infraestructura de un tercero, es
+                                                indispensable, adjuntar el documento contractual una vez este creando la entidad aliada.
+                                            </AlertMui>
+                                        )}
 
-                                            <FileInput
-                                                id="soporte_convenio"
-                                                value={form.data.soporte_convenio}
-                                                filename={entidadAliada?.filename}
-                                                extension={entidadAliada?.extension}
-                                                label="Seleccione un archivo"
-                                                accept="application/pdf"
-                                                downloadRoute={entidadAliada?.soporte_convenio ? (entidadAliada?.soporte_convenio?.includes('http') ? null : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidadAliada.id, 'soporte_convenio'])) : null}
-                                                onChange={(e) => form.setData('soporte_convenio', e.target.files[0])}
-                                                error={form.errors.soporte_convenio}
-                                            />
-                                        </div>
+                                        <FileInput
+                                            id="soporte_convenio"
+                                            value={form.data.soporte_convenio}
+                                            filename={entidadAliada?.filename}
+                                            extension={entidadAliada?.extension}
+                                            label="Seleccione un archivo"
+                                            accept="application/pdf"
+                                            downloadRoute={
+                                                entidadAliada?.soporte_convenio
+                                                    ? entidadAliada?.soporte_convenio?.includes('http')
+                                                        ? null
+                                                        : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidadAliada.id, 'soporte_convenio'])
+                                                    : null
+                                            }
+                                            onChange={(e) => form.setData('soporte_convenio', e.target.files[0])}
+                                            error={form.errors.soporte_convenio}
+                                        />
+                                    </div>
 
-                                        <div className="mt-8">
-                                            <p className="text-center">Fechas de vigencia Convenio/Acuerdos</p>
-                                            <div className="ml-2 mt-4">
-                                                <div>
-                                                    <Label required labelFor="fecha_inicio_convenio" value="Fecha de inicio" />
-                                                    <div className="ml-14">
-                                                        <DatePicker id="fecha_inicio_convenio" className="mt-1 block w-full p-4" value={form.data.fecha_inicio_convenio} onChange={(e) => form.setData('fecha_inicio_convenio', e.target.value)} error={form.errors.fecha_inicio_convenio} required />
-                                                    </div>
+                                    <div className="mt-8">
+                                        <p className="text-center">Fechas de vigencia Convenio/Acuerdos</p>
+                                        <div className="ml-2 mt-4">
+                                            <div>
+                                                <Label required labelFor="fecha_inicio_convenio" value="Fecha de inicio" />
+                                                <div className="ml-14">
+                                                    <DatePicker
+                                                        id="fecha_inicio_convenio"
+                                                        className="mt-1 block w-full p-4"
+                                                        value={form.data.fecha_inicio_convenio}
+                                                        onChange={(e) => form.setData('fecha_inicio_convenio', e.target.value)}
+                                                        error={form.errors.fecha_inicio_convenio}
+                                                        required
+                                                    />
                                                 </div>
-                                                <div>
-                                                    <Label required labelFor="fecha_fin_convenio" value="Fecha de finalización" />
-                                                    <div className="ml-4">
-                                                        <DatePicker id="fecha_fin_convenio" className="mt-1 block w-full p-4" value={form.data.fecha_fin_convenio} onChange={(e) => form.setData('fecha_fin_convenio', e.target.value)} error={form.errors.fecha_fin_convenio} required />
-                                                    </div>
+                                            </div>
+                                            <div>
+                                                <Label required labelFor="fecha_fin_convenio" value="Fecha de finalización" />
+                                                <div className="ml-4">
+                                                    <DatePicker
+                                                        id="fecha_fin_convenio"
+                                                        className="mt-1 block w-full p-4"
+                                                        value={form.data.fecha_fin_convenio}
+                                                        onChange={(e) => form.setData('fecha_fin_convenio', e.target.value)}
+                                                        error={form.errors.fecha_fin_convenio}
+                                                        required
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
-                                    </>
-                                ))
-                            )}
+                                    </div>
+                                </>
+                            ) : null}
 
                             {proyecto.codigo_linea_programatica == 66 ||
                                 (proyecto.codigo_linea_programatica == 82 && (

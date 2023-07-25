@@ -34,10 +34,6 @@ class EntidadAliadaController extends Controller
 
         $objetivoEspecificos = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
 
-        if ($proyecto->codigo_linea_programatica == 70) {
-            $proyecto->infraestructura_tecnoacademia = $proyecto->ta->infraestructura_tecnoacademia;
-        }
-
         /**
          * Si el proyecto es de la línea programática 23 o 65 se prohibe el acceso. No requiere de entidades aliadas
          */
@@ -46,24 +42,20 @@ class EntidadAliadaController extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/EntidadesAliadas/Index', [
-            'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
-            'proyecto'          => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'infraestructura_tecnoacademia', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed'),
-            'filters'           => request()->all('search'),
-            'entidadesAliadas'  => EntidadAliada::where('proyecto_id', $proyecto->id)->orderBy('nombre', 'ASC')
-                                    ->filterEntidadAliada(request()->only('search'))->with('actividades', 'actividades.objetivoEspecifico', 'miembrosEntidadAliada', 'entidadAliadaIdi', 'entidadAliadaTaTp')->paginate(),
-            'infraestructuraTecnoacademia'  => json_decode(Storage::get('json/infraestructura-tecnoacademia.json'), true),
-
-
-
-            'actividades'     => Actividad::whereIn(
-                'objetivo_especifico_id',
-                $objetivoEspecificos->map(function ($objetivoEspecifico) {
-                    return $objetivoEspecifico->id;
-                })
-            )->orderBy('fecha_inicio', 'ASC')->get(),
-            'tiposEntidadAliada'                => json_decode(Storage::get('json/tipos-entidades-aliadas.json'), true),
-            'naturalezaEntidadAliada'           => json_decode(Storage::get('json/naturaleza-empresa.json'), true),
-            'tiposEmpresa'                      => json_decode(Storage::get('json/tipos-empresa.json'), true),
+            'convocatoria'                  =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
+            'proyecto'                      =>  $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed'),
+            'filters'                       =>  request()->all('search'),
+            'entidadesAliadas'              =>  EntidadAliada::where('proyecto_id', $proyecto->id)->orderBy('nombre', 'ASC')
+                                                ->filterEntidadAliada(request()->only('search'))->with('actividades', 'actividades.objetivoEspecifico', 'miembrosEntidadAliada', 'entidadAliadaIdi', 'entidadAliadaTaTp')->paginate(),
+            'actividades'                   =>  Actividad::whereIn(
+                                                    'objetivo_especifico_id',
+                                                    $objetivoEspecificos->map(function ($objetivoEspecifico) {
+                                                        return $objetivoEspecifico->id;
+                                                    })
+                                                )->orderBy('fecha_inicio', 'ASC')->get(),
+            'tiposEntidadAliada'            =>  json_decode(Storage::get('json/tipos-entidades-aliadas.json'), true),
+            'naturalezaEntidadAliada'       =>  json_decode(Storage::get('json/naturaleza-empresa.json'), true),
+            'tiposEmpresa'                  =>  json_decode(Storage::get('json/tipos-empresa.json'), true),
         ]);
     }
 
