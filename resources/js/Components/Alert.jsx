@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function AlertMui({ children, error, hiddenIcon = false, ...props }) {
+export default function AlertMui({ children, error, hiddenCloseIcon = true, ...props }) {
     const [open, setOpen] = useState(true)
     const classes = useStyles()
 
@@ -29,13 +29,11 @@ export default function AlertMui({ children, error, hiddenIcon = false, ...props
                         size="small"
                         onClick={() => {
                             setOpen(false)
-                        }}
-                    >
-                        <CloseIcon fontSize="inherit" className={hiddenIcon ? '!hidden' : ''} />
+                        }}>
+                        <CloseIcon fontSize="inherit" className={hiddenCloseIcon ? '!hidden' : ''} />
                     </IconButton>
                 }
-                {...props}
-            >
+                {...props}>
                 {children}
             </Alert>
         </Collapse>

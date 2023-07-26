@@ -17,97 +17,105 @@ import { monthDiff } from '@/Utils'
 import PrimaryButton from '@/Components/PrimaryButton'
 
 const Form = ({
-    isSuperAdmin,
+    is_super_admin,
+    proyecto_linea_65,
     evaluacion,
-    proyectoLinea65,
     method = 'crear',
-    centrosFormacion,
-    lineasProgramaticas,
-    gruposInvestigacion,
-    mesasSectoriales,
+    centros_formacion,
+    mesas_sectoriales,
+    areas_conocimiento,
+    lineas_investigacion,
+    lineas_programaticas,
+    lineas_tecnoacademia,
+    actividades_economicas,
+    tematicas_estrategicas,
     tecnoacademia,
-    convocatoria,
-    areasConocimiento,
-    actividadesEconomicas,
-    tematicasEstrategicas,
-    lineasTecnoacademia,
-    lineasInvestigacion,
     tecnoacademias,
+    programas_formacion_con_registro_calificado,
+    programas_formacion_sin_registro_calificado,
     municipios,
-    roles,
-    programasFormacionConRegistroCalificado,
-    programasFormacionSinRegistroCalificado,
-    proyectoMunicipios,
-    tiposProyectos,
-    tiposEventos,
-    mesasSectorialesRelacionadas,
-    lineasTecnoacademiaRelacionadas,
-    programasFormacionConRegistroRelacionados,
-    programasFormacionSinRegistroRelacionados,
+    proyecto_municipios,
+    mesas_sectoriales_relacionadas,
+    lineas_tecnoacademia_relacionadas,
+    programas_formacion_con_registro_relacionados,
+    programas_formacion_sin_registro_relacionados,
+    tipos_proyectos,
+    tipos_eventos,
+    roles_sennova,
     ...props
 }) => {
-    const form = useForm({
-        titulo: proyectoLinea65?.titulo ?? '',
-        fecha_inicio: proyectoLinea65?.fecha_inicio ?? '',
-        fecha_finalizacion: proyectoLinea65?.fecha_finalizacion ?? '',
-        max_meses_ejecucion: proyectoLinea65?.max_meses_ejecucion ?? '',
-        centro_formacion_id: proyectoLinea65?.proyecto?.centro_formacion_id ?? null,
-        linea_investigacion_id: proyectoLinea65?.linea_investigacion_id ?? null,
-        linea_programatica_id: proyectoLinea65?.proyecto?.linea_programatica_id ?? null,
-        area_conocimiento_id: proyectoLinea65?.area_conocimiento_id ?? null,
-        tematica_estrategica_id: proyectoLinea65?.tematica_estrategica_id ?? null,
-        actividad_economica_id: proyectoLinea65?.actividad_economica_id ?? null,
+    const [array_lineas_tecnoacademia, setArrayLineasTecnoacademia] = useState([])
+    const selectLineasTecnoacademia = (selectedTecnoAcademia) => {
+        const filtered_lineas_tecnoacademia = lineas_tecnoacademia.filter((obj) => obj.tecnoacademia_id === selectedTecnoAcademia.value)
+        setArrayLineasTecnoacademia(filtered_lineas_tecnoacademia)
+    }
+    const [tiene_video, setTieneVideo] = useState(proyecto_linea_65?.video !== null)
+    const [requiere_justificacion_industria4, setRequiereJustificacionIndustria4] = useState(proyecto_linea_65?.justificacion_industria_4 !== null)
+    const [requiere_justificacion_economia_naranja, setRequiereJustificacionEconomiaNaranja] = useState(proyecto_linea_65?.justificacion_economia_naranja !== null)
+    const [requiere_justificacion_politica_discapacidad, setRequiereJustificacionPoliticaDiscapacidad] = useState(proyecto_linea_65?.justificacion_politica_discapacidad !== null)
+    const [requiere_justificacion_atencion_pluralista, setRequiereJustificacionAntencionPluralista] = useState(proyecto_linea_65?.atencion_pluralista_diferencial !== null)
+    const [requiere_justificacion_sector_agricola, setRequiereJustificacionSectorAgricola] = useState(proyecto_linea_65?.impacto_sector_agricola !== null)
 
-        video: proyectoLinea65?.video,
-        numero_aprendices: proyectoLinea65?.numero_aprendices,
-        municipios: proyectoMunicipios?.length > 0 ? proyectoMunicipios : null,
-        programas_formacion: programasFormacionConRegistroRelacionados?.length > 0 ? programasFormacionConRegistroRelacionados : null,
-        programas_formacion_articulados: programasFormacionSinRegistroRelacionados?.length > 0 ? programasFormacionSinRegistroRelacionados : null,
-        muestreo: proyectoLinea65?.muestreo ?? '',
-        actividades_muestreo: proyectoLinea65?.actividades_muestreo ?? '',
-        objetivo_muestreo: proyectoLinea65?.objetivo_muestreo ?? '',
-        recoleccion_especimenes: proyectoLinea65?.recoleccion_especimenes ?? '',
-        relacionado_plan_tecnologico: proyectoLinea65?.relacionado_plan_tecnologico ?? '',
-        relacionado_agendas_competitividad: proyectoLinea65?.relacionado_agendas_competitividad ?? '',
-        relacionado_mesas_sectoriales: proyectoLinea65?.relacionado_mesas_sectoriales ?? '',
-        relacionado_tecnoacademia: proyectoLinea65?.relacionado_tecnoacademia ?? '',
+    const [array_lineas_investigacion, setArrayLineasInvestigacion] = useState([])
+
+    const form = useForm({
+        titulo: proyecto_linea_65?.titulo ?? '',
+        fecha_inicio: proyecto_linea_65?.fecha_inicio ?? '',
+        fecha_finalizacion: proyecto_linea_65?.fecha_finalizacion ?? '',
+        max_meses_ejecucion: proyecto_linea_65?.max_meses_ejecucion ?? '',
+        centro_formacion_id: proyecto_linea_65?.proyecto?.centro_formacion_id ?? null,
+        linea_investigacion_id: proyecto_linea_65?.linea_investigacion_id ?? null,
+        linea_programatica_id: proyecto_linea_65?.proyecto?.linea_programatica_id ?? null,
+        area_conocimiento_id: proyecto_linea_65?.area_conocimiento_id ?? null,
+        tematica_estrategica_id: proyecto_linea_65?.tematica_estrategica_id ?? null,
+        actividad_economica_id: proyecto_linea_65?.actividad_economica_id ?? null,
+
+        video: proyecto_linea_65?.video,
+        numero_aprendices: proyecto_linea_65?.numero_aprendices,
+        municipios: municipios.filter((item) => proyecto_linea_65.proyecto.municipios?.some((obj) => obj.id == item.value)).map((item) => item.value),
+
+        programas_formacion: programas_formacion_con_registro_calificado
+            .filter((item) => proyecto_linea_65.programas_formacion_registro_calificado?.some((obj) => obj.id == item.value))
+            .map((item) => item.value),
+        programas_formacion_articulados: programas_formacion_sin_registro_calificado
+            .filter((item) => proyecto_linea_65.programas_formacion_sin_registro_calificado?.some((obj) => obj.id == item.value))
+            .map((item) => item.value),
+
+        muestreo: proyecto_linea_65?.muestreo ?? '',
+        actividades_muestreo: proyecto_linea_65?.actividades_muestreo ?? '',
+        objetivo_muestreo: proyecto_linea_65?.objetivo_muestreo ?? '',
+        recoleccion_especimenes: proyecto_linea_65?.recoleccion_especimenes ?? '',
+        relacionado_plan_tecnologico: proyecto_linea_65?.relacionado_plan_tecnologico ?? '',
+        relacionado_agendas_competitividad: proyecto_linea_65?.relacionado_agendas_competitividad ?? '',
+        relacionado_mesas_sectoriales: proyecto_linea_65?.relacionado_mesas_sectoriales ?? '',
+        relacionado_tecnoacademia: proyecto_linea_65?.relacionado_tecnoacademia ?? '',
         tecnoacademia_id: tecnoacademia?.id ?? '',
 
-        linea_tecnologica_id: lineasTecnoacademiaRelacionadas ?? '',
-        mesa_sectorial_id: mesasSectorialesRelacionadas ?? '',
+        linea_tecnologica_id: lineas_tecnoacademia
+            .filter((obj) => obj.tecnoacademia_id === tecnoacademia?.id)
+            .filter((item) => proyecto_linea_65.proyecto.tecnoacademia_lineas_tecnoacademia?.some((obj) => obj.id == item.value))
+            .map((item) => item.value),
+        mesa_sectorial_id: mesas_sectoriales.filter((item) => proyecto_linea_65.mesas_sectoriales?.some((obj) => obj.id == item.value)).map((item) => item.value),
 
-        resumen: proyectoLinea65?.resumen ?? '',
-        antecedentes: proyectoLinea65?.antecedentes ?? '',
-        marco_conceptual: proyectoLinea65?.marco_conceptual ?? '',
-        justificacion_industria_4: proyectoLinea65?.justificacion_industria_4 ?? '',
-        justificacion_economia_naranja: proyectoLinea65?.justificacion_economia_naranja ?? '',
-        justificacion_politica_discapacidad: proyectoLinea65?.justificacion_politica_discapacidad ?? '',
-        atencion_pluralista_diferencial: proyectoLinea65?.atencion_pluralista_diferencial ?? '',
-        impacto_sector_agricola: proyectoLinea65?.impacto_sector_agricola ?? '',
-        bibliografia: proyectoLinea65?.bibliografia ?? '',
-        impacto_municipios: proyectoLinea65?.impacto_municipios ?? '',
-        impacto_centro_formacion: proyectoLinea65?.impacto_centro_formacion ?? '',
+        resumen: proyecto_linea_65?.resumen ?? '',
+        antecedentes: proyecto_linea_65?.antecedentes ?? '',
+        marco_conceptual: proyecto_linea_65?.marco_conceptual ?? '',
+        justificacion_industria_4: proyecto_linea_65?.justificacion_industria_4 ?? '',
+        justificacion_economia_naranja: proyecto_linea_65?.justificacion_economia_naranja ?? '',
+        justificacion_politica_discapacidad: proyecto_linea_65?.justificacion_politica_discapacidad ?? '',
+        atencion_pluralista_diferencial: proyecto_linea_65?.atencion_pluralista_diferencial ?? '',
+        impacto_sector_agricola: proyecto_linea_65?.impacto_sector_agricola ?? '',
+        bibliografia: proyecto_linea_65?.bibliografia ?? '',
+        impacto_municipios: proyecto_linea_65?.impacto_municipios ?? '',
+        impacto_centro_formacion: proyecto_linea_65?.impacto_centro_formacion ?? '',
 
         cantidad_meses: '',
         cantidad_horas: '',
         rol_sennova: null,
     })
 
-    const [arrayLineasTecnoacademia, setArrayLineasTecnoacademia] = useState([])
-    const selectLineasTecnoacademia = (selectedTecnoAcademia) => {
-        const filteredLineasTecnoacademia = lineasTecnoacademia.filter((obj) => obj.tecnoacademia_id === selectedTecnoAcademia.value)
-        setArrayLineasTecnoacademia(filteredLineasTecnoacademia)
-    }
-    const [tieneVideo, setTieneVideo] = useState(proyectoLinea65?.video !== null)
-    const [requiereJustificacionIndustria4, setRequiereJustificacionIndustria4] = useState(proyectoLinea65?.justificacion_industria_4 !== null)
-    const [requiereJustificacionEconomiaNaranja, setRequiereJustificacionEconomiaNaranja] = useState(proyectoLinea65?.justificacion_economia_naranja !== null)
-    const [requiereJustificacionPoliticaDiscapacidad, setRequiereJustificacionPoliticaDiscapacidad] = useState(proyectoLinea65?.justificacion_politica_discapacidad !== null)
-    const [requiereJustificacionAntencionPluralista, setRequiereJustificacionAntencionPluralista] = useState(proyectoLinea65?.atencion_pluralista_diferencial !== null)
-    const [requiereJustificacionSectorAgricola, setRequiereJustificacionSectorAgricola] = useState(proyectoLinea65?.impacto_sector_agricola !== null)
-
-    const [arrayLineasInvestigacion, setArrayLineasInvestigacion] = useState([])
     useEffect(() => {
-        setArrayLineasInvestigacion(lineasInvestigacion.filter((obj) => obj.centro_formacion_id === form.data.centro_formacion_id))
+        setArrayLineasInvestigacion(lineas_investigacion.filter((obj) => obj.centro_formacion_id === form.data.centro_formacion_id))
     }, [form.data.centro_formacion_id])
 
     useEffect(() => {
@@ -122,11 +130,11 @@ const Form = ({
     const submit = (e) => {
         e.preventDefault()
         method == 'crear'
-            ? form.post(route('convocatorias.cultura-innovacion.store', [convocatoria.id]), {
+            ? form.post(route('convocatorias.proyectos-linea-65.store', [convocatoria.id]), {
                   preserveScroll: true,
               })
-            : proyectoLinea65.proyecto.allowed.to_update
-            ? form.put(route('convocatorias.cultura-innovacion.update', [convocatoria.id, proyectoLinea65.id]), {
+            : proyecto_linea_65.proyecto.allowed.to_update
+            ? form.put(route('convocatorias.proyectos-linea-65.update', [convocatoria.id, proyecto_linea_65.id]), {
                   preserveScroll: true,
               })
             : null
@@ -134,7 +142,7 @@ const Form = ({
 
     return (
         <form onSubmit={submit}>
-            <fieldset disabled={proyectoLinea65?.proyecto.allowed.to_update && !isSuperAdmin}>
+            <fieldset disabled={proyecto_linea_65?.proyecto.allowed.to_update && !is_super_admin}>
                 <Grid container className="space-y-36">
                     <Grid item md={12}>
                         <Label
@@ -192,10 +200,10 @@ const Form = ({
                             selectedValue={form.data.centro_formacion_id}
                             onChange={(event, newValue) => form.setData('centro_formacion_id', newValue.value)}
                             options={
-                                centrosFormacion ?? [
+                                centros_formacion ?? [
                                     {
-                                        value: proyectoLinea65?.proyecto.centro_formacion.id,
-                                        label: proyectoLinea65?.proyecto.centro_formacion.nombre,
+                                        value: proyecto_linea_65?.proyecto.centro_formacion.id,
+                                        label: proyecto_linea_65?.proyecto.centro_formacion.nombre,
                                     },
                                 ]
                             }
@@ -204,7 +212,7 @@ const Form = ({
                         />
                     </Grid>
 
-                    {arrayLineasInvestigacion.length > 0 && (
+                    {array_lineas_investigacion.length > 0 && (
                         <>
                             <Grid item md={6}>
                                 <Label required labelFor="linea_investigacion_id" className="mb-4" value="Línea de investigación" />
@@ -215,7 +223,7 @@ const Form = ({
                                     id="linea_investigacion_id"
                                     selectedValue={form.data.linea_investigacion_id}
                                     onChange={(event, newValue) => form.setData('linea_investigacion_id', newValue.value)}
-                                    options={arrayLineasInvestigacion}
+                                    options={array_lineas_investigacion}
                                     error={form.errors.linea_investigacion_id}
                                     required
                                 />
@@ -233,11 +241,11 @@ const Form = ({
                             onChange={(event, newValue) => form.setData('linea_programatica_id', newValue.value)}
                             options={
                                 method == 'crear'
-                                    ? lineasProgramaticas
+                                    ? lineas_programaticas
                                     : [
                                           {
-                                              value: proyectoLinea65?.proyecto.linea_programatica.id,
-                                              label: proyectoLinea65?.proyecto.linea_programatica.nombre + ' - ' + proyectoLinea65?.proyecto.linea_programatica.codigo,
+                                              value: proyecto_linea_65?.proyecto.linea_programatica.id,
+                                              label: proyecto_linea_65?.proyecto.linea_programatica.nombre + ' - ' + proyecto_linea_65?.proyecto.linea_programatica.codigo,
                                           },
                                       ]
                             }
@@ -252,7 +260,7 @@ const Form = ({
                     <Grid item md={6}>
                         <Autocomplete
                             id="tipo_proyecto"
-                            options={tiposProyectos}
+                            options={tipos_proyectos}
                             selectedValue={form.data.tipo_proyecto}
                             onChange={(event, newValue) => form.setData('tipo_proyecto', newValue.value)}
                             error={form.errors.tipo_proyecto}
@@ -271,7 +279,7 @@ const Form = ({
                             <Grid item md={6}>
                                 <Autocomplete
                                     id="tipo_evento"
-                                    options={tiposEventos}
+                                    options={tipos_eventos}
                                     selectedValue={form.data.tipo_evento}
                                     onChange={(event, newValue) => form.setData('tipo_evento', newValue.value)}
                                     error={form.errors.tipo_evento}
@@ -291,7 +299,7 @@ const Form = ({
                             id="area_conocimiento_id"
                             selectedValue={form.data.area_conocimiento_id}
                             onChange={(event, newValue) => form.setData('area_conocimiento_id', newValue.value)}
-                            options={areasConocimiento}
+                            options={areas_conocimiento}
                             error={form.errors.area_conocimiento_id}
                             required
                         />
@@ -305,7 +313,7 @@ const Form = ({
                             id="actividad_economica_id"
                             selectedValue={form.data.actividad_economica_id}
                             onChange={(event, newValue) => form.setData('actividad_economica_id', newValue.value)}
-                            options={actividadesEconomicas}
+                            options={actividades_economicas}
                             error={form.errors.actividad_economica_id}
                             required
                         />
@@ -319,7 +327,7 @@ const Form = ({
                             id="tematica_estrategica_id"
                             selectedValue={form.data.tematica_estrategica_id}
                             onChange={(event, newValue) => form.setData('tematica_estrategica_id', newValue.value)}
-                            options={tematicasEstrategicas}
+                            options={tematicas_estrategicas}
                             error={form.errors.tematica_estrategica_id}
                             required
                         />
@@ -340,7 +348,7 @@ const Form = ({
                                     id="rol_sennova"
                                     selectedValue={form.data.rol_sennova}
                                     onChange={(event, newValue) => form.setData('rol_sennova', newValue.value)}
-                                    options={roles}
+                                    options={roles_sennova}
                                     placeholder="Seleccione un rol SENNOVA"
                                     required
                                 />
@@ -404,15 +412,15 @@ const Form = ({
                         <>
                             <Grid item md={6}>
                                 <Label labelFor="video" value="¿El proyecto tiene video?" />
-                                <AlertMui hiddenIcon={true} className="mt-2 mr-4">
+                                <AlertMui className="mt-2 mr-4">
                                     Video de 3 minutos, en donde se presente de manera sencilla y dinámica la justificación del proyecto, la problemática, el objetivo general, los objetivos
                                     específicos, las actividades, los productos y su impacto en el marco del mecanismo de participación seleccionado como regional.
                                 </AlertMui>
                             </Grid>
 
                             <Grid item md={6}>
-                                <SwitchMui checked={tieneVideo} onChange={() => setTieneVideo(!tieneVideo)} />
-                                {tieneVideo && (
+                                <SwitchMui checked={tiene_video} onChange={() => setTieneVideo(!tiene_video)} />
+                                {tiene_video && (
                                     <>
                                         <TextInput
                                             label="Link del video"
@@ -422,7 +430,7 @@ const Form = ({
                                             error={form.errors.video}
                                             placeholder="Link del video del proyecto https://www.youtube.com/watch?v=gmc4tk"
                                             value={form.data.video}
-                                            required={tieneVideo ? true : undefined}
+                                            required={tiene_video ? true : undefined}
                                         />
                                     </>
                                 )}
@@ -433,8 +441,8 @@ const Form = ({
                             </Grid>
 
                             <Grid item md={6}>
-                                <SwitchMui checked={requiereJustificacionIndustria4} onChange={() => setRequiereJustificacionIndustria4(!requiereJustificacionIndustria4)} />
-                                {requiereJustificacionIndustria4 && (
+                                <SwitchMui checked={requiere_justificacion_industria4} onChange={() => setRequiereJustificacionIndustria4(!requiere_justificacion_industria4)} />
+                                {requiere_justificacion_industria4 && (
                                     <>
                                         <Textarea
                                             label="Justificación"
@@ -442,9 +450,9 @@ const Form = ({
                                             onChange={(e) => form.setData('justificacion_industria_4', e.target.value)}
                                             error={form.errors.justificacion_industria_4}
                                             value={form.data.justificacion_industria_4}
-                                            required={requiereJustificacionIndustria4 ? true : undefined}
+                                            required={requiere_justificacion_industria4 ? true : undefined}
                                         />
-                                        <AlertMui hiddenIcon={true}>Si el proyecto está relacionado con la industria 4.0 por favor realice la justificación.</AlertMui>
+                                        <AlertMui>Si el proyecto está relacionado con la industria 4.0 por favor realice la justificación.</AlertMui>
                                     </>
                                 )}
                             </Grid>
@@ -454,8 +462,8 @@ const Form = ({
                             </Grid>
 
                             <Grid item md={6}>
-                                <SwitchMui checked={requiereJustificacionEconomiaNaranja} onChange={() => setRequiereJustificacionEconomiaNaranja(!requiereJustificacionEconomiaNaranja)} />
-                                {requiereJustificacionEconomiaNaranja && (
+                                <SwitchMui checked={requiere_justificacion_economia_naranja} onChange={() => setRequiereJustificacionEconomiaNaranja(!requiere_justificacion_economia_naranja)} />
+                                {requiere_justificacion_economia_naranja && (
                                     <>
                                         <Textarea
                                             label="Justificación"
@@ -463,9 +471,9 @@ const Form = ({
                                             onChange={(e) => form.setData('justificacion_economia_naranja', e.target.value)}
                                             error={form.errors.justificacion_economia_naranja}
                                             value={form.data.justificacion_economia_naranja}
-                                            required={requiereJustificacionEconomiaNaranja ? true : undefined}
+                                            required={requiere_justificacion_economia_naranja ? true : undefined}
                                         />
-                                        <AlertMui hiddenIcon={true}>
+                                        <AlertMui>
                                             Si el proyecto está relacionado con la economía naranja por favor realice la justificación. (Ver documento de apoyo: Guía Rápida SENA es NARANJA.)
                                         </AlertMui>
                                     </>
@@ -476,15 +484,15 @@ const Form = ({
                                 <Label labelFor="impacto_sector_agricola" value="¿El proyecto tendrá un impacto en el sector agrícola?" />
                             </Grid>
                             <Grid item md={6}>
-                                <SwitchMui checked={requiereJustificacionSectorAgricola} onChange={() => setRequiereJustificacionSectorAgricola(!requiereJustificacionSectorAgricola)} />
-                                {requiereJustificacionSectorAgricola && (
+                                <SwitchMui checked={requiere_justificacion_sector_agricola} onChange={() => setRequiereJustificacionSectorAgricola(!requiere_justificacion_sector_agricola)} />
+                                {requiere_justificacion_sector_agricola && (
                                     <Textarea
                                         label="Justificación"
                                         id="impacto_sector_agricola"
                                         onChange={(e) => form.setData('impacto_sector_agricola', e.target.value)}
                                         error={form.errors.impacto_sector_agricola}
                                         value={form.data.impacto_sector_agricola}
-                                        required={requiereJustificacionSectorAgricola ? true : undefined}
+                                        required={requiere_justificacion_sector_agricola ? true : undefined}
                                     />
                                 )}
                             </Grid>
@@ -494,11 +502,11 @@ const Form = ({
                             </Grid>
                             <Grid item md={6}>
                                 <SwitchMui
-                                    checked={requiereJustificacionPoliticaDiscapacidad}
-                                    onChange={() => setRequiereJustificacionPoliticaDiscapacidad(!requiereJustificacionPoliticaDiscapacidad)}
+                                    checked={requiere_justificacion_politica_discapacidad}
+                                    onChange={() => setRequiereJustificacionPoliticaDiscapacidad(!requiere_justificacion_politica_discapacidad)}
                                 />
 
-                                {requiereJustificacionPoliticaDiscapacidad && (
+                                {requiere_justificacion_politica_discapacidad && (
                                     <>
                                         <Textarea
                                             label="Justificación"
@@ -506,9 +514,9 @@ const Form = ({
                                             onChange={(e) => form.setData('justificacion_politica_discapacidad', e.target.value)}
                                             error={form.errors.justificacion_politica_discapacidad}
                                             value={form.data.justificacion_politica_discapacidad}
-                                            required={requiereJustificacionPoliticaDiscapacidad}
+                                            required={requiere_justificacion_politica_discapacidad}
                                         />
-                                        <AlertMui hiddenIcon={true}>
+                                        <AlertMui>
                                             Si el proyecto aporta a la Política Institucional para Atención de las Personas con discapacidad por favor realice la justificación. RESOLUCIÓN 01726 DE
                                             2014 - Por la cual se adopta la Política Institucional para Atención de las Personas con discapacidad.
                                         </AlertMui>
@@ -523,15 +531,18 @@ const Form = ({
                                 />
                             </Grid>
                             <Grid item md={6}>
-                                <SwitchMui checked={requiereJustificacionAntencionPluralista} onChange={() => setRequiereJustificacionAntencionPluralista(!requiereJustificacionAntencionPluralista)} />
+                                <SwitchMui
+                                    checked={requiere_justificacion_atencion_pluralista}
+                                    onChange={() => setRequiereJustificacionAntencionPluralista(!requiere_justificacion_atencion_pluralista)}
+                                />
 
-                                {requiereJustificacionAntencionPluralista && (
+                                {requiere_justificacion_atencion_pluralista && (
                                     <Textarea
                                         label="Justificación"
                                         id="atencion_pluralista_diferencial"
                                         error={form.errors.atencion_pluralista_diferencial}
                                         value={form.data.atencion_pluralista_diferencial}
-                                        required={requiereJustificacionAntencionPluralista}
+                                        required={requiere_justificacion_atencion_pluralista}
                                     />
                                 )}
                             </Grid>
@@ -540,7 +551,7 @@ const Form = ({
                                 <p className="text-center mb-8">
                                     ¿Cuál es el origen de las muestras con las que se realizarán las actividades de investigación, bioprospección y/o aprovechamiento comercial o industrial?
                                 </p>
-                                <AlertMui hiddenIcon={true}>
+                                <AlertMui>
                                     Nota: Bioprospección se define como la exploración sistemática y sostenible de la biodiversidad para identificar y obtener nuevas fuentes de compuestos químicos,
                                     genes, proteínas, microorganismos y otros productos que tienen potencial de ser aprovechados comercialmente
                                 </AlertMui>
@@ -558,7 +569,7 @@ const Form = ({
 
                                     {form.data.muestreo == 1 && (
                                         <>
-                                            <AlertMui hiddenIcon={true}>Ha seleccionado Especies Nativas. Por favor responda las siguientes preguntas:</AlertMui>
+                                            <AlertMui>Ha seleccionado Especies Nativas. Por favor responda las siguientes preguntas:</AlertMui>
                                             <div className="flex mb-20">
                                                 <div className="bg-gray-200 flex-1 p-8">
                                                     <div className="flex items-center">
@@ -768,7 +779,7 @@ const Form = ({
                                 />
                             </Grid>
 
-                            {form.data.relacionado_mesas_sectoriales == 1 && (isSuperAdmin || proyectoLinea65?.proyecto.allowed.to_update) && (
+                            {form.data.relacionado_mesas_sectoriales == 1 && (is_super_admin || proyecto_linea_65?.proyecto.allowed.to_update) && (
                                 <>
                                     <Grid item md={6}>
                                         <p className="text-app-600">Por favor seleccione la o las mesas sectoriales con la cual o las cuales se alinea el proyecto</p>
@@ -821,7 +832,7 @@ const Form = ({
                                 />
                             </Grid>
 
-                            {form.data.relacionado_tecnoacademia == 1 && (isSuperAdmin || proyectoLinea65?.proyecto.allowed.to_update) && (
+                            {form.data.relacionado_tecnoacademia == 1 && (is_super_admin || proyecto_linea_65?.proyecto.allowed.to_update) && (
                                 <>
                                     <Grid item md={6}>
                                         <p className="text-app-600">Por favor seleccione la Tecnoacademia con la cual articuló el proyecto</p>
@@ -841,7 +852,7 @@ const Form = ({
                                         <SelectMultiple
                                             id="linea_tecnologica_id"
                                             bdValues={form.data.linea_tecnologica_id}
-                                            options={arrayLineasTecnoacademia}
+                                            options={array_lineas_tecnoacademia}
                                             onChange={(event, newValue) => {
                                                 const selectedValues = newValue.map((option) => option.value)
                                                 form.setData((prevData) => ({
@@ -860,7 +871,7 @@ const Form = ({
 
                             <Grid item md={12}>
                                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="resumen" value="Resumen del proyecto" />
-                                <AlertMui hiddenIcon={true}>
+                                <AlertMui>
                                     Información necesaria para darle al lector una idea precisa de la pertinencia y calidad del proyecto. Explique en qué consiste el problema o necesidad, cómo cree
                                     que lo resolverá, cuáles son las razones que justifican su ejecución y las herramientas que se utilizarán en el desarrollo del proyecto.
                                 </AlertMui>
@@ -870,7 +881,7 @@ const Form = ({
 
                             <Grid item md={12}>
                                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="antecedentes" value="Antecedentes" />
-                                <AlertMui hiddenIcon={true}>
+                                <AlertMui>
                                     Presenta las investigaciones, innovaciones o desarrollos tecnológicos que se han realizado a nivel internacional, nacional, departamental o municipal en el marco de
                                     la temática de la propuesta del proyecto; que muestran la pertinencia del proyecto, citar toda la información consignada utilizando normas APA última edición.
                                 </AlertMui>
@@ -887,9 +898,7 @@ const Form = ({
 
                             <Grid item md={12}>
                                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="marco_conceptual" value="Marco conceptual" />
-                                <AlertMui hiddenIcon={true}>
-                                    Descripción de los aspectos conceptuales y/o teóricos relacionados con el problema. Se hace la claridad que no es un listado de definiciones.
-                                </AlertMui>
+                                <AlertMui>Descripción de los aspectos conceptuales y/o teóricos relacionados con el problema. Se hace la claridad que no es un listado de definiciones.</AlertMui>
 
                                 <Textarea
                                     id="marco_conceptual"
@@ -1031,7 +1040,7 @@ const Form = ({
 
                             <Grid item md={12}>
                                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="bibliografia" value="Bibliografía" />
-                                <AlertMui hiddenIcon={true}>
+                                <AlertMui>
                                     Lista de las referencias utilizadas en cada apartado del proyecto. Utilizar normas APA- Última edición
                                     (http://biblioteca.sena.edu.co/images/PDF/InstructivoAPA.pdf).
                                 </AlertMui>
@@ -1051,7 +1060,7 @@ const Form = ({
             </fieldset>
             {form.isDirty && <div>There are unsaved form changes.</div>}
 
-            {method == 'crear' || proyectoLinea65.proyecto?.allowed?.to_update ? (
+            {method == 'crear' || proyecto_linea_65.proyecto?.allowed?.to_update ? (
                 <div className="pt-8 pb-4 space-y-4">
                     <PrimaryButton type="submit" className="ml-auto">
                         Guardar

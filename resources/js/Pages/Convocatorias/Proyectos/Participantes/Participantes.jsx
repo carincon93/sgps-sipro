@@ -13,7 +13,7 @@ import TextInput from '@/Components/TextInput'
 import { router, useForm } from '@inertiajs/react'
 import { useState } from 'react'
 
-const Participantes = ({ authUser, convocatoria, proyecto, rolesSennova, nuevoParticipante, autorPrincipal }) => {
+const Participantes = ({ auth_user, convocatoria, proyecto, rolesSennova, nuevoParticipante, autorPrincipal }) => {
     /**
      * Participantes
      */
@@ -55,7 +55,7 @@ const Participantes = ({ authUser, convocatoria, proyecto, rolesSennova, nuevoPa
 
             {proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82 || proyecto.codigo_linea_programatica == 23 ? (
                 <>
-                    <AlertMui hiddenIcon={true} className="my-8">
+                    <AlertMui className="my-8">
                         <h1 className="mb-4 text-3xl font-black">Importante</h1>
                         Debe relacionar mínimo 2 aprendices con el rol de "Aprendiz en semillero de investigación
                         <br />
@@ -150,8 +150,7 @@ const Participantes = ({ authUser, convocatoria, proyecto, rolesSennova, nuevoPa
                                             })
                                         }
                                         disabled={!proyecto.allowed.to_update}
-                                        className={!proyecto.allowed.to_update ? 'hidden' : ''}
-                                    >
+                                        className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                         Convertir en autor principal
                                     </MenuItem>
                                     <Divider className={!proyecto.allowed.to_update ? 'hidden' : ''} />
@@ -167,8 +166,7 @@ const Participantes = ({ authUser, convocatoria, proyecto, rolesSennova, nuevoPa
                                             setParticipanteAModificarId(participante.id)
                                         }}
                                         disabled={!proyecto.allowed.to_update}
-                                        className={!proyecto.allowed.to_update ? 'hidden' : ''}
-                                    >
+                                        className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                         Editar
                                     </MenuItem>
                                     <MenuItem
@@ -182,9 +180,8 @@ const Participantes = ({ authUser, convocatoria, proyecto, rolesSennova, nuevoPa
                                                 { preserveScroll: true },
                                             )
                                         }
-                                        disabled={(!proyecto.allowed.to_update && authUser.id != participante.id) || (!proyecto.allowed.to_update && !participante.formulador)}
-                                        className={(!proyecto.allowed.to_update && authUser.id != participante.id) || (!proyecto.allowed.to_update && !participante.formulador) ? 'hidden' : ''}
-                                    >
+                                        disabled={(!proyecto.allowed.to_update && auth_user.id != participante.id) || (!proyecto.allowed.to_update && !participante.formulador)}
+                                        className={(!proyecto.allowed.to_update && auth_user.id != participante.id) || (!proyecto.allowed.to_update && !participante.formulador) ? 'hidden' : ''}>
                                         Quitar
                                     </MenuItem>
                                 </MenuMui>
@@ -201,8 +198,7 @@ const Participantes = ({ authUser, convocatoria, proyecto, rolesSennova, nuevoPa
                                             { preserveScroll: true },
                                         )
                                     }}
-                                    disabled={formParticipante.processing}
-                                >
+                                    disabled={formParticipante.processing}>
                                     Guardar
                                 </PrimaryButton>
                             </TableCell>
@@ -255,7 +251,18 @@ const Participantes = ({ authUser, convocatoria, proyecto, rolesSennova, nuevoPa
                                     onChange={(e) => formNuevoParticipante.setData('cantidad_meses', e.target.value)}
                                 />{' '}
                                 meses
-                                <TextInput id="cantidad_horas" type="number" name="cantidad_horas" size="small" required value={formNuevoParticipante.data.cantidad_horas} error={formNuevoParticipante.errors.cantidad_horas} className="!inline-block !w-16 !mx-2" onChange={(e) => formNuevoParticipante.setData('cantidad_horas', e.target.value)} /> horas semanales
+                                <TextInput
+                                    id="cantidad_horas"
+                                    type="number"
+                                    name="cantidad_horas"
+                                    size="small"
+                                    required
+                                    value={formNuevoParticipante.data.cantidad_horas}
+                                    error={formNuevoParticipante.errors.cantidad_horas}
+                                    className="!inline-block !w-16 !mx-2"
+                                    onChange={(e) => formNuevoParticipante.setData('cantidad_horas', e.target.value)}
+                                />{' '}
+                                horas semanales
                             </div>
                         </TableCell>
 
@@ -264,8 +271,7 @@ const Participantes = ({ authUser, convocatoria, proyecto, rolesSennova, nuevoPa
                                 onClick={() => {
                                     formNuevoParticipante.setData('user_id', nuevoParticipante.id), submitNuevoParticipante()
                                 }}
-                                disabled={formNuevoParticipante.processing}
-                            >
+                                disabled={formNuevoParticipante.processing}>
                                 Vincular
                             </PrimaryButton>
                         </TableCell>
@@ -274,9 +280,7 @@ const Participantes = ({ authUser, convocatoria, proyecto, rolesSennova, nuevoPa
                 <TableRow sx={{ backgroundColor: '#e5f6fd' }}>
                     <TableCell colSpan={6} className="!align-top">
                         <p>Agregar participante</p>
-                        <AlertMui hiddenIcon={true} className="mt-5">
-                            1. Escriba el nombre, número de documento o el correo electrónico institucional del participante.
-                        </AlertMui>
+                        <AlertMui className="mt-5">1. Escriba el nombre, número de documento o el correo electrónico institucional del participante.</AlertMui>
                         <SearchBar placeholder="Buscar participantes" inputBackground="white" routeParams={[convocatoria.id, proyecto.id]} />
                     </TableCell>
                 </TableRow>

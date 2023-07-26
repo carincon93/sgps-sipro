@@ -15,7 +15,7 @@
 
     export let ambientesModernizacion
     export let codigosSgpsFaltantes
-    export let allowedToCreate
+    export let allowed_to_create
 
     let dialogSeguimientos = false
 
@@ -24,8 +24,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let filters = {}
 
@@ -75,7 +75,7 @@
     </InfoMessage>
     <DataTable className="mt-20">
         <div slot="actions">
-            {#if allowedToCreate}
+            {#if allowed_to_create}
                 <Button on:click={() => Inertia.visit(route('ambientes-modernizacion.create'))} variant="raised">Crear seguimiento ambiente de modernización</Button>
             {/if}
         </div>

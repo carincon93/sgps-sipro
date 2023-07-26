@@ -17,8 +17,8 @@ import { useState } from 'react'
 import Form from './Form'
 
 const Municipios = ({ auth, convocatoria, proyecto, presupuesto, taTpViaticosMunicipios, municipios, proyectoRolesSennova, distanciasMunicipios, frecuenciasSemanales, ...props }) => {
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
     const [municipioToDestroy, setMunicipioToDestroy] = useState(null)
     const [dialogStatus, setDialogStatus] = useState(false)
@@ -34,7 +34,7 @@ const Municipios = ({ auth, convocatoria, proyecto, presupuesto, taTpViaticosMun
             <Grid item md={12}>
                 <h1 className="text-3xl mb-8 text-center">Municipios</h1>
 
-                {isSuperAdmin || proyecto.allowed.to_update ? (
+                {is_super_admin || proyecto.allowed.to_update ? (
                     <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setMunicipio(null))} variant="raised">
                         Añadir municipio
                     </ButtonMui>
@@ -115,7 +115,7 @@ const Municipios = ({ auth, convocatoria, proyecto, presupuesto, taTpViaticosMun
                     blurEnabled={true}
                     dialogContent={
                         <Form
-                            isSuperAdmin={isSuperAdmin}
+                            is_super_admin={is_super_admin}
                             setDialogStatus={setDialogStatus}
                             method={method}
                             proyecto={proyecto}

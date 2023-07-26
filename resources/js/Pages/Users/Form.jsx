@@ -20,13 +20,13 @@
     export let tiposVinculacion
     export let roles
     export let centrosFormacion
-    export let allowedToCreate
+    export let allowed_to_create
 
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 </script>
 
 <form on:submit|preventDefault={submit}>
@@ -35,7 +35,7 @@
             <h1 className="font-black text-4xl sticky top-0 uppercase">Datos personales</h1>
         </div>
         <div className="bg-white rounded shadow col-span-2">
-            <fieldset className="p-8" disabled={usuario?.allowed.to_update || allowedToCreate ? undefined : true}>
+            <fieldset className="p-8" disabled={usuario?.allowed.to_update || allowed_to_create ? undefined : true}>
                 <div className="mt-8">
                     <Input label="Nombre completo" id="nombre" type="text" className="mt-1" bind:value={$form.nombre} error={errors.nombre} required />
                 </div>
@@ -69,7 +69,7 @@
                     <Select id="tipo_vinculacion" items={tiposVinculacion} bind:selectedValue={$form.tipo_vinculacion} error={errors.tipo_vinculacion} autocomplete="off" placeholder="Seleccione el tipo de vinculación" required />
                 </div>
 
-                {#if isSuperAdmin || allowedToCreate}
+                {#if is_super_admin || allowed_to_create}
                     <div className="mt-8">
                         <Label required className="mb-4" labelFor="centro_formacion_id" value="Centro de formación" />
                         <Select id="centro_formacion_id" items={centrosFormacion} bind:selectedValue={$form.centro_formacion_id} error={errors.centro_formacion_id} autocomplete="off" placeholder="Busque por el nombre del centro de formación" required />
@@ -90,14 +90,14 @@
             <h1 className="font-black text-4xl sticky top-0 uppercase">Roles</h1>
         </div>
         <div className="bg-white rounded shadow col-span-2">
-            <fieldset className="p-8" disabled={usuario?.allowed.to_update || allowedToCreate ? undefined : true}>
+            <fieldset className="p-8" disabled={usuario?.allowed.to_update || allowed_to_create ? undefined : true}>
                 <div className="p-4">
                     <Label required className="mb-4" labelFor="role_id" value="Seleccione algún rol" />
                     <InputError message={errors.role_id} />
                 </div>
                 <div className="grid grid-cols-2">
                     {#each roles as { id, name }, i}
-                        {#if checkRole(authUser, [4, 21, 17, 18, 20, 19, 5])}
+                        {#if checkRole(auth_user, [4, 21, 17, 18, 20, 19, 5])}
                             {#if name == 'proponente cultura de la innovación' || name == 'proponente i+d+i' || name == 'proponente servicios tecnológicos' || name == 'proponente tecnoacademia' || name == 'proponente tecnoparque' || name == 'Líder de semilleros' || name == 'Facilitador TecnoAcademia' || name == 'Dinamizador Tecnoparque'}
                                 <div className="pt-8 pb-8 border-t">
                                     <FormField>
@@ -106,7 +106,7 @@
                                     </FormField>
                                 </div>
                             {/if}
-                        {:else if isSuperAdmin}
+                        {:else if is_super_admin}
                             <div className="pt-8 pb-8 border-t">
                                 <FormField>
                                     <Checkbox bind:group={$form.role_id} value={id} />
@@ -125,13 +125,13 @@
             <h1 className="font-black text-4xl sticky top-0 uppercase">Permisos especiales</h1>
         </div>
         <div className="bg-white rounded shadow col-span-2">
-            <fieldset className="p-8" disabled={isSuperAdmin || checkRole(authUser, [17, 18, 20, 19, 5, 23]) ? undefined : true}>
+            <fieldset className="p-8" disabled={is_super_admin || checkRole(auth_user, [17, 18, 20, 19, 5, 23]) ? undefined : true}>
                 <div className="p-4">
                     <Label className="mb-4" labelFor="role_id" value="Seleccione algún permiso especial para el usuario (Aplica cuando la convocatoria ha finalizado)" />
                     <InputError message={errors.permission_id} />
                 </div>
                 <div className="grid grid-cols-2">
-                    {#if isSuperAdmin}
+                    {#if is_super_admin}
                         <div className="pt-8 pb-8 border-t">
                             <FormField>
                                 <Checkbox bind:group={$form.permission_id} value={1} />
@@ -205,7 +205,7 @@
     {/if}
 
     <div className="shadow-inner bg-app-200 border-app-400 mt-14 px-8 py-4">
-        {#if $form.role_id.find((item) => item == 4) == 4 && isSuperAdmin}
+        {#if $form.role_id.find((item) => item == 4) == 4 && is_super_admin}
             <InfoMessage alertMsg={true} className="my-2">
                 <strong>Importante:</strong>
                 <br />
@@ -221,7 +221,7 @@
                     {usuario.updated_at}
                 </small>
             {/if}
-            {#if usuario?.allowed.to_update || allowedToCreate}
+            {#if usuario?.allowed.to_update || allowed_to_create}
                 <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
             {:else}
                 <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>

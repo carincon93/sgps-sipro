@@ -10,15 +10,15 @@
     export let categoriasMinciencias
     export let redesConocimiento
     export let centrosFormacion
-    export let allowedToCreate
+    export let allowed_to_create
 
     $: $title = 'Crear grupo de investigación'
 
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let form = useForm({
         nombre: '',
@@ -45,7 +45,7 @@
     })
 
     function submit() {
-        if (allowedToCreate) {
+        if (allowed_to_create) {
             $form.post(route('grupos-investigacion.store'))
         }
     }
@@ -70,7 +70,7 @@
         </div>
 
         <div className="col-span-2">
-            <Form {submit} {form} {errors} {categoriasMinciencias} {redesConocimiento} {centrosFormacion} {allowedToCreate} method="store" />
+            <Form {submit} {form} {errors} {categoriasMinciencias} {redesConocimiento} {centrosFormacion} {allowed_to_create} method="store" />
         </div>
     </div>
 </AuthenticatedLayout>

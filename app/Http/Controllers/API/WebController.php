@@ -53,30 +53,6 @@ class WebController extends Controller
         return response(CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo, chr(10), \'∙ Regional: \', regionales.nombre) as label')->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->orderBy('centros_formacion.nombre', 'ASC')->get());
     }
 
-    // Trae los centros de formación - Cultura innovación
-    public function culturaInnovacionCentrosFormacion($value = '')
-    {
-        return response(CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo, chr(10), \'∙ Regional: \', regionales.nombre) as label')
-            ->join('regionales', 'centros_formacion.regional_id', 'regionales.id')
-            ->whereIn('centros_formacion.codigo', [
-                9309,
-                9503,
-                9230,
-                9124,
-                9120,
-                9222,
-                9116,
-                9548,
-                9401,
-                9403,
-                9303,
-                9310,
-                9529,
-                9121
-            ])
-            ->orderBy('centros_formacion.nombre', 'ASC')->get());
-    }
-
     // Trae las actividades por resultado
     public function resultadosActividades($resultado)
     {
@@ -122,18 +98,18 @@ class WebController extends Controller
     public function rolesSennova($convocatoria, $proyectoId, $lineaProgramatica)
     {
         $proyecto = Proyecto::find($proyectoId);
-        if ($proyecto->servicioTecnologico()->exists()) {
+        if ($proyecto->proyectoLinea68()->exists()) {
             $rol = '';
             $tipologiaSt = '';
-            if ($proyecto->servicioTecnologico->estadoSistemaGestion->id == 1) {
+            if ($proyecto->proyectoLinea68->estadoSistemaGestion->id == 1) {
                 $rol = 'responsable de servicios tecnológicos (laboratorio)';
             }
 
-            if ($proyecto->servicioTecnologico->tipoProyectoSt->tipologia == 1) {
+            if ($proyecto->proyectoLinea68->tipoProyectoSt->tipologia == 1) {
                 $tipologiaSt = '%especiales%';
-            } else if ($proyecto->servicioTecnologico->tipoProyectoSt->tipologia == 2) {
+            } else if ($proyecto->proyectoLinea68->tipoProyectoSt->tipologia == 2) {
                 $tipologiaSt = '%laboratorio%';
-            } else if ($proyecto->servicioTecnologico->tipoProyectoSt->tipologia == 3) {
+            } else if ($proyecto->proyectoLinea68->tipoProyectoSt->tipologia == 3) {
                 $tipologiaSt = '%técnicos%';
             }
             return response(ConvocatoriaRolSennova::selectRaw("convocatoria_rol_sennova.id as value, convocatoria_rol_sennova.perfil, convocatoria_rol_sennova.mensaje,

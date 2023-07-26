@@ -13,15 +13,15 @@
     import { Item, Text, Separator } from '@smui/list'
 
     export let programasFormacion
-    export let allowedToCreate
+    export let allowed_to_create
 
     $title = 'Programas de formación'
 
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let filters = {}
 
@@ -45,7 +45,7 @@
         <div slot="title">Programas de formación</div>
 
         <div slot="actions">
-            {#if allowedToCreate}
+            {#if allowed_to_create}
                 <Button on:click={() => Inertia.visit(route('programas-formacion.create'))} variant="raised">Crear programa de formación</Button>
             {/if}
         </div>
@@ -83,7 +83,7 @@
                                 <Text>Ver detalles</Text>
                             </Item>
                             <Separator className={!programaFormacion.allowed.to_destroy ? 'hidden' : ''} />
-                            <Item on:SMUI:action={() => ((programaFormacionId = programaFormacion.id), (dialogEliminar = true), (allowedToDestroy = isSuperAdmin))} disabled={!programaFormacion.allowed.to_destroy} className={!programaFormacion.allowed.to_destroy ? 'hidden' : ''}>
+                            <Item on:SMUI:action={() => ((programaFormacionId = programaFormacion.id), (dialogEliminar = true), (allowedToDestroy = is_super_admin))} disabled={!programaFormacion.allowed.to_destroy} className={!programaFormacion.allowed.to_destroy ? 'hidden' : ''}>
                                 <Text>Eliminar</Text>
                             </Item>
                         </DataTableMenu>

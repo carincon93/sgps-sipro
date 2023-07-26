@@ -42,7 +42,7 @@ class UserController extends Controller
             'filters'           => request()->all('search', 'roles'),
             'usuarios'          => User::getUsersByRol()->appends(['search' => request()->search, 'roles' => request()->roles]),
             'roles'             => Role::orderBy('name', 'ASC')->get(),
-            'allowedToCreate'   => Gate::inspect('create', [User::class])->allowed()
+            'allowed_to_create'   => Gate::inspect('create', [User::class])->allowed()
         ]);
     }
 
@@ -60,7 +60,7 @@ class UserController extends Controller
             'tiposVinculacion'      => json_decode(Storage::get('json/tipos-vinculacion.json'), true),
             'roles'                 => Role::select('id', 'name')->get('id'),
             'centrosFormacion'      => SelectHelper::centrosFormacion(),
-            'allowedToCreate'       => Gate::inspect('create', [User::class])->allowed()
+            'allowed_to_create'       => Gate::inspect('create', [User::class])->allowed()
         ]);
     }
 
@@ -121,10 +121,10 @@ class UserController extends Controller
         $this->authorize('update', [User::class, $user]);
 
         /** @var \App\Models\User */
-        $authUser = Auth::user();
+        $auth_user = Auth::user();
 
         if ($request->notificacion) {
-            $notificacion = $authUser->unreadNotifications()->where('id', $request->notificacion)->first();
+            $notificacion = $auth_user->unreadNotifications()->where('id', $request->notificacion)->first();
             if ($notificacion) {
                 $notificacion->markAsRead();
             }
@@ -134,7 +134,7 @@ class UserController extends Controller
             $user->dinamizador_centro_formacion_id = $user->dinamizadorCentroFormacion->id;
         }
 
-        $proyectos = $user->proyectos->load('idi', 'tp.nodoTecnoparque', 'tecnoacademiaLineasTecnoacademia.tecnoacademia', 'culturaInnovacion', 'servicioTecnologico');
+        $proyectos = $user->proyectos->load('proyectosLinea66', 'proyectosLinea69.nodoTecnoparque', 'tecnoacademiaLineasTecnoacademia.tecnoacademia', 'proyectosLinea65', 'proyectosLinea68');
 
         if ($user->hasRole([2, 3, 4, 21])) {
             $proyectos->where('centro_formacion_id', $user->centro_formacion_id);
@@ -220,10 +220,10 @@ class UserController extends Controller
     public function showPerfil()
     {
         /** @var \App\Models\User */
-        $authUser = User::where('id', Auth::user()->id)->first();
+        $auth_user = User::where('id', Auth::user()->id)->first();
 
         return Inertia::render('Users/Perfil', [
-            'user'                                      => $authUser,
+            'user'                                      => $auth_user,
             'tiposDocumento'                            => json_decode(Storage::get('json/tipos-documento.json'), true),
             'tiposVinculacion'                          => json_decode(Storage::get('json/tipos-vinculacion.json'), true),
             'nivelesIngles'                             => json_decode(Storage::get('json/niveles-ingles.json'), true),
@@ -239,12 +239,12 @@ class UserController extends Controller
             'redesConocimiento'                         => RedConocimiento::selectRaw('id as value, nombre as label')->get(),
             'disciplinasConocimiento'                   => DisciplinaSubareaConocimiento::selectRaw('id as value, nombre as label')->orderBy('nombre', 'ASC')->get(),
             'centrosFormacion'                          => CentroFormacion::selectRaw('centros_formacion.id as value, CONCAT(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo, chr(10), \'∙ Regional: \', INITCAP(regionales.nombre)) as label')->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->orderBy('centros_formacion.nombre', 'ASC')->get(),
-            'estudiosAcademicos'                        => EstudioAcademico::where('user_id', $authUser->id)->get(),
-            'formacionesAcademicasSena'                 => FormacionAcademicaSena::where('user_id', $authUser->id)->get(),
-            'rolesSennovaRelacionados'                  => RolSennova::select('roles_sennova.id as value', 'roles_sennova.nombre as label')->whereIn('id', [json_decode($authUser->rol_sennova_id)])->get(),
-            'participacionesGruposInvestigacionSena'    => ParticipacionGrupoInvestigacionSena::with('semilleroInvestigacion', 'grupoInvestigacion')->where('user_id', $authUser->id)->get(),
-            'participacionesProyectosSennova'           => ParticipacionProyectoSennova::where('user_id', $authUser->id)->get(),
-            'disciplinasConocimientoRelacionadas'       => DisciplinaSubareaConocimiento::selectRaw('id as value, nombre as label')->whereIn('id', $authUser->disciplinas_subarea_conocimiento ? json_decode($authUser->disciplinas_subarea_conocimiento) : [])->orderBy('nombre', 'ASC')->get(),
+            'estudiosAcademicos'                        => EstudioAcademico::where('user_id', $auth_user->id)->get(),
+            'formacionesAcademicasSena'                 => FormacionAcademicaSena::where('user_id', $auth_user->id)->get(),
+            'rolesSennovaRelacionados'                  => RolSennova::select('roles_sennova.id as value', 'roles_sennova.nombre as label')->whereIn('id', [json_decode($auth_user->rol_sennova_id)])->get(),
+            'participacionesGruposInvestigacionSena'    => ParticipacionGrupoInvestigacionSena::with('semilleroInvestigacion', 'grupoInvestigacion')->where('user_id', $auth_user->id)->get(),
+            'participacionesProyectosSennova'           => ParticipacionProyectoSennova::where('user_id', $auth_user->id)->get(),
+            'disciplinasConocimientoRelacionadas'       => DisciplinaSubareaConocimiento::selectRaw('id as value, nombre as label')->whereIn('id', $auth_user->disciplinas_subarea_conocimiento ? json_decode($auth_user->disciplinas_subarea_conocimiento) : [])->orderBy('nombre', 'ASC')->get(),
         ]);
     }
 
@@ -258,21 +258,21 @@ class UserController extends Controller
     public function changeUserProfile(UserProfileRequest $request)
     {
         /** @var \App\Models\User */
-        $authUser = Auth::user();
+        $auth_user = Auth::user();
 
-        $authUser->update($request->all());
+        $auth_user->update($request->all());
 
         if ($request->hasFile('certificado_ingles')) {
             // CENSO2023 Quemado
-            $this->saveFilesSharepoint($request->certificado_ingles, 'CENSO2023', $authUser, 'certificado_ingles');
+            $this->saveFilesSharepoint($request->certificado_ingles, 'CENSO2023', $auth_user, 'certificado_ingles');
         }
 
         if ($request->hasFile('archivo_acta_resolucion')) {
             // CENSO2023 Quemado
-            $this->saveFilesSharepoint($request->archivo_acta_resolucion, 'CENSO2023', $authUser, 'archivo_acta_resolucion');
+            $this->saveFilesSharepoint($request->archivo_acta_resolucion, 'CENSO2023', $auth_user, 'archivo_acta_resolucion');
         }
 
-        // $authUser->syncRoles($request->role_id);
+        // $auth_user->syncRoles($request->role_id);
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
@@ -290,11 +290,11 @@ class UserController extends Controller
         ]);
 
         /** @var \App\Models\User */
-        $authUser = Auth::user();
+        $auth_user = Auth::user();
 
-        if (Hash::check($request->get('old_password'), $authUser->password)) {
-            $authUser->password = Hash::make($request->get('password'));
-            $authUser->save();
+        if (Hash::check($request->get('old_password'), $auth_user->password)) {
+            $auth_user->password = Hash::make($request->get('password'));
+            $auth_user->save();
             $message = 'La contraseña se ha actualizado correctamente.';
             $status = 'success';
         } else {
@@ -314,11 +314,11 @@ class UserController extends Controller
     public function showAllNotifications()
     {
         /** @var \App\Models\User */
-        $authUser = Auth::user();
+        $auth_user = Auth::user();
 
         return Inertia::render('Users/Notifications/Index', [
             'filters'           => request()->all('search'),
-            'notificaciones'    => $authUser->notifications()->paginate(15)
+            'notificaciones'    => $auth_user->notifications()->paginate(15)
         ]);
     }
 
@@ -331,10 +331,10 @@ class UserController extends Controller
     public function markAsReadNotification(Request $request)
     {
         /** @var \App\Models\User */
-        $authUser = Auth::user();
+        $auth_user = Auth::user();
 
         if ($request->notificacion) {
-            $notificacion = $authUser->unreadNotifications()->where('id', $request->notificacion)->first();
+            $notificacion = $auth_user->unreadNotifications()->where('id', $request->notificacion)->first();
             if ($notificacion) {
                 $notificacion->markAsRead();
             }
@@ -346,9 +346,9 @@ class UserController extends Controller
     public function getNumeroNotificaciones()
     {
         /** @var \App\Models\User */
-        $authUser = Auth::user();
+        $auth_user = Auth::user();
 
-        return response()->json(['numeroNotificaciones' => $authUser->unreadNotifications()->count(), 'notificaciones' => $authUser->unreadNotifications()->orderBy('created_at', 'DESC')->take(3)->get()]);
+        return response()->json(['numeroNotificaciones' => $auth_user->unreadNotifications()->count(), 'notificaciones' => $auth_user->unreadNotifications()->orderBy('created_at', 'DESC')->take(3)->get()]);
     }
 
     /**
@@ -366,13 +366,13 @@ class UserController extends Controller
         ]);
     }
 
-    public function saveFilesSharepoint($tmpFile, $modulo, $modelo, $campoBd)
+    public function saveFilesSharepoint($tmp_file, $modulo, $modelo, $campo_bd)
     {
         $user = Auth::user();
 
         $centroFormacionSharePoint = $user->centroFormacion->nombre_carpeta_sharepoint;
 
-        $sharePointPath = "$modulo/$centroFormacionSharePoint/$user->nombre_carpeta_sharepoint";
-        SharepointHelper::saveFilesSharepoint($tmpFile, $modelo, $sharePointPath, $campoBd);
+        $sharepoint_path = "$modulo/$centroFormacionSharePoint/$user->nombre_carpeta_sharepoint";
+        SharepointHelper::saveFilesSharepoint($tmp_file, $modelo, $sharepoint_path, $campo_bd);
     }
 }

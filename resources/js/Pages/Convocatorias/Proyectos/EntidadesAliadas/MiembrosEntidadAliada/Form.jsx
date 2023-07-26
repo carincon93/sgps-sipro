@@ -44,35 +44,83 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAli
                     <form onSubmit={submit}>
                         <fieldset disabled={proyecto.allowed.to_update ? false : true}>
                             <div className="mt-8">
-                                <TextInput label="Nombre completo" id="nombre" type="text" value={form.data.nombre} onChange={(e) => form.setData('nombre', e.target.value)} error={form.errors.nombre} required />
+                                <TextInput
+                                    label="Nombre completo"
+                                    id="nombre"
+                                    type="text"
+                                    value={form.data.nombre}
+                                    onChange={(e) => form.setData('nombre', e.target.value)}
+                                    error={form.errors.nombre}
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <TextInput label="Correo electrónico" id="email" type="email" value={form.data.email} onChange={(e) => form.setData('email', e.target.value)} error={form.errors.email} required />
+                                <TextInput
+                                    label="Correo electrónico"
+                                    id="email"
+                                    type="email"
+                                    value={form.data.email}
+                                    onChange={(e) => form.setData('email', e.target.value)}
+                                    error={form.errors.email}
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <Autocomplete id="tipo_documento" options={tiposDocumento} selectedValue={form.data.tipo_documento} onChange={(evente, newValue) => form.setData('tipo_documento', newValue.value)} error={form.errors.tipo_documento} label="Tipo de documento" required />
+                                <Autocomplete
+                                    id="tipo_documento"
+                                    options={tiposDocumento}
+                                    selectedValue={form.data.tipo_documento}
+                                    onChange={(evente, newValue) => form.setData('tipo_documento', newValue.value)}
+                                    error={form.errors.tipo_documento}
+                                    label="Tipo de documento"
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <TextInput label="Número de documento" id="numero_documento" type="number" value={form.data.numero_documento} onChange={(e) => form.setData('numero_documento', e.target.value)} error={form.errors.numero_documento} required />
+                                <TextInput
+                                    label="Número de documento"
+                                    id="numero_documento"
+                                    type="number"
+                                    value={form.data.numero_documento}
+                                    onChange={(e) => form.setData('numero_documento', e.target.value)}
+                                    error={form.errors.numero_documento}
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
-                                <TextInput label="Número de celular" id="numero_celular" type="number" value={form.data.numero_celular} onChange={(e) => form.setData('numero_celular', e.target.value)} error={form.errors.numero_celular} required />
+                                <TextInput
+                                    label="Número de celular"
+                                    id="numero_celular"
+                                    type="number"
+                                    value={form.data.numero_celular}
+                                    onChange={(e) => form.setData('numero_celular', e.target.value)}
+                                    error={form.errors.numero_celular}
+                                    required
+                                />
                             </div>
 
                             {miembroEntidadAliada ? (
                                 <div className="mt-8">
-                                    <AlertMui hiddenIcon={true}>{miembroEntidadAliada.autorizacion_datos ? 'Está persona autorizó el tratamiento de datos' : 'Está persona no autorizó el tratamiento de datos'}</AlertMui>
+                                    <AlertMui>
+                                        {miembroEntidadAliada.autorizacion_datos ? 'Está persona autorizó el tratamiento de datos' : 'Está persona no autorizó el tratamiento de datos'}
+                                    </AlertMui>
                                 </div>
                             ) : (
                                 <div className="mt-8">
-                                    <AlertMui hiddenIcon={true} className="mb-4">
-                                        Los datos proporcionados serán tratados de acuerdo con la política de tratamiento de datos personales del SENA y a la ley 1581 de 2012 (acuerdo No. 0009 del 2016)
+                                    <AlertMui className="mb-4">
+                                        Los datos proporcionados serán tratados de acuerdo con la política de tratamiento de datos personales del SENA y a la ley 1581 de 2012 (acuerdo No. 0009 del
+                                        2016)
                                     </AlertMui>
-                                    <Checkbox name="autorizacion_datos" checked={form.data.autorizacion_datos} onChange={(e) => form.setData('autorizacion_datos', e.target.checked)} label="¿La persona autoriza el tratamiento de datos personales?" />
+                                    <Checkbox
+                                        name="autorizacion_datos"
+                                        checked={form.data.autorizacion_datos}
+                                        onChange={(e) => form.setData('autorizacion_datos', e.target.checked)}
+                                        label="¿La persona autoriza el tratamiento de datos personales?"
+                                    />
                                 </div>
                             )}
                         </fieldset>

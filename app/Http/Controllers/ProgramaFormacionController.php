@@ -24,7 +24,7 @@ class ProgramaFormacionController extends Controller
         return Inertia::render('ProgramasFormacion/Index', [
             'filters'               => request()->all('search'),
             'programasFormacion'    => ProgramaFormacion::getProgramasFormacionByRol()->appends(['search' => request()->search]),
-            'allowedToCreate'       => Gate::inspect('create', [ProgramaFormacion::class])->allowed()
+            'allowed_to_create'       => Gate::inspect('create', [ProgramaFormacion::class])->allowed()
         ]);
     }
 
@@ -41,7 +41,7 @@ class ProgramaFormacionController extends Controller
             'centrosFormacion'      => CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo, chr(10), \'∙ Regional: \', regionales.nombre) as label')->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->orderBy('centros_formacion.nombre', 'ASC')->get(),
             'modalidades'           => json_decode(Storage::get('json/modalidades-estudio.json'), true),
             'nivelesFormacion'      => json_decode(Storage::get('json/nivel-formacion.json'), true),
-            'allowedToCreate'       => Gate::inspect('create', [ProgramaFormacion::class])->allowed()
+            'allowed_to_create'       => Gate::inspect('create', [ProgramaFormacion::class])->allowed()
         ]);
     }
 

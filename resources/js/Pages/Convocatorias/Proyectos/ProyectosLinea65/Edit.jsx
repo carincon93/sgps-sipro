@@ -16,37 +16,38 @@ import { useState } from 'react'
 const Edit = ({
     auth,
     convocatoria,
-    proyectoLinea65,
-    mesasSectoriales,
-    areasConocimiento,
-    lineasInvestigacion,
-    lineasProgramaticas,
-    lineasTecnoacademia,
-    actividadesEconomicas,
-    tematicasEstrategicas,
+    proyecto_linea_65,
+    mesas_sectoriales,
+    areas_conocimiento,
+    lineas_investigacion,
+    lineas_programaticas,
+    lineas_tecnoacademia,
+    actividades_economicas,
+    tematicas_estrategicas,
     tecnoacademia,
     tecnoacademias,
-    programasFormacionConRegistroCalificado,
-    programasFormacionSinRegistroCalificado,
+    programas_formacion_con_registro_calificado,
+    programas_formacion_sin_registro_calificado,
     municipios,
-    proyectoMunicipios,
-    mesasSectorialesRelacionadas,
-    lineasTecnoacademiaRelacionadas,
-    programasFormacionConRegistroRelacionados,
-    programasFormacionSinRegistroRelacionados,
-    tiposProyectos,
-    tiposEventos,
+    proyecto_municipios,
+    mesas_sectoriales_relacionadas,
+    lineas_tecnoacademia_relacionadas,
+    programas_formacion_con_registro_relacionados,
+    programas_formacion_sin_registro_relacionados,
+    tipos_proyectos,
+    tipos_eventos,
+    roles_sennova,
     ...props
 }) => {
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
-    const [evaluacionIndex, setEvaluacionIndex] = useState(0)
-    const [dialogStatus, setDialogStatus] = useState(false)
+    const [evaluacion_index, setEvaluacionIndex] = useState(0)
+    const [dialog_status, setDialogStatus] = useState(false)
 
-    const comentariosEvaluaciones =
+    const comentarios_evaluaciones =
         proyectoLinea65?.proyecto.evaluaciones.length > 0
-            ? Object.keys(proyectoLinea65?.proyecto.evaluaciones[evaluacionIndex].cultura_innovacion_evaluacion).filter((field) => field.endsWith('_comentario'))
+            ? Object.keys(proyectoLinea65?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_linea65).filter((field) => field.endsWith('_comentario'))
             : null
 
     return (
@@ -66,24 +67,24 @@ const Edit = ({
                 <DialogMui
                     fullWidth={true}
                     maxWidth="lg"
-                    open={dialogStatus}
+                    open={dialog_status}
                     dialogContent={
                         <>
                             {proyectoLinea65?.proyecto.evaluaciones.map((evaluacion, i) => (
-                                <ButtonMui onClick={() => setEvaluacionIndex(i)} primary={evaluacionIndex == i} key={i} className="!ml-2">
+                                <ButtonMui onClick={() => setEvaluacionIndex(i)} primary={evaluacion_index == i} key={i} className="!ml-2">
                                     Ver comentarios de la evaluación #{i + 1}
                                 </ButtonMui>
                             ))}
                             <TableMui className="mt-20" rows={['Ítem', 'Comentario']}>
-                                {comentariosEvaluaciones &&
-                                    comentariosEvaluaciones
+                                {comentarios_evaluaciones &&
+                                    comentarios_evaluaciones
                                         .sort((a, b) => a.toString().localeCompare(b.toString()))
                                         .map((field, i) => (
                                             <TableRow key={i}>
                                                 <TableCell>
                                                     <p className="first-letter:uppercase">{field.replace(/_comentario/g, '').replace(/_/g, ' ')}</p>
                                                 </TableCell>
-                                                <TableCell>{proyectoLinea65?.proyecto.evaluaciones[evaluacionIndex].cultura_innovacion_evaluacion[field] ?? 'Sin comentarios'}</TableCell>
+                                                <TableCell>{proyectoLinea65?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_linea65[field] ?? 'Sin comentarios'}</TableCell>
                                             </TableRow>
                                         ))}
                             </TableMui>
@@ -99,29 +100,30 @@ const Edit = ({
 
             <Grid item md={12}>
                 <Form
-                    isSuperAdmin={isSuperAdmin}
+                    is_super_admin={is_super_admin}
                     method="editar"
                     convocatoria={convocatoria}
-                    proyectoLinea65={proyectoLinea65}
-                    mesasSectoriales={mesasSectoriales}
-                    areasConocimiento={areasConocimiento}
-                    lineasInvestigacion={lineasInvestigacion}
-                    lineasProgramaticas={lineasProgramaticas}
-                    lineasTecnoacademia={lineasTecnoacademia}
-                    actividadesEconomicas={actividadesEconomicas}
-                    tematicasEstrategicas={tematicasEstrategicas}
+                    proyecto_linea_65={proyecto_linea_65}
+                    mesas_sectoriales={mesas_sectoriales}
+                    areas_conocimiento={areas_conocimiento}
+                    lineas_investigacion={lineas_investigacion}
+                    lineas_programaticas={lineas_programaticas}
+                    lineas_tecnoacademia={lineas_tecnoacademia}
+                    actividades_economicas={actividades_economicas}
+                    tematicas_estrategicas={tematicas_estrategicas}
                     tecnoacademia={tecnoacademia}
                     tecnoacademias={tecnoacademias}
-                    programasFormacionConRegistroCalificado={programasFormacionConRegistroCalificado}
-                    programasFormacionSinRegistroCalificado={programasFormacionSinRegistroCalificado}
+                    programas_formacion_con_registro_calificado={programas_formacion_con_registro_calificado}
+                    programas_formacion_sin_registro_calificado={programas_formacion_sin_registro_calificado}
                     municipios={municipios}
-                    proyectoMunicipios={proyectoMunicipios}
-                    mesasSectorialesRelacionadas={mesasSectorialesRelacionadas}
-                    lineasTecnoacademiaRelacionadas={lineasTecnoacademiaRelacionadas}
-                    programasFormacionConRegistroRelacionados={programasFormacionConRegistroRelacionados}
-                    programasFormacionSinRegistroRelacionados={programasFormacionSinRegistroRelacionados}
-                    tiposProyectos={tiposProyectos}
-                    tiposEventos={tiposEventos}
+                    proyecto_municipios={proyecto_municipios}
+                    mesas_sectoriales_relacionadas={mesas_sectoriales_relacionadas}
+                    lineas_tecnoacademia_relacionadas={lineas_tecnoacademia_relacionadas}
+                    programas_formacion_con_registro_relacionados={programas_formacion_con_registro_relacionados}
+                    programas_formacion_sin_registro_relacionados={programas_formacion_sin_registro_relacionados}
+                    tipos_proyectos={tipos_proyectos}
+                    tipos_eventos={tipos_eventos}
+                    roles_sennova={roles_sennova}
                 />
             </Grid>
         </AuthenticatedLayout>

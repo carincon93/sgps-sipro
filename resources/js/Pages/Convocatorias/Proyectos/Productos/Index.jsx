@@ -20,8 +20,8 @@ import { MenuItem, Grid, TableRow, TableCell } from '@mui/material'
 import Form from './Form'
 
 const Productos = ({ auth, convocatoria, proyecto, productos, validacionResultados, resultados, subtipologiasMinciencias, tiposProducto }) => {
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
     const [productoToDestroy, setProductoToDestroy] = useState(null)
     const [dialogStatus, setDialogStatus] = useState(false)
@@ -40,16 +40,12 @@ const Productos = ({ auth, convocatoria, proyecto, productos, validacionResultad
                     Los productos se entienden como los bienes o servicios que se generan y entregan en un proceso productivo. Los productos materializan los objetivos específicos de los proyectos. De
                     esta forma, los productos de un proyecto deben agotar los objetivos específicos del mismo y deben cumplir a cabalidad con el objetivo general del proyecto.
                 </p>
-                {validacionResultados && (
-                    <AlertMui hiddenIcon={true} className="mt-10 mb-10">
-                        {validacionResultados}
-                    </AlertMui>
-                )}
+                {validacionResultados && <AlertMui className="mt-10 mb-10">{validacionResultados}</AlertMui>}
 
-                {isSuperAdmin || proyecto.mostrar_recomendaciones ? (
+                {is_super_admin || proyecto.mostrar_recomendaciones ? (
                     <>
                         {proyecto.evaluaciones.map((evaluacion, i) =>
-                            isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado) ? (
+                            is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
                                 <ToolTipMui
                                     key={i}
                                     title={
@@ -110,8 +106,8 @@ const Productos = ({ auth, convocatoria, proyecto, productos, validacionResultad
                     </>
                 ) : null}
 
-                {isSuperAdmin ||
-                checkRole(authUser, [5, 17]) ||
+                {is_super_admin ||
+                checkRole(auth_user, [5, 17]) ||
                 (proyecto.allowed.to_update && validacionResultados == null && proyecto.modificable == true && proyecto.codigo_linea_programatica != 70) ? (
                     <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setProducto(null))} variant="raised">
                         Crear producto
@@ -121,9 +117,7 @@ const Productos = ({ auth, convocatoria, proyecto, productos, validacionResultad
 
             <Grid item md={12}>
                 {proyecto.codigo_linea_programatica == 70 && (
-                    <AlertMui className="mt-20" hiddenIcon={true}>
-                        Debe asociar las fechas y actividades a cada uno de los productos haciendo clic en los tres puntos, a continuación, clic en 'Editar'.
-                    </AlertMui>
+                    <AlertMui className="mt-20">Debe asociar las fechas y actividades a cada uno de los productos haciendo clic en los tres puntos, a continuación, clic en 'Editar'.</AlertMui>
                 )}
                 <TableMui className="mb-8" rows={['Descripción', 'Objetivo específico', 'Resultado/Meta', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {productos.data.map((producto, i) => (
@@ -194,7 +188,7 @@ const Productos = ({ auth, convocatoria, proyecto, productos, validacionResultad
                     blurEnabled={true}
                     dialogContent={
                         <Form
-                            isSuperAdmin={isSuperAdmin}
+                            is_super_admin={is_super_admin}
                             setDialogStatus={setDialogStatus}
                             method={method}
                             convocatoria={convocatoria}

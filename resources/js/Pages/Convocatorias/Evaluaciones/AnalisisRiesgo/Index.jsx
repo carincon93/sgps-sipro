@@ -29,8 +29,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let formEstrategiaRegionalEvaluacion = useForm({
         analisis_riesgos_puntaje: evaluacion.idi_evaluacion ? evaluacion.idi_evaluacion?.analisis_riesgos_puntaje : evaluacion.cultura_innovacion_evaluacion ? evaluacion.cultura_innovacion_evaluacion.analisis_riesgos_puntaje : null,
@@ -38,7 +38,7 @@
         analisis_riesgos_requiere_comentario: evaluacion.idi_evaluacion ? (evaluacion.idi_evaluacion?.analisis_riesgos_comentario == null ? true : false) : evaluacion.cultura_innovacion_evaluacion ? (evaluacion.cultura_innovacion_evaluacion.analisis_riesgos_comentario == null ? true : false) : null,
     })
     function submitEstrategiaRegionalEvaluacion() {
-        if (isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
+        if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
             $formEstrategiaRegionalEvaluacion.put(route('convocatorias.evaluaciones.analisis-riesgos.guardar-evaluacion', [convocatoria.id, evaluacion.id]), {
                 preserveScroll: true,
             })
@@ -50,7 +50,7 @@
         analisis_riesgos_requiere_comentario: evaluacion.ta_evaluacion?.analisis_riesgos_comentario == null ? true : false,
     })
     function submitTaEvaluacion() {
-        if (isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
+        if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
             $formTaEvaluacion.put(route('convocatorias.evaluaciones.analisis-riesgos.guardar-evaluacion', [convocatoria.id, evaluacion.id]), {
                 preserveScroll: true,
             })
@@ -62,7 +62,7 @@
         analisis_riesgos_requiere_comentario: evaluacion.tp_evaluacion?.analisis_riesgos_comentario == null ? true : false,
     })
     function submitTpEvaluacion() {
-        if (isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
+        if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
             $formTpEvaluacion.put(route('convocatorias.evaluaciones.analisis-riesgos.guardar-evaluacion', [convocatoria.id, evaluacion.id]), {
                 preserveScroll: true,
             })
@@ -83,7 +83,7 @@
         riesgos_actividades_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.riesgos_actividades_comentario == null ? true : false,
     })
     function submitServicioTecnologicoEvaluacion() {
-        if (isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
+        if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
             $formServicioTecnologicoEvaluacion.put(route('convocatorias.evaluaciones.analisis-riesgos.guardar-evaluacion', [convocatoria.id, evaluacion.id]), {
                 preserveScroll: true,
             })
@@ -144,7 +144,7 @@
 
                     <td className="border-t td-actions">
                         <DataTableMenu className={analisisRiesgos.data.length < 3 ? 'z-50' : ''}>
-                            {#if isSuperAdmin || checkRole(authUser, [11, 5])}
+                            {#if is_super_admin || checkRole(auth_user, [11, 5])}
                                 <Item on:SMUI:action={() => Inertia.visit(route('convocatorias.evaluaciones.analisis-riesgos.edit', [convocatoria.id, evaluacion.id, analisisRiesgo.id]))}>
                                     <Text>Ver detalles</Text>
                                 </Item>
@@ -186,7 +186,7 @@
 
                     <Label className="mt-4 mb-4" labelFor="analisis_riesgos_puntaje" value="Puntaje (Máximo 5)" />
                     <Input
-                        disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
+                        disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                         label="Puntaje"
                         id="analisis_riesgos_puntaje"
                         type="number"
@@ -202,10 +202,10 @@
 
                     <div className="mt-4">
                         <p>¿Los análisis de riesgos son correctos? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formEstrategiaRegionalEvaluacion.analisis_riesgos_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formEstrategiaRegionalEvaluacion.analisis_riesgos_requiere_comentario} />
                         {#if $formEstrategiaRegionalEvaluacion.analisis_riesgos_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -218,7 +218,7 @@
                     </div>
                 </InfoMessage>
                 <div className="flex items-center justify-between mt-14 px-8 py-4">
-                    {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
+                    {#if is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
                         <PrimaryButton loading={$formEstrategiaRegionalEvaluacion.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
                     {/if}
                 </div>
@@ -255,7 +255,7 @@
 
                     <Label className="mt-4 mb-4" labelFor="riesgos_objetivo_general_puntaje" value="Puntaje (Máximo 2,4)" />
                     <Input
-                        disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
+                        disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                         label="Puntaje"
                         id="riesgos_objetivo_general_puntaje"
                         type="number"
@@ -271,10 +271,10 @@
 
                     <div className="mt-4">
                         <p>¿Los análisis de riesgos a nivel de objetivo general son correctos? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formServicioTecnologicoEvaluacion.riesgos_objetivo_general_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formServicioTecnologicoEvaluacion.riesgos_objetivo_general_requiere_comentario} />
                         {#if $formServicioTecnologicoEvaluacion.riesgos_objetivo_general_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -292,7 +292,7 @@
 
                     <Label className="mt-4 mb-4" labelFor="riesgos_productos_puntaje" value="Puntaje (Máximo 2,4)" />
                     <Input
-                        disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
+                        disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                         label="Puntaje"
                         id="riesgos_productos_puntaje"
                         type="number"
@@ -308,10 +308,10 @@
 
                     <div className="mt-4">
                         <p>¿Los análisis de riesgos a nivel de productos son correctos? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formServicioTecnologicoEvaluacion.riesgos_productos_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formServicioTecnologicoEvaluacion.riesgos_productos_requiere_comentario} />
                         {#if $formServicioTecnologicoEvaluacion.riesgos_productos_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -329,7 +329,7 @@
 
                     <Label className="mt-4 mb-4" labelFor="riesgos_actividades_puntaje" value="Puntaje (Máximo 2,4)" />
                     <Input
-                        disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
+                        disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                         label="Puntaje"
                         id="riesgos_actividades_puntaje"
                         type="number"
@@ -345,10 +345,10 @@
 
                     <div className="mt-4">
                         <p>¿Los análisis de riesgos a nivel de actividades son correctos? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formServicioTecnologicoEvaluacion.riesgos_actividades_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formServicioTecnologicoEvaluacion.riesgos_actividades_requiere_comentario} />
                         {#if $formServicioTecnologicoEvaluacion.riesgos_actividades_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -361,7 +361,7 @@
                     </div>
                 </InfoMessage>
                 <div className="flex items-center justify-between mt-14 px-8 py-4">
-                    {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
+                    {#if is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
                         <PrimaryButton loading={$formServicioTecnologicoEvaluacion.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
                     {/if}
                 </div>
@@ -376,7 +376,7 @@
             <form on:submit|preventDefault={submitTaEvaluacion}>
                 <InfoMessage>
                     <div className="mt-4">
-                        {#if checkRole(authUser, [5]) && evaluacion.evaluacion_final}
+                        {#if checkRole(auth_user, [5]) && evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
                                 <div className="mb-8">
                                     <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
@@ -386,14 +386,14 @@
                             {/each}
                         {/if}
                         <p>¿Los análisis de riesgos son correctos? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formTaEvaluacion.analisis_riesgos_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formTaEvaluacion.analisis_riesgos_requiere_comentario} />
                         {#if $formTaEvaluacion.analisis_riesgos_requiere_comentario == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="analisis_riesgos_comentario" bind:value={$formTaEvaluacion.analisis_riesgos_comentario} error={errors.analisis_riesgos_comentario} required />
+                            <Textarea disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="analisis_riesgos_comentario" bind:value={$formTaEvaluacion.analisis_riesgos_comentario} error={errors.analisis_riesgos_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
                 <div className="flex items-center justify-between mt-14 px-8 py-4">
-                    {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
+                    {#if is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
                         <PrimaryButton loading={$formTaEvaluacion.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
                     {/if}
                 </div>
@@ -409,14 +409,14 @@
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿Los análisis de riesgos son correctos? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formTpEvaluacion.analisis_riesgos_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formTpEvaluacion.analisis_riesgos_requiere_comentario} />
                         {#if $formTpEvaluacion.analisis_riesgos_requiere_comentario == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="analisis_riesgos_comentario" bind:value={$formTpEvaluacion.analisis_riesgos_comentario} error={errors.analisis_riesgos_comentario} required />
+                            <Textarea disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="analisis_riesgos_comentario" bind:value={$formTpEvaluacion.analisis_riesgos_comentario} error={errors.analisis_riesgos_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
                 <div className="flex items-center justify-between mt-14 px-8 py-4">
-                    {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
+                    {#if is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
                         <PrimaryButton loading={$formTpEvaluacion.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
                     {/if}
                 </div>

@@ -20,7 +20,7 @@ class EstudioAcademicoController extends Controller
      */
     public function index()
     {
-        // 
+        //
     }
 
     /**
@@ -67,7 +67,7 @@ class EstudioAcademicoController extends Controller
      */
     public function show(EstudioAcademico $estudioAcademico)
     {
-        // 
+        //
     }
 
     /**
@@ -122,13 +122,13 @@ class EstudioAcademicoController extends Controller
         return redirect()->route('users.change-user-profile')->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
-    public function saveFilesSharepoint($tmpFile, $modulo, $modelo, $campoBd)
+    public function saveFilesSharepoint($tmp_file, $modulo, $modelo, $campo_bd)
     {
         $user = Auth::user();
 
         $centroFormacionSharePoint = $user->centroFormacion->nombre_carpeta_sharepoint;
 
-        $sharePointPath = "$modulo/$centroFormacionSharePoint/$user->nombre_carpeta_sharepoint";
-        SharepointHelper::saveFilesSharepoint($tmpFile, $modelo, $sharePointPath, $campoBd);
+        $sharepoint_path = "$modulo/$centroFormacionSharePoint/$user->nombre_carpeta_sharepoint";
+        SharepointHelper::saveFilesSharepoint($tmp_file, $modelo, $sharepoint_path, $campo_bd);
     }
 }

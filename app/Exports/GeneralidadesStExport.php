@@ -90,7 +90,7 @@ class GeneralidadesStExport implements FromCollection, WithHeadings, WithMapping
             $this->mapParticipantes($servicioTecnologico->proyecto->participantes),
             ($servicioTecnologico->proyecto->finalizado) ? 'SI' : 'NO',
             ($servicioTecnologico->proyecto->habilitado_para_evaluar) ? 'SI' : 'NO',
-            $servicioTecnologico->proyecto->estado_cord_sennova ? json_decode($servicioTecnologico->proyecto->estado_cord_sennova)->estado : ($servicioTecnologico->proyecto->servicioTecnologico()->exists() ? $servicioTecnologico->proyecto->estado_evaluacion_servicios_tecnologicos['estado'] : 'Sin información registrada'),
+            $servicioTecnologico->proyecto->estado_cord_sennova ? json_decode($servicioTecnologico->proyecto->estado_cord_sennova)->estado : ($servicioTecnologico->proyecto->proyectoLinea68()->exists() ? $servicioTecnologico->proyecto->estado_evaluacion_servicios_tecnologicos['estado'] : 'Sin información registrada'),
         ];
     }
 

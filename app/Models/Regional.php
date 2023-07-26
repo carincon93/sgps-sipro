@@ -88,13 +88,13 @@ class Regional extends Model
     }
 
     /**
-     * Relationship with Tp
+     * Relationship with ProyectoLinea69
      *
      * @return object
      */
-    public function tp()
+    public function proyectosLinea69()
     {
-        return $this->belongsToMany(Tp::class, 'talentos_otros_departamentos', 'regional_id', 'tp_id');
+        return $this->belongsToMany(ProyectoLinea69::class, 'talentos_otros_departamentos', 'regional_id', 'tp_id');
     }
 
     /**

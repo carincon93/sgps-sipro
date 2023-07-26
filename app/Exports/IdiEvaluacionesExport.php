@@ -28,7 +28,7 @@ class IdiEvaluacionesExport implements FromCollection, WithHeadings, WithMapping
      */
     public function collection()
     {
-        return IdiEvaluacion::select('idi_evaluaciones.*')->join('evaluaciones', 'idi_evaluaciones.id', 'evaluaciones.id')->join('proyectos', 'evaluaciones.proyecto_id', 'proyectos.id')->where('proyectos.convocatoria_id', $this->convocatoria->id)->whereNotIn('proyectos.id', [1052, 1113])->get();
+        return IdiEvaluacion::select('evaluaciones_proyectos_linea_66.*')->join('evaluaciones', 'evaluaciones_proyectos_linea_66.id', 'evaluaciones.id')->join('proyectos', 'evaluaciones.proyecto_id', 'proyectos.id')->where('proyectos.convocatoria_id', $this->convocatoria->id)->whereNotIn('proyectos.id', [1052, 1113])->get();
     }
 
     /**
@@ -45,7 +45,7 @@ class IdiEvaluacionesExport implements FromCollection, WithHeadings, WithMapping
             $idiEvaluacion->evaluacion->evaluador->numero_documento,
             $idiEvaluacion->evaluacion->evaluador->email,
             $idiEvaluacion->evaluacion->proyecto->codigo,
-            $idiEvaluacion->evaluacion->proyecto->idi->titulo,
+            $idiEvaluacion->evaluacion->proyecto->proyectoLinea66->titulo,
             $idiEvaluacion->titulo_comentario ? $idiEvaluacion->titulo_comentario : 'Cumple',
             $idiEvaluacion->video_comentario ? $idiEvaluacion->video_comentario : 'Cumple',
             $idiEvaluacion->resumen_comentario ? $idiEvaluacion->resumen_comentario : 'Cumple',

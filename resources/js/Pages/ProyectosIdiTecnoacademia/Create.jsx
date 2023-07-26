@@ -17,15 +17,15 @@
     export let municipios
     export let regionales
     export let roles
-    export let allowedToCreate
+    export let allowed_to_create
 
     $: $title = 'Crear proyecto I+D+i TecnoAcademia'
 
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let form = useForm({
         tecnoacademia_id: null,
@@ -69,7 +69,7 @@
     })
 
     function submit() {
-        if (allowedToCreate) {
+        if (allowed_to_create) {
             $form.post(route('proyectos-idi-tecnoacademia.store'))
         }
     }
@@ -88,5 +88,5 @@
         </div>
     </header>
 
-    <Form {errors} {tecnoacademias} {programasSennova} {semillerosInvestigacion} {estadosProyectoIdiTecnoacademia} {proyectos} {regionales} {municipios} {roles} {beneficiados} {form} {submit} {lineasTecnoacademia} {allowedToCreate} method="store" />
+    <Form {errors} {tecnoacademias} {programasSennova} {semillerosInvestigacion} {estadosProyectoIdiTecnoacademia} {proyectos} {regionales} {municipios} {roles} {beneficiados} {form} {submit} {lineasTecnoacademia} {allowed_to_create} method="store" />
 </AuthenticatedLayout>

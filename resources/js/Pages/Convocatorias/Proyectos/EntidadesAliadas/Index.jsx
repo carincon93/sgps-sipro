@@ -23,8 +23,8 @@ import { useState } from 'react'
 import Form from './Form'
 
 const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, actividades, tiposEntidadAliada, naturalezaEntidadAliada, tiposEmpresa, ...props }) => {
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
     const [entidadAliadaToDestroy, setEntidadAliadaToDestroy] = useState(null)
     const [dialogStatus, setDialogStatus] = useState(false)
@@ -40,10 +40,10 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, acti
             <Grid item md={12}>
                 <h1 className="text-3xl mb-8 text-center">Entidades aliadas</h1>
 
-                {isSuperAdmin || proyecto.mostrar_recomendaciones ? (
+                {is_super_admin || proyecto.mostrar_recomendaciones ? (
                     <>
                         {proyecto.evaluaciones.map((evaluacion, i) =>
-                            isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado) ? (
+                            is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
                                 <ToolTipMui
                                     key={i}
                                     title={
@@ -69,7 +69,7 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, acti
                     </>
                 ) : null}
 
-                {isSuperAdmin || proyecto.allowed.to_update ? (
+                {is_super_admin || proyecto.allowed.to_update ? (
                     <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setEntidadAliada(null))} variant="raised">
                         Añadir entidad aliada
                     </ButtonMui>
@@ -144,7 +144,7 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, acti
                     blurEnabled={true}
                     dialogContent={
                         <Form
-                            isSuperAdmin={isSuperAdmin}
+                            is_super_admin={is_super_admin}
                             setDialogStatus={setDialogStatus}
                             method={method}
                             proyecto={proyecto}

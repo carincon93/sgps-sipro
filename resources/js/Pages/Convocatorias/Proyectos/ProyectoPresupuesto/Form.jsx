@@ -249,7 +249,7 @@ const Form = ({
                                             error={form.errors.valor_total}
                                             required
                                         />
-                                        <AlertMui hiddenIcon={true}>
+                                        <AlertMui>
                                             <strong>Importante:</strong> El uso presupuestal seleccionado no requiere de estudio de mercado. Por favor diligencie el VALOR TOTAL.
                                         </AlertMui>
                                     </div>
@@ -376,7 +376,7 @@ const Form = ({
                                         </PrimaryButton>
                                     ) : (
                                         method == 'editar' && (
-                                            <AlertMui hiddenIcon={true} severity="error" className="r-10">
+                                            <AlertMui severity="error" className="r-10">
                                                 Hay algunos usos presupuestales que requieren de estudios de mercado y otros no, por favor seleccione primero los que si requieren. Aquellos usos
                                                 presupuestales que no requieren estudios debe agruparlos en otro formulario.
                                             </AlertMui>

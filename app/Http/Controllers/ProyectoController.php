@@ -2,20 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\SharepointHelper;
 use App\Helpers\SelectHelper;
-use App\Http\Requests\NuevoProponenteRequest;
 use App\Http\Requests\ProgramaFormacionRequest;
 use App\Http\Requests\ProponenteRequest;
 use App\Http\Traits\ProyectoValidationTrait;
 use App\Models\Convocatoria;
-use App\Models\Evaluacion\CulturaInnovacionEvaluacion;
 use App\Models\Evaluacion\Evaluacion;
-use App\Models\Evaluacion\IdiEvaluacion;
-use App\Models\Evaluacion\ServicioTecnologicoEvaluacion;
-use App\Models\Evaluacion\TaEvaluacion;
-use App\Models\Evaluacion\TpEvaluacion;
-use App\Models\Impacto;
 use App\Models\User;
 use App\Models\ProgramaFormacion;
 use App\Models\Proyecto;
@@ -30,7 +22,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ProyectoController extends Controller
@@ -65,7 +56,7 @@ class ProyectoController extends Controller
 
         return Inertia::render('Proyectos/Edit', [
             'proyecto'    => $proyecto,
-            'proyectos'   => Proyecto::selectRaw("id as value, concat('SGPS-', id + 8000, '-SIPRO') as label")->with('idi', 'ta', 'tp', 'servicioTecnologico', 'culturaInnovacion')->orderBy('id', 'ASC')->get(),
+            'proyectos'   => Proyecto::selectRaw("id as value, concat('SGPS-', id + 8000, '-SIPRO') as label")->with('proyectosLinea66', 'proyectosLinea70', 'proyectosLinea69', 'proyectosLinea68', 'proyectosLinea65')->orderBy('id', 'ASC')->get(),
             'evaluadores' => User::select('users.id as value', 'users.nombre as label')->join('model_has_roles', 'users.id', 'model_has_roles.model_id')->join('roles', 'model_has_roles.role_id', 'roles.id')->where('roles.id', 11)->get()
         ]);
     }
@@ -151,38 +142,38 @@ class ProyectoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->load('evaluaciones.idiEvaluacion');
-        $proyecto->load('evaluaciones.taEvaluacion');
+        $proyecto->load('evaluaciones.evaluacionProyectoLinea66');
+        $proyecto->load('evaluaciones.evaluacionProyectoLinea70');
 
         $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
 
-        if ($proyecto->idi()->exists()) {
-            $objetivoGeneral = $proyecto->idi->objetivo_general;
-            $proyecto->propuesta_sostenibilidad = $proyecto->idi->propuesta_sostenibilidad;
+        if ($proyecto->proyectoLinea66()->exists()) {
+            $objetivoGeneral = $proyecto->proyectoLinea66->objetivo_general;
+            $proyecto->propuesta_sostenibilidad = $proyecto->proyectoLinea66->propuesta_sostenibilidad;
         }
 
-        if ($proyecto->ta()->exists()) {
-            $objetivoGeneral = $proyecto->ta->objetivo_general;
-            $proyecto->propuesta_sostenibilidad_social      = $proyecto->ta->propuesta_sostenibilidad_social;
-            $proyecto->propuesta_sostenibilidad_ambiental   = $proyecto->ta->propuesta_sostenibilidad_ambiental;
-            $proyecto->propuesta_sostenibilidad_financiera  = $proyecto->ta->propuesta_sostenibilidad_financiera;
+        if ($proyecto->proyectoLinea70()->exists()) {
+            $objetivoGeneral = $proyecto->proyectoLinea70->objetivo_general;
+            $proyecto->propuesta_sostenibilidad_social      = $proyecto->proyectoLinea70->propuesta_sostenibilidad_social;
+            $proyecto->propuesta_sostenibilidad_ambiental   = $proyecto->proyectoLinea70->propuesta_sostenibilidad_ambiental;
+            $proyecto->propuesta_sostenibilidad_financiera  = $proyecto->proyectoLinea70->propuesta_sostenibilidad_financiera;
         }
 
-        if ($proyecto->tp()->exists()) {
-            $objetivoGeneral = $proyecto->tp->objetivo_general;
-            $proyecto->propuesta_sostenibilidad = $proyecto->tp->propuesta_sostenibilidad;
+        if ($proyecto->proyectoLinea69()->exists()) {
+            $objetivoGeneral = $proyecto->proyectoLinea69->objetivo_general;
+            $proyecto->propuesta_sostenibilidad = $proyecto->proyectoLinea69->propuesta_sostenibilidad;
         }
 
-        if ($proyecto->servicioTecnologico()->exists()) {
-            $objetivoGeneral = $proyecto->servicioTecnologico->objetivo_general;
-            $proyecto->propuesta_sostenibilidad = $proyecto->servicioTecnologico->propuesta_sostenibilidad;
-            $proyecto->propuesta_sostenibilidad = $proyecto->servicioTecnologico->propuesta_sostenibilidad;
+        if ($proyecto->proyectoLinea68()->exists()) {
+            $objetivoGeneral = $proyecto->proyectoLinea68->objetivo_general;
+            $proyecto->propuesta_sostenibilidad = $proyecto->proyectoLinea68->propuesta_sostenibilidad;
+            $proyecto->propuesta_sostenibilidad = $proyecto->proyectoLinea68->propuesta_sostenibilidad;
         }
 
-        if ($proyecto->culturaInnovacion()->exists()) {
-            $objetivoGeneral                    = $proyecto->culturaInnovacion->objetivo_general;
-            $proyecto->propuesta_sostenibilidad = $proyecto->culturaInnovacion->propuesta_sostenibilidad;
-            $proyecto->tipo_proyecto            = $proyecto->culturaInnovacion->tipo_proyecto;
+        if ($proyecto->proyectoLinea65()->exists()) {
+            $objetivoGeneral                    = $proyecto->proyectoLinea65->objetivo_general;
+            $proyecto->propuesta_sostenibilidad = $proyecto->proyectoLinea65->propuesta_sostenibilidad;
+            $proyecto->tipo_proyecto            = $proyecto->proyectoLinea65->tipo_proyecto;
         }
 
         $objetivos = collect([]);
@@ -209,115 +200,6 @@ class ProyectoController extends Controller
     }
 
     /**
-     * showCadenaValorEvaluacion
-     *
-     * @param  mixed $convocatoria
-     * @param  mixed $proyecto
-     * @return void
-     */
-    public function showCadenaValorEvaluacion(Convocatoria $convocatoria, Evaluacion $evaluacion)
-    {
-        $this->authorize('visualizar-evaluacion-autor', $evaluacion);
-
-        $evaluacion->proyecto->codigo_linea_programatica = $evaluacion->proyecto->lineaProgramatica->codigo;
-
-        $efectosIndirectos = $evaluacion->proyecto->efectosDirectos()->with('efectosIndirectos')->get()->pluck('efectosIndirectos')->flatten()->filter();
-
-        switch ($evaluacion->proyecto) {
-            case $evaluacion->proyecto->idi()->exists():
-                $objetivoGeneral = $evaluacion->proyecto->idi->objetivo_general;
-                $evaluacion->proyecto->propuesta_sostenibilidad = $evaluacion->proyecto->idi->propuesta_sostenibilidad;
-
-                $evaluacion->idiEvaluacion;
-                $idi = $evaluacion->proyecto->idi;
-
-                $segundaEvaluacion = IdiEvaluacion::whereHas('evaluacion', function ($query) use ($idi) {
-                    $query->where('evaluaciones.proyecto_id', $idi->id)->where('evaluaciones.habilitado', true);
-                })->where('idi_evaluaciones.id', '!=', $evaluacion->idiEvaluacion->id)->first();
-                break;
-            case $evaluacion->proyecto->ta()->exists():
-                $objetivoGeneral = $evaluacion->proyecto->ta->objetivo_general;
-                $evaluacion->proyecto->propuesta_sostenibilidad_social      = $evaluacion->proyecto->ta->propuesta_sostenibilidad_social;
-                $evaluacion->proyecto->propuesta_sostenibilidad_ambiental   = $evaluacion->proyecto->ta->propuesta_sostenibilidad_ambiental;
-                $evaluacion->proyecto->propuesta_sostenibilidad_financiera  = $evaluacion->proyecto->ta->propuesta_sostenibilidad_financiera;
-
-                $evaluacion->taEvaluacion;
-                $ta = $evaluacion->proyecto->ta;
-
-                $segundaEvaluacion = TaEvaluacion::whereHas('evaluacion', function ($query) use ($ta) {
-                    $query->where('evaluaciones.proyecto_id', $ta->id)->where('evaluaciones.habilitado', true);
-                })->where('ta_evaluaciones.id', '!=', $evaluacion->taEvaluacion->id)->first();
-                break;
-            case $evaluacion->proyecto->tp()->exists():
-                $objetivoGeneral = $evaluacion->proyecto->tp->objetivo_general;
-                $evaluacion->proyecto->propuesta_sostenibilidad = $evaluacion->proyecto->tp->propuesta_sostenibilidad;
-
-                $evaluacion->tpEvaluacion;
-                $tp = $evaluacion->proyecto->tp;
-
-                $segundaEvaluacion = TpEvaluacion::whereHas('evaluacion', function ($query) use ($tp) {
-                    $query->where('evaluaciones.proyecto_id', $tp->id)->where('evaluaciones.habilitado', true);
-                })->where('tp_evaluaciones.id', '!=', $evaluacion->tpEvaluacion->id)->first();
-                break;
-
-            case $evaluacion->proyecto->servicioTecnologico()->exists():
-                $objetivoGeneral = $evaluacion->proyecto->servicioTecnologico->objetivo_general;
-                $evaluacion->proyecto->propuesta_sostenibilidad = $evaluacion->proyecto->servicioTecnologico->propuesta_sostenibilidad;
-
-                $servicioTecnologico = $evaluacion->proyecto->servicioTecnologico;
-
-                $segundaEvaluacion = ServicioTecnologicoEvaluacion::whereHas('evaluacion', function ($query) use ($servicioTecnologico) {
-                    $query->where('evaluaciones.proyecto_id', $servicioTecnologico->id)->where('evaluaciones.habilitado', true);
-                })->where('servicios_tecnologicos_evaluaciones.id', '!=', $evaluacion->servicioTecnologicoEvaluacion->id)->first();
-                break;
-
-            case $evaluacion->proyecto->culturaInnovacion()->exists():
-                $objetivoGeneral = $evaluacion->proyecto->culturaInnovacion->objetivo_general;
-                $evaluacion->proyecto->propuesta_sostenibilidad = $evaluacion->proyecto->culturaInnovacion->propuesta_sostenibilidad;
-
-                $evaluacion->culturaInnovacionEvaluacion;
-                $culturaInnovacion = $evaluacion->proyecto->culturaInnovacion;
-
-                $segundaEvaluacion = CulturaInnovacionEvaluacion::whereHas('evaluacion', function ($query) use ($culturaInnovacion) {
-                    $query->where('evaluaciones.proyecto_id', $culturaInnovacion->id)->where('evaluaciones.habilitado', true);
-                })->where('cultura_innovacion_evaluaciones.id', '!=', $evaluacion->culturaInnovacionEvaluacion->id)->first();
-
-                break;
-            default:
-                break;
-        }
-
-        $objetivos = collect([]);
-        $productos = collect([]);
-
-        foreach ($evaluacion->proyecto->causasDirectas as $causaDirecta) {
-            $objetivos->push(['descripcion' => $causaDirecta->objetivoEspecifico->descripcion, 'numero' => $causaDirecta->objetivoEspecifico->numero]);
-        }
-
-        foreach ($evaluacion->proyecto->efectosDirectos as $efectoDirecto) {
-            foreach ($efectoDirecto->resultado->productos as $producto) {
-                $productos->prepend(['v' => 'prod' . $producto->id,  'f' => $producto->nombre, 'fkey' =>  'Objetivo específico ' . $efectoDirecto->resultado->objetivoEspecifico->numero, 'tootlip' => 'prod' . $producto->id, 'actividades' => $producto->actividades->load('proyectoRolesSennova.convocatoriaRolSennova.rolSennova')]);
-            }
-        }
-
-        return Inertia::render('Convocatorias/Evaluaciones/CadenaValor/Index', [
-            'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
-            'evaluacion'        => $evaluacion,
-            'segundaEvaluacion' => $segundaEvaluacion,
-            'proyecto'          => $evaluacion->proyecto,
-            'productos'         => $productos,
-            'objetivoGeneral'   => $objetivoGeneral,
-            'objetivos'         => $objetivos,
-            'impactos'          => Impacto::whereIn(
-                'efecto_indirecto_id',
-                $efectosIndirectos->map(function ($efectosIndirecto) {
-                    return $efectosIndirecto->id;
-                })
-            )->orderBy('tipo', 'ASC')->get()
-        ]);
-    }
-
-    /**
      * updateCadenaValorEvaluacion
      *
      * @param  mixed $request
@@ -330,31 +212,31 @@ class ProyectoController extends Controller
         $this->authorize('modificar-evaluacion-autor', $evaluacion);
 
         switch ($evaluacion) {
-            case $evaluacion->idiEvaluacion()->exists():
-                $evaluacion->idiEvaluacion()->update([
+            case $evaluacion->evaluacionProyectoLinea66()->exists():
+                $evaluacion->evaluacionProyectoLinea66()->update([
                     'cadena_valor_puntaje'      => $request->cadena_valor_puntaje,
                     'cadena_valor_comentario'   => $request->cadena_valor_requiere_comentario == false ? $request->cadena_valor_comentario : null
                 ]);
                 break;
-            case $evaluacion->culturaInnovacionEvaluacion()->exists():
-                $evaluacion->culturaInnovacionEvaluacion()->update([
+            case $evaluacion->evaluacionProyectoLinea65()->exists():
+                $evaluacion->evaluacionProyectoLinea65()->update([
                     'cadena_valor_puntaje'      => $request->cadena_valor_puntaje,
                     'cadena_valor_comentario'   => $request->cadena_valor_requiere_comentario == false ? $request->cadena_valor_comentario : null
                 ]);
                 break;
-            case $evaluacion->taEvaluacion()->exists():
-                $evaluacion->taEvaluacion()->update([
+            case $evaluacion->evaluacionProyectoLinea70()->exists():
+                $evaluacion->evaluacionProyectoLinea70()->update([
                     'cadena_valor_comentario'   => $request->cadena_valor_requiere_comentario == false ? $request->cadena_valor_comentario : null
                 ]);
                 break;
-            case $evaluacion->tpEvaluacion()->exists():
-                $evaluacion->tpEvaluacion()->update([
+            case $evaluacion->evaluacionProyectoLinea69()->exists():
+                $evaluacion->evaluacionProyectoLinea69()->update([
                     'cadena_valor_comentario'   => $request->cadena_valor_requiere_comentario == false ? $request->cadena_valor_comentario : null
                 ]);
                 break;
 
-            case $evaluacion->servicioTecnologicoEvaluacion()->exists():
-                $evaluacion->servicioTecnologicoEvaluacion()->update([
+            case $evaluacion->evaluacionProyectoLinea68()->exists():
+                $evaluacion->evaluacionProyectoLinea68()->update([
                     'propuesta_sostenibilidad_puntaje'      => $request->propuesta_sostenibilidad_puntaje,
                     'propuesta_sostenibilidad_comentario'   => $request->propuesta_sostenibilidad_requiere_comentario == false ? $request->propuesta_sostenibilidad_comentario : null,
 
@@ -385,54 +267,54 @@ class ProyectoController extends Controller
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
         switch ($proyecto) {
-            case $proyecto->idi()->exists():
+            case $proyecto->proyectoLinea66()->exists():
                 $request->validate([
                     'propuesta_sostenibilidad' => 'required|string|max:40000',
                 ]);
-                $idi                            = $proyecto->idi;
-                $idi->propuesta_sostenibilidad  = $request->propuesta_sostenibilidad;
+                $proyectoLinea66                            = $proyecto->proyectoLinea66;
+                $proyectoLinea66->propuesta_sostenibilidad  = $request->propuesta_sostenibilidad;
 
-                $idi->save();
+                $proyectoLinea66->save();
                 break;
-            case $proyecto->ta()->exists():
+            case $proyecto->proyectoLinea70()->exists():
                 $request->validate([
                     'propuesta_sostenibilidad_social'       => 'required|string|max:40000',
                     'propuesta_sostenibilidad_ambiental'    => 'required|string|max:40000',
                     'propuesta_sostenibilidad_financiera'   => 'required|string|max:40000',
                 ]);
-                $ta = $proyecto->ta;
-                $ta->propuesta_sostenibilidad_social        = $request->propuesta_sostenibilidad_social;
-                $ta->propuesta_sostenibilidad_ambiental     = $request->propuesta_sostenibilidad_ambiental;
-                $ta->propuesta_sostenibilidad_financiera    = $request->propuesta_sostenibilidad_financiera;
+                $proyectoLinea70 = $proyecto->proyectoLinea70;
+                $proyectoLinea70->propuesta_sostenibilidad_social        = $request->propuesta_sostenibilidad_social;
+                $proyectoLinea70->propuesta_sostenibilidad_ambiental     = $request->propuesta_sostenibilidad_ambiental;
+                $proyectoLinea70->propuesta_sostenibilidad_financiera    = $request->propuesta_sostenibilidad_financiera;
 
-                $ta->save();
+                $proyectoLinea70->save();
                 break;
-            case $proyecto->tp()->exists():
+            case $proyecto->proyectoLinea69()->exists():
                 $request->validate([
                     'propuesta_sostenibilidad' => 'required|string|max:40000',
                 ]);
-                $tp                           = $proyecto->tp;
-                $tp->propuesta_sostenibilidad = $request->propuesta_sostenibilidad;
+                $proyectoLinea69                           = $proyecto->proyectoLinea69;
+                $proyectoLinea69->propuesta_sostenibilidad = $request->propuesta_sostenibilidad;
 
-                $tp->save();
+                $proyectoLinea69->save();
                 break;
-            case $proyecto->culturaInnovacion()->exists():
+            case $proyecto->proyectoLinea65()->exists():
                 $request->validate([
                     'propuesta_sostenibilidad' => 'required|string|max:40000',
                 ]);
-                $culturaInnovacion                              = $proyecto->culturaInnovacion;
-                $culturaInnovacion->propuesta_sostenibilidad    = $request->propuesta_sostenibilidad;
+                $proyectoLinea65                              = $proyecto->proyectoLinea65;
+                $proyectoLinea65->propuesta_sostenibilidad    = $request->propuesta_sostenibilidad;
 
-                $culturaInnovacion->save();
+                $proyectoLinea65->save();
                 break;
-            case $proyecto->servicioTecnologico()->exists():
+            case $proyecto->proyectoLinea68()->exists():
                 $request->validate([
                     'propuesta_sostenibilidad' => 'required|string|max:40000',
                 ]);
-                $servicioTecnologico                            = $proyecto->servicioTecnologico;
-                $servicioTecnologico->propuesta_sostenibilidad  = $request->propuesta_sostenibilidad;
+                $proyectoLinea68                            = $proyecto->proyectoLinea68;
+                $proyectoLinea68->propuesta_sostenibilidad  = $request->propuesta_sostenibilidad;
 
-                $servicioTecnologico->save();
+                $proyectoLinea68->save();
                 break;
             default:
                 break;
@@ -448,23 +330,23 @@ class ProyectoController extends Controller
      * @param  mixed $proyecto
      * @return void
      */
-    public function edit(Convocatoria $convocatoria, Proyecto $proyecto)
+    public function edit(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
     {
         switch ($proyecto) {
-            case $proyecto->idi()->exists():
-                return redirect()->route('convocatorias.idi.edit', [$convocatoria, $proyecto]);
+            case $proyecto->proyectoLinea66()->exists():
+                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-linea-66.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-linea-66.edit', [$convocatoria, $proyecto]);
                 break;
-            case $proyecto->ta()->exists():
-                return redirect()->route('convocatorias.ta.edit', [$convocatoria, $proyecto]);
+            case $proyecto->proyectoLinea70()->exists():
+                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-linea-70.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-linea-70.edit', [$convocatoria, $proyecto]);
                 break;
-            case $proyecto->tp()->exists():
-                return redirect()->route('convocatorias.tp.edit', [$convocatoria, $proyecto]);
+            case $proyecto->proyectoLinea69()->exists():
+                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-linea-69.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-linea-69edit', [$convocatoria, $proyecto]);
                 break;
-            case $proyecto->servicioTecnologico()->exists():
-                return redirect()->route('convocatorias.servicios-tecnologicos.edit', [$convocatoria, $proyecto]);
+            case $proyecto->proyectoLinea68()->exists():
+                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-linea-68.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-linea-68.edit', [$convocatoria, $proyecto]);
                 break;
-            case $proyecto->culturaInnovacion()->exists():
-                return redirect()->route('convocatorias.cultura-innovacion.edit', [$convocatoria, $proyecto]);
+            case $proyecto->proyectoLinea65()->exists():
+                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-linea-65.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-linea-65.edit', [$convocatoria, $proyecto]);
                 break;
             default:
                 break;
@@ -486,8 +368,8 @@ class ProyectoController extends Controller
 
         $proyecto->logs = $proyecto::getLog($proyecto->id);
 
-        if ($proyecto->culturaInnovacion()->exists()) {
-            $proyecto->tipo_proyecto = $proyecto->culturaInnovacion->tipo_proyecto;
+        if ($proyecto->proyectoLinea65()->exists()) {
+            $proyecto->tipo_proyecto = $proyecto->proyectoLinea65->tipo_proyecto;
         }
 
         return Inertia::render('Convocatorias/Proyectos/Summary', [
@@ -537,73 +419,73 @@ class ProyectoController extends Controller
         $evaluacion->proyecto->logs = $evaluacion->proyecto::getLog($evaluacion->proyecto->id);
 
         switch ($evaluacion) {
-            case $evaluacion->idiEvaluacion()->exists():
-                $evaluacion->titulo_puntaje             = $evaluacion->idiEvaluacion->titulo_puntaje;
-                $evaluacion->video_puntaje              = $evaluacion->idiEvaluacion->video_puntaje;
-                $evaluacion->resumen_puntaje            = $evaluacion->idiEvaluacion->resumen_puntaje;
-                $evaluacion->problema_central_puntaje   = $evaluacion->idiEvaluacion->problema_central_puntaje;
-                $evaluacion->objetivos_puntaje          = $evaluacion->idiEvaluacion->objetivos_puntaje;
-                $evaluacion->metodologia_puntaje        = $evaluacion->idiEvaluacion->metodologia_puntaje;
-                $evaluacion->entidad_aliada_puntaje     = $evaluacion->idiEvaluacion->entidad_aliada_puntaje;
-                $evaluacion->resultados_puntaje         = $evaluacion->idiEvaluacion->resultados_puntaje;
-                $evaluacion->productos_puntaje          = $evaluacion->idiEvaluacion->productos_puntaje;
-                $evaluacion->cadena_valor_puntaje       = $evaluacion->idiEvaluacion->cadena_valor_puntaje;
-                $evaluacion->analisis_riesgos_puntaje   = $evaluacion->idiEvaluacion->analisis_riesgos_puntaje;
-                $evaluacion->ortografia_puntaje         = $evaluacion->idiEvaluacion->ortografia_puntaje;
-                $evaluacion->redaccion_puntaje          = $evaluacion->idiEvaluacion->redaccion_puntaje;
-                $evaluacion->normas_apa_puntaje         = $evaluacion->idiEvaluacion->normas_apa_puntaje;
+            case $evaluacion->evaluacionProyectoLinea66()->exists():
+                $evaluacion->titulo_puntaje             = $evaluacion->evaluacionProyectoLinea66->titulo_puntaje;
+                $evaluacion->video_puntaje              = $evaluacion->evaluacionProyectoLinea66->video_puntaje;
+                $evaluacion->resumen_puntaje            = $evaluacion->evaluacionProyectoLinea66->resumen_puntaje;
+                $evaluacion->problema_central_puntaje   = $evaluacion->evaluacionProyectoLinea66->problema_central_puntaje;
+                $evaluacion->objetivos_puntaje          = $evaluacion->evaluacionProyectoLinea66->objetivos_puntaje;
+                $evaluacion->metodologia_puntaje        = $evaluacion->evaluacionProyectoLinea66->metodologia_puntaje;
+                $evaluacion->entidad_aliada_puntaje     = $evaluacion->evaluacionProyectoLinea66->entidad_aliada_puntaje;
+                $evaluacion->resultados_puntaje         = $evaluacion->evaluacionProyectoLinea66->resultados_puntaje;
+                $evaluacion->productos_puntaje          = $evaluacion->evaluacionProyectoLinea66->productos_puntaje;
+                $evaluacion->cadena_valor_puntaje       = $evaluacion->evaluacionProyectoLinea66->cadena_valor_puntaje;
+                $evaluacion->analisis_riesgos_puntaje   = $evaluacion->evaluacionProyectoLinea66->analisis_riesgos_puntaje;
+                $evaluacion->ortografia_puntaje         = $evaluacion->evaluacionProyectoLinea66->ortografia_puntaje;
+                $evaluacion->redaccion_puntaje          = $evaluacion->evaluacionProyectoLinea66->redaccion_puntaje;
+                $evaluacion->normas_apa_puntaje         = $evaluacion->evaluacionProyectoLinea66->normas_apa_puntaje;
                 break;
-            case $evaluacion->culturaInnovacionEvaluacion()->exists():
-                $evaluacion->titulo_puntaje             = $evaluacion->culturaInnovacionEvaluacion->titulo_puntaje;
-                $evaluacion->video_puntaje              = $evaluacion->culturaInnovacionEvaluacion->video_puntaje;
-                $evaluacion->resumen_puntaje            = $evaluacion->culturaInnovacionEvaluacion->resumen_puntaje;
-                $evaluacion->problema_central_puntaje   = $evaluacion->culturaInnovacionEvaluacion->problema_central_puntaje;
-                $evaluacion->objetivos_puntaje          = $evaluacion->culturaInnovacionEvaluacion->objetivos_puntaje;
-                $evaluacion->metodologia_puntaje        = $evaluacion->culturaInnovacionEvaluacion->metodologia_puntaje;
-                $evaluacion->entidad_aliada_puntaje     = $evaluacion->culturaInnovacionEvaluacion->entidad_aliada_puntaje;
-                $evaluacion->resultados_puntaje         = $evaluacion->culturaInnovacionEvaluacion->resultados_puntaje;
-                $evaluacion->productos_puntaje          = $evaluacion->culturaInnovacionEvaluacion->productos_puntaje;
-                $evaluacion->cadena_valor_puntaje       = $evaluacion->culturaInnovacionEvaluacion->cadena_valor_puntaje;
-                $evaluacion->analisis_riesgos_puntaje   = $evaluacion->culturaInnovacionEvaluacion->analisis_riesgos_puntaje;
-                $evaluacion->ortografia_puntaje         = $evaluacion->culturaInnovacionEvaluacion->ortografia_puntaje;
-                $evaluacion->redaccion_puntaje          = $evaluacion->culturaInnovacionEvaluacion->redaccion_puntaje;
-                $evaluacion->normas_apa_puntaje         = $evaluacion->culturaInnovacionEvaluacion->normas_apa_puntaje;
+            case $evaluacion->evaluacionProyectoLinea65()->exists():
+                $evaluacion->titulo_puntaje             = $evaluacion->evaluacionProyectoLinea65->titulo_puntaje;
+                $evaluacion->video_puntaje              = $evaluacion->evaluacionProyectoLinea65->video_puntaje;
+                $evaluacion->resumen_puntaje            = $evaluacion->evaluacionProyectoLinea65->resumen_puntaje;
+                $evaluacion->problema_central_puntaje   = $evaluacion->evaluacionProyectoLinea65->problema_central_puntaje;
+                $evaluacion->objetivos_puntaje          = $evaluacion->evaluacionProyectoLinea65->objetivos_puntaje;
+                $evaluacion->metodologia_puntaje        = $evaluacion->evaluacionProyectoLinea65->metodologia_puntaje;
+                $evaluacion->entidad_aliada_puntaje     = $evaluacion->evaluacionProyectoLinea65->entidad_aliada_puntaje;
+                $evaluacion->resultados_puntaje         = $evaluacion->evaluacionProyectoLinea65->resultados_puntaje;
+                $evaluacion->productos_puntaje          = $evaluacion->evaluacionProyectoLinea65->productos_puntaje;
+                $evaluacion->cadena_valor_puntaje       = $evaluacion->evaluacionProyectoLinea65->cadena_valor_puntaje;
+                $evaluacion->analisis_riesgos_puntaje   = $evaluacion->evaluacionProyectoLinea65->analisis_riesgos_puntaje;
+                $evaluacion->ortografia_puntaje         = $evaluacion->evaluacionProyectoLinea65->ortografia_puntaje;
+                $evaluacion->redaccion_puntaje          = $evaluacion->evaluacionProyectoLinea65->redaccion_puntaje;
+                $evaluacion->normas_apa_puntaje         = $evaluacion->evaluacionProyectoLinea65->normas_apa_puntaje;
                 break;
-            case $evaluacion->servicioTecnologicoEvaluacion()->exists():
-                $evaluacion->titulo_puntaje = $evaluacion->servicioTecnologicoEvaluacion->titulo_puntaje;
-                $evaluacion->resumen_puntaje = $evaluacion->servicioTecnologicoEvaluacion->resumen_puntaje;
-                $evaluacion->antecedentes_puntaje = $evaluacion->servicioTecnologicoEvaluacion->antecedentes_puntaje;
-                $evaluacion->justificacion_problema_puntaje = $evaluacion->servicioTecnologicoEvaluacion->justificacion_problema_puntaje;
-                $evaluacion->pregunta_formulacion_problema_puntaje = $evaluacion->servicioTecnologicoEvaluacion->pregunta_formulacion_problema_puntaje;
-                $evaluacion->propuesta_sostenibilidad_puntaje = $evaluacion->servicioTecnologicoEvaluacion->propuesta_sostenibilidad_puntaje;
-                $evaluacion->identificacion_problema_puntaje = $evaluacion->servicioTecnologicoEvaluacion->identificacion_problema_puntaje;
-                $evaluacion->arbol_problemas_puntaje = $evaluacion->servicioTecnologicoEvaluacion->arbol_problemas_puntaje;
-                $evaluacion->impacto_ambiental_puntaje = $evaluacion->servicioTecnologicoEvaluacion->impacto_ambiental_puntaje;
-                $evaluacion->impacto_social_centro_puntaje = $evaluacion->servicioTecnologicoEvaluacion->impacto_social_centro_puntaje;
-                $evaluacion->impacto_social_productivo_puntaje = $evaluacion->servicioTecnologicoEvaluacion->impacto_social_productivo_puntaje;
-                $evaluacion->impacto_tecnologico_puntaje = $evaluacion->servicioTecnologicoEvaluacion->impacto_tecnologico_puntaje;
-                $evaluacion->objetivo_general_puntaje = $evaluacion->servicioTecnologicoEvaluacion->objetivo_general_puntaje;
-                $evaluacion->primer_objetivo_puntaje = $evaluacion->servicioTecnologicoEvaluacion->primer_objetivo_puntaje;
-                $evaluacion->segundo_objetivo_puntaje = $evaluacion->servicioTecnologicoEvaluacion->segundo_objetivo_puntaje;
-                $evaluacion->tercer_objetivo_puntaje = $evaluacion->servicioTecnologicoEvaluacion->tercer_objetivo_puntaje;
-                $evaluacion->cuarto_objetivo_puntaje = $evaluacion->servicioTecnologicoEvaluacion->cuarto_objetivo_puntaje;
-                $evaluacion->resultados_primer_obj_puntaje = $evaluacion->servicioTecnologicoEvaluacion->resultados_primer_obj_puntaje;
-                $evaluacion->resultados_segundo_obj_puntaje = $evaluacion->servicioTecnologicoEvaluacion->resultados_segundo_obj_puntaje;
-                $evaluacion->resultados_tercer_obj_puntaje = $evaluacion->servicioTecnologicoEvaluacion->resultados_tercer_obj_puntaje;
-                $evaluacion->resultados_cuarto_obj_puntaje = $evaluacion->servicioTecnologicoEvaluacion->resultados_cuarto_obj_puntaje;
-                $evaluacion->metodologia_puntaje = $evaluacion->servicioTecnologicoEvaluacion->metodologia_puntaje;
-                $evaluacion->actividades_primer_obj_puntaje = $evaluacion->servicioTecnologicoEvaluacion->actividades_primer_obj_puntaje;
-                $evaluacion->actividades_segundo_obj_puntaje = $evaluacion->servicioTecnologicoEvaluacion->actividades_segundo_obj_puntaje;
-                $evaluacion->actividades_tercer_obj_puntaje = $evaluacion->servicioTecnologicoEvaluacion->actividades_tercer_obj_puntaje;
-                $evaluacion->actividades_cuarto_obj_puntaje = $evaluacion->servicioTecnologicoEvaluacion->actividades_cuarto_obj_puntaje;
-                $evaluacion->productos_primer_obj_puntaje = $evaluacion->servicioTecnologicoEvaluacion->productos_primer_obj_puntaje;
-                $evaluacion->productos_segundo_obj_puntaje = $evaluacion->servicioTecnologicoEvaluacion->productos_segundo_obj_puntaje;
-                $evaluacion->productos_tercer_obj_puntaje = $evaluacion->servicioTecnologicoEvaluacion->productos_tercer_obj_puntaje;
-                $evaluacion->productos_cuarto_obj_puntaje = $evaluacion->servicioTecnologicoEvaluacion->productos_cuarto_obj_puntaje;
+            case $evaluacion->evaluacionProyectoLinea68()->exists():
+                $evaluacion->titulo_puntaje = $evaluacion->evaluacionProyectoLinea68->titulo_puntaje;
+                $evaluacion->resumen_puntaje = $evaluacion->evaluacionProyectoLinea68->resumen_puntaje;
+                $evaluacion->antecedentes_puntaje = $evaluacion->evaluacionProyectoLinea68->antecedentes_puntaje;
+                $evaluacion->justificacion_problema_puntaje = $evaluacion->evaluacionProyectoLinea68->justificacion_problema_puntaje;
+                $evaluacion->pregunta_formulacion_problema_puntaje = $evaluacion->evaluacionProyectoLinea68->pregunta_formulacion_problema_puntaje;
+                $evaluacion->propuesta_sostenibilidad_puntaje = $evaluacion->evaluacionProyectoLinea68->propuesta_sostenibilidad_puntaje;
+                $evaluacion->identificacion_problema_puntaje = $evaluacion->evaluacionProyectoLinea68->identificacion_problema_puntaje;
+                $evaluacion->arbol_problemas_puntaje = $evaluacion->evaluacionProyectoLinea68->arbol_problemas_puntaje;
+                $evaluacion->impacto_ambiental_puntaje = $evaluacion->evaluacionProyectoLinea68->impacto_ambiental_puntaje;
+                $evaluacion->impacto_social_centro_puntaje = $evaluacion->evaluacionProyectoLinea68->impacto_social_centro_puntaje;
+                $evaluacion->impacto_social_productivo_puntaje = $evaluacion->evaluacionProyectoLinea68->impacto_social_productivo_puntaje;
+                $evaluacion->impacto_tecnologico_puntaje = $evaluacion->evaluacionProyectoLinea68->impacto_tecnologico_puntaje;
+                $evaluacion->objetivo_general_puntaje = $evaluacion->evaluacionProyectoLinea68->objetivo_general_puntaje;
+                $evaluacion->primer_objetivo_puntaje = $evaluacion->evaluacionProyectoLinea68->primer_objetivo_puntaje;
+                $evaluacion->segundo_objetivo_puntaje = $evaluacion->evaluacionProyectoLinea68->segundo_objetivo_puntaje;
+                $evaluacion->tercer_objetivo_puntaje = $evaluacion->evaluacionProyectoLinea68->tercer_objetivo_puntaje;
+                $evaluacion->cuarto_objetivo_puntaje = $evaluacion->evaluacionProyectoLinea68->cuarto_objetivo_puntaje;
+                $evaluacion->resultados_primer_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->resultados_primer_obj_puntaje;
+                $evaluacion->resultados_segundo_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->resultados_segundo_obj_puntaje;
+                $evaluacion->resultados_tercer_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->resultados_tercer_obj_puntaje;
+                $evaluacion->resultados_cuarto_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->resultados_cuarto_obj_puntaje;
+                $evaluacion->metodologia_puntaje = $evaluacion->evaluacionProyectoLinea68->metodologia_puntaje;
+                $evaluacion->actividades_primer_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->actividades_primer_obj_puntaje;
+                $evaluacion->actividades_segundo_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->actividades_segundo_obj_puntaje;
+                $evaluacion->actividades_tercer_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->actividades_tercer_obj_puntaje;
+                $evaluacion->actividades_cuarto_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->actividades_cuarto_obj_puntaje;
+                $evaluacion->productos_primer_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->productos_primer_obj_puntaje;
+                $evaluacion->productos_segundo_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->productos_segundo_obj_puntaje;
+                $evaluacion->productos_tercer_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->productos_tercer_obj_puntaje;
+                $evaluacion->productos_cuarto_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->productos_cuarto_obj_puntaje;
 
-                $evaluacion->riesgos_objetivo_general_puntaje = $evaluacion->servicioTecnologicoEvaluacion->riesgos_objetivo_general_puntaje;
-                $evaluacion->riesgos_productos_puntaje = $evaluacion->servicioTecnologicoEvaluacion->riesgos_productos_puntaje;
-                $evaluacion->riesgos_actividades_puntaje = $evaluacion->servicioTecnologicoEvaluacion->riesgos_actividades_puntaje;
+                $evaluacion->riesgos_objetivo_general_puntaje = $evaluacion->evaluacionProyectoLinea68->riesgos_objetivo_general_puntaje;
+                $evaluacion->riesgos_productos_puntaje = $evaluacion->evaluacionProyectoLinea68->riesgos_productos_puntaje;
+                $evaluacion->riesgos_actividades_puntaje = $evaluacion->evaluacionProyectoLinea68->riesgos_actividades_puntaje;
 
                 break;
             default:
@@ -627,9 +509,9 @@ class ProyectoController extends Controller
     public function finalizarEvaluacion(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion)
     {
         /** @var \App\Models\User */
-        $authUser = Auth::user();
+        $auth_user = Auth::user();
 
-        if (!Hash::check($request->password, $authUser->password)) {
+        if (!Hash::check($request->password, $auth_user->password)) {
             return back()
                 ->withErrors(['password' => __('The password is incorrect.')]);
         }
@@ -641,15 +523,15 @@ class ProyectoController extends Controller
 
         $evaluacion->proyecto()->update(['estado' => $evaluacion->proyecto->estado_evaluacion_idi ?? $evaluacion->proyecto->estado_evaluacion_cultura_innovacion ?? $evaluacion->proyecto->estado_evaluacion_ta ?? $evaluacion->proyecto->estado_evaluacion_tp ?? $evaluacion->proyecto->estado_evaluacion_servicios_tecnologicos]);
 
-        $authUser->notify(new EvaluacionFinalizada($convocatoria, $evaluacion->proyecto));
+        $auth_user->notify(new EvaluacionFinalizada($convocatoria, $evaluacion->proyecto));
 
         return back()->with('success', 'La evaluación ha sido finalizada correctamente.');
     }
 
     public function preguntasFinales(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion)
     {
-        if ($evaluacion->idiEvaluacion()->exists()) {
-            $evaluacion->idiEvaluacion()->update([
+        if ($evaluacion->evaluacionProyectoLinea66()->exists()) {
+            $evaluacion->evaluacionProyectoLinea66()->update([
                 'impacto_sector_agricola'       => $request->tieneImpactoSectorAgricola ?  $request->impacto_sector_agricola : '',
                 'impacto_poblacion_campesina'   => $request->tieneImpactoPoblacionCampesina ? $request->impacto_poblacion_campesina : '',
             ]);
@@ -671,9 +553,9 @@ class ProyectoController extends Controller
         $this->authorize('visualizar-proyecto-autor', [$proyecto]);
 
         /** @var \App\Models\User */
-        $authUser = Auth::user();
+        $auth_user = Auth::user();
 
-        if (!Hash::check($request->password, $authUser->password)) {
+        if (!Hash::check($request->password, $auth_user->password)) {
             return back()
                 ->withErrors(['password' => __('The password is incorrect.')]);
         }
@@ -701,9 +583,9 @@ class ProyectoController extends Controller
         $this->authorize('validar-dinamizador', [$proyecto]);
 
         /** @var \App\Models\User */
-        $authUser = Auth::user();
+        $auth_user = Auth::user();
 
-        if (!Hash::check($request->password, $authUser->password)) {
+        if (!Hash::check($request->password, $auth_user->password)) {
             return back()
                 ->withErrors(['password' => __('The password is incorrect.')]);
         }
@@ -714,7 +596,7 @@ class ProyectoController extends Controller
         $proyecto->save();
 
         $user = $proyecto->participantes()->where('es_formulador', true)->first();
-        $user->notify(new ProyectoConfirmado($proyecto, $authUser));
+        $user->notify(new ProyectoConfirmado($proyecto, $auth_user));
 
         return back()->with('success', 'Se ha confirmado el proyecto correctamente.');
     }
@@ -747,7 +629,7 @@ class ProyectoController extends Controller
      * @param  mixed $proyecto
      * @return void
      */
-    public function participantes(Convocatoria $convocatoria, Proyecto $proyecto)
+    public function participantes(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
@@ -758,9 +640,9 @@ class ProyectoController extends Controller
         $proyecto->PdfVersiones;
 
         if ($proyecto->codigo_linea_programatica == 70) {
-            return redirect()->route('convocatorias.ta.edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
+            return redirect()->route('convocatorias.proyectos-linea-70.edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
         } else if ($proyecto->codigo_linea_programatica == 69) {
-            return redirect()->route('convocatorias.tp.edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
+            return redirect()->route('convocatorias.proyectos-linea-69edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
         }
 
         $proyecto->load('participantes.centroFormacion.regional');
@@ -768,55 +650,13 @@ class ProyectoController extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/Participantes/Index', [
             'convocatoria'                  => $convocatoria,
+            'evaluacion'                    => Evaluacion::find($request->evaluacion_id),
             'proyecto'                      => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'diff_meses', 'participantes', 'semillerosInvestigacion', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'fecha_inicio', 'fecha_finalizacion', 'tipo_proyecto'),
             'rolesSennova'                  => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'nuevoParticipante'             => User::select('users.id', 'users.nombre', 'users.email', 'users.centro_formacion_id')->with('centroFormacion', 'centroFormacion.regional')->orderBy('users.nombre', 'ASC')->filterUser(request()->only('search'))->first(),
             'nuevoSemilleroInvestigacion'   => SemilleroInvestigacion::select('semilleros_investigacion.id', 'semilleros_investigacion.nombre', 'semilleros_investigacion.linea_investigacion_id')->with('lineaInvestigacion', 'lineaInvestigacion.grupoInvestigacion')->orderBy('semilleros_investigacion.nombre', 'ASC')->filterSemilleroInvestigacion(request()->only('search'))->first(),
             'centrosFormacion'              => SelectHelper::centrosFormacion(),
             'autorPrincipal'                => $proyecto->participantes()->where('proyecto_participantes.es_formulador', true)->first(),
-        ]);
-    }
-
-    /**
-     * participantesEvaluacion
-     *
-     * @param  mixed $convocatoria
-     * @param  mixed $evaluacion
-     * @return void
-     */
-    public function participantesEvaluacion(Convocatoria $convocatoria, Evaluacion $evaluacion)
-    {
-        $this->authorize('visualizar-evaluacion-autor', $evaluacion);
-
-        $evaluacion->proyecto->codigo_linea_programatica = $evaluacion->proyecto->lineaProgramatica->codigo;
-        $evaluacion->proyecto->participantes;
-        $evaluacion->proyecto->programasFormacion;
-        $evaluacion->proyecto->semillerosInvestigacion;
-
-        if ($evaluacion->proyecto->codigo_linea_programatica == 70) {
-            return back()->with('error', 'Esta línea programática no requiere de participantes');
-        }
-
-        if ($evaluacion->proyecto->codigo_linea_programatica == 23 || $evaluacion->proyecto->codigo_linea_programatica == 65 || $evaluacion->proyecto->codigo_linea_programatica == 66 || $evaluacion->proyecto->codigo_linea_programatica == 82) {
-            $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true));
-        } elseif ($evaluacion->proyecto->codigo_linea_programatica == 70) {
-            $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-ta.json'), true));
-        } elseif ($evaluacion->proyecto->codigo_linea_programatica == 69) {
-            $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-tp.json'), true));
-        } elseif ($evaluacion->proyecto->codigo_linea_programatica == 68) {
-            $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-st.json'), true));
-        }
-
-        $evaluacion->proyecto->load('participantes.centroFormacion.regional');
-        $evaluacion->proyecto->load('semillerosInvestigacion.lineaInvestigacion.grupoInvestigacion');
-
-        return Inertia::render('Convocatorias/Evaluaciones/Participantes/Index', [
-            'convocatoria'          => $convocatoria,
-            'evaluacion'            => $evaluacion->only('id'),
-            'proyecto'              => $evaluacion->proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'finalizado', 'diff_meses', 'participantes', 'semillerosInvestigacion'),
-            'tiposDocumento'        => json_decode(Storage::get('json/tipos-documento.json'), true),
-            'tiposVinculacion'      => json_decode(Storage::get('json/tipos-vinculacion.json'), true),
-            'roles'                 => $rolesSennova,
         ]);
     }
 
@@ -1056,8 +896,8 @@ class ProyectoController extends Controller
 
         $programaFormacion->save();
 
-        if ($proyecto->ta()->exists()) {
-            $proyecto->taProgramasFormacion()->attach($programaFormacion);
+        if ($proyecto->proyectoLinea70()->exists()) {
+            $proyecto->proyectoLinea70ProgramasFormacion()->attach($programaFormacion);
         }
 
         return back()->with('success', 'El recurso se ha creado correctamente.');
@@ -1090,7 +930,7 @@ class ProyectoController extends Controller
         $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
 
         if ($proyecto->codigo_linea_programatica == 65) {
-            $proyecto->tipo_proyecto = $proyecto->culturaInnovacion->tipo_proyecto;
+            $proyecto->tipo_proyecto = $proyecto->proyectoLinea65->tipo_proyecto;
         }
 
         $proyecto->evaluaciones->load('evaluacionCausalesRechazo');

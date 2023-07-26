@@ -45,8 +45,8 @@ const ArticulacionSennova = ({
     roles,
     ...props
 }) => {
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
     const form = useForm({
         area_conocimiento_id: null,
@@ -254,7 +254,7 @@ const ArticulacionSennova = ({
                                             required
                                         />
 
-                                        <AlertMui hiddenIcon={true} className="mt-10 mb-4">
+                                        <AlertMui className="mt-10 mb-4">
                                             Si aú n no ha registrado el proyecto e n el módulo de <strong>Pr o yectos e iniciativas I+D+i TecnoAcademi a s</strong>, relacione en el siguiente campo el
                                             título del proyecto. Se recomienda hacer el registro en el m ó dulo.
                                         </AlertMui>
@@ -482,10 +482,10 @@ r                                           id grid-cols-2">
                                             />
                                         </div>
                                     </div>
-                                    {/* {#if isSuperAdmin || proyecto.mostrar_recomendaciones}
+                                    {/* {#if is_super_admin || proyecto.mostrar_recomendaciones}
                         <RecomendacionEvaluador className="mt-8">
                             {#each proyecto.evaluaciones as evaluacion, i}
-                                {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
+                                {#if is_super_admin || (evaluacion.finalizado && evaluacion.habilitado)}
                                     <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
                                         <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
                                         <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion.lineas_medulares_centro_comentario ? evaluacion.ta_evaluacion.lineas_medulares_centro_comentario : 'Sin recomendación'}</p>
@@ -518,10 +518,10 @@ r                                           id grid-cols-2">
                                                 />
                                             </div>
                                         </div>
-                                        {/* {#if (isSuperAdmin && proyecto.evaluaciones.length > 0) || (proyecto.mostrar_recomendaciones && proyecto.evaluaciones.length > 0)}
+                                        {/* {#if (is_super_admin && proyecto.evaluaciones.length > 0) || (proyecto.mostrar_recomendaciones && proyecto.evaluaciones.length > 0)}
                         <RecomendacionEvaluador className="mt-8">
                             {#each proyecto.evaluaciones as evaluacion, i}
-                                {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
+                                {#if is_super_admin || (evaluacion.finalizado && evaluacion.habilitado)}
                                     <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
                                         <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
                                         <p className="whitespace-pre-line text-xs">{evaluacion.tp_evaluacion.impacto_centro_formacion_comentario ? evaluacion.tp_evaluacion.impacto_centro_formacion_comentario : 'Sin recomendación'}</p>

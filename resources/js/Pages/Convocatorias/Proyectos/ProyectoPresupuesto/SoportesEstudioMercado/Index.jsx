@@ -19,8 +19,8 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, proyectoPresupues
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
     const form = useForm({
         formato_estudio_mercado: null,
@@ -77,7 +77,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, proyectoPresupues
                         <h1 className="mt-24 mb-8 text-center text-3xl">Estudio de mercado</h1>
 
                         <form className="mb-20" onSubmit={submitEstudioMercado}>
-                            <AlertMui hiddenIcon={true}>
+                            <AlertMui>
                                 <span className="text-5xl font-black">1.</span>
                                 <a href="/storage/documentos-descarga/Formato%20_guia_4_Estudio_de_mercado.xlsx" className="my-4 inline-block underline" target="_blank">
                                     <DownloadIcon />
@@ -117,7 +117,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, proyectoPresupues
                                     error={form.errors.formato_estudio_mercado}
                                 />
 
-                                <AlertMui hiddenIcon={true} className="mt-10">
+                                <AlertMui className="mt-10">
                                     <span className="text-5xl font-black">2.</span>
                                     <p className="mt-4">
                                         A continuación, indique el valor total que arrojó el <strong>Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong> en la casilla{' '}
@@ -159,7 +159,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, proyectoPresupues
                     <div>
                         <h1 className="mt-24 mb-8 text-center text-3xl">Soportes</h1>
 
-                        <AlertMui className="mb-8" hiddenIcon={true}>
+                        <AlertMui className="mb-8">
                             <span className="text-5xl font-black">3.</span>
                             <br />
                             Tenga en cuenta que en el Excel <strong>Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong> deberá relacionar mínimo 2 empresas (Máximo 3).

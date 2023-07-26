@@ -17,8 +17,8 @@ import { useState } from 'react'
 import Form from './Form'
 
 const MiembrosEntidadAliada = ({ auth, convocatoria, proyecto, entidadAliada, miembrosEntidadAliada, tiposDocumento, ...props }) => {
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
     const [miembroEntidadAliadaToDestroy, setMiembroEntidadAliadaToDestroy] = useState(null)
     const [dialogStatus, setDialogStatus] = useState(false)
@@ -30,7 +30,7 @@ const MiembrosEntidadAliada = ({ auth, convocatoria, proyecto, entidadAliada, mi
             <Grid item md={12}>
                 <h1 className="text-3xl mb-8 text-center">Miembros de la entidad aliada</h1>
 
-                <AlertMui hiddenIcon={true}>Por favor ingrese cada uno de los miembros de la entidad aliada.</AlertMui>
+                <AlertMui>Por favor ingrese cada uno de los miembros de la entidad aliada.</AlertMui>
                 {proyecto.allowed.to_update && (
                     <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setMiembroEntidadAliada(null))} variant="raised">
                         Añadir miembro de la entidad aliada
@@ -108,7 +108,7 @@ const MiembrosEntidadAliada = ({ auth, convocatoria, proyecto, entidadAliada, mi
                     blurEnabled={true}
                     dialogContent={
                         <Form
-                            isSuperAdmin={isSuperAdmin}
+                            is_super_admin={is_super_admin}
                             setDialogStatus={setDialogStatus}
                             method={method}
                             proyecto={proyecto}

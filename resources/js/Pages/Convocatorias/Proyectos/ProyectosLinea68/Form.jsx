@@ -14,46 +14,46 @@ import { Grid } from '@mui/material'
 import { useEffect } from 'react'
 
 const Form = ({
-    isSuperAdmin,
+    is_super_admin,
     method = '',
     convocatoria,
-    proyectoLinea68,
-    lineasProgramaticas,
-    tiposProyectoSt,
-    sectoresProductivos,
-    estadosSistemaGestion,
-    programasFormacionConRegistroCalificado,
-    rolesSennova,
+    proyecto_linea_68,
+    lineas_programaticas,
+    tipos_proyecto_st,
+    sectores_productivos,
+    estados_sistema_gestion,
+    programas_formacion_con_registro_calificado,
+    roles_sennova,
     evaluacion,
     ...props
 }) => {
     const form = useForm({
-        tipo_proyecto_st_id: proyectoLinea68?.tipo_proyecto_st_id ?? '',
-        linea_programatica_id: proyectoLinea68?.proyecto?.linea_programatica_id ?? '',
-        titulo: proyectoLinea68?.titulo ?? '',
-        fecha_inicio: proyectoLinea68?.fecha_inicio ?? '',
-        fecha_finalizacion: proyectoLinea68?.fecha_finalizacion ?? '',
-        max_meses_ejecucion: proyectoLinea68?.max_meses_ejecucion ?? '',
-        pregunta_formulacion_problema: proyectoLinea68?.pregunta_formulacion_problema ?? '',
+        tipo_proyecto_st_id: proyecto_linea_68?.tipo_proyecto_st_id ?? '',
+        linea_programatica_id: proyecto_linea_68?.proyecto?.linea_programatica_id ?? '',
+        titulo: proyecto_linea_68?.titulo ?? '',
+        fecha_inicio: proyecto_linea_68?.fecha_inicio ?? '',
+        fecha_finalizacion: proyecto_linea_68?.fecha_finalizacion ?? '',
+        max_meses_ejecucion: proyecto_linea_68?.max_meses_ejecucion ?? '',
+        pregunta_formulacion_problema: proyecto_linea_68?.pregunta_formulacion_problema ?? '',
 
         programas_formacion: null,
 
-        estado_sistema_gestion_id: proyectoLinea68?.estado_sistema_gestion_id ?? '',
-        sector_productivo: proyectoLinea68?.sector_productivo ?? '',
+        estado_sistema_gestion_id: proyecto_linea_68?.estado_sistema_gestion_id ?? '',
+        sector_productivo: proyecto_linea_68?.sector_productivo ?? '',
 
-        resumen: proyectoLinea68?.resumen ?? '',
-        antecedentes: proyectoLinea68?.antecedentes ?? '',
-        identificacion_problema: proyectoLinea68?.identificacion_problema ?? '',
-        justificacion_problema: proyectoLinea68?.justificacion_problema ?? '',
-        bibliografia: proyectoLinea68?.bibliografia ?? '',
-        zona_influencia: proyectoLinea68?.zona_influencia ?? '',
-        nombre_area_tecnica: proyectoLinea68?.nombre_area_tecnica ?? '',
+        resumen: proyecto_linea_68?.resumen ?? '',
+        antecedentes: proyecto_linea_68?.antecedentes ?? '',
+        identificacion_problema: proyecto_linea_68?.identificacion_problema ?? '',
+        justificacion_problema: proyecto_linea_68?.justificacion_problema ?? '',
+        bibliografia: proyecto_linea_68?.bibliografia ?? '',
+        zona_influencia: proyecto_linea_68?.zona_influencia ?? '',
+        nombre_area_tecnica: proyecto_linea_68?.nombre_area_tecnica ?? '',
 
-        resumen: proyectoLinea68?.resumen ?? '',
-        antecedentes: proyectoLinea68?.antecedentes ?? '',
-        identificacion_problema: proyectoLinea68?.identificacion_problema ?? '',
-        justificacion_problema: proyectoLinea68?.justificacion_problema ?? '',
-        bibliografia: proyectoLinea68?.bibliografia ?? '',
+        resumen: proyecto_linea_68?.resumen ?? '',
+        antecedentes: proyecto_linea_68?.antecedentes ?? '',
+        identificacion_problema: proyecto_linea_68?.identificacion_problema ?? '',
+        justificacion_problema: proyecto_linea_68?.justificacion_problema ?? '',
+        bibliografia: proyecto_linea_68?.bibliografia ?? '',
 
         cantidad_meses: 0,
         cantidad_horas: 0,
@@ -66,8 +66,8 @@ const Form = ({
             ? form.post(route('convocatorias.servicios-tecnologicos.store', [convocatoria.id]), {
                   preserveScroll: true,
               })
-            : proyectoLinea68.proyecto.allowed.to_update
-            ? form.put(route('convocatorias.servicios-tecnologicos.update', [convocatoria.id, proyectoLinea68.id]), {
+            : proyecto_linea_68.proyecto.allowed.to_update
+            ? form.put(route('convocatorias.servicios-tecnologicos.update', [convocatoria.id, proyecto_linea_68.id]), {
                   preserveScroll: true,
               })
             : null
@@ -84,7 +84,7 @@ const Form = ({
 
     return (
         <form onSubmit={submit}>
-            <fieldset disabled={proyectoLinea68?.proyecto.allowed.to_update && !isSuperAdmin}>
+            <fieldset disabled={proyecto_linea_68?.proyecto.allowed.to_update && !is_super_admin}>
                 <Grid container className="space-y-20">
                     <div className="py-24">
                         <Label
@@ -172,7 +172,7 @@ const Form = ({
                             <Grid item md={6}>
                                 <Autocomplete
                                     id="estado_sistema_gestion_id"
-                                    options={estadosSistemaGestion}
+                                    options={estados_sistema_gestion}
                                     selectedValue={form.data.estado_sistema_gestion_id}
                                     onChange={(event, newValue) => form.setData('estado_sistema_gestion_id', newValue.value)}
                                     error={form.errors.estado_sistema_gestion_id}
@@ -190,7 +190,7 @@ const Form = ({
                     <Grid item md={6}>
                         <Autocomplete
                             id="sector_productivo"
-                            options={sectoresProductivos}
+                            options={sectores_productivos}
                             selectedValue={form.data.sector_productivo}
                             onChange={(event, newValue) => form.setData('sector_productivo', newValue.value)}
                             error={form.errors.sector_productivo}
@@ -214,7 +214,7 @@ const Form = ({
                                     id="rol_sennova"
                                     selectedValue={form.data.rol_sennova}
                                     onChange={(event, newValue) => form.setData('rol_sennova', newValue.value)}
-                                    options={rolesSennova}
+                                    options={roles_sennova}
                                     placeholder="Seleccione un rol SENNOVA"
                                     required
                                 />
@@ -278,7 +278,7 @@ const Form = ({
                             <Grid item md={6}>
                                 <Autocomplete
                                     id="linea_programatica_id"
-                                    options={lineasProgramaticas}
+                                    options={lineas_programaticas}
                                     selectedValue={form.data.linea_programatica_id}
                                     onChange={(event, newValue) => form.setData('linea_programatica_id', newValue.value)}
                                     error={form.errors.linea_programatica_id}
@@ -296,7 +296,7 @@ const Form = ({
 
                             <Grid item md={12}>
                                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="resumen" value="Resumen ejecutivo" />
-                                <AlertMui className="my-2" hiddenIcon={true}>
+                                <AlertMui className="my-2">
                                     <p>
                                         Información necesaria para darle al lector una idea precisa de la pertinencia y calidad del proyecto. Explique en qué consiste el problema o necesidad, cómo
                                         cree que lo resolverá, cuáles son las razones que justifican su ejecución y las herramientas que se utilizarán en el desarrollo del proyecto.
@@ -318,7 +318,7 @@ const Form = ({
 
                             <Grid item md={12}>
                                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="antecedentes" value="Antecedentes" />
-                                <AlertMui className="my-2" hiddenIcon={true}>
+                                <AlertMui className="my-2">
                                     <p>
                                         Se debe evidenciar la identificación y caracterización del mercado potencial/objetivo, nicho de mercado al cual se busca atender o la necesidad que se busca
                                         satisfacer tomando como referencia el estudio del sector, identificando si existen el(los) mismo(s) alcance(s) o similar(es) en la empresa privada o pública u
@@ -343,7 +343,7 @@ const Form = ({
 
                             <Grid item md={12}>
                                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="identificacion_problema" value="Identificación y descripción del problema" />
-                                <AlertMui className="my-2" hiddenIcon={true}>
+                                <AlertMui className="my-2">
                                     1. Descripción de la necesidad, problema u oportunidad identificada del plan tecnológico y/o agendas departamentales de innovación y competitividad.
                                     <br />
                                     2. Descripción del problema que se atiende con el proyecto, sustentado en el contexto, la caracterización, los datos, las estadísticas, de la regional, entre otros,
@@ -364,7 +364,7 @@ const Form = ({
 
                             <Grid item md={12}>
                                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="pregunta_formulacion_problema" value="Pregunta de formulación del problema" />
-                                <AlertMui className="my-2" hiddenIcon={true}>
+                                <AlertMui className="my-2">
                                     <p>Se debe verificar que la pregunta del problema defina con exactitud ¿cuál es el problema para resolver, investigar o intervenir?</p>
                                     La pregunta debe cumplir las siguientes condiciones:
                                     <ul>
@@ -390,7 +390,7 @@ const Form = ({
 
                             <Grid item md={12}>
                                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="justificacion_problema" value="Justificación" />
-                                <AlertMui className="my-2" hiddenIcon={true}>
+                                <AlertMui className="my-2">
                                     <p>La justificación debe describir la solución del problema y debe responder a las siguientes preguntas:</p>
                                     <ul>
                                         <li>• ¿Cómo se relaciona el proyecto con las prioridades de la región y del país?</li>
@@ -425,7 +425,7 @@ const Form = ({
                                 <SelectMultiple
                                     id="programas_formacion"
                                     bdValues={form.data.programas_formacion}
-                                    options={programasFormacionConRegistroCalificado}
+                                    options={programas_formacion_con_registro_calificado}
                                     onChange={(event, newValue) => {
                                         const selectedValues = newValue.map((option) => option.value)
                                         form.setData((prevData) => ({
@@ -459,7 +459,7 @@ const Form = ({
 
                             <Grid item md={12}>
                                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="bibliografia" value="Bibliografía" />
-                                <AlertMui hiddenIcon={true}>
+                                <AlertMui>
                                     Lista de las referencias utilizadas en cada apartado del proyecto. Utilizar normas APA- Última edición
                                     (http://biblioteca.sena.edu.co/images/PDF/InstructivoAPA.pdf).
                                 </AlertMui>
@@ -479,7 +479,7 @@ const Form = ({
 
             {form.isDirty && <div>There are unsaved form changes.</div>}
 
-            {method == 'crear' || proyectoLinea68.proyecto?.allowed?.to_update ? (
+            {method == 'crear' || proyecto_linea_68.proyecto?.allowed?.to_update ? (
                 <div className="pt-8 pb-4 space-y-4">
                     <PrimaryButton type="submit" className="ml-auto">
                         Guardar

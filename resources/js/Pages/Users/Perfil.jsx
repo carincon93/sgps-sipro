@@ -41,7 +41,7 @@
 
     $: $title = 'Perfil'
 
-    let authUser = auth.user
+    let auth_user = auth.user
 
     let formChangePassword = useForm({
         old_password: '',

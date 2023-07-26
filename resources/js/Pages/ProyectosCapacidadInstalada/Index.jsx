@@ -13,15 +13,15 @@
     import { Item, Text, Separator } from '@smui/list'
 
     export let proyectosCapacidadInstalada
-    export let allowedToCreate
+    export let allowed_to_create
 
     $title = 'Proyectos de capacidad instalada'
 
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let dialogEliminar = false
     let proyectoCapacidadInstaladaId = null
@@ -43,7 +43,7 @@
         <div slot="title">Proyectos de capacidad instalada</div>
 
         <div slot="actions">
-            {#if allowedToCreate}
+            {#if allowed_to_create}
                 <Button on:click={() => Inertia.visit(route('proyectos-capacidad-instalada.create'))} variant="raised">Crear proyecto de capacidad instalada</Button>
             {/if}
         </div>

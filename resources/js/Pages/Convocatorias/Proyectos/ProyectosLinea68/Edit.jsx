@@ -14,30 +14,30 @@ import { useState } from 'react'
 const Edit = ({
     auth,
     convocatoria,
-    proyectoLinea68,
-    centrosFormacion,
-    lineasProgramaticas,
-    tiposProyectoSt,
-    sectoresProductivos,
-    estadosSistemaGestion,
-    programasFormacionConRegistroCalificado,
-    rolesSennova,
+    proyecto_linea_68,
+    centros_formacion,
+    lineas_programaticas,
+    tipos_proyecto_st,
+    sectores_productivos,
+    estados_sistema_gestion,
+    programas_formacion_con_registro_calificado,
+    roles_sennova,
 }) => {
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
-    const [evaluacionIndex, setEvaluacionIndex] = useState(0)
-    const [dialogStatus, setDialogStatus] = useState(false)
+    const [evaluacion_index, setEvaluacionIndex] = useState(0)
+    const [dialog_status, setDialogStatus] = useState(false)
 
-    const comentariosEvaluaciones =
-        proyectoLinea68?.proyecto.evaluaciones.length > 0
-            ? Object.keys(proyectoLinea68?.proyecto.evaluaciones[evaluacionIndex].servicio_tecnologico_evaluacion).filter((field) => field.endsWith('_comentario'))
+    const comentarios_evaluaciones =
+        proyecto_linea_68?.proyecto.evaluaciones.length > 0
+            ? Object.keys(proyecto_linea_68?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_linea68).filter((field) => field.endsWith('_comentario'))
             : null
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyectoLinea68.titulo}</h2>}>
+        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyecto_linea_68.titulo}</h2>}>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyectoLinea68?.proyecto} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto_linea_68?.proyecto} />
             </Grid>
 
             <Grid item md={4}>
@@ -51,24 +51,24 @@ const Edit = ({
                 <DialogMui
                     fullWidth={true}
                     maxWidth="lg"
-                    open={dialogStatus}
+                    open={dialog_status}
                     dialogContent={
                         <>
-                            {proyectoLinea68?.proyecto.evaluaciones.map((evaluacion, i) => (
-                                <ButtonMui onClick={() => setEvaluacionIndex(i)} primary={evaluacionIndex == i} key={i} className="!ml-2">
+                            {proyecto_linea_68?.proyecto.evaluaciones.map((evaluacion, i) => (
+                                <ButtonMui onClick={() => setEvaluacionIndex(i)} primary={evaluacion_index == i} key={i} className="!ml-2">
                                     Ver comentarios de la evaluación #{i + 1}
                                 </ButtonMui>
                             ))}
                             <TableMui className="mt-20" rows={['Ítem', 'Comentario']} sxCellThead={{ width: '320px' }}>
-                                {comentariosEvaluaciones &&
-                                    comentariosEvaluaciones
+                                {comentarios_evaluaciones &&
+                                    comentarios_evaluaciones
                                         .sort((a, b) => a.toString().localeCompare(b.toString()))
                                         .map((field, i) => (
                                             <TableRow key={i}>
                                                 <TableCell>
                                                     <p className="first-letter:uppercase">{field.replace(/_comentario/g, '').replace(/_/g, ' ')}</p>
                                                 </TableCell>
-                                                <TableCell>{proyectoLinea68?.proyecto.evaluaciones[evaluacionIndex].servicio_tecnologico_evaluacion[field] ?? 'Sin comentarios'}</TableCell>
+                                                <TableCell>{proyecto_linea_68?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_linea68[field] ?? 'Sin comentarios'}</TableCell>
                                             </TableRow>
                                         ))}
                             </TableMui>
@@ -83,17 +83,17 @@ const Edit = ({
             </Grid>
             <Grid item md={12}>
                 <Form
-                    isSuperAdmin={isSuperAdmin}
+                    is_super_admin={is_super_admin}
                     method="editar"
                     convocatoria={convocatoria}
-                    proyectoLinea68={proyectoLinea68}
-                    centrosFormacion={centrosFormacion}
-                    lineasProgramaticas={lineasProgramaticas}
-                    tiposProyectoSt={tiposProyectoSt}
-                    sectoresProductivos={sectoresProductivos}
-                    estadosSistemaGestion={estadosSistemaGestion}
-                    rolesSennova={rolesSennova}
-                    programasFormacionConRegistroCalificado={programasFormacionConRegistroCalificado}
+                    proyecto_linea_68={proyecto_linea_68}
+                    centros_formacion={centros_formacion}
+                    lineas_programaticas={lineas_programaticas}
+                    tipos_proyecto_st={tipos_proyecto_st}
+                    sectores_productivos={sectores_productivos}
+                    estados_sistema_gestion={estados_sistema_gestion}
+                    programas_formacion_con_registro_calificado={programas_formacion_con_registro_calificado}
+                    roles_sennova={roles_sennova}
                 />
             </Grid>
         </AuthenticatedLayout>

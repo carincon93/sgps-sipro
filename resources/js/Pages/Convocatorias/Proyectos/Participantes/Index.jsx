@@ -7,11 +7,11 @@ import { Grid } from '@mui/material'
 import Participantes from './Participantes'
 import SemillerosInvestigacion from './SemillerosInvestigacion'
 
-const Index = ({ convocatoria, nuevoParticipante, nuevoSemilleroInvestigacion, rolesSennova, proyecto, autorPrincipal }) => {
+const Index = ({ convocatoria, proyecto, evaluacion, nuevoParticipante, nuevoSemilleroInvestigacion, rolesSennova, autorPrincipal }) => {
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
             <Grid item md={12} className="!mb-20">

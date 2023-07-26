@@ -16,8 +16,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let form = useForm({
         descripcion: '',
@@ -30,7 +30,7 @@
     })
 
     function submit() {
-        if (isSuperAdmin || checkRole(authUser, [5, 10, 12, 22])) {
+        if (is_super_admin || checkRole(auth_user, [5, 10, 12, 22])) {
             $form.post(route('proyectos-idi-tecnoacademia.productos.store', [proyectoIdiTecnoacademia.id]))
         }
     }

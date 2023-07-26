@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tp_evaluaciones', function (Blueprint $table) {
+        Schema::create('evaluaciones_proyectos_linea_69', function (Blueprint $table) {
             $table->integer('id')->primary();
 
             $table->text('resumen_regional_comentario')->nullable();
@@ -49,6 +49,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tp_evaluaciones');
+        Schema::dropIfExists('evaluaciones_proyectos_linea_69');
     }
 };

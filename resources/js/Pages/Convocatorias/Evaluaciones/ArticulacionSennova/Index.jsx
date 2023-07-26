@@ -43,8 +43,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let opcionesSiNo = [
         { value: 1, label: 'Si' },
@@ -89,7 +89,7 @@
         lineas_medulares_centro_requiere_comentario: evaluacion.ta_evaluacion ? (evaluacion.ta_evaluacion.lineas_medulares_centro_comentario == null ? true : false) : null,
     })
     function submitTaTpEvaluacion() {
-        if (isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
+        if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
             $formTaTpEvaluacion.put(route('convocatorias.evaluaciones.articulacion-sennova.guardar-evaluacion', [convocatoria.id, evaluacion.id]), {
                 preserveScroll: true,
             })
@@ -368,7 +368,7 @@
             <div className="mt-16">
                 <InfoMessage>
                     <div className="mt-4">
-                        <!-- {#if checkRole(authUser, [5]) && evaluacion.evaluacion_final}
+                        <!-- {#if checkRole(auth_user, [5]) && evaluacion.evaluacion_final}
                                 {#each otrasEvaluaciones as evaluacion}
                                     <div className="mb-8">
                                         <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
@@ -378,10 +378,10 @@
                                 {/each}
                             {/if} -->
                         <p>¿La articulación SENNOVA está definida correctamente? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formTaTpEvaluacion.articulacion_sennova_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formTaTpEvaluacion.articulacion_sennova_requiere_comentario} />
                         {#if $formTaTpEvaluacion.articulacion_sennova_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -397,10 +397,10 @@
             <InfoMessage>
                 <div className="mt-4">
                     <p>¿El impacto en el centro de formación es correcto? Por favor seleccione si Cumple o No cumple</p>
-                    <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formTaTpEvaluacion.impacto_centro_formacion_requiere_comentario} />
+                    <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formTaTpEvaluacion.impacto_centro_formacion_requiere_comentario} />
                     {#if $formTaTpEvaluacion.impacto_centro_formacion_requiere_comentario == false}
                         <Textarea
-                            disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
+                            disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                             label="Comentario"
                             className="mt-4"
                             maxlength="40000"
@@ -416,7 +416,7 @@
             {#if proyecto.codigo_linea_programatica == 70}
                 <InfoMessage>
                     <div className="mt-4">
-                        <!-- {#if checkRole(authUser, [5]) && evaluacion.evaluacion_final}
+                        <!-- {#if checkRole(auth_user, [5]) && evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
                                 <div className="mb-8">
                                     <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
@@ -426,10 +426,10 @@
                             {/each}
                         {/if} -->
                         <p>¿La información sobre las líneas medulares es correcta? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formTaTpEvaluacion.lineas_medulares_centro_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formTaTpEvaluacion.lineas_medulares_centro_requiere_comentario} />
                         {#if $formTaTpEvaluacion.lineas_medulares_centro_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -443,7 +443,7 @@
                 </InfoMessage>
             {/if}
             <div className="flex items-center justify-between mt-14 px-8 py-4">
-                {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
+                {#if is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
                     <PrimaryButton loading={$formTaTpEvaluacion.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
                 {/if}
             </div>

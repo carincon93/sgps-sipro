@@ -129,7 +129,7 @@ class ProyectoPresupuesto extends Model
     }
 
     /**
-     * Relationship with TaTpViaticosMunicipio
+     * Relationship with ProyectoLinea70TpViaticosMunicipio
      *
      * @return object
      */

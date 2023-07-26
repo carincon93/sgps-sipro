@@ -30,23 +30,23 @@ class PdfController extends Controller
 
         $datos = null;
         $tipoProyectoSt = null;
-        if (!empty($proyecto->idi)) {
-            $datos = $proyecto->idi;
+        if (!empty($proyecto->proyectoLinea66)) {
+            $datos = $proyecto->proyectoLinea66;
             $opcionesIDiDropdown = collect(json_decode(Storage::get('json/opciones-aplica-no-aplica.json'), true));
             $datos->relacionado_plan_tecnologico = $opcionesIDiDropdown->where('value', $datos->relacionado_plan_tecnologico)->first();
             $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true));
-        } else if (!empty($proyecto->ta)) {
-            $datos = $proyecto->ta;
+        } else if (!empty($proyecto->proyectoLinea70)) {
+            $datos = $proyecto->proyectoLinea70;
             $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-ta.json'), true));
-        } else if (!empty($proyecto->tp)) {
-            $proyecto->tp->talentosOtrosDepartamentos;
-            $datos = $proyecto->tp;
+        } else if (!empty($proyecto->proyectoLinea69)) {
+            $proyecto->proyectoLinea69->talentosOtrosDepartamentos;
+            $datos = $proyecto->proyectoLinea69;
             $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-tp.json'), true));
-        } else if (!empty($proyecto->culturaInnovacion)) {
-            $datos = $proyecto->culturaInnovacion;
+        } else if (!empty($proyecto->proyectoLinea65)) {
+            $datos = $proyecto->proyectoLinea65;
             $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true));
-        } else if (!empty($proyecto->servicioTecnologico)) {
-            $datos = $proyecto->servicioTecnologico;
+        } else if (!empty($proyecto->proyectoLinea68)) {
+            $datos = $proyecto->proyectoLinea68;
             $tipoProyectoSt = TipoProyectoSt::selectRaw("tipos_proyecto_st.id as value, CASE tipos_proyecto_st.tipo_proyecto
                         WHEN '1' THEN   concat(centros_formacion.nombre, chr(10), '∙ Tipo de proyecto: A', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
                         WHEN '2' THEN   concat(centros_formacion.nombre, chr(10), '∙ Tipo de proyecto: B', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
@@ -79,14 +79,14 @@ class PdfController extends Controller
         $filename = 'file.pdf';
 
         // Create a temporary file
-        $tmpFile = tmpfile();
+        $tmp_file = tmpfile();
 
         // Write the file content to the temporary file
-        fwrite($tmpFile, $fileContent);
+        fwrite($tmp_file, $fileContent);
 
         // Create a new file object from the temporary file
         $file = new \Illuminate\Http\UploadedFile(
-            stream_get_meta_data($tmpFile)['uri'],
+            stream_get_meta_data($tmp_file)['uri'],
             $filename,
             'application/pdf',
             null,
@@ -102,11 +102,11 @@ class PdfController extends Controller
 
         $modulo = 'CONVOCATORIAS2023';
         $centroFormacionSharePoint  = $proyecto->centroFormacion->nombre_carpeta_sharepoint;
-        $sharePointPath             = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
+        $sharepoint_path             = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
 
         // $response = self::saveFilesSharepoint($request, 'CONVOCATORIA2023', $proyecto, $proyecto, 'pdf_proyecto');
 
-        $path = Storage::put($sharePointPath . '/' . $proyecto->codigo . '.pdf', $fileContent);
+        $path = Storage::put($sharepoint_path . '/' . $proyecto->codigo . '.pdf', $fileContent);
         // if (!empty($response['sharePointPath'])) {
         //     ProyectoPdfVersion::create([
         //         'proyecto_id'     => $proyecto->id,
@@ -118,12 +118,12 @@ class PdfController extends Controller
         // }
     }
 
-    static function saveFilesSharepoint(Request $request, $modulo, $proyecto, $modelo, $campoBd)
+    static function saveFilesSharepoint(Request $request, $modulo, $proyecto, $modelo, $campo_bd)
     {
         $centroFormacionSharePoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint;
 
-        $sharePointPath = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
-        $response = SharepointHelper::saveFilesSharepoint($request, $modelo, $sharePointPath, $campoBd, $proyecto->codigo . '-PDF');
+        $sharepoint_path = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
+        $response = SharepointHelper::saveFilesSharepoint($request, $modelo, $sharepoint_path, $campo_bd, $proyecto->codigo . '-PDF');
 
         return $response;
     }

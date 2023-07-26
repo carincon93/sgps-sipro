@@ -16,8 +16,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let form = useForm({
         nombre: '',
@@ -28,7 +28,7 @@
     })
 
     function submit() {
-        if (isSuperAdmin) {
+        if (is_super_admin) {
             $form.post(route('centros-formacion.store'))
         }
     }
@@ -53,7 +53,7 @@
         </div>
 
         <div className="col-span-2">
-            <Form {submit} {form} {errors} {regionales} {subdirectores} {dinamizadoresSennova} {isSuperAdmin} />
+            <Form {submit} {form} {errors} {regionales} {subdirectores} {dinamizadoresSennova} {is_super_admin} />
         </div>
     </div>
 </AuthenticatedLayout>

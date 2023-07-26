@@ -19,7 +19,7 @@
     export let convocatoria
     export let culturaInnovacion
     export let areasConocimiento
-    export let culturaInnovacionEvaluacion
+    export let evaluacionProyectoLinea65
     export let mesasSectoriales
     export let tecnoacademia
     export let tecnoacademias
@@ -45,11 +45,11 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let dialogSegundaEvaluacion = convocatoria.fase == 4 ? true : false
-    let proyectoDialogOpen = culturaInnovacionEvaluacion.evaluacion.clausula_confidencialidad == false ? true : false
+    let proyectoDialogOpen = evaluacionProyectoLinea65.evaluacion.clausula_confidencialidad == false ? true : false
 
     let arrayLineasTecnoacademia = lineasTecnoacademia.filter(function (obj) {
         return obj.tecnoacademia_id == tecnoacademia?.id
@@ -187,56 +187,56 @@
     })
 
     let form = useForm({
-        clausula_confidencialidad: culturaInnovacionEvaluacion.evaluacion.clausula_confidencialidad,
-        titulo_puntaje: culturaInnovacionEvaluacion.titulo_puntaje,
-        titulo_comentario: culturaInnovacionEvaluacion.titulo_comentario ? culturaInnovacionEvaluacion.titulo_comentario : '',
-        titulo_requiere_comentario: culturaInnovacionEvaluacion.titulo_comentario == null ? true : false,
-        video_puntaje: culturaInnovacionEvaluacion.video_puntaje,
-        video_comentario: culturaInnovacionEvaluacion.video_comentario ? culturaInnovacionEvaluacion.video_comentario : '',
-        video_requiere_comentario: culturaInnovacionEvaluacion.video_comentario == null ? true : false,
-        resumen_puntaje: culturaInnovacionEvaluacion.resumen_puntaje,
-        resumen_comentario: culturaInnovacionEvaluacion.resumen_comentario ? culturaInnovacionEvaluacion.resumen_comentario : '',
-        resumen_requiere_comentario: culturaInnovacionEvaluacion.resumen_comentario == null ? true : false,
-        antecedentes_puntaje: culturaInnovacionEvaluacion.antecedentes_puntaje,
-        antecedentes_comentario: culturaInnovacionEvaluacion.antecedentes_comentario ? culturaInnovacionEvaluacion.antecedentes_comentario : '',
-        antecedentes_requiere_comentario: culturaInnovacionEvaluacion.antecedentes_comentario == null ? true : false,
-        ortografia_puntaje: culturaInnovacionEvaluacion.ortografia_puntaje,
-        ortografia_comentario: culturaInnovacionEvaluacion.ortografia_comentario ? culturaInnovacionEvaluacion.ortografia_comentario : '',
-        ortografia_requiere_comentario: culturaInnovacionEvaluacion.ortografia_comentario == null ? true : false,
-        redaccion_puntaje: culturaInnovacionEvaluacion.redaccion_puntaje,
-        redaccion_comentario: culturaInnovacionEvaluacion.redaccion_comentario ? culturaInnovacionEvaluacion.redaccion_comentario : '',
-        redaccion_requiere_comentario: culturaInnovacionEvaluacion.redaccion_comentario == null ? true : false,
-        normas_apa_puntaje: culturaInnovacionEvaluacion.normas_apa_puntaje,
-        normas_apa_comentario: culturaInnovacionEvaluacion.normas_apa_comentario ? culturaInnovacionEvaluacion.normas_apa_comentario : '',
-        normas_apa_requiere_comentario: culturaInnovacionEvaluacion.normas_apa_comentario == null ? true : false,
+        clausula_confidencialidad: evaluacionProyectoLinea65.evaluacion.clausula_confidencialidad,
+        titulo_puntaje: evaluacionProyectoLinea65.titulo_puntaje,
+        titulo_comentario: evaluacionProyectoLinea65.titulo_comentario ? evaluacionProyectoLinea65.titulo_comentario : '',
+        titulo_requiere_comentario: evaluacionProyectoLinea65.titulo_comentario == null ? true : false,
+        video_puntaje: evaluacionProyectoLinea65.video_puntaje,
+        video_comentario: evaluacionProyectoLinea65.video_comentario ? evaluacionProyectoLinea65.video_comentario : '',
+        video_requiere_comentario: evaluacionProyectoLinea65.video_comentario == null ? true : false,
+        resumen_puntaje: evaluacionProyectoLinea65.resumen_puntaje,
+        resumen_comentario: evaluacionProyectoLinea65.resumen_comentario ? evaluacionProyectoLinea65.resumen_comentario : '',
+        resumen_requiere_comentario: evaluacionProyectoLinea65.resumen_comentario == null ? true : false,
+        antecedentes_puntaje: evaluacionProyectoLinea65.antecedentes_puntaje,
+        antecedentes_comentario: evaluacionProyectoLinea65.antecedentes_comentario ? evaluacionProyectoLinea65.antecedentes_comentario : '',
+        antecedentes_requiere_comentario: evaluacionProyectoLinea65.antecedentes_comentario == null ? true : false,
+        ortografia_puntaje: evaluacionProyectoLinea65.ortografia_puntaje,
+        ortografia_comentario: evaluacionProyectoLinea65.ortografia_comentario ? evaluacionProyectoLinea65.ortografia_comentario : '',
+        ortografia_requiere_comentario: evaluacionProyectoLinea65.ortografia_comentario == null ? true : false,
+        redaccion_puntaje: evaluacionProyectoLinea65.redaccion_puntaje,
+        redaccion_comentario: evaluacionProyectoLinea65.redaccion_comentario ? evaluacionProyectoLinea65.redaccion_comentario : '',
+        redaccion_requiere_comentario: evaluacionProyectoLinea65.redaccion_comentario == null ? true : false,
+        normas_apa_puntaje: evaluacionProyectoLinea65.normas_apa_puntaje,
+        normas_apa_comentario: evaluacionProyectoLinea65.normas_apa_comentario ? evaluacionProyectoLinea65.normas_apa_comentario : '',
+        normas_apa_requiere_comentario: evaluacionProyectoLinea65.normas_apa_comentario == null ? true : false,
 
-        justificacion_economia_naranja_requiere_comentario: culturaInnovacionEvaluacion.justificacion_economia_naranja_comentario == null ? true : false,
-        justificacion_economia_naranja_comentario: culturaInnovacionEvaluacion.justificacion_economia_naranja_comentario ? culturaInnovacionEvaluacion.justificacion_economia_naranja_comentario : '',
+        justificacion_economia_naranja_requiere_comentario: evaluacionProyectoLinea65.justificacion_economia_naranja_comentario == null ? true : false,
+        justificacion_economia_naranja_comentario: evaluacionProyectoLinea65.justificacion_economia_naranja_comentario ? evaluacionProyectoLinea65.justificacion_economia_naranja_comentario : '',
 
-        justificacion_industria_4_requiere_comentario: culturaInnovacionEvaluacion.justificacion_industria_4_comentario == null ? true : false,
-        justificacion_industria_4_comentario: culturaInnovacionEvaluacion.justificacion_industria_4_comentario ? culturaInnovacionEvaluacion.justificacion_industria_4_comentario : '',
+        justificacion_industria_4_requiere_comentario: evaluacionProyectoLinea65.justificacion_industria_4_comentario == null ? true : false,
+        justificacion_industria_4_comentario: evaluacionProyectoLinea65.justificacion_industria_4_comentario ? evaluacionProyectoLinea65.justificacion_industria_4_comentario : '',
 
-        bibliografia_requiere_comentario: culturaInnovacionEvaluacion.bibliografia_comentario == null ? true : false,
-        bibliografia_comentario: culturaInnovacionEvaluacion.bibliografia_comentario ? culturaInnovacionEvaluacion.bibliografia_comentario : '',
+        bibliografia_requiere_comentario: evaluacionProyectoLinea65.bibliografia_comentario == null ? true : false,
+        bibliografia_comentario: evaluacionProyectoLinea65.bibliografia_comentario ? evaluacionProyectoLinea65.bibliografia_comentario : '',
 
-        fechas_requiere_comentario: culturaInnovacionEvaluacion.fechas_comentario == null ? true : false,
-        fechas_comentario: culturaInnovacionEvaluacion.fechas_comentario ? culturaInnovacionEvaluacion.fechas_comentario : '',
+        fechas_requiere_comentario: evaluacionProyectoLinea65.fechas_comentario == null ? true : false,
+        fechas_comentario: evaluacionProyectoLinea65.fechas_comentario ? evaluacionProyectoLinea65.fechas_comentario : '',
 
-        justificacion_politica_discapacidad_requiere_comentario: culturaInnovacionEvaluacion.justificacion_politica_discapacidad_comentario == null ? true : false,
-        justificacion_politica_discapacidad_comentario: culturaInnovacionEvaluacion.justificacion_politica_discapacidad_comentario ? culturaInnovacionEvaluacion.justificacion_politica_discapacidad_comentario : '',
+        justificacion_politica_discapacidad_requiere_comentario: evaluacionProyectoLinea65.justificacion_politica_discapacidad_comentario == null ? true : false,
+        justificacion_politica_discapacidad_comentario: evaluacionProyectoLinea65.justificacion_politica_discapacidad_comentario ? evaluacionProyectoLinea65.justificacion_politica_discapacidad_comentario : '',
 
-        actividad_economica_requiere_comentario: culturaInnovacionEvaluacion.actividad_economica_comentario == null ? true : false,
-        actividad_economica_comentario: culturaInnovacionEvaluacion.actividad_economica_comentario ? culturaInnovacionEvaluacion.actividad_economica_comentario : '',
+        actividad_economica_requiere_comentario: evaluacionProyectoLinea65.actividad_economica_comentario == null ? true : false,
+        actividad_economica_comentario: evaluacionProyectoLinea65.actividad_economica_comentario ? evaluacionProyectoLinea65.actividad_economica_comentario : '',
 
-        area_conocimiento_requiere_comentario: culturaInnovacionEvaluacion.area_conocimiento_comentario == null ? true : false,
-        area_conocimiento_comentario: culturaInnovacionEvaluacion.area_conocimiento_comentario ? culturaInnovacionEvaluacion.area_conocimiento_comentario : '',
+        area_conocimiento_requiere_comentario: evaluacionProyectoLinea65.area_conocimiento_comentario == null ? true : false,
+        area_conocimiento_comentario: evaluacionProyectoLinea65.area_conocimiento_comentario ? evaluacionProyectoLinea65.area_conocimiento_comentario : '',
 
-        tematica_estrategica_requiere_comentario: culturaInnovacionEvaluacion.tematica_estrategica_comentario == null ? true : false,
-        tematica_estrategica_comentario: culturaInnovacionEvaluacion.tematica_estrategica_comentario ? culturaInnovacionEvaluacion.tematica_estrategica_comentario : '',
+        tematica_estrategica_requiere_comentario: evaluacionProyectoLinea65.tematica_estrategica_comentario == null ? true : false,
+        tematica_estrategica_comentario: evaluacionProyectoLinea65.tematica_estrategica_comentario ? evaluacionProyectoLinea65.tematica_estrategica_comentario : '',
     })
     function submit() {
-        if (isSuperAdmin || (checkRole(authUser, [11, 5]) && culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == true && culturaInnovacionEvaluacion.evaluacion.modificable == true)) {
-            $form.put(route('convocatorias.cultura-innovacion-evaluaciones.update', [convocatoria.id, culturaInnovacionEvaluacion.id]), {
+        if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == true && evaluacionProyectoLinea65.evaluacion.modificable == true)) {
+            $form.put(route('convocatorias.cultura-innovacion-evaluaciones.update', [convocatoria.id, evaluacionProyectoLinea65.id]), {
                 preserveScroll: true,
             })
         }
@@ -245,13 +245,13 @@
 
 <AuthenticatedLayout>
     <header className="pt-[8rem]" slot="header">
-        <EvaluationStepper {convocatoria} evaluacion={culturaInnovacionEvaluacion.evaluacion} proyecto={culturaInnovacion.proyecto} />
+        <EvaluationStepper {convocatoria} evaluacion={evaluacionProyectoLinea65.evaluacion} proyecto={culturaInnovacion.proyecto} />
     </header>
 
     <form on:submit|preventDefault={submit}>
         <CulturaInnovacionForm
-            evaluacion={culturaInnovacionEvaluacion.evaluacion}
-            {isSuperAdmin}
+            evaluacion={evaluacionProyectoLinea65.evaluacion}
+            {is_super_admin}
             {convocatoria}
             form={formGeneralidades}
             {culturaInnovacion}
@@ -293,13 +293,13 @@
                         <li><strong>Puntaje: 0,6 a 1,0</strong> El título orienta el enfoque del proyecto e indica el cómo y el para qué</li>
                     </ul>
                     <Label className="mt-4 mb-4" labelFor="titulo_puntaje" value="Puntaje (Máximo 1)" />
-                    <Input disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} label="Puntaje" id="titulo_puntaje" type="number" input$step="0.1" input$min="0" input$max="1" className="mt-1" bind:value={$form.titulo_puntaje} placeholder="Puntaje" autocomplete="off" error={errors.titulo_puntaje} />
+                    <Input disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} label="Puntaje" id="titulo_puntaje" type="number" input$step="0.1" input$min="0" input$max="1" className="mt-1" bind:value={$form.titulo_puntaje} placeholder="Puntaje" autocomplete="off" error={errors.titulo_puntaje} />
 
                     <div className="mt-4">
                         <p>¿El título es correcto? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.titulo_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.titulo_requiere_comentario} />
                         {#if $form.titulo_requiere_comentario == false}
-                            <Textarea disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="titulo_comentario" bind:value={$form.titulo_comentario} required />
+                            <Textarea disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="titulo_comentario" bind:value={$form.titulo_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
@@ -309,9 +309,9 @@
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿Las fechas son correctas? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.fechas_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.fechas_requiere_comentario} />
                         {#if $form.fechas_requiere_comentario == false}
-                            <Textarea disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="fechas_comentario" bind:value={$form.fechas_comentario} error={errors.fechas_comentario} required />
+                            <Textarea disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="fechas_comentario" bind:value={$form.fechas_comentario} error={errors.fechas_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
@@ -321,9 +321,9 @@
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿La área de conocimiento es correcto? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.area_conocimiento_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.area_conocimiento_requiere_comentario} />
                         {#if $form.area_conocimiento_requiere_comentario == false}
-                            <Textarea disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="area_conocimiento_comentario" bind:value={$form.area_conocimiento_comentario} error={errors.area_conocimiento_comentario} required />
+                            <Textarea disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="area_conocimiento_comentario" bind:value={$form.area_conocimiento_comentario} error={errors.area_conocimiento_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
@@ -333,9 +333,9 @@
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿La actividad económica es correcta? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.actividad_economica_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.actividad_economica_requiere_comentario} />
                         {#if $form.actividad_economica_requiere_comentario == false}
-                            <Textarea disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="actividad_economica_comentario" bind:value={$form.actividad_economica_comentario} error={errors.actividad_economica_comentario} required />
+                            <Textarea disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="actividad_economica_comentario" bind:value={$form.actividad_economica_comentario} error={errors.actividad_economica_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
@@ -345,9 +345,9 @@
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿La temática estratégica es correcta? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.tematica_estrategica_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.tematica_estrategica_requiere_comentario} />
                         {#if $form.tematica_estrategica_requiere_comentario == false}
-                            <Textarea disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="tematica_estrategica_comentario" bind:value={$form.tematica_estrategica_comentario} error={errors.tematica_estrategica_comentario} required />
+                            <Textarea disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="tematica_estrategica_comentario" bind:value={$form.tematica_estrategica_comentario} error={errors.tematica_estrategica_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
@@ -358,10 +358,10 @@
                     <InfoMessage>
                         <div className="mt-4">
                             <p>¿El ítem es correcto? Por favor seleccione si Cumple o No cumple.</p>
-                            <Switch onMessage="Cumple" offMessage="No cumple" disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.justificacion_industria_4_requiere_comentario} />
+                            <Switch onMessage="Cumple" offMessage="No cumple" disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.justificacion_industria_4_requiere_comentario} />
                             {#if $form.justificacion_industria_4_requiere_comentario == false}
                                 <Textarea
-                                    disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined}
+                                    disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined}
                                     label="Comentario"
                                     className="mt-4"
                                     maxlength="40000"
@@ -381,10 +381,10 @@
                     <InfoMessage>
                         <div className="mt-4">
                             <p>¿El ítem es correcto? Por favor seleccione si Cumple o No cumple.</p>
-                            <Switch onMessage="Cumple" offMessage="No cumple" disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.justificacion_economia_naranja_requiere_comentario} />
+                            <Switch onMessage="Cumple" offMessage="No cumple" disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.justificacion_economia_naranja_requiere_comentario} />
                             {#if $form.justificacion_economia_naranja_requiere_comentario == false}
                                 <Textarea
-                                    disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined}
+                                    disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined}
                                     label="Comentario"
                                     className="mt-4"
                                     maxlength="40000"
@@ -404,10 +404,10 @@
                     <InfoMessage>
                         <div className="mt-4">
                             <p>¿El ítem es correcto? Por favor seleccione si Cumple o No cumple.</p>
-                            <Switch onMessage="Cumple" offMessage="No cumple" disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.justificacion_politica_discapacidad_requiere_comentario} />
+                            <Switch onMessage="Cumple" offMessage="No cumple" disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.justificacion_politica_discapacidad_requiere_comentario} />
                             {#if $form.justificacion_politica_discapacidad_requiere_comentario == false}
                                 <Textarea
-                                    disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined}
+                                    disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined}
                                     label="Comentario"
                                     className="mt-4"
                                     maxlength="40000"
@@ -454,13 +454,13 @@
                     </ul>
 
                     <Label className="mt-4 mb-4" labelFor="resumen_puntaje" value="Puntaje (Máximo 2)" />
-                    <Input disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} label="Puntaje" id="resumen_puntaje" type="number" input$step="0.1" input$min="0" input$max="2" className="mt-1" bind:value={$form.resumen_puntaje} placeholder="Puntaje" autocomplete="off" error={errors.resumen_puntaje} />
+                    <Input disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} label="Puntaje" id="resumen_puntaje" type="number" input$step="0.1" input$min="0" input$max="2" className="mt-1" bind:value={$form.resumen_puntaje} placeholder="Puntaje" autocomplete="off" error={errors.resumen_puntaje} />
 
                     <div className="mt-4">
                         <p>¿El resumen es correcto? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.resumen_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.resumen_requiere_comentario} />
                         {#if $form.resumen_requiere_comentario == false}
-                            <Textarea disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="resumen_comentario" bind:value={$form.resumen_comentario} required />
+                            <Textarea disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="resumen_comentario" bind:value={$form.resumen_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
@@ -470,9 +470,9 @@
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿La bibliografía es correcta? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.bibliografia_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.bibliografia_requiere_comentario} />
                         {#if $form.bibliografia_requiere_comentario == false}
-                            <Textarea disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="bibliografia_comentario" bind:value={$form.bibliografia_comentario} error={errors.bibliografia_comentario} required />
+                            <Textarea disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="bibliografia_comentario" bind:value={$form.bibliografia_comentario} error={errors.bibliografia_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
@@ -489,7 +489,7 @@
 
                     <Label className="mt-4 mb-4" labelFor="ortografia_puntaje" value="Puntaje (Máximo 1)" />
                     <Input
-                        disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined}
+                        disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined}
                         label="Puntaje"
                         id="ortografia_puntaje"
                         type="number"
@@ -505,9 +505,9 @@
 
                     <div className="mt-4">
                         <p>¿La ortografía es correcta? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.ortografia_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.ortografia_requiere_comentario} />
                         {#if $form.ortografia_requiere_comentario == false}
-                            <Textarea disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="ortografia_comentario" bind:value={$form.ortografia_comentario} required />
+                            <Textarea disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="ortografia_comentario" bind:value={$form.ortografia_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
@@ -521,13 +521,13 @@
                     </ul>
 
                     <Label className="mt-4 mb-4" labelFor="redaccion_puntaje" value="Puntaje (Máximo 1)" />
-                    <Input disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} label="Puntaje" id="redaccion_puntaje" type="number" input$step="1" input$min="0" input$max="1" className="mt-1" bind:value={$form.redaccion_puntaje} placeholder="Puntaje" autocomplete="off" error={errors.redaccion_puntaje} />
+                    <Input disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} label="Puntaje" id="redaccion_puntaje" type="number" input$step="1" input$min="0" input$max="1" className="mt-1" bind:value={$form.redaccion_puntaje} placeholder="Puntaje" autocomplete="off" error={errors.redaccion_puntaje} />
 
                     <div className="mt-4">
                         <p>¿La redacción es correcto? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.redaccion_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.redaccion_requiere_comentario} />
                         {#if $form.redaccion_requiere_comentario == false}
-                            <Textarea disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="redaccioncomentario" bind:value={$form.redaccion_comentario} required />
+                            <Textarea disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="redaccioncomentario" bind:value={$form.redaccion_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
@@ -542,7 +542,7 @@
 
                     <Label className="mt-4 mb-4" labelFor="normas_apa_puntaje" value="Puntaje (Máximo 1)" />
                     <Input
-                        disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined}
+                        disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined}
                         label="Puntaje"
                         id="normas_apa_puntaje"
                         type="number"
@@ -558,9 +558,9 @@
 
                     <div className="mt-4">
                         <p>¿Las normas APA son correctas? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.normas_apa_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} bind:checked={$form.normas_apa_requiere_comentario} />
                         {#if $form.normas_apa_requiere_comentario == false}
-                            <Textarea disabled={culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="normas_apa_comentario" bind:value={$form.normas_apa_comentario} required />
+                            <Textarea disabled={evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="normas_apa_comentario" bind:value={$form.normas_apa_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
@@ -568,7 +568,7 @@
         </CulturaInnovacionForm>
 
         <div className="flex items-center justify-between mt-14 px-8 py-4">
-            {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && culturaInnovacionEvaluacion.evaluacion.finalizado == false && culturaInnovacionEvaluacion.evaluacion.habilitado == true && culturaInnovacionEvaluacion.evaluacion.modificable == true)}
+            {#if is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacionProyectoLinea65.evaluacion.finalizado == false && evaluacionProyectoLinea65.evaluacion.habilitado == true && evaluacionProyectoLinea65.evaluacion.modificable == true)}
                 {#if $form.clausula_confidencialidad}
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-900 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

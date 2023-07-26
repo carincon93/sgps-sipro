@@ -19,15 +19,15 @@
     export let lineasInvestigacion
     export let tematicasEstrategicas
     export let seguimientoId
-    export let allowedToCreate
+    export let allowed_to_create
 
     $: $title = 'Crear ambiente de modernización'
 
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let formRazonEstadoGeneral = useForm({
         razon_estado_general: '',
@@ -92,7 +92,7 @@
     })
 
     function submit() {
-        if (allowedToCreate) {
+        if (allowed_to_create) {
             $form.post(route('ambientes-modernizacion.store'))
         }
     }
@@ -140,6 +140,6 @@
         {actividadesEconomicas}
         {lineasInvestigacion}
         {submit}
-        {allowedToCreate}
+        {allowed_to_create}
     />
 </AuthenticatedLayout>

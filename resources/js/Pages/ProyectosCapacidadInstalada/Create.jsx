@@ -21,15 +21,15 @@
     export let subtiposProyectoCapacidadInstalada
     export let roles
     export let programasFormacion
-    export let allowedToCreate
+    export let allowed_to_create
 
     $: $title = 'Crear proyecto de capacidad instalada'
 
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let formPlanteamientoProblema = useForm({
         planteamiento_problema: '',
@@ -89,7 +89,7 @@
     }
 
     function submit() {
-        if (allowedToCreate) {
+        if (allowed_to_create) {
             $form.post(route('proyectos-capacidad-instalada.store'))
         }
     }
@@ -100,7 +100,7 @@
         <div className="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
             <div>
                 <h1>
-                    {#if allowedToCreate}
+                    {#if allowed_to_create}
                         <a use:inertia href={route('proyectos-capacidad-instalada.index')} className="text-app-400 hover:text-app-600"> Proyectos de capacidad instalada </a>
                     {/if}
                     <span className="text-app-400 font-medium">/</span>
@@ -135,10 +135,10 @@
         {subtiposProyectoCapacidadInstalada}
         {listaBeneficiados}
         {roles}
-        {allowedToCreate}
+        {allowed_to_create}
     >
         <div className="flex items-center justify-between mt-14 px-8 py-4" slot="buttons">
-            {#if allowedToCreate}
+            {#if allowed_to_create}
                 <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar y continuar</PrimaryButton>
             {:else}
                 <span className="inline-block"> No tiene permisos para crear un proyecto. </span>

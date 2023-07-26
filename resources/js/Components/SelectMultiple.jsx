@@ -55,7 +55,6 @@ export default function SelectMultiple({ id = '', label = '', className = '', er
     return (
         <>
             <AutocompleteMui
-                disablePortal
                 multiple
                 limitTags={10}
                 classes={{ popper: classes.popper, root: inputBackground ? classes.root : '', inputRoot: classes.inputRoot }}

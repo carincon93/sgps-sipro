@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\SelectHelper;
-use App\Models\ServicioTecnologico;
+use App\Models\ProyectoLinea68;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ServicioTecnologicoLongColumnRequest;
-use App\Http\Requests\ServicioTecnologicoRequest;
+use App\Http\Requests\Evaluacion\EvaluacionProyectoLinea68Request;
+use App\Http\Requests\ProyectoLinea68LongColumnRequest;
+use App\Http\Requests\ProyectoLinea68Request;
 use App\Models\Convocatoria;
+use App\Models\Evaluacion\EvaluacionProyectoLinea68;
 use App\Models\Proyecto;
 use App\Models\RolSennova;
 use App\Models\TipoProyectoSt;
@@ -30,8 +32,8 @@ class ProyectoLinea68Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea68/Index', [
             'convocatoria'          => $convocatoria,
             'filters'               => request()->all('search', 'estructuracion_proyectos'),
-            'serviciosTecnologicos' => ServicioTecnologico::getProyectosPorRol($convocatoria)->appends(['search' => request()->search, 'estructuracion_proyectos' => request()->estructuracion_proyectos]),
-            'allowedToCreate'       => Gate::inspect('formular-proyecto', [10, $convocatoria])->allowed()
+            'proyectos_linea_68'    => ProyectoLinea68::getProyectosPorRol($convocatoria)->appends(['search' => request()->search, 'estructuracion_proyectos' => request()->estructuracion_proyectos]),
+            'allowed_to_create'     => Gate::inspect('formular-proyecto', [10, $convocatoria])->allowed()
         ]);
     }
 
@@ -45,21 +47,21 @@ class ProyectoLinea68Controller extends Controller
         $this->authorize('formular-proyecto', [10, $convocatoria]);
 
         /** @var \App\Models\User */
-        $authUser = Auth::user();
+        $auth_user = Auth::user();
 
-        if ($authUser->hasRole(13)) {
-            $tipoProyectoSt = SelectHelper::tiposProyectosSt()->where('regional_id', $authUser->centroFormacion->regional_id)->values()->all();
+        if ($auth_user->hasRole(13)) {
+            $tipo_proyecto_st = SelectHelper::tiposProyectosSt()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
         } else {
-            $tipoProyectoSt = SelectHelper::tiposProyectosSt();
+            $tipo_proyecto_st = SelectHelper::tiposProyectosSt();
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea68/Create', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_68', 'max_fecha_finalizacion_proyectos_linea_68', 'fecha_maxima_st'),
-            'sectoresProductivos'       => collect(json_decode(Storage::get('json/sectores-productivos.json'), true)),
-            'tiposProyectoSt'           => $tipoProyectoSt,
-            'estadosSistemaGestion'     => SelectHelper::estadosSistemaGestion(),
-            'rolesSennova'              => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'allowedToCreate'           => Gate::inspect('formular-proyecto', [10, $convocatoria])->allowed()
+            'sectores_productivos'      => collect(json_decode(Storage::get('json/sectores-productivos.json'), true)),
+            'tipos_troyecto_st'         => $tipo_proyecto_st,
+            'estados_sistema_gestion'   => SelectHelper::estadosSistemaGestion(),
+            'roles_sennova'             => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'allowed_to_create'         => Gate::inspect('formular-proyecto', [10, $convocatoria])->allowed()
         ]);
     }
 
@@ -69,40 +71,40 @@ class ProyectoLinea68Controller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ServicioTecnologicoRequest $request, Convocatoria $convocatoria)
+    public function store(ProyectoLinea68Request $request, Convocatoria $convocatoria)
     {
         $this->authorize('formular-proyecto', [10, $convocatoria]);
 
-        $tipoProyectoSt = TipoProyectoSt::find($request->tipo_proyecto_st_id);
+        $tipo_proyecto_st = TipoProyectoSt::find($request->tipo_proyecto_st_id);
 
         $proyecto = new Proyecto();
-        $proyecto->centroFormacion()->associate($tipoProyectoSt->centro_formacion_id);
+        $proyecto->centroFormacion()->associate($tipo_proyecto_st->centro_formacion_id);
         $proyecto->lineaProgramatica()->associate(10);
         $proyecto->convocatoria()->associate($convocatoria);
         $proyecto->save();
 
-        $servicioTecnologico = new ServicioTecnologico();
-        $servicioTecnologico->titulo                                = $request->titulo;
-        $servicioTecnologico->fecha_inicio                          = $request->fecha_inicio;
-        $servicioTecnologico->fecha_finalizacion                    = $request->fecha_finalizacion;
-        $servicioTecnologico->max_meses_ejecucion                   = $request->max_meses_ejecucion;
-        $servicioTecnologico->sector_productivo                     = $request->sector_productivo;
-        $servicioTecnologico->nombre_area_tecnica                   = $request->nombre_area_tecnica;
-        $servicioTecnologico->resumen                               = '';
-        $servicioTecnologico->antecedentes                          = '';
-        $servicioTecnologico->objetivo_general                      = null;
-        $servicioTecnologico->problema_central                      = null;
-        $servicioTecnologico->justificacion_problema                = null;
-        $servicioTecnologico->identificacion_problema               = null;
-        $servicioTecnologico->pregunta_formulacion_problema         = '';
-        $servicioTecnologico->metodologia                           = '';
-        $servicioTecnologico->propuesta_sostenibilidad              = '';
-        $servicioTecnologico->bibliografia                          = '';
+        $proyecto_linea_68 = new ProyectoLinea68();
+        $proyecto_linea_68->titulo                                = $request->titulo;
+        $proyecto_linea_68->fecha_inicio                          = $request->fecha_inicio;
+        $proyecto_linea_68->fecha_finalizacion                    = $request->fecha_finalizacion;
+        $proyecto_linea_68->max_meses_ejecucion                   = $request->max_meses_ejecucion;
+        $proyecto_linea_68->sector_productivo                     = $request->sector_productivo;
+        $proyecto_linea_68->nombre_area_tecnica                   = $request->nombre_area_tecnica;
+        $proyecto_linea_68->resumen                               = '';
+        $proyecto_linea_68->antecedentes                          = '';
+        $proyecto_linea_68->objetivo_general                      = null;
+        $proyecto_linea_68->problema_central                      = null;
+        $proyecto_linea_68->justificacion_problema                = null;
+        $proyecto_linea_68->identificacion_problema               = null;
+        $proyecto_linea_68->pregunta_formulacion_problema         = '';
+        $proyecto_linea_68->metodologia                           = '';
+        $proyecto_linea_68->propuesta_sostenibilidad              = '';
+        $proyecto_linea_68->bibliografia                          = '';
 
-        $servicioTecnologico->tipoProyectoSt()->associate($request->tipo_proyecto_st_id);
-        $servicioTecnologico->estadoSistemaGestion()->associate($request->estado_sistema_gestion_id);
+        $proyecto_linea_68->tipoProyectoSt()->associate($request->tipo_proyecto_st_id);
+        $proyecto_linea_68->estadoSistemaGestion()->associate($request->estado_sistema_gestion_id);
 
-        $proyecto->servicioTecnologico()->save($servicioTecnologico);
+        $proyecto->proyectoLinea68()->save($proyecto_linea_68);
 
         $proyecto->participantes()->attach(
             Auth::user()->id,
@@ -114,16 +116,16 @@ class ProyectoLinea68Controller extends Controller
             ]
         );
 
-        return redirect()->route('convocatorias.servicios-tecnologicos.edit', [$convocatoria, $servicioTecnologico])->with('success', 'El recurso se ha creado correctamente. Por favor continue diligenciando la información.');
+        return redirect()->route('convocatorias.proyectos-linea-68.edit', [$convocatoria, $proyecto_linea_68])->with('success', 'El recurso se ha creado correctamente. Por favor continue diligenciando la información.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ServicioTecnologico  $servicioTecnologico
+     * @param  \App\Models\ProyectoLinea68  $proyecto_linea_68
      * @return \Illuminate\Http\Response
      */
-    public function show(Convocatoria $convocatoria, ServicioTecnologico $servicioTecnologico)
+    public function show(Convocatoria $convocatoria, ProyectoLinea68 $proyecto_linea_68)
     {
         //
     }
@@ -131,42 +133,42 @@ class ProyectoLinea68Controller extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ServicioTecnologico  $servicioTecnologico
+     * @param  \App\Models\ProyectoLinea68  $proyecto_linea_68
      * @return \Illuminate\Http\Response
      */
-    public function edit(Convocatoria $convocatoria, ServicioTecnologico $servicioTecnologico)
+    public function edit(Convocatoria $convocatoria, ProyectoLinea68 $proyecto_linea_68)
     {
-        $this->authorize('visualizar-proyecto-autor', [$servicioTecnologico->proyecto]);
+        $this->authorize('visualizar-proyecto-autor', [$proyecto_linea_68->proyecto]);
 
         /** @var \App\Models\User */
-        $authUser = Auth::user();
+        $auth_user = Auth::user();
 
-        $servicioTecnologico->load('proyecto.evaluaciones.servicioTecnologicoEvaluacion');
+        $proyecto_linea_68->load('proyecto.evaluaciones.evaluacionProyectoLinea68');
 
-        $servicioTecnologico->proyecto->codigo_linea_programatica     = $servicioTecnologico->proyecto->lineaProgramatica->codigo;
-        $servicioTecnologico->proyecto->precio_proyecto               = $servicioTecnologico->proyecto->precioProyecto;
-        $servicioTecnologico->proyecto->centroFormacion;
+        $proyecto_linea_68->proyecto->codigo_linea_programatica     = $proyecto_linea_68->proyecto->lineaProgramatica->codigo;
+        $proyecto_linea_68->proyecto->precio_proyecto               = $proyecto_linea_68->proyecto->precioProyecto;
+        $proyecto_linea_68->proyecto->centroFormacion;
 
-        $servicioTecnologico->mostrar_recomendaciones       = $servicioTecnologico->proyecto->mostrar_recomendaciones;
-        $servicioTecnologico->mostrar_requiere_subsanacion  = $servicioTecnologico->proyecto->mostrar_requiere_subsanacion;
+        $proyecto_linea_68->mostrar_recomendaciones       = $proyecto_linea_68->proyecto->mostrar_recomendaciones;
+        $proyecto_linea_68->mostrar_requiere_subsanacion  = $proyecto_linea_68->proyecto->mostrar_requiere_subsanacion;
 
-        if ($authUser->hasRole(13)) {
-            $tipoProyectoSt = SelectHelper::tiposProyectosSt()->where('regional_id', $authUser->centroFormacion->regional_id)->values()->all();
+        if ($auth_user->hasRole(13)) {
+            $tipo_proyecto_st = SelectHelper::tiposProyectosSt()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
         } else {
-            $tipoProyectoSt = SelectHelper::tiposProyectosSt();
+            $tipo_proyecto_st = SelectHelper::tiposProyectosSt();
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea68/Edit', [
             'convocatoria'                              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_68', 'max_fecha_finalizacion_proyectos_linea_68', 'fecha_maxima_st', 'mostrar_recomendaciones'),
-            'proyectoLinea68'                           => $servicioTecnologico,
+            'proyectoLinea68'                           => $proyecto_linea_68,
             'lineasProgramaticas'                       => SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 3)->values()->all(),
             'estadosSistemaGestion'                     => SelectHelper::estadosSistemaGestion(),
-            'programasFormacionConRegistroCalificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $servicioTecnologico->proyecto->centro_formacion_id)->values()->all(),
+            'programasFormacionConRegistroCalificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $proyecto_linea_68->proyecto->centro_formacion_id)->values()->all(),
             'sectoresProductivos'                       => collect(json_decode(Storage::get('json/sectores-productivos.json'), true)),
-            'tiposProyectoSt'                           => $tipoProyectoSt,
-            'proyectoProgramasFormacion'                => $servicioTecnologico->proyecto->programasFormacion()->selectRaw('programas_formacion.id as value, concat(programas_formacion.nombre, chr(10), \'∙ Código: \', programas_formacion.codigo) as label')->where('programas_formacion.registro_calificado', true)->get(),
+            'tiposProyectoSt'                           => $tipo_proyecto_st,
+            'proyectoProgramasFormacion'                => $proyecto_linea_68->proyecto->programasFormacion()->selectRaw('programas_formacion.id as value, concat(programas_formacion.nombre, chr(10), \'∙ Código: \', programas_formacion.codigo) as label')->where('programas_formacion.registro_calificado', true)->get(),
             'rolesSennova'                              => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'versiones'                                 => $servicioTecnologico->proyecto->PdfVersiones,
+            'versiones'                                 => $proyecto_linea_68->proyecto->PdfVersiones,
         ]);
     }
 
@@ -174,29 +176,29 @@ class ProyectoLinea68Controller extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ServicioTecnologico  $servicioTecnologico
+     * @param  \App\Models\ProyectoLinea68  $proyecto_linea_68
      * @return \Illuminate\Http\Response
      */
-    public function update(ServicioTecnologicoRequest $request, Convocatoria $convocatoria, ServicioTecnologico $servicioTecnologico)
+    public function update(ProyectoLinea68Request $request, Convocatoria $convocatoria, ProyectoLinea68 $proyecto_linea_68)
     {
-        $this->authorize('modificar-proyecto-autor', [$servicioTecnologico->proyecto]);
+        $this->authorize('modificar-proyecto-autor', [$proyecto_linea_68->proyecto]);
 
-        $servicioTecnologico->titulo                        = $request->titulo;
-        $servicioTecnologico->fecha_inicio                  = $request->fecha_inicio;
-        $servicioTecnologico->fecha_finalizacion            = $request->fecha_finalizacion;
-        $servicioTecnologico->max_meses_ejecucion           = $request->max_meses_ejecucion;
-        $servicioTecnologico->pregunta_formulacion_problema = $request->pregunta_formulacion_problema;
-        $servicioTecnologico->resumen                       = $request->resumen;
-        $servicioTecnologico->antecedentes                  = $request->antecedentes;
-        $servicioTecnologico->identificacion_problema       = $request->identificacion_problema;
-        $servicioTecnologico->justificacion_problema        = $request->justificacion_problema;
-        $servicioTecnologico->bibliografia                  = $request->bibliografia;
-        $servicioTecnologico->zona_influencia               = $request->zona_influencia;
-        $servicioTecnologico->nombre_area_tecnica           = $request->nombre_area_tecnica;
+        $proyecto_linea_68->titulo                        = $request->titulo;
+        $proyecto_linea_68->fecha_inicio                  = $request->fecha_inicio;
+        $proyecto_linea_68->fecha_finalizacion            = $request->fecha_finalizacion;
+        $proyecto_linea_68->max_meses_ejecucion           = $request->max_meses_ejecucion;
+        $proyecto_linea_68->pregunta_formulacion_problema = $request->pregunta_formulacion_problema;
+        $proyecto_linea_68->resumen                       = $request->resumen;
+        $proyecto_linea_68->antecedentes                  = $request->antecedentes;
+        $proyecto_linea_68->identificacion_problema       = $request->identificacion_problema;
+        $proyecto_linea_68->justificacion_problema        = $request->justificacion_problema;
+        $proyecto_linea_68->bibliografia                  = $request->bibliografia;
+        $proyecto_linea_68->zona_influencia               = $request->zona_influencia;
+        $proyecto_linea_68->nombre_area_tecnica           = $request->nombre_area_tecnica;
 
-        $servicioTecnologico->proyecto->programasFormacion()->sync($request->programas_formacion);
+        $proyecto_linea_68->proyecto->programasFormacion()->sync($request->programas_formacion);
 
-        $servicioTecnologico->save();
+        $proyecto_linea_68->save();
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
@@ -204,28 +206,66 @@ class ProyectoLinea68Controller extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ServicioTecnologico  $servicioTecnologico
+     * @param  \App\Models\ProyectoLinea68  $proyecto_linea_68
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Convocatoria $convocatoria, ServicioTecnologico $servicioTecnologico)
+    public function destroy(Request $request, Convocatoria $convocatoria, ProyectoLinea68 $proyecto_linea_68)
     {
-        $this->authorize('eliminar-proyecto-autor', [$servicioTecnologico->proyecto]);
+        $this->authorize('eliminar-proyecto-autor', [$proyecto_linea_68->proyecto]);
 
         if (!Hash::check($request->password, Auth::user()->password)) {
             return back()
                 ->withErrors(['password' => __('The password is incorrect.')]);
         }
 
-        $servicioTecnologico->proyecto()->delete();
+        $proyecto_linea_68->proyecto()->delete();
 
-        return redirect()->route('convocatorias.servicios-tecnologicos.index', [$convocatoria])->with('success', 'El recurso se ha eliminado correctamente.');
+        return redirect()->route('convocatorias.proyectos-linea-68.index', [$convocatoria])->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
-    public function updateLongColumn(ServicioTecnologicoLongColumnRequest $request, Convocatoria $convocatoria, ServicioTecnologico $servicioTecnologico, $column)
+    public function updateEvaluacion(EvaluacionProyectoLinea68Request $request, Convocatoria $convocatoria, EvaluacionProyectoLinea68 $evaluacion_proyecto_linea_68)
     {
-        $this->authorize('modificar-proyecto-autor', [$servicioTecnologico->proyecto]);
+        $this->authorize('modificar-evaluacion-autor', $evaluacion_proyecto_linea_68->evaluacion);
 
-        $servicioTecnologico->update($request->only($column));
+        $evaluacion_proyecto_linea_68->evaluacion()->update([
+            'iniciado' => true,
+            'clausula_confidencialidad' => $request->clausula_confidencialidad
+        ]);
+
+        $evaluacion_proyecto_linea_68->fecha_ejecucion_comentario                  = $request->fechas_requiere_comentario == false ? $request->fecha_ejecucion_comentario : null;
+
+        $evaluacion_proyecto_linea_68->titulo_puntaje                              = $request->titulo_puntaje;
+        $evaluacion_proyecto_linea_68->titulo_comentario                           = $request->titulo_requiere_comentario == false ? $request->titulo_comentario : null;
+        $evaluacion_proyecto_linea_68->resumen_puntaje                             = $request->resumen_puntaje;
+        $evaluacion_proyecto_linea_68->resumen_comentario                          = $request->resumen_requiere_comentario == false ? $request->resumen_comentario : null;
+        $evaluacion_proyecto_linea_68->antecedentes_puntaje                        = $request->antecedentes_puntaje;
+        $evaluacion_proyecto_linea_68->antecedentes_comentario                     = $request->antecedentes_requiere_comentario == false ? $request->antecedentes_comentario : null;
+
+        $evaluacion_proyecto_linea_68->identificacion_problema_puntaje             = $request->identificacion_problema_puntaje;
+        $evaluacion_proyecto_linea_68->identificacion_problema_comentario          = $request->identificacion_problema_requiere_comentario == false ? $request->identificacion_problema_comentario : null;
+
+        $evaluacion_proyecto_linea_68->pregunta_formulacion_problema_puntaje       = $request->pregunta_formulacion_problema_puntaje;
+        $evaluacion_proyecto_linea_68->pregunta_formulacion_problema_comentario    = $request->pregunta_formulacion_problema_requiere_comentario == false ? $request->pregunta_formulacion_problema_comentario : null;
+
+        $evaluacion_proyecto_linea_68->justificacion_problema_puntaje              = $request->justificacion_problema_puntaje;
+        $evaluacion_proyecto_linea_68->justificacion_problema_comentario           = $request->justificacion_problema_requiere_comentario == false ? $request->justificacion_problema_comentario : null;
+
+        $evaluacion_proyecto_linea_68->bibliografia_comentario                     = $request->bibliografia_requiere_comentario == false ? $request->bibliografia_comentario : null;
+
+        $evaluacion_proyecto_linea_68->ortografia_comentario                       = $request->ortografia_requiere_comentario == false ? $request->ortografia_comentario : null;
+        $evaluacion_proyecto_linea_68->redaccion_comentario                        = $request->redaccion_requiere_comentario == false ? $request->redaccion_comentario : null;
+        $evaluacion_proyecto_linea_68->normas_apa_comentario                       = $request->normas_apa_requiere_comentario == false ? $request->normas_apa_comentario : null;
+
+        $evaluacion_proyecto_linea_68->save();
+
+        return redirect()->back()->with('success', 'El recurso se ha actualizado correctamente.');
+    }
+
+    public function updateLongColumn(ProyectoLinea68LongColumnRequest $request, Convocatoria $convocatoria, ProyectoLinea68 $proyecto_linea_68, $column)
+    {
+        $this->authorize('modificar-proyecto-autor', [$proyecto_linea_68->proyecto]);
+
+        $proyecto_linea_68->update($request->only($column));
 
         return back();
     }
@@ -235,12 +275,12 @@ class ProyectoLinea68Controller extends Controller
      *
      * @param  mixed $request
      * @param  mixed $convocatoria
-     * @param  mixed $servicioTecnologico
+     * @param  mixed $proyecto_linea_68
      * @return void
      */
-    public function updateEspecificacionesInfraestructura(Request $request, Convocatoria $convocatoria, ServicioTecnologico $servicioTecnologico)
+    public function updateEspecificacionesInfraestructura(Request $request, Convocatoria $convocatoria, ProyectoLinea68 $proyecto_linea_68)
     {
-        $this->authorize('modificar-proyecto-autor', [$servicioTecnologico->proyecto]);
+        $this->authorize('modificar-proyecto-autor', [$proyecto_linea_68->proyecto]);
 
         $request->validate([
             'especificaciones_area'     => 'required|string|max:40000',
@@ -248,7 +288,7 @@ class ProyectoLinea68Controller extends Controller
             'video'                     => 'nullable|string|url',
         ]);
 
-        $servicioTecnologico->update([
+        $proyecto_linea_68->update([
             'especificaciones_area'     => $request->especificaciones_area,
             'infraestructura_adecuada'  => $request->infraestructura_adecuada,
             'video'                     => $request->video

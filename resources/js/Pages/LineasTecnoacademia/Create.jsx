@@ -10,15 +10,15 @@
 
     $: $title = 'Crear línea Tecnoacademia'
 
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let form = useForm({
         nombre: '',
     })
 
     function submit() {
-        if (isSuperAdmin) {
+        if (is_super_admin) {
             $form.post(route('lineas-tecnoacademia.store'))
         }
     }
@@ -43,7 +43,7 @@
         </div>
 
         <div className="bg-white rounded shadow col-span-2">
-            <Form {errors} {isSuperAdmin} {form} {submit} />
+            <Form {errors} {is_super_admin} {form} {submit} />
         </div>
     </div>
 </AuthenticatedLayout>

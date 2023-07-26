@@ -9,15 +9,15 @@
     export let errors
     export let evaluadores
     export let proyectos
-    export let allowedToCreate
+    export let allowed_to_create
 
     $: $title = 'Crear evaluación'
 
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let form = useForm({
         habilitado: false,
@@ -28,7 +28,7 @@
     })
 
     function submit() {
-        if (allowedToCreate) {
+        if (allowed_to_create) {
             $form.post(route('evaluaciones.store'))
         }
     }
@@ -52,7 +52,7 @@
             <h1 className="font-black text-4xl sticky top-0 uppercase">Nueva evaluación</h1>
         </div>
         <div className="bg-white rounded shadow col-span-2">
-            <Form {form} {submit} {errors} {allowedToCreate} {evaluadores} {proyectos} />
+            <Form {form} {submit} {errors} {allowed_to_create} {evaluadores} {proyectos} />
         </div>
     </div>
 </AuthenticatedLayout>

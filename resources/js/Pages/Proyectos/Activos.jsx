@@ -17,8 +17,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 </script>
 
 <AuthenticatedLayout>
@@ -43,7 +43,7 @@
 
                     <td className="border-t td-actions">
                         <DataTableMenu className={proyectos.data.length < 3 ? 'z-50' : ''}>
-                            <Item on:SMUI:action={() => Inertia.visit(route('proyectos.edit', [id]))} disabled={!isSuperAdmin || !checkRole(authUser, [1, 20, 18, 19, 5, 17]) == false ? false : true} className={!isSuperAdmin && checkRole(authUser, [1, 20, 18, 19, 5, 17]) ? 'hidden' : ''}>
+                            <Item on:SMUI:action={() => Inertia.visit(route('proyectos.edit', [id]))} disabled={!is_super_admin || !checkRole(auth_user, [1, 20, 18, 19, 5, 17]) == false ? false : true} className={!is_super_admin && checkRole(auth_user, [1, 20, 18, 19, 5, 17]) ? 'hidden' : ''}>
                                 <Text>Ver detalles</Text>
                             </Item>
                         </DataTableMenu>

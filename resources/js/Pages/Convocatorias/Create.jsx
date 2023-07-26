@@ -12,8 +12,8 @@ import DatePicker from '@/Components/DatePicker'
 
 const CreateConvocatoria = ({ auth, convocatorias, lineasProgramaticas, tiposConvocatoria }) => {
     // Validar si el usuario autenticado es SuperAdmin
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
     const { data, setData, post, processing, errors, reset } = useForm({
         descripcion: '',
@@ -28,7 +28,7 @@ const CreateConvocatoria = ({ auth, convocatorias, lineasProgramaticas, tiposCon
 
     const submit = (e) => {
         e.preventDefault()
-        if (isSuperAdmin) {
+        if (is_super_admin) {
             post(route('convocatorias.store'))
         }
     }
@@ -55,7 +55,7 @@ const CreateConvocatoria = ({ auth, convocatorias, lineasProgramaticas, tiposCon
                 </div>
                 <div className="bg-white rounded shadow col-span-2">
                     <form onSubmit={submit}>
-                        <fieldset className="p-8" disabled={isSuperAdmin ? undefined : true}>
+                        <fieldset className="p-8" disabled={is_super_admin ? undefined : true}>
                             <div className="mt-4 mb-20">
                                 {data.fase && <p className="text-center">Fecha de finalización de la fase: {data.fase.label.toLowerCase()}</p>}
                                 <div className="mt-4">
@@ -189,7 +189,7 @@ const CreateConvocatoria = ({ auth, convocatorias, lineasProgramaticas, tiposCon
                             </div>
                         </fieldset>
                         <div className="flex items-center justify-between mt-14 px-8 py-4">
-                            {isSuperAdmin && (
+                            {is_super_admin && (
                                 <PrimaryButton disabled={processing} className="ml-auto" type="submit">
                                     Crear convocatoria
                                 </PrimaryButton>

@@ -37,8 +37,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     /**
      * Buscar
@@ -346,7 +346,7 @@
                                     <Text>Convertir en autor principal</Text>
                                 </Item>
                                 <Separator className={!proyectoCapacidadInstalada.allowed.to_update} />
-                                <Item on:SMUI:action={() => removeParticipante(integrante.id)} disabled={!proyectoCapacidadInstalada.allowed.to_update && authUser.id == integrante.pivot.user_id} className={!proyectoCapacidadInstalada.allowed.to_update && authUser.id == integrante.pivot.user_id ? 'hidden' : ''}>
+                                <Item on:SMUI:action={() => removeParticipante(integrante.id)} disabled={!proyectoCapacidadInstalada.allowed.to_update && auth_user.id == integrante.pivot.user_id} className={!proyectoCapacidadInstalada.allowed.to_update && auth_user.id == integrante.pivot.user_id ? 'hidden' : ''}>
                                     <Text>Quitar</Text>
                                 </Item>
                             </DataTableMenu>

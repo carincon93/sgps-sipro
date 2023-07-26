@@ -120,7 +120,7 @@ class ProyectoRolSennova extends Model
     }
 
     /**
-     * Relationship with TaTpViaticosMunicipio
+     * Relationship with ProyectoLinea70TpViaticosMunicipio
      *
      * @return object
      */

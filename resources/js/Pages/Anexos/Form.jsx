@@ -18,12 +18,12 @@
     export let anexo
     export let lineasProgramaticas
     export let convocatorias
-    export let isSuperAdmin
+    export let is_super_admin
     export let method = ''
 </script>
 
 <form on:submit|preventDefault={submit}>
-    <fieldset className="p-8" disabled={isSuperAdmin ? undefined : true}>
+    <fieldset className="p-8" disabled={is_super_admin ? undefined : true}>
         <div className="mt-8">
             <Textarea label="Nombre del anexo" maxlength="40000" id="nombre" error={errors.nombre} bind:value={$form.nombre} required />
         </div>
@@ -72,7 +72,7 @@
         </div>
     </fieldset>
     <div className="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4 ">
-        {#if anexo && isSuperAdmin}
+        {#if anexo && is_super_admin}
             <small className="flex items-center text-app-700">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -80,7 +80,7 @@
                 {anexo?.updated_at}
             </small>
         {/if}
-        {#if isSuperAdmin}
+        {#if is_super_admin}
             <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
         {:else}
             <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>

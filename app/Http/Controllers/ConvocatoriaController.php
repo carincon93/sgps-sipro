@@ -199,23 +199,23 @@ class ConvocatoriaController extends Controller
             case 2:
             case 3:
             case 29:
-                return redirect()->route('convocatorias.idi.index', [$convocatoria]);
+                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria]);
                 break;
 
             case 4:
-                return redirect()->route('convocatorias.tp.index', [$convocatoria]);
+                return redirect()->route('convocatorias.proyectos-linea-69.index', [$convocatoria]);
                 break;
 
             case 5:
-                return redirect()->route('convocatorias.ta.index', [$convocatoria]);
+                return redirect()->route('convocatorias.proyectos-linea-70.index', [$convocatoria]);
                 break;
 
             case 9:
-                return redirect()->route('convocatorias.cultura-innovacion.index', [$convocatoria]);
+                return redirect()->route('convocatorias.proyectos-linea-65.index', [$convocatoria]);
                 break;
 
             case 10:
-                return redirect()->route('convocatorias.servicios-tecnologicos.index', [$convocatoria]);
+                return redirect()->route('convocatorias.proyectos-linea-68.index', [$convocatoria]);
                 break;
             default:
                 return back();

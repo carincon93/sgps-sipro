@@ -19,7 +19,7 @@
     import Select from '@/Components/Select'
 
     export let evaluaciones
-    export let allowedToCreate
+    export let allowed_to_create
     export let proyectosId
 
     $title = 'Evaluaciones'
@@ -27,8 +27,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let filters = {
         year: $page.props.filters.year,
@@ -72,7 +72,7 @@
         estado: '',
     })
     function submit() {
-        if (isSuperAdmin || checkRole(authUser, [20, 18, 19, 5, 17])) {
+        if (is_super_admin || checkRole(auth_user, [20, 18, 19, 5, 17])) {
             $form.post(route('evaluaciones.update.actualizar-estados-evaluaciones'), {
                 preserveScroll: true,
             })
@@ -112,7 +112,7 @@
                     </div>
 
                     <div className="py-4 flex items-center sticky bottom-0">
-                        {#if isSuperAdmin || checkRole(authUser, [20, 18, 19, 5, 17])}
+                        {#if is_super_admin || checkRole(auth_user, [20, 18, 19, 5, 17])}
                             <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Actualizar estados de las evaluaciones</PrimaryButton>
                         {/if}
                     </div>
@@ -146,7 +146,7 @@
             </select>
         </div>
         <div slot="actions">
-            {#if allowedToCreate}
+            {#if allowed_to_create}
                 <Button on:click={() => Inertia.visit(route('evaluaciones.activas'))} variant="raised">Evaluaciones activas</Button>
                 <Button on:click={() => Inertia.visit(route('evaluaciones.create'))} variant="raised">Crear evaluación</Button>
             {/if}

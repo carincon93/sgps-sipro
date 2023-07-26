@@ -18,8 +18,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let form = useForm({
         _method: 'put',
@@ -34,7 +34,7 @@
     })
 
     function submit() {
-        if (isSuperAdmin) {
+        if (is_super_admin) {
             $form.post(route('anexos.update', anexo.id), {
                 preserveScroll: true,
             })
@@ -60,7 +60,7 @@
             <h1 className="font-black text-4xl sticky top-0 uppercase">Editar anexo</h1>
         </div>
         <div className="bg-white rounded shadow col-span-2">
-            <Form {form} {submit} {errors} {anexo} {lineasProgramaticas} {isSuperAdmin} {convocatorias} />
+            <Form {form} {submit} {errors} {anexo} {lineasProgramaticas} {is_super_admin} {convocatorias} />
         </div>
     </div>
 </AuthenticatedLayout>

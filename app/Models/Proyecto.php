@@ -25,7 +25,7 @@ class Proyecto extends Model
      *
      * @var array
      */
-    protected $appends = ['codigo', 'diff_meses', 'precio_proyecto', 'total_roles_sennova', 'fecha_inicio', 'fecha_finalizacion', 'estado_evaluacion_idi', 'estado_evaluacion_cultura_innovacion', 'estado_evaluacion_ta', 'estado_evaluacion_tp', 'estado_evaluacion_servicios_tecnologicos', 'cantidad_objetivos', 'total_proyecto_presupuesto_aprobado', 'total_roles_sennova_aprobado', 'precio_proyecto_aprobado', 'all_files', 'allowed', 'resultados'];
+    protected $appends = ['codigo', 'diff_meses', 'precio_proyecto', 'total_roles_sennova', 'fecha_inicio', 'fecha_finalizacion', 'estado_evaluacion_proyecto_linea_66', 'estado_evaluacion_proyecto_linea_65', 'estado_evaluacion_proyecto_linea_70', 'estado_evaluacion_proyecto_linea_69', 'estado_evaluacion_proyecto_linea_68', 'cantidad_objetivos', 'total_proyecto_presupuesto_aprobado', 'total_roles_sennova_aprobado', 'precio_proyecto_aprobado', 'all_files', 'allowed', 'resultados'];
 
     /**
      * The attributes that are mass assignable.
@@ -98,53 +98,53 @@ class Proyecto extends Model
     }
 
     /**
-     * Relationship with Idi
+     * Relationship with ProyectoLinea66
      *
      * @return object
      */
-    public function idi()
+    public function proyectoLinea66()
     {
-        return $this->hasOne(Idi::class, 'id');
+        return $this->hasOne(ProyectoLinea66::class, 'id');
     }
 
     /**
-     * Relationship with CulturaInnovacion
+     * Relationship with ProyectoLinea65
      *
      * @return object
      */
-    public function culturaInnovacion()
+    public function proyectoLinea65()
     {
-        return $this->hasOne(CulturaInnovacion::class, 'id');
+        return $this->hasOne(ProyectoLinea65::class, 'id');
     }
 
     /**
-     * Relationship with ServicioTecnologico
+     * Relationship with ProyectoLinea68
      *
      * @return object
      */
-    public function servicioTecnologico()
+    public function proyectoLinea68()
     {
-        return $this->hasOne(ServicioTecnologico::class, 'id');
+        return $this->hasOne(ProyectoLinea68::class, 'id');
     }
 
     /**
-     * Relationship with Ta
+     * Relationship with ProyectoLinea70
      *
      * @return object
      */
-    public function ta()
+    public function proyectoLinea70()
     {
-        return $this->hasOne(Ta::class, 'id');
+        return $this->hasOne(ProyectoLinea70::class, 'id');
     }
 
     /**
-     * Relationship with Tp
+     * Relationship with ProyectoLinea69
      *
      * @return object
      */
-    public function tp()
+    public function proyectoLinea69()
     {
-        return $this->hasOne(Tp::class, 'id');
+        return $this->hasOne(ProyectoLinea69::class, 'id');
     }
 
     /**
@@ -258,13 +258,13 @@ class Proyecto extends Model
     }
 
     /**
-     * Relationship with ProyectoIdiTecnoacademia
+     * Relationship with ProyectoProyectoLinea66Tecnoacademia
      *
      * @return object
      */
-    public function proyectosIdiTecnoacademia()
+    public function proyectosProyectoLinea66Tecnoacademia()
     {
-        return $this->hasMany(ProyectoIdiTecnoacademia::class);
+        return $this->hasMany(ProyectoProyectoLinea66Tecnoacademia::class);
     }
 
     /**
@@ -391,9 +391,9 @@ class Proyecto extends Model
         return "Última modificación de este formulario: " . Carbon::parse($value, 'UTC')->timezone('America/Bogota')->timezone('America/Bogota')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY [a las] HH:mm:ss');
     }
 
-    public static function getLog($proyectoId)
+    public static function getLog($proyecto_id)
     {
-        return DB::table('notifications')->select('data', 'created_at')->whereRaw("data->>'proyectoId' = '" . $proyectoId . "'")->where('type', '!=', 'App\Notifications\EvaluacionFinalizada')->orderBy('created_at', 'DESC')->get();
+        return DB::table('notifications')->select('data', 'created_at')->whereRaw("data->>'proyectoId' = '" . $proyecto_id . "'")->where('type', '!=', 'App\Notifications\EvaluacionFinalizada')->orderBy('created_at', 'DESC')->get();
     }
 
     /**
@@ -413,17 +413,17 @@ class Proyecto extends Model
      */
     public function getCodigoAttribute()
     {
-        $fechaFinalizacion = null;
-        if ($this->idi()->exists()) $fechaFinalizacion =  $this->idi->fecha_finalizacion;
-        if ($this->ta()->exists()) $fechaFinalizacion  =  $this->ta->fecha_finalizacion;
-        if ($this->tp()->exists()) $fechaFinalizacion  =  $this->tp->fecha_finalizacion;
-        if ($this->servicioTecnologico()->exists()) $fechaFinalizacion =  $this->servicioTecnologico->fecha_finalizacion;
-        if ($this->culturaInnovacion()->exists()) $fechaFinalizacion =  $this->culturaInnovacion->fecha_finalizacion;
-        $codigo = 'SGPS-' . ($this->id + 8000) . '-' . date('Y', strtotime($fechaFinalizacion));
+        $fecha_finalizacion = null;
+        if ($this->proyectoLinea66()->exists()) $fecha_finalizacion =  $this->proyectoLinea66->fecha_finalizacion;
+        if ($this->proyectoLinea70()->exists()) $fecha_finalizacion =  $this->proyectoLinea70->fecha_finalizacion;
+        if ($this->proyectoLinea69()->exists()) $fecha_finalizacion =  $this->proyectoLinea69->fecha_finalizacion;
+        if ($this->proyectoLinea68()->exists()) $fecha_finalizacion =  $this->proyectoLinea68->fecha_finalizacion;
+        if ($this->proyectoLinea65()->exists()) $fecha_finalizacion =  $this->proyectoLinea65->fecha_finalizacion;
+        $codigo = 'SGPS-' . ($this->id + 8000) . '-' . date('Y', strtotime($fecha_finalizacion));
         if ($this->proyectoDemo()->exists()) {
-            $numeroConsecutivo = sprintf("%05s", $this->proyectoDemo->id);
-            $codigo = 'DEMO-' . $numeroConsecutivo . '-' . date('Y', strtotime($fechaFinalizacion));
-            $fechaFinalizacion =  $this->idi->fecha_finalizacion;
+            $numero_consecutivo = sprintf("%05s", $this->proyectoDemo->id);
+            $codigo = 'DEMO-' . $numero_consecutivo . '-' . date('Y', strtotime($fecha_finalizacion));
+            $fecha_finalizacion =  $this->proyectoLinea66->fecha_finalizacion;
         }
 
         return $codigo;
@@ -431,38 +431,38 @@ class Proyecto extends Model
 
     public function getFechaInicioAttribute()
     {
-        $fechaInicio = null;
-        if ($this->idi()->exists()) {
-            $fechaInicio = $this->idi->fecha_inicio;
-        } else if ($this->ta()->exists()) {
-            $fechaInicio = $this->ta->fecha_inicio;
-        } else if ($this->tp()->exists()) {
-            $fechaInicio = $this->tp->fecha_inicio;
-        } else if ($this->servicioTecnologico()->exists()) {
-            $fechaInicio = $this->servicioTecnologico->fecha_inicio;
-        } else if ($this->culturaInnovacion()->exists()) {
-            $fechaInicio = $this->culturaInnovacion->fecha_inicio;
+        $fecha_inicio = null;
+        if ($this->proyectoLinea66()->exists()) {
+            $fecha_inicio = $this->proyectoLinea66->fecha_inicio;
+        } else if ($this->proyectoLinea70()->exists()) {
+            $fecha_inicio = $this->proyectoLinea70->fecha_inicio;
+        } else if ($this->proyectoLinea69()->exists()) {
+            $fecha_inicio = $this->proyectoLinea69->fecha_inicio;
+        } else if ($this->proyectoLinea68()->exists()) {
+            $fecha_inicio = $this->proyectoLinea68->fecha_inicio;
+        } else if ($this->proyectoLinea65()->exists()) {
+            $fecha_inicio = $this->proyectoLinea65->fecha_inicio;
         }
 
-        return $fechaInicio;
+        return $fecha_inicio;
     }
 
     public function getFechaFinalizacionAttribute()
     {
-        $fechaInicio = null;
-        if ($this->idi()->exists()) {
-            $fechaInicio = $this->idi->fecha_finalizacion;
-        } else if ($this->ta()->exists()) {
-            $fechaInicio = $this->ta->fecha_finalizacion;
-        } else if ($this->tp()->exists()) {
-            $fechaInicio = $this->tp->fecha_finalizacion;
-        } else if ($this->servicioTecnologico()->exists()) {
-            $fechaInicio = $this->servicioTecnologico->fecha_finalizacion;
-        } else if ($this->culturaInnovacion()->exists()) {
-            $fechaInicio = $this->culturaInnovacion->fecha_finalizacion;
+        $fecha_inicio = null;
+        if ($this->proyectoLinea66()->exists()) {
+            $fecha_inicio = $this->proyectoLinea66->fecha_finalizacion;
+        } else if ($this->proyectoLinea70()->exists()) {
+            $fecha_inicio = $this->proyectoLinea70->fecha_finalizacion;
+        } else if ($this->proyectoLinea69()->exists()) {
+            $fecha_inicio = $this->proyectoLinea69->fecha_finalizacion;
+        } else if ($this->proyectoLinea68()->exists()) {
+            $fecha_inicio = $this->proyectoLinea68->fecha_finalizacion;
+        } else if ($this->proyectoLinea65()->exists()) {
+            $fecha_inicio = $this->proyectoLinea65->fecha_finalizacion;
         }
 
-        return $fechaInicio;
+        return $fecha_inicio;
     }
 
     /**
@@ -472,28 +472,28 @@ class Proyecto extends Model
      */
     public function getDiffMesesAttribute()
     {
-        $cantidadMesesEjecucion = 0;
-        if ($this->idi()->exists()) {
-            $cantidadMesesEjecucion = $this->idi->max_meses_ejecucion;
+        $cantidad_meses_ejecucion = 0;
+        if ($this->proyectoLinea66()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoLinea66->max_meses_ejecucion;
         }
 
-        if ($this->ta()->exists()) {
-            $cantidadMesesEjecucion = $this->ta->max_meses_ejecucion;
+        if ($this->proyectoLinea70()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoLinea70->max_meses_ejecucion;
         }
 
-        if ($this->tp()->exists()) {
-            $cantidadMesesEjecucion = $this->tp->max_meses_ejecucion;
+        if ($this->proyectoLinea69()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoLinea69->max_meses_ejecucion;
         }
 
-        if ($this->servicioTecnologico()->exists()) {
-            $cantidadMesesEjecucion = $this->servicioTecnologico->max_meses_ejecucion;
+        if ($this->proyectoLinea68()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoLinea68->max_meses_ejecucion;
         }
 
-        if ($this->culturaInnovacion()->exists()) {
-            $cantidadMesesEjecucion = $this->culturaInnovacion->max_meses_ejecucion;
+        if ($this->proyectoLinea65()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoLinea65->max_meses_ejecucion;
         }
 
-        return $cantidadMesesEjecucion;
+        return $cantidad_meses_ejecucion;
     }
 
     /**
@@ -505,19 +505,19 @@ class Proyecto extends Model
     {
         $total = 0;
 
-        $rubrosSumanAlPresupuesto = true;
-        foreach ($this->proyectoPresupuesto as $proyectoPresupuesto) {
-            $data = $proyectoPresupuesto->convocatoriaProyectoRubrosPresupuestales()->select('convocatoria_presupuesto.id', 'convocatoria_presupuesto.sumar_al_presupuesto')->get()->pluck(['sumar_al_presupuesto']);
+        $rubros_suman_al_presupuesto = true;
+        foreach ($this->proyectoPresupuesto as $proyecto_presupuesto) {
+            $data = $proyecto_presupuesto->convocatoriaProyectoRubrosPresupuestales()->select('convocatoria_presupuesto.id', 'convocatoria_presupuesto.sumar_al_presupuesto')->get()->pluck(['sumar_al_presupuesto']);
 
             foreach ($data as $item) {
                 if (!$item) {
-                    $rubrosSumanAlPresupuesto = false;
+                    $rubros_suman_al_presupuesto = false;
                     break;
                 }
             }
 
-            if ($rubrosSumanAlPresupuesto) {
-                $total += $proyectoPresupuesto->valor_total;
+            if ($rubros_suman_al_presupuesto) {
+                $total += $proyecto_presupuesto->valor_total;
             }
         }
 
@@ -533,9 +533,9 @@ class Proyecto extends Model
     {
         $total = 0;
 
-        foreach ($this->proyectoRolesSennova as $proyectoRolSennova) {
-            if ($proyectoRolSennova->convocatoriaRolSennova->rolSennova->sumar_al_presupuesto) {
-                $total += $proyectoRolSennova->getTotalRolSennova();
+        foreach ($this->proyectoRolesSennova as $proyecto_rol_sennova) {
+            if ($proyecto_rol_sennova->convocatoriaRolSennova->rolSennova->sumar_al_presupuesto) {
+                $total += $proyecto_rol_sennova->getTotalRolSennova();
             }
         }
 
@@ -551,19 +551,19 @@ class Proyecto extends Model
     {
         $total = 0;
 
-        $rubrosSumanAlPresupuesto = true;
-        foreach ($this->proyectoPresupuesto as $proyectoPresupuesto) {
-            $data = $proyectoPresupuesto->convocatoriaProyectoRubrosPresupuestales()->select('convocatoria_presupuesto.id', 'convocatoria_presupuesto.sumar_al_presupuesto')->get()->pluck(['sumar_al_presupuesto']);
+        $rubros_suman_al_presupuesto = true;
+        foreach ($this->proyectoPresupuesto as $proyecto_presupuesto) {
+            $data = $proyecto_presupuesto->convocatoriaProyectoRubrosPresupuestales()->select('convocatoria_presupuesto.id', 'convocatoria_presupuesto.sumar_al_presupuesto')->get()->pluck(['sumar_al_presupuesto']);
 
             foreach ($data as $item) {
                 if (!$item) {
-                    $rubrosSumanAlPresupuesto = false;
+                    $rubros_suman_al_presupuesto = false;
                     break;
                 }
             }
 
-            if ($rubrosSumanAlPresupuesto && $proyectoPresupuesto->getPresupuestoAprobadoAttribute()) {
-                $total += $proyectoPresupuesto->valor_total;
+            if ($rubros_suman_al_presupuesto && $proyecto_presupuesto->getPresupuestoAprobadoAttribute()) {
+                $total += $proyecto_presupuesto->valor_total;
             }
         }
 
@@ -579,9 +579,9 @@ class Proyecto extends Model
     {
         $total = 0;
 
-        foreach ($this->proyectoRolesSennova as $proyectoRolSennova) {
-            if ($proyectoRolSennova->convocatoriaRolSennova->rolSennova->sumar_al_presupuesto && $proyectoRolSennova->getRolAprobadoAttribute()) {
-                $total += $proyectoRolSennova->getTotalRolSennova();
+        foreach ($this->proyectoRolesSennova as $proyecto_rol_sennova) {
+            if ($proyecto_rol_sennova->convocatoriaRolSennova->rolSennova->sumar_al_presupuesto && $proyecto_rol_sennova->getRolAprobadoAttribute()) {
+                $total += $proyecto_rol_sennova->getTotalRolSennova();
             }
         }
 
@@ -602,7 +602,6 @@ class Proyecto extends Model
         return $total;
     }
 
-
     /**
      * getPrecioProyecto
      *
@@ -615,55 +614,55 @@ class Proyecto extends Model
 
     public function getCantidadObjetivosAttribute()
     {
-        $numeroObjetivos = 0;
+        $numero_objetivos = 0;
 
-        foreach ($this->causasDirectas as $causaDirecta) {
-            strlen($causaDirecta->objetivoEspecifico->descripcion) > 10 ? $numeroObjetivos++ : null;
+        foreach ($this->causasDirectas as $causa_directa) {
+            strlen($causa_directa->objetivoEspecifico->descripcion) > 10 ? $numero_objetivos++ : null;
         }
 
-        return $numeroObjetivos;
+        return $numero_objetivos;
     }
 
     /**
-     * getEstadoEvaluacionIdiAttribute - Estrategia regional
+     * getEstadoEvaluacionProyectoLinea66Attribute - Estrategia regional
      *
      * @return void
      */
-    public function getEstadoEvaluacionIdiAttribute()
+    public function getEstadoEvaluacionProyectoLinea66Attribute()
     {
-        if ($this->idi()->exists()) {
+        if ($this->proyectoLinea66()->exists()) {
             $convocatoria = Convocatoria::select('fase')->where('esta_activa', true)->first();
             $evaluaciones = $this->evaluaciones()->where('habilitado', true)->get();
-            $evaluacionesFinalizadas = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
+            $evaluaciones_finalizadas = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
 
-            $puntajeTotal = 0;
-            $totalRecomendaciones = 0;
-            $estadoEvaluacion = '';
-            $causalRechazo  = null;
-            $requiereSubsanar = false;
-            $totalPresupuestosEvaluados = 0;
+            $puntaje_total = 0;
+            $total_recomendaciones = 0;
+            $estado_evaluacion = '';
+            $causal_rechazo  = null;
+            $requiere_subsanar = false;
+            $total_presupuestos_evaluados = 0;
 
             $estados = array(1, 2);
 
             foreach ($evaluaciones as $key => $evaluacion) {
-                $puntajeTotal += $evaluacion->total_evaluacion;
-                $totalRecomendaciones += $evaluacion->total_recomendaciones;
+                $puntaje_total += $evaluacion->total_evaluacion;
+                $total_recomendaciones += $evaluacion->total_recomendaciones;
 
-                array_push($estados, $this->estadoEvaluacionIdi($evaluacion->total_evaluacion, $totalRecomendaciones, $requiereSubsanar, null)['id']);
+                array_push($estados, $this->estadoEvaluacionProyectoLinea66($evaluacion->total_evaluacion, $total_recomendaciones, $requiere_subsanar, null)['id']);
 
-                if ($causalRechazo == null) {
+                if ($causal_rechazo == null) {
 
                     switch ($evaluacion) {
-                        case $evaluacion->idiEvaluacion()->exists():
+                        case $evaluacion->evaluacionProyectoLinea66()->exists():
 
                             if ($evaluacion->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
-                                $causalRechazo = 'En revisión por Cord. SENNOVA';
+                                $causal_rechazo = 'En revisión por Cord. SENNOVA';
                             } else if ($evaluacion->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
-                                $causalRechazo = 'Rechazado - Por causal de rechazo';
+                                $causal_rechazo = 'Rechazado - Por causal de rechazo';
                             }
 
-                            if ($evaluacion->idiEvaluacion->anexos_comentario != null) {
-                                $requiereSubsanar = true;
+                            if ($evaluacion->evaluacionProyectoLinea66->anexos_comentario != null) {
+                                $requiere_subsanar = true;
                             }
                             break;
 
@@ -672,12 +671,12 @@ class Proyecto extends Model
                     }
                 }
 
-                if ($causalRechazo == null && $evaluacion->proyectoPresupuestosEvaluaciones()->count() > 0 && $convocatoria->fase == 5) {
-                    $this->precio_proyecto - $this->getPrecioProyectoAprobadoAttribute() >= floor($this->precio_proyecto * 0.8) ? $causalRechazo = 'Rechazado - No cumple con el presupuesto' : $causalRechazo = null;
+                if ($causal_rechazo == null && $evaluacion->proyectoPresupuestosEvaluaciones()->count() > 0 && $convocatoria->fase == 5) {
+                    $this->precio_proyecto - $this->getPrecioProyectoAprobadoAttribute() >= floor($this->precio_proyecto * 0.8) ? $causal_rechazo = 'Rechazado - No cumple con el presupuesto' : $causal_rechazo = null;
                 }
             }
 
-            $cantidadEvaluaciones = count($evaluaciones);
+            $cantidad_evaluaciones = count($evaluaciones);
 
             $sq = 0;
             $sq = $this->getDesviacionEstandarAttribute();
@@ -688,72 +687,72 @@ class Proyecto extends Model
                 } else if (in_array(3, $estados)) {
                     $estadoArr = 'Pre-aprobado con observaciones';
                 }
-                $alerta = "Hay una evaluación en estado '{$estadoArr}' y la desviación estándar de las {$cantidadEvaluaciones} evaluaciones es {$sq}.";
+                $alerta = "Hay una evaluación en estado '{$estadoArr}' y la desviación estándar de las {$cantidad_evaluaciones} evaluaciones es {$sq}.";
             }
 
-            $cantidadEvaluaciones > 0 ? $puntajeTotal = $puntajeTotal / $cantidadEvaluaciones : $puntajeTotal = 0;
+            $cantidad_evaluaciones > 0 ? $puntaje_total = $puntaje_total / $cantidad_evaluaciones : $puntaje_total = 0;
 
-            if ($causalRechazo == null && $cantidadEvaluaciones > 0) {
-                $estadoEvaluacion = $this->estadoEvaluacionIdi($puntajeTotal, $totalRecomendaciones, $requiereSubsanar, null)['estado'];
-                $requiereSubsanar = $this->estadoEvaluacionIdi($puntajeTotal, $totalRecomendaciones, $requiereSubsanar, null)['requiereSubsanar'];
+            if ($causal_rechazo == null && $cantidad_evaluaciones > 0) {
+                $estado_evaluacion = $this->estadoEvaluacionProyectoLinea66($puntaje_total, $total_recomendaciones, $requiere_subsanar, null)['estado'];
+                $requiere_subsanar = $this->estadoEvaluacionProyectoLinea66($puntaje_total, $total_recomendaciones, $requiere_subsanar, null)['requiere_subsanar'];
             } else {
-                $estadoEvaluacion = $causalRechazo;
+                $estado_evaluacion = $causal_rechazo;
             }
 
-            if ($cantidadEvaluaciones == 0) {
-                $estadosEvaluacion = collect(json_decode(Storage::get('json/estados_evaluacion.json'), true));
-                $estadoEvaluacion = $estadosEvaluacion->where('value', 1)->first()['label'];
+            if ($cantidad_evaluaciones == 0) {
+                $estados_evaluacion = collect(json_decode(Storage::get('json/estados_evaluacion.json'), true));
+                $estado_evaluacion  = $estados_evaluacion->where('value', 1)->first()['label'];
             }
 
             if ($this->estado_cord_sennova != NULL && request()->isMethod('GET')) {
-                $estadosEvaluacion = collect(json_decode($this->estado_cord_sennova, true));
-                $estadoEvaluacion = $estadosEvaluacion['estado'];
+                $estados_evaluacion = collect(json_decode($this->estado_cord_sennova, true));
+                $estado_evaluacion  = $estados_evaluacion['estado'];
             }
 
-            return collect(['estado' => $estadoEvaluacion, 'puntaje' => $puntajeTotal, 'numeroRecomendaciones' => $totalRecomendaciones, 'evaluacionesHabilitadas' => $cantidadEvaluaciones, 'evaluacionesFinalizadas' => $evaluacionesFinalizadas, 'requiereSubsanar' => $requiereSubsanar, 'alerta' => $alerta]);
+            return collect(['estado' => $estado_evaluacion, 'puntaje' => $puntaje_total, 'numero_recomendaciones' => $total_recomendaciones, 'evaluaciones_habilitadas' => $cantidad_evaluaciones, 'evaluaciones_finalizadas' => $evaluaciones_finalizadas, 'requiere_subsanar' => $requiere_subsanar, 'alerta' => $alerta]);
         }
     }
 
     /**
-     * getEstadoEvaluacionCulturaInnovacionAttribute
+     * getEstadoEvaluacionProyectoLinea65Attribute
      *
      * @return void
      */
-    public function getEstadoEvaluacionCulturaInnovacionAttribute()
+    public function getEstadoEvaluacionProyectoLinea65Attribute()
     {
-        if ($this->culturaInnovacion()->exists()) {
+        if ($this->proyectoLinea65()->exists()) {
 
-            $evaluaciones = $this->evaluaciones()->where('habilitado', true)->get();
-            $evaluacionesFinalizadas = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
+            $evaluaciones                   = $this->evaluaciones()->where('habilitado', true)->get();
+            $evaluaciones_finalizadas       = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
 
-            $puntajeTotal = 0;
-            $totalRecomendaciones = 0;
-            $estadoEvaluacion = '';
-            $causalRechazo  = null;
-            $requiereSubsanar = false;
-            $totalPresupuestosEvaluados = 0;
-            $countPresupuestoNoAprobado = 0;
+            $puntaje_total                  = 0;
+            $total_recomendaciones          = 0;
+            $estado_evaluacion              = '';
+            $causal_rechazo                 = null;
+            $requiere_subsanar              = false;
+            $total_presupuestos_evaluados   = 0;
+            $count_presupuesto_no_aprobado  = 0;
 
             $estados = array(1, 2);
 
-            foreach ($evaluaciones as $key => $evaluacion) {
-                $puntajeTotal += $evaluacion->total_evaluacion;
-                $totalRecomendaciones += $evaluacion->total_recomendaciones;
+            foreach ($evaluaciones as $evaluacion) {
+                $puntaje_total += $evaluacion->total_evaluacion;
+                $total_recomendaciones += $evaluacion->total_recomendaciones;
 
                 // Sumar los presupuesto no aprobados
-                $totalPresupuestosEvaluados += $evaluacion->proyectoPresupuestosEvaluaciones()->count();
+                $total_presupuestos_evaluados += $evaluacion->proyectoPresupuestosEvaluaciones()->count();
 
-                foreach ($evaluacion->proyectoPresupuestosEvaluaciones()->get() as $presupuestoEvaluacion) {
-                    $presupuestoEvaluacion->correcto == false ? $countPresupuestoNoAprobado++ : null;
+                foreach ($evaluacion->proyectoPresupuestosEvaluaciones()->get() as $presupuesto_evaluacion) {
+                    $presupuesto_evaluacion->correcto == false ? $count_presupuesto_no_aprobado++ : null;
                 }
 
-                array_push($estados, $this->estadoEvaluacionCulturaInnovacion($evaluacion->total_evaluacion, $totalRecomendaciones, $requiereSubsanar)['id']);
+                array_push($estados, $this->estadoEvaluacionProyectoLinea65($evaluacion->total_evaluacion, $total_recomendaciones, $requiere_subsanar)['id']);
 
-                if ($causalRechazo == null) {
+                if ($causal_rechazo == null) {
                     switch ($evaluacion) {
-                        case $evaluacion->culturaInnovacionEvaluacion()->exists():
-                            if ($evaluacion->culturaInnovacionEvaluacion->anexos_comentario != null) {
-                                $requiereSubsanar = true;
+                        case $evaluacion->evaluacionProyectoLinea65()->exists():
+                            if ($evaluacion->evaluacionProyectoLinea65->anexos_comentario != null) {
+                                $requiere_subsanar = true;
                             }
                             break;
 
@@ -762,12 +761,12 @@ class Proyecto extends Model
                     }
                 }
 
-                // if ($causalRechazo == null && $evaluacion->proyectoPresupuestosEvaluaciones()->count() > 0) {
-                //     $countPresupuestoNoAprobado >= floor($totalPresupuestosEvaluados * 0.8) ? $causalRechazo = 'Rechazado - No cumple con el presupuesto' : $causalRechazo = null;
+                // if ($causal_rechazo == null && $evaluacion->proyectoPresupuestosEvaluaciones()->count() > 0) {
+                //     $count_presupuesto_no_aprobado >= floor($total_presupuestos_evaluados * 0.8) ? $causal_rechazo = 'Rechazado - No cumple con el presupuesto' : $causal_rechazo = null;
                 // }
             }
 
-            $cantidadEvaluaciones = count($evaluaciones);
+            $cantidad_evaluaciones = count($evaluaciones);
 
             $sq = 0;
             $sq = $this->getDesviacionEstandarAttribute();
@@ -778,77 +777,77 @@ class Proyecto extends Model
                 } else if (in_array(3, $estados)) {
                     $estadoArr = 'Pre-aprobado con observaciones';
                 }
-                $alerta = "Hay una evaluación en estado '{$estadoArr}' y la desviación estándar de las {$cantidadEvaluaciones} evaluaciones es {$sq}.";
+                $alerta = "Hay una evaluación en estado '{$estadoArr}' y la desviación estándar de las {$cantidad_evaluaciones} evaluaciones es {$sq}.";
             }
 
-            $cantidadEvaluaciones > 0 ? $puntajeTotal = $puntajeTotal / $cantidadEvaluaciones : $puntajeTotal = 0;
+            $cantidad_evaluaciones > 0 ? $puntaje_total = $puntaje_total / $cantidad_evaluaciones : $puntaje_total = 0;
 
-            if ($causalRechazo == null && $cantidadEvaluaciones > 0) {
-                $estadoEvaluacion = $this->estadoEvaluacionCulturaInnovacion($puntajeTotal, $totalRecomendaciones, $requiereSubsanar)['estado'];
-                $requiereSubsanar = $this->estadoEvaluacionCulturaInnovacion($puntajeTotal, $totalRecomendaciones, $requiereSubsanar)['requiereSubsanar'];
+            if ($causal_rechazo == null && $cantidad_evaluaciones > 0) {
+                $estado_evaluacion = $this->estadoEvaluacionProyectoLinea65($puntaje_total, $total_recomendaciones, $requiere_subsanar)['estado'];
+                $requiere_subsanar = $this->estadoEvaluacionProyectoLinea65($puntaje_total, $total_recomendaciones, $requiere_subsanar)['requiere_subsanar'];
             } else {
-                $estadoEvaluacion = $causalRechazo;
+                $estado_evaluacion = $causal_rechazo;
             }
 
-            if ($cantidadEvaluaciones == 0) {
-                $estadosEvaluacion = collect(json_decode(Storage::get('json/estados_evaluacion.json'), true));
-                $estadoEvaluacion = $estadosEvaluacion->where('value', 1)->first()['label'];
+            if ($cantidad_evaluaciones == 0) {
+                $estados_evaluacion = collect(json_decode(Storage::get('json/estados_evaluacion.json'), true));
+                $estado_evaluacion  = $estados_evaluacion->where('value', 1)->first()['label'];
             }
 
             if ($this->estado_cord_sennova != NULL && request()->isMethod('GET')) {
-                $estadosEvaluacion = collect(json_decode($this->estado_cord_sennova, true));
-                $estadoEvaluacion = $estadosEvaluacion['estado'];
+                $estados_evaluacion = collect(json_decode($this->estado_cord_sennova, true));
+                $estado_evaluacion  = $estados_evaluacion['estado'];
             }
 
-            return collect(['estado' => $estadoEvaluacion, 'puntaje' => $puntajeTotal, 'numeroRecomendaciones' => $totalRecomendaciones, 'evaluacionesHabilitadas' => $cantidadEvaluaciones, 'evaluacionesFinalizadas' => $evaluacionesFinalizadas, 'requiereSubsanar' => $requiereSubsanar, 'alerta' => $alerta]);
+            return collect(['estado' => $estado_evaluacion, 'puntaje' => $puntaje_total, 'numero_recomendaciones' => $total_recomendaciones, 'evaluaciones_habilitadas' => $cantidad_evaluaciones, 'evaluaciones_finalizadas' => $evaluaciones_finalizadas, 'requiere_subsanar' => $requiere_subsanar, 'alerta' => $alerta]);
         }
     }
 
     /**
-     * getEstadoEvaluacionServiciosTecnologicosAttribute - Estrategia regional
+     * getEstadoEvaluacionProyectoLinea68Attribute - Estrategia regional
      *
      * @return void
      */
-    public function getEstadoEvaluacionServiciosTecnologicosAttribute()
+    public function getEstadoEvaluacionProyectoLinea68Attribute()
     {
-        if ($this->servicioTecnologico()->exists()) {
+        if ($this->proyectoLinea68()->exists()) {
 
-            $evaluaciones = $this->evaluaciones()->where('habilitado', true)->get();
-            $evaluacionesFinalizadas = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
+            $evaluaciones                   = $this->evaluaciones()->where('habilitado', true)->get();
+            $evaluaciones_finalizadas       = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
 
-            $puntajeTotal = 0;
-            $totalRecomendaciones = 0;
-            $estadoEvaluacion = '';
-            $causalRechazo  = null;
-            $requiereSubsanar = false;
-            $totalPresupuestosEvaluados = 0;
-            $countPresupuestoNoAprobado = 0;
+            $puntaje_total                  = 0;
+            $total_recomendaciones          = 0;
+            $estado_evaluacion              = '';
+            $causal_rechazo                 = null;
+            $requiere_subsanar              = false;
+            $total_presupuestos_evaluados   = 0;
+            $count_presupuesto_no_aprobado  = 0;
 
             $estados = array(1, 2);
 
-            foreach ($evaluaciones as $key => $evaluacion) {
-                $puntajeTotal += $evaluacion->total_evaluacion;
-                $totalRecomendaciones += $evaluacion->total_recomendaciones;
+            foreach ($evaluaciones as $evaluacion) {
+                $puntaje_total += $evaluacion->total_evaluacion;
+                $total_recomendaciones += $evaluacion->total_recomendaciones;
 
                 // Sumar los presupuesto no aprobados
-                $totalPresupuestosEvaluados += $evaluacion->proyectoPresupuestosEvaluaciones()->count();
-                foreach ($evaluacion->proyectoPresupuestosEvaluaciones()->get() as $presupuestoEvaluacion) {
-                    $presupuestoEvaluacion->correcto == false ? $countPresupuestoNoAprobado++ : null;
+                $total_presupuestos_evaluados += $evaluacion->proyectoPresupuestosEvaluaciones()->count();
+                foreach ($evaluacion->proyectoPresupuestosEvaluaciones()->get() as $presupuesto_evaluacion) {
+                    $presupuesto_evaluacion->correcto == false ? $count_presupuesto_no_aprobado++ : null;
                 }
 
-                array_push($estados, $this->estadoEvaluacionServiciosTecnologicos($evaluacion->total_evaluacion, $totalRecomendaciones, $requiereSubsanar)['id']);
+                array_push($estados, $this->estadoEvaluacionProyectoLinea68($evaluacion->total_evaluacion, $total_recomendaciones, $requiere_subsanar)['id']);
 
-                if ($causalRechazo == null) {
+                if ($causal_rechazo == null) {
                     switch ($evaluacion) {
-                        case $evaluacion->servicioTecnologicoEvaluacion()->exists():
+                        case $evaluacion->evaluacionProyectoLinea68()->exists():
                             // if ($evaluacion->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
-                            //     $causalRechazo = 'En revisión por Cord. SENNOVA';
+                            //     $causal_rechazo = 'En revisión por Cord. SENNOVA';
                             // } else if ($evaluacion->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
-                            //     $causalRechazo = 'Rechazado - Causal de rechazo';
+                            //     $causal_rechazo = 'Rechazado - Causal de rechazo';
                             // }
 
-                            if ($evaluacion->servicioTecnologicoEvaluacion->anexos_comentario != null) {
-                                $requiereSubsanar = true;
+                            if ($evaluacion->evaluacionProyectoLinea68->anexos_comentario != null) {
+                                $requiere_subsanar = true;
                             }
                             break;
 
@@ -857,12 +856,12 @@ class Proyecto extends Model
                     }
                 }
 
-                // if ($causalRechazo == null && $evaluacion->proyectoPresupuestosEvaluaciones()->count() > 0) {
-                //     $countPresupuestoNoAprobado >= floor($totalPresupuestosEvaluados * 0.8) ? $causalRechazo = 'Rechazado - No cumple con el presupuesto' : $causalRechazo = null;
+                // if ($causal_rechazo == null && $evaluacion->proyectoPresupuestosEvaluaciones()->count() > 0) {
+                //     $count_presupuesto_no_aprobado >= floor($total_presupuestos_evaluados * 0.8) ? $causal_rechazo = 'Rechazado - No cumple con el presupuesto' : $causal_rechazo = null;
                 // }
             }
 
-            $cantidadEvaluaciones = count($evaluaciones);
+            $cantidad_evaluaciones = count($evaluaciones);
 
             $sq = 0;
             $sq = $this->getDesviacionEstandarAttribute();
@@ -873,233 +872,233 @@ class Proyecto extends Model
                 } else if (in_array(3, $estados)) {
                     $estadoArr = 'Pre-aprobado con observaciones';
                 }
-                $alerta = "Hay una evaluación en estado '{$estadoArr}' y la desviación estándar de las {$cantidadEvaluaciones} evaluaciones es {$sq}.";
+                $alerta = "Hay una evaluación en estado '{$estadoArr}' y la desviación estándar de las {$cantidad_evaluaciones} evaluaciones es {$sq}.";
             }
 
-            $cantidadEvaluaciones > 0 ? $puntajeTotal = $puntajeTotal / $cantidadEvaluaciones : $puntajeTotal = 0;
+            $cantidad_evaluaciones > 0 ? $puntaje_total = $puntaje_total / $cantidad_evaluaciones : $puntaje_total = 0;
 
-            if ($causalRechazo == null && $cantidadEvaluaciones > 0) {
-                $estadoEvaluacion = $this->estadoEvaluacionServiciosTecnologicos($puntajeTotal, $totalRecomendaciones, $requiereSubsanar)['estado'];
-                $requiereSubsanar = $this->estadoEvaluacionServiciosTecnologicos($puntajeTotal, $totalRecomendaciones, $requiereSubsanar)['requiereSubsanar'];
+            if ($causal_rechazo == null && $cantidad_evaluaciones > 0) {
+                $estado_evaluacion = $this->estadoEvaluacionProyectoLinea68($puntaje_total, $total_recomendaciones, $requiere_subsanar)['estado'];
+                $requiere_subsanar = $this->estadoEvaluacionProyectoLinea68($puntaje_total, $total_recomendaciones, $requiere_subsanar)['requiere_subsanar'];
             } else {
-                $estadoEvaluacion = $causalRechazo;
+                $estado_evaluacion = $causal_rechazo;
             }
 
-            if ($cantidadEvaluaciones == 0) {
-                $estadosEvaluacion = collect(json_decode(Storage::get('json/estados_evaluacion_st.json'), true));
-                $estadoEvaluacion = $estadosEvaluacion->where('value', 1)->first()['label'];
+            if ($cantidad_evaluaciones == 0) {
+                $estados_evaluacion = collect(json_decode(Storage::get('json/estados_evaluacion_st.json'), true));
+                $estado_evaluacion = $estados_evaluacion->where('value', 1)->first()['label'];
             }
 
             if ($this->estado_cord_sennova != NULL && request()->isMethod('GET')) {
-                $estadosEvaluacion = collect(json_decode($this->estado_cord_sennova, true));
-                $estadoEvaluacion = $estadosEvaluacion['estado'];
+                $estados_evaluacion = collect(json_decode($this->estado_cord_sennova, true));
+                $estado_evaluacion = $estados_evaluacion['estado'];
             }
 
-            return collect(['estado' => $estadoEvaluacion, 'puntaje' => $puntajeTotal, 'numeroRecomendaciones' => $totalRecomendaciones, 'evaluacionesHabilitadas' => $cantidadEvaluaciones, 'evaluacionesFinalizadas' => $evaluacionesFinalizadas, 'requiereSubsanar' => $requiereSubsanar, 'alerta' => $alerta]);
+            return collect(['estado' => $estado_evaluacion, 'puntaje' => $puntaje_total, 'numero_recomendaciones' => $total_recomendaciones, 'evaluaciones_habilitadas' => $cantidad_evaluaciones, 'evaluaciones_finalizadas' => $evaluaciones_finalizadas, 'requiere_subsanar' => $requiere_subsanar, 'alerta' => $alerta]);
         }
     }
 
     /**
-     * getEstadoEvaluacionTaAttribute - Tecnoacademia
+     * getEstadoEvaluacionProyectoLinea70Attribute - Tecnoacademia
      *
      * @return void
      */
-    public function getEstadoEvaluacionTaAttribute()
+    public function getEstadoEvaluacionProyectoLinea70Attribute()
     {
-        if ($this->ta()->exists()) {
+        if ($this->proyectoLinea70()->exists()) {
 
             $evaluaciones = $this->evaluaciones()->where('habilitado', true)->get();
-            $evaluacionesFinalizadas = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
-            $cantidadEvaluaciones = count($evaluaciones);
+            $evaluaciones_finalizadas = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
+            $cantidad_evaluaciones = count($evaluaciones);
 
-            $totalRecomendaciones = 0;
-            $requiereSubsanar = false;
-            $totalPresupuestosEvaluados = 0;
-            $countPresupuestoNoAprobado = 0;
+            $total_recomendaciones = 0;
+            $requiere_subsanar = false;
+            $total_presupuestos_evaluados = 0;
+            $count_presupuesto_no_aprobado = 0;
 
-            foreach ($evaluaciones as $key => $evaluacion) {
-                $totalRecomendaciones += $evaluacion->total_recomendaciones;
+            foreach ($evaluaciones as $evaluacion) {
+                $total_recomendaciones += $evaluacion->total_recomendaciones;
 
-                if ($evaluacion->taEvaluacion->anexos_comentario != null) {
-                    $requiereSubsanar = true;
+                if ($evaluacion->evaluacionProyectoLinea70->anexos_comentario != null) {
+                    $requiere_subsanar = true;
                 }
 
                 // Sumar los presupuestos no aprobados
-                $totalPresupuestosEvaluados += $evaluacion->proyectoPresupuestosEvaluaciones()->count();
-                foreach ($evaluacion->proyectoPresupuestosEvaluaciones()->get() as $presupuestoEvaluacion) {
-                    $presupuestoEvaluacion->correcto == false ? $countPresupuestoNoAprobado++ : null;
+                $total_presupuestos_evaluados += $evaluacion->proyectoPresupuestosEvaluaciones()->count();
+                foreach ($evaluacion->proyectoPresupuestosEvaluaciones()->get() as $presupuesto_evaluacion) {
+                    $presupuesto_evaluacion->correcto == false ? $count_presupuesto_no_aprobado++ : null;
                 }
             }
 
-            $estadoEvaluacion = null;
+            $estado_evaluacion = null;
 
-            $estadoEvaluacion = $totalRecomendaciones == 0 &&  $evaluacionesFinalizadas > 0 ? 'Cumple' : ($totalRecomendaciones == 0 &&  $evaluacionesFinalizadas == 0 ? 'No priorizado' : 'Proyecto con asignación de apoyo técnico para la formulación');
-            $requiereSubsanar = $totalRecomendaciones == 0 &&  $evaluacionesFinalizadas > 0 ? false : ($totalRecomendaciones == 0 &&  $evaluacionesFinalizadas == 0 ? false : true);
+            $estado_evaluacion = $total_recomendaciones == 0 &&  $evaluaciones_finalizadas > 0 ? 'Cumple' : ($total_recomendaciones == 0 &&  $evaluaciones_finalizadas == 0 ? 'No priorizado' : 'Proyecto con asignación de apoyo técnico para la formulación');
+            $requiere_subsanar = $total_recomendaciones == 0 &&  $evaluaciones_finalizadas > 0 ? false : ($total_recomendaciones == 0 &&  $evaluaciones_finalizadas == 0 ? false : true);
 
             if ($this->estado_cord_sennova != NULL && request()->isMethod('GET')) {
-                $estadosEvaluacion = collect(json_decode($this->estado_cord_sennova, true));
-                $estadoEvaluacion = $estadosEvaluacion['estado'];
+                $estados_evaluacion = collect(json_decode($this->estado_cord_sennova, true));
+                $estado_evaluacion = $estados_evaluacion['estado'];
             }
 
-            return collect(['estado' => $estadoEvaluacion, 'numeroRecomendaciones' => $totalRecomendaciones, 'evaluacionesHabilitadas' => $cantidadEvaluaciones, 'evaluacionesFinalizadas' => $evaluacionesFinalizadas, 'requiereSubsanar' => $requiereSubsanar, 'alerta' => null]);
+            return collect(['estado' => $estado_evaluacion, 'numero_recomendaciones' => $total_recomendaciones, 'evaluaciones_habilitadas' => $cantidad_evaluaciones, 'evaluaciones_finalizadas' => $evaluaciones_finalizadas, 'requiere_subsanar' => $requiere_subsanar, 'alerta' => null]);
         }
     }
 
     /**
-     * getEstadoEvaluacionTpAttribute - Tecnoacademia
+     * getEstadoEvaluacionProyectoLinea69Attribute - Tecnoacademia
      *
      * @return void
      */
-    public function getEstadoEvaluacionTpAttribute()
+    public function getEstadoEvaluacionProyectoLinea69Attribute()
     {
-        if ($this->tp()->exists()) {
-            $evaluaciones = $this->evaluaciones()->where('habilitado', true)->get();
-            $evaluacionesFinalizadas = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
-            $cantidadEvaluaciones = count($evaluaciones);
+        if ($this->proyectoLinea69()->exists()) {
+            $evaluaciones               = $this->evaluaciones()->where('habilitado', true)->get();
+            $evaluaciones_finalizadas   = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
+            $cantidad_evaluaciones      = count($evaluaciones);
 
-            $totalRecomendaciones = 0;
-            $requiereSubsanar = false;
-            $totalPresupuestosEvaluados = 0;
-            $countPresupuestoNoAprobado = 0;
+            $total_recomendaciones          = 0;
+            $requiere_subsanar              = false;
+            $total_presupuestos_evaluados   = 0;
+            $count_presupuesto_no_aprobado  = 0;
 
 
             foreach ($evaluaciones as $evaluacion) {
-                $totalRecomendaciones += $evaluacion->total_recomendaciones;
+                $total_recomendaciones += $evaluacion->total_recomendaciones;
 
-                if ($evaluacion->tpEvaluacion->anexos_comentario != null) {
-                    $requiereSubsanar = true;
+                if ($evaluacion->evaluacionProyectoLinea69->anexos_comentario != null) {
+                    $requiere_subsanar = true;
                 }
 
                 // Sumar los presupuestos no aprobados
-                $totalPresupuestosEvaluados += $evaluacion->proyectoPresupuestosEvaluaciones()->count();
-                foreach ($evaluacion->proyectoPresupuestosEvaluaciones()->get() as $presupuestoEvaluacion) {
-                    $presupuestoEvaluacion->correcto == false ? $countPresupuestoNoAprobado++ : null;
+                $total_presupuestos_evaluados += $evaluacion->proyectoPresupuestosEvaluaciones()->count();
+                foreach ($evaluacion->proyectoPresupuestosEvaluaciones()->get() as $presupuesto_evaluacion) {
+                    $presupuesto_evaluacion->correcto == false ? $count_presupuesto_no_aprobado++ : null;
                 }
             }
 
-            $estadoEvaluacion = null;
+            $estado_evaluacion = null;
 
-            $estadoEvaluacion = $totalRecomendaciones == 0 &&  $evaluacionesFinalizadas > 0 ? 'Cumple' : ($totalRecomendaciones == 0 &&  $evaluacionesFinalizadas == 0 ? 'No priorizado' : 'Proyecto con asignación de apoyo técnico para la formulación');
-            $requiereSubsanar = $totalRecomendaciones == 0 &&  $evaluacionesFinalizadas > 0 ? false : ($totalRecomendaciones == 0 &&  $evaluacionesFinalizadas == 0 ? false : true);
+            $estado_evaluacion = $total_recomendaciones == 0 &&  $evaluaciones_finalizadas > 0 ? 'Cumple' : ($total_recomendaciones == 0 &&  $evaluaciones_finalizadas == 0 ? 'No priorizado' : 'Proyecto con asignación de apoyo técnico para la formulación');
+            $requiere_subsanar = $total_recomendaciones == 0 &&  $evaluaciones_finalizadas > 0 ? false : ($total_recomendaciones == 0 &&  $evaluaciones_finalizadas == 0 ? false : true);
 
             if ($this->estado_cord_sennova != NULL && request()->isMethod('GET')) {
-                $estadosEvaluacion = collect(json_decode($this->estado_cord_sennova, true));
-                $estadoEvaluacion = $estadosEvaluacion['estado'];
+                $estados_evaluacion = collect(json_decode($this->estado_cord_sennova, true));
+                $estado_evaluacion = $estados_evaluacion['estado'];
             }
 
-            return collect(['estado' => $estadoEvaluacion, 'numeroRecomendaciones' => $totalRecomendaciones, 'evaluacionesHabilitadas' => $cantidadEvaluaciones, 'evaluacionesFinalizadas' => $evaluacionesFinalizadas, 'requiereSubsanar' => $requiereSubsanar, 'alerta' => null]);
+            return collect(['estado' => $estado_evaluacion, 'numero_recomendaciones' => $total_recomendaciones, 'evaluaciones_habilitadas' => $cantidad_evaluaciones, 'evaluaciones_finalizadas' => $evaluaciones_finalizadas, 'requiere_subsanar' => $requiere_subsanar, 'alerta' => null]);
         }
     }
 
     /**
-     * estadoEvaluacionIdi
+     * estadoEvaluacionProyectoLinea66
      *
-     * @param  mixed $puntajeTotal
-     * @param  mixed $totalRecomendaciones
-     * @param  mixed $requiereSubsanar
-     * @param  mixed $causalRechazo
+     * @param  mixed $puntaje_total
+     * @param  mixed $total_recomendaciones
+     * @param  mixed $requiere_subsanar
+     * @param  mixed $causal_rechazo
      * @return void
      */
-    public function estadoEvaluacionIdi($puntajeTotal, $totalRecomendaciones, $requiereSubsanar, $causalRechazo)
+    public function estadoEvaluacionProyectoLinea66($puntaje_total, $total_recomendaciones, $requiere_subsanar, $causal_rechazo)
     {
-        $estadosEvaluacion = collect(json_decode(Storage::get('json/estados_evaluacion.json'), true));
+        $estados_evaluacion = collect(json_decode(Storage::get('json/estados_evaluacion.json'), true));
 
         $id = null;
-        $estadoEvaluacion = '';
-        if ($puntajeTotal == 0 && $totalRecomendaciones == 0) {
-            $estadoEvaluacion = $estadosEvaluacion->where('value', 1)->first()['label'];
-            $id = $estadosEvaluacion->where('value', 1)->first()['value'];
-        } elseif ($puntajeTotal >= 91 && $totalRecomendaciones == 0) { // Preaprobado - No requiere ser subsanado
-            $estadoEvaluacion = $estadosEvaluacion->where('value', 2)->first()['label'];
-            $id = $estadosEvaluacion->where('value', 2)->first()['value'];
-        } elseif ($puntajeTotal >= 91 && $totalRecomendaciones > 0) { // Pre-aprobado con observaciones
-            $estadoEvaluacion = $estadosEvaluacion->where('value', 3)->first()['label'];
-            $id = $estadosEvaluacion->where('value', 3)->first()['value'];
-            $requiereSubsanar = true;
-        } elseif ($puntajeTotal >= 70 && $puntajeTotal < 91 && $totalRecomendaciones == 0) { // Pre-aprobado con observaciones
-            $estadoEvaluacion = $estadosEvaluacion->where('value', 3)->first()['label'];
-            $id = $estadosEvaluacion->where('value', 3)->first()['value'];
-            $requiereSubsanar = true;
-        } elseif ($puntajeTotal >= 70 && $puntajeTotal < 91 && $totalRecomendaciones > 0) { // Pre-aprobado con observaciones
-            $estadoEvaluacion = $estadosEvaluacion->where('value', 3)->first()['label'];
-            $id = $estadosEvaluacion->where('value', 3)->first()['value'];
-            $requiereSubsanar = true;
-        } elseif ($puntajeTotal < 70) { // Rechazado - No requiere ser subsanado
-            $estadoEvaluacion = $estadosEvaluacion->where('value', 4)->first()['label'];
-            $id = $estadosEvaluacion->where('value', 4)->first()['value'];
-            $requiereSubsanar = false;
+        $estado_evaluacion = '';
+        if ($puntaje_total == 0 && $total_recomendaciones == 0) {
+            $estado_evaluacion = $estados_evaluacion->where('value', 1)->first()['label'];
+            $id = $estados_evaluacion->where('value', 1)->first()['value'];
+        } elseif ($puntaje_total >= 91 && $total_recomendaciones == 0) { // Preaprobado - No requiere ser subsanado
+            $estado_evaluacion = $estados_evaluacion->where('value', 2)->first()['label'];
+            $id = $estados_evaluacion->where('value', 2)->first()['value'];
+        } elseif ($puntaje_total >= 91 && $total_recomendaciones > 0) { // Pre-aprobado con observaciones
+            $estado_evaluacion = $estados_evaluacion->where('value', 3)->first()['label'];
+            $id = $estados_evaluacion->where('value', 3)->first()['value'];
+            $requiere_subsanar = true;
+        } elseif ($puntaje_total >= 70 && $puntaje_total < 91 && $total_recomendaciones == 0) { // Pre-aprobado con observaciones
+            $estado_evaluacion = $estados_evaluacion->where('value', 3)->first()['label'];
+            $id = $estados_evaluacion->where('value', 3)->first()['value'];
+            $requiere_subsanar = true;
+        } elseif ($puntaje_total >= 70 && $puntaje_total < 91 && $total_recomendaciones > 0) { // Pre-aprobado con observaciones
+            $estado_evaluacion = $estados_evaluacion->where('value', 3)->first()['label'];
+            $id = $estados_evaluacion->where('value', 3)->first()['value'];
+            $requiere_subsanar = true;
+        } elseif ($puntaje_total < 70) { // Rechazado - No requiere ser subsanado
+            $estado_evaluacion = $estados_evaluacion->where('value', 4)->first()['label'];
+            $id = $estados_evaluacion->where('value', 4)->first()['value'];
+            $requiere_subsanar = false;
         }
 
-        if ($causalRechazo) {
-            $estadoEvaluacion = $causalRechazo;
+        if ($causal_rechazo) {
+            $estado_evaluacion = $causal_rechazo;
         }
 
-        return collect(['id' => $id, 'estado' => $estadoEvaluacion, 'requiereSubsanar' => $requiereSubsanar]);
+        return collect(['id' => $id, 'estado' => $estado_evaluacion, 'requiere_subsanar' => $requiere_subsanar]);
     }
 
     /**
-     * estadoEvaluacionIdi
+     * estadoEvaluacionProyectoLinea66
      *
-     * @param  mixed $puntajeTotal
-     * @param  mixed $totalRecomendaciones
-     * @param  mixed $requiereSubsanar
+     * @param  mixed $puntaje_total
+     * @param  mixed $total_recomendaciones
+     * @param  mixed $requiere_subsanar
      * @return void
      */
-    public function estadoEvaluacionServiciosTecnologicos($puntajeTotal, $totalRecomendaciones, $requiereSubsanar)
+    public function estadoEvaluacionProyectoLinea68($puntaje_total, $total_recomendaciones, $requiere_subsanar)
     {
-        $estadosEvaluacion = collect(json_decode(Storage::get('json/estados_evaluacion_st.json'), true));
+        $estados_evaluacion = collect(json_decode(Storage::get('json/estados_evaluacion_st.json'), true));
 
         $id = null;
-        $estadoEvaluacion = '';
-        if ($puntajeTotal == 0 && $totalRecomendaciones == 0) {
-            $estadoEvaluacion = $estadosEvaluacion->where('value', 1)->first()['label'];
-            $id = $estadosEvaluacion->where('value', 1)->first()['value'];
-        } elseif ($puntajeTotal >= 90 && $totalRecomendaciones == 0) { // Pre-aprobado
-            $estadoEvaluacion = $estadosEvaluacion->where('value', 2)->first()['label'];
-            $id = $estadosEvaluacion->where('value', 2)->first()['value'];
-        } elseif ($puntajeTotal >= 90 && $totalRecomendaciones >= 0) { // Pre-aprobado con observaciones
-            $estadoEvaluacion = $estadosEvaluacion->where('value', 5)->first()['label'];
-            $id = $estadosEvaluacion->where('value', 5)->first()['value'];
-            $requiereSubsanar = true;
-        } elseif ($puntajeTotal >= 70 && $puntajeTotal < 90 && $totalRecomendaciones >= 0) { // Pre-aprobado con observaciones
-            $estadoEvaluacion = $estadosEvaluacion->where('value', 5)->first()['label'];
-            $id = $estadosEvaluacion->where('value', 5)->first()['value'];
-            $requiereSubsanar = true;
-        } elseif ($puntajeTotal >= 0 && $puntajeTotal <= 69 && $totalRecomendaciones >= 0) { // Rechazado
-            $estadoEvaluacion = $estadosEvaluacion->where('value', 3)->first()['label'];
-            $id = $estadosEvaluacion->where('value', 3)->first()['value'];
+        $estado_evaluacion = '';
+        if ($puntaje_total == 0 && $total_recomendaciones == 0) {
+            $estado_evaluacion = $estados_evaluacion->where('value', 1)->first()['label'];
+            $id = $estados_evaluacion->where('value', 1)->first()['value'];
+        } elseif ($puntaje_total >= 90 && $total_recomendaciones == 0) { // Pre-aprobado
+            $estado_evaluacion = $estados_evaluacion->where('value', 2)->first()['label'];
+            $id = $estados_evaluacion->where('value', 2)->first()['value'];
+        } elseif ($puntaje_total >= 90 && $total_recomendaciones >= 0) { // Pre-aprobado con observaciones
+            $estado_evaluacion = $estados_evaluacion->where('value', 5)->first()['label'];
+            $id = $estados_evaluacion->where('value', 5)->first()['value'];
+            $requiere_subsanar = true;
+        } elseif ($puntaje_total >= 70 && $puntaje_total < 90 && $total_recomendaciones >= 0) { // Pre-aprobado con observaciones
+            $estado_evaluacion = $estados_evaluacion->where('value', 5)->first()['label'];
+            $id = $estados_evaluacion->where('value', 5)->first()['value'];
+            $requiere_subsanar = true;
+        } elseif ($puntaje_total >= 0 && $puntaje_total <= 69 && $total_recomendaciones >= 0) { // Rechazado
+            $estado_evaluacion = $estados_evaluacion->where('value', 3)->first()['label'];
+            $id = $estados_evaluacion->where('value', 3)->first()['value'];
         }
 
-        return collect(['id' => $id, 'estado' => $estadoEvaluacion, 'requiereSubsanar' => $requiereSubsanar]);
+        return collect(['id' => $id, 'estado' => $estado_evaluacion, 'requiere_subsanar' => $requiere_subsanar]);
     }
 
 
     /**
-     * estadoEvaluacionCulturaInnovacion
+     * estadoEvaluacionProyectoLinea65
      *
-     * @param  mixed $puntajeTotal
-     * @param  mixed $totalRecomendaciones
-     * @param  mixed $requiereSubsanar
+     * @param  mixed $puntaje_total
+     * @param  mixed $total_recomendaciones
+     * @param  mixed $requiere_subsanar
      * @return void
      */
-    public function estadoEvaluacionCulturaInnovacion($puntajeTotal, $totalRecomendaciones, $requiereSubsanar)
+    public function estadoEvaluacionProyectoLinea65($puntaje_total, $total_recomendaciones, $requiere_subsanar)
     {
         $id = null;
-        $estadoEvaluacion = '';
-        if ($puntajeTotal == 0 && $totalRecomendaciones == 0) {
-            $estadoEvaluacion = 'No priorizado anexo 1C. Comuníquese con el Dinamizador SENNOVA.';
+        $estado_evaluacion = '';
+        if ($puntaje_total == 0 && $total_recomendaciones == 0) {
+            $estado_evaluacion = 'No priorizado anexo 1C. Comuníquese con el Dinamizador SENNOVA.';
             $id = 1;
-        } elseif ($puntajeTotal >= 70) { // Cumple
-            $estadoEvaluacion = 'Cumple';
+        } elseif ($puntaje_total >= 70) { // Cumple
+            $estado_evaluacion = 'Cumple';
             $id = 2;
-        } elseif ($puntajeTotal >= 0 && $puntajeTotal <= 69) { // Cumple
-            $estadoEvaluacion = 'Proyecto con asignación de apoyo técnico para la formulación';
+        } elseif ($puntaje_total >= 0 && $puntaje_total <= 69) { // Cumple
+            $estado_evaluacion = 'Proyecto con asignación de apoyo técnico para la formulación';
             $id = 2;
         }
 
-        $requiereSubsanar = $totalRecomendaciones > 0 ? true : false;
+        $requiere_subsanar = $total_recomendaciones > 0 ? true : false;
 
-        return collect(['id' => $id, 'estado' => $estadoEvaluacion, 'requiereSubsanar' => $requiereSubsanar]);
+        return collect(['id' => $id, 'estado' => $estado_evaluacion, 'requiere_subsanar' => $requiere_subsanar]);
     }
 
     public function getDesviacionEstandarAttribute()
@@ -1132,20 +1131,20 @@ class Proyecto extends Model
         $proyecto = $this;
         $proyecto->update(['precio_proyecto' => $proyecto->precio_proyecto]);
         switch ($proyecto) {
-            case $proyecto->estado_evaluacion_idi != null:
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_idi]);
+            case $proyecto->estado_evaluacion_proyecto_linea_66 != null:
+                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_linea_66]);
                 break;
-            case $proyecto->estado_evaluacion_cultura_innovacion != null:
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_cultura_innovacion]);
+            case $proyecto->estado_evaluacion_proyecto_linea_65 != null:
+                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_linea_65]);
                 break;
-            case $proyecto->estado_evaluacion_ta != null:
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_ta]);
+            case $proyecto->estado_evaluacion_proyecto_linea_70 != null:
+                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_linea_70]);
                 break;
-            case $proyecto->estado_evaluacion_tp != null:
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_tp]);
+            case $proyecto->estado_evaluacion_proyecto_linea_69 != null:
+                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_linea_69]);
                 break;
-            case $proyecto->estado_evaluacion_servicios_tecnologicos != null:
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_servicios_tecnologicos]);
+            case $proyecto->estado_evaluacion_proyecto_linea_68 != null:
+                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_linea_68]);
                 break;
             default:
                 break;
@@ -1159,22 +1158,24 @@ class Proyecto extends Model
             if ($presupuesto->formato_estudio_mercado) {
                 $collect->push(['id' => $presupuesto->id, 'tipo_archivo' => 'formato_estudio_mercado', 'ruta_formato_estudio_mercado' => $presupuesto->formato_estudio_mercado]);
             }
-            foreach ($presupuesto->soportesEstudioMercado()->get() as $estudioMercado) {
-                $collect->push(['id' => $estudioMercado->id, 'tipo_archivo' => 'soporte', 'empresa' => $estudioMercado->empresa, 'ruta_soporte' => $estudioMercado->soporte]);
+            foreach ($presupuesto->soportesEstudioMercado()->get() as $estudio_mercado) {
+                $collect->push(['id' => $estudio_mercado->id, 'tipo_archivo' => 'soporte', 'empresa' => $estudio_mercado->empresa, 'ruta_soporte' => $estudio_mercado->soporte]);
             }
         }
 
-        foreach ($this->entidadesAliadas()->get() as $entidadAliada) {
-            if ($entidadAliada->entidadAliadaIdi()->exists()) {
-                $collect->push(['id' => $entidadAliada->id, 'tipo_archivo' => 'carta_intencion', 'entidad_aliada' => $entidadAliada->nombre, 'ruta_carta_intencion' => $entidadAliada->entidadAliadaIdi->carta_intencion]);
-                $collect->push(['id' => $entidadAliada->id, 'tipo_archivo' => 'carta_propiedad_intelectual', 'entidad_aliada' => $entidadAliada->nombre, 'ruta_carta_propiedad_intelectual' => $entidadAliada->entidadAliadaIdi->carta_propiedad_intelectual]);
-            } else if ($entidadAliada->entidadAliadaTaTp()->exists()) {
-                $collect->push(['id' => $entidadAliada->id, 'tipo_archivo' => 'soporte_convenio', 'entidad_aliada' => $entidadAliada->nombre, 'ruta_soporte_convenio' => $entidadAliada->entidadAliadaTaTp->soporte_convenio]);
+        foreach ($this->entidadesAliadas()->get() as $entidad_aliada) {
+            if ($entidad_aliada->entidadAliadaLinea66()->exists()) {
+                $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'carta_intencion', 'entidad_aliada' => $entidad_aliada->nombre, 'ruta_carta_intencion' => $entidad_aliada->entidadAliadaLinea66->carta_intencion]);
+                $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'carta_propiedad_intelectual', 'entidad_aliada' => $entidad_aliada->nombre, 'ruta_carta_propiedad_intelectual' => $entidad_aliada->entidadAliadaLinea66->carta_propiedad_intelectual]);
+            } else if ($entidad_aliada->entidadAliadaLinea69()->exists()) {
+                $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'soporte_convenio', 'entidad_aliada' => $entidad_aliada->nombre, 'ruta_soporte_convenio' => $entidad_aliada->entidadAliadaLinea69->soporte_convenio]);
+            } else if ($entidad_aliada->entidadAliadaLinea70()->exists()) {
+                $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'soporte_convenio', 'entidad_aliada' => $entidad_aliada->nombre, 'ruta_soporte_convenio' => $entidad_aliada->entidadAliadaLinea70->soporte_convenio]);
             }
         }
 
-        foreach ($this->proyectoAnexo()->get() as $proyectoAnexo) {
-            $collect->push(['id' => $proyectoAnexo->id, 'tipo_archivo' => 'archivo', 'anexo' => $proyectoAnexo->anexo->nombre, 'ruta_archivo' => $proyectoAnexo->archivo]);
+        foreach ($this->proyectoAnexo()->get() as $proyecto_anexo) {
+            $collect->push(['id' => $proyecto_anexo->id, 'tipo_archivo' => 'archivo', 'anexo' => $proyecto_anexo->anexo->nombre, 'ruta_archivo' => $proyecto_anexo->archivo]);
         }
 
         return $collect;
@@ -1191,10 +1192,10 @@ class Proyecto extends Model
 
     public function getAllowedAttribute()
     {
-        $allowedToView      = Gate::inspect('visualizar-proyecto-autor', $this);
-        $allowedToUpdate    = Gate::inspect('modificar-proyecto-autor', $this);
-        $allowedToDestroy   = Gate::inspect('eliminar-proyecto-autor', $this);
+        $allowed_to_view      = Gate::inspect('visualizar-proyecto-autor', $this);
+        $allowed_to_update    = Gate::inspect('modificar-proyecto-autor', $this);
+        $allowed_to_destroy   = Gate::inspect('eliminar-proyecto-autor', $this);
 
-        return collect(['to_view' => $allowedToView->allowed(), 'to_update' => $allowedToUpdate->allowed(), 'to_destroy' => $allowedToDestroy->allowed()]);
+        return collect(['to_view' => $allowed_to_view->allowed(), 'to_update' => $allowed_to_update->allowed(), 'to_destroy' => $allowed_to_destroy->allowed()]);
     }
 }

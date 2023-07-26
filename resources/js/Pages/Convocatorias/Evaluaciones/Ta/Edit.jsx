@@ -18,7 +18,7 @@
     export let errors
     export let convocatoria
     export let ta
-    export let taEvaluacion
+    export let evaluacionProyectoLinea70
     export let lineasProgramaticas
     export let lineasTecnoacademia
     export let proyectoMunicipios
@@ -37,7 +37,7 @@
     ]
 
     let dialogSegundaEvaluacion = convocatoria.fase == 4 ? true : false
-    let proyectoDialogOpen = taEvaluacion.evaluacion.clausula_confidencialidad == false ? true : false
+    let proyectoDialogOpen = evaluacionProyectoLinea70.evaluacion.clausula_confidencialidad == false ? true : false
 
     let codigoLineaProgramatica
 
@@ -50,8 +50,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let taInfo = useForm({
         centro_formacion_id: ta.proyecto.centro_formacion_id,
@@ -131,50 +131,50 @@
     }
 
     let form = useForm({
-        clausula_confidencialidad: taEvaluacion.evaluacion.clausula_confidencialidad,
-        resumen_regional_comentario: taEvaluacion.resumen_regional_comentario ? taEvaluacion.resumen_regional_comentario : '',
-        resumen_regional_requiere_comentario: taEvaluacion.resumen_regional_comentario == null ? true : false,
-        antecedentes_tecnoacademia_comentario: taEvaluacion.antecedentes_tecnoacademia_comentario ? taEvaluacion.antecedentes_tecnoacademia_comentario : '',
-        antecedentes_tecnoacademia_requiere_comentario: taEvaluacion.antecedentes_tecnoacademia_comentario == null ? true : false,
-        retos_oportunidades_comentario: taEvaluacion.retos_oportunidades_comentario ? taEvaluacion.retos_oportunidades_comentario : '',
-        retos_oportunidades_requiere_comentario: taEvaluacion.retos_oportunidades_comentario == null ? true : false,
-        metodologia_comentario: taEvaluacion.metodologia_comentario ? taEvaluacion.metodologia_comentario : '',
-        metodologia_local_requiere_comentario: taEvaluacion.metodologia_comentario == null ? true : false,
-        lineas_medulares_centro_comentario: taEvaluacion.lineas_medulares_centro_comentario ? taEvaluacion.lineas_medulares_centro_comentario : '',
-        lineas_medulares_centro_requiere_comentario: taEvaluacion.lineas_medulares_centro_comentario == null ? true : false,
-        lineas_tecnologicas_centro_comentario: taEvaluacion.lineas_tecnologicas_centro_comentario ? taEvaluacion.lineas_tecnologicas_centro_comentario : '',
-        lineas_tecnologicas_centro_requiere_comentario: taEvaluacion.lineas_tecnologicas_centro_comentario == null ? true : false,
-        municipios_comentario: taEvaluacion.municipios_comentario ? taEvaluacion.municipios_comentario : '',
-        municipios_requiere_comentario: taEvaluacion.municipios_comentario == null ? true : false,
-        instituciones_comentario: taEvaluacion.instituciones_comentario ? taEvaluacion.instituciones_comentario : '',
-        instituciones_requiere_comentario: taEvaluacion.instituciones_comentario == null ? true : false,
-        fecha_ejecucion_comentario: taEvaluacion.fecha_ejecucion_comentario ? taEvaluacion.fecha_ejecucion_comentario : '',
-        fecha_ejecucion_requiere_comentario: taEvaluacion.fecha_ejecucion_comentario == null ? true : false,
-        cadena_valor_comentario: taEvaluacion.cadena_valor_comentario ? taEvaluacion.cadena_valor_comentario : '',
-        cadena_valor_requiere_comentario: taEvaluacion.cadena_valor_comentario == null ? true : false,
-        analisis_riesgos_comentario: taEvaluacion.analisis_riesgos_comentario ? taEvaluacion.analisis_riesgos_comentario : '',
-        analisis_riesgos_requiere_comentario: taEvaluacion.analisis_riesgos_comentario == null ? true : false,
-        anexos_comentario: taEvaluacion.anexos_comentario ? taEvaluacion.anexos_comentario : '',
-        anexos_requiere_comentario: taEvaluacion.anexos_comentario == null ? true : false,
-        proyectos_macro_comentario: taEvaluacion.proyectos_macro_comentario ? taEvaluacion.proyectos_macro_comentario : '',
-        proyectos_macro_requiere_comentario: taEvaluacion.proyectos_macro_comentario == null ? true : false,
-        bibliografia_comentario: taEvaluacion.bibliografia_comentario ? taEvaluacion.bibliografia_comentario : '',
-        bibliografia_requiere_comentario: taEvaluacion.bibliografia_comentario == null ? true : false,
+        clausula_confidencialidad: evaluacionProyectoLinea70.evaluacion.clausula_confidencialidad,
+        resumen_regional_comentario: evaluacionProyectoLinea70.resumen_regional_comentario ? evaluacionProyectoLinea70.resumen_regional_comentario : '',
+        resumen_regional_requiere_comentario: evaluacionProyectoLinea70.resumen_regional_comentario == null ? true : false,
+        antecedentes_tecnoacademia_comentario: evaluacionProyectoLinea70.antecedentes_tecnoacademia_comentario ? evaluacionProyectoLinea70.antecedentes_tecnoacademia_comentario : '',
+        antecedentes_tecnoacademia_requiere_comentario: evaluacionProyectoLinea70.antecedentes_tecnoacademia_comentario == null ? true : false,
+        retos_oportunidades_comentario: evaluacionProyectoLinea70.retos_oportunidades_comentario ? evaluacionProyectoLinea70.retos_oportunidades_comentario : '',
+        retos_oportunidades_requiere_comentario: evaluacionProyectoLinea70.retos_oportunidades_comentario == null ? true : false,
+        metodologia_comentario: evaluacionProyectoLinea70.metodologia_comentario ? evaluacionProyectoLinea70.metodologia_comentario : '',
+        metodologia_local_requiere_comentario: evaluacionProyectoLinea70.metodologia_comentario == null ? true : false,
+        lineas_medulares_centro_comentario: evaluacionProyectoLinea70.lineas_medulares_centro_comentario ? evaluacionProyectoLinea70.lineas_medulares_centro_comentario : '',
+        lineas_medulares_centro_requiere_comentario: evaluacionProyectoLinea70.lineas_medulares_centro_comentario == null ? true : false,
+        lineas_tecnologicas_centro_comentario: evaluacionProyectoLinea70.lineas_tecnologicas_centro_comentario ? evaluacionProyectoLinea70.lineas_tecnologicas_centro_comentario : '',
+        lineas_tecnologicas_centro_requiere_comentario: evaluacionProyectoLinea70.lineas_tecnologicas_centro_comentario == null ? true : false,
+        municipios_comentario: evaluacionProyectoLinea70.municipios_comentario ? evaluacionProyectoLinea70.municipios_comentario : '',
+        municipios_requiere_comentario: evaluacionProyectoLinea70.municipios_comentario == null ? true : false,
+        instituciones_comentario: evaluacionProyectoLinea70.instituciones_comentario ? evaluacionProyectoLinea70.instituciones_comentario : '',
+        instituciones_requiere_comentario: evaluacionProyectoLinea70.instituciones_comentario == null ? true : false,
+        fecha_ejecucion_comentario: evaluacionProyectoLinea70.fecha_ejecucion_comentario ? evaluacionProyectoLinea70.fecha_ejecucion_comentario : '',
+        fecha_ejecucion_requiere_comentario: evaluacionProyectoLinea70.fecha_ejecucion_comentario == null ? true : false,
+        cadena_valor_comentario: evaluacionProyectoLinea70.cadena_valor_comentario ? evaluacionProyectoLinea70.cadena_valor_comentario : '',
+        cadena_valor_requiere_comentario: evaluacionProyectoLinea70.cadena_valor_comentario == null ? true : false,
+        analisis_riesgos_comentario: evaluacionProyectoLinea70.analisis_riesgos_comentario ? evaluacionProyectoLinea70.analisis_riesgos_comentario : '',
+        analisis_riesgos_requiere_comentario: evaluacionProyectoLinea70.analisis_riesgos_comentario == null ? true : false,
+        anexos_comentario: evaluacionProyectoLinea70.anexos_comentario ? evaluacionProyectoLinea70.anexos_comentario : '',
+        anexos_requiere_comentario: evaluacionProyectoLinea70.anexos_comentario == null ? true : false,
+        proyectos_macro_comentario: evaluacionProyectoLinea70.proyectos_macro_comentario ? evaluacionProyectoLinea70.proyectos_macro_comentario : '',
+        proyectos_macro_requiere_comentario: evaluacionProyectoLinea70.proyectos_macro_comentario == null ? true : false,
+        bibliografia_comentario: evaluacionProyectoLinea70.bibliografia_comentario ? evaluacionProyectoLinea70.bibliografia_comentario : '',
+        bibliografia_requiere_comentario: evaluacionProyectoLinea70.bibliografia_comentario == null ? true : false,
 
-        articulacion_centro_formacion_comentario: taEvaluacion.articulacion_centro_formacion_comentario ? taEvaluacion.articulacion_centro_formacion_comentario : '',
-        articulacion_centro_formacion_requiere_comentario: taEvaluacion.articulacion_centro_formacion_comentario == null ? true : false,
+        articulacion_centro_formacion_comentario: evaluacionProyectoLinea70.articulacion_centro_formacion_comentario ? evaluacionProyectoLinea70.articulacion_centro_formacion_comentario : '',
+        articulacion_centro_formacion_requiere_comentario: evaluacionProyectoLinea70.articulacion_centro_formacion_comentario == null ? true : false,
 
-        ortografia_comentario: taEvaluacion.ortografia_comentario ? taEvaluacion.ortografia_comentario : '',
-        ortografia_requiere_comentario: taEvaluacion.ortografia_comentario == null ? true : false,
-        redaccion_comentario: taEvaluacion.redaccion_comentario ? taEvaluacion.redaccion_comentario : '',
-        redaccion_requiere_comentario: taEvaluacion.redaccion_comentario == null ? true : false,
-        normas_apa_comentario: taEvaluacion.normas_apa_comentario ? taEvaluacion.normas_apa_comentario : '',
-        normas_apa_requiere_comentario: taEvaluacion.normas_apa_comentario == null ? true : false,
+        ortografia_comentario: evaluacionProyectoLinea70.ortografia_comentario ? evaluacionProyectoLinea70.ortografia_comentario : '',
+        ortografia_requiere_comentario: evaluacionProyectoLinea70.ortografia_comentario == null ? true : false,
+        redaccion_comentario: evaluacionProyectoLinea70.redaccion_comentario ? evaluacionProyectoLinea70.redaccion_comentario : '',
+        redaccion_requiere_comentario: evaluacionProyectoLinea70.redaccion_comentario == null ? true : false,
+        normas_apa_comentario: evaluacionProyectoLinea70.normas_apa_comentario ? evaluacionProyectoLinea70.normas_apa_comentario : '',
+        normas_apa_requiere_comentario: evaluacionProyectoLinea70.normas_apa_comentario == null ? true : false,
     })
 
     function submit() {
-        if (isSuperAdmin || (checkRole(authUser, [11, 5]) && taEvaluacion.evaluacion.finalizado == false && taEvaluacion.evaluacion.habilitado == true && taEvaluacion.evaluacion.modificable == true)) {
-            $form.put(route('convocatorias.ta-evaluaciones.update', [convocatoria.id, taEvaluacion.id]), {
+        if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacionProyectoLinea70.evaluacion.finalizado == false && evaluacionProyectoLinea70.evaluacion.habilitado == true && evaluacionProyectoLinea70.evaluacion.modificable == true)) {
+            $form.put(route('convocatorias.ta-evaluaciones.update', [convocatoria.id, evaluacionProyectoLinea70.id]), {
                 preserveScroll: true,
             })
         }
@@ -187,15 +187,15 @@
 
 <AuthenticatedLayout>
     <header className="pt-[8rem]" slot="header">
-        <EvaluationStepper {convocatoria} evaluacion={taEvaluacion.evaluacion} proyecto={ta.proyecto} />
+        <EvaluationStepper {convocatoria} evaluacion={evaluacionProyectoLinea70.evaluacion} proyecto={ta.proyecto} />
     </header>
 
     <form on:submit|preventDefault={submit}>
-        <TaForm {errors} evaluacion={taEvaluacion.evaluacion} form={taInfo} {isSuperAdmin} {convocatoria} {ta} {lineasTecnoacademia} {lineasProgramaticas}>
+        <TaForm {errors} evaluacion={evaluacionProyectoLinea70.evaluacion} form={taInfo} {is_super_admin} {convocatoria} {ta} {lineasTecnoacademia} {lineasProgramaticas}>
             <div slot="fechas">
                 <InfoMessage>
                     <div className="mt-4">
-                        {#if checkRole(authUser, [5]) && taEvaluacion.evaluacion.evaluacion_final}
+                        {#if checkRole(auth_user, [5]) && evaluacionProyectoLinea70.evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
                                 <div className="mb-8">
                                     <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
@@ -205,10 +205,10 @@
                             {/each}
                         {/if}
                         <p>¿Las fechas son correctas? Por favor seleccione si Cumple o No cumple</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.fecha_ejecucion_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea70.evaluacion.finalizado == true || evaluacionProyectoLinea70.evaluacion.habilitado == false || evaluacionProyectoLinea70.evaluacion.modificable == false ? true : undefined} bind:checked={$form.fecha_ejecucion_requiere_comentario} />
                         {#if $form.fecha_ejecucion_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea70.evaluacion.finalizado == true || evaluacionProyectoLinea70.evaluacion.habilitado == false || evaluacionProyectoLinea70.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -225,7 +225,7 @@
             <div slot="resumen-regional">
                 <InfoMessage>
                     <div className="mt-4">
-                        {#if checkRole(authUser, [5]) && taEvaluacion.evaluacion.evaluacion_final}
+                        {#if checkRole(auth_user, [5]) && evaluacionProyectoLinea70.evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
                                 <div className="mb-8">
                                     <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
@@ -235,10 +235,10 @@
                             {/each}
                         {/if}
                         <p>¿El resumen ejecutivo regional es correcto? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.resumen_regional_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea70.evaluacion.finalizado == true || evaluacionProyectoLinea70.evaluacion.habilitado == false || evaluacionProyectoLinea70.evaluacion.modificable == false ? true : undefined} bind:checked={$form.resumen_regional_requiere_comentario} />
                         {#if $form.resumen_regional_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea70.evaluacion.finalizado == true || evaluacionProyectoLinea70.evaluacion.habilitado == false || evaluacionProyectoLinea70.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -255,7 +255,7 @@
             <div slot="antecedentes">
                 <InfoMessage>
                     <div className="mt-4">
-                        {#if checkRole(authUser, [5]) && taEvaluacion.evaluacion.evaluacion_final}
+                        {#if checkRole(auth_user, [5]) && evaluacionProyectoLinea70.evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
                                 <div className="mb-8">
                                     <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
@@ -265,10 +265,10 @@
                             {/each}
                         {/if}
                         <p>¿Los antecedentes de la Tecnoacademia y su impacto en la región son correctos? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.antecedentes_tecnoacademia_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea70.evaluacion.finalizado == true || evaluacionProyectoLinea70.evaluacion.habilitado == false || evaluacionProyectoLinea70.evaluacion.modificable == false ? true : undefined} bind:checked={$form.antecedentes_tecnoacademia_requiere_comentario} />
                         {#if $form.antecedentes_tecnoacademia_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea70.evaluacion.finalizado == true || evaluacionProyectoLinea70.evaluacion.habilitado == false || evaluacionProyectoLinea70.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -285,7 +285,7 @@
             <div slot="retos-oportunidades">
                 <InfoMessage>
                     <div className="mt-4">
-                        {#if checkRole(authUser, [5]) && taEvaluacion.evaluacion.evaluacion_final}
+                        {#if checkRole(auth_user, [5]) && evaluacionProyectoLinea70.evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
                                 <div className="mb-8">
                                     <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
@@ -295,10 +295,10 @@
                             {/each}
                         {/if}
                         <p>¿La descripción es correcta? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.retos_oportunidades_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea70.evaluacion.finalizado == true || evaluacionProyectoLinea70.evaluacion.habilitado == false || evaluacionProyectoLinea70.evaluacion.modificable == false ? true : undefined} bind:checked={$form.retos_oportunidades_requiere_comentario} />
                         {#if $form.retos_oportunidades_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea70.evaluacion.finalizado == true || evaluacionProyectoLinea70.evaluacion.habilitado == false || evaluacionProyectoLinea70.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -315,7 +315,7 @@
             <div slot="lineas-tecnologicas">
                 <InfoMessage>
                     <div className="mt-4">
-                        {#if checkRole(authUser, [5]) && taEvaluacion.evaluacion.evaluacion_final}
+                        {#if checkRole(auth_user, [5]) && evaluacionProyectoLinea70.evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
                                 <div className="mb-8">
                                     <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
@@ -325,10 +325,10 @@
                             {/each}
                         {/if}
                         <p>¿La información sobre las líneas tecnológicas es correcta? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.lineas_tecnologicas_centro_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea70.evaluacion.finalizado == true || evaluacionProyectoLinea70.evaluacion.habilitado == false || evaluacionProyectoLinea70.evaluacion.modificable == false ? true : undefined} bind:checked={$form.lineas_tecnologicas_centro_requiere_comentario} />
                         {#if $form.lineas_tecnologicas_centro_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea70.evaluacion.finalizado == true || evaluacionProyectoLinea70.evaluacion.habilitado == false || evaluacionProyectoLinea70.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -345,7 +345,7 @@
             <div slot="bibliografia">
                 <InfoMessage>
                     <div className="mt-4">
-                        {#if checkRole(authUser, [5]) && taEvaluacion.evaluacion.evaluacion_final}
+                        {#if checkRole(auth_user, [5]) && evaluacionProyectoLinea70.evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
                                 <div className="mb-8">
                                     <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
@@ -355,10 +355,10 @@
                             {/each}
                         {/if}
                         <p>¿La bibliografia es correcta? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.bibliografia_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea70.evaluacion.finalizado == true || evaluacionProyectoLinea70.evaluacion.habilitado == false || evaluacionProyectoLinea70.evaluacion.modificable == false ? true : undefined} bind:checked={$form.bibliografia_requiere_comentario} />
                         {#if $form.bibliografia_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea70.evaluacion.finalizado == true || evaluacionProyectoLinea70.evaluacion.habilitado == false || evaluacionProyectoLinea70.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -378,7 +378,7 @@
                 <h1>Ortografía</h1>
                 <InfoMessage>
                     <div className="mt-4">
-                        {#if checkRole(authUser, [5]) && taEvaluacion.evaluacion.evaluacion_final}
+                        {#if checkRole(auth_user, [5]) && evaluacionProyectoLinea70.evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
                                 <div className="mb-8">
                                     <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
@@ -388,9 +388,9 @@
                             {/each}
                         {/if}
                         <p>¿La ortografía es correcta? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.ortografia_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea70.evaluacion.finalizado == true || evaluacionProyectoLinea70.evaluacion.habilitado == false || evaluacionProyectoLinea70.evaluacion.modificable == false ? true : undefined} bind:checked={$form.ortografia_requiere_comentario} />
                         {#if $form.ortografia_requiere_comentario == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="ortografia_comentario" bind:value={$form.ortografia_comentario} error={errors.ortografia_comentario} required />
+                            <Textarea disabled={is_super_admin ? undefined : evaluacionProyectoLinea70.evaluacion.finalizado == true || evaluacionProyectoLinea70.evaluacion.habilitado == false || evaluacionProyectoLinea70.evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="ortografia_comentario" bind:value={$form.ortografia_comentario} error={errors.ortografia_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
@@ -399,7 +399,7 @@
                 <h1>Redacción</h1>
                 <InfoMessage>
                     <div className="mt-4">
-                        {#if checkRole(authUser, [5]) && taEvaluacion.evaluacion.evaluacion_final}
+                        {#if checkRole(auth_user, [5]) && evaluacionProyectoLinea70.evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
                                 <div className="mb-8">
                                     <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
@@ -409,9 +409,9 @@
                             {/each}
                         {/if}
                         <p>¿La redacción es correcta? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.redaccion_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea70.evaluacion.finalizado == true || evaluacionProyectoLinea70.evaluacion.habilitado == false || evaluacionProyectoLinea70.evaluacion.modificable == false ? true : undefined} bind:checked={$form.redaccion_requiere_comentario} />
                         {#if $form.redaccion_requiere_comentario == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="redaccioncomentario" bind:value={$form.redaccion_comentario} error={errors.redaccion_comentario} />
+                            <Textarea disabled={is_super_admin ? undefined : evaluacionProyectoLinea70.evaluacion.finalizado == true || evaluacionProyectoLinea70.evaluacion.habilitado == false || evaluacionProyectoLinea70.evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="redaccioncomentario" bind:value={$form.redaccion_comentario} error={errors.redaccion_comentario} />
                         {/if}
                     </div>
                 </InfoMessage>
@@ -420,7 +420,7 @@
                 <h1>Normas APA</h1>
                 <InfoMessage>
                     <div className="mt-4">
-                        {#if checkRole(authUser, [5]) && taEvaluacion.evaluacion.evaluacion_final}
+                        {#if checkRole(auth_user, [5]) && evaluacionProyectoLinea70.evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
                                 <div className="mb-8">
                                     <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
@@ -430,9 +430,9 @@
                             {/each}
                         {/if}
                         <p>¿Las normas APA son correctas? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.normas_apa_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea70.evaluacion.finalizado == true || evaluacionProyectoLinea70.evaluacion.habilitado == false || evaluacionProyectoLinea70.evaluacion.modificable == false ? true : undefined} bind:checked={$form.normas_apa_requiere_comentario} />
                         {#if $form.normas_apa_requiere_comentario == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : taEvaluacion.evaluacion.finalizado == true || taEvaluacion.evaluacion.habilitado == false || taEvaluacion.evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="normas_apa_comentario" bind:value={$form.normas_apa_comentario} error={errors.normas_apa_comentario} required />
+                            <Textarea disabled={is_super_admin ? undefined : evaluacionProyectoLinea70.evaluacion.finalizado == true || evaluacionProyectoLinea70.evaluacion.habilitado == false || evaluacionProyectoLinea70.evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="normas_apa_comentario" bind:value={$form.normas_apa_comentario} error={errors.normas_apa_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
@@ -440,7 +440,7 @@
         </TaForm>
 
         <div className="flex items-center justify-between mt-14 px-8 py-4">
-            {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && taEvaluacion.evaluacion.finalizado == false && taEvaluacion.evaluacion.habilitado == true && taEvaluacion.evaluacion.modificable == true)}
+            {#if is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacionProyectoLinea70.evaluacion.finalizado == false && evaluacionProyectoLinea70.evaluacion.habilitado == true && evaluacionProyectoLinea70.evaluacion.modificable == true)}
                 {#if $form.clausula_confidencialidad}
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-500 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

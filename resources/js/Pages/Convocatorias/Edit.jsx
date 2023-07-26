@@ -15,8 +15,8 @@ import Textarea from '@/Components/Textarea'
 import { Grid, Paper } from '@mui/material'
 
 const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, fases }) => {
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
     const submitFase = (e) => {
         e.preventDefault()
@@ -41,7 +41,7 @@ const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, fases }) => {
     const submitInfo = (e) => {
         e.preventDefault()
 
-        if (isSuperAdmin) {
+        if (is_super_admin) {
             putConvocatoria(route('convocatorias.update', convocatoria.id), {
                 preserveScroll: true,
             })
@@ -58,7 +58,7 @@ const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, fases }) => {
                 {convocatoria.tipo_convocatoria == 1 || convocatoria.tipo_convocatoria == 3 ? (
                     <Paper elevation={0} sx={{ padding: 2 }}>
                         <form onSubmit={submitFase}>
-                            <fieldset className="p-8" disabled={isSuperAdmin ? undefined : true}>
+                            <fieldset className="p-8" disabled={is_super_admin ? undefined : true}>
                                 <div className="grid grid-cols-2 space-y-2">
                                     <div>
                                         <Label required className="mb-4" labelFor="fase" value="Fase" />
@@ -110,7 +110,7 @@ const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, fases }) => {
                                     </div>
                                 </div>
 
-                                <AlertMui className="mt-10" hiddenIcon={true}>
+                                <AlertMui className="mt-10">
                                     {formFase.data.fase?.value === 1 && (
                                         <>
                                             <strong>Tenga en cuenta</strong>
@@ -153,7 +153,7 @@ const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, fases }) => {
                                 </AlertMui>
                             </fieldset>
                             <div className="flex items-center justify-between mt-14 px-8 py-4">
-                                {isSuperAdmin && (
+                                {is_super_admin && (
                                     <PrimaryButton className="ml-auto" type="submit" disabled={formFase.processing}>
                                         Guardar información sobre la fase
                                     </PrimaryButton>
@@ -171,7 +171,7 @@ const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, fases }) => {
             <Grid item md={8} className="drop-shadow-lg">
                 <Paper elevation={0} sx={{ padding: 2 }}>
                     <form onSubmit={submitInfo}>
-                        <fieldset className="p-8" disabled={isSuperAdmin ? undefined : true}>
+                        <fieldset className="p-8" disabled={is_super_admin ? undefined : true}>
                             <div className="mt-8">
                                 <Textarea
                                     label="Descripción"
@@ -239,7 +239,7 @@ const Edit = ({ auth, errors, convocatoria, lineasProgramaticas, fases }) => {
                             )}
                         </fieldset>
                         <div className="flex items-center justify-between mt-14 px-8 py-4">
-                            {isSuperAdmin && (
+                            {is_super_admin && (
                                 <PrimaryButton className="ml-auto" type="submit" disabled={formConvocatoria.processing}>
                                     Guardar información sobre la convocatoria
                                 </PrimaryButton>

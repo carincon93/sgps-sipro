@@ -8,10 +8,10 @@ use App\Models\Convocatoria;
 use App\Models\Proyecto;
 use App\Models\EntidadAliada;
 use App\Models\Actividad;
-use App\Models\EntidadAliadaIdi;
+use App\Models\EntidadAliadaLinea66;
 use App\Models\EntidadAliadaTaTp;
 use App\Models\Evaluacion\Evaluacion;
-use App\Models\Evaluacion\TaEvaluacion;
+use App\Models\Evaluacion\EvaluacionProyectoLinea70;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -27,8 +27,8 @@ class EntidadAliadaController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->load('evaluaciones.idiEvaluacion');
-        $proyecto->load('evaluaciones.taEvaluacion');
+        $proyecto->load('evaluaciones.evaluacionProyectoLinea66');
+        $proyecto->load('evaluaciones.evaluacionProyectoLinea70');
 
         $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
 
@@ -94,7 +94,7 @@ class EntidadAliadaController extends Controller
         $entidadAliada->save();
         $request->merge(['entidad_aliada_id' => $entidadAliada->id]);
 
-        if ($proyecto->idi()->exists()) {
+        if ($proyecto->proyectoLinea66()->exists()) {
             $request->validate([
                 'descripcion_convenio'                      => 'nullable|string',
                 'grupo_investigacion'                       => 'nullable|max:191',
@@ -108,7 +108,7 @@ class EntidadAliadaController extends Controller
                 'actividad_id*'                             => 'required|min:0|max:2147483647|integer|exists:actividades,id',
             ]);
 
-            $entidadAliadaIdi = EntidadAliadaIdi::create($request->all());
+            $entidadAliadaIdi = EntidadAliadaLinea66::create($request->all());
 
             $entidadAliada->actividades()->attach($request->actividad_id);
 
@@ -125,7 +125,7 @@ class EntidadAliadaController extends Controller
             }
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.edit', [$convocatoria, $proyecto, $entidadAliada])->with('success', 'El recurso se ha creado correctamente.');
-        } elseif ($proyecto->ta()->exists() || $proyecto->tp()->exists()) {
+        } elseif ($proyecto->proyectoLinea70()->exists() || $proyecto->proyectoLinea69()->exists()) {
             $request->validate([
                 'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
                 'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
@@ -185,7 +185,7 @@ class EntidadAliadaController extends Controller
         $entidadAliada->tipo_empresa = $request->tipo_empresa;
         $entidadAliada->nit          = $request->nit;
 
-        if ($proyecto->idi()->exists()) {
+        if ($proyecto->proyectoLinea66()->exists()) {
             $request->validate([
                 'descripcion_convenio'                      => 'nullable|string',
                 'grupo_investigacion'                       => 'nullable|max:191',
@@ -218,7 +218,7 @@ class EntidadAliadaController extends Controller
             }
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.edit', [$convocatoria, $proyecto, $entidadAliada])->with('success', 'El recurso se ha creado correctamente.');
-        } elseif ($proyecto->ta()->exists() || $proyecto->tp()->exists()) {
+        } elseif ($proyecto->proyectoLinea70()->exists() || $proyecto->proyectoLinea69()->exists()) {
             $request->validate([
                 'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
                 'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
@@ -256,16 +256,16 @@ class EntidadAliadaController extends Controller
         return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
-    public function saveFilesSharepoint($tmpFile, $modulo, $modelo, $campoBd)
+    public function saveFilesSharepoint($tmp_file, $modulo, $modelo, $campo_bd)
     {
         $entidadAliada  = $modelo;
         $proyecto       = Proyecto::find($entidadAliada->entidadAliada->proyecto_id);
 
         $entidadAliadaSharePoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ENTIDADES ALIADAS';
 
-        $sharePointPath = "$modulo/$entidadAliadaSharePoint";
+        $sharepoint_path = "$modulo/$entidadAliadaSharePoint";
 
-        SharepointHelper::saveFilesSharepoint($tmpFile, $modelo, $sharePointPath, $campoBd);
+        SharepointHelper::saveFilesSharepoint($tmp_file, $modelo, $sharepoint_path, $campo_bd);
     }
 
     public function downloadServerFile(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidadAliada)
@@ -279,148 +279,16 @@ class EntidadAliadaController extends Controller
         }
     }
 
-    public function downloadFileSharepoint(Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidadAliada, $tipoArchivo)
+    public function downloadFileSharepoint(Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidadAliada, $tipo_archivo)
     {
-        $sharePointPath = '';
+        $sharepoint_path = '';
         if ($entidadAliada->entidadAliadaIdi()->exists()) {
-            $sharePointPath = $entidadAliada->entidadAliadaIdi[$tipoArchivo];
+            $sharepoint_path = $entidadAliada->entidadAliadaIdi[$tipo_archivo];
         } else if ($entidadAliada->entidadAliadaTaTp()->exists()) {
-            $sharePointPath = $entidadAliada->entidadAliadaTaTp[$tipoArchivo];
+            $sharepoint_path = $entidadAliada->entidadAliadaTaTp[$tipo_archivo];
         }
 
-        SharepointHelper::downloadFile($sharePointPath);
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function showEntidadesAliadasEvaluacion(Convocatoria $convocatoria, Evaluacion $evaluacion)
-    {
-        $this->authorize('visualizar-evaluacion-autor', $evaluacion);
-
-        $evaluacion->proyecto->codigo_linea_programatica = $evaluacion->proyecto->lineaProgramatica->codigo;
-
-        /**
-         * Si el proyecto es de la línea programática 23 o 65 se prohibe el acceso. No requiere de entidades aliadas
-         */
-        if ($evaluacion->proyecto->codigo_linea_programatica == 23 || $evaluacion->proyecto->codigo_linea_programatica == 65 || $evaluacion->proyecto->codigo_linea_programatica == 68) {
-            return redirect()->route('convocatorias.evaluaciones.analisis-riesgos', [$convocatoria, $evaluacion->proyecto])->with('error', 'Esta línea programática no requiere de entidades aliadas');
-        }
-
-        $tipo = 'Sin información';
-        if ($evaluacion->idiEvaluacion()->exists() && $evaluacion->idiEvaluacion->entidad_aliada_verificada) {
-            if ($evaluacion->proyecto->codigo_linea_programatica == 66) {
-                $puntaje = 0;
-                $tipo = '';
-                $detener = false;
-                foreach ($evaluacion->proyecto->entidadesAliadas as $entidadAliada) {
-                    if ($entidadAliada->tipo == 'Universidad' || $entidadAliada->tipo == 'Centro de formación SENA') {
-                        // Universidad / Centro de formación SENA
-                        $puntaje = 5;
-                        $detener = true;
-                        $tipo = $entidadAliada->tipo;
-                    } else if ($entidadAliada->tipo == 'Empresa' && $detener == false || $entidadAliada->tipo == 'Entidades sin ánimo de lucro' && $detener == false || $entidadAliada->tipo == 'Otra' && $detener == false) {
-                        // Empresa / Entidades sin ánimo de lucro / Otra
-                        $puntaje = 2.5;
-                        $tipo = $entidadAliada->tipo;
-                    }
-                }
-
-                $evaluacion->idiEvaluacion()->update([
-                    'entidad_aliada_puntaje' => $puntaje
-                ]);
-            } else if ($evaluacion->proyecto->codigo_linea_programatica == 82) {
-                $puntaje = 0;
-                $tipo = '';
-                $detener = false;
-                foreach ($evaluacion->proyecto->entidadesAliadas as $entidadAliada) {
-                    if ($entidadAliada->tipo == 'Empresa' || $entidadAliada->tipo == 'Entidades sin ánimo de lucro' || $entidadAliada->tipo == 'Otra' || $entidadAliada->tipo == 'Centro de formación SEN') {
-                        // Empresa / Entidades sin ánimo de lucro / Otra / Centro de formación SENA
-                        $puntaje = 5;
-                        $detener = true;
-                        $tipo = $entidadAliada->tipo;
-                    } else if ($entidadAliada->tipo == 'Universidad' && $detener == false) {
-                        // Universidad
-                        $puntaje = 2.5;
-                        $tipo = $entidadAliada->tipo;
-                    }
-                }
-
-                $evaluacion->idiEvaluacion()->update([
-                    'entidad_aliada_puntaje' => $puntaje
-                ]);
-            }
-
-            $evaluacion->entidad_aliada_puntaje = $puntaje;
-        } else {
-            $evaluacion->entidad_aliada_puntaje = 0;
-        }
-
-        $otrasEvaluaciones = null;
-        switch ($evaluacion->proyecto) {
-            case $evaluacion->proyecto->ta()->exists():
-                $ta = $evaluacion->proyecto->ta;
-
-                $otrasEvaluaciones = TaEvaluacion::with('evaluacion.evaluador')->whereHas('evaluacion', function ($query) use ($ta) {
-                    $query->where('evaluaciones.proyecto_id', $ta->id)->where('evaluaciones.habilitado', true);
-                })->where('ta_evaluaciones.id', '!=', $evaluacion->taEvaluacion->id)->get();
-                break;
-            default:
-                break;
-        }
-
-        return Inertia::render('Convocatorias/Evaluaciones/EntidadesAliadas/Index', [
-            'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
-            'evaluacion'        => $evaluacion,
-            'proyecto'          => $evaluacion->proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'finalizado'),
-            'tipoEntidad'       => $tipo,
-            'otrasEvaluaciones' => $otrasEvaluaciones,
-            'filters'           => request()->all('search'),
-            'entidadesAliadas'  => EntidadAliada::where('proyecto_id', $evaluacion->proyecto->id)->orderBy('nombre', 'ASC')
-                ->filterEntidadAliada(request()->only('search'))->select('id', 'nombre', 'tipo')->paginate(),
-            'infraestructuraTecnoacademia'  => json_decode(Storage::get('json/infraestructura-tecnoacademia.json'), true)
-
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\EntidadAliada  $entidadAliada
-     * @return \Illuminate\Http\Response
-     */
-    public function entidadAliadaEvaluacion(Convocatoria $convocatoria, Evaluacion $evaluacion, EntidadAliada $entidadAliada)
-    {
-        $this->authorize('visualizar-evaluacion-autor', $evaluacion);
-
-        $objetivoEspecificos = $evaluacion->proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
-
-        $entidadAliada->miembrosEntidadAliada->only('id', 'nombre', 'email', 'numero_celular');
-        $entidadAliada->entidadAliadaIdi;
-        $entidadAliada->entidadAliadaTaTp;
-
-        $evaluacion->proyecto->codigo_linea_programatica = $evaluacion->proyecto->lineaProgramatica->codigo;
-
-        return Inertia::render('Convocatorias/Evaluaciones/EntidadesAliadas/Edit', [
-            'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
-            'evaluacion'        => $evaluacion->only('id'),
-            'proyecto'          => $evaluacion->proyecto->only('id', 'codigo_linea_programatica'),
-            'entidadAliada'     => $entidadAliada,
-            'actividades'       => Actividad::whereIn(
-                'objetivo_especifico_id',
-                $objetivoEspecificos->map(function ($objetivoEspecifico) {
-                    return $objetivoEspecifico->id;
-                })
-            )->orderBy('fecha_inicio', 'ASC')->get(),
-            'actividadesRelacionadas'           => $entidadAliada->actividades()->pluck('actividades.id'),
-            'objetivosEspecificosRelacionados'  => $entidadAliada->actividades()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico'),
-            'tiposEntidadAliada'                => json_decode(Storage::get('json/tipos-entidades-aliadas.json'), true),
-            'naturalezaEntidadAliada'           => json_decode(Storage::get('json/naturaleza-empresa.json'), true),
-            'tiposEmpresa'                      => json_decode(Storage::get('json/tipos-empresa.json'), true),
-            'infraestructuraTecnoacademia'      => json_decode(Storage::get('json/infraestructura-tecnoacademia.json'), true)
-        ]);
+        SharepointHelper::downloadFile($sharepoint_path);
     }
 
     /**
@@ -435,7 +303,7 @@ class EntidadAliadaController extends Controller
     {
         $this->authorize('modificar-evaluacion-autor', $evaluacion);
 
-        $evaluacion->taEvaluacion()->update([
+        $evaluacion->evaluacionProyectoLinea70()->update([
             'entidad_aliada_comentario'   => $request->entidad_aliada_requiere_comentario == false ? $request->entidad_aliada_comentario : null
         ]);
 
@@ -444,8 +312,8 @@ class EntidadAliadaController extends Controller
 
     public function validarEntidadAliada(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion, EntidadAliada $entidadAliada)
     {
-        if ($evaluacion->idiEvaluacion()->exists()) {
-            $evaluacion->idiEvaluacion()->update([
+        if ($evaluacion->evaluacionProyectoLinea66()->exists()) {
+            $evaluacion->evaluacionProyectoLinea66()->update([
                 'entidad_aliada_verificada' => $request->entidad_aliada_verificada
             ]);
         }

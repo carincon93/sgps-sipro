@@ -48,8 +48,8 @@ const Actividades = ({
     proyectoRoles,
     productos,
 }) => {
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+    const auth_user = auth.user
+    const isSuperAdmin = checkRole(auth_user, [1])
 
     const [actividadToDestroy, setActividadToDestroy] = useState(null)
     const [dialogStatus, setDialogStatus] = useState(false)
@@ -135,7 +135,7 @@ const Actividades = ({
             <TabsMui tabs={tabs}>
                 <div>
                     <Grid item md={12}>
-                        <AlertMui hiddenIcon={true}>
+                        <AlertMui>
                             <span className="text-5xl font-black">1.</span>
                             <h1 className="text-3xl text-center">Metodología</h1>
                             <p className="my-8">
@@ -424,9 +424,7 @@ const Actividades = ({
                                                     required={form.data.nombre_instituciones_programas ? false : true}
                                                 />
                                                 <div className="mt-10">
-                                                    <AlertMui hiddenIcon={true}>
-                                                        Si no encuentra alguna institución educativa en la anterior lista por favor escriba el nombre en el siguiente campo de texto
-                                                    </AlertMui>
+                                                    <AlertMui>Si no encuentra alguna institución educativa en la anterior lista por favor escriba el nombre en el siguiente campo de texto</AlertMui>
                                                     <Textarea
                                                         label="Instituciones"
                                                         id="otras_nombre_instituciones_programas"
@@ -500,7 +498,7 @@ const Actividades = ({
                                                         required={form.data.nuevas_instituciones ? false : true}
                                                     />
                                                     <div className="mt-10">
-                                                        <AlertMui hiddenIcon={true}>
+                                                        <AlertMui>
                                                             Si no encuentra alguna institución educativa en la anterior lista por favor escriba el nombre en el siguiente campo de texto
                                                         </AlertMui>
                                                         <Textarea
@@ -578,7 +576,7 @@ const Actividades = ({
                                                     />
 
                                                     <div className="mt-10">
-                                                        <AlertMui hiddenIcon={true}>
+                                                        <AlertMui>
                                                             Si no encuentra alguna institución educativa en la anterior lista por favor escriba el nombre en el siguiente campo de texto
                                                         </AlertMui>
                                                         <Textarea
@@ -758,7 +756,7 @@ const Actividades = ({
 
                 <div>
                     <Grid item md={12}>
-                        <AlertMui hiddenIcon={true}>
+                        <AlertMui>
                             <span className="text-5xl font-black">2.</span>
                             <h1 className="text-3xl text-center">Actividades</h1>
                         </AlertMui>
@@ -844,17 +842,17 @@ const Actividades = ({
                     </Grid>
                 </div>
 
-                {tecnoacademiaRelacionada?.modalidad == 2 && (
+                {tecnoacademiaRelacionada?.modalidad == 2 ? (
                     <div>
                         <Grid item md={12}>
-                            <AlertMui hiddenIcon={true}>
+                            <AlertMui>
                                 <span className="text-5xl font-black">3.</span>
                                 <h1 className="text-3xl text-center">Aulas móviles</h1>
                             </AlertMui>
                             <AulaMovil auth={auth} convocatoria={convocatoria} proyecto={proyecto} aulasMoviles={aulasMoviles} />
                         </Grid>
                     </div>
-                )}
+                ) : null}
             </TabsMui>
         </AuthenticatedLayout>
     )

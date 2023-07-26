@@ -28,13 +28,13 @@ class GrupoInvestigacionController extends Controller
         $this->authorize('viewAny', [GrupoInvestigacion::class]);
 
         /** @var \App\Models\User */
-        $authUser = Auth::user();
+        $auth_user = Auth::user();
 
         return Inertia::render('GruposInvestigacion/Index', [
             'filters'                               => request()->all('search'),
             'gruposInvestigacion'                   => GrupoInvestigacion::select('grupos_investigacion.id', 'grupos_investigacion.nombre', 'grupos_investigacion.centro_formacion_id')->with('centroFormacion.regional')->filterGrupoInvestigacion(request()->only('search', 'grupoInvestigacion'))->orderBy('grupos_investigacion.nombre', 'ASC')->paginate(),
-            'gruposInvestigacionCentroFormacion'    => GrupoInvestigacion::select('grupos_investigacion.id', 'grupos_investigacion.nombre', 'grupos_investigacion.centro_formacion_id')->where('grupos_investigacion.centro_formacion_id', $authUser->centro_formacion_id)->with('centroFormacion.regional')->get(),
-            'allowedToCreate'                       => Gate::inspect('create', [GrupoInvestigacion::class])->allowed()
+            'gruposInvestigacionCentroFormacion'    => GrupoInvestigacion::select('grupos_investigacion.id', 'grupos_investigacion.nombre', 'grupos_investigacion.centro_formacion_id')->where('grupos_investigacion.centro_formacion_id', $auth_user->centro_formacion_id)->with('centroFormacion.regional')->get(),
+            'allowed_to_create'                       => Gate::inspect('create', [GrupoInvestigacion::class])->allowed()
         ]);
     }
 
@@ -51,7 +51,7 @@ class GrupoInvestigacionController extends Controller
             'categoriasMinciencias' => json_decode(Storage::get('json/categorias-minciencias.json'), true),
             'redesConocimiento'     => SelectHelper::redesConocimiento(),
             'centrosFormacion'      => SelectHelper::centrosFormacion(),
-            'allowedToCreate'       => Gate::inspect('create', [GrupoInvestigacion::class])->allowed()
+            'allowed_to_create'       => Gate::inspect('create', [GrupoInvestigacion::class])->allowed()
         ]);
     }
 
@@ -211,10 +211,10 @@ class GrupoInvestigacionController extends Controller
         SharepointHelper::downloadServerFile($grupoInvestigacion, $request->formato);
     }
 
-    public function downloadFileSharepoint(GrupoInvestigacion $grupoInvestigacion, $tipoArchivo)
+    public function downloadFileSharepoint(GrupoInvestigacion $grupoInvestigacion, $tipo_archivo)
     {
-        $sharePointPath = $grupoInvestigacion[$tipoArchivo];
+        $sharepoint_path = $grupoInvestigacion[$tipo_archivo];
 
-        return SharepointHelper::downloadFile($sharePointPath);
+        return SharepointHelper::downloadFile($sharepoint_path);
     }
 }

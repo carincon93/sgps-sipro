@@ -7,49 +7,48 @@ import { checkRole } from '@/Utils'
 const Create = ({
     auth,
     convocatoria,
-    centrosFormacion,
-    mesasSectoriales,
-    areasConocimiento,
-    lineasInvestigacion,
-    lineasProgramaticas,
-    lineasTecnoacademia,
-    actividadesEconomicas,
-    tematicasEstrategicas,
+    centros_formacion,
+    mesas_sectoriales,
+    areas_conocimiento,
+    lineas_investigacion,
+    lineas_programaticas,
+    lineas_tecnoacademia,
+    actividades_economicas,
+    tematicas_estrategicas,
     tecnoacademia,
     tecnoacademias,
-    programasFormacionConRegistroCalificado,
-    programasFormacionSinRegistroCalificado,
+    programas_formacion_con_registro_calificado,
+    programas_formacion_sin_registro_calificado,
     municipios,
-    tiposProyectos,
-    tiposEventos,
-    roles,
+    tipos_proyectos,
+    tipos_eventos,
+    roles_sennova,
     ...props
 }) => {
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Formular proyecto</h2>}>
             <Form
-                isSuperAdmin={isSuperAdmin}
+                is_super_admin={is_super_admin}
                 method="crear"
-                convocatoria={convocatoria}
-                centrosFormacion={centrosFormacion}
-                mesasSectoriales={mesasSectoriales}
-                areasConocimiento={areasConocimiento}
-                lineasInvestigacion={lineasInvestigacion}
-                lineasProgramaticas={lineasProgramaticas}
-                lineasTecnoacademia={lineasTecnoacademia}
-                actividadesEconomicas={actividadesEconomicas}
-                tematicasEstrategicas={tematicasEstrategicas}
+                centros_formacion={centros_formacion}
+                mesas_sectoriales={mesas_sectoriales}
+                areas_conocimiento={areas_conocimiento}
+                lineas_investigacion={lineas_investigacion}
+                lineas_programaticas={lineas_programaticas}
+                lineas_tecnoacademia={lineas_tecnoacademia}
+                actividades_economicas={actividades_economicas}
+                tematicas_estrategicas={tematicas_estrategicas}
                 tecnoacademia={tecnoacademia}
                 tecnoacademias={tecnoacademias}
-                programasFormacionConRegistroCalificado={programasFormacionConRegistroCalificado}
-                programasFormacionSinRegistroCalificado={programasFormacionSinRegistroCalificado}
+                programas_formacion_con_registro_calificado={programas_formacion_con_registro_calificado}
+                programas_formacion_sin_registro_calificado={programas_formacion_sin_registro_calificado}
                 municipios={municipios}
-                tiposProyectos={tiposProyectos}
-                tiposEventos={tiposEventos}
-                roles={roles}
+                tipos_proyectos={tipos_proyectos}
+                tipos_eventos={tipos_eventos}
+                roles_sennova={roles_sennova}
             />
         </AuthenticatedLayout>
     )

@@ -23,8 +23,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let dialogEliminar = false
     let allowedToDestroy = false
@@ -50,10 +50,10 @@
         <div slot="title">Inventario de equipos</div>
 
         <div slot="caption">
-            {#if (isSuperAdmin && proyecto.codigo_linea_programatica == 68) || (proyecto.mostrar_recomendaciones && proyecto.codigo_linea_programatica == 68)}
+            {#if (is_super_admin && proyecto.codigo_linea_programatica == 68) || (proyecto.mostrar_recomendaciones && proyecto.codigo_linea_programatica == 68)}
                 <RecomendacionEvaluador className="mt-8">
                     {#each proyecto.evaluaciones as evaluacion, i}
-                        {#if isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado)}
+                        {#if is_super_admin || (evaluacion.finalizado && evaluacion.habilitado)}
                             <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
                                 <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
                                 <p className="whitespace-pre-line text-xs">{evaluacion.servicio_tecnologico_evaluacion?.inventario_equipos_comentario ? evaluacion.servicio_tecnologico_evaluacion.inventario_equipos_comentario : 'Sin recomendación'}</p>

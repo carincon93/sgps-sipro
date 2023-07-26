@@ -31,7 +31,7 @@
     export let form
     export let submit
     export let lineasTecnoacademia
-    export let allowedToCreate
+    export let allowed_to_create
     export let method
     export let dialogGuardar = false
 
@@ -69,7 +69,7 @@
 </script>
 
 <form on:submit|preventDefault={submit} id="proyecto-idi-tecnoacademia-form">
-    <fieldset className="p-8" disabled={proyectoIdiTecnoacademia?.allowed.to_update || allowedToCreate ? undefined : true}>
+    <fieldset className="p-8" disabled={proyectoIdiTecnoacademia?.allowed.to_update || allowed_to_create ? undefined : true}>
         <div className="mt-28">
             <Label required labelFor="titulo" className="font-medium inline-block mb-10 text-center text-gray-700 text-sm w-full" value="Descripción llamativa que orienta el enfoque del proyecto, indica el cómo y el para qué." />
             <Textarea label="Título" id="titulo" sinContador={true} error={errors.titulo} bind:value={$form.titulo} classes="bg-transparent block border-0 {errors.titulo ? '' : 'outline-none-important'} mt-1 outline-none text-4xl text-center w-full" required />
@@ -761,7 +761,7 @@
         <div className="p-4">
             <Button on:click={() => (dialogGuardar = false)} variant={null}>Cancelar</Button>
             <Button variant="raised" type="button" on:click={() => exportComponent.export2Word(proyectoIdiTecnoacademia ? proyectoIdiTecnoacademia.codigo : 'IDITA-BORRADOR')}>Descargar borrador en Word</Button>
-            {#if proyectoIdiTecnoacademia?.allowed.to_update || allowedToCreate}
+            {#if proyectoIdiTecnoacademia?.allowed.to_update || allowed_to_create}
                 <PrimaryButton loading={$form.processing} form="proyecto-idi-tecnoacademia-form">Guardar</PrimaryButton>
             {:else}
                 <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>

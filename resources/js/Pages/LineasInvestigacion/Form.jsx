@@ -9,11 +9,11 @@
     export let form
     export let errors
     export let programasFormacion
-    export let allowedToCreate
+    export let allowed_to_create
 </script>
 
 <form on:submit|preventDefault={submit} className="bg-white rounded shadow">
-    <fieldset className="p-8" disabled={lineaInvestigacion?.allowed.to_update || allowedToCreate ? undefined : true}>
+    <fieldset className="p-8" disabled={lineaInvestigacion?.allowed.to_update || allowed_to_create ? undefined : true}>
         <div className="mt-8">
             <Label required labelFor="nombre" value="Nombre de la línea de investigación" />
             <Input id="nombre" type="text" className="mt-1" bind:value={$form.nombre} error={errors.nombre} required />
@@ -33,7 +33,7 @@
                 {lineaInvestigacion?.updated_at}
             </small>
         {/if}
-        {#if lineaInvestigacion?.allowed.to_update || allowedToCreate}
+        {#if lineaInvestigacion?.allowed.to_update || allowed_to_create}
             <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
         {:else}
             <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>

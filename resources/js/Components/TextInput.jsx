@@ -51,14 +51,19 @@ const useStyles = makeStyles({
     },
 })
 
-export default function TextInput({ id = '', name = '', inputBackground, error = '', isCurrency = false, className = '', ...props }) {
+export default function TextInput({ id = '', name = '', value = '', inputBackground, error = '', isCurrency = false, className = '', ...props }) {
     const classes = useStyles({ background: inputBackground })
+
+    if (value === null) {
+        value = ''
+    }
 
     return (
         <>
             <TextField
                 name={name}
                 error={error ? true : false}
+                value={value}
                 InputProps={{
                     inputComponent: isCurrency ? NumericFormatCustom : null,
                 }}

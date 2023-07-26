@@ -47,7 +47,7 @@ class ProyectoCapacidadInstaladaController extends Controller
         return Inertia::render('ProyectosCapacidadInstalada/Index', [
             'filters'                     => request()->all('search'),
             'proyectosCapacidadInstalada' => ProyectoCapacidadInstalada::getProyectosPorRol()->appends(['search' => request()->search]),
-            'allowedToCreate'             => Gate::inspect('create', [ProyectoCapacidadInstalada::class])->allowed()
+            'allowed_to_create'             => Gate::inspect('create', [ProyectoCapacidadInstalada::class])->allowed()
         ]);
     }
 
@@ -78,7 +78,7 @@ class ProyectoCapacidadInstaladaController extends Controller
 
             'listaBeneficiados' => json_decode(Storage::get('json/proyectos-capacidad-instalada-beneficiados.json'), true),
             'roles'             => json_decode(Storage::get('json/roles-sennova-idi.json'), true),
-            'allowedToCreate'   => Gate::inspect('create', [ProyectoCapacidadInstalada::class])->allowed()
+            'allowed_to_create'   => Gate::inspect('create', [ProyectoCapacidadInstalada::class])->allowed()
         ]);
     }
 
@@ -93,7 +93,7 @@ class ProyectoCapacidadInstaladaController extends Controller
         $this->authorize('create', [ProyectoCapacidadInstalada::class]);
 
         /** @var \App\Models\User */
-        $authUser = Auth::user();
+        $auth_user = Auth::user();
 
         $proyectoCapacidadInstalada = new ProyectoCapacidadInstalada();
 
@@ -110,7 +110,7 @@ class ProyectoCapacidadInstaladaController extends Controller
 
         $proyectoCapacidadInstalada->save();
 
-        $proyectoCapacidadInstalada->integrantes()->attach($authUser->id, ['rol_sennova' => $request->rol_sennova['value'], 'cantidad_meses' => $request->cantidad_meses, 'cantidad_horas' => $request->cantidad_horas, 'autor_principal' => true]);
+        $proyectoCapacidadInstalada->integrantes()->attach($auth_user->id, ['rol_sennova' => $request->rol_sennova['value'], 'cantidad_meses' => $request->cantidad_meses, 'cantidad_horas' => $request->cantidad_horas, 'autor_principal' => true]);
 
         return redirect()->route('proyectos-capacidad-instalada.edit', [$proyectoCapacidadInstalada])->with('success', 'Por favor continue diligenciado la información básica.');
     }
@@ -293,7 +293,7 @@ class ProyectoCapacidadInstaladaController extends Controller
     }
 
     /**
-     * unlinkIntegrante 
+     * unlinkIntegrante
      *
      * @param  mixed $request
      * @param  mixed $proyectoCapacidadInstalada

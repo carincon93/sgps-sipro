@@ -31,8 +31,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let taInfo = {
         infraestructura_tecnoacademia: proyecto.infraestructura_tecnoacademia,
@@ -42,7 +42,7 @@
         entidad_aliada_verificada: evaluacion.idi_evaluacion?.entidad_aliada_verificada,
     })
     function submitEstrategiaRegionalEvaluacion() {
-        if (isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
+        if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
             $formEstrategiaRegionalEvaluacion.put(route('convocatorias.evaluaciones.entidades-aliadas.verificar', [convocatoria.id, evaluacion.id]), {
                 preserveScroll: true,
             })
@@ -54,7 +54,7 @@
         entidad_aliada_requiere_comentario: evaluacion.ta_evaluacion?.entidad_aliada_comentario == null ? true : false,
     })
     function submitTaEvaluacion() {
-        if (isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
+        if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
             $formTaEvaluacion.put(route('convocatorias.evaluaciones.entidades-aliadas.guardar-evaluacion', [convocatoria.id, evaluacion.id]), {
                 preserveScroll: true,
             })
@@ -111,7 +111,7 @@
                     </td>
                     <td className="border-t td-actions">
                         <DataTableMenu className={entidadesAliadas.data.length < 3 ? 'z-50' : ''}>
-                            {#if isSuperAdmin || checkRole(authUser, [11, 5])}
+                            {#if is_super_admin || checkRole(auth_user, [11, 5])}
                                 <Item on:SMUI:action={() => Inertia.visit(route('convocatorias.evaluaciones.entidades-aliadas.edit', [convocatoria.id, evaluacion.id, entidadAliada.id]))}>
                                     <Text>Ver detalles</Text>
                                 </Item>
@@ -138,9 +138,9 @@
             <form on:submit|preventDefault={submitEstrategiaRegionalEvaluacion}>
                 <div className="mt-4">
                     <p>Verifique que la información de la entidad o entidades aliadas registradas sea correcta. Luego seleccione una de las siguientes opciones: <strong>Entidad validada</strong> o <strong>Entidad no validada</strong> y finalmente de clic en <strong>Guardar</strong></p>
-                    <Switch onMessage="Entidad validada" offMessage="Entidad no validada" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formEstrategiaRegionalEvaluacion.entidad_aliada_verificada} />
+                    <Switch onMessage="Entidad validada" offMessage="Entidad no validada" disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formEstrategiaRegionalEvaluacion.entidad_aliada_verificada} />
                 </div>
-                {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
+                {#if is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
                     <div className="px-8 py-4 border-t border-gray-200 flex items-center sticky bottom-0">
                         <PrimaryButton loading={$formEstrategiaRegionalEvaluacion.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
                     </div>
@@ -168,7 +168,7 @@
             <form on:submit|preventDefault={submitTaEvaluacion}>
                 <InfoMessage>
                     <div className="mt-4">
-                        {#if checkRole(authUser, [5]) && evaluacion.evaluacion_final}
+                        {#if checkRole(auth_user, [5]) && evaluacion.evaluacion_final}
                             {#each otrasEvaluaciones as evaluacion}
                                 <div className="mb-8">
                                     <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
@@ -178,14 +178,14 @@
                             {/each}
                         {/if}
                         <p>¿Las entidades aliadas son correctas? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formTaEvaluacion.entidad_aliada_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formTaEvaluacion.entidad_aliada_requiere_comentario} />
                         {#if $formTaEvaluacion.entidad_aliada_requiere_comentario == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="entidad_aliada_comentario" bind:value={$formTaEvaluacion.entidad_aliada_comentario} error={errors.entidad_aliada_comentario} required />
+                            <Textarea disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="entidad_aliada_comentario" bind:value={$formTaEvaluacion.entidad_aliada_comentario} error={errors.entidad_aliada_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
                 <div className="flex items-center justify-between mt-14 px-8 py-4">
-                    {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
+                    {#if is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
                         <PrimaryButton loading={$formTaEvaluacion.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
                     {/if}
                 </div>

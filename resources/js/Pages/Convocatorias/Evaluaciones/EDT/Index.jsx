@@ -27,15 +27,15 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let formTaEvaluacion = useForm({
         edt_comentario: evaluacion.ta_evaluacion.edt_comentario ? evaluacion.ta_evaluacion.edt_comentario : '',
         edt_requiere_comentario: evaluacion.ta_evaluacion.edt_comentario == null ? true : false,
     })
     function submitTaEvaluacion() {
-        if (isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
+        if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
             $formTaEvaluacion.put(route('convocatorias.evaluaciones.edt.guardar-evaluacion', [convocatoria.id, evaluacion.id]), {
                 preserveScroll: true,
             })
@@ -97,7 +97,7 @@
 
                     <td className="border-t td-actions">
                         <DataTableMenu className={eventos.data.length < 3 ? 'z-50' : ''}>
-                            {#if isSuperAdmin || checkPermission(authUser, [6, 7, 15])}
+                            {#if is_super_admin || checkPermission(auth_user, [6, 7, 15])}
                                 <Item on:SMUI:action={() => Inertia.visit(route('convocatorias.evaluaciones.edt.edit', [convocatoria.id, evaluacion.id, evento.id]))}>
                                     <Text>Ver detalles</Text>
                                 </Item>
@@ -124,7 +124,7 @@
         <form on:submit|preventDefault={submitTaEvaluacion}>
             <InfoMessage>
                 <div className="mt-4">
-                    {#if checkRole(authUser, [5]) && evaluacion.evaluacion_final}
+                    {#if checkRole(auth_user, [5]) && evaluacion.evaluacion_final}
                         {#each otrasEvaluaciones as evaluacion}
                             <div className="mb-8">
                                 <h4>Evaluador(a): <span className="font-black capitalize">{evaluacion.evaluacion.evaluador.nombre}</span></h4>
@@ -134,14 +134,14 @@
                         {/each}
                     {/if}
                     <p>¿Las EDT son correctas? Por favor seleccione si Cumple o No cumple.</p>
-                    <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formTaEvaluacion.edt_requiere_comentario} />
+                    <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formTaEvaluacion.edt_requiere_comentario} />
                     {#if $formTaEvaluacion.edt_requiere_comentario == false}
-                        <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="edt_comentario" bind:value={$formTaEvaluacion.edt_comentario} error={errors.edt_comentario} required />
+                        <Textarea disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="edt_comentario" bind:value={$formTaEvaluacion.edt_comentario} error={errors.edt_comentario} required />
                     {/if}
                 </div>
             </InfoMessage>
             <div className="flex items-center justify-between mt-14 px-8 py-4">
-                {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
+                {#if is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
                     <PrimaryButton loading={$formTaEvaluacion.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
                 {/if}
             </div>

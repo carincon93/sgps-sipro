@@ -55,7 +55,7 @@ export default function TabsMui({ children, tabs = [] }) {
             <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
                 {children.map((child, i) => (
                     <TabPanel key={i} value={value} index={i} dir={theme.direction}>
-                        {child.props.children}
+                        {child?.props.children}
                     </TabPanel>
                 ))}
             </SwipeableViews>

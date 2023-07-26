@@ -4,13 +4,13 @@
 
     export let errors
     export let redConocimiento
-    export let isSuperAdmin
+    export let is_super_admin
     export let form
     export let submit
 </script>
 
 <form on:submit|preventDefault={submit}>
-    <fieldset className="p-8" disabled={isSuperAdmin ? undefined : true}>
+    <fieldset className="p-8" disabled={is_super_admin ? undefined : true}>
         <div className="mt-8">
             <Input label="Nombre" id="nombre" type="text" className="mt-1" bind:value={$form.nombre} error={errors.nombre} required />
         </div>
@@ -24,7 +24,7 @@
                 {redConocimiento?.updated_at}
             </small>
         {/if}
-        {#if isSuperAdmin}
+        {#if is_super_admin}
             <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
         {:else}
             <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>

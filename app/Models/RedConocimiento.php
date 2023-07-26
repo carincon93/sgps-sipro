@@ -46,13 +46,13 @@ class RedConocimiento extends Model
     ];
 
     /**
-     * Relationship with Idi
+     * Relationship with ProyectoLinea66
      *
      * @return object
      */
-    public function idi()
+    public function proyectosLinea66()
     {
-        return $this->hasMany(Idi::class);
+        return $this->hasMany(ProyectoLinea66::class);
     }
 
     /**
@@ -66,13 +66,13 @@ class RedConocimiento extends Model
     }
 
     /**
-     * Relationship with Ta
+     * Relationship with ProyectoLinea70
      *
      * @return object
      */
-    public function ta()
+    public function proyectosLinea70()
     {
-        return $this->belongsToMany(Ta::class, 'ta_red_conocimiento', 'red_conocimiento_id', 'ta_id');
+        return $this->belongsToMany(ProyectoLinea70::class, 'ta_red_conocimiento', 'red_conocimiento_id', 'ta_id');
     }
 
     /**

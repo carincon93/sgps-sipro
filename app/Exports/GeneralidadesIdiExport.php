@@ -105,7 +105,7 @@ class GeneralidadesIdiExport implements FromCollection, WithHeadings, WithMappin
             $this->mapParticipantes($idi->proyecto->participantes),
             ($idi->proyecto->finalizado) ? 'SI' : 'NO',
             ($idi->proyecto->habilitado_para_evaluar) ? 'SI' : 'NO',
-            $idi->proyecto->estado_cord_sennova ? json_decode($idi->proyecto->estado_cord_sennova)->estado : ($idi->proyecto->idi()->exists() ? $idi->proyecto->estado_evaluacion_idi['estado'] : 'Sin información registrada'),
+            $idi->proyecto->estado_cord_sennova ? json_decode($idi->proyecto->estado_cord_sennova)->estado : ($idi->proyecto->proyectoLinea66()->exists() ? $idi->proyecto->estado_evaluacion_idi['estado'] : 'Sin información registrada'),
         ];
     }
 

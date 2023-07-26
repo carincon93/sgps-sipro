@@ -23,7 +23,7 @@ class LineaTecnicaController extends Controller
             'filters'           => request()->all('search'),
             'lineasTecnicas'    => LineaTecnica::orderBy('nombre', 'ASC')
                 ->filterLineaTecnica(request()->only('search'))->paginate()->appends(['search' => request()->search]),
-            'allowedToCreate'   => Gate::inspect('create', [LineaTecnica::class])->allowed()
+            'allowed_to_create'   => Gate::inspect('create', [LineaTecnica::class])->allowed()
 
         ]);
     }
@@ -38,7 +38,7 @@ class LineaTecnicaController extends Controller
         $this->authorize('create', [LineaTecnica::class]);
 
         return Inertia::render('LineasTecnicas/Create', [
-            'allowedToCreate' => Gate::inspect('create', [LineaTecnica::class])->allowed()
+            'allowed_to_create' => Gate::inspect('create', [LineaTecnica::class])->allowed()
         ]);
     }
 

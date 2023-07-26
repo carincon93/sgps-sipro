@@ -12,14 +12,16 @@ import { Grid, TableCell, TableRow } from '@mui/material'
 import { useState } from 'react'
 
 const Edit = ({ auth, convocatoria, proyectoLinea70, lineasProgramaticas, lineasTecnoacademia, infraestructuraTecnoacademia, rolesSennova }) => {
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
     const [evaluacionIndex, setEvaluacionIndex] = useState(0)
     const [dialogStatus, setDialogStatus] = useState(false)
 
     const comentariosEvaluaciones =
-        proyectoLinea70?.proyecto.evaluaciones.lenght > 0 ? Object.keys(proyectoLinea70?.proyecto.evaluaciones[evaluacionIndex].ta_evaluacion).filter((field) => field.endsWith('_comentario')) : null
+        proyectoLinea70?.proyecto.evaluaciones.lenght > 0
+            ? Object.keys(proyectoLinea70?.proyecto.evaluaciones[evaluacionIndex].evaluacion_proyecto_linea70).filter((field) => field.endsWith('_comentario'))
+            : null
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyectoLinea70.titulo}</h2>}>
@@ -55,7 +57,7 @@ const Edit = ({ auth, convocatoria, proyectoLinea70, lineasProgramaticas, lineas
                                                 <TableCell>
                                                     <p className="first-letter:uppercase">{field.replace(/_comentario/g, '').replace(/_/g, ' ')}</p>
                                                 </TableCell>
-                                                <TableCell>{proyectoLinea70?.proyecto.evaluaciones[evaluacionIndex].ta_evaluacion[field] ?? 'Sin comentarios'}</TableCell>
+                                                <TableCell>{proyectoLinea70?.proyecto.evaluaciones[evaluacionIndex].evaluacion_proyecto_linea70[field] ?? 'Sin comentarios'}</TableCell>
                                             </TableRow>
                                         ))}
                             </TableMui>
@@ -70,8 +72,8 @@ const Edit = ({ auth, convocatoria, proyectoLinea70, lineasProgramaticas, lineas
             </Grid>
             <Grid item md={12}>
                 <Form
-                    isSuperAdmin={isSuperAdmin}
-                    authUser={authUser}
+                    is_super_admin={is_super_admin}
+                    auth_user={auth_user}
                     method="editar"
                     convocatoria={convocatoria}
                     proyectoLinea70={proyectoLinea70}

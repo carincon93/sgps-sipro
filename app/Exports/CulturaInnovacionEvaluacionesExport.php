@@ -28,46 +28,46 @@ class CulturaInnovacionEvaluacionesExport implements FromCollection, WithHeading
      */
     public function collection()
     {
-        return CulturaInnovacionEvaluacion::select('cultura_innovacion_evaluaciones.*')->join('evaluaciones', 'cultura_innovacion_evaluaciones.id', 'evaluaciones.id')->join('proyectos', 'evaluaciones.proyecto_id', 'proyectos.id')->where('proyectos.convocatoria_id', $this->convocatoria->id)->whereNotIn('proyectos.id', [1052, 1113])->get();
+        return CulturaInnovacionEvaluacion::select('evaluaciones_proyectos_linea_65.*')->join('evaluaciones', 'evaluaciones_proyectos_linea_65.id', 'evaluaciones.id')->join('proyectos', 'evaluaciones.proyecto_id', 'proyectos.id')->where('proyectos.convocatoria_id', $this->convocatoria->id)->whereNotIn('proyectos.id', [1052, 1113])->get();
     }
 
     /**
-     * @var Invoice $culturaInnovacionEvaluacion
+     * @var Invoice $proyectoLinea65Evaluacion
      */
-    public function map($culturaInnovacionEvaluacion): array
+    public function map($proyectoLinea65Evaluacion): array
     {
         return [
-            $culturaInnovacionEvaluacion->evaluacion->proyecto->centroFormacion->regional->nombre,
-            $culturaInnovacionEvaluacion->evaluacion->proyecto->centroFormacion->codigo,
-            $culturaInnovacionEvaluacion->evaluacion->proyecto->centroFormacion->nombre,
-            $culturaInnovacionEvaluacion->evaluacion->proyecto->lineaProgramatica->codigo,
-            $culturaInnovacionEvaluacion->evaluacion->evaluador->nombre,
-            $culturaInnovacionEvaluacion->evaluacion->evaluador->numero_documento,
-            $culturaInnovacionEvaluacion->evaluacion->evaluador->email,
-            $culturaInnovacionEvaluacion->evaluacion->proyecto->codigo,
-            $culturaInnovacionEvaluacion->evaluacion->proyecto->culturaInnovacion->titulo,
-            $culturaInnovacionEvaluacion->titulo_comentario ? $culturaInnovacionEvaluacion->titulo_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->video_comentario ? $culturaInnovacionEvaluacion->video_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->resumen_comentario ? $culturaInnovacionEvaluacion->resumen_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->problema_central_comentario ? $culturaInnovacionEvaluacion->problema_central_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->objetivos_comentario ? $culturaInnovacionEvaluacion->objetivos_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->metodologia_comentario ? $culturaInnovacionEvaluacion->metodologia_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->entidad_aliada_comentario ? $culturaInnovacionEvaluacion->entidad_aliada_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->resultados_comentario ? $culturaInnovacionEvaluacion->resultados_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->productos_comentario ? $culturaInnovacionEvaluacion->productos_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->cadena_valor_comentario ? $culturaInnovacionEvaluacion->cadena_valor_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->analisis_riesgos_comentario ? $culturaInnovacionEvaluacion->analisis_riesgos_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->ortografia_comentario ? $culturaInnovacionEvaluacion->ortografia_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->redaccion_comentario ? $culturaInnovacionEvaluacion->redaccion_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->normas_apa_comentario ? $culturaInnovacionEvaluacion->normas_apa_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->justificacion_economia_naranja_comentario ? $culturaInnovacionEvaluacion->justificacion_economia_naranja_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->justificacion_industria_4_comentario ? $culturaInnovacionEvaluacion->justificacion_industria_4_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->bibliografia_comentario ? $culturaInnovacionEvaluacion->bibliografia_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->fechas_comentario ? $culturaInnovacionEvaluacion->fechas_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->justificacion_politica_discapacidad_comentario ? $culturaInnovacionEvaluacion->justificacion_politica_discapacidad_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->actividad_economica_comentario ? $culturaInnovacionEvaluacion->actividad_economica_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->area_conocimiento_comentario ? $culturaInnovacionEvaluacion->area_conocimiento_comentario : 'Cumple',
-            $culturaInnovacionEvaluacion->tematica_estrategica_comentario ? $culturaInnovacionEvaluacion->tematica_estrategica_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->evaluacion->proyecto->centroFormacion->regional->nombre,
+            $proyectoLinea65Evaluacion->evaluacion->proyecto->centroFormacion->codigo,
+            $proyectoLinea65Evaluacion->evaluacion->proyecto->centroFormacion->nombre,
+            $proyectoLinea65Evaluacion->evaluacion->proyecto->lineaProgramatica->codigo,
+            $proyectoLinea65Evaluacion->evaluacion->evaluador->nombre,
+            $proyectoLinea65Evaluacion->evaluacion->evaluador->numero_documento,
+            $proyectoLinea65Evaluacion->evaluacion->evaluador->email,
+            $proyectoLinea65Evaluacion->evaluacion->proyecto->codigo,
+            $proyectoLinea65Evaluacion->evaluacion->proyecto->proyectoLinea65->titulo,
+            $proyectoLinea65Evaluacion->titulo_comentario ? $proyectoLinea65Evaluacion->titulo_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->video_comentario ? $proyectoLinea65Evaluacion->video_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->resumen_comentario ? $proyectoLinea65Evaluacion->resumen_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->problema_central_comentario ? $proyectoLinea65Evaluacion->problema_central_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->objetivos_comentario ? $proyectoLinea65Evaluacion->objetivos_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->metodologia_comentario ? $proyectoLinea65Evaluacion->metodologia_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->entidad_aliada_comentario ? $proyectoLinea65Evaluacion->entidad_aliada_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->resultados_comentario ? $proyectoLinea65Evaluacion->resultados_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->productos_comentario ? $proyectoLinea65Evaluacion->productos_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->cadena_valor_comentario ? $proyectoLinea65Evaluacion->cadena_valor_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->analisis_riesgos_comentario ? $proyectoLinea65Evaluacion->analisis_riesgos_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->ortografia_comentario ? $proyectoLinea65Evaluacion->ortografia_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->redaccion_comentario ? $proyectoLinea65Evaluacion->redaccion_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->normas_apa_comentario ? $proyectoLinea65Evaluacion->normas_apa_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->justificacion_economia_naranja_comentario ? $proyectoLinea65Evaluacion->justificacion_economia_naranja_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->justificacion_industria_4_comentario ? $proyectoLinea65Evaluacion->justificacion_industria_4_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->bibliografia_comentario ? $proyectoLinea65Evaluacion->bibliografia_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->fechas_comentario ? $proyectoLinea65Evaluacion->fechas_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->justificacion_politica_discapacidad_comentario ? $proyectoLinea65Evaluacion->justificacion_politica_discapacidad_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->actividad_economica_comentario ? $proyectoLinea65Evaluacion->actividad_economica_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->area_conocimiento_comentario ? $proyectoLinea65Evaluacion->area_conocimiento_comentario : 'Cumple',
+            $proyectoLinea65Evaluacion->tematica_estrategica_comentario ? $proyectoLinea65Evaluacion->tematica_estrategica_comentario : 'Cumple',
 
         ];
     }

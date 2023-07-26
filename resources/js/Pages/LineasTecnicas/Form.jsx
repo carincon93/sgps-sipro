@@ -6,11 +6,11 @@
     export let lineaTecnica
     export let form
     export let submit
-    export let allowedToCreate
+    export let allowed_to_create
 </script>
 
 <form on:submit|preventDefault={submit}>
-    <fieldset className="p-8" disabled={lineaTecnica?.allowed.to_update || allowedToCreate ? undefined : true}>
+    <fieldset className="p-8" disabled={lineaTecnica?.allowed.to_update || allowed_to_create ? undefined : true}>
         <div className="mt-8">
             <Input label="Nombre" id="nombre" type="text" className="mt-1" bind:value={$form.nombre} error={errors.nombre} required />
         </div>
@@ -24,7 +24,7 @@
                 {lineaTecnica?.updated_at}
             </small>
         {/if}
-        {#if lineaTecnica?.allowed.to_update || allowedToCreate}
+        {#if lineaTecnica?.allowed.to_update || allowed_to_create}
             <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
         {:else}
             <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>

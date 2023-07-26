@@ -17,8 +17,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let form = useForm({
         nombre: lineaProgramatica.nombre,
@@ -29,7 +29,7 @@
     })
 
     function submit() {
-        if (isSuperAdmin) {
+        if (is_super_admin) {
             $form.put(route('lineas-programaticas.update', lineaProgramatica.id), {
                 preserveScroll: true,
             })
@@ -56,7 +56,7 @@
         </div>
 
         <div className="bg-white rounded shadow col-span-2">
-            <Form {errors} {isSuperAdmin} {categoriasProyectos} {activadores} {form} {lineaProgramatica} {submit} />
+            <Form {errors} {is_super_admin} {categoriasProyectos} {activadores} {form} {lineaProgramatica} {submit} />
         </div>
     </div>
 </AuthenticatedLayout>

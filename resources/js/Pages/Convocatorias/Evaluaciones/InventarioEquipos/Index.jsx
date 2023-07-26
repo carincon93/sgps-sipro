@@ -26,15 +26,15 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let formServicioTecnologicoEvaluacion = useForm({
         inventario_equipos_comentario: evaluacion.servicio_tecnologico_evaluacion?.inventario_equipos_comentario ? evaluacion.servicio_tecnologico_evaluacion?.inventario_equipos_comentario : '',
         inventario_equipos_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.inventario_equipos_comentario == null ? true : false,
     })
     function submitServicioTecnologicoEvaluacion() {
-        if (isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
+        if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
             $formServicioTecnologicoEvaluacion.put(route('convocatorias.evaluaciones.inventario-equipos.guardar-evaluacion', [convocatoria.id, evaluacion.id]), {
                 preserveScroll: true,
             })
@@ -85,7 +85,7 @@
 
                     <td className="border-t td-actions">
                         <DataTableMenu className={inventarioEquipos.data.length < 3 ? 'z-50' : ''}>
-                            {#if isSuperAdmin || checkRole(authUser, [11, 5])}
+                            {#if is_super_admin || checkRole(auth_user, [11, 5])}
                                 <Item on:SMUI:action={() => Inertia.visit(route('convocatorias.evaluaciones.inventario-equipos.edit', [convocatoria.id, evaluacion.id, inventarioEquipo.id]))}>
                                     <Text>Ver detalles</Text>
                                 </Item>
@@ -111,10 +111,10 @@
             <InfoMessage>
                 <div className="mt-4">
                     <p>¿El inventario de equipos es correcto? Por favor seleccione si Cumple o No cumple.</p>
-                    <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formServicioTecnologicoEvaluacion.inventario_equipos_requiere_comentario} />
+                    <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$formServicioTecnologicoEvaluacion.inventario_equipos_requiere_comentario} />
                     {#if $formServicioTecnologicoEvaluacion.inventario_equipos_requiere_comentario == false}
                         <Textarea
-                            disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
+                            disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined}
                             label="Comentario"
                             className="mt-4"
                             maxlength="40000"
@@ -127,7 +127,7 @@
                 </div>
             </InfoMessage>
             <div className="flex items-center justify-between mt-14 px-8 py-4">
-                {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
+                {#if is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
                     <PrimaryButton loading={$formServicioTecnologicoEvaluacion.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
                 {/if}
             </div>

@@ -13,8 +13,8 @@ import { checkRole } from '@/Utils'
 import Form from './Form'
 
 const AulaMovil = ({ auth, convocatoria, proyecto, aulasMoviles, ...props }) => {
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
     const [dialogStatus, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
@@ -94,7 +94,7 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulasMoviles, ...props }) => 
                 fullWidth={true}
                 maxWidth="lg"
                 blurEnabled={true}
-                dialogContent={<Form isSuperAdmin={isSuperAdmin} setDialogStatus={setDialogStatus} method={method} proyecto={proyecto} convocatoria={convocatoria} aulaMovil={aulaMovil} />}
+                dialogContent={<Form is_super_admin={is_super_admin} setDialogStatus={setDialogStatus} method={method} proyecto={proyecto} convocatoria={convocatoria} aulaMovil={aulaMovil} />}
             />
         </>
     )

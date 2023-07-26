@@ -66,43 +66,53 @@ class Producto extends Model
     }
 
     /**
-     * Relationship with ProductoIdi
+     * Relationship with ProductoProyectoLinea66
      *
      * @return object
      */
-    public function productoIdi()
+    public function productoProyectoLinea66()
     {
-        return $this->hasOne(ProductoIdi::class);
+        return $this->hasOne(ProductoProyectoLinea66::class);
     }
 
     /**
-     * Relationship with ProductoCulturaInnovacion
+     * Relationship with ProductoProyectoLinea65
      *
      * @return object
      */
-    public function productoCulturaInnovacion()
+    public function productoProyectoLinea65()
     {
-        return $this->hasOne(ProductoCulturaInnovacion::class);
+        return $this->hasOne(ProductoProyectoLinea65::class);
     }
 
     /**
-     * Relationship with ProductoTaTp
+     * Relationship with ProductoLinea69
      *
      * @return object
      */
-    public function productoTaTp()
+    public function productoLinea69()
     {
-        return $this->hasOne(ProductoTaTp::class);
+        return $this->hasOne(ProductoLinea69::class);
     }
 
     /**
-     * Relationship with ProductoServicioTecnologico
+     * Relationship with ProductoLinea70
      *
      * @return object
      */
-    public function productoServicioTecnologico()
+    public function productoLinea70()
     {
-        return $this->hasOne(ProductoServicioTecnologico::class);
+        return $this->hasOne(ProductoLinea70::class);
+    }
+
+    /**
+     * Relationship with ProductoProyectoLinea68
+     *
+     * @return object
+     */
+    public function productoProyectoLinea68()
+    {
+        return $this->hasOne(ProductoProyectoLinea68::class);
     }
 
     /**

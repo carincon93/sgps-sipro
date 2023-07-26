@@ -18,13 +18,13 @@
     export let errors
     export let convocatoria
     export let tp
-    export let tpEvaluacion
+    export let evaluacionProyectoLinea69
     export let lineasProgramaticas
 
     $: $title = tp ? tp.titulo : null
 
     let dialogSegundaEvaluacion = convocatoria.fase == 4 ? true : false
-    let proyectoDialogOpen = tpEvaluacion.evaluacion.clausula_confidencialidad == false ? true : false
+    let proyectoDialogOpen = evaluacionProyectoLinea69.evaluacion.clausula_confidencialidad == false ? true : false
 
     let codigoLineaProgramatica
 
@@ -37,8 +37,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let tpInfo = useForm({
         centro_formacion_id: tp.proyecto.centro_formacion_id,
@@ -84,34 +84,34 @@
     }
 
     let form = useForm({
-        clausula_confidencialidad: tpEvaluacion.evaluacion.clausula_confidencialidad,
-        fecha_ejecucion_comentario: tpEvaluacion.fecha_ejecucion_comentario ? tpEvaluacion.fecha_ejecucion_comentario : '',
-        fecha_ejecucion_requiere_comentario: tpEvaluacion.fecha_ejecucion_comentario == null ? true : false,
-        resumen_regional_comentario: tpEvaluacion.resumen_regional_comentario ? tpEvaluacion.resumen_regional_comentario : '',
-        resumen_regional_requiere_comentario: tpEvaluacion.resumen_regional_comentario == null ? true : false,
-        antecedentes_regional_comentario: tpEvaluacion.antecedentes_regional_comentario ? tpEvaluacion.antecedentes_regional_comentario : '',
-        antecedentes_regional_requiere_comentario: tpEvaluacion.antecedentes_regional_comentario == null ? true : false,
-        instituciones_comentario: tpEvaluacion.instituciones_comentario ? tpEvaluacion.instituciones_comentario : '',
-        instituciones_requiere_comentario: tpEvaluacion.instituciones_comentario == null ? true : false,
+        clausula_confidencialidad: evaluacionProyectoLinea69.evaluacion.clausula_confidencialidad,
+        fecha_ejecucion_comentario: evaluacionProyectoLinea69.fecha_ejecucion_comentario ? evaluacionProyectoLinea69.fecha_ejecucion_comentario : '',
+        fecha_ejecucion_requiere_comentario: evaluacionProyectoLinea69.fecha_ejecucion_comentario == null ? true : false,
+        resumen_regional_comentario: evaluacionProyectoLinea69.resumen_regional_comentario ? evaluacionProyectoLinea69.resumen_regional_comentario : '',
+        resumen_regional_requiere_comentario: evaluacionProyectoLinea69.resumen_regional_comentario == null ? true : false,
+        antecedentes_regional_comentario: evaluacionProyectoLinea69.antecedentes_regional_comentario ? evaluacionProyectoLinea69.antecedentes_regional_comentario : '',
+        antecedentes_regional_requiere_comentario: evaluacionProyectoLinea69.antecedentes_regional_comentario == null ? true : false,
+        instituciones_comentario: evaluacionProyectoLinea69.instituciones_comentario ? evaluacionProyectoLinea69.instituciones_comentario : '',
+        instituciones_requiere_comentario: evaluacionProyectoLinea69.instituciones_comentario == null ? true : false,
 
-        retos_oportunidades_comentario: tpEvaluacion.retos_oportunidades_comentario ? tpEvaluacion.retos_oportunidades_comentario : '',
-        retos_oportunidades_requiere_comentario: tpEvaluacion.retos_oportunidades_comentario == null ? true : false,
-        pertinencia_territorio_comentario: tpEvaluacion.pertinencia_territorio_comentario ? tpEvaluacion.pertinencia_territorio_comentario : '',
-        pertinencia_territorio_requiere_comentario: tpEvaluacion.pertinencia_territorio_comentario == null ? true : false,
+        retos_oportunidades_comentario: evaluacionProyectoLinea69.retos_oportunidades_comentario ? evaluacionProyectoLinea69.retos_oportunidades_comentario : '',
+        retos_oportunidades_requiere_comentario: evaluacionProyectoLinea69.retos_oportunidades_comentario == null ? true : false,
+        pertinencia_territorio_comentario: evaluacionProyectoLinea69.pertinencia_territorio_comentario ? evaluacionProyectoLinea69.pertinencia_territorio_comentario : '',
+        pertinencia_territorio_requiere_comentario: evaluacionProyectoLinea69.pertinencia_territorio_comentario == null ? true : false,
 
-        bibliografia_comentario: tpEvaluacion.bibliografia_comentario ? tpEvaluacion.bibliografia_comentario : '',
-        bibliografia_requiere_comentario: tpEvaluacion.bibliografia_comentario == null ? true : false,
+        bibliografia_comentario: evaluacionProyectoLinea69.bibliografia_comentario ? evaluacionProyectoLinea69.bibliografia_comentario : '',
+        bibliografia_requiere_comentario: evaluacionProyectoLinea69.bibliografia_comentario == null ? true : false,
 
-        ortografia_comentario: tpEvaluacion.ortografia_comentario ? tpEvaluacion.ortografia_comentario : '',
-        ortografia_requiere_comentario: tpEvaluacion.ortografia_comentario == null ? true : false,
-        redaccion_comentario: tpEvaluacion.redaccion_comentario ? tpEvaluacion.redaccion_comentario : '',
-        redaccion_requiere_comentario: tpEvaluacion.redaccion_comentario == null ? true : false,
-        normas_apa_comentario: tpEvaluacion.normas_apa_comentario ? tpEvaluacion.normas_apa_comentario : '',
-        normas_apa_requiere_comentario: tpEvaluacion.normas_apa_comentario == null ? true : false,
+        ortografia_comentario: evaluacionProyectoLinea69.ortografia_comentario ? evaluacionProyectoLinea69.ortografia_comentario : '',
+        ortografia_requiere_comentario: evaluacionProyectoLinea69.ortografia_comentario == null ? true : false,
+        redaccion_comentario: evaluacionProyectoLinea69.redaccion_comentario ? evaluacionProyectoLinea69.redaccion_comentario : '',
+        redaccion_requiere_comentario: evaluacionProyectoLinea69.redaccion_comentario == null ? true : false,
+        normas_apa_comentario: evaluacionProyectoLinea69.normas_apa_comentario ? evaluacionProyectoLinea69.normas_apa_comentario : '',
+        normas_apa_requiere_comentario: evaluacionProyectoLinea69.normas_apa_comentario == null ? true : false,
     })
     function submit() {
-        if (isSuperAdmin || (checkRole(authUser, [11, 5]) && tpEvaluacion.evaluacion.finalizado == false && tpEvaluacion.evaluacion.habilitado == true && tpEvaluacion.evaluacion.modificable == true)) {
-            $form.put(route('convocatorias.tp-evaluaciones.update', [convocatoria.id, tpEvaluacion.id]), {
+        if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacionProyectoLinea69.evaluacion.finalizado == false && evaluacionProyectoLinea69.evaluacion.habilitado == true && evaluacionProyectoLinea69.evaluacion.modificable == true)) {
+            $form.put(route('convocatorias.tp-evaluaciones.update', [convocatoria.id, evaluacionProyectoLinea69.id]), {
                 preserveScroll: true,
             })
         }
@@ -124,19 +124,19 @@
 
 <AuthenticatedLayout>
     <header className="pt-[8rem]" slot="header">
-        <EvaluationStepper {convocatoria} evaluacion={tpEvaluacion.evaluacion} proyecto={tp.proyecto} />
+        <EvaluationStepper {convocatoria} evaluacion={evaluacionProyectoLinea69.evaluacion} proyecto={tp.proyecto} />
     </header>
 
     <form on:submit|preventDefault={submit}>
-        <TpForm {errors} evaluacion={tpEvaluacion.evaluacion} form={tpInfo} {isSuperAdmin} {convocatoria} {tp} {lineasProgramaticas}>
+        <TpForm {errors} evaluacion={evaluacionProyectoLinea69.evaluacion} form={tpInfo} {is_super_admin} {convocatoria} {tp} {lineasProgramaticas}>
             <div slot="fechas">
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿Las fechas son correctas? Por favor seleccione si Cumple o No cumple</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : tpEvaluacion.evaluacion.finalizado == true || tpEvaluacion.evaluacion.habilitado == false || tpEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.fecha_ejecucion_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea69.evaluacion.finalizado == true || evaluacionProyectoLinea69.evaluacion.habilitado == false || evaluacionProyectoLinea69.evaluacion.modificable == false ? true : undefined} bind:checked={$form.fecha_ejecucion_requiere_comentario} />
                         {#if $form.fecha_ejecucion_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : tpEvaluacion.evaluacion.finalizado == true || tpEvaluacion.evaluacion.habilitado == false || tpEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea69.evaluacion.finalizado == true || evaluacionProyectoLinea69.evaluacion.habilitado == false || evaluacionProyectoLinea69.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -154,10 +154,10 @@
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿El resumen ejecutivo regional es correcto? Por favor seleccione si Cumple o No cumple</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : tpEvaluacion.evaluacion.finalizado == true || tpEvaluacion.evaluacion.habilitado == false || tpEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.resumen_regional_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea69.evaluacion.finalizado == true || evaluacionProyectoLinea69.evaluacion.habilitado == false || evaluacionProyectoLinea69.evaluacion.modificable == false ? true : undefined} bind:checked={$form.resumen_regional_requiere_comentario} />
                         {#if $form.resumen_regional_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : tpEvaluacion.evaluacion.finalizado == true || tpEvaluacion.evaluacion.habilitado == false || tpEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea69.evaluacion.finalizado == true || evaluacionProyectoLinea69.evaluacion.habilitado == false || evaluacionProyectoLinea69.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -175,10 +175,10 @@
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿Los antecedentes regionales son correctos? Por favor seleccione si Cumple o No cumple</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : tpEvaluacion.evaluacion.finalizado == true || tpEvaluacion.evaluacion.habilitado == false || tpEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.antecedentes_regional_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea69.evaluacion.finalizado == true || evaluacionProyectoLinea69.evaluacion.habilitado == false || evaluacionProyectoLinea69.evaluacion.modificable == false ? true : undefined} bind:checked={$form.antecedentes_regional_requiere_comentario} />
                         {#if $form.antecedentes_regional_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : tpEvaluacion.evaluacion.finalizado == true || tpEvaluacion.evaluacion.habilitado == false || tpEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea69.evaluacion.finalizado == true || evaluacionProyectoLinea69.evaluacion.habilitado == false || evaluacionProyectoLinea69.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -196,10 +196,10 @@
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿Los retos y prioridades locales son correctos? Por favor seleccione si Cumple o No cumple</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : tpEvaluacion.evaluacion.finalizado == true || tpEvaluacion.evaluacion.habilitado == false || tpEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.retos_oportunidades_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea69.evaluacion.finalizado == true || evaluacionProyectoLinea69.evaluacion.habilitado == false || evaluacionProyectoLinea69.evaluacion.modificable == false ? true : undefined} bind:checked={$form.retos_oportunidades_requiere_comentario} />
                         {#if $form.retos_oportunidades_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : tpEvaluacion.evaluacion.finalizado == true || tpEvaluacion.evaluacion.habilitado == false || tpEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea69.evaluacion.finalizado == true || evaluacionProyectoLinea69.evaluacion.habilitado == false || evaluacionProyectoLinea69.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -217,10 +217,10 @@
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿La justificación y pertinencia en el territorio es correcta? Por favor seleccione si Cumple o No cumple</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : tpEvaluacion.evaluacion.finalizado == true || tpEvaluacion.evaluacion.habilitado == false || tpEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.pertinencia_territorio_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea69.evaluacion.finalizado == true || evaluacionProyectoLinea69.evaluacion.habilitado == false || evaluacionProyectoLinea69.evaluacion.modificable == false ? true : undefined} bind:checked={$form.pertinencia_territorio_requiere_comentario} />
                         {#if $form.pertinencia_territorio_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : tpEvaluacion.evaluacion.finalizado == true || tpEvaluacion.evaluacion.habilitado == false || tpEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea69.evaluacion.finalizado == true || evaluacionProyectoLinea69.evaluacion.habilitado == false || evaluacionProyectoLinea69.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -238,10 +238,10 @@
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿La bibliografia es correcta? Por favor seleccione si Cumple o No cumple</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : tpEvaluacion.evaluacion.finalizado == true || tpEvaluacion.evaluacion.habilitado == false || tpEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.bibliografia_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea69.evaluacion.finalizado == true || evaluacionProyectoLinea69.evaluacion.habilitado == false || evaluacionProyectoLinea69.evaluacion.modificable == false ? true : undefined} bind:checked={$form.bibliografia_requiere_comentario} />
                         {#if $form.bibliografia_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : tpEvaluacion.evaluacion.finalizado == true || tpEvaluacion.evaluacion.habilitado == false || tpEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea69.evaluacion.finalizado == true || evaluacionProyectoLinea69.evaluacion.habilitado == false || evaluacionProyectoLinea69.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -262,9 +262,9 @@
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿La ortografía es correcta? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : tpEvaluacion.evaluacion.finalizado == true || tpEvaluacion.evaluacion.habilitado == false || tpEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.ortografia_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea69.evaluacion.finalizado == true || evaluacionProyectoLinea69.evaluacion.habilitado == false || evaluacionProyectoLinea69.evaluacion.modificable == false ? true : undefined} bind:checked={$form.ortografia_requiere_comentario} />
                         {#if $form.ortografia_requiere_comentario == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : tpEvaluacion.evaluacion.finalizado == true || tpEvaluacion.evaluacion.habilitado == false || tpEvaluacion.evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="ortografia_comentario" bind:value={$form.ortografia_comentario} error={errors.ortografia_comentario} required />
+                            <Textarea disabled={is_super_admin ? undefined : evaluacionProyectoLinea69.evaluacion.finalizado == true || evaluacionProyectoLinea69.evaluacion.habilitado == false || evaluacionProyectoLinea69.evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="ortografia_comentario" bind:value={$form.ortografia_comentario} error={errors.ortografia_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
@@ -274,9 +274,9 @@
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿La redacción es correcta? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : tpEvaluacion.evaluacion.finalizado == true || tpEvaluacion.evaluacion.habilitado == false || tpEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.redaccion_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea69.evaluacion.finalizado == true || evaluacionProyectoLinea69.evaluacion.habilitado == false || evaluacionProyectoLinea69.evaluacion.modificable == false ? true : undefined} bind:checked={$form.redaccion_requiere_comentario} />
                         {#if $form.redaccion_requiere_comentario == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : tpEvaluacion.evaluacion.finalizado == true || tpEvaluacion.evaluacion.habilitado == false || tpEvaluacion.evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="redaccioncomentario" bind:value={$form.redaccion_comentario} error={errors.redaccion_comentario} />
+                            <Textarea disabled={is_super_admin ? undefined : evaluacionProyectoLinea69.evaluacion.finalizado == true || evaluacionProyectoLinea69.evaluacion.habilitado == false || evaluacionProyectoLinea69.evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="redaccioncomentario" bind:value={$form.redaccion_comentario} error={errors.redaccion_comentario} />
                         {/if}
                     </div>
                 </InfoMessage>
@@ -286,9 +286,9 @@
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿Las normas APA son correctas? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : tpEvaluacion.evaluacion.finalizado == true || tpEvaluacion.evaluacion.habilitado == false || tpEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.normas_apa_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea69.evaluacion.finalizado == true || evaluacionProyectoLinea69.evaluacion.habilitado == false || evaluacionProyectoLinea69.evaluacion.modificable == false ? true : undefined} bind:checked={$form.normas_apa_requiere_comentario} />
                         {#if $form.normas_apa_requiere_comentario == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : tpEvaluacion.evaluacion.finalizado == true || tpEvaluacion.evaluacion.habilitado == false || tpEvaluacion.evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="normas_apa_comentario" bind:value={$form.normas_apa_comentario} error={errors.normas_apa_comentario} required />
+                            <Textarea disabled={is_super_admin ? undefined : evaluacionProyectoLinea69.evaluacion.finalizado == true || evaluacionProyectoLinea69.evaluacion.habilitado == false || evaluacionProyectoLinea69.evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="normas_apa_comentario" bind:value={$form.normas_apa_comentario} error={errors.normas_apa_comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
@@ -296,7 +296,7 @@
         </TpForm>
 
         <div className="flex items-center justify-between mt-14 px-8 py-4">
-            {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && tpEvaluacion.evaluacion.finalizado == false && tpEvaluacion.evaluacion.habilitado == true && tpEvaluacion.evaluacion.modificable == true)}
+            {#if is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacionProyectoLinea69.evaluacion.finalizado == false && evaluacionProyectoLinea69.evaluacion.habilitado == true && evaluacionProyectoLinea69.evaluacion.modificable == true)}
                 {#if $form.clausula_confidencialidad}
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-500 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

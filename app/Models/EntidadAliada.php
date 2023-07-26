@@ -59,23 +59,33 @@ class EntidadAliada extends Model
     }
 
     /**
-     * Relationship with EntidadAliadaIdi
+     * Relationship with EntidadAliadaLinea66
      *
      * @return object
      */
-    public function entidadAliadaIdi()
+    public function entidadAliadaLinea66()
     {
-        return $this->hasOne(EntidadAliadaIdi::class);
+        return $this->hasOne(EntidadAliadaLinea66::class);
     }
 
     /**
+     * Relationship with EntidadAliadaLinea69
+     *
+     * @return object
+     */
+    public function entidadAliadaLinea69()
+    {
+        return $this->hasOne(EntidadAliadaLinea69::class);
+    }
+
+        /**
      * Relationship with EntidadAliadaTa
      *
      * @return object
      */
-    public function entidadAliadaTaTp()
+    public function entidadAliadaLinea70()
     {
-        return $this->hasOne(EntidadAliadaTaTp::class);
+        return $this->hasOne(EntidadAliadaLinea70::class);
     }
 
     /**

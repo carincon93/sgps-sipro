@@ -13,15 +13,15 @@
     import { Item, Text, Separator } from '@smui/list'
 
     export let nodosTecnoparque
-    export let allowedToCreate
+    export let allowed_to_create
 
     $title = 'Nodos Tecnoparque'
 
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let filters = {}
 
@@ -45,7 +45,7 @@
         <div slot="title">Nodos Tecnoparque</div>
 
         <div slot="actions">
-            {#if allowedToCreate}
+            {#if allowed_to_create}
                 <Button on:click={() => Inertia.visit(route('nodos-tecnoparque.create'))} variant="raised">Crear nodo Tecnoparque</Button>
             {/if}
         </div>

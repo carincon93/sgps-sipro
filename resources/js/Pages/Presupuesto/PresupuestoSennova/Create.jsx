@@ -18,8 +18,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let form = useForm({
         requiere_estudio_mercado: null,
@@ -34,7 +34,7 @@
     })
 
     function submit() {
-        if (isSuperAdmin) {
+        if (is_super_admin) {
             $form.post(route('presupuesto-sennova.store'))
         }
     }
@@ -59,7 +59,7 @@
         </div>
 
         <div className="bg-white rounded shadow col-span-2">
-            <Form {submit} {form} {errors} {isSuperAdmin} {primerGrupoPresupuestal} {segundoGrupoPresupuestal} {tercerGrupoPresupuestal} {usosPresupuestales} {lineasProgramaticas} />
+            <Form {submit} {form} {errors} {is_super_admin} {primerGrupoPresupuestal} {segundoGrupoPresupuestal} {tercerGrupoPresupuestal} {usosPresupuestales} {lineasProgramaticas} />
         </div>
     </div>
 </AuthenticatedLayout>

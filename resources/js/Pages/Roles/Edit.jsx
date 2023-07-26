@@ -16,8 +16,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let form = useForm({
         name: role.name,
@@ -26,7 +26,7 @@
     })
 
     function submit() {
-        if (isSuperAdmin) {
+        if (is_super_admin) {
             $form.put(route('roles.update', role.id), {
                 preserveScroll: true,
             })
@@ -53,7 +53,7 @@
         </div>
 
         <div className="bg-white rounded shadow col-span-2">
-            <Form {errors} {role} {allPermissions} {isSuperAdmin} {form} {submit} />
+            <Form {errors} {role} {allPermissions} {is_super_admin} {form} {submit} />
         </div>
     </div>
 </AuthenticatedLayout>

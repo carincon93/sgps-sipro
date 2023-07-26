@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('cultura_innovacion_evaluaciones', function (Blueprint $table) {
-            $table->foreign(['id'], 'cultura_innovacion_evaluaciones_id_fkey')->references(['id'])->on('evaluaciones')->onUpdate('CASCADE')->onDelete('CASCADE');
+        Schema::table('evaluaciones_proyectos_linea_65', function (Blueprint $table) {
+            $table->foreign(['id'], 'evaluaciones_proyectos_linea_65_id_fkey')->references(['id'])->on('evaluaciones')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('cultura_innovacion_evaluaciones', function (Blueprint $table) {
-            $table->dropForeign('cultura_innovacion_evaluaciones_id_fkey');
+        Schema::table('evaluaciones_proyectos_linea_65', function (Blueprint $table) {
+            $table->dropForeign('evaluaciones_proyectos_linea_65_id_fkey');
         });
     }
 };

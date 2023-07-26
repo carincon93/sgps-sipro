@@ -10,7 +10,18 @@ import Textarea from '@/Components/Textarea'
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyectoRolSennova, convocatoriaRolesSennova, lineasTecnologicas, actividades, proyectoActividadesRelacionadas, proyectoLineasTecnologicasRelacionadas }) => {
+const Form = ({
+    method = '',
+    convocatoria,
+    proyecto,
+    setDialogStatus,
+    proyectoRolSennova,
+    convocatoriaRolesSennova,
+    lineasTecnologicas,
+    actividades,
+    proyectoActividadesRelacionadas,
+    proyectoLineasTecnologicasRelacionadas,
+}) => {
     const form = useForm({
         proyecto_id: proyecto.id,
         numero_meses: proyectoRolSennova?.numero_meses,
@@ -21,7 +32,8 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyectoRo
         experiencia: proyectoRolSennova?.experiencia,
         convocatoria_rol_sennova_id: proyectoRolSennova?.convocatoria_rol_sennova_id,
         actividad_id: proyectoRolSennova?.actividades.map((item) => item.id),
-        linea_tecnologica_id: proyectoRolSennova?.lineas_tecnoacademia.length > 0 ? proyectoRolSennova?.lineas_tecnoacademia.map((item) => item.id) : proyectoRolSennova?.lineas_tecnoparque.map((item) => item.id),
+        linea_tecnologica_id:
+            proyectoRolSennova?.lineas_tecnoacademia.length > 0 ? proyectoRolSennova?.lineas_tecnoacademia.map((item) => item.id) : proyectoRolSennova?.lineas_tecnoparque.map((item) => item.id),
         numero_monitorias: proyectoRolSennova?.numero_roles,
         numero_meses_monitorias: proyectoRolSennova?.numero_meses,
     })
@@ -149,9 +161,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyectoRo
 
                             <h6 className="mt-20 mb-6 text-2xl">Actividades</h6>
                             <div>
-                                <AlertMui hiddenIcon={true} className="mb-6">
-                                    Seleccione las actividades que debe ejecutar el rol
-                                </AlertMui>
+                                <AlertMui className="mb-6">Seleccione las actividades que debe ejecutar el rol</AlertMui>
                                 <SelectMultiple
                                     id="actividad_id"
                                     bdValues={form.data.actividad_id}

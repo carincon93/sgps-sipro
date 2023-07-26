@@ -9,38 +9,38 @@ import { useState } from 'react'
 const Create = ({
     auth,
     convocatoria,
-    centrosFormacion,
-    disciplinasSubareaConocimiento,
-    lineasInvestigacion,
-    lineasProgramaticas,
-    actividadesEconomicas,
-    tematicasEstrategicas,
-    redesConocimiento,
-    gruposInvestigacion,
-    lineasInvestigacionEni,
-    areasTematicasEni,
-    rolesSennova,
+    centros_formacion,
+    disciplinas_subarea_conocimiento,
+    lineas_investigacion,
+    lineas_programaticas,
+    actividades_economicas,
+    tematicas_estrategicas,
+    redes_conocimiento,
+    grupos_investigacion,
+    lineas_investigacion_eni,
+    areas_tematicas_eni,
+    roles_sennova,
 }) => {
-    const [authUser, setAuthUser] = useState(auth.user)
-    const [isSuperAdmin, setIsSuperAdmin] = useState(checkRole(authUser, [1]))
+    const [auth_user, setAuthUser] = useState(auth.user)
+    const [is_super_admin, setIsSuperAdmin] = useState(checkRole(auth_user, [1]))
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Formular proyecto</h2>}>
             <Form
-                isSuperAdmin={isSuperAdmin}
+                is_super_admin={is_super_admin}
                 method="crear"
                 convocatoria={convocatoria}
-                centrosFormacion={centrosFormacion}
-                lineasProgramaticas={lineasProgramaticas}
-                gruposInvestigacion={gruposInvestigacion}
-                redesConocimiento={redesConocimiento}
-                disciplinasSubareaConocimiento={disciplinasSubareaConocimiento}
-                actividadesEconomicas={actividadesEconomicas}
-                tematicasEstrategicas={tematicasEstrategicas}
-                lineasInvestigacion={lineasInvestigacion}
-                areasTematicasEni={areasTematicasEni}
-                lineasInvestigacionEni={lineasInvestigacionEni}
-                rolesSennova={rolesSennova}
+                centros_formacion={centros_formacion}
+                disciplinas_subarea_conocimiento={disciplinas_subarea_conocimiento}
+                lineas_investigacion={lineas_investigacion}
+                lineas_programaticas={lineas_programaticas}
+                actividades_economicas={actividades_economicas}
+                tematicas_estrategicas={tematicas_estrategicas}
+                redes_conocimiento={redes_conocimiento}
+                grupos_investigacion={grupos_investigacion}
+                lineas_investigacion_eni={lineas_investigacion_eni}
+                areas_tematicas_eni={areas_tematicas_eni}
+                roles_sennova={roles_sennova}
             />
         </AuthenticatedLayout>
     )

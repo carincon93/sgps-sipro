@@ -11,15 +11,15 @@
 
     $: $title = tematicaEstrategica ? tematicaEstrategica.nombre : null
 
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let form = useForm({
         nombre: tematicaEstrategica.nombre,
     })
 
     function submit() {
-        if (isSuperAdmin) {
+        if (is_super_admin) {
             $form.put(route('tematicas-estrategicas.update', tematicaEstrategica.id), {
                 preserveScroll: true,
             })
@@ -46,7 +46,7 @@
         </div>
 
         <div className="bg-white rounded shadow col-span-2">
-            <Form {errors} {tematicaEstrategica} {form} {submit} {isSuperAdmin} />
+            <Form {errors} {tematicaEstrategica} {form} {submit} {is_super_admin} />
         </div>
     </div>
 </AuthenticatedLayout>

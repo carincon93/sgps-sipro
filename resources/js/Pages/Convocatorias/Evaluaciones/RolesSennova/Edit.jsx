@@ -28,8 +28,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let rolSennovaInfo = useForm({
         numero_meses: proyectoRolSennova.numero_meses,
@@ -50,7 +50,7 @@
         correcto: proyectoRolEvaluacion?.correcto == undefined || proyectoRolEvaluacion?.correcto == true ? true : false,
     })
     function submit() {
-        if (isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
+        if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
             $form.put(route('convocatorias.evaluaciones.proyecto-rol-sennova.update', [convocatoria.id, evaluacion.id, proyectoRolSennova.id]), {
                 preserveScroll: true,
             })
@@ -76,20 +76,20 @@
             <h1 className="font-black text-4xl sticky top-0 uppercase">Roles SENNOVA</h1>
         </div>
         <div className="col-span-2">
-            <Form {proyecto} {errors} {proyectoRolSennova} {convocatoriaRolesSennova} form={rolSennovaInfo} {actividades} {lineasTecnologicas} {isSuperAdmin} {evaluacion} />
+            <Form {proyecto} {errors} {proyectoRolSennova} {convocatoriaRolesSennova} form={rolSennovaInfo} {actividades} {lineasTecnologicas} {is_super_admin} {evaluacion} />
 
             <form className="mt-10" on:submit|preventDefault={submit}>
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿El rol es correcto? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$form.correcto} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} bind:checked={$form.correcto} />
                         {#if $form.correcto == false}
-                            <Textarea disabled={isSuperAdmin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="comentario" bind:value={$form.comentario} error={errors.comentario} required />
+                            <Textarea disabled={is_super_admin ? undefined : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : undefined} label="Comentario" className="mt-4" maxlength="40000" id="comentario" bind:value={$form.comentario} error={errors.comentario} required />
                         {/if}
                     </div>
                 </InfoMessage>
                 <div className="flex items-center justify-between mt-14 px-8 py-4">
-                    {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
+                    {#if is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)}
                         <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Evaluar</PrimaryButton>
                     {/if}
                 </div>

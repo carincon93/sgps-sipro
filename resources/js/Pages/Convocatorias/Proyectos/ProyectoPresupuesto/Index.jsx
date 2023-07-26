@@ -37,8 +37,8 @@ const RubrosPresupuestales = ({
     opcionesServiciosEdicion,
     conceptosViaticos,
 }) => {
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
     const [dialogStatus, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
@@ -62,7 +62,7 @@ const RubrosPresupuestales = ({
             </Grid>
 
             <Grid item md={12}>
-                <AlertMui hiddenIcon={true} className="mt-20">
+                <AlertMui className="mt-20">
                     <strong>Actualmente el total del costo de los productos o servicios requeridos es de:</strong> $
                     {new Intl.NumberFormat('de-DE').format(!isNaN(proyecto.total_proyecto_presupuesto) ? proyecto.total_proyecto_presupuesto : 0)} COP
                 </AlertMui>
@@ -145,10 +145,10 @@ const RubrosPresupuestales = ({
                                 ))}
                             </TableCell>
                             <TableCell>
-                                {isSuperAdmin || proyecto.mostrar_recomendaciones ? (
+                                {is_super_admin || proyecto.mostrar_recomendaciones ? (
                                     <>
                                         {presupuesto.proyecto_presupuestos_evaluaciones.map((evaluacion, i) =>
-                                            isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado) ? (
+                                            is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
                                                 <ToolTipMui
                                                     key={i}
                                                     title={
@@ -223,7 +223,7 @@ const RubrosPresupuestales = ({
                     blurEnabled={true}
                     dialogContent={
                         <Form
-                            isSuperAdmin={isSuperAdmin}
+                            is_super_admin={is_super_admin}
                             setDialogStatus={setDialogStatus}
                             method={method}
                             proyecto={proyecto}

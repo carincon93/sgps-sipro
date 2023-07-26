@@ -11,15 +11,15 @@
     export let lineasInvestigacion
     export let grupoInvestigacion
     export let programasFormacion
-    export let allowedToCreate
+    export let allowed_to_create
 
     $: $title = 'Crear semillero de investigación'
 
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let opcionesSiNo = [
         { value: 1, label: 'Si' },
@@ -40,7 +40,7 @@
         formato_gic_f_021: '',
         formato_gic_f_032: '',
         formato_aval_semillero: '',
-        centro_formacion_id: isSuperAdmin ? null : checkRole(authUser, [4, 21, 20, 18, 19, 5, 17, 27]) ? authUser.centro_formacion_id : null,
+        centro_formacion_id: is_super_admin ? null : checkRole(auth_user, [4, 21, 20, 18, 19, 5, 17, 27]) ? auth_user.centro_formacion_id : null,
         linea_investigacion_id: null,
         linea_investigacion: null,
         redes_conocimiento: null,
@@ -53,7 +53,7 @@
     })
 
     function submit() {
-        if (allowedToCreate) {
+        if (allowed_to_create) {
             $form.post(route('grupos-investigacion.semilleros-investigacion.store', grupoInvestigacion.id))
         }
     }
@@ -82,7 +82,7 @@
         </div>
 
         <div className="col-span-2">
-            <Form {form} {submit} {errors} {opcionesSiNo} {lineasInvestigacion} {grupoInvestigacion} {redesConocimiento} {programasFormacion} {allowedToCreate} method="store" />
+            <Form {form} {submit} {errors} {opcionesSiNo} {lineasInvestigacion} {grupoInvestigacion} {redesConocimiento} {programasFormacion} {allowed_to_create} method="store" />
         </div>
     </div>
 </AuthenticatedLayout>

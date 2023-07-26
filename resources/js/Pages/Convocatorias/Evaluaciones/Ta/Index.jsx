@@ -18,8 +18,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 </script>
 
 <AuthenticatedLayout>
@@ -32,7 +32,7 @@
                 <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Teacnoacademia </th>
                 <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Fecha de ejecución </th>
                 <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Estado </th>
-                {#if checkRole(authUser, [5])}
+                {#if checkRole(auth_user, [5])}
                     <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Evaluador </th>
                 {/if}
                 <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl text-center th-actions"> Acciones </th>
@@ -73,7 +73,7 @@
                             {finalizado ? 'Evaluación finalizada' : iniciado ? 'Evaluación iniciada' : 'Sin evaluar'}
                         </p>
                     </td>
-                    {#if checkRole(authUser, [5])}
+                    {#if checkRole(auth_user, [5])}
                         <td className="border-t">
                             <p className="px-6 py-4">
                                 {nombre_user}
@@ -83,10 +83,10 @@
 
                     <td className="border-t td-actions">
                         <DataTableMenu className={ta.data.length < 3 ? 'z-50' : ''}>
-                            {#if isSuperAdmin || checkRole(authUser, [11, 5])}
+                            {#if is_super_admin || checkRole(auth_user, [11, 5])}
                                 <Item on:SMUI:action={() => Inertia.visit(route('convocatorias.ta-evaluaciones.edit', [convocatoria.id, evaluacion_id]))}>
                                     <Text>
-                                        {#if checkRole(authUser, [5])}
+                                        {#if checkRole(auth_user, [5])}
                                             Verificar
                                         {:else}
                                             Evaluar

@@ -22,7 +22,7 @@ class MiembroEntidadAliadaController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        // if ($proyecto->idi()->exists() && $proyecto->lineaProgramatica->codigo == 66 || $proyecto->idi()->exists() && $proyecto->lineaProgramatica->codigo == 82) {
+        // if ($proyecto->proyectoLinea66()->exists() && $proyecto->lineaProgramatica->codigo == 66 || $proyecto->proyectoLinea66()->exists() && $proyecto->lineaProgramatica->codigo == 82) {
             return Inertia::render('Convocatorias/Proyectos/EntidadesAliadas/MiembrosEntidadAliada/Index', [
                 'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
                 'proyecto'              => $proyecto->only('id', 'modificable', 'mostrar_recomendaciones', 'allowed'),

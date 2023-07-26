@@ -17,8 +17,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 </script>
 
 <AuthenticatedLayout>
@@ -82,7 +82,7 @@
                         <p className="px-6 py-4">
                             {#if evaluacion.proyecto.estado_evaluacion_idi}
                                 {evaluacion.estado_proyecto_por_evaluador?.estado}
-                                {#if isSuperAdmin || checkRole(authUser, [20, 18, 19, 5, 17])}
+                                {#if is_super_admin || checkRole(auth_user, [20, 18, 19, 5, 17])}
                                     <br />
                                     <small>
                                         Puntaje: {evaluacion.total_evaluacion}
@@ -92,7 +92,7 @@
                                 {/if}
                             {:else if evaluacion.proyecto.estado_evaluacion_cultura_innovacion}
                                 {evaluacion.estado_proyecto_por_evaluador?.estado}
-                                {#if isSuperAdmin || checkRole(authUser, [20, 18, 19, 5, 17])}
+                                {#if is_super_admin || checkRole(auth_user, [20, 18, 19, 5, 17])}
                                     <br />
                                     <small>
                                         Puntaje: {evaluacion.total_evaluacion}
@@ -102,7 +102,7 @@
                                 {/if}
                             {:else if evaluacion.proyecto.estado_evaluacion_servicios_tecnologicos}
                                 {evaluacion.estado_proyecto_por_evaluador?.estado}
-                                {#if isSuperAdmin || checkRole(authUser, [20, 18, 19, 5, 17])}
+                                {#if is_super_admin || checkRole(auth_user, [20, 18, 19, 5, 17])}
                                     <br />
                                     <small>
                                         Puntaje: {evaluacion.total_evaluacion}
@@ -112,14 +112,14 @@
                                 {/if}
                             {:else if evaluacion.proyecto.estado_evaluacion_ta}
                                 {evaluacion.proyecto.estado_evaluacion_ta.estado}
-                                {#if isSuperAdmin || checkRole(authUser, [20, 18, 19, 5, 17])}
+                                {#if is_super_admin || checkRole(auth_user, [20, 18, 19, 5, 17])}
                                     <small>
                                         Número de recomendaciones: {evaluacion.total_recomendaciones}
                                     </small>
                                 {/if}
                             {:else if evaluacion.proyecto.estado_evaluacion_tp}
                                 {evaluacion.proyecto.estado_evaluacion_tp.estado}
-                                {#if isSuperAdmin || checkRole(authUser, [20, 18, 19, 5, 17])}
+                                {#if is_super_admin || checkRole(auth_user, [20, 18, 19, 5, 17])}
                                     <small>
                                         Número de recomendaciones: {evaluacion.total_recomendaciones}
                                     </small>

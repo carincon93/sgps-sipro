@@ -18,8 +18,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let form = useForm({
         asignacion_mensual: convocatoriaRolSennova.asignacion_mensual,
@@ -32,7 +32,7 @@
     })
 
     function submit() {
-        if (isSuperAdmin) {
+        if (is_super_admin) {
             $form.put(route('convocatorias.convocatoria-rol-sennova.update', [convocatoria.id, convocatoriaRolSennova.id]), {
                 preserveScroll: true,
             })
@@ -59,7 +59,7 @@
         </div>
 
         <div className="col-span-2">
-            <Form {submit} {isSuperAdmin} {rolesSennova} {form} {errors} {lineasProgramaticas} {nivelesAcademicos} />
+            <Form {submit} {is_super_admin} {rolesSennova} {form} {errors} {lineasProgramaticas} {nivelesAcademicos} />
         </div>
     </div>
 </AuthenticatedLayout>

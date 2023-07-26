@@ -158,46 +158,6 @@ class InventarioEquipoController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function showInventarioEquiposEvaluacion(Convocatoria $convocatoria, Evaluacion $evaluacion)
-    {
-        $this->authorize('visualizar-evaluacion-autor', $evaluacion);
-
-        $evaluacion->proyecto->codigo_linea_programatica = $evaluacion->proyecto->lineaProgramatica->codigo;
-
-        return Inertia::render('Convocatorias/Evaluaciones/InventarioEquipos/Index', [
-            'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
-            'proyecto'          => $evaluacion->proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'allowed'),
-            'evaluacion'        => $evaluacion,
-            'filters'           => request()->all('search'),
-            'inventarioEquipos' => InventarioEquipo::where('proyecto_id', $evaluacion->proyecto->id)->orderBy('nombre', 'ASC')
-                ->filterInventarioEquipo(request()->only('search'))->paginate()->appends(['search' => request()->search]),
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\InventarioEquipo  $inventarioEquipo
-     * @return \Illuminate\Http\Response
-     */
-    public function showInventarioEquiposEvaluacionForm(Convocatoria $convocatoria, Evaluacion $evaluacion, InventarioEquipo $inventarioEquipo)
-    {
-        $this->authorize('visualizar-evaluacion-autor', $evaluacion);
-
-        return Inertia::render('Convocatorias/Evaluaciones/InventarioEquipos/Edit', [
-            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
-            'proyecto'                  => $evaluacion->proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'allowed'),
-            'evaluacion'                => $evaluacion,
-            'inventarioEquipo'          => $inventarioEquipo,
-            'estadosInventarioEquipos'  => json_decode(Storage::get('json/estados-inventario-equipos.json'), true),
-        ]);
-    }
-
-    /**
      * updateInventarioEquiposEvaluacion
      *
      * @param  mixed $request
@@ -209,7 +169,7 @@ class InventarioEquipoController extends Controller
     {
         $this->authorize('modificar-evaluacion-autor', $evaluacion);
 
-        $evaluacion->servicioTecnologicoEvaluacion()->update([
+        $evaluacion->evaluacionProyectoLinea68()->update([
             'inventario_equipos_comentario' => $request->inventario_equipos_requiere_comentario == false ? $request->inventario_equipos_comentario : null,
         ]);
 

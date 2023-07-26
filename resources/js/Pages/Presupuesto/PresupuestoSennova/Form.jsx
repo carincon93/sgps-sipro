@@ -16,11 +16,11 @@
     export let tercerGrupoPresupuestal
     export let usosPresupuestales
     export let lineasProgramaticas
-    export let isSuperAdmin
+    export let is_super_admin
 </script>
 
 <form on:submit|preventDefault={submit}>
-    <fieldset className="p-8" disabled={isSuperAdmin ? undefined : true}>
+    <fieldset className="p-8" disabled={is_super_admin ? undefined : true}>
         <div className="mt-8">
             <Label required className="mb-4" labelFor="primer_grupo_presupuestal_id" value="Primer grupo presupuestal" />
             <Select id="primer_grupo_presupuestal_id" items={primerGrupoPresupuestal} bind:selectedValue={$form.primer_grupo_presupuestal_id} error={errors.primer_grupo_presupuestal_id} autocomplete="off" placeholder="Seleccione un rubro del primer grupo presupuestal" required />
@@ -87,7 +87,7 @@
                 {presupuestoSennova?.updated_at}
             </small>
         {/if}
-        {#if isSuperAdmin}
+        {#if is_super_admin}
             <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
         {:else}
             <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>

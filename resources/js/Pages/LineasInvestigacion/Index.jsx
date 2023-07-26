@@ -14,15 +14,15 @@
 
     export let lineasInvestigacion
     export let grupoInvestigacion
-    export let allowedToCreate
+    export let allowed_to_create
 
     $title = 'Líneas de investigación'
 
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let filters = {
         grupoInvestigacion: $page.props.filters.grupoInvestigacion,
@@ -61,7 +61,7 @@
         <div slot="title">Líneas de investigación - Grupo de investigación: {grupoInvestigacion.nombre}</div>
 
         <div slot="actions">
-            {#if isSuperAdmin || allowedToCreate}
+            {#if is_super_admin || allowed_to_create}
                 <Button on:click={() => Inertia.visit(route('grupos-investigacion.lineas-investigacion.create', grupoInvestigacion.id))} variant="raised">Crear línea de investigación</Button>
             {/if}
         </div>

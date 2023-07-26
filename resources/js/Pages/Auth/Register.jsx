@@ -39,11 +39,12 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
 
             {status && <AlertMui error={props.flash?.error}>{status}</AlertMui>}
 
-            {user &&
+            {user && (
                 <AlertMui>
-                    El usuario con número de documento {user.numero_documento} ya está registrado en el sistema. Por favor inicie sesión haciendo. Si no recuerda la contraseña la puede recuperar en la opcion: Recuperar contraseña.
+                    El usuario con número de documento {user.numero_documento} ya está registrado en el sistema. Por favor inicie sesión haciendo. Si no recuerda la contraseña la puede recuperar en la
+                    opcion: Recuperar contraseña.
                 </AlertMui>
-            }
+            )}
             <form onSubmit={submit} className="mt-20 w-[22rem]">
                 <div>
                     <TextInput
@@ -69,11 +70,18 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                         onChange={(e) => setData('email', e.target.value)}
                         required
                     />
-                    {errors.email == "El campo correo electrónico ya ha sido tomado." &&
+                    {errors.email == 'El campo correo electrónico ya ha sido tomado.' && (
                         <AlertMui severity="error">
-                            El correo electrónico ya fue registrado, Por favor inicie sesión haciendo <Link href="/" className="underline">clic aquí</Link>. Si no recuerda la contraseña la puede recuperar en el siguiente enlace <Link href="/forgot-password" className="underline">Recuperar contraseña</Link>
+                            El correo electrónico ya fue registrado, Por favor inicie sesión haciendo{' '}
+                            <Link href="/" className="underline">
+                                clic aquí
+                            </Link>
+                            . Si no recuerda la contraseña la puede recuperar en el siguiente enlace{' '}
+                            <Link href="/forgot-password" className="underline">
+                                Recuperar contraseña
+                            </Link>
                         </AlertMui>
-                    }
+                    )}
                 </div>
 
                 <div className="mt-8">
@@ -161,7 +169,16 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                 </div>
 
                 <div className="mt-8">
-                    <DatePicker variant="outlined" id="fecha_nacimiento" name="fecha_nacimiento" label="Fecha de nacimiento" value={data.fecha_nacimiento} className="p-4 w-full" onChange={(e) => setData({ ...data, fecha_nacimiento: e.target.value })} required />
+                    <DatePicker
+                        variant="outlined"
+                        id="fecha_nacimiento"
+                        name="fecha_nacimiento"
+                        label="Fecha de nacimiento"
+                        value={data.fecha_nacimiento}
+                        className="p-4 w-full"
+                        onChange={(e) => setData({ ...data, fecha_nacimiento: e.target.value })}
+                        required
+                    />
                 </div>
 
                 <div className="mt-8">
@@ -208,30 +225,30 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                 </div>
 
                 <div className="block mt-8">
-                    <AlertMui hiddenIcon={true}>Los datos proporcionados serán tratados de acuerdo con la política de tratamiento de datos personales del SENA y a la ley 1581 de 2012 (Acuerdo No. 0009 del 2016)</AlertMui>
+                    <AlertMui>
+                        Los datos proporcionados serán tratados de acuerdo con la política de tratamiento de datos personales del SENA y a la ley 1581 de 2012 (Acuerdo No. 0009 del 2016)
+                    </AlertMui>
 
-                <Checkbox
-                    className="mt-8"
-                    name="autorizacion_datos"
-                    checked={data.autorizacion_datos}
-                    error={errors.autorizacion_datos}
-                    onChange={(e) => setData('autorizacion_datos', e.target.checked)}
-                    label="Autorizo el tratamiento de mis datos personales."
-                />
+                    <Checkbox
+                        className="mt-8"
+                        name="autorizacion_datos"
+                        checked={data.autorizacion_datos}
+                        error={errors.autorizacion_datos}
+                        onChange={(e) => setData('autorizacion_datos', e.target.checked)}
+                        label="Autorizo el tratamiento de mis datos personales."
+                    />
                 </div>
 
                 <div className="flex options-center justify-end mt-4">
-                    <Link
-                        href={route("login")}
-                        className="mr-4 underline text-sm text-gray-600 hover:text-gray-900"
-                    >
+                    <Link href={route('login')} className="mr-4 underline text-sm text-gray-600 hover:text-gray-900">
                         Ya tengo una cuenta
                     </Link>
 
-                    <PrimaryButton type="submit" disabled={processing || !data.autorizacion_datos}>Continuar</PrimaryButton>
+                    <PrimaryButton type="submit" disabled={processing || !data.autorizacion_datos}>
+                        Continuar
+                    </PrimaryButton>
                 </div>
             </form>
         </GuestLayout>
     )
 }
-

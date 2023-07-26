@@ -14,15 +14,15 @@
 
     export let usuarios
     export let roles
-    export let allowedToCreate
+    export let allowed_to_create
 
     $title = 'Usuarios'
 
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let filters = {
         roles: $page.props.filters.roles,
@@ -57,7 +57,7 @@
             </select>
         </div>
         <div slot="actions">
-            {#if allowedToCreate}
+            {#if allowed_to_create}
                 <Button on:click={() => Inertia.visit(route('users.online'))} variant="raised" className="ml-1">Usuarios en línea</Button>
                 <Button on:click={() => Inertia.visit(route('users.create'))} variant="raised">Crear usuario</Button>
             {/if}

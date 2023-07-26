@@ -35,7 +35,7 @@ class ProyectoIdiTecnoacademiaController extends Controller
         return Inertia::render('ProyectosIdiTecnoacademia/Index', [
             'filters'                   => request()->all('search'),
             'proyectosIdiTecnoacademia' => ProyectoIdiTecnoacademia::getProyectosPorRol()->appends(['search' => request()->search]),
-            'allowedToCreate'           => Gate::inspect('create', [ProyectoIdiTecnoacademia::class])->allowed()
+            'allowed_to_create'           => Gate::inspect('create', [ProyectoIdiTecnoacademia::class])->allowed()
         ]);
     }
 
@@ -59,7 +59,7 @@ class ProyectoIdiTecnoacademiaController extends Controller
             'municipios'                        => SelectHelper::municipios(),
             'estadosProyectoIdiTecnoacademia'   => json_decode(Storage::get('json/estados-proyecto-idi-tecnoacademia.json'), true),
             'roles'                             => json_decode(Storage::get('json/roles-sennova-ta.json'), true),
-            'allowedToCreate'                   => Gate::inspect('create', [ProyectoIdiTecnoacademia::class])->allowed()
+            'allowed_to_create'                   => Gate::inspect('create', [ProyectoIdiTecnoacademia::class])->allowed()
         ]);
     }
 
@@ -74,7 +74,7 @@ class ProyectoIdiTecnoacademiaController extends Controller
         $this->authorize('create', [ProyectoIdiTecnoacademia::class]);
 
         /** @var \App\Models\User */
-        $authUser = Auth::user();
+        $auth_user = Auth::user();
 
         $proyectoIdiTecnoacademia = new ProyectoIdiTecnoacademia();
         $proyectoIdiTecnoacademia->titulo                               = $request->titulo;
@@ -127,7 +127,7 @@ class ProyectoIdiTecnoacademiaController extends Controller
             $proyectoIdiTecnoacademia->beneficiados()->attach($request->beneficiados);
             $proyectoIdiTecnoacademia->lineas()->attach($request->tecnoacademia_linea_tecnoacademia_id);
 
-            $proyectoIdiTecnoacademia->participantes()->attach($authUser->id, ['rol_sennova' => $request->rol_sennova['value'], 'cantidad_meses' => $request->cantidad_meses, 'cantidad_horas' => $request->cantidad_horas, 'autor_principal' => true]);
+            $proyectoIdiTecnoacademia->participantes()->attach($auth_user->id, ['rol_sennova' => $request->rol_sennova['value'], 'cantidad_meses' => $request->cantidad_meses, 'cantidad_horas' => $request->cantidad_horas, 'autor_principal' => true]);
         }
 
         return redirect()->route('proyectos-idi-tecnoacademia.participantes.index', $proyectoIdiTecnoacademia)->with('success', 'El recurso se ha creado correctamente.');
@@ -286,11 +286,11 @@ class ProyectoIdiTecnoacademiaController extends Controller
         SharepointHelper::downloadServerFile($proyectoIdiTecnoacademia, $request->formato);
     }
 
-    public function downloadFileSharepoint(ProyectoIdiTecnoacademia $proyectoIdiTecnoacademia, $tipoArchivo)
+    public function downloadFileSharepoint(ProyectoIdiTecnoacademia $proyectoIdiTecnoacademia, $tipo_archivo)
     {
-        $sharePointPath = $proyectoIdiTecnoacademia[$tipoArchivo];
+        $sharepoint_path = $proyectoIdiTecnoacademia[$tipo_archivo];
 
-        return SharepointHelper::downloadFile($sharePointPath);
+        return SharepointHelper::downloadFile($sharepoint_path);
     }
 
     /**
@@ -560,11 +560,11 @@ class ProyectoIdiTecnoacademiaController extends Controller
         SharepointHelper::downloadServerFile($producto, $request->formato);
     }
 
-    public function downloadFileProductoSharepoint(ProyectoIdiTecnoacademia $proyectoIdiTecnoacademia, ProyectoIdiTecnoacademiaProducto $producto, $tipoArchivo)
+    public function downloadFileProductoSharepoint(ProyectoIdiTecnoacademia $proyectoIdiTecnoacademia, ProyectoIdiTecnoacademiaProducto $producto, $tipo_archivo)
     {
-        $sharePointPath = $producto[$tipoArchivo];
+        $sharepoint_path = $producto[$tipo_archivo];
 
-        return SharepointHelper::downloadFile($sharePointPath);
+        return SharepointHelper::downloadFile($sharepoint_path);
     }
 
     public function cambiarAutorPrincipal(ProyectoIdiTecnoacademia $proyectoIdiTecnoacademia, $integrante)

@@ -100,7 +100,7 @@
                 <td align="left">{{ $datos->zona_influencia }}</td>
             </tr>
         @endif
-        @if ($proyecto->servicioTecnologico)
+        @if ($proyecto->proyectoLinea68)
             <tr>
                 <td align="left">
                     <p class="title">Tipo de proyecto</p>
@@ -172,30 +172,30 @@
         @endif
     </table>
 
-    @if ($proyecto->idi)
+    @if ($proyecto->proyectoLinea66)
 
         <hr style="margin: 4rem 0">
 
-        @if ($proyecto->idi->proyecto_investigacion_pedagogica) 
+        @if ($proyecto->proyectoLinea66->proyecto_investigacion_pedagogica)
             <h4>¿El proyecto es de investigación pedagógica?</h4>
-            <p>{{ $proyecto->idi->proyecto_investigacion_pedagogica ? 'Si' : 'No' }}</p>
+            <p>{{ $proyecto->proyectoLinea66->proyecto_investigacion_pedagogica ? 'Si' : 'No' }}</p>
 
             <h4>¿El proyecto está articulado con la ENI?</h4>
             <p>{{ $datos->articulacion_eni ? 'Si' : 'No' }}</p>
 
             <h4>Grupo de investigación ENI</h4>
-            <p>{{ ucfirst($proyecto->idi->grupoInvestigacionEni->nombre) }}</p>
+            <p>{{ ucfirst($proyecto->proyectoLinea66->grupoInvestigacionEni->nombre) }}</p>
 
             <h4>Líneas de investigación ENI</h4>
             <li>
-                @foreach ($proyecto->idi->lineasInvestigacionEni('nombre', 'asc')->cursor() as $lineaInvestigacionEni)
+                @foreach ($proyecto->proyectoLinea66->lineasInvestigacionEni('nombre', 'asc')->cursor() as $lineaInvestigacionEni)
                     <li>{{ ucfirst($lineaInvestigacionEni->nombre) }}</li>
                 @endforeach
             </li>
 
             <h4>Áreas temáticas</h4>
             <li>
-                @foreach ($proyecto->idi->areasTematicasEni('nombre', 'asc')->cursor() as $areaTematicaEni)
+                @foreach ($proyecto->proyectoLinea66->areasTematicasEni('nombre', 'asc')->cursor() as $areaTematicaEni)
                     <li>{{ ucfirst($areaTematicaEni->nombre) }}</li>
                 @endforeach
             </li>
@@ -203,34 +203,34 @@
 
         <hr style="margin: 4rem 0">
 
-        @if ($datos->justificacion_industria_4) 
+        @if ($datos->justificacion_industria_4)
             <h1>Justificación de la relación con la industria 4.0</h1>
             <p>{{ $datos->justificacion_industria_4 }}</p>
         @endif
 
-        @if ($datos->justificacion_economia_naranja) 
+        @if ($datos->justificacion_economia_naranja)
             <h1 style="margin: 4rem 2rem;">Justificación de la relación con la economía naranja</h1>
 
             <p>{{ $datos->justificacion_economia_naranja }}</p>
         @endif
 
-        @if ($datos->impacto_sector_agricola) 
+        @if ($datos->impacto_sector_agricola)
             <div class="page_break">
                 <h1 style="margin: 4rem 2rem;">¿El proyecto tendrá un impacto en el sector agrícola?</h1>
-        
+
                 <p class="page_break">{{ $datos->impacto_sector_agricola }}</p>
             </div>
         @endif
 
-        @if ($datos->justificacion_politica_discapacidad) 
+        @if ($datos->justificacion_politica_discapacidad)
             <div class="page_break">
                 <h1 style="margin: 4rem 2rem;">Justificación del aporte a la Política Institucional para Atención de las Personas con discapacidad</h1>
-        
+
                 <p class="page_break">{{ $datos->justificacion_politica_discapacidad }}</p>
             </div>
         @endif
 
-        @if ($datos->atencion_pluralista_diferencial) 
+        @if ($datos->atencion_pluralista_diferencial)
             <h1 style="margin: 4rem 2rem;">Justificación del aporte a la Política Institucional de Atención con Enfoque Pluralista y Diferencial (acuerdo 0010 de 2016)</h1>
             <p>{{ $datos->atencion_pluralista_diferencial }}</p>
         @endif
@@ -238,7 +238,7 @@
         <h1 style="margin: 4rem 2rem;">¿Cuál es el origen de las muestras con las que se realizarán las actividades de investigación, bioprospección y/o aprovechamiento comercial o industrial?</p>
         @if ($datos->muestreo == 1)
             <p>Especies Nativas. (es la especie o subespecie taxonómica o variedad de animales cuya área de disposición geográfica se extiende al territorio nacional o a aguas jurisdiccionales colombianas o forma parte de los mismos comprendidas las especies o subespecies que migran temporalmente a ellos, siempre y cuando no se encuentren en el país o migren a él como resultado voluntario o involuntario de la actividad humana. Pueden ser silvestre, domesticada o escapada de domesticación incluyendo virus, viroides y similares)</p>
-        
+
             <h3>¿Qué actividad pretende realizar con la especie nativa?</h3>
                 @if ($datos->actividades_muestreo == '1.1.1')
                 <p>Separación de las unidades funcionales y no funcionales del ADN y el ARN, en todas las formas que se encuentran en la naturaleza.</p>
@@ -251,7 +251,7 @@
             @endif
 
             <h3>¿Cuál es la finalidad de las actividades a realizar con la especie nativa/endémica?</h3>
-        
+
             @if ($datos->objetivo_muestreo == '1.2.1')
                 <p>Investigación básica sin fines comerciales.</p>
             @elseif($datos->objetivo_muestreo == '1.2.2')
@@ -312,10 +312,10 @@
                     <li>{{ ucfirst($tecnoacademiaLineaTecnoacademia->lineaTecnoacademia->nombre) . '-' . ucfirst($tecnoacademiaLineaTecnoacademia->tecnoacademia->nombre) }}</li>
                 @endforeach
             </ol>
-        @endif  
-        
+        @endif
+
     @endif
-    
+
     <hr style="margin: 4rem 0">
 
     <h2>Resumen del proyecto</h2>
@@ -325,25 +325,25 @@
         <h2>Complemento - Resumen ejecutivo regional</h2>
         <p>{{ $datos->resumen_regional }}</p>
     @endif
-    
+
     <h2>Antecedentes</h2>
     <p>{{ $datos->antecedentes }}</p>
-    
+
     @if ($datos->antecedentes_regional)
         <h2>Complemento - Antecedentes regional</h2>
         <p>{{ $datos->antecedentes_regional }}</p>
     @endif
-    
+
     @if ($datos->antecedentes_tecnoacademia)
         <h2>Antecedentes de la Tecnoacademia y su impacto en la región</h2>
         <p>{{ $datos->antecedentes_tecnoacademia }}</p>
     @endif
 
     @if ($datos->logros_vigencia_anterior)
-        <h2>Logros de la vigencia {{ $convocatoria->year }} en la implementación del programa de {{ $proyecto->ta ? 'TecnoAcademia' : 'Tecnoparque' }}</h2>
+        <h2>Logros de la vigencia {{ $convocatoria->year }} en la implementación del programa de {{ $proyecto->proyectoLinea70 ? 'TecnoAcademia' : 'Tecnoparque' }}</h2>
         <p>{{ $datos->logros_vigencia_anterior }}</p>
     @endif
-    
+
     @if ($datos->retos_oportunidades)
         <h2>Descripción de retos y prioridades locales y regionales en los cuales el Tecnoparque tiene impacto</h2>
         <p>{{ $datos->retos_oportunidades }}</p>
@@ -363,17 +363,17 @@
         <h2>Describir el estado actual del Ecosistema Territorial de CTeI en el Departamento y las oportunidades de articulación con el Tecnoparque.</h2>
         <p>{{ $datos->estado_ecosistema_ctel }}</p>
     @endif
-    
+
     @if ($datos->pertinencia_territorio)
         <h2>Justificación y pertinencia en el territorio</h2>
         <p>{{ $datos->pertinencia_territorio }}</p>
     @endif
-    
+
     @if (!empty($datos->marco_conceptual))
         <h2>Marco conceptual</h2>
         <p>{{ $datos->marco_conceptual }}</p>
     @endif
-    
+
     @if (!empty($datos->lineas_tecnologicas_centro))
         <div class="border">
             <h2>Líneas tecnológicas del Centro con las que se articula la TecnoAcademia</h2>
@@ -385,11 +385,11 @@
     <p>{{ $datos->metodologia }}</p>
 
     @if ($datos->metodologia_local)
-        @if ($proyecto->tp)
+        @if ($proyecto->proyectoLinea69)
             <h4>A continuación, describa la metodología que será implementada en el {{ $convocatoria->year + 1 }} en el nodo para lograr los objetivos propuestos en cada una de las etapas definidas para los Tecnoparques:</h4>
-        @else 
+        @else
             <h2>Metodología local</h2>
-        @endif  
+        @endif
         <p>{{ $datos->metodologia_local }}</p>
     @endif
 
@@ -456,7 +456,7 @@
         <h2>¿Cuenta con infraestructura adecuada y propia para el funcionamiento de la línea servicios tecnológicos en el centro de formación?</h2>
         <p>{{ $datos->infraestructura_adecuada ? 'Si' : 'No' }}</p>
     @endif
-    
+
     @if ($datos->especificaciones_area)
         <h2>Especificaciones e infraestructura</h2>
         <p>{{ $datos->especificaciones_area }}</p>
@@ -516,7 +516,7 @@
             @endphp
                 <p>{{ $nombre_instituciones_programas->implode('value', ', ') }}</p>
             @endif
-        
+
             @if (!empty($datos->otras_nombre_instituciones_programas))
                 <p>{{$datos->otras_nombre_instituciones_programas}}</p>
             @endif
@@ -590,18 +590,18 @@
         <p>{{ $datos->articulacion_territorios_stem }}</p>
     @endif
 
-    @if ($proyecto->idi)
+    @if ($proyecto->proyectoLinea66)
         <h4>Nombre de los programas de formación con registro calificado a impactar</h4>
         @foreach ($proyecto->programasFormacion()->where('registro_calificado', true)->orderBy('nombre')->get() as $programaFormacion)
             <li>{{ ucfirst($programaFormacion->nombre) .' - '.  $programaFormacion->codigo}}</li>
-        @endforeach   
-        
+        @endforeach
+
         <hr style="margin: 4rem 0">
 
         <h4>Nombre de los programas de formación articulados</h4>
             @foreach ($proyecto->programasFormacion()->where('registro_calificado', false)->orderBy('nombre')->get() as $programaFormacion)
             <li>{{ ucfirst($programaFormacion->nombre) .' - '.  $programaFormacion->codigo}}</li>
-        @endforeach  
+        @endforeach
     @endif
 
     <hr style="margin: 4rem 0">
@@ -732,38 +732,38 @@
         </div>
     @endif
 
-    @if ($proyecto->ta || $proyecto->tp)
+    @if ($proyecto->proyectoLinea70 || $proyecto->proyectoLinea69)
 
         <hr style="margin: 4rem 0">
 
         <h1>Articulación SENNOVA</h1>
-    @endif  
-    
-    @if ($proyecto->tp)
+    @endif
+
+    @if ($proyecto->proyectoLinea69)
         <h4>Comente la articulación y aporte del TecnoParque proyectada para el {{ $convocatoria->year +  1 }} a los semilleros y grupos de investigación</h4>
         <p>{{ $datos->aportacion_semilleros_grupos }}</p>
 
         <h4>¿Cómo proyecta la articulación en el {{ $convocatoria->year +  1 }}, el Tecnoparque con la línea de Servicios Tecnológicos?</h4>
         <p>{{ $datos->proyeccion_con_st }}</p>
-        
+
         <h4>¿Cómo proyecta la articulación en el {{ $convocatoria->year +  1 }}, el Tecnoparque con la línea de Extensionismo Tecnológico?</h4>
         <p>{{ $datos->proyeccion_extensionismo_tecnologico }}</p>
 
         <h4>¿Cómo proyecta la articulación en el {{ $convocatoria->year +  1 }}, el Tecnoparque con los centros de desarrollo empresarial de la Regional?</h4>
         <p>{{ $datos->proyeccion_centros_desarrollo }}</p>
-        
+
         <h4>¿Cómo proyecta en el {{ $convocatoria->year +  1 }}, el Tecnoparque contribuir a la formación en la Regional o en el SENA?</h4>
         <p>{{ $datos->proyeccion_formacion_regional }}</p>
-        
-    @endif  
 
-   
-    @if ($proyecto->ta)
+    @endif
+
+
+    @if ($proyecto->proyectoLinea70)
 
         <h4>Líneas de Investigación en las cuales se están ejecutando iniciativas o proyectos de la TecnoAcademia</h4>
         @foreach ($proyecto->lineasInvestigacion()->orderBy('nombre')->get() as $lineaInvestigacion)
             <li>{{ ucfirst($lineaInvestigacion->nombre) }}</li>
-        @endforeach 
+        @endforeach
 
         <h4>Grupos de investigación en los cuales está vinculada la TecnoAcademia</h4>
         @foreach ($proyecto->gruposInvestigacion()->orderBy('nombre')->get() as $grupoInvestigacion)
@@ -779,32 +779,32 @@
         @endforeach
 
         <h4>Proyectos o iniciativas en ejecución en el año {{ $convocatoria->year }}</h4>
-        @foreach ($proyecto->ta->proyectosIdiTecnoacademia()->orderBy('titulo')->get() as $proyectoIdiTecnoacademia)
+        @foreach ($proyecto->proyectoLinea70->proyectosIdiTecnoacademia()->orderBy('titulo')->get() as $proyectoIdiTecnoacademia)
             <li>{{ ucfirst($proyectoIdiTecnoacademia->titulo) }}</li>
         @endforeach
-        
+
         <h4>Semilleros en proceso de formalización</h4>
         @foreach (json_decode($datos->semilleros_en_formalizacion) as $semilleroEnFormalizacion)
             <li>{{ $semilleroEnFormalizacion->value }}</li>
         @endforeach
 
         <h4>Disciplinas de la subárea de conocimiento</h4>
-        @foreach ($proyecto->ta->disciplinasSubareaConocimiento()->orderBy('nombre')->get() as $disciplinaSubareaConocimiento)
+        @foreach ($proyecto->proyectoLinea70->disciplinasSubareaConocimiento()->orderBy('nombre')->get() as $disciplinaSubareaConocimiento)
             <li>{{ ucfirst($disciplinaSubareaConocimiento->nombre) }}</li>
         @endforeach
 
         <h4>Redes de conocimiento</h4>
-        @foreach ($proyecto->ta->redesConocimiento()->orderBy('nombre')->get() as $redConocimiento)
+        @foreach ($proyecto->proyectoLinea70->redesConocimiento()->orderBy('nombre')->get() as $redConocimiento)
             <li>{{ ucfirst($redConocimiento->nombre) }}</li>
         @endforeach
 
         <h4>¿En cuáles actividades económicas se puede aplicar el proyecto?</h4>
-        @foreach ($proyecto->ta->actividadesEconomicas()->orderBy('nombre')->get() as $actividadEconomica)
+        @foreach ($proyecto->proyectoLinea70->actividadesEconomicas()->orderBy('nombre')->get() as $actividadEconomica)
             <li>{{ ucfirst($actividadEconomica->nombre) }}</li>
         @endforeach
 
         <h4>Temáticas estratégica SENA</h4>
-        @foreach ($proyecto->ta->tematicasEstrategicas()->orderBy('nombre')->get() as $tematicaEstrategica)
+        @foreach ($proyecto->proyectoLinea70->tematicasEstrategicas()->orderBy('nombre')->get() as $tematicaEstrategica)
             <li>{{ ucfirst($tematicaEstrategica->nombre) }}</li>
         @endforeach
 
@@ -836,13 +836,13 @@
             <h4>¿Acciones conjuntas definidas con el equipo de Articulación con la Media del Centro para favorecer la ruta de formación desde la TecnoAcademia?</h4>
             <p>{{ $datos->favorecimiento_ruta_formacion }}</p>
         @endif
-        
+
         @if (!empty($datos->lineas_medulares_centro))
             <h4>Líneas medulares del Centro con las que se articula la TecnoAcademia</h4>
             <p>{{ $datos->lineas_medulares_centro }}</p>
         @endif
 
-    @endif  
+    @endif
 
     <hr style="margin: 4rem 0">
 
@@ -920,7 +920,7 @@
                             @endphp
                         @endforeach
                     </div>
-                    
+
                 </div>
             </li>
         @endforeach
@@ -952,9 +952,9 @@
                         @endforeach
                     </div>
                 </div>
-        
+
                 <p style="margin: 5rem 0;">La causa directa <strong>"{{ $causaDirecta->descripcion }}"</strong> se convierte en el siguiente objetivo específico:<br><small>(Las causas indirectas se convierten en las actividades.)</small></p>
-        
+
                 <div style="margin-top: 2rem; font-size: 10px;">
                     <div style="background-color: rgb(15, 110, 169); padding: 20px; color: rgba(255, 255, 255, 0.712); font-weight: bolder; text-align: center;">
                         <p style="margin: 0px; font-size: 10px; text-align: center;">Objetivo específico #{{ $j + 1 }} </p>
@@ -1231,11 +1231,11 @@
         </table>
     @endif
 
-    @if (!empty($proyecto->ta) && $proyecto->ta->edt()->count() > 0)
+    @if (!empty($proyecto->proyectoLinea70) && $proyecto->proyectoLinea70->edt()->count() > 0)
         <h4 style="text-align:center">EDT</h4>
         <table width="100%" border="1" cellspacing="0" cellpadding="3" style="margin-top:20px; font-size: 10px;">
             <tbody slot="thead">
-                @foreach ($proyecto->ta->edt as $edt)
+                @foreach ($proyecto->proyectoLinea70->edt as $edt)
                     <tr>
                         <th>Nombre del evento</th>
                         <td>{{ $edt->nombre_evento }}</td>
@@ -1269,7 +1269,7 @@
                                 Virtual
                             @elseif ($edt->tipo_evento == 3)
                                 Mixto
-                            @endif 
+                            @endif
                         </td>
                     </tr>
 
@@ -1297,7 +1297,7 @@
                         <th>Estrategia de comunicación</th>
                         <td>{{ $edt->estrategia_comunicacion }}</td>
                     </tr>
-                  
+
                 @endforeach
             </tbody>
         </table>
@@ -1324,9 +1324,9 @@
                             @endif
                         </td>
                     </tr>
-                        
+
                     @empty
-                    <p>No hay anexos cargados</p>                        
+                    <p>No hay anexos cargados</p>
                 @endforelse
             </tbody>
         </table>
@@ -1341,7 +1341,7 @@
                 <tbody slot="tbody">
                     <tr>
                         <th colspan="3" class="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full">
-                            Información 
+                            Información
                             <span style="display: inline; font-size: 8px; background-color:rgb(15, 169, 105); padding: 0.5rem 1rem; font-weight: bolder; border-radius: 100%;">PRE-{{ $presupuesto->id }}</span>
                         </th>
                     </tr>
@@ -1365,7 +1365,7 @@
                             </div>
                         </td>
                     </tr>
-                    
+
                     <tr>
                         <td colspan="3">
                             <p style="font-weight: bold;">Descripción</p>
@@ -1532,12 +1532,12 @@
 						<tr>
 							<td colspan="4"><b>Subtotal del costo del rol requerido:</b></td>
 							<td width="30%">${{ number_format(($rolSENNOVA->numero_meses * $rolSENNOVA->convocatoriaRolSennova->asignacion_mensual) * $rolSENNOVA->numero_roles, 0, ',', '.') }} COP</td>
-						</tr>				
+						</tr>
 					</tbody>
 				</table>
 			@endforeach
         </div>
-    @endif 
+    @endif
 
     <hr style="margin: 4rem 0">
 

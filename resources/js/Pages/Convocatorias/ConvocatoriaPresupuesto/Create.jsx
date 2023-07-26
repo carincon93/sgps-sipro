@@ -15,15 +15,15 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let form = useForm({
         presupuesto_sennova_id: null,
     })
 
     function submit() {
-        if (isSuperAdmin) {
+        if (is_super_admin) {
             $form.post(route('convocatorias.convocatoria-presupuesto.store', convocatoria.id))
         }
     }
@@ -48,7 +48,7 @@
         </div>
 
         <div className="col-span-2">
-            <Form {submit} {errors} {isSuperAdmin} {presupuestosSennova} {form} />
+            <Form {submit} {errors} {is_super_admin} {presupuestosSennova} {form} />
         </div>
     </div>
 </AuthenticatedLayout>

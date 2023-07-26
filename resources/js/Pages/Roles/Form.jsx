@@ -10,13 +10,13 @@
     export let errors
     export let role
     export let allPermissions
-    export let isSuperAdmin
+    export let is_super_admin
     export let form
     export let submit
 </script>
 
 <form on:submit|preventDefault={submit}>
-    <fieldset disabled={isSuperAdmin ? undefined : true}>
+    <fieldset disabled={is_super_admin ? undefined : true}>
         <div className="bg-white rounded shadow max-w-3xl p-8">
             <div className="mt-8">
                 <Input label="Nombre" id="name" type="text" className="mt-1" bind:value={$form.name} error={errors.name} required />
@@ -53,7 +53,7 @@
                 {role?.updated_at}
             </small>
         {/if}
-        {#if isSuperAdmin}
+        {#if is_super_admin}
             <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
         {:else}
             <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>

@@ -19,8 +19,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = $page.props.auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = $page.props.auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     /**
      * Buscar

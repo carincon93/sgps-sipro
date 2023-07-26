@@ -101,20 +101,20 @@ class ApiController extends Controller
         $projects = [];
         foreach ($proyectos as $proyecto) {
             $tipo = '';
-            if (!empty($proyecto->idi)) {
-                $datos =  $proyecto->idi;
+            if (!empty($proyecto->proyectoLinea66)) {
+                $datos =  $proyecto->proyectoLinea66;
                 $tipo = 'I+D+I';
-            } else if (!empty($proyecto->ta)) {
-                $datos =  $proyecto->ta;
+            } else if (!empty($proyecto->proyectoLinea70)) {
+                $datos =  $proyecto->proyectoLinea70;
                 $tipo = 'Tecnoacademia';
-            } else if (!empty($proyecto->tp)) {
-                $datos =  $proyecto->tp;
+            } else if (!empty($proyecto->proyectoLinea69)) {
+                $datos =  $proyecto->proyectoLinea69;
                 $tipo = 'Tecnoparque';
-            } else if (!empty($proyecto->culturaInnovacion)) {
-                $datos =  $proyecto->culturaInnovacion;
+            } else if (!empty($proyecto->proyectoLinea65)) {
+                $datos =  $proyecto->proyectoLinea65;
                 $tipo = 'Apropiación de la cultura de la innovación';
-            } else if (!empty($proyecto->servicioTecnologico)) {
-                $datos =  $proyecto->servicioTecnologico;
+            } else if (!empty($proyecto->proyectoLinea68)) {
+                $datos =  $proyecto->proyectoLinea68;
                 $tipo = 'Servicios tecnológicos';
             }
             $data = [
@@ -128,7 +128,7 @@ class ApiController extends Controller
                     'general_objective' => $datos->objetivo_general,
                     'start_date' => $proyecto->fecha_inicio,
                     'end_date' => $proyecto->fecha_finalizacion,
-                    'evaluation_state' => $proyecto->estado_cord_sennova ? json_decode($proyecto->estado_cord_sennova)->estado : ($proyecto->idi()->exists() ? $proyecto->estado_evaluacion_idi['estado'] : ($proyecto->culturaInnovacion()->exists() ? $proyecto->estado_evaluacion_cultura_innovacion['estado'] : ($proyecto->ta()->exists() ? $proyecto->estado_evaluacion_ta['estado'] : ($proyecto->tp()->exists() ? $proyecto->estado_evaluacion_tp['estado'] : ($proyecto->servicioTecnologico()->exists() ? $proyecto->estado_evaluacion_servicios_tecnologicos['estado'] : 'Sin información registrada'))))),
+                    'evaluation_state' => $proyecto->estado_cord_sennova ? json_decode($proyecto->estado_cord_sennova)->estado : ($proyecto->proyectoLinea66()->exists() ? $proyecto->estado_evaluacion_idi['estado'] : ($proyecto->proyectoLinea65()->exists() ? $proyecto->estado_evaluacion_cultura_innovacion['estado'] : ($proyecto->proyectoLinea70()->exists() ? $proyecto->estado_evaluacion_ta['estado'] : ($proyecto->proyectoLinea69()->exists() ? $proyecto->estado_evaluacion_tp['estado'] : ($proyecto->proyectoLinea68()->exists() ? $proyecto->estado_evaluacion_servicios_tecnologicos['estado'] : 'Sin información registrada'))))),
                     "links" => [
                         "proyect_api" => route('v1.project', $proyecto->id),
                         "public_url" => route('convocatorias.proyectos.edit', ['convocatoria' => $proyecto->convocatoria, 'proyecto' => $proyecto]),
@@ -184,20 +184,20 @@ class ApiController extends Controller
         $projects = [];
         foreach ($proyectos as $proyecto) {
             $tipo = '';
-            if (!empty($proyecto->idi)) {
-                $datos =  $proyecto->idi;
+            if (!empty($proyecto->proyectoLinea66)) {
+                $datos =  $proyecto->proyectoLinea66;
                 $tipo = 'I+D+I';
-            } else if (!empty($proyecto->ta)) {
-                $datos =  $proyecto->ta;
+            } else if (!empty($proyecto->proyectoLinea70)) {
+                $datos =  $proyecto->proyectoLinea70;
                 $tipo = 'Tecnoacademia';
-            } else if (!empty($proyecto->tp)) {
-                $datos =  $proyecto->tp;
+            } else if (!empty($proyecto->proyectoLinea69)) {
+                $datos =  $proyecto->proyectoLinea69;
                 $tipo = 'Tecnoparque';
-            } else if (!empty($proyecto->culturaInnovacion)) {
-                $datos =  $proyecto->culturaInnovacion;
+            } else if (!empty($proyecto->proyectoLinea65)) {
+                $datos =  $proyecto->proyectoLinea65;
                 $tipo = 'Apropiación de la cultura de la innovación';
-            } else if (!empty($proyecto->servicioTecnologico)) {
-                $datos =  $proyecto->servicioTecnologico;
+            } else if (!empty($proyecto->proyectoLinea68)) {
+                $datos =  $proyecto->proyectoLinea68;
                 $tipo = 'Servicios tecnológicos';
             }
             $data = [
@@ -209,7 +209,7 @@ class ApiController extends Controller
                     'code' => $proyecto->codigo,
                     'title' => $datos->titulo,
                     'general_objective' => $datos->objetivo_general,
-                    'evaluation_state' => $proyecto->estado_cord_sennova ? json_decode($proyecto->estado_cord_sennova)->estado : ($proyecto->idi()->exists() ? $proyecto->estado_evaluacion_idi['estado'] : ($proyecto->culturaInnovacion()->exists() ? $proyecto->estado_evaluacion_cultura_innovacion['estado'] : ($proyecto->ta()->exists() ? $proyecto->estado_evaluacion_ta['estado'] : ($proyecto->tp()->exists() ? $proyecto->estado_evaluacion_tp['estado'] : ($proyecto->servicioTecnologico()->exists() ? $proyecto->estado_evaluacion_servicios_tecnologicos['estado'] : 'Sin información registrada'))))),
+                    'evaluation_state' => $proyecto->estado_cord_sennova ? json_decode($proyecto->estado_cord_sennova)->estado : ($proyecto->proyectoLinea66()->exists() ? $proyecto->estado_evaluacion_idi['estado'] : ($proyecto->proyectoLinea65()->exists() ? $proyecto->estado_evaluacion_cultura_innovacion['estado'] : ($proyecto->proyectoLinea70()->exists() ? $proyecto->estado_evaluacion_ta['estado'] : ($proyecto->proyectoLinea69()->exists() ? $proyecto->estado_evaluacion_tp['estado'] : ($proyecto->proyectoLinea68()->exists() ? $proyecto->estado_evaluacion_servicios_tecnologicos['estado'] : 'Sin información registrada'))))),
                     'start_date' => $proyecto->fecha_inicio,
                     'end_date' => $proyecto->fecha_finalizacion,
                     "links" => [
@@ -263,20 +263,20 @@ class ApiController extends Controller
 
         $tipo = '';
         $datos = '';
-        if (!empty($proyecto->idi)) {
-            $datos =  $proyecto->idi;
+        if (!empty($proyecto->proyectoLinea66)) {
+            $datos =  $proyecto->proyectoLinea66;
             $tipo = 'I+D+I';
-        } else if (!empty($proyecto->ta)) {
-            $datos =  $proyecto->ta;
+        } else if (!empty($proyecto->proyectoLinea70)) {
+            $datos =  $proyecto->proyectoLinea70;
             $tipo = 'Tecnoacademia';
-        } else if (!empty($proyecto->tp)) {
-            $datos =  $proyecto->tp;
+        } else if (!empty($proyecto->proyectoLinea69)) {
+            $datos =  $proyecto->proyectoLinea69;
             $tipo = 'Tecnoparque';
-        } else if (!empty($proyecto->culturaInnovacion)) {
-            $datos =  $proyecto->culturaInnovacion;
+        } else if (!empty($proyecto->proyectoLinea65)) {
+            $datos =  $proyecto->proyectoLinea65;
             $tipo = 'Apropiación de la cultura de la innovación';
-        } else if (!empty($proyecto->servicioTecnologico)) {
-            $datos =  $proyecto->servicioTecnologico;
+        } else if (!empty($proyecto->proyectoLinea68)) {
+            $datos =  $proyecto->proyectoLinea68;
             $tipo = 'Servicios tecnológicos';
         }
 
@@ -306,9 +306,9 @@ class ApiController extends Controller
                 'price_project' => $proyecto->precio_proyecto > 0 ? $proyecto->precio_proyecto : '0',
                 'finalized' => ($proyecto->finalizado) ? 'SI' : 'NO',
                 'to_evaluate' => ($proyecto->habilitado_para_evaluar) ? 'SI' : 'NO',
-                'evaluation_state' => $proyecto->estado_cord_sennova ? json_decode($proyecto->estado_cord_sennova)->estado : ($proyecto->idi()->exists() ? $proyecto->estado_evaluacion_idi['estado'] : ($proyecto->culturaInnovacion()->exists() ? $proyecto->estado_evaluacion_cultura_innovacion['estado'] : ($proyecto->ta()->exists() ? $proyecto->estado_evaluacion_ta['estado'] : ($proyecto->tp()->exists() ? $proyecto->estado_evaluacion_tp['estado'] : ($proyecto->servicioTecnologico()->exists() ? $proyecto->estado_evaluacion_servicios_tecnologicos['estado'] : 'Sin información registrada'))))),
-                'score' => $proyecto->idi()->exists() ? $proyecto->estado_evaluacion_idi['puntaje'] : ($proyecto->culturaInnovacion()->exists() ? $proyecto->estado_evaluacion_cultura_innovacion['puntaje'] : ($proyecto->servicioTecnologico()->exists() ? $proyecto->estado_evaluacion_servicios_tecnologicos['puntaje'] : 'N/A')),
-                'alert' => $proyecto->idi()->exists() ? $proyecto->estado_evaluacion_idi['alerta'] : 'N/A'
+                'evaluation_state' => $proyecto->estado_cord_sennova ? json_decode($proyecto->estado_cord_sennova)->estado : ($proyecto->proyectoLinea66()->exists() ? $proyecto->estado_evaluacion_idi['estado'] : ($proyecto->proyectoLinea65()->exists() ? $proyecto->estado_evaluacion_cultura_innovacion['estado'] : ($proyecto->proyectoLinea70()->exists() ? $proyecto->estado_evaluacion_ta['estado'] : ($proyecto->proyectoLinea69()->exists() ? $proyecto->estado_evaluacion_tp['estado'] : ($proyecto->proyectoLinea68()->exists() ? $proyecto->estado_evaluacion_servicios_tecnologicos['estado'] : 'Sin información registrada'))))),
+                'score' => $proyecto->proyectoLinea66()->exists() ? $proyecto->estado_evaluacion_idi['puntaje'] : ($proyecto->proyectoLinea65()->exists() ? $proyecto->estado_evaluacion_cultura_innovacion['puntaje'] : ($proyecto->proyectoLinea68()->exists() ? $proyecto->estado_evaluacion_servicios_tecnologicos['puntaje'] : 'N/A')),
+                'alert' => $proyecto->proyectoLinea66()->exists() ? $proyecto->estado_evaluacion_idi['alerta'] : 'N/A'
             ],
             'participants' => $this->mapParticipantes($proyecto->participantes),
             "training_center" => [

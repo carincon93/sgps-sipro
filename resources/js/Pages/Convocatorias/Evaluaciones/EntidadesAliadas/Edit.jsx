@@ -27,8 +27,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let entidadAliadaInfo = {
         tipo: entidadAliada.tipo,
@@ -72,7 +72,7 @@
     <div className="flex">
         <div className="bg-white rounded shadow max-w-3xl flex-1">
             <form>
-                <fieldset className="p-8" disabled={isSuperAdmin || (checkRole(authUser, [11, 5]) && proyecto.finalizado == true) ? undefined : true}>
+                <fieldset className="p-8" disabled={is_super_admin || (checkRole(auth_user, [11, 5]) && proyecto.finalizado == true) ? undefined : true}>
                     <div className="mt-8">
                         <Label className="mb-4" labelFor="tipo" value="Tipo de entidad aliada" />
                         <Select disabled={true} id="tipo" items={tiposEntidadAliada} bind:selectedValue={entidadAliadaInfo.tipo} autocomplete="off" placeholder="Seleccione el tipo de entidad" />

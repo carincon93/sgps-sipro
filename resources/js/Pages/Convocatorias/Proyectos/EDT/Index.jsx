@@ -18,8 +18,8 @@ import { useState } from 'react'
 import Form from './Form'
 
 const EDT = ({ auth, convocatoria, proyecto, presupuesto, eventos, tiposEvento, ...props }) => {
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
     const [eventoToDestroy, setEdtToDestroy] = useState(null)
     const [dialogStatus, setDialogStatus] = useState(false)
@@ -35,10 +35,10 @@ const EDT = ({ auth, convocatoria, proyecto, presupuesto, eventos, tiposEvento, 
             <Grid item md={12}>
                 <h1 className="text-3xl mb-8 text-center">EDT</h1>
 
-                {isSuperAdmin || proyecto.mostrar_recomendaciones ? (
+                {is_super_admin || proyecto.mostrar_recomendaciones ? (
                     <>
                         {proyecto.evaluaciones.map((evaluacion, i) =>
-                            isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado) ? (
+                            is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
                                 <ToolTipMui
                                     key={i}
                                     title={
@@ -55,7 +55,7 @@ const EDT = ({ auth, convocatoria, proyecto, presupuesto, eventos, tiposEvento, 
                     </>
                 ) : null}
 
-                {isSuperAdmin || proyecto.allowed.to_update ? (
+                {is_super_admin || proyecto.allowed.to_update ? (
                     <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setEdt(null))} variant="raised">
                         Añadir EDT
                     </ButtonMui>
@@ -121,7 +121,7 @@ const EDT = ({ auth, convocatoria, proyecto, presupuesto, eventos, tiposEvento, 
                     blurEnabled={true}
                     dialogContent={
                         <Form
-                            isSuperAdmin={isSuperAdmin}
+                            is_super_admin={is_super_admin}
                             setDialogStatus={setDialogStatus}
                             method={method}
                             proyecto={proyecto}

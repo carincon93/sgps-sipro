@@ -33,8 +33,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     /**
      * Buscar
@@ -48,7 +48,7 @@
 
     let sended = false
     function search() {
-        if (isSuperAdmin || checkRole(authUser, [5, 10, 12, 22])) {
+        if (is_super_admin || checkRole(auth_user, [5, 10, 12, 22])) {
             sended = false
             axios
                 .post(route('proyectos-idi-tecnoacademia.participantes.users', proyectoIdiTecnoacademia.id), $form)
@@ -61,7 +61,7 @@
     }
 
     function removeParticipante(id) {
-        if (isSuperAdmin || checkRole(authUser, [5, 10, 12, 22])) {
+        if (is_super_admin || checkRole(auth_user, [5, 10, 12, 22])) {
             Inertia.post(route('proyectos-idi-tecnoacademia.participantes.users.unlink', proyectoIdiTecnoacademia.id), { user_id: id, _method: 'DELETE' }, { preserveScroll: true })
         }
     }
@@ -92,7 +92,7 @@
     }
 
     function submitParticipante() {
-        if (isSuperAdmin || checkRole(authUser, [5, 10, 12, 22])) {
+        if (is_super_admin || checkRole(auth_user, [5, 10, 12, 22])) {
             $formParticipante.post(route('proyectos-idi-tecnoacademia.participantes.users.link', proyectoIdiTecnoacademia.id), {
                 onSuccess: () => {
                     closeDialog()
@@ -129,7 +129,7 @@
     }
 
     function submitRegister() {
-        if (isSuperAdmin || checkRole(authUser, [5, 10, 12, 22])) {
+        if (is_super_admin || checkRole(auth_user, [5, 10, 12, 22])) {
             $formNuevoIntegrante.post(route('proyectos-idi-tecnoacademia.participantes.users.register', proyectoIdiTecnoacademia.id), {
                 onSuccess: () => {
                     closeDialog()
@@ -162,7 +162,7 @@
 
     let sending = false
     function submitNuevoAutorPrincipal() {
-        if (isSuperAdmin || authUser.id == autorPrincipal.id) {
+        if (is_super_admin || auth_user.id == autorPrincipal.id) {
             Inertia.post(route('proyectos-idi-tecnoacademia.nuevo-autor-principal', [proyectoIdiTecnoacademia.id, nuevoAutorPrinciaplId]), [], {
                 onStart: () => {
                     sending = true
@@ -332,8 +332,8 @@
                                 <Item on:SMUI:action={() => showNuevoAutor(participante)} disabled={!proyectoIdiTecnoacademia.allowed.to_update} className={proyectoIdiTecnoacademia.allowed.to_update ? '' : 'hidden'}>
                                     <Text>Convertir en autor principal</Text>
                                 </Item>
-                                <Separator className={!isSuperAdmin || authUser.id == participante.pivot.user_id ? 'hidden' : ''} />
-                                <Item on:SMUI:action={() => removeParticipante(participante.id)} disabled={!isSuperAdmin || authUser.id == participante.pivot.user_id} className={!isSuperAdmin || authUser.id == participante.pivot.user_id ? 'hidden' : ''}>
+                                <Separator className={!is_super_admin || auth_user.id == participante.pivot.user_id ? 'hidden' : ''} />
+                                <Item on:SMUI:action={() => removeParticipante(participante.id)} disabled={!is_super_admin || auth_user.id == participante.pivot.user_id} className={!is_super_admin || auth_user.id == participante.pivot.user_id ? 'hidden' : ''}>
                                     <Text>Quitar</Text>
                                 </Item>
                             </DataTableMenu>
@@ -365,7 +365,7 @@
         </div>
         <div slot="content">
             <form on:submit|preventDefault={submitParticipante} id="participante-form">
-                <fieldset disabled={isSuperAdmin || checkRole(authUser, [5, 10, 12, 22]) ? undefined : true}>
+                <fieldset disabled={is_super_admin || checkRole(auth_user, [5, 10, 12, 22]) ? undefined : true}>
                     <div className="mt-8">
                         <Label required className="mb-4" labelFor="rol_sennova" value="Rol SENNOVA" />
                         <Select id="rol_sennova" items={roles} bind:selectedValue={$formParticipante.rol_sennova} error={errors.rol_sennova} autocomplete="off" placeholder="Seleccione un rol SENNOVA" required />

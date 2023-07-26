@@ -19,7 +19,7 @@
     export let errors
     export let convocatoria
     export let servicioTecnologico
-    export let servicioTecnologicoEvaluacion
+    export let evaluacionProyectoLinea68
     export let sectoresProductivos
     export let estadosSistemaGestion
     export let tiposProyectoSt
@@ -33,11 +33,11 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let dialogSegundaEvaluacion = convocatoria.fase == 4 ? true : false
-    let proyectoDialogOpen = servicioTecnologicoEvaluacion.evaluacion.clausula_confidencialidad == false ? true : false
+    let proyectoDialogOpen = evaluacionProyectoLinea68.evaluacion.clausula_confidencialidad == false ? true : false
 
     let servicioTecnologicoInfo = useForm({
         tipo_proyecto_st_id: servicioTecnologico.tipo_proyecto_st_id,
@@ -69,49 +69,49 @@
     })
 
     let form = useForm({
-        clausula_confidencialidad: servicioTecnologicoEvaluacion.evaluacion.clausula_confidencialidad,
+        clausula_confidencialidad: evaluacionProyectoLinea68.evaluacion.clausula_confidencialidad,
 
-        fechas_requiere_comentario: servicioTecnologicoEvaluacion.fecha_ejecucion_comentario == null ? true : false,
-        fecha_ejecucion_comentario: servicioTecnologicoEvaluacion.fecha_ejecucion_comentario ? servicioTecnologicoEvaluacion.fecha_ejecucion_comentario : '',
+        fechas_requiere_comentario: evaluacionProyectoLinea68.fecha_ejecucion_comentario == null ? true : false,
+        fecha_ejecucion_comentario: evaluacionProyectoLinea68.fecha_ejecucion_comentario ? evaluacionProyectoLinea68.fecha_ejecucion_comentario : '',
 
-        titulo_puntaje: servicioTecnologicoEvaluacion.titulo_puntaje,
-        titulo_comentario: servicioTecnologicoEvaluacion.titulo_comentario ? servicioTecnologicoEvaluacion.titulo_comentario : '',
-        titulo_requiere_comentario: servicioTecnologicoEvaluacion.titulo_comentario == null ? true : false,
+        titulo_puntaje: evaluacionProyectoLinea68.titulo_puntaje,
+        titulo_comentario: evaluacionProyectoLinea68.titulo_comentario ? evaluacionProyectoLinea68.titulo_comentario : '',
+        titulo_requiere_comentario: evaluacionProyectoLinea68.titulo_comentario == null ? true : false,
 
-        resumen_puntaje: servicioTecnologicoEvaluacion.resumen_puntaje,
-        resumen_comentario: servicioTecnologicoEvaluacion.resumen_comentario ? servicioTecnologicoEvaluacion.resumen_comentario : '',
-        resumen_requiere_comentario: servicioTecnologicoEvaluacion.resumen_comentario == null ? true : false,
+        resumen_puntaje: evaluacionProyectoLinea68.resumen_puntaje,
+        resumen_comentario: evaluacionProyectoLinea68.resumen_comentario ? evaluacionProyectoLinea68.resumen_comentario : '',
+        resumen_requiere_comentario: evaluacionProyectoLinea68.resumen_comentario == null ? true : false,
 
-        antecedentes_puntaje: servicioTecnologicoEvaluacion.antecedentes_puntaje,
-        antecedentes_comentario: servicioTecnologicoEvaluacion.antecedentes_comentario ? servicioTecnologicoEvaluacion.antecedentes_comentario : '',
-        antecedentes_requiere_comentario: servicioTecnologicoEvaluacion.antecedentes_comentario == null ? true : false,
+        antecedentes_puntaje: evaluacionProyectoLinea68.antecedentes_puntaje,
+        antecedentes_comentario: evaluacionProyectoLinea68.antecedentes_comentario ? evaluacionProyectoLinea68.antecedentes_comentario : '',
+        antecedentes_requiere_comentario: evaluacionProyectoLinea68.antecedentes_comentario == null ? true : false,
 
-        identificacion_problema_puntaje: servicioTecnologicoEvaluacion.identificacion_problema_puntaje,
-        identificacion_problema_comentario: servicioTecnologicoEvaluacion.identificacion_problema_comentario ? servicioTecnologicoEvaluacion.identificacion_problema_comentario : '',
-        identificacion_problema_requiere_comentario: servicioTecnologicoEvaluacion.identificacion_problema_comentario == null ? true : false,
+        identificacion_problema_puntaje: evaluacionProyectoLinea68.identificacion_problema_puntaje,
+        identificacion_problema_comentario: evaluacionProyectoLinea68.identificacion_problema_comentario ? evaluacionProyectoLinea68.identificacion_problema_comentario : '',
+        identificacion_problema_requiere_comentario: evaluacionProyectoLinea68.identificacion_problema_comentario == null ? true : false,
 
-        pregunta_formulacion_problema_puntaje: servicioTecnologicoEvaluacion.pregunta_formulacion_problema_puntaje,
-        pregunta_formulacion_problema_comentario: servicioTecnologicoEvaluacion.pregunta_formulacion_problema_comentario ? servicioTecnologicoEvaluacion.pregunta_formulacion_problema_comentario : '',
-        pregunta_formulacion_problema_requiere_comentario: servicioTecnologicoEvaluacion.pregunta_formulacion_problema_comentario == null ? true : false,
+        pregunta_formulacion_problema_puntaje: evaluacionProyectoLinea68.pregunta_formulacion_problema_puntaje,
+        pregunta_formulacion_problema_comentario: evaluacionProyectoLinea68.pregunta_formulacion_problema_comentario ? evaluacionProyectoLinea68.pregunta_formulacion_problema_comentario : '',
+        pregunta_formulacion_problema_requiere_comentario: evaluacionProyectoLinea68.pregunta_formulacion_problema_comentario == null ? true : false,
 
-        justificacion_problema_puntaje: servicioTecnologicoEvaluacion.justificacion_problema_puntaje,
-        justificacion_problema_comentario: servicioTecnologicoEvaluacion.justificacion_problema_comentario ? servicioTecnologicoEvaluacion.justificacion_problema_comentario : '',
-        justificacion_problema_requiere_comentario: servicioTecnologicoEvaluacion.justificacion_problema_comentario == null ? true : false,
+        justificacion_problema_puntaje: evaluacionProyectoLinea68.justificacion_problema_puntaje,
+        justificacion_problema_comentario: evaluacionProyectoLinea68.justificacion_problema_comentario ? evaluacionProyectoLinea68.justificacion_problema_comentario : '',
+        justificacion_problema_requiere_comentario: evaluacionProyectoLinea68.justificacion_problema_comentario == null ? true : false,
 
-        bibliografia_requiere_comentario: servicioTecnologicoEvaluacion.bibliografia_comentario == null ? true : false,
-        bibliografia_comentario: servicioTecnologicoEvaluacion.bibliografia_comentario ? servicioTecnologicoEvaluacion.bibliografia_comentario : '',
+        bibliografia_requiere_comentario: evaluacionProyectoLinea68.bibliografia_comentario == null ? true : false,
+        bibliografia_comentario: evaluacionProyectoLinea68.bibliografia_comentario ? evaluacionProyectoLinea68.bibliografia_comentario : '',
 
-        ortografia_comentario: servicioTecnologicoEvaluacion.ortografia_comentario ? servicioTecnologicoEvaluacion.ortografia_comentario : '',
-        ortografia_requiere_comentario: servicioTecnologicoEvaluacion.ortografia_comentario == null ? true : false,
-        redaccion_comentario: servicioTecnologicoEvaluacion.redaccion_comentario ? servicioTecnologicoEvaluacion.redaccion_comentario : '',
-        redaccion_requiere_comentario: servicioTecnologicoEvaluacion.redaccion_comentario == null ? true : false,
-        normas_apa_comentario: servicioTecnologicoEvaluacion.normas_apa_comentario ? servicioTecnologicoEvaluacion.normas_apa_comentario : '',
-        normas_apa_requiere_comentario: servicioTecnologicoEvaluacion.normas_apa_comentario == null ? true : false,
+        ortografia_comentario: evaluacionProyectoLinea68.ortografia_comentario ? evaluacionProyectoLinea68.ortografia_comentario : '',
+        ortografia_requiere_comentario: evaluacionProyectoLinea68.ortografia_comentario == null ? true : false,
+        redaccion_comentario: evaluacionProyectoLinea68.redaccion_comentario ? evaluacionProyectoLinea68.redaccion_comentario : '',
+        redaccion_requiere_comentario: evaluacionProyectoLinea68.redaccion_comentario == null ? true : false,
+        normas_apa_comentario: evaluacionProyectoLinea68.normas_apa_comentario ? evaluacionProyectoLinea68.normas_apa_comentario : '',
+        normas_apa_requiere_comentario: evaluacionProyectoLinea68.normas_apa_comentario == null ? true : false,
     })
 
     function submit() {
-        if (isSuperAdmin || (checkRole(authUser, [11, 5]) && servicioTecnologicoEvaluacion.evaluacion.finalizado == false && servicioTecnologicoEvaluacion.evaluacion.habilitado == true && servicioTecnologicoEvaluacion.evaluacion.modificable == true)) {
-            $form.put(route('convocatorias.servicios-tecnologicos-evaluaciones.update', [convocatoria.id, servicioTecnologicoEvaluacion.id]), {
+        if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacionProyectoLinea68.evaluacion.finalizado == false && evaluacionProyectoLinea68.evaluacion.habilitado == true && evaluacionProyectoLinea68.evaluacion.modificable == true)) {
+            $form.put(route('convocatorias.servicios-tecnologicos-evaluaciones.update', [convocatoria.id, evaluacionProyectoLinea68.id]), {
                 preserveScroll: true,
             })
         }
@@ -124,11 +124,11 @@
 
 <AuthenticatedLayout>
     <header className="pt-[8rem]" slot="header">
-        <EvaluationStepper {convocatoria} evaluacion={servicioTecnologicoEvaluacion.evaluacion} proyecto={servicioTecnologico.proyecto} />
+        <EvaluationStepper {convocatoria} evaluacion={evaluacionProyectoLinea68.evaluacion} proyecto={servicioTecnologico.proyecto} />
     </header>
 
     <form on:submit|preventDefault={submit}>
-        <STForm form={servicioTecnologicoInfo} {isSuperAdmin} {errors} {convocatoria} {servicioTecnologico} {lineasProgramaticas} {tiposProyectoSt} {sectoresProductivos} {estadosSistemaGestion} {programasFormacionConRegistroCalificado} evaluacion={servicioTecnologicoEvaluacion.evaluacion}>
+        <STForm form={servicioTecnologicoInfo} {is_super_admin} {errors} {convocatoria} {servicioTecnologico} {lineasProgramaticas} {tiposProyectoSt} {sectoresProductivos} {estadosSistemaGestion} {programasFormacionConRegistroCalificado} evaluacion={evaluacionProyectoLinea68.evaluacion}>
             <div slot="titulo">
                 <InfoMessage>
                     <h1>Criterios de evaluacion</h1>
@@ -142,7 +142,7 @@
                     </ul>
                     <Label className="mt-4 mb-4" labelFor="titulo_puntaje" value="Puntaje (Máximo 4)" />
                     <Input
-                        disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined}
+                        disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined}
                         label="Puntaje"
                         id="titulo_puntaje"
                         type="number"
@@ -157,10 +157,10 @@
 
                     <div className="mt-4">
                         <p>¿El título es correcto? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.titulo_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined} bind:checked={$form.titulo_requiere_comentario} />
                         {#if $form.titulo_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -178,10 +178,10 @@
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿Las fechas son correctas? Por favor seleccione si Cumple o No cumple</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.fechas_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined} bind:checked={$form.fechas_requiere_comentario} />
                         {#if $form.fechas_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -206,7 +206,7 @@
                     </ul>
                     <Label className="mt-4 mb-4" labelFor="resumen_puntaje" value="Puntaje (Máximo 3)" />
                     <Input
-                        disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined}
+                        disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined}
                         label="Puntaje"
                         id="resumen_puntaje"
                         type="number"
@@ -221,10 +221,10 @@
 
                     <div className="mt-4">
                         <p>¿El resumen es correcto? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.resumen_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined} bind:checked={$form.resumen_requiere_comentario} />
                         {#if $form.resumen_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -250,7 +250,7 @@
                     </ul>
                     <Label className="mt-4 mb-4" labelFor="antecedentes_puntaje" value="Puntaje (Máximo 3)" />
                     <Input
-                        disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined}
+                        disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined}
                         label="Puntaje"
                         id="antecedentes_puntaje"
                         type="number"
@@ -265,10 +265,10 @@
 
                     <div className="mt-4">
                         <p>¿Los antecedentes son correctos? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.antecedentes_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined} bind:checked={$form.antecedentes_requiere_comentario} />
                         {#if $form.antecedentes_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -294,7 +294,7 @@
                     </ul>
                     <Label className="mt-4 mb-4" labelFor="identificacion_problema_puntaje" value="Puntaje (Máximo 4)" />
                     <Input
-                        disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined}
+                        disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined}
                         label="Puntaje"
                         id="identificacion_problema_puntaje"
                         type="number"
@@ -309,10 +309,10 @@
 
                     <div className="mt-4">
                         <p>¿La identificación del problema es correcta? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.identificacion_problema_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined} bind:checked={$form.identificacion_problema_requiere_comentario} />
                         {#if $form.identificacion_problema_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -344,7 +344,7 @@
                     </ul>
                     <Label className="mt-4 mb-4" labelFor="pregunta_formulacion_problema_puntaje" value="Puntaje (Máximo 2)" />
                     <Input
-                        disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined}
+                        disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined}
                         label="Puntaje"
                         id="pregunta_formulacion_problema_puntaje"
                         type="number"
@@ -359,10 +359,10 @@
 
                     <div className="mt-4">
                         <p>¿La pregunta de formulación del problema es correcta? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.pregunta_formulacion_problema_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined} bind:checked={$form.pregunta_formulacion_problema_requiere_comentario} />
                         {#if $form.pregunta_formulacion_problema_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -393,7 +393,7 @@
                     </ul>
                     <Label className="mt-4 mb-4" labelFor="justificacion_problema_puntaje" value="Puntaje (Máximo 4)" />
                     <Input
-                        disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined}
+                        disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined}
                         label="Puntaje"
                         id="justificacion_problema_puntaje"
                         type="number"
@@ -408,10 +408,10 @@
 
                     <div className="mt-4">
                         <p>¿La justificación del problema es correcta? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.justificacion_problema_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined} bind:checked={$form.justificacion_problema_requiere_comentario} />
                         {#if $form.justificacion_problema_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -429,10 +429,10 @@
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿La bibliografía es correcta? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.bibliografia_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined} bind:checked={$form.bibliografia_requiere_comentario} />
                         {#if $form.bibliografia_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -452,10 +452,10 @@
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿La ortografía es correcta? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.ortografia_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined} bind:checked={$form.ortografia_requiere_comentario} />
                         {#if $form.ortografia_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -473,10 +473,10 @@
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿La redacción es correcta? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.redaccion_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined} bind:checked={$form.redaccion_requiere_comentario} />
                         {#if $form.redaccion_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -493,10 +493,10 @@
                 <InfoMessage>
                     <div className="mt-4">
                         <p>¿Las normas APA son correctas? Por favor seleccione si Cumple o No cumple.</p>
-                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined} bind:checked={$form.normas_apa_requiere_comentario} />
+                        <Switch onMessage="Cumple" offMessage="No cumple" disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined} bind:checked={$form.normas_apa_requiere_comentario} />
                         {#if $form.normas_apa_requiere_comentario == false}
                             <Textarea
-                                disabled={isSuperAdmin ? undefined : servicioTecnologicoEvaluacion.evaluacion.finalizado == true || servicioTecnologicoEvaluacion.evaluacion.habilitado == false || servicioTecnologicoEvaluacion.evaluacion.modificable == false ? true : undefined}
+                                disabled={is_super_admin ? undefined : evaluacionProyectoLinea68.evaluacion.finalizado == true || evaluacionProyectoLinea68.evaluacion.habilitado == false || evaluacionProyectoLinea68.evaluacion.modificable == false ? true : undefined}
                                 label="Comentario"
                                 className="mt-4"
                                 maxlength="40000"
@@ -512,7 +512,7 @@
         </STForm>
 
         <div className="flex items-center justify-between mt-14 px-8 py-4">
-            {#if isSuperAdmin || (checkRole(authUser, [11, 5]) && servicioTecnologicoEvaluacion.evaluacion.finalizado == false && servicioTecnologicoEvaluacion.evaluacion.habilitado == true && servicioTecnologicoEvaluacion.evaluacion.modificable == true)}
+            {#if is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacionProyectoLinea68.evaluacion.finalizado == false && evaluacionProyectoLinea68.evaluacion.habilitado == true && evaluacionProyectoLinea68.evaluacion.modificable == true)}
                 {#if $form.clausula_confidencialidad}
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-500 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

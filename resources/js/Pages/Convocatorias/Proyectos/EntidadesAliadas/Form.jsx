@@ -308,7 +308,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAli
                                     <div className="mt-8">
                                         <Label className="mb-4" labelFor="soporte_convenio" value="Archivo del convenio" />
                                         {proyecto.codigo_linea_programatica == 70 && (
-                                            <AlertMui hiddenIcon={true}>
+                                            <AlertMui>
                                                 En el caso de tener un acuerdo, convenio o contrato de arrendamiento para la operación de la TecnoAcademia en una infraestructura de un tercero, es
                                                 indispensable, adjuntar el documento contractual una vez este creando la entidad aliada.
                                             </AlertMui>

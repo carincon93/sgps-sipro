@@ -10,7 +10,7 @@ import { MenuItem, TableCell, TableRow } from '@mui/material'
 import { router } from '@inertiajs/react'
 import { route } from '@/Utils'
 
-const SemillerosInvestigacion = ({ authUser, convocatoria, proyecto, nuevoSemilleroInvestigacion }) => {
+const SemillerosInvestigacion = ({ auth_user, convocatoria, proyecto, nuevoSemilleroInvestigacion }) => {
     return (
         <>
             <h1 className="mt-24 mb-8 text-center text-3xl">Semilleros de investigación vinculados</h1>
@@ -37,8 +37,7 @@ const SemillerosInvestigacion = ({ authUser, convocatoria, proyecto, nuevoSemill
                                         )
                                     }
                                     disabled={!proyecto.allowed.to_update}
-                                    className={!proyecto.allowed.to_update ? 'hidden' : ''}
-                                >
+                                    className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                     Quitar
                                 </MenuItem>
                             </MenuMui>
@@ -65,8 +64,7 @@ const SemillerosInvestigacion = ({ authUser, convocatoria, proyecto, nuevoSemill
                                         }),
                                         { preserveScroll: true },
                                     )
-                                }}
-                            >
+                                }}>
                                 Vincular
                             </PrimaryButton>
                         </TableCell>
@@ -75,9 +73,7 @@ const SemillerosInvestigacion = ({ authUser, convocatoria, proyecto, nuevoSemill
                 <TableRow sx={{ backgroundColor: '#e5f6fd' }}>
                     <TableCell colSpan={6} className="!align-top">
                         <p>Agregar semillero de investigación</p>
-                        <AlertMui hiddenIcon={true} className="mt-5">
-                            1. Escriba el nombre del semillero de investigación.
-                        </AlertMui>
+                        <AlertMui className="mt-5">1. Escriba el nombre del semillero de investigación.</AlertMui>
                         <SearchBar placeholder="Buscar semillero de investigación" inputBackground="white" routeParams={[convocatoria.id, proyecto.id]} />
                     </TableCell>
                 </TableRow>

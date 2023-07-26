@@ -8,8 +8,8 @@ import ButtonMui from '@/Components/Button'
 import AlertMui from '@/Components/Alert'
 
 export default function Dashboard({ auth, convocatorias }) {
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Lista de convocatorias</h2>}>
@@ -23,9 +23,9 @@ export default function Dashboard({ auth, convocatorias }) {
                 </figure>
             </Grid>
 
-            {isSuperAdmin && (
+            {is_super_admin && (
                 <Grid item md={12}>
-                    <AlertMui hiddenIcon={true} className="my-20">
+                    <AlertMui className="my-20">
                         <p>A continuación, se listan todas las convocatorias, si desea crear una nueva de clic en el siguiente botón.</p>
                         <Link href={route('convocatorias.create')} className="mt-8 mb-20">
                             Crear convocatoria
@@ -34,14 +34,14 @@ export default function Dashboard({ auth, convocatorias }) {
                 </Grid>
             )}
 
-            {isSuperAdmin || checkRole(authUser, [11]) || checkPermission(authUser, [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18, 19, 14, 15, 16, 20, 21]) ? (
+            {is_super_admin || checkRole(auth_user, [11]) || checkPermission(auth_user, [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18, 19, 14, 15, 16, 20, 21]) ? (
                 <Grid container>
                     {convocatorias.data.map((convocatoria) =>
-                        convocatoria.visible || isSuperAdmin || checkRole(authUser, [5, 17, 18, 19, 20]) ? (
+                        convocatoria.visible || is_super_admin || checkRole(auth_user, [5, 17, 18, 19, 20]) ? (
                             <Grid item md={4} key={convocatoria.id} className="mb-20 relative parent-actions !p-0">
-                                {isSuperAdmin && (
+                                {is_super_admin && (
                                     <MenuMui className="!min-w-0 !absolute right-0 z-10 opacity-0 child-actions" text={<EditIcon />}>
-                                        <MenuItem onClick={() => router.visit(route('convocatorias.edit', convocatoria.id))} disabled={!isSuperAdmin} className={!isSuperAdmin ? 'hidden' : ''}>
+                                        <MenuItem onClick={() => router.visit(route('convocatorias.edit', convocatoria.id))} disabled={!is_super_admin} className={!is_super_admin ? 'hidden' : ''}>
                                             Editar convocatoria
                                         </MenuItem>
 
@@ -51,9 +51,9 @@ export default function Dashboard({ auth, convocatorias }) {
 
                                         <Divider />
                                         <MenuItem
-                                            onClick={() => ((convocatoria_id = convocatoria.id), (dialogEliminar = true), (allowedToDestroy = isSuperAdmin))}
-                                            disabled={!isSuperAdmin}
-                                            className={!isSuperAdmin ? 'hidden' : ''}>
+                                            onClick={() => ((convocatoria_id = convocatoria.id), (dialogEliminar = true), (allowedToDestroy = is_super_admin))}
+                                            disabled={!is_super_admin}
+                                            className={!is_super_admin ? 'hidden' : ''}>
                                             Eliminar convocatoria
                                         </MenuItem>
                                     </MenuMui>
@@ -86,7 +86,7 @@ export default function Dashboard({ auth, convocatorias }) {
                                         <small>
                                             {' '}
                                             Convocatoria {convocatoria.esta_activa ? 'activa' : 'inactiva'}{' '}
-                                            {convocatoria.visible && isSuperAdmin ? ' y visible' : convocatoria.visible == false && isSuperAdmin ? 'y oculta' : ''}
+                                            {convocatoria.visible && is_super_admin ? ' y visible' : convocatoria.visible == false && is_super_admin ? 'y oculta' : ''}
                                         </small>
                                     </div>
                                 </ButtonMui>

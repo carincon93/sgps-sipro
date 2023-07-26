@@ -26,7 +26,7 @@
     export let listaBeneficiados
     export let roles
     export let selectProgramasFormacionConRegistros
-    export let allowedToCreate
+    export let allowed_to_create
 
     let arraySubareasConocimiento = subareasConocimiento.filter(function (obj) {
         return obj.area_conocimiento_id == $form.area_conocimiento_id
@@ -71,7 +71,7 @@
 </script>
 
 <form {id} on:submit|preventDefault={submit}>
-    <fieldset className="p-8" disabled={proyectoCapacidadInstalada?.allowed.to_update || allowedToCreate ? undefined : true}>
+    <fieldset className="p-8" disabled={proyectoCapacidadInstalada?.allowed.to_update || allowed_to_create ? undefined : true}>
         <div className="mt-28">
             <Label required labelFor="titulo" className="font-medium inline-block mb-10 text-center text-gray-700 text-sm w-full" value="Descripción llamativa que orienta el enfoque del proyecto, indica el cómo y el para qué. (Máximo 20 palabras)" />
             <Textarea label="Título" id="titulo" sinContador={true} error={errors.titulo} bind:value={$form.titulo} classes="bg-transparent block border-0 {errors.titulo ? '' : 'outline-none-important'} mt-1 outline-none text-4xl text-center w-full" required />
@@ -79,7 +79,7 @@
 
         <div className="mt-44">
             <p className="text-center">Fecha de ejecución</p>
-            {#if proyectoCapacidadInstalada?.allowed.to_update || allowedToCreate}
+            {#if proyectoCapacidadInstalada?.allowed.to_update || allowed_to_create}
                 <small className="text-red-400 block text-center"> * Campo obligatorio </small>
             {/if}
             <div className="mt-4 flex items-start justify-around">

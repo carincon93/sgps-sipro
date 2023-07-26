@@ -11,15 +11,15 @@
     export let tiposVinculacion
     export let roles
     export let centrosFormacion
-    export let allowedToCreate
+    export let allowed_to_create
 
     $: $title = 'Crear usuario'
 
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let form = useForm({
         nombre: '',
@@ -29,14 +29,14 @@
         numero_celular: '',
         habilitado: true,
         tipo_vinculacion: '',
-        centro_formacion_id: isSuperAdmin ? null : checkRole(authUser, [4, 21]) ? authUser.centro_formacion_id : null,
+        centro_formacion_id: is_super_admin ? null : checkRole(auth_user, [4, 21]) ? auth_user.centro_formacion_id : null,
         role_id: [],
         permission_id: [],
         autorizacion_datos: false,
     })
 
     function submit() {
-        if (allowedToCreate) {
+        if (allowed_to_create) {
             $form.post(route('users.store'))
         }
     }
@@ -55,5 +55,5 @@
         </div>
     </header>
 
-    <Form {submit} {form} {errors} {tiposDocumento} {tiposVinculacion} {roles} {centrosFormacion} {allowedToCreate} />
+    <Form {submit} {form} {errors} {tiposDocumento} {tiposVinculacion} {roles} {centrosFormacion} {allowed_to_create} />
 </AuthenticatedLayout>

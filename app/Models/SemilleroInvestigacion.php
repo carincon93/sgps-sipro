@@ -139,13 +139,13 @@ class SemilleroInvestigacion extends Model
     }
 
     /**
-     * Relationship with ProyectoIdiTecnoacademia
+     * Relationship with ProyectoProyectoLinea66Tecnoacademia
      *
      * @return void
      */
-    public function proyectosIdiTecnoacademia()
+    public function proyectosProyectoLinea66Tecnoacademia()
     {
-        return $this->hasMany(ProyectoIdiTecnoacademia::class);
+        return $this->hasMany(ProyectoProyectoLinea66Tecnoacademia::class);
     }
 
     /**

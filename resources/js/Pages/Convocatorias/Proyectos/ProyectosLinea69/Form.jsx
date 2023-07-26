@@ -11,7 +11,7 @@ import { useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useEffect } from 'react'
 
-const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea69, nodosTecnoParque, lineasProgramaticas, rolesSennova, evaluacion, ...props }) => {
+const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyectoLinea69, nodosTecnoParque, lineasProgramaticas, rolesSennova, evaluacion, ...props }) => {
     const form = useForm({
         centro_formacion_id: proyectoLinea69?.proyecto.centro_formacion_id ?? '',
         linea_programatica_id: proyectoLinea69?.proyecto.linea_programatica_id ?? '',
@@ -59,7 +59,7 @@ const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea
 
     return (
         <form onSubmit={submit}>
-            <fieldset disabled={proyectoLinea69?.proyecto.allowed.to_update && !isSuperAdmin}>
+            <fieldset disabled={proyectoLinea69?.proyecto.allowed.to_update && !is_super_admin}>
                 <Grid container className="space-y-20">
                     {nodosTecnoParque.length > 0 ? (
                         <>
@@ -79,7 +79,7 @@ const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea
                         </>
                     ) : (
                         <div className="py-24">
-                            <AlertMui hiddenIcon={true}>Su regional no cuenta con nodos TecnoParque.</AlertMui>
+                            <AlertMui>Su regional no cuenta con nodos TecnoParque.</AlertMui>
                         </div>
                     )}
 
@@ -268,7 +268,7 @@ const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea
                                     value={form.data.antecedentes}
                                     onChange={(e) => form.setData('antecedentes', e.target.value)}
                                     required
-                                    disabled={proyectoLinea69?.proyecto_base || checkPermissionByUser(authUser, [24]) ? undefined : true}
+                                    disabled={proyectoLinea69?.proyecto_base || checkPermissionByUser(auth_user, [24]) ? undefined : true}
                                 />
                             </Grid>
 
@@ -409,7 +409,7 @@ const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea
                                     value={form.data.marco_conceptual}
                                     onChange={(e) => form.setData('marco_conceptual', e.target.value)}
                                     required
-                                    disabled={proyectoLinea69?.proyecto_base || checkPermissionByUser(authUser, [24]) ? undefined : true}
+                                    disabled={proyectoLinea69?.proyecto_base || checkPermissionByUser(auth_user, [24]) ? undefined : true}
                                 />
                             </Grid>
 

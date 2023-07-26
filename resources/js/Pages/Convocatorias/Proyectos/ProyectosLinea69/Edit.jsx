@@ -12,14 +12,16 @@ import { Grid, TableCell, TableRow } from '@mui/material'
 import { useState } from 'react'
 
 const Edit = ({ auth, convocatoria, proyectoLinea69, nodosTecnoParque, lineasProgramaticas, lineasTecnoacademia, rolesSennova }) => {
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
     const [evaluacionIndex, setEvaluacionIndex] = useState(0)
     const [dialogStatus, setDialogStatus] = useState(false)
 
     const comentariosEvaluaciones =
-        proyectoLinea69?.proyecto.evaluaciones.length > 0 ? Object.keys(proyectoLinea69?.proyecto.evaluaciones[evaluacionIndex].tp_evaluacion).filter((field) => field.endsWith('_comentario')) : null
+        proyectoLinea69?.proyecto.evaluaciones.length > 0
+            ? Object.keys(proyectoLinea69?.proyecto.evaluaciones[evaluacionIndex].evaluacion_proyecto_linea69).filter((field) => field.endsWith('_comentario'))
+            : null
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyectoLinea69.titulo}</h2>}>
@@ -47,16 +49,17 @@ const Edit = ({ auth, convocatoria, proyectoLinea69, nodosTecnoParque, lineasPro
                                 </ButtonMui>
                             ))}
                             <TableMui className="mt-20" rows={['Ítem', 'Comentario']}>
-                                {comentariosEvaluaciones && comentariosEvaluaciones
-                                    .sort((a, b) => a.toString().localeCompare(b.toString()))
-                                    .map((field, i) => (
-                                        <TableRow key={i}>
-                                            <TableCell>
-                                                <p className="first-letter:uppercase">{field.replace(/_comentario/g, '').replace(/_/g, ' ')}</p>
-                                            </TableCell>
-                                            <TableCell>{proyectoLinea69?.proyecto.evaluaciones[evaluacionIndex]?.tp_evaluacion[field] ?? 'Sin comentarios'}</TableCell>
-                                        </TableRow>
-                                    ))}
+                                {comentariosEvaluaciones &&
+                                    comentariosEvaluaciones
+                                        .sort((a, b) => a.toString().localeCompare(b.toString()))
+                                        .map((field, i) => (
+                                            <TableRow key={i}>
+                                                <TableCell>
+                                                    <p className="first-letter:uppercase">{field.replace(/_comentario/g, '').replace(/_/g, ' ')}</p>
+                                                </TableCell>
+                                                <TableCell>{proyectoLinea69?.proyecto.evaluaciones[evaluacionIndex]?.evaluacion_proyecto_linea69[field] ?? 'Sin comentarios'}</TableCell>
+                                            </TableRow>
+                                        ))}
                             </TableMui>
                         </>
                     }
@@ -69,8 +72,8 @@ const Edit = ({ auth, convocatoria, proyectoLinea69, nodosTecnoParque, lineasPro
             </Grid>
             <Grid item md={12}>
                 <Form
-                    isSuperAdmin={isSuperAdmin}
-                    authUser={authUser}
+                    is_super_admin={is_super_admin}
+                    auth_user={auth_user}
                     method="editar"
                     convocatoria={convocatoria}
                     proyectoLinea69={proyectoLinea69}

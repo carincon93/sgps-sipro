@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticulacionSennovaRequest;
 use App\Models\Convocatoria;
 use App\Models\Evaluacion\Evaluacion;
-use App\Models\Evaluacion\TaEvaluacion;
+use App\Models\Evaluacion\EvaluacionProyectoLinea70;
 use App\Models\LineaInvestigacion;
 use App\Models\Proyecto;
 use Illuminate\Http\Request;
@@ -27,7 +27,7 @@ class ArticulacionSennovaController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', [$proyecto]);
 
-        $proyecto->load('evaluaciones.taEvaluacion');
+        $proyecto->load('evaluaciones.evaluacionProyectoLinea70');
         $proyecto->load('participantes.centroFormacion.regional');
 
         if ($proyecto->lineaProgramatica->codigo != 69 && $proyecto->lineaProgramatica->codigo != 70) {
@@ -43,31 +43,31 @@ class ArticulacionSennovaController extends Controller
             case 70:
                 $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-ta.json'), true));
 
-                $proyecto->proyectos_ejecucion                  = $proyecto->ta->proyectos_ejecucion;
-                $proyecto->articulacion_semillero               = $proyecto->ta->articulacion_semillero;
-                $proyecto->semilleros_en_formalizacion          = $proyecto->ta->semilleros_en_formalizacion;
-                $proyecto->articulacion_centro_formacion        = $proyecto->ta->articulacion_centro_formacion;
-                $proyecto->lineas_medulares_centro              = $proyecto->ta->lineas_medulares_centro;
-                $proyecto->articulacion_programas_centro        = $proyecto->ta->articulacion_programas_centro;
-                $proyecto->articulacion_bienestar_aprendiz      = $proyecto->ta->articulacion_bienestar_aprendiz;
-                $proyecto->favorecimiento_ruta_formacion        = $proyecto->ta->favorecimiento_ruta_formacion;
+                $proyecto->proyectos_ejecucion                  = $proyecto->proyectoLinea70->proyectos_ejecucion;
+                $proyecto->articulacion_semillero               = $proyecto->proyectoLinea70->articulacion_semillero;
+                $proyecto->semilleros_en_formalizacion          = $proyecto->proyectoLinea70->semilleros_en_formalizacion;
+                $proyecto->articulacion_centro_formacion        = $proyecto->proyectoLinea70->articulacion_centro_formacion;
+                $proyecto->lineas_medulares_centro              = $proyecto->proyectoLinea70->lineas_medulares_centro;
+                $proyecto->articulacion_programas_centro        = $proyecto->proyectoLinea70->articulacion_programas_centro;
+                $proyecto->articulacion_bienestar_aprendiz      = $proyecto->proyectoLinea70->articulacion_bienestar_aprendiz;
+                $proyecto->favorecimiento_ruta_formacion        = $proyecto->proyectoLinea70->favorecimiento_ruta_formacion;
 
-                $disciplinasSubareaConocimientoRelacionadas     = $proyecto->ta->disciplinasSubareaConocimiento()->select('disciplinas_subarea_conocimiento.id as value', 'disciplinas_subarea_conocimiento.nombre as label')->get();
-                $redesConocimientoRelacionadas                  = $proyecto->ta->redesConocimiento()->select('redes_conocimiento.id as value', 'redes_conocimiento.nombre as label')->get();
-                $tematicasEstrategicasRelacionadas              = $proyecto->ta->tematicasEstrategicas()->select('tematicas_estrategicas.id as value', 'tematicas_estrategicas.nombre as label')->get();
-                $actividadesEconomicasRelacionadas              = $proyecto->ta->actividadesEconomicas()->select('actividades_economicas.id as value', 'actividades_economicas.nombre as label')->get();
-                $proyectosIdiTecnoacademiaRelacionados          = $proyecto->ta->proyectosIdiTecnoacademia()->selectRaw('proyectos_idi_tecnoacademia.id as value, concat(\'IDITA-\', proyectos_idi_tecnoacademia.id, \' ∙ \', proyectos_idi_tecnoacademia.titulo) as label, proyectos_idi_tecnoacademia.tecnoacademia_id as tecnoacademia_id')->get();
+                $disciplinasSubareaConocimientoRelacionadas     = $proyecto->proyectoLinea70->disciplinasSubareaConocimiento()->select('disciplinas_subarea_conocimiento.id as value', 'disciplinas_subarea_conocimiento.nombre as label')->get();
+                $redesConocimientoRelacionadas                  = $proyecto->proyectoLinea70->redesConocimiento()->select('redes_conocimiento.id as value', 'redes_conocimiento.nombre as label')->get();
+                $tematicasEstrategicasRelacionadas              = $proyecto->proyectoLinea70->tematicasEstrategicas()->select('tematicas_estrategicas.id as value', 'tematicas_estrategicas.nombre as label')->get();
+                $actividadesEconomicasRelacionadas              = $proyecto->proyectoLinea70->actividadesEconomicas()->select('actividades_economicas.id as value', 'actividades_economicas.nombre as label')->get();
+                $proyectosIdiTecnoacademiaRelacionados          = $proyecto->proyectoLinea70->proyectosIdiTecnoacademia()->selectRaw('proyectos_idi_tecnoacademia.id as value, concat(\'IDITA-\', proyectos_idi_tecnoacademia.id, \' ∙ \', proyectos_idi_tecnoacademia.titulo) as label, proyectos_idi_tecnoacademia.tecnoacademia_id as tecnoacademia_id')->get();
                 break;
 
             case 69:
                 $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-tp.json'), true));
 
-                $proyecto->impacto_centro_formacion             = $proyecto->tp->impacto_centro_formacion;
-                $proyecto->aportacion_semilleros_grupos         = $proyecto->tp->aportacion_semilleros_grupos;
-                $proyecto->proyeccion_con_st                    = $proyecto->tp->proyeccion_con_st;
-                $proyecto->proyeccion_extensionismo_tecnologico = $proyecto->tp->proyeccion_extensionismo_tecnologico;
-                $proyecto->proyeccion_centros_desarrollo        = $proyecto->tp->proyeccion_centros_desarrollo;
-                $proyecto->proyeccion_formacion_regional        = $proyecto->tp->proyeccion_formacion_regional;
+                $proyecto->impacto_centro_formacion             = $proyecto->proyectoLinea69->impacto_centro_formacion;
+                $proyecto->aportacion_semilleros_grupos         = $proyecto->proyectoLinea69->aportacion_semilleros_grupos;
+                $proyecto->proyeccion_con_st                    = $proyecto->proyectoLinea69->proyeccion_con_st;
+                $proyecto->proyeccion_extensionismo_tecnologico = $proyecto->proyectoLinea69->proyeccion_extensionismo_tecnologico;
+                $proyecto->proyeccion_centros_desarrollo        = $proyecto->proyectoLinea69->proyeccion_centros_desarrollo;
+                $proyecto->proyeccion_formacion_regional        = $proyecto->proyectoLinea69->proyeccion_formacion_regional;
                 break;
 
             default:
@@ -126,121 +126,6 @@ class ArticulacionSennovaController extends Controller
             'centrosFormacion'                              => SelectHelper::centrosFormacion(),
             'roles'                                         => $rolesSennova,
             'autorPrincipal'                                => $proyecto->participantes()->where('proyecto_participantes.es_formulador', true)->first(),
-        ]);
-    }
-
-    /**
-     * showArticulacionSennovaEvaluacion
-     *
-     * @param  mixed $convocatoria
-     * @param  mixed $proyecto
-     * @return void
-     */
-    public function showArticulacionSennovaEvaluacion(Convocatoria $convocatoria, Evaluacion $evaluacion)
-    {
-        $this->authorize('visualizar-evaluacion-autor', $evaluacion);
-
-        if ($evaluacion->proyecto->lineaProgramatica->codigo != 69 && $evaluacion->proyecto->lineaProgramatica->codigo != 70) {
-            return back()->with('error', 'No puede acceder a este módulo.');
-        }
-
-        $evaluacion->proyecto->participantes;
-        $evaluacion->proyecto->codigo_linea_programatica = $evaluacion->proyecto->lineaProgramatica->codigo;
-        $evaluacion->proyecto->precio_proyecto           = $evaluacion->proyecto->precioProyecto;
-
-        $rolesSennova = null;
-        switch ($evaluacion->proyecto->lineaProgramatica->codigo) {
-            case 70:
-                $evaluacion->taEvaluacion;
-
-                $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-ta.json'), true));
-
-                $evaluacion->proyecto->proyectos_ejecucion                  = $evaluacion->proyecto->ta->proyectos_ejecucion;
-                $evaluacion->proyecto->articulacion_semillero               = $evaluacion->proyecto->ta->articulacion_semillero;
-                $evaluacion->proyecto->semilleros_en_formalizacion          = $evaluacion->proyecto->ta->semilleros_en_formalizacion;
-                $evaluacion->proyecto->articulacion_centro_formacion        = $evaluacion->proyecto->ta->articulacion_centro_formacion;
-                $evaluacion->proyecto->lineas_medulares_centro              = $evaluacion->proyecto->ta->lineas_medulares_centro;
-                $evaluacion->proyecto->articulacion_programas_centro        = $evaluacion->proyecto->ta->articulacion_programas_centro;
-                $evaluacion->proyecto->articulacion_bienestar_aprendiz      = $evaluacion->proyecto->ta->articulacion_bienestar_aprendiz;
-                $evaluacion->proyecto->favorecimiento_ruta_formacion        = $evaluacion->proyecto->ta->favorecimiento_ruta_formacion;
-
-                $disciplinasSubareaConocimientoRelacionadas                 = $evaluacion->proyecto->ta->disciplinasSubareaConocimiento()->select('disciplinas_subarea_conocimiento.id as value', 'disciplinas_subarea_conocimiento.nombre as label')->get();
-                $redesConocimientoRelacionadas                              = $evaluacion->proyecto->ta->redesConocimiento()->select('redes_conocimiento.id as value', 'redes_conocimiento.nombre as label')->get();
-                $tematicasEstrategicasRelacionadas                          = $evaluacion->proyecto->ta->tematicasEstrategicas()->select('tematicas_estrategicas.id as value', 'tematicas_estrategicas.nombre as label')->get();
-                $actividadesEconomicasRelacionadas                          = $evaluacion->proyecto->ta->actividadesEconomicas()->select('actividades_economicas.id as value', 'actividades_economicas.nombre as label')->get();
-                $evaluacion->proyectosIdiTecnoacademiaRelacionados          = $evaluacion->proyecto->ta->proyectosIdiTecnoacademia()->selectRaw('proyectos_idi_tecnoacademia.id as value, concat(\'IDITA-\', proyectos_idi_tecnoacademia.id, \' ∙ \', proyectos_idi_tecnoacademia.titulo) as label, proyectos_idi_tecnoacademia.tecnoacademia_id as tecnoacademia_id')->get();
-                break;
-
-            case 69:
-                $evaluacion->tpEvaluacion;
-
-                $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-tp.json'), true));
-
-                $evaluacion->proyecto->impacto_centro_formacion             = $evaluacion->proyecto->tp->impacto_centro_formacion;
-                $evaluacion->proyecto->aportacion_semilleros_grupos         = $evaluacion->proyecto->tp->aportacion_semilleros_grupos;
-                $evaluacion->proyecto->proyeccion_con_st                    = $evaluacion->proyecto->tp->proyeccion_con_st;
-                $evaluacion->proyecto->proyeccion_extensionismo_tecnologico = $evaluacion->proyecto->tp->proyeccion_extensionismo_tecnologico;
-                $evaluacion->proyecto->proyeccion_centros_desarrollo        = $evaluacion->proyecto->tp->proyeccion_centros_desarrollo;
-                $evaluacion->proyecto->proyeccion_formacion_regional        = $evaluacion->proyecto->tp->proyeccion_formacion_regional;
-                break;
-
-            default:
-                break;
-        }
-
-        return Inertia::render('Convocatorias/Evaluaciones/ArticulacionSennova/Index', [
-            'convocatoria'                                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year', 'min_fecha_inicio_proyectos_linea_70', 'max_fecha_finalizacion_proyectos_linea_70'),
-            'evaluacion'                                    => $evaluacion,
-            'proyecto'                                      => $evaluacion->proyecto->only(
-                'id',
-                'precio_proyecto',
-                'codigo_linea_programatica',
-                'proyectos_ejecucion',
-                'modificable',
-                'articulacion_semillero',
-                'semilleros_en_formalizacion',
-                'mostrar_recomendaciones',
-                'PdfVersiones',
-                'all_files',
-                'allowed',
-                'evaluaciones',
-                'articulacion_centro_formacion',
-                'lineas_medulares_centro',
-                'articulacion_programas_centro',
-                'articulacion_bienestar_aprendiz',
-                'favorecimiento_ruta_formacion',
-                'impacto_centro_formacion',
-                'aportacion_semilleros_grupos',
-                'proyeccion_con_st',
-                'proyeccion_extensionismo_tecnologico',
-                'proyeccion_centros_desarrollo',
-                'proyeccion_formacion_regional',
-                'participantes',
-                'diff_meses'
-            ),
-            'lineasInvestigacion'                           => LineaInvestigacion::selectRaw('lineas_investigacion.id as value, concat(lineas_investigacion.nombre, chr(10), \'∙ Grupo de investigación: \', grupos_investigacion.nombre, chr(10)) as label')->join('grupos_investigacion', 'lineas_investigacion.grupo_investigacion_id', 'grupos_investigacion.id')->where('grupos_investigacion.centro_formacion_id', $evaluacion->proyecto->centroFormacion->id)->get(),
-            'gruposInvestigacion'                           => SelectHelper::gruposInvestigacion()->where('regional_id', $evaluacion->proyecto->centroFormacion->regional->id)->values()->all(),
-            'semillerosInvestigacion'                       => SelectHelper::semillerosInvestigacion()->where('centro_formacion_id', $evaluacion->proyecto->centroFormacion->id)->values()->all(),
-            'redesConocimiento'                             => SelectHelper::redesConocimiento(),
-            'tematicasEstrategicas'                         => SelectHelper::tematicasEstrategicas(),
-            'actividadesEconomicas'                         => SelectHelper::actividadesEconomicas(),
-            'areasConocimiento'                             => SelectHelper::areasConocimiento(),
-            'subareasConocimiento'                          => SelectHelper::subareasConocimiento(),
-            'disciplinasSubareaConocimiento'                => SelectHelper::disciplinasSubareaConocimiento(),
-            'proyectosIdiTecnoacademia'                     => SelectHelper::proyectosIdiTecnoacademia(),
-            'gruposInvestigacionRelacionados'               => $evaluacion->proyecto->gruposInvestigacion()->select('grupos_investigacion.id as value', 'grupos_investigacion.nombre as label')->get(),
-            'lineasInvestigacionRelacionadas'               => $evaluacion->proyecto->lineasInvestigacion()->select('lineas_investigacion.id as value', 'lineas_investigacion.nombre as label')->get(),
-            'semillerosInvestigacionRelacionados'           => $evaluacion->proyecto->semillerosInvestigacion()->select('semilleros_investigacion.id as value', 'semilleros_investigacion.nombre as label')->get(),
-            'disciplinasSubareaConocimientoRelacionadas'    => $disciplinasSubareaConocimientoRelacionadas ?? null,
-            'redesConocimientoRelacionadas'                 => $redesConocimientoRelacionadas ?? null,
-            'tematicasEstrategicasRelacionadas'             => $tematicasEstrategicasRelacionadas ?? null,
-            'actividadesEconomicasRelacionadas'             => $actividadesEconomicasRelacionadas ?? null,
-            'proyectosIdiTecnoacademiaRelacionados'         => $evaluacion->proyectosIdiTecnoacademiaRelacionados ?? null,
-            'tiposDocumento'                                => json_decode(Storage::get('json/tipos-documento.json'), true),
-            'tiposVinculacion'                              => json_decode(Storage::get('json/tipos-vinculacion.json'), true),
-            'centrosFormacion'                              => SelectHelper::centrosFormacion(),
-            'roles'                                         => $rolesSennova,
-            'autorPrincipal'                                => $evaluacion->proyecto->participantes()->where('proyecto_participantes.es_formulador', true)->first(),
         ]);
     }
 
@@ -403,7 +288,7 @@ class ArticulacionSennovaController extends Controller
                     'semilleros_en_formalizacion'       => 'nullable|json',
                 ]);
 
-                $proyecto->ta->update([
+                $proyecto->proyectoLinea70->update([
                     'proyectos_ejecucion'               => $request->proyectos_ejecucion,
                     'articulacion_semillero'            => $request->articulacion_semillero,
                     'semilleros_en_formalizacion'       => $request->semilleros_en_formalizacion,
@@ -422,11 +307,11 @@ class ArticulacionSennovaController extends Controller
 
                 $proyecto->gruposInvestigacion()->sync($request->grupos_investigacion);
                 $proyecto->lineasInvestigacion()->sync($request->lineas_investigacion);
-                $proyecto->ta->actividadesEconomicas()->sync($request->actividades_economicas);
-                $proyecto->ta->disciplinasSubareaConocimiento()->sync($request->disciplinas_subarea_conocimiento);
-                $proyecto->ta->redesConocimiento()->sync($request->redes_conocimiento);
-                $proyecto->ta->tematicasEstrategicas()->sync($request->tematicas_estrategicas);
-                $proyecto->ta->proyectosIdiTecnoacademia()->sync($request->proyecto_idi_tecnoacademia_id);
+                $proyecto->proyectoLinea70->actividadesEconomicas()->sync($request->actividades_economicas);
+                $proyecto->proyectoLinea70->disciplinasSubareaConocimiento()->sync($request->disciplinas_subarea_conocimiento);
+                $proyecto->proyectoLinea70->redesConocimiento()->sync($request->redes_conocimiento);
+                $proyecto->proyectoLinea70->tematicasEstrategicas()->sync($request->tematicas_estrategicas);
+                $proyecto->proyectoLinea70->proyectosIdiTecnoacademia()->sync($request->proyecto_idi_tecnoacademia_id);
 
                 break;
 
@@ -434,7 +319,7 @@ class ArticulacionSennovaController extends Controller
                 $proyecto->gruposInvestigacion()->sync($request->grupos_investigacion);
                 $proyecto->semillerosInvestigacion()->sync($request->semilleros_investigacion);
 
-                $proyecto->tp->update([
+                $proyecto->proyectoLinea69->update([
                     'impacto_centro_formacion'              => $request->impacto_centro_formacion,
                     'aportacion_semilleros_grupos'          => $request->aportacion_semilleros_grupos,
                     'proyeccion_con_st'                     => $request->proyeccion_con_st,
@@ -463,15 +348,15 @@ class ArticulacionSennovaController extends Controller
     {
         $this->authorize('modificar-evaluacion-autor', $evaluacion);
 
-        if ($evaluacion->taEvaluacion()->exists()) {
-            $evaluacion->taEvaluacion()->update([
+        if ($evaluacion->evaluacionProyectoLinea70()->exists()) {
+            $evaluacion->evaluacionProyectoLinea70()->update([
                 'articulacion_sennova_comentario'       => $request->articulacion_sennova_requiere_comentario == false ? $request->articulacion_sennova_comentario : null,
                 'impacto_centro_formacion_comentario'   => $request->impacto_centro_formacion_requiere_comentario == false ? $request->impacto_centro_formacion_comentario : null,
                 'lineas_medulares_centro_comentario'    => $request->lineas_medulares_centro_requiere_comentario == false ? $request->lineas_medulares_centro_comentario : null,
             ]);
-        } else if ($evaluacion->tpEvaluacion()->exists()) {
+        } else if ($evaluacion->evaluacionProyectoLinea69()->exists()) {
 
-            $evaluacion->tpEvaluacion()->update([
+            $evaluacion->evaluacionProyectoLinea69()->update([
                 'articulacion_sennova_comentario'       => $request->articulacion_sennova_requiere_comentario == false ? $request->articulacion_sennova_comentario : null,
                 'impacto_centro_formacion_comentario'   => $request->impacto_centro_formacion_requiere_comentario == false ? $request->impacto_centro_formacion_comentario : null,
             ]);

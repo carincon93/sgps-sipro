@@ -12,7 +12,7 @@ import { Grid, Paper } from '@mui/material'
 import { useEffect } from 'react'
 import { useState } from 'react'
 
-const Form = ({ isSuperAdmin, method = '', setDialogStatus, convocatoria, proyecto, actividad, proyectoPresupuesto, proyectoRoles, productos, ...props }) => {
+const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proyecto, actividad, proyectoPresupuesto, proyectoRoles, productos, ...props }) => {
     const [resultadosFiltrados, setResultadosFiltrados] = useState([])
 
     const form = useForm({
@@ -109,7 +109,7 @@ const Form = ({ isSuperAdmin, method = '', setDialogStatus, convocatoria, proyec
 
                                 <Grid item md={12}>
                                     <Textarea
-                                        disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
+                                        disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
                                         label="Descripción"
                                         id="descripcion"
                                         error={form.errors.descripcion}
@@ -122,7 +122,7 @@ const Form = ({ isSuperAdmin, method = '', setDialogStatus, convocatoria, proyec
                                 <Grid item md={12}>
                                     <h6 className="my-14 text-2xl">Rubros presupuestales</h6>
 
-                                    <AlertMui className="mb-6" hiddenIcon={true}>
+                                    <AlertMui className="mb-6">
                                         Si la actividad no requiere asociar un rubro presupuestal. (Ej: Actividad de PQRS) <br /> Por favor, cambie la siguiente opción a <strong>NO</strong>.
                                         <br />
                                         <div className="mt-4">
@@ -171,7 +171,7 @@ const Form = ({ isSuperAdmin, method = '', setDialogStatus, convocatoria, proyec
 
                                 <Grid item md={12}>
                                     <h6 className="my-14 text-2xl">Roles</h6>
-                                    <AlertMui hiddenIcon={true}>Si la actividad tiene un responsable por favor seleccione su rol de la siguiente lista</AlertMui>
+                                    <AlertMui>Si la actividad tiene un responsable por favor seleccione su rol de la siguiente lista</AlertMui>
                                     <SelectMultiple
                                         id="proyecto_rol_sennova_id"
                                         bdValues={form.data.proyecto_rol_sennova_id}

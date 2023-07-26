@@ -6,7 +6,7 @@
     import Textarea from '@/Components/Textarea'
 
     export let submit
-    export let isSuperAdmin
+    export let is_super_admin
     export let rolesSennova
     export let form
     export let errors
@@ -15,7 +15,7 @@
 </script>
 
 <form on:submit|preventDefault={submit}>
-    <fieldset className="p-8" disabled={isSuperAdmin ? undefined : true}>
+    <fieldset className="p-8" disabled={is_super_admin ? undefined : true}>
         <div className="mt-8">
             <Label required className="mb-4" labelFor="rol_sennova_id" value="Rol SENNOVA" />
             <Select id="rol_sennova_id" items={rolesSennova} bind:selectedValue={$form.rol_sennova_id} error={errors.rol_sennova_id} autocomplete="off" placeholder="Seleccione un rol SENNOVA" required />
@@ -47,7 +47,7 @@
         </div>
     </fieldset>
     <div className="flex items-center justify-between mt-14 px-8 py-4">
-        {#if isSuperAdmin}
+        {#if is_super_admin}
             <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
         {/if}
     </div>

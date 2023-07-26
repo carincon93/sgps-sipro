@@ -30,7 +30,7 @@ class TecnoacademiaController extends Controller
                 WHEN '3' THEN 'fija con extensión'
             END as modalidad")->with('centroFormacion')->orderBy('nombre', 'ASC')
                 ->filterTecnoacademia(request()->only('search'))->paginate()->appends(['search' => request()->search]),
-            'allowedToCreate'   => Gate::inspect('create', [Tecnoacademia::class])->allowed()
+            'allowed_to_create'   => Gate::inspect('create', [Tecnoacademia::class])->allowed()
         ]);
     }
 
@@ -47,7 +47,7 @@ class TecnoacademiaController extends Controller
             'lineasTecnoacademia'   => LineaTecnoacademia::orderBy('nombre', 'ASC')->get(),
             'modalidades'           => json_decode(Storage::get('json/modalidades-tecnoacademia.json'), true),
             'centrosFormacion'      => SelectHelper::centrosFormacion(),
-            'allowedToCreate'       => Gate::inspect('create', [Tecnoacademia::class])->allowed()
+            'allowed_to_create'       => Gate::inspect('create', [Tecnoacademia::class])->allowed()
         ]);
     }
 

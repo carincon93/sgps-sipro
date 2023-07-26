@@ -18,8 +18,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let filters = {}
 </script>
@@ -66,10 +66,10 @@
                     </td>
                     <td className="border-t td-actions">
                         <DataTableMenu className={culturaInnovacion.data.length < 3 ? 'z-50' : ''}>
-                            {#if isSuperAdmin || checkRole(authUser, [11, 5])}
+                            {#if is_super_admin || checkRole(auth_user, [11, 5])}
                                 <Item on:SMUI:action={() => Inertia.visit(route('convocatorias.cultura-innovacion-evaluaciones.edit', [convocatoria.id, evaluacion_id]))}>
                                     <Text>
-                                        {#if checkRole(authUser, [20])}
+                                        {#if checkRole(auth_user, [20])}
                                             Verificar
                                         {:else}
                                             Evaluar

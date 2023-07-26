@@ -30,15 +30,15 @@ class FechaFinalizacionProyecto implements Rule
     public function passes($attribute, $value)
     {
 
-        if ($this->proyecto && $this->proyecto->idi()->exists() || $this->tipoProyecto == 'idi') {
+        if ($this->proyecto && $this->proyecto->proyectoLinea66()->exists() || $this->tipoProyecto == 'idi') {
             $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_idi;
-        } elseif ($this->proyecto && $this->proyecto->ta()->exists() || $this->tipoProyecto == 'ta') {
+        } elseif ($this->proyecto && $this->proyecto->proyectoLinea70()->exists() || $this->tipoProyecto == 'ta') {
             $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_linea_70;
-        } elseif ($this->proyecto && $this->proyecto->tp()->exists() || $this->tipoProyecto == 'tp') {
+        } elseif ($this->proyecto && $this->proyecto->proyectoLinea69()->exists() || $this->tipoProyecto == 'tp') {
             $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_linea_69;
-        } elseif ($this->proyecto && $this->proyecto->servicioTecnologico()->exists() || $this->tipoProyecto == 'st') {
+        } elseif ($this->proyecto && $this->proyecto->proyectoLinea68()->exists() || $this->tipoProyecto == 'st') {
             $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_linea_68;
-        } elseif ($this->proyecto && $this->proyecto->culturaInnovacion()->exists() || $this->tipoProyecto == 'cultura') {
+        } elseif ($this->proyecto && $this->proyecto->proyectoLinea65()->exists() || $this->tipoProyecto == 'cultura') {
             $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_cultura;
         }
 
@@ -52,15 +52,15 @@ class FechaFinalizacionProyecto implements Rule
      */
     public function message()
     {
-        if ($this->proyecto && $this->proyecto->idi()->exists() || $this->tipoProyecto == 'idi') {
+        if ($this->proyecto && $this->proyecto->proyectoLinea66()->exists() || $this->tipoProyecto == 'idi') {
             $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_idi;
-        } elseif ($this->proyecto && $this->proyecto->ta()->exists() || $this->tipoProyecto == 'ta') {
+        } elseif ($this->proyecto && $this->proyecto->proyectoLinea70()->exists() || $this->tipoProyecto == 'ta') {
             $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_linea_70;
-        } elseif ($this->proyecto && $this->proyecto->tp()->exists() || $this->tipoProyecto == 'tp') {
+        } elseif ($this->proyecto && $this->proyecto->proyectoLinea69()->exists() || $this->tipoProyecto == 'tp') {
             $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_linea_70;
-        } elseif ($this->proyecto && $this->proyecto->servicioTecnologico()->exists() || $this->tipoProyecto == 'st') {
+        } elseif ($this->proyecto && $this->proyecto->proyectoLinea68()->exists() || $this->tipoProyecto == 'st') {
             $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_linea_68;
-        } elseif ($this->proyecto && $this->proyecto->culturaInnovacion()->exists() || $this->tipoProyecto == 'cultura') {
+        } elseif ($this->proyecto && $this->proyecto->proyectoLinea65()->exists() || $this->tipoProyecto == 'cultura') {
             $maxFechaFinalizacionProyectos = $this->convocatoria->max_fecha_finalizacion_proyectos_cultura;
         }
 

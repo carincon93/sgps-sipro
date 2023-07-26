@@ -33,8 +33,8 @@ const RolesSennova = ({
     proyectoActividadesRelacionadas,
     proyectoLineasTecnologicasRelacionadas,
 }) => {
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
     const [dialogStatus, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
@@ -65,7 +65,7 @@ const RolesSennova = ({
             <Grid item md={12}>
                 <h1 className="mt-24 mb-8 text-center text-3xl">Roles SENNOVA</h1>
 
-                <AlertMui className="my-14" hiddenIcon={true}>
+                <AlertMui className="my-14">
                     <p>
                         <strong>Actualmente el total del costo de los roles requeridos es de:</strong> $
                         {new Intl.NumberFormat('de-DE').format(!isNaN(proyecto.total_roles_sennova) ? proyecto.total_roles_sennova : 0)} COP. Tenga en cuenta que el rol{' '}
@@ -160,10 +160,10 @@ const RolesSennova = ({
                                 / Meses: {proyectoRolSennova.numero_meses} / Cantidad: {proyectoRolSennova.numero_roles}
                             </TableCell>
                             <TableCell>
-                                {isSuperAdmin || proyecto.mostrar_recomendaciones ? (
+                                {is_super_admin || proyecto.mostrar_recomendaciones ? (
                                     <>
                                         {proyectoRolSennova.proyecto_roles_evaluaciones.map((evaluacion, i) =>
-                                            isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado) ? (
+                                            is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
                                                 <ToolTipMui
                                                     key={i}
                                                     title={
@@ -234,7 +234,7 @@ const RolesSennova = ({
                     blurEnabled={true}
                     dialogContent={
                         <Form
-                            isSuperAdmin={isSuperAdmin}
+                            is_super_admin={is_super_admin}
                             setDialogStatus={setDialogStatus}
                             method={method}
                             convocatoria={convocatoria}

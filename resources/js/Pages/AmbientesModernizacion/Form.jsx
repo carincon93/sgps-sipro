@@ -57,7 +57,7 @@
     ]
     export let estados
 
-    export let allowedToCreate
+    export let allowed_to_create
 
     let exportComponent
 
@@ -88,7 +88,7 @@
 
     async function syncColumnLong(column, form) {
         return new Promise((resolve) => {
-            if ((typeof column !== 'undefined' && typeof form !== 'undefined' && allowedToCreate) || (typeof column !== 'undefined' && typeof form !== 'undefined' && ambienteModernizacion.allowed.to_update)) {
+            if ((typeof column !== 'undefined' && typeof form !== 'undefined' && allowed_to_create) || (typeof column !== 'undefined' && typeof form !== 'undefined' && ambienteModernizacion.allowed.to_update)) {
                 Inertia.put(
                     route('ambientes-modernizacion.updateLongColumn', [ambienteModernizacion.id, column]),
                     { [column]: form[column] },
@@ -106,8 +106,8 @@
 </script>
 
 <form on:submit|preventDefault={submit} id="semillero-investigacion-form">
-    <fieldset className="p-8 divide-y" disabled={ambienteModernizacion?.allowed.to_update || allowedToCreate ? undefined : true}>
-        {#if allowedToCreate}
+    <fieldset className="p-8 divide-y" disabled={ambienteModernizacion?.allowed.to_update || allowed_to_create ? undefined : true}>
+        {#if allowed_to_create}
             <div className="py-24 grid grid-cols-2">
                 <div>
                     <Label required className="mb-4" labelFor="centro_formacion_id" value="Centro de formación" />
@@ -248,7 +248,7 @@
             </div>
         </div>
 
-        {#if !allowedToCreate}
+        {#if !allowed_to_create}
             <div className="py-24 grid grid-cols-2">
                 <div>
                     <Label required className="mb-4" labelFor="numero_tecnicas_tecnologias" value="11. Relacione el número de técnicas o tecnologías adquiridas y/o mejoradas con el ambiente de aprendizaje, modernizado por SENNOVA. " />
@@ -712,7 +712,7 @@
 
         {#if ambienteModernizacion?.allowed.to_update}
             <Button on:click={() => (dialogGuardar = true)} className="ml-auto" type="button">Revisar información antes de guardar</Button>
-        {:else if allowedToCreate}
+        {:else if allowed_to_create}
             <span />
             <PrimaryButton loading={$form.processing} form="semillero-investigacion-form">Guardar</PrimaryButton>
         {:else}
@@ -1026,7 +1026,7 @@
                 <Button on:click={() => (dialogGuardar = false)} variant={null}>Cancelar</Button>
                 {#if ambienteModernizacion}
                     <Button variant="raised" type="button" on:click={() => exportComponent.export2Word(ambienteModernizacion.seguimiento_ambiente_modernizacion.codigo)}>Descargar borrador en Word</Button>
-                    {#if ambienteModernizacion?.allowed.to_update || allowedToCreate}
+                    {#if ambienteModernizacion?.allowed.to_update || allowed_to_create}
                         <PrimaryButton loading={$form.processing} form="semillero-investigacion-form">Guardar</PrimaryButton>
                     {:else}
                         <span className="inline-block ml-1.5"> El semillero no se puede modificar </span>

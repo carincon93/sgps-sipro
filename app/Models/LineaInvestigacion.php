@@ -75,23 +75,23 @@ class LineaInvestigacion extends Model
     }
 
     /**
-     * Relationship with Idi
+     * Relationship with ProyectoLinea66
      *
      * @return object
      */
-    public function idi()
+    public function proyectosLinea66()
     {
-        return $this->hasMany(Idi::class);
+        return $this->hasMany(ProyectoLinea66::class);
     }
 
     /**
-     * Relationship with CulturaInnovacion
+     * Relationship with ProyectoLinea65
      *
      * @return object
      */
-    public function culturaInnovacion()
+    public function proyectosLinea65()
     {
-        return $this->hasMany(CulturaInnovacion::class);
+        return $this->hasMany(ProyectoLinea65::class);
     }
 
     /**
@@ -141,7 +141,7 @@ class LineaInvestigacion extends Model
      */
     public function idiEni()
     {
-        return $this->belongsToMany(Idi::class, 'idi_lineas_investigacion_eni', 'linea_investigacion_id', 'idi_id');
+        return $this->belongsToMany(ProyectoLinea66::class, 'idi_lineas_investigacion_eni', 'linea_investigacion_id', 'idi_id');
     }
 
     /**

@@ -46,7 +46,7 @@ class STEvaluacionesExport implements FromCollection, WithHeadings, WithMapping,
             $stEvaluacion->evaluacion->evaluador->numero_documento,
             $stEvaluacion->evaluacion->evaluador->email,
             $stEvaluacion->evaluacion->proyecto->codigo,
-            $stEvaluacion->evaluacion->proyecto->servicioTecnologico->titulo,
+            $stEvaluacion->evaluacion->proyecto->proyectoLinea68->titulo,
 
             $stEvaluacion->titulo_comentario ? $stEvaluacion->titulo_comentario : 'Cumple',
             $stEvaluacion->resumen_comentario ? $stEvaluacion->resumen_comentario : 'Cumple',

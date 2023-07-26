@@ -12,7 +12,7 @@
     export let evaluacion
     export let evaluadores
     export let proyectos
-    export let allowedToCreate
+    export let allowed_to_create
 </script>
 
 <form on:submit|preventDefault={submit}>
@@ -61,7 +61,7 @@
                 {evaluacion?.updated_at}
             </small>
         {/if}
-        {#if evaluacion?.allowed.to_update || allowedToCreate}
+        {#if evaluacion?.allowed.to_update || allowed_to_create}
             <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
         {:else}
             <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>

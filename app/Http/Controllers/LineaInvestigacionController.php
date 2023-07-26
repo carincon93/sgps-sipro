@@ -26,7 +26,7 @@ class LineaInvestigacionController extends Controller
             'gruposInvestigacion'   => GrupoInvestigacion::orderBy('nombre')->get(),
             'grupoInvestigacion'    => $grupoInvestigacion,
             'lineasInvestigacion'   => $grupoInvestigacion->lineasInvestigacion()->with('grupoInvestigacion.centroFormacion')->filterLineaInvestigacion(request()->only('search', 'grupoInvestigacion'))->select('lineas_investigacion.id', 'lineas_investigacion.nombre', 'lineas_investigacion.grupo_investigacion_id')->orderBy('lineas_investigacion.nombre', 'ASC')->paginate(),
-            'allowedToCreate'       => Gate::inspect('create', [LineaInvestigacion::class])->allowed()
+            'allowed_to_create'       => Gate::inspect('create', [LineaInvestigacion::class])->allowed()
         ]);
     }
 
@@ -42,7 +42,7 @@ class LineaInvestigacionController extends Controller
         return Inertia::render('LineasInvestigacion/Create', [
             'grupoInvestigacion' => $grupoInvestigacion,
             'programasFormacion' => $grupoInvestigacion->centroFormacion->programasFormacion()->selectRaw("programas_formacion.id as value, CONCAT('Código: ', programas_formacion.codigo, ' - ', programas_formacion.nombre) as label")->get(),
-            'allowedToCreate'    => Gate::inspect('create', [LineaInvestigacion::class])->allowed()
+            'allowed_to_create'    => Gate::inspect('create', [LineaInvestigacion::class])->allowed()
         ]);
     }
 

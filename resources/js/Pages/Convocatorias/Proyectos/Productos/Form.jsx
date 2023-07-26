@@ -12,7 +12,7 @@ import { Grid, Paper } from '@mui/material'
 import { useState } from 'react'
 import { useEffect } from 'react'
 
-const Form = ({ method = '', setDialogStatus, isSuperAdmin, convocatoria, proyecto, producto, resultados, subtipologiasMinciencias, tiposProducto, ...props }) => {
+const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proyecto, producto, resultados, subtipologiasMinciencias, tiposProducto, ...props }) => {
     const form = useForm({
         nombre: producto?.nombre,
         resultado_id: producto?.resultado_id,
@@ -96,7 +96,7 @@ const Form = ({ method = '', setDialogStatus, isSuperAdmin, convocatoria, proyec
                             <Grid container className="space-y-10">
                                 <Grid item md={12}>
                                     {proyecto.codigo_linea_programatica == 70 && (
-                                        <AlertMui hiddenIcon={true}>
+                                        <AlertMui>
                                             <p>
                                                 <strong>Importante:</strong> Debe modifcar las fechas de ejecución, meta y las activiades a asociar.
                                             </p>
@@ -137,7 +137,7 @@ const Form = ({ method = '', setDialogStatus, isSuperAdmin, convocatoria, proyec
                                     />
                                 </Grid>
 
-                                {proyecto.codigo_linea_programatica != 70 || isSuperAdmin ? (
+                                {proyecto.codigo_linea_programatica != 70 || is_super_admin ? (
                                     <>
                                         <Grid item md={3}>
                                             <Label required labelFor="resultado_id" value="Resultado" />
@@ -159,7 +159,7 @@ const Form = ({ method = '', setDialogStatus, isSuperAdmin, convocatoria, proyec
 
                                 <Grid item md={12}>
                                     <Textarea
-                                        disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
+                                        disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
                                         label="Descripción"
                                         id="nombre"
                                         error={form.errors.nombre}
@@ -168,7 +168,7 @@ const Form = ({ method = '', setDialogStatus, isSuperAdmin, convocatoria, proyec
                                         required
                                     />
                                     {proyecto.codigo_linea_programatica == 68 || proyecto.codigo_linea_programatica == 69 ? (
-                                        <AlertMui hiddenIcon={true}>
+                                        <AlertMui>
                                             <p>
                                                 Los productos pueden corresponder a bienes o servicios. Un bien es un objeto tangible, almacenable o transportable, mientras que el servicio es una
                                                 prestación intangible.
@@ -187,7 +187,7 @@ const Form = ({ method = '', setDialogStatus, isSuperAdmin, convocatoria, proyec
                                 {proyecto.codigo_linea_programatica != 68 && (
                                     <Grid item md={12}>
                                         <Textarea
-                                            disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
+                                            disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
                                             id="indicador"
                                             error={form.errors.indicador}
                                             value={form.data.indicador}
@@ -199,9 +199,9 @@ const Form = ({ method = '', setDialogStatus, isSuperAdmin, convocatoria, proyec
                                         {proyecto.codigo_linea_programatica != 70 && (
                                             <>
                                                 {proyecto.codigo_linea_programatica == 69 ? (
-                                                    <AlertMui hiddenIcon={true}>Deber ser medible y con una fórmula. Por ejemplo: (# metodologías validadas/# metodologías totales) X 100</AlertMui>
+                                                    <AlertMui>Deber ser medible y con una fórmula. Por ejemplo: (# metodologías validadas/# metodologías totales) X 100</AlertMui>
                                                 ) : (
-                                                    <AlertMui hiddenIcon={true}>Especifique los medios de verificación para validar los logros del proyecto.</AlertMui>
+                                                    <AlertMui>Especifique los medios de verificación para validar los logros del proyecto.</AlertMui>
                                                 )}
                                             </>
                                         )}
@@ -250,7 +250,7 @@ const Form = ({ method = '', setDialogStatus, isSuperAdmin, convocatoria, proyec
                                     <>
                                         <Grid item md={12}>
                                             <Textarea
-                                                disabled={isSuperAdmin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
+                                                disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
                                                 id="medio_verificacion"
                                                 error={form.errors.medio_verificacion}
                                                 value={form.data.medio_verificacion}
@@ -261,13 +261,13 @@ const Form = ({ method = '', setDialogStatus, isSuperAdmin, convocatoria, proyec
                                             {proyecto.codigo_linea_programatica != 70 && (
                                                 <>
                                                     {proyecto.codigo_linea_programatica == 68 ? (
-                                                        <AlertMui hiddenIcon={true}>
+                                                        <AlertMui>
                                                             Los medios de verificación corresponden a las evidencias y/o fuentes de información en las que está disponibles los registros, la
                                                             información necesaria y suficiente. Dichos medios pueden ser documentos oficiales, informes, evaluaciones, encuestas, documentos o reportes
                                                             internos que genera el proyecto, entre otros.
                                                         </AlertMui>
                                                     ) : (
-                                                        <AlertMui hiddenIcon={true}>Especifique los medios de verificación para validar los logros del objetivo específico.</AlertMui>
+                                                        <AlertMui>Especifique los medios de verificación para validar los logros del objetivo específico.</AlertMui>
                                                     )}
                                                 </>
                                             )}
@@ -286,7 +286,7 @@ const Form = ({ method = '', setDialogStatus, isSuperAdmin, convocatoria, proyec
                                                 label="Nombre del Indicador del producto"
                                                 required
                                             />
-                                            <AlertMui hiddenIcon={true}>
+                                            <AlertMui>
                                                 El indicador debe mantener una estructura coherente. Esta se compone de dos elementos: en primer lugar, debe ir el objeto a cuantificar, descrito por un
                                                 sujeto y posteriormente la condición deseada, definida a través de un verbo en participio. Por ejemplo: Kilómetros de red vial nacional construidos.
                                             </AlertMui>
@@ -301,7 +301,7 @@ const Form = ({ method = '', setDialogStatus, isSuperAdmin, convocatoria, proyec
                                                 label="Fórmula del Indicador del producto"
                                                 required
                                             />
-                                            <AlertMui hiddenIcon={true}>
+                                            <AlertMui>
                                                 El método de cálculo debe ser una expresión matemática definida de manera adecuada y de fácil comprensión, es decir, deben quedar claras cuáles son las
                                                 variables utilizadas. Los métodos de cálculo más comunes son el porcentaje, la tasa de variación, la razón y el número índice. Aunque éstos no son las
                                                 únicas expresiones para los indicadores, sí son las más frecuentes.
@@ -344,7 +344,7 @@ const Form = ({ method = '', setDialogStatus, isSuperAdmin, convocatoria, proyec
                                                     required
                                                 />
                                             ) : (
-                                                <AlertMui hiddenIcon={true}>
+                                                <AlertMui>
                                                     El resultado seleccionado no tiene actividades asociadas. Debe completar la información de cada actividad en el numeral de{' '}
                                                     <strong>Metodología y actividades</strong>. Para ello diríjase a la parte inferior de la ventanta, haga clic en los tres puntos de cada actividad |
                                                     Ver detalles. En el formulario que visualiza deberá completar el resto de información.

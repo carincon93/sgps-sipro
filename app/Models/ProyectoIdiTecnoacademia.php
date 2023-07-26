@@ -115,13 +115,13 @@ class ProyectoIdiTecnoacademia extends Model
     }
 
     /**
-     * Relationship with Ta
+     * Relationship with ProyectoLinea70
      *
      * @return object
      */
-    public function ta()
+    public function proyectosLinea70()
     {
-        return $this->belongsToMany(Ta::class, 'ta_proyectos_idi_tecnoacademia', 'proyecto_idi_tecnoacademia_id', 'ta_id');
+        return $this->belongsToMany(ProyectoLinea70::class, 'ta_proyectos_idi_tecnoacademia', 'proyecto_idi_tecnoacademia_id', 'ta_id');
     }
 
     /**
@@ -135,7 +135,7 @@ class ProyectoIdiTecnoacademia extends Model
     }
 
     /**
-     * Relationship with ProyectoIdiTecnoacademiaBeneficiado
+     * Relationship with ProyectoProyectoLinea66TecnoacademiaBeneficiado
      *
      * @return object
      */
@@ -145,7 +145,7 @@ class ProyectoIdiTecnoacademia extends Model
     }
 
     /**
-     * Relationship with ProyectoIdiTecnoacademiaLinea
+     * Relationship with ProyectoProyectoLinea66TecnoacademiaLinea
      *
      * @return object
      */
@@ -155,7 +155,7 @@ class ProyectoIdiTecnoacademia extends Model
     }
 
     /**
-     * Relationship with ProyectoIdiTecnoacademiaParticipante
+     * Relationship with ProyectoProyectoLinea66TecnoacademiaParticipante
      *
      * @return object
      */
@@ -165,13 +165,13 @@ class ProyectoIdiTecnoacademia extends Model
     }
 
     /**
-     * Relationship with ProyectoIdiTecnoacademiaProducto
+     * Relationship with ProyectoProyectoLinea66TecnoacademiaProducto
      *
      * @return object
      */
     public function productos()
     {
-        return $this->hasMany(ProyectoIdiTecnoacademiaProducto::class);
+        return $this->hasMany(ProyectoProyectoLinea66TecnoacademiaProducto::class);
     }
 
     /**
@@ -191,7 +191,7 @@ class ProyectoIdiTecnoacademia extends Model
      * @param  mixed $filters
      * @return void
      */
-    public function scopeFilterProyectoIdiTecnoacademia($query, array $filters)
+    public function scopeFilterProyectoProyectoLinea66Tecnoacademia($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $query->where('titulo', 'ilike', '%' . $search . '%');
@@ -278,7 +278,7 @@ class ProyectoIdiTecnoacademia extends Model
             )
             ->distinct('proyectos_idi_tecnoacademia.id')
             ->orderBy('proyectos_idi_tecnoacademia.id', 'ASC')
-            ->filterProyectoIdiTecnoacademia(request()->only('search'))->paginate();
+            ->filterProyectoProyectoLinea66Tecnoacademia(request()->only('search'))->paginate();
         return $proyectoIdiTecnoacademia;
     }
 
@@ -314,9 +314,9 @@ class ProyectoIdiTecnoacademia extends Model
     {
         if (str_contains(request()->route()->uri, 'proyectos-idi-tecnoacademia')) {
 
-            $allowedToView      = Gate::inspect('view', [ProyectoIdiTecnoacademia::class, $this]);
-            $allowedToUpdate    = Gate::inspect('update', [ProyectoIdiTecnoacademia::class, $this]);
-            $allowedToDestroy   = Gate::inspect('delete', [ProyectoIdiTecnoacademia::class, $this]);
+            $allowedToView      = Gate::inspect('view', [ProyectoProyectoLinea66Tecnoacademia::class, $this]);
+            $allowedToUpdate    = Gate::inspect('update', [ProyectoProyectoLinea66Tecnoacademia::class, $this]);
+            $allowedToDestroy   = Gate::inspect('delete', [ProyectoProyectoLinea66Tecnoacademia::class, $this]);
 
             return collect(['to_view' => $allowedToView->allowed(), 'to_update' => $allowedToUpdate->allowed(), 'to_destroy' => $allowedToDestroy->allowed()]);
         }

@@ -11,15 +11,15 @@
 
     $: $title = lineaTecnoparque ? lineaTecnoparque.nombre : null
 
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let form = useForm({
         nombre: lineaTecnoparque.nombre,
     })
 
     function submit() {
-        if (isSuperAdmin) {
+        if (is_super_admin) {
             $form.put(route('lineas-tecnoparque.update', lineaTecnoparque.id), {
                 preserveScroll: true,
             })
@@ -46,7 +46,7 @@
         </div>
 
         <div className="bg-white rounded shadow col-span-2">
-            <Form {errors} {lineaTecnoparque} {isSuperAdmin} {form} {submit} />
+            <Form {errors} {lineaTecnoparque} {is_super_admin} {form} {submit} />
         </div>
     </div>
 </AuthenticatedLayout>

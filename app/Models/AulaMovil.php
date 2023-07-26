@@ -64,13 +64,13 @@ class AulaMovil extends Model
     ];
 
     /**
-     * Relationship with Ta
+     * Relationship with ProyectoLinea70
      *
      * @return object
      */
-    public function ta()
+    public function proyectoLinea70()
     {
-        return $this->belongsTo(Ta::class);
+        return $this->belongsTo(ProyectoLinea70::class);
     }
 
     /**

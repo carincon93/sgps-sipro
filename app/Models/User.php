@@ -225,13 +225,13 @@ class User extends Authenticatable
     }
 
     /**
-     * Relationship with ProyectoIdiTecnoacademiaParticipante
+     * Relationship with ProyectoProyectoLinea66TecnoacademiaParticipante
      *
      * @return object
      */
-    public function proyectosIdiTecnoacademiaParticipante()
+    public function proyectosProyectoLinea66TecnoacademiaParticipante()
     {
-        return $this->belongsToMany(ProyectoIdiTecnoacademia::class, 'proyecto_idi_tecnoacademia_participante', 'user_id', 'proyecto_idi_tecnoacademia_id');
+        return $this->belongsToMany(ProyectoProyectoLinea66Tecnoacademia::class, 'proyecto_idi_tecnoacademia_participante', 'user_id', 'proyecto_idi_tecnoacademia_id');
     }
 
     /**

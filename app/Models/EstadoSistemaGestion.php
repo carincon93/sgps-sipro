@@ -46,13 +46,13 @@ class EstadoSistemaGestion extends Model
     ];
 
     /**
-     * Relationship with ServicioTecnologico
+     * Relationship with ProyectoLinea68
      *
      * @return void
      */
     public function serviciosTecnologicos()
     {
-        return $this->belongsTo(ServicioTecnologico::class);
+        return $this->belongsTo(ProyectoLinea68::class);
     }
 
     /**

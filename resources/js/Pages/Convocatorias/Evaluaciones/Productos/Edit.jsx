@@ -24,8 +24,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let productoInfo = {
         nombre: producto.nombre,
@@ -62,7 +62,7 @@
 
     <div className="bg-white rounded shadow max-w-3xl">
         <form>
-            <fieldset className="p-8" disabled={isSuperAdmin || (checkRole(authUser, [11, 5]) && proyecto.finalizado == true) ? undefined : true}>
+            <fieldset className="p-8" disabled={is_super_admin || (checkRole(auth_user, [11, 5]) && proyecto.finalizado == true) ? undefined : true}>
                 <div className="mt-8 mb-8">
                     <Label className="text-center" value="Fecha de ejecución" />
                     <div className="mt-4 flex items-start justify-around">

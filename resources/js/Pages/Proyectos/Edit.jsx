@@ -23,8 +23,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let form = useForm({
         subsanacion: proyecto.habilitado_para_evaluar == false && proyecto.modificable == true && proyecto.finalizado == false,
@@ -35,7 +35,7 @@
     })
 
     function submit() {
-        if (isSuperAdmin || checkRole(authUser, [20, 18, 19, 5, 17])) {
+        if (is_super_admin || checkRole(auth_user, [20, 18, 19, 5, 17])) {
             $form.put(route('proyectos.update', proyecto.id), {
                 preserveScroll: true,
             })
@@ -52,7 +52,7 @@
     })
 
     function submitEvaluacion() {
-        if (isSuperAdmin || checkRole(authUser, [20, 18, 19, 5, 17])) {
+        if (is_super_admin || checkRole(auth_user, [20, 18, 19, 5, 17])) {
             $formEvaluacion.put(route('evaluaciones.update', $formEvaluacion.id), {
                 preserveScroll: true,
             })
@@ -90,7 +90,7 @@
         <div className="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
             <div>
                 <h1 className="overflow-ellipsis overflow-hidden w-breadcrumb-ellipsis whitespace-nowrap flex items-center">
-                    {#if isSuperAdmin || checkRole(authUser, [20, 18, 19, 5, 17])}
+                    {#if is_super_admin || checkRole(auth_user, [20, 18, 19, 5, 17])}
                         <a use:inertia href={route('proyectos.index')} className="text-app-400 hover:text-app-600"> Proyectos </a>
                     {/if}
                     <span className="text-app-400 font-medium mx-1.5">/</span>
@@ -182,7 +182,7 @@
             </fieldset>
 
             <div className="flex items-center justify-between mt-14 px-8 py-4">
-                {#if isSuperAdmin || checkRole(authUser, [20, 18, 19, 5, 17])}
+                {#if is_super_admin || checkRole(auth_user, [20, 18, 19, 5, 17])}
                     <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
                 {/if}
             </div>

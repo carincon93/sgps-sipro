@@ -15,7 +15,19 @@ import { Grid } from '@mui/material'
 import { useState } from 'react'
 import { useEffect } from 'react'
 
-const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea70, lineasTecnoacademia, lineasProgramaticas, infraestructuraTecnoacademia, rolesSennova, evaluacion, ...props }) => {
+const Form = ({
+    is_super_admin,
+    auth_user,
+    method = '',
+    convocatoria,
+    proyectoLinea70,
+    lineasTecnoacademia,
+    lineasProgramaticas,
+    infraestructuraTecnoacademia,
+    rolesSennova,
+    evaluacion,
+    ...props
+}) => {
     const form = useForm({
         centro_formacion_id: proyectoLinea70?.proyecto.centro_formacion_id ?? '',
         fecha_inicio: proyectoLinea70?.fecha_inicio ?? '',
@@ -70,7 +82,7 @@ const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea
 
     return (
         <form onSubmit={submit}>
-            <fieldset disabled={proyectoLinea70?.proyecto.allowed.to_update && !isSuperAdmin}>
+            <fieldset disabled={proyectoLinea70?.proyecto.allowed.to_update && !is_super_admin}>
                 <Grid container className="space-y-20">
                     <Grid item md={6}>
                         <Label required labelFor="fecha_inicio" error={form.errors.fecha_inicio} value="Fecha de inicio" />
@@ -267,7 +279,7 @@ const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea
 
                             <Grid item md={12}>
                                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="resumen" value="Resumen del proyecto" />
-                                <AlertMui hiddenIcon={true}>
+                                <AlertMui>
                                     Información necesaria para darle al lector una idea precisa de la pertinencia y calidad del proyecto. Explique en qué consiste el problema o necesidad, cómo cree
                                     que lo resolverá, cuáles son las razones que justifican su ejecución y las herramientas que se utilizarán en el desarrollo del proyecto.
                                 </AlertMui>
@@ -278,7 +290,7 @@ const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea
                                     value={form.data.resumen}
                                     onChange={(e) => form.setData('resumen', e.target.value)}
                                     required
-                                    disabled={proyectoLinea70.proyecto_base || checkPermissionByUser(authUser, [23]) ? undefined : true}
+                                    disabled={proyectoLinea70.proyecto_base || checkPermissionByUser(auth_user, [23]) ? undefined : true}
                                 />
                             </Grid>
 
@@ -297,7 +309,7 @@ const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea
 
                             <Grid item md={12}>
                                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="antecedentes" value="Antecedentes" />
-                                <AlertMui hiddenIcon={true}>
+                                <AlertMui>
                                     Presenta las investigaciones, innovaciones o desarrollos tecnológicos que se han realizado a nivel internacional, nacional, departamental o municipal en el marco de
                                     la temática de la propuesta del proyecto; que muestran la pertinencia del proyecto, citar toda la información consignada utilizando normas APA última edición. De
                                     igual forma, relacionar los proyectos ejecutados en vigencias anteriores (incluir códigos SGPS), si el proyecto corresponde a la continuidad de proyectos SENNOVA."
@@ -309,7 +321,7 @@ const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea
                                     value={form.data.antecedentes}
                                     onChange={(e) => form.setData('antecedentes', e.target.value)}
                                     required
-                                    disabled={proyectoLinea70.proyecto_base || checkPermissionByUser(authUser, [23]) ? undefined : true}
+                                    disabled={proyectoLinea70.proyecto_base || checkPermissionByUser(auth_user, [23]) ? undefined : true}
                                 />
                             </Grid>
 
@@ -341,7 +353,7 @@ const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea
                                     value={form.data.justificacion_problema}
                                     onChange={(e) => form.setData('justificacion_problema', e.target.value)}
                                     required
-                                    disabled={proyectoLinea70.proyecto_base || checkPermissionByUser(authUser, [23]) ? undefined : true}
+                                    disabled={proyectoLinea70.proyecto_base || checkPermissionByUser(auth_user, [23]) ? undefined : true}
                                 />
                             </Grid>
 
@@ -404,9 +416,7 @@ const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea
 
                             <Grid item md={12}>
                                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="marco_conceptual" value="Marco conceptual" />
-                                <AlertMui hiddenIcon={true}>
-                                    Descripción de los aspectos conceptuales y/o teóricos relacionados con el problema. Se hace la claridad que no es un listado de definiciones.
-                                </AlertMui>
+                                <AlertMui>Descripción de los aspectos conceptuales y/o teóricos relacionados con el problema. Se hace la claridad que no es un listado de definiciones.</AlertMui>
 
                                 <Textarea
                                     id="marco_conceptual"
@@ -414,7 +424,7 @@ const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea
                                     value={form.data.marco_conceptual}
                                     onChange={(e) => form.setData('marco_conceptual', e.target.value)}
                                     required
-                                    disabled={proyectoLinea70.proyecto_base || checkPermissionByUser(authUser, [23]) ? undefined : true}
+                                    disabled={proyectoLinea70.proyecto_base || checkPermissionByUser(auth_user, [23]) ? undefined : true}
                                 />
                             </Grid>
 
@@ -439,7 +449,7 @@ const Form = ({ isSuperAdmin, authUser, method = '', convocatoria, proyectoLinea
 
                             <Grid item md={12}>
                                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="bibliografia" value="Bibliografía" />
-                                <AlertMui hiddenIcon={true}>
+                                <AlertMui>
                                     Lista de las referencias utilizadas en cada apartado del proyecto. Utilizar normas APA- Última edición
                                     (http://biblioteca.sena.edu.co/images/PDF/InstructivoAPA.pdf).
                                 </AlertMui>

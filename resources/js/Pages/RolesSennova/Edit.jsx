@@ -15,8 +15,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let dialogOpen = false
 
@@ -27,7 +27,7 @@
     })
 
     function submit() {
-        if (isSuperAdmin) {
+        if (is_super_admin) {
             $form.put(route('roles-sennova.update', rolSennova.id), {
                 preserveScroll: true,
             })
@@ -54,7 +54,7 @@
         </div>
 
         <div className="bg-white rounded shadow col-span-2">
-            <Form {errors} {rolSennova} {isSuperAdmin} {form} {lineasProgramaticas} {submit} />
+            <Form {errors} {rolSennova} {is_super_admin} {form} {lineasProgramaticas} {submit} />
         </div>
     </div>
 </AuthenticatedLayout>

@@ -26,7 +26,7 @@ class SemilleroInvestigacionController extends Controller
 
         return Inertia::render('SemillerosInvestigacion/Index', [
             'filters'                   => request()->all('search'),
-            'allowedToCreate'           => Gate::inspect('create', [SemilleroInvestigacion::class])->allowed(),
+            'allowed_to_create'           => Gate::inspect('create', [SemilleroInvestigacion::class])->allowed(),
             'grupoInvestigacion'        => $grupoInvestigacion,
             'semillerosInvestigacion'   => SemilleroInvestigacion::select('semilleros_investigacion.id', 'semilleros_investigacion.nombre', 'semilleros_investigacion.codigo', 'semilleros_investigacion.linea_investigacion_id', 'lineas_investigacion.nombre as nombre_linea_principal')
                 ->join('lineas_investigacion', 'semilleros_investigacion.linea_investigacion_id', 'lineas_investigacion.id')
@@ -50,7 +50,7 @@ class SemilleroInvestigacionController extends Controller
             'lineasInvestigacion'   => SelectHelper::lineasInvestigacion()->where('grupo_investigacion_id', $grupoInvestigacion->id)->values()->all(),
             'redesConocimiento'     => SelectHelper::redesConocimiento(),
             'programasFormacion'    => ProgramaFormacion::selectRaw('programas_formacion.id as value, CONCAT(programas_formacion.nombre, chr(10), \'∙ Código: \', programas_formacion.codigo) as label, linea_investigacion_programa_formacion.linea_investigacion_id as linea_investigacion_id')->join('linea_investigacion_programa_formacion', 'programas_formacion.id', 'linea_investigacion_programa_formacion.programa_formacion_id')->where('programas_formacion.centro_formacion_id', $grupoInvestigacion->centro_formacion_id)->orderBy('programas_formacion.nombre', 'ASC')->get(),
-            'allowedToCreate'       => Gate::inspect('create', [SemilleroInvestigacion::class])->allowed()
+            'allowed_to_create'       => Gate::inspect('create', [SemilleroInvestigacion::class])->allowed()
         ]);
     }
 
@@ -215,10 +215,10 @@ class SemilleroInvestigacionController extends Controller
         SharepointHelper::downloadServerFile($semilleroInvestigacion, $request->formato);
     }
 
-    public function downloadFileSharepoint(GrupoInvestigacion $grupoInvestigacion, SemilleroInvestigacion $semilleroInvestigacion, $tipoArchivo)
+    public function downloadFileSharepoint(GrupoInvestigacion $grupoInvestigacion, SemilleroInvestigacion $semilleroInvestigacion, $tipo_archivo)
     {
-        $sharePointPath = $semilleroInvestigacion[$tipoArchivo];
+        $sharepoint_path = $semilleroInvestigacion[$tipo_archivo];
 
-        return SharepointHelper::downloadFile($sharePointPath);
+        return SharepointHelper::downloadFile($sharepoint_path);
     }
 }

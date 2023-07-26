@@ -57,13 +57,13 @@ class DisciplinaSubareaConocimiento extends Model
     }
 
     /**
-     * Relationship with Idi
+     * Relationship with ProyectoLinea66
      *
      * @return object
      */
-    public function idi()
+    public function proyectosLinea66()
     {
-        return $this->hasMany(Idi::class);
+        return $this->hasMany(ProyectoLinea66::class);
     }
 
     /**
@@ -87,13 +87,13 @@ class DisciplinaSubareaConocimiento extends Model
     }
 
     /**
-     * Relationship with Ta
+     * Relationship with ProyectoLinea70
      *
      * @return object
      */
-    public function ta()
+    public function proyectoLinea70()
     {
-        return $this->belongsToMany(Ta::class, 'ta_disciplina_subarea_conocimiento', 'disciplina_subarea_conocimiento_id', 'ta_id');
+        return $this->belongsToMany(ProyectoLinea70::class, 'ta_disciplina_subarea_conocimiento', 'disciplina_subarea_conocimiento_id', 'ta_id');
     }
 
     /**

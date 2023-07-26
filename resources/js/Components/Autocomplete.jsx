@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function Autocomplete({ id = '', label = '', className = '', error = '', options = [], isGroupable = false, selectedValue, inputBackground, ...props }) {
+export default function Autocomplete({ id = '', label = '', className = '', error = '', options = [], isGroupable = false, disabled = false, selectedValue, inputBackground, ...props }) {
     const classes = useStyles({ background: inputBackground })
 
     const [selectedOption, setSelectedOption] = useState(null)
@@ -57,7 +57,7 @@ export default function Autocomplete({ id = '', label = '', className = '', erro
     return (
         <>
             <AutocompleteMui
-                disablePortal
+                disabled={disabled}
                 className={className}
                 classes={{ popper: classes.popper, root: inputBackground ? classes.root : '', inputRoot: classes.inputRoot }}
                 id={id}

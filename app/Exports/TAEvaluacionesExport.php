@@ -45,7 +45,7 @@ class TAEvaluacionesExport implements FromCollection, WithHeadings, WithMapping,
             $taEvaluacion->evaluacion->evaluador->numero_documento,
             $taEvaluacion->evaluacion->evaluador->email,
             $taEvaluacion->evaluacion->proyecto->codigo,
-            $taEvaluacion->evaluacion->proyecto->ta->titulo,
+            $taEvaluacion->evaluacion->proyecto->proyectoLinea70->titulo,
 
             $taEvaluacion->resumen_regional_comentario ? $taEvaluacion->resumen_regional_comentario : 'Cumple',
             $taEvaluacion->antecedentes_tecnoacademia_comentario ? $taEvaluacion->antecedentes_tecnoacademia_comentario : 'Cumple',

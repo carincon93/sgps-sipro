@@ -160,16 +160,16 @@ class SoporteEstudioMercadoController extends Controller
         return redirect()->route('convocatorias.proyectos.presupuesto.soportes.index', [$convocatoria, $proyecto, $presupuesto])->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
-    public function saveFilesSharepoint($tmpFile, $modulo, $modelo, $campoBd)
+    public function saveFilesSharepoint($tmp_file, $modulo, $modelo, $campo_bd)
     {
         $estudioMercado = $modelo;
         $proyecto       = Proyecto::find($estudioMercado->proyectoPresupuesto->proyecto_id);
 
         $soporteEstudioMercadoSharePoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ESTUDIOS MERCADO/COTIZACIONES';
 
-        $sharePointPath = "$modulo/$soporteEstudioMercadoSharePoint";
+        $sharepoint_path = "$modulo/$soporteEstudioMercadoSharePoint";
 
-        SharepointHelper::saveFilesSharepoint($tmpFile, $modelo, $sharePointPath, $campoBd);
+        SharepointHelper::saveFilesSharepoint($tmp_file, $modelo, $sharepoint_path, $campo_bd);
     }
 
     public function downloadServerFile(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto, SoporteEstudioMercado $soporte)
@@ -177,38 +177,10 @@ class SoporteEstudioMercadoController extends Controller
         SharepointHelper::downloadServerFile($soporte, $request->formato);
     }
 
-    public function downloadFileSharepoint(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto, SoporteEstudioMercado $soporte, $tipoArchivo)
+    public function downloadFileSharepoint(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto, SoporteEstudioMercado $soporte, $tipo_archivo)
     {
-        $sharePointPath = $soporte[$tipoArchivo];
+        $sharepoint_path = $soporte[$tipo_archivo];
 
-        return SharepointHelper::downloadFile($sharePointPath);
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function soportesEvaluacion(Convocatoria $convocatoria, Evaluacion $evaluacion, ProyectoPresupuesto $presupuesto)
-    {
-        $this->authorize('visualizar-evaluacion-autor', $evaluacion);
-
-        /**
-         * Denega el acceso si el rubro no requiere de estudio de mercado.
-         */
-        // if (!$presupuesto->convocatoriaPresupuesto->presupuestoSennova->requiere_estudio_mercado && $presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal->codigo != '020202008005096') {
-        //     return back()->with('error', 'Este rubro presupuestal no requiere estudio de mercado.');
-        // }
-
-        $evaluacion->proyecto;
-
-        return Inertia::render('Convocatorias/Evaluaciones/ProyectoPresupuesto/SoportesEstudioMercado/Index', [
-            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
-            'proyecto'                  => $evaluacion->proyecto->only('id', 'modificable', 'mostrar_recomendaciones', 'allowed'),
-            'proyectoPresupuesto'       => $presupuesto->load('convocatoriaProyectoRubrosPresupuestales.presupuestoSennova.usoPresupuestal'),
-            'filters'                   => request()->all('search'),
-            'soportesEstudioMercado'    => $presupuesto->soportesEstudioMercado,
-            'evaluacion'                => $evaluacion->only('id', 'proyecto'),
-        ]);
+        return SharepointHelper::downloadFile($sharepoint_path);
     }
 }

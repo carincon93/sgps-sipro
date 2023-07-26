@@ -19,8 +19,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let filters = {}
 
@@ -44,7 +44,7 @@
         <div slot="title">Presupuesto SENNOVA</div>
 
         <div slot="actions">
-            {#if isSuperAdmin}
+            {#if is_super_admin}
                 <Button on:click={() => Inertia.visit(route('presupuesto-sennova.create'))} variant="raised">Crear rubro presupuestal SENNOVA</Button>
             {/if}
         </div>
@@ -93,12 +93,12 @@
 
                     <td className="border-t td-actions">
                         <DataTableMenu className={presupuestoSennova.data.length < 3 ? 'z-50' : ''}>
-                            <Item on:SMUI:action={() => Inertia.visit(route('presupuesto-sennova.edit', rubroPresupuestal.id))} disabled={!isSuperAdmin} className={!isSuperAdmin ? 'hidden' : ''}>
+                            <Item on:SMUI:action={() => Inertia.visit(route('presupuesto-sennova.edit', rubroPresupuestal.id))} disabled={!is_super_admin} className={!is_super_admin ? 'hidden' : ''}>
                                 <Text>Ver detalles</Text>
                             </Item>
 
-                            <Separator className={!isSuperAdmin ? 'hidden' : ''} />
-                            <Item on:SMUI:action={() => ((presupuestoSennovaId = rubroPresupuestal.id), (dialogEliminar = true), (allowedToDestroy = isSuperAdmin))} disabled={!isSuperAdmin} className={!isSuperAdmin ? 'hidden' : ''}>
+                            <Separator className={!is_super_admin ? 'hidden' : ''} />
+                            <Item on:SMUI:action={() => ((presupuestoSennovaId = rubroPresupuestal.id), (dialogEliminar = true), (allowedToDestroy = is_super_admin))} disabled={!is_super_admin} className={!is_super_admin ? 'hidden' : ''}>
                                 <Text>Eliminar</Text>
                             </Item>
                         </DataTableMenu>

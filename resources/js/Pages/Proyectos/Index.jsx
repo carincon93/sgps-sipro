@@ -28,8 +28,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let filters = {
         year: $page.props.filters.year,
@@ -41,7 +41,7 @@
         estado_cord_sennova: '',
     })
     function submit() {
-        if (isSuperAdmin || checkRole(authUser, [20, 18, 19, 5, 17])) {
+        if (is_super_admin || checkRole(auth_user, [20, 18, 19, 5, 17])) {
             $form.post(route('proyectos.update.actualizar-estados-proyectos'), {
                 preserveScroll: true,
             })
@@ -96,7 +96,7 @@
                     </div>
 
                     <div className="py-4 flex items-center sticky bottom-0">
-                        {#if isSuperAdmin || checkRole(authUser, [20, 18, 19, 5, 17])}
+                        {#if is_super_admin || checkRole(auth_user, [20, 18, 19, 5, 17])}
                             <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Actualizar fase de los proyectos</PrimaryButton>
                         {/if}
                     </div>
@@ -112,7 +112,7 @@
                     </div>
 
                     <div className="py-4 flex items-center sticky bottom-0">
-                        {#if isSuperAdmin || checkRole(authUser, [20, 18, 19, 5, 17])}
+                        {#if is_super_admin || checkRole(auth_user, [20, 18, 19, 5, 17])}
                             <PrimaryButton loading={$formEstadosProyectos.processing} className="ml-auto" type="submit">Actualizar puntajes de proyectos</PrimaryButton>
                         {/if}
                     </div>
@@ -123,7 +123,7 @@
         </div>
 
         <div slot="actions">
-            {#if isSuperAdmin}
+            {#if is_super_admin}
                 <Button on:click={() => Inertia.visit(route('proyectos.activos'))} variant="raised">Proyectos activos</Button>
             {/if}
         </div>
@@ -131,7 +131,7 @@
         <thead slot="thead">
             <tr className="text-left font-bold">
                 <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Código </th>
-                {#if isSuperAdmin || checkRole(authUser, [20, 18, 19, 5, 17])}
+                {#if is_super_admin || checkRole(auth_user, [20, 18, 19, 5, 17])}
                     <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Versiones (.pdf) </th>
                 {/if}
                 <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl text-center th-actions"> Acciones </th>
@@ -150,7 +150,7 @@
                             {/if}
                         </p>
                     </td>
-                    {#if isSuperAdmin || checkRole(authUser, [20, 18, 19, 5, 17])}
+                    {#if is_super_admin || checkRole(auth_user, [20, 18, 19, 5, 17])}
                         <td className="border-t">
                             {#if pdf_versiones}
                                 <ul>
@@ -174,7 +174,7 @@
 
                     <td className="border-t td-actions">
                         <DataTableMenu className={proyectos.data.length < 3 ? 'z-50' : ''}>
-                            <Item on:SMUI:action={() => Inertia.visit(route('proyectos.edit', [id]))} disabled={!isSuperAdmin || !checkRole(authUser, [1, 20, 18, 19, 5, 17]) == false ? false : true} className={!isSuperAdmin && checkRole(authUser, [1, 20, 18, 19, 5, 17]) == false ? 'hidden' : ''}>
+                            <Item on:SMUI:action={() => Inertia.visit(route('proyectos.edit', [id]))} disabled={!is_super_admin || !checkRole(auth_user, [1, 20, 18, 19, 5, 17]) == false ? false : true} className={!is_super_admin && checkRole(auth_user, [1, 20, 18, 19, 5, 17]) == false ? 'hidden' : ''}>
                                 <Text>Ver detalles</Text>
                             </Item>
                         </DataTableMenu>

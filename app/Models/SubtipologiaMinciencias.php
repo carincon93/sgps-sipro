@@ -56,13 +56,13 @@ class SubtipologiaMinciencias extends Model
     }
 
     /**
-     * Relationship with ProductoIdi
+     * Relationship with ProductoProyectoLinea66
      *
      * @return object
      */
-    public function productosIdi()
+    public function productosProyectoLinea66()
     {
-        return $this->hasMany(ProductoIdi::class);
+        return $this->hasMany(ProductoProyectoLinea66::class);
     }
 
     /**

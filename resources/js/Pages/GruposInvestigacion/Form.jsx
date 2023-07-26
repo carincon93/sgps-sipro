@@ -20,7 +20,7 @@
     export let categoriasMinciencias
     export let redesConocimiento
     export let centrosFormacion
-    export let allowedToCreate
+    export let allowed_to_create
     export let method
     export let dialogGuardar = false
 
@@ -28,7 +28,7 @@
 </script>
 
 <form on:submit|preventDefault={submit} className="bg-white rounded shadow" id="grupo-investigacion-form">
-    <fieldset className="p-8" disabled={grupoInvestigacion?.allowed.to_update || allowedToCreate ? undefined : true}>
+    <fieldset className="p-8" disabled={grupoInvestigacion?.allowed.to_update || allowed_to_create ? undefined : true}>
         <div className="mt-8">
             <Label required className="mb-4" labelFor="centro_formacion_id" value="Centro de formación" />
             <Select id="centro_formacion_id" items={centrosFormacion} bind:selectedValue={$form.centro_formacion_id} error={errors.centro_formacion_id} autocomplete="off" placeholder="Busque por el nombre del centro de formación" required />
@@ -269,7 +269,7 @@
         <div className="p-4">
             <Button on:click={() => (dialogGuardar = false)} variant={null}>Cancelar</Button>
             <Button variant="raised" type="button" on:click={() => exportComponent.export2Word(grupoInvestigacion.nombre)}>Descargar borrador en Word</Button>
-            {#if grupoInvestigacion?.allowed.to_update || allowedToCreate}
+            {#if grupoInvestigacion?.allowed.to_update || allowed_to_create}
                 <PrimaryButton loading={$form.processing} form="grupo-investigacion-form">Guardar</PrimaryButton>
             {:else}
                 <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>

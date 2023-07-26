@@ -58,23 +58,23 @@ class ProyectoIdiTecnoacademiaProducto extends Model
     ];
 
     /**
-     * Relationship with ProyectoIdiTecnoacademia
+     * Relationship with ProyectoProyectoLinea66Tecnoacademia
      *
      * @return object
      */
-    public function proyectoIdiTecnoacademia()
+    public function proyectoProyectoLinea66Tecnoacademia()
     {
-        return $this->belongsTo(ProyectoIdiTecnoacademia::class);
+        return $this->belongsTo(ProyectoProyectoLinea66Tecnoacademia::class);
     }
 
     /**
-     * Relationship with TipoProductoIdi
+     * Relationship with TipoProductoProyectoLinea66
      *
      * @return object
      */
-    public function tipoProductoIdi()
+    public function tipoProductoProyectoLinea66()
     {
-        return $this->belongsTo(TipoProductoIdi::class);
+        return $this->belongsTo(TipoProductoProyectoLinea66::class);
     }
 
     /**
@@ -104,8 +104,8 @@ class ProyectoIdiTecnoacademiaProducto extends Model
     public function getRutaFinalSharepointAttribute()
     {
         $ruta = '';
-        if ($this->proyectoIdiTecnoacademia) {
-            $ruta = trim($this->proyectoIdiTecnoacademia->ruta_final_sharepoint . '/PRODUCTOS/');
+        if ($this->proyectoProyectoLinea66Tecnoacademia) {
+            $ruta = trim($this->proyectoProyectoLinea66Tecnoacademia->ruta_final_sharepoint . '/PRODUCTOS/');
         }
 
         return $ruta;

@@ -25,8 +25,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let form = useForm({
         _token: $page.props.csrf_token,
@@ -101,7 +101,7 @@
                         </td>
                         <td className="border-t td-actions">
                             <DataTableMenu className={proyecto.length < 3 ? 'z-50' : ''}>
-                                <Item on:SMUI:action={() => Inertia.visit(route('convocatorias.proyectos.edit', [proyecto.convocatoria_id, proyecto.id]))} disabled={isSuperAdmin || !checkRole(authUser, [3, 4, 21]) == false ? false : true} className={!isSuperAdmin && !checkRole(authUser, [3, 4, 21]) ? 'hidden' : ''}>
+                                <Item on:SMUI:action={() => Inertia.visit(route('convocatorias.proyectos.edit', [proyecto.convocatoria_id, proyecto.id]))} disabled={is_super_admin || !checkRole(auth_user, [3, 4, 21]) == false ? false : true} className={!is_super_admin && !checkRole(auth_user, [3, 4, 21]) ? 'hidden' : ''}>
                                     <Text>Ver detalles</Text>
                                 </Item>
                             </DataTableMenu>

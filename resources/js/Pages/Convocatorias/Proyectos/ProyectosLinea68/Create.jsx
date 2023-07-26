@@ -1,28 +1,36 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
-// import Stepper from '@/Components/Stepper';
-
 import Form from './Form'
 
 import { checkRole } from '@/Utils'
 
-const Create = ({ auth, convocatoria, centrosFormacion, lineasProgramaticas, tiposProyectoSt, sectoresProductivos, estadosSistemaGestion, programasFormacionConRegistroCalificado, rolesSennova }) => {
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+const Create = ({
+    auth,
+    convocatoria,
+    centros_formacion,
+    lineas_programaticas,
+    tipos_proyecto_st,
+    sectores_productivos,
+    estados_sistema_gestion,
+    programas_formacion_con_registro_calificado,
+    roles_sennova,
+}) => {
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Formular proyecto</h2>}>
             <Form
-                isSuperAdmin={isSuperAdmin}
+                is_super_admin={is_super_admin}
                 method="crear"
                 convocatoria={convocatoria}
-                centrosFormacion={centrosFormacion}
-                lineasProgramaticas={lineasProgramaticas}
-                tiposProyectoSt={tiposProyectoSt}
-                sectoresProductivos={sectoresProductivos}
-                estadosSistemaGestion={estadosSistemaGestion}
-                rolesSennova={rolesSennova}
-                programasFormacionConRegistroCalificado={programasFormacionConRegistroCalificado}
+                centros_formacion={centros_formacion}
+                lineas_programaticas={lineas_programaticas}
+                tipos_proyecto_st={tipos_proyecto_st}
+                sectores_productivos={sectores_productivos}
+                estados_sistema_gestion={estados_sistema_gestion}
+                programas_formacion_con_registro_calificado={programas_formacion_con_registro_calificado}
+                roles_sennova={roles_sennova}
             />
         </AuthenticatedLayout>
     )

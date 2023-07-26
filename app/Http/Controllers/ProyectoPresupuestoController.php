@@ -220,16 +220,16 @@ class ProyectoPresupuestoController extends Controller
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
-    public function saveFilesSharepoint($tmpFile, $modulo, $modelo, $campoBd)
+    public function saveFilesSharepoint($tmp_file, $modulo, $modelo, $campo_bd)
     {
         $presupuesto = $modelo;
         $proyecto    = Proyecto::find($presupuesto->proyecto_id);
 
         $estudioMercadoSharePoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ESTUDIOS MERCADO';
 
-        $sharePointPath = "$modulo/$estudioMercadoSharePoint";
+        $sharepoint_path = "$modulo/$estudioMercadoSharePoint";
 
-        SharepointHelper::saveFilesSharepoint($tmpFile, $modelo, $sharePointPath, $campoBd);
+        SharepointHelper::saveFilesSharepoint($tmp_file, $modelo, $sharepoint_path, $campo_bd);
     }
 
     public function downloadServerFile(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto)
@@ -237,74 +237,11 @@ class ProyectoPresupuestoController extends Controller
         SharepointHelper::downloadServerFile($presupuesto, $request->formato);
     }
 
-    public function downloadFileSharepoint(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto, $tipoArchivo)
+    public function downloadFileSharepoint(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto, $tipo_archivo)
     {
-        $sharePointPath = $presupuesto[$tipoArchivo];
+        $sharepoint_path = $presupuesto[$tipo_archivo];
 
-        return SharepointHelper::downloadFile($sharePointPath);
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function proyectoPresupuestoEvaluacion(Convocatoria $convocatoria, Evaluacion $evaluacion)
-    {
-        $this->authorize('visualizar-evaluacion-autor', $evaluacion);
-
-        $evaluacion->load('taEvaluacion');
-        $evaluacion->load('tpEvaluacion');
-
-        $evaluacion->proyecto->codigo_linea_programatica = $evaluacion->proyecto->lineaProgramatica->codigo;
-
-        return Inertia::render('Convocatorias/Evaluaciones/ProyectoPresupuesto/Index', [
-            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
-            'evaluacion'                => $evaluacion,
-            'proyecto'                  => $evaluacion->proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'finalizado', 'codigo', 'diff_meses', 'total_proyecto_presupuesto'),
-            'filters'                   => request()->all('search', 'presupuestos'),
-            'proyectoPresupuesto'       => ProyectoPresupuesto::select('proyecto_presupuesto.id', 'proyecto_presupuesto.descripcion', 'proyecto_presupuesto.proyecto_id', 'proyecto_presupuesto.valor_total')->where('proyecto_id', $evaluacion->proyecto->id)->filterProyectoPresupuesto(request()->only('search', 'presupuestos'))->with('proyectoPresupuestosEvaluaciones')->orderBy('proyecto_presupuesto.id')->paginate()->appends(['search' => request()->search, 'presupuestos' => request()->presupuestos]),
-            'segundoGrupoPresupuestal'  => SegundoGrupoPresupuestal::orderBy('nombre', 'ASC')->get('nombre'),
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ProyectoPresupuesto  $proyectoRolSennova
-     * @return \Illuminate\Http\Response
-     */
-    public function evaluacionForm(Convocatoria $convocatoria, Evaluacion $evaluacion, ProyectoPresupuesto $presupuesto)
-    {
-        $this->authorize('visualizar-evaluacion-autor', $evaluacion);
-
-        $presupuesto->load('actividades');
-        $presupuesto->load('soportesEstudioMercado');
-        $presupuesto->softwareInfo;
-        $presupuesto->servicioEdicionInfo;
-        $evaluacion->proyecto->lineaProgramatica;
-        $proyecto = $evaluacion->proyecto;
-        $presupuesto->taTpViaticosPresupuesto;
-
-        return Inertia::render('Convocatorias/Evaluaciones/ProyectoPresupuesto/Edit', [
-            'convocatoria'                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year', 'campos_convocatoria'),
-            'evaluacion'                    => $evaluacion->only('id', 'iniciado', 'finalizado', 'habilitado', 'modificable', 'proyecto'),
-            'proyecto'                      => $evaluacion->proyecto,
-            'proyectoPresupuesto'           => $presupuesto,
-            'tiposLicencia'                 => json_decode(Storage::get('json/tipos-licencia-software.json'), true),
-            'opcionesServiciosEdicion'      => json_decode(Storage::get('json/opciones-servicios-edicion.json'), true),
-            'tiposSoftware'                 => json_decode(Storage::get('json/tipos-software.json'), true),
-            'proyectoPresupuestoEvaluacion' => ProyectoPresupuestoEvaluacion::where('evaluacion_id', $evaluacion->id)->where('proyecto_presupuesto_id', $presupuesto->id)->first(),
-            'segundoGrupoPresupuestal'      => SelectHelper::segundoGrupoPresupuestal($convocatoria->id, $proyecto->lineaProgramatica->id),
-            'tercerGrupoPresupuestal'       => SelectHelper::tercerGrupoPresupuestal($convocatoria->id, $proyecto->lineaProgramatica->id),
-            'usosPresupuestales'            => SelectHelper::usosPresupuestales($convocatoria->id, $proyecto->lineaProgramatica->id),
-            'municipios'                    => SelectHelper::municipios(),
-            'conceptosViaticos'             => json_decode(Storage::get('json/conceptos-viaticos.json'), true),
-            'distanciasMunicipios'          => json_decode(Storage::get('json/distancia-municipios.json'), true),
-            'frecuenciasSemanales'          => json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true),
-            'proyectoRolesSennova'          => $proyectoRolesSennova ?? null,
-            'taTpViaticosMunicipios'        => $presupuesto->taTpViaticosMunicipios()->exists() ? $presupuesto->taTpViaticosMunicipios()->with('municipio')->get() : collect([])
-        ]);
+        return SharepointHelper::downloadFile($sharepoint_path);
     }
 
     public function updateEvaluacion(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion, ProyectoPresupuesto $presupuesto)
@@ -323,12 +260,12 @@ class ProyectoPresupuestoController extends Controller
     {
         $this->authorize('modificar-evaluacion-autor', $evaluacion);
 
-        if ($evaluacion->taEvaluacion()->exists()) {
-            $evaluacion->taEvaluacion()->update(
+        if ($evaluacion->evaluacionProyectoLinea70()->exists()) {
+            $evaluacion->evaluacionProyectoLinea70()->update(
                 ['proyecto_presupuesto_comentario' => $request->proyecto_presupuesto_comentario]
             );
-        } else if ($evaluacion->tpEvaluacion()->exists()) {
-            $evaluacion->tpEvaluacion()->update(
+        } else if ($evaluacion->evaluacionProyectoLinea69()->exists()) {
+            $evaluacion->evaluacionProyectoLinea69()->update(
                 ['proyecto_presupuesto_comentario' => $request->proyecto_presupuesto_comentario]
             );
         }

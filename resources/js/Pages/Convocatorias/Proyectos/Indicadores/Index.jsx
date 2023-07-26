@@ -8,29 +8,29 @@ import StepperMui from '@/Components/Stepper'
 import { useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 
-const Indicadores = ({ auth, convocatoria, idi, ...props }) => {
+const Indicadores = ({ auth, convocatoria, proyecto_linea_66, ...props }) => {
     const form = useForm({
-        productividad_beneficiaros: idi.productividad_beneficiaros ? idi.productividad_beneficiaros : '',
-        generacion_empleo_beneficiarios: idi.generacion_empleo_beneficiarios ? idi.generacion_empleo_beneficiarios : '',
-        creacion_nuevos_desarrollos: idi.creacion_nuevos_desarrollos ? idi.creacion_nuevos_desarrollos : '',
-        generacion_conocimientos_beneficiarios: idi.generacion_conocimientos_beneficiarios ? idi.generacion_conocimientos_beneficiarios : '',
-        generacion_valor_beneficiarios: idi.generacion_valor_beneficiarios ? idi.generacion_valor_beneficiarios : '',
-        fortalecimiento_programas_formacion: idi.fortalecimiento_programas_formacion ? idi.fortalecimiento_programas_formacion : '',
-        transferencia_tecnologias: idi.transferencia_tecnologias ? idi.transferencia_tecnologias : '',
-        calidad_formacion: idi.calidad_formacion ? idi.calidad_formacion : '',
-        impacto_ambiental_proyectos: idi.impacto_ambiental_proyectos ? idi.impacto_ambiental_proyectos : '',
+        productividad_beneficiaros: proyecto_linea_66.productividad_beneficiaros ? proyecto_linea_66.productividad_beneficiaros : '',
+        generacion_empleo_beneficiarios: proyecto_linea_66.generacion_empleo_beneficiarios ? proyecto_linea_66.generacion_empleo_beneficiarios : '',
+        creacion_nuevos_desarrollos: proyecto_linea_66.creacion_nuevos_desarrollos ? proyecto_linea_66.creacion_nuevos_desarrollos : '',
+        generacion_conocimientos_beneficiarios: proyecto_linea_66.generacion_conocimientos_beneficiarios ? proyecto_linea_66.generacion_conocimientos_beneficiarios : '',
+        generacion_valor_beneficiarios: proyecto_linea_66.generacion_valor_beneficiarios ? proyecto_linea_66.generacion_valor_beneficiarios : '',
+        fortalecimiento_programas_formacion: proyecto_linea_66.fortalecimiento_programas_formacion ? proyecto_linea_66.fortalecimiento_programas_formacion : '',
+        transferencia_tecnologias: proyecto_linea_66.transferencia_tecnologias ? proyecto_linea_66.transferencia_tecnologias : '',
+        calidad_formacion: proyecto_linea_66.calidad_formacion ? proyecto_linea_66.calidad_formacion : '',
+        impacto_ambiental_proyectos: proyecto_linea_66.impacto_ambiental_proyectos ? proyecto_linea_66.impacto_ambiental_proyectos : '',
     })
 
     const submit = (e) => {
-        if (idi.proyecto.allowed.to_update) {
-            form.post(route('convocatorias.idi.indicadores.store', [convocatoria.id, idi.id]))
+        if (proyecto_linea_66.proyecto.allowed.to_update) {
+            form.post(route('convocatorias.proyectos-linea-66.indicadores.store', [convocatoria.id, proyecto_linea_66.id]))
         }
     }
 
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={idi.proyecto} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto_linea_66.proyecto} />
             </Grid>
 
             <Grid item md={12} className="!mb-20">
@@ -40,7 +40,7 @@ const Indicadores = ({ auth, convocatoria, idi, ...props }) => {
                 </p>
 
                 <form onSubmit={submit}>
-                    <fieldset className="p-8 divide-y" disabled={idi.proyecto.allowed.to_update ? false : true}>
+                    <fieldset className="p-8 divide-y" disabled={proyecto_linea_66.proyecto.allowed.to_update ? false : true}>
                         <div className="py-24 grid grid-cols-2">
                             <div>
                                 <Label className="mb-4" labelFor="productividad_beneficiaros" value="a) Productividad y competitividad del (los) beneficiario(s) final(es) del proyecto" />
@@ -176,7 +176,7 @@ const Indicadores = ({ auth, convocatoria, idi, ...props }) => {
                         </div>
 
                         <div className="flex items-center justify-between mt-14 py-4">
-                            {idi.proyecto.allowed.to_update ? (
+                            {proyecto_linea_66.proyecto.allowed.to_update ? (
                                 <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
                                     Guardar
                                 </PrimaryButton>

@@ -16,8 +16,8 @@
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
-    let authUser = auth.user
-    let isSuperAdmin = checkRole(authUser, [1])
+    let auth_user = auth.user
+    let is_super_admin = checkRole(auth_user, [1])
 
     let form = useForm({
         nombre: regional.nombre,
@@ -27,7 +27,7 @@
     })
 
     function submit() {
-        if (isSuperAdmin) {
+        if (is_super_admin) {
             $form.put(route('regionales.update', regional.id), {
                 preserveScroll: true,
             })
@@ -54,7 +54,7 @@
         </div>
 
         <div className="bg-white rounded shadow col-span-2">
-            <Form {errors} {regional} {regiones} {directoresRegionales} {isSuperAdmin} {form} {submit} />
+            <Form {errors} {regional} {regiones} {directoresRegionales} {is_super_admin} {form} {submit} />
         </div>
     </div>
 </AuthenticatedLayout>

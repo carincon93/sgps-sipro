@@ -20,8 +20,8 @@ import { Grid, TableCell, TableRow } from '@mui/material'
 import { useForm } from '@inertiajs/react'
 
 const Anexos = ({ auth, convocatoria, proyecto, proyectoAnexo, anexos, ...props }) => {
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
     const form = useForm({
         video: proyecto.video,
@@ -77,7 +77,7 @@ const Anexos = ({ auth, convocatoria, proyecto, proyectoAnexo, anexos, ...props 
                                     className="inline-block mb-4"
                                 />
                                 <TextInput label="Enlace del video" type="url" value={form.data.video} error={form.errors.video} required />
-                                <AlertMui hiddenIcon={true}>
+                                <AlertMui>
                                     El vídeo debe incluir durante el recorrido en las instalaciones, una voz en off que justifique puntualmente el proyecto e incluya: el impacto a la formación, al
                                     sector productivo y a la política nacional de ciencia, tecnología e innovación.
                                 </AlertMui>
@@ -92,7 +92,7 @@ const Anexos = ({ auth, convocatoria, proyecto, proyectoAnexo, anexos, ...props 
                 </>
             )}
 
-            <AlertMui hiddenIcon={true} className="mt-20">
+            <AlertMui className="mt-20">
                 <h1 className="mb-10 font-black">Importante:</h1>
                 <ul>
                     <li>
@@ -105,10 +105,10 @@ const Anexos = ({ auth, convocatoria, proyecto, proyectoAnexo, anexos, ...props 
                 </ul>
             </AlertMui>
 
-            {isSuperAdmin || proyecto.mostrar_recomendaciones ? (
+            {is_super_admin || proyecto.mostrar_recomendaciones ? (
                 <>
                     {proyecto.evaluaciones.map((evaluacion, i) =>
-                        isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado) ? (
+                        is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
                             <ToolTipMui
                                 key={i}
                                 title={

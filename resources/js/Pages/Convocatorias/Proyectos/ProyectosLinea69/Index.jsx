@@ -12,23 +12,23 @@ import { Link, router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 
-const Index = ({ auth, convocatoria, proyectosTp, allowedToCreate }) => {
-    const authUser = auth.user
-    const isSuperAdmin = checkRole(authUser, [1])
+const Index = ({ auth, convocatoria, proyectos_linea_69, allowed_to_create }) => {
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
-    const [proyectoLinea69ToDestroy, setProyectoLinea69ToDestroy] = useState(null)
+    const [proyecto_linea69_to_destroy, setProyectoLinea69ToDestroy] = useState(null)
 
     return (
-        <AuthenticatedLayout user={authUser} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
+        <AuthenticatedLayout user={auth_user} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
             <Grid item md={12}>
                 <div>
                     Parques tecnológicos - Red tecnoparque Colombia - Línea 69
-                    <AlertMui hiddenIcon={true}>A continuación, se listan únicamente los proyectos que usted ha creado y también en los que está asociado.</AlertMui>
+                    <AlertMui>A continuación, se listan únicamente los proyectos que usted ha creado y también en los que está asociado.</AlertMui>
                 </div>
 
                 <div>
-                    {allowedToCreate && (
-                        <Link href={route('convocatorias.tp.create', [convocatoria.id])} variant="raised">
+                    {allowed_to_create && (
+                        <Link href={route('convocatorias.proyectos-linea-69.create', [convocatoria.id])} variant="raised">
                             Formular un nuevo proyecto
                         </Link>
                     )}
@@ -37,7 +37,7 @@ const Index = ({ auth, convocatoria, proyectosTp, allowedToCreate }) => {
 
             <Grid item md={12}>
                 <TableMui className="mt-20" rows={['Nodo Tecnoparque', 'Fecha de ejecución', 'Estado (Evaluación)', 'Acciones']} sxCellThead={{ width: '320px' }}>
-                    {proyectosTp.data.map(({ id, proyecto, titulo, fecha_ejecucion }) => (
+                    {proyectos_linea_69.data.map(({ id, proyecto, titulo, fecha_ejecucion }) => (
                         <TableRow key={id}>
                             <TableCell>
                                 <div>
@@ -53,44 +53,44 @@ const Index = ({ auth, convocatoria, proyectosTp, allowedToCreate }) => {
                                 <p>{fecha_ejecucion}</p>
                             </TableCell>
                             <TableCell>
-                                {isSuperAdmin ||
-                                checkRole(authUser, [17]) ||
-                                (checkRole(authUser, [4, 24, 16]) && proyecto?.mostrar_recomendaciones) ||
-                                (checkRole(authUser, [4, 24, 16]) && proyecto?.mostrar_recomendaciones) ||
+                                {is_super_admin ||
+                                checkRole(auth_user, [17]) ||
+                                (checkRole(auth_user, [4, 24, 16]) && proyecto?.mostrar_recomendaciones) ||
+                                (checkRole(auth_user, [4, 24, 16]) && proyecto?.mostrar_recomendaciones) ||
                                 (convocatoria.fase == 5 && proyecto?.mostrar_recomendaciones) ? (
                                     <>
-                                        <AlertMui hiddenIcon={true}>
-                                            {proyecto?.estado_evaluacion_tp?.estado}
+                                        <AlertMui>
+                                            {proyecto?.estado_evaluacion_proyecto_linea_69?.estado}
                                             <small>
-                                                Número de recomendaciones: {proyecto?.estado_evaluacion_tp?.numeroRecomendaciones}
+                                                Número de recomendaciones: {proyecto?.estado_evaluacion_proyecto_linea_69?.numero_recomendaciones}
                                                 <br />
-                                                Evaluaciones: {proyecto?.estado_evaluacion_tp?.evaluacionesHabilitadas} habilitada(s) / {proyecto?.estado_evaluacion_tp?.evaluacionesFinalizadas}{' '}
-                                                finalizada(s)
+                                                Evaluaciones: {proyecto?.estado_evaluacion_proyecto_linea_69?.evaluaciones_habilitadas} habilitada(s) /{' '}
+                                                {proyecto?.estado_evaluacion_proyecto_linea_69?.evaluaciones_finalizadas} finalizada(s)
                                             </small>
                                         </AlertMui>
                                         {JSON.parse(proyecto.estado_cord_sennova)?.requiereSubsanar && proyecto.mostrar_recomendaciones == true && proyecto.mostrar_requiere_subsanacion == true ? (
-                                            <AlertMui hiddenIcon={true} error={true} className="mt-2">
+                                            <AlertMui error={true} className="mt-2">
                                                 Requiere ser subsanado
                                             </AlertMui>
                                         ) : (
                                             JSON.parse(proyecto.estado)?.requiereSubsanar &&
                                             proyecto.mostrar_recomendaciones == true &&
                                             proyecto.mostrar_requiere_subsanacion == true && (
-                                                <AlertMui hiddenIcon={true} error={true} className="mt-2">
+                                                <AlertMui error={true} className="mt-2">
                                                     Requiere ser subsanado
                                                 </AlertMui>
                                             )
                                         )}
                                     </>
                                 ) : (
-                                    <AlertMui hiddenIcon={true}>Aún no tiene permisos para ver el estado de evaluación de este proyecto.</AlertMui>
+                                    <AlertMui>Aún no tiene permisos para ver el estado de evaluación de este proyecto.</AlertMui>
                                 )}
 
-                                {isSuperAdmin || checkRole(authUser, [18]) ? (
+                                {is_super_admin || checkRole(auth_user, [18]) ? (
                                     <>
-                                        {proyecto?.estado_evaluacion_tp?.alerta && (
-                                            <AlertMui severity="error" className="mt-4" hiddenIcon={true}>
-                                                Importante: {proyecto?.estado_evaluacion_tp?.alerta}
+                                        {proyecto?.estado_evaluacion_proyecto_linea_69?.alerta && (
+                                            <AlertMui severity="error" className="mt-4">
+                                                Importante: {proyecto?.estado_evaluacion_proyecto_linea_69?.alerta}
                                             </AlertMui>
                                         )}
                                     </>
@@ -99,10 +99,10 @@ const Index = ({ auth, convocatoria, proyectosTp, allowedToCreate }) => {
 
                             <TableCell>
                                 <MenuMui text={<MoreVertIcon />}>
-                                    {proyecto.id !== proyectoLinea69ToDestroy ? (
+                                    {proyecto.id !== proyecto_linea69_to_destroy ? (
                                         <div>
                                             <MenuItem
-                                                onClick={() => router.visit(route('convocatorias.tp.edit', [convocatoria.id, id]))}
+                                                onClick={() => router.visit(route('convocatorias.proyectos-linea-69.edit', [convocatoria.id, id]))}
                                                 disabled={!proyecto?.allowed?.to_view}
                                                 className={!proyecto?.allowed?.to_view ? 'hidden' : ''}>
                                                 Editar
@@ -127,7 +127,7 @@ const Index = ({ auth, convocatoria, proyectosTp, allowedToCreate }) => {
                                                 onClick={(e) => {
                                                     e.stopPropagation()
                                                     if (proyecto.allowed.to_update) {
-                                                        router.delete(route('convocatorias.tp.destroy', [convocatoria.id, proyecto.id]), {
+                                                        router.delete(route('convocatorias.proyectos-linea-69.destroy', [convocatoria.id, proyecto.id]), {
                                                             preserveScroll: true,
                                                         })
                                                     }

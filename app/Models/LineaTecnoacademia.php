@@ -57,13 +57,13 @@ class LineaTecnoacademia extends Model
     }
 
     /**
-     * Relationship with Idi
+     * Relationship with ProyectoLinea66
      *
      * @return object
      */
-    public function idi()
+    public function proyectosLinea66()
     {
-        return $this->belongsToMany(Idi::class, 'idi_linea_tecnoacademia', 'tecnoacademia_linea_tecnoacademia_id', 'idi_id');
+        return $this->belongsToMany(ProyectoLinea66::class, 'idi_linea_tecnoacademia', 'tecnoacademia_linea_tecnoacademia_id', 'idi_id');
     }
 
     /**
@@ -77,13 +77,13 @@ class LineaTecnoacademia extends Model
     }
 
     /**
-     * Relationship with Ta
+     * Relationship with ProyectoLinea70
      *
      * @return object
      */
-    public function ta()
+    public function proyectosLinea70()
     {
-        return $this->hasMany(Ta::class);
+        return $this->hasMany(ProyectoLinea70::class);
     }
 
     /**
