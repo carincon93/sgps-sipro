@@ -292,7 +292,7 @@ class Proyecto extends Model
      *
      * @return object
      */
-    public function taProgramasFormacion()
+    public function programasFormacionLinea70()
     {
         return $this->belongsToMany(ProgramaFormacion::class, 'ta_programa_formacion', 'proyecto_id', 'programa_formacion_id');
     }

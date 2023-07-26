@@ -29,16 +29,16 @@ class ActividadController extends Controller
         $proyecto->load('evaluaciones.evaluacionProyectoLinea66');
         $proyecto->load('evaluaciones.evaluacionProyectoLinea70');
 
-        $objetivo_especifico = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
-        $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
+        $objetivo_especifico                    = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
+        $proyecto->codigo_linea_programatica    = $proyecto->lineaProgramatica->codigo;
 
         $resultados = $proyecto->efectosDirectos()->whereHas('resultado', function ($query) {
-            $query->where('descripcion', '!=', null);
-        })->with('resultado')->get()->pluck('resultado')->flatten();
+                        $query->where('descripcion', '!=', null);
+                    })->with('resultado')->get()->pluck('resultado')->flatten();
 
-        $productos = $resultados->map(function ($resultado) {
-            return $resultado->productos;
-        })->flatten();
+        $productos  = $resultados->map(function ($resultado) {
+                        return $resultado->productos;
+                    })->flatten();
 
         switch ($proyecto) {
             case $proyecto->proyectoLinea66()->exists():
@@ -63,6 +63,12 @@ class ActividadController extends Controller
                 $programas_formacion                            = SelectHelper::programasFormacion()->where('centro_formacion_id', $proyecto->centroFormacion->id)->values()->all();
                 $modalidades                                    = json_decode(Storage::get('json/modalidades-estudio.json'), true);
                 $niveles_formacion                              = json_decode(Storage::get('json/nivel-formacion.json'), true);
+
+                $proyecto->municipios;
+                $proyecto->municipiosAImpactar;
+                $proyecto->disenosCurriculares;
+                $proyecto->programasFormacionLinea70;
+
                 break;
             case $proyecto->proyectoLinea69()->exists():
                 $proyecto->metodologia                              = $proyecto->proyectoLinea69->metodologia;
@@ -115,6 +121,10 @@ class ActividadController extends Controller
                                             'promover_productividad',
                                             'departamentos_atencion_talentos',
                                             'estrategia_atencion_talentos',
+                                            'municipios',
+                                            'municipiosAImpactar',
+                                            'disenosCurriculares',
+                                            'programasFormacionLinea70',
                                             'en_subsanacion',
                                             'evaluaciones',
                                             'mostrar_recomendaciones',
@@ -139,12 +149,12 @@ class ActividadController extends Controller
             'niveles_formacion'         => $niveles_formacion ?? null,
             'regionales'                => SelectHelper::regionales(),
             'municipios'                => SelectHelper::municipios(),
-            'disenosCurriculares'       => SelectHelper::disenoCurriculares()->where('habilitado_convocatoria', true)->values()->all(),
-            'tecnoacademiaRelacionada'  => $proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia : null,
-            'aulasMoviles'              => AulaMovil::where('ta_id', $proyecto->id)->get(),
+            'disenos_curriculares'      => SelectHelper::disenoCurriculares()->where('habilitado_convocatoria', true)->values()->all(),
+            'tecnoacademia_relacionada' => $proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia : null,
+            'aulas_moviles'             => AulaMovil::where('ta_id', $proyecto->id)->get(),
 
-            'proyectoPresupuesto'       => ProyectoPresupuesto::select('proyecto_presupuesto.id as value', 'proyecto_presupuesto.descripcion as label')->where('proyecto_presupuesto.proyecto_id', $proyecto->id)->with('convocatoriaProyectoRubrosPresupuestales.presupuestoSennova.usoPresupuestal')->get(),
-            'proyectoRoles'             => ProyectoRolSennova::select('proyecto_rol_sennova.id as value', 'roles_sennova.nombre as label')
+            'proyecto_presupuesto'      => ProyectoPresupuesto::select('proyecto_presupuesto.id as value', 'proyecto_presupuesto.descripcion as label')->where('proyecto_presupuesto.proyecto_id', $proyecto->id)->with('convocatoriaProyectoRubrosPresupuestales.presupuestoSennova.usoPresupuestal')->get(),
+            'proyecto_roles'            => ProyectoRolSennova::select('proyecto_rol_sennova.id as value', 'roles_sennova.nombre as label')
                                             ->join('convocatoria_rol_sennova', 'proyecto_rol_sennova.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')
                                             ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
                                             ->where('proyecto_rol_sennova.proyecto_id', $proyecto->id)->with('convocatoriaRolSennova.rolSennova:id,nombre')->get(),
@@ -321,7 +331,7 @@ class ActividadController extends Controller
 
                 $proyecto_linea_70->proyecto->municipios()->sync($request->municipios);
                 $proyecto_linea_70->proyecto->municipiosAImpactar()->sync($request->municipios_impactar);
-                $proyecto_linea_70->proyecto->taProgramasFormacion()->sync($request->programas_formacion_articulados);
+                $proyecto_linea_70->proyecto->programasFormacionLinea70()->sync($request->programas_formacion_articulados);
                 $proyecto_linea_70->proyecto->disenosCurriculares()->sync($request->diseno_curricular_id);
                 break;
             case $proyecto->proyectoLinea69()->exists():

@@ -39,6 +39,10 @@ class ArticulacionSennovaController extends Controller
         $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
         $proyecto->precio_proyecto           = $proyecto->precioProyecto;
 
+        $proyecto->gruposInvestigacion;
+        $proyecto->lineasInvestigacion;
+        $proyecto->semillerosInvestigacion;
+
         switch ($proyecto->lineaProgramatica->codigo) {
             case 70:
                 $proyecto->proyectos_ejecucion                  = $proyecto->proyectoLinea70->proyectos_ejecucion;
@@ -49,6 +53,12 @@ class ArticulacionSennovaController extends Controller
                 $proyecto->articulacion_programas_centro        = $proyecto->proyectoLinea70->articulacion_programas_centro;
                 $proyecto->articulacion_bienestar_aprendiz      = $proyecto->proyectoLinea70->articulacion_bienestar_aprendiz;
                 $proyecto->favorecimiento_ruta_formacion        = $proyecto->proyectoLinea70->favorecimiento_ruta_formacion;
+
+                $proyecto->proyectoLinea70->disciplinasSubareaConocimiento;
+                $proyecto->proyectoLinea70->redesConocimiento;
+                $proyecto->proyectoLinea70->tematicasEstrategicas;
+                $proyecto->proyectoLinea70->actividadesEconomicas;
+                $proyecto->proyectoLinea70->proyectosIdiTecnoacademia;
 
                 break;
 
@@ -90,6 +100,10 @@ class ArticulacionSennovaController extends Controller
                                                     'proyeccion_centros_desarrollo',
                                                     'proyeccion_formacion_regional',
                                                     'participantes',
+                                                    'gruposInvestigacion',
+                                                    'lineasInvestigacion',
+                                                    'semillerosInvestigacion',
+                                                    'proyectoLinea70',
                                                     'diff_meses'
                                                 ),
             'lineas_investigacion'              => LineaInvestigacion::selectRaw('lineas_investigacion.id as value, concat(lineas_investigacion.nombre, chr(10), \'∙ Grupo de investigación: \', grupos_investigacion.nombre, chr(10)) as label')->join('grupos_investigacion', 'lineas_investigacion.grupo_investigacion_id', 'grupos_investigacion.id')->where('grupos_investigacion.centro_formacion_id', $proyecto->centroFormacion->id)->get(),
@@ -99,6 +113,7 @@ class ArticulacionSennovaController extends Controller
             'tematicas_estrategicas'            => SelectHelper::tematicasEstrategicas(),
             'actividades_economicas'            => SelectHelper::actividadesEconomicas(),
             'disciplinas_subarea_conocimiento'  => SelectHelper::disciplinasSubareaConocimiento(),
+            'proyectos_idi_tecnoacademia'       => SelectHelper::proyectosIdiTecnoacademia(),
             'tipos_documento'                   => json_decode(Storage::get('json/tipos-documento.json'), true),
             'tipos_vinculacion'                 => json_decode(Storage::get('json/tipos-vinculacion.json'), true),
             'centros_formacion'                 => SelectHelper::centrosFormacion(),

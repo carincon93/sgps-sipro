@@ -51,11 +51,13 @@ const Actividades = ({
     const [method, setMethod] = useState('')
     const [actividad, setActividad] = useState(null)
 
+    //
+
     const form = useForm({
         metodologia: proyecto.metodologia,
         metodologia_local: proyecto.metodologia_local,
-        municipios: null,
-        municipios_impactar: null,
+        municipios: municipios.filter((item) => proyecto.municipios?.some((obj) => obj.id == item.value)).map((item) => item.value),
+        municipios_impactar: municipios.filter((item) => proyecto.municipiosAImpactar?.some((obj) => obj.id == item.value)).map((item) => item.value),
         otras_nuevas_instituciones: proyecto.otras_nuevas_instituciones,
         otras_nombre_instituciones_programas: proyecto.otras_nombre_instituciones_programas,
         otras_nombre_instituciones: proyecto.otras_nombre_instituciones,
@@ -69,8 +71,8 @@ const Actividades = ({
         implementacion_modelo_pedagogico: proyecto.implementacion_modelo_pedagogico,
         articulacion_plan_educacion: proyecto.articulacion_plan_educacion,
         articulacion_territorios_stem: proyecto.articulacion_territorios_stem,
-        programas_formacion_articulados: null,
-        diseno_curricular_id: null,
+        programas_formacion_articulados: programas_formacion.filter((item) => proyecto.programasFormacionLinea70?.some((obj) => obj.id == item.value)).map((item) => item.value),
+        diseno_curricular_id: disenos_curriculares.filter((item) => proyecto.disenosCurriculares?.some((obj) => obj.id == item.value)).map((item) => item.value),
         estrategia_articulacion_prox_vigencia: proyecto.estrategia_articulacion_prox_vigencia,
         alianzas_estrategicas: proyecto.alianzas_estrategicas,
         estrategia_divulgacion: proyecto.estrategia_divulgacion,
@@ -235,23 +237,21 @@ const Actividades = ({
                     <Grid item md={12}>
                         <form onSubmit={submit}>
                             <fieldset disabled={proyecto.allowed.to_update ? false : true}>
-                                <div className="py-24">
-                                    <div>
+                                <Grid container className="space-y-20">
+                                    <Grid item md={12}>
                                         <Label required className="mb-4" labelFor="metodologia" value="Metodología" />
                                         <Textarea
                                             id="metodologia"
                                             error={form.errors.metodologia}
                                             name="metodologia"
                                             value={form.data.metodologia}
-                                            onChange={(e) => form.setData('', e.target.value)}
+                                            onChange={(e) => form.setData('metodologia', e.target.value)}
                                             required
                                         />
-                                    </div>
-                                </div>
+                                    </Grid>
 
-                                {proyecto.codigo_linea_programatica == 69 || proyecto.codigo_linea_programatica == 70 ? (
-                                    <div className="py-24">
-                                        <div>
+                                    {proyecto.codigo_linea_programatica == 69 || proyecto.codigo_linea_programatica == 70 ? (
+                                        <Grid item md={12}>
                                             <Label
                                                 required
                                                 className="mb-4"
@@ -269,43 +269,36 @@ const Actividades = ({
                                                 error={form.errors.metodologia_local}
                                                 name="metodologia_local"
                                                 value={form.data.metodologia_local}
-                                                onChange={(e) => form.setData('', e.target.value)}
+                                                onChange={(e) => form.setData('metodologia_local', e.target.value)}
                                                 required
                                             />
-                                        </div>
-                                    </div>
-                                ) : null}
+                                        </Grid>
+                                    ) : null}
 
-                                {proyecto.codigo_linea_programatica == 70 && (
-                                    <>
-                                        <div>
-                                            <div className="py-24 grid grid-cols-2 gap-4">
-                                                <div>
-                                                    <Label
-                                                        required
-                                                        className="mb-4"
-                                                        labelFor="implementacion_modelo_pedagogico"
-                                                        value="Implementación del Modelo Pedagógico de las TecnoAcademia en el contexto regional de la TecnoAcademia"
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <Textarea
-                                                        id="implementacion_modelo_pedagogico"
-                                                        error={form.errors.implementacion_modelo_pedagogico}
-                                                        name="implementacion_modelo_pedagogico"
-                                                        value={form.data.implementacion_modelo_pedagogico}
-                                                        onChange={(e) => form.setData('', e.target.value)}
-                                                        required
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
+                                    {proyecto.codigo_linea_programatica == 70 && (
+                                        <>
+                                            <Grid item md={12}>
+                                                <Label
+                                                    required
+                                                    className="mb-4"
+                                                    labelFor="implementacion_modelo_pedagogico"
+                                                    value="Implementación del Modelo Pedagógico de las TecnoAcademia en el contexto regional de la TecnoAcademia"
+                                                />
 
-                                        <div className="py-24">
-                                            <div>
+                                                <Textarea
+                                                    id="implementacion_modelo_pedagogico"
+                                                    error={form.errors.implementacion_modelo_pedagogico}
+                                                    name="implementacion_modelo_pedagogico"
+                                                    value={form.data.implementacion_modelo_pedagogico}
+                                                    onChange={(e) => form.setData('implementacion_modelo_pedagogico', e.target.value)}
+                                                    required
+                                                />
+                                            </Grid>
+
+                                            <Grid item md={6}>
                                                 <Label required className="mb-4" labelFor="municipios" value="Nombre los municipios impactados en la vigencia anterior por la TecnoAcademia" />
-                                            </div>
-                                            <div>
+                                            </Grid>
+                                            <Grid item md={6}>
                                                 <SelectMultiple
                                                     id="municipios"
                                                     name="municipios"
@@ -314,22 +307,20 @@ const Actividades = ({
                                                     error={form.errors.municipios}
                                                     placeholder="Seleccionar municipios"
                                                     onChange={(event, newValue) => {
-                                                        const selectedValues = newValue.map((option) => option.value)
+                                                        const selected_values = newValue.map((option) => option.value)
                                                         form.setData((prevData) => ({
                                                             ...prevData,
-                                                            municipios: selectedValues,
+                                                            municipios: selected_values,
                                                         }))
                                                     }}
                                                     required
                                                 />
-                                            </div>
-                                        </div>
+                                            </Grid>
 
-                                        <div className="py-24">
-                                            <div>
+                                            <Grid item md={6}>
                                                 <Label required className="mb-4" labelFor="municipios_impactar" value="Defina los municipios a impactar en la vigencia el proyecto:" />
-                                            </div>
-                                            <div>
+                                            </Grid>
+                                            <Grid item md={6}>
                                                 <SelectMultiple
                                                     id="municipios_impactar"
                                                     name="municipios_impactar"
@@ -338,72 +329,69 @@ const Actividades = ({
                                                     error={form.errors.municipios_impactar}
                                                     placeholder="Seleccionar municipios"
                                                     onChange={(event, newValue) => {
-                                                        const selectedValues = newValue.map((option) => option.value)
+                                                        const selected_values = newValue.map((option) => option.value)
                                                         form.setData((prevData) => ({
                                                             ...prevData,
-                                                            municipios_impactar: selectedValues,
+                                                            municipios_impactar: selected_values,
                                                         }))
                                                     }}
                                                     required
                                                 />
-                                            </div>
-                                        </div>
+                                            </Grid>
 
-                                        <div className="py-24">
-                                            <div>
+                                            <Grid item md={12}>
                                                 <Label
                                                     required
                                                     className="mb-4"
                                                     labelFor="impacto_municipios"
                                                     value="Descripción del beneficio o impacto generado por la TecnoAcademia en los municipios"
                                                 />
-                                            </div>
-                                            <div>
+
                                                 <Textarea
                                                     id="impacto_municipios"
                                                     error={form.errors.impacto_municipios}
                                                     name="impacto_municipios"
                                                     value={form.data.impacto_municipios}
-                                                    onChange={(e) => form.setData('', e.target.value)}
+                                                    onChange={(e) => form.setData('impacto_municipios', e.target.value)}
                                                     required
                                                 />
-                                            </div>
+                                            </Grid>
 
-                                            {(is_super_admin && proyecto.evaluaciones.length > 0) || (proyecto.mostrar_recomendaciones && proyecto.evaluaciones.length > 0) ? (
-                                                <>
-                                                    {proyecto.evaluaciones.map((evaluacion, i) =>
-                                                        is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
-                                                            <ToolTipMui
-                                                                key={i}
-                                                                title={
-                                                                    <div>
-                                                                        <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                                                        <p className="whitespace-pre-line text-xs text-justify">
-                                                                            {evaluacion.evaluacion_proyecto_linea70.municipios_comentario
-                                                                                ? evaluacion.evaluacion_proyecto_linea70.municipios_comentario
-                                                                                : 'Sin recomendación'}
-                                                                        </p>
-                                                                    </div>
-                                                                }>
-                                                                Evaluación {i + 1}
-                                                            </ToolTipMui>
-                                                        ) : null,
-                                                    )}
-                                                    {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
-                                                </>
-                                            ) : null}
-                                        </div>
+                                            <Grid item md={12}>
+                                                {(is_super_admin && proyecto.evaluaciones.length > 0) || (proyecto.mostrar_recomendaciones && proyecto.evaluaciones.length > 0) ? (
+                                                    <>
+                                                        {proyecto.evaluaciones.map((evaluacion, i) =>
+                                                            is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
+                                                                <ToolTipMui
+                                                                    key={i}
+                                                                    title={
+                                                                        <div>
+                                                                            <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
+                                                                            <p className="whitespace-pre-line text-xs text-justify">
+                                                                                {evaluacion.evaluacion_proyecto_linea70.municipios_comentario
+                                                                                    ? evaluacion.evaluacion_proyecto_linea70.municipios_comentario
+                                                                                    : 'Sin recomendación'}
+                                                                            </p>
+                                                                        </div>
+                                                                    }>
+                                                                    Evaluación {i + 1}
+                                                                </ToolTipMui>
+                                                            ) : null,
+                                                        )}
+                                                        {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
+                                                    </>
+                                                ) : null}
+                                            </Grid>
 
-                                        <div className="py-24 grid grid-cols-2 gap-4">
-                                            <div>
+                                            <Grid item md={6}>
                                                 <Label
-                                                    required={form.otras_nombre_instituciones_programas ? false : true}
+                                                    required={form.data.otras_nombre_instituciones_programas ? false : true}
                                                     className="mb-4"
                                                     labelFor="nombre_instituciones_programas"
                                                     value="Instituciones donde se están ejecutando los programas y que se espera continuar con el proyecto de TecnoAcademias"
                                                 />
-                                            </div>
-                                            <div>
+                                            </Grid>
+                                            <Grid item md={6}>
                                                 <Autocomplete
                                                     id="departamento_instituciones_programas"
                                                     selectedValue={municipio_ie_articulacion}
@@ -436,320 +424,314 @@ const Actividades = ({
                                                         id="otras_nombre_instituciones_programas"
                                                         error={form.errors.otras_nombre_instituciones_programas}
                                                         value={form.data.otras_nombre_instituciones_programas}
+                                                        onChange={(e) => form.setData('otras_nombre_instituciones_programas', e.target.value)}
                                                     />
                                                 </div>
-                                            </div>
-                                        </div>
+                                            </Grid>
 
-                                        <div className="py-24">
-                                            <div>
+                                            <Grid item md={6}>
                                                 <Label
                                                     required
                                                     className="mb-4"
                                                     labelFor="proyeccion_nuevas_instituciones"
                                                     value="¿Se proyecta incluir nuevas Instituciones Educativas en la nueva vigencia?"
                                                 />
-                                            </div>
-                                            <div>
+                                            </Grid>
+                                            <Grid item md={6}>
                                                 <Autocomplete
                                                     options={[
                                                         { value: 1, label: 'Si' },
                                                         { value: 2, label: 'No' },
                                                     ]}
                                                     id="proyeccion_nuevas_instituciones"
-                                                    selectedValue={form.proyeccion_nuevas_instituciones}
+                                                    selectedValue={form.data.proyeccion_nuevas_instituciones}
                                                     error={form.errors.proyeccion_nuevas_instituciones}
+                                                    onChange={(event, newValue) => form.setData('proyeccion_nuevas_instituciones', newValue.value)}
                                                     placeholder="Seleccione una opción"
                                                     required
                                                 />
-                                            </div>
-                                        </div>
+                                            </Grid>
 
-                                        {form.proyeccion_nuevas_instituciones === 1 && (
-                                            <div className="py-24 grid grid-cols-2 gap-4">
-                                                <div>
-                                                    <Label
-                                                        required={form.otras_nuevas_instituciones ? false : true}
-                                                        className="mb-4"
-                                                        labelFor="nuevas_instituciones"
-                                                        value="Nuevas instituciones educativas que se vincularán con el proyecto de TecnoAcademia"
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <Autocomplete
-                                                        id="departamento_nuevas_instituciones"
-                                                        selectedValue={municipio_ie_ejecucion}
-                                                        onChange={(event, newValue) => {
-                                                            setMunicipioIEEjecucion(newValue.value)
-                                                        }}
-                                                        options={municipios}
-                                                        isGroupable={true}
-                                                        groupBy={(option) => option.group}
-                                                        placeholder="Seleccione un municipio"
-                                                    />
-
-                                                    <Tags
-                                                        id="nuevas_instituciones"
-                                                        className="mt-4"
-                                                        whitelist={whitelist_instituciones_educativas_ejecutar}
-                                                        tags={form.data.nuevas_instituciones}
-                                                        value={form.data.nuevas_instituciones}
-                                                        onChange={(e) => form.setData('nuevas_instituciones', e.target.value)}
-                                                        placeholder="Nombre(s) de la(s) IE"
-                                                        error={
-                                                            whitelist_instituciones_educativas_ejecutar.length == 0
-                                                                ? 'No hay instituciones educativas registradas para el municipio seleccionado'
-                                                                : form.errors.nuevas_instituciones
-                                                        }
-                                                        required={form.data.nuevas_instituciones ? false : true}
-                                                    />
-                                                    <div className="mt-10">
-                                                        <AlertMui>
-                                                            Si no encuentra alguna institución educativa en la anterior lista por favor escriba el nombre en el siguiente campo de texto
-                                                        </AlertMui>
-                                                        <Textarea
-                                                            label="Instituciones"
-                                                            id="otras_nuevas_instituciones"
-                                                            error={form.errors.otras_nuevas_instituciones}
-                                                            value={form.data.otras_nuevas_instituciones}
+                                            {form.data.proyeccion_nuevas_instituciones == 1 && (
+                                                <>
+                                                    <Grid item md={6}>
+                                                        <Label
+                                                            required={form.data.otras_nuevas_instituciones ? false : true}
+                                                            className="mb-4"
+                                                            labelFor="nuevas_instituciones"
+                                                            value="Nuevas instituciones educativas que se vincularán con el proyecto de TecnoAcademia"
                                                         />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
+                                                    </Grid>
+                                                    <Grid item md={6}>
+                                                        <Autocomplete
+                                                            id="departamento_nuevas_instituciones"
+                                                            selectedValue={municipio_ie_ejecucion}
+                                                            onChange={(event, newValue) => {
+                                                                setMunicipioIEEjecucion(newValue.value)
+                                                            }}
+                                                            options={municipios}
+                                                            isGroupable={true}
+                                                            groupBy={(option) => option.group}
+                                                            placeholder="Seleccione un municipio"
+                                                        />
 
-                                        <div className="py-24">
-                                            <div>
+                                                        <Tags
+                                                            id="nuevas_instituciones"
+                                                            className="mt-4"
+                                                            whitelist={whitelist_instituciones_educativas_ejecutar}
+                                                            tags={form.data.nuevas_instituciones}
+                                                            value={form.data.nuevas_instituciones}
+                                                            onChange={(e) => form.setData('nuevas_instituciones', e.target.value)}
+                                                            placeholder="Nombre(s) de la(s) IE"
+                                                            error={
+                                                                whitelist_instituciones_educativas_ejecutar.length == 0
+                                                                    ? 'No hay instituciones educativas registradas para el municipio seleccionado'
+                                                                    : form.errors.nuevas_instituciones
+                                                            }
+                                                            required={form.data.nuevas_instituciones ? false : true}
+                                                        />
+                                                        <div className="mt-10">
+                                                            <AlertMui>
+                                                                Si no encuentra alguna institución educativa en la anterior lista por favor escriba el nombre en el siguiente campo de texto
+                                                            </AlertMui>
+                                                            <Textarea
+                                                                label="Instituciones"
+                                                                id="otras_nuevas_instituciones"
+                                                                error={form.errors.otras_nuevas_instituciones}
+                                                                value={form.data.otras_nuevas_instituciones}
+                                                                onChange={(e) => form.setData('otras_nuevas_instituciones', e.target.value)}
+                                                            />
+                                                        </div>
+                                                    </Grid>
+                                                </>
+                                            )}
+
+                                            <Grid item md={6}>
                                                 <Label
                                                     required
                                                     className="mb-4"
                                                     labelFor="proyeccion_articulacion_media"
                                                     value="¿Se proyecta incluir Instituciones Educativas en articulación con la media?"
                                                 />
-                                            </div>
-                                            <div>
+                                            </Grid>
+                                            <Grid item md={6}>
                                                 <Autocomplete
                                                     options={[
                                                         { value: 1, label: 'Si' },
                                                         { value: 2, label: 'No' },
                                                     ]}
                                                     id="proyeccion_articulacion_media"
-                                                    selectedValue={form.proyeccion_articulacion_media}
+                                                    selectedValue={form.data.proyeccion_articulacion_media}
+                                                    onChange={(event, newValue) => form.setData('proyeccion_articulacion_media', newValue.value)}
                                                     error={form.errors.proyeccion_articulacion_media}
                                                     placeholder="Seleccione una opción"
                                                     required
                                                 />
-                                            </div>
-                                        </div>
+                                            </Grid>
 
-                                        {form.proyeccion_articulacion_media === 1 && (
-                                            <div className="py-24 grid grid-cols-2 gap-4">
-                                                <div>
-                                                    <Label
-                                                        required={form.otras_nombre_instituciones ? false : true}
-                                                        className="mb-4"
-                                                        labelFor="nombre_instituciones"
-                                                        value="Instituciones donde se implementará el programa que tienen <strong>articulación con la Media</strong>"
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <Autocomplete
-                                                        id="departamento_instituciones_media"
-                                                        selectedValue={municipio_ie_articulacion}
-                                                        onChange={(event, newValue) => {
-                                                            setMunicipioIEEjecucion(newValue.value)
-                                                        }}
-                                                        options={municipios}
-                                                        isGroupable={true}
-                                                        groupBy={(option) => option.group}
-                                                        placeholder="Seleccione un municipio"
-                                                    />
-
-                                                    <Tags
-                                                        id="nombre_instituciones"
-                                                        className="mt-4"
-                                                        whitelist={whitelist_instituciones_educativas_ejecutar}
-                                                        tags={form.data.nombre_instituciones}
-                                                        value={form.data.nombre_instituciones}
-                                                        onChange={(e) => form.setData('nombre_instituciones', e.target.value)}
-                                                        placeholder="Nombre(s) de la(s) IE"
-                                                        error={
-                                                            whitelist_instituciones_educativas_ejecutar.length == 0
-                                                                ? 'No hay instituciones educativas registradas para el municipio seleccionado'
-                                                                : form.errors.nombre_instituciones
-                                                        }
-                                                        required={form.data.nombre_instituciones ? false : true}
-                                                    />
-
-                                                    <div className="mt-10">
-                                                        <AlertMui>
-                                                            Si no encuentra alguna institución educativa en la anterior lista por favor escriba el nombre en el siguiente campo de texto
-                                                        </AlertMui>
-                                                        <Textarea
-                                                            label="Instituciones"
-                                                            id="otras_nombre_instituciones"
-                                                            error={form.errors.otras_nombre_instituciones}
-                                                            value={form.data.otras_nombre_instituciones}
+                                            {form.data.proyeccion_articulacion_media == 1 && (
+                                                <>
+                                                    <Grid item md={6}>
+                                                        <Label
+                                                            required={form.data.otras_nombre_instituciones ? false : true}
+                                                            className="mb-4"
+                                                            labelFor="nombre_instituciones"
+                                                            value="Instituciones donde se implementará el programa que tienen <strong>articulación con la Media</strong>"
                                                         />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
+                                                    </Grid>
+                                                    <Grid item md={6}>
+                                                        <Autocomplete
+                                                            id="departamento_instituciones_media"
+                                                            selectedValue={municipio_ie_articulacion}
+                                                            onChange={(event, newValue) => {
+                                                                setMunicipioIEEjecucion(newValue.value)
+                                                            }}
+                                                            options={municipios}
+                                                            isGroupable={true}
+                                                            groupBy={(option) => option.group}
+                                                            placeholder="Seleccione un municipio"
+                                                        />
 
-                                        {(is_super_admin && proyecto.evaluaciones.length > 0) || (proyecto.mostrar_recomendaciones && proyecto.evaluaciones.length > 0) ? (
-                                            <>
-                                                {proyecto.evaluaciones.map((evaluacion, i) =>
-                                                    is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
-                                                        <ToolTipMui
-                                                            key={i}
-                                                            title={
-                                                                <div>
-                                                                    <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                                                    <p className="whitespace-pre-line text-xs text-justify">
-                                                                        {evaluacion.evaluacion_proyecto_linea70.instituciones_comentario
-                                                                            ? evaluacion.evaluacion_proyecto_linea70.instituciones_comentario
-                                                                            : 'Sin recomendación'}
-                                                                    </p>
-                                                                </div>
-                                                            }>
-                                                            Evaluación {i + 1}
-                                                        </ToolTipMui>
-                                                    ) : null,
-                                                )}
-                                                {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
-                                            </>
-                                        ) : null}
+                                                        <Tags
+                                                            id="nombre_instituciones"
+                                                            className="mt-4"
+                                                            whitelist={whitelist_instituciones_educativas_ejecutar}
+                                                            tags={form.data.nombre_instituciones}
+                                                            value={form.data.nombre_instituciones}
+                                                            onChange={(e) => form.setData('nombre_instituciones', e.target.value)}
+                                                            placeholder="Nombre(s) de la(s) IE"
+                                                            error={
+                                                                whitelist_instituciones_educativas_ejecutar.length == 0
+                                                                    ? 'No hay instituciones educativas registradas para el municipio seleccionado'
+                                                                    : form.errors.nombre_instituciones
+                                                            }
+                                                            required={form.data.nombre_instituciones ? false : true}
+                                                        />
 
-                                        <div className="py-24 grid grid-cols-2 gap-4">
-                                            <div>
+                                                        <div className="mt-10">
+                                                            <AlertMui>
+                                                                Si no encuentra alguna institución educativa en la anterior lista por favor escriba el nombre en el siguiente campo de texto
+                                                            </AlertMui>
+                                                            <Textarea
+                                                                label="Instituciones"
+                                                                id="otras_nombre_instituciones"
+                                                                error={form.errors.otras_nombre_instituciones}
+                                                                value={form.data.otras_nombre_instituciones}
+                                                                onChange={(e) => form.setData('otras_nombre_instituciones', e.target.value)}
+                                                            />
+                                                        </div>
+                                                    </Grid>
+                                                </>
+                                            )}
+
+                                            <Grid item md={12}>
+                                                {(is_super_admin && proyecto.evaluaciones.length > 0) || (proyecto.mostrar_recomendaciones && proyecto.evaluaciones.length > 0) ? (
+                                                    <>
+                                                        {proyecto.evaluaciones.map((evaluacion, i) =>
+                                                            is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
+                                                                <ToolTipMui
+                                                                    key={i}
+                                                                    title={
+                                                                        <div>
+                                                                            <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
+                                                                            <p className="whitespace-pre-line text-xs text-justify">
+                                                                                {evaluacion.evaluacion_proyecto_linea70.instituciones_comentario
+                                                                                    ? evaluacion.evaluacion_proyecto_linea70.instituciones_comentario
+                                                                                    : 'Sin recomendación'}
+                                                                            </p>
+                                                                        </div>
+                                                                    }>
+                                                                    Evaluación {i + 1}
+                                                                </ToolTipMui>
+                                                            ) : null,
+                                                        )}
+                                                        {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
+                                                    </>
+                                                ) : null}
+                                            </Grid>
+
+                                            <Grid item md={6}>
                                                 <Label
                                                     required
                                                     className="mb-4"
                                                     labelFor="programas_formacion_articulados"
                                                     value="Programas de articulación con la Media con los cuales se espera dar continuidad a la ruta de formación de los aprendices de la TecnoAcademia"
                                                 />
-                                            </div>
-                                            <div>
+                                            </Grid>
+                                            <Grid item md={6}>
                                                 <SelectMultiple
                                                     id="programas_formacion_articulados"
                                                     bdValues={form.data.programas_formacion_articulados}
                                                     options={programas_formacion}
                                                     onChange={(event, newValue) => {
-                                                        const selectedValues = newValue.map((option) => option.value)
+                                                        const selected_values = newValue.map((option) => option.value)
                                                         form.setData((prevData) => ({
                                                             ...prevData,
-                                                            programas_formacion_articulados: selectedValues,
+                                                            programas_formacion_articulados: selected_values,
                                                         }))
                                                     }}
                                                     error={form.errors.programas_formacion_articulados}
                                                     placeholder="Buscar por el nombre del programa de formación"
                                                     required
                                                 />
-                                            </div>
-                                        </div>
+                                            </Grid>
 
-                                        <div className="py-24 grid grid-cols-2 gap-4">
-                                            <div>
+                                            <Grid item md={6}>
                                                 <Label required className="mb-4" labelFor="diseno_curricular_id" value="Programas a ejecutar en la vigencia del proyecto:" />
-                                            </div>
-
-                                            <div>
+                                            </Grid>
+                                            <Grid item md={6}>
                                                 <SelectMultiple
                                                     id="diseno_curricular_id"
                                                     bdValues={form.data.diseno_curricular_id}
                                                     options={disenos_curriculares}
                                                     onChange={(event, newValue) => {
-                                                        const selectedValues = newValue.map((option) => option.value)
+                                                        const selected_values = newValue.map((option) => option.value)
                                                         form.setData((prevData) => ({
                                                             ...prevData,
-                                                            diseno_curricular_id: selectedValues,
+                                                            diseno_curricular_id: selected_values,
                                                         }))
                                                     }}
                                                     error={form.errors.diseno_curricular_id}
                                                     placeholder="Buscar por el nombre del programa de formación"
                                                     required
                                                 />
-                                            </div>
-                                        </div>
+                                            </Grid>
 
-                                        <div>
-                                            <div className="py-24 grid grid-cols-2 gap-4">
-                                                <div>
-                                                    <Label
-                                                        required
-                                                        className="mb-4"
-                                                        labelFor="proyectos_macro"
-                                                        value="Proyectos Macro o líneas de proyecto de investigación formativa y aplicada de la TecnoAcademia para la vigencia {convocatoria.year}"
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <Textarea id="proyectos_macro" error={form.errors.proyectos_macro} value={form.data.proyectos_macro} required />
-                                                </div>
-                                            </div>
+                                            <Grid item md={12}>
+                                                <Label
+                                                    required
+                                                    className="mb-4"
+                                                    labelFor="proyectos_macro"
+                                                    value={`Proyectos Macro o líneas de proyecto de investigación formativa y aplicada de la TecnoAcademia para la vigencia ${convocatoria.year}`}
+                                                />
 
-                                            {(is_super_admin && proyecto.evaluaciones.length > 0) || (proyecto.mostrar_recomendaciones && proyecto.evaluaciones.length > 0) ? (
-                                                <>
-                                                    {proyecto.evaluaciones.map((evaluacion, i) =>
-                                                        is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
-                                                            <ToolTipMui
-                                                                key={i}
-                                                                title={
-                                                                    <div>
-                                                                        <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                                                        <p className="whitespace-pre-line text-xs text-justify">
-                                                                            {evaluacion.evaluacion_proyecto_linea70.proyectos_macro_comentario
-                                                                                ? evaluacion.evaluacion_proyecto_linea70.proyectos_macro_comentario
-                                                                                : 'Sin recomendación'}
-                                                                        </p>
-                                                                    </div>
-                                                                }>
-                                                                Evaluación {i + 1}
-                                                            </ToolTipMui>
-                                                        ) : null,
-                                                    )}
-                                                    {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
-                                                </>
-                                            ) : null}
-                                        </div>
+                                                <Textarea id="proyectos_macro" error={form.errors.proyectos_macro} value={form.data.proyectos_macro} required />
+                                            </Grid>
 
-                                        <div>
-                                            <div className="py-24 grid grid-cols-2 gap-4">
-                                                <div>
-                                                    <Label
-                                                        required
-                                                        className="mb-4"
-                                                        labelFor="articulacion_plan_educacion"
-                                                        value="Articulación de la TecnoAcademia con el Plan Decenal de Educación y su regionalización en el territorio: mencionar logros de la vigencia {convocatoria.year - 1} y {convocatoria.year}"
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <Textarea id="articulacion_plan_educacion" error={form.errors.articulacion_plan_educacion} value={form.data.articulacion_plan_educacion} required />
-                                                </div>
-                                            </div>
-                                        </div>
+                                            <Grid item md={12}>
+                                                {(is_super_admin && proyecto.evaluaciones.length > 0) || (proyecto.mostrar_recomendaciones && proyecto.evaluaciones.length > 0) ? (
+                                                    <>
+                                                        {proyecto.evaluaciones.map((evaluacion, i) =>
+                                                            is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
+                                                                <ToolTipMui
+                                                                    key={i}
+                                                                    title={
+                                                                        <div>
+                                                                            <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
+                                                                            <p className="whitespace-pre-line text-xs text-justify">
+                                                                                {evaluacion.evaluacion_proyecto_linea70.proyectos_macro_comentario
+                                                                                    ? evaluacion.evaluacion_proyecto_linea70.proyectos_macro_comentario
+                                                                                    : 'Sin recomendación'}
+                                                                            </p>
+                                                                        </div>
+                                                                    }>
+                                                                    Evaluación {i + 1}
+                                                                </ToolTipMui>
+                                                            ) : null,
+                                                        )}
+                                                        {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
+                                                    </>
+                                                ) : null}
+                                            </Grid>
 
-                                        <div>
-                                            <div className="py-24 grid grid-cols-2 gap-4">
-                                                <div>
-                                                    <Label
-                                                        required
-                                                        className="mb-4"
-                                                        labelFor="articulacion_territorios_stem"
-                                                        value="Artifculación de la TecnoAcademia con la Iniciativa de Territorios STEM+ del Ministerio de Educación en el Territorio"
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <Textarea
-                                                        id="articulacion_territorios_stem"
-                                                        error={form.errors.articulacion_territorios_stem}
-                                                        value={form.data.articulacion_territorios_stem}
-                                                        required
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </>
-                                )}
+                                            <Grid item md={12}>
+                                                <Label
+                                                    required
+                                                    className="mb-4"
+                                                    labelFor="articulacion_plan_educacion"
+                                                    value={`Articulación de la TecnoAcademia con el Plan Decenal de Educación y su regionalización en el territorio: mencionar logros de la vigencia ${
+                                                        convocatoria.year - 1
+                                                    } y ${convocatoria.year}`}
+                                                />
+
+                                                <Textarea
+                                                    id="articulacion_plan_educacion"
+                                                    error={form.errors.articulacion_plan_educacion}
+                                                    value={form.data.articulacion_plan_educacion}
+                                                    onChange={(e) => form.setData('articulacion_plan_educacion', e.target.value)}
+                                                    required
+                                                />
+                                            </Grid>
+
+                                            <Grid item md={12}>
+                                                <Label
+                                                    required
+                                                    className="mb-4"
+                                                    labelFor="articulacion_territorios_stem"
+                                                    value="Artifculación de la TecnoAcademia con la Iniciativa de Territorios STEM+ del Ministerio de Educación en el Territorio"
+                                                />
+
+                                                <Textarea
+                                                    id="articulacion_territorios_stem"
+                                                    error={form.errors.articulacion_territorios_stem}
+                                                    value={form.data.articulacion_territorios_stem}
+                                                    onChange={(e) => form.setData('articulacion_territorios_stem', e.target.value)}
+                                                    required
+                                                />
+                                            </Grid>
+                                        </>
+                                    )}
+                                </Grid>
                             </fieldset>
                             <div className=" flex items-center justify-between py-4">
                                 {proyecto.allowed.to_update && (

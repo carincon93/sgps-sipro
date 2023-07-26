@@ -454,13 +454,13 @@ class ProyectoLinea70Controller extends Controller
             }
 
             //re-sync everything belongsToMany
-            foreach ($proyecto_linea_70->proyecto->disenosCurriculares as $disenoCurricular => $values) {
+            foreach ($proyecto_linea_70->proyecto->disenosCurriculares as $diseno_curricular => $values) {
                 $clone->proyecto->disenosCurriculares()->sync($values);
             }
 
             //re-sync everything belongsToMany
-            foreach ($proyecto_linea_70->proyecto->taProgramasFormacion as $programaFormacion => $values) {
-                $clone->proyecto->taProgramasFormacion()->sync($values);
+            foreach ($proyecto_linea_70->proyecto->programasFormacionLinea70 as $programa_formacion => $values) {
+                $clone->proyecto->programasFormacionLinea70()->sync($values);
             }
 
             $clone->save();
