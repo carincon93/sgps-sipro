@@ -136,33 +136,39 @@ const CadenaValor = ({ auth, convocatoria, proyecto, objetivos, objetivoGeneral,
                                     title={
                                         <div>
                                             <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                            {evaluacion.idi_evaluacion ? (
+                                            {evaluacion.evaluacion_proyecto_linea66 ? (
                                                 <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.idi_evaluacion?.cadena_valor_comentario ? evaluacion.idi_evaluacion.cadena_valor_comentario : 'Sin recomendación'}
-                                                </p>
-                                            ) : evaluacion.cultura_innovacion_evaluacion ? (
-                                                <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.cultura_innovacion_evaluacion?.cadena_valor_comentario
-                                                        ? evaluacion.cultura_innovacion_evaluacion.cadena_valor_comentario
+                                                    {evaluacion.evaluacion_proyecto_linea66?.cadena_valor_comentario
+                                                        ? evaluacion.evaluacion_proyecto_linea66.cadena_valor_comentario
                                                         : 'Sin recomendación'}
                                                 </p>
-                                            ) : evaluacion.ta_evaluacion ? (
+                                            ) : evaluacion.evaluacion_proyecto_linea65 ? (
                                                 <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.ta_evaluacion?.cadena_valor_comentario ? evaluacion.ta_evaluacion.cadena_valor_comentario : 'Sin recomendación'}
+                                                    {evaluacion.evaluacion_proyecto_linea65?.cadena_valor_comentario
+                                                        ? evaluacion.evaluacion_proyecto_linea65.cadena_valor_comentario
+                                                        : 'Sin recomendación'}
                                                 </p>
-                                            ) : evaluacion.tp_evaluacion ? (
+                                            ) : evaluacion.evaluacion_proyecto_linea70 ? (
                                                 <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.tp_evaluacion?.cadena_valor_comentario ? evaluacion.tp_evaluacion.cadena_valor_comentario : 'Sin recomendación'}
+                                                    {evaluacion.evaluacion_proyecto_linea70?.cadena_valor_comentario
+                                                        ? evaluacion.evaluacion_proyecto_linea70.cadena_valor_comentario
+                                                        : 'Sin recomendación'}
+                                                </p>
+                                            ) : evaluacion.evaluacion_proyecto_linea69 ? (
+                                                <p className="whitespace-pre-line text-xs">
+                                                    {evaluacion.evaluacion_proyecto_linea69?.cadena_valor_comentario
+                                                        ? evaluacion.evaluacion_proyecto_linea69.cadena_valor_comentario
+                                                        : 'Sin recomendación'}
                                                 </p>
                                             ) : (
-                                                evaluacion.servicio_tecnologico_evaluacion && (
+                                                evaluacion.evaluacion_proyecto_linea68 && (
                                                     <>
                                                         <hr className="mt-10 mb-10 border-black-200" />
                                                         <h1 className="font-black">Propuesta de sostenibilidad</h1>
 
                                                         <p className="whitespace-pre-line text-xs mb-10">
-                                                            {evaluacion.servicio_tecnologico_evaluacion?.propuesta_sostenibilidad_comentario
-                                                                ? 'Recomendación: ' + evaluacion.servicio_tecnologico_evaluacion.propuesta_sostenibilidad_comentario
+                                                            {evaluacion.evaluacion_proyecto_linea68?.propuesta_sostenibilidad_comentario
+                                                                ? 'Recomendación: ' + evaluacion.evaluacion_proyecto_linea68.propuesta_sostenibilidad_comentario
                                                                 : 'Sin recomendación'}
                                                         </p>
 
@@ -171,25 +177,25 @@ const CadenaValor = ({ auth, convocatoria, proyecto, objetivos, objetivoGeneral,
 
                                                         <ul className="list-disc pl-4">
                                                             <li className="whitespace-pre-line text-xs mb-10">
-                                                                {evaluacion.servicio_tecnologico_evaluacion?.impacto_ambiental_comentario
-                                                                    ? 'Recomendación impacto ambiental: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_ambiental_comentario
+                                                                {evaluacion.evaluacion_proyecto_linea68?.impacto_ambiental_comentario
+                                                                    ? 'Recomendación impacto ambiental: ' + evaluacion.evaluacion_proyecto_linea68.impacto_ambiental_comentario
                                                                     : 'Sin recomendación'}
                                                             </li>
                                                             <li className="whitespace-pre-line text-xs mb-10">
-                                                                {evaluacion.servicio_tecnologico_evaluacion?.impacto_social_centro_comentario
+                                                                {evaluacion.evaluacion_proyecto_linea68?.impacto_social_centro_comentario
                                                                     ? 'Recomendación impacto social en el centro de formación: ' +
-                                                                      evaluacion.servicio_tecnologico_evaluacion.impacto_social_centro_comentario
+                                                                      evaluacion.evaluacion_proyecto_linea68.impacto_social_centro_comentario
                                                                     : 'Sin recomendación'}
                                                             </li>
                                                             <li className="whitespace-pre-line text-xs mb-10">
-                                                                {evaluacion.servicio_tecnologico_evaluacion?.impacto_social_productivo_comentario
+                                                                {evaluacion.evaluacion_proyecto_linea68?.impacto_social_productivo_comentario
                                                                     ? 'Recomendación impacto social en el sector productivo: ' +
-                                                                      evaluacion.servicio_tecnologico_evaluacion.impacto_social_productivo_comentario
+                                                                      evaluacion.evaluacion_proyecto_linea68.impacto_social_productivo_comentario
                                                                     : 'Sin recomendación'}
                                                             </li>
                                                             <li className="whitespace-pre-line text-xs mb-10">
-                                                                {evaluacion.servicio_tecnologico_evaluacion?.impacto_tecnologico_comentario
-                                                                    ? 'Recomendación impacto tecnológico: ' + evaluacion.servicio_tecnologico_evaluacion.impacto_tecnologico_comentario
+                                                                {evaluacion.evaluacion_proyecto_linea68?.impacto_tecnologico_comentario
+                                                                    ? 'Recomendación impacto tecnológico: ' + evaluacion.evaluacion_proyecto_linea68.impacto_tecnologico_comentario
                                                                     : 'Sin recomendación'}
                                                             </li>
                                                         </ul>

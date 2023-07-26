@@ -33,7 +33,7 @@ use App\Models\SemilleroInvestigacion;
 use App\Models\SubareaConocimiento;
 use App\Models\SubtipoProyectoCapacidadInstalada;
 use App\Models\TipoProyectoCapacidadInstalada;
-use App\Models\TipoProyectoSt;
+use App\Models\TipoProyectoLinea68;
 use App\Models\User;
 
 class WebController extends Controller
@@ -166,7 +166,7 @@ class WebController extends Controller
      */
     public function estadosSistemaGestion($tipoProyectoSt)
     {
-        $tipoProyectoStInfo = TipoProyectoSt::find($tipoProyectoSt);
+        $tipoProyectoStInfo = TipoProyectoLinea68::find($tipoProyectoSt);
         return response(EstadoSistemaGestion::selectRaw("id as value, CASE tipo_proyecto
             WHEN '1' THEN   concat(estados_sistema_gestion.estado, chr(10), '∙ Categoría A')
             WHEN '2' THEN   concat(estados_sistema_gestion.estado, chr(10), '∙ Categoría B')

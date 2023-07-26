@@ -18,22 +18,21 @@ class MiembroEntidadAliadaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidadAliada)
+    public function index(Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidad_aliada)
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        // if ($proyecto->proyectoLinea66()->exists() && $proyecto->lineaProgramatica->codigo == 66 || $proyecto->proyectoLinea66()->exists() && $proyecto->lineaProgramatica->codigo == 82) {
-            return Inertia::render('Convocatorias/Proyectos/EntidadesAliadas/MiembrosEntidadAliada/Index', [
-                'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
-                'proyecto'              => $proyecto->only('id', 'modificable', 'mostrar_recomendaciones', 'allowed'),
-                'entidadAliada'         => $entidadAliada,
-                'filters'               => request()->all('search'),
-                'miembrosEntidadAliada' => MiembroEntidadAliada::where('entidad_aliada_id', $entidadAliada->id)->orderBy('nombre', 'ASC')
-                    ->filterMiembroEntidadAliada(request()->only('search'))->paginate()->appends(['search' => request()->search]),
-                'tiposDocumento'        => json_decode(Storage::get('json/tipos-documento.json'), true),
+        $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
 
-            ]);
-        // }
+        return Inertia::render('Convocatorias/Proyectos/EntidadesAliadas/MiembrosEntidadAliada/Index', [
+            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
+            'proyecto'                  => $proyecto->only('id', 'modificable', 'mostrar_recomendaciones', 'codigo_linea_programatica', 'allowed'),
+            'entidad_aliada'            => $entidad_aliada,
+            'miembros_entidad_aliada'   => MiembroEntidadAliada::where('entidad_aliada_id', $entidad_aliada->id)->orderBy('nombre', 'ASC')
+                                            ->filterMiembroEntidadAliada(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+            'tipos_documento'           => json_decode(Storage::get('json/tipos-documento.json'), true),
+
+        ]);
     }
 
     /**
@@ -41,7 +40,7 @@ class MiembroEntidadAliadaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidadAliada)
+    public function create(Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidad_aliada)
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
@@ -54,23 +53,23 @@ class MiembroEntidadAliadaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MiembroEntidadAliadaRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidadAliada)
+    public function store(MiembroEntidadAliadaRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidad_aliada)
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $request->merge(['entidad_aliada_id' => $entidadAliada->id]);
-        $miembroEntidadAliada = MiembroEntidadAliada::create($request->all());
+        $request->merge(['entidad_aliada_id' => $entidad_aliada->id]);
+        $miembro_entidad_aliada = MiembroEntidadAliada::create($request->all());
 
-        return redirect()->route('convocatorias.proyectos.entidades-aliadas.edit', [$convocatoria, $proyecto, $entidadAliada])->with('success', 'El recurso se ha creado correctamente.');
+        return redirect()->route('convocatorias.proyectos.entidades-aliadas.edit', [$convocatoria, $proyecto, $entidad_aliada])->with('success', 'El recurso se ha creado correctamente.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\MiembroEntidadAliada  $miembroEntidadAliada
+     * @param  \App\Models\MiembroEntidadAliada  $miembro_entidad_aliada
      * @return \Illuminate\Http\Response
      */
-    public function show(Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidadAliada, MiembroEntidadAliada $miembroEntidadAliada)
+    public function show(Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidad_aliada, MiembroEntidadAliada $miembro_entidad_aliada)
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
     }
@@ -78,10 +77,10 @@ class MiembroEntidadAliadaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\MiembroEntidadAliada  $miembroEntidadAliada
+     * @param  \App\Models\MiembroEntidadAliada  $miembro_entidad_aliada
      * @return \Illuminate\Http\Response
      */
-    public function edit(Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidadAliada, MiembroEntidadAliada $miembroEntidadAliada)
+    public function edit(Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidad_aliada, MiembroEntidadAliada $miembro_entidad_aliada)
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
@@ -92,15 +91,15 @@ class MiembroEntidadAliadaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\MiembroEntidadAliada  $miembroEntidadAliada
+     * @param  \App\Models\MiembroEntidadAliada  $miembro_entidad_aliada
      * @return \Illuminate\Http\Response
      */
-    public function update(MiembroEntidadAliadaRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidadAliada, MiembroEntidadAliada $miembroEntidadAliada)
+    public function update(MiembroEntidadAliadaRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidad_aliada, MiembroEntidadAliada $miembro_entidad_aliada)
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $miembroEntidadAliada->update($request->all());
-        $miembroEntidadAliada->save();
+        $miembro_entidad_aliada->update($request->all());
+        $miembro_entidad_aliada->save();
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
@@ -108,14 +107,14 @@ class MiembroEntidadAliadaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\MiembroEntidadAliada  $miembroEntidadAliada
+     * @param  \App\Models\MiembroEntidadAliada  $miembro_entidad_aliada
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidadAliada, MiembroEntidadAliada $miembroEntidadAliada)
+    public function destroy(Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidad_aliada, MiembroEntidadAliada $miembro_entidad_aliada)
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $miembroEntidadAliada->delete();
+        $miembro_entidad_aliada->delete();
 
         return redirect()->back()->with('success', 'El recurso se ha eliminado correctamente.');
     }

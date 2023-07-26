@@ -53,8 +53,8 @@
     let formFinal = useForm({
         tieneImpactoSectorAgricola: evaluacion?.idi_evaluacion?.impacto_sector_agricola ? true : false,
         tieneImpactoPoblacionCampesina: evaluacion?.idi_evaluacion?.impacto_poblacion_campesina ? true : false,
-        impacto_sector_agricola: evaluacion.idi_evaluacion ? evaluacion.idi_evaluacion?.impacto_sector_agricola : '',
-        impacto_poblacion_campesina: evaluacion.idi_evaluacion ? evaluacion.idi_evaluacion?.impacto_poblacion_campesina : '',
+        impacto_sector_agricola: evaluacion.evaluacion_proyecto_linea66 ? evaluacion.evaluacion_proyecto_linea66?.impacto_sector_agricola : '',
+        impacto_poblacion_campesina: evaluacion.evaluacion_proyecto_linea66 ? evaluacion.evaluacion_proyecto_linea66?.impacto_poblacion_campesina : '',
     })
 
     function submitPreguntasFinales() {

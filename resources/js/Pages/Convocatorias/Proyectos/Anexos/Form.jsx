@@ -5,7 +5,7 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import { useForm } from '@inertiajs/react'
 import { useEffect, useState } from 'react'
 
-const Form = ({ convocatoria, proyecto, anexo, proyectoAnexo, ...props }) => {
+const Form = ({ convocatoria, proyecto, anexo, proyecto_anexo, ...props }) => {
     const form = useForm({
         archivo: null,
         anexo_id: anexo.id,
@@ -23,16 +23,16 @@ const Form = ({ convocatoria, proyecto, anexo, proyectoAnexo, ...props }) => {
     const [archivo, setArchivo] = useState(null)
 
     useEffect(() => {
-        if (proyectoAnexo) {
-            const proyectoAnexoItem = proyectoAnexo.find((item) => item.anexo_id === anexo.id)
+        if (proyecto_anexo) {
+            const proyecto_anexo_info = proyecto_anexo.find((item) => item.anexo_id === anexo.id)
 
-            if (proyectoAnexoItem) {
-                setArchivo(proyectoAnexoItem)
+            if (proyecto_anexo_info) {
+                setArchivo(proyecto_anexo_info)
             } else {
                 setArchivo(null)
             }
         }
-    }, [proyectoAnexo, anexo.id])
+    }, [proyecto_anexo, anexo.id])
 
     return (
         <form onSubmit={submit} className="mt-4 p-4">
@@ -46,7 +46,13 @@ const Form = ({ convocatoria, proyecto, anexo, proyectoAnexo, ...props }) => {
                         filename={archivo?.filename}
                         extension={archivo?.extension}
                         label="Seleccione un archivo"
-                        downloadRoute={archivo ? (archivo?.archivo.includes('http') == true || archivo?.archivo.includes('http') == undefined ? null : route('convocatorias.proyectos.proyecto-anexos.download-file-sharepoint', [convocatoria.id, proyecto.id, archivo.id, 'archivo'])) : null}
+                        downloadRoute={
+                            archivo
+                                ? archivo?.archivo.includes('http') == true || archivo?.archivo.includes('http') == undefined
+                                    ? null
+                                    : route('convocatorias.proyectos.proyecto-anexos.download-file-sharepoint', [convocatoria.id, proyecto.id, archivo.id, 'archivo'])
+                                : null
+                        }
                         onChange={(e) => form.setData('archivo', e.target.files[0])}
                         error={form.errors.archivo}
                     />

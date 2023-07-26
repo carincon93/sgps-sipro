@@ -56,7 +56,7 @@
                         {#if is_super_admin || (evaluacion.finalizado && evaluacion.habilitado)}
                             <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
                                 <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                <p className="whitespace-pre-line text-xs">{evaluacion.servicio_tecnologico_evaluacion?.inventario_equipos_comentario ? evaluacion.servicio_tecnologico_evaluacion.inventario_equipos_comentario : 'Sin recomendación'}</p>
+                                <p className="whitespace-pre-line text-xs">{evaluacion.evaluacion_proyecto_linea68?.inventario_equipos_comentario ? evaluacion.evaluacion_proyecto_linea68.inventario_equipos_comentario : 'Sin recomendación'}</p>
                             </div>
                         {/if}
                     {/each}

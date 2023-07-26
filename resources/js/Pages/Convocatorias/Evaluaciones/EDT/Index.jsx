@@ -31,8 +31,8 @@
     let is_super_admin = checkRole(auth_user, [1])
 
     let formTaEvaluacion = useForm({
-        edt_comentario: evaluacion.ta_evaluacion.edt_comentario ? evaluacion.ta_evaluacion.edt_comentario : '',
-        edt_requiere_comentario: evaluacion.ta_evaluacion.edt_comentario == null ? true : false,
+        edt_comentario: evaluacion.evaluacion_proyecto_linea70.edt_comentario ? evaluacion.evaluacion_proyecto_linea70.edt_comentario : '',
+        edt_requiere_comentario: evaluacion.evaluacion_proyecto_linea70.edt_comentario == null ? true : false,
     })
     function submitTaEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {

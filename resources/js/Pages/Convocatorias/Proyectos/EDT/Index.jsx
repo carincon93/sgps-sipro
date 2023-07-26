@@ -22,7 +22,7 @@ const EDT = ({ auth, convocatoria, proyecto, presupuesto, eventos, tiposEvento, 
     const is_super_admin = checkRole(auth_user, [1])
 
     const [eventoToDestroy, setEdtToDestroy] = useState(null)
-    const [dialogStatus, setDialogStatus] = useState(false)
+    const [dialog_status, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
     const [edt, setEdt] = useState(null)
 
@@ -44,7 +44,9 @@ const EDT = ({ auth, convocatoria, proyecto, presupuesto, eventos, tiposEvento, 
                                     title={
                                         <div>
                                             <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                            <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion?.edt_comentario ? evaluacion.ta_evaluacion.edt_comentario : 'Sin recomendación'}</p>
+                                            <p className="whitespace-pre-line text-xs">
+                                                {evaluacion.evaluacion_proyecto_linea70?.edt_comentario ? evaluacion.evaluacion_proyecto_linea70.edt_comentario : 'Sin recomendación'}
+                                            </p>
                                         </div>
                                     }>
                                     Evaluación {i + 1}
@@ -115,7 +117,7 @@ const EDT = ({ auth, convocatoria, proyecto, presupuesto, eventos, tiposEvento, 
                 </TableMui>
 
                 <DialogMui
-                    open={dialogStatus}
+                    open={dialog_status}
                     fullWidth={true}
                     maxWidth="lg"
                     blurEnabled={true}

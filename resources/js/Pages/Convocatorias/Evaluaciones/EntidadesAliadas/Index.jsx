@@ -39,7 +39,7 @@
     }
 
     let formEstrategiaRegionalEvaluacion = useForm({
-        entidad_aliada_verificada: evaluacion.idi_evaluacion?.entidad_aliada_verificada,
+        entidad_aliada_verificada: evaluacion.evaluacion_proyecto_linea66?.entidad_aliada_verificada,
     })
     function submitEstrategiaRegionalEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
@@ -50,8 +50,8 @@
     }
 
     let formTaEvaluacion = useForm({
-        entidad_aliada_comentario: evaluacion.ta_evaluacion?.entidad_aliada_comentario ? evaluacion.ta_evaluacion?.entidad_aliada_comentario : '',
-        entidad_aliada_requiere_comentario: evaluacion.ta_evaluacion?.entidad_aliada_comentario == null ? true : false,
+        entidad_aliada_comentario: evaluacion.evaluacion_proyecto_linea70?.entidad_aliada_comentario ? evaluacion.evaluacion_proyecto_linea70?.entidad_aliada_comentario : '',
+        entidad_aliada_requiere_comentario: evaluacion.evaluacion_proyecto_linea70?.entidad_aliada_comentario == null ? true : false,
     })
     function submitTaEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
@@ -146,7 +146,7 @@
                     </div>
                 {/if}
             </form>
-            {#if evaluacion.idi_evaluacion?.entidad_aliada_verificada}
+            {#if evaluacion.evaluacion_proyecto_linea66?.entidad_aliada_verificada}
                 El puntaje se asigna automáticamente.
                 <br />
                 <strong>Puntaje:</strong>

@@ -12,7 +12,7 @@ use App\Models\Convocatoria;
 use App\Models\Evaluacion\EvaluacionProyectoLinea68;
 use App\Models\Proyecto;
 use App\Models\RolSennova;
-use App\Models\TipoProyectoSt;
+use App\Models\TipoProyectoLinea68;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -31,7 +31,6 @@ class ProyectoLinea68Controller extends Controller
     {
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea68/Index', [
             'convocatoria'          => $convocatoria,
-            'filters'               => request()->all('search', 'estructuracion_proyectos'),
             'proyectos_linea_68'    => ProyectoLinea68::getProyectosPorRol($convocatoria)->appends(['search' => request()->search, 'estructuracion_proyectos' => request()->estructuracion_proyectos]),
             'allowed_to_create'     => Gate::inspect('formular-proyecto', [10, $convocatoria])->allowed()
         ]);
@@ -50,15 +49,15 @@ class ProyectoLinea68Controller extends Controller
         $auth_user = Auth::user();
 
         if ($auth_user->hasRole(13)) {
-            $tipo_proyecto_st = SelectHelper::tiposProyectosSt()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
+            $tipo_proyecto_linea_66 = SelectHelper::tiposProyectosLinea68()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
         } else {
-            $tipo_proyecto_st = SelectHelper::tiposProyectosSt();
+            $tipo_proyecto_linea_66 = SelectHelper::tiposProyectosLinea68();
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea68/Create', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_68', 'max_fecha_finalizacion_proyectos_linea_68', 'fecha_maxima_st'),
             'sectores_productivos'      => collect(json_decode(Storage::get('json/sectores-productivos.json'), true)),
-            'tipos_troyecto_st'         => $tipo_proyecto_st,
+            'tipos_proyecto_linea_68'   => $tipo_proyecto_linea_66,
             'estados_sistema_gestion'   => SelectHelper::estadosSistemaGestion(),
             'roles_sennova'             => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowed_to_create'         => Gate::inspect('formular-proyecto', [10, $convocatoria])->allowed()
@@ -75,10 +74,10 @@ class ProyectoLinea68Controller extends Controller
     {
         $this->authorize('formular-proyecto', [10, $convocatoria]);
 
-        $tipo_proyecto_st = TipoProyectoSt::find($request->tipo_proyecto_st_id);
+        $tipo_proyecto_linea_66 = TipoProyectoLinea68::find($request->tipo_proyecto_st_id);
 
         $proyecto = new Proyecto();
-        $proyecto->centroFormacion()->associate($tipo_proyecto_st->centro_formacion_id);
+        $proyecto->centroFormacion()->associate($tipo_proyecto_linea_66->centro_formacion_id);
         $proyecto->lineaProgramatica()->associate(10);
         $proyecto->convocatoria()->associate($convocatoria);
         $proyecto->save();
@@ -153,22 +152,20 @@ class ProyectoLinea68Controller extends Controller
         $proyecto_linea_68->mostrar_requiere_subsanacion  = $proyecto_linea_68->proyecto->mostrar_requiere_subsanacion;
 
         if ($auth_user->hasRole(13)) {
-            $tipo_proyecto_st = SelectHelper::tiposProyectosSt()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
+            $tipo_proyecto_linea_66 = SelectHelper::tiposProyectosLinea68()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
         } else {
-            $tipo_proyecto_st = SelectHelper::tiposProyectosSt();
+            $tipo_proyecto_linea_66 = SelectHelper::tiposProyectosLinea68();
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea68/Edit', [
-            'convocatoria'                              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_68', 'max_fecha_finalizacion_proyectos_linea_68', 'fecha_maxima_st', 'mostrar_recomendaciones'),
-            'proyectoLinea68'                           => $proyecto_linea_68,
-            'lineasProgramaticas'                       => SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 3)->values()->all(),
-            'estadosSistemaGestion'                     => SelectHelper::estadosSistemaGestion(),
-            'programasFormacionConRegistroCalificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $proyecto_linea_68->proyecto->centro_formacion_id)->values()->all(),
-            'sectoresProductivos'                       => collect(json_decode(Storage::get('json/sectores-productivos.json'), true)),
-            'tiposProyectoSt'                           => $tipo_proyecto_st,
-            'proyectoProgramasFormacion'                => $proyecto_linea_68->proyecto->programasFormacion()->selectRaw('programas_formacion.id as value, concat(programas_formacion.nombre, chr(10), \'∙ Código: \', programas_formacion.codigo) as label')->where('programas_formacion.registro_calificado', true)->get(),
-            'rolesSennova'                              => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'versiones'                                 => $proyecto_linea_68->proyecto->PdfVersiones,
+            'convocatoria'                                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_68', 'max_fecha_finalizacion_proyectos_linea_68', 'fecha_maxima_st', 'mostrar_recomendaciones'),
+            'proyecto_linea_68'                             => $proyecto_linea_68,
+            'lineas_programaticas'                          => SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 3)->values()->all(),
+            'estados_sistema_gestion'                       => SelectHelper::estadosSistemaGestion(),
+            'programas_formacion_con_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $proyecto_linea_68->proyecto->centro_formacion_id)->values()->all(),
+            'sectores_productivos'                          => collect(json_decode(Storage::get('json/sectores-productivos.json'), true)),
+            'tipos_proyecto_linea_68'                       => $tipo_proyecto_linea_66,
+            'roles_sennova'                                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
         ]);
     }
 

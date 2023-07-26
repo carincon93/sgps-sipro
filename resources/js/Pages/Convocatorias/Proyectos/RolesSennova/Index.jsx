@@ -22,24 +22,14 @@ import { checkRole } from '@/Utils'
 
 import Form from './Form'
 
-const RolesSennova = ({
-    auth,
-    convocatoria,
-    proyecto,
-    proyectoRolesSennova,
-    convocatoriaRolesSennova,
-    actividades,
-    lineasTecnologicas,
-    proyectoActividadesRelacionadas,
-    proyectoLineasTecnologicasRelacionadas,
-}) => {
+const RolesSennova = ({ auth, convocatoria, proyecto, proyecto_roles_sennova, convocatoria_roles_sennova, actividades, lineas_tecnologicas, niveles_academicos }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
-    const [dialogStatus, setDialogStatus] = useState(false)
+    const [dialog_status, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
-    const [proyectoRolSennova, setProyectoRolSennova] = useState(null)
-    const [proyectoRolSennovaIdToDestroy, setProyectoRolSennovaIdToDestroy] = useState(null)
+    const [proyecto_rol_sennova, setProyectoRolSennova] = useState(null)
+    const [proyecto_rol_sennova_id_to_destroy, setProyectoRolSennovaIdToDestroy] = useState(null)
 
     const form = useForm({
         cantidad_instructores_planta: proyecto.cantidad_instructores_planta,
@@ -145,24 +135,32 @@ const RolesSennova = ({
 
             <Grid item md={12}>
                 <TableMui className="mt-20 mb-8" rows={['Nombre', 'Asignación mensual', 'Evaluación', 'Acciones']} sxCellThead={{ width: '320px' }}>
-                    {proyectoRolesSennova.data.map((proyectoRolSennova, i) => (
+                    {proyecto_roles_sennova.data.map((proyecto_rol_sennova, i) => (
                         <TableRow key={i}>
                             <TableCell>
-                                {proyectoRolSennova?.convocatoria_rol_sennova?.rol_sennova?.nombre}
+                                {proyecto_rol_sennova?.convocatoria_rol_sennova?.rol_sennova?.nombre}
                                 <br />
-                                <Chip label={proyectoRolSennova?.convocatoria_rol_sennova?.nivel_academico} />
+
+                                <Chip
+                                    className="mt-1"
+                                    label={
+                                        <p className="first-letter:uppercase">
+                                            {niveles_academicos.find((item) => item.value == proyecto_rol_sennova?.convocatoria_rol_sennova?.nivel_academico).label}
+                                        </p>
+                                    }
+                                />
                             </TableCell>
                             <TableCell>
                                 $
                                 {new Intl.NumberFormat('de-DE').format(
-                                    !isNaN(proyectoRolSennova?.convocatoria_rol_sennova?.asignacion_mensual) ? proyectoRolSennova?.convocatoria_rol_sennova?.asignacion_mensual : 0,
+                                    !isNaN(proyecto_rol_sennova?.convocatoria_rol_sennova?.asignacion_mensual) ? proyecto_rol_sennova?.convocatoria_rol_sennova?.asignacion_mensual : 0,
                                 )}{' '}
-                                / Meses: {proyectoRolSennova.numero_meses} / Cantidad: {proyectoRolSennova.numero_roles}
+                                / Meses: {proyecto_rol_sennova.numero_meses} / Cantidad: {proyecto_rol_sennova.numero_roles}
                             </TableCell>
                             <TableCell>
                                 {is_super_admin || proyecto.mostrar_recomendaciones ? (
                                     <>
-                                        {proyectoRolSennova.proyecto_roles_evaluaciones.map((evaluacion, i) =>
+                                        {proyecto_rol_sennova.proyecto_roles_evaluaciones.map((evaluacion, i) =>
                                             is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
                                                 <ToolTipMui
                                                     key={i}
@@ -176,23 +174,23 @@ const RolesSennova = ({
                                                 </ToolTipMui>
                                             ) : null,
                                         )}
-                                        {proyectoRolSennova.proyecto_roles_evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El ítem no ha sido evaluado aún.</p> : null}
+                                        {proyecto_rol_sennova.proyecto_roles_evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El ítem no ha sido evaluado aún.</p> : null}
                                     </>
                                 ) : null}
                             </TableCell>
                             <TableCell>
                                 <MenuMui text={<MoreVertIcon />}>
-                                    {proyectoRolSennova.id !== proyectoRolSennovaIdToDestroy ? (
+                                    {proyecto_rol_sennova.id !== proyecto_rol_sennova_id_to_destroy ? (
                                         <div>
                                             <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setProyectoRolSennova(proyectoRolSennova))}
+                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setProyectoRolSennova(proyecto_rol_sennova))}
                                                 disabled={!proyecto.allowed.to_update}
                                                 className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                                 Editar
                                             </MenuItem>
                                             <MenuItem
                                                 onClick={() => {
-                                                    setProyectoRolSennovaIdToDestroy(proyectoRolSennova.id)
+                                                    setProyectoRolSennovaIdToDestroy(proyecto_rol_sennova.id)
                                                 }}>
                                                 Eliminar
                                             </MenuItem>
@@ -210,7 +208,7 @@ const RolesSennova = ({
                                                 onClick={(e) => {
                                                     e.stopPropagation()
                                                     if (proyecto.allowed.to_update) {
-                                                        router.delete(route('convocatorias.proyectos.proyecto-rol-sennova.destroy', [convocatoria.id, proyecto.id, proyectoRolSennova.id]), {
+                                                        router.delete(route('convocatorias.proyectos.proyecto-rol-sennova.destroy', [convocatoria.id, proyecto.id, proyecto_rol_sennova.id]), {
                                                             preserveScroll: true,
                                                         })
                                                     }
@@ -225,10 +223,10 @@ const RolesSennova = ({
                     ))}
                 </TableMui>
 
-                <PaginationMui links={proyectoRolesSennova.links} />
+                <PaginationMui links={proyecto_roles_sennova.links} />
 
                 <DialogMui
-                    open={dialogStatus}
+                    open={dialog_status}
                     fullWidth={true}
                     maxWidth="lg"
                     blurEnabled={true}
@@ -239,12 +237,10 @@ const RolesSennova = ({
                             method={method}
                             convocatoria={convocatoria}
                             proyecto={proyecto}
-                            proyectoRolSennova={proyectoRolSennova}
-                            convocatoriaRolesSennova={convocatoriaRolesSennova}
+                            proyecto_rol_sennova={proyecto_rol_sennova}
+                            convocatoria_roles_sennova={convocatoria_roles_sennova}
                             actividades={actividades}
-                            lineasTecnologicas={lineasTecnologicas}
-                            proyectoActividadesRelacionadas={proyectoActividadesRelacionadas}
-                            proyectoLineasTecnologicasRelacionadas={proyectoLineasTecnologicasRelacionadas}
+                            lineas_tecnologicas={lineas_tecnologicas}
                         />
                     }
                 />

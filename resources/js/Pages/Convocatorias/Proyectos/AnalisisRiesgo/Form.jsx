@@ -1,22 +1,21 @@
 import AlertMui from '@/Components/Alert'
 import Autocomplete from '@/Components/Autocomplete'
 import ButtonMui from '@/Components/Button'
-import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
 import Textarea from '@/Components/Textarea'
 
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisisRiesgo, nivelesRiesgo, tiposRiesgo, probabilidadesRiesgo, impactosRiesgo, ...props }) => {
+const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisis_riesgo, niveles_riesgo, tipos_riesgo, probabilidades_riesgo, impactos_riesgo, ...props }) => {
     const form = useForm({
-        nivel: analisisRiesgo?.nivel ?? '',
-        tipo: analisisRiesgo?.tipo ?? '',
-        descripcion: analisisRiesgo?.descripcion ?? '',
-        impacto: analisisRiesgo?.impacto ?? '',
-        probabilidad: analisisRiesgo?.probabilidad ?? '',
-        efectos: analisisRiesgo?.efectos ?? '',
-        medidas_mitigacion: analisisRiesgo?.medidas_mitigacion ?? '',
+        nivel: analisis_riesgo?.nivel ?? '',
+        tipo: analisis_riesgo?.tipo ?? '',
+        descripcion: analisis_riesgo?.descripcion ?? '',
+        impacto: analisis_riesgo?.impacto ?? '',
+        probabilidad: analisis_riesgo?.probabilidad ?? '',
+        efectos: analisis_riesgo?.efectos ?? '',
+        medidas_mitigacion: analisis_riesgo?.medidas_mitigacion ?? '',
     })
 
     const submit = (e) => {
@@ -27,7 +26,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisisRi
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
                   })
-                : form.put(route('convocatorias.proyectos.analisis-riesgos.update', [convocatoria.id, proyecto.id, analisisRiesgo.id]), {
+                : form.put(route('convocatorias.proyectos.analisis-riesgos.update', [convocatoria.id, proyecto.id, analisis_riesgo.id]), {
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
                   })
@@ -47,7 +46,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisisRi
                             <div className="mt-8">
                                 <Autocomplete
                                     id="nivel"
-                                    options={nivelesRiesgo}
+                                    options={niveles_riesgo}
                                     selectedValue={form.data.nivel}
                                     onChange={(event, newValue) => form.setData('nivel', newValue.value)}
                                     error={form.errors.nivel}
@@ -60,7 +59,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisisRi
                             <div className="mt-8">
                                 <Autocomplete
                                     id="tipo"
-                                    options={tiposRiesgo}
+                                    options={tipos_riesgo}
                                     selectedValue={form.data.tipo}
                                     onChange={(event, newValue) => form.setData('tipo', newValue.value)}
                                     error={form.errors.tipo}
@@ -109,7 +108,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisisRi
                             <div className="mt-8">
                                 <Autocomplete
                                     id="probabilidad"
-                                    options={probabilidadesRiesgo}
+                                    options={probabilidades_riesgo}
                                     selectedValue={form.data.probabilidad}
                                     error={form.errors.probabilidad}
                                     onChange={(evente, newValue) => form.setData('probabilidad', newValue.value)}
@@ -122,7 +121,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisisRi
                             <div className="mt-8">
                                 <Autocomplete
                                     id="impacto"
-                                    options={impactosRiesgo}
+                                    options={impactos_riesgo}
                                     selectedValue={form.data.impacto}
                                     error={form.errors.impacto}
                                     onChange={(event, newValue) => form.setData('impacto', newValue.value)}
@@ -147,7 +146,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisisRi
                                 />
                             </div>
                         </fieldset>
-                        {analisisRiesgo && <small>{analisisRiesgo.updated_at}</small>}
+                        {analisis_riesgo && <small>{analisis_riesgo.updated_at}</small>}
                         <div className="flex items-center justify-between mt-14 py-4 ">
                             {proyecto.allowed.to_update ? (
                                 <>

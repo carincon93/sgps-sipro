@@ -37,9 +37,9 @@
 
     let showGantt = false
     let formEstrategiaRegionalEvaluacion = useForm({
-        productos_puntaje: evaluacion.idi_evaluacion ? evaluacion.idi_evaluacion?.productos_puntaje : evaluacion.cultura_innovacion_evaluacion ? evaluacion.cultura_innovacion_evaluacion.productos_puntaje : null,
-        productos_comentario: evaluacion.idi_evaluacion ? evaluacion.idi_evaluacion?.productos_comentario : evaluacion.cultura_innovacion_evaluacion ? evaluacion.cultura_innovacion_evaluacion.productos_comentario : null,
-        productos_requiere_comentario: evaluacion.idi_evaluacion ? (evaluacion.idi_evaluacion?.productos_comentario == null ? true : false) : evaluacion.cultura_innovacion_evaluacion ? (evaluacion.cultura_innovacion_evaluacion.productos_comentario == null ? true : false) : null,
+        productos_puntaje: evaluacion.evaluacion_proyecto_linea66 ? evaluacion.evaluacion_proyecto_linea66?.productos_puntaje : evaluacion.evaluacion_proyecto_linea65 ? evaluacion.evaluacion_proyecto_linea65.productos_puntaje : null,
+        productos_comentario: evaluacion.evaluacion_proyecto_linea66 ? evaluacion.evaluacion_proyecto_linea66?.productos_comentario : evaluacion.evaluacion_proyecto_linea65 ? evaluacion.evaluacion_proyecto_linea65.productos_comentario : null,
+        productos_requiere_comentario: evaluacion.evaluacion_proyecto_linea66 ? (evaluacion.evaluacion_proyecto_linea66?.productos_comentario == null ? true : false) : evaluacion.evaluacion_proyecto_linea65 ? (evaluacion.evaluacion_proyecto_linea65.productos_comentario == null ? true : false) : null,
     })
     function submitEstrategiaRegionalEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
@@ -50,8 +50,8 @@
     }
 
     let formTaEvaluacion = useForm({
-        productos_comentario: evaluacion.ta_evaluacion?.productos_comentario ? evaluacion.ta_evaluacion?.productos_comentario : '',
-        productos_requiere_comentario: evaluacion.ta_evaluacion?.productos_comentario == null ? true : false,
+        productos_comentario: evaluacion.evaluacion_proyecto_linea70?.productos_comentario ? evaluacion.evaluacion_proyecto_linea70?.productos_comentario : '',
+        productos_requiere_comentario: evaluacion.evaluacion_proyecto_linea70?.productos_comentario == null ? true : false,
     })
     function submitTaEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
@@ -62,8 +62,8 @@
     }
 
     let formTpEvaluacion = useForm({
-        productos_comentario: evaluacion.tp_evaluacion?.productos_comentario ? evaluacion.tp_evaluacion?.productos_comentario : '',
-        productos_requiere_comentario: evaluacion.tp_evaluacion?.productos_comentario == null ? true : false,
+        productos_comentario: evaluacion.evaluacion_proyecto_linea69?.productos_comentario ? evaluacion.evaluacion_proyecto_linea69?.productos_comentario : '',
+        productos_requiere_comentario: evaluacion.evaluacion_proyecto_linea69?.productos_comentario == null ? true : false,
     })
     function submitTpEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
@@ -74,21 +74,21 @@
     }
 
     let formServicioTecnologicoEvaluacion = useForm({
-        productos_primer_obj_puntaje: evaluacion.servicio_tecnologico_evaluacion?.productos_primer_obj_puntaje,
-        productos_primer_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.productos_primer_obj_comentario ? evaluacion.servicio_tecnologico_evaluacion?.productos_primer_obj_comentario : '',
-        productos_primer_obj_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.productos_primer_obj_comentario == null ? true : false,
+        productos_primer_obj_puntaje: evaluacion.evaluacion_proyecto_linea68?.productos_primer_obj_puntaje,
+        productos_primer_obj_comentario: evaluacion.evaluacion_proyecto_linea68?.productos_primer_obj_comentario ? evaluacion.evaluacion_proyecto_linea68?.productos_primer_obj_comentario : '',
+        productos_primer_obj_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.productos_primer_obj_comentario == null ? true : false,
 
-        productos_segundo_obj_puntaje: evaluacion.servicio_tecnologico_evaluacion?.productos_segundo_obj_puntaje,
-        productos_segundo_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.productos_segundo_obj_comentario ? evaluacion.servicio_tecnologico_evaluacion?.productos_segundo_obj_comentario : '',
-        productos_segundo_obj_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.productos_segundo_obj_comentario == null ? true : false,
+        productos_segundo_obj_puntaje: evaluacion.evaluacion_proyecto_linea68?.productos_segundo_obj_puntaje,
+        productos_segundo_obj_comentario: evaluacion.evaluacion_proyecto_linea68?.productos_segundo_obj_comentario ? evaluacion.evaluacion_proyecto_linea68?.productos_segundo_obj_comentario : '',
+        productos_segundo_obj_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.productos_segundo_obj_comentario == null ? true : false,
 
-        productos_tercer_obj_puntaje: evaluacion.servicio_tecnologico_evaluacion?.productos_tercer_obj_puntaje,
-        productos_tercer_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.productos_tercer_obj_comentario ? evaluacion.servicio_tecnologico_evaluacion?.productos_tercer_obj_comentario : '',
-        productos_tercer_obj_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.productos_tercer_obj_comentario == null ? true : false,
+        productos_tercer_obj_puntaje: evaluacion.evaluacion_proyecto_linea68?.productos_tercer_obj_puntaje,
+        productos_tercer_obj_comentario: evaluacion.evaluacion_proyecto_linea68?.productos_tercer_obj_comentario ? evaluacion.evaluacion_proyecto_linea68?.productos_tercer_obj_comentario : '',
+        productos_tercer_obj_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.productos_tercer_obj_comentario == null ? true : false,
 
-        productos_cuarto_obj_puntaje: evaluacion.servicio_tecnologico_evaluacion?.productos_cuarto_obj_puntaje,
-        productos_cuarto_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.productos_cuarto_obj_comentario ? evaluacion.servicio_tecnologico_evaluacion?.productos_cuarto_obj_comentario : '',
-        productos_cuarto_obj_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.productos_cuarto_obj_comentario == null ? true : false,
+        productos_cuarto_obj_puntaje: evaluacion.evaluacion_proyecto_linea68?.productos_cuarto_obj_puntaje,
+        productos_cuarto_obj_comentario: evaluacion.evaluacion_proyecto_linea68?.productos_cuarto_obj_comentario ? evaluacion.evaluacion_proyecto_linea68?.productos_cuarto_obj_comentario : '',
+        productos_cuarto_obj_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.productos_cuarto_obj_comentario == null ? true : false,
     })
     function submitServicioTecnologicoEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {

@@ -34,11 +34,6 @@ const Form = ({
     programas_formacion_con_registro_calificado,
     programas_formacion_sin_registro_calificado,
     municipios,
-    proyecto_municipios,
-    mesas_sectoriales_relacionadas,
-    lineas_tecnoacademia_relacionadas,
-    programas_formacion_con_registro_relacionados,
-    programas_formacion_sin_registro_relacionados,
     tipos_proyectos,
     tipos_eventos,
     roles_sennova,
@@ -788,7 +783,7 @@ const Form = ({
                                         <SelectMultiple
                                             id="mesa_sectorial_id"
                                             bdValues={form.data.mesa_sectorial_id}
-                                            options={mesasSectoriales}
+                                            options={mesas_sectoriales}
                                             onChange={(event, newValue) => {
                                                 const selectedValues = newValue.map((option) => option.value)
                                                 form.setData((prevData) => ({
@@ -977,7 +972,7 @@ const Form = ({
                                 <SelectMultiple
                                     id="programas_formacion"
                                     bdValues={form.data.programas_formacion}
-                                    options={programasFormacionConRegistroCalificado}
+                                    options={programas_formacion_con_registro_calificado}
                                     onChange={(event, newValue) => {
                                         const selectedValues = newValue.map((option) => option.value)
                                         form.setData((prevData) => ({
@@ -999,7 +994,7 @@ const Form = ({
                                 <SelectMultiple
                                     id="programas_formacion_articulados"
                                     bdValues={form.data.programas_formacion_articulados}
-                                    options={programasFormacionSinRegistroCalificado}
+                                    options={programas_formacion_sin_registro_calificado}
                                     onChange={(event, newValue) => {
                                         const selectedValues = newValue.map((option) => option.value)
                                         form.setData((prevData) => ({

@@ -11,28 +11,28 @@ import { useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useEffect } from 'react'
 
-const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyectoLinea69, nodosTecnoParque, lineasProgramaticas, rolesSennova, evaluacion, ...props }) => {
+const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_linea_69, nodos_tecnoparque, lineas_programaticas, roles_sennova, evaluacion, ...props }) => {
     const form = useForm({
-        centro_formacion_id: proyectoLinea69?.proyecto.centro_formacion_id ?? '',
-        linea_programatica_id: proyectoLinea69?.proyecto.linea_programatica_id ?? '',
-        fecha_inicio: proyectoLinea69?.fecha_inicio ?? '',
-        fecha_finalizacion: proyectoLinea69?.fecha_finalizacion ?? '',
-        max_meses_ejecucion: proyectoLinea69?.max_meses_ejecucion ?? '',
+        centro_formacion_id: proyecto_linea_69?.proyecto.centro_formacion_id ?? '',
+        linea_programatica_id: proyecto_linea_69?.proyecto.linea_programatica_id ?? '',
+        fecha_inicio: proyecto_linea_69?.fecha_inicio ?? '',
+        fecha_finalizacion: proyecto_linea_69?.fecha_finalizacion ?? '',
+        max_meses_ejecucion: proyecto_linea_69?.max_meses_ejecucion ?? '',
         codigo_linea_programatica: null,
-        nodo_tecnoparque_id: proyectoLinea69?.nodo_tecnoparque_id ?? '',
-        articulacion_agenda_competitividad: proyectoLinea69?.articulacion_agenda_competitividad ?? '',
-        aportes_linea_ocho_conpes: proyectoLinea69?.aportes_linea_ocho_conpes ?? '',
-        estado_ecosistema_ctel: proyectoLinea69?.estado_ecosistema_ctel ?? '',
-        logros_vigencia_anterior: proyectoLinea69?.logros_vigencia_anterior ?? '',
+        nodo_tecnoparque_id: proyecto_linea_69?.nodo_tecnoparque_id ?? '',
+        articulacion_agenda_competitividad: proyecto_linea_69?.articulacion_agenda_competitividad ?? '',
+        aportes_linea_ocho_conpes: proyecto_linea_69?.aportes_linea_ocho_conpes ?? '',
+        estado_ecosistema_ctel: proyecto_linea_69?.estado_ecosistema_ctel ?? '',
+        logros_vigencia_anterior: proyecto_linea_69?.logros_vigencia_anterior ?? '',
 
-        resumen: proyectoLinea69?.resumen ?? '',
-        resumen_regional: proyectoLinea69?.resumen_regional ?? '',
-        antecedentes: proyectoLinea69?.antecedentes ?? '',
-        antecedentes_regional: proyectoLinea69?.antecedentes_regional ?? '',
-        marco_conceptual: proyectoLinea69?.marco_conceptual ?? '',
-        bibliografia: proyectoLinea69?.bibliografia ?? '',
-        retos_oportunidades: proyectoLinea69?.retos_oportunidades ?? '',
-        pertinencia_territorio: proyectoLinea69?.pertinencia_territorio ?? '',
+        resumen: proyecto_linea_69?.resumen ?? '',
+        resumen_regional: proyecto_linea_69?.resumen_regional ?? '',
+        antecedentes: proyecto_linea_69?.antecedentes ?? '',
+        antecedentes_regional: proyecto_linea_69?.antecedentes_regional ?? '',
+        marco_conceptual: proyecto_linea_69?.marco_conceptual ?? '',
+        bibliografia: proyecto_linea_69?.bibliografia ?? '',
+        retos_oportunidades: proyecto_linea_69?.retos_oportunidades ?? '',
+        pertinencia_territorio: proyecto_linea_69?.pertinencia_territorio ?? '',
         pdf_proyecto_general: null,
 
         cantidad_meses: 0,
@@ -46,8 +46,8 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyectoLi
             ? form.post(route('convocatorias.tp.store', [convocatoria.id]), {
                   preserveScroll: true,
               })
-            : proyectoLinea69.proyecto.allowed.to_update
-            ? form.post(route('convocatorias.tp.update', [convocatoria.id, proyectoLinea69.id]), {
+            : proyecto_linea_69.proyecto.allowed.to_update
+            ? form.post(route('convocatorias.tp.update', [convocatoria.id, proyecto_linea_69.id]), {
                   preserveScroll: true,
               })
             : null
@@ -59,9 +59,9 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyectoLi
 
     return (
         <form onSubmit={submit}>
-            <fieldset disabled={proyectoLinea69?.proyecto.allowed.to_update && !is_super_admin}>
+            <fieldset disabled={proyecto_linea_69?.proyecto.allowed.to_update && !is_super_admin}>
                 <Grid container className="space-y-20">
-                    {nodosTecnoParque.length > 0 ? (
+                    {nodos_tecnoparque.length > 0 ? (
                         <>
                             <Grid item md={6}>
                                 <Label required labelFor="nodo_tecnoparque_id" value="Nodo Tecnoparque" />
@@ -69,7 +69,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyectoLi
                             <Grid item md={6}>
                                 <Autocomplete
                                     id="nodo_tecnoparque_id"
-                                    options={nodosTecnoParque}
+                                    options={nodos_tecnoparque}
                                     selectedValue={form.data.nodo_tecnoparque_id}
                                     error={form.errors.nodo_tecnoparque_id}
                                     placeholder="Seleccione un nodo TecnoParque"
@@ -87,7 +87,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyectoLi
                         <Label required disabled={evaluacion ? 'disabled' : undefined} labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
                     </Grid>
                     <Grid item md={6}>
-                        {proyectoLinea69?.proyecto.linea_programatica ? proyectoLinea69?.proyecto.linea_programatica.nombre + ' - ' + proyectoLinea69?.proyecto.linea_programatica.codigo : ''}
+                        {proyecto_linea_69?.proyecto.linea_programatica ? proyecto_linea_69?.proyecto.linea_programatica.nombre + ' - ' + proyecto_linea_69?.proyecto.linea_programatica.codigo : ''}
                     </Grid>
 
                     <Grid item md={6}>
@@ -97,15 +97,15 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyectoLi
                         </small>
                     </Grid>
                     <Grid item md={6}>
-                        <p className="first-letter:uppercase">{proyectoLinea69?.proyecto.centro_formacion.nombre}</p>
+                        <p className="first-letter:uppercase">{proyecto_linea_69?.proyecto.centro_formacion.nombre}</p>
                     </Grid>
 
-                    {/* <Grid item md={6}>
+                    <Grid item md={6}>
                         <Label required disabled={evaluacion ? 'disabled' : undefined} labelFor="nodo_tecnoparque_id" value="Nodo Tecnoparque" />
                     </Grid>
                     <Grid item md={6}>
-                        <div className="capitalize">{proyectoLinea69?.titulo}</div>
-                    </Grid> */}
+                        <div className="capitalize">{proyecto_linea_69?.titulo}</div>
+                    </Grid>
 
                     <Grid item md={6}>
                         <Label required labelFor="fecha_inicio" error={form.errors.fecha_inicio} value="Fecha de inicio" />
@@ -150,7 +150,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyectoLi
                                     id="rol_sennova"
                                     selectedValue={form.data.rol_sennova}
                                     onChange={(event, newValue) => form.setData('rol_sennova', newValue.value)}
-                                    options={rolesSennova}
+                                    options={roles_sennova}
                                     placeholder="Seleccione un rol SENNOVA"
                                     required
                                 />
@@ -218,10 +218,10 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyectoLi
                                             id="pdf_proyecto_general"
                                             maxSize="10000"
                                             value={form.data.pdf_proyecto_general}
-                                            valueDb={proyectoLinea69?.pdf_proyecto_general}
+                                            valueDb={proyecto_linea_69?.pdf_proyecto_general}
                                             error={form.errors.pdf_proyecto_general}
                                             route={
-                                                proyectoLinea69?.pdf_proyecto_general?.includes('http')
+                                                proyecto_linea_69?.pdf_proyecto_general?.includes('http')
                                                     ? null
                                                     : route('convocatorias.tp.download-file-sharepoint', [convocatoria.id, tp, 'pdf_proyecto_general'])
                                             }
@@ -268,7 +268,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyectoLi
                                     value={form.data.antecedentes}
                                     onChange={(e) => form.setData('antecedentes', e.target.value)}
                                     required
-                                    disabled={proyectoLinea69?.proyecto_base || checkPermissionByUser(auth_user, [24]) ? undefined : true}
+                                    disabled={proyecto_linea_69?.proyecto_base || checkPermissionByUser(auth_user, [24]) ? undefined : true}
                                 />
                             </Grid>
 
@@ -409,7 +409,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyectoLi
                                     value={form.data.marco_conceptual}
                                     onChange={(e) => form.setData('marco_conceptual', e.target.value)}
                                     required
-                                    disabled={proyectoLinea69?.proyecto_base || checkPermissionByUser(auth_user, [24]) ? undefined : true}
+                                    disabled={proyecto_linea_69?.proyecto_base || checkPermissionByUser(auth_user, [24]) ? undefined : true}
                                 />
                             </Grid>
 
@@ -431,7 +431,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyectoLi
                 </Grid>
             </fieldset>
             {form.isDirty && <div>There are unsaved form changes.</div>}
-            {method == 'crear' || proyectoLinea69?.proyecto?.allowed?.to_update ? (
+            {method == 'crear' || proyecto_linea_69?.proyecto?.allowed?.to_update ? (
                 <div className="pt-8 pb-4 space-y-4">
                     <PrimaryButton type="submit" className="ml-auto">
                         Guardar

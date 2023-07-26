@@ -97,9 +97,9 @@
     }
 
     let formEstrategiaRegionalEvaluacion = useForm({
-        cadena_valor_puntaje: evaluacion.idi_evaluacion ? evaluacion.idi_evaluacion?.cadena_valor_puntaje : evaluacion.cultura_innovacion_evaluacion ? evaluacion.cultura_innovacion_evaluacion.cadena_valor_puntaje : null,
-        cadena_valor_comentario: evaluacion.idi_evaluacion ? evaluacion.idi_evaluacion?.cadena_valor_comentario : evaluacion.cultura_innovacion_evaluacion ? evaluacion.cultura_innovacion_evaluacion.cadena_valor_comentario : null,
-        cadena_valor_requiere_comentario: evaluacion.idi_evaluacion ? (evaluacion.idi_evaluacion?.cadena_valor_comentario == null ? true : false) : evaluacion.cultura_innovacion_evaluacion ? (evaluacion.cultura_innovacion_evaluacion.cadena_valor_comentario == null ? true : false) : null,
+        cadena_valor_puntaje: evaluacion.evaluacion_proyecto_linea66 ? evaluacion.evaluacion_proyecto_linea66?.cadena_valor_puntaje : evaluacion.evaluacion_proyecto_linea65 ? evaluacion.evaluacion_proyecto_linea65.cadena_valor_puntaje : null,
+        cadena_valor_comentario: evaluacion.evaluacion_proyecto_linea66 ? evaluacion.evaluacion_proyecto_linea66?.cadena_valor_comentario : evaluacion.evaluacion_proyecto_linea65 ? evaluacion.evaluacion_proyecto_linea65.cadena_valor_comentario : null,
+        cadena_valor_requiere_comentario: evaluacion.evaluacion_proyecto_linea66 ? (evaluacion.evaluacion_proyecto_linea66?.cadena_valor_comentario == null ? true : false) : evaluacion.evaluacion_proyecto_linea65 ? (evaluacion.evaluacion_proyecto_linea65.cadena_valor_comentario == null ? true : false) : null,
     })
     function submitEstrategiaRegionalEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
@@ -110,8 +110,8 @@
     }
 
     let formTaEvaluacion = useForm({
-        cadena_valor_comentario: evaluacion.ta_evaluacion?.cadena_valor_comentario ? evaluacion.ta_evaluacion?.cadena_valor_comentario : '',
-        cadena_valor_requiere_comentario: evaluacion.ta_evaluacion?.cadena_valor_comentario == null ? true : false,
+        cadena_valor_comentario: evaluacion.evaluacion_proyecto_linea70?.cadena_valor_comentario ? evaluacion.evaluacion_proyecto_linea70?.cadena_valor_comentario : '',
+        cadena_valor_requiere_comentario: evaluacion.evaluacion_proyecto_linea70?.cadena_valor_comentario == null ? true : false,
     })
     function submitTaEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
@@ -122,8 +122,8 @@
     }
 
     let formTpEvaluacion = useForm({
-        cadena_valor_comentario: evaluacion.tp_evaluacion?.cadena_valor_comentario ? evaluacion.tp_evaluacion?.cadena_valor_comentario : '',
-        cadena_valor_requiere_comentario: evaluacion.tp_evaluacion?.cadena_valor_comentario == null ? true : false,
+        cadena_valor_comentario: evaluacion.evaluacion_proyecto_linea69?.cadena_valor_comentario ? evaluacion.evaluacion_proyecto_linea69?.cadena_valor_comentario : '',
+        cadena_valor_requiere_comentario: evaluacion.evaluacion_proyecto_linea69?.cadena_valor_comentario == null ? true : false,
     })
     function submitTpEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
@@ -134,25 +134,25 @@
     }
 
     let formServicioTecnologicoEvaluacion = useForm({
-        propuesta_sostenibilidad_puntaje: evaluacion.servicio_tecnologico_evaluacion?.propuesta_sostenibilidad_puntaje,
-        propuesta_sostenibilidad_comentario: evaluacion.servicio_tecnologico_evaluacion?.propuesta_sostenibilidad_comentario ? evaluacion.servicio_tecnologico_evaluacion?.propuesta_sostenibilidad_comentario : '',
-        propuesta_sostenibilidad_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.propuesta_sostenibilidad_comentario == null ? true : false,
+        propuesta_sostenibilidad_puntaje: evaluacion.evaluacion_proyecto_linea68?.propuesta_sostenibilidad_puntaje,
+        propuesta_sostenibilidad_comentario: evaluacion.evaluacion_proyecto_linea68?.propuesta_sostenibilidad_comentario ? evaluacion.evaluacion_proyecto_linea68?.propuesta_sostenibilidad_comentario : '',
+        propuesta_sostenibilidad_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.propuesta_sostenibilidad_comentario == null ? true : false,
 
-        impacto_ambiental_puntaje: evaluacion.servicio_tecnologico_evaluacion?.impacto_ambiental_puntaje,
-        impacto_ambiental_comentario: evaluacion.servicio_tecnologico_evaluacion?.impacto_ambiental_comentario ? evaluacion.servicio_tecnologico_evaluacion?.impacto_ambiental_comentario : '',
-        impacto_ambiental_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.impacto_ambiental_comentario == null ? true : false,
+        impacto_ambiental_puntaje: evaluacion.evaluacion_proyecto_linea68?.impacto_ambiental_puntaje,
+        impacto_ambiental_comentario: evaluacion.evaluacion_proyecto_linea68?.impacto_ambiental_comentario ? evaluacion.evaluacion_proyecto_linea68?.impacto_ambiental_comentario : '',
+        impacto_ambiental_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.impacto_ambiental_comentario == null ? true : false,
 
-        impacto_social_centro_puntaje: evaluacion.servicio_tecnologico_evaluacion?.impacto_social_centro_puntaje,
-        impacto_social_centro_comentario: evaluacion.servicio_tecnologico_evaluacion?.impacto_social_centro_comentario ? evaluacion.servicio_tecnologico_evaluacion?.impacto_social_centro_comentario : '',
-        impacto_social_centro_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.impacto_social_centro_comentario == null ? true : false,
+        impacto_social_centro_puntaje: evaluacion.evaluacion_proyecto_linea68?.impacto_social_centro_puntaje,
+        impacto_social_centro_comentario: evaluacion.evaluacion_proyecto_linea68?.impacto_social_centro_comentario ? evaluacion.evaluacion_proyecto_linea68?.impacto_social_centro_comentario : '',
+        impacto_social_centro_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.impacto_social_centro_comentario == null ? true : false,
 
-        impacto_social_productivo_puntaje: evaluacion.servicio_tecnologico_evaluacion?.impacto_social_productivo_puntaje,
-        impacto_social_productivo_comentario: evaluacion.servicio_tecnologico_evaluacion?.impacto_social_productivo_comentario ? evaluacion.servicio_tecnologico_evaluacion?.impacto_social_productivo_comentario : '',
-        impacto_social_productivo_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.impacto_social_productivo_comentario == null ? true : false,
+        impacto_social_productivo_puntaje: evaluacion.evaluacion_proyecto_linea68?.impacto_social_productivo_puntaje,
+        impacto_social_productivo_comentario: evaluacion.evaluacion_proyecto_linea68?.impacto_social_productivo_comentario ? evaluacion.evaluacion_proyecto_linea68?.impacto_social_productivo_comentario : '',
+        impacto_social_productivo_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.impacto_social_productivo_comentario == null ? true : false,
 
-        impacto_tecnologico_puntaje: evaluacion.servicio_tecnologico_evaluacion?.impacto_tecnologico_puntaje,
-        impacto_tecnologico_comentario: evaluacion.servicio_tecnologico_evaluacion?.impacto_tecnologico_comentario ? evaluacion.servicio_tecnologico_evaluacion?.impacto_tecnologico_comentario : '',
-        impacto_tecnologico_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.impacto_tecnologico_comentario == null ? true : false,
+        impacto_tecnologico_puntaje: evaluacion.evaluacion_proyecto_linea68?.impacto_tecnologico_puntaje,
+        impacto_tecnologico_comentario: evaluacion.evaluacion_proyecto_linea68?.impacto_tecnologico_comentario ? evaluacion.evaluacion_proyecto_linea68?.impacto_tecnologico_comentario : '',
+        impacto_tecnologico_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.impacto_tecnologico_comentario == null ? true : false,
     })
     function submitServicioTecnologicoEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {

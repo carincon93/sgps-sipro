@@ -532,15 +532,15 @@ class Evaluacion extends Model
     public function getEstadoProyectoPorEvaluadorAttribute()
     {
         if ($this->evaluacionProyectoLinea66()->exists()) {
-            $causalRechazo = null;
+            $causal_rechazo = null;
             if ($this->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
-                $causalRechazo = 'En revisión por Cord. SENNOVA';
+                $causal_rechazo = 'En revisión por Cord. SENNOVA';
             } else if ($this->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
-                $causalRechazo = 'Rechazado - Por causal de rechazo';
+                $causal_rechazo = 'Rechazado - Por causal de rechazo';
             }
-            return $this->proyecto->estadoEvaluacionProyectoLinea66($this->total_evaluacion, $this->total_recomendaciones, null, $causalRechazo);
+            return $this->proyecto->estadoEvaluacionProyectoLinea66($this->total_evaluacion, $this->total_recomendaciones, null, $causal_rechazo);
         } else if ($this->evaluacionProyectoLinea68()->exists()) {
-            return $this->proyecto->estadoEvaluacionServiciosTecnologicos($this->total_evaluacion, $this->total_recomendaciones, null);
+            return $this->proyecto->estadoEvaluacionProyectoLinea68($this->total_evaluacion, $this->total_recomendaciones, null);
         } else if ($this->evaluacionProyectoLinea65()->exists()) {
             return $this->proyecto->estadoEvaluacionProyectoLinea65($this->total_evaluacion, $this->total_recomendaciones, null);
         }
@@ -548,15 +548,15 @@ class Evaluacion extends Model
 
     public function getCausalRechazoProyectoLinea66Attribute()
     {
-        $causalRechazo = null;
+        $causal_rechazo = null;
         if ($this->evaluacionProyectoLinea66()->exists()) {
             if ($this->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
-                $causalRechazo = 'En revisión por Cord. SENNOVA';
+                $causal_rechazo = 'En revisión por Cord. SENNOVA';
             } else if ($this->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
-                $causalRechazo = 'Rechazado - Por causal de rechazo';
+                $causal_rechazo = 'Rechazado - Por causal de rechazo';
             }
         }
-        return $causalRechazo;
+        return $causal_rechazo;
     }
 
     /**
@@ -616,10 +616,10 @@ class Evaluacion extends Model
 
     public function getAllowedAttribute()
     {
-        $allowedToView      = Gate::inspect('visualizar-evaluacion-autor', $this);
-        $allowedToUpdate    = Gate::inspect('modificar-evaluacion-autor', $this);
-        $allowedToDestroy   = $allowedToUpdate;
+        $allowed_to_view      = Gate::inspect('visualizar-evaluacion-autor', $this);
+        $allowed_to_update    = Gate::inspect('modificar-evaluacion-autor', $this);
+        $allowed_To_destroy   = $allowed_to_update;
 
-        return collect(['to_view' => $allowedToView->allowed(), 'to_update' => $allowedToUpdate->allowed(), 'to_destroy' => $allowedToDestroy->allowed()]);
+        return collect(['to_view' => $allowed_to_view->allowed(), 'to_update' => $allowed_to_update->allowed(), 'to_destroy' => $allowed_To_destroy->allowed()]);
     }
 }

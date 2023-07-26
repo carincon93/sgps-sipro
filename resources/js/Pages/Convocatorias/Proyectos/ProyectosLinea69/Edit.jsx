@@ -11,22 +11,22 @@ import { checkRole } from '@/Utils'
 import { Grid, TableCell, TableRow } from '@mui/material'
 import { useState } from 'react'
 
-const Edit = ({ auth, convocatoria, proyectoLinea69, nodosTecnoParque, lineasProgramaticas, lineasTecnoacademia, rolesSennova }) => {
+const Edit = ({ auth, convocatoria, proyecto_linea_69, nodos_tecnoparque, lineas_programaticas, lineas_tecnoacademia, roles_sennova }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
-    const [evaluacionIndex, setEvaluacionIndex] = useState(0)
-    const [dialogStatus, setDialogStatus] = useState(false)
+    const [evaluacion_index, setEvaluacionIndex] = useState(0)
+    const [dialog_status, setDialogStatus] = useState(false)
 
-    const comentariosEvaluaciones =
-        proyectoLinea69?.proyecto.evaluaciones.length > 0
-            ? Object.keys(proyectoLinea69?.proyecto.evaluaciones[evaluacionIndex].evaluacion_proyecto_linea69).filter((field) => field.endsWith('_comentario'))
+    const comentarios_evaluaciones =
+        proyecto_linea_69?.proyecto.evaluaciones.length > 0
+            ? Object.keys(proyecto_linea_69?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_linea69).filter((field) => field.endsWith('_comentario'))
             : null
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyectoLinea69.titulo}</h2>}>
+        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyecto_linea_69.titulo}</h2>}>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyectoLinea69?.proyecto} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto_linea_69?.proyecto} />
             </Grid>
 
             <Grid item md={4}>
@@ -40,24 +40,24 @@ const Edit = ({ auth, convocatoria, proyectoLinea69, nodosTecnoParque, lineasPro
                 <DialogMui
                     fullWidth={true}
                     maxWidth="lg"
-                    open={dialogStatus}
+                    open={dialog_status}
                     dialogContent={
                         <>
-                            {proyectoLinea69?.proyecto.evaluaciones.map((evaluacion, i) => (
-                                <ButtonMui onClick={() => setEvaluacionIndex(i)} primary={evaluacionIndex == i} key={i} className="!ml-2">
+                            {proyecto_linea_69?.proyecto.evaluaciones.map((evaluacion, i) => (
+                                <ButtonMui onClick={() => setEvaluacionIndex(i)} primary={evaluacion_index == i} key={i} className="!ml-2">
                                     Ver comentarios de la evaluación #{i + 1}
                                 </ButtonMui>
                             ))}
                             <TableMui className="mt-20" rows={['Ítem', 'Comentario']}>
-                                {comentariosEvaluaciones &&
-                                    comentariosEvaluaciones
+                                {comentarios_evaluaciones &&
+                                    comentarios_evaluaciones
                                         .sort((a, b) => a.toString().localeCompare(b.toString()))
                                         .map((field, i) => (
                                             <TableRow key={i}>
                                                 <TableCell>
                                                     <p className="first-letter:uppercase">{field.replace(/_comentario/g, '').replace(/_/g, ' ')}</p>
                                                 </TableCell>
-                                                <TableCell>{proyectoLinea69?.proyecto.evaluaciones[evaluacionIndex]?.evaluacion_proyecto_linea69[field] ?? 'Sin comentarios'}</TableCell>
+                                                <TableCell>{proyecto_linea_69?.proyecto.evaluaciones[evaluacion_index]?.evaluacion_proyecto_linea69[field] ?? 'Sin comentarios'}</TableCell>
                                             </TableRow>
                                         ))}
                             </TableMui>
@@ -76,11 +76,11 @@ const Edit = ({ auth, convocatoria, proyectoLinea69, nodosTecnoParque, lineasPro
                     auth_user={auth_user}
                     method="editar"
                     convocatoria={convocatoria}
-                    proyectoLinea69={proyectoLinea69}
-                    nodosTecnoParque={nodosTecnoParque}
-                    lineasTecnoacademia={lineasTecnoacademia}
-                    lineasProgramaticas={lineasProgramaticas}
-                    rolesSennova={rolesSennova}
+                    proyecto_linea_69={proyecto_linea_69}
+                    nodos_tecnoparque={nodos_tecnoparque}
+                    lineas_tecnoacademia={lineas_tecnoacademia}
+                    lineas_programaticas={lineas_programaticas}
+                    roles_sennova={roles_sennova}
                 />
             </Grid>
         </AuthenticatedLayout>

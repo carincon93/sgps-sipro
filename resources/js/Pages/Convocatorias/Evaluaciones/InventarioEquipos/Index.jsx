@@ -30,8 +30,8 @@
     let is_super_admin = checkRole(auth_user, [1])
 
     let formServicioTecnologicoEvaluacion = useForm({
-        inventario_equipos_comentario: evaluacion.servicio_tecnologico_evaluacion?.inventario_equipos_comentario ? evaluacion.servicio_tecnologico_evaluacion?.inventario_equipos_comentario : '',
-        inventario_equipos_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.inventario_equipos_comentario == null ? true : false,
+        inventario_equipos_comentario: evaluacion.evaluacion_proyecto_linea68?.inventario_equipos_comentario ? evaluacion.evaluacion_proyecto_linea68?.inventario_equipos_comentario : '',
+        inventario_equipos_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.inventario_equipos_comentario == null ? true : false,
     })
     function submitServicioTecnologicoEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {

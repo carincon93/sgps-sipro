@@ -22,14 +22,14 @@ import { useState } from 'react'
 
 import Form from './Form'
 
-const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, actividades, tiposEntidadAliada, naturalezaEntidadAliada, tiposEmpresa, ...props }) => {
+const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidades_aliadas, actividades, tipos_entidad_aliada, naturaleza_entidad_aliada, tipos_empresa, ...props }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
-    const [entidadAliadaToDestroy, setEntidadAliadaToDestroy] = useState(null)
-    const [dialogStatus, setDialogStatus] = useState(false)
+    const [entidad_aliada_to_destroy, setEntidadAliadaToDestroy] = useState(null)
+    const [dialog_status, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
-    const [entidadAliada, setEntidadAliada] = useState(null)
+    const [entidad_aliada, setEntidadAliada] = useState(null)
 
     return (
         <AuthenticatedLayout>
@@ -49,14 +49,18 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, acti
                                     title={
                                         <div>
                                             <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                            {evaluacion.idi_evaluacion && (
+                                            {evaluacion.evaluacion_proyecto_linea66 && (
                                                 <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.idi_evaluacion?.entidad_aliada_comentario ? evaluacion.idi_evaluacion.entidad_aliada_comentario : 'Sin recomendación'}
+                                                    {evaluacion.evaluacion_proyecto_linea66?.entidad_aliada_comentario
+                                                        ? evaluacion.evaluacion_proyecto_linea66.entidad_aliada_comentario
+                                                        : 'Sin recomendación'}
                                                 </p>
                                             )}
-                                            {evaluacion.ta_evaluacion && (
+                                            {evaluacion.evaluacion_proyecto_linea70 && (
                                                 <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.ta_evaluacion?.entidad_aliada_comentario ? evaluacion.ta_evaluacion.entidad_aliada_comentario : 'Sin recomendación'}
+                                                    {evaluacion.evaluacion_proyecto_linea70?.entidad_aliada_comentario
+                                                        ? evaluacion.evaluacion_proyecto_linea70.entidad_aliada_comentario
+                                                        : 'Sin recomendación'}
                                                 </p>
                                             )}
                                         </div>
@@ -78,31 +82,31 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, acti
 
             <Grid item md={12}>
                 <TableMui className="mt-20 mb-8" rows={['Nombre', 'Tipo de entidad aliada', 'Miembros', 'Acciones']} sxCellThead={{ width: '320px' }}>
-                    {entidadesAliadas.data.map((entidadAliada, i) => (
+                    {entidades_aliadas.data.map((entidad_aliada, i) => (
                         <TableRow key={i}>
-                            <TableCell>{entidadAliada.nombre}</TableCell>
-                            <TableCell>{tiposEntidadAliada.find((item) => item.value == entidadAliada.tipo).label}</TableCell>
+                            <TableCell>{entidad_aliada.nombre}</TableCell>
+                            <TableCell>{tipos_entidad_aliada.find((item) => item.value == entidad_aliada.tipo).label}</TableCell>
 
                             <TableCell>
                                 <ButtonMui
-                                    onClick={() => router.visit(route('convocatorias.proyectos.entidades-aliadas.miembros-entidad-aliada.index', [convocatoria.id, proyecto.id, entidadAliada.id]))}>
+                                    onClick={() => router.visit(route('convocatorias.proyectos.entidades-aliadas.miembros-entidad-aliada.index', [convocatoria.id, proyecto.id, entidad_aliada.id]))}>
                                     <GroupAddIcon />
                                 </ButtonMui>
                             </TableCell>
 
                             <TableCell>
                                 <MenuMui text={<MoreVertIcon />}>
-                                    {entidadAliada.id !== entidadAliadaToDestroy ? (
+                                    {entidad_aliada.id !== entidad_aliada_to_destroy ? (
                                         <div>
                                             <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setEntidadAliada(entidadAliada))}
+                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setEntidadAliada(entidad_aliada))}
                                                 disabled={!proyecto.allowed.to_update}
                                                 className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                                 Editar
                                             </MenuItem>
                                             <MenuItem
                                                 onClick={() => {
-                                                    setEntidadAliadaToDestroy(entidadAliada.id)
+                                                    setEntidadAliadaToDestroy(entidad_aliada.id)
                                                 }}>
                                                 Eliminar
                                             </MenuItem>
@@ -120,7 +124,7 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, acti
                                                 onClick={(e) => {
                                                     e.stopPropagation()
                                                     if (proyecto.allowed.to_update) {
-                                                        router.delete(route('convocatorias.proyectos.entidades-aliadas.destroy', [convocatoria.id, proyecto.id, entidadAliada.id]), {
+                                                        router.delete(route('convocatorias.proyectos.entidades-aliadas.destroy', [convocatoria.id, proyecto.id, entidad_aliada.id]), {
                                                             preserveScroll: true,
                                                         })
                                                     }
@@ -135,10 +139,10 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, acti
                     ))}
                 </TableMui>
 
-                <PaginationMui links={entidadesAliadas.links} />
+                <PaginationMui links={entidades_aliadas.links} />
 
                 <DialogMui
-                    open={dialogStatus}
+                    open={dialog_status}
                     fullWidth={true}
                     maxWidth="lg"
                     blurEnabled={true}
@@ -149,11 +153,11 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidadesAliadas, acti
                             method={method}
                             proyecto={proyecto}
                             convocatoria={convocatoria}
-                            entidadAliada={entidadAliada}
+                            entidad_aliada={entidad_aliada}
                             actividades={actividades}
-                            tiposEntidadAliada={tiposEntidadAliada}
-                            naturalezaEntidadAliada={naturalezaEntidadAliada}
-                            tiposEmpresa={tiposEmpresa}
+                            tipos_entidad_aliada={tipos_entidad_aliada}
+                            naturaleza_entidad_aliada={naturaleza_entidad_aliada}
+                            tipos_empresa={tipos_empresa}
                         />
                     }
                 />

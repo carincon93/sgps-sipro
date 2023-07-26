@@ -10,7 +10,7 @@ import { MenuItem, TableCell, TableRow } from '@mui/material'
 import { router } from '@inertiajs/react'
 import { route } from '@/Utils'
 
-const SemillerosInvestigacion = ({ auth_user, convocatoria, proyecto, nuevoSemilleroInvestigacion }) => {
+const SemillerosInvestigacion = ({ auth_user, convocatoria, proyecto, nuevo_semillero_investigacion }) => {
     return (
         <>
             <h1 className="mt-24 mb-8 text-center text-3xl">Semilleros de investigación vinculados</h1>
@@ -45,12 +45,12 @@ const SemillerosInvestigacion = ({ auth_user, convocatoria, proyecto, nuevoSemil
                     </TableRow>
                 ))}
 
-                {nuevoSemilleroInvestigacion && (
+                {nuevo_semillero_investigacion && (
                     <TableRow sx={{ backgroundColor: '#e5f6fd' }}>
-                        <TableCell>{nuevoSemilleroInvestigacion.nombre}</TableCell>
-                        <TableCell>{nuevoSemilleroInvestigacion.linea_investigacion.nombre}</TableCell>
+                        <TableCell>{nuevo_semillero_investigacion.nombre}</TableCell>
+                        <TableCell>{nuevo_semillero_investigacion.linea_investigacion.nombre}</TableCell>
                         <TableCell>
-                            {nuevoSemilleroInvestigacion.linea_investigacion.grupo_investigacion.nombre} - {nuevoSemilleroInvestigacion.linea_investigacion.grupo_investigacion.acronimo}
+                            {nuevo_semillero_investigacion.linea_investigacion.grupo_investigacion.nombre} - {nuevo_semillero_investigacion.linea_investigacion.grupo_investigacion.acronimo}
                         </TableCell>
 
                         <TableCell>
@@ -60,7 +60,7 @@ const SemillerosInvestigacion = ({ auth_user, convocatoria, proyecto, nuevoSemil
                                         route('convocatorias.proyectos.participantes.semilleros-investigacion.link', {
                                             proyecto: proyecto.id,
                                             convocatoria: convocatoria.id,
-                                            semillero_investigacion: nuevoSemilleroInvestigacion.id,
+                                            semillero_investigacion: nuevo_semillero_investigacion.id,
                                         }),
                                         { preserveScroll: true },
                                     )

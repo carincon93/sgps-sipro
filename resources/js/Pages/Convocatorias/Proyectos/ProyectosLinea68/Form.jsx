@@ -19,7 +19,7 @@ const Form = ({
     convocatoria,
     proyecto_linea_68,
     lineas_programaticas,
-    tipos_proyecto_st,
+    tipos_proyecto_linea_68,
     sectores_productivos,
     estados_sistema_gestion,
     programas_formacion_con_registro_calificado,
@@ -138,7 +138,7 @@ const Form = ({
                     <Grid item md={6}>
                         <Autocomplete
                             id="tipo_proyecto_st_id"
-                            options={tiposProyectoSt}
+                            options={tipos_proyecto_linea_68}
                             selectedValue={form.data.tipo_proyecto_st_id}
                             onChange={(event, newValue) => form.setData('tipo_proyecto_st_id', newValue.value)}
                             error={form.errors.tipo_proyecto_st_id}

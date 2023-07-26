@@ -80,13 +80,13 @@
     }
 
     let formTaTpEvaluacion = useForm({
-        articulacion_sennova_comentario: evaluacion.ta_evaluacion ? (evaluacion.ta_evaluacion.articulacion_sennova_comentario ? evaluacion.ta_evaluacion.articulacion_sennova_comentario : '' ) : evaluacion.tp_evaluacion ? (evaluacion.tp_evaluacion.articulacion_sennova_comentario ? evaluacion.tp_evaluacion.articulacion_sennova_comentario : '') : '',
-        articulacion_sennova_requiere_comentario: evaluacion.ta_evaluacion ? (evaluacion.ta_evaluacion.articulacion_sennova_comentario == null ? true : false) : evaluacion.tp_evaluacion ? (evaluacion.tp_evaluacion.articulacion_sennova_comentario == null ? true : false) : null,
-        impacto_centro_formacion_comentario: evaluacion.ta_evaluacion ? (evaluacion.ta_evaluacion.impacto_centro_formacion_comentario ? evaluacion.ta_evaluacion.impacto_centro_formacion_comentario : '') : evaluacion.tp_evaluacion ? (evaluacion.tp_evaluacion.impacto_centro_formacion_comentario ? evaluacion.tp_evaluacion.impacto_centro_formacion_comentario : '') : '',
-        impacto_centro_formacion_requiere_comentario: evaluacion.ta_evaluacion ? (evaluacion.ta_evaluacion.impacto_centro_formacion_comentario == null ? true : false) : evaluacion.tp_evaluacion ? (evaluacion.tp_evaluacion.impacto_centro_formacion_comentario == null ? true : false) : null,
+        articulacion_sennova_comentario: evaluacion.evaluacion_proyecto_linea70 ? (evaluacion.evaluacion_proyecto_linea70.articulacion_sennova_comentario ? evaluacion.evaluacion_proyecto_linea70.articulacion_sennova_comentario : '' ) : evaluacion.evaluacion_proyecto_linea69 ? (evaluacion.evaluacion_proyecto_linea69.articulacion_sennova_comentario ? evaluacion.evaluacion_proyecto_linea69.articulacion_sennova_comentario : '') : '',
+        articulacion_sennova_requiere_comentario: evaluacion.evaluacion_proyecto_linea70 ? (evaluacion.evaluacion_proyecto_linea70.articulacion_sennova_comentario == null ? true : false) : evaluacion.evaluacion_proyecto_linea69 ? (evaluacion.evaluacion_proyecto_linea69.articulacion_sennova_comentario == null ? true : false) : null,
+        impacto_centro_formacion_comentario: evaluacion.evaluacion_proyecto_linea70 ? (evaluacion.evaluacion_proyecto_linea70.impacto_centro_formacion_comentario ? evaluacion.evaluacion_proyecto_linea70.impacto_centro_formacion_comentario : '') : evaluacion.evaluacion_proyecto_linea69 ? (evaluacion.evaluacion_proyecto_linea69.impacto_centro_formacion_comentario ? evaluacion.evaluacion_proyecto_linea69.impacto_centro_formacion_comentario : '') : '',
+        impacto_centro_formacion_requiere_comentario: evaluacion.evaluacion_proyecto_linea70 ? (evaluacion.evaluacion_proyecto_linea70.impacto_centro_formacion_comentario == null ? true : false) : evaluacion.evaluacion_proyecto_linea69 ? (evaluacion.evaluacion_proyecto_linea69.impacto_centro_formacion_comentario == null ? true : false) : null,
 
-        lineas_medulares_centro_comentario: evaluacion.ta_evaluacion.lineas_medulares_centro_comentario ? evaluacion.ta_evaluacion.lineas_medulares_centro_comentario : '',
-        lineas_medulares_centro_requiere_comentario: evaluacion.ta_evaluacion ? (evaluacion.ta_evaluacion.lineas_medulares_centro_comentario == null ? true : false) : null,
+        lineas_medulares_centro_comentario: evaluacion.evaluacion_proyecto_linea70.lineas_medulares_centro_comentario ? evaluacion.evaluacion_proyecto_linea70.lineas_medulares_centro_comentario : '',
+        lineas_medulares_centro_requiere_comentario: evaluacion.evaluacion_proyecto_linea70 ? (evaluacion.evaluacion_proyecto_linea70.lineas_medulares_centro_comentario == null ? true : false) : null,
     })
     function submitTaTpEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {

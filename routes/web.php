@@ -526,7 +526,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('convocatorias/{convocatoria}/proyectos-linea-70/{proyecto_linea_70}/column/{column}', [ProyectoLinea70Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-linea-70.updateLongColumn');
 
     Route::resource('convocatorias.proyectos.presupuesto.edt', EdtController::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos' => 'proyecto', 'presupuesto' => 'presupuesto', 'edt' => 'edt'])->except(['show']);
-    Route::resource('convocatorias.proyectos-linea-70', ProyectoLinea70Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-linea-69' => 'proyecto-linea-70'])->except(['show']);
+    Route::resource('convocatorias.proyectos-linea-70', ProyectoLinea70Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-linea-70' => 'proyecto-linea-70'])->except(['show']);
 
     /**
      * Servicios tecnológicos - Estrategia  nacional

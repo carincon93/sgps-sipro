@@ -5,6 +5,7 @@ import ButtonMui from '@/Components/Button'
 import DialogMui from '@/Components/Dialog'
 import MenuMui from '@/Components/Menu'
 import PaginationMui from '@/Components/Pagination'
+import StepperMui from '@/Components/Stepper'
 import TableMui from '@/Components/Table'
 
 import MoreVertIcon from '@mui/icons-material/MoreVert'
@@ -16,21 +17,24 @@ import { useState } from 'react'
 
 import Form from './Form'
 
-const MiembrosEntidadAliada = ({ auth, convocatoria, proyecto, entidadAliada, miembrosEntidadAliada, tiposDocumento, ...props }) => {
+const MiembrosEntidadAliada = ({ auth, convocatoria, proyecto, entidad_aliada, miembros_entidad_aliada, tipos_documento, ...props }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
-    const [miembroEntidadAliadaToDestroy, setMiembroEntidadAliadaToDestroy] = useState(null)
-    const [dialogStatus, setDialogStatus] = useState(false)
+    const [miembro_entidad_aliada_to_destroy, setMiembroEntidadAliadaToDestroy] = useState(null)
+    const [dialog_status, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
-    const [miembroEntidadAliada, setMiembroEntidadAliada] = useState(null)
+    const [miembro_entidad_aliada, setMiembroEntidadAliada] = useState(null)
 
     return (
         <AuthenticatedLayout>
+            <Grid item md={12} className="!mb-20">
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto} label="Miembros entidad aliada" />
+            </Grid>
+
             <Grid item md={12}>
                 <h1 className="text-3xl mb-8 text-center">Miembros de la entidad aliada</h1>
 
-                <AlertMui>Por favor ingrese cada uno de los miembros de la entidad aliada.</AlertMui>
                 {proyecto.allowed.to_update && (
                     <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setMiembroEntidadAliada(null))} variant="raised">
                         Añadir miembro de la entidad aliada
@@ -39,26 +43,27 @@ const MiembrosEntidadAliada = ({ auth, convocatoria, proyecto, entidadAliada, mi
             </Grid>
 
             <Grid item md={12}>
+                <AlertMui className="mt-20">Por favor ingrese cada uno de los miembros de la entidad aliada.</AlertMui>
                 <TableMui className="mb-8" rows={['Nombre', 'Correo electrónico', 'Número de celular', 'Acciones']} sxCellThead={{ width: '320px' }}>
-                    {miembrosEntidadAliada.data.map((miembroEntidadAliada, i) => (
+                    {miembros_entidad_aliada.data.map((miembro_entidad_aliada, i) => (
                         <TableRow key={i}>
-                            <TableCell>{miembroEntidadAliada.nombre}</TableCell>
-                            <TableCell>{miembroEntidadAliada.email}</TableCell>
-                            <TableCell>{miembroEntidadAliada.numero_celular}</TableCell>
+                            <TableCell>{miembro_entidad_aliada.nombre}</TableCell>
+                            <TableCell>{miembro_entidad_aliada.email}</TableCell>
+                            <TableCell>{miembro_entidad_aliada.numero_celular}</TableCell>
 
                             <TableCell>
                                 <MenuMui text={<MoreVertIcon />}>
-                                    {miembroEntidadAliada.id !== miembroEntidadAliadaToDestroy ? (
+                                    {miembro_entidad_aliada.id !== miembro_entidad_aliada_to_destroy ? (
                                         <div>
                                             <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setMiembroEntidadAliada(miembroEntidadAliada))}
+                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setMiembroEntidadAliada(miembro_entidad_aliada))}
                                                 disabled={!proyecto.allowed.to_update}
                                                 className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                                 Editar
                                             </MenuItem>
                                             <MenuItem
                                                 onClick={() => {
-                                                    setMiembroEntidadAliadaToDestroy(miembroEntidadAliada.id)
+                                                    setMiembroEntidadAliadaToDestroy(miembro_entidad_aliada.id)
                                                 }}>
                                                 Eliminar
                                             </MenuItem>
@@ -80,8 +85,8 @@ const MiembrosEntidadAliada = ({ auth, convocatoria, proyecto, entidadAliada, mi
                                                             route('convocatorias.proyectos.entidades-aliadas.miembros-entidad-aliada.destroy', [
                                                                 convocatoria.id,
                                                                 proyecto.id,
-                                                                entidadAliada.id,
-                                                                miembroEntidadAliada.id,
+                                                                entidad_aliada.id,
+                                                                miembro_entidad_aliada.id,
                                                             ]),
                                                             {
                                                                 preserveScroll: true,
@@ -99,10 +104,10 @@ const MiembrosEntidadAliada = ({ auth, convocatoria, proyecto, entidadAliada, mi
                     ))}
                 </TableMui>
 
-                <PaginationMui links={miembrosEntidadAliada.links} />
+                <PaginationMui links={miembros_entidad_aliada.links} />
 
                 <DialogMui
-                    open={dialogStatus}
+                    open={dialog_status}
                     fullWidth={true}
                     maxWidth="lg"
                     blurEnabled={true}
@@ -113,9 +118,9 @@ const MiembrosEntidadAliada = ({ auth, convocatoria, proyecto, entidadAliada, mi
                             method={method}
                             proyecto={proyecto}
                             convocatoria={convocatoria}
-                            entidadAliada={entidadAliada}
-                            miembroEntidadAliada={miembroEntidadAliada}
-                            tiposDocumento={tiposDocumento}
+                            entidad_aliada={entidad_aliada}
+                            miembro_entidad_aliada={miembro_entidad_aliada}
+                            tipos_documento={tipos_documento}
                         />
                     }
                 />

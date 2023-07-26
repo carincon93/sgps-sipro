@@ -1152,34 +1152,34 @@
                             {{ $entidad->nombre }} ({{ $entidad->tipo_empresa }}) - NIT: {{ $entidad->nit }}
                         </td>
                     </tr>
-                    @if (!empty($entidad->entidadAliadaIdi))
+                    @if (!empty($entidad->entidadAliadaLinea66))
                         <tr>
                             <th>Descripcion convenio</th>
-                            <td>{{ $entidad->entidadAliadaIdi->descripcion_convenio }}</td>
+                            <td>{{ $entidad->entidadAliadaLinea66->descripcion_convenio }}</td>
                         </tr>
                         <tr>
                             <th>Grupo de Investigación</th>
-                            <td>{{ $entidad->entidadAliadaIdi->codigo_gruplac }} - {{ $entidad->entidadAliadaIdi->grupo_investigacion }} <br> {{ $entidad->entidadAliadaIdi->enlace_gruplac }}</td>
+                            <td>{{ $entidad->entidadAliadaLinea66->codigo_gruplac }} - {{ $entidad->entidadAliadaLinea66->grupo_investigacion }} <br> {{ $entidad->entidadAliadaLinea66->enlace_gruplac }}</td>
                         </tr>
                         <tr>
                             <th>Recursos en especie</th>
-                            <td>${{ number_format($entidad->entidadAliadaIdi->recursos_especie, 0, ',', '.') }}</td>
+                            <td>${{ number_format($entidad->entidadAliadaLinea66->recursos_especie, 0, ',', '.') }}</td>
                         </tr>
                         <tr>
                             <th>Descripción en especie aportados</th>
-                            <td>{{ $entidad->entidadAliadaIdi->descripcion_recursos_especie }}</td>
+                            <td>{{ $entidad->entidadAliadaLinea66->descripcion_recursos_especie }}</td>
                         </tr>
                         <tr>
                             <th>Recursos en dinero</th>
-                            <td>${{ number_format($entidad->entidadAliadaIdi->recursos_dinero, 0, ',', '.') }}</td>
+                            <td>${{ number_format($entidad->entidadAliadaLinea66->recursos_dinero, 0, ',', '.') }}</td>
                         </tr>
                         <tr>
                             <th>Descripción destinación del dinero aportado</th>
-                            <td>{{ $entidad->entidadAliadaIdi->descripcion_recursos_dinero }}</td>
+                            <td>{{ $entidad->entidadAliadaLinea66->descripcion_recursos_dinero }}</td>
                         </tr>
                         <tr>
                             <th>Metodología o actividades de tranferencia al centro de formación</th>
-                            <td>{{ $entidad->entidadAliadaIdi->actividades_transferencia_conocimiento }}</td>
+                            <td>{{ $entidad->entidadAliadaLinea66->actividades_transferencia_conocimiento }}</td>
                         </tr>
                         <tr>
                             <th>Anexos</th>

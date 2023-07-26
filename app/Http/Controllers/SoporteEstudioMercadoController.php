@@ -7,11 +7,9 @@ use App\Models\SoporteEstudioMercado;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SoporteEstudioMercadoRequest;
 use App\Models\Convocatoria;
-use App\Models\Evaluacion\Evaluacion;
 use App\Models\Proyecto;
 use App\Models\ProyectoPresupuesto;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class SoporteEstudioMercadoController extends Controller
@@ -28,25 +26,24 @@ class SoporteEstudioMercadoController extends Controller
         /**
          * Denega el acceso si el rubro no requiere de estudio de mercado.
          */
-        $rubrosRequierenEstudioMercado = true;
+        $rubros_requieren_estudio_mercado = true;
         $data = $presupuesto->convocatoriaProyectoRubrosPresupuestales()->select('convocatoria_presupuesto.id', 'convocatoria_presupuesto.requiere_estudio_mercado')->get()->pluck(['requiere_estudio_mercado']);
 
         foreach ($data as $item) {
             if (!$item) {
-                $rubrosRequierenEstudioMercado = false;
+                $rubros_requieren_estudio_mercado = false;
                 break;
             }
         }
-        if (!$rubrosRequierenEstudioMercado) {
+        if (!$rubros_requieren_estudio_mercado) {
             return redirect()->route('convocatorias.proyectos.presupuesto.index', [$convocatoria, $proyecto]);
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectoPresupuesto/SoportesEstudioMercado/Index', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'proyecto'                  => $proyecto->only('id', 'modificable', 'mostrar_recomendaciones', 'allowed'),
-            'proyectoPresupuesto'       => $presupuesto->load('convocatoriaProyectoRubrosPresupuestales.presupuestoSennova.usoPresupuestal'),
-            'filters'                   => request()->all('search'),
-            'soportesEstudioMercado'    => $presupuesto->soportesEstudioMercado,
+            'proyecto_presupuesto'      => $presupuesto->load('convocatoriaProyectoRubrosPresupuestales.presupuestoSennova.usoPresupuestal'),
+            'soportes_estudio_mercado'  => $presupuesto->soportesEstudioMercado,
         ]);
     }
 
@@ -72,30 +69,30 @@ class SoporteEstudioMercadoController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $soportePrimerEmpresa = SoporteEstudioMercado::updateOrCreate(['id' => $request->id_primer_empresa], [
+        $soporte_primer_empresa = SoporteEstudioMercado::updateOrCreate(['id' => $request->id_primer_empresa], [
             'empresa'                   => $request->nombre_primer_empresa,
             'proyecto_presupuesto_id'   => $presupuesto->id
         ]);
 
         if ($request->hasFile('soporte_primer_empresa')) {
-            $this->saveFilesSharepoint($request->soporte_primer_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soportePrimerEmpresa, 'soporte');
+            $this->saveFilesSharepoint($request->soporte_primer_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soporte_primer_empresa, 'soporte');
         }
 
-        $soporteSegundaEmpresa = SoporteEstudioMercado::updateOrCreate(['id' => $request->id_segunda_empresa], [
+        $soporte_segunda_empresa = SoporteEstudioMercado::updateOrCreate(['id' => $request->id_segunda_empresa], [
             'empresa'                   => $request->nombre_segunda_empresa,
             'proyecto_presupuesto_id'   => $presupuesto->id
         ]);
         if ($request->hasFile('soporte_segunda_empresa')) {
-            $this->saveFilesSharepoint($request->soporte_segunda_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soporteSegundaEmpresa, 'soporte');
+            $this->saveFilesSharepoint($request->soporte_segunda_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soporte_segunda_empresa, 'soporte');
         }
 
         if ($request->hasFile('soporte_tercer_empresa')) {
-            $soporteTerceraEmpresa = SoporteEstudioMercado::updateOrCreate(['id' => $request->id_tercer_empresa], [
+            $soporte_tercer_empresa = SoporteEstudioMercado::updateOrCreate(['id' => $request->id_tercer_empresa], [
                 'empresa'                   => $request->nombre_tercer_empresa,
                 'proyecto_presupuesto_id'   => $presupuesto->id
             ]);
             if ($request->hasFile('soporte_tercer_empresa')) {
-                $this->saveFilesSharepoint($request->soporte_tercer_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soporteTerceraEmpresa, 'soporte');
+                $this->saveFilesSharepoint($request->soporte_tercer_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soporte_tercer_empresa, 'soporte');
             }
         }
 
@@ -162,12 +159,12 @@ class SoporteEstudioMercadoController extends Controller
 
     public function saveFilesSharepoint($tmp_file, $modulo, $modelo, $campo_bd)
     {
-        $estudioMercado = $modelo;
-        $proyecto       = Proyecto::find($estudioMercado->proyectoPresupuesto->proyecto_id);
+        $estudio_mercado = $modelo;
+        $proyecto        = Proyecto::find($estudio_mercado->proyectoPresupuesto->proyecto_id);
 
-        $soporteEstudioMercadoSharePoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ESTUDIOS MERCADO/COTIZACIONES';
+        $sharepoint_soporte_estudio_mercado = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ESTUDIOS MERCADO/COTIZACIONES';
 
-        $sharepoint_path = "$modulo/$soporteEstudioMercadoSharePoint";
+        $sharepoint_path = "$modulo/$sharepoint_soporte_estudio_mercado";
 
         SharepointHelper::saveFilesSharepoint($tmp_file, $modelo, $sharepoint_path, $campo_bd);
     }

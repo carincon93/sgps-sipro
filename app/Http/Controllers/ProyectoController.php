@@ -148,30 +148,30 @@ class ProyectoController extends Controller
         $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
 
         if ($proyecto->proyectoLinea66()->exists()) {
-            $objetivoGeneral = $proyecto->proyectoLinea66->objetivo_general;
+            $objetivo_general = $proyecto->proyectoLinea66->objetivo_general;
             $proyecto->propuesta_sostenibilidad = $proyecto->proyectoLinea66->propuesta_sostenibilidad;
         }
 
         if ($proyecto->proyectoLinea70()->exists()) {
-            $objetivoGeneral = $proyecto->proyectoLinea70->objetivo_general;
+            $objetivo_general = $proyecto->proyectoLinea70->objetivo_general;
             $proyecto->propuesta_sostenibilidad_social      = $proyecto->proyectoLinea70->propuesta_sostenibilidad_social;
             $proyecto->propuesta_sostenibilidad_ambiental   = $proyecto->proyectoLinea70->propuesta_sostenibilidad_ambiental;
             $proyecto->propuesta_sostenibilidad_financiera  = $proyecto->proyectoLinea70->propuesta_sostenibilidad_financiera;
         }
 
         if ($proyecto->proyectoLinea69()->exists()) {
-            $objetivoGeneral = $proyecto->proyectoLinea69->objetivo_general;
+            $objetivo_general = $proyecto->proyectoLinea69->objetivo_general;
             $proyecto->propuesta_sostenibilidad = $proyecto->proyectoLinea69->propuesta_sostenibilidad;
         }
 
         if ($proyecto->proyectoLinea68()->exists()) {
-            $objetivoGeneral = $proyecto->proyectoLinea68->objetivo_general;
+            $objetivo_general = $proyecto->proyectoLinea68->objetivo_general;
             $proyecto->propuesta_sostenibilidad = $proyecto->proyectoLinea68->propuesta_sostenibilidad;
             $proyecto->propuesta_sostenibilidad = $proyecto->proyectoLinea68->propuesta_sostenibilidad;
         }
 
         if ($proyecto->proyectoLinea65()->exists()) {
-            $objetivoGeneral                    = $proyecto->proyectoLinea65->objetivo_general;
+            $objetivo_general                    = $proyecto->proyectoLinea65->objetivo_general;
             $proyecto->propuesta_sostenibilidad = $proyecto->proyectoLinea65->propuesta_sostenibilidad;
             $proyecto->tipo_proyecto            = $proyecto->proyectoLinea65->tipo_proyecto;
         }
@@ -179,13 +179,13 @@ class ProyectoController extends Controller
         $objetivos = collect([]);
         $productos = collect([]);
 
-        foreach ($proyecto->causasDirectas as $causaDirecta) {
-            $objetivos->push(['descripcion' => $causaDirecta->objetivoEspecifico->descripcion, 'numero' => $causaDirecta->objetivoEspecifico->numero]);
+        foreach ($proyecto->causasDirectas as $causa_directa) {
+            $objetivos->push(['descripcion' => $causa_directa->objetivoEspecifico->descripcion, 'numero' => $causa_directa->objetivoEspecifico->numero]);
         }
 
-        foreach ($proyecto->efectosDirectos as $efectoDirecto) {
-            foreach ($efectoDirecto->resultado->productos as $producto) {
-                $productos->prepend(['v' => 'prod' . $producto->id,  'f' => $producto->nombre, 'fkey' =>  'Objetivo específico ' . $efectoDirecto->resultado->objetivoEspecifico->numero, 'tootlip' => 'prod' . $producto->id, 'actividades' => $producto->actividades->load('proyectoRolesSennova.convocatoriaRolSennova.rolSennova')]);
+        foreach ($proyecto->efectosDirectos as $efecto_directo) {
+            foreach ($efecto_directo->resultado->productos as $producto) {
+                $productos->prepend(['v' => 'prod' . $producto->id,  'f' => $producto->nombre, 'fkey' =>  'Objetivo específico ' . $efecto_directo->resultado->objetivoEspecifico->numero, 'tootlip' => 'prod' . $producto->id, 'actividades' => $producto->actividades->load('proyectoRolesSennova.convocatoriaRolSennova.rolSennova')]);
             }
         }
 
@@ -194,8 +194,7 @@ class ProyectoController extends Controller
             'proyecto'          => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'propuesta_sostenibilidad', 'propuesta_sostenibilidad_social', 'propuesta_sostenibilidad_ambiental', 'propuesta_sostenibilidad_financiera', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'updated_at', 'tipo_proyecto'),
             'productos'         => $productos,
             'objetivos'         => $objetivos,
-            'objetivoGeneral'   => $objetivoGeneral,
-            'to_pdf'            => ($request->to_pdf == 1) ? true : false
+            'objetivo_general'  => $objetivo_general,
         ]);
     }
 
@@ -652,11 +651,11 @@ class ProyectoController extends Controller
             'convocatoria'                  => $convocatoria,
             'evaluacion'                    => Evaluacion::find($request->evaluacion_id),
             'proyecto'                      => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'diff_meses', 'participantes', 'semillerosInvestigacion', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'fecha_inicio', 'fecha_finalizacion', 'tipo_proyecto'),
-            'rolesSennova'                  => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'nuevoParticipante'             => User::select('users.id', 'users.nombre', 'users.email', 'users.centro_formacion_id')->with('centroFormacion', 'centroFormacion.regional')->orderBy('users.nombre', 'ASC')->filterUser(request()->only('search'))->first(),
-            'nuevoSemilleroInvestigacion'   => SemilleroInvestigacion::select('semilleros_investigacion.id', 'semilleros_investigacion.nombre', 'semilleros_investigacion.linea_investigacion_id')->with('lineaInvestigacion', 'lineaInvestigacion.grupoInvestigacion')->orderBy('semilleros_investigacion.nombre', 'ASC')->filterSemilleroInvestigacion(request()->only('search'))->first(),
-            'centrosFormacion'              => SelectHelper::centrosFormacion(),
-            'autorPrincipal'                => $proyecto->participantes()->where('proyecto_participantes.es_formulador', true)->first(),
+            'roles_sennova'                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'nuevo_participante'            => User::select('users.id', 'users.nombre', 'users.email', 'users.centro_formacion_id')->with('centroFormacion', 'centroFormacion.regional')->orderBy('users.nombre', 'ASC')->filterUser(request()->only('search'))->first(),
+            'nuevo_semillero_investigacion' => SemilleroInvestigacion::select('semilleros_investigacion.id', 'semilleros_investigacion.nombre', 'semilleros_investigacion.linea_investigacion_id')->with('lineaInvestigacion', 'lineaInvestigacion.grupoInvestigacion')->orderBy('semilleros_investigacion.nombre', 'ASC')->filterSemilleroInvestigacion(request()->only('search'))->first(),
+            'centros_formacion'             => SelectHelper::centrosFormacion(),
+            'autor_principal'               => $proyecto->participantes()->where('proyecto_participantes.es_formulador', true)->first(),
         ]);
     }
 

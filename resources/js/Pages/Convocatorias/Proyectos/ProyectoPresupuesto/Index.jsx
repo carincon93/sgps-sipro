@@ -28,22 +28,22 @@ const RubrosPresupuestales = ({
     auth,
     convocatoria,
     proyecto,
-    rubrosPresupuestales,
-    segundoGrupoPresupuestal,
-    tercerGrupoPresupuestal,
-    usosPresupuestales,
-    tiposLicencia,
-    tiposSoftware,
-    opcionesServiciosEdicion,
-    conceptosViaticos,
+    rubros_presupuestales,
+    segundo_grupo_presupuestal,
+    tercer_grupo_presupuestal,
+    usos_presupuestales,
+    tipos_licencia,
+    tipos_software,
+    opciones_servicios_edicion,
+    conceptos_viaticos,
 }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
-    const [dialogStatus, setDialogStatus] = useState(false)
+    const [dialog_status, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
-    const [rubroPresupuestal, setRubroPresupuestal] = useState(null)
-    const [rubroPresupuestalToDestroy, setRubroPresupuestalToDestroy] = useState(null)
+    const [rubro_presupuestal, setRubroPresupuestal] = useState(null)
+    const [rubro_presupuestal_to_destroy, setRubroPresupuestalToDestroy] = useState(null)
 
     return (
         <AuthenticatedLayout>
@@ -70,7 +70,7 @@ const RubrosPresupuestales = ({
                     className="mb-8"
                     rows={['Descripción del bien o servicio', 'Subtotal del costo de los productos o servicios requeridos', 'Evaluación', 'Acciones']}
                     sxCellThead={{ width: '320px' }}>
-                    {rubrosPresupuestales.data.map((presupuesto, i) => (
+                    {rubros_presupuestales.data.map((presupuesto, i) => (
                         <TableRow key={i}>
                             <TableCell>
                                 <div className="flex flex-col focus:text-app-500 px-6 py-4" id={`PRE-${presupuesto.id}`}>
@@ -82,11 +82,11 @@ const RubrosPresupuestales = ({
                                     <div className="mt-3">
                                         <small className="underline">Usos presupuestales</small>
                                         <ul className="list-disc ml-4">
-                                            {presupuesto.convocatoria_proyecto_rubros_presupuestales.map((convocatoriaRubroPresupuestal, i) => (
+                                            {presupuesto.convocatoria_proyecto_rubros_presupuestales.map((convocatoria_rubro_presupuestal, i) => (
                                                 <li key={i}>
                                                     <p className="first-letter:uppercase mb-2">
-                                                        {convocatoriaRubroPresupuestal.presupuesto_sennova.uso_presupuestal.descripcion}{' '}
-                                                        {convocatoriaRubroPresupuestal.sumar_al_presupuesto ? null : (
+                                                        {convocatoria_rubro_presupuestal.presupuesto_sennova.uso_presupuestal.descripcion}{' '}
+                                                        {convocatoria_rubro_presupuestal.sumar_al_presupuesto ? null : (
                                                             <Chip label="No suma al presupuesto" size="small" className="!bg-blue-200 hover:!bg-blue-50 !text-blue-500 mt-1" />
                                                         )}
                                                     </p>
@@ -115,7 +115,7 @@ const RubrosPresupuestales = ({
 
                                 {proyecto.codigo_linea_programatica == 70 && (
                                     <>
-                                        {usosPresupuestales
+                                        {usos_presupuestales
                                             .filter((item1) => presupuesto?.convocatoria_proyecto_rubros_presupuestales?.some((item2) => item2.id == item1.value))
                                             .map((item) => item.codigo_uso_presupuestal)
                                             .includes('20202008005096') && (
@@ -129,11 +129,11 @@ const RubrosPresupuestales = ({
                                     </>
                                 )}
 
-                                {presupuesto.convocatoria_proyecto_rubros_presupuestales.map((rubroPresupuestal, i) => (
+                                {presupuesto.convocatoria_proyecto_rubros_presupuestales.map((rubro_presupuestal, i) => (
                                     <React.Fragment key={i}>
-                                        {rubroPresupuestal.presupuesto_sennova.segundo_grupo_presupuestal.codigo == '2041102' ||
-                                        rubroPresupuestal.presupuesto_sennova.segundo_grupo_presupuestal.codigo == '2041101' ||
-                                        rubroPresupuestal.presupuesto_sennova.segundo_grupo_presupuestal.codigo == '2041104' ? (
+                                        {rubro_presupuestal.presupuesto_sennova.segundo_grupo_presupuestal.codigo == '2041102' ||
+                                        rubro_presupuestal.presupuesto_sennova.segundo_grupo_presupuestal.codigo == '2041101' ||
+                                        rubro_presupuestal.presupuesto_sennova.segundo_grupo_presupuestal.codigo == '2041104' ? (
                                             <Link
                                                 href={route('convocatorias.proyectos.presupuesto.municipios.index', [convocatoria.id, proyecto.id, presupuesto.id])}
                                                 className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
@@ -171,7 +171,7 @@ const RubrosPresupuestales = ({
                             </TableCell>
                             <TableCell>
                                 <MenuMui text={<MoreVertIcon />}>
-                                    {presupuesto.id !== rubroPresupuestalToDestroy ? (
+                                    {presupuesto.id !== rubro_presupuestal_to_destroy ? (
                                         <div>
                                             <MenuItem
                                                 onClick={() => (setDialogStatus(true), setMethod('editar'), setRubroPresupuestal(presupuesto))}
@@ -214,10 +214,10 @@ const RubrosPresupuestales = ({
                     ))}
                 </TableMui>
 
-                <Pagination links={rubrosPresupuestales.links} />
+                <Pagination links={rubros_presupuestales.links} />
 
                 <DialogMui
-                    open={dialogStatus}
+                    open={dialog_status}
                     fullWidth={true}
                     maxWidth="lg"
                     blurEnabled={true}
@@ -228,14 +228,14 @@ const RubrosPresupuestales = ({
                             method={method}
                             proyecto={proyecto}
                             convocatoria={convocatoria}
-                            rubroPresupuestal={rubroPresupuestal}
-                            tiposLicencia={tiposLicencia}
-                            tiposSoftware={tiposSoftware}
-                            opcionesServiciosEdicion={opcionesServiciosEdicion}
-                            segundoGrupoPresupuestal={segundoGrupoPresupuestal}
-                            tercerGrupoPresupuestal={tercerGrupoPresupuestal}
-                            usosPresupuestales={usosPresupuestales}
-                            conceptosViaticos={conceptosViaticos}
+                            rubro_presupuestal={rubro_presupuestal}
+                            tipos_licencia={tipos_licencia}
+                            tipos_software={tipos_software}
+                            opciones_servicios_edicion={opciones_servicios_edicion}
+                            segundo_grupo_presupuestal={segundo_grupo_presupuestal}
+                            tercer_grupo_presupuestal={tercer_grupo_presupuestal}
+                            usos_presupuestales={usos_presupuestales}
+                            conceptos_viaticos={conceptos_viaticos}
                         />
                     }
                 />

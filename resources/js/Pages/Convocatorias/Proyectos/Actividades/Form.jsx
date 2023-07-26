@@ -12,8 +12,8 @@ import { Grid, Paper } from '@mui/material'
 import { useEffect } from 'react'
 import { useState } from 'react'
 
-const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proyecto, actividad, proyectoPresupuesto, proyectoRoles, productos, ...props }) => {
-    const [resultadosFiltrados, setResultadosFiltrados] = useState([])
+const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proyecto, actividad, proyecto_presupuesto, proyecto_roles, productos, ...props }) => {
+    const [resultados_filtrados, setResultadosFiltrados] = useState([])
 
     const form = useForm({
         resultado_id: actividad?.resultado_id ?? '',
@@ -25,7 +25,8 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
         requiere_rubros: actividad?.proyecto_presupuesto.length == 0 ? 2 : 1,
     })
 
-    function submit() {
+    const submit = (e) => {
+        e.preventDefault()
         if (proyecto.allowed.to_update) {
             form.put(route('convocatorias.proyectos.actividades.update', [convocatoria.id, proyecto.id, actividad.id]), {
                 preserveScroll: true,
@@ -34,14 +35,12 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
     }
 
     useEffect(() => {
-        console.log(actividad.objetivo_especifico.resultados)
-
-        const tmpOptionsFiltered = actividad.objetivo_especifico.resultados.map((option) => {
+        const tmp_options_filtered = actividad.objetivo_especifico.resultados.map((option) => {
             const { id, descripcion } = option
             return { value: id, label: descripcion }
         })
 
-        setResultadosFiltrados(tmpOptionsFiltered)
+        setResultadosFiltrados(tmp_options_filtered)
     }, [actividad])
 
     return (
@@ -88,7 +87,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                     />
                                 </Grid>
 
-                                {resultadosFiltrados.length > 0 && (
+                                {resultados_filtrados.length > 0 && (
                                     <>
                                         <Grid item md={6}>
                                             <Label required labelFor="resultado_id" value="Resultado" />
@@ -96,7 +95,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                         <Grid item md={6}>
                                             <Autocomplete
                                                 id="resultado_id"
-                                                options={resultadosFiltrados}
+                                                options={resultados_filtrados}
                                                 selectedValue={form.data.resultado_id}
                                                 error={form.errors.resultado_id}
                                                 onChange={(event, newValue) => form.setData('resultado_id', newValue.value)}
@@ -152,15 +151,15 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                                 className="mt-4"
                                                 id="proyecto_presupuesto_id"
                                                 bdValues={form.data.proyecto_presupuesto_id}
-                                                options={proyectoPresupuesto}
+                                                options={proyecto_presupuesto}
                                                 inputBackground="#fff"
                                                 error={form.errors.proyecto_presupuesto_id}
                                                 label="Relacione los respectivos rubros"
                                                 onChange={(event, newValue) => {
-                                                    const selectedValues = newValue.map((option) => option.value)
+                                                    const selected_values = newValue.map((option) => option.value)
                                                     form.setData((prevData) => ({
                                                         ...prevData,
-                                                        proyecto_presupuesto_id: selectedValues,
+                                                        proyecto_presupuesto_id: selected_values,
                                                     }))
                                                 }}
                                                 required
@@ -175,14 +174,14 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                     <SelectMultiple
                                         id="proyecto_rol_sennova_id"
                                         bdValues={form.data.proyecto_rol_sennova_id}
-                                        options={proyectoRoles}
+                                        options={proyecto_roles}
                                         error={form.errors.proyecto_rol_sennova_id}
                                         label="Relacione los roles responsables"
                                         onChange={(event, newValue) => {
-                                            const selectedValues = newValue.map((option) => option.value)
+                                            const selected_values = newValue.map((option) => option.value)
                                             form.setData((prevData) => ({
                                                 ...prevData,
-                                                proyecto_rol_sennova_id: selectedValues,
+                                                proyecto_rol_sennova_id: selected_values,
                                             }))
                                         }}
                                     />

@@ -20,34 +20,34 @@ const Form = ({
     auth_user,
     method = '',
     convocatoria,
-    proyectoLinea70,
-    lineasTecnoacademia,
-    lineasProgramaticas,
-    infraestructuraTecnoacademia,
-    rolesSennova,
+    proyecto_linea_70,
+    lineas_tecnoacademia,
+    lineas_programaticas,
+    infraestructura_tecnoacademia,
+    roles_sennova,
     evaluacion,
     ...props
 }) => {
     const form = useForm({
-        centro_formacion_id: proyectoLinea70?.proyecto.centro_formacion_id ?? '',
-        fecha_inicio: proyectoLinea70?.fecha_inicio ?? '',
-        fecha_finalizacion: proyectoLinea70?.fecha_finalizacion ?? '',
-        max_meses_ejecucion: proyectoLinea70?.max_meses_ejecucion ?? '',
+        centro_formacion_id: proyecto_linea_70?.proyecto.centro_formacion_id ?? '',
+        fecha_inicio: proyecto_linea_70?.fecha_inicio ?? '',
+        fecha_finalizacion: proyecto_linea_70?.fecha_finalizacion ?? '',
+        max_meses_ejecucion: proyecto_linea_70?.max_meses_ejecucion ?? '',
         tecnoacademia_id: null,
         tecnoacademia_linea_tecnoacademia_id: null,
         codigo_linea_programatica: null,
-        logros_vigencia_anterior: proyectoLinea70?.logros_vigencia_anterior ?? '',
-        resumen: proyectoLinea70?.resumen ?? '',
-        resumen_regional: proyectoLinea70?.resumen_regional ?? '',
-        antecedentes: proyectoLinea70?.antecedentes ?? '',
-        antecedentes_tecnoacademia: proyectoLinea70?.antecedentes_tecnoacademia ?? '',
-        justificacion_problema: proyectoLinea70?.justificacion_problema ?? '',
-        marco_conceptual: proyectoLinea70?.marco_conceptual ?? '',
-        bibliografia: proyectoLinea70?.bibliografia ?? '',
-        pertinencia_territorio: proyectoLinea70?.pertinencia_territorio ?? '',
-        retos_oportunidades: proyectoLinea70?.retos_oportunidades ?? '',
-        lineas_tecnologicas_centro: proyectoLinea70?.lineas_tecnologicas_centro ?? '',
-        infraestructura_tecnoacademia: proyectoLinea70?.infraestructura_tecnoacademia ?? '',
+        logros_vigencia_anterior: proyecto_linea_70?.logros_vigencia_anterior ?? '',
+        resumen: proyecto_linea_70?.resumen ?? '',
+        resumen_regional: proyecto_linea_70?.resumen_regional ?? '',
+        antecedentes: proyecto_linea_70?.antecedentes ?? '',
+        antecedentes_tecnoacademia: proyecto_linea_70?.antecedentes_tecnoacademia ?? '',
+        justificacion_problema: proyecto_linea_70?.justificacion_problema ?? '',
+        marco_conceptual: proyecto_linea_70?.marco_conceptual ?? '',
+        bibliografia: proyecto_linea_70?.bibliografia ?? '',
+        pertinencia_territorio: proyecto_linea_70?.pertinencia_territorio ?? '',
+        retos_oportunidades: proyecto_linea_70?.retos_oportunidades ?? '',
+        lineas_tecnologicas_centro: proyecto_linea_70?.lineas_tecnologicas_centro ?? '',
+        infraestructura_tecnoacademia: proyecto_linea_70?.infraestructura_tecnoacademia ?? '',
         pdf_proyecto_general: null,
 
         cantidad_meses: 0,
@@ -57,13 +57,13 @@ const Form = ({
 
     const submit = (e) => {
         e.preventDefault()
-        if (proyectoLinea70.proyecto.allowed.to_update) {
+        if (proyecto_linea_70.proyecto.allowed.to_update) {
             method == 'crear'
                 ? form.post(route('convocatorias.ta.store', [convocatoria.id]), {
                       preserveScroll: true,
                   })
-                : proyectoLinea70.proyecto.allowed.to_update
-                ? form.put(route('convocatorias.ta.update', [convocatoria.id, proyectoLinea70.id]), {
+                : proyecto_linea_70.proyecto.allowed.to_update
+                ? form.put(route('convocatorias.ta.update', [convocatoria.id, proyecto_linea_70.id]), {
                       preserveScroll: true,
                   })
                 : null
@@ -76,13 +76,13 @@ const Form = ({
 
     const [arrayLineasTecnoacademia, setArrayLineasTecnoacademia] = useState([])
     const selectLineasTecnoacademia = (selectedTecnoAcademia) => {
-        const filteredLineasTecnoacademia = lineasTecnoacademia.filter((obj) => obj.tecnoacademia_id === selectedTecnoAcademia.value)
+        const filteredLineasTecnoacademia = lineas_tecnoacademia.filter((obj) => obj.tecnoacademia_id === selectedTecnoAcademia.value)
         setArrayLineasTecnoacademia(filteredLineasTecnoacademia)
     }
 
     return (
         <form onSubmit={submit}>
-            <fieldset disabled={proyectoLinea70?.proyecto.allowed.to_update && !is_super_admin}>
+            <fieldset disabled={proyecto_linea_70?.proyecto.allowed.to_update && !is_super_admin}>
                 <Grid container className="space-y-20">
                     <Grid item md={6}>
                         <Label required labelFor="fecha_inicio" error={form.errors.fecha_inicio} value="Fecha de inicio" />
@@ -128,7 +128,7 @@ const Form = ({
                                     id="rol_sennova"
                                     selectedValue={form.data.rol_sennova}
                                     onChange={(event, newValue) => form.setData('rol_sennova', newValue.value)}
-                                    options={rolesSennova}
+                                    options={roles_sennova}
                                     placeholder="Seleccione un rol SENNOVA"
                                     required
                                 />
@@ -196,10 +196,10 @@ const Form = ({
                                             id="pdf_proyecto_general"
                                             maxSize="10000"
                                             value={form.data.pdf_proyecto_general}
-                                            valueDb={proyectoLinea70.pdf_proyecto_general}
+                                            valueDb={proyecto_linea_70.pdf_proyecto_general}
                                             error={form.errors.pdf_proyecto_general}
                                             route={
-                                                proyectoLinea70.pdf_proyecto_general?.includes('http')
+                                                proyecto_linea_70.pdf_proyecto_general?.includes('http')
                                                     ? null
                                                     : route('convocatorias.ta.download-pdf-sharepoint', [convocatoria.id, ta, 'pdf_proyecto_general'])
                                             }
@@ -213,7 +213,7 @@ const Form = ({
                                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
                             </Grid>
                             <Grid item md={6}>
-                                {proyectoLinea70?.proyecto.linea_programatica.nombre + ' - ' + proyectoLinea70?.proyecto.linea_programatica.codigo}
+                                {proyecto_linea_70?.proyecto.linea_programatica.nombre + ' - ' + proyecto_linea_70?.proyecto.linea_programatica.codigo}
                             </Grid>
 
                             <Grid item md={6}>
@@ -221,14 +221,14 @@ const Form = ({
                                 <small> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </small>
                             </Grid>
                             <Grid item md={6}>
-                                <p className="first-letter:uppercase">{proyectoLinea70.proyecto.centro_formacion.nombre}</p>
+                                <p className="first-letter:uppercase">{proyecto_linea_70.proyecto.centro_formacion.nombre}</p>
                             </Grid>
 
                             <Grid item md={6}>
                                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="tecnoacademia_id" value="TecnoAcademia" />
                             </Grid>
                             <Grid item md={6}>
-                                <div>{proyectoLinea70.titulo}</div>
+                                <div>{proyecto_linea_70.titulo}</div>
                             </Grid>
 
                             <Grid item md={6}>
@@ -243,7 +243,7 @@ const Form = ({
                             <Grid item md={6}>
                                 <Autocomplete
                                     id="infraestructura_tecnoacademia"
-                                    options={infraestructuraTecnoacademia}
+                                    options={infraestructura_tecnoacademia}
                                     inputBackground="#fff"
                                     selectedValue={form.data.infraestructura_tecnoacademia}
                                     error={form.errors.infraestructura_tecnoacademia}
@@ -290,7 +290,7 @@ const Form = ({
                                     value={form.data.resumen}
                                     onChange={(e) => form.setData('resumen', e.target.value)}
                                     required
-                                    disabled={proyectoLinea70.proyecto_base || checkPermissionByUser(auth_user, [23]) ? undefined : true}
+                                    disabled={proyecto_linea_70.proyecto_base || checkPermissionByUser(auth_user, [23]) ? undefined : true}
                                 />
                             </Grid>
 
@@ -321,7 +321,7 @@ const Form = ({
                                     value={form.data.antecedentes}
                                     onChange={(e) => form.setData('antecedentes', e.target.value)}
                                     required
-                                    disabled={proyectoLinea70.proyecto_base || checkPermissionByUser(auth_user, [23]) ? undefined : true}
+                                    disabled={proyecto_linea_70.proyecto_base || checkPermissionByUser(auth_user, [23]) ? undefined : true}
                                 />
                             </Grid>
 
@@ -353,7 +353,7 @@ const Form = ({
                                     value={form.data.justificacion_problema}
                                     onChange={(e) => form.setData('justificacion_problema', e.target.value)}
                                     required
-                                    disabled={proyectoLinea70.proyecto_base || checkPermissionByUser(auth_user, [23]) ? undefined : true}
+                                    disabled={proyecto_linea_70.proyecto_base || checkPermissionByUser(auth_user, [23]) ? undefined : true}
                                 />
                             </Grid>
 
@@ -424,7 +424,7 @@ const Form = ({
                                     value={form.data.marco_conceptual}
                                     onChange={(e) => form.setData('marco_conceptual', e.target.value)}
                                     required
-                                    disabled={proyectoLinea70.proyecto_base || checkPermissionByUser(auth_user, [23]) ? undefined : true}
+                                    disabled={proyecto_linea_70.proyecto_base || checkPermissionByUser(auth_user, [23]) ? undefined : true}
                                 />
                             </Grid>
 
@@ -470,7 +470,7 @@ const Form = ({
 
             {form.isDirty && <div>There are unsaved form changes.</div>}
 
-            {method == 'crear' || proyectoLinea70.proyecto?.allowed?.to_update ? (
+            {method == 'crear' || proyecto_linea_70.proyecto?.allowed?.to_update ? (
                 <div className="pt-8 pb-4 space-y-4">
                     <PrimaryButton type="submit" className="ml-auto">
                         Guardar

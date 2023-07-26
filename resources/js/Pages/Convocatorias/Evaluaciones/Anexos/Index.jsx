@@ -39,8 +39,8 @@
     }
 
     let formEstrategiaRegionalEvaluacion = useForm({
-        anexos_comentario: evaluacion.idi_evaluacion ? evaluacion.idi_evaluacion?.anexos_comentario : evaluacion.cultura_innovacion_evaluacion ? evaluacion.cultura_innovacion_evaluacion.anexos_comentario : null,
-        anexos_requiere_comentario: evaluacion.idi_evaluacion ? (evaluacion.idi_evaluacion?.anexos_comentario == null ? true : false) : evaluacion.cultura_innovacion_evaluacion ? (evaluacion.cultura_innovacion_evaluacion.anexos_comentario == null ? true : false) : null,
+        anexos_comentario: evaluacion.evaluacion_proyecto_linea66 ? evaluacion.evaluacion_proyecto_linea66?.anexos_comentario : evaluacion.evaluacion_proyecto_linea65 ? evaluacion.evaluacion_proyecto_linea65.anexos_comentario : null,
+        anexos_requiere_comentario: evaluacion.evaluacion_proyecto_linea66 ? (evaluacion.evaluacion_proyecto_linea66?.anexos_comentario == null ? true : false) : evaluacion.evaluacion_proyecto_linea65 ? (evaluacion.evaluacion_proyecto_linea65.anexos_comentario == null ? true : false) : null,
     })
     function submitEstrategiaRegionalEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
@@ -51,8 +51,8 @@
     }
 
     let formTaEvaluacion = useForm({
-        anexos_comentario: evaluacion.ta_evaluacion?.anexos_comentario ? evaluacion.ta_evaluacion?.anexos_comentario : '',
-        anexos_requiere_comentario: evaluacion.ta_evaluacion?.anexos_comentario == null ? true : false,
+        anexos_comentario: evaluacion.evaluacion_proyecto_linea70?.anexos_comentario ? evaluacion.evaluacion_proyecto_linea70?.anexos_comentario : '',
+        anexos_requiere_comentario: evaluacion.evaluacion_proyecto_linea70?.anexos_comentario == null ? true : false,
     })
     function submitTaEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
@@ -63,8 +63,8 @@
     }
 
     let formTpEvaluacion = useForm({
-        anexos_comentario: evaluacion.tp_evaluacion?.anexos_comentario ? evaluacion.tp_evaluacion?.anexos_comentario : '',
-        anexos_requiere_comentario: evaluacion.tp_evaluacion?.anexos_comentario == null ? true : false,
+        anexos_comentario: evaluacion.evaluacion_proyecto_linea69?.anexos_comentario ? evaluacion.evaluacion_proyecto_linea69?.anexos_comentario : '',
+        anexos_requiere_comentario: evaluacion.evaluacion_proyecto_linea69?.anexos_comentario == null ? true : false,
     })
     function submitTpEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
@@ -75,14 +75,14 @@
     }
 
     let formServicioTecnologicoEvaluacion = useForm({
-        anexos_comentario: evaluacion.servicio_tecnologico_evaluacion?.anexos_comentario ? evaluacion.servicio_tecnologico_evaluacion?.anexos_comentario : '',
-        anexos_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.anexos_comentario == null ? true : false,
+        anexos_comentario: evaluacion.evaluacion_proyecto_linea68?.anexos_comentario ? evaluacion.evaluacion_proyecto_linea68?.anexos_comentario : '',
+        anexos_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.anexos_comentario == null ? true : false,
 
-        video_comentario: evaluacion.servicio_tecnologico_evaluacion?.video_comentario ? evaluacion.servicio_tecnologico_evaluacion?.video_comentario : '',
-        video_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.video_comentario == null ? true : false,
+        video_comentario: evaluacion.evaluacion_proyecto_linea68?.video_comentario ? evaluacion.evaluacion_proyecto_linea68?.video_comentario : '',
+        video_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.video_comentario == null ? true : false,
 
-        especificaciones_area_comentario: evaluacion.servicio_tecnologico_evaluacion?.especificaciones_area_comentario ? evaluacion.servicio_tecnologico_evaluacion?.especificaciones_area_comentario : '',
-        especificaciones_area_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.especificaciones_area_comentario == null ? true : false,
+        especificaciones_area_comentario: evaluacion.evaluacion_proyecto_linea68?.especificaciones_area_comentario ? evaluacion.evaluacion_proyecto_linea68?.especificaciones_area_comentario : '',
+        especificaciones_area_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.especificaciones_area_comentario == null ? true : false,
     })
     function submitServicioTecnologicoEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {

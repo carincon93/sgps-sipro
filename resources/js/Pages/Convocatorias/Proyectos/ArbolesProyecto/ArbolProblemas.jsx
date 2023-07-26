@@ -5,7 +5,7 @@ import StepperMui from '@/Components/Stepper'
 
 import { Grid } from '@mui/material'
 
-const ArbolProblemas = ({ auth, convocatoria, proyecto, efectosDirectos, causasDirectas }) => {
+const ArbolProblemas = ({ auth, convocatoria, proyecto }) => {
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
@@ -13,7 +13,7 @@ const ArbolProblemas = ({ auth, convocatoria, proyecto, efectosDirectos, causasD
             </Grid>
 
             <Grid item md={12} className="!mb-20">
-                <ArbolProblemasComponent auth={auth} convocatoria={convocatoria} proyecto={proyecto} efectosDirectos={efectosDirectos} causasDirectas={causasDirectas} />
+                <ArbolProblemasComponent auth={auth} convocatoria={convocatoria} proyecto={proyecto} />
             </Grid>
         </AuthenticatedLayout>
     )

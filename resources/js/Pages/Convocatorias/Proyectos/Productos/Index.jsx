@@ -19,12 +19,12 @@ import { MenuItem, Grid, TableRow, TableCell } from '@mui/material'
 
 import Form from './Form'
 
-const Productos = ({ auth, convocatoria, proyecto, productos, validacionResultados, resultados, subtipologiasMinciencias, tiposProducto }) => {
+const Productos = ({ auth, convocatoria, proyecto, productos, validacion_resultados, resultados, subtipologias_minciencias, tipos_producto }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
-    const [productoToDestroy, setProductoToDestroy] = useState(null)
-    const [dialogStatus, setDialogStatus] = useState(false)
+    const [producto_to_destroy, setProductoToDestroy] = useState(null)
+    const [dialog_status, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
     const [producto, setProducto] = useState(null)
 
@@ -40,7 +40,7 @@ const Productos = ({ auth, convocatoria, proyecto, productos, validacionResultad
                     Los productos se entienden como los bienes o servicios que se generan y entregan en un proceso productivo. Los productos materializan los objetivos específicos de los proyectos. De
                     esta forma, los productos de un proyecto deben agotar los objetivos específicos del mismo y deben cumplir a cabalidad con el objetivo general del proyecto.
                 </p>
-                {validacionResultados && <AlertMui className="mt-10 mb-10">{validacionResultados}</AlertMui>}
+                {validacion_resultados && <AlertMui className="mt-10 mb-10">{validacion_resultados}</AlertMui>}
 
                 {is_super_admin || proyecto.mostrar_recomendaciones ? (
                     <>
@@ -51,45 +51,43 @@ const Productos = ({ auth, convocatoria, proyecto, productos, validacionResultad
                                     title={
                                         <div>
                                             <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                            {evaluacion.idi_evaluacion ? (
+                                            {evaluacion.evaluacion_proyecto_linea66 ? (
                                                 <p class="whitespace-pre-line text-xs">
-                                                    {evaluacion.idi_evaluacion?.productos_comentario ? evaluacion.idi_evaluacion.productos_comentario : 'Sin recomendación'}
+                                                    {evaluacion.evaluacion_proyecto_linea66?.productos_comentario ? evaluacion.evaluacion_proyecto_linea66.productos_comentario : 'Sin recomendación'}
                                                 </p>
-                                            ) : evaluacion.cultura_innovacion_evaluacion ? (
+                                            ) : evaluacion.evaluacion_proyecto_linea65 ? (
                                                 <p class="whitespace-pre-line text-xs">
-                                                    {evaluacion.cultura_innovacion_evaluacion?.productos_comentario
-                                                        ? evaluacion.cultura_innovacion_evaluacion.productos_comentario
-                                                        : 'Sin recomendación'}
+                                                    {evaluacion.evaluacion_proyecto_linea65?.productos_comentario ? evaluacion.evaluacion_proyecto_linea65.productos_comentario : 'Sin recomendación'}
                                                 </p>
                                             ) : (
-                                                evaluacion.servicio_tecnologico_evaluacion && (
+                                                evaluacion.evaluacion_proyecto_linea68 && (
                                                     <>
                                                         <hr class="mt-10 mb-10 border-black-200" />
                                                         <h1 class="font-black">Productos</h1>
 
                                                         <ul class="list-disc pl-4">
                                                             <li class="whitespace-pre-line text-xs mb-10">
-                                                                {evaluacion.servicio_tecnologico_evaluacion?.productos_primer_obj_comentario
+                                                                {evaluacion.evaluacion_proyecto_linea68?.productos_primer_obj_comentario
                                                                     ? 'Recomendación productos del primer objetivo específico: ' +
-                                                                      evaluacion.servicio_tecnologico_evaluacion.productos_primer_obj_comentario
+                                                                      evaluacion.evaluacion_proyecto_linea68.productos_primer_obj_comentario
                                                                     : 'Sin recomendación'}
                                                             </li>
                                                             <li class="whitespace-pre-line text-xs mb-10">
-                                                                {evaluacion.servicio_tecnologico_evaluacion?.productos_segundo_obj_comentario
+                                                                {evaluacion.evaluacion_proyecto_linea68?.productos_segundo_obj_comentario
                                                                     ? 'Recomendación productos del segundo objetivo específico: ' +
-                                                                      evaluacion.servicio_tecnologico_evaluacion.productos_segundo_obj_comentario
+                                                                      evaluacion.evaluacion_proyecto_linea68.productos_segundo_obj_comentario
                                                                     : 'Sin recomendación'}
                                                             </li>
                                                             <li class="whitespace-pre-line text-xs mb-10">
-                                                                {evaluacion.servicio_tecnologico_evaluacion?.productos_tercer_obj_comentario
+                                                                {evaluacion.evaluacion_proyecto_linea68?.productos_tercer_obj_comentario
                                                                     ? 'Recomendación productos del tercer objetivo específico: ' +
-                                                                      evaluacion.servicio_tecnologico_evaluacion.productos_tercer_obj_comentario
+                                                                      evaluacion.evaluacion_proyecto_linea68.productos_tercer_obj_comentario
                                                                     : 'Sin recomendación'}
                                                             </li>
                                                             <li class="whitespace-pre-line text-xs mb-10">
-                                                                {evaluacion.servicio_tecnologico_evaluacion?.productos_cuarto_obj_comentario
+                                                                {evaluacion.evaluacion_proyecto_linea68?.productos_cuarto_obj_comentario
                                                                     ? 'Recomendación productos del cuarto objetivo específico: ' +
-                                                                      evaluacion.servicio_tecnologico_evaluacion.productos_cuarto_obj_comentario
+                                                                      evaluacion.evaluacion_proyecto_linea68.productos_cuarto_obj_comentario
                                                                     : 'Sin recomendación'}
                                                             </li>
                                                         </ul>
@@ -108,7 +106,7 @@ const Productos = ({ auth, convocatoria, proyecto, productos, validacionResultad
 
                 {is_super_admin ||
                 checkRole(auth_user, [5, 17]) ||
-                (proyecto.allowed.to_update && validacionResultados == null && proyecto.modificable == true && proyecto.codigo_linea_programatica != 70) ? (
+                (proyecto.allowed.to_update && validacion_resultados == null && proyecto.modificable == true && proyecto.codigo_linea_programatica != 70) ? (
                     <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setProducto(null))} variant="raised">
                         Crear producto
                     </ButtonMui>
@@ -136,7 +134,7 @@ const Productos = ({ auth, convocatoria, proyecto, productos, validacionResultad
 
                             <TableCell>
                                 <MenuMui text={<MoreVertIcon />}>
-                                    {producto.id !== productoToDestroy ? (
+                                    {producto.id !== producto_to_destroy ? (
                                         <div>
                                             <MenuItem
                                                 onClick={() => (setDialogStatus(true), setMethod('editar'), setProducto(producto))}
@@ -182,7 +180,7 @@ const Productos = ({ auth, convocatoria, proyecto, productos, validacionResultad
                 <PaginationMui links={productos.links} />
 
                 <DialogMui
-                    open={dialogStatus}
+                    open={dialog_status}
                     fullWidth={true}
                     maxWidth="lg"
                     blurEnabled={true}
@@ -195,8 +193,8 @@ const Productos = ({ auth, convocatoria, proyecto, productos, validacionResultad
                             proyecto={proyecto}
                             producto={producto}
                             resultados={resultados}
-                            subtipologiasMinciencias={subtipologiasMinciencias}
-                            tiposProducto={tiposProducto}
+                            subtipologias_minciencias={subtipologias_minciencias}
+                            tipos_producto={tipos_producto}
                         />
                     }
                 />

@@ -14,6 +14,7 @@ use App\Models\Evaluacion\Evaluacion;
 use App\Models\Evaluacion\ProyectoRolEvaluacion;
 use App\Models\LineaTecnoacademia;
 use App\Models\LineaTecnoparque;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ProyectoRolSennovaController extends Controller
@@ -39,14 +40,14 @@ class ProyectoRolSennovaController extends Controller
             $proyecto->max_meses_ejecucion = $proyecto->proyectoLinea68->max_meses_ejecucion;
         }
 
-        $lineasTecnologicas = [];
+        $lineas_tecnologicas = [];
         if ($proyecto->codigo_linea_programatica == 70) {
-            $lineasTecnologicas = LineaTecnoacademia::select('id', 'nombre')->get();
+            $lineas_tecnologicas = LineaTecnoacademia::select('id', 'nombre')->get();
         } else if ($proyecto->codigo_linea_programatica == 69) {
-            $lineasTecnologicas = LineaTecnoparque::select('id', 'nombre')->get();
+            $lineas_tecnologicas = LineaTecnoparque::select('id', 'nombre')->get();
         }
 
-        $objetivosEspecificos = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
+        $objetivos_especificos = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
 
         /**
          * Si el proyecto es de la línea programática 23 se prohibe el acceso. No requiere de roles SENNOVA
@@ -59,16 +60,17 @@ class ProyectoRolSennovaController extends Controller
             'convocatoria'                              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'proyecto'                                  => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'total_roles_sennova', 'cantidad_instructores_planta', 'cantidad_dinamizadores_planta', 'cantidad_psicopedagogos_planta', 'en_subsanacion', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'diff_meses', 'max_meses_ejecucion', 'fecha_inicio', 'fecha_finalizacion'),
             'filters'                                   => request()->all('search'),
-            'proyectoRolesSennova'                      => ProyectoRolSennova::where('proyecto_id', $proyecto->id)->filterProyectoRolSennova(request()->only('search'))->with('convocatoriaRolSennova.rolSennova', 'proyectoRolesEvaluaciones.evaluacion', 'actividades', 'lineasTecnoacademia', 'lineasTecnoparque')->orderBy('proyecto_rol_sennova.id')->paginate(),
-            'lineaProgramatica'                         => $proyecto->lineaProgramatica->only('id'),
-            'convocatoriaRolesSennova'                  => SelectHelper::convocatoriaRolesSennova($convocatoria->id, $proyecto->id, $proyecto->lineaProgramatica->id),
+            'proyecto_roles_sennova'                    => ProyectoRolSennova::where('proyecto_id', $proyecto->id)->filterProyectoRolSennova(request()->only('search'))->with('convocatoriaRolSennova.rolSennova', 'proyectoRolesEvaluaciones.evaluacion', 'actividades', 'lineasTecnoacademia', 'lineasTecnoparque')->orderBy('proyecto_rol_sennova.id')->paginate(),
+            'linea_programatica'                        => $proyecto->lineaProgramatica->only('id'),
+            'convocatoria_roles_sennova'                => SelectHelper::convocatoriaRolesSennova($convocatoria->id, $proyecto->id, $proyecto->lineaProgramatica->id),
             'actividades'                               => Actividad::select('id as value', 'descripcion as label')->whereIn(
-                'objetivo_especifico_id',
-                $objetivosEspecificos->map(function ($objetivoEspecifico) {
-                    return $objetivoEspecifico->id;
-                })
-            )->orderBy('actividades.descripcion')->with('objetivoEspecifico')->get(),
-            'lineasTecnologicas'                        => $lineasTecnologicas ?? null,
+                                                            'objetivo_especifico_id',
+                                                            $objetivos_especificos->map(function ($objetivoEspecifico) {
+                                                                return $objetivoEspecifico->id;
+                                                            })
+                                                        )->orderBy('actividades.descripcion')->with('objetivoEspecifico')->get(),
+            'lineas_tecnologicas'                       => $lineas_tecnologicas ?? null,
+            'niveles_academicos'                        => json_decode(Storage::get('json/niveles-academicos.json'), true)
         ]);
     }
 
@@ -106,8 +108,8 @@ class ProyectoRolSennovaController extends Controller
         }
 
         $request->merge(['proyecto_id' => $proyecto->id]);
-        $proyectoRolSennova = ProyectoRolSennova::create($request->all());
-        $proyectoRolSennova->actividades()->sync($request->actividad_id);
+        $proyecto_rol_sennova = ProyectoRolSennova::create($request->all());
+        $proyecto_rol_sennova->actividades()->sync($request->actividad_id);
 
         if ($proyecto->lineaProgramatica->codigo == 70) {
             $request->validate(
@@ -115,14 +117,14 @@ class ProyectoRolSennovaController extends Controller
                     'linea_tecnologica_id*' => 'nullable|min:0|max:2147483647|exists:lineas_tecnoacademia,id'
                 ]
             );
-            $proyectoRolSennova->lineasTecnoacademia()->sync($request->linea_tecnologica_id);
+            $proyecto_rol_sennova->lineasTecnoacademia()->sync($request->linea_tecnologica_id);
         } else if ($proyecto->lineaProgramatica->codigo == 69) {
             $request->validate(
                 [
                     'linea_tecnologica_id*' => 'nullable|min:0|max:2147483647|exists:lineas_tecnoparque,id'
                 ]
             );
-            $proyectoRolSennova->lineasTecnoparque()->sync($request->linea_tecnologica_id);
+            $proyecto_rol_sennova->lineasTecnoparque()->sync($request->linea_tecnologica_id);
         }
 
         return redirect()->route('convocatorias.proyectos.proyecto-rol-sennova.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
@@ -131,10 +133,10 @@ class ProyectoRolSennovaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ProyectoRolSennova  $proyectoRolSennova
+     * @param  \App\Models\ProyectoRolSennova  $proyecto_rol_sennova
      * @return \Illuminate\Http\Response
      */
-    public function show(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoRolSennova $proyectoRolSennova)
+    public function show(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoRolSennova $proyecto_rol_sennova)
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
@@ -144,10 +146,10 @@ class ProyectoRolSennovaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ProyectoRolSennova  $proyectoRolSennova
+     * @param  \App\Models\ProyectoRolSennova  $proyecto_rol_sennova
      * @return \Illuminate\Http\Response
      */
-    public function edit(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoRolSennova $proyectoRolSennova)
+    public function edit(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoRolSennova $proyecto_rol_sennova)
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
@@ -158,26 +160,26 @@ class ProyectoRolSennovaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ProyectoRolSennova  $proyectoRolSennova
+     * @param  \App\Models\ProyectoRolSennova  $proyecto_rol_sennova
      * @return \Illuminate\Http\Response
      */
-    public function update(ProyectoRolSennovaRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoRolSennova $proyectoRolSennova)
+    public function update(ProyectoRolSennovaRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoRolSennova $proyecto_rol_sennova)
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
         /**
          * Todas las líneas
          */
-        if (ProyectoRolSennovaValidationTrait::monitoriaValidation($request->convocatoria_rol_sennova_id, $proyecto, $proyectoRolSennova, $request->numero_meses, $request->numero_roles)) {
+        if (ProyectoRolSennovaValidationTrait::monitoriaValidation($request->convocatoria_rol_sennova_id, $proyecto, $proyecto_rol_sennova, $request->numero_meses, $request->numero_roles)) {
             return back()->with('error', 'Ha superado el máximo de 4 monitorias');
         }
 
-        if (ProyectoRolSennovaValidationTrait::contratoAprendizajeValidation($request->convocatoria_rol_sennova_id, $proyecto, $proyectoRolSennova, $request->numero_meses, $request->numero_roles)) {
+        if (ProyectoRolSennovaValidationTrait::contratoAprendizajeValidation($request->convocatoria_rol_sennova_id, $proyecto, $proyecto_rol_sennova, $request->numero_meses, $request->numero_roles)) {
             return back()->with('error', 'Máximo 1 contrato de aprendizaje por 6 meses');
         }
 
-        $proyectoRolSennova->update($request->validated());
-        $proyectoRolSennova->actividades()->sync($request->actividad_id);
+        $proyecto_rol_sennova->update($request->validated());
+        $proyecto_rol_sennova->actividades()->sync($request->actividad_id);
 
         if ($proyecto->lineaProgramatica->codigo == 70) {
             $request->validate(
@@ -185,14 +187,14 @@ class ProyectoRolSennovaController extends Controller
                     'linea_tecnologica_id*' => 'nullable|min:0|max:2147483647|exists:lineas_tecnoacademia,id'
                 ]
             );
-            $proyectoRolSennova->lineasTecnoacademia()->sync($request->linea_tecnologica_id);
+            $proyecto_rol_sennova->lineasTecnoacademia()->sync($request->linea_tecnologica_id);
         } else if ($proyecto->lineaProgramatica->codigo == 69) {
             $request->validate(
                 [
                     'linea_tecnologica_id*' => 'nullable|min:0|max:2147483647|exists:lineas_tecnoparque,id'
                 ]
             );
-            $proyectoRolSennova->lineasTecnoparque()->sync($request->linea_tecnologica_id);
+            $proyecto_rol_sennova->lineasTecnoparque()->sync($request->linea_tecnologica_id);
         }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
@@ -201,24 +203,24 @@ class ProyectoRolSennovaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ProyectoRolSennova  $proyectoRolSennova
+     * @param  \App\Models\ProyectoRolSennova  $proyecto_rol_sennova
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoRolSennova $proyectoRolSennova)
+    public function destroy(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoRolSennova $proyecto_rol_sennova)
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $proyectoRolSennova->delete();
+        $proyecto_rol_sennova->delete();
 
         return redirect()->route('convocatorias.proyectos.proyecto-rol-sennova.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
-    public function updateEvaluacion(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion, ProyectoRolSennova $proyectoRolSennova)
+    public function updateEvaluacion(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion, ProyectoRolSennova $proyecto_rol_sennova)
     {
         $this->authorize('modificar-evaluacion-autor', $evaluacion);
 
         ProyectoRolEvaluacion::updateOrCreate(
-            ['evaluacion_id' => $evaluacion->id, 'proyecto_rol_sennova_id' => $proyectoRolSennova->id],
+            ['evaluacion_id' => $evaluacion->id, 'proyecto_rol_sennova_id' => $proyecto_rol_sennova->id],
             ['correcto' => $request->correcto, 'comentario' => $request->correcto == false ? $request->comentario : null]
         );
 

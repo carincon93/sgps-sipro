@@ -20,29 +20,19 @@ const ArticulacionSennova = ({
     auth,
     convocatoria,
     proyecto,
-    areasConocimiento,
-    subareasConocimiento,
-    disciplinasSubareaConocimiento,
-    lineasInvestigacion,
-    gruposInvestigacion,
-    semillerosInvestigacion,
-    redesConocimiento,
-    tematicasEstrategicas,
-    actividadesEconomicas,
-    gruposInvestigacionRelacionados,
-    lineasInvestigacionRelacionadas,
-    semillerosInvestigacionRelacionados,
-    disciplinasSubareaConocimientoRelacionadas,
-    redesConocimientoRelacionadas,
-    actividadesEconomicasRelacionadas,
-    tematicasEstrategicasRelacionadas,
-    proyectosIdiTecnoacademia,
-    proyectosIdiTecnoacademiaRelacionados,
-    centrosFormacion,
-    autorPrincipal,
-    tiposDocumento,
-    tiposVinculacion,
-    roles,
+    disciplinas_subarea_conocimiento,
+    lineas_investigacion,
+    grupos_investigacion,
+    semilleros_investigacion,
+    redes_conocimiento,
+    tematicas_estrategicas,
+    actividades_economicas,
+    proyectos_idi_tecnoacademia,
+    centros_formacion,
+    autor_principal,
+    tipos_documento,
+    tipos_vinculacion,
+    roles_sennova,
     ...props
 }) => {
     const auth_user = auth.user
@@ -51,14 +41,14 @@ const ArticulacionSennova = ({
     const form = useForm({
         area_conocimiento_id: null,
         subarea_conocimiento_id: null,
-        lineas_investigacion: lineasInvestigacionRelacionadas?.length > 0 ? lineasInvestigacionRelacionadas : null,
-        grupos_investigacion: gruposInvestigacionRelacionados?.length > 0 ? gruposInvestigacionRelacionados : null,
-        semilleros_investigacion: semillerosInvestigacionRelacionados?.length > 0 ? semillerosInvestigacionRelacionados : null,
-        disciplinas_subarea_conocimiento: disciplinasSubareaConocimientoRelacionadas?.length > 0 ? disciplinasSubareaConocimientoRelacionadas : null,
-        redes_conocimiento: redesConocimientoRelacionadas?.length > 0 ? redesConocimientoRelacionadas : null,
-        actividades_economicas: actividadesEconomicasRelacionadas?.length > 0 ? actividadesEconomicasRelacionadas : null,
-        tematicas_estrategicas: tematicasEstrategicasRelacionadas?.length > 0 ? tematicasEstrategicasRelacionadas : null,
-        proyecto_idi_tecnoacademia_id: proyectosIdiTecnoacademiaRelacionados?.length > 0 ? proyectosIdiTecnoacademiaRelacionados : null,
+        lineas_investigacion: null,
+        grupos_investigacion: null,
+        semilleros_investigacion: null,
+        disciplinas_subarea_conocimiento: null,
+        redes_conocimiento: null,
+        actividades_economicas: null,
+        tematicas_estrategicas: null,
+        proyecto_idi_tecnoacademia_id: null,
         proyectos_ejecucion: proyecto.proyectos_ejecucion ? proyecto.proyectos_ejecucion : '',
         semilleros_en_formalizacion: proyecto.semilleros_en_formalizacion,
         articulacion_semillero: proyecto.articulacion_semillero,
@@ -68,7 +58,7 @@ const ArticulacionSennova = ({
         articulacion_bienestar_aprendiz: proyecto.articulacion_bienestar_aprendiz,
         favorecimiento_ruta_formacion: proyecto.favorecimiento_ruta_formacion,
 
-        // Tp
+        // Línea 69
         impacto_centro_formacion: proyecto.impacto_centro_formacion,
         aportacion_semilleros_grupos: proyecto.aportacion_semilleros_grupos,
         proyeccion_con_st: proyecto.proyeccion_con_st,
@@ -86,22 +76,6 @@ const ArticulacionSennova = ({
         }
     }
 
-    let arraySubareasConocimiento = subareasConocimiento.filter(function (obj) {
-        return obj.area_conocimiento_id == form.area_conocimiento_id?.value
-    })
-    function selectAreaConocimiento(event) {
-        arraySubareasConocimiento = subareasConocimiento.filter(function (obj) {
-            return obj.area_conocimiento_id == event.detail?.value
-        })
-    }
-
-    let arrayDisciplinasSubareaConocimiento = []
-    function selectSubreaConocimiento(event) {
-        arrayDisciplinasSubareaConocimiento = disciplinasSubareaConocimiento.filter(function (obj) {
-            return obj.subarea_conocimiento_id == event.detail?.value
-        })
-    }
-
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
@@ -111,22 +85,18 @@ const ArticulacionSennova = ({
             <Grid item md={12}>
                 <div className="mt-16">
                     <Participantes
-                        centrosFormacion={centrosFormacion}
-                        autorPrincipal={autorPrincipal}
+                        centros_formacion={centros_formacion}
+                        autor_principal={autor_principal}
                         convocatoria={convocatoria}
                         proyecto={proyecto}
-                        tiposDocumento={tiposDocumento}
-                        tiposVinculacion={tiposVinculacion}
-                        rolesSennova={roles}
+                        tipos_documento={tipos_documento}
+                        tipos_vinculacion={tipos_vinculacion}
+                        roles_sennova={roles_sennova}
                     />
                 </div>
             </Grid>
             <Grid item md={12}>
-                <h1
-                    className="text-3xl mt-24 mb
-                    -8 text-center">
-                    Articulación SENNOVA
-                </h1>{' '}
+                <h1 className="text-3xl mt-24 mb-8 text-center">Articulación SENNOVA</h1>
                 <p className="text-center mb-8">
                     A continuación, registre la información relacionada con la articulación de la línea de{' '}
                     {proyecto.codigo_linea_programatica == 70 ? 'TecnoAcademia' : proyecto.codigo_linea_programatica == 69 ? 'TecnoParque' : ''} con las otras líneas de SENNOVA en el centro y la
@@ -151,7 +121,7 @@ const ArticulacionSennova = ({
                                         <SelectMultiple
                                             id="lineas_investigacion"
                                             bdValues={form.data.lineas_investigacion}
-                                            options={lineasInvestigacion}
+                                            options={lineas_investigacion}
                                             onChange={(event, newValue) => {
                                                 const selectedValues = newValue.map((option) => option.value)
                                                 form.setData((prevData) => ({
@@ -174,7 +144,7 @@ const ArticulacionSennova = ({
                                         <SelectMultiple
                                             id="grupos_investigacion"
                                             bdValues={form.data.grupos_investigacion}
-                                            options={gruposInvestigacion}
+                                            options={grupos_investigacion}
                                             onChange={(event, newValue) => {
                                                 const selectedValues = newValue.map((option) => option.value)
                                                 form.setData((prevData) => ({
@@ -218,7 +188,7 @@ const ArticulacionSennova = ({
                                             <SelectMultiple
                                                 id="semilleros_investigacion"
                                                 bdValues={form.data.semilleros_investigacion}
-                                                options={semillerosInvestigacion}
+                                                options={semilleros_investigacion}
                                                 onChange={(event, newValue) => {
                                                     const selectedValues = newValue.map((option) => option.value)
                                                     form.setData((prevData) => ({
@@ -241,7 +211,7 @@ const ArticulacionSennova = ({
                                         <SelectMultiple
                                             id="proyecto_idi_tecnoacademia_id"
                                             bdValues={form.data.proyecto_idi_tecnoacademia_id}
-                                            options={proyectosIdiTecnoacademia}
+                                            options={proyectos_idi_tecnoacademia}
                                             onChange={(event, newValue) => {
                                                 const selectedValues = newValue.map((option) => option.value)
                                                 form.setData((prevData) => ({
@@ -255,8 +225,8 @@ const ArticulacionSennova = ({
                                         />
 
                                         <AlertMui className="mt-10 mb-4">
-                                            Si aú n no ha registrado el proyecto e n el módulo de <strong>Pr o yectos e iniciativas I+D+i TecnoAcademi a s</strong>, relacione en el siguiente campo el
-                                            título del proyecto. Se recomienda hacer el registro en el m ó dulo.
+                                            Si aún no ha registrado el proyecto en el módulo de <strong>Proyectos e iniciativas I+D+i TecnoAcademias</strong>, relacione en el siguiente campo el título
+                                            del proyecto. Se recomienda hacer el registro en el módulo.
                                         </AlertMui>
                                         <Textarea
                                             label="Proyectos / Iniciativas"
@@ -289,13 +259,13 @@ const ArticulacionSennova = ({
 
                                 <div className="mt-44 grid grid-cols-2">
                                     <div>
-                                        <Label required className="mb-4" labelFor="disciplina_subarea_conocimiento_id" value="Disciplina de la subárea de conocimiento" />
+                                        <Label required className="mb-4" labelFor="disciplina_subarea_conocimiento_id" value="Disciplina de conocimiento" />
                                     </div>
                                     <div>
                                         <SelectMultiple
                                             id="disciplinas_subarea_conocimiento_id"
                                             bdValues={form.data.disciplinas_subarea_conocimiento}
-                                            options={disciplinasSubareaConocimiento}
+                                            options={disciplinas_subarea_conocimiento}
                                             onChange={(event, newValue) => {
                                                 const selectedValues = newValue.map((option) => option.value)
                                                 form.setData((prevData) => ({
@@ -318,7 +288,7 @@ const ArticulacionSennova = ({
                                         <SelectMultiple
                                             id="redes_conocimiento"
                                             bdValues={form.data.redes_conocimiento}
-                                            options={redesConocimiento}
+                                            options={redes_conocimiento}
                                             onChange={(event, newValue) => {
                                                 const selectedValues = newValue.map((option) => option.value)
                                                 form.setData((prevData) => ({
@@ -341,7 +311,7 @@ const ArticulacionSennova = ({
                                         <SelectMultiple
                                             id="actividades_economicas"
                                             bdValues={form.data.actividades_economicas}
-                                            options={actividadesEconomicas}
+                                            options={actividades_economicas}
                                             onChange={(event, newValue) => {
                                                 const selectedValues = newValue.map((option) => option.value)
                                                 form.setData((prevData) => ({
@@ -364,7 +334,7 @@ const ArticulacionSennova = ({
                                         <SelectMultiple
                                             id="tematicas_estrategicas"
                                             bdValues={form.data.tematicas_estrategicas}
-                                            options={tematicasEstrategicas}
+                                            options={tematicas_estrategicas}
                                             onChange={(event, newValue) => {
                                                 const selectedValues = newValue.map((option) => option.value)
                                                 form.setData((prevData) => ({
@@ -488,7 +458,7 @@ r                                           id grid-cols-2">
                                 {#if is_super_admin || (evaluacion.finalizado && evaluacion.habilitado)}
                                     <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
                                         <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                        <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion.lineas_medulares_centro_comentario ? evaluacion.ta_evaluacion.lineas_medulares_centro_comentario : 'Sin recomendación'}</p>
+                                        <p className="whitespace-pre-line text-xs">{evaluacion.evaluacion_proyecto_linea70.lineas_medulares_centro_comentario ? evaluacion.evaluacion_proyecto_linea70.lineas_medulares_centro_comentario : 'Sin recomendación'}</p>
                                     </div>
                                 {/if}
                             {/each}
@@ -524,7 +494,7 @@ r                                           id grid-cols-2">
                                 {#if is_super_admin || (evaluacion.finalizado && evaluacion.habilitado)}
                                     <div className="bg-zinc-900 p-4 rounded shadow text-white my-2">
                                         <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                        <p className="whitespace-pre-line text-xs">{evaluacion.tp_evaluacion.impacto_centro_formacion_comentario ? evaluacion.tp_evaluacion.impacto_centro_formacion_comentario : 'Sin recomendación'}</p>
+                                        <p className="whitespace-pre-line text-xs">{evaluacion.evaluacion_proyecto_linea69.impacto_centro_formacion_comentario ? evaluacion.evaluacion_proyecto_linea69.impacto_centro_formacion_comentario : 'Sin recomendación'}</p>
                                     </div>
                                 {/if}
                             {/each}
@@ -669,7 +639,7 @@ i                                                   d-cols-1">
                                             <SelectMultiple
                                                 id="semilleros_investigacion"
                                                 bdValues={form.data.semilleros_investigacion}
-                                                options={semillerosInvestigacion}
+                                                options={semilleros_investigacion}
                                                 onChange={(event, newValue) => {
                                                     const selectedValues = newValue.map((option) => option.value)
                                                     form.setData((prevData) => ({
@@ -692,7 +662,7 @@ i                                                   d-cols-1">
                                             <SelectMultiple
                                                 id="grupos_investigacion"
                                                 bdValues={form.data.grupos_investigacion}
-                                                options={gruposInvestigacion}
+                                                options={grupos_investigacion}
                                                 onChange={(event, newValue) => {
                                                     const selectedValues = newValue.map((option) => option.value)
                                                     form.setData((prevData) => ({

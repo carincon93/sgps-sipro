@@ -7,11 +7,11 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import Textarea from '@/Components/Textarea'
 import { Tooltip, Typography } from '@mui/material'
 
-const ArbolProblemasComponent = ({ auth, proyecto, faseEvaluacion }) => {
+const ArbolProblemasComponent = ({ auth, proyecto, fase_evaluacion }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
-    const formProblemaCentral = useForm({
+    const form_problema_central = useForm({
         identificacion_problema: proyecto.identificacion_problema,
         problema_central: proyecto.problema_central,
         justificacion_problema: proyecto.justificacion_problema,
@@ -22,7 +22,7 @@ const ArbolProblemasComponent = ({ auth, proyecto, faseEvaluacion }) => {
     const submitProblemaCentral = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
-            formProblemaCentral.post(route('proyectos.problema-central', proyecto.id), {
+            form_problema_central.post(route('proyectos.problema-central', proyecto.id), {
                 preserveScroll: true,
             })
         }
@@ -30,7 +30,7 @@ const ArbolProblemasComponent = ({ auth, proyecto, faseEvaluacion }) => {
 
     return (
         <div>
-            {is_super_admin || (proyecto.mostrar_recomendaciones && faseEvaluacion == false) ? (
+            {is_super_admin || (proyecto.mostrar_recomendaciones && fase_evaluacion == false) ? (
                 <>
                     {proyecto.evaluaciones.map((evaluacion, i) =>
                         is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
@@ -39,15 +39,21 @@ const ArbolProblemasComponent = ({ auth, proyecto, faseEvaluacion }) => {
                                 title={
                                     <div>
                                         <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                        {evaluacion.idi_evaluacion && <p className="whitespace-pre-line text-xs">{evaluacion.idi_evaluacion.problema_central_comentario || 'Sin recomendación'}</p>}
-                                        {evaluacion.cultura_innovacion_evaluacion && (
-                                            <p className="whitespace-pre-line text-xs">{evaluacion.cultura_innovacion_evaluacion.arbol_problemas_comentario || 'Sin recomendación'}</p>
+                                        {evaluacion.evaluacion_proyecto_linea66 && (
+                                            <p className="whitespace-pre-line text-xs">{evaluacion.evaluacion_proyecto_linea66.problema_central_comentario || 'Sin recomendación'}</p>
                                         )}
-                                        {evaluacion.servicio_tecnologico_evaluacion && (
-                                            <p className="whitespace-pre-line text-xs">{evaluacion.servicio_tecnologico_evaluacion.arbol_problemas_comentario || 'Sin recomendación'}</p>
+                                        {evaluacion.evaluacion_proyecto_linea65 && (
+                                            <p className="whitespace-pre-line text-xs">{evaluacion.evaluacion_proyecto_linea65.arbol_problemas_comentario || 'Sin recomendación'}</p>
                                         )}
-                                        {evaluacion.ta_evaluacion && <p className="whitespace-pre-line text-xs">{evaluacion.ta_evaluacion.arbol_problemas_comentario || 'Sin recomendación'}</p>}
-                                        {evaluacion.tp_evaluacion && <p className="whitespace-pre-line text-xs">{evaluacion.tp_evaluacion.arbol_problemas_comentario || 'Sin recomendación'}</p>}
+                                        {evaluacion.evaluacion_proyecto_linea68 && (
+                                            <p className="whitespace-pre-line text-xs">{evaluacion.evaluacion_proyecto_linea68.arbol_problemas_comentario || 'Sin recomendación'}</p>
+                                        )}
+                                        {evaluacion.evaluacion_proyecto_linea70 && (
+                                            <p className="whitespace-pre-line text-xs">{evaluacion.evaluacion_proyecto_linea70.arbol_problemas_comentario || 'Sin recomendación'}</p>
+                                        )}
+                                        {evaluacion.evaluacion_proyecto_linea69 && (
+                                            <p className="whitespace-pre-line text-xs">{evaluacion.evaluacion_proyecto_linea69.arbol_problemas_comentario || 'Sin recomendación'}</p>
+                                        )}
                                     </div>
                                 }>
                                 <Typography className="inline-block">Evaluación {i + 1}</Typography>
@@ -80,9 +86,9 @@ const ArbolProblemasComponent = ({ auth, proyecto, faseEvaluacion }) => {
                                     </AlertMui>
                                     <Textarea
                                         id="identificacion_problema"
-                                        value={formProblemaCentral.data.identificacion_problema}
-                                        error={formProblemaCentral.errors.identificacion_problema}
-                                        onChange={(e) => formProblemaCentral.setData('identificacion_problema', e.target.value)}
+                                        value={form_problema_central.data.identificacion_problema}
+                                        error={form_problema_central.errors.identificacion_problema}
+                                        onChange={(e) => form_problema_central.setData('identificacion_problema', e.target.value)}
                                         disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
                                         required
                                     />
@@ -102,9 +108,9 @@ const ArbolProblemasComponent = ({ auth, proyecto, faseEvaluacion }) => {
                                     <Textarea
                                         disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
                                         id="justificacion_problema"
-                                        error={formProblemaCentral.errors.justificacion_problema}
-                                        value={formProblemaCentral.data.justificacion_problema}
-                                        onChange={(e) => formProblemaCentral.setData('justificacion_problema', e.target.value)}
+                                        error={form_problema_central.errors.justificacion_problema}
+                                        value={form_problema_central.data.justificacion_problema}
+                                        onChange={(e) => form_problema_central.setData('justificacion_problema', e.target.value)}
                                         required
                                     />
                                 </div>
@@ -120,9 +126,9 @@ const ArbolProblemasComponent = ({ auth, proyecto, faseEvaluacion }) => {
                                 <Textarea
                                     disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
                                     id="problema_central"
-                                    error={formProblemaCentral.errors.problema_central}
-                                    value={formProblemaCentral.data.problema_central}
-                                    onChange={(e) => formProblemaCentral.setData('problema_central', e.target.value)}
+                                    error={form_problema_central.errors.problema_central}
+                                    value={form_problema_central.data.problema_central}
+                                    onChange={(e) => form_problema_central.setData('problema_central', e.target.value)}
                                     required
                                 />
                             </div>
@@ -152,16 +158,16 @@ const ArbolProblemasComponent = ({ auth, proyecto, faseEvaluacion }) => {
                                 <Textarea
                                     disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
                                     id="objetivo-general"
-                                    error={formProblemaCentral.errors.objetivo_general}
-                                    value={formProblemaCentral.data.objetivo_general}
-                                    onChange={(e) => formProblemaCentral.setData('objetivo_general', e.target.value)}
+                                    error={form_problema_central.errors.objetivo_general}
+                                    value={form_problema_central.data.objetivo_general}
+                                    onChange={(e) => form_problema_central.setData('objetivo_general', e.target.value)}
                                     required
                                 />
                             </div>
                         </fieldset>
 
                         {proyecto.allowed.to_update && (
-                            <PrimaryButton disabled={formProblemaCentral.processing} className="my-10" type="submit" form="problema-central">
+                            <PrimaryButton disabled={form_problema_central.processing} className="my-10" type="submit" form="problema-central">
                                 1. Guardar información sobre el problema central
                             </PrimaryButton>
                         )}

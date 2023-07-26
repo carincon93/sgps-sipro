@@ -46,14 +46,14 @@ const Edit = ({
     const [dialog_status, setDialogStatus] = useState(false)
 
     const comentarios_evaluaciones =
-        proyectoLinea65?.proyecto.evaluaciones.length > 0
-            ? Object.keys(proyectoLinea65?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_linea65).filter((field) => field.endsWith('_comentario'))
+        proyecto_linea_65?.proyecto.evaluaciones.length > 0
+            ? Object.keys(proyecto_linea_65?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_linea65).filter((field) => field.endsWith('_comentario'))
             : null
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyectoLinea65.titulo}</h2>}>
+        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyecto_linea_65.titulo}</h2>}>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyectoLinea65?.proyecto} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto_linea_65?.proyecto} />
             </Grid>
 
             <Grid item md={4}>
@@ -70,7 +70,7 @@ const Edit = ({
                     open={dialog_status}
                     dialogContent={
                         <>
-                            {proyectoLinea65?.proyecto.evaluaciones.map((evaluacion, i) => (
+                            {proyecto_linea_65?.proyecto.evaluaciones.map((evaluacion, i) => (
                                 <ButtonMui onClick={() => setEvaluacionIndex(i)} primary={evaluacion_index == i} key={i} className="!ml-2">
                                     Ver comentarios de la evaluación #{i + 1}
                                 </ButtonMui>
@@ -84,7 +84,7 @@ const Edit = ({
                                                 <TableCell>
                                                     <p className="first-letter:uppercase">{field.replace(/_comentario/g, '').replace(/_/g, ' ')}</p>
                                                 </TableCell>
-                                                <TableCell>{proyectoLinea65?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_linea65[field] ?? 'Sin comentarios'}</TableCell>
+                                                <TableCell>{proyecto_linea_65?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_linea65[field] ?? 'Sin comentarios'}</TableCell>
                                             </TableRow>
                                         ))}
                             </TableMui>

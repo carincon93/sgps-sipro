@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Proyecto;
 use App\Models\Convocatoria;
-use App\Models\TipoProyectoSt;
+use App\Models\TipoProyectoLinea68;
 use App\Models\ProyectoPdfVersion;
 use Spatie\Browsershot\Browsershot;
 use Illuminate\Support\Facades\Log;
@@ -47,7 +47,7 @@ class PdfController extends Controller
             $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true));
         } else if (!empty($proyecto->proyectoLinea68)) {
             $datos = $proyecto->proyectoLinea68;
-            $tipoProyectoSt = TipoProyectoSt::selectRaw("tipos_proyecto_st.id as value, CASE tipos_proyecto_st.tipo_proyecto
+            $tipoProyectoSt = TipoProyectoLinea68::selectRaw("tipos_proyecto_st.id as value, CASE tipos_proyecto_st.tipo_proyecto
                         WHEN '1' THEN   concat(centros_formacion.nombre, chr(10), '∙ Tipo de proyecto: A', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
                         WHEN '2' THEN   concat(centros_formacion.nombre, chr(10), '∙ Tipo de proyecto: B', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
                     END as label")->join('centros_formacion', 'tipos_proyecto_st.centro_formacion_id', 'centros_formacion.id')->join('lineas_tecnicas', 'tipos_proyecto_st.linea_tecnica_id', 'lineas_tecnicas.id')->get();

@@ -32,13 +32,13 @@
     let is_super_admin = checkRole(auth_user, [1])
 
     let formEstrategiaRegionalEvaluacion = useForm({
-        objetivos_puntaje: evaluacion.idi_evaluacion ? evaluacion.idi_evaluacion.objetivos_puntaje : evaluacion.cultura_innovacion_evaluacion ? evaluacion.cultura_innovacion_evaluacion.objetivos_puntaje : null,
-        objetivos_comentario: evaluacion.idi_evaluacion ? evaluacion.idi_evaluacion.objetivos_comentario : evaluacion.cultura_innovacion_evaluacion ? evaluacion.cultura_innovacion_evaluacion.objetivos_comentario : null,
-        objetivos_requiere_comentario: evaluacion.idi_evaluacion ? (evaluacion.idi_evaluacion.objetivos_comentario == null ? true : false) : evaluacion.cultura_innovacion_evaluacion ? (evaluacion.cultura_innovacion_evaluacion.objetivos_comentario == null ? true : false) : null,
+        objetivos_puntaje: evaluacion.evaluacion_proyecto_linea66 ? evaluacion.evaluacion_proyecto_linea66.objetivos_puntaje : evaluacion.evaluacion_proyecto_linea65 ? evaluacion.evaluacion_proyecto_linea65.objetivos_puntaje : null,
+        objetivos_comentario: evaluacion.evaluacion_proyecto_linea66 ? evaluacion.evaluacion_proyecto_linea66.objetivos_comentario : evaluacion.evaluacion_proyecto_linea65 ? evaluacion.evaluacion_proyecto_linea65.objetivos_comentario : null,
+        objetivos_requiere_comentario: evaluacion.evaluacion_proyecto_linea66 ? (evaluacion.evaluacion_proyecto_linea66.objetivos_comentario == null ? true : false) : evaluacion.evaluacion_proyecto_linea65 ? (evaluacion.evaluacion_proyecto_linea65.objetivos_comentario == null ? true : false) : null,
 
-        resultados_puntaje: evaluacion.idi_evaluacion ? evaluacion.idi_evaluacion.resultados_puntaje : evaluacion.cultura_innovacion_evaluacion ? evaluacion.cultura_innovacion_evaluacion.resultados_puntaje : null,
-        resultados_comentario: evaluacion.idi_evaluacion ? evaluacion.idi_evaluacion.resultados_comentario : evaluacion.cultura_innovacion_evaluacion ? evaluacion.cultura_innovacion_evaluacion.resultados_comentario : null,
-        resultados_requiere_comentario: evaluacion.idi_evaluacion ? (evaluacion.idi_evaluacion.resultados_comentario == null ? true : false) : evaluacion.cultura_innovacion_evaluacion ? (evaluacion.cultura_innovacion_evaluacion.resultados_comentario == null ? true : false) : null,
+        resultados_puntaje: evaluacion.evaluacion_proyecto_linea66 ? evaluacion.evaluacion_proyecto_linea66.resultados_puntaje : evaluacion.evaluacion_proyecto_linea65 ? evaluacion.evaluacion_proyecto_linea65.resultados_puntaje : null,
+        resultados_comentario: evaluacion.evaluacion_proyecto_linea66 ? evaluacion.evaluacion_proyecto_linea66.resultados_comentario : evaluacion.evaluacion_proyecto_linea65 ? evaluacion.evaluacion_proyecto_linea65.resultados_comentario : null,
+        resultados_requiere_comentario: evaluacion.evaluacion_proyecto_linea66 ? (evaluacion.evaluacion_proyecto_linea66.resultados_comentario == null ? true : false) : evaluacion.evaluacion_proyecto_linea65 ? (evaluacion.evaluacion_proyecto_linea65.resultados_comentario == null ? true : false) : null,
     })
     function submitEstrategiaRegionalEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
@@ -49,41 +49,41 @@
     }
 
     let formServicioTecnologicoEvaluacion = useForm({
-        objetivo_general_puntaje: evaluacion.servicio_tecnologico_evaluacion?.objetivo_general_puntaje,
-        objetivo_general_comentario: evaluacion.servicio_tecnologico_evaluacion?.objetivo_general_comentario ? evaluacion.servicio_tecnologico_evaluacion?.objetivo_general_comentario : '',
-        objetivo_general_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.objetivo_general_comentario == null ? true : false,
+        objetivo_general_puntaje: evaluacion.evaluacion_proyecto_linea68?.objetivo_general_puntaje,
+        objetivo_general_comentario: evaluacion.evaluacion_proyecto_linea68?.objetivo_general_comentario ? evaluacion.evaluacion_proyecto_linea68?.objetivo_general_comentario : '',
+        objetivo_general_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.objetivo_general_comentario == null ? true : false,
 
-        primer_objetivo_puntaje: evaluacion.servicio_tecnologico_evaluacion?.primer_objetivo_puntaje,
-        primer_objetivo_comentario: evaluacion.servicio_tecnologico_evaluacion?.primer_objetivo_comentario ? evaluacion.servicio_tecnologico_evaluacion?.primer_objetivo_comentario : '',
-        primer_objetivo_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.primer_objetivo_comentario == null ? true : false,
+        primer_objetivo_puntaje: evaluacion.evaluacion_proyecto_linea68?.primer_objetivo_puntaje,
+        primer_objetivo_comentario: evaluacion.evaluacion_proyecto_linea68?.primer_objetivo_comentario ? evaluacion.evaluacion_proyecto_linea68?.primer_objetivo_comentario : '',
+        primer_objetivo_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.primer_objetivo_comentario == null ? true : false,
 
-        segundo_objetivo_puntaje: evaluacion.servicio_tecnologico_evaluacion?.segundo_objetivo_puntaje,
-        segundo_objetivo_comentario: evaluacion.servicio_tecnologico_evaluacion?.segundo_objetivo_comentario ? evaluacion.servicio_tecnologico_evaluacion?.segundo_objetivo_comentario : '',
-        segundo_objetivo_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.segundo_objetivo_comentario == null ? true : false,
+        segundo_objetivo_puntaje: evaluacion.evaluacion_proyecto_linea68?.segundo_objetivo_puntaje,
+        segundo_objetivo_comentario: evaluacion.evaluacion_proyecto_linea68?.segundo_objetivo_comentario ? evaluacion.evaluacion_proyecto_linea68?.segundo_objetivo_comentario : '',
+        segundo_objetivo_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.segundo_objetivo_comentario == null ? true : false,
 
-        tercer_objetivo_puntaje: evaluacion.servicio_tecnologico_evaluacion?.tercer_objetivo_puntaje,
-        tercer_objetivo_comentario: evaluacion.servicio_tecnologico_evaluacion?.tercer_objetivo_comentario ? evaluacion.servicio_tecnologico_evaluacion?.tercer_objetivo_comentario : '',
-        tercer_objetivo_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.tercer_objetivo_comentario == null ? true : false,
+        tercer_objetivo_puntaje: evaluacion.evaluacion_proyecto_linea68?.tercer_objetivo_puntaje,
+        tercer_objetivo_comentario: evaluacion.evaluacion_proyecto_linea68?.tercer_objetivo_comentario ? evaluacion.evaluacion_proyecto_linea68?.tercer_objetivo_comentario : '',
+        tercer_objetivo_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.tercer_objetivo_comentario == null ? true : false,
 
-        cuarto_objetivo_puntaje: evaluacion.servicio_tecnologico_evaluacion?.cuarto_objetivo_puntaje,
-        cuarto_objetivo_comentario: evaluacion.servicio_tecnologico_evaluacion?.cuarto_objetivo_comentario ? evaluacion.servicio_tecnologico_evaluacion?.cuarto_objetivo_comentario : '',
-        cuarto_objetivo_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.cuarto_objetivo_comentario == null ? true : false,
+        cuarto_objetivo_puntaje: evaluacion.evaluacion_proyecto_linea68?.cuarto_objetivo_puntaje,
+        cuarto_objetivo_comentario: evaluacion.evaluacion_proyecto_linea68?.cuarto_objetivo_comentario ? evaluacion.evaluacion_proyecto_linea68?.cuarto_objetivo_comentario : '',
+        cuarto_objetivo_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.cuarto_objetivo_comentario == null ? true : false,
 
-        resultados_primer_obj_puntaje: evaluacion.servicio_tecnologico_evaluacion?.resultados_primer_obj_puntaje,
-        resultados_primer_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.resultados_primer_obj_comentario ? evaluacion.servicio_tecnologico_evaluacion?.resultados_primer_obj_comentario : '',
-        resultados_primer_obj_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.resultados_primer_obj_comentario == null ? true : false,
+        resultados_primer_obj_puntaje: evaluacion.evaluacion_proyecto_linea68?.resultados_primer_obj_puntaje,
+        resultados_primer_obj_comentario: evaluacion.evaluacion_proyecto_linea68?.resultados_primer_obj_comentario ? evaluacion.evaluacion_proyecto_linea68?.resultados_primer_obj_comentario : '',
+        resultados_primer_obj_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.resultados_primer_obj_comentario == null ? true : false,
 
-        resultados_segundo_obj_puntaje: evaluacion.servicio_tecnologico_evaluacion?.resultados_segundo_obj_puntaje,
-        resultados_segundo_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.resultados_segundo_obj_comentario ? evaluacion.servicio_tecnologico_evaluacion?.resultados_segundo_obj_comentario : '',
-        resultados_segundo_obj_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.resultados_segundo_obj_comentario == null ? true : false,
+        resultados_segundo_obj_puntaje: evaluacion.evaluacion_proyecto_linea68?.resultados_segundo_obj_puntaje,
+        resultados_segundo_obj_comentario: evaluacion.evaluacion_proyecto_linea68?.resultados_segundo_obj_comentario ? evaluacion.evaluacion_proyecto_linea68?.resultados_segundo_obj_comentario : '',
+        resultados_segundo_obj_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.resultados_segundo_obj_comentario == null ? true : false,
 
-        resultados_tercer_obj_puntaje: evaluacion.servicio_tecnologico_evaluacion?.resultados_tercer_obj_puntaje,
-        resultados_tercer_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.resultados_tercer_obj_comentario ? evaluacion.servicio_tecnologico_evaluacion?.resultados_tercer_obj_comentario : '',
-        resultados_tercer_obj_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.resultados_tercer_obj_comentario == null ? true : false,
+        resultados_tercer_obj_puntaje: evaluacion.evaluacion_proyecto_linea68?.resultados_tercer_obj_puntaje,
+        resultados_tercer_obj_comentario: evaluacion.evaluacion_proyecto_linea68?.resultados_tercer_obj_comentario ? evaluacion.evaluacion_proyecto_linea68?.resultados_tercer_obj_comentario : '',
+        resultados_tercer_obj_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.resultados_tercer_obj_comentario == null ? true : false,
 
-        resultados_cuarto_obj_puntaje: evaluacion.servicio_tecnologico_evaluacion?.resultados_cuarto_obj_puntaje,
-        resultados_cuarto_obj_comentario: evaluacion.servicio_tecnologico_evaluacion?.resultados_cuarto_obj_comentario ? evaluacion.servicio_tecnologico_evaluacion?.resultados_cuarto_obj_comentario : '',
-        resultados_cuarto_obj_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.resultados_cuarto_obj_comentario == null ? true : false,
+        resultados_cuarto_obj_puntaje: evaluacion.evaluacion_proyecto_linea68?.resultados_cuarto_obj_puntaje,
+        resultados_cuarto_obj_comentario: evaluacion.evaluacion_proyecto_linea68?.resultados_cuarto_obj_comentario ? evaluacion.evaluacion_proyecto_linea68?.resultados_cuarto_obj_comentario : '',
+        resultados_cuarto_obj_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.resultados_cuarto_obj_comentario == null ? true : false,
     })
     function submitServicioTecnologicoEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
@@ -94,8 +94,8 @@
     }
 
     let formTpEvaluacion = useForm({
-        arbol_objetivos_comentario: evaluacion.tp_evaluacion?.arbol_objetivos_comentario ? evaluacion.tp_evaluacion?.arbol_objetivos_comentario : '',
-        arbol_objetivos_requiere_comentario: evaluacion.tp_evaluacion?.arbol_objetivos_comentario == null ? true : false,
+        arbol_objetivos_comentario: evaluacion.evaluacion_proyecto_linea69?.arbol_objetivos_comentario ? evaluacion.evaluacion_proyecto_linea69?.arbol_objetivos_comentario : '',
+        arbol_objetivos_requiere_comentario: evaluacion.evaluacion_proyecto_linea69?.arbol_objetivos_comentario == null ? true : false,
     })
     function submitTpEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {

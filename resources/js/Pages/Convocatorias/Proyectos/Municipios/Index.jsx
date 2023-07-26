@@ -21,7 +21,7 @@ const Municipios = ({ auth, convocatoria, proyecto, presupuesto, taTpViaticosMun
     const is_super_admin = checkRole(auth_user, [1])
 
     const [municipioToDestroy, setMunicipioToDestroy] = useState(null)
-    const [dialogStatus, setDialogStatus] = useState(false)
+    const [dialog_status, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
     const [municipio, setMunicipio] = useState(null)
 
@@ -109,7 +109,7 @@ const Municipios = ({ auth, convocatoria, proyecto, presupuesto, taTpViaticosMun
                 </TableMui>
 
                 <DialogMui
-                    open={dialogStatus}
+                    open={dialog_status}
                     fullWidth={true}
                     maxWidth="lg"
                     blurEnabled={true}

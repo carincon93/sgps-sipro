@@ -24,7 +24,6 @@ use App\Models\DisenoCurricular;
 use App\Models\EstadoSistemaGestion;
 use App\Models\SegundoGrupoPresupuestal;
 use App\Models\TercerGrupoPresupuestal;
-use App\Models\PresupuestoSennova;
 use App\Models\Tecnoacademia;
 use App\Models\LineaTecnoacademia;
 use App\Models\MesaSectorial;
@@ -33,17 +32,16 @@ use App\Models\NodoTecnoparque;
 use App\Models\PrimerGrupoPresupuestal;
 use App\Models\ProgramaFormacion;
 use App\Models\ProgramaSennova;
-use App\Models\Proyecto;
 use App\Models\ProyectoIdiTecnoacademia;
 use App\Models\RolSennova;
 use App\Models\SemilleroInvestigacion;
 use App\Models\SubareaConocimiento;
 use App\Models\SubtipoProyectoCapacidadInstalada;
-use App\Models\TipoBeneficiadoTa;
+use App\Models\TipoBeneficiadoLinea70;
 use App\Models\TipologiaAmbiente;
-use App\Models\TipoProductoIdi;
+use App\Models\TipoProductoLinea66;
 use App\Models\TipoProyectoCapacidadInstalada;
-use App\Models\TipoProyectoSt;
+use App\Models\TipoProyectoLinea68;
 use App\Models\User;
 use App\Models\UsoPresupuestal;
 
@@ -76,7 +74,7 @@ class SelectHelper
      */
     public static function tiposBeneficiadosTa()
     {
-        return TipoBeneficiadoTa::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get();
+        return TipoBeneficiadoLinea70::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get();
     }
 
     /**
@@ -86,7 +84,7 @@ class SelectHelper
      */
     public static function tiposProductosIdi()
     {
-        return TipoProductoIdi::select('id as value', 'tipo as label')->get();
+        return TipoProductoLinea66::select('id as value', 'tipo as label')->get();
     }
 
     /**
@@ -178,9 +176,9 @@ class SelectHelper
      *
      * Trae los tipos de proyectos ST
      */
-    public static function tiposProyectosSt()
+    public static function tiposProyectosLinea68()
     {
-        return TipoProyectoSt::selectRaw("tipos_proyecto_st.id as value, CASE subclasificacion
+        return TipoProyectoLinea68::selectRaw("tipos_proyecto_st.id as value, CASE subclasificacion
                     WHEN '1' THEN	CONCAT(centros_formacion.nombre, chr(10), '∙ Automatización y TICs', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
                     WHEN '2' THEN	CONCAT(centros_formacion.nombre, chr(10), '∙ Calibración', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
                     WHEN '3' THEN	CONCAT(centros_formacion.nombre, chr(10), '∙ Consultoría técnica', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)

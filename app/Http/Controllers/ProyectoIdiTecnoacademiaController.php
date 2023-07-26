@@ -59,7 +59,7 @@ class ProyectoIdiTecnoacademiaController extends Controller
             'municipios'                        => SelectHelper::municipios(),
             'estadosProyectoIdiTecnoacademia'   => json_decode(Storage::get('json/estados-proyecto-idi-tecnoacademia.json'), true),
             'roles'                             => json_decode(Storage::get('json/roles-sennova-ta.json'), true),
-            'allowed_to_create'                   => Gate::inspect('create', [ProyectoIdiTecnoacademia::class])->allowed()
+            'allowed_to_create'                 => Gate::inspect('create', [ProyectoIdiTecnoacademia::class])->allowed()
         ]);
     }
 

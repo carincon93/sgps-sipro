@@ -7,19 +7,19 @@ import Textarea from '@/Components/Textarea'
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aulaMovil }) => {
+const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil }) => {
     const form = useForm({
-        id: aulaMovil?.id ?? '',
-        placa: aulaMovil?.placa ?? '',
-        modelo: aulaMovil?.modelo ?? '',
-        logros_vigencia: aulaMovil?.logros_vigencia ?? '',
-        numero_municipios_visitados: aulaMovil?.numero_municipios_visitados ?? '',
-        numero_aprendices_beneficiados: aulaMovil?.numero_aprendices_beneficiados ?? '',
-        estado: aulaMovil?.estado ?? '',
-        modulos_interactivos: aulaMovil?.modulos_interactivos ?? '',
-        acciones_a_desarrollar: aulaMovil?.acciones_a_desarrollar ?? '',
-        numero_aprendices_a_beneficiar: aulaMovil?.numero_aprendices_a_beneficiar ?? '',
-        recursos_mantenimiento: aulaMovil?.recursos_mantenimiento ?? '',
+        id: aula_movil?.id ?? '',
+        placa: aula_movil?.placa ?? '',
+        modelo: aula_movil?.modelo ?? '',
+        logros_vigencia: aula_movil?.logros_vigencia ?? '',
+        numero_municipios_visitados: aula_movil?.numero_municipios_visitados ?? '',
+        numero_aprendices_beneficiados: aula_movil?.numero_aprendices_beneficiados ?? '',
+        estado: aula_movil?.estado ?? '',
+        modulos_interactivos: aula_movil?.modulos_interactivos ?? '',
+        acciones_a_desarrollar: aula_movil?.acciones_a_desarrollar ?? '',
+        numero_aprendices_a_beneficiar: aula_movil?.numero_aprendices_a_beneficiar ?? '',
+        recursos_mantenimiento: aula_movil?.recursos_mantenimiento ?? '',
         soat: null,
         tecnicomecanica: null,
     })
@@ -31,14 +31,12 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aulaMovil 
                 ? form.post(route('convocatorias.ta.aulas-moviles.store', [convocatoria.id, proyecto.id]), {
                       preserveScroll: true,
                   })
-                : form.post(route('convocatorias.ta.aulas-moviles.store', [convocatoria.id, proyecto.id, aulaMovil.id]), {
+                : form.post(route('convocatorias.ta.aulas-moviles.store', [convocatoria.id, proyecto.id, aula_movil.id]), {
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
                   })
         }
     }
-
-    console.log(aulaMovil?.filename.tecnicomecanicaFilename)
 
     return (
         <Grid container spacing={2}>
@@ -174,15 +172,15 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aulaMovil 
                                 <FileInput
                                     id="soat"
                                     value={form.data.soat}
-                                    filename={aulaMovil?.filename.soatFilename}
-                                    extension={aulaMovil?.extension.soatExtension}
+                                    filename={aula_movil?.filename.soatFilename}
+                                    extension={aula_movil?.extension.soatExtension}
                                     label="Seleccione el SOAT"
                                     accept="application/pdf"
                                     downloadRoute={
-                                        aulaMovil
-                                            ? aulaMovil?.soat.includes('http') == true || aulaMovil?.soat.includes('http') == undefined
+                                        aula_movil
+                                            ? aula_movil?.soat.includes('http') == true || aula_movil?.soat.includes('http') == undefined
                                                 ? null
-                                                : route('convocatorias.ta.aulas-moviles.download-file-sharepoint', [convocatoria.id, proyecto.id, aulaMovil.id, 'soat'])
+                                                : route('convocatorias.ta.aulas-moviles.download-file-sharepoint', [convocatoria.id, proyecto.id, aula_movil.id, 'soat'])
                                             : null
                                     }
                                     onChange={(e) => form.setData('soat', e.target.files[0])}
@@ -194,15 +192,15 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aulaMovil 
                                 <FileInput
                                     id="tecnicomecanica"
                                     value={form.data.tecnicomecanica}
-                                    filename={aulaMovil?.filename.tecnicomecanicaFilename}
-                                    extension={aulaMovil?.extension.tecnicomecanicaExtension}
+                                    filename={aula_movil?.filename.tecnicomecanicaFilename}
+                                    extension={aula_movil?.extension.tecnicomecanicaExtension}
                                     label="Seleccione la tecnicomecánica"
                                     accept="application/pdf"
                                     downloadRoute={
-                                        aulaMovil?.tecnicomecanica
-                                            ? aulaMovil?.tecnicomecanica?.includes('http')
+                                        aula_movil?.tecnicomecanica
+                                            ? aula_movil?.tecnicomecanica?.includes('http')
                                                 ? null
-                                                : route('convocatorias.ta.aulas-moviles.download-file-sharepoint', [convocatoria, proyecto, aulaMovil.id, 'tecnicomecánica'])
+                                                : route('convocatorias.ta.aulas-moviles.download-file-sharepoint', [convocatoria, proyecto, aula_movil.id, 'tecnicomecánica'])
                                             : null
                                     }
                                     onChange={(e) => form.setData('tecnicomecanica', e.target.files[0])}
@@ -211,7 +209,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aulaMovil 
                             </div>
                         </fieldset>
 
-                        {aulaMovil && <small className="flex items-center mt-14 text-app-700">{aulaMovil.updated_at}</small>}
+                        {aula_movil && <small className="flex items-center mt-14 text-app-700">{aula_movil.updated_at}</small>}
 
                         <div className="flex items-center justify-between mt-14 py-4">
                             {proyecto.allowed.to_update ? (

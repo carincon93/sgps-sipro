@@ -24,43 +24,43 @@ import React from 'react'
 import ToolTipMui from '@/Components/Tooltip'
 import { Grid } from '@mui/material'
 
-const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos, causasDirectas, tiposImpacto, resultados, objetivosEspecificos, faseEvaluacion = false }) => {
+const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directos, causas_directas, tipos_impacto, resultados, objetivos_especificos, fase_evaluacion = false }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
-    const formEfectoIndirecto = useForm({
+    const form_efecto_indirecto = useForm({
         id: null,
         efecto_directo_id: null,
         descripcion: '',
     })
 
-    const [showNuevoEfectoIndirectoForm, setShowNuevoEfectoIndirectoForm] = useState(false)
-    const [efectoDirectoIdNuevoIndirecto, setEfectoDirectoIdNuevoIndirecto] = useState(null)
+    const [showNuevo_efecto_indirecto_form, setShowNuevoEfectoIndirectoForm] = useState(false)
+    const [efecto_directo_id_nuevo_indirecto, setEfectoDirectoIdNuevoIndirecto] = useState(null)
 
     const setNuevoEfectoIndirecto = (efectoDirecto) => {
         setShowNuevoEfectoIndirectoForm(true)
         setShowEfectoIndirectoForm(false)
         setEfectoDirectoIdNuevoIndirecto(efectoDirecto.id)
 
-        formEfectoIndirecto.setData({
+        form_efecto_indirecto.setData({
             id: null,
             efecto_directo_id: efectoDirecto.id,
             descripcion: '',
         })
     }
 
-    const [showEfectoIndirectoForm, setShowEfectoIndirectoForm] = useState(false)
-    const [efectoIndirectoId, setEfectoIndirectoId] = useState(null)
+    const [show_efecto_indirecto_form, setShowEfectoIndirectoForm] = useState(false)
+    const [efecto_indirecto_id, setEfectoIndirectoId] = useState(null)
 
     const setEfectoIndirecto = (efectoDirecto, efectoIndirecto) => {
-        // if (showEfectoDirectoForm) {
+        // if (show_efecto_directo_form) {
         //     submitEfectoDirecto()
         // }
 
         setShowEfectoIndirectoForm(true)
         setEfectoIndirectoId(efectoIndirecto.id)
 
-        formEfectoIndirecto.setData({
+        form_efecto_indirecto.setData({
             id: efectoIndirecto.id,
             efecto_directo_id: efectoDirecto.id,
             descripcion: efectoIndirecto.descripcion,
@@ -70,18 +70,18 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
     const submitEfectoIndirecto = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
-            formEfectoIndirecto.post(
+            form_efecto_indirecto.post(
                 route('proyectos.efecto-indirecto', {
                     proyecto: proyecto.id,
-                    efecto_directo: formEfectoIndirecto.data.efecto_directo_id,
+                    efecto_directo: form_efecto_indirecto.data.efecto_directo_id,
                 }),
                 {
                     onSuccess: () => {
                         setShowEfectoIndirectoForm(false)
                         setShowNuevoEfectoIndirectoForm(false)
-                        formEfectoIndirecto.setData('id', null)
-                        formEfectoIndirecto.setData('efecto_directo_id', null)
-                        formEfectoIndirecto.setData('descripcion', '')
+                        form_efecto_indirecto.setData('id', null)
+                        form_efecto_indirecto.setData('efecto_directo_id', null)
+                        form_efecto_indirecto.setData('descripcion', '')
                         setEfectoIndirectoId(null)
                         setEfectoDirectoId(null)
                     },
@@ -92,8 +92,8 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
     }
 
     // Efecto Indirecto
-    const [showEfectoIndirectoDestroyIcon, setShowEfectoIndirectoDestroyIcon] = useState(false)
-    const [efectoIndirectoIdToDestroy, setEfectoIndirectoIdToDestroy] = useState(null)
+    const [show_efecto_indirecto_destroy_icon, setShowEfectoIndirectoDestroyIcon] = useState(false)
+    const [efecto_indirecto_idToDestroy, setEfectoIndirectoIdToDestroy] = useState(null)
 
     const destroyEfectoIndirecto = (efectoIndirecto) => {
         if (proyecto.allowed.to_update) {
@@ -104,14 +104,14 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
     }
 
     // Efecto Directo
-    const formEfectoDirecto = useForm({
+    const form_efecto_directo = useForm({
         id: null,
         descripcion: '',
     })
 
     const newEfectoDirecto = () => {
         if (proyecto.allowed.to_update) {
-            formEfectoDirecto.post(
+            form_efecto_directo.post(
                 route('proyectos.new-efecto-directo', {
                     proyecto: proyecto.id,
                 }),
@@ -122,19 +122,19 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
         }
     }
 
-    const [showEfectoDirectoForm, setShowEfectoDirectoForm] = useState(false)
-    const [efectoDirectoId, setEfectoDirectoId] = useState(null)
+    const [show_efecto_directo_form, setShowEfectoDirectoForm] = useState(false)
+    const [efecto_directo_id, setEfectoDirectoId] = useState(null)
 
     const setEfectoDirecto = (efectoDirecto) => {
-        formEfectoDirecto.reset()
-        // if (showEfectoIndirectoForm) {
+        form_efecto_directo.reset()
+        // if (show_efecto_indirecto_form) {
         //     submitEfectoIndirecto()
         // }
 
         setShowEfectoDirectoForm(true)
         setEfectoDirectoId(efectoDirecto.id)
 
-        formEfectoDirecto.setData({
+        form_efecto_directo.setData({
             id: efectoDirecto.id,
             descripcion: efectoDirecto.descripcion,
         })
@@ -144,15 +144,15 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
         e.preventDefault()
 
         if (proyecto.allowed.to_update) {
-            formEfectoDirecto.post(
+            form_efecto_directo.post(
                 route('proyectos.efecto-directo', {
                     proyecto: proyecto.id,
-                    efecto_directo: formEfectoDirecto.data.id,
+                    efecto_directo: form_efecto_directo.data.id,
                 }),
                 {
                     onSuccess: () => {
                         setShowEfectoDirectoForm(false)
-                        formEfectoDirecto.reset()
+                        form_efecto_directo.reset()
                         setEfectoDirectoId(null)
                     },
                     preserveScroll: true,
@@ -161,8 +161,8 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
         }
     }
 
-    const [showEfectoDirectoDestroyIcon, setShowEfectoDirectoDestroyIcon] = useState(false)
-    const [efectoDirectoIdToDestroy, setEfectoDirectoIdToDestroy] = useState(null)
+    const [show_efecto_directo_destroy_icon, setShowEfectoDirectoDestroyIcon] = useState(false)
+    const [efecto_directo_idToDestroy, setEfectoDirectoIdToDestroy] = useState(null)
 
     const destroyEfectoDirecto = (efectoDirecto) => {
         if (proyecto.allowed.to_update) {
@@ -173,14 +173,14 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
     }
 
     // Causa Directa
-    const formCausaDirecta = useForm({
+    const form_causa_directa = useForm({
         id: null,
         descripcion: '',
     })
 
     const newCausaDirecta = () => {
         if (proyecto.allowed.to_update) {
-            formCausaDirecta.post(
+            form_causa_directa.post(
                 route('proyectos.new-causa-directa', {
                     proyecto: proyecto.id,
                 }),
@@ -191,19 +191,19 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
         }
     }
 
-    const [showCausaDirectaForm, setShowCausaDirectaForm] = useState(false)
-    const [causaDirectaId, setCausaDirectaId] = useState(null)
+    const [show_causa_directa_form, setShowCausaDirectaForm] = useState(false)
+    const [causa_directa_id, setCausaDirectaId] = useState(null)
 
     const setCausaDirecta = (causaDirecta) => {
-        formCausaDirecta.reset()
-        // if (showEfectoIndirectoForm) {
+        form_causa_directa.reset()
+        // if (show_efecto_indirecto_form) {
         //     submitEfectoIndirecto()
         // }
 
         setShowCausaDirectaForm(true)
         setCausaDirectaId(causaDirecta.id)
 
-        formCausaDirecta.setData({
+        form_causa_directa.setData({
             id: causaDirecta.id,
             descripcion: causaDirecta.descripcion,
         })
@@ -212,15 +212,15 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
     const submitCausaDirecta = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
-            formCausaDirecta.post(
+            form_causa_directa.post(
                 route('proyectos.causa-directa', {
                     proyecto: proyecto.id,
-                    causa_directa: formCausaDirecta.data.id,
+                    causa_directa: form_causa_directa.data.id,
                 }),
                 {
                     onSuccess: () => {
                         setShowCausaDirectaForm(false)
-                        formCausaDirecta.reset()
+                        form_causa_directa.reset()
                         setCausaDirectaId(null)
                     },
                     preserveScroll: true,
@@ -229,8 +229,8 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
         }
     }
 
-    const [showCausaDirectaDestroyIcon, setShowCausaDirectaDestroyIcon] = useState(false)
-    const [causaDirectaIdToDestroy, setCausaDirectaIdToDestroy] = useState(null)
+    const [show_causa_directa_destroy_icon, setShowCausaDirectaDestroyIcon] = useState(false)
+    const [causa_directa_idToDestroy, setCausaDirectaIdToDestroy] = useState(null)
 
     const destroyCausaDirecta = (causaDirecta) => {
         if (proyecto.allowed.to_update) {
@@ -241,40 +241,40 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
     }
 
     // Causa Indirecta
-    const formCausaIndirecta = useForm({
+    const form_causa_indirecta = useForm({
         id: null,
         causa_directa_id: null,
         descripcion: '',
     })
 
-    const [showNuevaCausaIndirectaForm, setShowNuevaCausaIndirectaForm] = useState(false)
-    const [causaDirectaIdNuevaIndirecta, setCausaDirectaIdNuevaIndirecta] = useState(null)
+    const [show_nueva_causa_indirecta_form, setShowNuevaCausaIndirectaForm] = useState(false)
+    const [causa_directa_idNuevaIndirecta, setCausaDirectaIdNuevaIndirecta] = useState(null)
 
     const setNuevoCausaIndirecta = (causaDirecta) => {
-        formCausaIndirecta.reset()
+        form_causa_indirecta.reset()
 
         setShowNuevaCausaIndirectaForm(true)
         setShowCausaIndirectaForm(false)
         setCausaDirectaIdNuevaIndirecta(causaDirecta.id)
 
-        formCausaIndirecta.setData({
+        form_causa_indirecta.setData({
             causa_directa_id: causaDirecta.id,
         })
     }
 
-    const [showCausaIndirectaForm, setShowCausaIndirectaForm] = useState(false)
-    const [causaIndirectaId, setCausaIndirectaId] = useState(null)
+    const [show_causa_indirecta_form, setShowCausaIndirectaForm] = useState(false)
+    const [causa_indirecta_id, setCausaIndirectaId] = useState(null)
 
     const setCausaIndirecta = (causaDirecta, causaIndirecta) => {
-        formCausaIndirecta.reset()
-        // if (showEfectoDirectoForm) {
+        form_causa_indirecta.reset()
+        // if (show_efecto_directo_form) {
         //     submitEfectoDirecto()
         // }
 
         setShowCausaIndirectaForm(true)
         setCausaIndirectaId(causaIndirecta.id)
 
-        formCausaIndirecta.setData({
+        form_causa_indirecta.setData({
             id: causaIndirecta.id,
             descripcion: causaIndirecta.descripcion,
             causa_directa_id: causaDirecta.id,
@@ -285,16 +285,16 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
         e.preventDefault()
 
         if (proyecto.allowed.to_update) {
-            formCausaIndirecta.post(
+            form_causa_indirecta.post(
                 route('proyectos.causa-indirecta', {
                     proyecto: proyecto.id,
-                    causa_directa: formCausaIndirecta.data.causa_directa_id,
+                    causa_directa: form_causa_indirecta.data.causa_directa_id,
                 }),
                 {
                     onSuccess: () => {
                         setShowCausaIndirectaForm(false)
                         setShowNuevaCausaIndirectaForm(false)
-                        formCausaIndirecta.reset()
+                        form_causa_indirecta.reset()
                         setCausaIndirectaId(null)
                         setCausaDirectaId(null)
                     },
@@ -305,8 +305,8 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
     }
 
     // Causa Indirecta
-    const [showCausaIndirectaDestroyIcon, setShowCausaIndirectaDestroyIcon] = useState(false)
-    const [causaIndirectaIdToDestroy, setCausaIndirectaIdToDestroy] = useState(null)
+    const [show_causa_indirecta_destroy_icon, setShowCausaIndirectaDestroyIcon] = useState(false)
+    const [causa_indirecta_idToDestroy, setCausaIndirectaIdToDestroy] = useState(null)
 
     const destroyCausaIndirecta = (causaIndirecta) => {
         if (proyecto.allowed.to_update) {
@@ -317,7 +317,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
     }
 
     // Impactos
-    const formImpacto = useForm({
+    const form_impacto = useForm({
         id: null,
         efecto_indirecto_id: null,
         descripcion: '',
@@ -325,19 +325,19 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
         resultado_id: '',
     })
 
-    const [showImpactoForm, setShowImpactoForm] = useState(false)
-    const [impactoId, setImpactoId] = useState(null)
+    const [show_impacto_form, setShowImpactoForm] = useState(false)
+    const [impacto_id, setImpactoId] = useState(null)
 
     const setImpacto = (efectoIndirecto, impacto) => {
-        formImpacto.reset()
-        // if (showResultadoForm) {
+        form_impacto.reset()
+        // if (show_resultado_form) {
         //     submitResultado()
         // }
 
         setShowImpactoForm(true)
         setImpactoId(impacto.id)
 
-        formImpacto.setData({
+        form_impacto.setData({
             id: impacto.id,
             efecto_indirecto_id: efectoIndirecto.id,
             descripcion: impacto.descripcion,
@@ -349,17 +349,17 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
         e.preventDefault()
 
         if (proyecto.allowed.to_update) {
-            formImpacto.post(
+            form_impacto.post(
                 route('proyectos.impacto', {
                     proyecto: proyecto.id,
-                    impacto: formImpacto.data.id,
+                    impacto: form_impacto.data.id,
                 }),
                 {
                     onSuccess: () => {
                         setShowImpactoForm(false)
-                        resultadoId = null
+                        resultado_id = null
                         setImpactoId(null)
-                        formImpacto.reset()
+                        form_impacto.reset()
                     },
                     preserveScroll: true,
                 },
@@ -367,8 +367,8 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
         }
     }
 
-    const [showImpactoDestroyIcon, setShowImpactoDestroyIcon] = useState(false)
-    const [impactoIdToDestroy, setImpactoIdToDestroy] = useState(null)
+    const [show_impacto_destroy_icon, setShowImpactoDestroyIcon] = useState(false)
+    const [impacto_id_to_destroy, setImpactoIdToDestroy] = useState(null)
 
     const destroyImpacto = (impacto) => {
         if (proyecto.allowed.to_update) {
@@ -379,23 +379,23 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
     }
 
     // Resultados
-    const formResultado = useForm({
+    const form_resultado = useForm({
         descripcion: '',
     })
 
-    const [showResultadoForm, setShowResultadoForm] = useState(false)
-    const [resultadoId, setResultadoId] = useState(null)
+    const [show_resultado_form, setShowResultadoForm] = useState(false)
+    const [resultado_id, setResultadoId] = useState(null)
 
     const setResultado = (efectoDirecto, resultado) => {
-        formResultado.reset()
-        // if (showImpactoForm) {
+        form_resultado.reset()
+        // if (show_impacto_form) {
         //     submitImpacto()
         // }
 
         setShowResultadoForm(true)
         setResultadoId(resultado.id)
 
-        formResultado.setData({
+        form_resultado.setData({
             id: resultado.id,
             descripcion: resultado.descripcion,
             objetivo_especifico_id: resultado.objetivo_especifico_id,
@@ -406,15 +406,15 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
         e.preventDefault()
 
         if (proyecto.allowed.to_update) {
-            formResultado.post(
+            form_resultado.post(
                 route('proyectos.resultado', {
                     proyecto: proyecto.id,
-                    resultado: formResultado.data.id,
+                    resultado: form_resultado.data.id,
                 }),
                 {
                     onSuccess: () => {
                         setShowResultadoForm(false)
-                        formResultado.reset()
+                        form_resultado.reset()
                         setResultadoId(null)
                     },
                     preserveScroll: true,
@@ -423,8 +423,8 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
         }
     }
 
-    const [showResultadoDestroyIcon, setShowResultadoDestroyIcon] = useState(false)
-    const [resultadoIdToDestroy, setResultadoIdToDestroy] = useState(null)
+    const [show_resultado_destroy_icon, setShowResultadoDestroyIcon] = useState(false)
+    const [resultado_id_to_destroy, setResultadoIdToDestroy] = useState(null)
 
     const destroyResultado = (resultado) => {
         if (proyecto.allowed.to_update) {
@@ -438,25 +438,25 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
     }
 
     // Objetivos Específicos
-    const formObjetivoEspecifico = useForm({
+    const form_objetivo_especifico = useForm({
         id: null,
         descripcion: '',
         numero: 0,
     })
 
-    const [showObjetivoEspecificoForm, setShowObjetivoEspecificoForm] = useState(false)
-    const [objetivoEspecificoId, setObjetivoEspecificoId] = useState(null)
+    const [show_objetivo_especifico_form, setShowObjetivoEspecificoForm] = useState(false)
+    const [objetivo_especifico_id, setObjetivoEspecificoId] = useState(null)
 
     const setObjetivoEspecifico = (causaDirecta, objetivoEspecifico, numero) => {
-        formObjetivoEspecifico.reset()
-        // if (showActividadForm) {
+        form_objetivo_especifico.reset()
+        // if (show_actividad_form) {
         //     submitActividad()
         // }
 
         setShowObjetivoEspecificoForm(true)
         setObjetivoEspecificoId(objetivoEspecifico.id)
 
-        formObjetivoEspecifico.setData({
+        form_objetivo_especifico.setData({
             id: objetivoEspecifico.id,
             descripcion: objetivoEspecifico.descripcion,
             numero: numero,
@@ -467,15 +467,15 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
         e.preventDefault()
 
         if (proyecto.allowed.to_update) {
-            formObjetivoEspecifico.post(
+            form_objetivo_especifico.post(
                 route('proyectos.objetivo-especifico', {
                     proyecto: proyecto.id,
-                    objetivo_especifico: formObjetivoEspecifico.data.id,
+                    objetivo_especifico: form_objetivo_especifico.data.id,
                 }),
                 {
                     onSuccess: () => {
                         setShowObjetivoEspecificoForm(false)
-                        formObjetivoEspecifico.reset()
+                        form_objetivo_especifico.reset()
                         setObjetivoEspecificoId(null)
                     },
                     preserveScroll: true,
@@ -484,8 +484,8 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
         }
     }
 
-    const [showObjetivoEspecificoDestroyIcon, setShowObjetivoEspecificoDestroyIcon] = useState(false)
-    const [objetivoEspecificoIdToDestroy, setObjetivoEspecificoIdToDestroy] = useState(null)
+    const [show_objetivo_especifico_destroy_icon, setShowObjetivoEspecificoDestroyIcon] = useState(false)
+    const [objetivo_especifico_id_to_destroy, setObjetivoEspecificoIdToDestroy] = useState(null)
 
     const destroyObjetivoEspecifico = (objetivoEspecifico) => {
         if (proyecto.allowed.to_update) {
@@ -499,7 +499,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
     }
 
     // Actividades
-    const formActividad = useForm({
+    const form_actividad = useForm({
         id: null,
         fecha_inicio: '',
         fecha_finalizacion: '',
@@ -509,23 +509,23 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
         descripcion: '',
     })
 
-    const [showActividadForm, setShowActividadForm] = useState(false)
-    const [actividadId, setActividadId] = useState(null)
-    const [resultadosFiltrados, setResultadosFiltrados] = useState(null)
+    const [show_actividad_form, setShowActividadForm] = useState(false)
+    const [actividad_id, setActividadId] = useState(null)
+    const [resultados_filtrados, setResultadosFiltrados] = useState(null)
 
     const setActividad = (causaDirecta, causaIndirecta, actividad) => {
-        formActividad.reset()
-        // if (showObjetivoEspecificoForm) {
+        form_actividad.reset()
+        // if (show_objetivo_especifico_form) {
         //     submitObjetivoEspecifico()
         // }
 
-        const resultadosPorObjetivo = resultados.filter((item) => item.objetivo_especifico_id === actividad.objetivo_especifico_id)
-        setResultadosFiltrados(resultadosPorObjetivo.filter((item) => item.label != null))
+        const resultados_por_objetivo = resultados.filter((item) => item.objetivo_especifico_id === actividad.objetivo_especifico_id)
+        setResultadosFiltrados(resultados_por_objetivo.filter((item) => item.label != null))
 
         setShowActividadForm(true)
         setActividadId(actividad.id)
 
-        formActividad.setData({
+        form_actividad.setData({
             id: actividad.id,
             fecha_inicio: actividad.fecha_inicio,
             fecha_finalizacion: actividad.fecha_finalizacion,
@@ -540,16 +540,16 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
         e.preventDefault()
 
         if (proyecto.allowed.to_update) {
-            formActividad.post(
+            form_actividad.post(
                 route('proyectos.actividad', {
                     convocatoria: convocatoria.id,
                     proyecto: proyecto.id,
-                    actividad: formActividad.data.id,
+                    actividad: form_actividad.data.id,
                 }),
                 {
                     onSuccess: () => {
                         setShowActividadForm(false)
-                        formActividad.reset()
+                        form_actividad.reset()
                         setActividadId(null)
                     },
                     preserveScroll: true,
@@ -558,8 +558,8 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
         }
     }
 
-    const [showActividadDestroyIcon, setShowActividadDestroyIcon] = useState(false)
-    const [actividadIdToDestroy, setActividadIdToDestroy] = useState(null)
+    const [show_actividad_destroy_icon, setShowActividadDestroyIcon] = useState(false)
+    const [actividad_id_to_destroy, setActividadIdToDestroy] = useState(null)
 
     const destroyActividad = (actividad) => {
         if (proyecto.allowed.to_update) {
@@ -583,45 +583,41 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                 title={
                                     <div>
                                         <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                        {evaluacion.idi_evaluacion ? (
+                                        {evaluacion.evaluacion_proyecto_linea66 ? (
                                             <>
                                                 <h1 className="font-black mt-10">Objetivos</h1>
                                                 <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.idi_evaluacion?.objetivos_comentario ? evaluacion.idi_evaluacion.objetivos_comentario : 'Sin recomendación'}
+                                                    {evaluacion.evaluacion_proyecto_linea66?.objetivos_comentario ? evaluacion.evaluacion_proyecto_linea66.objetivos_comentario : 'Sin recomendación'}
                                                 </p>
 
                                                 <hr className="mt-10 mb-10 border-black-200" />
                                                 <h1 className="font-black">Resultados</h1>
 
                                                 <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.idi_evaluacion?.resultados_comentario ? evaluacion.idi_evaluacion.resultados_comentario : 'Sin recomendación'}
+                                                    {evaluacion.evaluacion_proyecto_linea66?.resultados_comentario ? evaluacion.evaluacion_proyecto_linea66.resultados_comentario : 'Sin recomendación'}
                                                 </p>
                                             </>
-                                        ) : evaluacion.cultura_innovacion_evaluacion ? (
+                                        ) : evaluacion.evaluacion_proyecto_linea65 ? (
                                             <>
                                                 <h1 className="font-black mt-10">Objetivos</h1>
                                                 <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.cultura_innovacion_evaluacion?.objetivos_comentario
-                                                        ? evaluacion.cultura_innovacion_evaluacion.objetivos_comentario
-                                                        : 'Sin recomendación'}
+                                                    {evaluacion.evaluacion_proyecto_linea65?.objetivos_comentario ? evaluacion.evaluacion_proyecto_linea65.objetivos_comentario : 'Sin recomendación'}
                                                 </p>
 
                                                 <hr className="mt-10 mb-10 border-black-200" />
                                                 <h1 className="font-black">Resultados</h1>
 
                                                 <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.cultura_innovacion_evaluacion?.resultados_comentario
-                                                        ? evaluacion.cultura_innovacion_evaluacion.resultados_comentario
-                                                        : 'Sin recomendación'}
+                                                    {evaluacion.evaluacion_proyecto_linea65?.resultados_comentario ? evaluacion.evaluacion_proyecto_linea65.resultados_comentario : 'Sin recomendación'}
                                                 </p>
                                             </>
-                                        ) : evaluacion.servicio_tecnologico_evaluacion ? (
+                                        ) : evaluacion.evaluacion_proyecto_linea68 ? (
                                             <>
                                                 <h1 className="font-black mt-10">Objetivo general</h1>
 
                                                 <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.servicio_tecnologico_evaluacion?.objetivo_general_comentario
-                                                        ? evaluacion.servicio_tecnologico_evaluacion.objetivo_general_comentario
+                                                    {evaluacion.evaluacion_proyecto_linea68?.objetivo_general_comentario
+                                                        ? evaluacion.evaluacion_proyecto_linea68.objetivo_general_comentario
                                                         : 'Sin recomendación'}
                                                 </p>
 
@@ -630,23 +626,23 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
 
                                                 <ul className="list-disc pl-4">
                                                     <li className="whitespace-pre-line text-xs mb-10">
-                                                        {evaluacion.servicio_tecnologico_evaluacion?.primer_objetivo_comentario
-                                                            ? 'Recomendación primer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.primer_objetivo_comentario
+                                                        {evaluacion.evaluacion_proyecto_linea68?.primer_objetivo_comentario
+                                                            ? 'Recomendación primer objetivo específico: ' + evaluacion.evaluacion_proyecto_linea68.primer_objetivo_comentario
                                                             : 'Sin recomendación'}
                                                     </li>
                                                     <li className="whitespace-pre-line text-xs mb-10">
-                                                        {evaluacion.servicio_tecnologico_evaluacion?.segundo_objetivo_comentario
-                                                            ? 'Recomendación segundo objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.segundo_objetivo_comentario
+                                                        {evaluacion.evaluacion_proyecto_linea68?.segundo_objetivo_comentario
+                                                            ? 'Recomendación segundo objetivo específico: ' + evaluacion.evaluacion_proyecto_linea68.segundo_objetivo_comentario
                                                             : 'Sin recomendación'}
                                                     </li>
                                                     <li className="whitespace-pre-line text-xs mb-10">
-                                                        {evaluacion.servicio_tecnologico_evaluacion?.tercer_objetivo_comentario
-                                                            ? 'Recomendación tercer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.tercer_objetivo_comentario
+                                                        {evaluacion.evaluacion_proyecto_linea68?.tercer_objetivo_comentario
+                                                            ? 'Recomendación tercer objetivo específico: ' + evaluacion.evaluacion_proyecto_linea68.tercer_objetivo_comentario
                                                             : 'Sin recomendación'}
                                                     </li>
                                                     <li className="whitespace-pre-line text-xs mb-10">
-                                                        {evaluacion.servicio_tecnologico_evaluacion?.cuarto_objetivo_comentario
-                                                            ? 'Recomendación cuarto objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.cuarto_objetivo_comentario
+                                                        {evaluacion.evaluacion_proyecto_linea68?.cuarto_objetivo_comentario
+                                                            ? 'Recomendación cuarto objetivo específico: ' + evaluacion.evaluacion_proyecto_linea68.cuarto_objetivo_comentario
                                                             : 'Sin recomendación'}
                                                     </li>
                                                 </ul>
@@ -655,36 +651,39 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                 <h1 className="font-black">Resultados</h1>
                                                 <ul className="list-disc pl-4">
                                                     <li className="whitespace-pre-line text-xs mb-10">
-                                                        {evaluacion.servicio_tecnologico_evaluacion?.resultados_primer_obj_comentario
-                                                            ? 'Recomendación resultados del primer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_primer_obj_comentario
+                                                        {evaluacion.evaluacion_proyecto_linea68?.resultados_primer_obj_comentario
+                                                            ? 'Recomendación resultados del primer objetivo específico: ' + evaluacion.evaluacion_proyecto_linea68.resultados_primer_obj_comentario
                                                             : 'Sin recomendación'}
                                                     </li>
                                                     <li className="whitespace-pre-line text-xs mb-10">
-                                                        {evaluacion.servicio_tecnologico_evaluacion?.resultados_segundo_obj_comentario
-                                                            ? 'Recomendación resultados del segundo objetivo específico: ' +
-                                                              evaluacion.servicio_tecnologico_evaluacion.resultados_segundo_obj_comentario
+                                                        {evaluacion.evaluacion_proyecto_linea68?.resultados_segundo_obj_comentario
+                                                            ? 'Recomendación resultados del segundo objetivo específico: ' + evaluacion.evaluacion_proyecto_linea68.resultados_segundo_obj_comentario
                                                             : 'Sin recomendación'}
                                                     </li>
                                                     <li className="whitespace-pre-line text-xs mb-10">
-                                                        {evaluacion.servicio_tecnologico_evaluacion?.resultados_tercer_obj_comentario
-                                                            ? 'Recomendación resultados del tercer objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_tercer_obj_comentario
+                                                        {evaluacion.evaluacion_proyecto_linea68?.resultados_tercer_obj_comentario
+                                                            ? 'Recomendación resultados del tercer objetivo específico: ' + evaluacion.evaluacion_proyecto_linea68.resultados_tercer_obj_comentario
                                                             : 'Sin recomendación'}
                                                     </li>
                                                     <li className="whitespace-pre-line text-xs mb-10">
-                                                        {evaluacion.servicio_tecnologico_evaluacion?.resultados_cuarto_obj_comentario
-                                                            ? 'Recomendación resultados del cuarto objetivo específico: ' + evaluacion.servicio_tecnologico_evaluacion.resultados_cuarto_obj_comentario
+                                                        {evaluacion.evaluacion_proyecto_linea68?.resultados_cuarto_obj_comentario
+                                                            ? 'Recomendación resultados del cuarto objetivo específico: ' + evaluacion.evaluacion_proyecto_linea68.resultados_cuarto_obj_comentario
                                                             : 'Sin recomendación'}
                                                     </li>
                                                 </ul>
                                             </>
-                                        ) : evaluacion.ta_evaluacion ? (
+                                        ) : evaluacion.evaluacion_proyecto_linea70 ? (
                                             <p className="whitespace-pre-line text-xs">
-                                                {evaluacion.ta_evaluacion?.arbol_objetivos_comentario ? evaluacion.ta_evaluacion.arbol_objetivos_comentario : 'Sin recomendación'}
+                                                {evaluacion.evaluacion_proyecto_linea70?.arbol_objetivos_comentario
+                                                    ? evaluacion.evaluacion_proyecto_linea70.arbol_objetivos_comentario
+                                                    : 'Sin recomendación'}
                                             </p>
                                         ) : (
-                                            evaluacion.tp_evaluacion && (
+                                            evaluacion.evaluacion_proyecto_linea69 && (
                                                 <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.tp_evaluacion?.arbol_objetivos_comentario ? evaluacion.tp_evaluacion.arbol_objetivos_comentario : 'Sin recomendación'}
+                                                    {evaluacion.evaluacion_proyecto_linea69?.arbol_objetivos_comentario
+                                                        ? evaluacion.evaluacion_proyecto_linea69.arbol_objetivos_comentario
+                                                        : 'Sin recomendación'}
                                                 </p>
                                             )
                                         )}
@@ -719,18 +718,18 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                         </AlertMui>
                     </Grid>
 
-                    {causasDirectas.map((causaDirecta, i) => (
+                    {causas_directas.map((causaDirecta, i) => (
                         <React.Fragment key={i}>
                             <Grid item md={6} className="!my-20 shadow p-2" style={{ backgroundColor: '#e0dddd30' }}>
                                 <small className="inline-block ml-2">Causa directa #{i + 1}</small>
-                                {causaDirectaId !== causaDirecta.id && (
+                                {causa_directa_id !== causaDirecta.id && (
                                     <div
                                         className="bg-white relative p-4 rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] my-4 pr-14"
                                         onClick={() => setCausaDirecta(causaDirecta)}>
                                         <p className="line-clamp-3">{causaDirecta.descripcion ? causaDirecta.descripcion : 'Por favor diligencie esta causa directa.'}</p>
 
                                         <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
-                                            {showCausaDirectaDestroyIcon && causaDirecta.id === causaDirectaIdToDestroy ? (
+                                            {show_causa_directa_destroy_icon && causaDirecta.id === causa_directa_idToDestroy ? (
                                                 <>
                                                     <CheckOutlinedIcon
                                                         className="w-5 h-5 hover:cursor-pointer"
@@ -764,22 +763,22 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                     </div>
                                 )}
 
-                                {showCausaDirectaForm && causaDirectaId === causaDirecta.id && (
-                                    <form className="relative form-arbol-objetivos" onSubmit={submitCausaDirecta} id="causa-directa">
+                                {show_causa_directa_form && causa_directa_id === causaDirecta.id && (
+                                    <form className="relative form-arbol-objetivos mt-4" onSubmit={submitCausaDirecta} id="causa-directa">
                                         <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                             <Textarea
                                                 id="causa-directa-descripcion"
                                                 inputBackground="#fff"
                                                 disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
-                                                error={formCausaDirecta.errors.descripcion}
-                                                value={formCausaDirecta.data.descripcion}
-                                                onChange={(e) => formCausaDirecta.setData('descripcion', e.target.value)}
+                                                error={form_causa_directa.errors.descripcion}
+                                                value={form_causa_directa.data.descripcion}
+                                                onChange={(e) => form_causa_directa.setData('descripcion', e.target.value)}
                                                 required
                                             />
                                         </fieldset>
 
                                         {proyecto.allowed.to_update && (
-                                            <PrimaryButton disabled={formCausaDirecta.processing} className="my-4 mr-2 relative" type="submit" form="causa-directa">
+                                            <PrimaryButton disabled={form_causa_directa.processing} className="my-4 mr-2 relative" type="submit" form="causa-directa">
                                                 Guardar información sobre la causa directa
                                             </PrimaryButton>
                                         )}
@@ -796,14 +795,14 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
 
                                 {causaDirecta.causas_indirectas.map((causaIndirecta, j) => (
                                     <React.Fragment key={j}>
-                                        {causaIndirectaId !== causaIndirecta.id && (
+                                        {causa_indirecta_id !== causaIndirecta.id && (
                                             <div
                                                 className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] my-4 pr-14"
                                                 onClick={() => setCausaIndirecta(causaDirecta, causaIndirecta)}>
                                                 <p className="line-clamp-3">{causaIndirecta.descripcion ? causaIndirecta.descripcion : 'Por favor diligencie esta causa indirecta.'}</p>
 
                                                 <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
-                                                    {showCausaIndirectaDestroyIcon && causaIndirecta.id === causaIndirectaIdToDestroy ? (
+                                                    {show_causa_indirecta_destroy_icon && causaIndirecta.id === causa_indirecta_idToDestroy ? (
                                                         <>
                                                             <CheckOutlinedIcon
                                                                 className="w-5 h-5 hover:cursor-pointer"
@@ -837,7 +836,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                             </div>
                                         )}
 
-                                        {showCausaIndirectaForm && causaIndirectaId === causaIndirecta.id && (
+                                        {show_causa_indirecta_form && causa_indirecta_id === causaIndirecta.id && (
                                             <form className="relative form-arbol-objetivos mt-4" onSubmit={submitCausaIndirecta} id="causa-indirecta">
                                                 <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                                     <div>
@@ -845,16 +844,16 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                             id="causa-directa-descripcion"
                                                             inputBackground="#fff"
                                                             disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
-                                                            error={formCausaIndirecta.errors.descripcion}
-                                                            value={formCausaIndirecta.data.descripcion}
-                                                            onChange={(e) => formCausaIndirecta.setData('descripcion', e.target.value)}
+                                                            error={form_causa_indirecta.errors.descripcion}
+                                                            value={form_causa_indirecta.data.descripcion}
+                                                            onChange={(e) => form_causa_indirecta.setData('descripcion', e.target.value)}
                                                             required
                                                         />
                                                     </div>
                                                 </fieldset>
 
                                                 {proyecto.allowed.to_update && (
-                                                    <PrimaryButton disabled={formCausaIndirecta.processing} className="my-4 mr-2 relative" type="submit" form="causa-indirecta">
+                                                    <PrimaryButton disabled={form_causa_indirecta.processing} className="my-4 mr-2 relative" type="submit" form="causa-indirecta">
                                                         Guardar información sobre la causa indirecta
                                                     </PrimaryButton>
                                                 )}
@@ -874,7 +873,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                         <ButtonMui
                                             primary={true}
                                             className="my-4 !ml-2 flex items-center justify-center"
-                                            disabled={showNuevaCausaIndirectaForm ? true : undefined}
+                                            disabled={show_nueva_causa_indirecta_form ? true : undefined}
                                             type="Button"
                                             onClick={() => setNuevoCausaIndirecta(causaDirecta)}>
                                             <AddCircleOutlineOutlinedIcon className="mr-2" />
@@ -883,7 +882,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                     </TooltipMui>
                                 </div>
 
-                                {showNuevaCausaIndirectaForm && causaDirectaIdNuevaIndirecta === causaDirecta.id && (
+                                {show_nueva_causa_indirecta_form && causa_directa_idNuevaIndirecta === causaDirecta.id && (
                                     <form className="relative form-arbol-objetivos mt-4" onSubmit={submitCausaIndirecta} id="causa-indirecta">
                                         <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                             <div>
@@ -892,16 +891,16 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                     inputBackground="#fff"
                                                     disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
                                                     label="Escriba la nueva causa indirecta"
-                                                    error={formCausaIndirecta.errors.descripcion}
-                                                    value={formCausaIndirecta.data.descripcion}
-                                                    onChange={(e) => formCausaIndirecta.setData('descripcion', e.target.value)}
+                                                    error={form_causa_indirecta.errors.descripcion}
+                                                    value={form_causa_indirecta.data.descripcion}
+                                                    onChange={(e) => form_causa_indirecta.setData('descripcion', e.target.value)}
                                                     required
                                                 />
                                             </div>
                                         </fieldset>
 
                                         {proyecto.allowed.to_update && (
-                                            <PrimaryButton disabled={formCausaIndirecta.processing} className="my-4 mr-2 relative" type="submit" form="causa-indirecta">
+                                            <PrimaryButton disabled={form_causa_indirecta.processing} className="my-4 mr-2 relative" type="submit" form="causa-indirecta">
                                                 Añadir causa indirecta
                                             </PrimaryButton>
                                         )}
@@ -916,7 +915,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                             {/* Objetivos específicos y actividades */}
                             <Grid item md={6} className="!my-20 shadow p-2 pb-[76px]" style={{ backgroundColor: '#e0dddd30' }}>
                                 <small className="inline-block ml-2 mb-4">Objetivo específico #{i + 1}</small>
-                                {objetivoEspecificoId !== causaDirecta.objetivo_especifico?.id && (
+                                {objetivo_especifico_id !== causaDirecta.objetivo_especifico?.id && (
                                     <div
                                         className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] pr-14"
                                         onClick={() => setObjetivoEspecifico(causaDirecta, causaDirecta.objetivo_especifico, i + 1)}>
@@ -924,7 +923,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                             {causaDirecta.objetivo_especifico?.descripcion ? causaDirecta.objetivo_especifico?.descripcion : 'Por favor diligencie este objetivo específico.'}
                                         </p>
                                         <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
-                                            {showObjetivoEspecificoDestroyIcon && causaDirecta.objetivo_especifico?.id === objetivoEspecificoIdToDestroy ? (
+                                            {show_objetivo_especifico_destroy_icon && causaDirecta.objetivo_especifico?.id === objetivo_especifico_id_to_destroy ? (
                                                 <>
                                                     <CheckOutlinedIcon
                                                         className="w-5 h-5 hover:cursor-pointer"
@@ -960,7 +959,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                         </div>
                                     </div>
                                 )}
-                                {showObjetivoEspecificoForm && objetivoEspecificoId === causaDirecta.objetivo_especifico?.id && (
+                                {show_objetivo_especifico_form && objetivo_especifico_id === causaDirecta.objetivo_especifico?.id && (
                                     <form className="relative form-arbol-objetivos" onSubmit={submitObjetivoEspecifico} id="objetivo-especifico-form">
                                         <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                             <div>
@@ -980,16 +979,16 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                         id="descripcion-objetivo-especifico"
                                                         inputBackground="#fff"
                                                         disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
-                                                        error={formObjetivoEspecifico.errors.descripcion}
-                                                        value={formObjetivoEspecifico.data.descripcion}
-                                                        onChange={(e) => formObjetivoEspecifico.setData('descripcion', e.target.value)}
+                                                        error={form_objetivo_especifico.errors.descripcion}
+                                                        value={form_objetivo_especifico.data.descripcion}
+                                                        onChange={(e) => form_objetivo_especifico.setData('descripcion', e.target.value)}
                                                         required
                                                     />
                                                 </TooltipMui>
                                             </div>
                                         </fieldset>
                                         {proyecto.allowed.to_update && (
-                                            <PrimaryButton disabled={formObjetivoEspecifico.processing} className="my-4 mr-2 relative" type="submit" form="objetivo-especifico-form">
+                                            <PrimaryButton disabled={form_objetivo_especifico.processing} className="my-4 mr-2 relative" type="submit" form="objetivo-especifico-form">
                                                 Guardar información sobre el objetivo específico
                                             </PrimaryButton>
                                         )}
@@ -1005,13 +1004,13 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
 
                                 {causaDirecta.causas_indirectas.map((causaIndirecta, j) => (
                                     <div key={j}>
-                                        {actividadId !== causaIndirecta.actividad?.id && (
+                                        {actividad_id !== causaIndirecta.actividad?.id && (
                                             <div
                                                 className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] my-4 pr-14"
                                                 onClick={() => setActividad(causaDirecta, causaIndirecta, causaIndirecta.actividad)}>
                                                 <p className="line-clamp-3">{causaIndirecta.actividad?.descripcion ? causaIndirecta.actividad?.descripcion : 'Por favor diligencie esta actividad.'}</p>
                                                 <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
-                                                    {showActividadDestroyIcon && causaIndirecta.actividad?.id === actividadIdToDestroy ? (
+                                                    {show_actividad_destroy_icon && causaIndirecta.actividad?.id === actividad_id_to_destroy ? (
                                                         <>
                                                             <CheckOutlinedIcon
                                                                 className="w-5 h-5 hover:cursor-pointer"
@@ -1048,7 +1047,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                             </div>
                                         )}
 
-                                        {showActividadForm && actividadId === causaIndirecta.actividad?.id && (
+                                        {show_actividad_form && actividad_id === causaIndirecta.actividad?.id && (
                                             <form className="relative form-arbol-objetivos mt-4" onSubmit={submitActividad} id="actividad-form">
                                                 <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                                     <div>
@@ -1069,9 +1068,9 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                                 id="descripcion-actividad"
                                                                 inputBackground="#fff"
                                                                 disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
-                                                                error={formActividad.errors.descripcion}
-                                                                value={formActividad.data.descripcion}
-                                                                onChange={(e) => formActividad.setData('descripcion', e.target.value)}
+                                                                error={form_actividad.errors.descripcion}
+                                                                value={form_actividad.data.descripcion}
+                                                                onChange={(e) => form_actividad.setData('descripcion', e.target.value)}
                                                                 required
                                                             />
                                                         </TooltipMui>
@@ -1083,9 +1082,9 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                             <Autocomplete
                                                                 id="resultado_id"
                                                                 inputBackground="#fff"
-                                                                option={resultadosFiltrados}
-                                                                selectedValue={formActividad.data.resultado_id}
-                                                                onChange={(event, newValue) => formActividad.setData('resultado_id', newValue.value)}
+                                                                option={resultados_filtrados}
+                                                                selectedValue={form_actividad.data.resultado_id}
+                                                                onChange={(event, newValue) => form_actividad.setData('resultado_id', newValue.value)}
                                                                 error={errors.resultado_id}
                                                                 placeholder="Seleccione un resultado"
                                                                 required
@@ -1094,7 +1093,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                     ) : null}
 
                                                     <div className="ml-2 mt-4">
-                                                        <div className={`mt-4 flex ${formActividad.errors.fecha_inicio ? '' : 'items-center'}`}>
+                                                        <div className={`mt-4 flex ${form_actividad.errors.fecha_inicio ? '' : 'items-center'}`}>
                                                             <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
                                                             <div className="ml-14">
                                                                 <DatePicker
@@ -1103,14 +1102,14 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                                     inputBackground="#fff"
                                                                     min={proyecto.fecha_inicio}
                                                                     max={proyecto.fecha_finalizacion}
-                                                                    value={formActividad.data.fecha_inicio}
-                                                                    onChange={(e) => formActividad.setData('fecha_inicio', e.target.value)}
-                                                                    error={formActividad.errors.fecha_inicio}
+                                                                    value={form_actividad.data.fecha_inicio}
+                                                                    onChange={(e) => form_actividad.setData('fecha_inicio', e.target.value)}
+                                                                    error={form_actividad.errors.fecha_inicio}
                                                                     required
                                                                 />
                                                             </div>
                                                         </div>
-                                                        <div className={`mt-4 flex ${formActividad.errors.fecha_finalizacion ? '' : 'items-center'}`}>
+                                                        <div className={`mt-4 flex ${form_actividad.errors.fecha_finalizacion ? '' : 'items-center'}`}>
                                                             <Label required labelFor="fecha_finalizacion" value="Fecha de finalización" />
                                                             <div className="ml-4">
                                                                 <DatePicker
@@ -1119,9 +1118,9 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                                     inputBackground="#fff"
                                                                     min={proyecto.fecha_inicio}
                                                                     max={proyecto.fecha_finalizacion}
-                                                                    value={formActividad.data.fecha_finalizacion}
-                                                                    onChange={(e) => formActividad.setData('fecha_finalizacion', e.target.value)}
-                                                                    error={formActividad.errors.fecha_finalizacion}
+                                                                    value={form_actividad.data.fecha_finalizacion}
+                                                                    onChange={(e) => form_actividad.setData('fecha_finalizacion', e.target.value)}
+                                                                    error={form_actividad.errors.fecha_finalizacion}
                                                                     required
                                                                 />
                                                             </div>
@@ -1130,7 +1129,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                 </fieldset>
 
                                                 {proyecto.allowed.to_update && (
-                                                    <PrimaryButton disabled={formActividad.processing} className="my-4 mr-2 relative" type="submit" form="actividad-form">
+                                                    <PrimaryButton disabled={form_actividad.processing} className="my-4 mr-2 relative" type="submit" form="actividad-form">
                                                         Guardar información sobre la actividad
                                                     </PrimaryButton>
                                                 )}
@@ -1166,17 +1165,17 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                         </figure>
                     </Grid>
 
-                    {efectosDirectos.map((efectoDirecto, i) => (
+                    {efectos_directos.map((efectoDirecto, i) => (
                         <React.Fragment key={i}>
                             <Grid item md={6} className="!my-20 shadow p-2" style={{ backgroundColor: '#e0dddd30' }}>
                                 <small className="inline-block ml-2">Efecto directo</small>
-                                {efectoDirectoId !== efectoDirecto.id && (
+                                {efecto_directo_id !== efectoDirecto.id && (
                                     <div
                                         className="bg-white relative p-4 rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] my-4 pr-14"
                                         onClick={() => setEfectoDirecto(efectoDirecto)}>
                                         <p className="line-clamp-3">{efectoDirecto.descripcion ? efectoDirecto.descripcion : 'Por favor diligencie este efecto directo.'}</p>
                                         <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
-                                            {showEfectoDirectoDestroyIcon && efectoDirecto.id === efectoDirectoIdToDestroy ? (
+                                            {show_efecto_directo_destroy_icon && efectoDirecto.id === efecto_directo_idToDestroy ? (
                                                 <>
                                                     <CheckOutlinedIcon
                                                         className="w-5 h-5 hover:cursor-pointer"
@@ -1209,21 +1208,21 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                         </div>
                                     </div>
                                 )}
-                                {showEfectoDirectoForm && efectoDirectoId === efectoDirecto.id && (
+                                {show_efecto_directo_form && efecto_directo_id === efectoDirecto.id && (
                                     <form className="relative form-arbol-objetivos mt-4" onSubmit={submitEfectoDirecto} id="efecto-directo">
                                         <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                             <Textarea
                                                 id="efecto-directo-descripcion"
                                                 inputBackground="#fff"
                                                 disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
-                                                error={formEfectoDirecto.errors.descripcion}
-                                                value={formEfectoDirecto.data.descripcion}
-                                                onChange={(e) => formEfectoDirecto.setData('descripcion', e.target.value)}
+                                                error={form_efecto_directo.errors.descripcion}
+                                                value={form_efecto_directo.data.descripcion}
+                                                onChange={(e) => form_efecto_directo.setData('descripcion', e.target.value)}
                                                 required
                                             />
                                         </fieldset>
                                         {proyecto.allowed.to_update && (
-                                            <PrimaryButton disabled={formEfectoDirecto.processing} className="my-4 mr-2 relative" type="submit" form="efecto-directo">
+                                            <PrimaryButton disabled={form_efecto_directo.processing} className="my-4 mr-2 relative" type="submit" form="efecto-directo">
                                                 Guardar información sobre el efecto directo
                                             </PrimaryButton>
                                         )}
@@ -1238,13 +1237,13 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                 </small>
                                 {efectoDirecto.efectos_indirectos.map((efectoIndirecto, j) => (
                                     <div key={j}>
-                                        {efectoIndirectoId !== efectoIndirecto.id && (
+                                        {efecto_indirecto_id !== efectoIndirecto.id && (
                                             <div
                                                 className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] my-4 pr-14"
                                                 onClick={() => setEfectoIndirecto(efectoDirecto, efectoIndirecto)}>
                                                 <p className="line-clamp-3">{efectoIndirecto.descripcion ? efectoIndirecto.descripcion : 'Por favor diligencie este efecto indirecto.'}</p>
                                                 <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
-                                                    {showEfectoIndirectoDestroyIcon && efectoIndirecto.id === efectoIndirectoIdToDestroy ? (
+                                                    {show_efecto_indirecto_destroy_icon && efectoIndirecto.id === efecto_indirecto_idToDestroy ? (
                                                         <>
                                                             <CheckOutlinedIcon
                                                                 className="w-5 h-5 hover:cursor-pointer"
@@ -1277,7 +1276,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                 </div>
                                             </div>
                                         )}
-                                        {showEfectoIndirectoForm && efectoIndirectoId === efectoIndirecto.id && (
+                                        {show_efecto_indirecto_form && efecto_indirecto_id === efectoIndirecto.id && (
                                             <form className="relative form-arbol-objetivos mt-4" onSubmit={submitEfectoIndirecto} id="efecto-indirecto">
                                                 <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                                     <div>
@@ -1286,15 +1285,15 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                             inputBackground="#fff"
                                                             disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
                                                             label="Escriba el nuevo efecto indirecto"
-                                                            error={formEfectoIndirecto.errors.descripcion}
-                                                            value={formEfectoIndirecto.data.descripcion}
-                                                            onChange={(e) => formEfectoIndirecto.setData('descripcion', e.target.value)}
+                                                            error={form_efecto_indirecto.errors.descripcion}
+                                                            value={form_efecto_indirecto.data.descripcion}
+                                                            onChange={(e) => form_efecto_indirecto.setData('descripcion', e.target.value)}
                                                             required
                                                         />
                                                     </div>
                                                 </fieldset>
                                                 {proyecto.allowed.to_update && (
-                                                    <PrimaryButton disabled={formEfectoIndirecto.processing} className="my-4 mr-2 relative" type="submit" form="efecto-indirecto">
+                                                    <PrimaryButton disabled={form_efecto_indirecto.processing} className="my-4 mr-2 relative" type="submit" form="efecto-indirecto">
                                                         Guardar información sobre el efecto indirecto
                                                     </PrimaryButton>
                                                 )}
@@ -1309,7 +1308,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                     <ButtonMui
                                         primary={true}
                                         className="my-4 !ml-2 flex items-center justify-center"
-                                        disabled={showNuevoEfectoIndirectoForm ? true : undefined}
+                                        disabled={showNuevo_efecto_indirecto_form ? true : undefined}
                                         type="Button"
                                         onClick={() => setNuevoEfectoIndirecto(efectoDirecto)}>
                                         <TooltipMui
@@ -1320,7 +1319,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                         </TooltipMui>
                                     </ButtonMui>
                                 </div>
-                                {showNuevoEfectoIndirectoForm && efectoDirectoIdNuevoIndirecto === efectoDirecto.id && (
+                                {showNuevo_efecto_indirecto_form && efecto_directo_id_nuevo_indirecto === efectoDirecto.id && (
                                     <form className="relative form-arbol-objetivos mt-4" onSubmit={submitEfectoIndirecto} id="efecto-indirecto">
                                         <fieldset className="relative" disabled={proyecto.allowed.to_update ? undefined : true}>
                                             <div>
@@ -1329,15 +1328,15 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                     inputBackground="#fff"
                                                     disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
                                                     label="Escriba el nuevo efecto indirecto"
-                                                    error={formEfectoIndirecto.errors.descripcion}
-                                                    value={formEfectoIndirecto.data.descripcion}
-                                                    onChange={(e) => formEfectoIndirecto.setData('descripcion', e.target.value)}
+                                                    error={form_efecto_indirecto.errors.descripcion}
+                                                    value={form_efecto_indirecto.data.descripcion}
+                                                    onChange={(e) => form_efecto_indirecto.setData('descripcion', e.target.value)}
                                                     required
                                                 />
                                             </div>
                                         </fieldset>
                                         {proyecto.allowed.to_update && (
-                                            <PrimaryButton disabled={formEfectoIndirecto.processing} className="my-4 mr-2 relative" type="submit" form="efecto-indirecto">
+                                            <PrimaryButton disabled={form_efecto_indirecto.processing} className="my-4 mr-2 relative" type="submit" form="efecto-indirecto">
                                                 Añadir efecto indirecto
                                             </PrimaryButton>
                                         )}
@@ -1351,13 +1350,13 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                             {/* Resultados e impactos relacionados */}
                             <Grid item md={6} className="!my-20 shadow p-2 pb-[76px]" style={{ backgroundColor: '#e0dddd30' }}>
                                 <small className="inline-block ml-2 mb-4">Resultado</small>
-                                {resultadoId !== efectoDirecto.resultado?.id && (
+                                {resultado_id !== efectoDirecto.resultado?.id && (
                                     <div
                                         className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] pr-14"
                                         onClick={() => setResultado(efectoDirecto, efectoDirecto.resultado)}>
                                         <p className="line-clamp-3">{efectoDirecto.resultado?.descripcion ? efectoDirecto.resultado?.descripcion : 'Por favor diligencie este resultado.'}</p>
                                         <div className="absolute flex top-[40%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
-                                            {showResultadoDestroyIcon && efectoDirecto.resultado?.id === resultadoIdToDestroy ? (
+                                            {show_resultado_destroy_icon && efectoDirecto.resultado?.id === resultado_id_to_destroy ? (
                                                 <>
                                                     <CheckOutlinedIcon
                                                         className="w-5 h-5 hover:cursor-pointer"
@@ -1390,10 +1389,10 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                         </div>
                                     </div>
                                 )}
-                                {showResultadoForm && resultadoId === efectoDirecto.resultado?.id && (
+                                {show_resultado_form && resultado_id === efectoDirecto.resultado?.id && (
                                     <form className="relative form-arbol-objetivos" onSubmit={submitResultado} id="resultado-form">
                                         <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
-                                            {objetivosEspecificos.length === 0 ? (
+                                            {objetivos_especificos.length === 0 ? (
                                                 <AlertMui>Por favor genere primero los objetivos específicos.</AlertMui>
                                             ) : (
                                                 <>
@@ -1410,9 +1409,9 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                                 id="descripcion-resultado"
                                                                 inputBackground="#fff"
                                                                 disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
-                                                                error={formResultado.errors.descripcion}
-                                                                value={formResultado.data.descripcion}
-                                                                onChange={(e) => formResultado.setData('descripcion', e.target.value)}
+                                                                error={form_resultado.errors.descripcion}
+                                                                value={form_resultado.data.descripcion}
+                                                                onChange={(e) => form_resultado.setData('descripcion', e.target.value)}
                                                                 required
                                                             />
                                                         </TooltipMui>
@@ -1422,10 +1421,10 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                         <Autocomplete
                                                             id="objetivo-especifico"
                                                             inputBackground="#fff"
-                                                            options={objetivosEspecificos}
-                                                            selectedValue={formResultado.data.objetivo_especifico_id}
-                                                            onChange={(event, newValue) => formResultado.setData('objetivo_especifico_id', newValue.value)}
-                                                            error={formResultado.errors.objetivo_especifico_id}
+                                                            options={objetivos_especificos}
+                                                            selectedValue={form_resultado.data.objetivo_especifico_id}
+                                                            onChange={(event, newValue) => form_resultado.setData('objetivo_especifico_id', newValue.value)}
+                                                            error={form_resultado.errors.objetivo_especifico_id}
                                                             autoComplete={false}
                                                             placeholder="Seleccione un objetivo específico"
                                                             required
@@ -1435,7 +1434,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                             )}
                                         </fieldset>
                                         {proyecto.allowed.to_update && (
-                                            <PrimaryButton disabled={formResultado.processing} className="my-4 mr-2 relative" type="submit" form="resultado-form">
+                                            <PrimaryButton disabled={form_resultado.processing} className="my-4 mr-2 relative" type="submit" form="resultado-form">
                                                 Guardar información sobre el resultado
                                             </PrimaryButton>
                                         )}
@@ -1451,13 +1450,13 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
 
                                 {efectoDirecto.efectos_indirectos.map((efectoIndirecto, j) => (
                                     <div key={j}>
-                                        {impactoId !== efectoIndirecto.impacto?.id && (
+                                        {impacto_id !== efectoIndirecto.impacto?.id && (
                                             <div
                                                 className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] my-4 pr-14"
                                                 onClick={() => setImpacto(efectoIndirecto, efectoIndirecto.impacto)}>
                                                 <p className="line-clamp-3">{efectoIndirecto.impacto?.descripcion ? efectoIndirecto.impacto?.descripcion : 'Por favor diligencie este impacto.'}</p>
                                                 <div className="absolute flex top-[40%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
-                                                    {showImpactoDestroyIcon && efectoIndirecto.impacto?.id === impactoIdToDestroy ? (
+                                                    {show_impacto_destroy_icon && efectoIndirecto.impacto?.id === impacto_id_to_destroy ? (
                                                         <>
                                                             <CheckOutlinedIcon
                                                                 className="w-5 h-5 hover:cursor-pointer"
@@ -1491,7 +1490,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                             </div>
                                         )}
 
-                                        {showImpactoForm && impactoId === efectoIndirecto.impacto?.id && (
+                                        {show_impacto_form && impacto_id === efectoIndirecto.impacto?.id && (
                                             <form className="relative form-arbol-objetivos mt-4" onSubmit={submitImpacto} id="impacto-form">
                                                 <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
                                                     <div>
@@ -1534,9 +1533,9 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                                 id="descripcion-impacto"
                                                                 inputBackground="#fff"
                                                                 disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
-                                                                error={formImpacto.errors.descripcion}
-                                                                value={formImpacto.data.descripcion}
-                                                                onChange={(e) => formImpacto.setData('descripcion', e.target.value)}
+                                                                error={form_impacto.errors.descripcion}
+                                                                value={form_impacto.data.descripcion}
+                                                                onChange={(e) => form_impacto.setData('descripcion', e.target.value)}
                                                                 required
                                                             />
                                                         </TooltipMui>
@@ -1546,10 +1545,10 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                         <Autocomplete
                                                             id="tipo-impacto"
                                                             inputBackground="#fff"
-                                                            options={tiposImpacto}
-                                                            selectedValue={formImpacto.data.tipo}
-                                                            onChange={(event, newValue) => formImpacto.setData('tipo', newValue.value)}
-                                                            error={formImpacto.errors.tipo}
+                                                            options={tipos_impacto}
+                                                            selectedValue={form_impacto.data.tipo}
+                                                            onChange={(event, newValue) => form_impacto.setData('tipo', newValue.value)}
+                                                            error={form_impacto.errors.tipo}
                                                             label="Tipo de impacto"
                                                             required
                                                         />
@@ -1557,7 +1556,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectosDirectos
                                                 </fieldset>
 
                                                 {proyecto.allowed.to_update && (
-                                                    <PrimaryButton disabled={formImpacto.processing} className="my-4 mr-2 relative" type="submit" form="impacto-form">
+                                                    <PrimaryButton disabled={form_impacto.processing} className="my-4 mr-2 relative" type="submit" form="impacto-form">
                                                         Guardar información sobre el impacto
                                                     </PrimaryButton>
                                                 )}

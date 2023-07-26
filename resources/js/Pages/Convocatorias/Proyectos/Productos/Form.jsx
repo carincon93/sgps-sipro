@@ -12,7 +12,7 @@ import { Grid, Paper } from '@mui/material'
 import { useState } from 'react'
 import { useEffect } from 'react'
 
-const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proyecto, producto, resultados, subtipologiasMinciencias, tiposProducto, ...props }) => {
+const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proyecto, producto, resultados, subtipologias_minciencias, tipos_producto, ...props }) => {
     const form = useForm({
         nombre: producto?.nombre,
         resultado_id: producto?.resultado_id,
@@ -59,27 +59,27 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
     const [actividades, setActividades] = useState([])
     useEffect(() => {
         if (resultados.find((item) => item.value == producto?.resultado_id)?.actividades) {
-            const tmpOptionsFiltered = resultados
+            const tmp_options_filtered = resultados
                 .find((item) => item.value == producto?.resultado_id)
                 ?.actividades.map((option) => {
                     const { id, descripcion } = option
                     return { value: id, label: descripcion }
                 })
 
-            setActividades(tmpOptionsFiltered)
+            setActividades(tmp_options_filtered)
         }
     }, [producto])
 
     useEffect(() => {
         if (resultados.find((item) => item.value == form.data.resultado_id)?.actividades) {
-            const tmpOptionsFiltered = resultados
+            const tmp_options_filtered = resultados
                 .find((item) => item.value == form.data.resultado_id)
                 ?.actividades.map((option) => {
                     const { id, descripcion } = option
                     return { value: id, label: descripcion }
                 })
 
-            setActividades(tmpOptionsFiltered)
+            setActividades(tmp_options_filtered)
         }
     }, [form.data.resultado_id])
 
@@ -216,7 +216,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                         <>
                                             <Autocomplete
                                                 id="subtipologia_minciencias_id"
-                                                options={subtipologiasMinciencias}
+                                                options={subtipologias_minciencias}
                                                 selectedValue={form.data.subtipologia_minciencias_id}
                                                 onChange={(event, newValue) => form.setData('subtipologia_minciencias_id', newValue.value)}
                                                 error={form.errors.subtipologia_minciencias_id}
@@ -226,7 +226,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
 
                                             <Autocomplete
                                                 id="tipo"
-                                                options={tiposProducto}
+                                                options={tipos_producto}
                                                 selectedValue={form.data.tipo}
                                                 onChange={(event, newValue) => form.setData('tipo', newValue.value)}
                                                 error={form.errors.tipo}

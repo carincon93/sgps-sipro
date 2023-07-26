@@ -61,26 +61,26 @@ class ConvocatoriaController extends Controller
 
         $convocatoria = Convocatoria::create($request->validated());
 
-        $convocatoriaFormulacionActiva = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 1)->first();
-        if ($convocatoriaFormulacionActiva && $request->esta_activa && $request->tipo_convocatoria == 1) {
-            $convocatoriaFormulacionActiva->esta_activa = false;
-            $convocatoriaFormulacionActiva->save();
+        $convocatoria_formulacion_activa = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 1)->first();
+        if ($convocatoria_formulacion_activa && $request->esta_activa && $request->tipo_convocatoria == 1) {
+            $convocatoria_formulacion_activa->esta_activa = false;
+            $convocatoria_formulacion_activa->save();
         }
 
-        $convocatoriaDemoActiva = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 2)->first();
-        if ($convocatoriaDemoActiva && $request->esta_activa && $request->tipo_convocatoria == 2) {
-            $convocatoriaDemoActiva->esta_activa = false;
-            $convocatoriaDemoActiva->save();
+        $convocatoria_demo_activa = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 2)->first();
+        if ($convocatoria_demo_activa && $request->esta_activa && $request->tipo_convocatoria == 2) {
+            $convocatoria_demo_activa->esta_activa = false;
+            $convocatoria_demo_activa->save();
         }
 
-        $convocatoriaTaTpActiva = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 3)->first();
-        if ($convocatoriaTaTpActiva && $convocatoriaTaTpActiva->id != $convocatoria->id && $convocatoria->tipo_convocatoria == 3) {
-            $convocatoriaTaTpActiva->esta_activa = false;
-            $convocatoriaTaTpActiva->save();
+        $convocatoria_lineas_69_70_activa = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 3)->first();
+        if ($convocatoria_lineas_69_70_activa && $convocatoria_lineas_69_70_activa->id != $convocatoria->id && $convocatoria->tipo_convocatoria == 3) {
+            $convocatoria_lineas_69_70_activa->esta_activa = false;
+            $convocatoria_lineas_69_70_activa->save();
         }
 
-        DB::select('SELECT public."crear_convocatoria_presupuesto"(' . $request->convocatoria_id['value'] . ',' . $convocatoria->id . ')');
-        DB::select('SELECT public."crear_convocatoria_rol_sennova"(' . $request->convocatoria_id['value'] . ',' . $convocatoria->id . ')');
+        DB::select('SELECT public."crear_convocatoria_presupuesto"(' . $request->convocatoria_id . ',' . $convocatoria->id . ')');
+        DB::select('SELECT public."crear_convocatoria_rol_sennova"(' . $request->convocatoria_id . ',' . $convocatoria->id . ')');
 
         return redirect()->route('convocatorias.index')->with('success', 'El recurso se ha creado correctamente.');
     }
@@ -127,22 +127,22 @@ class ConvocatoriaController extends Controller
         $convocatoria->update($request->validated());
 
         if ($request->esta_activa) {
-            $convocatoriaFormulacionActiva = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 1)->first();
-            if ($convocatoriaFormulacionActiva && $convocatoriaFormulacionActiva->id != $convocatoria->id && $convocatoria->tipo_convocatoria == 1) {
-                $convocatoriaFormulacionActiva->esta_activa = false;
-                $convocatoriaFormulacionActiva->save();
+            $convocatoria_formulacion_activa = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 1)->first();
+            if ($convocatoria_formulacion_activa && $convocatoria_formulacion_activa->id != $convocatoria->id && $convocatoria->tipo_convocatoria == 1) {
+                $convocatoria_formulacion_activa->esta_activa = false;
+                $convocatoria_formulacion_activa->save();
             }
 
-            $convocatoriaDemoActiva = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 2)->first();
-            if ($convocatoriaDemoActiva && $convocatoriaDemoActiva->id != $convocatoria->id && $convocatoria->tipo_convocatoria == 2) {
-                $convocatoriaDemoActiva->esta_activa = false;
-                $convocatoriaDemoActiva->save();
+            $convocatoria_demo_activa = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 2)->first();
+            if ($convocatoria_demo_activa && $convocatoria_demo_activa->id != $convocatoria->id && $convocatoria->tipo_convocatoria == 2) {
+                $convocatoria_demo_activa->esta_activa = false;
+                $convocatoria_demo_activa->save();
             }
 
-            $convocatoriaTaTpActiva = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 3)->first();
-            if ($convocatoriaTaTpActiva && $convocatoriaTaTpActiva->id != $convocatoria->id && $convocatoria->tipo_convocatoria == 3) {
-                $convocatoriaTaTpActiva->esta_activa = false;
-                $convocatoriaTaTpActiva->save();
+            $convocatoria_lineas_69_70_activa = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 3)->first();
+            if ($convocatoria_lineas_69_70_activa && $convocatoria_lineas_69_70_activa->id != $convocatoria->id && $convocatoria->tipo_convocatoria == 3) {
+                $convocatoria_lineas_69_70_activa->esta_activa = false;
+                $convocatoria_lineas_69_70_activa->save();
             }
         }
 
@@ -236,18 +236,18 @@ class ConvocatoriaController extends Controller
             $evaluacion->update(['estado' => $evaluacion->verificar_estado_evaluacion]);
         }
 
-        $convocatoria->fase                     = $request->fase['value'];
+        $convocatoria->fase                     = $request->fase;
         $convocatoria->fecha_finalizacion_fase  = $request->fecha_finalizacion_fase;
         $convocatoria->hora_finalizacion_fase   = $request->hora_finalizacion_fase;
         $convocatoria->year                     = date('Y', strtotime($request->year));
         $convocatoria->save();
 
-        if ($request->fase['value'] == 1) { // Formulación
+        if ($request->fase == 1) { // Formulación
             $convocatoria->proyectos()->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false]);
             $convocatoria->evaluaciones()->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
-        } else if ($request->fase['value'] == 2) { // Primera evaluación
+        } else if ($request->fase == 2) { // Primera evaluación
             $convocatoria->proyectos()->update(['modificable' => false, 'habilitado_para_evaluar' => true, 'radicado' => true]);
-        } else if ($request->fase['value'] == 3) { // Subsanación
+        } else if ($request->fase == 3) { // Subsanación
 
             foreach ($convocatoria->proyectos()->get() as $proyecto) {
                 switch ($proyecto) {
@@ -297,7 +297,7 @@ class ConvocatoriaController extends Controller
             }
 
             $convocatoria->evaluaciones()->where('clausula_confidencialidad', true)->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
-        } else if ($request->fase['value'] == 4) { // Segunda evaluación
+        } else if ($request->fase == 4) { // Segunda evaluación
 
             foreach ($convocatoria->proyectos()->get() as $proyecto) {
                 switch ($proyecto) {
@@ -337,7 +337,7 @@ class ConvocatoriaController extends Controller
             }
 
             $convocatoria->evaluaciones()->where('clausula_confidencialidad', true)->update(['modificable' => true, 'finalizado' => false, 'iniciado' => false]);
-        } else if ($request->fase['value'] == 5) { // Finalizar convocatoria
+        } else if ($request->fase == 5) { // Finalizar convocatoria
             $convocatoria->proyectos()->update(['modificable' => false]);
             $convocatoria->evaluaciones()->where('clausula_confidencialidad', true)->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
         }

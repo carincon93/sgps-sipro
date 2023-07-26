@@ -29,9 +29,9 @@
     let is_super_admin = checkRole(auth_user, [1])
 
     let formEstrategiaRegionalEvaluacion = useForm({
-        problema_central_puntaje: evaluacion.idi_evaluacion ? evaluacion.idi_evaluacion.problema_central_puntaje : evaluacion.cultura_innovacion_evaluacion ? evaluacion.cultura_innovacion_evaluacion.problema_central_puntaje : null,
-        problema_central_comentario: evaluacion.idi_evaluacion ? evaluacion.idi_evaluacion.problema_central_comentario : evaluacion.cultura_innovacion_evaluacion ? evaluacion.cultura_innovacion_evaluacion.problema_central_comentario : null,
-        problema_central_requiere_comentario: evaluacion.idi_evaluacion ? (evaluacion.idi_evaluacion.problema_central_comentario == null ? true : false) : evaluacion.cultura_innovacion_evaluacion ? (evaluacion.cultura_innovacion_evaluacion.problema_central_comentario == null ? true : false) : null,
+        problema_central_puntaje: evaluacion.evaluacion_proyecto_linea66 ? evaluacion.evaluacion_proyecto_linea66.problema_central_puntaje : evaluacion.evaluacion_proyecto_linea65 ? evaluacion.evaluacion_proyecto_linea65.problema_central_puntaje : null,
+        problema_central_comentario: evaluacion.evaluacion_proyecto_linea66 ? evaluacion.evaluacion_proyecto_linea66.problema_central_comentario : evaluacion.evaluacion_proyecto_linea65 ? evaluacion.evaluacion_proyecto_linea65.problema_central_comentario : null,
+        problema_central_requiere_comentario: evaluacion.evaluacion_proyecto_linea66 ? (evaluacion.evaluacion_proyecto_linea66.problema_central_comentario == null ? true : false) : evaluacion.evaluacion_proyecto_linea65 ? (evaluacion.evaluacion_proyecto_linea65.problema_central_comentario == null ? true : false) : null,
     })
 
     function submitEstrategiaRegionalEvaluacion() {
@@ -43,9 +43,9 @@
     }
 
     let formServicioTecnologicoEvaluacion = useForm({
-        arbol_problemas_puntaje: evaluacion.servicio_tecnologico_evaluacion?.arbol_problemas_puntaje,
-        arbol_problemas_comentario: evaluacion.servicio_tecnologico_evaluacion?.arbol_problemas_comentario ? evaluacion.servicio_tecnologico_evaluacion?.arbol_problemas_comentario : '',
-        arbol_problemas_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.arbol_problemas_comentario == null ? true : false,
+        arbol_problemas_puntaje: evaluacion.evaluacion_proyecto_linea68?.arbol_problemas_puntaje,
+        arbol_problemas_comentario: evaluacion.evaluacion_proyecto_linea68?.arbol_problemas_comentario ? evaluacion.evaluacion_proyecto_linea68?.arbol_problemas_comentario : '',
+        arbol_problemas_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.arbol_problemas_comentario == null ? true : false,
     })
     function submitServicioTecnologicoEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
@@ -56,8 +56,8 @@
     }
 
     let formTpEvaluacion = useForm({
-        arbol_problemas_comentario: evaluacion.tp_evaluacion?.arbol_problemas_comentario ? evaluacion.tp_evaluacion?.arbol_problemas_comentario : '',
-        arbol_problemas_requiere_comentario: evaluacion.tp_evaluacion?.arbol_problemas_comentario == null ? true : false,
+        arbol_problemas_comentario: evaluacion.evaluacion_proyecto_linea69?.arbol_problemas_comentario ? evaluacion.evaluacion_proyecto_linea69?.arbol_problemas_comentario : '',
+        arbol_problemas_requiere_comentario: evaluacion.evaluacion_proyecto_linea69?.arbol_problemas_comentario == null ? true : false,
     })
     function submitTpEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {

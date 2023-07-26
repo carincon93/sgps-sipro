@@ -40,13 +40,13 @@ class ProyectoAnexoController extends Controller
             'filters'           => request()->all('search'),
             'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
             'proyecto'          => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'video', 'infraestructura_adecuada', 'especificaciones_area', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
-            'proyectoAnexo'     => $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('anexos', 'proyecto_anexo.anexo_id', 'anexos.id')->get(),
+            'proyecto_anexo'    => $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('anexos', 'proyecto_anexo.anexo_id', 'anexos.id')->get(),
             'anexos'            => Anexo::select('anexos.id', 'anexos.nombre', 'anexos.archivo', 'anexos.obligatorio', 'anexos.habilitado')
-                ->join('anexo_lineas_programaticas', 'anexos.id', 'anexo_lineas_programaticas.anexo_id')
-                ->join('convocatoria_anexos', 'anexos.id', 'convocatoria_anexos.anexo_id')
-                ->where('anexo_lineas_programaticas.linea_programatica_id', $proyecto->lineaProgramatica->id)
-                ->where('convocatoria_anexos.convocatoria_id', $convocatoria->id)
-                ->filterAnexo(request()->only('search'))->paginate()->appends(['search' => request()->search])
+                                    ->join('anexo_lineas_programaticas', 'anexos.id', 'anexo_lineas_programaticas.anexo_id')
+                                    ->join('convocatoria_anexos', 'anexos.id', 'convocatoria_anexos.anexo_id')
+                                    ->where('anexo_lineas_programaticas.linea_programatica_id', $proyecto->lineaProgramatica->id)
+                                    ->where('convocatoria_anexos.convocatoria_id', $convocatoria->id)
+                                    ->filterAnexo(request()->only('search'))->paginate()->appends(['search' => request()->search])
         ]);
     }
 
@@ -78,12 +78,12 @@ class ProyectoAnexoController extends Controller
 
         $anexo = Anexo::select('id', 'nombre')->where('id', $request->anexo_id)->first();
 
-        $proyectoAnexo = ProyectoAnexo::updateOrCreate(
+        $proyecto_anexo = ProyectoAnexo::updateOrCreate(
             ['proyecto_id'  => $proyecto->id, 'anexo_id' => $anexo->id],
         );
 
         if ($request->hasFile('archivo')) {
-            $this->saveFilesSharepoint($request->archivo, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $proyectoAnexo, 'archivo');
+            $this->saveFilesSharepoint($request->archivo, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $proyecto_anexo, 'archivo');
         }
 
         return back()->with('success', 'El recurso se ha creado correctamente.');
@@ -92,10 +92,10 @@ class ProyectoAnexoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ProyectoAnexo  $proyectoAnexo
+     * @param  \App\Models\ProyectoAnexo  $proyecto_anexo
      * @return \Illuminate\Http\Response
      */
-    public function show(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoAnexo $proyectoAnexo)
+    public function show(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoAnexo $proyecto_anexo)
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
     }
@@ -103,29 +103,24 @@ class ProyectoAnexoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ProyectoAnexo  $proyectoAnexo
+     * @param  \App\Models\ProyectoAnexo  $proyecto_anexo
      * @return \Illuminate\Http\Response
      */
-    public function edit(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoAnexo $proyectoAnexo)
+    public function edit(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoAnexo $proyecto_anexo)
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        return Inertia::render('Convocatorias/Proyectos/Anexos/Edit', [
-            'convocatoria'  => $convocatoria,
-            'proyecto'      => $proyecto,
-            'proyectoAnexo' => $proyectoAnexo,
-            'anexos'        => SelectHelper::anexos()->where('linea_programatica_id', $proyecto->lineaProgramatica->id)->where('convocatoria_id', $convocatoria->id)->values()->all()
-        ]);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ProyectoAnexo  $proyectoAnexo
+     * @param  \App\Models\ProyectoAnexo  $proyecto_anexo
      * @return \Illuminate\Http\Response
      */
-    public function update(ProyectoAnexoRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoAnexo $proyectoAnexo)
+    public function update(ProyectoAnexoRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoAnexo $proyecto_anexo)
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
@@ -135,14 +130,14 @@ class ProyectoAnexoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ProyectoAnexo  $proyectoAnexo
+     * @param  \App\Models\ProyectoAnexo  $proyecto_anexo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoAnexo $proyectoAnexo)
+    public function destroy(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoAnexo $proyecto_anexo)
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $proyectoAnexo->delete();
+        $proyecto_anexo->delete();
 
         return redirect()->route('convocatorias.proyectos.proyecto-anexos.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha eliminado correctamente.');
     }
@@ -152,21 +147,21 @@ class ProyectoAnexoController extends Controller
         $anexo              = $modelo;
         $proyecto           = Proyecto::find($anexo->proyecto_id);
 
-        $anexoSharePoint    = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ANEXOS';
+        $sharepoint_anexo   = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ANEXOS';
 
-        $sharepoint_path     = "$modulo/$anexoSharePoint";
+        $sharepoint_path    = "$modulo/$sharepoint_anexo";
 
         SharepointHelper::saveFilesSharepoint($tmp_file, $modelo, $sharepoint_path, $campo_bd);
     }
 
-    public function downloadServerFile(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoAnexo $proyectoAnexo)
+    public function downloadServerFile(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoAnexo $proyecto_anexo)
     {
-        SharepointHelper::downloadServerFile($proyectoAnexo, $request->formato);
+        SharepointHelper::downloadServerFile($proyecto_anexo, $request->formato);
     }
 
-    public function downloadFileSharepoint(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoAnexo $proyectoAnexo, $tipo_archivo)
+    public function downloadFileSharepoint(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoAnexo $proyecto_anexo, $tipo_archivo)
     {
-        $sharepoint_path = $proyectoAnexo[$tipo_archivo];
+        $sharepoint_path = $proyecto_anexo[$tipo_archivo];
 
         return SharepointHelper::downloadFile($sharepoint_path);
     }

@@ -49,7 +49,6 @@ class ProyectoLinea65Controller extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea65/Create', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_65', 'max_fecha_finalizacion_proyectos_cultura', 'fecha_maxima_cultura'),
-            'roles'                 => collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true)),
             'centros_formacion'     => $centros_formacion,
             'lineas_investigacion'  => SelectHelper::lineasInvestigacion(),
             'lineas_programaticas'  => SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 5)->values()->all(),
@@ -162,7 +161,7 @@ class ProyectoLinea65Controller extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea65/Edit', [
             'convocatoria'                                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_65', 'max_fecha_finalizacion_proyectos_cultura', 'fecha_maxima_cultura', 'mostrar_recomendaciones', 'campos_convocatoria'),
-            'proyecto_linea65'                              => $proyecto_linea_65,
+            'proyecto_linea_65'                             => $proyecto_linea_65,
             'tecnoacademia'                                 => $proyecto_linea_65->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_linea_65->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
             'mesas_sectoriales'                             => MesaSectorial::select('id as value', 'nombre as label')->get('id'),
             'lineas_investigacion'                          => SelectHelper::lineasInvestigacion()->where('centro_formacion_id', $proyecto_linea_65->proyecto->centro_formacion_id)->values()->all(),

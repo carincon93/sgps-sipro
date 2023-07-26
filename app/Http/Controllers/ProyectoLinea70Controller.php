@@ -150,7 +150,7 @@ class ProyectoLinea70Controller extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea70/Edit', [
             'convocatoria'                           => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year', 'tipo_convocatoria', 'mostrar_recomendaciones', 'descripcion'),
-            'proyecto_inea_70'                       => $proyecto_linea_70,
+            'proyecto_linea_70'                      => $proyecto_linea_70,
             'lineas_programaticas'                   => SelectHelper::lineasProgramaticas(),
             'lineas_tecnoacademia'                   => SelectHelper::lineasTecnoacademia(),
             'tecnoacademias'                         => $tecnoacademias,

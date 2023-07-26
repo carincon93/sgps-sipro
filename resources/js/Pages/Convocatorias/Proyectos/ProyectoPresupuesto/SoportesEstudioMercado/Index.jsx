@@ -15,7 +15,7 @@ import { router, useForm } from '@inertiajs/react'
 import DownloadIcon from '@mui/icons-material/Download'
 import { Grid } from '@mui/material'
 
-const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, proyectoPresupuesto, soportesEstudioMercado }) => {
+const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, proyecto_presupuesto, soportes_estudio_mercado }) => {
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
@@ -24,34 +24,34 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, proyectoPresupues
 
     const form = useForm({
         formato_estudio_mercado: null,
-        valor_total: proyectoPresupuesto.valor_total,
+        valor_total: proyecto_presupuesto.valor_total,
     })
 
     const submitEstudioMercado = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
-            form.post(route('convocatorias.proyectos.presupuesto.estudio-mercado.store', [convocatoria.id, proyecto.id, proyectoPresupuesto]), {
+            form.post(route('convocatorias.proyectos.presupuesto.estudio-mercado.store', [convocatoria.id, proyecto.id, proyecto_presupuesto]), {
                 preserveScroll: true,
             })
         }
     }
 
     const formSoporte = useForm({
-        id_primer_empresa: soportesEstudioMercado[0]?.id,
-        nombre_primer_empresa: soportesEstudioMercado[0] ? soportesEstudioMercado[0]?.empresa : '',
+        id_primer_empresa: soportes_estudio_mercado[0]?.id,
+        nombre_primer_empresa: soportes_estudio_mercado[0] ? soportes_estudio_mercado[0]?.empresa : '',
         soporte_primer_empresa: null,
-        id_segunda_empresa: soportesEstudioMercado[1]?.id,
-        nombre_segunda_empresa: soportesEstudioMercado[1] ? soportesEstudioMercado[1]?.empresa : '',
+        id_segunda_empresa: soportes_estudio_mercado[1]?.id,
+        nombre_segunda_empresa: soportes_estudio_mercado[1] ? soportes_estudio_mercado[1]?.empresa : '',
         soporte_segunda_empresa: null,
-        id_tercer_empresa: soportesEstudioMercado[2]?.id,
-        nombre_tercer_empresa: soportesEstudioMercado[2] ? soportesEstudioMercado[2]?.empresa : '',
+        id_tercer_empresa: soportes_estudio_mercado[2]?.id,
+        nombre_tercer_empresa: soportes_estudio_mercado[2] ? soportes_estudio_mercado[2]?.empresa : '',
         soporte_tercer_empresa: null,
     })
 
     const submitSoportes = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
-            formSoporte.post(route('convocatorias.proyectos.presupuesto.soportes.store', [convocatoria.id, proyecto.id, proyectoPresupuesto]), {
+            formSoporte.post(route('convocatorias.proyectos.presupuesto.soportes.store', [convocatoria.id, proyecto.id, proyecto_presupuesto]), {
                 preserveScroll: true,
             })
         }
@@ -59,7 +59,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, proyectoPresupues
 
     const destroySoporte = (soporteEstudioMercadoId) => {
         if (proyecto.allowed.to_update) {
-            router.delete(route('convocatorias.proyectos.presupuesto.soportes.destroy', [convocatoria.id, proyecto.id, proyectoPresupuesto.id, soporteEstudioMercadoId]), {
+            router.delete(route('convocatorias.proyectos.presupuesto.soportes.destroy', [convocatoria.id, proyecto.id, proyecto_presupuesto.id, soporteEstudioMercadoId]), {
                 preserveScroll: true,
             })
         }
@@ -88,9 +88,9 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, proyectoPresupues
                                     A continuación, diligencie el <strong>Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>. Debe incluir ítems que pertenezcan a los usos
                                     presupuestales:
                                     <ul className="list-disc ml-4">
-                                        {proyectoPresupuesto.convocatoria_proyecto_rubros_presupuestales.map((convocatoriaRubroPresupuestal, i) => (
+                                        {proyecto_presupuesto.convocatoria_proyecto_rubros_presupuestales.map((convocatoria_rubro_presupuestal, i) => (
                                             <li key={i}>
-                                                <p className="first-letter:uppercase mb-2 font-black">{convocatoriaRubroPresupuestal.presupuesto_sennova.uso_presupuestal.descripcion}</p>
+                                                <p className="first-letter:uppercase mb-2 font-black">{convocatoria_rubro_presupuestal.presupuesto_sennova.uso_presupuestal.descripcion}</p>
                                             </li>
                                         ))}
                                     </ul>
@@ -102,15 +102,15 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, proyectoPresupues
                                 <FileInput
                                     id="formato_estudio_mercado"
                                     value={form.data.formato_estudio_mercado}
-                                    filename={proyectoPresupuesto?.filename}
-                                    extension={proyectoPresupuesto?.extension}
+                                    filename={proyecto_presupuesto?.filename}
+                                    extension={proyecto_presupuesto?.extension}
                                     label={`Seleccione el Estudio de mercado - Convocatoria Sennova ` + convocatoria.year}
                                     accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                                     downloadRoute={
-                                        proyectoPresupuesto?.formato_estudio_mercado
-                                            ? proyectoPresupuesto?.formato_estudio_mercado?.includes('http')
+                                        proyecto_presupuesto?.formato_estudio_mercado
+                                            ? proyecto_presupuesto?.formato_estudio_mercado?.includes('http')
                                                 ? null
-                                                : route('convocatorias.proyectos.presupuesto.download-file-sharepoint', [convocatoria, proyecto, proyectoPresupuesto, 'formato_estudio_mercado'])
+                                                : route('convocatorias.proyectos.presupuesto.download-file-sharepoint', [convocatoria, proyecto, proyecto_presupuesto, 'formato_estudio_mercado'])
                                             : null
                                     }
                                     onChange={(e) => form.setData('formato_estudio_mercado', e.target.files[0])}
@@ -193,24 +193,24 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, proyectoPresupues
                                         <FileInput
                                             id="soporte_primer_empresa"
                                             value={formSoporte.data.soporte_primer_empresa}
-                                            filename={soportesEstudioMercado[0] ? soportesEstudioMercado[0]?.filename : ''}
-                                            extension={soportesEstudioMercado[0] ? soportesEstudioMercado[0]?.extension : ''}
+                                            filename={soportes_estudio_mercado[0] ? soportes_estudio_mercado[0]?.filename : ''}
+                                            extension={soportes_estudio_mercado[0] ? soportes_estudio_mercado[0]?.extension : ''}
                                             label="Seleccione el soporte de la primer empresa"
                                             accept=".zip,application/pdf"
                                             downloadRoute={
-                                                soportesEstudioMercado[0]?.soporte
-                                                    ? soportesEstudioMercado[0]?.soporte?.includes('http') == true || soportesEstudioMercado[0]?.soporte?.includes('http') == undefined
+                                                soportes_estudio_mercado[0]?.soporte
+                                                    ? soportes_estudio_mercado[0]?.soporte?.includes('http') == true || soportes_estudio_mercado[0]?.soporte?.includes('http') == undefined
                                                         ? null
                                                         : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [
                                                               convocatoria,
                                                               proyecto,
-                                                              proyectoPresupuesto,
-                                                              soportesEstudioMercado[0]?.id,
+                                                              proyecto_presupuesto,
+                                                              soportes_estudio_mercado[0]?.id,
                                                               'soporte',
                                                           ])
                                                     : null
                                             }
-                                            onDelete={() => destroySoporte(soportesEstudioMercado[0]?.id)}
+                                            onDelete={() => destroySoporte(soportes_estudio_mercado[0]?.id)}
                                             onChange={(e) => formSoporte.setData('soporte_primer_empresa', e.target.files[0])}
                                             error={formSoporte.errors.soporte_primer_empresa}
                                         />
@@ -235,24 +235,24 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, proyectoPresupues
                                         <FileInput
                                             id="soporte_segunda_empresa"
                                             value={formSoporte.data.soporte_segunda_empresa}
-                                            filename={soportesEstudioMercado[1] ? soportesEstudioMercado[1]?.filename : ''}
-                                            extension={soportesEstudioMercado[1] ? soportesEstudioMercado[1]?.extension : ''}
+                                            filename={soportes_estudio_mercado[1] ? soportes_estudio_mercado[1]?.filename : ''}
+                                            extension={soportes_estudio_mercado[1] ? soportes_estudio_mercado[1]?.extension : ''}
                                             label="Seleccione el soporte de la segunda empresa"
                                             accept=".zip,application/pdf"
                                             downloadRoute={
-                                                soportesEstudioMercado[1]?.soporte
-                                                    ? soportesEstudioMercado[1]?.soporte?.includes('http') == true || soportesEstudioMercado[1]?.soporte?.includes('http') == undefined
+                                                soportes_estudio_mercado[1]?.soporte
+                                                    ? soportes_estudio_mercado[1]?.soporte?.includes('http') == true || soportes_estudio_mercado[1]?.soporte?.includes('http') == undefined
                                                         ? null
                                                         : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [
                                                               convocatoria,
                                                               proyecto,
-                                                              proyectoPresupuesto,
-                                                              soportesEstudioMercado[1]?.id,
+                                                              proyecto_presupuesto,
+                                                              soportes_estudio_mercado[1]?.id,
                                                               'soporte',
                                                           ])
                                                     : null
                                             }
-                                            onDelete={() => destroySoporte(soportesEstudioMercado[1]?.id)}
+                                            onDelete={() => destroySoporte(soportes_estudio_mercado[1]?.id)}
                                             onChange={(e) => formSoporte.setData('soporte_segunda_empresa', e.target.files[0])}
                                             error={formSoporte.errors.soporte_segunda_empresa}
                                         />
@@ -277,24 +277,24 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, proyectoPresupues
                                         <FileInput
                                             id="soporte_tercer_empresa"
                                             value={formSoporte.data.soporte_tercer_empresa}
-                                            filename={soportesEstudioMercado[2] ? soportesEstudioMercado[2]?.filename : ''}
-                                            extension={soportesEstudioMercado[2] ? soportesEstudioMercado[2]?.extension : ''}
+                                            filename={soportes_estudio_mercado[2] ? soportes_estudio_mercado[2]?.filename : ''}
+                                            extension={soportes_estudio_mercado[2] ? soportes_estudio_mercado[2]?.extension : ''}
                                             label="Seleccione el soporte de la tercer empresa"
                                             accept=".zip,application/pdf"
                                             downloadRoute={
-                                                soportesEstudioMercado[2]?.soporte
-                                                    ? soportesEstudioMercado[2]?.soporte?.includes('http') == true || soportesEstudioMercado[2]?.soporte?.includes('http') == undefined
+                                                soportes_estudio_mercado[2]?.soporte
+                                                    ? soportes_estudio_mercado[2]?.soporte?.includes('http') == true || soportes_estudio_mercado[2]?.soporte?.includes('http') == undefined
                                                         ? null
                                                         : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [
                                                               convocatoria,
                                                               proyecto,
-                                                              proyectoPresupuesto,
-                                                              soportesEstudioMercado[2]?.id,
+                                                              proyecto_presupuesto,
+                                                              soportes_estudio_mercado[2]?.id,
                                                               'soporte',
                                                           ])
                                                     : null
                                             }
-                                            onDelete={() => destroySoporte(soportesEstudioMercado[2]?.id)}
+                                            onDelete={() => destroySoporte(soportes_estudio_mercado[2]?.id)}
                                             onChange={(e) => formSoporte.setData('soporte_tercer_empresa', e.target.files[0])}
                                             error={formSoporte.errors.soporte_tercer_empresa}
                                         />

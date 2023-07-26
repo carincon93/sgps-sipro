@@ -8,25 +8,25 @@ import TextInput from '@/Components/TextInput'
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAliada, miembroEntidadAliada, tiposDocumento, ...props }) => {
+const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_aliada, miembro_entidad_aliada, tipos_documento, ...props }) => {
     const form = useForm({
-        nombre: miembroEntidadAliada?.nombre ?? '',
-        email: miembroEntidadAliada?.email ?? '',
-        tipo_documento: miembroEntidadAliada?.tipo_documento ?? '',
-        numero_documento: miembroEntidadAliada?.numero_documento ?? '',
-        numero_celular: miembroEntidadAliada?.numero_celular ?? '',
-        autorizacion_datos: miembroEntidadAliada?.autorizacion_datos ?? false,
+        nombre: miembro_entidad_aliada?.nombre ?? '',
+        email: miembro_entidad_aliada?.email ?? '',
+        tipo_documento: miembro_entidad_aliada?.tipo_documento ?? '',
+        numero_documento: miembro_entidad_aliada?.numero_documento ?? '',
+        numero_celular: miembro_entidad_aliada?.numero_celular ?? '',
+        autorizacion_datos: miembro_entidad_aliada?.autorizacion_datos ?? false,
     })
 
     const submit = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
             method == 'crear'
-                ? form.post(route('convocatorias.proyectos.entidades-aliadas.miembros-entidad-aliada.store', [convocatoria.id, proyecto.id, entidadAliada.id]), {
+                ? form.post(route('convocatorias.proyectos.entidades-aliadas.miembros-entidad-aliada.store', [convocatoria.id, proyecto.id, entidad_aliada.id]), {
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
                   })
-                : form.put(route('convocatorias.proyectos.entidades-aliadas.miembros-entidad-aliada.update', [convocatoria.id, proyecto.id, entidadAliada.id, miembroEntidadAliada.id]), {
+                : form.put(route('convocatorias.proyectos.entidades-aliadas.miembros-entidad-aliada.update', [convocatoria.id, proyecto.id, entidad_aliada.id, miembro_entidad_aliada.id]), {
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
                   })
@@ -70,7 +70,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAli
                             <div className="mt-8">
                                 <Autocomplete
                                     id="tipo_documento"
-                                    options={tiposDocumento}
+                                    options={tipos_documento}
                                     selectedValue={form.data.tipo_documento}
                                     onChange={(evente, newValue) => form.setData('tipo_documento', newValue.value)}
                                     error={form.errors.tipo_documento}
@@ -103,10 +103,10 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAli
                                 />
                             </div>
 
-                            {miembroEntidadAliada ? (
+                            {miembro_entidad_aliada ? (
                                 <div className="mt-8">
                                     <AlertMui>
-                                        {miembroEntidadAliada.autorizacion_datos ? 'Está persona autorizó el tratamiento de datos' : 'Está persona no autorizó el tratamiento de datos'}
+                                        {miembro_entidad_aliada.autorizacion_datos ? 'Está persona autorizó el tratamiento de datos' : 'Está persona no autorizó el tratamiento de datos'}
                                     </AlertMui>
                                 </div>
                             ) : (
@@ -125,7 +125,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAli
                             )}
                         </fieldset>
 
-                        {miembroEntidadAliada && <small className="flex items-center text-app-700">{miembroEntidadAliada.updated_at}</small>}
+                        {miembro_entidad_aliada && <small className="flex items-center text-app-700">{miembro_entidad_aliada.updated_at}</small>}
 
                         <div className="flex items-center justify-between mt-14 py-4">
                             {proyecto.allowed.to_update ? (

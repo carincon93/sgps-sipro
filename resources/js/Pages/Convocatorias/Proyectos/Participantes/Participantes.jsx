@@ -13,20 +13,20 @@ import TextInput from '@/Components/TextInput'
 import { router, useForm } from '@inertiajs/react'
 import { useState } from 'react'
 
-const Participantes = ({ auth_user, convocatoria, proyecto, rolesSennova, nuevoParticipante, autorPrincipal }) => {
+const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo_participante, autor_principal }) => {
     /**
      * Participantes
      */
-    const formParticipante = useForm({
+    const form_participante = useForm({
         user_id: null,
         cantidad_meses: '',
         cantidad_horas: '',
         rol_sennova: null,
     })
 
-    const [participanteAModificarId, setParticipanteAModificarId] = useState(null)
+    const [participante_a_modificar_id, setParticipanteAModificarId] = useState(null)
 
-    const formNuevoParticipante = useForm({
+    const form_nuevo_participante = useForm({
         user_id: null,
         cantidad_meses: '',
         cantidad_horas: '',
@@ -35,7 +35,7 @@ const Participantes = ({ auth_user, convocatoria, proyecto, rolesSennova, nuevoP
 
     const submitNuevoParticipante = () => {
         if (proyecto.allowed.to_update) {
-            formNuevoParticipante.post(
+            form_nuevo_participante.post(
                 route('convocatorias.proyectos.participantes.users.link', {
                     proyecto: proyecto.id,
                     convocatoria: convocatoria.id,
@@ -68,7 +68,7 @@ const Participantes = ({ auth_user, convocatoria, proyecto, rolesSennova, nuevoP
                 {proyecto.participantes.map((participante, i) => (
                     <TableRow key={i}>
                         <TableCell>
-                            {participante.id == autorPrincipal?.id && <Chip className="!bg-green-100 !text-xs mb-2" size="small" label="Autor(a) principal" />}
+                            {participante.id == autor_principal?.id && <Chip className="!bg-green-100 !text-xs mb-2" size="small" label="Autor(a) principal" />}
                             <br />
                             {participante.nombre}
                             <br />
@@ -79,17 +79,17 @@ const Participantes = ({ auth_user, convocatoria, proyecto, rolesSennova, nuevoP
                             <br />
                             <Chip className="mt-2" label={participante.centro_formacion ? participante.centro_formacion.regional.nombre : ''} />
                         </TableCell>
-                        {participante.id == participanteAModificarId ? (
+                        {participante.id == participante_a_modificar_id ? (
                             <>
                                 <TableCell>
                                     <Autocomplete
                                         id="rol_sennova"
                                         size="small"
-                                        options={rolesSennova}
-                                        selectedValue={formParticipante.data.rol_sennova}
-                                        error={formParticipante.errors.rol_sennova}
+                                        options={roles_sennova}
+                                        selectedValue={form_participante.data.rol_sennova}
+                                        error={form_participante.errors.rol_sennova}
                                         onChange={(event, newValue) => {
-                                            formParticipante.setData('rol_sennova', newValue.value)
+                                            form_participante.setData('rol_sennova', newValue.value)
                                         }}
                                         label="Seleccione el rol SENNOVA"
                                         required
@@ -108,9 +108,9 @@ const Participantes = ({ auth_user, convocatoria, proyecto, rolesSennova, nuevoP
                                             }}
                                             size="small"
                                             required
-                                            value={formParticipante.data.cantidad_meses}
-                                            error={formParticipante.errors.cantidad_meses}
-                                            onChange={(e) => formParticipante.setData('cantidad_meses', e.target.value)}
+                                            value={form_participante.data.cantidad_meses}
+                                            error={form_participante.errors.cantidad_meses}
+                                            onChange={(e) => form_participante.setData('cantidad_meses', e.target.value)}
                                             className="!inline-block !w-20 !mr-2"
                                         />{' '}
                                         meses
@@ -120,10 +120,10 @@ const Participantes = ({ auth_user, convocatoria, proyecto, rolesSennova, nuevoP
                                             name="cantidad_horas"
                                             size="small"
                                             required
-                                            value={formParticipante.data.cantidad_horas}
-                                            error={formParticipante.errors.cantidad_horas}
+                                            value={form_participante.data.cantidad_horas}
+                                            error={form_participante.errors.cantidad_horas}
                                             onChange={(e) => {
-                                                formParticipante.setData('cantidad_horas', e.target.value)
+                                                form_participante.setData('cantidad_horas', e.target.value)
                                             }}
                                             className="!inline-block !w-16 !mx-2"
                                         />{' '}
@@ -133,14 +133,14 @@ const Participantes = ({ auth_user, convocatoria, proyecto, rolesSennova, nuevoP
                             </>
                         ) : (
                             <>
-                                <TableCell>{rolesSennova.filter((rolSennova) => rolSennova.value == participante.pivot.rol_sennova)[0]?.label}</TableCell>
+                                <TableCell>{roles_sennova.filter((rolSennova) => rolSennova.value == participante.pivot.rol_sennova)[0]?.label}</TableCell>
                                 <TableCell>
                                     {participante.pivot.cantidad_meses.replace('.', ',')} meses - {participante.pivot.cantidad_horas} horas semanales
                                 </TableCell>
                             </>
                         )}
 
-                        {participante.id != participanteAModificarId ? (
+                        {participante.id != participante_a_modificar_id ? (
                             <TableCell>
                                 <MenuMui text={<MoreVertIcon />}>
                                     <MenuItem
@@ -156,8 +156,8 @@ const Participantes = ({ auth_user, convocatoria, proyecto, rolesSennova, nuevoP
                                     <Divider className={!proyecto.allowed.to_update ? 'hidden' : ''} />
                                     <MenuItem
                                         onClick={() => {
-                                            formParticipante.reset()
-                                            formParticipante.setData({
+                                            form_participante.reset()
+                                            form_participante.setData({
                                                 user_id: participante.id,
                                                 cantidad_meses: participante.pivot.cantidad_meses,
                                                 cantidad_horas: participante.pivot.cantidad_horas,
@@ -190,7 +190,7 @@ const Participantes = ({ auth_user, convocatoria, proyecto, rolesSennova, nuevoP
                             <TableCell>
                                 <PrimaryButton
                                     onClick={() => {
-                                        formParticipante.put(
+                                        form_participante.put(
                                             route('convocatorias.proyectos.participantes.users.update', {
                                                 proyecto: proyecto.id,
                                                 convocatoria: convocatoria.id,
@@ -198,7 +198,7 @@ const Participantes = ({ auth_user, convocatoria, proyecto, rolesSennova, nuevoP
                                             { preserveScroll: true },
                                         )
                                     }}
-                                    disabled={formParticipante.processing}>
+                                    disabled={form_participante.processing}>
                                     Guardar
                                 </PrimaryButton>
                             </TableCell>
@@ -206,27 +206,27 @@ const Participantes = ({ auth_user, convocatoria, proyecto, rolesSennova, nuevoP
                     </TableRow>
                 ))}
 
-                {nuevoParticipante && (
+                {nuevo_participante && (
                     <TableRow sx={{ backgroundColor: '#e5f6fd' }}>
                         <TableCell>
-                            {nuevoParticipante.nombre}
+                            {nuevo_participante.nombre}
                             <br />
-                            <Chip className="mt-2" label={nuevoParticipante.email} />
+                            <Chip className="mt-2" label={nuevo_participante.email} />
                         </TableCell>
                         <TableCell>
-                            {nuevoParticipante.centro_formacion ? nuevoParticipante.centro_formacion.nombre : ''}
+                            {nuevo_participante.centro_formacion ? nuevo_participante.centro_formacion.nombre : ''}
                             <br />
-                            <Chip className="mt-2" label={nuevoParticipante.centro_formacion ? nuevoParticipante.centro_formacion.regional.nombre : ''} />
+                            <Chip className="mt-2" label={nuevo_participante.centro_formacion ? nuevo_participante.centro_formacion.regional.nombre : ''} />
                         </TableCell>
                         <TableCell>
                             <Autocomplete
                                 id="rol_sennova"
                                 size="small"
-                                options={rolesSennova}
-                                selectedValue={formNuevoParticipante.data.rol_sennova ?? nuevoParticipante.rol_sennova_id}
-                                error={formNuevoParticipante.errors.rol_sennova}
+                                options={roles_sennova}
+                                selectedValue={form_nuevo_participante.data.rol_sennova ?? nuevo_participante.rol_sennova_id}
+                                error={form_nuevo_participante.errors.rol_sennova}
                                 onChange={(event, newValue) => {
-                                    formNuevoParticipante.setData('rol_sennova', newValue.value)
+                                    form_nuevo_participante.setData('rol_sennova', newValue.value)
                                 }}
                                 label="Seleccione el rol SENNOVA"
                                 required
@@ -245,10 +245,10 @@ const Participantes = ({ auth_user, convocatoria, proyecto, rolesSennova, nuevoP
                                     }}
                                     size="small"
                                     required
-                                    value={formNuevoParticipante.data.cantidad_meses}
-                                    error={formNuevoParticipante.errors.cantidad_meses}
+                                    value={form_nuevo_participante.data.cantidad_meses}
+                                    error={form_nuevo_participante.errors.cantidad_meses}
                                     className="!inline-block !w-20 !mr-2"
-                                    onChange={(e) => formNuevoParticipante.setData('cantidad_meses', e.target.value)}
+                                    onChange={(e) => form_nuevo_participante.setData('cantidad_meses', e.target.value)}
                                 />{' '}
                                 meses
                                 <TextInput
@@ -257,10 +257,10 @@ const Participantes = ({ auth_user, convocatoria, proyecto, rolesSennova, nuevoP
                                     name="cantidad_horas"
                                     size="small"
                                     required
-                                    value={formNuevoParticipante.data.cantidad_horas}
-                                    error={formNuevoParticipante.errors.cantidad_horas}
+                                    value={form_nuevo_participante.data.cantidad_horas}
+                                    error={form_nuevo_participante.errors.cantidad_horas}
                                     className="!inline-block !w-16 !mx-2"
-                                    onChange={(e) => formNuevoParticipante.setData('cantidad_horas', e.target.value)}
+                                    onChange={(e) => form_nuevo_participante.setData('cantidad_horas', e.target.value)}
                                 />{' '}
                                 horas semanales
                             </div>
@@ -269,9 +269,9 @@ const Participantes = ({ auth_user, convocatoria, proyecto, rolesSennova, nuevoP
                         <TableCell>
                             <PrimaryButton
                                 onClick={() => {
-                                    formNuevoParticipante.setData('user_id', nuevoParticipante.id), submitNuevoParticipante()
+                                    form_nuevo_participante.setData('user_id', nuevo_participante.id), submitNuevoParticipante()
                                 }}
-                                disabled={formNuevoParticipante.processing}>
+                                disabled={form_nuevo_participante.processing}>
                                 Vincular
                             </PrimaryButton>
                         </TableCell>

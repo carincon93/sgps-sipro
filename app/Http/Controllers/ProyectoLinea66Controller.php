@@ -68,7 +68,7 @@ class ProyectoLinea66Controller extends Controller
             'areas_tematicas_eni'               => SelectHelper::areasTematicasEni(),
             'lineas_investigacion_eni'          => SelectHelper::lineasInvestigacion()->where('grupo_investigacion_id', 126)->values()->all(),
             'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'allowed_to_create'                   => Gate::inspect('formular-proyecto', [3, $convocatoria])->allowed()
+            'allowed_to_create'                 => Gate::inspect('formular-proyecto', [3, $convocatoria])->allowed()
         ]);
     }
 

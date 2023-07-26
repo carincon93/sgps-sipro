@@ -85,7 +85,7 @@ class TipoProyectoLinea68 extends Model
      * @param  mixed $filters
      * @return void
      */
-    public function scopeFilterTipoProyectoSt($query, array $filters)
+    public function scopeFilterTipoProyectoLinea68($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $query->where('tipologia', 'ilike', '%' . $search . '%');

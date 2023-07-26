@@ -33,9 +33,9 @@
     let is_super_admin = checkRole(auth_user, [1])
 
     let formEstrategiaRegionalEvaluacion = useForm({
-        analisis_riesgos_puntaje: evaluacion.idi_evaluacion ? evaluacion.idi_evaluacion?.analisis_riesgos_puntaje : evaluacion.cultura_innovacion_evaluacion ? evaluacion.cultura_innovacion_evaluacion.analisis_riesgos_puntaje : null,
-        analisis_riesgos_comentario: evaluacion.idi_evaluacion ? evaluacion.idi_evaluacion?.analisis_riesgos_comentario : evaluacion.cultura_innovacion_evaluacion ? evaluacion.cultura_innovacion_evaluacion.analisis_riesgos_comentario : null,
-        analisis_riesgos_requiere_comentario: evaluacion.idi_evaluacion ? (evaluacion.idi_evaluacion?.analisis_riesgos_comentario == null ? true : false) : evaluacion.cultura_innovacion_evaluacion ? (evaluacion.cultura_innovacion_evaluacion.analisis_riesgos_comentario == null ? true : false) : null,
+        analisis_riesgos_puntaje: evaluacion.evaluacion_proyecto_linea66 ? evaluacion.evaluacion_proyecto_linea66?.analisis_riesgos_puntaje : evaluacion.evaluacion_proyecto_linea65 ? evaluacion.evaluacion_proyecto_linea65.analisis_riesgos_puntaje : null,
+        analisis_riesgos_comentario: evaluacion.evaluacion_proyecto_linea66 ? evaluacion.evaluacion_proyecto_linea66?.analisis_riesgos_comentario : evaluacion.evaluacion_proyecto_linea65 ? evaluacion.evaluacion_proyecto_linea65.analisis_riesgos_comentario : null,
+        analisis_riesgos_requiere_comentario: evaluacion.evaluacion_proyecto_linea66 ? (evaluacion.evaluacion_proyecto_linea66?.analisis_riesgos_comentario == null ? true : false) : evaluacion.evaluacion_proyecto_linea65 ? (evaluacion.evaluacion_proyecto_linea65.analisis_riesgos_comentario == null ? true : false) : null,
     })
     function submitEstrategiaRegionalEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
@@ -46,8 +46,8 @@
     }
 
     let formTaEvaluacion = useForm({
-        analisis_riesgos_comentario: evaluacion.ta_evaluacion?.analisis_riesgos_comentario ? evaluacion.ta_evaluacion?.analisis_riesgos_comentario : '',
-        analisis_riesgos_requiere_comentario: evaluacion.ta_evaluacion?.analisis_riesgos_comentario == null ? true : false,
+        analisis_riesgos_comentario: evaluacion.evaluacion_proyecto_linea70?.analisis_riesgos_comentario ? evaluacion.evaluacion_proyecto_linea70?.analisis_riesgos_comentario : '',
+        analisis_riesgos_requiere_comentario: evaluacion.evaluacion_proyecto_linea70?.analisis_riesgos_comentario == null ? true : false,
     })
     function submitTaEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
@@ -58,8 +58,8 @@
     }
 
     let formTpEvaluacion = useForm({
-        analisis_riesgos_comentario: evaluacion.tp_evaluacion?.analisis_riesgos_comentario ? evaluacion.tp_evaluacion?.analisis_riesgos_comentario : '',
-        analisis_riesgos_requiere_comentario: evaluacion.tp_evaluacion?.analisis_riesgos_comentario == null ? true : false,
+        analisis_riesgos_comentario: evaluacion.evaluacion_proyecto_linea69?.analisis_riesgos_comentario ? evaluacion.evaluacion_proyecto_linea69?.analisis_riesgos_comentario : '',
+        analisis_riesgos_requiere_comentario: evaluacion.evaluacion_proyecto_linea69?.analisis_riesgos_comentario == null ? true : false,
     })
     function submitTpEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {
@@ -70,17 +70,17 @@
     }
 
     let formServicioTecnologicoEvaluacion = useForm({
-        riesgos_objetivo_general_puntaje: evaluacion.servicio_tecnologico_evaluacion?.riesgos_objetivo_general_puntaje,
-        riesgos_objetivo_general_comentario: evaluacion.servicio_tecnologico_evaluacion?.riesgos_objetivo_general_comentario ? evaluacion.servicio_tecnologico_evaluacion?.riesgos_objetivo_general_comentario : '',
-        riesgos_objetivo_general_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.riesgos_objetivo_general_comentario == null ? true : false,
+        riesgos_objetivo_general_puntaje: evaluacion.evaluacion_proyecto_linea68?.riesgos_objetivo_general_puntaje,
+        riesgos_objetivo_general_comentario: evaluacion.evaluacion_proyecto_linea68?.riesgos_objetivo_general_comentario ? evaluacion.evaluacion_proyecto_linea68?.riesgos_objetivo_general_comentario : '',
+        riesgos_objetivo_general_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.riesgos_objetivo_general_comentario == null ? true : false,
 
-        riesgos_productos_puntaje: evaluacion.servicio_tecnologico_evaluacion?.riesgos_productos_puntaje,
-        riesgos_productos_comentario: evaluacion.servicio_tecnologico_evaluacion?.riesgos_productos_comentario ? evaluacion.servicio_tecnologico_evaluacion?.riesgos_productos_comentario : '',
-        riesgos_productos_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.riesgos_productos_comentario == null ? true : false,
+        riesgos_productos_puntaje: evaluacion.evaluacion_proyecto_linea68?.riesgos_productos_puntaje,
+        riesgos_productos_comentario: evaluacion.evaluacion_proyecto_linea68?.riesgos_productos_comentario ? evaluacion.evaluacion_proyecto_linea68?.riesgos_productos_comentario : '',
+        riesgos_productos_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.riesgos_productos_comentario == null ? true : false,
 
-        riesgos_actividades_puntaje: evaluacion.servicio_tecnologico_evaluacion?.riesgos_actividades_puntaje,
-        riesgos_actividades_comentario: evaluacion.servicio_tecnologico_evaluacion?.riesgos_actividades_comentario ? evaluacion.servicio_tecnologico_evaluacion?.riesgos_actividades_comentario : '',
-        riesgos_actividades_requiere_comentario: evaluacion.servicio_tecnologico_evaluacion?.riesgos_actividades_comentario == null ? true : false,
+        riesgos_actividades_puntaje: evaluacion.evaluacion_proyecto_linea68?.riesgos_actividades_puntaje,
+        riesgos_actividades_comentario: evaluacion.evaluacion_proyecto_linea68?.riesgos_actividades_comentario ? evaluacion.evaluacion_proyecto_linea68?.riesgos_actividades_comentario : '',
+        riesgos_actividades_requiere_comentario: evaluacion.evaluacion_proyecto_linea68?.riesgos_actividades_comentario == null ? true : false,
     })
     function submitServicioTecnologicoEvaluacion() {
         if (is_super_admin || (checkRole(auth_user, [11, 5]) && evaluacion.finalizado == false && evaluacion.habilitado == true && evaluacion.modificable == true)) {

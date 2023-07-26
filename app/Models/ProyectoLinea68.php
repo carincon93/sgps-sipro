@@ -95,13 +95,13 @@ class ProyectoLinea68 extends Model
     }
 
     /**
-     * Relationship with TipoProyectoSt
+     * Relationship with TipoProyectoLinea68
      *
      * @return object
      */
     public function tipoProyectoSt()
     {
-        return $this->belongsTo(TipoProyectoSt::class);
+        return $this->belongsTo(TipoProyectoLinea68::class);
     }
 
     /**

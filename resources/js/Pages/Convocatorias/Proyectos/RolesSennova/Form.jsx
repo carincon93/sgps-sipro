@@ -10,32 +10,21 @@ import Textarea from '@/Components/Textarea'
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({
-    method = '',
-    convocatoria,
-    proyecto,
-    setDialogStatus,
-    proyectoRolSennova,
-    convocatoriaRolesSennova,
-    lineasTecnologicas,
-    actividades,
-    proyectoActividadesRelacionadas,
-    proyectoLineasTecnologicasRelacionadas,
-}) => {
+const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_rol_sennova, convocatoria_roles_sennova, lineas_tecnologicas, actividades }) => {
     const form = useForm({
         proyecto_id: proyecto.id,
-        numero_meses: proyectoRolSennova?.numero_meses,
-        numero_roles: proyectoRolSennova?.numero_roles,
-        descripcion: proyectoRolSennova?.descripcion,
-        educacion: proyectoRolSennova?.educacion,
-        formacion: proyectoRolSennova?.formacion,
-        experiencia: proyectoRolSennova?.experiencia,
-        convocatoria_rol_sennova_id: proyectoRolSennova?.convocatoria_rol_sennova_id,
-        actividad_id: proyectoRolSennova?.actividades.map((item) => item.id),
+        numero_meses: proyecto_rol_sennova?.numero_meses,
+        numero_roles: proyecto_rol_sennova?.numero_roles,
+        descripcion: proyecto_rol_sennova?.descripcion,
+        educacion: proyecto_rol_sennova?.educacion,
+        formacion: proyecto_rol_sennova?.formacion,
+        experiencia: proyecto_rol_sennova?.experiencia,
+        convocatoria_rol_sennova_id: proyecto_rol_sennova?.convocatoria_rol_sennova_id,
+        actividad_id: proyecto_rol_sennova?.actividades.map((item) => item.id),
         linea_tecnologica_id:
-            proyectoRolSennova?.lineas_tecnoacademia.length > 0 ? proyectoRolSennova?.lineas_tecnoacademia.map((item) => item.id) : proyectoRolSennova?.lineas_tecnoparque.map((item) => item.id),
-        numero_monitorias: proyectoRolSennova?.numero_roles,
-        numero_meses_monitorias: proyectoRolSennova?.numero_meses,
+            proyecto_rol_sennova?.lineas_tecnoacademia.length > 0 ? proyecto_rol_sennova?.lineas_tecnoacademia.map((item) => item.id) : proyecto_rol_sennova?.lineas_tecnoparque.map((item) => item.id),
+        numero_monitorias: proyecto_rol_sennova?.numero_roles,
+        numero_meses_monitorias: proyecto_rol_sennova?.numero_meses,
     })
 
     const submit = (e) => {
@@ -45,7 +34,7 @@ const Form = ({
                 ? form.post(route('convocatorias.proyectos.proyecto-rol-sennova.store', [convocatoria.id, proyecto.id]), {
                       onSuccess: () => setDialogStatus(false),
                   })
-                : form.put(route('convocatorias.proyectos.proyecto-rol-sennova.update', [convocatoria.id, proyecto.id, proyectoRolSennova.id]), {
+                : form.put(route('convocatorias.proyectos.proyecto-rol-sennova.update', [convocatoria.id, proyecto.id, proyecto_rol_sennova.id]), {
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
                   })
@@ -66,7 +55,7 @@ const Form = ({
                                 <Autocomplete
                                     id="convocatoria_rol_sennova_id"
                                     label="Rol SENNOVA"
-                                    options={convocatoriaRolesSennova}
+                                    options={convocatoria_roles_sennova}
                                     selectedValue={form.data.convocatoria_rol_sennova_id}
                                     error={form.errors.convocatoria_rol_sennova_id}
                                     onChange={(event, newValue) => {
@@ -142,7 +131,7 @@ const Form = ({
                                         <div className="flex flex-col">
                                             <SelectMultiple
                                                 id="linea_tecnologica_id"
-                                                options={lineasTecnologicas}
+                                                options={lineas_tecnologicas}
                                                 onChange={(event, newValue) => {
                                                     const selectedValues = newValue.map((option) => option.value)
                                                     form.setData((prevData) => ({
@@ -153,7 +142,7 @@ const Form = ({
                                                 error={form.errors.linea_tecnologica_id}
                                                 required
                                             />
-                                            {lineasTecnologicas.length === 0 && <p className="p-4">Sin información registrada</p>}
+                                            {lineas_tecnologicas.length === 0 && <p className="p-4">Sin información registrada</p>}
                                         </div>
                                     </div>
                                 </>
@@ -180,7 +169,7 @@ const Form = ({
                                 {actividades.length === 0 && <p className="p-4">Sin información registrada</p>}
                             </div>
                         </fieldset>
-                        {proyectoRolSennova && <small className="flex items-center mt-4 text-app-700">{proyectoRolSennova.updated_at}</small>}
+                        {proyecto_rol_sennova && <small className="flex items-center mt-4 text-app-700">{proyecto_rol_sennova.updated_at}</small>}
                         <div className="flex items-center justify-between mt-14 py-4">
                             {proyecto?.allowed?.to_update ? (
                                 <>

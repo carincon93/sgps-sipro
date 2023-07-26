@@ -19,7 +19,7 @@ import { Grid, TableCell, TableRow } from '@mui/material'
 
 import { useForm } from '@inertiajs/react'
 
-const Anexos = ({ auth, convocatoria, proyecto, proyectoAnexo, anexos, ...props }) => {
+const Anexos = ({ auth, convocatoria, proyecto, proyecto_anexo, anexos, ...props }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -114,32 +114,32 @@ const Anexos = ({ auth, convocatoria, proyecto, proyectoAnexo, anexos, ...props 
                                 title={
                                     <div>
                                         <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                        {evaluacion.idi_evaluacion ? (
+                                        {evaluacion.evaluacion_proyecto_linea66 ? (
                                             <p className="whitespace-pre-line text-xs">
-                                                {evaluacion.idi_evaluacion?.anexos_comentario ? evaluacion.idi_evaluacion.anexos_comentario : 'Sin recomendación'}
+                                                {evaluacion.evaluacion_proyecto_linea66?.anexos_comentario ? evaluacion.evaluacion_proyecto_linea66.anexos_comentario : 'Sin recomendación'}
                                             </p>
-                                        ) : evaluacion.cultura_innovacion_evaluacion ? (
+                                        ) : evaluacion.evaluacion_proyecto_linea65 ? (
                                             <p className="whitespace-pre-line text-xs">
-                                                {evaluacion.cultura_innovacion_evaluacion?.anexos_comentario ? evaluacion.cultura_innovacion_evaluacion.anexos_comentario : 'Sin recomendación'}
+                                                {evaluacion.evaluacion_proyecto_linea65?.anexos_comentario ? evaluacion.evaluacion_proyecto_linea65.anexos_comentario : 'Sin recomendación'}
                                             </p>
-                                        ) : evaluacion.ta_evaluacion ? (
+                                        ) : evaluacion.evaluacion_proyecto_linea70 ? (
                                             <p className="whitespace-pre-line text-xs">
-                                                {evaluacion.ta_evaluacion?.anexos_comentario ? evaluacion.ta_evaluacion.anexos_comentario : 'Sin recomendación'}
+                                                {evaluacion.evaluacion_proyecto_linea70?.anexos_comentario ? evaluacion.evaluacion_proyecto_linea70.anexos_comentario : 'Sin recomendación'}
                                             </p>
-                                        ) : evaluacion.tp_evaluacion ? (
+                                        ) : evaluacion.evaluacion_proyecto_linea69 ? (
                                             <p className="whitespace-pre-line text-xs">
-                                                {evaluacion.tp_evaluacion?.anexos_comentario ? evaluacion.tp_evaluacion.anexos_comentario : 'Sin recomendación'}
+                                                {evaluacion.evaluacion_proyecto_linea69?.anexos_comentario ? evaluacion.evaluacion_proyecto_linea69.anexos_comentario : 'Sin recomendación'}
                                             </p>
                                         ) : (
-                                            evaluacion.servicio_tecnologico_evaluacion && (
+                                            evaluacion.evaluacion_proyecto_linea68 && (
                                                 <>
                                                     <hr className="mt-10 mb-10 border-black-200" />
                                                     <h1 className="font-black">Anexos</h1>
 
                                                     <ul className="list-disc pl-4">
                                                         <li className="whitespace-pre-line mb-10">
-                                                            {evaluacion.servicio_tecnologico_evaluacion?.anexos_comentario
-                                                                ? 'Recomendación anexos: ' + evaluacion.servicio_tecnologico_evaluacion.anexos_comentario
+                                                            {evaluacion.evaluacion_proyecto_linea68?.anexos_comentario
+                                                                ? 'Recomendación anexos: ' + evaluacion.evaluacion_proyecto_linea68.anexos_comentario
                                                                 : 'Sin recomendación'}
                                                         </li>
                                                     </ul>
@@ -149,8 +149,8 @@ const Anexos = ({ auth, convocatoria, proyecto, proyectoAnexo, anexos, ...props 
 
                                                     <ul className="list-disc pl-4">
                                                         <li className="whitespace-pre-line mb-10">
-                                                            {evaluacion.servicio_tecnologico_evaluacion?.video_comentario
-                                                                ? 'Recomendación video: ' + evaluacion.servicio_tecnologico_evaluacion.video_comentario
+                                                            {evaluacion.evaluacion_proyecto_linea68?.video_comentario
+                                                                ? 'Recomendación video: ' + evaluacion.evaluacion_proyecto_linea68.video_comentario
                                                                 : 'Sin recomendación'}
                                                         </li>
                                                     </ul>
@@ -160,8 +160,8 @@ const Anexos = ({ auth, convocatoria, proyecto, proyectoAnexo, anexos, ...props 
 
                                                     <ul className="list-disc pl-4">
                                                         <li className="whitespace-pre-line mb-10">
-                                                            {evaluacion.servicio_tecnologico_evaluacion?.especificaciones_area_comentario
-                                                                ? 'Recomendación especificaciones área: ' + evaluacion.servicio_tecnologico_evaluacion.especificaciones_area_comentario
+                                                            {evaluacion.evaluacion_proyecto_linea68?.especificaciones_area_comentario
+                                                                ? 'Recomendación especificaciones área: ' + evaluacion.evaluacion_proyecto_linea68.especificaciones_area_comentario
                                                                 : 'Sin recomendación'}
                                                         </li>
                                                     </ul>
@@ -195,7 +195,7 @@ const Anexos = ({ auth, convocatoria, proyecto, proyectoAnexo, anexos, ...props 
                                 </p>
                             </TableCell>
                             <TableCell>
-                                <Form convocatoria={convocatoria} proyecto={proyecto} anexo={anexo} proyectoAnexo={proyectoAnexo} />
+                                <Form convocatoria={convocatoria} proyecto={proyecto} anexo={anexo} proyecto_anexo={proyecto_anexo} />
                             </TableCell>
                         </TableRow>
                     ))}

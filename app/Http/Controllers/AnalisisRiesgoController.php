@@ -32,15 +32,14 @@ class AnalisisRiesgoController extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/AnalisisRiesgo/Index', [
-            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
-            'proyecto'              => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
-            'filters'               => request()->all('search'),
-            'analisisRiesgos'       => AnalisisRiesgo::where('proyecto_id', $proyecto->id)->orderBy('descripcion', 'ASC')
-                ->filterAnalisisRiesgo(request()->only('search'))->paginate()->appends(['search' => request()->search]),
-            'nivelesRiesgo'         => json_decode(Storage::get('json/niveles-riesgo.json'), true),
-            'tiposRiesgo'           => json_decode(Storage::get('json/tipos-riesgo.json'), true),
-            'probabilidadesRiesgo'  => json_decode(Storage::get('json/probabilidades-riesgo.json'), true),
-            'impactosRiesgo'        => json_decode(Storage::get('json/impactos-riesgo.json'), true)
+            'convocatoria'           => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
+            'proyecto'               => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
+            'analisis_riesgos'       => AnalisisRiesgo::where('proyecto_id', $proyecto->id)->orderBy('descripcion', 'ASC')
+                                         ->filterAnalisisRiesgo(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+            'niveles_riesgo'         => json_decode(Storage::get('json/niveles-riesgo.json'), true),
+            'tipos_riesgo'           => json_decode(Storage::get('json/tipos-riesgo.json'), true),
+            'probabilidades_riesgo'  => json_decode(Storage::get('json/probabilidades-riesgo.json'), true),
+            'impactos_riesgo'        => json_decode(Storage::get('json/impactos-riesgo.json'), true)
         ]);
     }
 
@@ -66,17 +65,17 @@ class AnalisisRiesgoController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $analisisRiesgo = new AnalisisRiesgo();
-        $analisisRiesgo->nivel               = $request->nivel;
-        $analisisRiesgo->tipo                = $request->tipo;
-        $analisisRiesgo->descripcion         = $request->descripcion;
-        $analisisRiesgo->probabilidad        = $request->probabilidad;
-        $analisisRiesgo->impacto             = $request->impacto;
-        $analisisRiesgo->efectos             = $request->efectos;
-        $analisisRiesgo->medidas_mitigacion  = $request->medidas_mitigacion;
-        $analisisRiesgo->proyecto()->associate($proyecto);
+        $analisis_riesgo = new AnalisisRiesgo();
+        $analisis_riesgo->nivel               = $request->nivel;
+        $analisis_riesgo->tipo                = $request->tipo;
+        $analisis_riesgo->descripcion         = $request->descripcion;
+        $analisis_riesgo->probabilidad        = $request->probabilidad;
+        $analisis_riesgo->impacto             = $request->impacto;
+        $analisis_riesgo->efectos             = $request->efectos;
+        $analisis_riesgo->medidas_mitigacion  = $request->medidas_mitigacion;
+        $analisis_riesgo->proyecto()->associate($proyecto);
 
-        $analisisRiesgo->save();
+        $analisis_riesgo->save();
 
         return redirect()->route('convocatorias.proyectos.analisis-riesgos.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
     }
@@ -84,10 +83,10 @@ class AnalisisRiesgoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\AnalisisRiesgo  $analisisRiesgo
+     * @param  \App\Models\AnalisisRiesgo  $analisis_riesgo
      * @return \Illuminate\Http\Response
      */
-    public function show(Convocatoria $convocatoria, Proyecto $proyecto, AnalisisRiesgo $analisisRiesgo)
+    public function show(Convocatoria $convocatoria, Proyecto $proyecto, AnalisisRiesgo $analisis_riesgo)
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
@@ -97,10 +96,10 @@ class AnalisisRiesgoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\AnalisisRiesgo  $analisisRiesgo
+     * @param  \App\Models\AnalisisRiesgo  $analisis_riesgo
      * @return \Illuminate\Http\Response
      */
-    public function edit(Convocatoria $convocatoria, Proyecto $proyecto, AnalisisRiesgo $analisisRiesgo)
+    public function edit(Convocatoria $convocatoria, Proyecto $proyecto, AnalisisRiesgo $analisis_riesgo)
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
@@ -111,23 +110,23 @@ class AnalisisRiesgoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\AnalisisRiesgo  $analisisRiesgo
+     * @param  \App\Models\AnalisisRiesgo  $analisis_riesgo
      * @return \Illuminate\Http\Response
      */
-    public function update(AnalisisRiesgoRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, AnalisisRiesgo $analisisRiesgo)
+    public function update(AnalisisRiesgoRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, AnalisisRiesgo $analisis_riesgo)
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $analisisRiesgo->nivel              = $request->nivel;
-        $analisisRiesgo->tipo               = $request->tipo;
-        $analisisRiesgo->descripcion        = $request->descripcion;
-        $analisisRiesgo->probabilidad       = $request->probabilidad;
-        $analisisRiesgo->impacto            = $request->impacto;
-        $analisisRiesgo->efectos            = $request->efectos;
-        $analisisRiesgo->medidas_mitigacion = $request->medidas_mitigacion;
-        $analisisRiesgo->proyecto()->associate($proyecto);
+        $analisis_riesgo->nivel              = $request->nivel;
+        $analisis_riesgo->tipo               = $request->tipo;
+        $analisis_riesgo->descripcion        = $request->descripcion;
+        $analisis_riesgo->probabilidad       = $request->probabilidad;
+        $analisis_riesgo->impacto            = $request->impacto;
+        $analisis_riesgo->efectos            = $request->efectos;
+        $analisis_riesgo->medidas_mitigacion = $request->medidas_mitigacion;
+        $analisis_riesgo->proyecto()->associate($proyecto);
 
-        $analisisRiesgo->save();
+        $analisis_riesgo->save();
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
@@ -135,14 +134,14 @@ class AnalisisRiesgoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\AnalisisRiesgo  $analisisRiesgo
+     * @param  \App\Models\AnalisisRiesgo  $analisis_riesgo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Convocatoria $convocatoria, Proyecto $proyecto, AnalisisRiesgo $analisisRiesgo)
+    public function destroy(Convocatoria $convocatoria, Proyecto $proyecto, AnalisisRiesgo $analisis_riesgo)
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $analisisRiesgo->delete();
+        $analisis_riesgo->delete();
 
         return redirect()->route('convocatorias.proyectos.analisis-riesgos.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha eliminado correctamente.');
     }

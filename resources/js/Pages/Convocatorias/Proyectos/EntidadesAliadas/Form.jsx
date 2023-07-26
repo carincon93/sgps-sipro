@@ -13,30 +13,30 @@ import Textarea from '@/Components/Textarea'
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAliada, actividades, tiposEntidadAliada, naturalezaEntidadAliada, tiposEmpresa, ...props }) => {
+const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_aliada, actividades, tipos_entidad_aliada, naturaleza_entidad_aliada, tipos_empresa, ...props }) => {
     const form = useForm({
-        tipo: entidadAliada?.tipo ?? '',
-        nombre: entidadAliada?.nombre ?? '',
-        naturaleza: entidadAliada?.naturaleza ?? '',
-        tipo_empresa: entidadAliada?.tipo_empresa ?? '',
-        nit: entidadAliada?.nit ?? '',
-        tiene_convenio: entidadAliada?.entidad_aliada_idi ? entidadAliada.entidad_aliada_idi?.descripcion_convenio : '',
-        tiene_grupo_investigacion: entidadAliada?.entidad_aliada_idi ? entidadAliada.entidad_aliada_idi?.grupo_investigacion : '',
-        descripcion_convenio: entidadAliada?.entidad_aliada_idi?.descripcion_convenio ? entidadAliada.entidad_aliada_idi?.descripcion_convenio : '',
-        grupo_investigacion: entidadAliada?.entidad_aliada_idi?.grupo_investigacion ? entidadAliada.entidad_aliada_idi?.grupo_investigacion : '',
-        codigo_gruplac: entidadAliada?.entidad_aliada_idi ? entidadAliada.entidad_aliada_idi?.codigo_gruplac : '',
-        enlace_gruplac: entidadAliada?.entidad_aliada_idi ? entidadAliada.entidad_aliada_idi?.enlace_gruplac : '',
-        actividades_transferencia_conocimiento: entidadAliada?.entidad_aliada_idi ? entidadAliada.entidad_aliada_idi?.actividades_transferencia_conocimiento : '',
-        recursos_especie: entidadAliada?.entidad_aliada_idi ? entidadAliada.entidad_aliada_idi?.recursos_especie : '',
-        descripcion_recursos_especie: entidadAliada?.entidad_aliada_idi ? entidadAliada.entidad_aliada_idi?.descripcion_recursos_especie : '',
-        recursos_dinero: entidadAliada?.entidad_aliada_idi ? entidadAliada.entidad_aliada_idi?.recursos_dinero : '',
-        descripcion_recursos_dinero: entidadAliada?.entidad_aliada_idi ? entidadAliada.entidad_aliada_idi?.descripcion_recursos_dinero : '',
+        tipo: entidad_aliada?.tipo ?? '',
+        nombre: entidad_aliada?.nombre ?? '',
+        naturaleza: entidad_aliada?.naturaleza ?? '',
+        tipo_empresa: entidad_aliada?.tipo_empresa ?? '',
+        nit: entidad_aliada?.nit ?? '',
+        tiene_convenio: entidad_aliada?.entidad_aliada_idi ? entidad_aliada.entidad_aliada_idi?.descripcion_convenio : '',
+        tiene_grupo_investigacion: entidad_aliada?.entidad_aliada_idi ? entidad_aliada.entidad_aliada_idi?.grupo_investigacion : '',
+        descripcion_convenio: entidad_aliada?.entidad_aliada_idi?.descripcion_convenio ? entidad_aliada.entidad_aliada_idi?.descripcion_convenio : '',
+        grupo_investigacion: entidad_aliada?.entidad_aliada_idi?.grupo_investigacion ? entidad_aliada.entidad_aliada_idi?.grupo_investigacion : '',
+        codigo_gruplac: entidad_aliada?.entidad_aliada_idi ? entidad_aliada.entidad_aliada_idi?.codigo_gruplac : '',
+        enlace_gruplac: entidad_aliada?.entidad_aliada_idi ? entidad_aliada.entidad_aliada_idi?.enlace_gruplac : '',
+        actividades_transferencia_conocimiento: entidad_aliada?.entidad_aliada_idi ? entidad_aliada.entidad_aliada_idi?.actividades_transferencia_conocimiento : '',
+        recursos_especie: entidad_aliada?.entidad_aliada_idi ? entidad_aliada.entidad_aliada_idi?.recursos_especie : '',
+        descripcion_recursos_especie: entidad_aliada?.entidad_aliada_idi ? entidad_aliada.entidad_aliada_idi?.descripcion_recursos_especie : '',
+        recursos_dinero: entidad_aliada?.entidad_aliada_idi ? entidad_aliada.entidad_aliada_idi?.recursos_dinero : '',
+        descripcion_recursos_dinero: entidad_aliada?.entidad_aliada_idi ? entidad_aliada.entidad_aliada_idi?.descripcion_recursos_dinero : '',
         carta_intencion: null,
         carta_propiedad_intelectual: null,
         actividad_id: [],
         soporte_convenio: null,
-        fecha_inicio_convenio: entidadAliada?.entidad_aliada_ta_tp?.fecha_inicio_convenio ?? '',
-        fecha_fin_convenio: entidadAliada?.entidad_aliada_ta_tp?.fecha_fin_convenio ?? '',
+        fecha_inicio_convenio: entidad_aliada?.entidad_aliada_ta_tp?.fecha_inicio_convenio ?? '',
+        fecha_fin_convenio: entidad_aliada?.entidad_aliada_ta_tp?.fecha_fin_convenio ?? '',
     })
 
     const submit = (e) => {
@@ -47,7 +47,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAli
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
                   })
-                : form.put(route('convocatorias.proyectos.entidades-aliadas.update', [convocatoria.id, proyecto.id, entidadAliada.id]), {
+                : form.put(route('convocatorias.proyectos.entidades-aliadas.update', [convocatoria.id, proyecto.id, entidad_aliada.id]), {
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
                   })
@@ -67,7 +67,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAli
                             <div className="mt-8">
                                 <Autocomplete
                                     id="tipo"
-                                    options={tiposEntidadAliada}
+                                    options={tipos_entidad_aliada}
                                     selectedValue={form.data.tipo}
                                     onChange={(event, newValue) => form.setData('tipo', newValue.value)}
                                     error={form.errors.tipo}
@@ -90,7 +90,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAli
                             <div className="mt-8">
                                 <Autocomplete
                                     id="naturaleza"
-                                    options={naturalezaEntidadAliada}
+                                    options={naturaleza_entidad_aliada}
                                     selectedValue={form.data.naturaleza}
                                     onChange={(event, newValue) => form.setData('naturaleza', newValue.value)}
                                     error={form.errors.naturaleza}
@@ -102,7 +102,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAli
                             <div className="mt-8">
                                 <Autocomplete
                                     id="tipo_empresa"
-                                    options={tiposEmpresa}
+                                    options={tipos_empresa}
                                     selectedValue={form.data.tipo_empresa}
                                     onChange={(event, newValue) => form.setData('tipo_empresa', newValue.value)}
                                     error={form.errors.tipo_empresa}
@@ -253,18 +253,18 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAli
                                                     <FileInput
                                                         id="carta_intencion"
                                                         value={form.data.carta_intencion}
-                                                        filename={entidadAliada?.entidad_aliada_idi.filename.cartaIntencionFilename}
-                                                        extension={entidadAliada?.entidad_aliada_idi.extension.cartaIntencionExtension}
+                                                        filename={entidad_aliada?.entidad_aliada_idi.filename.cartaIntencionFilename}
+                                                        extension={entidad_aliada?.entidad_aliada_idi.extension.cartaIntencionExtension}
                                                         label="Seleccione un archivo"
                                                         accept="application/pdf"
                                                         downloadRoute={
-                                                            entidadAliada?.carta_intencion
-                                                                ? entidadAliada?.carta_intencion?.includes('http')
+                                                            entidad_aliada?.carta_intencion
+                                                                ? entidad_aliada?.carta_intencion?.includes('http')
                                                                     ? null
                                                                     : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [
                                                                           convocatoria,
                                                                           proyecto,
-                                                                          entidadAliada.id,
+                                                                          entidad_aliada.id,
                                                                           'carta_intencion',
                                                                       ])
                                                                 : null
@@ -280,18 +280,18 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAli
                                                     <FileInput
                                                         id="carta_propiedad_intelectual"
                                                         value={form.data.carta_propiedad_intelectual}
-                                                        filename={entidadAliada?.entidad_aliada_idi.filename.cartaPropiedadIntelectualFilename}
-                                                        extension={entidadAliada?.entidad_aliada_idi.extension.cartaPropiedadIntelectualExtension}
+                                                        filename={entidad_aliada?.entidad_aliada_idi.filename.cartaPropiedadIntelectualFilename}
+                                                        extension={entidad_aliada?.entidad_aliada_idi.extension.cartaPropiedadIntelectualExtension}
                                                         label="Seleccione un archivo"
                                                         accept="application/pdf"
                                                         downloadRoute={
-                                                            entidadAliada?.carta_propiedad_intelectual
-                                                                ? entidadAliada?.carta_propiedad_intelectual?.includes('http')
+                                                            entidad_aliada?.carta_propiedad_intelectual
+                                                                ? entidad_aliada?.carta_propiedad_intelectual?.includes('http')
                                                                     ? null
                                                                     : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [
                                                                           convocatoria,
                                                                           proyecto,
-                                                                          entidadAliada.id,
+                                                                          entidad_aliada.id,
                                                                           'carta_propiedad_intelectual',
                                                                       ])
                                                                 : null
@@ -317,15 +317,15 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAli
                                         <FileInput
                                             id="soporte_convenio"
                                             value={form.data.soporte_convenio}
-                                            filename={entidadAliada?.filename}
-                                            extension={entidadAliada?.extension}
+                                            filename={entidad_aliada?.filename}
+                                            extension={entidad_aliada?.extension}
                                             label="Seleccione un archivo"
                                             accept="application/pdf"
                                             downloadRoute={
-                                                entidadAliada?.soporte_convenio
-                                                    ? entidadAliada?.soporte_convenio?.includes('http')
+                                                entidad_aliada?.soporte_convenio
+                                                    ? entidad_aliada?.soporte_convenio?.includes('http')
                                                         ? null
-                                                        : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidadAliada.id, 'soporte_convenio'])
+                                                        : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidad_aliada.id, 'soporte_convenio'])
                                                     : null
                                             }
                                             onChange={(e) => form.setData('soporte_convenio', e.target.files[0])}
@@ -399,7 +399,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidadAli
                                 ))}
                         </fieldset>
 
-                        {entidadAliada && <small className="flex items-center text-app-700">{entidadAliada.updated_at}</small>}
+                        {entidad_aliada && <small className="flex items-center text-app-700">{entidad_aliada.updated_at}</small>}
 
                         <div className="flex items-center justify-between mt-14 py-4">
                             {proyecto.allowed.to_update ? (

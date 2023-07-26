@@ -15,17 +15,17 @@ import { Grid, TableRow, TableCell, MenuItem } from '@mui/material'
 
 import Form from './Form'
 
-import { router } from '@inertiajs/react'
 import { useState } from 'react'
+import { router } from '@inertiajs/react'
 
-const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisisRiesgos, nivelesRiesgo, tiposRiesgo, probabilidadesRiesgo, impactosRiesgo, ...props }) => {
+const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisis_riesgos, niveles_riesgo, tipos_riesgo, probabilidades_riesgo, impactos_riesgo, ...props }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
-    const [analisisRiesgoToDestroy, setAnalisisRiesgoToDestroy] = useState(null)
-    const [dialogStatus, setDialogStatus] = useState(false)
+    const [analisis_riesgo_to_destroy, setAnalisisRiesgoToDestroy] = useState(null)
+    const [dialog_status, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
-    const [analisisRiesgo, setAnalisisRiesgo] = useState(null)
+    const [analisis_riesgo, setAnalisisRiesgo] = useState(null)
 
     return (
         <AuthenticatedLayout>
@@ -45,46 +45,51 @@ const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisisRiesgos, nivele
                                     title={
                                         <div>
                                             <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                            {evaluacion.idi_evaluacion ? (
+                                            {evaluacion.evaluacion_proyecto_linea66 ? (
                                                 <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.idi_evaluacion?.analisis_riesgos_comentario ? evaluacion.idi_evaluacion.analisis_riesgos_comentario : 'Sin recomendación'}
-                                                </p>
-                                            ) : evaluacion.cultura_innovacion_evaluacion ? (
-                                                <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.cultura_innovacion_evaluacion?.analisis_riesgos_comentario
-                                                        ? evaluacion.cultura_innovacion_evaluacion.analisis_riesgos_comentario
+                                                    {evaluacion.evaluacion_proyecto_linea66?.analisis_riesgos_comentario
+                                                        ? evaluacion.evaluacion_proyecto_linea66.analisis_riesgos_comentario
                                                         : 'Sin recomendación'}
                                                 </p>
-                                            ) : evaluacion.ta_evaluacion ? (
+                                            ) : evaluacion.evaluacion_proyecto_linea65 ? (
                                                 <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.ta_evaluacion?.analisis_riesgos_comentario ? evaluacion.ta_evaluacion.analisis_riesgos_comentario : 'Sin recomendación'}
+                                                    {evaluacion.evaluacion_proyecto_linea65?.analisis_riesgos_comentario
+                                                        ? evaluacion.evaluacion_proyecto_linea65.analisis_riesgos_comentario
+                                                        : 'Sin recomendación'}
                                                 </p>
-                                            ) : evaluacion.tp_evaluacion ? (
+                                            ) : evaluacion.evaluacion_proyecto_linea70 ? (
                                                 <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.tp_evaluacion?.analisis_riesgos_comentario ? evaluacion.tp_evaluacion.analisis_riesgos_comentario : 'Sin recomendación'}
+                                                    {evaluacion.evaluacion_proyecto_linea70?.analisis_riesgos_comentario
+                                                        ? evaluacion.evaluacion_proyecto_linea70.analisis_riesgos_comentario
+                                                        : 'Sin recomendación'}
+                                                </p>
+                                            ) : evaluacion.evaluacion_proyecto_linea69 ? (
+                                                <p className="whitespace-pre-line text-xs">
+                                                    {evaluacion.evaluacion_proyecto_linea69?.analisis_riesgos_comentario
+                                                        ? evaluacion.evaluacion_proyecto_linea69.analisis_riesgos_comentario
+                                                        : 'Sin recomendación'}
                                                 </p>
                                             ) : (
-                                                evaluacion.servicio_tecnologico_evaluacion && (
+                                                evaluacion.evaluacion_proyecto_linea68 && (
                                                     <>
                                                         <hr className="mt-10 mb-10 border-black-200" />
                                                         <h1 className="font-black">Análisis de riesgos</h1>
 
                                                         <ul className="list-disc pl-4">
                                                             <li className="whitespace-pre-line text-xs mb-10">
-                                                                {evaluacion.servicio_tecnologico_evaluacion?.riesgos_objetivo_general_comentario
-                                                                    ? 'Recomendación riesgos a nivel de objetivo general: ' +
-                                                                      evaluacion.servicio_tecnologico_evaluacion.riesgos_objetivo_general_comentario
+                                                                {evaluacion.evaluacion_proyecto_linea68?.riesgos_objetivo_general_comentario
+                                                                    ? 'Recomendación riesgos a nivel de objetivo general: ' + evaluacion.evaluacion_proyecto_linea68.riesgos_objetivo_general_comentario
                                                                     : 'Sin recomendación'}
                                                             </li>
                                                             <li className="whitespace-pre-line text-xs mb-10">
-                                                                {evaluacion.servicio_tecnologico_evaluacion?.riesgos_productos_comentario
-                                                                    ? 'Recomendación riesgos a nivel de productos: ' + evaluacion.servicio_tecnologico_evaluacion.riesgos_productos_comentario
+                                                                {evaluacion.evaluacion_proyecto_linea68?.riesgos_productos_comentario
+                                                                    ? 'Recomendación riesgos a nivel de productos: ' + evaluacion.evaluacion_proyecto_linea68.riesgos_productos_comentario
                                                                     : 'Sin recomendación'}
                                                             </li>
                                                             <li className="whitespace-pre-line text-xs mb-10">
-                                                                {evaluacion.servicio_tecnologico_evaluacion?.riesgos_analisisRiesgoes_comentario
-                                                                    ? 'Recomendación riesgos a nivel de analisisRiesgoes: ' +
-                                                                      evaluacion.servicio_tecnologico_evaluacion.riesgos_analisisRiesgoes_comentario
+                                                                {evaluacion.evaluacion_proyecto_linea68?.riesgos_analisis_riesgoes_comentario
+                                                                    ? 'Recomendación riesgos a nivel de analisis_riesgoes: ' +
+                                                                      evaluacion.evaluacion_proyecto_linea68.riesgos_analisis_riesgoes_comentario
                                                                     : 'Sin recomendación'}
                                                             </li>
                                                         </ul>
@@ -110,25 +115,25 @@ const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisisRiesgos, nivele
 
             <Grid item md={12}>
                 <TableMui className="mt-20 mb-8" rows={['Descripción', 'Nivel', 'Tipo de riesgo', 'Acciones']} sxCellThead={{ width: '320px' }}>
-                    {analisisRiesgos.data.map((analisisRiesgo, i) => (
+                    {analisis_riesgos.data.map((analisis_riesgo, i) => (
                         <TableRow key={i}>
-                            <TableCell>{analisisRiesgo.descripcion}</TableCell>
-                            <TableCell>{nivelesRiesgo.find((item) => item.value == analisisRiesgo.nivel).label}</TableCell>
-                            <TableCell>{tiposRiesgo.find((item) => item.value == analisisRiesgo.tipo).label}</TableCell>
+                            <TableCell>{analisis_riesgo.descripcion}</TableCell>
+                            <TableCell>{niveles_riesgo.find((item) => item.value == analisis_riesgo.nivel).label}</TableCell>
+                            <TableCell>{tipos_riesgo.find((item) => item.value == analisis_riesgo.tipo).label}</TableCell>
 
                             <TableCell>
                                 <MenuMui text={<MoreVertIcon />}>
-                                    {analisisRiesgo.id !== analisisRiesgoToDestroy ? (
+                                    {analisis_riesgo.id !== analisis_riesgo_to_destroy ? (
                                         <div>
                                             <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setAnalisisRiesgo(analisisRiesgo))}
+                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setAnalisisRiesgo(analisis_riesgo))}
                                                 disabled={!proyecto.allowed.to_update}
                                                 className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                                 Editar
                                             </MenuItem>
                                             <MenuItem
                                                 onClick={() => {
-                                                    setAnalisisRiesgoToDestroy(analisisRiesgo.id)
+                                                    setAnalisisRiesgoToDestroy(analisis_riesgo.id)
                                                 }}>
                                                 Eliminar
                                             </MenuItem>
@@ -146,7 +151,7 @@ const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisisRiesgos, nivele
                                                 onClick={(e) => {
                                                     e.stopPropagation()
                                                     if (proyecto.allowed.to_update) {
-                                                        router.delete(route('convocatorias.proyectos.analisis-riesgos.destroy', [convocatoria.id, proyecto.id, analisisRiesgo.id]), {
+                                                        router.delete(route('convocatorias.proyectos.analisis-riesgos.destroy', [convocatoria.id, proyecto.id, analisis_riesgo.id]), {
                                                             preserveScroll: true,
                                                         })
                                                     }
@@ -161,10 +166,10 @@ const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisisRiesgos, nivele
                     ))}
                 </TableMui>
 
-                <PaginationMui links={analisisRiesgos.links} />
+                <PaginationMui links={analisis_riesgos.links} />
 
                 <DialogMui
-                    open={dialogStatus}
+                    open={dialog_status}
                     fullWidth={true}
                     maxWidth="lg"
                     blurEnabled={true}
@@ -175,11 +180,11 @@ const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisisRiesgos, nivele
                             method={method}
                             proyecto={proyecto}
                             convocatoria={convocatoria}
-                            analisisRiesgo={analisisRiesgo}
-                            nivelesRiesgo={nivelesRiesgo}
-                            tiposRiesgo={tiposRiesgo}
-                            probabilidadesRiesgo={probabilidadesRiesgo}
-                            impactosRiesgo={impactosRiesgo}
+                            analisis_riesgo={analisis_riesgo}
+                            niveles_riesgo={niveles_riesgo}
+                            tipos_riesgo={tipos_riesgo}
+                            probabilidades_riesgo={probabilidades_riesgo}
+                            impactos_riesgo={impactos_riesgo}
                         />
                     }
                 />

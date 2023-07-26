@@ -6,7 +6,7 @@ import ArbolObjetivosComponent from './ArbolObjetivosComponent'
 
 import { Grid } from '@mui/material'
 
-const ArbolObjetivos = ({ auth, convocatoria, proyecto, efectosDirectos, causasDirectas, tiposImpacto, resultados, objetivosEspecificos }) => {
+const ArbolObjetivos = ({ auth, convocatoria, proyecto, efectos_directos, causas_directas, tipos_impacto, resultados, objetivos_especificos }) => {
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
@@ -18,11 +18,11 @@ const ArbolObjetivos = ({ auth, convocatoria, proyecto, efectosDirectos, causasD
                     auth={auth}
                     convocatoria={convocatoria}
                     proyecto={proyecto}
-                    efectosDirectos={efectosDirectos}
-                    causasDirectas={causasDirectas}
-                    tiposImpacto={tiposImpacto}
+                    efectos_directos={efectos_directos}
+                    causas_directas={causas_directas}
+                    tipos_impacto={tipos_impacto}
                     resultados={resultados}
-                    objetivosEspecificos={objetivosEspecificos}
+                    objetivos_especificos={objetivos_especificos}
                 />
             </Grid>
         </AuthenticatedLayout>
