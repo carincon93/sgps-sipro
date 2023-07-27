@@ -40,6 +40,7 @@ class EdtController extends Controller
         return Inertia::render('Convocatorias/Proyectos/EDT/Index', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
             'proyecto'              => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable',  'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed'),
+            'evaluacion'            => Evaluacion::find(request()->evaluacion_id),
             'presupuesto'           => $presupuesto,
             'eventos'               => Edt::with('proyectoPresupuesto')->orderBy('descripcion_evento', 'ASC')->where('ta_id', $proyecto->id)
                                         ->filterEdt(request()->only('search'))->paginate(),

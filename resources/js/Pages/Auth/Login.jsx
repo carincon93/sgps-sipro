@@ -10,7 +10,7 @@ import { Head, useForm } from '@inertiajs/react'
 import { useEffect } from 'react'
 
 export default function Login({ status }) {
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const form = useForm({
         email: '',
         password: '',
         remember: false,
@@ -18,14 +18,14 @@ export default function Login({ status }) {
 
     useEffect(() => {
         return () => {
-            reset('password')
+            form.reset('password')
         }
     }, [])
 
     const submit = (e) => {
         e.preventDefault()
 
-        post(route('login'))
+        form.post(route('login'))
     }
 
     return (
@@ -42,11 +42,11 @@ export default function Login({ status }) {
                         name="email"
                         label="Correo electrónico SENA"
                         required
-                        value={data.email}
-                        error={errors.email}
+                        value={form.data.email}
+                        error={form.errors.email}
                         className="block w-full"
                         autoComplete="email"
-                        onChange={(e) => setData('email', e.target.value)}
+                        onChange={(e) => form.setData('email', e.target.value)}
                     />
                 </div>
 
@@ -57,20 +57,20 @@ export default function Login({ status }) {
                         name="password"
                         label="Contraseña"
                         required
-                        value={data.password}
-                        error={errors.password}
+                        value={form.data.password}
+                        error={form.errors.password}
                         className="block w-full"
                         autoComplete="current-password"
-                        onChange={(e) => setData('password', e.target.value)}
+                        onChange={(e) => form.setData('password', e.target.value)}
                     />
                 </div>
 
                 <div className="block mt-4">
-                    <Checkbox name="remember" checked={data.remember} onChange={(e) => setData('remember', e.target.checked)} label="Mantener la sesión activa" />
+                    <Checkbox name="remember" checked={form.data.remember} onChange={(e) => form.setData('remember', e.target.checked)} label="Mantener la sesión activa" />
                 </div>
 
                 <div className="flex items-center justify-end mt-4">
-                    <PrimaryButton className="ml-4" disabled={processing}>
+                    <PrimaryButton className="ml-4" disabled={form.processing}>
                         Iniciar sesión
                     </PrimaryButton>
                 </div>

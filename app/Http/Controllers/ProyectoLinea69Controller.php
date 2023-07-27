@@ -151,12 +151,12 @@ class ProyectoLinea69Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea69/Edit', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_69', 'max_fecha_finalizacion_proyectos_linea_69', 'fecha_maxima_tp', 'mostrar_recomendaciones', 'year', 'descripcion'),
             'proyecto_linea_69'     => $proyecto_linea_69,
+            'evaluacion'            => EvaluacionProyectoLinea69::find(request()->evaluacion_id),
             'regionales'            => SelectHelper::regionales(),
             'lineas_programaticas'  => LineaProgramatica::selectRaw('id as value, concat(nombre, \' ∙ \', codigo) as label, codigo')->where('lineas_programaticas.categoria_proyecto', 1)->get(),
             'nodos_tecnoparque'     => SelectHelper::nodosTecnoparque()->where('centro_formacion_id', $proyecto_linea_69->proyecto->centroFormacion->id)->values()->all(),
             'municipios'            => Municipio::select('municipios.id as value', 'municipios.nombre as label', 'regionales.nombre as group', 'regionales.codigo')->join('regionales', 'regionales.id', 'municipios.regional_id')->get(),
             'roles_sennova'         => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'versiones'             => $proyecto_linea_69->proyecto->PdfVersiones,
             'nodos_tecnoparque'     => $nodos_tecnoparque,
         ]);
     }

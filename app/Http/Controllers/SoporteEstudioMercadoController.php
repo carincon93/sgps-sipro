@@ -7,6 +7,7 @@ use App\Models\SoporteEstudioMercado;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SoporteEstudioMercadoRequest;
 use App\Models\Convocatoria;
+use App\Models\Evaluacion\Evaluacion;
 use App\Models\Proyecto;
 use App\Models\ProyectoPresupuesto;
 use Illuminate\Http\Request;
@@ -41,6 +42,7 @@ class SoporteEstudioMercadoController extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/ProyectoPresupuesto/SoportesEstudioMercado/Index', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
+            'evaluacion'                => Evaluacion::find(request()->evaluacion_id),
             'proyecto'                  => $proyecto->only('id', 'modificable', 'mostrar_recomendaciones', 'allowed'),
             'proyecto_presupuesto'      => $presupuesto->load('convocatoriaProyectoRubrosPresupuestales.presupuestoSennova.usoPresupuestal'),
             'soportes_estudio_mercado'  => $presupuesto->soportesEstudioMercado,

@@ -8,14 +8,26 @@ import SelectMultiple from '@/Components/SelectMultiple'
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuesto, municipioAVisitar, municipios, proyectoRolesSennova, distanciasMunicipios, frecuenciasSemanales, ...props }) => {
+const Form = ({
+    method = '',
+    setDialogStatus,
+    convocatoria,
+    proyecto,
+    presupuesto,
+    municipio_a_visitar,
+    municipios,
+    proyecto_roles_sennova,
+    distancias_municipios,
+    frecuencias_semanales,
+    ...props
+}) => {
     const form = useForm({
-        actividad_a_realizar: municipioAVisitar?.actividad_a_realizar ?? '',
-        municipios: JSON.parse(municipioAVisitar?.municipios) ?? null,
-        distancia_municipio: municipioAVisitar?.distancia_municipio ?? '',
-        frecuencia_semanal: municipioAVisitar?.frecuencia_semanal ?? '',
-        numero_visitas: municipioAVisitar?.numero_visitas ?? '',
-        proyecto_rol_sennova_id: municipioAVisitar?.proyecto_rol_sennova_id ?? '',
+        actividad_a_realizar: municipio_a_visitar?.actividad_a_realizar ?? '',
+        municipios: JSON.parse(municipio_a_visitar?.municipios) ?? null,
+        distancia_municipio: municipio_a_visitar?.distancia_municipio ?? '',
+        frecuencia_semanal: municipio_a_visitar?.frecuencia_semanal ?? '',
+        numero_visitas: municipio_a_visitar?.numero_visitas ?? '',
+        proyecto_rol_sennova_id: municipio_a_visitar?.proyecto_rol_sennova_id ?? '',
     })
 
     const submit = (e) => {
@@ -26,7 +38,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
                   })
-                : form.put(route('convocatorias.proyectos.presupuesto.municipios.update', [convocatoria.id, proyecto.id, presupuesto.id, municipioAVisitar.id]), {
+                : form.put(route('convocatorias.proyectos.presupuesto.municipios.update', [convocatoria.id, proyecto.id, presupuesto.id, municipio_a_visitar.id]), {
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
                   })
@@ -46,7 +58,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
                             <div className="mt-8">
                                 <Autocomplete
                                     id="proyecto_rol_sennova_id"
-                                    options={proyectoRolesSennova}
+                                    options={proyecto_roles_sennova}
                                     selectedValue={form.data.proyecto_rol_sennova_id}
                                     onChange={(event, newValue) => form.setData('proyecto_rol_sennova_id', newValue.value)}
                                     error={form.errors.proyecto_rol_sennova_id}
@@ -74,10 +86,10 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
                                     isGroupable={true}
                                     groupBy={(option) => option.group}
                                     onChange={(event, newValue) => {
-                                        const selectedValues = newValue.map((option) => option.value)
+                                        const selected_values = newValue.map((option) => option.value)
                                         form.setData((prevData) => ({
                                             ...prevData,
-                                            municipios: selectedValues,
+                                            municipios: selected_values,
                                         }))
                                     }}
                                     error={form.errors.municipios}
@@ -89,7 +101,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
                             <div className="mt-8">
                                 <Autocomplete
                                     id="distancia_municipio"
-                                    options={distanciasMunicipios}
+                                    options={distancias_municipios}
                                     selectedValue={form.data.distancia_municipio}
                                     onChange={(event, newValue) => form.setData('distancia_municipio', newValue.value)}
                                     error={form.errors.distancia_municipio}
@@ -101,7 +113,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
                             <div className="mt-8">
                                 <Autocomplete
                                     id="frecuencia_semanal"
-                                    options={frecuenciasSemanales}
+                                    options={frecuencias_semanales}
                                     selectedValue={form.data.frecuencia_semanal}
                                     onChange={(event, newValue) => form.setData('frecuencia_semanal', newValue.value)}
                                     error={form.errors.frecuencia_semanal}
@@ -124,7 +136,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
                             </div>
                         </fieldset>
 
-                        {municipioAVisitar && <small className="flex items-center text-app-700">{municipioAVisitar.updated_at}</small>}
+                        {municipio_a_visitar && <small className="flex items-center text-app-700">{municipio_a_visitar.updated_at}</small>}
 
                         <div className="flex items-center justify-between mt-14 py-4 ">
                             {proyecto.allowed.to_update ? (

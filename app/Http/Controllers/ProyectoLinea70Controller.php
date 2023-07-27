@@ -149,13 +149,14 @@ class ProyectoLinea70Controller extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea70/Edit', [
-            'convocatoria'                           => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year', 'tipo_convocatoria', 'mostrar_recomendaciones', 'descripcion'),
-            'proyecto_linea_70'                      => $proyecto_linea_70,
-            'lineas_programaticas'                   => SelectHelper::lineasProgramaticas(),
-            'lineas_tecnoacademia'                   => SelectHelper::lineasTecnoacademia(),
-            'tecnoacademias'                         => $tecnoacademias,
-            'roles_sennova'                          => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'infraestructura_tecnoacademia'          => json_decode(Storage::get('json/infraestructura-tecnoacademia.json'), true),
+            'convocatoria'                          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year', 'tipo_convocatoria', 'mostrar_recomendaciones', 'descripcion'),
+            'proyecto_linea_70'                     => $proyecto_linea_70,
+            'evaluacion'                            => EvaluacionProyectoLinea70::find(request()->evaluacion_id),
+            'lineas_programaticas'                  => SelectHelper::lineasProgramaticas(),
+            'lineas_tecnoacademia'                  => SelectHelper::lineasTecnoacademia(),
+            'tecnoacademias'                        => $tecnoacademias,
+            'roles_sennova'                         => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'infraestructura_tecnoacademia'         => json_decode(Storage::get('json/infraestructura-tecnoacademia.json'), true),
         ]);
     }
 

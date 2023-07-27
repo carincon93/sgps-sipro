@@ -22,7 +22,7 @@ import { useState } from 'react'
 
 import Form from './Form'
 
-const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidades_aliadas, actividades, tipos_entidad_aliada, naturaleza_entidad_aliada, tipos_empresa, ...props }) => {
+const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_aliadas, actividades, tipos_entidad_aliada, naturaleza_entidad_aliada, tipos_empresa, ...props }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -34,7 +34,7 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, entidades_aliadas, act
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
             <Grid item md={12}>

@@ -1,21 +1,23 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import Label from '@/Components/Label'
-import InputError from '@/Components/InputError'
-import PrimaryButton from '@/Components/PrimaryButton'
-import Textarea from '@/Components/Textarea'
-import SwitchMui from '@/Components/Switch'
-import SelectMultiple from '@/Components/SelectMultiple'
+
 import Autocomplete from '@/Components/Autocomplete'
+import DatePicker from '@/Components/DatePicker'
+import Label from '@/Components/Label'
+import PrimaryButton from '@/Components/PrimaryButton'
+import SelectMultiple from '@/Components/SelectMultiple'
+import SwitchMui from '@/Components/Switch'
+import Textarea from '@/Components/Textarea'
+
 import { useForm } from '@inertiajs/react'
 import { route, checkRole } from '@/Utils'
-import DatePicker from '@/Components/DatePicker'
+import { Grid, Paper } from '@mui/material'
+import AlertMui from '@/Components/Alert'
 
-const CreateConvocatoria = ({ auth, convocatorias, lineasProgramaticas, tiposConvocatoria }) => {
-    // Validar si el usuario autenticado es SuperAdmin
+const CreateConvocatoria = ({ auth, convocatorias, lineas_programaticas, tipos_convocatoria }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const form = useForm({
         descripcion: '',
         esta_activa: false,
         lineas_programaticas_activas: null,
@@ -29,48 +31,34 @@ const CreateConvocatoria = ({ auth, convocatorias, lineasProgramaticas, tiposCon
     const submit = (e) => {
         e.preventDefault()
         if (is_super_admin) {
-            post(route('convocatorias.store'))
+            form.post(route('convocatorias.store'))
         }
     }
 
     return (
-        <AuthenticatedLayout user={auth.user} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Lista de convocatorias</h2>}>
-            <header className="pt-[8rem]" slot="header">
-                <div className="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
-                    <div>
-                        <h1>
-                            <a href={route('convocatorias.index')} className="text-app-400 hover:text-app-600">
-                                Convocatorias
-                            </a>
-                            <span className="text-app-400 font-medium">/</span>
-                            Crear
-                        </h1>
-                    </div>
-                </div>
-            </header>
-
-            <div className="grid grid-cols-3">
-                <div>
-                    <h1 className="font-black text-4xl sticky top-0 uppercase">Nueva convocatoria</h1>
-                </div>
-                <div className="bg-white rounded shadow col-span-2">
+        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Lista de convocatorias</h2>}>
+            <Grid item md={4}>
+                <h1 className="font-black text-2xl">Nueva convocatoria</h1>
+            </Grid>
+            <Grid item md={8} className="drop-shadow-lg">
+                <Paper elevation={0} sx={{ padding: 2 }}>
                     <form onSubmit={submit}>
                         <fieldset className="p-8" disabled={is_super_admin ? undefined : true}>
                             <div className="mt-4 mb-20">
-                                {data.fase && <p className="text-center">Fecha de finalización de la fase: {data.fase.label.toLowerCase()}</p>}
+                                {form.data.fase && <p className="text-center">Fecha de finalización de la fase: {data.fase.label.toLowerCase()}</p>}
                                 <div className="mt-4">
                                     <Label required labelFor="fecha_finalizacion_fase" value="Fecha límite de la fase de formulación" />
                                     <DatePicker
                                         variant="outlined"
                                         id="fecha_finalizacion_fase"
                                         className="w-full"
-                                        value={data.fecha_finalizacion_fase}
-                                        onChange={(e) => setData('fecha_finalizacion_fase', e.target.value)}
+                                        value={form.data.fecha_finalizacion_fase}
+                                        onChange={(e) => form.setData('fecha_finalizacion_fase', e.target.value)}
+                                        error={form.errors.fecha_finalizacion_fase}
                                         required
                                     />
                                 </div>
                             </div>
-                            {errors.fecha_finalizacion_fase && <InputError error={errors.fecha_finalizacion_fase} />}
 
                             <div className="mt-4 mb-20">
                                 <div className="mt-4">
@@ -80,40 +68,39 @@ const CreateConvocatoria = ({ auth, convocatorias, lineasProgramaticas, tiposCon
                                         type="time"
                                         step="1"
                                         className="mt-1 p-2 border rounded border-gray-300"
-                                        value={data.hora_finalizacion_fase}
-                                        onChange={(e) => setData('hora_finalizacion_fase', e.target.value)}
+                                        value={form.data.hora_finalizacion_fase}
+                                        onChange={(e) => form.setData('hora_finalizacion_fase', e.target.value)}
+                                        error={form.errors.hora_finalizacion_fase}
                                         required
                                     />
-                                    {errors.hora_finalizacion_fase && <InputError message={errors.hora_finalizacion_fase} />}
                                 </div>
                             </div>
 
                             <div className="mt-44 mb-20 grid grid-cols-2">
                                 <div>
-                                    <Label
-                                        required
-                                        className="mb-4"
-                                        labelFor="tipo_convocatoria"
-                                        value="Seleccione un tipo de convocatoria (Proyectos de convocatoria para habilitar la formulación de proyectos de todas las líneas - Proyectos demo I+D+i para permitir el ejercicio de formulación)"
-                                    />
+                                    <Label required className="mb-4" labelFor="tipo_convocatoria" value="Seleccione un tipo de convocatoria" />
                                 </div>
                                 <div>
                                     <Autocomplete
                                         id="tipo_convocatoria"
-                                        items={tiposConvocatoria}
-                                        value={data.tipo_convocatoria}
-                                        onChange={(event, newValue) => setData('tipo_convocatoria', newValue.value)}
-                                        error={errors.tipo_convocatoria}
-                                        autoComplete={false}
+                                        options={tipos_convocatoria}
+                                        selectedValue={form.data.tipo_convocatoria}
+                                        onChange={(event, newValue) => form.setData('tipo_convocatoria', newValue.value)}
+                                        error={form.errors.tipo_convocatoria}
                                         placeholder="Seleccione un tipo de convocatoria"
                                         required
                                     />
+                                    <AlertMui>
+                                        <strong>Proyectos de convocatoria</strong> para habilitar la formulación de proyectos de todas las líneas.
+                                        <br />
+                                        <strong>Proyectos demo I+D+i</strong> para permitir el ejercicio de formulación.
+                                    </AlertMui>
                                 </div>
                             </div>
 
                             <div className="mt-44 mb-20 grid grid-cols-2">
                                 <div>
-                                    <Label className="mb-4" labelFor="fase" value="Fase" />
+                                    <Label required className="mb-4" labelFor="fase" value="Fase" />
                                 </div>
                                 <div>Formulación</div>
                             </div>
@@ -125,12 +112,11 @@ const CreateConvocatoria = ({ auth, convocatorias, lineasProgramaticas, tiposCon
                                 <div>
                                     <Autocomplete
                                         id="convocatoria_id"
-                                        items={convocatorias}
-                                        value={data.convocatoria_id}
-                                        onChange={(event, newValue) => setData('convocatoria_id', newValue.value)}
-                                        error={errors.convocatoria_id}
-                                        autoComplete={false}
-                                        placeholder="Seleccione una convocatoria"
+                                        options={convocatorias}
+                                        selectedValue={form.data.convocatoria_id}
+                                        onChange={(event, newValue) => form.setData('convocatoria_id', newValue.value)}
+                                        error={form.errors.convocatoria_id}
+                                        label="Seleccione una convocatoria"
                                         required
                                     />
                                 </div>
@@ -139,11 +125,10 @@ const CreateConvocatoria = ({ auth, convocatorias, lineasProgramaticas, tiposCon
                             <div className="mt-8">
                                 <Textarea
                                     label="Descripción"
-                                    maxlength="40000"
                                     id="descripcion"
-                                    error={errors.descripcion}
-                                    value={data.descripcion}
-                                    onChange={(e) => setData('descripcion', e.target.value)}
+                                    error={form.errors.descripcion}
+                                    value={form.data.descripcion}
+                                    onChange={(e) => form.setData('descripcion', e.target.value)}
                                     required
                                 />
                             </div>
@@ -156,8 +141,7 @@ const CreateConvocatoria = ({ auth, convocatorias, lineasProgramaticas, tiposCon
                                     className="inline-block mb-4"
                                 />
                                 <br />
-                                <SwitchMui checked={data.esta_activa} onChange={(e) => setData('esta_activa', e.target.checked)} />
-                                {errors.esta_activa && <InputError message={errors.esta_activa} />}
+                                <SwitchMui checked={form.data.esta_activa} onChange={(e) => form.setData('esta_activa', e.target.checked)} />
                             </div>
 
                             <div className="mt-10 mb-20">
@@ -168,8 +152,7 @@ const CreateConvocatoria = ({ auth, convocatorias, lineasProgramaticas, tiposCon
                                     className="inline-block mb-4"
                                 />
                                 <br />
-                                <SwitchMui checked={data.visible} onChange={(e) => setData('visible', e.target.checked)} onMessage="Visible" offMessage="Oculta" />
-                                {errors.visible && <InputError message={errors.visible} />}
+                                <SwitchMui checked={form.data.visible} onChange={(e) => form.setData('visible', e.target.checked)} />
                             </div>
 
                             <hr />
@@ -179,10 +162,17 @@ const CreateConvocatoria = ({ auth, convocatorias, lineasProgramaticas, tiposCon
                                     <Label required labelFor="lineas_programaticas_activas" className="mb-4" value="Seleccione las líneas programáticas las cuales quiere activar" />
                                     <SelectMultiple
                                         id="lineas_programaticas_activas"
-                                        selectedValues={data.lineas_programaticas_activas}
-                                        items={lineasProgramaticas}
-                                        error={errors.lineas_programaticas_activas}
-                                        placeholder="Seleccione las líneas programáticas"
+                                        bdValues={form.data.lineas_programaticas_activas}
+                                        options={lineas_programaticas}
+                                        onChange={(event, newValue) => {
+                                            const selected_values = newValue.map((option) => option.value)
+                                            form.setData((prevData) => ({
+                                                ...prevData,
+                                                lineas_programaticas_activas: selected_values,
+                                            }))
+                                        }}
+                                        error={form.errors.lineas_programaticas_activas}
+                                        label="Seleccione las líneas programáticas"
                                         required
                                     />
                                 </div>
@@ -190,14 +180,14 @@ const CreateConvocatoria = ({ auth, convocatorias, lineasProgramaticas, tiposCon
                         </fieldset>
                         <div className="flex items-center justify-between mt-14 px-8 py-4">
                             {is_super_admin && (
-                                <PrimaryButton disabled={processing} className="ml-auto" type="submit">
+                                <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
                                     Crear convocatoria
                                 </PrimaryButton>
                             )}
                         </div>
                     </form>
-                </div>
-            </div>
+                </Paper>
+            </Grid>
         </AuthenticatedLayout>
     )
 }

@@ -10,8 +10,8 @@ import TextInput from '@/Components/TextInput'
 
 import { Head, Link, useForm } from '@inertiajs/react'
 
-export default function Login({ tiposDocumento, tiposVinculacion, roles, centrosFormacion, municipios, opcionesGenero, user, status, ...props }) {
-    const { data, setData, post, processing, errors, reset } = useForm({
+export default function Login({ tipos_documento, tipos_vinculacion, roles, centros_formacion, municipios, opciones_genero, user, status, ...props }) {
+    const form = useForm({
         nombre: user?.nombre,
         email: user?.email,
         password: user?.password,
@@ -30,7 +30,7 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
     const submit = (e) => {
         e.preventDefault()
 
-        post(route('register'))
+        form.post(route('register'))
     }
 
     return (
@@ -52,9 +52,9 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                         id="nombre"
                         type="text"
                         className="mt-1 w-full"
-                        value={data.nombre}
-                        error={errors.nombre}
-                        onChange={(e) => setData('nombre', e.target.value)}
+                        value={form.data.nombre}
+                        error={form.errors.nombre}
+                        onChange={(e) => form.setData('nombre', e.target.value)}
                         required
                     />
                 </div>
@@ -65,12 +65,12 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                         id="email"
                         type="email"
                         className="mt-1 w-full"
-                        value={data.email}
-                        error={errors.email}
-                        onChange={(e) => setData('email', e.target.value)}
+                        value={form.data.email}
+                        error={form.errors.email}
+                        onChange={(e) => form.setData('email', e.target.value)}
                         required
                     />
-                    {errors.email == 'El campo correo electrónico ya ha sido tomado.' && (
+                    {form.errors.email == 'El campo correo electrónico ya ha sido tomado.' && (
                         <AlertMui severity="error">
                             El correo electrónico ya fue registrado, Por favor inicie sesión haciendo{' '}
                             <Link href="/" className="underline">
@@ -90,9 +90,9 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                         id="password"
                         type="password"
                         className="mt-1 w-full"
-                        value={data.password}
-                        error={errors.password}
-                        onChange={(e) => setData('password', e.target.value)}
+                        value={form.data.password}
+                        error={form.errors.password}
+                        onChange={(e) => form.setData('password', e.target.value)}
                         required
                     />
                 </div>
@@ -103,9 +103,9 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                         id="password_confirmation"
                         type="password"
                         className="mt-1 w-full"
-                        value={data.password_confirmation}
-                        error={errors.password_confirmation}
-                        onChange={(e) => setData('password_confirmation', e.target.value)}
+                        value={form.data.password_confirmation}
+                        error={form.errors.password_confirmation}
+                        onChange={(e) => form.setData('password_confirmation', e.target.value)}
                         required
                     />
                 </div>
@@ -113,11 +113,11 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                 <div className="mt-8">
                     <Autocomplete
                         id="tipo_documento"
-                        options={tiposDocumento}
-                        selectedValue={data.tipo_documento}
-                        error={errors.tipo_documento}
+                        options={tipos_documento}
+                        selectedValue={form.data.tipo_documento}
+                        error={form.errors.tipo_documento}
                         onChange={(event, newValue) => {
-                            setData('tipo_documento', newValue.value)
+                            form.setData('tipo_documento', newValue.value)
                         }}
                         label="Tipo de documento"
                         required
@@ -132,9 +132,9 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                         min="55555"
                         max="3900000000"
                         className="mt-1 w-full"
-                        value={data.numero_documento}
-                        error={errors.numero_documento}
-                        onChange={(e) => setData('numero_documento', e.target.value)}
+                        value={form.data.numero_documento}
+                        error={form.errors.numero_documento}
+                        onChange={(e) => form.setData('numero_documento', e.target.value)}
                         required
                     />
                 </div>
@@ -143,10 +143,10 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                     <Autocomplete
                         id="lugar_expedicion_id"
                         options={municipios}
-                        selectedValue={data.lugar_expedicion_id}
-                        error={errors.lugar_expedicion_id}
+                        selectedValue={form.data.lugar_expedicion_id}
+                        error={form.errors.lugar_expedicion_id}
                         onChange={(event, newValue) => {
-                            setData('lugar_expedicion_id', newValue.value)
+                            form.setData('lugar_expedicion_id', newValue.value)
                         }}
                         label="Lugar de expedición"
                         required
@@ -156,12 +156,12 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                 <div className="mt-8">
                     <Autocomplete
                         id="genero"
-                        options={opcionesGenero}
+                        options={opciones_genero}
                         className="mt-1 w-full"
-                        selectedValue={data.genero}
-                        error={errors.genero}
+                        selectedValue={form.data.genero}
+                        error={form.errors.genero}
                         onChange={(event, newValue) => {
-                            setData('genero', newValue.value)
+                            form.setData('genero', newValue.value)
                         }}
                         label="Género"
                         required
@@ -174,9 +174,10 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                         id="fecha_nacimiento"
                         name="fecha_nacimiento"
                         label="Fecha de nacimiento"
-                        value={data.fecha_nacimiento}
+                        value={form.data.fecha_nacimiento}
                         className="p-4 w-full"
-                        onChange={(e) => setData({ ...data, fecha_nacimiento: e.target.value })}
+                        onChange={(e) => form.setData({ ...data, fecha_nacimiento: e.target.value })}
+                        error={form.errors.fecha_nacimiento}
                         required
                     />
                 </div>
@@ -189,9 +190,9 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                         min="3000000000"
                         max="3900000000"
                         className="mt-1 w-full"
-                        value={data.numero_celular}
-                        error={errors.numero_celular}
-                        onChange={(e) => setData('numero_celular', e.target.value)}
+                        value={form.data.numero_celular}
+                        error={form.errors.numero_celular}
+                        onChange={(e) => form.setData('numero_celular', e.target.value)}
                         required
                     />
                 </div>
@@ -199,11 +200,11 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                 <div className="mt-8">
                     <Autocomplete
                         id="tipo_vinculacion"
-                        options={tiposVinculacion}
-                        selectedValue={data.tipo_vinculacion}
-                        error={errors.tipo_vinculacion}
+                        options={tipos_vinculacion}
+                        selectedValue={form.data.tipo_vinculacion}
+                        error={form.errors.tipo_vinculacion}
                         onChange={(event, newValue) => {
-                            setData('tipo_vinculacion', newValue.value)
+                            form.setData('tipo_vinculacion', newValue.value)
                         }}
                         label="Tipo de vinculación"
                         required
@@ -213,11 +214,11 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                 <div className="mt-8">
                     <Autocomplete
                         id="centro_formacion_id"
-                        options={centrosFormacion}
-                        selectedValue={data.centro_formacion_id}
-                        error={errors.centro_formacion_id}
+                        options={centros_formacion}
+                        selectedValue={form.data.centro_formacion_id}
+                        error={form.errors.centro_formacion_id}
                         onChange={(event, newValue) => {
-                            setData('centro_formacion_id', newValue.value)
+                            form.setData('centro_formacion_id', newValue.value)
                         }}
                         label="Centro de formación"
                         required
@@ -232,9 +233,9 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                     <Checkbox
                         className="mt-8"
                         name="autorizacion_datos"
-                        checked={data.autorizacion_datos}
-                        error={errors.autorizacion_datos}
-                        onChange={(e) => setData('autorizacion_datos', e.target.checked)}
+                        checked={form.data.autorizacion_datos}
+                        error={form.errors.autorizacion_datos}
+                        onChange={(e) => form.setData('autorizacion_datos', e.target.checked)}
                         label="Autorizo el tratamiento de mis datos personales."
                     />
                 </div>
@@ -244,7 +245,7 @@ export default function Login({ tiposDocumento, tiposVinculacion, roles, centros
                         Ya tengo una cuenta
                     </Link>
 
-                    <PrimaryButton type="submit" disabled={processing || !data.autorizacion_datos}>
+                    <PrimaryButton type="submit" disabled={form.processing || !form.data.autorizacion_datos}>
                         Continuar
                     </PrimaryButton>
                 </div>

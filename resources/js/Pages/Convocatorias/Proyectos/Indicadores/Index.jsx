@@ -8,7 +8,7 @@ import StepperMui from '@/Components/Stepper'
 import { useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 
-const Indicadores = ({ auth, convocatoria, proyecto_linea_66, ...props }) => {
+const Indicadores = ({ auth, convocatoria, proyecto_linea_66, evaluacion, ...props }) => {
     const form = useForm({
         productividad_beneficiaros: proyecto_linea_66.productividad_beneficiaros ? proyecto_linea_66.productividad_beneficiaros : '',
         generacion_empleo_beneficiarios: proyecto_linea_66.generacion_empleo_beneficiarios ? proyecto_linea_66.generacion_empleo_beneficiarios : '',
@@ -30,7 +30,7 @@ const Indicadores = ({ auth, convocatoria, proyecto_linea_66, ...props }) => {
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto_linea_66.proyecto} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto_linea_66.proyecto} evaluacion={evaluacion} />
             </Grid>
 
             <Grid item md={12} className="!mb-20">

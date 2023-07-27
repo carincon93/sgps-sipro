@@ -106,6 +106,7 @@ class ArticulacionSennovaController extends Controller
                                                     'proyectoLinea70',
                                                     'diff_meses'
                                                 ),
+            'evaluacion'                        => Evaluacion::find(request()->evaluacion_id),
             'lineas_investigacion'              => LineaInvestigacion::selectRaw('lineas_investigacion.id as value, concat(lineas_investigacion.nombre, chr(10), \'∙ Grupo de investigación: \', grupos_investigacion.nombre, chr(10)) as label')->join('grupos_investigacion', 'lineas_investigacion.grupo_investigacion_id', 'grupos_investigacion.id')->where('grupos_investigacion.centro_formacion_id', $proyecto->centroFormacion->id)->get(),
             'grupos_investigacion'              => SelectHelper::gruposInvestigacion()->where('regional_id', $proyecto->centroFormacion->regional->id)->values()->all(),
             'semilleros_investigacion'          => SelectHelper::semillerosInvestigacion()->where('centro_formacion_id', $proyecto->centroFormacion->id)->values()->all(),

@@ -43,8 +43,8 @@ class ConvocatoriaController extends Controller
 
         return Inertia::render('Convocatorias/Create', [
             'fases'                 => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
-            'lineasProgramaticas'   => LineaProgramatica::selectRaw("id as value, CONCAT(nombre, ' - Código: ', codigo) as label")->orderBy('nombre', 'ASC')->get(),
-            'tiposConvocatoria'     => collect(json_decode(Storage::get('json/tipos-convocatoria.json'), true)),
+            'lineas_programaticas'  => LineaProgramatica::selectRaw("id as value, CONCAT(nombre, ' - Código: ', codigo) as label")->orderBy('nombre', 'ASC')->get(),
+            'tipos_convocatoria'    => collect(json_decode(Storage::get('json/tipos-convocatoria.json'), true)),
             'convocatorias'         => SelectHelper::convocatorias(),
         ]);
     }
@@ -107,9 +107,9 @@ class ConvocatoriaController extends Controller
         $this->authorize('update', [Convocatoria::class, $convocatoria]);
 
         return Inertia::render('Convocatorias/Edit', [
-            'convocatoria'                               => $convocatoria,
-            'lineasProgramaticas'                        => LineaProgramatica::selectRaw("id as value, CONCAT(nombre, ' - Código: ', codigo) as label")->orderBy('nombre', 'ASC')->get(),
-            'fases'                                      => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
+            'convocatoria'         => $convocatoria,
+            'lineas_programaticas' => LineaProgramatica::selectRaw("id as value, CONCAT(nombre, ' - Código: ', codigo) as label")->orderBy('nombre', 'ASC')->get(),
+            'fases'                => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
         ]);
     }
 
@@ -183,7 +183,7 @@ class ConvocatoriaController extends Controller
     {
         return Inertia::render('Convocatorias/LineasProgramaticas', [
             'convocatoria'         => $convocatoria,
-            'lineasProgramaticas'  => LineaProgramatica::select('id', 'nombre', 'codigo')->get()
+            'lineas_programaticas' => LineaProgramatica::select('id', 'nombre', 'codigo')->get()
         ]);
     }
 
@@ -192,9 +192,9 @@ class ConvocatoriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function proyectosPorLineaProgramatica(Convocatoria $convocatoria, LineaProgramatica $lineaProgramatica)
+    public function proyectosPorLineaProgramatica(Convocatoria $convocatoria, LineaProgramatica $linea_programatica)
     {
-        switch ($lineaProgramatica->id) {
+        switch ($linea_programatica->id) {
             case 1:
             case 2:
             case 3:

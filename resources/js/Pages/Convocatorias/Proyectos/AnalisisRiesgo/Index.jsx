@@ -18,7 +18,7 @@ import Form from './Form'
 import { useState } from 'react'
 import { router } from '@inertiajs/react'
 
-const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisis_riesgos, niveles_riesgo, tipos_riesgo, probabilidades_riesgo, impactos_riesgo, ...props }) => {
+const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisis_riesgos, niveles_riesgo, tipos_riesgo, probabilidades_riesgo, impactos_riesgo, evaluacion, ...props }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -30,7 +30,7 @@ const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisis_riesgos, nivel
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
             <Grid item md={12}>

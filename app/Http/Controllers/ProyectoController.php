@@ -628,7 +628,7 @@ class ProyectoController extends Controller
      * @param  mixed $proyecto
      * @return void
      */
-    public function participantes(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
+    public function participantes(Convocatoria $convocatoria, Proyecto $proyecto)
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
@@ -636,7 +636,8 @@ class ProyectoController extends Controller
         $proyecto->participantes;
         $proyecto->programasFormacion;
         $proyecto->semillerosInvestigacion;
-        $proyecto->PdfVersiones;
+
+        // $proyecto->PdfVersiones;
 
         if ($proyecto->codigo_linea_programatica == 70) {
             return redirect()->route('convocatorias.proyectos-linea-70.edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
@@ -649,8 +650,8 @@ class ProyectoController extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/Participantes/Index', [
             'convocatoria'                  => $convocatoria,
-            'evaluacion'                    => Evaluacion::find($request->evaluacion_id),
             'proyecto'                      => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'diff_meses', 'participantes', 'semillerosInvestigacion', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'fecha_inicio', 'fecha_finalizacion', 'tipo_proyecto'),
+            'evaluacion'                    => Evaluacion::find(request()->evaluacion_id),
             'roles_sennova'                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'nuevo_participante'            => User::select('users.id', 'users.nombre', 'users.email', 'users.centro_formacion_id')->with('centroFormacion', 'centroFormacion.regional')->orderBy('users.nombre', 'ASC')->filterUser(request()->only('search'))->first(),
             'nuevo_semillero_investigacion' => SemilleroInvestigacion::select('semilleros_investigacion.id', 'semilleros_investigacion.nombre', 'semilleros_investigacion.linea_investigacion_id')->with('lineaInvestigacion', 'lineaInvestigacion.grupoInvestigacion')->orderBy('semilleros_investigacion.nombre', 'ASC')->filterSemilleroInvestigacion(request()->only('search'))->first(),

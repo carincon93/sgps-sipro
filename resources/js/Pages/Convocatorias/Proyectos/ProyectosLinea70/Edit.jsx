@@ -11,7 +11,7 @@ import { checkRole, route } from '@/Utils'
 import { Grid, TableCell, TableRow } from '@mui/material'
 import { useState } from 'react'
 
-const Edit = ({ auth, convocatoria, proyecto_linea_70, lineas_programaticas, lineas_tecnoacademia, infraestructura_tecnoacademia, roles_sennova }) => {
+const Edit = ({ auth, convocatoria, proyecto_linea_70, evaluacion, lineas_programaticas, lineas_tecnoacademia, infraestructura_tecnoacademia, roles_sennova }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -26,7 +26,7 @@ const Edit = ({ auth, convocatoria, proyecto_linea_70, lineas_programaticas, lin
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyecto_linea_70.titulo}</h2>}>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto_linea_70?.proyecto} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto_linea_70?.proyecto} evaluacion={evaluacion} />
             </Grid>
 
             <Grid item md={4}>

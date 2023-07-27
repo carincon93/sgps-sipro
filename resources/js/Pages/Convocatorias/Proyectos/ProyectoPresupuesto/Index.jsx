@@ -28,6 +28,7 @@ const RubrosPresupuestales = ({
     auth,
     convocatoria,
     proyecto,
+    evaluacion,
     rubros_presupuestales,
     segundo_grupo_presupuestal,
     tercer_grupo_presupuestal,
@@ -48,7 +49,7 @@ const RubrosPresupuestales = ({
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
             <Grid item md={12}>

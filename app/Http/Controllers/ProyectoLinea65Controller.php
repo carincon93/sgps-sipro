@@ -162,6 +162,7 @@ class ProyectoLinea65Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea65/Edit', [
             'convocatoria'                                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_65', 'max_fecha_finalizacion_proyectos_cultura', 'fecha_maxima_cultura', 'mostrar_recomendaciones', 'campos_convocatoria'),
             'proyecto_linea_65'                             => $proyecto_linea_65,
+            'evaluacion'                                    => EvaluacionProyectoLinea65::find(request()->evaluacion_id),
             'tecnoacademia'                                 => $proyecto_linea_65->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_linea_65->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
             'mesas_sectoriales'                             => MesaSectorial::select('id as value', 'nombre as label')->get('id'),
             'lineas_investigacion'                          => SelectHelper::lineasInvestigacion()->where('centro_formacion_id', $proyecto_linea_65->proyecto->centro_formacion_id)->values()->all(),

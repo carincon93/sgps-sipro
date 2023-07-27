@@ -8,6 +8,7 @@ import Textarea from '@/Components/Textarea'
 import { useForm } from '@inertiajs/react'
 
 const Evaluacion = ({ convocatoria, evaluacion, ...props }) => {
+    console.log(evaluacion)
     const form = useForm({
         clausula_confidencialidad: evaluacion?.clausula_confidencialidad,
         titulo_puntaje: evaluacion?.titulo_puntaje,
@@ -560,7 +561,7 @@ const Evaluacion = ({ convocatoria, evaluacion, ...props }) => {
                 </AlertMui>
             </div>
             <div className="flex items-center justify-between mt-14 px-8 py-4">
-                {evaluacion.allowed_to_update && (
+                {evaluacion?.allowed_to_update && (
                     <>
                         {form.data.data.clausula_confidencialidad ? (
                             <span className="text-green-500">Ha aceptado la cláusula de confidencialidad</span>

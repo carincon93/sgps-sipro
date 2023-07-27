@@ -45,8 +45,9 @@ class EntidadAliadaController extends Controller
         return Inertia::render('Convocatorias/Proyectos/EntidadesAliadas/Index', [
             'convocatoria'                  =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
             'proyecto'                      =>  $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed'),
+            'evaluacion'                    =>  Evaluacion::find(request()->evaluacion_id),
             'entidades_aliadas'             =>  EntidadAliada::where('proyecto_id', $proyecto->id)->orderBy('nombre', 'ASC')
-                                                ->filterEntidadAliada(request()->only('search'))->with('actividades', 'actividades.objetivoEspecifico', 'miembrosEntidadAliada', 'entidadAliadaLinea66', 'entidadAliadaLinea69', 'entidadAliadaLinea70')->paginate(),
+                                                    ->filterEntidadAliada(request()->only('search'))->with('actividades', 'actividades.objetivoEspecifico', 'miembrosEntidadAliada', 'entidadAliadaLinea66', 'entidadAliadaLinea69', 'entidadAliadaLinea70')->paginate(),
             'actividades'                   =>  Actividad::whereIn(
                                                     'objetivo_especifico_id',
                                                     $objetivo_especificos->map(function ($objetivo_especifico) {

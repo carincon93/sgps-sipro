@@ -19,7 +19,7 @@ import { Grid, TableCell, TableRow } from '@mui/material'
 
 import { useForm } from '@inertiajs/react'
 
-const Anexos = ({ auth, convocatoria, proyecto, proyecto_anexo, anexos, ...props }) => {
+const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, anexos, ...props }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -41,7 +41,7 @@ const Anexos = ({ auth, convocatoria, proyecto, proyecto_anexo, anexos, ...props
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
             {proyecto.codigo_linea_programatica == 68 && (

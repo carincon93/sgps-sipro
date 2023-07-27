@@ -15,6 +15,7 @@ const Edit = ({
     auth,
     convocatoria,
     proyecto_linea_68,
+    evaluacion,
     centros_formacion,
     lineas_programaticas,
     tipos_proyecto_linea_68,
@@ -37,7 +38,7 @@ const Edit = ({
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyecto_linea_68.titulo}</h2>}>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto_linea_68?.proyecto} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto_linea_68?.proyecto} evaluacion={evaluacion} />
             </Grid>
 
             <Grid item md={4}>

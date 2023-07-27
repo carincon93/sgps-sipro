@@ -131,6 +131,7 @@ class ActividadController extends Controller
                                             'allowed',
                                             'tipo_proyecto'
                                         ),
+            'evaluacion'                => Evaluacion::find(request()->evaluacion_id),
             'actividades'               => Actividad::whereIn(
                                             'objetivo_especifico_id',
                                                 $objetivo_especifico->map(function ($objetivo_especifico) {

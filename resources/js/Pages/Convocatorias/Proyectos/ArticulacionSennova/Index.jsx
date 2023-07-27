@@ -20,6 +20,7 @@ const ArticulacionSennova = ({
     auth,
     convocatoria,
     proyecto,
+    evaluacion,
     disciplinas_subarea_conocimiento,
     lineas_investigacion,
     grupos_investigacion,
@@ -81,7 +82,7 @@ const ArticulacionSennova = ({
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
             <Grid item md={12}>

@@ -35,6 +35,7 @@ class ProyectoPresupuestoController extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectoPresupuesto/Index', [
             'convocatoria'                      =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'campos_convocatoria'),
             'proyecto'                          =>  $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'codigo', 'diff_meses', 'total_proyecto_presupuesto', 'en_subsanacion', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed'),
+            'evaluacion'                        => Evaluacion::find(request()->evaluacion_id),
             'rubros_presupuestales'             =>  ProyectoPresupuesto::select('proyecto_presupuesto.*')
                                                         ->where('proyecto_id', $proyecto->id)
                                                         ->filterProyectoPresupuesto(request()->only('search', 'presupuestos'))

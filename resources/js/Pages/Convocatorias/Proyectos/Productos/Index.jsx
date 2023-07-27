@@ -19,7 +19,7 @@ import { MenuItem, Grid, TableRow, TableCell } from '@mui/material'
 
 import Form from './Form'
 
-const Productos = ({ auth, convocatoria, proyecto, productos, validacion_resultados, resultados, subtipologias_minciencias, tipos_producto }) => {
+const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, validacion_resultados, resultados, subtipologias_minciencias, tipos_producto }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -31,7 +31,7 @@ const Productos = ({ auth, convocatoria, proyecto, productos, validacion_resulta
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
             <Grid item md={12}>

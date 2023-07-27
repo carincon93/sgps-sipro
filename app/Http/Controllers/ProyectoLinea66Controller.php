@@ -171,7 +171,7 @@ class ProyectoLinea66Controller extends Controller
      * @param  \App\Models\ProyectoLinea66  $proyecto_linea_66
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, Convocatoria $convocatoria, ProyectoLinea66 $proyecto_linea_66)
+    public function edit(Convocatoria $convocatoria, ProyectoLinea66 $proyecto_linea_66)
     {
         $this->authorize('visualizar-proyecto-autor', [$proyecto_linea_66->proyecto]);
 
@@ -203,7 +203,7 @@ class ProyectoLinea66Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea66/Edit', [
             'convocatoria'                                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'campos_convocatoria'),
             'proyecto_linea_66'                                 => $proyecto_linea_66,
-            'evaluacion'                                        => EvaluacionProyectoLinea66::find($request->evaluacion_id),
+            'evaluacion'                                        => EvaluacionProyectoLinea66::find(request()->evaluacion_id),
             'lineas_tecnoacademia_relacionadas'                 => $proyecto_linea_66->proyecto->tecnoacademiaLineasTecnoacademia()->pluck('tecnoacademia_linea_tecnoacademia.id'),
             'tecnoacademia'                                     => $proyecto_linea_66->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_linea_66->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
             'mesas_sectoriales'                                 => SelectHelper::mesasSectoriales(),

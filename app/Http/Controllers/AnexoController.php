@@ -8,8 +8,6 @@ use App\Http\Requests\AnexoRequest;
 use App\Models\Anexo;
 use App\Models\LineaProgramatica;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class AnexoController extends Controller
@@ -24,9 +22,8 @@ class AnexoController extends Controller
         $this->authorize('viewAny', [Anexo::class]);
 
         return Inertia::render('Anexos/Index', [
-            'filters'  => request()->all('search'),
-            'anexos'   => Anexo::orderBy('nombre', 'ASC')->with('convocatorias')
-                ->filterAnexo(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+            'anexos'        => Anexo::orderBy('nombre', 'ASC')->with('convocatorias')
+                                ->filterAnexo(request()->only('search'))->paginate()->appends(['search' => request()->search]),
         ]);
     }
 

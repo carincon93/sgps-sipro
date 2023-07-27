@@ -15,7 +15,7 @@ import { router, useForm } from '@inertiajs/react'
 import DownloadIcon from '@mui/icons-material/Download'
 import { Grid } from '@mui/material'
 
-const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, proyecto_presupuesto, soportes_estudio_mercado }) => {
+const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proyecto_presupuesto, soportes_estudio_mercado }) => {
     /**
      * Validar si el usuario autenticado es SuperAdmin
      */
@@ -57,9 +57,9 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, proyecto_presupue
         }
     }
 
-    const destroySoporte = (soporteEstudioMercadoId) => {
+    const destroySoporte = (soporte_estudio_mercado_id) => {
         if (proyecto.allowed.to_update) {
-            router.delete(route('convocatorias.proyectos.presupuesto.soportes.destroy', [convocatoria.id, proyecto.id, proyecto_presupuesto.id, soporteEstudioMercadoId]), {
+            router.delete(route('convocatorias.proyectos.presupuesto.soportes.destroy', [convocatoria.id, proyecto.id, proyecto_presupuesto.id, soporte_estudio_mercado_id]), {
                 preserveScroll: true,
             })
         }
@@ -68,7 +68,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, proyecto_presupue
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} label="Estudios de mercado" />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} label="Estudios de mercado" />
             </Grid>
 
             <Grid item md={12}>

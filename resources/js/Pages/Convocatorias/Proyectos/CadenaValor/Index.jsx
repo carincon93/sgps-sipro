@@ -15,7 +15,7 @@ import { Grid } from '@mui/material'
 import ToolTipMui from '@/Components/Tooltip'
 import StepperMui from '@/Components/Stepper'
 
-const CadenaValor = ({ auth, convocatoria, proyecto, objetivos, objetivoGeneral, productos, ...props }) => {
+const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, objetivoGeneral, productos, ...props }) => {
     const auth_user = auth.user
     const isSuperAdmin = checkRole(auth_user, [1])
 
@@ -121,7 +121,7 @@ const CadenaValor = ({ auth, convocatoria, proyecto, objetivos, objetivoGeneral,
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
             <Grid item md={12}>

@@ -6,6 +6,7 @@ use App\Http\Requests\MiembroEntidadAliadaRequest;
 use App\Models\Convocatoria;
 use App\Models\Proyecto;
 use App\Models\EntidadAliada;
+use App\Models\Evaluacion\Evaluacion;
 use App\Models\MiembroEntidadAliada;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -27,6 +28,7 @@ class MiembroEntidadAliadaController extends Controller
         return Inertia::render('Convocatorias/Proyectos/EntidadesAliadas/MiembrosEntidadAliada/Index', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
             'proyecto'                  => $proyecto->only('id', 'modificable', 'mostrar_recomendaciones', 'codigo_linea_programatica', 'allowed'),
+            'evaluacion'                => Evaluacion::find(request()->evaluacion_id),
             'entidad_aliada'            => $entidad_aliada,
             'miembros_entidad_aliada'   => MiembroEntidadAliada::where('entidad_aliada_id', $entidad_aliada->id)->orderBy('nombre', 'ASC')
                                             ->filterMiembroEntidadAliada(request()->only('search'))->paginate()->appends(['search' => request()->search]),

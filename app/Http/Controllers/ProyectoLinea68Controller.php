@@ -160,6 +160,7 @@ class ProyectoLinea68Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea68/Edit', [
             'convocatoria'                                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_68', 'max_fecha_finalizacion_proyectos_linea_68', 'fecha_maxima_st', 'mostrar_recomendaciones'),
             'proyecto_linea_68'                             => $proyecto_linea_68,
+            'evaluacion'                                    => EvaluacionProyectoLinea68::find(request()->evaluacion_id),
             'lineas_programaticas'                          => SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 3)->values()->all(),
             'estados_sistema_gestion'                       => SelectHelper::estadosSistemaGestion(),
             'programas_formacion_con_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $proyecto_linea_68->proyecto->centro_formacion_id)->values()->all(),

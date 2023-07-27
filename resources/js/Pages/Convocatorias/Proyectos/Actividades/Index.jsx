@@ -32,6 +32,7 @@ const Actividades = ({
     auth,
     convocatoria,
     proyecto,
+    evaluacion,
     actividades,
     municipios,
     regionales,
@@ -50,8 +51,6 @@ const Actividades = ({
     const [dialog_status, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
     const [actividad, setActividad] = useState(null)
-
-    //
 
     const form = useForm({
         metodologia: proyecto.metodologia,
@@ -126,7 +125,7 @@ const Actividades = ({
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
             <TabsMui tabs={tabs}>

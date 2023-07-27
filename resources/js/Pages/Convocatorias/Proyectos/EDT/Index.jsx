@@ -17,7 +17,7 @@ import { useState } from 'react'
 
 import Form from './Form'
 
-const EDT = ({ auth, convocatoria, proyecto, presupuesto, eventos, tiposEvento, ...props }) => {
+const EDT = ({ auth, convocatoria, proyecto, evaluacion, presupuesto, eventos, tiposEvento, ...props }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -29,7 +29,7 @@ const EDT = ({ auth, convocatoria, proyecto, presupuesto, eventos, tiposEvento, 
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} label="EDT" />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} label="EDT" />
             </Grid>
 
             <Grid item md={12}>

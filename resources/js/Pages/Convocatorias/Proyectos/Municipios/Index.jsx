@@ -16,11 +16,23 @@ import { useState } from 'react'
 
 import Form from './Form'
 
-const Municipios = ({ auth, convocatoria, proyecto, presupuesto, taTpViaticosMunicipios, municipios, proyectoRolesSennova, distanciasMunicipios, frecuenciasSemanales, ...props }) => {
+const Municipios = ({
+    auth,
+    convocatoria,
+    proyecto,
+    evaluacion,
+    presupuesto,
+    ta_tp_viaticos_municipios,
+    municipios,
+    proyecto_roles_sennova,
+    distancias_municipios,
+    frecuencias_semanales,
+    ...props
+}) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
-    const [municipioToDestroy, setMunicipioToDestroy] = useState(null)
+    const [municipio_to_destroy, setMunicipioToDestroy] = useState(null)
     const [dialog_status, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
     const [municipio, setMunicipio] = useState(null)
@@ -28,7 +40,7 @@ const Municipios = ({ auth, convocatoria, proyecto, presupuesto, taTpViaticosMun
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} label="Municipios" />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} label="Municipios" />
             </Grid>
 
             <Grid item md={12}>
@@ -42,37 +54,37 @@ const Municipios = ({ auth, convocatoria, proyecto, presupuesto, taTpViaticosMun
             </Grid>
             <Grid item md={12}>
                 <TableMui className="mt-20 mb-8" rows={['Municipios a visitar', 'Información de la visita', 'Actividades a realizar', 'Acciones']} sxCellThead={{ width: '320px' }}>
-                    {taTpViaticosMunicipios.map((municipioAVisitar, i) => (
+                    {ta_tp_viaticos_municipios.map((municipio_a_visitar, i) => (
                         <TableRow key={i}>
                             <TableCell>
                                 {municipios
-                                    .filter((item) => JSON.parse(municipioAVisitar.municipios).includes(item.value))
+                                    .filter((item) => JSON.parse(municipio_a_visitar.municipios).includes(item.value))
                                     .map((item) => item.label)
                                     .join(', ')}
                             </TableCell>
                             <TableCell>
-                                / Distancia aprox. municipios: {distanciasMunicipios.find((item) => item.value == municipioAVisitar.distancia_municipio).label}
-                                <br />/ Frecuencia semanal de visita: {frecuenciasSemanales.find((item) => item.value == municipioAVisitar.frecuencia_semanal).label}
-                                <br />/ Número de visitas: {municipioAVisitar.numero_visitas}
+                                / Distancia aprox. municipios: {distancias_municipios.find((item) => item.value == municipio_a_visitar.distancia_municipio).label}
+                                <br />/ Frecuencia semanal de visita: {frecuencias_semanales.find((item) => item.value == municipio_a_visitar.frecuencia_semanal).label}
+                                <br />/ Número de visitas: {municipio_a_visitar.numero_visitas}
                             </TableCell>
 
                             <TableCell>
-                                <p className="line-clamp-4">{municipioAVisitar.actividad_a_realizar}</p>
+                                <p className="line-clamp-4">{municipio_a_visitar.actividad_a_realizar}</p>
                             </TableCell>
 
                             <TableCell>
                                 <MenuMui text={<MoreVertIcon />}>
-                                    {municipioAVisitar.id !== municipioToDestroy ? (
+                                    {municipio_a_visitar.id !== municipio_to_destroy ? (
                                         <div>
                                             <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setMunicipio(municipioAVisitar))}
+                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setMunicipio(municipio_a_visitar))}
                                                 disabled={!proyecto.allowed.to_update}
                                                 className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                                 Editar
                                             </MenuItem>
                                             <MenuItem
                                                 onClick={() => {
-                                                    setMunicipioToDestroy(municipioAVisitar.id)
+                                                    setMunicipioToDestroy(municipio_a_visitar.id)
                                                 }}>
                                                 Eliminar
                                             </MenuItem>
@@ -91,7 +103,7 @@ const Municipios = ({ auth, convocatoria, proyecto, presupuesto, taTpViaticosMun
                                                     e.stopPropagation()
                                                     if (proyecto.allowed.to_update) {
                                                         router.delete(
-                                                            route('convocatorias.proyectos.presupuesto.municipios.destroy', [convocatoria.id, proyecto.id, presupuesto.id, municipioAVisitar.id]),
+                                                            route('convocatorias.proyectos.presupuesto.municipios.destroy', [convocatoria.id, proyecto.id, presupuesto.id, municipio_a_visitar.id]),
                                                             {
                                                                 preserveScroll: true,
                                                             },
@@ -121,16 +133,16 @@ const Municipios = ({ auth, convocatoria, proyecto, presupuesto, taTpViaticosMun
                             proyecto={proyecto}
                             convocatoria={convocatoria}
                             presupuesto={presupuesto}
-                            municipioAVisitar={municipio}
+                            municipio_a_visitar={municipio}
                             municipios={municipios}
-                            proyectoRolesSennova={proyectoRolesSennova}
-                            distanciasMunicipios={distanciasMunicipios}
-                            frecuenciasSemanales={frecuenciasSemanales}
+                            proyecto_roles_sennova={proyecto_roles_sennova}
+                            distancias_municipios={distancias_municipios}
+                            frecuencias_semanales={frecuencias_semanales}
                         />
                     }
                 />
             </Grid>
-            <PaginationMui links={taTpViaticosMunicipios.links} />
+            <PaginationMui links={ta_tp_viaticos_municipios.links} />
         </AuthenticatedLayout>
     )
 }

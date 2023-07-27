@@ -135,6 +135,7 @@ class ArbolProyectoController extends Controller
         return Inertia::render('Convocatorias/Proyectos/ArbolesProyecto/ArbolProblemas', [
             'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
             'proyecto'          => $proyecto->only('id', 'precio_proyecto', 'identificacion_problema', 'problema_central', 'justificacion_problema', 'pregunta_formulacion_problema', 'objetivo_general', 'codigo_linea_programatica', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto', 'proyecto_base'),
+            'evaluacion'        => Evaluacion::find(request()->evaluacion_id),
         ]);
     }
 
@@ -613,6 +614,7 @@ class ArbolProyectoController extends Controller
         return Inertia::render('Convocatorias/Proyectos/ArbolesProyecto/ArbolObjetivos', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
             'proyecto'              => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'identificacion_problema', 'problema_central', 'objetivo_general', 'fecha_inicio', 'fecha_finalizacion', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'resultados', 'tipo_proyecto', 'proyecto_base'),
+            'evaluacion'            => Evaluacion::find(request()->evaluacion_id),
             'efectos_directos'      => $efectos_directos,
             'causas_directas'       => $causas_directas,
             'tipos_impacto'         => $tipos_impacto,
