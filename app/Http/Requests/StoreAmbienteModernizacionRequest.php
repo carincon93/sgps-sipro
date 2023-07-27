@@ -44,59 +44,13 @@ class StoreAmbienteModernizacionRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->disciplina_subarea_conocimiento_id)) {
-            $this->merge([
-                'disciplina_subarea_conocimiento_id' => $this->disciplina_subarea_conocimiento_id['value'],
-            ]);
-        }
+        $this->merge([
+            'financiado_anteriormente' => $this->financiado_anteriormente == '1' ? 1 : 0,
+        ]);
 
-        if (is_array($this->actividad_economica_id)) {
-            $this->merge([
-                'actividad_economica_id' => $this->actividad_economica_id['value'],
-            ]);
-        }
-
-        if (is_array($this->linea_investigacion_id)) {
-            $this->merge([
-                'linea_investigacion_id' => $this->linea_investigacion_id['value'],
-            ]);
-        }
-
-        if (is_array($this->red_conocimiento_id)) {
-            $this->merge([
-                'red_conocimiento_id' => $this->red_conocimiento_id['value'],
-            ]);
-        }
-
-        if (is_array($this->tematica_estrategica_id)) {
-            $this->merge([
-                'tematica_estrategica_id' => $this->tematica_estrategica_id['value'],
-            ]);
-        }
-
-        if (is_array($this->codigo_proyecto_sgps_id)) {
-            $this->merge([
-                'codigo_proyecto_sgps_id' => $this->codigo_proyecto_sgps_id['value'],
-            ]);
-        }
-
-        if (is_array($this->tipologia_ambiente_id)) {
-            $this->merge([
-                'tipologia_ambiente_id' => $this->tipologia_ambiente_id['value'],
-            ]);
-        }
-
-        if (is_array($this->financiado_anteriormente)) {
-            $this->merge([
-                'financiado_anteriormente' => $this->financiado_anteriormente['value'] == '1' ? 1 : 0,
-            ]);
-        }
-
-        if (is_array($this->alineado_mesas_sectoriales)) {
-            $this->merge([
-                'alineado_mesas_sectoriales' => $this->alineado_mesas_sectoriales['value'] == '1' ? 1 : 0,
-            ]);
-        }
+        $this->merge([
+            'alineado_mesas_sectoriales' => $this->alineado_mesas_sectoriales == '1' ? 1 : 0,
+        ]);
 
         if ($this->alineado_mesas_sectoriales == 0) {
             $this->merge([

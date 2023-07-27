@@ -303,6 +303,7 @@ class ProyectoLinea66 extends Model
             ->filterProyectoLinea66(request()->only('search'))->paginate();
 
         $proyectos_linea_66->load('proyecto');
+        $proyectos_linea_66->load('proyecto.evaluaciones');
 
         return $proyectos_linea_66;
     }

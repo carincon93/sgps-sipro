@@ -26,14 +26,14 @@ export default function Dashboard({ auth }) {
             </div>
             <div className="grid grid-cols-3 gap-10">
                 <Link
-                    className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-500 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
+                    className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
                     href={route('convocatorias.index')}>
                     Convocatorias
                 </Link>
 
                 {is_super_admin || checkRole(auth_user, [4]) || checkPermission(auth_user, [8, 17]) ? (
                     <Link
-                        className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-500 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col text-center"
+                        className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col text-center"
                         href={route('nuevos-proyectos-ta-tp')}>
                         Nuevos proyectos Tecnoacademia - Tecnoparque
                     </Link>
@@ -41,7 +41,7 @@ export default function Dashboard({ auth }) {
 
                 {is_super_admin || checkRole(auth_user, [4, 5, 17, 18, 19, 21]) ? (
                     <Link
-                        className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-500 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
+                        className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
                         href={route('users.index')}>
                         Usuarios
                     </Link>

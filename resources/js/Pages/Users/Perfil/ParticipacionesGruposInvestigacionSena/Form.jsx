@@ -1,73 +1,114 @@
-<script>
-    import Label from '@/Components/Label'
-    import Select from '@/Components/Select'
-    import PrimaryButton from '@/Components/PrimaryButton'
+import Autocomplete from '@/Components/Autocomplete'
+import ButtonMui from '@/Components/Button'
+import DatePicker from '@/Components/DatePicker'
+import FileInput from '@/Components/FileInput'
+import PrimaryButton from '@/Components/PrimaryButton'
+import TextInput from '@/Components/TextInput'
 
-    export let errors
-    export let participacionGrupoInvestigacionSena
-    export let gruposInvestigacion
-    export let semillerosInvestigacion
-    export let form
-    export let submit
-</script>
+import { useForm } from '@inertiajs/react'
+import { Grid, Paper } from '@mui/material'
 
-<form on:submit|preventDefault={submit}>
-    <fieldset className="p-8">
-        <div className="mt-8">
-            <Label required className="mb-4" labelFor="pertenece_grupo_investigacion_centro" value="¿Actualmente pertenece al grupo de investigación de su centro?" />
-            <Select
-                id="pertenece_grupo_investigacion_centro"
-                items={[
-                    { value: 1, label: 'Si' },
-                    { value: 2, label: 'No' },
-                ]}
-                bind:selectedValue={$form.pertenece_grupo_investigacion_centro}
-                error={errors.pertenece_grupo_investigacion_centro}
-                autocomplete="off"
-                placeholder="Seleccione una opción"
-                required
-            />
-        </div>
+const Form = ({ method = '', setDialogStatus, user_id, participacion_grupo_investigacion_sena, grupos_investigacion, semilleros_investigacion }) => {
+    const form = useForm({
+        user_id: user_id,
+        pertenece_grupo_investigacion_centro: participacion_grupo_investigacion_sena?.pertenece_grupo_investigacion_centro == false ? '2' : '1',
+        pertenece_semillero_investigacion_centro: participacion_grupo_investigacion_sena?.pertenece_semillero_investigacion_centro == false ? '2' : '1',
+        grupo_investigacion_id: participacion_grupo_investigacion_sena?.grupo_investigacion_id,
+        semillero_investigacion_id: participacion_grupo_investigacion_sena?.semillero_investigacion_id,
+    })
 
-        {#if $form.pertenece_grupo_investigacion_centro?.value == 1}
-            <div className="mt-8">
-                <Label required className="mb-4" labelFor="grupo_investigacion_id" value="Grupo de investigación al que pertenece actualmente" />
-                <Select id="grupo_investigacion_id" items={gruposInvestigacion} bind:selectedValue={$form.grupo_investigacion_id} error={errors.grupo_investigacion_id} autocomplete="off" placeholder="Seleccione una opción" required />
-            </div>
-        {/if}
+    const submit = (e) => {
+        e.preventDefault()
 
-        <div className="mt-8">
-            <Label required className="mb-4" labelFor="pertenece_semillero_investigacion_centro" value="¿Actualmente pertenece al semillero de investigación de su centro?" />
-            <Select
-                id="pertenece_semillero_investigacion_centro"
-                items={[
-                    { value: 1, label: 'Si' },
-                    { value: 2, label: 'No' },
-                ]}
-                bind:selectedValue={$form.pertenece_semillero_investigacion_centro}
-                error={errors.pertenece_semillero_investigacion_centro}
-                autocomplete="off"
-                placeholder="Seleccione una opción"
-                required
-            />
-        </div>
+        method == 'crear'
+            ? form.post(route('participaciones-grupos-investigacion-sena.store'), {
+                  onSuccess: () => setDialogStatus(false),
+                  preserveScroll: true,
+              })
+            : form.put(route('participaciones-grupos-investigacion-sena.update', participacion_grupo_investigacion_sena.id), {
+                  onSuccess: () => setDialogStatus(false),
 
-        {#if $form.pertenece_semillero_investigacion_centro?.value == 1}
-            <div className="mt-8">
-                <Label required className="mb-4" labelFor="semillero_investigacion_id" value="Semillero de investigación al que pertenece actualmente" />
-                <Select id="semillero_investigacion_id" items={semillerosInvestigacion} bind:selectedValue={$form.semillero_investigacion_id} error={errors.semillero_investigacion_id} autocomplete="off" placeholder="Seleccione una opción" required />
-            </div>
-        {/if}
-    </fieldset>
-    <div className="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
-        {#if participacionGrupoInvestigacionSena}
-            <small className="flex items-center text-app-700">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                {participacionGrupoInvestigacionSena?.updated_at}
-            </small>
-        {/if}
-        <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
-    </div>
-</form>
+                  preserveScroll: true,
+              })
+    }
+
+    console.log(form.errors)
+
+    return (
+        <Grid container spacing={2}>
+            <Grid item md={4}>
+                <h1 className="font-black text-right text-2xl mr-10">{method == 'crear' ? 'Añadir' : 'Modificar'} participación</h1>
+            </Grid>
+
+            <Grid item md={8}>
+                <Paper className="p-8">
+                    <form onSubmit={submit}>
+                        <fieldset className="p-8 space-y-10">
+                            <Autocomplete
+                                id="pertenece_grupo_investigacion_centro"
+                                options={[
+                                    { value: 1, label: 'Si' },
+                                    { value: 2, label: 'No' },
+                                ]}
+                                selectedValue={form.data.pertenece_grupo_investigacion_centro}
+                                error={form.errors.pertenece_grupo_investigacion_centro}
+                                label="¿Actualmente pertenece al grupo de investigación de su centro?"
+                                onChange={(event, newValue) => form.setData('pertenece_grupo_investigacion_centro', newValue.value)}
+                                required
+                            />
+
+                            {form.data.pertenece_grupo_investigacion_centro == 1 && (
+                                <Autocomplete
+                                    id="grupo_investigacion_id"
+                                    options={grupos_investigacion}
+                                    selectedValue={form.data.grupo_investigacion_id}
+                                    error={form.errors.grupo_investigacion_id}
+                                    label="Grupo de investigación al que pertenece actualmente"
+                                    onChange={(event, newValue) => form.setData('grupo_investigacion_id', newValue.value)}
+                                    required
+                                />
+                            )}
+
+                            <Autocomplete
+                                id="pertenece_semillero_investigacion_centro"
+                                options={[
+                                    { value: 1, label: 'Si' },
+                                    { value: 2, label: 'No' },
+                                ]}
+                                selectedValue={form.data.pertenece_semillero_investigacion_centro}
+                                error={form.errors.pertenece_semillero_investigacion_centro}
+                                label="¿Actualmente pertenece al semillero de investigación de su centro?"
+                                onChange={(event, newValue) => form.setData('pertenece_semillero_investigacion_centro', newValue.value)}
+                                required
+                            />
+
+                            {form.data.pertenece_semillero_investigacion_centro == 1 && (
+                                <Autocomplete
+                                    id="semillero_investigacion_id"
+                                    options={semilleros_investigacion}
+                                    selectedValue={form.data.semillero_investigacion_id}
+                                    error={form.errors.semillero_investigacion_id}
+                                    label="Semillero de investigación al que pertenece actualmente"
+                                    onChange={(event, newValue) => form.setData('semillero_investigacion_id', newValue.value)}
+                                    required
+                                />
+                            )}
+                        </fieldset>
+
+                        <div className="flex items-center justify-between mt-14 px-8 py-4">
+                            {participacion_grupo_investigacion_sena && <small className="flex items-center text-app-700">{participacion_grupo_investigacion_sena?.updated_at}</small>}
+                            <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
+                                Guardar
+                            </PrimaryButton>
+                            <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)} className="!ml-2">
+                                Cancelar
+                            </ButtonMui>
+                        </div>
+                    </form>
+                </Paper>
+            </Grid>
+        </Grid>
+    )
+}
+
+export default Form

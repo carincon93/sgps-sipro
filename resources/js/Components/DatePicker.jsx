@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const DatePicker = ({ id, name, size = 'small', label = '', value = null, onChange, error = '', inputBackground, required, disabled, ...props }) => {
+const DatePicker = ({ id, name, size = 'medium', label = '', value = null, onChange, error = '', inputBackground, required, disabled, ...props }) => {
     const classes = useStyles({ background: inputBackground })
 
     const inputRef = useRef(null)

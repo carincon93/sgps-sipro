@@ -32,7 +32,7 @@ class FormacionAcademicaSenaRequest extends FormRequest
             'fecha_finalizacion_formacion'  => ['required', 'after:fecha_inicio_formacion'],
         ];
     }
-    
+
     /**
      * Prepare the data for validation.
      *
@@ -40,22 +40,8 @@ class FormacionAcademicaSenaRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->egresado_sena)) {
-            $this->merge([
-                'egresado_sena' => $this->egresado_sena['value'] == '1' ? 1 : 0,
-            ]);
-        }
-
-        if (is_array($this->modalidad_sena)) {
-            $this->merge([
-                'modalidad_sena' => $this->modalidad_sena['value'],
-            ]);
-        }
-
-        if (is_array($this->nivel_sena)) {
-            $this->merge([
-                'nivel_sena' => $this->nivel_sena['value'],
-            ]);
-        }
+        $this->merge([
+            'egresado_sena' => $this->egresado_sena == '1' ? 1 : 0,
+        ]);
     }
 }

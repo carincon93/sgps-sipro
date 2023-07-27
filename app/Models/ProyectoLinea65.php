@@ -249,6 +249,7 @@ class ProyectoLinea65 extends Model
 
 
         $proyectos_linea_65->load('proyecto');
+        $proyectos_linea_65->load('proyecto.evaluaciones');
 
         return $proyectos_linea_65;
     }

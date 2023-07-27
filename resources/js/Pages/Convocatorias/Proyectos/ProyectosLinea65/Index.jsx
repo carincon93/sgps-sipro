@@ -16,7 +16,7 @@ const Index = ({ auth, convocatoria, proyectos_linea_65, allowed_to_create }) =>
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
-    const [proyecto_linea65_to_destroy, setProyectoLinea65ToDestroy] = useState(null)
+    const [proyecto_linea_65_to_destroy, setProyectoLinea65ToDestroy] = useState(null)
 
     return (
         <AuthenticatedLayout user={auth_user} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
@@ -98,7 +98,7 @@ const Index = ({ auth, convocatoria, proyectos_linea_65, allowed_to_create }) =>
 
                             <TableCell>
                                 <MenuMui text={<MoreVertIcon />} className="">
-                                    {proyecto.id !== proyecto_linea65_to_destroy ? (
+                                    {proyecto.id !== proyecto_linea_65_to_destroy ? (
                                         <div>
                                             <MenuItem
                                                 onClick={() => router.visit(route('convocatorias.proyectos-linea-65.edit', [convocatoria.id, id]))}
@@ -106,6 +106,13 @@ const Index = ({ auth, convocatoria, proyectos_linea_65, allowed_to_create }) =>
                                                 className={!proyecto?.allowed?.to_view ? 'hidden' : ''}>
                                                 Editar
                                             </MenuItem>
+                                            {proyecto.evaluaciones.map((evaluacion, i) => (
+                                                <MenuItem
+                                                    key={i}
+                                                    onClick={() => router.visit(route('convocatorias.proyectos-linea-65.edit', [convocatoria.id, id, { evaluacion_id: evaluacion?.id }]))}>
+                                                    Evaluacion #{evaluacion.id}
+                                                </MenuItem>
+                                            ))}
                                             <MenuItem
                                                 onClick={() => {
                                                     setProyectoLinea65ToDestroy(proyecto.id)

@@ -145,9 +145,9 @@ class ActividadController extends Controller
                                                     return $objetivo_especifico->id;
                                                 })
                                             )->where('fecha_inicio', '<>', null)->orderBy('fecha_inicio', 'ASC')->get(),
-            'programas_formacion'       => $programas_formacion ?? null,
-            'modalidades'               => $modalidades ?? null,
-            'niveles_formacion'         => $niveles_formacion ?? null,
+            'programas_formacion'       => $programas_formacion ?? [],
+            'modalidades'               => $modalidades ?? [],
+            'niveles_formacion'         => $niveles_formacion ?? [],
             'regionales'                => SelectHelper::regionales(),
             'municipios'                => SelectHelper::municipios(),
             'disenos_curriculares'      => SelectHelper::disenoCurriculares()->where('habilitado_convocatoria', true)->values()->all(),

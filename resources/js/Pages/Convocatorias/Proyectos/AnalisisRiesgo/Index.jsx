@@ -14,6 +14,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Grid, TableRow, TableCell, MenuItem } from '@mui/material'
 
 import Form from './Form'
+import Evaluacion from './Evaluacion'
 
 import { useState } from 'react'
 import { router } from '@inertiajs/react'
@@ -23,6 +24,7 @@ const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisis_riesgos, nivel
     const is_super_admin = checkRole(auth_user, [1])
 
     const [analisis_riesgo_to_destroy, setAnalisisRiesgoToDestroy] = useState(null)
+    const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
     const [dialog_status, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
     const [analisis_riesgo, setAnalisisRiesgo] = useState(null)
@@ -31,6 +33,34 @@ const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisis_riesgos, nivel
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
+            </Grid>
+
+            <Grid item md={4}>
+                Evaluación
+            </Grid>
+            <Grid item md={8}>
+                {evaluacion && (
+                    <>
+                        <ButtonMui onClick={() => setEvaluacionDialogStatus(true)} primary={true}>
+                            Evaluar
+                        </ButtonMui>
+                        <DialogMui
+                            fullWidth={true}
+                            maxWidth="lg"
+                            open={evaluacion_dialog_status}
+                            dialogContent={
+                                <>
+                                    <Evaluacion auth_user={auth.user} proyecto={proyecto} evaluacion={evaluacion} />
+                                </>
+                            }
+                            dialogActions={
+                                <ButtonMui onClick={() => setEvaluacionDialogStatus(false)} primary={true} className="!mr-6">
+                                    Cerrar
+                                </ButtonMui>
+                            }
+                        />
+                    </>
+                )}
             </Grid>
 
             <Grid item md={12}>

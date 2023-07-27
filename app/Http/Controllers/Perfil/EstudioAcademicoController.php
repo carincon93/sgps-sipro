@@ -32,9 +32,7 @@ class EstudioAcademicoController extends Controller
     {
         $this->authorize('create', [EstudioAcademico::class]);
 
-        return Inertia::render('Users/Perfil/EstudiosAcademicos/Create', [
-            'nivelesAcademicos' => json_decode(Storage::get('json/niveles-academicos.json'), true),
-        ]);
+        //
     }
 
     /**
@@ -47,8 +45,6 @@ class EstudioAcademicoController extends Controller
     {
         $this->authorize('create', [EstudioAcademico::class]);
 
-        $request->merge(['user_id' => Auth::user()->id]);
-
         $estudioAcademico = EstudioAcademico::create($request->all());
 
         if ($request->hasFile('soporte_titulo_obtenido')) {
@@ -56,7 +52,7 @@ class EstudioAcademicoController extends Controller
             $this->saveFilesSharepoint($request->soporte_titulo_obtenido, 'CENSO2023', $estudioAcademico, 'soporte_titulo_obtenido');
         }
 
-        return redirect()->route('users.change-user-profile')->with('success', 'El recurso se ha creado correctamente.');
+        return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
     /**
@@ -80,10 +76,7 @@ class EstudioAcademicoController extends Controller
     {
         $this->authorize('update', [EstudioAcademico::class, $estudioAcademico]);
 
-        return Inertia::render('Users/Perfil/EstudiosAcademicos/Edit', [
-            'estudioAcademico'  => $estudioAcademico,
-            'nivelesAcademicos' => json_decode(Storage::get('json/niveles-academicos.json'), true),
-        ]);
+        //
     }
 
     /**
@@ -97,7 +90,7 @@ class EstudioAcademicoController extends Controller
     {
         $this->authorize('update', [EstudioAcademico::class, $estudioAcademico]);
 
-        $estudioAcademico->update($request->validated());
+        $estudioAcademico->update($request->all());
 
         if ($request->hasFile('soporte_titulo_obtenido')) {
             // CENSO2023 Quemado
@@ -119,7 +112,7 @@ class EstudioAcademicoController extends Controller
 
         $estudioAcademico->delete();
 
-        return redirect()->route('users.change-user-profile')->with('success', 'El recurso se ha eliminado correctamente.');
+        return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
     public function saveFilesSharepoint($tmp_file, $modulo, $modelo, $campo_bd)

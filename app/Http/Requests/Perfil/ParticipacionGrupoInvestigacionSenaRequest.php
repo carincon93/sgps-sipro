@@ -38,28 +38,12 @@ class ParticipacionGrupoInvestigacionSenaRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->pertenece_grupo_investigacion_centro)) {
-            $this->merge([
-                'pertenece_grupo_investigacion_centro' => $this->pertenece_grupo_investigacion_centro['value'] == '1' ? 1 : 0,
-            ]);
-        }
+        $this->merge([
+            'pertenece_grupo_investigacion_centro' => $this->pertenece_grupo_investigacion_centro == '1' ? 1 : 0,
+        ]);
 
-        if (is_array($this->pertenece_semillero_investigacion_centro)) {
-            $this->merge([
-                'pertenece_semillero_investigacion_centro' => $this->pertenece_semillero_investigacion_centro['value'] == '1' ? 1 : 0,
-            ]);
-        }
-
-        if (is_array($this->grupo_investigacion_id)) {
-            $this->merge([
-                'grupo_investigacion_id' => $this->grupo_investigacion_id['value'],
-            ]);
-        }
-
-        if (is_array($this->semillero_investigacion_id)) {
-            $this->merge([
-                'semillero_investigacion_id' => $this->semillero_investigacion_id['value'],
-            ]);
-        }
+        $this->merge([
+            'pertenece_semillero_investigacion_centro' => $this->pertenece_semillero_investigacion_centro == '1' ? 1 : 0,
+        ]);
     }
 }

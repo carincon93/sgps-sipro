@@ -1,15 +1,18 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import AlertMui from '@/Components/Alert'
+import ButtonMui from '@/Components/Button'
+import DialogMui from '@/Components/Dialog'
 import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
+import StepperMui from '@/Components/Stepper'
 import SwitchMui from '@/Components/Switch'
 import TableMui from '@/Components/Table'
 import Textarea from '@/Components/Textarea'
 import TextInput from '@/Components/TextInput'
 import ToolTipMui from '@/Components/Tooltip'
-import StepperMui from '@/Components/Stepper'
 
+import Evaluacion from './Evaluacion'
 import Form from './Form'
 
 import { checkRole } from '@/Utils'
@@ -19,9 +22,12 @@ import { Grid, TableCell, TableRow } from '@mui/material'
 
 import { useForm } from '@inertiajs/react'
 
+import { useState } from 'react'
+
 const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, anexos, ...props }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
+    const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
 
     const form = useForm({
         video: proyecto.video,
@@ -42,6 +48,34 @@ const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, anex
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
+            </Grid>
+
+            <Grid item md={4}>
+                Evaluación
+            </Grid>
+            <Grid item md={8}>
+                {evaluacion && (
+                    <>
+                        <ButtonMui onClick={() => setEvaluacionDialogStatus(true)} primary={true}>
+                            Evaluar
+                        </ButtonMui>
+                        <DialogMui
+                            fullWidth={true}
+                            maxWidth="lg"
+                            open={evaluacion_dialog_status}
+                            dialogContent={
+                                <>
+                                    <Evaluacion auth_user={auth.user} proyecto={proyecto} evaluacion={evaluacion} />
+                                </>
+                            }
+                            dialogActions={
+                                <ButtonMui onClick={() => setEvaluacionDialogStatus(false)} primary={true} className="!mr-6">
+                                    Cerrar
+                                </ButtonMui>
+                            }
+                        />
+                    </>
+                )}
             </Grid>
 
             {proyecto.codigo_linea_programatica == 68 && (

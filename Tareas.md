@@ -9,3 +9,5 @@ Tareas
 7. Si se selecciona varias veces Rubro concepto ministerio de hacienda se duplican los arrays y arroja un warn
 8. Cómo ahora la evaluación es por url ?evaluacion_id=4296 se debe validar que esa evaluación sea del evaluador correspondiente
 9. roles_sennova quitar el sumar_al_presupuesto
+10. Los autocomplete no muestran el error
+11. Cambiar los Si no por formacion_academica_sena?.egresado_sena == false ? '2' : '1',

@@ -40,16 +40,9 @@ class ParticipacionProyectoSennovaRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->ha_formulado_proyectos_sennova)) {
-            $this->merge([
-                'ha_formulado_proyectos_sennova' => $this->ha_formulado_proyectos_sennova['value'] == '1' ? 1 : 0,
-            ]);
-        }
+        $this->merge([
+            'ha_formulado_proyectos_sennova' => $this->ha_formulado_proyectos_sennova == '1' ? 1 : 0,
+        ]);
 
-        if (is_array($this->tipo_proyecto)) {
-            $this->merge([
-                'tipo_proyecto' => $this->tipo_proyecto['value'],
-            ]);
-        }
     }
 }

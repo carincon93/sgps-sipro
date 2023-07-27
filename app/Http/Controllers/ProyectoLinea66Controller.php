@@ -29,8 +29,7 @@ class ProyectoLinea66Controller extends Controller
     {
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea66/Index', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'tipo_convocatoria'),
-            'filters'               => request()->all('search', 'estructuracion_proyectos'),
-            'proyectos_linea_66'    => ProyectoLinea66::getProyectosPorRol($convocatoria)->appends(['search' => request()->search, 'estructuracion_proyectos' => request()->estructuracion_proyectos]),
+            'proyectos_linea_66'    => ProyectoLinea66::getProyectosPorRol($convocatoria)->appends(['search' => request()->search]),
             'allowed_to_create'     => Gate::inspect('formular-proyecto', [3, $convocatoria])->allowed()
         ]);
     }
@@ -374,7 +373,8 @@ class ProyectoLinea66Controller extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/Indicadores/Index', [
             'convocatoria'      => $convocatoria,
-            'proyecto_linea_66' => $proyecto_linea_66
+            'proyecto_linea_66' => $proyecto_linea_66,
+            'evaluacion'        => EvaluacionProyectoLinea66::find(request()->evaluacion_id),
         ]);
     }
 

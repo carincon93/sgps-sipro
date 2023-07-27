@@ -1,66 +1,97 @@
-<script>
-    import { Inertia } from '@inertiajs/inertia'
-    import { route } from '@/Utils'
+import ButtonMui from '@/Components/Button'
+import DialogMui from '@/Components/Dialog'
+import MenuMui from '@/Components/Menu'
+import TableMui from '@/Components/Table'
 
-    import Button from '@/Components/Button'
-    import DataTableMenu from '@/Components/DataTableMenu'
-    import { Item, Text, Separator } from '@smui/list'
+import { router } from '@inertiajs/react'
+import { useState } from 'react'
 
-    export let formacionesAcademicasSena
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { MenuItem, TableCell, TableRow } from '@mui/material'
 
-    function destroy(formacionAcademicaSenaId) {
-        Inertia.delete(route('formaciones-academicas-sena.destroy', formacionAcademicaSenaId), {
-            preserveScroll: true,
-        })
-    }
-</script>
+import Form from './Form'
 
-<div className="bg-white rounded shadow">
-    <Button on:click={() => Inertia.visit(route('formaciones-academicas-sena.create'))} className="m-2" variant="raised">Agregar formación académica SENA</Button>
+const FormacionesAcademicasSena = ({ usuario, formaciones_academicas_sena, modalidades_estudio, niveles_formacion }) => {
+    const [formacion_academica_sena_to_destroy, setFormacionAcademicaSenaToDestroy] = useState(null)
+    const [formacion_academica_sena, setFormacionAcademicaSena] = useState(null)
+    const [dialog_status, setDialogStatus] = useState(false)
+    const [method, setMethod] = useState('')
 
-    <table className="w-full whitespace-no-wrap table-fixed data-table">
-        <thead>
-            <tr className="text-left font-bold">
-                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Modalidad </th>
-                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Nivel académico </th>
-                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full th-actions"> Título obtenido </th>
-                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl text-center th-actions"> Acciones </th>
-            </tr>
-        </thead>
-        <tbody>
-            {#each formacionesAcademicasSena as formacionAcademicaSena}
-                <tr className="hover:bg-gray-100 focus-within:bg-gray-100">
-                    <td className="border-t">
-                        <p className="px-6 py-4 focus:text-app-500">{formacionAcademicaSena.modalidad_sena_text}</p>
-                    </td>
+    return (
+        <>
+            <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setFormacionAcademicaSena(null))} variant="raised">
+                Agregar formacion académica SENA
+            </ButtonMui>
 
-                    <td className="border-t">
-                        <p className="px-6 py-4">{formacionAcademicaSena.nivel_sena_text}</p>
-                    </td>
+            <TableMui className="mt-20" rows={['Modalidad', 'Nivel académico', 'Título obtenido', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                {formaciones_academicas_sena.map((formacion_academica_sena, i) => (
+                    <TableRow key={i}>
+                        <TableCell>
+                            <p className="first-letter:uppercase">{modalidades_estudio.find((item) => item.value == formacion_academica_sena.modalidad_sena).label}</p>
+                        </TableCell>
+                        <TableCell>
+                            <p className="first-letter:uppercase">{niveles_formacion.find((item) => item.value == formacion_academica_sena.modalidad_sena).label}</p>
+                        </TableCell>
+                        <TableCell>
+                            <p className="first-letter:uppercase">{formacion_academica_sena.titulo_obtenido}</p>
+                        </TableCell>
+                        <TableCell>
+                            <MenuMui text={<MoreVertIcon />}>
+                                {formacion_academica_sena.id !== formacion_academica_sena_to_destroy ? (
+                                    <div>
+                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('editar'), setFormacionAcademicaSena(formacion_academica_sena))}>Editar</MenuItem>
 
-                    <td className="border-t">
-                        <p className="px-6 py-4">{formacionAcademicaSena.titulo_obtenido}</p>
-                    </td>
-                    <td className="border-t td-actions">
-                        <DataTableMenu className="{formacionesAcademicasSena.length < 3 ? 'z-50' : ''} flex items-center justify-center">
-                            <Item on:SMUI:action={() => Inertia.visit(route('formaciones-academicas-sena.edit', formacionAcademicaSena.id))}>
-                                <Text>Editar</Text>
-                            </Item>
+                                        <MenuItem
+                                            onClick={() => {
+                                                setFormacionAcademicaSenaToDestroy(formacion_academica_sena.id)
+                                            }}>
+                                            Eliminar
+                                        </MenuItem>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <MenuItem
+                                            onClick={(e) => {
+                                                setFormacionAcademicaSenaToDestroy(null)
+                                            }}>
+                                            Cancelar
+                                        </MenuItem>
+                                        <MenuItem
+                                            sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                router.delete(route('formaciones-academicas-sena.destroy', [formacion_academica_sena.id]), {
+                                                    preserveScroll: true,
+                                                })
+                                            }}>
+                                            Confirmar
+                                        </MenuItem>
+                                    </div>
+                                )}
+                            </MenuMui>
+                        </TableCell>
+                    </TableRow>
+                ))}
+            </TableMui>
 
-                            <Separator />
-                            <Item on:SMUI:action={() => destroy(formacionAcademicaSena.id)}>
-                                <Text>Eliminar</Text>
-                            </Item>
-                        </DataTableMenu>
-                    </td>
-                </tr>
-            {/each}
+            <DialogMui
+                open={dialog_status}
+                fullWidth={true}
+                maxWidth="lg"
+                blurEnabled={true}
+                dialogContent={
+                    <Form
+                        method={method}
+                        setDialogStatus={setDialogStatus}
+                        user_id={usuario.id}
+                        formacion_academica_sena={formacion_academica_sena}
+                        modalidades_estudio={modalidades_estudio}
+                        niveles_formacion={niveles_formacion}
+                    />
+                }
+            />
+        </>
+    )
+}
 
-            {#if formacionesAcademicasSena.length === 0}
-                <tr>
-                    <td className="border-t px-6 py-4" colspan="4">Sin información registrada</td>
-                </tr>
-            {/if}
-        </tbody>
-    </table>
-</div>
+export default FormacionesAcademicasSena

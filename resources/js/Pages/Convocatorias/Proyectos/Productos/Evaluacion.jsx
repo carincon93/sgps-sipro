@@ -136,7 +136,7 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
                                     }}
                                     value={form_evaluacion_estrategia_regional.data.productos_puntaje}
                                     placeholder="Puntaje"
-                                    error={errors.productos_puntaje}
+                                    error={form_evaluacion_estrategia_regional.errors.productos_puntaje}
                                 />
 
                                 <div className="mt-4">
@@ -152,7 +152,7 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
                                             className="mt-4"
                                             id="productos_comentario"
                                             value={form_evaluacion_estrategia_regional.data.productos_comentario}
-                                            error={errors.productos_comentario}
+                                            error={form_evaluacion_estrategia_regional.errors.productos_comentario}
                                             required
                                         />
                                     )}

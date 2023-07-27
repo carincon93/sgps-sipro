@@ -36,7 +36,7 @@ class AnalisisRiesgoController extends Controller
             'proyecto'               => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
             'evaluacion'             => Evaluacion::find(request()->evaluacion_id),
             'analisis_riesgos'       => AnalisisRiesgo::where('proyecto_id', $proyecto->id)->orderBy('descripcion', 'ASC')
-                                         ->filterAnalisisRiesgo(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+                                            ->filterAnalisisRiesgo(request()->only('search'))->paginate()->appends(['search' => request()->search]),
             'niveles_riesgo'         => json_decode(Storage::get('json/niveles-riesgo.json'), true),
             'tipos_riesgo'           => json_decode(Storage::get('json/tipos-riesgo.json'), true),
             'probabilidades_riesgo'  => json_decode(Storage::get('json/probabilidades-riesgo.json'), true),

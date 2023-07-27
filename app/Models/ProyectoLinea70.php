@@ -276,6 +276,7 @@ class ProyectoLinea70 extends Model
 
 
         $proyectos_linea_70->load('proyecto.tecnoacademiaLineasTecnoacademia.tecnoacademia');
+        $proyectos_linea_70->load('proyecto.evaluaciones');
 
         return $proyectos_linea_70;
     }

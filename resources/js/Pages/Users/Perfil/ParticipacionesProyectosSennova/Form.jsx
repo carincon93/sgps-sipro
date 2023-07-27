@@ -1,68 +1,132 @@
-<script>
-    import Input from '@/Components/Input'
-    import Label from '@/Components/Label'
-    import Select from '@/Components/Select'
-    import PrimaryButton from '@/Components/PrimaryButton'
+import Autocomplete from '@/Components/Autocomplete'
+import ButtonMui from '@/Components/Button'
+import DatePicker from '@/Components/DatePicker'
+import PrimaryButton from '@/Components/PrimaryButton'
+import TextInput from '@/Components/TextInput'
 
-    export let errors
-    export let participacionProyectoSennova
-    export let tiposProyectos
-    export let form
-    export let submit
-</script>
+import { useForm } from '@inertiajs/react'
+import { Grid, Paper } from '@mui/material'
 
-<form on:submit|preventDefault={submit}>
-    <fieldset className="p-8">
-        <div className="mt-8">
-            <Label required className="mb-4" labelFor="ha_formulado_proyectos_sennova" value="¿Ha formulado proyectos SENNOVA?" />
-            <Select
-                id="ha_formulado_proyectos_sennova"
-                items={[
-                    { value: 1, label: 'Si' },
-                    { value: 2, label: 'No' },
-                ]}
-                bind:selectedValue={$form.ha_formulado_proyectos_sennova}
-                error={errors.ha_formulado_proyectos_sennova}
-                autocomplete="off"
-                placeholder="Seleccione una opción"
-                required
-            />
-        </div>
+const Form = ({ method = '', setDialogStatus, user_id, participacion_proyecto_sennova, tipos_proyectos }) => {
+    const form = useForm({
+        user_id: user_id,
+        ha_formulado_proyectos_sennova: participacion_proyecto_sennova?.ha_formulado_proyectos_sennova == false ? '2' : '1',
+        tipo_proyecto: participacion_proyecto_sennova?.tipo_proyecto,
+        codigo_proyecto: participacion_proyecto_sennova?.codigo_proyecto,
+        titulo: participacion_proyecto_sennova?.titulo,
+        fecha_inicio_proyecto: participacion_proyecto_sennova?.fecha_inicio_proyecto,
+        fecha_finalizacion_proyecto: participacion_proyecto_sennova?.fecha_finalizacion_proyecto,
+    })
 
-        {#if $form.ha_formulado_proyectos_sennova?.value == 1}
-            <div className="mt-8">
-                <Label required className="mb-4" labelFor="tipo_proyecto" value="Tipo de proyecto" />
-                <Select id="tipo_proyecto" items={tiposProyectos} bind:selectedValue={$form.tipo_proyecto} error={errors.tipo_proyecto} autocomplete="off" placeholder="Seleccione una opción" required />
-            </div>
+    const submit = (e) => {
+        e.preventDefault()
 
-            <div className="mt-8">
-                <Input label="Código del proyecto" id="codigo_proyecto" type="text" className="mt-1" bind:value={$form.codigo_proyecto} error={errors.codigo_proyecto} required />
-            </div>
+        method == 'crear'
+            ? form.post(route('participaciones-proyectos-sennova.store'), {
+                  onSuccess: () => setDialogStatus(false),
+                  preserveScroll: true,
+              })
+            : form.put(route('participaciones-proyectos-sennova.update', [participacion_proyecto_sennova.id]), {
+                  onSuccess: () => setDialogStatus(false),
+                  preserveScroll: true,
+              })
+    }
 
-            <div className="mt-8">
-                <Input label="Título" id="titulo" type="text" className="mt-1" bind:value={$form.titulo} error={errors.titulo} required />
-            </div>
+    return (
+        <Grid container spacing={2}>
+            <Grid item md={4}>
+                <h1 className="font-black text-right text-2xl mr-10">{method == 'crear' ? 'Añadir' : 'Modificar'} participación en proyectos SENNOVA</h1>
+            </Grid>
 
-            <div className="mt-8">
-                <Label labelFor="fecha_inicio_proyecto" value="Fecha de inicio del proyecto" />
-                <input id="fecha_inicio_proyecto" type="date" className="mt-1 block w-full p-4" error={errors.fecha_inicio_proyecto} bind:value={$form.fecha_inicio_proyecto} required />
-            </div>
+            <Grid item md={8}>
+                <Paper className="p-8">
+                    <form onSubmit={submit}>
+                        <fieldset className="p-8 space-y-10">
+                            <Autocomplete
+                                id="ha_formulado_proyectos_sennova"
+                                options={[
+                                    { value: 1, label: 'Si' },
+                                    { value: 2, label: 'No' },
+                                ]}
+                                selectedValue={form.data.ha_formulado_proyectos_sennova}
+                                error={form.errors.ha_formulado_proyectos_sennova}
+                                label="¿Ha formulado proyectos SENNOVA?"
+                                onChange={(event, newValue) => form.setData('ha_formulado_proyectos_sennova', newValue.value)}
+                                required
+                            />
 
-            <div className="mt-8">
-                <Label labelFor="fecha_finalizacion_proyecto" value="Fecha de finalización del proyecto" />
-                <input id="fecha_finalizacion_proyecto" type="date" className="mt-1 block w-full p-4" error={errors.fecha_finalizacion_proyecto} bind:value={$form.fecha_finalizacion_proyecto} required />
-            </div>
-        {/if}
-    </fieldset>
-    <div className="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
-        {#if participacionProyectoSennova}
-            <small className="flex items-center text-app-700">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                {participacionProyectoSennova?.updated_at}
-            </small>
-        {/if}
-        <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
-    </div>
-</form>
+                            {form.data.ha_formulado_proyectos_sennova == 1 && (
+                                <>
+                                    <Autocomplete
+                                        id="tipo_proyecto"
+                                        options={tipos_proyectos}
+                                        selectedValue={form.data.tipo_proyecto}
+                                        error={form.errors.tipo_proyecto}
+                                        label="Tipo de proyecto"
+                                        onChange={(event, newValue) => form.setData('tipo_proyecto', newValue.value)}
+                                        required
+                                    />
+
+                                    <TextInput
+                                        label="Código del proyecto"
+                                        id="codigo_proyecto"
+                                        type="text"
+                                        value={form.data.codigo_proyecto}
+                                        onChange={(e) => form.setData('codigo_proyecto', e.target.value)}
+                                        error={form.errors.codigo_proyecto}
+                                        required
+                                    />
+
+                                    <TextInput
+                                        label="Título"
+                                        id="titulo"
+                                        type="text"
+                                        value={form.data.titulo}
+                                        onChange={(e) => form.setData('titulo', e.target.value)}
+                                        error={form.errors.titulo}
+                                        required
+                                    />
+
+                                    <DatePicker
+                                        variant="outlined"
+                                        id="fecha_inicio_proyecto"
+                                        name="fecha_inicio_proyecto"
+                                        value={form.data.fecha_inicio_proyecto}
+                                        className="p-4 w-full"
+                                        onChange={(e) => form.setData('fecha_inicio_proyecto', e.target.value)}
+                                        error={form.errors.fecha_inicio_proyecto}
+                                        label="Fecha de inicio del proyecto"
+                                        required
+                                    />
+
+                                    <DatePicker
+                                        variant="outlined"
+                                        id="fecha_finalizacion_proyecto"
+                                        name="fecha_finalizacion_proyecto"
+                                        value={form.data.fecha_finalizacion_proyecto}
+                                        className="p-4 w-full"
+                                        onChange={(e) => form.setData('fecha_finalizacion_proyecto', e.target.value)}
+                                        error={form.errors.fecha_finalizacion_proyecto}
+                                        label="Fecha de finalización del proyecto"
+                                        required
+                                    />
+                                </>
+                            )}
+                        </fieldset>
+                        <div className="flex items-center justify-between mt-14 px-8 py-4">
+                            {participacion_proyecto_sennova && <small className="flex items-center text-app-700">{participacion_proyecto_sennova?.updated_at}</small>}
+                            <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
+                                Guardar
+                            </PrimaryButton>
+                            <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)} className="!ml-2">
+                                Cancelar
+                            </ButtonMui>
+                        </div>
+                    </form>
+                </Paper>
+            </Grid>
+        </Grid>
+    )
+}
+
+export default Form

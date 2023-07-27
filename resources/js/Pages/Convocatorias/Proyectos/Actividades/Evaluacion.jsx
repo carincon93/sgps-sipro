@@ -1,12 +1,14 @@
+import AlertMui from '@/Components/Alert'
 import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
 import SwitchMui from '@/Components/Switch'
 import TextInput from '@/Components/TextInput'
 import Textarea from '@/Components/Textarea'
+
 import { checkRole } from '@/Utils'
 import { useForm } from '@inertiajs/react'
 
-const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
+const Evaluacion = ({ auth_user, convocatoria, proyecto, evaluacion }) => {
     const is_super_admin = checkRole(auth_user, [1])
 
     const form_evaluacion_estrategia_regional = useForm({
@@ -131,19 +133,19 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
                                     <li>
                                         <strong>Puntaje: 0 a 7</strong> La selección y descripción de la metodología o metodologías no son claras para el contexto y desarrollo del proyecto. Las
                                         actividades no estan descritas de forma secuencial, tampoco muestran como se lograrán los objetivos específicos, generarán los resultados y/o productos y no
-                                        estan formuladas en el marco de la vigencia del proyecto. Algunas de las actividades no se desarrollarán durante la vigencia {year}.
+                                        estan formuladas en el marco de la vigencia del proyecto. Algunas de las actividades no se desarrollarán durante la vigencia {convocatoria.year}.
                                     </li>
                                     <li>
                                         <strong>Puntaje: 8 a 13</strong> La selección y descripción de la metodología o metodologías son claras para el contexto y desarrollo del proyecto. Las
                                         actividades están descritas de forma secuencial; sin embargo, son susceptibles de mejora en cuanto a como se lograrán los objetivos específicos, generarán los
-                                        resultados y/o productos y estan formuladas en el marco de la vigencia del proyecto. Todas las actividades se desarrollarán durante la vigencia {year} y el
-                                        tiempo dispuesto para ello es suficiente para garantizar su ejecución.
+                                        resultados y/o productos y estan formuladas en el marco de la vigencia del proyecto. Todas las actividades se desarrollarán durante la vigencia{' '}
+                                        {convocatoria.year} y el tiempo dispuesto para ello es suficiente para garantizar su ejecución.
                                     </li>
                                     <li>
                                         <strong>Puntaje: 14 a 15</strong> La selección y descripción de la metodología o metodologías son precisas para el contexto y desarrollo del proyecto. Las
                                         actividades están descritas de forma secuencial, evidencian de forma clara como se lograrán los objetivos específicos, generarán los resultados, productos y
-                                        están formuladas en el marco de la vigencia del proyecto. Todas las actividades se desarrollarán durante la vigencia {year} y el tiempo dispuesto para ello es
-                                        suficiente para garantizar su ejecución.
+                                        están formuladas en el marco de la vigencia del proyecto. Todas las actividades se desarrollarán durante la vigencia {convocatoria.year} y el tiempo dispuesto
+                                        para ello es suficiente para garantizar su ejecución.
                                     </li>
                                 </ul>
 

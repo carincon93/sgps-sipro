@@ -167,7 +167,7 @@ class ProyectoLinea68 extends Model
         /** @var \App\Models\User */
         $authUser = Auth::user();
 
-        $proyectosLinea68 = ProyectoLinea68::select('servicios_tecnologicos.id', 'servicios_tecnologicos.titulo', 'servicios_tecnologicos.fecha_inicio', 'servicios_tecnologicos.fecha_finalizacion')
+        $proyectos_linea_68 = ProyectoLinea68::select('servicios_tecnologicos.id', 'servicios_tecnologicos.titulo', 'servicios_tecnologicos.fecha_inicio', 'servicios_tecnologicos.fecha_finalizacion')
             ->join('proyectos', 'servicios_tecnologicos.id', 'proyectos.id')
             ->where('proyectos.convocatoria_id', $convocatoria->id)
             ->whereHas(
@@ -194,8 +194,9 @@ class ProyectoLinea68 extends Model
             ->filterProyectoLinea68(request()->only('search'))->paginate();
 
 
-        $proyectosLinea68->load('proyecto');
+        $proyectos_linea_68->load('proyecto');
+        $proyectos_linea_68->load('proyecto.evaluaciones');
 
-        return $proyectosLinea68;
+        return $proyectos_linea_68;
     }
 }

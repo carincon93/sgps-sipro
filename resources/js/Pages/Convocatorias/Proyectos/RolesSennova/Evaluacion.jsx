@@ -5,13 +5,15 @@ import Textarea from '@/Components/Textarea'
 
 import { checkRole } from '@/Utils'
 import { useForm } from '@inertiajs/react'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
-const Evaluacion = ({ auth_user, proyecto, evaluacion, proyecto_rol_evaluacion }) => {
+const Evaluacion = ({ auth_user, proyecto, evaluacion, proyecto_rol_a_evaluar }) => {
     const is_super_admin = checkRole(auth_user, [1])
 
     const form = useForm({
-        comentario: proyecto_rol_evaluacion ? proyecto_rol_evaluacion.comentario : '',
-        correcto: proyecto_rol_evaluacion?.correcto == false || proyecto_rol_evaluacion?.correcto == true ? true : false,
+        comentario: '',
+        correcto: false,
     })
     const submit = (e) => {
         e.preventDefault()
@@ -22,16 +24,24 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion, proyecto_rol_evaluacion }
         }
     }
 
+    useEffect(() => {
+        const info_proyecto_rol_a_evaluar = proyecto_rol_a_evaluar.proyecto_roles_evaluaciones.find((item) => item.evaluacion_id == evaluacion.id)
+
+        form.setData({
+            comentario: info_proyecto_rol_a_evaluar.comentario,
+            correcto: info_proyecto_rol_a_evaluar.correcto,
+        })
+    }, [proyecto_rol_a_evaluar])
+
     return (
         <>
-            <form className="mt-10" on:Submit={submit}>
+            <form className="mt-10" onSubmit={submit}>
                 <AlertMui>
                     <div className="mt-4">
                         <p>¿El rol es correcto? Por favor seleccione si Cumple o No cumple.</p>
                         <SwitchMui
-                            onMessage="Cumple"
-                            offMessage="No cumple"
                             disabled={is_super_admin ? false : evaluacion.finalizado == true || evaluacion.habilitado == false || evaluacion.modificable == false ? true : false}
+                            onChange={(e) => form.setData('correcto', e.target.checked)}
                             checked={form.data.correcto}
                         />
                         {form.data.correcto == false && (
@@ -41,6 +51,7 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion, proyecto_rol_evaluacion }
                                 className="mt-4"
                                 id="comentario"
                                 value={form.data.comentario}
+                                onChange={(e) => form.setData('comentario', e.target.value)}
                                 error={form.errors.comentario}
                                 required
                             />

@@ -18,6 +18,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { MenuItem, Grid, TableRow, TableCell } from '@mui/material'
 
 import Form from './Form'
+import Evaluacion from './Evaluacion'
 
 const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, validacion_resultados, resultados, subtipologias_minciencias, tipos_producto }) => {
     const auth_user = auth.user
@@ -25,6 +26,7 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, valida
 
     const [producto_to_destroy, setProductoToDestroy] = useState(null)
     const [dialog_status, setDialogStatus] = useState(false)
+    const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
     const [producto, setProducto] = useState(null)
 
@@ -32,6 +34,34 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, valida
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
+            </Grid>
+
+            <Grid item md={4}>
+                Evaluación
+            </Grid>
+            <Grid item md={8}>
+                {evaluacion && (
+                    <>
+                        <ButtonMui onClick={() => setEvaluacionDialogStatus(true)} primary={true}>
+                            Evaluar
+                        </ButtonMui>
+                        <DialogMui
+                            fullWidth={true}
+                            maxWidth="lg"
+                            open={evaluacion_dialog_status}
+                            dialogContent={
+                                <>
+                                    <Evaluacion auth_user={auth.user} proyecto={proyecto} evaluacion={evaluacion} />
+                                </>
+                            }
+                            dialogActions={
+                                <ButtonMui onClick={() => setEvaluacionDialogStatus(false)} primary={true} className="!mr-6">
+                                    Cerrar
+                                </ButtonMui>
+                            }
+                        />
+                    </>
+                )}
             </Grid>
 
             <Grid item md={12}>

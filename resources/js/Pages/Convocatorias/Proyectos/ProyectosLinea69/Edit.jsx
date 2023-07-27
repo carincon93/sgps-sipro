@@ -8,7 +8,7 @@ import StepperMui from '@/Components/Stepper'
 import Form from './Form'
 
 import { checkRole } from '@/Utils'
-import { Grid, TableCell, TableRow } from '@mui/material'
+import { Chip, Grid, TableCell, TableRow } from '@mui/material'
 import { useState } from 'react'
 
 const Edit = ({ auth, convocatoria, proyecto_linea_69, evaluacion, nodos_tecnoparque, lineas_programaticas, lineas_tecnoacademia, roles_sennova }) => {
@@ -45,7 +45,7 @@ const Edit = ({ auth, convocatoria, proyecto_linea_69, evaluacion, nodos_tecnopa
                         <>
                             {proyecto_linea_69?.proyecto.evaluaciones.map((evaluacion, i) => (
                                 <ButtonMui onClick={() => setEvaluacionIndex(i)} primary={evaluacion_index == i} key={i} className="!ml-2">
-                                    Ver comentarios de la evaluación #{i + 1}
+                                    Comentarios de la evaluación #{i + 1} <Chip className="ml-2 !text-white" label={evaluacion.id} size="small" />
                                 </ButtonMui>
                             ))}
                             <TableMui className="mt-20" rows={['Ítem', 'Comentario']}>

@@ -21,12 +21,15 @@ import { useState } from 'react'
 import { checkRole } from '@/Utils'
 
 import Form from './Form'
+import Evaluacion from './Evaluacion'
 
-const RolesSennova = ({ auth, convocatoria, proyecto, proyecto_roles_sennova, convocatoria_roles_sennova, actividades, lineas_tecnologicas, niveles_academicos }) => {
+const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles_sennova, convocatoria_roles_sennova, actividades, lineas_tecnologicas, niveles_academicos }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
     const [dialog_status, setDialogStatus] = useState(false)
+    const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
+    const [proyecto_rol_a_evaluar, setRolAEvaluar] = useState(null)
     const [method, setMethod] = useState('')
     const [proyecto_rol_sennova, setProyectoRolSennova] = useState(null)
     const [proyecto_rol_sennova_id_to_destroy, setProyectoRolSennovaIdToDestroy] = useState(null)
@@ -49,7 +52,7 @@ const RolesSennova = ({ auth, convocatoria, proyecto, proyecto_roles_sennova, co
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
             <Grid item md={12}>
@@ -188,6 +191,8 @@ const RolesSennova = ({ auth, convocatoria, proyecto, proyecto_roles_sennova, co
                                                 className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                                 Editar
                                             </MenuItem>
+                                            {evaluacion && <MenuItem onClick={() => (setRolAEvaluar(proyecto_rol_sennova), setEvaluacionDialogStatus(true))}>Evaluar</MenuItem>}
+
                                             <MenuItem
                                                 onClick={() => {
                                                     setProyectoRolSennovaIdToDestroy(proyecto_rol_sennova.id)
@@ -224,6 +229,22 @@ const RolesSennova = ({ auth, convocatoria, proyecto, proyecto_roles_sennova, co
                 </TableMui>
 
                 <PaginationMui links={proyecto_roles_sennova.links} />
+
+                <DialogMui
+                    fullWidth={true}
+                    maxWidth="lg"
+                    open={evaluacion_dialog_status}
+                    dialogContent={
+                        <>
+                            <Evaluacion auth_user={auth_user} proyecto={proyecto} evaluacion={evaluacion} proyecto_rol_a_evaluar={proyecto_rol_a_evaluar} />
+                        </>
+                    }
+                    dialogActions={
+                        <ButtonMui onClick={() => setEvaluacionDialogStatus(false)} primary={true} className="!mr-6">
+                            Cerrar
+                        </ButtonMui>
+                    }
+                />
 
                 <DialogMui
                     open={dialog_status}

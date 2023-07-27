@@ -1,42 +1,96 @@
-<script>
-    import Input from '@/Components/Input'
-    import Label from '@/Components/Label'
-    import Select from '@/Components/Select'
-    import File from '@/Components/File'
-    import PrimaryButton from '@/Components/PrimaryButton'
+import Autocomplete from '@/Components/Autocomplete'
+import ButtonMui from '@/Components/Button'
+import FileInput from '@/Components/FileInput'
+import PrimaryButton from '@/Components/PrimaryButton'
+import TextInput from '@/Components/TextInput'
 
-    export let errors
-    export let estudioAcademico
-    export let nivelesAcademicos
-    export let form
-    export let submit
-</script>
+import { useForm } from '@inertiajs/react'
+import { Grid, Paper } from '@mui/material'
 
-<form on:submit|preventDefault={submit}>
-    <fieldset className="p-8">
-        <div className="mt-8">
-            <Label required className="mb-4" labelFor="grado_formacion" value="Nivel académico" />
-            <Select id="grado_formacion" items={nivelesAcademicos} bind:selectedValue={$form.grado_formacion} error={errors.grado_formacion} autocomplete="off" placeholder="Seleccione una opción" required />
-        </div>
+const Form = ({ method = '', setDialogStatus, user_id, estudio_academico, niveles_academicos }) => {
+    const form = useForm({
+        user_id: user_id,
+        grado_formacion: estudio_academico?.grado_formacion ?? null,
+        titulo_obtenido: estudio_academico?.titulo_obtenido ?? '',
+        soporte_titulo_obtenido: null,
+    })
 
-        <div className="mt-8">
-            <Input label="Título obtenido" id="titulo_obtenido" type="text" className="mt-1" bind:value={$form.titulo_obtenido} error={errors.titulo_obtenido} required />
-        </div>
+    const submit = (e) => {
+        e.preventDefault()
 
-        <div className="mt-8">
-            <Label className="mb-4" labelFor="soporte_titulo_obtenido" value="Seleccionar soporte" />
-            <File id="soporte_titulo_obtenido" maxSize="10000" bind:value={$form.soporte_titulo_obtenido} error={errors.soporte_titulo_obtenido} />
-        </div>
-    </fieldset>
-    <div className="shadow-inner bg-app-200 border-app-400 flex items-center justify-between mt-14 px-8 py-4">
-        {#if estudioAcademico}
-            <small className="flex items-center text-app-700">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                {estudioAcademico?.updated_at}
-            </small>
-        {/if}
-        <PrimaryButton loading={$form.processing} className="ml-auto" type="submit">Guardar</PrimaryButton>
-    </div>
-</form>
+        method == 'crear'
+            ? form.post(route('estudios-academicos.store'), {
+                  onSuccess: () => setDialogStatus(false),
+                  preserveScroll: true,
+              })
+            : form.put(route('estudios-academicos.update', [estudio_academico.id]), {
+                  onSuccess: () => setDialogStatus(false),
+                  preserveScroll: true,
+              })
+    }
+
+    return (
+        <Grid container spacing={2}>
+            <Grid item md={4}>
+                <h1 className="font-black text-right text-2xl mr-10">{method == 'crear' ? 'Añadir' : 'Modificar'} estudio académico</h1>
+            </Grid>
+
+            <Grid item md={8}>
+                <Paper className="p-8">
+                    <form onSubmit={submit}>
+                        <fieldset className="p-8 space-y-10">
+                            <Autocomplete
+                                id="grado_formacion"
+                                options={niveles_academicos}
+                                selectedValue={form.data.grado_formacion}
+                                error={form.errors.grado_formacion}
+                                label="Nivel académico"
+                                onChange={(event, newValue) => form.setData('grado_formacion', newValue.value)}
+                                required
+                            />
+
+                            <TextInput
+                                label="Título obtenido"
+                                id="titulo_obtenido"
+                                type="text"
+                                value={form.data.titulo_obtenido}
+                                onChange={(e) => form.setData('titulo_obtenido', e.target.value)}
+                                error={form.errors.titulo_obtenido}
+                                required
+                            />
+
+                            <FileInput
+                                id="soporte_titulo_obtenido"
+                                value={form.data.soporte_titulo_obtenido}
+                                filename={estudio_academico?.filename}
+                                extension={estudio_academico?.extension}
+                                label="Seleccione el soporte del título obtenido"
+                                accept="application/pdf"
+                                downloadRoute={
+                                    estudio_academico?.soporte_titulo_obtenido
+                                        ? estudio_academico?.soporte_titulo_obtenido?.includes('http')
+                                            ? null
+                                            : route('users.download-file-sharepoint', [user, estudio_academico.id, 'soporte_titulo_obtenido'])
+                                        : null
+                                }
+                                onChange={(e) => form.setData('soporte_titulo_obtenido', e.target.files[0])}
+                                error={form.errors.soporte_titulo_obtenido}
+                            />
+                        </fieldset>
+                        <div className="flex items-center justify-between mt-14 px-8 py-4">
+                            {estudio_academico && <small className="flex items-center text-app-700">{estudio_academico?.updated_at}</small>}
+                            <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
+                                Guardar
+                            </PrimaryButton>
+                            <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)} className="!ml-2">
+                                Cancelar
+                            </ButtonMui>
+                        </div>
+                    </form>
+                </Paper>
+            </Grid>
+        </Grid>
+    )
+}
+
+export default Form

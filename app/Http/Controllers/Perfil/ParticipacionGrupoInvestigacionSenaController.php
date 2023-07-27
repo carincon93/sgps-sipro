@@ -20,7 +20,7 @@ class ParticipacionGrupoInvestigacionSenaController extends Controller
      */
     public function index()
     {
-        // 
+        //
     }
 
     /**
@@ -32,10 +32,7 @@ class ParticipacionGrupoInvestigacionSenaController extends Controller
     {
         $this->authorize('create', [ParticipacionGrupoInvestigacionSena::class]);
 
-        return Inertia::render('Users/Perfil/ParticipacionesGruposInvestigacionSena/Create', [
-            'gruposInvestigacion'      => GrupoInvestigacion::selectRaw('grupos_investigacion.id as value, concat(grupos_investigacion.nombre, chr(10), \'∙ Código: \', grupos_investigacion.codigo_minciencias) as label')->orderBy('grupos_investigacion.nombre', 'ASC')->get(),
-            'semillerosInvestigacion'  => SemilleroInvestigacion::selectRaw('semilleros_investigacion.id as value, concat(semilleros_investigacion.nombre, chr(10), \'∙ Código: \', semilleros_investigacion.codigo) as label')->orderBy('semilleros_investigacion.nombre', 'ASC')->get(),
-        ]);
+        //
     }
 
     /**
@@ -52,7 +49,7 @@ class ParticipacionGrupoInvestigacionSenaController extends Controller
 
         $participacionGis = ParticipacionGrupoInvestigacionSena::create($request->all());
 
-        return redirect()->route('users.change-user-profile')->with('success', 'El recurso se ha creado correctamente.');
+        return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
     /**
@@ -63,7 +60,7 @@ class ParticipacionGrupoInvestigacionSenaController extends Controller
      */
     public function show(ParticipacionGrupoInvestigacionSena $participacionGis)
     {
-        // 
+        //
     }
 
     /**
@@ -76,11 +73,7 @@ class ParticipacionGrupoInvestigacionSenaController extends Controller
     {
         $this->authorize('update', [ParticipacionGrupoInvestigacionSena::class, $participacionGis]);
 
-        return Inertia::render('Users/Perfil/ParticipacionesGruposInvestigacionSena/Edit', [
-            'participacionGrupoInvestigacionSena'   => $participacionGis,
-            'gruposInvestigacion'                   => GrupoInvestigacion::selectRaw('grupos_investigacion.id as value, concat(grupos_investigacion.nombre, chr(10), \'∙ Código: \', grupos_investigacion.codigo_minciencias) as label')->orderBy('grupos_investigacion.nombre', 'ASC')->get(),
-            'semillerosInvestigacion'               => SemilleroInvestigacion::selectRaw('semilleros_investigacion.id as value, concat(semilleros_investigacion.nombre, chr(10), \'∙ Código: \', semilleros_investigacion.codigo) as label')->orderBy('semilleros_investigacion.nombre', 'ASC')->get(),
-        ]);
+        //
     }
 
     /**
@@ -96,7 +89,7 @@ class ParticipacionGrupoInvestigacionSenaController extends Controller
 
         $participacionGis->update($request->validated());
 
-        return redirect()->back()->with('success', 'El recurso se ha actualizado correctamente.');
+        return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
     /**
@@ -111,6 +104,6 @@ class ParticipacionGrupoInvestigacionSenaController extends Controller
 
         $participacionGis->delete();
 
-        return redirect()->route('users.change-user-profile')->with('success', 'El recurso se ha eliminado correctamente.');
+        return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 }

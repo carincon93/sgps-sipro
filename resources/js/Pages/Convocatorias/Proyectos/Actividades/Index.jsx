@@ -2,6 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import AlertMui from '@/Components/Alert'
 import Autocomplete from '@/Components/Autocomplete'
+import ButtonMui from '@/Components/Button'
 import DialogMui from '@/Components/Dialog'
 import Label from '@/Components/Label'
 import MenuMui from '@/Components/Menu'
@@ -15,8 +16,10 @@ import ToolTipMui from '@/Components/Tooltip'
 import StepperMui from '@/Components/Stepper'
 
 import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import AulaMovil from './AulasMoviles/Index'
+import Evaluacion from './Evaluacion'
 import Form from './Form'
 
 import axios from 'axios'
@@ -25,8 +28,6 @@ import { route, checkRole } from '@/Utils'
 
 import { useState, useEffect } from 'react'
 import { router, useForm } from '@inertiajs/react'
-
-import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 const Actividades = ({
     auth,
@@ -49,6 +50,7 @@ const Actividades = ({
 
     const [actividad_to_destroy, setActividadToDestroy] = useState(null)
     const [dialog_status, setDialogStatus] = useState(false)
+    const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
     const [actividad, setActividad] = useState(null)
 
@@ -126,6 +128,34 @@ const Actividades = ({
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
+            </Grid>
+
+            <Grid item md={4}>
+                Evaluación
+            </Grid>
+            <Grid item md={8}>
+                {evaluacion && (
+                    <>
+                        <ButtonMui onClick={() => setEvaluacionDialogStatus(true)} primary={true}>
+                            Evaluar
+                        </ButtonMui>
+                        <DialogMui
+                            fullWidth={true}
+                            maxWidth="lg"
+                            open={evaluacion_dialog_status}
+                            dialogContent={
+                                <>
+                                    <Evaluacion auth_user={auth.user} convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
+                                </>
+                            }
+                            dialogActions={
+                                <ButtonMui onClick={() => setEvaluacionDialogStatus(false)} primary={true} className="!mr-6">
+                                    Cerrar
+                                </ButtonMui>
+                            }
+                        />
+                    </>
+                )}
             </Grid>
 
             <TabsMui tabs={tabs}>

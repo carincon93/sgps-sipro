@@ -9,6 +9,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\CentroFormacion;
 use App\Models\DisciplinaSubareaConocimiento;
+use App\Models\GrupoInvestigacion;
 use App\Models\Municipio;
 use App\Models\Perfil\EstudioAcademico;
 use App\Models\Perfil\FormacionAcademicaSena;
@@ -17,6 +18,7 @@ use App\Models\Perfil\ParticipacionProyectoSennova;
 use App\Models\RedConocimiento;
 use App\Models\Role;
 use App\Models\RolSennova;
+use App\Models\SemilleroInvestigacion;
 use App\Models\SubareaExperiencia;
 use App\Models\User;
 use Illuminate\Database\QueryException;
@@ -123,18 +125,7 @@ class UserController extends Controller
         /** @var \App\Models\User */
         $auth_user = Auth::user();
 
-        if ($request->notificacion) {
-            $notificacion = $auth_user->unreadNotifications()->where('id', $request->notificacion)->first();
-            if ($notificacion) {
-                $notificacion->markAsRead();
-            }
-        }
-
-        if ($user->dinamizadorCentroFormacion) {
-            $user->dinamizador_centro_formacion_id = $user->dinamizadorCentroFormacion->id;
-        }
-
-        $proyectos = $user->proyectos->load('proyectosLinea66', 'proyectosLinea69.nodoTecnoparque', 'tecnoacademiaLineasTecnoacademia.tecnoacademia', 'proyectosLinea65', 'proyectosLinea68');
+        $proyectos = $user->proyectos->load('proyectoLinea65', 'proyectoLinea66', 'proyectoLinea68', 'proyectoLinea69.nodoTecnoparque', 'tecnoacademiaLineasTecnoacademia.tecnoacademia', );
 
         if ($user->hasRole([2, 3, 4, 21])) {
             $proyectos->where('centro_formacion_id', $user->centro_formacion_id);
@@ -142,13 +133,35 @@ class UserController extends Controller
 
         return Inertia::render('Users/Edit', [
             'usuario'               => $user,
-            'tiposDocumento'        => json_decode(Storage::get('json/tipos-documento.json'), true),
-            'tiposVinculacion'      => json_decode(Storage::get('json/tipos-vinculacion.json'), true),
-            'rolesRelacionados'     => $user->roles()->pluck('id'),
-            'permisosRelacionados'  => $user->permissions()->pluck('id'),
-            'roles'                 => Role::getRolesByRol(),
-            'proyectos'             => $proyectos,
-            'centrosFormacion'      => SelectHelper::centrosFormacion()
+            // 'rolesRelacionados'     => $user->roles()->pluck('id'),
+            // 'permisosRelacionados'  => $user->permissions()->pluck('id'),
+            // 'roles'                 => Role::getRolesByRol(),
+            // 'proyectos'             => $proyectos,
+            'centros_formacion'      => SelectHelper::centrosFormacion(),
+            'tipos_documento'                               =>  json_decode(Storage::get('json/tipos-documento.json'), true),
+            'tipos_vinculacion'                             =>  json_decode(Storage::get('json/tipos-vinculacion.json'), true),
+            'niveles_ingles'                                =>  json_decode(Storage::get('json/niveles-ingles.json'), true),
+            'opciones_genero'                               =>  json_decode(Storage::get('json/generos.json'), true),
+            'grupos_etnicos'                                =>  json_decode(Storage::get('json/grupos-etnicos.json'), true),
+            'tipos_discapacidad'                            =>  json_decode(Storage::get('json/tipos-discapacidad.json'), true),
+            'subareas_experiencia'                          =>  SubareaExperiencia::selectRaw("subareas_experiencia.id as value, CONCAT(subareas_experiencia.nombre,' - Área de experiencia: ', areas_experiencia.nombre) as label")->join('areas_experiencia', 'subareas_experiencia.area_experiencia_id', 'areas_experiencia.id')->orderBy('subareas_experiencia.nombre', 'ASC')->get(),
+            'municipios'                                    =>  Municipio::selectRaw('id as value, nombre as label')->get(),
+            'roles_sennova'                                 =>  RolSennova::selectRaw("roles_sennova.id as value, CASE
+                                                                    WHEN linea_programatica_id IS NOT NULL THEN CONCAT(roles_sennova.nombre,  chr(10), ' - Línea programática ', lineas_programaticas.codigo)
+                                                                    ELSE roles_sennova.nombre
+                                                                END as label")->leftJoin('lineas_programaticas', 'roles_sennova.linea_programatica_id', 'lineas_programaticas.id')->distinct('roles_sennova.nombre')->get(),
+            'redes_conocimiento'                            =>  RedConocimiento::selectRaw('id as value, nombre as label')->get(),
+            'disciplinas_conocimiento'                      =>  DisciplinaSubareaConocimiento::selectRaw('id as value, nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'estudios_academicos'                           =>  EstudioAcademico::where('user_id', $auth_user->id)->get(),
+            'formaciones_academicas_sena'                   =>  FormacionAcademicaSena::where('user_id', $auth_user->id)->get(),
+            'participaciones_grupos_investigacion_sena'     =>  ParticipacionGrupoInvestigacionSena::with('semilleroInvestigacion', 'grupoInvestigacion')->where('user_id', $auth_user->id)->get(),
+            'participaciones_proyectos_sennova'             =>  ParticipacionProyectoSennova::where('user_id', $auth_user->id)->get(),
+            'niveles_academicos'                            => json_decode(Storage::get('json/niveles-academicos.json'), true),
+            'niveles_formacion'                             => json_decode(Storage::get('json/niveles-formacion.json'), true),
+            'modalidades_estudio'                           => json_decode(Storage::get('json/modalidades-estudio.json'), true),
+            'grupos_investigacion'                          => GrupoInvestigacion::selectRaw('grupos_investigacion.id as value, concat(grupos_investigacion.nombre, chr(10), \'∙ Código: \', grupos_investigacion.codigo_minciencias) as label')->orderBy('grupos_investigacion.nombre', 'ASC')->get(),
+            'semilleros_investigacion'                      => SemilleroInvestigacion::selectRaw('semilleros_investigacion.id as value, concat(semilleros_investigacion.nombre, chr(10), \'∙ Código: \', semilleros_investigacion.codigo) as label')->orderBy('semilleros_investigacion.nombre', 'ASC')->get(),
+            'tipos_proyectos'                               => json_decode(Storage::get('json/tipos-proyectos.json'), true),
         ]);
     }
 

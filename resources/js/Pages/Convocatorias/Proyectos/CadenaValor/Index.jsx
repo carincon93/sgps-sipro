@@ -1,23 +1,29 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import AlertMui from '@/Components/Alert'
-import Label from '@/Components/Label'
+import ButtonMui from '@/Components/Button'
+import DialogMui from '@/Components/Dialog'
 import Textarea from '@/Components/Textarea'
 import PrimaryButton from '@/Components/PrimaryButton'
+import StepperMui from '@/Components/Stepper'
+import ToolTipMui from '@/Components/Tooltip'
 
 import SwipeRightOutlinedIcon from '@mui/icons-material/SwipeRightOutlined'
 
+import Evaluacion from './Evaluacion'
+
 import ScrollBooster from 'scrollbooster'
+
 import { checkRole } from '@/Utils'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from '@inertiajs/react'
+
 import { Grid } from '@mui/material'
-import ToolTipMui from '@/Components/Tooltip'
-import StepperMui from '@/Components/Stepper'
 
 const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, objetivoGeneral, productos, ...props }) => {
     const auth_user = auth.user
     const isSuperAdmin = checkRole(auth_user, [1])
+    const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
 
     const form = useForm({
         propuesta_sostenibilidad: proyecto.propuesta_sostenibilidad,
@@ -122,6 +128,34 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
+            </Grid>
+
+            <Grid item md={4}>
+                Evaluación
+            </Grid>
+            <Grid item md={8}>
+                {evaluacion && (
+                    <>
+                        <ButtonMui onClick={() => setEvaluacionDialogStatus(true)} primary={true}>
+                            Evaluar
+                        </ButtonMui>
+                        <DialogMui
+                            fullWidth={true}
+                            maxWidth="lg"
+                            open={evaluacion_dialog_status}
+                            dialogContent={
+                                <>
+                                    <Evaluacion auth_user={auth.user} proyecto={proyecto} evaluacion={evaluacion} />
+                                </>
+                            }
+                            dialogActions={
+                                <ButtonMui onClick={() => setEvaluacionDialogStatus(false)} primary={true} className="!mr-6">
+                                    Cerrar
+                                </ButtonMui>
+                            }
+                        />
+                    </>
+                )}
             </Grid>
 
             <Grid item md={12}>

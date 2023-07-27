@@ -2,6 +2,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import AlertMui from '@/Components/Alert'
 import Autocomplete from '@/Components/Autocomplete'
+import ButtonMui from '@/Components/Button'
+import DialogMui from '@/Components/Dialog'
 import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
 import SelectMultiple from '@/Components/SelectMultiple'
@@ -11,10 +13,12 @@ import StepperMui from '@/Components/Stepper'
 
 import { checkRole } from '@/Utils'
 
+import { useState } from 'react'
 import { useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 
 import Participantes from '../Participantes/Participantes'
+import Evaluacion from './Evaluacion'
 
 const ArticulacionSennova = ({
     auth,
@@ -38,19 +42,20 @@ const ArticulacionSennova = ({
 }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
+    const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
 
     const form = useForm({
         lineas_investigacion: lineas_investigacion.filter((item) => proyecto.lineasInvestigacion?.some((obj) => obj.id == item.value)).map((item) => item.value),
         grupos_investigacion: grupos_investigacion.filter((item) => proyecto.gruposInvestigacion?.some((obj) => obj.id == item.value)).map((item) => item.value),
         semilleros_investigacion: semilleros_investigacion.filter((item) => proyecto.semillerosInvestigacion?.some((obj) => obj.id == item.value)).map((item) => item.value),
         disciplinas_subarea_conocimiento: disciplinas_subarea_conocimiento
-            .filter((item) => proyecto?.proyectoLinea70.disciplinas_subarea_conocimiento?.some((obj) => obj.id == item.value))
+            .filter((item) => proyecto?.proyectoLinea70?.disciplinas_subarea_conocimiento?.some((obj) => obj.id == item.value))
             .map((item) => item.value),
-        redes_conocimiento: redes_conocimiento.filter((item) => proyecto?.proyectoLinea70.redes_conocimiento?.some((obj) => obj.id == item.value)).map((item) => item.value),
-        actividades_economicas: actividades_economicas.filter((item) => proyecto?.proyectoLinea70.actividades_economicas?.some((obj) => obj.id == item.value)).map((item) => item.value),
-        tematicas_estrategicas: tematicas_estrategicas.filter((item) => proyecto?.proyectoLinea70.tematicas_estrategicas?.some((obj) => obj.id == item.value)).map((item) => item.value),
+        redes_conocimiento: redes_conocimiento.filter((item) => proyecto?.proyectoLinea70?.redes_conocimiento?.some((obj) => obj.id == item.value)).map((item) => item.value),
+        actividades_economicas: actividades_economicas.filter((item) => proyecto?.proyectoLinea70?.actividades_economicas?.some((obj) => obj.id == item.value)).map((item) => item.value),
+        tematicas_estrategicas: tematicas_estrategicas.filter((item) => proyecto?.proyectoLinea70?.tematicas_estrategicas?.some((obj) => obj.id == item.value)).map((item) => item.value),
         proyecto_idi_tecnoacademia_id: proyectos_idi_tecnoacademia
-            .filter((item) => proyecto?.proyectoLinea70.proyectos_idi_tecnoacademia?.some((obj) => obj.id == item.value))
+            .filter((item) => proyecto?.proyectoLinea70?.proyectos_idi_tecnoacademia?.some((obj) => obj.id == item.value))
             .map((item) => item.value),
         proyectos_ejecucion: proyecto.proyectos_ejecucion ? proyecto.proyectos_ejecucion : '',
         semilleros_en_formalizacion: proyecto.semilleros_en_formalizacion,
@@ -83,6 +88,34 @@ const ArticulacionSennova = ({
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
+            </Grid>
+
+            <Grid item md={4}>
+                Evaluación
+            </Grid>
+            <Grid item md={8}>
+                {evaluacion && (
+                    <>
+                        <ButtonMui onClick={() => setEvaluacionDialogStatus(true)} primary={true}>
+                            Evaluar
+                        </ButtonMui>
+                        <DialogMui
+                            fullWidth={true}
+                            maxWidth="lg"
+                            open={evaluacion_dialog_status}
+                            dialogContent={
+                                <>
+                                    <Evaluacion auth_user={auth.user} proyecto={proyecto} evaluacion={evaluacion} />
+                                </>
+                            }
+                            dialogActions={
+                                <ButtonMui onClick={() => setEvaluacionDialogStatus(false)} primary={true} className="!mr-6">
+                                    Cerrar
+                                </ButtonMui>
+                            }
+                        />
+                    </>
+                )}
             </Grid>
 
             <Grid item md={12}>

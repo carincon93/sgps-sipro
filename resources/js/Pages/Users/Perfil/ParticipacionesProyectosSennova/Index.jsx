@@ -1,76 +1,104 @@
-<script>
-    import { Inertia } from '@inertiajs/inertia'
-    import { route } from '@/Utils'
+import ButtonMui from '@/Components/Button'
+import DialogMui from '@/Components/Dialog'
+import MenuMui from '@/Components/Menu'
+import TableMui from '@/Components/Table'
 
-    import Button from '@/Components/Button'
-    import DataTableMenu from '@/Components/DataTableMenu'
-    import { Item, Text, Separator } from '@smui/list'
+import { router } from '@inertiajs/react'
+import { useState } from 'react'
 
-    export let participacionesProyectosSennova
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { MenuItem, TableCell, TableRow } from '@mui/material'
 
-    function destroy(participacionProyectoSennovaId) {
-        Inertia.delete(route('participaciones-proyectos-sennova.destroy', participacionProyectoSennovaId), {
-            preserveScroll: true,
-        })
-    }
-</script>
+import Form from './Form'
 
-<div className="bg-white rounded shadow">
-    <Button on:click={() => Inertia.visit(route('participaciones-proyectos-sennova.create'))} className="m-2" variant="raised">Agregar participación</Button>
-    <table className="w-full whitespace-no-wrap table-fixed data-table">
-        <thead>
-            <tr className="text-left font-bold">
-                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Tipo de proyecto </th>
-                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Código </th>
-                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Título </th>
-                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Fecha de inicio </th>
-                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl text-center th-actions"> Acciones </th>
-            </tr>
-        </thead>
-        <tbody>
-            {#each participacionesProyectosSennova as participacionProyectoSennova}
-                <tr className="hover:bg-gray-100 focus-within:bg-gray-100">
-                    {#if participacionProyectoSennova.ha_formulado_proyectos_sennova}
-                        <td className="border-t">
-                            <p className="px-6 py-4 focus:text-app-500">{participacionProyectoSennova.tipo_proyecto_text}</p>
-                        </td>
+const ParticipacionesProyectosSENNOVA = ({ usuario, participaciones_proyectos_sennova, tipos_proyectos }) => {
+    const [participacion_proyecto_sennova_to_destroy, setParticipacionProyectoSennovaToDestroy] = useState(null)
+    const [participacion_proyecto_sennova, setParticipacionProyectoSennova] = useState(null)
+    const [dialog_status, setDialogStatus] = useState(false)
+    const [method, setMethod] = useState('')
 
-                        <td className="border-t">
-                            <p className="px-6 py-4">{participacionProyectoSennova.codigo_proyecto}</p>
-                        </td>
+    return (
+        <>
+            <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setParticipacionProyectoSennova(null))} variant="raised">
+                Agregar participación
+            </ButtonMui>
 
-                        <td className="border-t">
-                            <p className="px-6 py-4">{participacionProyectoSennova.titulo}</p>
-                        </td>
+            <TableMui className="mt-20" rows={['Tipo de proyecto', 'Código', 'Título', 'Fecha de inicio', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                {participaciones_proyectos_sennova.map((participacion_proyecto_sennova, i) => (
+                    <TableRow key={i}>
+                        {participacion_proyecto_sennova.ha_formulado_proyectos_sennova ? (
+                            <>
+                                <TableCell>
+                                    <p className="px-6 py-4 focus:text-app-500">{participacion_proyecto_sennova.tipo_proyecto_text}</p>
+                                </TableCell>
+                                <TableCell>
+                                    <p className="px-6 py-4">{participacion_proyecto_sennova.codigo_proyecto}</p>
+                                </TableCell>
 
-                        <td className="border-t">
-                            <p className="px-6 py-4">{participacionProyectoSennova.fecha_inicio_proyecto}</p>
-                        </td>
-                    {:else}
-                        <td className="border-t" colspan="4">
-                            <p className="px-6 py-4">No he participado en proyectos SENNOVA</p>
-                        </td>
-                    {/if}
-                    <td className="border-t td-actions">
-                        <DataTableMenu className="{participacionesProyectosSennova.length < 3 ? 'z-50' : ''} flex items-center justify-center">
-                            <Item on:SMUI:action={() => Inertia.visit(route('participaciones-proyectos-sennova.edit', participacionProyectoSennova.id))}>
-                                <Text>Editar</Text>
-                            </Item>
+                                <TableCell>
+                                    <p className="px-6 py-4">{participacion_proyecto_sennova.titulo}</p>
+                                </TableCell>
 
-                            <Separator />
-                            <Item on:SMUI:action={() => destroy(participacionProyectoSennova.id)}>
-                                <Text>Eliminar</Text>
-                            </Item>
-                        </DataTableMenu>
-                    </td>
-                </tr>
-            {/each}
+                                <TableCell>
+                                    <p className="px-6 py-4">{participacion_proyecto_sennova.fecha_inicio_proyecto}</p>
+                                </TableCell>
+                            </>
+                        ) : (
+                            <TableCell colSpan={4}>
+                                <p className="px-6 py-4">No he participado en proyectos SENNOVA</p>
+                            </TableCell>
+                        )}
 
-            {#if participacionesProyectosSennova.length === 0}
-                <tr>
-                    <td className="border-t px-6 py-4" colspan="5">Sin información registrada</td>
-                </tr>
-            {/if}
-        </tbody>
-    </table>
-</div>
+                        <TableCell>
+                            <MenuMui text={<MoreVertIcon />}>
+                                {participacion_proyecto_sennova.id !== participacion_proyecto_sennova_to_destroy ? (
+                                    <div>
+                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('editar'), setParticipacionProyectoSennova(participacion_proyecto_sennova))}>Editar</MenuItem>
+
+                                        <MenuItem
+                                            onClick={() => {
+                                                setParticipacionProyectoSennovaToDestroy(participacion_proyecto_sennova.id)
+                                            }}>
+                                            Eliminar
+                                        </MenuItem>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <MenuItem
+                                            onClick={(e) => {
+                                                setParticipacionProyectoSennovaToDestroy(null)
+                                            }}>
+                                            Cancelar
+                                        </MenuItem>
+                                        <MenuItem
+                                            sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                router.delete(route('participaciones-proyectos-sennova.destroy', [participacion_proyecto_sennova.id]), {
+                                                    preserveScroll: true,
+                                                })
+                                            }}>
+                                            Confirmar
+                                        </MenuItem>
+                                    </div>
+                                )}
+                            </MenuMui>
+                        </TableCell>
+                    </TableRow>
+                ))}
+            </TableMui>
+
+            <DialogMui
+                open={dialog_status}
+                fullWidth={true}
+                maxWidth="lg"
+                blurEnabled={true}
+                dialogContent={
+                    <Form method={method} setDialogStatus={setDialogStatus} user_id={usuario.id} participacion_proyecto_sennova={participacion_proyecto_sennova} tipos_proyectos={tipos_proyectos} />
+                }
+            />
+        </>
+    )
+}
+
+export default ParticipacionesProyectosSENNOVA

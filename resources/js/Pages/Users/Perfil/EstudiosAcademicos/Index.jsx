@@ -1,61 +1,83 @@
-<script>
-    import { Inertia } from '@inertiajs/inertia'
-    import { route } from '@/Utils'
+import ButtonMui from '@/Components/Button'
+import DialogMui from '@/Components/Dialog'
+import MenuMui from '@/Components/Menu'
+import TableMui from '@/Components/Table'
 
-    import Button from '@/Components/Button'
-    import DataTableMenu from '@/Components/DataTableMenu'
-    import { Item, Text, Separator } from '@smui/list'
+import { router } from '@inertiajs/react'
+import { useState } from 'react'
 
-    export let estudiosAcademicos
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { MenuItem, TableCell, TableRow } from '@mui/material'
 
-    function destroy(estudioAcademicoId) {
-        Inertia.delete(route('estudios-academicos.destroy', estudioAcademicoId), {
-            preserveScroll: true,
-        })
-    }
-</script>
+import Form from './Form'
 
-<div className="bg-white rounded shadow">
-    <Button on:click={() => Inertia.visit(route('estudios-academicos.create'))} className="m-2" variant="raised">Agregar estudio académico</Button>
+const EstudiosAcademicos = ({ usuario, estudios_academicos, niveles_academicos }) => {
+    const [estudio_academico_to_destroy, setEstudioAcademicoToDestroy] = useState(null)
+    const [estudio_academico, setEstudioAcademico] = useState(null)
+    const [dialog_status, setDialogStatus] = useState(false)
+    const [method, setMethod] = useState('')
 
-    <table className="w-full whitespace-no-wrap table-fixed data-table">
-        <thead>
-            <tr className="text-left font-bold">
-                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Grado de formación </th>
-                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl w-full"> Título obtenido </th>
-                <th className="px-6 pt-6 pb-4 sticky top-0 z-10 bg-white shadow-xl text-center th-actions"> Acciones </th>
-            </tr>
-        </thead>
-        <tbody>
-            {#each estudiosAcademicos as estudioAcademico}
-                <tr className="hover:bg-gray-100 focus-within:bg-gray-100">
-                    <td className="border-t">
-                        <p className="px-6 py-4 focus:text-app-500">{estudioAcademico.grado_formacion_text}</p>
-                    </td>
+    return (
+        <>
+            <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setEstudioAcademico(null))} variant="raised">
+                Agregar estudio académico
+            </ButtonMui>
 
-                    <td className="border-t">
-                        <p className="px-6 py-4">{estudioAcademico.titulo_obtenido}</p>
-                    </td>
-                    <td className="border-t td-actions">
-                        <DataTableMenu className="{estudiosAcademicos.length < 3 ? 'z-50' : ''} flex items-center justify-center">
-                            <Item on:SMUI:action={() => Inertia.visit(route('estudios-academicos.edit', estudioAcademico.id))}>
-                                <Text>Editar</Text>
-                            </Item>
+            <TableMui className="mt-20" rows={['Grado de formación', 'Título obtenido', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                {estudios_academicos.map((estudio_academico, i) => (
+                    <TableRow key={i}>
+                        <TableCell>
+                            <p className="first-letter:uppercase">{niveles_academicos.find((item) => item.value == estudio_academico.grado_formacion).label}</p>
+                        </TableCell>
+                        <TableCell>{estudio_academico.titulo_obtenido}</TableCell>
+                        <TableCell>
+                            <MenuMui text={<MoreVertIcon />}>
+                                {estudio_academico.id !== estudio_academico_to_destroy ? (
+                                    <div>
+                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('editar'), setEstudioAcademico(estudio_academico))}>Editar</MenuItem>
 
-                            <Separator />
-                            <Item on:SMUI:action={() => destroy(estudioAcademico.id)}>
-                                <Text>Eliminar</Text>
-                            </Item>
-                        </DataTableMenu>
-                    </td>
-                </tr>
-            {/each}
+                                        <MenuItem
+                                            onClick={() => {
+                                                setEstudioAcademicoToDestroy(estudio_academico.id)
+                                            }}>
+                                            Eliminar
+                                        </MenuItem>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <MenuItem
+                                            onClick={(e) => {
+                                                setEstudioAcademicoToDestroy(null)
+                                            }}>
+                                            Cancelar
+                                        </MenuItem>
+                                        <MenuItem
+                                            sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                router.delete(route('estudios-academicos.destroy', [estudio_academico.id]), {
+                                                    preserveScroll: true,
+                                                })
+                                            }}>
+                                            Confirmar
+                                        </MenuItem>
+                                    </div>
+                                )}
+                            </MenuMui>
+                        </TableCell>
+                    </TableRow>
+                ))}
+            </TableMui>
 
-            {#if estudiosAcademicos.length === 0}
-                <tr>
-                    <td className="border-t px-6 py-4" colspan="3">Sin información registrada</td>
-                </tr>
-            {/if}
-        </tbody>
-    </table>
-</div>
+            <DialogMui
+                open={dialog_status}
+                fullWidth={true}
+                maxWidth="lg"
+                blurEnabled={true}
+                dialogContent={<Form method={method} setDialogStatus={setDialogStatus} user_id={usuario.id} estudio_academico={estudio_academico} niveles_academicos={niveles_academicos} />}
+            />
+        </>
+    )
+}
+
+export default EstudiosAcademicos

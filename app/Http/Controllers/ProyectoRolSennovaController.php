@@ -69,7 +69,7 @@ class ProyectoRolSennovaController extends Controller
                                                                 return $objetivoEspecifico->id;
                                                             })
                                                         )->orderBy('actividades.descripcion')->with('objetivoEspecifico')->get(),
-            'lineas_tecnologicas'                       => $lineas_tecnologicas ?? null,
+            'lineas_tecnologicas'                       => $lineas_tecnologicas ?? [],
             'niveles_academicos'                        => json_decode(Storage::get('json/niveles-academicos.json'), true)
         ]);
     }

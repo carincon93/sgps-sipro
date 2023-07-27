@@ -233,6 +233,7 @@ class ProyectoLinea69 extends Model
 
         $proyectos_linea_69->load('proyecto');
         $proyectos_linea_69->load('nodoTecnoparque');
+        $proyectos_linea_69->load('proyecto.evaluaciones');
 
         return $proyectos_linea_69;
     }

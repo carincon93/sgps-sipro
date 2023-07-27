@@ -17,7 +17,7 @@ class FormacionAcademicaSena extends Model
      *
      * @var array
      */
-    protected $appends = ['fechas_formacion', 'egresado_sena_text', 'modalidad_sena_text', 'nivel_sena_text', 'filename_certificado_formacion'];
+    protected $appends = ['fechas_formacion', 'extension', 'filename'];
 
     /**
      * table
@@ -83,46 +83,17 @@ class FormacionAcademicaSena extends Model
         return "Del $fechaInicio al $fechaFinalizacion";
     }
 
-    public function getEgresadoSenaTextAttribute()
+        public function getFilenameAttribute()
     {
-        return $this->egresado_sena ? 'Si' : 'No';
+        $fileInfo = pathinfo($this->soporte_titulo_obtenido);
+
+        return $fileInfo['filename'] ?? '';
     }
 
-    public function getModalidadSenaTextAttribute()
+    public function getExtensionAttribute()
     {
-        $filePath   = "json/modalidades-estudio.json";
-        $id         = $this->modalidad_sena;
-        $key        = "label";
+        $fileInfo = pathinfo($this->soporte_titulo_obtenido);
 
-        return $this->getJsonItem($filePath, $id, $key);
-    }
-
-    public function getNivelSenaTextAttribute()
-    {
-        $filePath   = "json/niveles-formacion.json";
-        $id         = $this->nivel_sena;
-        $key        = "label";
-
-        return $this->getJsonItem($filePath, $id, $key);
-    }
-
-    private function getJsonItem($filePath, $id, $key)
-    {
-        $data   = json_decode(Storage::get($filePath), true);
-
-        $where = function ($item) use ($id) {
-            return $item['value'] == $id;
-        };
-
-        $filteredData = array_filter($data, $where);
-
-        return reset($filteredData)[$key];
-    }
-
-    public function getFilenameCertificadoFormacionAttribute()
-    {
-        $pathExplode = explode('/', $this->certificado_formacion);
-
-        return end($pathExplode);
+        return $fileInfo['extension'] ?? '';
     }
 }

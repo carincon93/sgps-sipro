@@ -47,7 +47,7 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
                 : false
             : null,
 
-        lineas_medulares_centro_comentario: evaluacion.evaluacion_proyecto_linea70.lineas_medulares_centro_comentario ? evaluacion.evaluacion_proyecto_linea70.lineas_medulares_centro_comentario : '',
+        lineas_medulares_centro_comentario: evaluacion.evaluacion_proyecto_linea70 ? evaluacion.evaluacion_proyecto_linea70.lineas_medulares_centro_comentario : '',
         lineas_medulares_centro_requiere_comentario: evaluacion.evaluacion_proyecto_linea70 ? (evaluacion.evaluacion_proyecto_linea70.lineas_medulares_centro_comentario == null ? true : false) : null,
     })
     const submitEvaluacionLinea6970 = (e) => {

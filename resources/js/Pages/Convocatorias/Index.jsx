@@ -1,11 +1,14 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
+
+import AlertMui from '@/Components/Alert'
+import ButtonMui from '@/Components/Button'
 import MenuMui from '@/Components/Menu'
-import EditIcon from '@mui/icons-material/Edit'
+
 import { checkRole } from '@/Utils'
 import { Link, router } from '@inertiajs/react'
+
+import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined'
 import { Divider, Grid, MenuItem } from '@mui/material'
-import ButtonMui from '@/Components/Button'
-import AlertMui from '@/Components/Alert'
 
 export default function Dashboard({ auth, convocatorias }) {
     const auth_user = auth.user
@@ -35,12 +38,14 @@ export default function Dashboard({ auth, convocatorias }) {
             )}
 
             {is_super_admin || checkRole(auth_user, [11]) || checkPermission(auth_user, [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18, 19, 14, 15, 16, 20, 21]) ? (
-                <Grid container>
+                <Grid container rowSpacing={2}>
                     {convocatorias.data.map((convocatoria) =>
                         convocatoria.visible || is_super_admin || checkRole(auth_user, [5, 17, 18, 19, 20]) ? (
-                            <Grid item md={4} key={convocatoria.id} className="mb-20 relative parent-actions !p-0">
+                            <Grid item md={4} key={convocatoria.id} className="relative parent-actions">
                                 {is_super_admin && (
-                                    <MenuMui className="!min-w-0 !absolute right-0 z-10 opacity-0 child-actions" text={<EditIcon />}>
+                                    <MenuMui
+                                        className="!min-w-0 !absolute right-2 z-10 opacity-0 child-actions !bg-transparent"
+                                        text={<MoreVertOutlinedIcon className="text-white hover:text-black" />}>
                                         <MenuItem onClick={() => router.visit(route('convocatorias.edit', convocatoria.id))} disabled={!is_super_admin} className={!is_super_admin ? 'hidden' : ''}>
                                             Editar convocatoria
                                         </MenuItem>
