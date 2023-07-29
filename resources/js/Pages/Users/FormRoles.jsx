@@ -6,7 +6,8 @@ import { FormControlLabel, FormGroup } from '@mui/material'
 
 const FormRoles = ({ usuario, roles_sistema, ...props }) => {
     const form = useForm({
-        roles: [1],
+        user_id: usuario.id,
+        roles: usuario.roles.map((item) => item.id),
     })
 
     const handleCheckboxChange = (value) => {
@@ -25,7 +26,7 @@ const FormRoles = ({ usuario, roles_sistema, ...props }) => {
 
     const submit = (e) => {
         e.preventDefault()
-        form.put(route('users.asignacion-roles', [usuario.id]), {
+        form.put(route('users.asignacion-roles', []), {
             preserveScroll: true,
         })
     }

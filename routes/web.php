@@ -3,68 +3,69 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\ApiController;
-use App\Http\Controllers\API\WebController;
 
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\RegionalController;
-use App\Http\Controllers\CentroFormacionController;
-use App\Http\Controllers\ProgramaFormacionController;
-use App\Http\Controllers\LineaProgramaticaController;
-use App\Http\Controllers\RedConocimientoController;
-use App\Http\Controllers\TematicaEstrategicaController;
-use App\Http\Controllers\LineaTecnicaController;
-use App\Http\Controllers\GrupoInvestigacionController;
-use App\Http\Controllers\LineaInvestigacionController;
-use App\Http\Controllers\SemilleroInvestigacionController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\ConvocatoriaController;
-use App\Http\Controllers\ProyectoLinea66Controller;
-use App\Http\Controllers\ArbolProyectoController;
-use App\Http\Controllers\ProductoController;
-use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\ActividadController;
 use App\Http\Controllers\AmbienteModernizacionController;
-use App\Http\Controllers\ConvocatoriaRolSennovaController;
-use App\Http\Controllers\RolSennovaController;
-use App\Http\Controllers\ProyectoRolSennovaController;
-use App\Http\Controllers\PrimerGrupoPresupuestalController;
-use App\Http\Controllers\SegundoGrupoPresupuestalController;
-use App\Http\Controllers\TercerGrupoPresupuestalController;
-use App\Http\Controllers\PresupuestoSennovaController;
-use App\Http\Controllers\ConvocatoriaPresupuestoController;
-use App\Http\Controllers\ProyectoPresupuestoController;
 use App\Http\Controllers\AnalisisRiesgoController;
-use App\Http\Controllers\EntidadAliadaController;
 use App\Http\Controllers\AnexoController;
+use App\Http\Controllers\ArbolProyectoController;
 use App\Http\Controllers\ArticulacionSennovaController;
-use App\Http\Controllers\ProyectoLinea70Controller;
-use App\Http\Controllers\ProyectoLinea69Controller;
-use App\Http\Controllers\ProyectoAnexoController;
-use App\Http\Controllers\UsoPresupuestalController;
-use App\Http\Controllers\MiembroEntidadAliadaController;
-use App\Http\Controllers\TecnoacademiaController;
-use App\Http\Controllers\LineaTecnoacademiaController;
-use App\Http\Controllers\MesaSectorialController;
-use App\Http\Controllers\ProyectoLinea68Controller;
-use App\Http\Controllers\ProyectoLinea65Controller;
+use App\Http\Controllers\CentroFormacionController;
+use App\Http\Controllers\ConvocatoriaController;
+use App\Http\Controllers\ConvocatoriaPresupuestoController;
+use App\Http\Controllers\ConvocatoriaRolSennovaController;
 use App\Http\Controllers\DisenoCurricularController;
 use App\Http\Controllers\EdtController;
+use App\Http\Controllers\EntidadAliadaController;
+use App\Http\Controllers\GrupoInvestigacionController;
+use App\Http\Controllers\InventarioEquipoController;
+use App\Http\Controllers\LineaInvestigacionController;
+use App\Http\Controllers\LineaProgramaticaController;
+use App\Http\Controllers\LineaTecnicaController;
+use App\Http\Controllers\LineaTecnoacademiaController;
+use App\Http\Controllers\LineaTecnoparqueController;
+use App\Http\Controllers\MesaSectorialController;
+use App\Http\Controllers\MiembroEntidadAliadaController;
+use App\Http\Controllers\NodoTecnoparqueController;
+use App\Http\Controllers\PdfController;
+use App\Http\Controllers\PresupuestoSennovaController;
+use App\Http\Controllers\PrimerGrupoPresupuestalController;
+use App\Http\Controllers\ProyectoAnexoController;
 use App\Http\Controllers\ProyectoCapacidadInstaladaController;
+use App\Http\Controllers\ProyectoController;
+use App\Http\Controllers\ProyectoIdiTecnoacademiaController;
+use App\Http\Controllers\ProyectoLinea65Controller;
+use App\Http\Controllers\ProyectoLinea66Controller;
+use App\Http\Controllers\ProyectoLinea68Controller;
+use App\Http\Controllers\ProyectoLinea69Controller;
+use App\Http\Controllers\ProyectoLinea70Controller;
+use App\Http\Controllers\ProyectoPresupuestoController;
+use App\Http\Controllers\ProyectoRolSennovaController;
+use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\ProgramaFormacionController;
+use App\Http\Controllers\RedConocimientoController;
+use App\Http\Controllers\RegionalController;
+use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RolSennovaController;
+use App\Http\Controllers\SegundoGrupoPresupuestalController;
+use App\Http\Controllers\SemilleroInvestigacionController;
+use App\Http\Controllers\SoporteEstudioMercadoController;
+use App\Http\Controllers\TecnoacademiaController;
+use App\Http\Controllers\TematicaEstrategicaController;
+use App\Http\Controllers\TercerGrupoPresupuestalController;
+use App\Http\Controllers\UsoPresupuestalController;
+use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\Evaluacion\EvaluacionController;
-use App\Http\Controllers\InventarioEquipoController;
 
 use App\Http\Controllers\Perfil\EstudioAcademicoController;
 use App\Http\Controllers\Perfil\FormacionAcademicaSenaController;
 use App\Http\Controllers\Perfil\ParticipacionGrupoInvestigacionSenaController;
 use App\Http\Controllers\Perfil\ParticipacionProyectoSennovaController;
 
-use App\Http\Controllers\SoporteEstudioMercadoController;
-use App\Http\Controllers\PdfController;
-use App\Http\Controllers\ProyectoIdiTecnoacademiaController;
-use App\Http\Controllers\ReporteController;
-use App\Http\Controllers\LineaTecnoparqueController;
-use App\Http\Controllers\NodoTecnoparqueController;
+use Inertia\Inertia;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -78,107 +79,29 @@ use App\Http\Controllers\NodoTecnoparqueController;
 /**
  * Trae los centros de formación
  */
-Route::get('web-api/centros-formacion', [WebController::class, 'centrosFormacion'])->name('web-api.centros-formacion');
-
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('manual-usuario/download', [ProyectoController::class, 'downloadManualUsuario'])->name('manual-usuario.download');
 
-    Route::get('/', [WebController::class, 'dashboard'])->name('dashboard');
+    Route::get('/', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
 
     Route::get('/proyectos/{proyecto}/download-any-file/{fileId}/{file}', [ProyectoController::class, 'downloadFileSharepoint'])->name('proyectos.download-any-file');
 
-    // Notificaciones
-    Route::get('notificaciones', [UserController::class, 'showAllNotifications'])->name('notificaciones.index');
-    Route::post('notificaciones/marcar-leido', [UserController::class, 'markAsReadNotification'])->name('notificaciones.marcar-leido');
-
-    // Redirecciona según el tipo de proyecto
-    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/editar', [ProyectoController::class, 'edit'])->name('convocatorias.proyectos.edit');
-
-    //Exporta resumen proyecto PDF
-    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf', [PdfController::class, 'generateResumenProyecto'])->name('convocatorias.proyectos.pdf');
 
     //Exporta proyecto post-cierre del ambiente de modernizacion en PDF
     Route::get('ambientes-modernizacion/{ambiente_modernizacion}/pdf', [AmbienteModernizacionController::class, 'descargarPdfAmbienteModernizacion'])->name('ambientes-modernizacion.descargar-pdf');
 
-    Route::resource('estudios-academicos', EstudioAcademicoController::class)->parameters(['estudios-academicos' => 'estudio-academico'])->except(['index', 'show'])->withoutMiddleware(['auth', 'verified']);
-    Route::resource('formaciones-academicas-sena', FormacionAcademicaSenaController::class)->parameters(['formaciones-academicas-sena' => 'formacion-academica-sena'])->except(['index', 'show'])->withoutMiddleware(['auth', 'verified']);
-    Route::resource('participaciones-grupos-investigacion-sena', ParticipacionGrupoInvestigacionSenaController::class)->parameters(['participaciones-grupos-investigacion-sena' => 'participacion-gis'])->except(['index', 'show'])->withoutMiddleware(['auth', 'verified']);
-    Route::resource('participaciones-proyectos-sennova', ParticipacionProyectoSennovaController::class)->parameters(['participaciones-proyectos-sennova' => 'participacion-ps'])->except(['index', 'show'])->withoutMiddleware(['auth', 'verified']);
-    Route::put('/users/perfil', [UserController::class, 'changeUserProfile'])->name('users.change-user-profile');
-    Route::put('/users/cambiar-password', [UserController::class, 'cambiarPassword'])->name('users.cambiar-password');
-    Route::get('/users/perfil', [UserController::class, 'showPerfil'])->name('users.perfil');
-
-    // Muestra los participantes
-    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/{integrante}/cambiar-autor-principal', [ProyectoController::class, 'cambiarAutorPrincipal'])->name('convocatorias.proyectos.participantes.nuevo-autor-principal');
-    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes', [ProyectoController::class, 'participantes'])->name('convocatorias.proyectos.participantes');
-    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/users/link', [ProyectoController::class, 'linkParticipante'])->name('convocatorias.proyectos.participantes.users.link');
-    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/users/link', [ProyectoController::class, 'updateParticipante'])->name('convocatorias.proyectos.participantes.users.update');
-    Route::delete('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/users/{user}/unlink', [ProyectoController::class, 'unlinkParticipante'])->name('convocatorias.proyectos.participantes.users.unlink');
-
-    // Vincula y filtra los programas
-    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/programas-formacion', [ProyectoController::class, 'filterProgramasFormacion'])->name('convocatorias.proyectos.participantes.programas-formacion');
-    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/programas-formacion/link', [ProyectoController::class, 'linkProgramaFormacion'])->name('convocatorias.proyectos.participantes.programas-formacion.link');
-    Route::delete('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/programas-formacion/unlink', [ProyectoController::class, 'unlinkProgramaFormacion'])->name('convocatorias.proyectos.participantes.programas-formacion.unlink');
-
-    // Vincula y filtra los semilleros
-    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/semilleros-investigacion', [ProyectoController::class, 'filterSemillerosInvestigacion'])->name('convocatorias.proyectos.participantes.semilleros-investigacion');
-    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/semilleros-investigacion/{semillero_investigacion}/link', [ProyectoController::class, 'linkSemilleroInvestigacion'])->name('convocatorias.proyectos.participantes.semilleros-investigacion.link');
-    Route::delete('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/semilleros-investigacion/{semillero_investigacion}/unlink', [ProyectoController::class, 'unlinkSemilleroInvestigacion'])->name('convocatorias.proyectos.participantes.semilleros-investigacion.unlink');
-
-    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/cadena-valor/propuesta-sostenibilidad', [ProyectoController::class, 'updatePropuestaSostenibilidad'])->name('convocatorias.proyectos.propuesta-sostenibilidad');
-    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/cadena-valor', [ProyectoController::class, 'showCadenaValor'])->name('convocatorias.proyectos.cadena-valor');
-
-    // Trae las actividades por resultado
-    Route::get('web-api/resultados/{resultado}/actividades', [WebController::class, 'resultadosActividades'])->name('web-api.resultados.actividades');
-
-    // Trae los conceptos internos SENA
-    Route::get('web-api/segundo-grupo-presupuestal/{linea_programatica}', [WebController::class, 'segundoGrupoPresupuestal'])->name('web-api.segundo-grupo-presupuestal');
-
-    Route::get('web-api/tercer-grupo-presupuestal/{segundo_grupo_presupuestal}', [WebController::class, 'tercerGrupoPresupuestal'])->name('web-api.tercer-grupo-presupuestal');
-
-    // Trae los usos presupuestales
-    Route::get('web-api/convocatorias/{convocatoria}/lineas-programaticas/{linea_programatica}/presupuesto-sennova/segundo-grupo-presupuestal/{segundo_grupo_presupuestal}/tercer-grupo-presupuestal/{tercer_grupo_presupuestal}', [WebController::class, 'usosPresupuestales'])->name('web-api.usos-presupuestales');
-
-    Route::get('web-api/convocatorias/{convocatoria}/proyectos/{proyecto}/{linea_programatica}/roles-sennova', [WebController::class, 'rolesSennova'])->name('web-api.convocatorias.roles-sennova');
-
-    /**
-     * Programas de formación
-     *
-     */
-    Route::get('web-api/centros-formacion/{centro_formacion}/programas-formacion', [WebController::class, 'programasFormacion'])->name('web-api.programas-formacion');
-
-    /**
-     * Estados de sistema de gestión
-     *
-     */
-    Route::get('web-api/estados-sistema-gestion/{tipo_proyecto_st}', [WebController::class, 'estadosSistemaGestion'])->name('web-api.estados-sistema-gestion');
-
-    /**
-     * Regionales
-     *
-     * Trae las regiones
-     */
-    Route::get('web-api/regiones', [WebController::class, 'regiones'])->name('web-api.regiones');
-
     /**
      * Trae las regionales
+     *
      */
-    Route::get('web-api/regionales', [WebController::class, 'regionales'])->name('web-api.regionales');
-
     Route::resource('regionales', RegionalController::class)->parameters(['regionales' => 'regional'])->except(['show']);
-
-    /**
-     * Trae los centros de formación por regional
-     */
-    Route::get('web-api/regional/{regional}/centros-formacion', [WebController::class, 'centrosFormacionRegional'])->name('web-api.centros-formacion-ejecutor');
 
     /**
      * Centros de formación
      *
-     * Trae los subdirectores
      */
-    Route::get('web-api/users/{rol}', [WebController::class, 'subdirectores'])->name('web-api.users');
-
     Route::resource('centros-formacion', CentroFormacionController::class)->except(['show'])->parameters(['centros-formacion' => 'centro-formacion']);
 
     /**
@@ -238,6 +161,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('lineas-tecnoacademia', LineaTecnoacademiaController::class)->parameters(['lineas-tecnoacademia' => 'linea-tecnoacademia'])->except(['show']);
 
     /**
+     * Nodos Tecnoparque
+     *
+     */
+    Route::resource('nodos-tecnoparque', NodoTecnoparqueController::class)->parameters(['nodos-tecnoparque' => 'nodo-tecnoparque']);
+
+    /**
      * Grupos de investigación
      *
      */
@@ -251,10 +180,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Trae las líneas de investigación
      *
      */
-    Route::get('web-api/grupos-investigacion', [WebController::class, 'gruposInvestigacion'])->name('web-api.grupos-investigacion');
-
-    Route::get('web-api/centros-formacion-grupo-investigacion/{grupo_investigacion}', [WebController::class, 'centrosFormacionGrupoInvestigacion'])->name('web-api.centros-formacion-grupo-investigacion');
-
     Route::resource('grupos-investigacion.lineas-investigacion', LineaInvestigacionController::class)->parameters(['grupos-investigacion' => 'grupo-investigacion', 'lineas-investigacion' => 'linea-investigacion'])->except(['show']);
 
     /**
@@ -262,8 +187,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
      *
      * Trae los semilleros de investigación
      */
-    Route::get('web-api/lineas-investigacion/{centro_formacion}', [WebController::class, 'lineasInvestigacion'])->name('web-api.lineas-investigacion');
-
     Route::get('grupos-investigacion/{grupo_investigacion}/semilleros-investigacion/{semillero_investigacion}/download-file-sharepoint/{tipo_archivo}', [SemilleroInvestigacionController::class, 'downloadFileSharepoint'])->name('semilleros-investigacion.download-file-sharepoint');
     Route::get('grupos-investigacion/{grupo_investigacion}/semilleros-investigacion/{semillero_investigacion}/download/{formato}', [SemilleroInvestigacionController::class, 'downloadServerFile'])->name('grupos-investigacion.semilleros-investigacion.download');
     Route::resource('grupos-investigacion.semilleros-investigacion', SemilleroInvestigacionController::class)->parameters(['grupos-investigacion' => 'grupo-investigacion', 'semilleros-investigacion' => 'semillero-investigacion'])->except(['show']);
@@ -343,123 +266,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('mesas-sectoriales', MesaSectorialController::class)->parameters(['mesas-sectoriales' => 'mesa-sectorial'])->except(['show']);
 
     /**
-     * Web api
+     * Finalizar formulación de proyectos
      *
      */
-    Route::get('web-api/municipios', [WebController::class, 'municipios'])->name('web-api.municipios');
-
-    /**
-     * Web api
-     *
-     * Trae las Tecnoacademias
-     */
-    Route::get('web-api/tecnoacademias', [WebController::class, 'tecnoacademias'])->name('web-api.tecnoacademias');
-
-    /**
-     * Web api
-     *
-     * Trae las tecnoacademias centro_formacion
-     */
-    Route::get('web-api/centros-formacion/{centro_formacion}/tecnoacademias', [WebController::class, 'tecnoacademiasCentroFormacion'])->name('web-api.centros-formacion.tecnoacademias');
-
-    /**
-     * Web api
-     *
-     * Trae las líneas tecnoacademia
-     */
-    Route::get('web-api/tecnoacademias/{tecnoacademia}/lineas-tecnoacademia', [WebController::class, 'líneasTecnoacademia'])->name('web-api.tecnoacademias.lineas-tecnoacademia');
-
-    /**
-     * Web api
-     *
-     * Trae los nodos tecnoparque
-     */
-    Route::get('web-api/nodos-tecnoparque/{centro_formacion}', [WebController::class, 'nodosTecnoparque'])->name('web-api.nodos-tecnoparque');
-
-    /**
-     * Web api
-     *
-     * Trae las líneas programáticas
-     */
-    Route::get('web-api/lineas-programaticas/{categoria_proyecto}', [WebController::class, 'líneasProgramaticas'])->name('web-api.lineas-programaticas');
-
-    /**
-     * Web api
-     *
-     * Trae los programas de formación por línea de investigación
-     */
-    Route::get('web-api/linea-investigacion-programa-formacion/{linea_investigacion}', [WebController::class, 'líneaInvestigacionProgramaFormacion'])->name('web-api.linea-investigacion-programa-formacion');
-
-    /**
-     * Web api
-     *
-     * Trae las redes de conocimiento
-     */
-    Route::get('web-api/redes-conocimiento', [WebController::class, 'redesConocimiento'])->name('web-api.redes-conocimiento');
-
-    /**
-     * Web api
-     *
-     * Trae las áreas de conocimiento
-     */
-    Route::get('web-api/areas-conocimiento', [WebController::class, 'areasConocimiento'])->name('web-api.areas-conocimiento');
-
-    /**
-     * Web api
-     *
-     * Trae las subáreas de conocimiento
-     */
-    Route::get('web-api/subareas-conocimiento/{area_conocimiento}', [WebController::class, 'subareasConocimiento'])->name('web-api.subareas-conocimiento');
-
-    /**
-     * Web api
-     *
-     * Trae las disciplinas de subáreas de conocimiento
-     */
-    Route::get('web-api/disciplinas-subarea-conocimiento/{subarea_conocimiento}', [WebController::class, 'disciplinasSubareaConocimiento'])->name('web-api.disciplinas-subarea-conocimiento');
-
-    /**
-     * Web api
-     *
-     * Trae los tipos de proyectos de capacidad instalada
-     */
-    Route::get('web-api/tipos-proyecto-capacidad-instalada', [WebController::class, 'tiposProyectoCapacidadInstalada'])->name('web-api.tipos-proyecto-capacidad-instalada');
-
-    /**
-     * Web api
-     *
-     * Trae los subtipos de proyectos de capacidad instalada
-     */
-    Route::get('web-api/subtipos-proyecto-capacidad-instalada/{tipo_proy_capacidad_instalada}', [WebController::class, 'subtiposProyectoCapacidadInstalada'])->name('web-api.subtipos-proyecto-capacidad-instalada');
-
-    /**
-     * Web api
-     *
-     * Trae los semilleros de investigación
-     */
-    Route::get('web-api/semilleros-conocimiento/{linea_investigacion}', [WebController::class, 'semillerosInvestigacion'])->name('web-api.semilleros-investigacion');
-
-    /**
-     * Web api
-     *
-     * Trae los actividades económicas
-     */
-    Route::get('web-api/actividades-economicas', [WebController::class, 'actividadesEconomicas'])->name('web-api.actividades-economicas');
-
-    /**
-     * Web api
-     *
-     * Trae las temáticas estrategicas SENA
-     */
-    Route::get('web-api/tematicas-estrategicas', [WebController::class, 'tematicasEstrategicas'])->name('web-api.tematicas-estrategicas');
-
-    /**
-     * Web api
-     *
-     * Trae las subtipologías Minciencias
-     */
-    Route::get('web-api/subtipologias-minciencias', [WebController::class, 'subtipologiasMinciencias'])->name('web-api.subtipologias-minciencias');
-
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/finalizar-proyecto', [ProyectoController::class, 'summary'])->name('convocatorias.proyectos.summary');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/finalizar-proyecto', [ProyectoController::class, 'finalizarProyecto'])->name('convocatorias.proyectos.finish');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/enviar-proyecto-evaluar', [ProyectoController::class, 'enviarAEvaluacion'])->name('convocatorias.proyectos.send');
@@ -489,7 +298,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion', [ArticulacionSennovaController::class, 'storeArticulacionSennova'])->name('convocatorias.proyectos.articulacion-sennova.store');
 
     /**
-     * Idi
+     * Línea programática 66 - Estrategia regional
      *
      */
     Route::post('convocatorias/{convocatoria}/proyectos-linea-66/{proyecto_linea_66}/indicadores', [ProyectoLinea66Controller::class, 'storeIndicadores'])->name('convocatorias.proyectos-linea-66.indicadores.store');
@@ -498,14 +307,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('convocatorias.proyectos-linea-66', ProyectoLinea66Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-linea-66' => 'proyecto-linea-66'])->except(['show']);
 
     /**
-     * Cultura innovacion - Estrategia Nacional
+     * Línea programática 65 - Estrategia nacional
      *
      */
     Route::post('convocatorias/{convocatoria}/proyectos-linea-65/{proyecto_linea_65}/column/{column}', [ProyectoLinea65Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-linea-65.updateLongColumn');
     Route::resource('convocatorias.proyectos-linea-65', ProyectoLinea65Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-linea-65' => 'proyecto-linea-65'])->except(['show']);
 
     /**
-     * Tp - Estrategia nacional
+     * Línea programática 69 - Estrategia nacional
      *
      */
     Route::get('convocatorias/{convocatoria}/proyectos-linea-69/{proyecto_linea_69}/download-file-sharepoint/{tipo_archivo}', [ProyectoLinea69Controller::class, 'downloadFileSharepoint'])->name('convocatorias.proyectos-linea-69.download-file-sharepoint');
@@ -513,7 +322,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('convocatorias/{convocatoria}/tp/{tp}/column/{column}', [ProyectoLinea69Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-linea-69.updateLongColumn');
 
     /**
-     * Ta - Estrategia nacional
+     * Línea programática 70 - Estrategia nacional
      *
      */
     Route::get('convocatorias/{convocatoria}/proyectos-linea-70/{proyecto_linea_70}/download-pdf-sharepoint/{tipo_archivo}', [ProyectoLinea70Controller::class, 'downloadPdfSharepoint'])->name('convocatorias.proyectos-linea-70.download-pdf-sharepoint');
@@ -529,7 +338,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('convocatorias.proyectos-linea-70', ProyectoLinea70Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-linea-70' => 'proyecto-linea-70'])->except(['show']);
 
     /**
-     * Servicios tecnológicos - Estrategia  nacional
+     * Línea programática 68 - Estrategia nacional
      *
      */
     Route::put('convocatorias/{convocatoria}/proyectos-linea-68/{proyecto_linea_68}/infraestructura', [ProyectoLinea68Controller::class, 'updateEspecificacionesInfraestructura'])->name('convocatorias.proyectos-linea-68.infraestructura');
@@ -598,6 +407,32 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Crea o Actualiza causa indirecta en el arbol de problemas
     Route::post('proyectos/{proyecto}/causa-indirecta/{causa_directa}', [ArbolProyectoController::class, 'createOrUpdateCausaIndirecta'])->name('proyectos.causa-indirecta');
     Route::delete('proyectos/{proyecto}/causa-indirecta/{causa_indirecta}/destroy', [ArbolProyectoController::class, 'destroyCausaIndirecta'])->name('proyectos.causa-indirecta.destroy');
+
+    // Muestra los participantes
+    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/{integrante}/cambiar-autor-principal', [ProyectoController::class, 'cambiarAutorPrincipal'])->name('convocatorias.proyectos.participantes.nuevo-autor-principal');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes', [ProyectoController::class, 'participantes'])->name('convocatorias.proyectos.participantes');
+    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/users/link', [ProyectoController::class, 'linkParticipante'])->name('convocatorias.proyectos.participantes.users.link');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/users/link', [ProyectoController::class, 'updateParticipante'])->name('convocatorias.proyectos.participantes.users.update');
+    Route::delete('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/users/{user}/unlink', [ProyectoController::class, 'unlinkParticipante'])->name('convocatorias.proyectos.participantes.users.unlink');
+
+    // Vincula y filtra los programas
+    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/programas-formacion', [ProyectoController::class, 'filterProgramasFormacion'])->name('convocatorias.proyectos.participantes.programas-formacion');
+    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/programas-formacion/link', [ProyectoController::class, 'linkProgramaFormacion'])->name('convocatorias.proyectos.participantes.programas-formacion.link');
+    Route::delete('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/programas-formacion/unlink', [ProyectoController::class, 'unlinkProgramaFormacion'])->name('convocatorias.proyectos.participantes.programas-formacion.unlink');
+
+    // Vincula y filtra los semilleros
+    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/semilleros-investigacion', [ProyectoController::class, 'filterSemillerosInvestigacion'])->name('convocatorias.proyectos.participantes.semilleros-investigacion');
+    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/semilleros-investigacion/{semillero_investigacion}/link', [ProyectoController::class, 'linkSemilleroInvestigacion'])->name('convocatorias.proyectos.participantes.semilleros-investigacion.link');
+    Route::delete('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/semilleros-investigacion/{semillero_investigacion}/unlink', [ProyectoController::class, 'unlinkSemilleroInvestigacion'])->name('convocatorias.proyectos.participantes.semilleros-investigacion.unlink');
+
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/cadena-valor/propuesta-sostenibilidad', [ProyectoController::class, 'updatePropuestaSostenibilidad'])->name('convocatorias.proyectos.propuesta-sostenibilidad');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/cadena-valor', [ProyectoController::class, 'showCadenaValor'])->name('convocatorias.proyectos.cadena-valor');
+
+    // Redirecciona según el tipo de proyecto
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/editar', [ProyectoController::class, 'edit'])->name('convocatorias.proyectos.edit');
+
+    //Exporta resumen proyecto PDF
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf', [PdfController::class, 'generateResumenProyecto'])->name('convocatorias.proyectos.pdf');
 
     /**
      * Productos
@@ -710,8 +545,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Usuarios
      *
      */
-    Route::get('users/obtener-numero-notificaciones', [UserController::class, 'getNumeroNotificaciones'])->name('users.get-numero-notificaciones');
-    Route::get('users/online', [UserController::class, 'enLinea'])->name('users.online');
+    Route::resource('estudios-academicos', EstudioAcademicoController::class)->parameters(['estudios-academicos' => 'estudio-academico'])->except(['index', 'show'])->withoutMiddleware(['auth', 'verified']);
+    Route::resource('formaciones-academicas-sena', FormacionAcademicaSenaController::class)->parameters(['formaciones-academicas-sena' => 'formacion-academica-sena'])->except(['index', 'show'])->withoutMiddleware(['auth', 'verified']);
+    Route::resource('participaciones-grupos-investigacion-sena', ParticipacionGrupoInvestigacionSenaController::class)->parameters(['participaciones-grupos-investigacion-sena' => 'participacion-gis'])->except(['index', 'show'])->withoutMiddleware(['auth', 'verified']);
+    Route::resource('participaciones-proyectos-sennova', ParticipacionProyectoSennovaController::class)->parameters(['participaciones-proyectos-sennova' => 'participacion-ps'])->except(['index', 'show'])->withoutMiddleware(['auth', 'verified']);
+
+    Route::get('/users/perfil', [UserController::class, 'showPerfil'])->name('users.perfil');
+    Route::put('/users/cambiar-password', [UserController::class, 'cambiarPassword'])->name('users.cambiar-password');
+    Route::put('/users/asignacion-roles', [UserController::class, 'asignacionRoles'])->name('users.asignacion-roles');
+    Route::put('/users/informacion-completa', [UserController::class, 'informacionUsuarioCompleta'])->name('users.informacion-completa');
     Route::resource('users',  UserController::class)->except(['show']);
 
     /**
@@ -796,7 +638,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('reportes/convocatoria/{convocatoria}/presupuestos-roles', [ReporteController::class, 'resumenPresupuestos'])->name('reportes.resumePresupuestos');
     Route::get('reportes/convocatoria/{convocatoria}/reportes/evaluaciones', [ReporteController::class, 'evaluacionesExcel'])->name('reportes.evaluaciones');
     Route::get('reportes/convocatoria/{convocatoria}/comentarios-evaluaciones', [ReporteController::class, 'comentariosEvaluacionesExcel'])->name('reportes.comentarios-evaluaciones');
-    Route::get('proyectos/{proyecto}/invetario-equipos', [InventarioEquipoController::class, 'inventarioEquiposExcel'])->name('reportes.inventario-equipos');
     Route::get('reportes/convocatoria/{convocatoria}/resumen-presupuesto-aprobado', [ReporteController::class, 'EvaluacionesProyectosPresupuestoExport'])->name('reportes.resumeProyectoPresupuestoAprobado');
     Route::get('reportes/convocatoria/{convocatoria}/proyectos-ta', [ReporteController::class, 'proyectosTaExport'])->name('reportes.proyectos-ta');
     Route::get('reportes/convocatoria/{convocatoria}/proyectos-idi', [ReporteController::class, 'proyectosIdiExport'])->name('reportes.proyectos-idi');
@@ -805,13 +646,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('reportes/convocatoria/{convocatoria}/proyectos-cultura-innovacion', [ReporteController::class, 'proyectosCulturaInnovacionExport'])->name('reportes.proyectos-cultura-innovacion');
     Route::get('reportes/grupos-lineas-semilleros', [ReporteController::class, 'gruposLineasSemillerosExport'])->name('reportes.grupos-lineas-semilleros');
     Route::get('reportes/proyectos-capacidad-instalada', [ReporteController::class, 'proyectosCapacidadInstaladaExport'])->name('reportes.proyectos-capacidad-instalada');
-
-    /**
-     * Nodos Tecnoparque
-     *
-     */
-    Route::resource('nodos-tecnoparque', NodoTecnoparqueController::class)->parameters(['nodos-tecnoparque' => 'nodo-tecnoparque']);
-
 
     /**
      * Tokens

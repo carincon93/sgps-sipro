@@ -1,7 +1,8 @@
+import AlertMui from '@/Components/Alert'
 import Checkbox from '@/Components/Checkbox'
+import PasswordInput from '@/Components/PasswordInput'
 import PrimaryButton from '@/Components/PrimaryButton'
 import TabsMui from '@/Components/TabsMui'
-import TextInput from '@/Components/TextInput'
 
 import { Grid, Paper } from '@mui/material'
 
@@ -11,8 +12,8 @@ import EstudiosAcademicos from './Perfil/EstudiosAcademicos/Index'
 import FormacionesAcademicasSena from './Perfil/FormacionesAcademicasSena/Index'
 import ParticipacionesGrupoInvestigacionSENA from './Perfil/ParticipacionesGruposInvestigacionSena/Index'
 import ParticipacionesProyectosSENNOVA from './Perfil/ParticipacionesProyectosSennova/Index'
-import AlertMui from '@/Components/Alert'
-import { useForm } from '@inertiajs/react'
+
+import { router, useForm } from '@inertiajs/react'
 
 const EditComponent = ({
     usuario,
@@ -40,7 +41,7 @@ const EditComponent = ({
     participaciones_proyectos_sennova,
     roles_sistema,
 }) => {
-    const form_cambiar_password = useForm({
+    const form_cambio_password = useForm({
         user_id: usuario?.id,
         default_password: false,
         password: '',
@@ -49,7 +50,7 @@ const EditComponent = ({
 
     const submitCambioPassword = (e) => {
         e.preventDefault()
-        form_cambiar_password.put(route('users.cambiar-password'), {
+        form_cambio_password.put(route('users.cambiar-password'), {
             preserveScroll: true,
         })
     }
@@ -64,7 +65,7 @@ const EditComponent = ({
                 { label: 'Participaciones en proyectos SENNOVA' },
             ]}>
             <div>
-                <Grid container rowSpacing={10}>
+                <Grid container rowSpacing={10} className="!mt-4">
                     <Grid item md={4}>
                         <AlertMui>
                             Por favor diligencie la siguiente información:
@@ -72,6 +73,28 @@ const EditComponent = ({
                             <strong>
                                 Datos personales, experiencia profesional y/o académica, información del tipo de vinculación, experiencia como formulador y evaluador de proyectos, cursos realizados.
                             </strong>
+                        </AlertMui>
+
+                        <AlertMui severity="error" className="mt-10">
+                            Una vez haya finalizado de diligenciar active la siguiente casilla:
+                            <Checkbox
+                                name="default_password"
+                                className="mt-3"
+                                checked={usuario?.informacion_completa}
+                                onChange={(e) =>
+                                    router.put(
+                                        route('users.informacion-completa'),
+                                        {
+                                            user_id: usuario?.id,
+                                            informacion_completa: e.target.checked,
+                                        },
+                                        {
+                                            preserveScroll: true,
+                                        },
+                                    )
+                                }
+                                label="Confirmo que la información ha sido diligenciada completamente"
+                            />
                         </AlertMui>
                     </Grid>
                     <Grid item md={8} className="drop-shadow-lg">
@@ -116,37 +139,37 @@ const EditComponent = ({
                             <form onSubmit={submitCambioPassword}>
                                 <fieldset className="space-y-10">
                                     <AlertMui>
-                                        Si desea utilizar la contraseña por defecto: <strong>sena{usuario?.numero_documento}*</strong> por habilite la siguiente casilla, de lo contrario diligencie una
-                                        nueva constraseña:
+                                        Si desea utilizar la contraseña por defecto: <strong>sena{usuario?.numero_documento}*</strong> por favor habilite la siguiente casilla, de lo contrario
+                                        diligencie una nueva constraseña:
                                         <Checkbox
                                             name="default_password"
-                                            checked={form_cambiar_password.data.default_password}
-                                            onChange={(e) => form_cambiar_password.setData('default_password', e.target.checked)}
-                                            error={form_cambiar_password.errors.default_password}
+                                            checked={form_cambio_password.data.default_password}
+                                            onChange={(e) => form_cambio_password.setData('default_password', e.target.checked)}
+                                            error={form_cambio_password.errors.default_password}
                                             label="Habilitar contraseña por defecto"
                                         />
                                     </AlertMui>
 
-                                    {!form_cambiar_password.data.default_password && (
+                                    {!form_cambio_password.data.default_password && (
                                         <>
-                                            <TextInput
+                                            <PasswordInput
                                                 label="Nueva contraseña"
                                                 id="password"
                                                 type="password"
-                                                value={form_cambiar_password.data.password}
-                                                onChange={(e) => form_cambiar_password.setData('password', e.target.value)}
-                                                error={form_cambiar_password.errors.password}
+                                                value={form_cambio_password.data.password}
+                                                onChange={(e) => form_cambio_password.setData('password', e.target.value)}
+                                                error={form_cambio_password.errors.password}
                                                 required
                                                 autoComplete="new-password"
                                             />
 
-                                            <TextInput
+                                            <PasswordInput
                                                 label="Vuelva a escribir la nueva contraseña"
                                                 id="password_confirmation"
                                                 type="password"
-                                                value={form_cambiar_password.data.password_confirmation}
-                                                onChange={(e) => form_cambiar_password.setData('password_confirmation', e.target.value)}
-                                                error={form_cambiar_password.errors.password_confirmation}
+                                                value={form_cambio_password.data.password_confirmation}
+                                                onChange={(e) => form_cambio_password.setData('password_confirmation', e.target.value)}
+                                                error={form_cambio_password.errors.password_confirmation}
                                                 required
                                                 autoComplete="new-password"
                                             />
@@ -154,7 +177,7 @@ const EditComponent = ({
                                     )}
                                 </fieldset>
                                 <div className="flex items-center justify-end">
-                                    <PrimaryButton disabled={form_cambiar_password.processing || !form_cambiar_password.isDirty} type="submit" className="mt-4">
+                                    <PrimaryButton disabled={form_cambio_password.processing || !form_cambio_password.isDirty} type="submit" className="mt-4">
                                         Cambiar contraseña
                                     </PrimaryButton>
                                 </div>

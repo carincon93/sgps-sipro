@@ -90,9 +90,6 @@ class UserController extends Controller
 
         $user = User::create($request->all());
 
-        $user->assignRole($request->role_id);
-        $user->syncPermissions($request->permission_id);
-
         return redirect()->route('users.edit', [$user->id, 'nuevo_usuario' => true])->with('success', 'El recurso se ha creado correctamente.');
     }
 
@@ -173,9 +170,6 @@ class UserController extends Controller
         $user->update($request->all());
         $user->save();
 
-        $user->syncRoles($request->role_id);
-        $user->syncPermissions($request->permission_id);
-
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
@@ -244,35 +238,6 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function changeUserProfile(UserProfileRequest $request)
-    {
-        /** @var \App\Models\User */
-        $auth_user = Auth::user();
-
-        $auth_user->update($request->all());
-
-        if ($request->hasFile('certificado_ingles')) {
-            // CENSO2023 Quemado
-            $this->saveFilesSharepoint($request->certificado_ingles, 'CENSO2023', $auth_user, 'certificado_ingles');
-        }
-
-        if ($request->hasFile('archivo_acta_resolucion')) {
-            // CENSO2023 Quemado
-            $this->saveFilesSharepoint($request->archivo_acta_resolucion, 'CENSO2023', $auth_user, 'archivo_acta_resolucion');
-        }
-
-        // $auth_user->syncRoles($request->role_id);
-
-        return back()->with('success', 'El recurso se ha actualizado correctamente.');
-    }
-
-    /**
      * Change user's password.
      *
      * @param  \App\User  $user
@@ -299,21 +264,25 @@ class UserController extends Controller
         return back()->with('success', 'La contraseña se ha actualizado correctamente.');
     }
 
-    /**
-     * showAllNotifications
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function showAllNotifications()
+    public function asignacionRoles(Request $request)
     {
-        /** @var \App\Models\User */
-        $auth_user = Auth::user();
+        $user = User::find($request->user_id);
+        if ($request->roles) {
+            $user->assignRole($request->roles);
+        }
 
-        return Inertia::render('Users/Notifications/Index', [
-            'filters'           => request()->all('search'),
-            'notificaciones'    => $auth_user->notifications()->paginate(15)
-        ]);
+        if ($request->permission_id) {
+            $user->syncPermissions($request->permission_id);
+        }
+
+        return back()->with('success', 'Se han asignado los roles correctamente.');
+    }
+
+    public function informacionUsuarioCompleta(Request $request)
+    {
+        $user = User::find($request->user_id)->update(['informacion_completa' => $request->informacion_completa]);
+
+        return back()->with('success', 'Se han asignado los roles correctamente.');
     }
 
     /**
@@ -335,29 +304,6 @@ class UserController extends Controller
         }
 
         return back();
-    }
-
-    public function getNumeroNotificaciones()
-    {
-        /** @var \App\Models\User */
-        $auth_user = Auth::user();
-
-        return response()->json(['numeroNotificaciones' => $auth_user->unreadNotifications()->count(), 'notificaciones' => $auth_user->unreadNotifications()->orderBy('created_at', 'DESC')->take(3)->get()]);
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function enLinea()
-    {
-        $this->authorize('viewAny', [User::class]);
-
-        return Inertia::render('Users/UsersActivos', [
-            'filters'   => request()->all('search'),
-            'usuarios'  => User::with('centroFormacion')->join('sessions', 'users.id', 'sessions.user_id')->paginate()
-        ]);
     }
 
     public function saveFilesSharepoint($tmp_file, $modulo, $modelo, $campo_bd)
