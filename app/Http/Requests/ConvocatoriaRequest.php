@@ -39,13 +39,8 @@ class ConvocatoriaRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'year' => date('Y', strtotime($this->year))
+            'year' => date('Y', strtotime($this->year)),
+            'lineas_programaticas_activas' => json_encode($this->lineas_programaticas_activas)
         ]);
-
-        if (is_array($this->lineas_programaticas_activas)) {
-            $this->merge([
-                'lineas_programaticas_activas' => json_encode($this->lineas_programaticas_activas)
-            ]);
-        }
     }
 }

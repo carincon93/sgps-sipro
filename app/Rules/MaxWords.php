@@ -2,10 +2,13 @@
 
 namespace App\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class MaxWords implements Rule
+class MaxWords implements ValidationRule
 {
+    private $maxWords;
+
     /**
      * Create a new rule instance.
      *
@@ -17,27 +20,17 @@ class MaxWords implements Rule
     }
 
     /**
-     * Determine if the validation rule passes.
+     * Run the validation rule.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @return bool
+     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
      */
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $words      = explode(' ', $value);
         $nbWords    = count($words);
 
-        return ($nbWords >= 0 && $nbWords <= $this->maxWords);
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message()
-    {
-        return "Este campo debe tener máximo {$this->maxWords} palabras.";
+        if ($nbWords >= 0 && $nbWords <= $this->maxWords) {
+            $fail("Este campo debe tener máximo {$this->maxWords} palabras.");
+        }
     }
 }

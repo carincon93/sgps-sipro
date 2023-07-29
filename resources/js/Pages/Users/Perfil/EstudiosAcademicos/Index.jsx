@@ -6,6 +6,7 @@ import TableMui from '@/Components/Table'
 import { router } from '@inertiajs/react'
 import { useState } from 'react'
 
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { MenuItem, TableCell, TableRow } from '@mui/material'
 
@@ -19,11 +20,14 @@ const EstudiosAcademicos = ({ usuario, estudios_academicos, niveles_academicos }
 
     return (
         <>
-            <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setEstudioAcademico(null))} variant="raised">
-                Agregar estudio académico
-            </ButtonMui>
-
-            <TableMui className="mt-20" rows={['Grado de formación', 'Título obtenido', 'Acciones']} sxCellThead={{ width: '320px' }}>
+            <TableMui rows={['Grado de formación', 'Título obtenido', 'Acciones']} sxCellThead={{ width: '320px' }} className="mt-10">
+                <TableRow onClick={() => (setDialogStatus(true), setMethod('crear'), setEstudioAcademico(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                    <TableCell colSpan={3}>
+                        <ButtonMui>
+                            <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar estudio académico
+                        </ButtonMui>
+                    </TableCell>
+                </TableRow>
                 {estudios_academicos.map((estudio_academico, i) => (
                     <TableRow key={i}>
                         <TableCell>

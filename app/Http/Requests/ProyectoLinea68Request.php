@@ -55,10 +55,8 @@ class ProyectoLinea68Request extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->programas_formacion)) {
-            $this->merge([
-                'programas_formacion' => json_encode($this->programas_formacion)
-            ]);
-        }
+        $this->merge([
+            'programas_formacion' => json_encode($this->programas_formacion)
+        ]);
     }
 }

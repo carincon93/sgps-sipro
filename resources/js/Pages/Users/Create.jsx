@@ -1,59 +1,61 @@
-<script>
-    import AuthenticatedLayout, { title } from '@/Layouts/Authenticated'
-    import { inertia, useForm, page } from '@inertiajs/inertia-svelte'
-    import { route, checkRole, checkPermission } from '@/Utils'
-    import { _ } from 'svelte-i18n'
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
-    import Form from './Form'
+import { Grid, Paper } from '@mui/material'
 
-    export let errors
-    export let tiposDocumento
-    export let tiposVinculacion
-    export let roles
-    export let centrosFormacion
-    export let allowed_to_create
+import { checkRole } from '@/Utils'
+import Form from './Form'
 
-    $: $title = 'Crear usuario'
+const Crear = ({
+    auth,
+    tipos_documento,
+    tipos_vinculacion,
+    centros_formacion,
+    niveles_ingles,
+    opciones_genero,
+    grupos_etnicos,
+    tipos_discapacidad,
+    subareas_experiencia,
+    municipios,
+    roles_sennova,
+    redes_conocimiento,
+    disciplinas_conocimiento,
+    allowed_to_create,
+}) => {
+    const auth_user = auth.user
+    const is_super_admin = checkRole(auth_user, [1])
 
-    /**
-     * Validar si el usuario autenticado es SuperAdmin
-     */
-    let auth_user = auth.user
-    let is_super_admin = checkRole(auth_user, [1])
+    return (
+        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Perfil</h2>}>
+            <Grid container rowSpacing={10}>
+                <Grid item md={4}>
+                    Por favor diligencie la siguiente información
+                    <br />
+                    <strong>
+                        Datos personales, experiencia profesional y/o académica, información del tipo de vinculación, experiencia como formulador y evaluador de proyectos, cursos realizados.
+                    </strong>
+                </Grid>
+                <Grid item md={8} className="drop-shadow-lg">
+                    <Paper elevation={0} sx={{ padding: 2 }}>
+                        <Form
+                            method="crear"
+                            tipos_documento={tipos_documento}
+                            tipos_vinculacion={tipos_vinculacion}
+                            centros_formacion={centros_formacion}
+                            niveles_ingles={niveles_ingles}
+                            opciones_genero={opciones_genero}
+                            grupos_etnicos={grupos_etnicos}
+                            tipos_discapacidad={tipos_discapacidad}
+                            subareas_experiencia={subareas_experiencia}
+                            municipios={municipios}
+                            roles_sennova={roles_sennova}
+                            redes_conocimiento={redes_conocimiento}
+                            disciplinas_conocimiento={disciplinas_conocimiento}
+                        />
+                    </Paper>
+                </Grid>
+            </Grid>
+        </AuthenticatedLayout>
+    )
+}
 
-    let form = useForm({
-        nombre: '',
-        email: '',
-        tipo_documento: '',
-        numero_documento: '',
-        numero_celular: '',
-        habilitado: true,
-        tipo_vinculacion: '',
-        centro_formacion_id: is_super_admin ? null : checkRole(auth_user, [4, 21]) ? auth_user.centro_formacion_id : null,
-        role_id: [],
-        permission_id: [],
-        autorizacion_datos: false,
-    })
-
-    function submit() {
-        if (allowed_to_create) {
-            $form.post(route('users.store'))
-        }
-    }
-</script>
-
-<AuthenticatedLayout>
-    <header className="pt-[8rem]" slot="header">
-        <div className="flex items-center justify-between lg:px-8 max-w-7xl mx-auto px-4 py-6 sm:px-6">
-            <div>
-                <h1>
-                    <a use:inertia href={route('users.index')} className="text-app-400 hover:text-app-600"> Usuarios </a>
-                    <span className="text-app-400 font-medium">/</span>
-                    Crear
-                </h1>
-            </div>
-        </div>
-    </header>
-
-    <Form {submit} {form} {errors} {tiposDocumento} {tiposVinculacion} {roles} {centrosFormacion} {allowed_to_create} />
-</AuthenticatedLayout>
+export default Crear

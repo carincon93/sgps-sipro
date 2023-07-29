@@ -6,6 +6,7 @@ import TableMui from '@/Components/Table'
 import { router } from '@inertiajs/react'
 import { useState } from 'react'
 
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { MenuItem, TableCell, TableRow } from '@mui/material'
 
@@ -19,11 +20,14 @@ const FormacionesAcademicasSena = ({ usuario, formaciones_academicas_sena, modal
 
     return (
         <>
-            <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setFormacionAcademicaSena(null))} variant="raised">
-                Agregar formacion académica SENA
-            </ButtonMui>
-
-            <TableMui className="mt-20" rows={['Modalidad', 'Nivel académico', 'Título obtenido', 'Acciones']} sxCellThead={{ width: '320px' }}>
+            <TableMui rows={['Modalidad', 'Nivel académico', 'Título obtenido', 'Acciones']} sxCellThead={{ width: '320px' }} className="mt-10">
+                <TableRow onClick={() => (setDialogStatus(true), setMethod('crear'), setFormacionAcademicaSena(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                    <TableCell colSpan={4}>
+                        <ButtonMui>
+                            <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar formacion académica SENA
+                        </ButtonMui>
+                    </TableCell>
+                </TableRow>
                 {formaciones_academicas_sena.map((formacion_academica_sena, i) => (
                     <TableRow key={i}>
                         <TableCell>

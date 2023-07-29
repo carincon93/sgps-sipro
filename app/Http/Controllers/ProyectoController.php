@@ -240,17 +240,17 @@ class ProyectoController extends Controller
                     'propuesta_sostenibilidad_puntaje'      => $request->propuesta_sostenibilidad_puntaje,
                     'propuesta_sostenibilidad_comentario'   => $request->propuesta_sostenibilidad_requiere_comentario == false ? $request->propuesta_sostenibilidad_comentario : null,
 
-                    'impacto_ambiental_puntaje'      => $request->impacto_ambiental_puntaje,
-                    'impacto_ambiental_comentario'   => $request->impacto_ambiental_requiere_comentario == false ? $request->impacto_ambiental_comentario : null,
+                    'impacto_ambiental_puntaje'             => $request->impacto_ambiental_puntaje,
+                    'impacto_ambiental_comentario'          => $request->impacto_ambiental_requiere_comentario == false ? $request->impacto_ambiental_comentario : null,
 
-                    'impacto_social_centro_puntaje'      => $request->impacto_social_centro_puntaje,
-                    'impacto_social_centro_comentario'   => $request->impacto_social_centro_requiere_comentario == false ? $request->impacto_social_centro_comentario : null,
+                    'impacto_social_centro_puntaje'         => $request->impacto_social_centro_puntaje,
+                    'impacto_social_centro_comentario'      => $request->impacto_social_centro_requiere_comentario == false ? $request->impacto_social_centro_comentario : null,
 
-                    'impacto_social_productivo_puntaje'      => $request->impacto_social_productivo_puntaje,
-                    'impacto_social_productivo_comentario'   => $request->impacto_social_productivo_requiere_comentario == false ? $request->impacto_social_productivo_comentario : null,
+                    'impacto_social_productivo_puntaje'     => $request->impacto_social_productivo_puntaje,
+                    'impacto_social_productivo_comentario'  => $request->impacto_social_productivo_requiere_comentario == false ? $request->impacto_social_productivo_comentario : null,
 
-                    'impacto_tecnologico_puntaje'      => $request->impacto_tecnologico_puntaje,
-                    'impacto_tecnologico_comentario'   => $request->impacto_social_productivo_requiere_comentario == false ? $request->impacto_tecnologico_comentario : null,
+                    'impacto_tecnologico_puntaje'           => $request->impacto_tecnologico_puntaje,
+                    'impacto_tecnologico_comentario'        => $request->impacto_social_productivo_requiere_comentario == false ? $request->impacto_tecnologico_comentario : null,
                 ]);
                 break;
             default:

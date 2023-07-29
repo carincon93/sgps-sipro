@@ -6,6 +6,7 @@ import TableMui from '@/Components/Table'
 import { router } from '@inertiajs/react'
 import { useState } from 'react'
 
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { MenuItem, TableCell, TableRow } from '@mui/material'
 
@@ -19,11 +20,17 @@ const ParticipacionesGrupoInvestigacionSENA = ({ usuario, participaciones_grupos
 
     return (
         <>
-            <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setParticipacionGrupoInvestigacionSena(null))} variant="raised">
-                Agregar participación
-            </ButtonMui>
-
-            <TableMui className="mt-20" rows={['Grupo de investigación', 'Semillero de investigación', 'Acciones']} sxCellThead={{ width: '320px' }}>
+            <TableMui rows={['Grupo de investigación', 'Semillero de investigación', 'Acciones']} sxCellThead={{ width: '320px' }} className="mt-10">
+                <TableRow
+                    onClick={() => (setDialogStatus(true), setMethod('crear'), setParticipacionGrupoInvestigacionSena(null))}
+                    variant="raised"
+                    className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                    <TableCell colSpan={3}>
+                        <ButtonMui>
+                            <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar participación
+                        </ButtonMui>
+                    </TableCell>
+                </TableRow>
                 {participaciones_grupos_investigacion_sena.map((participacion_grupo_investigacion_sena, i) => (
                     <TableRow key={i}>
                         <TableCell>

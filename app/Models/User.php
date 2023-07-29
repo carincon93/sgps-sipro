@@ -412,4 +412,29 @@ class User extends Authenticatable
     {
         return ucwords($value);
     }
+
+    public function getDisciplinasSubareaConocimientoAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function getOtrosRolesSennovaAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function getRolesFueraSennovaAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function getTiempoPorRolAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function getCursosDeEvaluacionRealizadosAttribute($value)
+    {
+        return json_decode($value);
+    }
 }

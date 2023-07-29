@@ -184,3 +184,17 @@ div#orgchart_div:hover {
 div#orgchart_div:active {
     cursor: grabbing;
 }
+
+tags.tagify {
+    overflow: hidden;
+}
+
+.tagify__input {
+    display: block;
+    width: 100%;
+}
+
+.tagify__tag__disabledRemoveBtn .tagify__tag__removeBtn {
+    visibility: hidden;
+    display: none;
+}

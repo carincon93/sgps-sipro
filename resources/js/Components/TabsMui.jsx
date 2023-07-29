@@ -12,7 +12,7 @@ function TabPanel(props) {
     const { children, value, index, ...other } = props
 
     return (
-        <div role="tabpanel" hidden={value !== index} id={`full-width-tabpanel-${index}`} aria-labelledby={`full-width-tab-${index}`} {...other}>
+        <div role="tabpanel" hidden={value !== index} id={`full-width-tabpanel-${index}`} aria-labelledby={`full-width-tab-${index}`} {...other} className="!w-full">
             {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
         </div>
     )
@@ -52,7 +52,7 @@ export default function TabsMui({ children, tabs = [] }) {
                     ))}
                 </Tabs>
             </AppBar>
-            <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex}>
+            <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex} className="w-full">
                 {children.map((child, i) => (
                     <TabPanel key={i} value={value} index={i} dir={theme.direction}>
                         {child?.props.children}

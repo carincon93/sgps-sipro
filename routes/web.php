@@ -105,7 +105,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('participaciones-grupos-investigacion-sena', ParticipacionGrupoInvestigacionSenaController::class)->parameters(['participaciones-grupos-investigacion-sena' => 'participacion-gis'])->except(['index', 'show'])->withoutMiddleware(['auth', 'verified']);
     Route::resource('participaciones-proyectos-sennova', ParticipacionProyectoSennovaController::class)->parameters(['participaciones-proyectos-sennova' => 'participacion-ps'])->except(['index', 'show'])->withoutMiddleware(['auth', 'verified']);
     Route::put('/users/perfil', [UserController::class, 'changeUserProfile'])->name('users.change-user-profile');
-    Route::put('/users/cambiar-password', [UserController::class, 'changePassword'])->name('users.change-password');
+    Route::put('/users/cambiar-password', [UserController::class, 'cambiarPassword'])->name('users.cambiar-password');
     Route::get('/users/perfil', [UserController::class, 'showPerfil'])->name('users.perfil');
 
     // Muestra los participantes

@@ -6,6 +6,7 @@ import TableMui from '@/Components/Table'
 import { router } from '@inertiajs/react'
 import { useState } from 'react'
 
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { MenuItem, TableCell, TableRow } from '@mui/material'
 
@@ -19,11 +20,17 @@ const ParticipacionesProyectosSENNOVA = ({ usuario, participaciones_proyectos_se
 
     return (
         <>
-            <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setParticipacionProyectoSennova(null))} variant="raised">
-                Agregar participación
-            </ButtonMui>
-
-            <TableMui className="mt-20" rows={['Tipo de proyecto', 'Código', 'Título', 'Fecha de inicio', 'Acciones']} sxCellThead={{ width: '320px' }}>
+            <TableMui rows={['Tipo de proyecto', 'Código', 'Título', 'Fecha de inicio', 'Acciones']} sxCellThead={{ width: '320px' }} className="mt-10">
+                <TableRow
+                    onClick={() => (setDialogStatus(true), setMethod('crear'), setParticipacionProyectoSennova(null))}
+                    variant="raised"
+                    className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                    <TableCell colSpan={5}>
+                        <ButtonMui>
+                            <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar participación
+                        </ButtonMui>
+                    </TableCell>
+                </TableRow>
                 {participaciones_proyectos_sennova.map((participacion_proyecto_sennova, i) => (
                     <TableRow key={i}>
                         {participacion_proyecto_sennova.ha_formulado_proyectos_sennova ? (

@@ -26,12 +26,12 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function SelectMultiple({ id = '', label = '', className = '', error = '', isGroupable = false, options = [], bdValues, inputBackground, ...props }) {
-    const [selectedOptions, setSelectedOptions] = useState([])
-    const [optionsFiltered, setOptions] = useState([])
+    const [selected_options, setSelectedOptions] = useState([])
+    const [options_filtered, setOptions] = useState([])
     const classes = useStyles({ background: inputBackground })
 
     useEffect(() => {
-        const tmpOptionsFiltered = options.map((option) => {
+        const tmp_options_filtered = options.map((option) => {
             if (option.tooltip != undefined) {
                 const { value, label, group, tooltip } = option
                 return { value, label, group, tooltip }
@@ -41,14 +41,14 @@ export default function SelectMultiple({ id = '', label = '', className = '', er
             }
         })
 
-        setOptions(tmpOptionsFiltered)
+        setOptions(tmp_options_filtered)
 
         if (bdValues) {
-            const selectedValues = Array.isArray(bdValues) ? bdValues : [bdValues]
+            const selected_values = Array.isArray(bdValues) ? bdValues : [bdValues]
 
-            const optionsSelected = tmpOptionsFiltered.filter((option) => selectedValues.includes(option.value))
+            const options_selected = tmp_options_filtered.filter((option) => selected_values.includes(option.value))
 
-            setSelectedOptions(optionsSelected)
+            setSelectedOptions(options_selected)
         }
     }, [bdValues, options])
 
@@ -60,8 +60,8 @@ export default function SelectMultiple({ id = '', label = '', className = '', er
                 classes={{ popper: classes.popper, root: inputBackground ? classes.root : '', inputRoot: classes.inputRoot }}
                 className={className}
                 id={id}
-                value={selectedOptions}
-                options={isGroupable ? optionsFiltered.sort((a, b) => a.group.toString().localeCompare(b.group.toString())) : optionsFiltered}
+                value={selected_options}
+                options={isGroupable ? options_filtered.sort((a, b) => a.group.toString().localeCompare(b.group.toString())) : options_filtered}
                 isOptionEqualToValue={(option, value) => option.value === value.value}
                 disableClearable={true}
                 getOptionLabel={(option) => option.label}

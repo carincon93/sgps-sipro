@@ -42,10 +42,8 @@ class TaTpViaticosMunicipioRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->municipios)) {
-            $this->merge([
-                'municipios' => json_encode($this->municipios)
-            ]);
-        }
+        $this->merge([
+            'municipios' => json_encode($this->municipios)
+        ]);
     }
 }

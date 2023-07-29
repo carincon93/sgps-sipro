@@ -8,8 +8,12 @@ import { makeStyles } from '@mui/styles'
 const useStyles = makeStyles((theme) => ({
     paper: {
         '&.MuiDialog-paper': {
-            backgroundColor: '#ffffff8f',
-            backdropFilter: 'blur(5px)',
+            backgroundColor: '#dcf2ff8f',
+        },
+    },
+    root: {
+        '& .MuiModal-backdrop': {
+            backdropFilter: 'blur(8px)',
         },
     },
 }))
@@ -24,7 +28,7 @@ export default function DialogMui({ open = false, blurEnabled = false, dialogTit
                 // onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                classes={{ paper: blurEnabled ? classes.paper : null }}
+                classes={{ paper: blurEnabled ? classes.paper : null, root: classes.root }}
                 {...props}>
                 <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
                 <DialogContent>

@@ -26,7 +26,7 @@ const Tags = ({ error, placeholder, whitelist, tags, value = '', id, enforceWhit
                 tagify.current.destroy()
             }
         }
-    }, [id, enforceWhitelist, whitelist])
+    }, [id, enforceWhitelist, whitelist, tags])
 
     const mockAjax = (duration) => {
         let timeout
@@ -66,7 +66,7 @@ const Tags = ({ error, placeholder, whitelist, tags, value = '', id, enforceWhit
 
     return (
         <>
-            <input id={id} name="tags" {...props} placeholder={placeholder} value={value} {...props} />
+            <input id={id} name="tags" {...props} placeholder={placeholder} value={value} {...props} className={`!p-2 rounded ${props.className}`} />
             {error && (
                 <FormHelperText id={`component-error-${id}`} className="!text-red-600">
                     {error}

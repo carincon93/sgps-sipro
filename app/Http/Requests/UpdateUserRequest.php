@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use App\Rules\Email;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -29,12 +30,11 @@ class UpdateUserRequest extends FormRequest
             'nombre'                => ['required', 'max:255', 'string'],
             'email'                 => ['required', 'max:255', new Email, 'email', 'unique:users,email,' . $this->route('user')->id . ',id'],
             'tipo_documento'        => ['required', 'max:2'],
-            'numero_documento'      => ['required', 'min:55555', 'max:9223372036854775807', 'integer', 'unique:users,numero_documento,' . $this->route('user')->id . ',id'],
-            'numero_celular'        => ['required', 'min:3000000000', 'max:9223372036854775807', 'integer'],
-            'tipo_vinculacion'      => ['required', 'max:191'],
+            'numero_documento'      => ['required', 'min:0', 'max:9223372036854775807', 'integer', 'unique:users,numero_documento,' . $this->route('user')->id . ',id'],
+            'numero_celular'        => ['required', 'min:0', 'max:9223372036854775807', 'integer'],
             'habilitado'            => ['required', 'boolean'],
+            'tipo_vinculacion'      => ['required', 'max:191'],
             'autorizacion_datos'    => ['required', 'boolean'],
-            'role_id*'              => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:roles,id']
         ];
     }
 
@@ -45,30 +45,30 @@ class UpdateUserRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->centro_formacion_id)) {
-            $this->merge([
-                'centro_formacion_id' => $this->centro_formacion_id['value'],
-            ]);
-        }
-
-        if (is_array($this->tipo_documento)) {
-            $this->merge([
-                'tipo_documento' => $this->tipo_documento['value'],
-            ]);
-        }
-
-        if (is_array($this->tipo_vinculacion)) {
-            $this->merge([
-                'tipo_vinculacion' => $this->tipo_vinculacion['value'],
-            ]);
-        }
-
         $this->merge([
-            'nombre' => mb_strtolower($this->nombre),
+            'nombre'                                => mb_strtolower($this->nombre),
+            'email'                                 => mb_strtolower($this->email),
+            'habilitado'                            => $this->habilitado == '1' ? 1 : 0,
+            'cursos_de_evaluacion_realizados'       => json_encode($this->cursos_de_evaluacion_realizados),
+            'tiempo_por_rol'                        => json_encode($this->tiempo_por_rol),
+            'roles_fuera_sennova'                   => json_encode($this->roles_fuera_sennova),
+            'otros_roles_sennova'                   => json_encode($this->otros_roles_sennova),
+            'disciplinas_subarea_conocimiento'      => json_encode($this->disciplinas_subarea_conocimiento),
+            'informacion_completa'                  => $this->informacion_completa == '1' ? 1 : 0,
+            'cursos_evaluacion_proyectos'           => $this->cursos_evaluacion_proyectos == '1' ? 1 : 0,
+            'experiencia_como_evaluador'            => $this->experiencia_como_evaluador == '1' ? 1 : 0,
+            'participacion_como_evaluador_sennova'  => $this->participacion_como_evaluador_sennova == '1' ? 1 : 0,
+            'conocimiento_iso_17025'                => $this->conocimiento_iso_17025 == '1' ? 1 : 0,
+            'conocimiento_iso_19011'                => $this->conocimiento_iso_19011 == '1' ? 1 : 0,
+            'conocimiento_iso_29119'                => $this->conocimiento_iso_29119 == '1' ? 1 : 0,
+            'conocimiento_iso_9001'                 => $this->conocimiento_iso_9001 == '1' ? 1 : 0,
+            'experiencia_metodos_ensayo'            => $this->experiencia_metodos_ensayo == '1' ? 1 : 0,
+            'experiencia_metodos_calibracion'       => $this->experiencia_metodos_calibracion == '1' ? 1 : 0,
+            'experiencia_minima_metodos'            => $this->experiencia_minima_metodos == '1' ? 1 : 0,
         ]);
 
-        $this->merge([
-            'email' => mb_strtolower($this->email),
-        ]);
+        if ($this->default_password) {
+            $this->merge(['password' => User::makePassword($this->numero_documento)]);
+        }
     }
 }
