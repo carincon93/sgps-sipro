@@ -15,7 +15,7 @@ class EntidadAliadaLinea70 extends Model
      *
      * @var string
      */
-    protected $table = 'entidad_aliada_ta_tp';
+    protected $table = 'entidades_aliadas_linea_70';
 
     /**
      * appends

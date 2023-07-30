@@ -40,7 +40,7 @@
     let proyectoDialogOpen = evaluacionProyectoLinea68.evaluacion.clausula_confidencialidad == false ? true : false
 
     let servicioTecnologicoInfo = useForm({
-        tipo_proyecto_st_id: servicioTecnologico.tipo_proyecto_st_id,
+        tipo_proyecto_linea_68_id: servicioTecnologico.tipo_proyecto_linea_68_id,
         linea_programatica_id: servicioTecnologico.proyecto?.linea_programatica_id,
         titulo: servicioTecnologico.titulo,
         fecha_inicio: servicioTecnologico.fecha_inicio,

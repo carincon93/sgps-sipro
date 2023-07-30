@@ -36,7 +36,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
-                <h1 className="font-black text-right text-2xl mr-10"> {method == 'crear' ? 'Añadir' : 'Modificar'} miembro</h1>
+                <h1 className="font-black text-right text-2xl mr-10"> {method == 'crear' ? 'Agregar' : 'Modificar'} miembro</h1>
             </Grid>
 
             <Grid item md={8}>
@@ -131,7 +131,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                             {proyecto.allowed.to_update ? (
                                 <>
                                     <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                        {method == 'crear' ? 'Añadir' : 'Modificar'} miembro
+                                        {method == 'crear' ? 'Agregar' : 'Modificar'} miembro
                                     </PrimaryButton>
                                     <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
                                         Cancelar

@@ -23,7 +23,7 @@
     let form = useForm({
         _method: 'put',
         descripcion: producto.descripcion,
-        tipo_producto_idi_id: producto.tipo_producto_idi_id,
+        tipo_productos_linea_66_id: producto.tipo_productos_linea_66_id,
         estado: producto.estado,
         soporte: producto.soporte,
         link: producto.link,

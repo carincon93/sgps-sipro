@@ -32,7 +32,7 @@ class ProyectoLinea68 extends Model
      * @var array
      */
     protected $fillable = [
-        'tipo_proyecto_st_id',
+        'tipo_proyecto_linea_68_id',
         'titulo',
         'resumen',
         'nombre_area_tecnica',
@@ -99,9 +99,9 @@ class ProyectoLinea68 extends Model
      *
      * @return object
      */
-    public function tipoProyectoSt()
+    public function tipoProyectoLinea68()
     {
-        return $this->belongsTo(TipoProyectoLinea68::class);
+        return $this->belongsTo(TipoProyectoLinea68::class, 'tipo_proyecto_linea_68_id');
     }
 
     /**

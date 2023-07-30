@@ -29,6 +29,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
         if (proyecto.allowed.to_update) {
             method == 'crear'
                 ? form.post(route('convocatorias.ta.aulas-moviles.store', [convocatoria.id, proyecto.id]), {
+                      onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
                   })
                 : form.post(route('convocatorias.ta.aulas-moviles.store', [convocatoria.id, proyecto.id, aula_movil.id]), {
@@ -215,7 +216,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
                             {proyecto.allowed.to_update ? (
                                 <>
                                     <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                        {method == 'crear' ? 'Añadir' : 'Modificar'} aula móvil
+                                        {method == 'crear' ? 'Agregar' : 'Modificar'} aula móvil
                                     </PrimaryButton>
                                     <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
                                         Cancelar

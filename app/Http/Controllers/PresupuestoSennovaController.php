@@ -41,17 +41,17 @@ class PresupuestoSennovaController extends Controller
         $this->authorize('create', [PresupuestoSennova::class]);
 
         return Inertia::render('Presupuesto/PresupuestoSennova/Create', [
-            'primerGrupoPresupuestal'   => SelectHelper::primerGrupoPresupuestal(),
-            'segundoGrupoPresupuestal'  => SegundoGrupoPresupuestal::select('segundo_grupo_presupuestal.id as value', 'segundo_grupo_presupuestal.nombre as label')
-                ->orderBy('segundo_grupo_presupuestal.nombre', 'ASC')
-                ->get(),
-            'tercerGrupoPresupuestal'   => TercerGrupoPresupuestal::select('tercer_grupo_presupuestal.id as value', 'tercer_grupo_presupuestal.nombre as label')
-                ->orderBy('tercer_grupo_presupuestal.nombre', 'ASC')
-                ->get(),
-            'usosPresupuestales'        => UsoPresupuestal::select('usos_presupuestales.id as value', 'usos_presupuestales.descripcion as label')
-                ->orderBy('usos_presupuestales.descripcion', 'ASC')
-                ->get(),
-            'lineasProgramaticas'       => SelectHelper::lineasProgramaticas(),
+            'primerGrupoPresupuestal'   =>  SelectHelper::primerGrupoPresupuestal(),
+            'segundoGrupoPresupuestal'  =>  SegundoGrupoPresupuestal::select('segundo_grupo_presupuestal.id as value', 'segundo_grupo_presupuestal.nombre as label')
+                                                ->orderBy('segundo_grupo_presupuestal.nombre', 'ASC')
+                                                ->get(),
+            'tercerGrupoPresupuestal'   =>  TercerGrupoPresupuestal::select('tercer_grupo_presupuestal.id as value', 'tercer_grupo_presupuestal.nombre as label')
+                                                ->orderBy('tercer_grupo_presupuestal.nombre', 'ASC')
+                                                ->get(),
+            'usosPresupuestales'        =>  UsoPresupuestal::select('usos_presupuestales.id as value', 'usos_presupuestales.descripcion as label')
+                                                ->orderBy('usos_presupuestales.descripcion', 'ASC')
+                                                ->get(),
+            'lineasProgramaticas'       =>  SelectHelper::lineasProgramaticas(),
         ]);
     }
 

@@ -27,7 +27,6 @@ class ConvocatoriaController extends Controller
         $this->authorize('listar-convocatorias');
 
         return Inertia::render('Convocatorias/Index', [
-            'filters'       => request()->all('search'),
             'convocatorias' => Convocatoria::orderBy('id', 'DESC')->filterConvocatoria(request()->only('search'))->paginate()->appends(['search' => request()->search]),
         ]);
     }
@@ -42,10 +41,10 @@ class ConvocatoriaController extends Controller
         $this->authorize('create', [Convocatoria::class]);
 
         return Inertia::render('Convocatorias/Create', [
-            'fases'                 => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
             'lineas_programaticas'  => LineaProgramatica::selectRaw("id as value, CONCAT(nombre, ' - Código: ', codigo) as label")->orderBy('nombre', 'ASC')->get(),
-            'tipos_convocatoria'    => collect(json_decode(Storage::get('json/tipos-convocatoria.json'), true)),
             'convocatorias'         => SelectHelper::convocatorias(),
+            'fases'                 => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
+            'tipos_convocatoria'    => collect(json_decode(Storage::get('json/tipos-convocatoria.json'), true)),
         ]);
     }
 
@@ -60,24 +59,6 @@ class ConvocatoriaController extends Controller
         $this->authorize('create', [Convocatoria::class]);
 
         $convocatoria = Convocatoria::create($request->validated());
-
-        $convocatoria_formulacion_activa = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 1)->first();
-        if ($convocatoria_formulacion_activa && $request->esta_activa && $request->tipo_convocatoria == 1) {
-            $convocatoria_formulacion_activa->esta_activa = false;
-            $convocatoria_formulacion_activa->save();
-        }
-
-        $convocatoria_demo_activa = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 2)->first();
-        if ($convocatoria_demo_activa && $request->esta_activa && $request->tipo_convocatoria == 2) {
-            $convocatoria_demo_activa->esta_activa = false;
-            $convocatoria_demo_activa->save();
-        }
-
-        $convocatoria_lineas_69_70_activa = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 3)->first();
-        if ($convocatoria_lineas_69_70_activa && $convocatoria_lineas_69_70_activa->id != $convocatoria->id && $convocatoria->tipo_convocatoria == 3) {
-            $convocatoria_lineas_69_70_activa->esta_activa = false;
-            $convocatoria_lineas_69_70_activa->save();
-        }
 
         DB::select('SELECT public."crear_convocatoria_presupuesto"(' . $request->convocatoria_id . ',' . $convocatoria->id . ')');
         DB::select('SELECT public."crear_convocatoria_rol_sennova"(' . $request->convocatoria_id . ',' . $convocatoria->id . ')');
@@ -164,10 +145,10 @@ class ConvocatoriaController extends Controller
     public function destroy(Request $request, Convocatoria $convocatoria)
     {
         $this->authorize('delete', [Convocatoria::class, $convocatoria]);
-        if (!Hash::check($request->password, Auth::user()->password)) {
-            return back()
-                ->withErrors(['password' => 'Contraseña incorrecta']);
-        }
+        // if (!Hash::check($request->password, Auth::user()->password)) {
+        //     return back()
+        //         ->withErrors(['password' => 'Contraseña incorrecta']);
+        // }
 
         $convocatoria->delete();
 

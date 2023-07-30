@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('producto_idi', function (Blueprint $table) {
+        Schema::table('productos_linea_66', function (Blueprint $table) {
             $table->foreign(['producto_id'], 'producto_id_fkey')->references(['id'])->on('productos')->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->foreign(['subtipologia_minciencias_id'], 'subtipologia_minciencias_id_fkey')->references(['id'])->on('subtipologias_minciencias')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
@@ -26,7 +26,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('producto_idi', function (Blueprint $table) {
+        Schema::table('productos_linea_66', function (Blueprint $table) {
             $table->dropForeign('producto_id_fkey');
             $table->dropForeign('subtipologia_minciencias_id_fkey');
         });

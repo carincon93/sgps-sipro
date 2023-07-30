@@ -106,7 +106,7 @@
                     <p class="title">Tipo de proyecto</p>
                 </td>
                 <td align="left">
-                    {{ $tipoProyectoSt->where('value', $datos->tipo_proyecto_st_id)->first() ? $tipoProyectoSt->where('value', $datos->tipo_proyecto_st_id)->first()['label'] : '' }}
+                    {{ $tipoProyectoLinea68->where('value', $datos->tipo_proyecto_linea_68_id)->first() ? $tipoProyectoLinea68->where('value', $datos->tipo_proyecto_linea_68_id)->first()['label'] : '' }}
                 </td>
             </tr>
         @endif

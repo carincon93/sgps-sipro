@@ -8,8 +8,10 @@ import PaginationMui from '@/Components/Pagination'
 import StepperMui from '@/Components/Stepper'
 import TableMui from '@/Components/Table'
 
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
+
 import { router } from '@inertiajs/react'
 
 import { checkRole } from '@/Utils'
@@ -34,17 +36,24 @@ const MiembrosEntidadAliada = ({ auth, convocatoria, proyecto, evaluacion, entid
 
             <Grid item md={12}>
                 <h1 className="text-3xl mb-8 text-center">Miembros de la entidad aliada</h1>
-
-                {proyecto.allowed.to_update && (
-                    <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setMiembroEntidadAliada(null))} variant="raised">
-                        Añadir miembro de la entidad aliada
-                    </ButtonMui>
-                )}
             </Grid>
 
             <Grid item md={12}>
                 <AlertMui className="mt-20">Por favor ingrese cada uno de los miembros de la entidad aliada.</AlertMui>
                 <TableMui className="mb-8" rows={['Nombre', 'Correo electrónico', 'Número de celular', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    {proyecto.allowed.to_update && (
+                        <TableRow
+                            onClick={() => (setDialogStatus(true), setMethod('crear'), setMiembroEntidadAliada(null))}
+                            variant="raised"
+                            className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                            <TableCell colSpan={4}>
+                                <ButtonMui>
+                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar miembro de la entidad aliada
+                                </ButtonMui>
+                            </TableCell>
+                        </TableRow>
+                    )}
+
                     {miembros_entidad_aliada.data.map((miembro_entidad_aliada, i) => (
                         <TableRow key={i}>
                             <TableCell>{miembro_entidad_aliada.nombre}</TableCell>

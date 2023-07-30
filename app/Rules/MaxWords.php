@@ -29,7 +29,7 @@ class MaxWords implements ValidationRule
         $words      = explode(' ', $value);
         $nbWords    = count($words);
 
-        if ($nbWords >= 0 && $nbWords <= $this->maxWords) {
+        if (($nbWords >= 0 && $nbWords <= $this->maxWords) == false) {
             $fail("Este campo debe tener máximo {$this->maxWords} palabras.");
         }
     }

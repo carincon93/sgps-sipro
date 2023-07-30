@@ -15,7 +15,7 @@ class ProductoLinea66 extends Model
      *
      * @var string
      */
-    protected $table = 'producto_idi';
+    protected $table = 'productos_linea_66';
 
     /**
      * The attributes that are mass assignable.

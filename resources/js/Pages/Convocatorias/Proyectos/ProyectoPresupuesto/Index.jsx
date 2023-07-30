@@ -4,10 +4,12 @@ import AlertMui from '@/Components/Alert'
 import ButtonMui from '@/Components/Button'
 import DialogMui from '@/Components/Dialog'
 import MenuMui from '@/Components/Menu'
+import PaginationMui from '@/Components/Pagination'
 import TableMui from '@/Components/Table'
 import ToolTipMui from '@/Components/Tooltip'
 import StepperMui from '@/Components/Stepper'
 
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import AirplaneTicketIcon from '@mui/icons-material/AirplaneTicket'
 import CelebrationOutlinedIcon from '@mui/icons-material/CelebrationOutlined'
 import FolderSharedIcon from '@mui/icons-material/FolderShared'
@@ -24,7 +26,6 @@ import Evaluacion from './Evaluacion'
 import Form from './Form'
 
 import React from 'react'
-import PaginationMui from '@/Components/Pagination'
 
 const RubrosPresupuestales = ({
     auth,
@@ -59,12 +60,6 @@ const RubrosPresupuestales = ({
 
             <Grid item md={12}>
                 <h1 className="mt-24 mb-8 text-center text-3xl">Rubros presupuestales</h1>
-
-                {proyecto.allowed.to_update && (
-                    <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setRubroPresupuestal(null))} variant="raised">
-                        Añadir rubro presupuestal
-                    </ButtonMui>
-                )}
             </Grid>
 
             <Grid item md={12}>
@@ -76,6 +71,16 @@ const RubrosPresupuestales = ({
                     className="mb-8"
                     rows={['Descripción del bien o servicio', 'Subtotal del costo de los productos o servicios requeridos', 'Evaluación', 'Acciones']}
                     sxCellThead={{ width: '320px' }}>
+                    {proyecto.allowed.to_update && (
+                        <TableRow onClick={() => (setDialogStatus(true), setMethod('crear'), setRubroPresupuestal(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                            <TableCell colSpan={4}>
+                                <ButtonMui>
+                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar rubro presupuestal
+                                </ButtonMui>
+                            </TableCell>
+                        </TableRow>
+                    )}
+
                     {rubros_presupuestales.data.map((presupuesto, i) => (
                         <TableRow key={i}>
                             <TableCell>

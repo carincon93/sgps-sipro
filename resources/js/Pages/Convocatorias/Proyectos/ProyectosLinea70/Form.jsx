@@ -59,11 +59,11 @@ const Form = ({
         e.preventDefault()
         if (proyecto_linea_70.proyecto.allowed.to_update) {
             method == 'crear'
-                ? form.post(route('convocatorias.ta.store', [convocatoria.id]), {
+                ? form.post(route('convocatorias.proyectos-linea-70.store', [convocatoria.id]), {
                       preserveScroll: true,
                   })
                 : proyecto_linea_70.proyecto.allowed.to_update
-                ? form.put(route('convocatorias.ta.update', [convocatoria.id, proyecto_linea_70.id]), {
+                ? form.put(route('convocatorias.proyectos-linea-70.update', [convocatoria.id, proyecto_linea_70.id]), {
                       preserveScroll: true,
                   })
                 : null
@@ -201,7 +201,7 @@ const Form = ({
                                             route={
                                                 proyecto_linea_70.pdf_proyecto_general?.includes('http')
                                                     ? null
-                                                    : route('convocatorias.ta.download-pdf-sharepoint', [convocatoria.id, ta, 'pdf_proyecto_general'])
+                                                    : route('convocatorias.proyectos-linea-70.download-pdf-sharepoint', [convocatoria.id, ta, 'pdf_proyecto_general'])
                                             }
                                             required
                                         />

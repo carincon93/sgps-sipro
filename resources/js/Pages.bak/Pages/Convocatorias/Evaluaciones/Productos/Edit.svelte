@@ -33,13 +33,13 @@
         fecha_inicio: producto.fecha_inicio,
         fecha_finalizacion: producto.fecha_finalizacion,
         indicador: producto.indicador,
-        medio_verificacion: producto.producto_ta_tp ? producto.producto_ta_tp?.medio_verificacion : producto.producto_servicio_tecnologico?.medio_verificacion,
+        medio_verificacion: producto.producto_ta_tp ? producto.producto_ta_tp?.medio_verificacion : producto.productos_linea_68?.medio_verificacion,
 
-        nombre_indicador: producto.producto_servicio_tecnologico?.nombre_indicador,
-        formula_indicador: producto.producto_servicio_tecnologico?.formula_indicador,
+        nombre_indicador: producto.productos_linea_68?.nombre_indicador,
+        formula_indicador: producto.productos_linea_68?.formula_indicador,
 
-        tipo: producto.producto_idi ? producto.producto_idi.tipo : producto.producto_cultura_innovacion?.tipo,
-        subtipologia_minciencias_id: producto.producto_idi ? producto.producto_idi?.subtipologia_minciencias_id : producto.producto_cultura_innovacion?.subtipologia_minciencias_id,
+        tipo: producto.productos_linea_66 ? producto.productos_linea_66.tipo : producto.producto_cultura_innovacion?.tipo,
+        subtipologia_minciencias_id: producto.productos_linea_66 ? producto.productos_linea_66?.subtipologia_minciencias_id : producto.producto_cultura_innovacion?.subtipologia_minciencias_id,
 
         valor_proyectado: producto.producto_ta_tp?.valor_proyectado,
         tatp_servicio_tecnologico: proyecto.ta || proyecto.tp || proyecto.servicio_tecnologico ? true : false,
@@ -69,13 +69,27 @@
                         <div class="mt-4 flex">
                             <Label labelFor="fecha_inicio" value="Del" />
                             <div class="ml-4">
-                                <input disabled id="fecha_inicio" type="date" class="mt-1 block w-full p-4" min={proyecto.fecha_inicio} max={proyecto.fecha_finalizacion} value={productoInfo.fecha_inicio} />
+                                <input
+                                    disabled
+                                    id="fecha_inicio"
+                                    type="date"
+                                    class="mt-1 block w-full p-4"
+                                    min={proyecto.fecha_inicio}
+                                    max={proyecto.fecha_finalizacion}
+                                    value={productoInfo.fecha_inicio} />
                             </div>
                         </div>
                         <div class="mt-4 flex">
                             <Label labelFor="fecha_finalizacion" value="hasta" />
                             <div class="ml-4">
-                                <input disabled id="fecha_finalizacion" type="date" class="mt-1 block w-full p-4" min={proyecto.fecha_inicio} max={proyecto.fecha_finalizacion} value={productoInfo.fecha_finalizacion} />
+                                <input
+                                    disabled
+                                    id="fecha_finalizacion"
+                                    type="date"
+                                    class="mt-1 block w-full p-4"
+                                    min={proyecto.fecha_inicio}
+                                    max={proyecto.fecha_finalizacion}
+                                    value={productoInfo.fecha_finalizacion} />
                             </div>
                         </div>
                     </div>
@@ -87,7 +101,8 @@
                     {#if productoInfo.tatp_servicio_tecnologico == true}
                         <InfoMessage>
                             <p>
-                                Los productos pueden corresponder a bienes o servicios. Un bien es un objeto tangible, almacenable o transportable, mientras que el servicio es una prestación intangible.
+                                Los productos pueden corresponder a bienes o servicios. Un bien es un objeto tangible, almacenable o transportable, mientras que el servicio es una prestación
+                                intangible.
                                 <br />
                                 El producto debe cumplir con la siguiente estructura:
                                 <br />
@@ -115,7 +130,12 @@
                 {#if productoInfo.tatp_servicio_tecnologico == false}
                     <div class="mt-8">
                         <Label class="mb-4" labelFor="subtipologia_minciencias_id" value="Subtipología Minciencias" />
-                        <Select id="subtipologia_minciencias_id" items={subtipologiasMinciencias} bind:selectedValue={productoInfo.subtipologia_minciencias_id} autocomplete="off" placeholder="Seleccione una subtipología" />
+                        <Select
+                            id="subtipologia_minciencias_id"
+                            items={subtipologiasMinciencias}
+                            bind:selectedValue={productoInfo.subtipologia_minciencias_id}
+                            autocomplete="off"
+                            placeholder="Seleccione una subtipología" />
                     </div>
 
                     <div class="mt-8">
@@ -132,7 +152,8 @@
                         <Label labelFor="medio_verificacion" value="Medio de verificación" />
 
                         {#if proyecto.servicio_tecnologico}
-                            <InfoMessage message="Los medios de verificación corresponden a las evidencias y/o fuentes de información en las que está disponibles los registros, la información necesaria y suficiente. Dichos medios pueden ser documentos oficiales, informes, evaluaciones, encuestas, documentos o reportes internos que genera el proyecto, entre otros." />
+                            <InfoMessage
+                                message="Los medios de verificación corresponden a las evidencias y/o fuentes de información en las que está disponibles los registros, la información necesaria y suficiente. Dichos medios pueden ser documentos oficiales, informes, evaluaciones, encuestas, documentos o reportes internos que genera el proyecto, entre otros." />
                         {:else}
                             <InfoMessage message="Especifique los medios de verificación para validar los logros del objetivo específico." />
                         {/if}
@@ -144,7 +165,8 @@
                     <div class="mt-8">
                         <Label labelFor="nombre_indicador" value="Nombre del Indicador del producto" />
 
-                        <InfoMessage message="El indicador debe mantener una estructura coherente. Esta se compone de dos elementos: en primer lugar, debe ir el objeto a cuantificar, descrito por un sujeto y posteriormente la condición deseada, definida a través de un verbo en participio. Por ejemplo: Kilómetros de red vial nacional construidos." />
+                        <InfoMessage
+                            message="El indicador debe mantener una estructura coherente. Esta se compone de dos elementos: en primer lugar, debe ir el objeto a cuantificar, descrito por un sujeto y posteriormente la condición deseada, definida a través de un verbo en participio. Por ejemplo: Kilómetros de red vial nacional construidos." />
                         <Textarea disabled maxlength="40000" id="nombre_indicador" value={productoInfo.nombre_indicador} />
                     </div>
 
@@ -152,8 +174,7 @@
                         <Label labelFor="formula_indicador" value="Fórmula del Indicador del producto" />
 
                         <InfoMessage
-                            message="El método de cálculo debe ser una expresión matemática definida de manera adecuada y de fácil comprensión, es decir, deben quedar claras cuáles son las variables utilizadas. Los métodos de cálculo más comunes son el porcentaje, la tasa de variación, la razón y el número índice. Aunque éstos no son las únicas expresiones para los indicadores, sí son las más frecuentes."
-                        />
+                            message="El método de cálculo debe ser una expresión matemática definida de manera adecuada y de fácil comprensión, es decir, deben quedar claras cuáles son las variables utilizadas. Los métodos de cálculo más comunes son el porcentaje, la tasa de variación, la razón y el número índice. Aunque éstos no son las únicas expresiones para los indicadores, sí son las más frecuentes." />
                         <Textarea disabled maxlength="40000" id="formula_indicador" value={productoInfo.formula_indicador} />
                     </div>
                 {/if}

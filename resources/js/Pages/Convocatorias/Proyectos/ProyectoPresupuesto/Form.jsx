@@ -26,6 +26,7 @@ const Form = ({
     usos_presupuestales,
     conceptos_viaticos,
 }) => {
+    console.log(usos_presupuestales)
     const [array_tecer_grupo_presupuestal, setArrayTecerGrupoPresupuestal] = useState([])
     const [array_usos_presupuestales, setArrayUsosPresupuestales] = useState([])
     const [requiere_estudio_mercado, setRequiereEstudioMercado] = useState(true)
@@ -372,7 +373,7 @@ const Form = ({
                                 <>
                                     {same_values_requiere_estudio_mercado ? (
                                         <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                            {method == 'crear' ? 'Añadir' : 'Modificar'} rubro presupuestal
+                                            {method == 'crear' ? 'Agregar' : 'Modificar'} rubro presupuestal
                                         </PrimaryButton>
                                     ) : (
                                         method == 'editar' && (

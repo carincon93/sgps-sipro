@@ -19,26 +19,17 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
         fecha_inicio: producto?.fecha_inicio,
         fecha_finalizacion: producto?.fecha_finalizacion,
         indicador: producto?.indicador,
-        medio_verificacion: producto?.producto_ta_tp
-            ? producto?.producto_ta_tp?.medio_verificacion
-            : producto?.producto_servicio_tecnologico
-            ? producto?.producto_servicio_tecnologico?.medio_verificacion
-            : '',
+        medio_verificacion: producto?.producto_linea69?.medio_verificacion ?? producto?.producto_linea68?.medio_verificacion ?? producto?.producto_linea70?.medio_verificacion ?? '',
 
-        nombre_indicador: producto?.producto_servicio_tecnologico?.nombre_indicador,
-        formula_indicador: producto?.producto_servicio_tecnologico?.formula_indicador,
-        meta_indicador: producto?.producto_servicio_tecnologico?.meta_indicador,
+        nombre_indicador: producto?.producto_linea68?.nombre_indicador,
+        formula_indicador: producto?.producto_linea68?.formula_indicador,
+        meta_indicador: producto?.producto_linea68?.meta_indicador,
 
-        tipo: producto?.producto_idi ? producto.producto_idi.tipo : producto?.producto_cultura_innovacion ? producto.producto_cultura_innovacion?.tipo : '',
-        subtipologia_minciencias_id: producto?.producto_idi
-            ? producto.producto_idi?.subtipologia_minciencias_id
-            : producto?.producto_cultura_innovacion
-            ? producto.producto_cultura_innovacion?.subtipologia_minciencias_id
-            : null,
+        tipo: producto?.producto_linea66?.tipo ?? producto?.producto_linea65?.tipo ?? '',
+        subtipologia_minciencias_id: producto?.producto_linea66?.subtipologia_minciencias_id ?? producto?.producto_linea65?.subtipologia_minciencias_id ?? null,
 
-        valor_proyectado: producto?.producto_ta_tp ? producto.producto_ta_tp?.valor_proyectado : '',
-        tatp_servicio_tecnologico: proyecto.ta || proyecto.tp || proyecto.servicio_tecnologico ? true : false,
-        actividad_id: null,
+        valor_proyectado: producto?.producto_linea69?.valor_proyectado ?? producto?.producto_linea70?.valor_proyectado ?? '',
+        actividad_id: producto?.actividades.map((item) => item.id),
     })
 
     const submit = (e) => {
@@ -86,7 +77,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
-                <h1 className="font-black text-right text-2xl mr-10"> {method == 'crear' ? 'Añadir' : 'Modificar'} producto</h1>
+                <h1 className="font-black text-right text-2xl mr-10"> {method == 'crear' ? 'Agregar' : 'Modificar'} producto</h1>
             </Grid>
 
             <Grid item md={8}>
@@ -108,7 +99,6 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                     <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
                                 </Grid>
                                 <Grid item md={9}>
-                                    <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
                                     <DatePicker
                                         id="fecha_inicio"
                                         className="block w-full p-4"
@@ -356,13 +346,13 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                             </Grid>
                         </fieldset>
 
-                        {producto && <small className="flex items-center text-app-700">{producto.updated_at}</small>}
+                        {producto && <small className="inline-block my-10 text-app-700">{producto.updated_at}</small>}
 
-                        <div className="flex items-center justify-between mt-14 py-4">
+                        <div className="flex items-center justify-between py-4">
                             {proyecto.allowed.to_update ? (
                                 <>
                                     <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                        {method == 'crear' ? 'Añadir' : 'Modificar'} producto
+                                        {method == 'crear' ? 'Agregar' : 'Modificar'} producto
                                     </PrimaryButton>
                                     <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
                                         Cancelar

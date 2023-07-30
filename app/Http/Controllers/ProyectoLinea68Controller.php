@@ -74,7 +74,7 @@ class ProyectoLinea68Controller extends Controller
     {
         $this->authorize('formular-proyecto', [10, $convocatoria]);
 
-        $tipo_proyecto_linea_66 = TipoProyectoLinea68::find($request->tipo_proyecto_st_id);
+        $tipo_proyecto_linea_66 = TipoProyectoLinea68::find($request->tipo_proyecto_linea_68_id);
 
         $proyecto = new Proyecto();
         $proyecto->centroFormacion()->associate($tipo_proyecto_linea_66->centro_formacion_id);
@@ -100,7 +100,7 @@ class ProyectoLinea68Controller extends Controller
         $proyecto_linea_68->propuesta_sostenibilidad              = '';
         $proyecto_linea_68->bibliografia                          = '';
 
-        $proyecto_linea_68->tipoProyectoSt()->associate($request->tipo_proyecto_st_id);
+        $proyecto_linea_68->tipoProyectoLinea68()->associate($request->tipo_proyecto_linea_68_id);
         $proyecto_linea_68->estadoSistemaGestion()->associate($request->estado_sistema_gestion_id);
 
         $proyecto->proyectoLinea68()->save($proyecto_linea_68);
@@ -147,25 +147,26 @@ class ProyectoLinea68Controller extends Controller
         $proyecto_linea_68->proyecto->codigo_linea_programatica     = $proyecto_linea_68->proyecto->lineaProgramatica->codigo;
         $proyecto_linea_68->proyecto->precio_proyecto               = $proyecto_linea_68->proyecto->precioProyecto;
         $proyecto_linea_68->proyecto->centroFormacion;
+        $proyecto_linea_68->proyecto->programasFormacion;
 
         $proyecto_linea_68->mostrar_recomendaciones       = $proyecto_linea_68->proyecto->mostrar_recomendaciones;
         $proyecto_linea_68->mostrar_requiere_subsanacion  = $proyecto_linea_68->proyecto->mostrar_requiere_subsanacion;
 
         if ($auth_user->hasRole(13)) {
-            $tipo_proyecto_linea_66 = SelectHelper::tiposProyectosLinea68()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
+            $tipo_proyecto_linea_68 = SelectHelper::tiposProyectosLinea68()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
         } else {
-            $tipo_proyecto_linea_66 = SelectHelper::tiposProyectosLinea68();
+            $tipo_proyecto_linea_68 = SelectHelper::tiposProyectosLinea68();
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea68/Edit', [
-            'convocatoria'                                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_68', 'max_fecha_finalizacion_proyectos_linea_68', 'fecha_maxima_st', 'mostrar_recomendaciones'),
+            'convocatoria'                                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
             'proyecto_linea_68'                             => $proyecto_linea_68,
             'evaluacion'                                    => EvaluacionProyectoLinea68::find(request()->evaluacion_id),
             'lineas_programaticas'                          => SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 3)->values()->all(),
             'estados_sistema_gestion'                       => SelectHelper::estadosSistemaGestion(),
             'programas_formacion_con_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $proyecto_linea_68->proyecto->centro_formacion_id)->values()->all(),
             'sectores_productivos'                          => collect(json_decode(Storage::get('json/sectores-productivos.json'), true)),
-            'tipos_proyecto_linea_68'                       => $tipo_proyecto_linea_66,
+            'tipos_proyecto_linea_68'                       => $tipo_proyecto_linea_68,
             'roles_sennova'                                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
         ]);
     }
@@ -185,14 +186,15 @@ class ProyectoLinea68Controller extends Controller
         $proyecto_linea_68->fecha_inicio                  = $request->fecha_inicio;
         $proyecto_linea_68->fecha_finalizacion            = $request->fecha_finalizacion;
         $proyecto_linea_68->max_meses_ejecucion           = $request->max_meses_ejecucion;
-        $proyecto_linea_68->pregunta_formulacion_problema = $request->pregunta_formulacion_problema;
         $proyecto_linea_68->resumen                       = $request->resumen;
         $proyecto_linea_68->antecedentes                  = $request->antecedentes;
-        $proyecto_linea_68->identificacion_problema       = $request->identificacion_problema;
-        $proyecto_linea_68->justificacion_problema        = $request->justificacion_problema;
         $proyecto_linea_68->bibliografia                  = $request->bibliografia;
         $proyecto_linea_68->zona_influencia               = $request->zona_influencia;
         $proyecto_linea_68->nombre_area_tecnica           = $request->nombre_area_tecnica;
+
+        $proyecto_linea_68->especificaciones_area       = $request->especificaciones_area;
+        $proyecto_linea_68->infraestructura_adecuada    = $request->infraestructura_adecuada;
+        $proyecto_linea_68->video                       = $request->video;
 
         $proyecto_linea_68->proyecto->programasFormacion()->sync($request->programas_formacion);
 
@@ -266,32 +268,5 @@ class ProyectoLinea68Controller extends Controller
         $proyecto_linea_68->update($request->only($column));
 
         return back();
-    }
-
-    /**
-     * updateEspecificacionesInfraestructura
-     *
-     * @param  mixed $request
-     * @param  mixed $convocatoria
-     * @param  mixed $proyecto_linea_68
-     * @return void
-     */
-    public function updateEspecificacionesInfraestructura(Request $request, Convocatoria $convocatoria, ProyectoLinea68 $proyecto_linea_68)
-    {
-        $this->authorize('modificar-proyecto-autor', [$proyecto_linea_68->proyecto]);
-
-        $request->validate([
-            'especificaciones_area'     => 'required|string|max:40000',
-            'infraestructura_adecuada'  => 'required|boolean',
-            'video'                     => 'nullable|string|url',
-        ]);
-
-        $proyecto_linea_68->update([
-            'especificaciones_area'     => $request->especificaciones_area,
-            'infraestructura_adecuada'  => $request->infraestructura_adecuada,
-            'video'                     => $request->video
-        ]);
-
-        return back()->with('success', 'El recurso se ha guardado correctamente.');
     }
 }

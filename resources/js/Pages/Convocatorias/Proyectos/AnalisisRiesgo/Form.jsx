@@ -146,12 +146,12 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisis_r
                                 />
                             </div>
                         </fieldset>
-                        {analisis_riesgo && <small>{analisis_riesgo.updated_at}</small>}
-                        <div className="flex items-center justify-between mt-14 py-4 ">
+                        {analisis_riesgo && <small className="my-10 inline-block">{analisis_riesgo.updated_at}</small>}
+                        <div className="flex items-center justify-between py-4 ">
                             {proyecto.allowed.to_update ? (
                                 <>
                                     <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                        {method == 'crear' ? 'Añadir' : 'Modificar'} análisis de riesgo
+                                        {method == 'crear' ? 'Agregar' : 'Modificar'} análisis de riesgo
                                     </PrimaryButton>
                                     <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
                                         Cancelar

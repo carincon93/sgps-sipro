@@ -37,7 +37,7 @@ return new class extends Migration
             $table->text('zona_influencia')->nullable();
             $table->text('nombre_area_tecnica')->nullable();
 
-            $table->integer('tipo_proyecto_st_id')->nullable();
+            $table->integer('tipo_proyecto_linea_68_id')->nullable();
             $table->integer('estado_sistema_gestion_id')->nullable();
             $table->timestamps();
         });

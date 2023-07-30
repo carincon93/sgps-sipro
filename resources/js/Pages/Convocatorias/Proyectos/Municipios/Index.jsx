@@ -7,6 +7,7 @@ import PaginationMui from '@/Components/Pagination'
 import TableMui from '@/Components/Table'
 import StepperMui from '@/Components/Stepper'
 
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
@@ -45,15 +46,19 @@ const Municipios = ({
 
             <Grid item md={12}>
                 <h1 className="text-3xl mb-8 text-center">Municipios</h1>
-
-                {is_super_admin || proyecto.allowed.to_update ? (
-                    <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setMunicipio(null))} variant="raised">
-                        Añadir municipio
-                    </ButtonMui>
-                ) : null}
             </Grid>
             <Grid item md={12}>
                 <TableMui className="mt-20 mb-8" rows={['Municipios a visitar', 'Información de la visita', 'Actividades a realizar', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    {proyecto.allowed.to_update ? (
+                        <TableRow onClick={() => (setDialogStatus(true), setMethod('crear'), setMunicipio(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                            <TableCell colSpan={4}>
+                                <ButtonMui>
+                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar municipio
+                                </ButtonMui>
+                            </TableCell>
+                        </TableRow>
+                    ) : null}
+
                     {ta_tp_viaticos_municipios.map((municipio_a_visitar, i) => (
                         <TableRow key={i}>
                             <TableCell>

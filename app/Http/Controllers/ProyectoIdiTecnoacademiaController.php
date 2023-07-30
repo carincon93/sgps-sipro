@@ -166,7 +166,7 @@ class ProyectoIdiTecnoacademiaController extends Controller
             'municipios'                        => SelectHelper::municipios(),
             'lineasRelacionadas'                => $proyectoIdiTecnoacademia->lineas()->select('tecnoacademia_linea_tecnoacademia.id as value', 'lineas_tecnoacademia.nombre')->join('lineas_tecnoacademia', 'tecnoacademia_linea_tecnoacademia.linea_tecnoacademia_id', 'lineas_tecnoacademia.id')->get(),
             'programasRelacionados'             => $proyectoIdiTecnoacademia->programasSennova()->select('programas_sennova.id as value', 'programas_sennova.nombre as label')->get(),
-            'beneficiadosRelacionados'          => $proyectoIdiTecnoacademia->beneficiados()->select('tipos_beneficiados_ta.id as value', 'tipos_beneficiados_ta.nombre as label')->get(),
+            'beneficiadosRelacionados'          => $proyectoIdiTecnoacademia->beneficiados()->select('tipos_beneficiados_linea_70.id as value', 'tipos_beneficiados_linea_70.nombre as label')->get(),
             'municipiosRelacionados'            => $proyectoIdiTecnoacademia->municipios()->select('municipios.id as value', 'municipios.nombre as label', 'regionales.nombre as group', 'regionales.codigo')->join('regionales', 'regionales.id', 'municipios.regional_id')->get(),
             'autorPrincipal'                    => $proyectoIdiTecnoacademia->participantes()->where('proyecto_idi_tecnoacademia_participante.autor_principal', true)->first(),
             'estadosProyectoIdiTecnoacademia'   => json_decode(Storage::get('json/estados-proyecto-idi-tecnoacademia.json'), true),
@@ -480,7 +480,7 @@ class ProyectoIdiTecnoacademiaController extends Controller
         $producto->link                 = $request->link;
         $producto->lugar                = $request->lugar;
         $producto->fecha_realizacion    = $request->fecha_realizacion;
-        $producto->tipoProductoIdi()->associate($request->tipo_producto_idi_id);
+        $producto->tipoProductoIdi()->associate($request->tipo_productos_linea_66_id);
         $producto->proyectoIdiTecnoacademia()->associate($proyectoIdiTecnoacademia);
 
         if ($producto->save()) {
@@ -515,7 +515,7 @@ class ProyectoIdiTecnoacademiaController extends Controller
         $producto->link                 = $request->link;
         $producto->lugar                = $request->lugar;
         $producto->fecha_realizacion    = $request->fecha_realizacion;
-        $producto->tipoProductoIdi()->associate($request->tipo_producto_idi_id);
+        $producto->tipoProductoIdi()->associate($request->tipo_productos_linea_66_id);
         $producto->proyectoIdiTecnoacademia()->associate($proyectoIdiTecnoacademia);
 
         if ($producto->save()) {

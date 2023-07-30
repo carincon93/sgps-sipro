@@ -4,6 +4,7 @@ import DatePicker from '@/Components/DatePicker'
 import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
 import SelectMultiple from '@/Components/SelectMultiple'
+import SwitchMui from '@/Components/Switch'
 import TextInput from '@/Components/TextInput'
 import Textarea from '@/Components/Textarea'
 
@@ -28,32 +29,27 @@ const Form = ({
     ...props
 }) => {
     const form = useForm({
-        tipo_proyecto_st_id: proyecto_linea_68?.tipo_proyecto_st_id ?? '',
+        tipo_proyecto_linea_68_id: proyecto_linea_68?.tipo_proyecto_linea_68_id ?? '',
         linea_programatica_id: proyecto_linea_68?.proyecto?.linea_programatica_id ?? '',
         titulo: proyecto_linea_68?.titulo ?? '',
         fecha_inicio: proyecto_linea_68?.fecha_inicio ?? '',
         fecha_finalizacion: proyecto_linea_68?.fecha_finalizacion ?? '',
         max_meses_ejecucion: proyecto_linea_68?.max_meses_ejecucion ?? '',
-        pregunta_formulacion_problema: proyecto_linea_68?.pregunta_formulacion_problema ?? '',
 
-        programas_formacion: null,
+        programas_formacion: proyecto_linea_68?.proyecto.programas_formacion.map((item) => item.id) ?? null,
 
         estado_sistema_gestion_id: proyecto_linea_68?.estado_sistema_gestion_id ?? '',
         sector_productivo: proyecto_linea_68?.sector_productivo ?? '',
 
         resumen: proyecto_linea_68?.resumen ?? '',
         antecedentes: proyecto_linea_68?.antecedentes ?? '',
-        identificacion_problema: proyecto_linea_68?.identificacion_problema ?? '',
-        justificacion_problema: proyecto_linea_68?.justificacion_problema ?? '',
         bibliografia: proyecto_linea_68?.bibliografia ?? '',
         zona_influencia: proyecto_linea_68?.zona_influencia ?? '',
         nombre_area_tecnica: proyecto_linea_68?.nombre_area_tecnica ?? '',
 
-        resumen: proyecto_linea_68?.resumen ?? '',
-        antecedentes: proyecto_linea_68?.antecedentes ?? '',
-        identificacion_problema: proyecto_linea_68?.identificacion_problema ?? '',
-        justificacion_problema: proyecto_linea_68?.justificacion_problema ?? '',
-        bibliografia: proyecto_linea_68?.bibliografia ?? '',
+        video: proyecto_linea_68.video,
+        infraestructura_adecuada: proyecto_linea_68.infraestructura_adecuada ?? false,
+        especificaciones_area: proyecto_linea_68.especificaciones_area,
 
         cantidad_meses: 0,
         cantidad_horas: 0,
@@ -63,11 +59,11 @@ const Form = ({
     const submit = (e) => {
         e.preventDefault()
         method == 'crear'
-            ? form.post(route('convocatorias.servicios-tecnologicos.store', [convocatoria.id]), {
+            ? form.post(route('convocatorias.proyectos-linea-68.store', [convocatoria.id]), {
                   preserveScroll: true,
               })
             : proyecto_linea_68.proyecto.allowed.to_update
-            ? form.put(route('convocatorias.servicios-tecnologicos.update', [convocatoria.id, proyecto_linea_68.id]), {
+            ? form.put(route('convocatorias.proyectos-linea-68.update', [convocatoria.id, proyecto_linea_68.id]), {
                   preserveScroll: true,
               })
             : null
@@ -133,15 +129,15 @@ const Form = ({
                     </Grid>
 
                     <Grid item md={6}>
-                        <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="tipo_proyecto_st_id" value="Tipo de proyecto ST" />
+                        <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="tipo_proyecto_linea_68_id" value="Tipo de proyecto ST" />
                     </Grid>
                     <Grid item md={6}>
                         <Autocomplete
-                            id="tipo_proyecto_st_id"
+                            id="tipo_proyecto_linea_68_id"
                             options={tipos_proyecto_linea_68}
-                            selectedValue={form.data.tipo_proyecto_st_id}
-                            onChange={(event, newValue) => form.setData('tipo_proyecto_st_id', newValue.value)}
-                            error={form.errors.tipo_proyecto_st_id}
+                            selectedValue={form.data.tipo_proyecto_linea_68_id}
+                            onChange={(event, newValue) => form.setData('tipo_proyecto_linea_68_id', newValue.value)}
+                            error={form.errors.tipo_proyecto_linea_68_id}
                             placeholder="Seleccione una tipología de ST"
                             required
                             disabled={evaluacion ? 'disabled' : undefined}
@@ -164,7 +160,7 @@ const Form = ({
                         />
                     </Grid>
 
-                    {form.data.tipo_proyecto_st_id && (
+                    {form.data.tipo_proyecto_linea_68_id && (
                         <>
                             <Grid item md={6}>
                                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="estado_sistema_gestion_id" value="Estado del sistema de gestión" />
@@ -341,77 +337,6 @@ const Form = ({
                                 />
                             </Grid>
 
-                            <Grid item md={12}>
-                                <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="identificacion_problema" value="Identificación y descripción del problema" />
-                                <AlertMui className="my-2">
-                                    1. Descripción de la necesidad, problema u oportunidad identificada del plan tecnológico y/o agendas departamentales de innovación y competitividad.
-                                    <br />
-                                    2. Descripción del problema que se atiende con el proyecto, sustentado en el contexto, la caracterización, los datos, las estadísticas, de la regional, entre otros,
-                                    citar toda la información consignada utilizando normas APA última edición. La información debe ser de fuentes primarias de información, ejemplo: Secretarías, DANE,
-                                    Artículos científicos, entre otros.
-                                </AlertMui>
-
-                                <Textarea
-                                    label="Identificación y descripción del problema"
-                                    id="identificacion_problema"
-                                    error={form.errors.identificacion_problema}
-                                    value={form.data.identificacion_problema}
-                                    onChange={(e) => form.setData('identificacion_problema', e.target.value)}
-                                    required
-                                    disabled={evaluacion ? 'disabled' : undefined}
-                                />
-                            </Grid>
-
-                            <Grid item md={12}>
-                                <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="pregunta_formulacion_problema" value="Pregunta de formulación del problema" />
-                                <AlertMui className="my-2">
-                                    <p>Se debe verificar que la pregunta del problema defina con exactitud ¿cuál es el problema para resolver, investigar o intervenir?</p>
-                                    La pregunta debe cumplir las siguientes condiciones:
-                                    <ul>
-                                        <li>• Guardar estrecha correspondencia con el título del proyecto.</li>
-                                        <li>• Evitar adjetivos que impliquen juicios de valor tales como: bueno, malo, mejor, peor.</li>
-                                        <li>• No debe dar origen a respuestas tales como si o no.</li>
-                                    </ul>
-                                    <br />
-                                    <strong>Nota:</strong> Se sugiere convertir el problema principal (tronco) identificado en el árbol de problemas en forma pregunta.
-                                    <br />
-                                    <strong>Máximo 50 palabras</strong>
-                                </AlertMui>
-
-                                <Textarea
-                                    id="pregunta_formulacion_problema"
-                                    error={form.errors.pregunta_formulacion_problema}
-                                    value={form.data.pregunta_formulacion_problema}
-                                    onChange={(e) => form.setData('pregunta_formulacion_problema', e.target.value)}
-                                    required
-                                    disabled={evaluacion ? 'disabled' : undefined}
-                                />
-                            </Grid>
-
-                            <Grid item md={12}>
-                                <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="justificacion_problema" value="Justificación" />
-                                <AlertMui className="my-2">
-                                    <p>La justificación debe describir la solución del problema y debe responder a las siguientes preguntas:</p>
-                                    <ul>
-                                        <li>• ¿Cómo se relaciona el proyecto con las prioridades de la región y del país?</li>
-                                        <li>• ¿Qué resultados se lograrán?</li>
-                                        <li>• ¿Cuál es la finalidad con los resultados esperados?</li>
-                                        <li>• ¿Cómo se utilizarán los resultados y quiénes serán los beneficiarios?</li>
-                                        <li>• Debe incluir el impacto a la formación, al sector productivo y a la política nacional de ciencia, tecnología e innovación.</li>
-                                    </ul>
-                                    <strong>Nota:</strong> La justificación debe brindar un argumento convincente de los resultados del proyecto generado y de su aplicabilidad."
-                                </AlertMui>
-
-                                <Textarea
-                                    id="justificacion_problema"
-                                    error={form.errors.justificacion_problema}
-                                    value={form.data.justificacion_problema}
-                                    onChange={(e) => form.setData('justificacion_problema', e.target.value)}
-                                    required
-                                    disabled={evaluacion ? 'disabled' : undefined}
-                                />
-                            </Grid>
-
                             <Grid item md={6}>
                                 <Label
                                     required
@@ -458,6 +383,55 @@ const Form = ({
                             </Grid>
 
                             <Grid item md={12}>
+                                <h1 className="mt-24 mb-8 text-center text-3xl">Especificaciones e infraestructura</h1>
+                            </Grid>
+
+                            <Grid item md={6}>
+                                <Label
+                                    required
+                                    labelFor="infraestructura_adecuada"
+                                    value="¿Cuenta con infraestructura adecuada y propia para el funcionamiento de la línea servicios tecnológicos en el centro de formación?"
+                                    className="inline-block mb-4"
+                                />
+                            </Grid>
+                            <Grid item md={6}>
+                                <SwitchMui checked={form.data.infraestructura_adecuada} onChange={(e) => form.setData('infraestructura_adecuada', e.target.checked)} />
+                            </Grid>
+
+                            <Grid item md={12}>
+                                <Label
+                                    required
+                                    labelFor="especificaciones_area"
+                                    value="Relacione las especificaciones del área donde se desarrollan las actividades de servicios tecnológicos en el centro de formación"
+                                    className="inline-block mb-4"
+                                />
+                                <Textarea
+                                    label="Especificaciones del área"
+                                    id="especificaciones_area"
+                                    error={form.errors.especificaciones_area}
+                                    value={form.data.especificaciones_area}
+                                    onChange={(e) => form.setData('especificaciones_area', e.target.value)}
+                                    required
+                                />
+                            </Grid>
+
+                            <Grid item md={6}>
+                                <Label
+                                    required
+                                    labelFor="video"
+                                    value="Enlace del video de las instalaciones donde se desarrollan las actividades de la línea servicios tecnológicos. (Youtube, Vídeo en Google Drive con visualización pública)"
+                                    className="inline-block mb-4"
+                                />
+                            </Grid>
+                            <Grid item md={6}>
+                                <TextInput label="Enlace del video" type="url" value={form.data.video} error={form.errors.video} onChange={(e) => form.setData('video', e.target.value)} required />
+                                <AlertMui>
+                                    El vídeo debe incluir durante el recorrido en las instalaciones, una voz en off que justifique puntualmente el proyecto e incluya: el impacto a la formación, al
+                                    sector productivo y a la política nacional de ciencia, tecnología e innovación.
+                                </AlertMui>
+                            </Grid>
+
+                            <Grid item md={12}>
                                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="bibliografia" value="Bibliografía" />
                                 <AlertMui>
                                     Lista de las referencias utilizadas en cada apartado del proyecto. Utilizar normas APA- Última edición
@@ -477,11 +451,9 @@ const Form = ({
                 </Grid>
             </fieldset>
 
-            {form.isDirty && <div>There are unsaved form changes.</div>}
-
             {method == 'crear' || proyecto_linea_68.proyecto?.allowed?.to_update ? (
                 <div className="pt-8 pb-4 space-y-4">
-                    <PrimaryButton type="submit" className="ml-auto">
+                    <PrimaryButton type="submit" className="ml-auto" disabled={form.processing || !form.isDirty}>
                         Guardar
                     </PrimaryButton>
                 </div>

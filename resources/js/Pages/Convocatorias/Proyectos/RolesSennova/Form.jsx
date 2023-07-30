@@ -44,12 +44,12 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
-                <h1 className="font-black text-right text-2xl mr-10">Rol SENNOVA</h1>
+                <h1 className="font-black text-right text-white text-2xl mr-10">Rol SENNOVA</h1>
             </Grid>
 
             <Grid item md={8}>
                 <Paper className="p-8">
-                    <form onSubmit={submit} className="mt-4">
+                    <form onSubmit={submit}>
                         <fieldset disabled={proyecto?.allowed?.to_update ? false : true}>
                             <div>
                                 <Autocomplete
@@ -84,9 +84,9 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                     id="numero_meses"
                                     type="number"
                                     inputProps={{
+                                        step: 0.1,
                                         min: 1,
-                                        max: proyecto.diff_meses < 6 ? 6 : proyecto.diff_meses,
-                                        step: '0.1',
+                                        max: proyecto.diff_meses,
                                     }}
                                     className="mt-1"
                                     error={form.errors.numero_meses}
@@ -174,7 +174,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                             {proyecto?.allowed?.to_update ? (
                                 <>
                                     <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                        {method == 'crear' ? 'Añadir' : 'Modificar'} rol SENNOVA
+                                        {method == 'crear' ? 'Agregar' : 'Modificar'} rol SENNOVA
                                     </PrimaryButton>
                                     <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
                                         Cancelar

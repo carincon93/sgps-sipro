@@ -13,6 +13,7 @@ import TextInput from '@/Components/TextInput'
 import ToolTipMui from '@/Components/Tooltip'
 import StepperMui from '@/Components/Stepper'
 
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
@@ -58,7 +59,7 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
             <Grid item md={12}>
                 <h1 className="mt-24 mb-8 text-center text-3xl">Roles SENNOVA</h1>
 
-                <AlertMui className="my-14">
+                <AlertMui className="my-8">
                     <p>
                         <strong>Actualmente el total del costo de los roles requeridos es de:</strong> $
                         {new Intl.NumberFormat('de-DE').format(!isNaN(proyecto.total_roles_sennova) ? proyecto.total_roles_sennova : 0)} COP. Tenga en cuenta que el rol{' '}
@@ -68,76 +69,77 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
             </Grid>
 
             <Grid item md={12}>
-                <h2 className="text-center mt-10 mb-24">
-                    {proyecto.codigo_linea_programatica == 70
-                        ? 'Ingrese el número de instructores de planta, dinamizadores de planta y psicopedagógos de planta que requiere el proyecto.'
-                        : 'Ingrese cada uno de los roles SENNOVA que requiere el proyecto.'}
-                </h2>
-
                 {proyecto.codigo_linea_programatica == 70 && (
-                    <form onSubmit={submit} className="mb-40">
-                        <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
-                            <div className="mt-8">
-                                <TextInput
-                                    label="Número de instructores de planta"
-                                    id="cantidad_instructores_planta"
-                                    type="number"
-                                    inputProps={{ min: 0, max: 32767 }}
-                                    className="mt-1"
-                                    error={form.errors.cantidad_instructores_planta}
-                                    value={form.data.cantidad_instructores_planta}
-                                    onChange={(e) => form.setData('cantidad_instructores_planta', e.target.value)}
-                                    required
-                                />
-                            </div>
+                    <>
+                        <AlertMui>Ingrese el número de instructores de planta, dinamizadores de planta y psicopedagógos de planta que requiere el proyecto.</AlertMui>
+                        <form onSubmit={submit} className="mb-40">
+                            <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
+                                <div className="mt-8">
+                                    <TextInput
+                                        label="Número de instructores de planta"
+                                        id="cantidad_instructores_planta"
+                                        type="number"
+                                        inputProps={{ min: 0, max: 32767 }}
+                                        className="mt-1"
+                                        error={form.errors.cantidad_instructores_planta}
+                                        value={form.data.cantidad_instructores_planta}
+                                        onChange={(e) => form.setData('cantidad_instructores_planta', e.target.value)}
+                                        required
+                                    />
+                                </div>
 
-                            <div className="mt-8">
-                                <TextInput
-                                    label="Número de dinamizadores de planta"
-                                    id="cantidad_dinamizadores_planta"
-                                    type="number"
-                                    inputProps={{ min: 0, max: 32767 }}
-                                    className="mt-1"
-                                    error={form.errors.cantidad_dinamizadores_planta}
-                                    value={form.data.cantidad_dinamizadores_planta}
-                                    onChange={(e) => form.setData('cantidad_dinamizadores_planta', e.target.value)}
-                                    required
-                                />
-                            </div>
+                                <div className="mt-8">
+                                    <TextInput
+                                        label="Número de dinamizadores de planta"
+                                        id="cantidad_dinamizadores_planta"
+                                        type="number"
+                                        inputProps={{ min: 0, max: 32767 }}
+                                        className="mt-1"
+                                        error={form.errors.cantidad_dinamizadores_planta}
+                                        value={form.data.cantidad_dinamizadores_planta}
+                                        onChange={(e) => form.setData('cantidad_dinamizadores_planta', e.target.value)}
+                                        required
+                                    />
+                                </div>
 
-                            <div className="mt-8">
-                                <TextInput
-                                    label="Número de psicopedagógos de planta"
-                                    id="cantidad_psicopedagogos_planta"
-                                    type="number"
-                                    inputProps={{ min: 0, max: 32767 }}
-                                    className="mt-1"
-                                    error={form.errors.cantidad_psicopedagogos_planta}
-                                    value={form.data.cantidad_psicopedagogos_planta}
-                                    onChange={(e) => form.setData('cantidad_psicopedagogos_planta', e.target.value)}
-                                    required
-                                />
+                                <div className="mt-8">
+                                    <TextInput
+                                        label="Número de psicopedagógos de planta"
+                                        id="cantidad_psicopedagogos_planta"
+                                        type="number"
+                                        inputProps={{ min: 0, max: 32767 }}
+                                        className="mt-1"
+                                        error={form.errors.cantidad_psicopedagogos_planta}
+                                        value={form.data.cantidad_psicopedagogos_planta}
+                                        onChange={(e) => form.setData('cantidad_psicopedagogos_planta', e.target.value)}
+                                        required
+                                    />
+                                </div>
+                            </fieldset>
+                            <div className="flex items-center justify-between mt-14 px-8 py-4">
+                                {proyecto.allowed.to_update && (
+                                    <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
+                                        Guardar
+                                    </PrimaryButton>
+                                )}
                             </div>
-                        </fieldset>
-                        <div className="flex items-center justify-between mt-14 px-8 py-4">
-                            {proyecto.allowed.to_update && (
-                                <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
-                                    Guardar
-                                </PrimaryButton>
-                            )}
-                        </div>
-                    </form>
-                )}
-
-                {proyecto.allowed.to_update && (
-                    <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setProyectoRolSennova(null))} variant="raised">
-                        Añadir Rol SENNOVA
-                    </ButtonMui>
+                        </form>
+                    </>
                 )}
             </Grid>
 
             <Grid item md={12}>
-                <TableMui className="mt-20 mb-8" rows={['Nombre', 'Asignación mensual', 'Evaluación', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui className="mb-8" rows={['Nombre', 'Asignación mensual', 'Evaluación', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    {proyecto.allowed.to_update && (
+                        <TableRow onClick={() => (setDialogStatus(true), setMethod('crear'), setProyectoRolSennova(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                            <TableCell colSpan={4}>
+                                <ButtonMui>
+                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar Rol SENNOVA
+                                </ButtonMui>
+                            </TableCell>
+                        </TableRow>
+                    )}
+
                     {proyecto_roles_sennova.data.map((proyecto_rol_sennova, i) => (
                         <TableRow key={i}>
                             <TableCell>

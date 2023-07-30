@@ -60,7 +60,7 @@ const ArbolProblemasComponent = ({ auth, proyecto, fase_evaluacion }) => {
                             </Tooltip>
                         ) : null,
                     )}
-                    {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
+                    {proyecto.evaluaciones.length == 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
                 </>
             ) : null}
 
@@ -72,9 +72,9 @@ const ArbolProblemasComponent = ({ auth, proyecto, fase_evaluacion }) => {
 
                     <form onSubmit={submitProblemaCentral} id="problema-central">
                         <fieldset className="space-y-20" disabled={proyecto.allowed.to_update ? undefined : true}>
-                            {proyecto.codigo_linea_programatica !== 68 ||
-                            (proyecto.codigo_linea_programatica === 70 && proyecto?.proyecto_base) ||
-                            (proyecto.codigo_linea_programatica === 70 && checkPermissionByUser(auth_user, [24])) ? (
+                            {proyecto.codigo_linea_programatica == 68 ||
+                            (proyecto.codigo_linea_programatica == 70 && proyecto?.proyecto_base) ||
+                            (proyecto.codigo_linea_programatica == 70 && checkPermissionByUser(auth_user, [24])) ? (
                                 <div>
                                     <Label required className="mb-4" labelFor="identificacion_problema" value="Identificación y descripción del problema" />
                                     <AlertMui>
@@ -89,15 +89,42 @@ const ArbolProblemasComponent = ({ auth, proyecto, fase_evaluacion }) => {
                                         value={form_problema_central.data.identificacion_problema}
                                         error={form_problema_central.errors.identificacion_problema}
                                         onChange={(e) => form_problema_central.setData('identificacion_problema', e.target.value)}
-                                        disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                        disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
                                         required
                                     />
                                 </div>
                             ) : null}
 
-                            {proyecto.codigo_linea_programatica !== 68 ||
-                            (proyecto.codigo_linea_programatica === 70 && proyecto?.proyecto_base) ||
-                            (proyecto.codigo_linea_programatica === 70 && checkPermissionByUser(auth_user, [24])) ? (
+                            {proyecto.codigo_linea_programatica == 68 && (
+                                <div>
+                                    <Label required className="mb-4" labelFor="pregunta_formulacion_problema" value="Pregunta de formulación del problema" />
+                                    <AlertMui className="my-2">
+                                        <p>Se debe verificar que la pregunta del problema defina con exactitud ¿cuál es el problema para resolver, investigar o intervenir?</p>
+                                        La pregunta debe cumplir las siguientes condiciones:
+                                        <ul>
+                                            <li>• Guardar estrecha correspondencia con el título del proyecto.</li>
+                                            <li>• Evitar adjetivos que impliquen juicios de valor tales como: bueno, malo, mejor, peor.</li>
+                                            <li>• No debe dar origen a respuestas tales como si o no.</li>
+                                        </ul>
+                                        <br />
+                                        <strong>Nota:</strong> Se sugiere convertir el problema principal (tronco) identificado en el árbol de problemas en forma pregunta.
+                                        <br />
+                                        <strong>Máximo 50 palabras</strong>
+                                    </AlertMui>
+
+                                    <Textarea
+                                        id="pregunta_formulacion_problema"
+                                        error={form_problema_central.errors.pregunta_formulacion_problema}
+                                        value={form_problema_central.data.pregunta_formulacion_problema}
+                                        onChange={(e) => form_problema_central.setData('pregunta_formulacion_problema', e.target.value)}
+                                        required
+                                    />
+                                </div>
+                            )}
+
+                            {proyecto.codigo_linea_programatica == 68 ||
+                            (proyecto.codigo_linea_programatica == 70 && proyecto?.proyecto_base) ||
+                            (proyecto.codigo_linea_programatica == 70 && checkPermissionByUser(auth_user, [24])) ? (
                                 <div className="mt-10">
                                     <Label required className="mb-4" labelFor="justificacion_problema" value="Justificación" />
                                     <AlertMui>
@@ -106,7 +133,7 @@ const ArbolProblemasComponent = ({ auth, proyecto, fase_evaluacion }) => {
                                     </AlertMui>
 
                                     <Textarea
-                                        disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                        disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
                                         id="justificacion_problema"
                                         error={form_problema_central.errors.justificacion_problema}
                                         value={form_problema_central.data.justificacion_problema}
@@ -124,7 +151,7 @@ const ArbolProblemasComponent = ({ auth, proyecto, fase_evaluacion }) => {
                                     claridad; el problema se debe formular mediante una oración clara y sin ambigüedades.
                                 </AlertMui>
                                 <Textarea
-                                    disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                    disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
                                     id="problema_central"
                                     error={form_problema_central.errors.problema_central}
                                     value={form_problema_central.data.problema_central}
@@ -137,7 +164,7 @@ const ArbolProblemasComponent = ({ auth, proyecto, fase_evaluacion }) => {
                                 <span className="bg-clip-text text-transparent m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max">2. Objetivo general</span>
                             </div>
 
-                            {proyecto.codigo_linea_programatica === 68 ? (
+                            {proyecto.codigo_linea_programatica == 68 ? (
                                 <AlertMui>
                                     El objetivo general se origina al convertir en positivo el problema principal (tronco) identificado en el árbol de problemas.
                                     <br />
@@ -156,7 +183,7 @@ const ArbolProblemasComponent = ({ auth, proyecto, fase_evaluacion }) => {
                             <div>
                                 <Label required className="mb-4" labelFor="objetivo-general" value="Objetivo general" />
                                 <Textarea
-                                    disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                    disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
                                     id="objetivo-general"
                                     error={form_problema_central.errors.objetivo_general}
                                     value={form_problema_central.data.objetivo_general}

@@ -31,7 +31,7 @@ class ProyectoIdiTecnoacademiaProducto extends Model
      */
     protected $fillable = [
         'proyecto_idi_tecnoacademia_id',
-        'tipo_producto_idi_id',
+        'tipo_productos_linea_66_id',
         'estado',
         'soporte',
         'link',

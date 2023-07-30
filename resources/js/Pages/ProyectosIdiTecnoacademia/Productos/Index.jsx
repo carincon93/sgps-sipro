@@ -81,7 +81,7 @@
                         </td>
                         <td className="border-t">
                             <p className="px-6 py-4">
-                                {producto.tipo_producto_idi.tipo}
+                                {producto.tipo_productos_linea_66.tipo}
                             </p>
                         </td>
                         <td className="border-t td-actions">

@@ -3,13 +3,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import AlertMui from '@/Components/Alert'
 import ButtonMui from '@/Components/Button'
 import DialogMui from '@/Components/Dialog'
-import Label from '@/Components/Label'
-import PrimaryButton from '@/Components/PrimaryButton'
 import StepperMui from '@/Components/Stepper'
-import SwitchMui from '@/Components/Switch'
 import TableMui from '@/Components/Table'
-import Textarea from '@/Components/Textarea'
-import TextInput from '@/Components/TextInput'
 import ToolTipMui from '@/Components/Tooltip'
 
 import Evaluacion from './Evaluacion'
@@ -20,29 +15,12 @@ import { checkRole } from '@/Utils'
 import DownloadIcon from '@mui/icons-material/Download'
 import { Grid, TableCell, TableRow } from '@mui/material'
 
-import { useForm } from '@inertiajs/react'
-
 import { useState } from 'react'
 
 const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, anexos, ...props }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
     const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
-
-    const form = useForm({
-        video: proyecto.video,
-        infraestructura_adecuada: proyecto.infraestructura_adecuada ? proyecto.infraestructura_adecuada : false,
-        especificaciones_area: proyecto.especificaciones_area,
-    })
-
-    const submit = (e) => {
-        e.preventDefault()
-        if (proyecto.allowed.to_update) {
-            form.put(route('convocatorias.servicios-tecnologicos.infraestructura', [convocatoria.id, proyecto.id]), {
-                preserveScroll: true,
-            })
-        }
-    }
 
     return (
         <AuthenticatedLayout>
@@ -77,54 +55,6 @@ const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, anex
                     </>
                 )}
             </Grid>
-
-            {proyecto.codigo_linea_programatica == 68 && (
-                <>
-                    <h1 className="mt-24 mb-8 text-center text-3xl">Especificaciones e infraestructura</h1>
-
-                    <form onSubmit={submit} className="mt-4 p-4">
-                        <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
-                            <div className="mt-8">
-                                <Label
-                                    required
-                                    labelFor="infraestructura_adecuada"
-                                    value="¿Cuenta con infraestructura adecuada y propia para el funcionamiento de la línea servicios tecnológicos en el centro de formación?"
-                                    className="inline-block mb-4"
-                                />
-                                <br />
-                                <SwitchMui checked={form.infraestructura_adecuada} />
-                            </div>
-                            <div className="mt-8">
-                                <Label
-                                    required
-                                    labelFor="especificaciones_area"
-                                    value="Relacione las especificaciones del área donde se desarrollan las actividades de servicios tecnológicos en el centro de formación"
-                                    className="inline-block mb-4"
-                                />
-                                <Textarea label="Especificaciones del área" id="especificaciones_area" error={form.errors.especificaciones_area} value={form.data.especificaciones_area} required />
-                            </div>
-                            <div className="mt-8">
-                                <Label
-                                    required
-                                    labelFor="video"
-                                    value="Enlace del video de las instalaciones donde se desarrollan las actividades de la línea servicios tecnológicos. (Youtube, Vídeo en Google Drive con visualización pública)"
-                                    className="inline-block mb-4"
-                                />
-                                <TextInput label="Enlace del video" type="url" value={form.data.video} error={form.errors.video} required />
-                                <AlertMui>
-                                    El vídeo debe incluir durante el recorrido en las instalaciones, una voz en off que justifique puntualmente el proyecto e incluya: el impacto a la formación, al
-                                    sector productivo y a la política nacional de ciencia, tecnología e innovación.
-                                </AlertMui>
-                            </div>
-                            <div className="w-1/12">
-                                <PrimaryButton disabled={form.processing} className="w-full mt-4" type="submit">
-                                    Guardar
-                                </PrimaryButton>
-                            </div>
-                        </fieldset>
-                    </form>
-                </>
-            )}
 
             <AlertMui className="mt-20">
                 <h1 className="mb-10 font-black">Importante:</h1>

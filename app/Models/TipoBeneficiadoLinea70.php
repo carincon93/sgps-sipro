@@ -15,7 +15,7 @@ class TipoBeneficiadoLinea70 extends Model
      *
      * @var string
      */
-    protected $table = 'tipos_beneficiados_ta';
+    protected $table = 'tipos_beneficiados_linea_70';
 
     /**
      * The attributes that are mass assignable.

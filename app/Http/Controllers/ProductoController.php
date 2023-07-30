@@ -38,38 +38,22 @@ class ProductoController extends Controller
             $proyecto->tipo_proyecto = $proyecto->proyectoLinea65->tipo_proyecto;
         }
 
-        $validacionResultados = null;
-        $cantidadActividades = $proyecto->causasDirectas->map(function ($causaDirecta) {
-            return $causaDirecta->causasIndirectas->map(function ($causasIndirecta) {
-                return $causasIndirecta->actividad;
-            });
-        })->flatten()->count();
-
-        $cantidadResultados = $proyecto->efectosDirectos()->whereHas('resultado', function ($query) {
-            $query->where('descripcion', '!=', null);
-        })->with('resultado:id as value,descripcion as label,efecto_directo_id')->get()->pluck('resultado')->count();
-
-        if ($cantidadActividades == 0 && $cantidadResultados == 0) {
-            $validacionResultados = 'Para poder crear productos debe primero generar los resultados y/o actividades en el \'Árbol de objetivos\'';
-        }
-
         return Inertia::render('Convocatorias/Proyectos/Productos/Index', [
-            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
-            'proyecto'                  => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
-            'evaluacion'                => Evaluacion::find(request()->evaluacion_id),
-            'validacionResultados'      => $validacionResultados,
-            'productos'                 => Producto::whereIn(
-                                            'resultado_id',
-                                                $resultado->map(function ($resultado) {
-                                                    return $resultado->id;
-                                                })
-                                            )->with('actividades', 'resultado.objetivoEspecifico', 'productoLinea69', 'productoLinea70')->orderBy('resultado_id', 'ASC')->filterProducto(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+            'convocatoria'              =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
+            'proyecto'                  =>  $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
+            'evaluacion'                =>  Evaluacion::find(request()->evaluacion_id),
+            'productos'                 =>  Producto::whereIn(
+                                                'resultado_id',
+                                                    $resultado->map(function ($resultado) {
+                                                        return $resultado->id;
+                                                    })
+                                                )->with('actividades', 'resultado.objetivoEspecifico', 'productoLinea65', 'productoLinea66', 'productoLinea68', 'productoLinea69', 'productoLinea70')->orderBy('resultado_id', 'ASC')->filterProducto(request()->only('search'))->paginate()->appends(['search' => request()->search]),
 
-            'resultados'                => Resultado::select('resultados.id as value', 'resultados.descripcion as label', 'resultados.id as id')->whereHas('efectoDirecto', function ($query) use ($proyecto) {
-                                                $query->where('efectos_directos.proyecto_id', $proyecto->id);
-                                            })->where('resultados.descripcion', '!=', null)->with('actividades')->get(),
-            'subtipologiasMinciencias'  => SelectHelper::subtipologiasMinciencias(),
-            'tiposProducto'             => json_decode(Storage::get('json/tipos-producto.json'), true),
+            'resultados'                =>  Resultado::select('resultados.id as value', 'resultados.descripcion as label', 'resultados.id as id')->whereHas('efectoDirecto', function ($query) use ($proyecto) {
+                                                 $query->where('efectos_directos.proyecto_id', $proyecto->id);
+                                                })->where('resultados.descripcion', '!=', null)->with('actividades')->get(),
+            'subtipologias_minciencias' =>  SelectHelper::subtipologiasMinciencias(),
+            'tipos_producto'            =>  json_decode(Storage::get('json/tipos-producto.json'), true),
 
         ]);
     }
@@ -114,10 +98,10 @@ class ProductoController extends Controller
                 'subtipologia_minciencias_id'   => 'required|min:0|max:2147483647|integer|exists:subtipologias_minciencias,id'
             ]);
 
-            $productoLinea66 = new ProductoLinea66();
-            $productoLinea66->tipo = $request->tipo;
-            $productoLinea66->subtipologiaMinciencias()->associate($request->subtipologia_minciencias_id);
-            $producto->productoLinea66()->save($productoLinea66);
+            $producto_linea_66 = new ProductoLinea66();
+            $producto_linea_66->tipo = $request->tipo;
+            $producto_linea_66->subtipologiaMinciencias()->associate($request->subtipologia_minciencias_id);
+            $producto->productoLinea66()->save($producto_linea_66);
         }
 
         // Valida si es un producto de la línea 65
@@ -127,10 +111,10 @@ class ProductoController extends Controller
                 'subtipologia_minciencias_id'   => 'required|min:0|max:2147483647|integer|exists:subtipologias_minciencias,id'
             ]);
 
-            $productoLinea65 = new ProductoLinea65();
-            $productoLinea65->tipo = $request->tipo;
-            $productoLinea65->subtipologiaMinciencias()->associate($request->subtipologia_minciencias_id);
-            $producto->productoLinea65()->save($productoLinea65);
+            $producto_linea_65 = new ProductoLinea65();
+            $producto_linea_65->tipo = $request->tipo;
+            $producto_linea_65->subtipologiaMinciencias()->associate($request->subtipologia_minciencias_id);
+            $producto->productoLinea65()->save($producto_linea_65);
         }
 
         // Valida si es un producto de la línea 69
@@ -139,11 +123,11 @@ class ProductoController extends Controller
                 'medio_verificacion' => 'required|string',
                 'valor_proyectado'   => 'required|string',
             ]);
-            $productoLinea69 = new ProductoLinea69();
-            $productoLinea69->producto()->associate($producto->id);
-            $productoLinea69->valor_proyectado     = $request->valor_proyectado;
-            $productoLinea69->medio_verificacion   = $request->medio_verificacion;
-            $producto->productoLinea69()->save($productoLinea69);
+            $producto_linea_69 = new ProductoLinea69();
+            $producto_linea_69->producto()->associate($producto->id);
+            $producto_linea_69->valor_proyectado     = $request->valor_proyectado;
+            $producto_linea_69->medio_verificacion   = $request->medio_verificacion;
+            $producto->productoLinea69()->save($producto_linea_69);
         }
 
         // Valida si es un producto de la línea 70
@@ -152,11 +136,11 @@ class ProductoController extends Controller
                 'medio_verificacion' => 'required|string',
                 'valor_proyectado'   => 'required|string',
             ]);
-            $productoLinea70 = new ProductoLinea70();
-            $productoLinea70->producto()->associate($producto->id);
-            $productoLinea70->valor_proyectado     = $request->valor_proyectado;
-            $productoLinea70->medio_verificacion   = $request->medio_verificacion;
-            $producto->productoLinea70()->save($productoLinea70);
+            $producto_linea_70 = new ProductoLinea70();
+            $producto_linea_70->producto()->associate($producto->id);
+            $producto_linea_70->valor_proyectado     = $request->valor_proyectado;
+            $producto_linea_70->medio_verificacion   = $request->medio_verificacion;
+            $producto->productoLinea70()->save($producto_linea_70);
         }
 
         // Valida si es un producto de la línea 68
@@ -164,13 +148,13 @@ class ProductoController extends Controller
             $request->validate([
                 'medio_verificacion' => 'required|string',
             ]);
-            $productoLinea68 = new ProductoLinea68();
-            $productoLinea68->producto()->associate($producto->id);
-            $productoLinea68->medio_verificacion    = $request->medio_verificacion;
-            $productoLinea68->nombre_indicador      = $request->nombre_indicador;
-            $productoLinea68->formula_indicador     = $request->formula_indicador;
-            $productoLinea68->meta_indicador        = $request->meta_indicador;
-            $producto->productoLinea68()->save($productoLinea68);
+            $producto_linea_68 = new ProductoLinea68();
+            $producto_linea_68->producto()->associate($producto->id);
+            $producto_linea_68->medio_verificacion    = $request->medio_verificacion;
+            $producto_linea_68->nombre_indicador      = $request->nombre_indicador;
+            $producto_linea_68->formula_indicador     = $request->formula_indicador;
+            $producto_linea_68->meta_indicador        = $request->meta_indicador;
+            $producto->productoLinea68()->save($producto_linea_68);
         }
 
         return redirect()->route('convocatorias.proyectos.productos.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');

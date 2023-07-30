@@ -8,6 +8,7 @@ import TableMui from '@/Components/Table'
 import ToolTipMui from '@/Components/Tooltip'
 import StepperMui from '@/Components/Stepper'
 
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
@@ -56,15 +57,19 @@ const EDT = ({ auth, convocatoria, proyecto, evaluacion, presupuesto, eventos, t
                         {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
                     </>
                 ) : null}
-
-                {is_super_admin || proyecto.allowed.to_update ? (
-                    <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setEdt(null))} variant="raised">
-                        Añadir EDT
-                    </ButtonMui>
-                ) : null}
             </Grid>
             <Grid item md={12}>
                 <TableMui className="mt-20 mb-8" rows={['Descripción del evento', 'Fechas', 'Presupuesto', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    {proyecto.allowed.to_update ? (
+                        <TableRow onClick={() => (setDialogStatus(true), setMethod('crear'), setEdt(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                            <TableCell colSpan={4}>
+                                <ButtonMui>
+                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar EDT
+                                </ButtonMui>
+                            </TableCell>
+                        </TableRow>
+                    ) : null}
+
                     {eventos.data.map((evento, i) => (
                         <TableRow key={i}>
                             <TableCell>{evento.descripcion_evento}</TableCell>

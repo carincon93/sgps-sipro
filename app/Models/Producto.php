@@ -66,23 +66,23 @@ class Producto extends Model
     }
 
     /**
-     * Relationship with ProductoProyectoLinea66
+     * Relationship with ProductoLinea66
      *
      * @return object
      */
-    public function productoProyectoLinea66()
+    public function productoLinea66()
     {
-        return $this->hasOne(ProductoProyectoLinea66::class);
+        return $this->hasOne(ProductoLinea66::class);
     }
 
     /**
-     * Relationship with ProductoProyectoLinea65
+     * Relationship with ProductoLinea65
      *
      * @return object
      */
-    public function productoProyectoLinea65()
+    public function productoLinea65()
     {
-        return $this->hasOne(ProductoProyectoLinea65::class);
+        return $this->hasOne(ProductoLinea65::class);
     }
 
     /**
@@ -106,13 +106,13 @@ class Producto extends Model
     }
 
     /**
-     * Relationship with ProductoProyectoLinea68
+     * Relationship with ProductoLinea68
      *
      * @return object
      */
-    public function productoProyectoLinea68()
+    public function productoLinea68()
     {
-        return $this->hasOne(ProductoProyectoLinea68::class);
+        return $this->hasOne(ProductoLinea68::class);
     }
 
     /**

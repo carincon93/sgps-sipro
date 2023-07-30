@@ -24,7 +24,7 @@ class ProyectoIdiTecnoacademiaProductoRequest extends FormRequest
     public function rules()
     {
         return [
-            'tipo_producto_idi_id'  => ['required', 'min:0', 'max:2147483647', 'exists:tipos_producto_idi,id'],
+            'tipo_productos_linea_66_id'  => ['required', 'min:0', 'max:2147483647', 'exists:tipos_productos_linea_66,id'],
             'fecha_realizacion'     => ['nullable', 'date', 'date_format:Y-m-d'],
             'estado'                => ['required', 'integer', 'min:0', 'max:2147483647'],
             'lugar'                 => ['nullable', 'string', 'max:255'],
@@ -47,9 +47,9 @@ class ProyectoIdiTecnoacademiaProductoRequest extends FormRequest
             ]);
         }
 
-        if (is_array($this->tipo_producto_idi_id)) {
+        if (is_array($this->tipo_productos_linea_66_id)) {
             $this->merge([
-                'tipo_producto_idi_id' => $this->tipo_producto_idi_id['value'],
+                'tipo_productos_linea_66_id' => $this->tipo_productos_linea_66_id['value'],
             ]);
         }
     }

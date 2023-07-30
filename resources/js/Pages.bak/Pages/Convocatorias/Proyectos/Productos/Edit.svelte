@@ -29,14 +29,14 @@
         fecha_inicio: producto.fecha_inicio,
         fecha_finalizacion: producto.fecha_finalizacion,
         indicador: producto.indicador,
-        medio_verificacion: producto.producto_ta_tp ? producto.producto_ta_tp?.medio_verificacion : producto.producto_servicio_tecnologico ? producto.producto_servicio_tecnologico?.medio_verificacion : '',
+        medio_verificacion: producto.producto_ta_tp ? producto.producto_ta_tp?.medio_verificacion : producto.productos_linea_68 ? producto.productos_linea_68?.medio_verificacion : '',
 
-        nombre_indicador: producto.producto_servicio_tecnologico?.nombre_indicador,
-        formula_indicador: producto.producto_servicio_tecnologico?.formula_indicador,
-        meta_indicador: producto.producto_servicio_tecnologico?.meta_indicador,
+        nombre_indicador: producto.productos_linea_68?.nombre_indicador,
+        formula_indicador: producto.productos_linea_68?.formula_indicador,
+        meta_indicador: producto.productos_linea_68?.meta_indicador,
 
-        tipo: producto.producto_idi ? producto.producto_idi.tipo : producto.producto_cultura_innovacion?.tipo,
-        subtipologia_minciencias_id: producto.producto_idi ? producto.producto_idi?.subtipologia_minciencias_id : producto.producto_cultura_innovacion?.subtipologia_minciencias_id,
+        tipo: producto.productos_linea_66 ? producto.productos_linea_66.tipo : producto.producto_cultura_innovacion?.tipo,
+        subtipologia_minciencias_id: producto.productos_linea_66 ? producto.productos_linea_66?.subtipologia_minciencias_id : producto.producto_cultura_innovacion?.subtipologia_minciencias_id,
 
         valor_proyectado: producto.producto_ta_tp ? producto.producto_ta_tp?.valor_proyectado : '',
         tatp_servicio_tecnologico: proyecto.ta || proyecto.tp || proyecto.servicio_tecnologico ? true : false,

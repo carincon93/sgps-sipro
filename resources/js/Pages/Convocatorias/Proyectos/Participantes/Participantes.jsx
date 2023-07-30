@@ -1,4 +1,5 @@
 import AlertMui from '@/Components/Alert'
+import InputError from '@/Components/InputError'
 import MenuMui from '@/Components/Menu'
 import PrimaryButton from '@/Components/PrimaryButton'
 import TableMui from '@/Components/Table'
@@ -10,10 +11,15 @@ import SearchBar from '@/Components/SearchBar'
 import Autocomplete from '@/Components/Autocomplete'
 import TextInput from '@/Components/TextInput'
 
-import { router, useForm } from '@inertiajs/react'
+import { router, useForm, usePage } from '@inertiajs/react'
 import { useState } from 'react'
+import { useEffect } from 'react'
 
 const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo_participante, autor_principal }) => {
+    const { props: page_props } = usePage()
+    const [search_param, setSearchParam] = useState()
+    const [participante_a_modificar_id, setParticipanteAModificarId] = useState(null)
+
     /**
      * Participantes
      */
@@ -23,8 +29,6 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
         cantidad_horas: '',
         rol_sennova: null,
     })
-
-    const [participante_a_modificar_id, setParticipanteAModificarId] = useState(null)
 
     const form_nuevo_participante = useForm({
         user_id: null,
@@ -47,6 +51,15 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
         }
     }
 
+    useEffect(() => {
+        form_nuevo_participante.reset()
+        setSearchParam(page_props.ziggy.query.search)
+    }, [page_props.ziggy.query.search])
+
+    useEffect(() => {
+        if (form_nuevo_participante.data.user_id) submitNuevoParticipante()
+    }, [form_nuevo_participante.data.user_id])
+
     proyecto.participantes.sort((a, b) => a.nombre.localeCompare(b.nombre))
 
     return (
@@ -64,7 +77,7 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                 </>
             ) : null}
 
-            <TableMui className="mt-20" rows={['Nombre', 'Centro de formación', 'Rol SENNOVA', 'Participación', 'Acciones']} sxCellThead={{ width: '320px' }}>
+            <TableMui className="mt-20" rows={['Nombre', 'Rol SENNOVA', 'Participación', 'Acciones']} sxCellThead={{ width: '320px' }}>
                 {proyecto.participantes.map((participante, i) => (
                     <TableRow key={i}>
                         <TableCell>
@@ -73,8 +86,9 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                             {participante.nombre}
                             <br />
                             <Chip className="mt-2" label={participante.email} />
-                        </TableCell>
-                        <TableCell>
+
+                            <br />
+                            <br />
                             {participante.centro_formacion ? participante.centro_formacion.nombre : ''}
                             <br />
                             <Chip className="mt-2" label={participante.centro_formacion ? participante.centro_formacion.regional.nombre : ''} />
@@ -87,14 +101,15 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                                         size="small"
                                         options={roles_sennova}
                                         selectedValue={form_participante.data.rol_sennova}
-                                        error={form_participante.errors.rol_sennova}
                                         onChange={(event, newValue) => {
                                             form_participante.setData('rol_sennova', newValue.value)
                                         }}
                                         label="Seleccione el rol SENNOVA"
                                         required
                                     />
+                                    {form_participante.errors.rol_sennova && <InputError className="relative top-6" message={form_participante.errors.rol_sennova} />}
                                 </TableCell>
+
                                 <TableCell>
                                     <div className="flex items-center justify-center">
                                         <TextInput
@@ -109,7 +124,6 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                                             size="small"
                                             required
                                             value={form_participante.data.cantidad_meses}
-                                            error={form_participante.errors.cantidad_meses}
                                             onChange={(e) => form_participante.setData('cantidad_meses', e.target.value)}
                                             className="!inline-block !w-20 !mr-2"
                                         />{' '}
@@ -121,7 +135,6 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                                             size="small"
                                             required
                                             value={form_participante.data.cantidad_horas}
-                                            error={form_participante.errors.cantidad_horas}
                                             onChange={(e) => {
                                                 form_participante.setData('cantidad_horas', e.target.value)
                                             }}
@@ -129,6 +142,9 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                                         />{' '}
                                         horas semanales
                                     </div>
+
+                                    {form_participante.errors.cantidad_meses && <InputError className="relative top-6" message={form_participante.errors.cantidad_meses} />}
+                                    {form_participante.errors.cantidad_horas && <InputError className="relative top-6" message={form_participante.errors.cantidad_horas} />}
                                 </TableCell>
                             </>
                         ) : (
@@ -207,75 +223,83 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                 ))}
 
                 {nuevo_participante && (
-                    <TableRow sx={{ backgroundColor: '#e5f6fd' }}>
-                        <TableCell>
-                            {nuevo_participante.nombre}
-                            <br />
-                            <Chip className="mt-2" label={nuevo_participante.email} />
-                        </TableCell>
-                        <TableCell>
-                            {nuevo_participante.centro_formacion ? nuevo_participante.centro_formacion.nombre : ''}
-                            <br />
-                            <Chip className="mt-2" label={nuevo_participante.centro_formacion ? nuevo_participante.centro_formacion.regional.nombre : ''} />
-                        </TableCell>
-                        <TableCell>
-                            <Autocomplete
-                                id="rol_sennova"
-                                size="small"
-                                options={roles_sennova}
-                                selectedValue={form_nuevo_participante.data.rol_sennova ?? nuevo_participante.rol_sennova_id}
-                                error={form_nuevo_participante.errors.rol_sennova}
-                                onChange={(event, newValue) => {
-                                    form_nuevo_participante.setData('rol_sennova', newValue.value)
-                                }}
-                                label="Seleccione el rol SENNOVA"
-                                required
-                            />
-                        </TableCell>
-                        <TableCell>
-                            <div className="flex items-center justify-center">
-                                <TextInput
-                                    id="cantidad_meses"
-                                    type="number"
-                                    name="cantidad_meses"
-                                    inputProps={{
-                                        min: 1,
-                                        max: proyecto.diff_meses,
-                                        step: '0.1',
-                                    }}
-                                    size="small"
-                                    required
-                                    value={form_nuevo_participante.data.cantidad_meses}
-                                    error={form_nuevo_participante.errors.cantidad_meses}
-                                    className="!inline-block !w-20 !mr-2"
-                                    onChange={(e) => form_nuevo_participante.setData('cantidad_meses', e.target.value)}
-                                />{' '}
-                                meses
-                                <TextInput
-                                    id="cantidad_horas"
-                                    type="number"
-                                    name="cantidad_horas"
-                                    size="small"
-                                    required
-                                    value={form_nuevo_participante.data.cantidad_horas}
-                                    error={form_nuevo_participante.errors.cantidad_horas}
-                                    className="!inline-block !w-16 !mx-2"
-                                    onChange={(e) => form_nuevo_participante.setData('cantidad_horas', e.target.value)}
-                                />{' '}
-                                horas semanales
-                            </div>
-                        </TableCell>
+                    <>
+                        {search_param && (
+                            <TableRow sx={{ backgroundColor: '#e5f6fd' }}>
+                                <TableCell>
+                                    {nuevo_participante.nombre}
+                                    <br />
+                                    <Chip className="mt-2" label={nuevo_participante.email} />
 
-                        <TableCell>
-                            <PrimaryButton
-                                onClick={() => {
-                                    form_nuevo_participante.setData('user_id', nuevo_participante.id), submitNuevoParticipante()
-                                }}
-                                disabled={form_nuevo_participante.processing}>
-                                Vincular
-                            </PrimaryButton>
-                        </TableCell>
-                    </TableRow>
+                                    <br />
+                                    <br />
+                                    {nuevo_participante.centro_formacion ? nuevo_participante.centro_formacion.nombre : ''}
+                                    <br />
+                                    <Chip className="mt-2" label={nuevo_participante.centro_formacion ? nuevo_participante.centro_formacion.regional.nombre : ''} />
+                                </TableCell>
+
+                                <TableCell>
+                                    <Autocomplete
+                                        id="rol_sennova"
+                                        size="small"
+                                        options={roles_sennova}
+                                        selectedValue={form_nuevo_participante.data.rol_sennova ?? nuevo_participante.rol_sennova_id}
+                                        onChange={(event, newValue) => {
+                                            form_nuevo_participante.setData('rol_sennova', newValue.value)
+                                        }}
+                                        label="Seleccione el rol SENNOVA"
+                                        required
+                                    />
+
+                                    {form_nuevo_participante.errors.rol_sennova && <InputError className="relative top-6" message={form_nuevo_participante.errors.rol_sennova} />}
+                                </TableCell>
+                                <TableCell>
+                                    <div className="flex items-center justify-center">
+                                        <TextInput
+                                            id="cantidad_meses"
+                                            type="number"
+                                            name="cantidad_meses"
+                                            inputProps={{
+                                                min: 1,
+                                                max: proyecto.diff_meses,
+                                                step: '0.1',
+                                            }}
+                                            size="small"
+                                            required
+                                            value={form_nuevo_participante.data.cantidad_meses}
+                                            className="!inline-block !w-20 !mr-2"
+                                            onChange={(e) => form_nuevo_participante.setData('cantidad_meses', e.target.value)}
+                                        />
+                                        meses
+                                        <TextInput
+                                            id="cantidad_horas"
+                                            type="number"
+                                            name="cantidad_horas"
+                                            size="small"
+                                            required
+                                            value={form_nuevo_participante.data.cantidad_horas}
+                                            className="!inline-block !w-16 !mx-2"
+                                            onChange={(e) => form_nuevo_participante.setData('cantidad_horas', e.target.value)}
+                                        />{' '}
+                                        horas semanales
+                                    </div>
+
+                                    {form_nuevo_participante.errors.cantidad_meses && <InputError className="relative top-6" message={form_nuevo_participante.errors.cantidad_meses} />}
+                                    {form_nuevo_participante.errors.cantidad_horas && <InputError className="relative top-6" message={form_nuevo_participante.errors.cantidad_horas} />}
+                                </TableCell>
+
+                                <TableCell>
+                                    <PrimaryButton
+                                        onClick={() => {
+                                            form_nuevo_participante.setData('user_id', nuevo_participante.id)
+                                        }}
+                                        disabled={form_nuevo_participante.processing}>
+                                        Vincular
+                                    </PrimaryButton>
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </>
                 )}
                 <TableRow sx={{ backgroundColor: '#e5f6fd' }}>
                     <TableCell colSpan={6} className="!align-top">

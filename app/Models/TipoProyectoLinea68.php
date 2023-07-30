@@ -15,7 +15,7 @@ class TipoProyectoLinea68 extends Model
      *
      * @var string
      */
-    protected $table = 'tipos_proyecto_st';
+    protected $table = 'tipos_proyecto_linea_68';
 
     /**
      * The attributes that are mass assignable.
@@ -73,7 +73,7 @@ class TipoProyectoLinea68 extends Model
      *
      * @return object
      */
-    public function serviciosTecnologicos()
+    public function proyectoLinea68()
     {
         return $this->hasMany(ProyectoLinea68::class);
     }

@@ -23,7 +23,7 @@
     let form = useForm({
         _method: 'put',
         descripcion: producto.descripcion,
-        tipo_producto_idi_id: producto.tipo_producto_idi_id,
+        tipo_productos_linea_66_id: producto.tipo_productos_linea_66_id,
         estado: producto.estado,
         soporte: producto.soporte,
         link: producto.link,
@@ -51,7 +51,8 @@
                     <span class="text-app-400 font-medium">/</span>
                     <a use:inertia href={route('proyectos-idi-tecnoacademia.participantes.index', proyectoIdiTecnoacademia.id)} class="text-app-400 hover:text-app-600">Participantes</a>
                     <span class="text-app-400 font-medium">/</span>
-                    <a use:inertia href={route('proyectos-idi-tecnoacademia.productos.index', proyectoIdiTecnoacademia.id)} class="text-app-400 hover:text-app-600 font-extrabold underline">Productos</a>
+                    <a use:inertia href={route('proyectos-idi-tecnoacademia.productos.index', proyectoIdiTecnoacademia.id)} class="text-app-400 hover:text-app-600 font-extrabold underline"
+                        >Productos</a>
                 </h1>
             </div>
         </div>

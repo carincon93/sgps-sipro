@@ -28,8 +28,8 @@ class ProductosStExport implements FromCollection, WithHeadings, WithMapping, Wi
      */
     public function collection()
     {
-        return Producto::select('productos.*', 'producto_servicio_tecnologico.*', 'proyectos.id as proyecto_id')
-            ->join('producto_servicio_tecnologico', 'productos.id', 'producto_servicio_tecnologico.producto_id')
+        return Producto::select('productos.*', 'productos_linea_68.*', 'proyectos.id as proyecto_id')
+            ->join('productos_linea_68', 'productos.id', 'productos_linea_68.producto_id')
             ->join('resultados', 'productos.resultado_id', 'resultados.id')
             ->join('objetivos_especificos', 'resultados.objetivo_especifico_id', 'objetivos_especificos.id')
             ->join('causas_directas', 'objetivos_especificos.causa_directa_id', 'causas_directas.id')

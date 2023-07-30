@@ -30,12 +30,12 @@ use Inertia\Inertia;
 class ArbolProyectoController extends Controller
 {
     /**
-     * generateTree
+     * generarArboles
      *
      * @param  mixed $proyecto
      * @return void
      */
-    private function generateTree(Proyecto $proyecto)
+    private function generarArboles(Proyecto $proyecto)
     {
         if ($proyecto->arboles_completos == false) {
             // 1. Generar mínimo 3 causas directas -> 3 objetivos específicos
@@ -95,7 +95,7 @@ class ArbolProyectoController extends Controller
 
         $proyecto->load('evaluaciones.evaluacionProyectoLinea66');
 
-        $this->generateTree($proyecto);
+        $this->generarArboles($proyecto);
         $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
 
         switch ($proyecto) {
@@ -119,7 +119,12 @@ class ArbolProyectoController extends Controller
                 $proyecto->proyecto_base            = $proyecto->proyectoLinea69->proyecto_base;
                 break;
             case $proyecto->proyectoLinea68()->exists():
-                $proyecto->problema_central = $proyecto->proyectoLinea68->problema_central;
+                $proyecto->objetivo_general                 = $proyecto->proyectoLinea68->objetivo_general;
+                $proyecto->problema_central                 = $proyecto->proyectoLinea68->problema_central;
+                $proyecto->pregunta_formulacion_problema    = $proyecto->proyectoLinea68->pregunta_formulacion_problema;
+                $proyecto->identificacion_problema          = $proyecto->proyectoLinea68->identificacion_problema;
+                $proyecto->justificacion_problema           = $proyecto->proyectoLinea68->justificacion_problema;
+
                 break;
             case $proyecto->proyectoLinea65()->exists():
                 $proyecto->problema_central         = $proyecto->proyectoLinea65->problema_central;
@@ -183,7 +188,7 @@ class ArbolProyectoController extends Controller
     }
 
     /**
-     * updateProblem
+     * updateArbolProblemas
      *
      * @param  mixed $request
      * @param  mixed $proyecto
@@ -266,12 +271,18 @@ class ArbolProyectoController extends Controller
                 break;
             case $proyecto->proyectoLinea68()->exists():
                 $request->validate([
-                    'problema_central' => 'required|string|max:40000',
-                    'objetivo_general' => 'required|string|max:40000',
+                    'problema_central'              => 'required|string|max:40000',
+                    'objetivo_general'              => 'required|string|max:40000',
+                    'pregunta_formulacion_problema' => 'required|string|max:40000',
+                    'identificacion_problema'       => 'required|string|max:40000',
+                    'justificacion_problema'        => 'required|string|max:40000',
                 ]);
-                $proyecto_linea_68                   = $proyecto->proyectoLinea68;
-                $proyecto_linea_68->problema_central = $request->problema_central;
-                $proyecto_linea_68->objetivo_general = $request->objetivo_general;
+                $proyecto_linea_68                                  = $proyecto->proyectoLinea68;
+                $proyecto_linea_68->problema_central                = $request->problema_central;
+                $proyecto_linea_68->objetivo_general                = $request->objetivo_general;
+                $proyecto_linea_68->pregunta_formulacion_problema   = $request->pregunta_formulacion_problema;
+                $proyecto_linea_68->identificacion_problema         = $request->identificacion_problema;
+                $proyecto_linea_68->justificacion_problema          = $request->justificacion_problema;
 
                 $proyecto_linea_68->save();
                 break;

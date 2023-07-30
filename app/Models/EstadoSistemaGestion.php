@@ -50,7 +50,7 @@ class EstadoSistemaGestion extends Model
      *
      * @return void
      */
-    public function serviciosTecnologicos()
+    public function proyectoLinea68()
     {
         return $this->belongsTo(ProyectoLinea68::class);
     }

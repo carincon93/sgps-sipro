@@ -29,7 +29,7 @@ class PdfController extends Controller
         ini_set('memory_limit', -1);
 
         $datos = null;
-        $tipoProyectoSt = null;
+        $tipoProyectoLinea68 = null;
         if (!empty($proyecto->proyectoLinea66)) {
             $datos = $proyecto->proyectoLinea66;
             $opcionesIDiDropdown = collect(json_decode(Storage::get('json/opciones-aplica-no-aplica.json'), true));
@@ -47,10 +47,10 @@ class PdfController extends Controller
             $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true));
         } else if (!empty($proyecto->proyectoLinea68)) {
             $datos = $proyecto->proyectoLinea68;
-            $tipoProyectoSt = TipoProyectoLinea68::selectRaw("tipos_proyecto_st.id as value, CASE tipos_proyecto_st.tipo_proyecto
+            $tipoProyectoLinea68 = TipoProyectoLinea68::selectRaw("tipos_proyecto_linea_68.id as value, CASE tipos_proyecto_linea_68.tipo_proyecto
                         WHEN '1' THEN   concat(centros_formacion.nombre, chr(10), '∙ Tipo de proyecto: A', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
                         WHEN '2' THEN   concat(centros_formacion.nombre, chr(10), '∙ Tipo de proyecto: B', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
-                    END as label")->join('centros_formacion', 'tipos_proyecto_st.centro_formacion_id', 'centros_formacion.id')->join('lineas_tecnicas', 'tipos_proyecto_st.linea_tecnica_id', 'lineas_tecnicas.id')->get();
+                    END as label")->join('centros_formacion', 'tipos_proyecto_linea_68.centro_formacion_id', 'centros_formacion.id')->join('lineas_tecnicas', 'tipos_proyecto_linea_68.linea_tecnica_id', 'lineas_tecnicas.id')->get();
             $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-st.json'), true));
         }
 
@@ -60,7 +60,7 @@ class PdfController extends Controller
             'convocatoria'              => $convocatoria,
             'proyecto'                  => $proyecto,
             'datos'                     => $datos,
-            'tipoProyectoSt'            => $tipoProyectoSt,
+            'tipoProyectoLinea68'            => $tipoProyectoLinea68,
             'proyectoAnexo'             => $proyecto->proyectoAnexo()->select('proyecto_anexo.id', 'proyecto_anexo.anexo_id', 'proyecto_anexo.archivo', 'anexos.nombre')->join('anexos', 'proyecto_anexo.anexo_id', 'anexos.id')->get(),
             'rolesSennova'              => $rolesSennova,
             'tiposImpacto'              => collect(json_decode(Storage::get('json/tipos-impacto.json'), true)),

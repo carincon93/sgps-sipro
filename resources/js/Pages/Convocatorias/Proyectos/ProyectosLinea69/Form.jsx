@@ -43,11 +43,11 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
     const submit = (e) => {
         e.preventDefault()
         method == 'crear'
-            ? form.post(route('convocatorias.tp.store', [convocatoria.id]), {
+            ? form.post(route('convocatorias.proyectos-linea-69.store', [convocatoria.id]), {
                   preserveScroll: true,
               })
             : proyecto_linea_69.proyecto.allowed.to_update
-            ? form.post(route('convocatorias.tp.update', [convocatoria.id, proyecto_linea_69.id]), {
+            ? form.post(route('convocatorias.proyectos-linea-69.update', [convocatoria.id, proyecto_linea_69.id]), {
                   preserveScroll: true,
               })
             : null
@@ -223,7 +223,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                             route={
                                                 proyecto_linea_69?.pdf_proyecto_general?.includes('http')
                                                     ? null
-                                                    : route('convocatorias.tp.download-file-sharepoint', [convocatoria.id, tp, 'pdf_proyecto_general'])
+                                                    : route('convocatorias.proyectos-linea-69.download-file-sharepoint', [convocatoria.id, tp, 'pdf_proyecto_general'])
                                             }
                                             required
                                         />

@@ -14,13 +14,14 @@ import { checkRole } from '@/Utils'
 import { useState } from 'react'
 import { router } from '@inertiajs/react'
 
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { MenuItem, Grid, TableRow, TableCell } from '@mui/material'
 
 import Form from './Form'
 import Evaluacion from './Evaluacion'
 
-const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, validacion_resultados, resultados, subtipologias_minciencias, tipos_producto }) => {
+const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, resultados, subtipologias_minciencias, tipos_producto }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -70,7 +71,6 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, valida
                     Los productos se entienden como los bienes o servicios que se generan y entregan en un proceso productivo. Los productos materializan los objetivos específicos de los proyectos. De
                     esta forma, los productos de un proyecto deben agotar los objetivos específicos del mismo y deben cumplir a cabalidad con el objetivo general del proyecto.
                 </p>
-                {validacion_resultados && <AlertMui className="mt-10 mb-10">{validacion_resultados}</AlertMui>}
 
                 {is_super_admin || proyecto.mostrar_recomendaciones ? (
                     <>
@@ -133,14 +133,6 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, valida
                         {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
                     </>
                 ) : null}
-
-                {is_super_admin ||
-                checkRole(auth_user, [5, 17]) ||
-                (proyecto.allowed.to_update && validacion_resultados == null && proyecto.modificable == true && proyecto.codigo_linea_programatica != 70) ? (
-                    <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setProducto(null))} variant="raised">
-                        Crear producto
-                    </ButtonMui>
-                ) : null}
             </Grid>
 
             <Grid item md={12}>
@@ -148,6 +140,16 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, valida
                     <AlertMui className="mt-20">Debe asociar las fechas y actividades a cada uno de los productos haciendo clic en los tres puntos, a continuación, clic en 'Editar'.</AlertMui>
                 )}
                 <TableMui className="mb-8" rows={['Descripción', 'Objetivo específico', 'Resultado/Meta', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    {is_super_admin || checkRole(auth_user, [5, 17]) || (proyecto.allowed.to_update && proyecto.codigo_linea_programatica != 70) ? (
+                        <TableRow onClick={() => (setDialogStatus(true), setMethod('crear'), setProducto(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                            <TableCell colSpan={4}>
+                                <ButtonMui>
+                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar producto
+                                </ButtonMui>
+                            </TableCell>
+                        </TableRow>
+                    ) : null}
+
                     {productos.data.map((producto, i) => (
                         <TableRow key={i}>
                             <TableCell>{producto.nombre}</TableCell>
@@ -157,7 +159,7 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, valida
                                     {proyecto.codigo_linea_programatica != 69 && proyecto.codigo_linea_programatica != 70 ? (
                                         <>Código {producto.resultado.id + '-' + producto.resultado.descripcion}</>
                                     ) : proyecto.codigo_linea_programatica == 69 || proyecto.codigo_linea_programatica == 70 ? (
-                                        <>{producto.producto_ta_tp?.valor_proyectado}</>
+                                        <>{producto.producto_linea69?.valor_proyectado ?? producto.producto_linea70?.valor_proyectado}</>
                                     ) : null}
                                 </>
                             </TableCell>

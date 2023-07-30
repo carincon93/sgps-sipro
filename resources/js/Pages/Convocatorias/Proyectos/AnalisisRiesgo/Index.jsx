@@ -10,6 +10,7 @@ import StepperMui from '@/Components/Stepper'
 
 import { checkRole } from '@/Utils'
 
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Grid, TableRow, TableCell, MenuItem } from '@mui/material'
 
@@ -135,16 +136,20 @@ const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisis_riesgos, nivel
                         {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
                     </>
                 ) : null}
-
-                {is_super_admin || proyecto.allowed.to_update ? (
-                    <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setAnalisisRiesgo(null))} variant="raised">
-                        Añadir análisis de riesgo
-                    </ButtonMui>
-                ) : null}
             </Grid>
 
             <Grid item md={12}>
                 <TableMui className="mt-20 mb-8" rows={['Descripción', 'Nivel', 'Tipo de riesgo', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    {proyecto.allowed.to_update ? (
+                        <TableRow onClick={() => (setDialogStatus(true), setMethod('crear'), setAnalisisRiesgo(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                            <TableCell colSpan={4}>
+                                <ButtonMui>
+                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar análisis de riesgo
+                                </ButtonMui>
+                            </TableCell>
+                        </TableRow>
+                    ) : null}
+
                     {analisis_riesgos.data.map((analisis_riesgo, i) => (
                         <TableRow key={i}>
                             <TableCell>{analisis_riesgo.descripcion}</TableCell>

@@ -20,24 +20,30 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
         naturaleza: entidad_aliada?.naturaleza ?? '',
         tipo_empresa: entidad_aliada?.tipo_empresa ?? '',
         nit: entidad_aliada?.nit ?? '',
-        tiene_convenio: entidad_aliada?.entidad_aliada_idi ? entidad_aliada.entidad_aliada_idi?.descripcion_convenio : '',
-        tiene_grupo_investigacion: entidad_aliada?.entidad_aliada_idi ? entidad_aliada.entidad_aliada_idi?.grupo_investigacion : '',
-        descripcion_convenio: entidad_aliada?.entidad_aliada_idi?.descripcion_convenio ? entidad_aliada.entidad_aliada_idi?.descripcion_convenio : '',
-        grupo_investigacion: entidad_aliada?.entidad_aliada_idi?.grupo_investigacion ? entidad_aliada.entidad_aliada_idi?.grupo_investigacion : '',
-        codigo_gruplac: entidad_aliada?.entidad_aliada_idi ? entidad_aliada.entidad_aliada_idi?.codigo_gruplac : '',
-        enlace_gruplac: entidad_aliada?.entidad_aliada_idi ? entidad_aliada.entidad_aliada_idi?.enlace_gruplac : '',
-        actividades_transferencia_conocimiento: entidad_aliada?.entidad_aliada_idi ? entidad_aliada.entidad_aliada_idi?.actividades_transferencia_conocimiento : '',
-        recursos_especie: entidad_aliada?.entidad_aliada_idi ? entidad_aliada.entidad_aliada_idi?.recursos_especie : '',
-        descripcion_recursos_especie: entidad_aliada?.entidad_aliada_idi ? entidad_aliada.entidad_aliada_idi?.descripcion_recursos_especie : '',
-        recursos_dinero: entidad_aliada?.entidad_aliada_idi ? entidad_aliada.entidad_aliada_idi?.recursos_dinero : '',
-        descripcion_recursos_dinero: entidad_aliada?.entidad_aliada_idi ? entidad_aliada.entidad_aliada_idi?.descripcion_recursos_dinero : '',
+
+        tiene_convenio: entidad_aliada?.entidades_aliadas_linea_66?.descripcion_convenio ?? '',
+
+        tiene_grupo_investigacion: entidad_aliada?.entidades_aliadas_linea_66?.grupo_investigacion ?? '',
+        descripcion_convenio: entidad_aliada?.entidades_aliadas_linea_66?.descripcion_convenio ?? '',
+        grupo_investigacion: entidad_aliada?.entidades_aliadas_linea_66?.grupo_investigacion ?? '',
+        codigo_gruplac: entidad_aliada?.entidades_aliadas_linea_66?.codigo_gruplac ?? '',
+        enlace_gruplac: entidad_aliada?.entidades_aliadas_linea_66?.enlace_gruplac ?? '',
+        actividades_transferencia_conocimiento: entidad_aliada?.entidades_aliadas_linea_66?.actividades_transferencia_conocimiento ?? '',
+        recursos_especie: entidad_aliada?.entidades_aliadas_linea_66?.recursos_especie ?? '',
+        descripcion_recursos_especie: entidad_aliada?.entidades_aliadas_linea_66?.descripcion_recursos_especie ?? '',
+        recursos_dinero: entidad_aliada?.entidades_aliadas_linea_66?.recursos_dinero ?? '',
+        descripcion_recursos_dinero: entidad_aliada?.entidades_aliadas_linea_66?.descripcion_recursos_dinero ?? '',
+
         carta_intencion: null,
         carta_propiedad_intelectual: null,
-        actividad_id: [],
+        actividad_id: entidad_aliada?.actividades.map((item) => item.id),
+
         soporte_convenio: null,
-        fecha_inicio_convenio: entidad_aliada?.entidad_aliada_ta_tp?.fecha_inicio_convenio ?? '',
-        fecha_fin_convenio: entidad_aliada?.entidad_aliada_ta_tp?.fecha_fin_convenio ?? '',
+        fecha_inicio_convenio: entidad_aliada?.entidad_aliada_linea69?.fecha_inicio_convenio ?? entidad_aliada?.entidad_aliada_linea70?.fecha_inicio_convenio ?? '',
+        fecha_fin_convenio: entidad_aliada?.entidad_aliada_linea69?.fecha_fin_convenio ?? entidad_aliada?.entidad_aliada_linea70?.fecha_fin_convenio ?? '',
     })
+
+    const soporte_convenio_url = entidad_aliada?.entidad_aliada_linea69 ? entidad_aliada.entidad_aliada_linea69.soporte_convenio : entidad_aliada?.entidad_aliada_linea70?.soporte_convenio
 
     const submit = (e) => {
         e.preventDefault()
@@ -57,7 +63,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
-                <h1 className="font-black text-right text-2xl mr-10">{method == 'crear' ? 'Añadir' : 'Modificar'} entidad aliada</h1>
+                <h1 className="font-black text-right text-2xl mr-10">{method == 'crear' ? 'Agregar' : 'Modificar'} entidad aliada</h1>
             </Grid>
 
             <Grid item md={8}>
@@ -253,8 +259,8 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                                     <FileInput
                                                         id="carta_intencion"
                                                         value={form.data.carta_intencion}
-                                                        filename={entidad_aliada?.entidad_aliada_idi.filename.cartaIntencionFilename}
-                                                        extension={entidad_aliada?.entidad_aliada_idi.extension.cartaIntencionExtension}
+                                                        filename={entidad_aliada?.entidades_aliadas_linea_66.filename.cartaIntencionFilename}
+                                                        extension={entidad_aliada?.entidades_aliadas_linea_66.extension.cartaIntencionExtension}
                                                         label="Seleccione un archivo"
                                                         accept="application/pdf"
                                                         downloadRoute={
@@ -280,8 +286,8 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                                     <FileInput
                                                         id="carta_propiedad_intelectual"
                                                         value={form.data.carta_propiedad_intelectual}
-                                                        filename={entidad_aliada?.entidad_aliada_idi.filename.cartaPropiedadIntelectualFilename}
-                                                        extension={entidad_aliada?.entidad_aliada_idi.extension.cartaPropiedadIntelectualExtension}
+                                                        filename={entidad_aliada?.entidades_aliadas_linea_66.filename.cartaPropiedadIntelectualFilename}
+                                                        extension={entidad_aliada?.entidades_aliadas_linea_66.extension.cartaPropiedadIntelectualExtension}
                                                         label="Seleccione un archivo"
                                                         accept="application/pdf"
                                                         downloadRoute={
@@ -317,16 +323,14 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                         <FileInput
                                             id="soporte_convenio"
                                             value={form.data.soporte_convenio}
-                                            filename={entidad_aliada?.filename}
-                                            extension={entidad_aliada?.extension}
+                                            filename={entidad_aliada?.entidad_aliada_linea69 ? entidad_aliada?.entidad_aliada_linea69.filename : entidad_aliada?.entidad_aliada_linea70.filename}
+                                            extension={entidad_aliada?.entidad_aliada_linea69 ? entidad_aliada?.entidad_aliada_linea69.extension : entidad_aliada?.entidad_aliada_linea70.extension}
                                             label="Seleccione un archivo"
                                             accept="application/pdf"
                                             downloadRoute={
-                                                entidad_aliada?.soporte_convenio
-                                                    ? entidad_aliada?.soporte_convenio?.includes('http')
-                                                        ? null
-                                                        : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidad_aliada.id, 'soporte_convenio'])
-                                                    : null
+                                                soporte_convenio_url?.includes('http')
+                                                    ? null
+                                                    : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidad_aliada.id, 'soporte_convenio'])
                                             }
                                             onChange={(e) => form.setData('soporte_convenio', e.target.files[0])}
                                             error={form.errors.soporte_convenio}
@@ -405,7 +409,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                             {proyecto.allowed.to_update ? (
                                 <>
                                     <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                        {method == 'crear' ? 'Añadir' : 'Modificar'} entidad aliada
+                                        {method == 'crear' ? 'Agregar' : 'Modificar'} entidad aliada
                                     </PrimaryButton>
                                     <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
                                         Cancelar

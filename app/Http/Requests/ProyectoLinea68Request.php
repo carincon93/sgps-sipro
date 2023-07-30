@@ -30,20 +30,19 @@ class ProyectoLinea68Request extends FormRequest
                 'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
                 'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
                 'max_meses_ejecucion'                       => ['required', 'numeric', 'min:1', 'max:12'],
-                'pregunta_formulacion_problema'             => ['required', 'string', new MaxWords(50)],
-                'programas_formacion*'                      => ['required', 'integer', 'min:0', 'max:2147483647', 'exists:programas_formacion,id'],
+                'programas_formacion*'                      => ['required', 'array', 'exists:programas_formacion,id'],
             ];
         } else {
             return [
-                'tipo_proyecto_st_id'                       => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tipos_proyecto_st,id'],
+                'tipo_proyecto_linea_68_id'                 => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tipos_proyecto_linea_68,id'],
                 'estado_sistema_gestion_id'                 => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:estados_sistema_gestion,id'],
                 'titulo'                                    => ['required', 'string', new MaxWords(40)],
                 'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
                 'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
                 'max_meses_ejecucion'                       => ['required', 'numeric', 'min:1', 'max:12'],
-                'rol_sennova'                               => ['required', 'min:0', 'max:2147483647', 'integer'],
                 'sector_productivo'                         => ['required', 'min:0', 'max:2147483647', 'integer'],
-                'nombre_area_tecnica'                       => ['required', 'string', 'max:191']
+                'nombre_area_tecnica'                       => ['required', 'string', 'max:191'],
+                'rol_sennova'                               => ['required', 'min:0', 'max:2147483647', 'integer'],
             ];
         }
     }
@@ -55,8 +54,9 @@ class ProyectoLinea68Request extends FormRequest
      */
     protected function prepareForValidation()
     {
-        $this->merge([
-            'programas_formacion' => json_encode($this->programas_formacion)
-        ]);
+        // dd($this);
+        // $this->merge([
+        //     'programas_formacion' => json_encode($this->programas_formacion)
+        // ]);
     }
 }

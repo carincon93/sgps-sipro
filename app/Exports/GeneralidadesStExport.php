@@ -29,16 +29,16 @@ class GeneralidadesStExport implements FromCollection, WithHeadings, WithMapping
      */
     public function collection()
     {
-        return ServicioTecnologico::selectRaw("servicios_tecnologicos.*, CASE tipos_proyecto_st.tipo_proyecto
+        return ServicioTecnologico::selectRaw("servicios_tecnologicos.*, CASE tipos_proyecto_linea_68.tipo_proyecto
                         WHEN '1' THEN   concat('∙ Tipo de proyecto: A', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
                         WHEN '2' THEN   concat('∙ Tipo de proyecto: B', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
                     END as tipo_proyecto,
-                    CASE tipos_proyecto_st.tipologia
+                    CASE tipos_proyecto_linea_68.tipologia
                         WHEN '1' THEN 'Especiales'
                         WHEN '2' THEN 'Laboratorios'
                         WHEN '3' THEN 'Técnicos'
                     END as tipologia,
-                    CASE tipos_proyecto_st.subclasificacion
+                    CASE tipos_proyecto_linea_68.subclasificacion
                         WHEN '1' THEN 'Automatización y TICs'
                         WHEN '2' THEN 'Calibración'
                         WHEN '3' THEN 'Consultoría técnica'
@@ -47,8 +47,8 @@ class GeneralidadesStExport implements FromCollection, WithHeadings, WithMapping
                         WHEN '6' THEN 'Seguridad y salud en el trabajo'
                         WHEN '7' THEN 'Servicios de salud'
                     END as subclasificacion")
-            ->join('tipos_proyecto_st', 'servicios_tecnologicos.tipo_proyecto_st_id', 'tipos_proyecto_st.id')
-            ->join('lineas_tecnicas', 'tipos_proyecto_st.linea_tecnica_id', 'lineas_tecnicas.id')
+            ->join('tipos_proyecto_linea_68', 'servicios_tecnologicos.tipo_proyecto_linea_68_id', 'tipos_proyecto_linea_68.id')
+            ->join('lineas_tecnicas', 'tipos_proyecto_linea_68.linea_tecnica_id', 'lineas_tecnicas.id')
             ->join('proyectos', 'servicios_tecnologicos.id', 'proyectos.id')
             ->where('proyectos.convocatoria_id', $this->convocatoria->id)
             ->whereNotIn('servicios_tecnologicos.id', [1052, 1113])

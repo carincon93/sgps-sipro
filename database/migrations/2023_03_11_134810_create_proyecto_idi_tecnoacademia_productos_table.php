@@ -23,7 +23,7 @@ return new class extends Migration
             $table->date('fecha_realizacion')->nullable();
             $table->text('descripcion');
 
-            $table->integer('tipo_producto_idi_id');
+            $table->integer('tipo_productos_linea_66_id');
             $table->integer('proyecto_idi_tecnoacademia_id');
             $table->timestamps();
         });

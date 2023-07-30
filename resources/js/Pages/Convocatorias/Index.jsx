@@ -9,10 +9,13 @@ import { Link, router } from '@inertiajs/react'
 
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined'
 import { Divider, Grid, MenuItem } from '@mui/material'
+import { useState } from 'react'
 
 export default function Dashboard({ auth, convocatorias }) {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
+
+    const [convocatoria_to_destroy, setConvocatoriaToDestroy] = useState(null)
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Lista de convocatorias</h2>}>
@@ -55,12 +58,38 @@ export default function Dashboard({ auth, convocatorias }) {
                                         <MenuItem onClick={() => router.visit(route('convocatorias.convocatoria-presupuesto.index', convocatoria.id))}>Rúbrica presupuestal SENNOVA</MenuItem>
 
                                         <Divider />
-                                        <MenuItem
-                                            onClick={() => ((convocatoria_id = convocatoria.id), (dialogEliminar = true), (allowedToDestroy = is_super_admin))}
-                                            disabled={!is_super_admin}
-                                            className={!is_super_admin ? 'hidden' : ''}>
-                                            Eliminar convocatoria
-                                        </MenuItem>
+
+                                        {convocatoria.id !== convocatoria_to_destroy && is_super_admin ? (
+                                            <div>
+                                                <MenuItem
+                                                    onClick={() => {
+                                                        setConvocatoriaToDestroy(convocatoria.id)
+                                                    }}>
+                                                    Eliminar
+                                                </MenuItem>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <MenuItem
+                                                    onClick={(e) => {
+                                                        setConvocatoriaToDestroy(null)
+                                                    }}>
+                                                    Cancelar
+                                                </MenuItem>
+                                                <MenuItem
+                                                    sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        if (is_super_admin) {
+                                                            router.delete(route('convocatorias.destroy', [convocatoria.id]), {
+                                                                preserveScroll: true,
+                                                            })
+                                                        }
+                                                    }}>
+                                                    Confirmar
+                                                </MenuItem>
+                                            </div>
+                                        )}
                                     </MenuMui>
                                 )}
                                 <ButtonMui

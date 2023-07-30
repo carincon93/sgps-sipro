@@ -341,7 +341,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Línea programática 68 - Estrategia nacional
      *
      */
-    Route::put('convocatorias/{convocatoria}/proyectos-linea-68/{proyecto_linea_68}/infraestructura', [ProyectoLinea68Controller::class, 'updateEspecificacionesInfraestructura'])->name('convocatorias.proyectos-linea-68.infraestructura');
     Route::resource('convocatorias.proyectos-linea-68', ProyectoLinea68Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-linea-68' => 'proyecto-linea-68'])->except(['show']);
     Route::put('convocatorias/{convocatoria}/proyectos-linea-68/{proyecto_linea_68}/column/{column}', [ProyectoLinea68Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-linea-68.updateLongColumn');
 

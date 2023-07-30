@@ -11,6 +11,7 @@ import StepperMui from '@/Components/Stepper'
 import { checkRole } from '@/Utils'
 import { router } from '@inertiajs/react'
 
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import GroupAddIcon from '@mui/icons-material/GroupAdd'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
@@ -99,16 +100,20 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                         {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
                     </>
                 ) : null}
-
-                {is_super_admin || proyecto.allowed.to_update ? (
-                    <ButtonMui onClick={() => (setDialogStatus(true), setMethod('crear'), setEntidadAliada(null))} variant="raised">
-                        Añadir entidad aliada
-                    </ButtonMui>
-                ) : null}
             </Grid>
 
             <Grid item md={12}>
                 <TableMui className="mt-20 mb-8" rows={['Nombre', 'Tipo de entidad aliada', 'Miembros', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    {proyecto.allowed.to_update ? (
+                        <TableRow onClick={() => (setDialogStatus(true), setMethod('crear'), setEntidadAliada(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                            <TableCell colSpan={4}>
+                                <ButtonMui>
+                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar entidad aliada
+                                </ButtonMui>
+                            </TableCell>
+                        </TableRow>
+                    ) : null}
+
                     {entidades_aliadas.data.map((entidad_aliada, i) => (
                         <TableRow key={i}>
                             <TableCell>{entidad_aliada.nombre}</TableCell>

@@ -48,7 +48,8 @@
                     <span class="text-app-400 font-medium">/</span>
                     <a use:inertia href={route('proyectos-idi-tecnoacademia.participantes.index', proyectoIdiTecnoacademia.id)} class="text-app-400 hover:text-app-600">Participantes</a>
                     <span class="text-app-400 font-medium">/</span>
-                    <a use:inertia href={route('proyectos-idi-tecnoacademia.productos.index', proyectoIdiTecnoacademia.id)} class="text-app-400 hover:text-app-600 font-extrabold underline">Productos</a>
+                    <a use:inertia href={route('proyectos-idi-tecnoacademia.productos.index', proyectoIdiTecnoacademia.id)} class="text-app-400 hover:text-app-600 font-extrabold underline"
+                        >Productos</a>
                 </h1>
             </div>
         </div>
@@ -81,7 +82,7 @@
                         </td>
                         <td class="border-t">
                             <p class="px-6 py-4">
-                                {producto.tipo_producto_idi.tipo}
+                                {producto.tipo_productos_linea_66.tipo}
                             </p>
                         </td>
                         <td class="border-t td-actions">
@@ -91,7 +92,10 @@
                                 </Item>
 
                                 <Separator class={!proyectoIdiTecnoacademia.allowed.to_destroy ? 'hidden' : ''} />
-                                <Item on:SMUI:action={() => ((productoId = producto.id), (dialogEliminar = true), (allowedToDestroy = proyectoIdiTecnoacademia.allowed.to_destroy))} disabled={!proyectoIdiTecnoacademia.allowed.to_destroy} class={!proyectoIdiTecnoacademia.allowed.to_destroy ? 'hidden' : ''}>
+                                <Item
+                                    on:SMUI:action={() => ((productoId = producto.id), (dialogEliminar = true), (allowedToDestroy = proyectoIdiTecnoacademia.allowed.to_destroy))}
+                                    disabled={!proyectoIdiTecnoacademia.allowed.to_destroy}
+                                    class={!proyectoIdiTecnoacademia.allowed.to_destroy ? 'hidden' : ''}>
                                     <Text>Eliminar</Text>
                                 </Item>
                             </DataTableMenu>

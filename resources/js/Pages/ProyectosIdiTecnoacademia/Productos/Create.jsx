@@ -21,7 +21,7 @@
 
     let form = useForm({
         descripcion: '',
-        tipo_producto_idi_id: null,
+        tipo_productos_linea_66_id: null,
         estado: null,
         soporte: null,
         link: '',

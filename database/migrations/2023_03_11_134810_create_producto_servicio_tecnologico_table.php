@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('producto_servicio_tecnologico', function (Blueprint $table) {
+        Schema::create('productos_linea_68', function (Blueprint $table) {
             $table->increments('id');
 
             $table->text('medio_verificacion');
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('producto_servicio_tecnologico');
+        Schema::dropIfExists('productos_linea_68');
     }
 };

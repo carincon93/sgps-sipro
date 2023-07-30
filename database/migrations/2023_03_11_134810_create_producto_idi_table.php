@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('producto_idi', function (Blueprint $table) {
+        Schema::create('productos_linea_66', function (Blueprint $table) {
             $table->increments('id');
 
             $table->char('tipo')->default(1);
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('producto_idi');
+        Schema::dropIfExists('productos_linea_66');
     }
 };
