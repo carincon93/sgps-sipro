@@ -21,6 +21,8 @@ const Form = ({
     method = '',
     convocatoria,
     proyecto_linea_70,
+    tecnoacademia,
+    tecnoacademias,
     lineas_tecnoacademia,
     lineas_programaticas,
     infraestructura_tecnoacademia,
@@ -28,13 +30,15 @@ const Form = ({
     evaluacion,
     ...props
 }) => {
+    const [array_lineas_tecnoacademia, setArrayLineasTecnoacademia] = useState([])
+
     const form = useForm({
         centro_formacion_id: proyecto_linea_70?.proyecto.centro_formacion_id ?? '',
         fecha_inicio: proyecto_linea_70?.fecha_inicio ?? '',
         fecha_finalizacion: proyecto_linea_70?.fecha_finalizacion ?? '',
         max_meses_ejecucion: proyecto_linea_70?.max_meses_ejecucion ?? '',
-        tecnoacademia_id: null,
-        tecnoacademia_linea_tecnoacademia_id: null,
+        tecnoacademia_id: tecnoacademia?.id ?? '',
+        tecnoacademia_linea_tecnoacademia_id: proyecto_linea_70.proyecto.tecnoacademia_lineas_tecnoacademia?.map((item) => item.id),
         codigo_linea_programatica: null,
         logros_vigencia_anterior: proyecto_linea_70?.logros_vigencia_anterior ?? '',
         resumen: proyecto_linea_70?.resumen ?? '',
@@ -57,28 +61,26 @@ const Form = ({
 
     const submit = (e) => {
         e.preventDefault()
-        if (proyecto_linea_70.proyecto.allowed.to_update) {
-            method == 'crear'
-                ? form.post(route('convocatorias.proyectos-linea-70.store', [convocatoria.id]), {
-                      preserveScroll: true,
-                  })
-                : proyecto_linea_70.proyecto.allowed.to_update
-                ? form.put(route('convocatorias.proyectos-linea-70.update', [convocatoria.id, proyecto_linea_70.id]), {
-                      preserveScroll: true,
-                  })
-                : null
-        }
+        method == 'crear'
+            ? form.post(route('convocatorias.proyectos-linea-70.store', [convocatoria.id]), {
+                  preserveScroll: true,
+              })
+            : proyecto_linea_70.proyecto.allowed.to_update
+            ? form.put(route('convocatorias.proyectos-linea-70.update', [convocatoria.id, proyecto_linea_70.id]), {
+                  preserveScroll: true,
+              })
+            : null
     }
+
+    useEffect(() => {
+        const filtered_lineas_tecnoacademia = lineas_tecnoacademia?.filter((obj) => obj.tecnoacademia_id === form.data.tecnoacademia_id)
+
+        setArrayLineasTecnoacademia(filtered_lineas_tecnoacademia)
+    }, [form.data.tecnoacademia_id, tecnoacademia])
 
     useEffect(() => {
         form.setData('max_meses_ejecucion', monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion))
     }, [form.data.fecha_inicio && form.data.fecha_finalizacion])
-
-    const [arrayLineasTecnoacademia, setArrayLineasTecnoacademia] = useState([])
-    const selectLineasTecnoacademia = (selectedTecnoAcademia) => {
-        const filteredLineasTecnoacademia = lineas_tecnoacademia.filter((obj) => obj.tecnoacademia_id === selectedTecnoAcademia.value)
-        setArrayLineasTecnoacademia(filteredLineasTecnoacademia)
-    }
 
     return (
         <form onSubmit={submit}>
@@ -116,10 +118,59 @@ const Form = ({
 
                     {method == 'crear' && (
                         <>
+                            <Grid item md={6}>
+                                <Label required labelFor="tecnoacademia_id" className="mb-4" value="TecnoAcademia" />
+                            </Grid>
+                            <Grid item md={6}>
+                                <Autocomplete
+                                    id="tecnoacademia_id"
+                                    selectedValue={form.data.tecnoacademia_id}
+                                    onChange={(event, newValue) => form.setData('tecnoacademia_id', newValue.value)}
+                                    options={tecnoacademias}
+                                    placeholder="Seleccione una TecnoAcademia"
+                                    required
+                                />
+                            </Grid>
+                        </>
+                    )}
+
+                    {array_lineas_tecnoacademia.length > 0 && (
+                        <>
+                            <Grid item md={6}>
+                                <Label
+                                    required
+                                    disabled={evaluacion ? 'disabled' : undefined}
+                                    className="mb-4"
+                                    labelFor="tecnoacademia_linea_tecnoacademia_id"
+                                    value="Líneas temáticas a ejecutar en la vigencia del proyecto:"
+                                />
+                            </Grid>
+                            <Grid item md={6}>
+                                <SelectMultiple
+                                    id="tecnoacademia_linea_tecnoacademia_id"
+                                    bdValues={form.data.tecnoacademia_linea_tecnoacademia_id}
+                                    options={array_lineas_tecnoacademia}
+                                    onChange={(event, newValue) => {
+                                        const selectedValues = newValue.map((option) => option.value)
+                                        form.setData((prevData) => ({
+                                            ...prevData,
+                                            tecnoacademia_linea_tecnoacademia_id: selectedValues,
+                                        }))
+                                    }}
+                                    error={form.errors.tecnoacademia_linea_tecnoacademia_id}
+                                    label="Seleccione una o varias opciones"
+                                    required
+                                    disabled={evaluacion ? true : false}
+                                />
+                            </Grid>
+                        </>
+                    )}
+
+                    {method == 'crear' && (
+                        <>
                             <Grid item md={12}>
                                 <p className="text-center mt-36 mb-8">Información de mi participación en el proyecto</p>
                             </Grid>
-
                             <Grid item md={6}>
                                 <Label required labelFor="rol_sennova" className="mb-4" value="Rol SENNOVA" />
                             </Grid>
@@ -133,7 +184,6 @@ const Form = ({
                                     required
                                 />
                             </Grid>
-
                             {form.data.fecha_inicio && form.data.fecha_finalizacion && (
                                 <>
                                     <Grid item md={6}>
@@ -185,30 +235,6 @@ const Form = ({
 
                     {method == 'editar' && (
                         <>
-                            {convocatoria.descripcion?.includes('proyectos de tecnoacademia y tecnoparque') && (
-                                <>
-                                    <Grid item md={6}>
-                                        <Label required className="mb-4" labelFor="pdf_proyecto_general" value="Archivo en formato (.pdf) del proyecto general" />
-                                    </Grid>
-
-                                    <Grid item md={6}>
-                                        <FileInput
-                                            id="pdf_proyecto_general"
-                                            maxSize="10000"
-                                            value={form.data.pdf_proyecto_general}
-                                            valueDb={proyecto_linea_70.pdf_proyecto_general}
-                                            error={form.errors.pdf_proyecto_general}
-                                            route={
-                                                proyecto_linea_70.pdf_proyecto_general?.includes('http')
-                                                    ? null
-                                                    : route('convocatorias.proyectos-linea-70.download-pdf-sharepoint', [convocatoria.id, ta, 'pdf_proyecto_general'])
-                                            }
-                                            required
-                                        />
-                                    </Grid>
-                                </>
-                            )}
-
                             <Grid item md={6}>
                                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
                             </Grid>
@@ -222,6 +248,25 @@ const Form = ({
                             </Grid>
                             <Grid item md={6}>
                                 <p className="first-letter:uppercase">{proyecto_linea_70.proyecto.centro_formacion.nombre}</p>
+                            </Grid>
+
+                            <Grid item md={6}>
+                                <Label required className="mb-4" labelFor="pdf_proyecto_general" value="Archivo en formato (.pdf) del proyecto general" />
+                            </Grid>
+                            <Grid item md={6}>
+                                <FileInput
+                                    id="pdf_proyecto_general"
+                                    maxSize="10000"
+                                    value={form.data.pdf_proyecto_general}
+                                    valueDb={proyecto_linea_70.pdf_proyecto_general}
+                                    error={form.errors.pdf_proyecto_general}
+                                    route={
+                                        proyecto_linea_70.pdf_proyecto_general?.includes('http')
+                                            ? null
+                                            : route('convocatorias.proyectos-linea-70.download-pdf-sharepoint', [convocatoria.id, proyecto_linea_70.id, 'pdf_proyecto_general'])
+                                    }
+                                    required
+                                />
                             </Grid>
 
                             <Grid item md={6}>
@@ -246,36 +291,12 @@ const Form = ({
                                     options={infraestructura_tecnoacademia}
                                     inputBackground="#fff"
                                     selectedValue={form.data.infraestructura_tecnoacademia}
+                                    onChange={(event, newValue) => form.setData('infraestructura_tecnoacademia', newValue.value)}
                                     error={form.errors.infraestructura_tecnoacademia}
                                     label="Seleccione una opción"
                                     required
                                 />
                             </Grid>
-
-                            {form.data.tecnoacademia_id && arrayLineasTecnoacademia && (
-                                <>
-                                    <Grid item md={6}>
-                                        <Label
-                                            required
-                                            disabled={evaluacion ? 'disabled' : undefined}
-                                            className="mb-4"
-                                            labelFor="tecnoacademia_linea_tecnoacademia_id"
-                                            value="Líneas temáticas a ejecutar en la vigencia del proyecto:"
-                                        />
-                                    </Grid>
-                                    <Grid item md={6}>
-                                        <SelectMultiple
-                                            id="tecnoacademia_linea_tecnoacademia_id"
-                                            bdValues={form.data.tecnoacademia_linea_tecnoacademia_id}
-                                            options={arrayLineasTecnoacademia}
-                                            error={form.errors.tecnoacademia_linea_tecnoacademia_id}
-                                            placeholder="Buscar por el nombre de la línea"
-                                            required
-                                            disabled={evaluacion ? 'disabled' : undefined}
-                                        />
-                                    </Grid>
-                                </>
-                            )}
 
                             <Grid item md={12}>
                                 <Label required disabled={evaluacion ? 'disabled' : undefined} className="mb-4" labelFor="resumen" value="Resumen del proyecto" />
@@ -468,11 +489,9 @@ const Form = ({
                 </Grid>
             </fieldset>
 
-            {form.isDirty && <div>There are unsaved form changes.</div>}
-
             {method == 'crear' || proyecto_linea_70.proyecto?.allowed?.to_update ? (
                 <div className="pt-8 pb-4 space-y-4">
-                    <PrimaryButton type="submit" className="ml-auto">
+                    <PrimaryButton type="submit" className="ml-auto" disabled={form.processing || !form.isDirty}>
                         Guardar
                     </PrimaryButton>
                 </div>

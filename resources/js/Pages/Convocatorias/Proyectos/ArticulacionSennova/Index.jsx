@@ -45,18 +45,17 @@ const ArticulacionSennova = ({
     const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
 
     const form = useForm({
-        lineas_investigacion: lineas_investigacion.filter((item) => proyecto.lineasInvestigacion?.some((obj) => obj.id == item.value)).map((item) => item.value),
-        grupos_investigacion: grupos_investigacion.filter((item) => proyecto.gruposInvestigacion?.some((obj) => obj.id == item.value)).map((item) => item.value),
-        semilleros_investigacion: semilleros_investigacion.filter((item) => proyecto.semillerosInvestigacion?.some((obj) => obj.id == item.value)).map((item) => item.value),
-        disciplinas_subarea_conocimiento: disciplinas_subarea_conocimiento
-            .filter((item) => proyecto?.proyectoLinea70?.disciplinas_subarea_conocimiento?.some((obj) => obj.id == item.value))
-            .map((item) => item.value),
-        redes_conocimiento: redes_conocimiento.filter((item) => proyecto?.proyectoLinea70?.redes_conocimiento?.some((obj) => obj.id == item.value)).map((item) => item.value),
-        actividades_economicas: actividades_economicas.filter((item) => proyecto?.proyectoLinea70?.actividades_economicas?.some((obj) => obj.id == item.value)).map((item) => item.value),
-        tematicas_estrategicas: tematicas_estrategicas.filter((item) => proyecto?.proyectoLinea70?.tematicas_estrategicas?.some((obj) => obj.id == item.value)).map((item) => item.value),
-        proyecto_idi_tecnoacademia_id: proyectos_idi_tecnoacademia
-            .filter((item) => proyecto?.proyectoLinea70?.proyectos_idi_tecnoacademia?.some((obj) => obj.id == item.value))
-            .map((item) => item.value),
+        lineas_investigacion: proyecto.lineasInvestigacion?.map((item) => item.id),
+        grupos_investigacion: proyecto.gruposInvestigacion?.map((item) => item.id),
+        semilleros_investigacion: proyecto.semillerosInvestigacion?.map((item) => item.id),
+
+        // Línea 70
+        disciplinas_subarea_conocimiento: proyecto?.proyectoLinea70?.disciplinas_subarea_conocimiento?.map((item) => item.id),
+        redes_conocimiento: proyecto?.proyectoLinea70?.redes_conocimiento?.map((item) => item.id),
+        actividades_economicas: proyecto?.proyectoLinea70?.actividades_economicas?.map((item) => item.id),
+        tematicas_estrategicas: proyecto?.proyectoLinea70?.tematicas_estrategicas?.map((item) => item.id),
+        proyecto_idi_tecnoacademia_id: proyecto?.proyectoLinea70?.proyectos_idi_tecnoacademia?.map((item) => item.id),
+
         proyectos_ejecucion: proyecto.proyectos_ejecucion ? proyecto.proyectos_ejecucion : '',
         semilleros_en_formalizacion: proyecto.semilleros_en_formalizacion,
         articulacion_semillero: proyecto.articulacion_semillero,
@@ -279,7 +278,7 @@ const ArticulacionSennova = ({
                                             tags={form.data.semilleros_en_formalizacion}
                                             value={form.data.semilleros_en_formalizacion}
                                             onChange={(e) => form.setData('semilleros_en_formalizacion', e.target.value)}
-                                            placeholder="Nombre(s) de la(s) IE"
+                                            placeholder="Nombres de los semilleros"
                                             error={form.errors.semilleros_en_formalizacion}
                                         />
                                     </Grid>

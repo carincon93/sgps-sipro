@@ -6,7 +6,7 @@ import Form from './Form'
 
 import { checkRole } from '@/Utils'
 
-const Create = ({ auth, convocatoria, centrosFormacion, lineasProgramaticas, lineasTecnoacademia, rolesSennova }) => {
+const Create = ({ auth, convocatoria, centros_formacion, tecnoacademias, lineas_programaticas, lineas_tecnoacademia, roles_sennova }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -17,10 +17,11 @@ const Create = ({ auth, convocatoria, centrosFormacion, lineasProgramaticas, lin
                 auth_user={auth_user}
                 method="crear"
                 convocatoria={convocatoria}
-                centrosFormacion={centrosFormacion}
-                lineasTecnoacademia={lineasTecnoacademia}
-                lineasProgramaticas={lineasProgramaticas}
-                rolesSennova={rolesSennova}
+                centros_formacion={centros_formacion}
+                tecnoacademias={tecnoacademias}
+                lineas_tecnoacademia={lineas_tecnoacademia}
+                lineas_programaticas={lineas_programaticas}
+                roles_sennova={roles_sennova}
             />
         </AuthenticatedLayout>
     )

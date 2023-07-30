@@ -47,8 +47,6 @@ class ProyectoLinea70Request extends FormRequest
      */
     protected function prepareForValidation()
     {
-        $this->merge([
-            'tecnoacademia_linea_tecnoacademia_id' => json_encode($this->tecnoacademia_linea_tecnoacademia_id)
-        ]);
+        //
     }
 }

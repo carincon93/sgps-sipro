@@ -6,4 +6,3 @@ Tareas
 8. Cómo ahora la evaluación es por url ?evaluacion_id=4296 se debe validar que esa evaluación sea del evaluador correspondiente
 9. roles_sennova quitar el sumar_al_presupuesto
 10. Cambiar los Si/NO por formacion_academica_sena?.egresado_sena == false ? '2' : '1',
-11. Revisar usos presupuestales al crear una convocatoria

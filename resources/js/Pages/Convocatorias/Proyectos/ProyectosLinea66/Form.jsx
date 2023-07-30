@@ -69,16 +69,16 @@ const Form = ({
         grupo_investigacion_eni_id: proyecto_linea_66?.grupo_investigacion_eni_id,
         video: proyecto_linea_66?.video,
         numero_aprendices: proyecto_linea_66?.numero_aprendices,
-        municipios: proyecto_linea_66?.proyecto.municipios?.map((item) => item.id),
+        municipios: proyecto_linea_66?.proyecto.municipios?.map((item) => item.id) ?? null,
 
-        programas_formacion: proyecto_linea_66?.proyecto.programas_formacion.map((item) => item.id),
-        programas_formacion_articulados: proyecto_linea_66?.proyecto.programas_formacion.map((item) => item.id),
+        programas_formacion: proyecto_linea_66?.proyecto.programas_formacion.map((item) => item.id) ?? null,
+        programas_formacion_articulados: proyecto_linea_66?.proyecto.programas_formacion.map((item) => item.id) ?? null,
 
-        area_tematica_eni_id: proyecto_linea_66?.areas_tematicas_eni?.map((item) => item.id),
-        linea_investigacion_eni_id: proyecto_linea_66?.lineas_investigacion_eni?.map((item) => item.id),
+        area_tematica_eni_id: proyecto_linea_66?.areas_tematicas_eni ? proyecto_linea_66?.areas_tematicas_eni?.map((item) => item.id) : null,
+        linea_investigacion_eni_id: proyecto_linea_66?.lineas_investigacion_eni?.map((item) => item.id) ?? null,
 
         tecnoacademia_id: tecnoacademia?.id ?? '',
-        linea_tecnologica_id: proyecto_linea_66?.proyecto.tecnoacademia_lineas_tecnoacademia?.map((item) => item.id),
+        linea_tecnologica_id: proyecto_linea_66?.proyecto.tecnoacademia_lineas_tecnoacademia?.map((item) => item.id) ?? null,
         mesa_sectorial_id: proyecto_linea_66?.mesas_sectoriales?.map((item) => item.id),
 
         muestreo: proyecto_linea_66?.muestreo ?? '',

@@ -4,13 +4,15 @@ import AlertMui from '@/Components/Alert'
 import MenuMui from '@/Components/Menu'
 import TableMui from '@/Components/Table'
 
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
-import { Link, router } from '@inertiajs/react'
+import { router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
+import ButtonMui from '@/Components/Button'
 
 const Index = ({ auth, convocatoria, proyectos_linea_69, allowed_to_create }) => {
     const auth_user = auth.user
@@ -21,22 +23,25 @@ const Index = ({ auth, convocatoria, proyectos_linea_69, allowed_to_create }) =>
     return (
         <AuthenticatedLayout user={auth_user} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
             <Grid item md={12}>
-                <div>
-                    Parques tecnológicos - Red tecnoparque Colombia - Línea 69
-                    <AlertMui>A continuación, se listan únicamente los proyectos que usted ha creado y también en los que está asociado.</AlertMui>
-                </div>
-
-                <div>
-                    {allowed_to_create && (
-                        <Link href={route('convocatorias.proyectos-linea-69.create', [convocatoria.id])} variant="raised">
-                            Formular un nuevo proyecto
-                        </Link>
-                    )}
-                </div>
+                <h1 className="text-3xl text-center">Parques tecnológicos - Red tecnoparque Colombia - Línea 69</h1>
             </Grid>
 
             <Grid item md={12}>
-                <TableMui className="mt-20" rows={['Nodo Tecnoparque', 'Fecha de ejecución', 'Estado (Evaluación)', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <AlertMui className="mt-20">A continuación, se listan únicamente los proyectos que usted ha creado y también en los que está asociado.</AlertMui>
+
+                <TableMui rows={['Nodo Tecnoparque', 'Fecha de ejecución', 'Estado (Evaluación)', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    {allowed_to_create && (
+                        <TableRow
+                            onClick={() => router.visit(route('convocatorias.proyectos-linea-69.create', [convocatoria.id]))}
+                            variant="raised"
+                            className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                            <TableCell colSpan={4}>
+                                <ButtonMui>
+                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Formular un nuevo proyecto
+                                </ButtonMui>
+                            </TableCell>
+                        </TableRow>
+                    )}
                     {proyectos_linea_69.data.map(({ id, proyecto, titulo, fecha_ejecucion }) => (
                         <TableRow key={id}>
                             <TableCell>
@@ -47,7 +52,6 @@ const Index = ({ auth, convocatoria, proyectos_linea_69, allowed_to_create }) =>
 
                                     {proyecto.proyecto_base && <small className="bg-red-100 inline-block mt-2 p-2 rounded text-red-400"> Proyecto base (Solo pueden acceder administradores) </small>}
                                 </div>
-                                <p>{titulo}</p>
                             </TableCell>
                             <TableCell>
                                 <p>{fecha_ejecucion}</p>

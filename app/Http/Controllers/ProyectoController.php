@@ -340,7 +340,7 @@ class ProyectoController extends Controller
                 return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-linea-70.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-linea-70.edit', [$convocatoria, $proyecto]);
                 break;
             case $proyecto->proyectoLinea69()->exists():
-                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-linea-69.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-linea-69edit', [$convocatoria, $proyecto]);
+                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-linea-69.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-linea-69.edit', [$convocatoria, $proyecto]);
                 break;
             case $proyecto->proyectoLinea68()->exists():
                 return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-linea-68.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-linea-68.edit', [$convocatoria, $proyecto]);
@@ -643,7 +643,7 @@ class ProyectoController extends Controller
         if ($proyecto->codigo_linea_programatica == 70) {
             return redirect()->route('convocatorias.proyectos-linea-70.edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
         } else if ($proyecto->codigo_linea_programatica == 69) {
-            return redirect()->route('convocatorias.proyectos-linea-69edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
+            return redirect()->route('convocatorias.proyectos-linea-69.edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
         }
 
         $proyecto->load('participantes.centroFormacion.regional');

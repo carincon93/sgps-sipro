@@ -12,7 +12,6 @@ use App\Models\EntidadAliadaLinea66;
 use App\Models\EntidadAliadaLinea69;
 use App\Models\EntidadAliadaLinea70;
 use App\Models\Evaluacion\Evaluacion;
-use App\Models\Evaluacion\EvaluacionProyectoLinea70;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -82,7 +81,6 @@ class EntidadAliadaController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-
         $entidad_aliada = new EntidadAliada();
         $entidad_aliada->tipo         = $request->tipo;
         $entidad_aliada->nombre       = $request->nombre;
@@ -109,7 +107,7 @@ class EntidadAliadaController extends Controller
                 'actividad_id*'                             => 'required|min:0|max:2147483647|integer|exists:actividades,id',
             ]);
 
-            $entidad_aliada_linea_66 = EntidadAliadaLinea66::create($request->all());
+            $entidad_aliada_linea_66 = $entidad_aliada->EntidadAliadaLinea66()->create($request->all());
 
             $entidad_aliada->actividades()->attach($request->actividad_id);
 
@@ -126,32 +124,34 @@ class EntidadAliadaController extends Controller
             }
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.edit', [$convocatoria, $proyecto, $entidad_aliada])->with('success', 'El recurso se ha creado correctamente.');
+
         } elseif ($proyecto->proyectoLinea69()->exists()) {
             $request->validate([
                 'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
                 'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
             ]);
 
-            $entidad_aliada_linea_69 = EntidadAliadaLinea69::create($request->all());
+            $entidad_aliada_linea_69 = $entidad_aliada->EntidadAliadaLinea69()->create($request->all());
 
             $request->validate([
-                'soporte_convenio' > 'nullable|file|max:10240',
+                'soporte_convenio' => 'nullable|file|max:10240',
             ]);
             if ($request->hasFile('soporte_convenio')) {
                 $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_69, 'soporte_convenio');
             }
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
+
         } elseif ($proyecto->proyectoLinea70()->exists()) {
             $request->validate([
                 'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
                 'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
             ]);
 
-            $entidad_aliada_linea_70 = EntidadAliadaLinea70::create($request->all());
+            $entidad_aliada_linea_70 = $entidad_aliada->entidadAliadaLinea70()->create($request->all());
 
             $request->validate([
-                'soporte_convenio' > 'nullable|file|max:10240',
+                'soporte_convenio' => 'nullable|file|max:10240',
             ]);
             if ($request->hasFile('soporte_convenio')) {
                 $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_70, 'soporte_convenio');
@@ -246,7 +246,7 @@ class EntidadAliadaController extends Controller
             $entidad_aliada_linea_69->update($request->all());
 
             $request->validate([
-                'soporte_convenio' > 'nullable|file|max:10240',
+                'soporte_convenio' => 'nullable|file|max:10240',
             ]);
             if ($request->hasFile('soporte_convenio')) {
                 $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_69, 'soporte_convenio');
@@ -264,7 +264,7 @@ class EntidadAliadaController extends Controller
             $entidad_aliada_linea_70->update($request->all());
 
             $request->validate([
-                'soporte_convenio' > 'nullable|file|max:10240',
+                'soporte_convenio' => 'nullable|file|max:10240',
             ]);
             if ($request->hasFile('soporte_convenio')) {
                 $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_70, 'soporte_convenio');

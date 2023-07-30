@@ -42,7 +42,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
-                <h1 className="font-black text-right text-2xl mr-10">Aula móvil</h1>
+                <h1 className="font-black text-right text-white text-2xl mr-10">Aula móvil</h1>
             </Grid>
 
             <Grid item md={8}>

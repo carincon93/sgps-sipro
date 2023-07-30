@@ -63,7 +63,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
-                <h1 className="font-black text-right text-2xl mr-10">{method == 'crear' ? 'Agregar' : 'Modificar'} entidad aliada</h1>
+                <h1 className="font-black text-right text-white text-2xl mr-10">{method == 'crear' ? 'Agregar' : 'Modificar'} entidad aliada</h1>
             </Grid>
 
             <Grid item md={8}>
@@ -329,7 +329,9 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                             downloadRoute={
                                                 soporte_convenio_url?.includes('http')
                                                     ? null
-                                                    : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidad_aliada.id, 'soporte_convenio'])
+                                                    : entidad_aliada
+                                                    ? route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidad_aliada?.id, 'soporte_convenio'])
+                                                    : null
                                             }
                                             onChange={(e) => form.setData('soporte_convenio', e.target.files[0])}
                                             error={form.errors.soporte_convenio}
@@ -341,29 +343,25 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                         <div className="ml-2 mt-4">
                                             <div>
                                                 <Label required labelFor="fecha_inicio_convenio" value="Fecha de inicio" />
-                                                <div className="ml-14">
-                                                    <DatePicker
-                                                        id="fecha_inicio_convenio"
-                                                        className="mt-1 block w-full p-4"
-                                                        value={form.data.fecha_inicio_convenio}
-                                                        onChange={(e) => form.setData('fecha_inicio_convenio', e.target.value)}
-                                                        error={form.errors.fecha_inicio_convenio}
-                                                        required
-                                                    />
-                                                </div>
+                                                <DatePicker
+                                                    id="fecha_inicio_convenio"
+                                                    className="mt-1 block w-full p-4"
+                                                    value={form.data.fecha_inicio_convenio}
+                                                    onChange={(e) => form.setData('fecha_inicio_convenio', e.target.value)}
+                                                    error={form.errors.fecha_inicio_convenio}
+                                                    required
+                                                />
                                             </div>
-                                            <div>
+                                            <div className="mt-4">
                                                 <Label required labelFor="fecha_fin_convenio" value="Fecha de finalización" />
-                                                <div className="ml-4">
-                                                    <DatePicker
-                                                        id="fecha_fin_convenio"
-                                                        className="mt-1 block w-full p-4"
-                                                        value={form.data.fecha_fin_convenio}
-                                                        onChange={(e) => form.setData('fecha_fin_convenio', e.target.value)}
-                                                        error={form.errors.fecha_fin_convenio}
-                                                        required
-                                                    />
-                                                </div>
+                                                <DatePicker
+                                                    id="fecha_fin_convenio"
+                                                    className="mt-1 block w-full p-4"
+                                                    value={form.data.fecha_fin_convenio}
+                                                    onChange={(e) => form.setData('fecha_fin_convenio', e.target.value)}
+                                                    error={form.errors.fecha_fin_convenio}
+                                                    required
+                                                />
                                             </div>
                                         </div>
                                     </div>

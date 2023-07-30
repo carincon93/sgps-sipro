@@ -62,7 +62,7 @@ class ProyectoLinea70Controller extends Controller
             'convocatoria'           => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
             'tecnoacademias'         => $tecnoacademias,
             'lineas_tecnoacademia'   => SelectHelper::lineasTecnoacademia(),
-            'rolesSennova'           => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'roles_sennova'          => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowed_to_create'      => Gate::inspect('formular-proyecto', [5, $convocatoria])->allowed()
         ]);
     }
@@ -99,6 +99,7 @@ class ProyectoLinea70Controller extends Controller
         );
 
         $proyecto_a_replicar = ProyectoLinea70::where('proyecto_base', true)->first();
+
 
         $nuevo_proyecto_linea_70 = $this->replicateRow($request, $proyecto_a_replicar, $proyecto);
 
@@ -138,23 +139,19 @@ class ProyectoLinea70Controller extends Controller
         $proyecto_linea_70->proyecto->codigo_linea_programatica = $proyecto_linea_70->proyecto->lineaProgramatica->codigo;
         $proyecto_linea_70->proyecto->precio_proyecto           = $proyecto_linea_70->proyecto->precioProyecto;
         $proyecto_linea_70->proyecto->centroFormacion;
+        $proyecto_linea_70->proyecto->tecnoacademiaLineasTecnoacademia;;
 
         $proyecto_linea_70->mostrar_recomendaciones        = $proyecto_linea_70->proyecto->mostrar_recomendaciones;
         $proyecto_linea_70->mostrar_requiere_subsanacion   = $proyecto_linea_70->proyecto->mostrar_requiere_subsanacion;
 
-        if ($auth_user->hasRole(12) || $auth_user->hasRole(5)) {
-            $tecnoacademias = SelectHelper::tecnoacademias()->where('tecnoacademias.centro_formacion_id', $auth_user->centroFormacion->id)->values()->all();
-        } else {
-            $tecnoacademias = SelectHelper::tecnoacademias();
-        }
-
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea70/Edit', [
             'convocatoria'                          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year', 'tipo_convocatoria', 'mostrar_recomendaciones', 'descripcion'),
             'proyecto_linea_70'                     => $proyecto_linea_70,
+            'tecnoacademias'                        => SelectHelper::tecnoacademias(),
+            'tecnoacademia'                         => $proyecto_linea_70->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_linea_70->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
             'evaluacion'                            => EvaluacionProyectoLinea70::find(request()->evaluacion_id),
             'lineas_programaticas'                  => SelectHelper::lineasProgramaticas(),
             'lineas_tecnoacademia'                  => SelectHelper::lineasTecnoacademia(),
-            'tecnoacademias'                        => $tecnoacademias,
             'roles_sennova'                         => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'infraestructura_tecnoacademia'         => json_decode(Storage::get('json/infraestructura-tecnoacademia.json'), true),
         ]);

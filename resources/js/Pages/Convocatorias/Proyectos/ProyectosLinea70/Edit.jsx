@@ -11,7 +11,7 @@ import { checkRole, route } from '@/Utils'
 import { Chip, Grid, TableCell, TableRow } from '@mui/material'
 import { useState } from 'react'
 
-const Edit = ({ auth, convocatoria, proyecto_linea_70, evaluacion, lineas_programaticas, lineas_tecnoacademia, infraestructura_tecnoacademia, roles_sennova }) => {
+const Edit = ({ auth, convocatoria, proyecto_linea_70, evaluacion, tecnoacademias, tecnoacademia, lineas_programaticas, lineas_tecnoacademia, infraestructura_tecnoacademia, roles_sennova }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -77,7 +77,9 @@ const Edit = ({ auth, convocatoria, proyecto_linea_70, evaluacion, lineas_progra
                     method="editar"
                     convocatoria={convocatoria}
                     proyecto_linea_70={proyecto_linea_70}
-                    lineasT_tcnoacademia={lineas_tecnoacademia}
+                    tecnoacademias={tecnoacademias}
+                    tecnoacademia={tecnoacademia}
+                    lineas_tecnoacademia={lineas_tecnoacademia}
                     lineas_programaticas={lineas_programaticas}
                     infraestructura_tecnoacademia={infraestructura_tecnoacademia}
                     roles_sennova={roles_sennova}

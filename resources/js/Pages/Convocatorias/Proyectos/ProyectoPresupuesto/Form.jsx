@@ -26,7 +26,6 @@ const Form = ({
     usos_presupuestales,
     conceptos_viaticos,
 }) => {
-    console.log(usos_presupuestales)
     const [array_tecer_grupo_presupuestal, setArrayTecerGrupoPresupuestal] = useState([])
     const [array_usos_presupuestales, setArrayUsosPresupuestales] = useState([])
     const [requiere_estudio_mercado, setRequiereEstudioMercado] = useState(true)
@@ -139,7 +138,7 @@ const Form = ({
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
-                <h1 className="font-black text-right text-2xl mr-10">Rol SENNOVA</h1>
+                <h1 className="font-black text-right text-white text-2xl mr-10">Rol SENNOVA</h1>
             </Grid>
 
             <Grid item md={8}>

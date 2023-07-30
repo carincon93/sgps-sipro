@@ -4,7 +4,9 @@ import DatePicker from '@/Components/DatePicker'
 import FileInput from '@/Components/FileInput'
 import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
+import TextInput from '@/Components/TextInput'
 import Textarea from '@/Components/Textarea'
+
 import { checkPermissionByUser, monthDiff } from '@/Utils'
 
 import { useForm } from '@inertiajs/react'
@@ -62,7 +64,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
             <fieldset disabled={proyecto_linea_69?.proyecto.allowed.to_update && !is_super_admin}>
                 <Grid container className="space-y-20">
                     {nodos_tecnoparque.length > 0 ? (
-                        <>
+                        <Grid container>
                             <Grid item md={6}>
                                 <Label required labelFor="nodo_tecnoparque_id" value="Nodo Tecnoparque" />
                             </Grid>
@@ -71,41 +73,41 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                     id="nodo_tecnoparque_id"
                                     options={nodos_tecnoparque}
                                     selectedValue={form.data.nodo_tecnoparque_id}
+                                    onChange={(event, newValue) => form.setData('nodo_tecnoparque_id', newValue.value)}
                                     error={form.errors.nodo_tecnoparque_id}
-                                    placeholder="Seleccione un nodo TecnoParque"
+                                    placeholder="Seleccione un nodo Tecnoparque"
                                     required
                                 />
                             </Grid>
-                        </>
+                        </Grid>
                     ) : (
                         <div className="py-24">
                             <AlertMui>Su regional no cuenta con nodos TecnoParque.</AlertMui>
                         </div>
                     )}
 
-                    <Grid item md={6}>
-                        <Label required disabled={evaluacion ? 'disabled' : undefined} labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
-                    </Grid>
-                    <Grid item md={6}>
-                        {proyecto_linea_69?.proyecto.linea_programatica ? proyecto_linea_69?.proyecto.linea_programatica.nombre + ' - ' + proyecto_linea_69?.proyecto.linea_programatica.codigo : ''}
-                    </Grid>
+                    {method == 'editar' && (
+                        <>
+                            <Grid item md={6}>
+                                <Label required disabled={evaluacion ? 'disabled' : undefined} labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
+                            </Grid>
+                            <Grid item md={6}>
+                                {proyecto_linea_69?.proyecto.linea_programatica
+                                    ? proyecto_linea_69?.proyecto.linea_programatica.nombre + ' - ' + proyecto_linea_69?.proyecto.linea_programatica.codigo
+                                    : ''}
+                            </Grid>
 
-                    <Grid item md={6}>
-                        <Label required disabled={evaluacion ? 'disabled' : undefined} labelFor="centro_formacion_id" value="Centro de formación" />
-                        <small>
-                            <strong>Nota:</strong> El Centro de Formación relacionado es el ejecutor del proyecto
-                        </small>
-                    </Grid>
-                    <Grid item md={6}>
-                        <p className="first-letter:uppercase">{proyecto_linea_69?.proyecto.centro_formacion.nombre}</p>
-                    </Grid>
-
-                    <Grid item md={6}>
-                        <Label required disabled={evaluacion ? 'disabled' : undefined} labelFor="nodo_tecnoparque_id" value="Nodo Tecnoparque" />
-                    </Grid>
-                    <Grid item md={6}>
-                        <div className="capitalize">{proyecto_linea_69?.titulo}</div>
-                    </Grid>
+                            <Grid item md={6}>
+                                <Label required disabled={evaluacion ? 'disabled' : undefined} labelFor="centro_formacion_id" value="Centro de formación" />
+                                <small>
+                                    <strong>Nota:</strong> El Centro de Formación relacionado es el ejecutor del proyecto
+                                </small>
+                            </Grid>
+                            <Grid item md={6}>
+                                <p className="first-letter:uppercase">{proyecto_linea_69?.proyecto.centro_formacion.nombre}</p>
+                            </Grid>
+                        </>
+                    )}
 
                     <Grid item md={6}>
                         <Label required labelFor="fecha_inicio" error={form.errors.fecha_inicio} value="Fecha de inicio" />
@@ -430,10 +432,10 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                     )}
                 </Grid>
             </fieldset>
-            {form.isDirty && <div>There are unsaved form changes.</div>}
+
             {method == 'crear' || proyecto_linea_69?.proyecto?.allowed?.to_update ? (
                 <div className="pt-8 pb-4 space-y-4">
-                    <PrimaryButton type="submit" className="ml-auto">
+                    <PrimaryButton type="submit" className="ml-auto" disabled={form.processing || !form.isDirty}>
                         Guardar
                     </PrimaryButton>
                 </div>

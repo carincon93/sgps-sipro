@@ -132,7 +132,7 @@ class ProyectoLinea70 extends Model
      */
     public function edt()
     {
-        return $this->hasMany(Edt::class);
+        return $this->hasMany(Edt::class, 'ta_id');
     }
 
     /**
