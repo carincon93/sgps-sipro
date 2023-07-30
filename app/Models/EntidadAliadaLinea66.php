@@ -87,7 +87,7 @@ class EntidadAliadaLinea66 extends Model
         $cartaIntencionFileInfo               = pathinfo($this->carta_intencion);
         $cartaPropiedadIntelectualFileInfo    = pathinfo($this->carta_propiedad_intelectual);
 
-        $arrayFileInfo = collect(['cartaIntencionFilename' => $cartaIntencionFileInfo['filename'], 'cartaPropiedadIntelectualFilename' => $cartaPropiedadIntelectualFileInfo['filename']]);
+        $arrayFileInfo = collect(['cartaIntencionFilename' =>  $cartaIntencionFileInfo['filename'] ?? '', 'cartaPropiedadIntelectualFilename' => $cartaPropiedadIntelectualFileInfo['filename'] ?? '']);
 
         return $arrayFileInfo ?? '';
     }
@@ -97,7 +97,7 @@ class EntidadAliadaLinea66 extends Model
         $cartaIntencionFileInfo               = pathinfo($this->carta_intencion);
         $cartaPropiedadIntelectualFileInfo    = pathinfo($this->carta_propiedad_intelectual);
 
-        $arrayFileInfo = collect(['cartaIntencionExtension' => $cartaIntencionFileInfo['extension'], 'cartaPropiedadIntelectualExtension' => $cartaPropiedadIntelectualFileInfo['extension']]);
+        $arrayFileInfo = collect(['cartaIntencionExtension' => $cartaIntencionFileInfo['extension'] ?? '', 'cartaPropiedadIntelectualExtension' => $cartaPropiedadIntelectualFileInfo['extension'] ?? '']);
 
         return $arrayFileInfo ?? '';
     }

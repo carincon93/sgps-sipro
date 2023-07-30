@@ -33,6 +33,7 @@ const Create = ({
             <Form
                 is_super_admin={is_super_admin}
                 method="crear"
+                convocatoria={convocatoria}
                 centros_formacion={centros_formacion}
                 mesas_sectoriales={mesas_sectoriales}
                 areas_conocimiento={areas_conocimiento}

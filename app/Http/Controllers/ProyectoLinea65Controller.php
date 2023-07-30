@@ -155,12 +155,16 @@ class ProyectoLinea65Controller extends Controller
         $proyecto_linea_65->proyecto->codigo_linea_programatica = $proyecto_linea_65->proyecto->lineaProgramatica->codigo;
         $proyecto_linea_65->proyecto->precio_proyecto           = $proyecto_linea_65->proyecto->precioProyecto;
         $proyecto_linea_65->proyecto->centroFormacion;
+        $proyecto_linea_65->proyecto->municipios;
+        $proyecto_linea_65->proyecto->programasFormacion;
+        $proyecto_linea_65->mesasSectoriales;
+        $proyecto_linea_65->tecnoacademiaLineasTecnoacademia;
 
         $proyecto_linea_65->mostrar_recomendaciones = $proyecto_linea_65->proyecto->mostrar_recomendaciones;
         $proyecto_linea_65->mostrar_requiere_subsanacion = $proyecto_linea_65->proyecto->mostrar_requiere_subsanacion;
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea65/Edit', [
-            'convocatoria'                                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_65', 'max_fecha_finalizacion_proyectos_cultura', 'fecha_maxima_cultura', 'mostrar_recomendaciones', 'campos_convocatoria'),
+            'convocatoria'                                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'campos_convocatoria'),
             'proyecto_linea_65'                             => $proyecto_linea_65,
             'evaluacion'                                    => EvaluacionProyectoLinea65::find(request()->evaluacion_id),
             'tecnoacademia'                                 => $proyecto_linea_65->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_linea_65->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
@@ -227,10 +231,11 @@ class ProyectoLinea65Controller extends Controller
         $proyecto_linea_65->tematicaEstrategica()->associate($request->tematica_estrategica_id);
         $proyecto_linea_65->actividadEconomica()->associate($request->actividad_economica_id);
 
+        $proyecto_linea_65->save();
+
         $proyecto_linea_65->proyecto->municipios()->sync($request->municipios);
         $proyecto_linea_65->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 
-        $proyecto_linea_65->save();
 
         $request->relacionado_mesas_sectoriales == 1 ? $proyecto_linea_65->mesasSectoriales()->sync($request->mesa_sectorial_id) : $proyecto_linea_65->mesasSectoriales()->detach();
         $request->relacionado_tecnoacademia == 1 ? $proyecto_linea_65->tecnoacademiaLineasTecnoacademia()->sync($request->linea_tecnologica_id) : $proyecto_linea_65->tecnoacademiaLineasTecnoacademia()->detach();
@@ -258,10 +263,10 @@ class ProyectoLinea65Controller extends Controller
     {
         $this->authorize('eliminar-proyecto-autor', [$proyecto_linea_65->proyecto]);
 
-        if (!Hash::check($request->password, Auth::user()->password)) {
-            return back()
-                ->withErrors(['password' => __('The password is incorrect.')]);
-        }
+        // if (!Hash::check($request->password, Auth::user()->password)) {
+        //     return back()
+        //         ->withErrors(['password' => __('The password is incorrect.')]);
+        // }
 
         $proyecto_linea_65->proyecto()->delete();
 

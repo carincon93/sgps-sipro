@@ -21,18 +21,18 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
         tipo_empresa: entidad_aliada?.tipo_empresa ?? '',
         nit: entidad_aliada?.nit ?? '',
 
-        tiene_convenio: entidad_aliada?.entidades_aliadas_linea_66?.descripcion_convenio ?? '',
+        tiene_convenio: entidad_aliada?.entidad_aliada_linea66?.descripcion_convenio ?? '',
 
-        tiene_grupo_investigacion: entidad_aliada?.entidades_aliadas_linea_66?.grupo_investigacion ?? '',
-        descripcion_convenio: entidad_aliada?.entidades_aliadas_linea_66?.descripcion_convenio ?? '',
-        grupo_investigacion: entidad_aliada?.entidades_aliadas_linea_66?.grupo_investigacion ?? '',
-        codigo_gruplac: entidad_aliada?.entidades_aliadas_linea_66?.codigo_gruplac ?? '',
-        enlace_gruplac: entidad_aliada?.entidades_aliadas_linea_66?.enlace_gruplac ?? '',
-        actividades_transferencia_conocimiento: entidad_aliada?.entidades_aliadas_linea_66?.actividades_transferencia_conocimiento ?? '',
-        recursos_especie: entidad_aliada?.entidades_aliadas_linea_66?.recursos_especie ?? '',
-        descripcion_recursos_especie: entidad_aliada?.entidades_aliadas_linea_66?.descripcion_recursos_especie ?? '',
-        recursos_dinero: entidad_aliada?.entidades_aliadas_linea_66?.recursos_dinero ?? '',
-        descripcion_recursos_dinero: entidad_aliada?.entidades_aliadas_linea_66?.descripcion_recursos_dinero ?? '',
+        tiene_grupo_investigacion: entidad_aliada?.entidad_aliada_linea66?.grupo_investigacion ?? '',
+        descripcion_convenio: entidad_aliada?.entidad_aliada_linea66?.descripcion_convenio ?? '',
+        grupo_investigacion: entidad_aliada?.entidad_aliada_linea66?.grupo_investigacion ?? '',
+        codigo_gruplac: entidad_aliada?.entidad_aliada_linea66?.codigo_gruplac ?? '',
+        enlace_gruplac: entidad_aliada?.entidad_aliada_linea66?.enlace_gruplac ?? '',
+        actividades_transferencia_conocimiento: entidad_aliada?.entidad_aliada_linea66?.actividades_transferencia_conocimiento ?? '',
+        recursos_especie: entidad_aliada?.entidad_aliada_linea66?.recursos_especie ?? '',
+        descripcion_recursos_especie: entidad_aliada?.entidad_aliada_linea66?.descripcion_recursos_especie ?? '',
+        recursos_dinero: entidad_aliada?.entidad_aliada_linea66?.recursos_dinero ?? '',
+        descripcion_recursos_dinero: entidad_aliada?.entidad_aliada_linea66?.descripcion_recursos_dinero ?? '',
 
         carta_intencion: null,
         carta_propiedad_intelectual: null,
@@ -125,9 +125,9 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                 <>
                                     <div className="mt-8">
                                         <p>¿Hay convenio?</p>
-                                        <SwitchMui checked={form.data.tiene_convenio} />
+                                        <SwitchMui checked={form.data.tiene_convenio} onChange={(e) => form.setData('tiene_convenio', e.target.checked)} />
                                     </div>
-                                    {form.tiene_convenio && (
+                                    {form.data.tiene_convenio == 1 && (
                                         <div className="mt-8">
                                             <Textarea
                                                 label="Descipción del convenio"
@@ -142,9 +142,9 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
 
                                     <div className="mt-8">
                                         <p>¿La entidad aliada tiene grupo de investigación?</p>
-                                        <Switch checked={form.data.tiene_grupo_investigacion} />
+                                        <SwitchMui checked={form.data.tiene_grupo_investigacion} onChange={(e) => form.setData('tiene_grupo_investigacion', e.target.checked)} />
                                     </div>
-                                    {form.tiene_grupo_investigacion && (
+                                    {form.data.tiene_grupo_investigacion == 1 && (
                                         <>
                                             <div className="mt-8">
                                                 <Textarea
@@ -246,68 +246,67 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                         />
                                     </div>
 
-                                    {convocatoria.tipo_convocatoria == 1 ||
-                                        (convocatoria.tipo_convocatoria == 3 && (
-                                            <>
-                                                <div className="mt-8">
-                                                    <Label
-                                                        className="mb-4"
-                                                        labelFor="carta_intencion"
-                                                        value="ANEXO 7. Carta de intención o acta que soporta el trabajo articulado con entidades aliadas (diferentes al SENA)"
-                                                    />
+                                    {convocatoria.tipo_convocatoria == 1 || convocatoria.tipo_convocatoria == 3 ? (
+                                        <>
+                                            <div className="mt-8">
+                                                <Label
+                                                    className="mb-4"
+                                                    labelFor="carta_intencion"
+                                                    value="ANEXO 7. Carta de intención o acta que soporta el trabajo articulado con entidades aliadas (diferentes al SENA)"
+                                                />
 
-                                                    <FileInput
-                                                        id="carta_intencion"
-                                                        value={form.data.carta_intencion}
-                                                        filename={entidad_aliada?.entidades_aliadas_linea_66.filename.cartaIntencionFilename}
-                                                        extension={entidad_aliada?.entidades_aliadas_linea_66.extension.cartaIntencionExtension}
-                                                        label="Seleccione un archivo"
-                                                        accept="application/pdf"
-                                                        downloadRoute={
-                                                            entidad_aliada?.carta_intencion
-                                                                ? entidad_aliada?.carta_intencion?.includes('http')
-                                                                    ? null
-                                                                    : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [
-                                                                          convocatoria,
-                                                                          proyecto,
-                                                                          entidad_aliada.id,
-                                                                          'carta_intencion',
-                                                                      ])
-                                                                : null
-                                                        }
-                                                        onChange={(e) => form.setData('carta_intencion', e.target.files[0])}
-                                                        error={form.errors.carta_intencion}
-                                                    />
-                                                </div>
+                                                <FileInput
+                                                    id="carta_intencion"
+                                                    value={form.data.carta_intencion}
+                                                    filename={entidad_aliada?.entidad_aliada_linea66?.filename.cartaIntencionFilename}
+                                                    extension={entidad_aliada?.entidad_aliada_linea66?.extension.cartaIntencionExtension}
+                                                    label="Seleccione un archivo"
+                                                    accept="application/pdf"
+                                                    downloadRoute={
+                                                        entidad_aliada?.carta_intencion
+                                                            ? entidad_aliada?.carta_intencion?.includes('http')
+                                                                ? null
+                                                                : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [
+                                                                      convocatoria,
+                                                                      proyecto,
+                                                                      entidad_aliada.id,
+                                                                      'carta_intencion',
+                                                                  ])
+                                                            : null
+                                                    }
+                                                    onChange={(e) => form.setData('carta_intencion', e.target.files[0])}
+                                                    error={form.errors.carta_intencion}
+                                                />
+                                            </div>
 
-                                                <div className="mt-8">
-                                                    <Label className="mb-4" labelFor="carta_propiedad_intelectual" value="ANEXO 8. Propiedad intelectual" />
+                                            <div className="mt-8">
+                                                <Label className="mb-4" labelFor="carta_propiedad_intelectual" value="ANEXO 8. Propiedad intelectual" />
 
-                                                    <FileInput
-                                                        id="carta_propiedad_intelectual"
-                                                        value={form.data.carta_propiedad_intelectual}
-                                                        filename={entidad_aliada?.entidades_aliadas_linea_66.filename.cartaPropiedadIntelectualFilename}
-                                                        extension={entidad_aliada?.entidades_aliadas_linea_66.extension.cartaPropiedadIntelectualExtension}
-                                                        label="Seleccione un archivo"
-                                                        accept="application/pdf"
-                                                        downloadRoute={
-                                                            entidad_aliada?.carta_propiedad_intelectual
-                                                                ? entidad_aliada?.carta_propiedad_intelectual?.includes('http')
-                                                                    ? null
-                                                                    : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [
-                                                                          convocatoria,
-                                                                          proyecto,
-                                                                          entidad_aliada.id,
-                                                                          'carta_propiedad_intelectual',
-                                                                      ])
-                                                                : null
-                                                        }
-                                                        onChange={(e) => form.setData('carta_propiedad_intelectual', e.target.files[0])}
-                                                        error={form.errors.carta_propiedad_intelectual}
-                                                    />
-                                                </div>
-                                            </>
-                                        ))}
+                                                <FileInput
+                                                    id="carta_propiedad_intelectual"
+                                                    value={form.data.carta_propiedad_intelectual}
+                                                    filename={entidad_aliada?.entidad_aliada_linea66?.filename.cartaPropiedadIntelectualFilename}
+                                                    extension={entidad_aliada?.entidad_aliada_linea66?.extension.cartaPropiedadIntelectualExtension}
+                                                    label="Seleccione un archivo"
+                                                    accept="application/pdf"
+                                                    downloadRoute={
+                                                        entidad_aliada?.carta_propiedad_intelectual
+                                                            ? entidad_aliada?.carta_propiedad_intelectual?.includes('http')
+                                                                ? null
+                                                                : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [
+                                                                      convocatoria,
+                                                                      proyecto,
+                                                                      entidad_aliada.id,
+                                                                      'carta_propiedad_intelectual',
+                                                                  ])
+                                                            : null
+                                                    }
+                                                    onChange={(e) => form.setData('carta_propiedad_intelectual', e.target.files[0])}
+                                                    error={form.errors.carta_propiedad_intelectual}
+                                                />
+                                            </div>
+                                        </>
+                                    ) : null}
                                 </>
                             ) : proyecto.codigo_linea_programatica == 69 || proyecto.codigo_linea_programatica == 70 ? (
                                 <>
@@ -323,8 +322,8 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                         <FileInput
                                             id="soporte_convenio"
                                             value={form.data.soporte_convenio}
-                                            filename={entidad_aliada?.entidad_aliada_linea69 ? entidad_aliada?.entidad_aliada_linea69.filename : entidad_aliada?.entidad_aliada_linea70.filename}
-                                            extension={entidad_aliada?.entidad_aliada_linea69 ? entidad_aliada?.entidad_aliada_linea69.extension : entidad_aliada?.entidad_aliada_linea70.extension}
+                                            filename={entidad_aliada?.entidad_aliada_linea69 ? entidad_aliada?.entidad_aliada_linea69?.filename : entidad_aliada?.entidad_aliada_linea70?.filename}
+                                            extension={entidad_aliada?.entidad_aliada_linea69 ? entidad_aliada?.entidad_aliada_linea69?.extension : entidad_aliada?.entidad_aliada_linea70?.extension}
                                             label="Seleccione un archivo"
                                             accept="application/pdf"
                                             downloadRoute={
@@ -371,41 +370,38 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                 </>
                             ) : null}
 
-                            {proyecto.codigo_linea_programatica == 66 ||
-                                (proyecto.codigo_linea_programatica == 82 && (
-                                    <>
-                                        <h6 className="mt-20 mb-12 text-2xl" id="actividades">
-                                            Actividades
-                                        </h6>
+                            {proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82 ? (
+                                <>
+                                    <h6 className="mt-20 mb-12 text-2xl" id="actividades">
+                                        Actividades a desarrollar
+                                    </h6>
 
-                                        <div className="bg-white rounded shadow overflow-hidden">
-                                            <div className="p-4">
-                                                <Label required className="mb-4" labelFor="actividad_id" value="Relacione alguna actividad" />
-                                            </div>
-                                            <div>
-                                                <SelectMultiple
-                                                    id="actividad_id"
-                                                    bdValues={form.data.actividad_id}
-                                                    options={actividades}
-                                                    error={form.errors.actividad_id}
-                                                    onChange={(event, newValue) => {
-                                                        const selectedValues = newValue.map((option) => option.value)
-                                                        form.setData((prevData) => ({
-                                                            ...prevData,
-                                                            actividad_id: selectedValues,
-                                                        }))
-                                                    }}
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
-                                    </>
-                                ))}
+                                    <div className="py-4">
+                                        <Label required className="mb-4" labelFor="actividad_id" value="Relacione alguna actividad" />
+                                    </div>
+                                    <div>
+                                        <SelectMultiple
+                                            id="actividad_id"
+                                            bdValues={form.data.actividad_id}
+                                            options={actividades}
+                                            error={form.errors.actividad_id}
+                                            onChange={(event, newValue) => {
+                                                const selectedValues = newValue.map((option) => option.value)
+                                                form.setData((prevData) => ({
+                                                    ...prevData,
+                                                    actividad_id: selectedValues,
+                                                }))
+                                            }}
+                                            required
+                                        />
+                                    </div>
+                                </>
+                            ) : null}
                         </fieldset>
 
-                        {entidad_aliada && <small className="flex items-center text-app-700">{entidad_aliada.updated_at}</small>}
+                        {entidad_aliada && <small className=" my-10 inline-block text-app-700">{entidad_aliada.updated_at}</small>}
 
-                        <div className="flex items-center justify-between mt-14 py-4">
+                        <div className="flex items-center justify-between py-4">
                             {proyecto.allowed.to_update ? (
                                 <>
                                     <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">

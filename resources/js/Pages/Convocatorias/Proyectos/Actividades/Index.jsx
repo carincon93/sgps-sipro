@@ -792,7 +792,7 @@ const Actividades = ({
                                             <Chip className="!bg-red-100 !text-red-400 !hover:bg-red-200 px-2 py-1 my-2" label="Sin fechas definidas" />
                                         )}
                                     </TableCell>
-                                    <TableCell>{actividad.objetivo_especifico.descripcion}</TableCell>
+                                    <TableCell>{actividad.objetivo_especifico != null ? actividad.objetivo_especifico.descripcion : 'Aún no ha registrado la descripción'}</TableCell>
 
                                     <TableCell>
                                         <MenuMui text={<MoreVertIcon />}>

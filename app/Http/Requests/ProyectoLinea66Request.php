@@ -87,11 +87,6 @@ class ProyectoLinea66Request extends FormRequest
      */
     protected function prepareForValidation()
     {
-        $this->merge([
-            'municipios' => json_encode($this->municipios),
-            'area_tematica_eni_id' => json_encode($this->area_tematica_eni_id),
-            'programas_formacion' => json_encode($this->programas_formacion),
-            'programas_formacion_articulados' => json_encode($this->programas_formacion_articulados),
-        ]);
+        //
     }
 }

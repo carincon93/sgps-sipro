@@ -130,7 +130,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                         <div className="flex items-center justify-between mt-14 py-4">
                             {proyecto.allowed.to_update ? (
                                 <>
-                                    <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
+                                    <PrimaryButton disabled={form.processing || !form.isDirty || (!form.data.autorizacion_datos && method == 'crear')} className="mr-2 ml-auto" type="submit">
                                         {method == 'crear' ? 'Agregar' : 'Modificar'} miembro
                                     </PrimaryButton>
                                     <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>

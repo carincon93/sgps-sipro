@@ -84,7 +84,7 @@ export default function Autocomplete({ id = '', label = '', className = '', erro
             />
             {error && (
                 <FormHelperText id={`component-error-${id}`} className="!text-red-600">
-                    {props.error}
+                    {error}
                 </FormHelperText>
             )}
         </>

@@ -19,6 +19,7 @@ import PrimaryButton from '@/Components/PrimaryButton'
 const Form = ({
     is_super_admin,
     proyecto_linea_65,
+    convocatoria,
     evaluacion,
     method = 'crear',
     centros_formacion,
@@ -40,10 +41,7 @@ const Form = ({
     ...props
 }) => {
     const [array_lineas_tecnoacademia, setArrayLineasTecnoacademia] = useState([])
-    const selectLineasTecnoacademia = (selectedTecnoAcademia) => {
-        const filtered_lineas_tecnoacademia = lineas_tecnoacademia.filter((obj) => obj.tecnoacademia_id === selectedTecnoAcademia.value)
-        setArrayLineasTecnoacademia(filtered_lineas_tecnoacademia)
-    }
+
     const [tiene_video, setTieneVideo] = useState(proyecto_linea_65?.video !== null)
     const [requiere_justificacion_industria4, setRequiereJustificacionIndustria4] = useState(proyecto_linea_65?.justificacion_industria_4 !== null)
     const [requiere_justificacion_economia_naranja, setRequiereJustificacionEconomiaNaranja] = useState(proyecto_linea_65?.justificacion_economia_naranja !== null)
@@ -64,17 +62,14 @@ const Form = ({
         area_conocimiento_id: proyecto_linea_65?.area_conocimiento_id ?? null,
         tematica_estrategica_id: proyecto_linea_65?.tematica_estrategica_id ?? null,
         actividad_economica_id: proyecto_linea_65?.actividad_economica_id ?? null,
+        tipo_proyecto: proyecto_linea_65?.tipo_proyecto ?? null,
 
         video: proyecto_linea_65?.video,
         numero_aprendices: proyecto_linea_65?.numero_aprendices,
-        municipios: municipios.filter((item) => proyecto_linea_65.proyecto.municipios?.some((obj) => obj.id == item.value)).map((item) => item.value),
+        municipios: proyecto_linea_65?.proyecto.municipios?.map((item) => item.id),
 
-        programas_formacion: programas_formacion_con_registro_calificado
-            .filter((item) => proyecto_linea_65.programas_formacion_registro_calificado?.some((obj) => obj.id == item.value))
-            .map((item) => item.value),
-        programas_formacion_articulados: programas_formacion_sin_registro_calificado
-            .filter((item) => proyecto_linea_65.programas_formacion_sin_registro_calificado?.some((obj) => obj.id == item.value))
-            .map((item) => item.value),
+        programas_formacion: proyecto_linea_65?.proyecto.programas_formacion.map((item) => item.id),
+        programas_formacion_articulados: proyecto_linea_65?.proyecto.programas_formacion.map((item) => item.id),
 
         muestreo: proyecto_linea_65?.muestreo ?? '',
         actividades_muestreo: proyecto_linea_65?.actividades_muestreo ?? '',
@@ -84,13 +79,10 @@ const Form = ({
         relacionado_agendas_competitividad: proyecto_linea_65?.relacionado_agendas_competitividad ?? '',
         relacionado_mesas_sectoriales: proyecto_linea_65?.relacionado_mesas_sectoriales ?? '',
         relacionado_tecnoacademia: proyecto_linea_65?.relacionado_tecnoacademia ?? '',
-        tecnoacademia_id: tecnoacademia?.id ?? '',
 
-        linea_tecnologica_id: lineas_tecnoacademia
-            .filter((obj) => obj.tecnoacademia_id === tecnoacademia?.id)
-            .filter((item) => proyecto_linea_65.proyecto.tecnoacademia_lineas_tecnoacademia?.some((obj) => obj.id == item.value))
-            .map((item) => item.value),
-        mesa_sectorial_id: mesas_sectoriales.filter((item) => proyecto_linea_65.mesas_sectoriales?.some((obj) => obj.id == item.value)).map((item) => item.value),
+        tecnoacademia_id: tecnoacademia?.id ?? '',
+        linea_tecnologica_id: proyecto_linea_65?.tecnoacademia_lineas_tecnoacademia?.map((item) => item.id),
+        mesa_sectorial_id: proyecto_linea_65?.mesas_sectoriales?.map((item) => item.id),
 
         resumen: proyecto_linea_65?.resumen ?? '',
         antecedentes: proyecto_linea_65?.antecedentes ?? '',
@@ -108,6 +100,11 @@ const Form = ({
         cantidad_horas: '',
         rol_sennova: null,
     })
+
+    useEffect(() => {
+        const filtered_lineas_tecnoacademia = lineas_tecnoacademia?.filter((obj) => obj.tecnoacademia_id === form.data.tecnoacademia_id)
+        setArrayLineasTecnoacademia(filtered_lineas_tecnoacademia)
+    }, [form.data.tecnoacademia_id])
 
     useEffect(() => {
         setArrayLineasInvestigacion(lineas_investigacion.filter((obj) => obj.centro_formacion_id === form.data.centro_formacion_id))
@@ -425,6 +422,7 @@ const Form = ({
                                             error={form.errors.video}
                                             placeholder="Link del video del proyecto https://www.youtube.com/watch?v=gmc4tk"
                                             value={form.data.video}
+                                            onChange={(e) => form.setData('video', e.target.value)}
                                             required={tiene_video ? true : undefined}
                                         />
                                     </>
@@ -537,6 +535,7 @@ const Form = ({
                                         id="atencion_pluralista_diferencial"
                                         error={form.errors.atencion_pluralista_diferencial}
                                         value={form.data.atencion_pluralista_diferencial}
+                                        onChange={(e) => form.setData('atencion_pluralista_diferencial', e.target.value)}
                                         required={requiere_justificacion_atencion_pluralista}
                                     />
                                 )}
@@ -553,7 +552,7 @@ const Form = ({
 
                                 <RadioGroup aria-labelledby="muestreo-radio-buttons-group-label" name="muestreo-radio-buttons-group">
                                     <div className="flex mt-20 items-center">
-                                        <RadioMui onChange={(e) => form.setData('muestreo', e.target.value)} value="1" error={form.errors.muestreo} />
+                                        <RadioMui onChange={(e) => form.setData('muestreo', e.target.value)} value="1" checked={form.data.muestreo == 1} error={form.errors.muestreo} />
                                         <span>
                                             Especies Nativas. (es la especie o subespecie taxonómica o variedad de animales cuya área de disposición geográfica se extiende al territorio nacional o a
                                             aguas jurisdiccionales colombianas o forma parte de los mismos comprendidas las especies o subespecies que migran temporalmente a ellos, siempre y cuando no
@@ -579,25 +578,39 @@ const Form = ({
 
                                                     <RadioGroup aria-labelledby="actividades-muestreo-radio-buttons-group-label" name="actividades-muestreo-radio-buttons-group">
                                                         <div className="flex mt-4 items-center">
-                                                            <RadioMui onChange={(e) => form.setData('actividades_muestreo', e.target.value)} value="1.1.1" />
+                                                            <RadioMui
+                                                                onChange={(e) => form.setData('actividades_muestreo', e.target.value)}
+                                                                value="1.1.1"
+                                                                checked={form.data.actividades_muestreo == '1.1.1'}
+                                                            />
                                                             <span>
-                                                                {' '}
                                                                 Separación de las unidades funcionales y no funcionales del ADN y el ARN, en todas las formas que se encuentran en la naturaleza.{' '}
                                                             </span>
                                                         </div>
                                                         <div className="flex mt-4 items-center">
-                                                            <RadioMui onChange={(e) => form.setData('actividades_muestreo', e.target.value)} value="1.1.2" />
+                                                            <RadioMui
+                                                                onChange={(e) => form.setData('actividades_muestreo', e.target.value)}
+                                                                value="1.1.2"
+                                                                checked={form.data.actividades_muestreo == '1.1.2'}
+                                                            />
                                                             <span>
-                                                                {' '}
                                                                 Aislamiento de una o varias moléculas, entendidas estas como micro y macromoléculas, producidas por el metabolismo de un organismo.{' '}
                                                             </span>
                                                         </div>
                                                         <div className="flex mt-4 items-center">
-                                                            <RadioMui onChange={(e) => form.setData('actividades_muestreo', e.target.value)} value="1.1.3" />
+                                                            <RadioMui
+                                                                onChange={(e) => form.setData('actividades_muestreo', e.target.value)}
+                                                                value="1.1.3"
+                                                                checked={form.data.actividades_muestreo == '1.1.3'}
+                                                            />
                                                             <span> Solicitar patente sobre una función o propiedad identificada de una molécula, que se ha aislado y purificado. </span>
                                                         </div>
                                                         <div className="flex mt-4 items-center">
-                                                            <RadioMui onChange={(e) => form.setData('actividades_muestreo', e.target.value)} value="1.1.4" />
+                                                            <RadioMui
+                                                                onChange={(e) => form.setData('actividades_muestreo', e.target.value)}
+                                                                value="1.1.4"
+                                                                checked={form.data.actividades_muestreo == '1.1.4'}
+                                                            />
                                                             <span> No logro identificar la actividad a desarrollar con la especie nativa </span>
                                                         </div>
                                                     </RadioGroup>
@@ -616,15 +629,27 @@ const Form = ({
 
                                                     <RadioGroup aria-labelledby="objetivo-muestreo-radio-buttons-group-label" name="objetivo-muestreo-radio-buttons-group">
                                                         <div className="flex mt-4 items-center">
-                                                            <RadioMui onChange={(e) => form.setData('objetivo_muestreo', e.target.value)} value="1.2.1" />
+                                                            <RadioMui
+                                                                onChange={(e) => form.setData('objetivo_muestreo', e.target.value)}
+                                                                value="1.2.1"
+                                                                checked={form.data.objetivo_muestreo == '1.2.1'}
+                                                            />
                                                             <span> Investigación básica sin fines comerciales </span>
                                                         </div>
                                                         <div className="flex mt-4 items-center">
-                                                            <RadioMui onChange={(e) => form.setData('objetivo_muestreo', e.target.value)} value="1.2.2" />
+                                                            <RadioMui
+                                                                onChange={(e) => form.setData('objetivo_muestreo', e.target.value)}
+                                                                value="1.2.2"
+                                                                checked={form.data.objetivo_muestreo == '1.2.2'}
+                                                            />
                                                             <span> Bioprospección en cualquiera de sus fases </span>
                                                         </div>
                                                         <div className="flex mt-4 items-center">
-                                                            <RadioMui onChange={(e) => form.setData('objetivo_muestreo', e.target.value)} value="1.2.3" />
+                                                            <RadioMui
+                                                                onChange={(e) => form.setData('objetivo_muestreo', e.target.value)}
+                                                                value="1.2.3"
+                                                                checked={form.data.objetivo_muestreo == '1.2.3'}
+                                                            />
                                                             <span> Comercial o Industrial </span>
                                                         </div>
                                                     </RadioGroup>
@@ -634,24 +659,23 @@ const Form = ({
                                     )}
 
                                     <div className="flex mt-4 items-center">
-                                        <RadioMui onChange={(e) => form.setData('muestreo', e.target.value)} value="2" />
+                                        <RadioMui onChange={(e) => form.setData('muestreo', e.target.value)} value="2" checked={form.data.muestreo == 2} />
                                         <span> Especies Introducidas. (son aquellas que no son nativas de Colombia y que ingresaron al país por intervención humana) </span>
                                     </div>
                                     <div className="flex mt-4 items-center">
-                                        <RadioMui onChange={(e) => form.setData('muestreo', e.target.value)} value="3" />
+                                        <RadioMui onChange={(e) => form.setData('muestreo', e.target.value)} value="3" checked={form.data.muestreo == 3} />
                                         <span> Recursos genéticos humanos y sus productos derivados </span>
                                     </div>
                                     <div className="flex mt-4 items-center">
-                                        <RadioMui onChange={(e) => form.setData('muestreo', e.target.value)} value="4" />
+                                        <RadioMui onChange={(e) => form.setData('muestreo', e.target.value)} value="4" checked={form.data.muestreo == 4} />
                                         <span>
-                                            {' '}
                                             Intercambio de recursos genéticos y sus productos derivados, recursos biológicos que los contienen o los componentes asociados a estos. (son aquellas que
                                             realizan las comunidades indígenas, afroamericanas y locales de los Países Miembros de la Comunidad Andina entre sí y para su propio consumo, basadas en sus
                                             prácticas consuetudinarias){' '}
                                         </span>
                                     </div>
                                     <div className="flex mt-4 items-center">
-                                        <RadioMui onChange={(e) => form.setData('muestreo', e.target.value)} value="5" />
+                                        <RadioMui onChange={(e) => form.setData('muestreo', e.target.value)} value="5" checked={form.data.muestreo == 5} />
                                         <span>
                                             Recurso biológico que involucren actividades de sistemática molecular, ecología molecular, evolución y biogeografía molecular (siempre que el recurso
                                             biológico se haya colectado en el marco de un permiso de recolección de especímenes de especies silvestres de la diversidad biológica con fines de
@@ -659,7 +683,7 @@ const Form = ({
                                         </span>
                                     </div>
                                     <div className="flex mt-4 items-center">
-                                        <RadioMui onChange={(e) => form.setData('muestreo', e.target.value)} value="6" />
+                                        <RadioMui onChange={(e) => form.setData('muestreo', e.target.value)} value="6" checked={form.data.muestreo == 6} />
                                         <span> No aplica </span>
                                     </div>
                                 </RadioGroup>
@@ -839,12 +863,13 @@ const Form = ({
                                             options={tecnoacademias}
                                             selectedValue={form.data.tecnoacademia_id}
                                             onChange={(event, newValue) => {
-                                                form.setData('tecnoacademia_id'), newValue, selectLineasTecnoacademia(newValue)
+                                                form.setData('tecnoacademia_id', newValue.value)
                                             }}
                                             required
                                             disabled={evaluacion ? 'disabled' : undefined}
                                         />
                                         <SelectMultiple
+                                            className="mt-10"
                                             id="linea_tecnologica_id"
                                             bdValues={form.data.linea_tecnologica_id}
                                             options={array_lineas_tecnoacademia}
@@ -928,7 +953,7 @@ const Form = ({
                                     error={form.errors.numero_aprendices}
                                     placeholder="Escriba el número de aprendices que se beneficiarán en la ejecución del proyecto"
                                     value={form.data.numero_aprendices}
-                                    onChange={(e) => (form.data.numero_aprendices = e.target.value)}
+                                    onChange={(e) => form.setData('numero_aprendices', e.target.value)}
                                     required
                                     disabled={evaluacion ? 'disabled' : undefined}
                                 />
@@ -1053,11 +1078,10 @@ const Form = ({
                     )}
                 </Grid>
             </fieldset>
-            {form.isDirty && <div>There are unsaved form changes.</div>}
 
             {method == 'crear' || proyecto_linea_65.proyecto?.allowed?.to_update ? (
                 <div className="pt-8 pb-4 space-y-4">
-                    <PrimaryButton type="submit" className="ml-auto">
+                    <PrimaryButton type="submit" className="ml-auto" disabled={form.processing || !form.isDirty}>
                         Guardar
                     </PrimaryButton>
                 </div>

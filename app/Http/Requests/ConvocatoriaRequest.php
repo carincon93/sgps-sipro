@@ -23,18 +23,32 @@ class ConvocatoriaRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'descripcion'                   => ['required'],
-            'esta_activa'                   => ['required_if:tipo_convocatoria,1', 'nullable', 'boolean'],
-            'year'                          => ['required', 'integer', 'max:' . date('Y') + 2],
-            'fase'                          => ['required', 'integer'],
-            'lineas_programaticas_activas'  => ['nullable', 'json'],
-            'visible'                       => ['nullable', 'boolean'],
-            'fecha_finalizacion_fase'       => ['required', 'date'],
-            'hora_finalizacion_fase'        => ['required'],
-            'tipo_convocatoria'             => ['required', 'integer'],
-            'convocatoria_id'               => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:convocatorias,id'],
-        ];
+        if ($this->isMethod('PUT')) {
+            return [
+                'descripcion'                   => ['required'],
+                'esta_activa'                   => ['required_if:tipo_convocatoria,1', 'nullable', 'boolean'],
+                'year'                          => ['required', 'integer', 'max:' . date('Y') + 2],
+                'fase'                          => ['required', 'integer'],
+                'lineas_programaticas_activas'  => ['nullable', 'json'],
+                'visible'                       => ['nullable', 'boolean'],
+                'fecha_finalizacion_fase'       => ['required', 'date'],
+                'hora_finalizacion_fase'        => ['required'],
+            ];
+        } else {
+            return [
+                'descripcion'                   => ['required'],
+                'esta_activa'                   => ['required_if:tipo_convocatoria,1', 'nullable', 'boolean'],
+                'year'                          => ['required', 'integer', 'max:' . date('Y') + 2],
+                'fase'                          => ['required', 'integer'],
+                'lineas_programaticas_activas'  => ['nullable', 'json'],
+                'visible'                       => ['nullable', 'boolean'],
+                'fecha_finalizacion_fase'       => ['required', 'date'],
+                'hora_finalizacion_fase'        => ['required'],
+                'tipo_convocatoria'             => ['required', 'integer'],
+                'convocatoria_id'               => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:convocatorias,id'],
+            ];
+        }
+
     }
 
     /**

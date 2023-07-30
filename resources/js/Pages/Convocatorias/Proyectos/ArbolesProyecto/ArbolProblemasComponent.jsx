@@ -72,7 +72,9 @@ const ArbolProblemasComponent = ({ auth, proyecto, fase_evaluacion }) => {
 
                     <form onSubmit={submitProblemaCentral} id="problema-central">
                         <fieldset className="space-y-20" disabled={proyecto.allowed.to_update ? undefined : true}>
-                            {proyecto.codigo_linea_programatica == 68 ||
+                            {proyecto.codigo_linea_programatica == 65 ||
+                            proyecto.codigo_linea_programatica == 66 ||
+                            proyecto.codigo_linea_programatica == 68 ||
                             (proyecto.codigo_linea_programatica == 70 && proyecto?.proyecto_base) ||
                             (proyecto.codigo_linea_programatica == 70 && checkPermissionByUser(auth_user, [24])) ? (
                                 <div>
@@ -122,7 +124,9 @@ const ArbolProblemasComponent = ({ auth, proyecto, fase_evaluacion }) => {
                                 </div>
                             )}
 
-                            {proyecto.codigo_linea_programatica == 68 ||
+                            {proyecto.codigo_linea_programatica == 65 ||
+                            proyecto.codigo_linea_programatica == 66 ||
+                            proyecto.codigo_linea_programatica == 68 ||
                             (proyecto.codigo_linea_programatica == 70 && proyecto?.proyecto_base) ||
                             (proyecto.codigo_linea_programatica == 70 && checkPermissionByUser(auth_user, [24])) ? (
                                 <div className="mt-10">

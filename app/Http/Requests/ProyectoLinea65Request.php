@@ -82,10 +82,6 @@ class ProyectoLinea65Request extends FormRequest
      */
     protected function prepareForValidation()
     {
-        $this->merge([
-            'municipios' => json_encode($this->municipios),
-            'programas_formacion' => json_encode($this->programas_formacion),
-            'programas_formacion_articulados' => json_encode($this->programas_formacion_articulados)
-        ]);
+        //
     }
 }

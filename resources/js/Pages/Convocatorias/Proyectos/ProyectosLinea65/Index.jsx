@@ -1,9 +1,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import AlertMui from '@/Components/Alert'
+import ButtonMui from '@/Components/Button'
 import MenuMui from '@/Components/Menu'
 import TableMui from '@/Components/Table'
 
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
@@ -21,22 +23,24 @@ const Index = ({ auth, convocatoria, proyectos_linea_65, allowed_to_create }) =>
     return (
         <AuthenticatedLayout user={auth_user} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
             <Grid item md={12}>
-                <div>
-                    Apropiación de la ciencia y la tecnología y cultura de la innovación y la competitividad - Línea 65
-                    <AlertMui>A continuación, se listan únicamente los proyectos que usted ha creado y también en los que está asociado.</AlertMui>
-                </div>
-
-                <div>
-                    {allowed_to_create && (
-                        <Link href={route('convocatorias.proyectos-linea-65.create', [convocatoria.id])} variant="raised">
-                            Formular un nuevo proyecto
-                        </Link>
-                    )}
-                </div>
+                <h1 className="text-3xl text-center">Apropiación de la ciencia y la tecnología y cultura de la innovación y la competitividad - Línea 65</h1>
             </Grid>
 
             <Grid item md={12}>
-                <TableMui className="mt-20" rows={['Título', 'Fecha de ejecución', 'Estado (Evaluación)', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <AlertMui className="mt-20">A continuación, se listan únicamente los proyectos que usted ha creado y también en los que está asociado.</AlertMui>
+                <TableMui rows={['Título', 'Fecha de ejecución', 'Estado (Evaluación)', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    {allowed_to_create && (
+                        <TableRow
+                            onClick={() => router.visit(route('convocatorias.proyectos-linea-65.create', [convocatoria.id]))}
+                            variant="raised"
+                            className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                            <TableCell colSpan={4}>
+                                <ButtonMui>
+                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Formular un nuevo proyecto
+                                </ButtonMui>
+                            </TableCell>
+                        </TableRow>
+                    )}
                     {proyectos_linea_65.data.map(({ id, proyecto, titulo, fecha_ejecucion }) => (
                         <TableRow key={id}>
                             <TableCell>

@@ -130,10 +130,6 @@ class ProyectoLinea66Controller extends Controller
 
         $proyecto->proyectoLinea66()->save($proyecto_linea_66);
 
-        $proyecto_linea_66->areasTematicasEni()->sync($request->area_tematica_eni_id);
-        $proyecto_linea_66->lineasInvestigacionEni()->sync($request->linea_investigacion_eni_id);
-
-
         if ($convocatoria->tipo_convocatoria == 2) {
             $proyecto->proyectoDemo()->create([
                 'proyecto_id' => $proyecto->id
@@ -183,18 +179,15 @@ class ProyectoLinea66Controller extends Controller
         $proyecto_linea_66->proyecto->programasFormacion;
         $proyecto_linea_66->proyecto->programasFormacion;
         $proyecto_linea_66->proyecto->municipios;
+        $proyecto_linea_66->proyecto->tecnoacademiaLineasTecnoacademia;
 
         // $proyecto_linea_66->proyecto->pdfVersiones;
         // $proyecto_linea_66->proyecto->all_files;
-
 
         $proyecto_linea_66->disciplinaSubareaConocimiento->subareaConocimiento->areaConocimiento;
         $proyecto_linea_66->mesasSectoriales;
         $proyecto_linea_66->areasTematicasEni;
         $proyecto_linea_66->lineasInvestigacionEni;
-
-        $proyecto_linea_66->programas_formacion_registro_calificado     = $proyecto_linea_66->proyecto->programasFormacion()->where('registro_calificado', true)->get();
-        $proyecto_linea_66->programas_formacion_sin_registro_calificado = $proyecto_linea_66->proyecto->programasFormacion()->where('registro_calificado', false)->get();
 
         $proyecto_linea_66->mostrar_recomendaciones = $proyecto_linea_66->proyecto->mostrar_recomendaciones;
         $proyecto_linea_66->mostrar_requiere_subsanacion = $proyecto_linea_66->proyecto->mostrar_requiere_subsanacion;
@@ -203,7 +196,6 @@ class ProyectoLinea66Controller extends Controller
             'convocatoria'                                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'campos_convocatoria'),
             'proyecto_linea_66'                                 => $proyecto_linea_66,
             'evaluacion'                                        => EvaluacionProyectoLinea66::find(request()->evaluacion_id),
-            'lineas_tecnoacademia_relacionadas'                 => $proyecto_linea_66->proyecto->tecnoacademiaLineasTecnoacademia()->pluck('tecnoacademia_linea_tecnoacademia.id'),
             'tecnoacademia'                                     => $proyecto_linea_66->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_linea_66->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
             'mesas_sectoriales'                                 => SelectHelper::mesasSectoriales(),
             'areas_conocimiento'                                => SelectHelper::areasConocimiento(),
@@ -299,10 +291,10 @@ class ProyectoLinea66Controller extends Controller
     {
         $this->authorize('eliminar-proyecto-autor', [$proyecto_linea_66->proyecto]);
 
-        if (!Hash::check($request->password, Auth::user()->password)) {
-            return back()
-                ->withErrors(['password' => __('The password is incorrect.')]);
-        }
+        // if (!Hash::check($request->password, Auth::user()->password)) {
+        //     return back()
+        //         ->withErrors(['password' => __('The password is incorrect.')]);
+        // }
 
         $proyecto_linea_66->proyecto()->delete();
 

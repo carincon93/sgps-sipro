@@ -15,7 +15,7 @@ const ConvocatoriaLineasProgramaticas = ({ auth, convocatoria, lineas_programati
             </Grid>
 
             {lineas_programaticas.map((linea_programatica) => {
-                if (JSON.parse(convocatoria.lineas_programaticas_activas)?.includes(linea_programatica.id)) {
+                if (convocatoria.lineas_programaticas_activas?.includes(linea_programatica.id)) {
                     return (
                         <Grid item md={3} key={linea_programatica.id}>
                             <ButtonMui

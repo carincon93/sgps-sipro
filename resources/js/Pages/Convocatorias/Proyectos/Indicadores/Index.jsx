@@ -22,6 +22,7 @@ const Indicadores = ({ auth, convocatoria, proyecto_linea_66, evaluacion, ...pro
     })
 
     const submit = (e) => {
+        e.preventDefault()
         if (proyecto_linea_66.proyecto.allowed.to_update) {
             form.post(route('convocatorias.proyectos-linea-66.indicadores.store', [convocatoria.id, proyecto_linea_66.id]))
         }

@@ -77,7 +77,7 @@ export default function SelectMultiple({ id = '', label = '', className = '', er
             />
             {error && (
                 <FormHelperText id={`component-error-${id}`} className="!text-red-600">
-                    {props.error}
+                    {error}
                 </FormHelperText>
             )}
         </>

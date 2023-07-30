@@ -92,9 +92,9 @@ class ProyectoLinea70Controller extends Controller
             Auth::user()->id,
             [
                 'es_formulador'     => true,
-                'cantidad_meses'    => $request->max_meses_ejecucion,
-                'cantidad_horas'    => 48,
-                'rol_sennova'       => 3,
+                'cantidad_meses'    => $request->cantidad_meses,
+                'cantidad_horas'    => $request->cantidad_horas,
+                'rol_sennova'       => $request->rol_sennova,
             ]
         );
 
@@ -214,10 +214,10 @@ class ProyectoLinea70Controller extends Controller
 
         $this->authorize('eliminar-proyecto-autor', [$proyecto_linea_70->proyecto]);
 
-        if (!Hash::check($request->password, Auth::user()->password)) {
-            return back()
-                ->withErrors(['password' => __('The password is incorrect.')]);
-        }
+        // if (!Hash::check($request->password, Auth::user()->password)) {
+        //     return back()
+        //         ->withErrors(['password' => __('The password is incorrect.')]);
+        // }
 
         $proyecto_linea_70->proyecto()->delete();
 

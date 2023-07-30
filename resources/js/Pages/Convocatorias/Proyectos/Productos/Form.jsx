@@ -215,6 +215,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                             />
 
                                             <Autocomplete
+                                                className="mt-8"
                                                 id="tipo"
                                                 options={tipos_producto}
                                                 selectedValue={form.data.tipo}

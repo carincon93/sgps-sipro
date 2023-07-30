@@ -227,10 +227,10 @@ class ProyectoLinea69Controller extends Controller
 
         $this->authorize('eliminar-proyecto-autor', [$proyecto_linea_69->proyecto]);
 
-        if (!Hash::check($request->password, Auth::user()->password)) {
-            return back()
-                ->withErrors(['password' => __('The password is incorrect.')]);
-        }
+        // if (!Hash::check($request->password, Auth::user()->password)) {
+        //     return back()
+        //         ->withErrors(['password' => __('The password is incorrect.')]);
+        // }
 
         $proyecto_linea_69->proyecto()->delete();
 

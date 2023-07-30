@@ -172,4 +172,9 @@ class Convocatoria extends Model
     {
         return json_decode(Storage::get('json/campos-convocatoria.json'), true);
     }
+
+    public function getLineasProgramaticasActivasAttribute($value)
+    {
+        return json_decode($value);
+    }
 }
