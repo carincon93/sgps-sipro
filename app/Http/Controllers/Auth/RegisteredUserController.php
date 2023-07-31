@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRegisterRequest;
+use App\Http\Requests\RegisteredUserRequest;
 use App\Models\CentroFormacion;
 use App\Models\Municipio;
 use App\Models\Role;
@@ -27,12 +27,12 @@ class RegisteredUserController extends Controller
     public function create(Request $request): Response
     {
         return Inertia::render('Auth/Register', [
-            'centrosFormacion'      => CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo, chr(10), \'∙ Regional: \', regionales.nombre) as label')->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->orderBy('centros_formacion.nombre', 'ASC')->get(),
+            'centros_formacion'     => CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo, chr(10), \'∙ Regional: \', regionales.nombre) as label')->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->orderBy('centros_formacion.nombre', 'ASC')->get(),
             'roles'                 => Role::select('id', 'name')->where('name', 'ilike', "%Proponente%")->orWhere('name', 'ilike', "%Aprendiz%")->orWhere('name', 'ilike', "%Facilitador%")->orWhere('name', 'ilike', "%Evaluador%")->get(),
-            'opcionesGenero'        => json_decode(Storage::get('json/generos.json'), true),
+            'opciones_genero'       => json_decode(Storage::get('json/generos.json'), true),
             'municipios'            => Municipio::selectRaw('id as value, nombre as label')->get(),
-            'tiposDocumento'        => json_decode(Storage::get('json/tipos-documento.json'), true),
-            'tiposVinculacion'      => json_decode(Storage::get('json/tipos-vinculacion.json'), true),
+            'tipos_documento'       => json_decode(Storage::get('json/tipos-documento.json'), true),
+            'tipos_vinculacion'     => json_decode(Storage::get('json/tipos-vinculacion.json'), true),
             'user'                  => User::where('numero_documento', $request->numero_documento)->first()
         ]);
     }
@@ -42,7 +42,7 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(UserRegisterRequest $request): RedirectResponse
+    public function store(RegisteredUserRequest $request): RedirectResponse
     {
         $user = User::create([
             'nombre'                => $request->nombre,
@@ -59,8 +59,6 @@ class RegisteredUserController extends Controller
             'genero'                => $request->genero,
             'fecha_nacimiento'      => $request->fecha_nacimiento
         ]);
-
-        $user->syncRoles($request->role_id);
 
         event(new Registered($user));
 

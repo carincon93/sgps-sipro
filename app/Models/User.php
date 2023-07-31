@@ -175,6 +175,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Relationship with RolSennova
+     *
+     * @return object
+     */
+    public function rolSennova()
+    {
+        return $this->hasOne(RolSennova::class);
+    }
+
+    /**
      * Relationship with User
      *
      * @return object
@@ -215,13 +225,13 @@ class User extends Authenticatable
     }
 
     /**
-     * Relationship with ProyectoIdiTecnoacademiaParticipante
+     * Relationship with ProyectoProyectoLinea66TecnoacademiaParticipante
      *
      * @return object
      */
-    public function proyectosIdiTecnoacademiaParticipante()
+    public function proyectosProyectoLinea66TecnoacademiaParticipante()
     {
-        return $this->belongsToMany(ProyectoIdiTecnoacademia::class, 'proyecto_idi_tecnoacademia_participante', 'user_id', 'proyecto_idi_tecnoacademia_id');
+        return $this->belongsToMany(ProyectoProyectoLinea66Tecnoacademia::class, 'proyecto_idi_tecnoacademia_participante', 'user_id', 'proyecto_idi_tecnoacademia_id');
     }
 
     /**
@@ -401,5 +411,30 @@ class User extends Authenticatable
     public function getNombreAttribute($value)
     {
         return ucwords($value);
+    }
+
+    public function getDisciplinasSubareaConocimientoAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function getOtrosRolesSennovaAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function getRolesFueraSennovaAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function getTiempoPorRolAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function getCursosDeEvaluacionRealizadosAttribute($value)
+    {
+        return json_decode($value);
     }
 }

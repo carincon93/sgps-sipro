@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('servicios_tecnologicos_evaluaciones', function (Blueprint $table) {
+        Schema::create('evaluaciones_proyectos_linea_68', function (Blueprint $table) {
             $table->integer('id')->primary();
 
             $table->text('titulo_comentario')->nullable();
@@ -104,6 +104,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('servicios_tecnologicos_evaluaciones');
+        Schema::dropIfExists('evaluaciones_proyectos_linea_68');
     }
 };

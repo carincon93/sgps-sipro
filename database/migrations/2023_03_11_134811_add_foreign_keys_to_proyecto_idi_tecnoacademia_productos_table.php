@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('proyecto_idi_tecnoacademia_productos', function (Blueprint $table) {
             $table->foreign(['proyecto_idi_tecnoacademia_id'], 'proyecto_idi_tecnoacademia_id_fkey')->references(['id'])->on('proyectos_idi_tecnoacademia')->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->foreign(['tipo_producto_idi_id'], 'tipo_producto_idi_id_fkey')->references(['id'])->on('tipos_producto_idi')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign(['tipo_productos_linea_66_id'], 'tipo_productos_linea_66_id_fkey')->references(['id'])->on('tipos_productos_linea_66')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 
@@ -28,7 +28,7 @@ return new class extends Migration
     {
         Schema::table('proyecto_idi_tecnoacademia_productos', function (Blueprint $table) {
             $table->dropForeign('proyecto_idi_tecnoacademia_id_fkey');
-            $table->dropForeign('tipo_producto_idi_id_fkey');
+            $table->dropForeign('tipo_productos_linea_66_id_fkey');
         });
     }
 };

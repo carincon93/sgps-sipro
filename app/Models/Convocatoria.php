@@ -35,6 +35,7 @@ class Convocatoria extends Model
         'esta_activa',
         'fecha_finalizacion_fase',
         'fase',
+        'visible',
         'mostrar_recomendaciones',
         'hora_finalizacion_fase',
         'tipo_convocatoria',
@@ -171,5 +172,10 @@ class Convocatoria extends Model
     public function getCamposConvocatoriaAttribute()
     {
         return json_decode(Storage::get('json/campos-convocatoria.json'), true);
+    }
+
+    public function getLineasProgramaticasActivasAttribute($value)
+    {
+        return json_decode($value);
     }
 }

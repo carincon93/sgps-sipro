@@ -68,13 +68,13 @@ class RolSennova extends Model
     }
 
     /**
-     * Relationship with ReglaRolSt
+     * Relationship with User
      *
      * @return object
      */
-    public function reglasRolesSt()
+    public function users()
     {
-        return $this->hasMany(ReglaRolSt::class);
+        return $this->hasMany(User::class);
     }
 
     /**
@@ -94,6 +94,11 @@ class RolSennova extends Model
         });
     }
 
+    public function getNombreAttribute($value)
+    {
+        return ucfirst($value);
+    }
+
     /**
      * getUpdatedAtAttribute
      *
@@ -102,10 +107,5 @@ class RolSennova extends Model
     public function getUpdatedAtAttribute($value)
     {
         return "Última modificación de este formulario: " . Carbon::parse($value, 'UTC')->timezone('America/Bogota')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY [a las] HH:mm:ss');
-    }
-
-    public function getNombreAttribute($value)
-    {
-        return ucwords($value);
     }
 }

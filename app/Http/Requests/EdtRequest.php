@@ -24,7 +24,6 @@ class EdtRequest extends FormRequest
     public function rules()
     {
         return [
-            'proyecto_presupuesto_id'           => ['required', 'integer', 'min:0', 'max:2147483647', 'exists:proyecto_presupuesto,id'],
             'tipo_evento'                       => ['required', 'max:2'],
             'descripcion_evento'                => ['required', 'max:40000', 'string'],
             'descripcion_participacion_entidad' => ['required', 'max:40000', 'string'],
@@ -44,16 +43,6 @@ class EdtRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->tipo_evento)) {
-            $this->merge([
-                'tipo_evento' => $this->tipo_evento['value'],
-            ]);
-        }
-
-        if (is_array($this->proyecto_presupuesto_id)) {
-            $this->merge([
-                'proyecto_presupuesto_id' => $this->proyecto_presupuesto_id['value'],
-            ]);
-        }
+        //
     }
 }

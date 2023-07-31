@@ -59,23 +59,33 @@ class EntidadAliada extends Model
     }
 
     /**
-     * Relationship with EntidadAliadaIdi
+     * Relationship with EntidadAliadaLinea66
      *
      * @return object
      */
-    public function entidadAliadaIdi()
+    public function entidadAliadaLinea66()
     {
-        return $this->hasOne(EntidadAliadaIdi::class);
+        return $this->hasOne(EntidadAliadaLinea66::class);
     }
 
     /**
+     * Relationship with EntidadAliadaLinea69
+     *
+     * @return object
+     */
+    public function entidadAliadaLinea69()
+    {
+        return $this->hasOne(EntidadAliadaLinea69::class);
+    }
+
+        /**
      * Relationship with EntidadAliadaTa
      *
      * @return object
      */
-    public function entidadAliadaTaTp()
+    public function entidadAliadaLinea70()
     {
-        return $this->hasOne(EntidadAliadaTaTp::class);
+        return $this->hasOne(EntidadAliadaLinea70::class);
     }
 
     /**
@@ -123,89 +133,5 @@ class EntidadAliada extends Model
     public function getUpdatedAtAttribute($value)
     {
         return "Última modificación de este formulario: " . Carbon::parse($value, 'UTC')->timezone('America/Bogota')->timezone('America/Bogota')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY [a las] HH:mm:ss');
-    }
-
-    /**
-     * getTipoAttribute
-     *
-     * @param  mixed $value
-     * @return void
-     */
-    public function getTipoAttribute($value)
-    {
-        switch ($value) {
-            case 1:
-                $value = 'Empresa';
-                break;
-            case 2:
-                $value = 'Universidad';
-                break;
-            case 3:
-                $value = 'Entidades sin ánimo de lucro';
-                break;
-            case 4:
-                $value = 'Centro de formación SENA';
-                break;
-            case 5:
-                $value = 'Otra';
-                break;
-            default:
-                break;
-        }
-        return $value;
-    }
-
-    /**
-     * getNaturalezaAttribute
-     *
-     * @param  mixed $value
-     * @return void
-     */
-    public function getNaturalezaAttribute($value)
-    {
-        switch ($value) {
-            case 1:
-                $value = 'Pública';
-                break;
-            case 2:
-                $value = 'Privado';
-                break;
-            case 3:
-                $value = 'Mixta';
-                break;
-            case 4:
-                $value = 'ONG';
-                break;
-            default:
-                break;
-        }
-        return $value;
-    }
-
-    /**
-     * getTipoEmpresaAttribute
-     *
-     * @param  mixed $value
-     * @return void
-     */
-    public function getTipoEmpresaAttribute($value)
-    {
-        switch ($value) {
-            case 1:
-                $value = 'Microempresa';
-                break;
-            case 2:
-                $value = 'Pequeña';
-                break;
-            case 3:
-                $value = 'Mediana';
-                break;
-            case 4:
-                $value = 'Grande';
-                break;
-            default:
-                break;
-        }
-        return $value;
     }
 }

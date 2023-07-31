@@ -88,137 +88,49 @@ class UserProfileRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->tipo_documento)) {
-            $this->merge([
-                'tipo_documento' => $this->tipo_documento['value'],
-            ]);
-        }
+        $this->merge([
+            'cursos_evaluacion_proyectos' => $this->cursos_evaluacion_proyectos == '1' ? 1 : 0,
+        ]);
 
-        if (is_array($this->tipo_vinculacion)) {
-            $this->merge([
-                'tipo_vinculacion' => $this->tipo_vinculacion['value'],
-            ]);
-        }
+        $this->merge([
+            'experiencia_como_evaluador' => $this->experiencia_como_evaluador == '1' ? 1 : 0,
+        ]);
 
-        if (is_array($this->subarea_experiencia_laboral)) {
-            $this->merge([
-                'subarea_experiencia_laboral' => $this->subarea_experiencia_laboral['value'],
-            ]);
-        }
+        $this->merge([
+            'participacion_como_evaluador_sennova' => $this->participacion_como_evaluador_sennova == '1' ? 1 : 0,
+        ]);
 
-        if (is_array($this->genero)) {
-            $this->merge([
-                'genero' => $this->genero['value'],
-            ]);
-        }
+        $this->merge([
+            'conocimiento_iso_17025' => $this->conocimiento_iso_17025 == '1' ? 1 : 0,
+        ]);
 
-        if (is_array($this->nivel_ingles)) {
-            $this->merge([
-                'nivel_ingles' => $this->nivel_ingles['value'],
-            ]);
-        }
+        $this->merge([
+            'conocimiento_iso_19011' => $this->conocimiento_iso_19011 == '1' ? 1 : 0,
+        ]);
 
-        if (is_array($this->grupo_etnico)) {
-            $this->merge([
-                'grupo_etnico' => $this->grupo_etnico['value'],
-            ]);
-        }
+        $this->merge([
+            'conocimiento_iso_29119' => $this->conocimiento_iso_29119 == '1' ? 1 : 0,
+        ]);
 
-        if (is_array($this->discapacidad)) {
-            $this->merge([
-                'discapacidad' => $this->discapacidad['value'],
-            ]);
-        }
+        $this->merge([
+            'conocimiento_iso_9001' => $this->conocimiento_iso_9001 == '1' ? 1 : 0,
+        ]);
 
-        if (is_array($this->centro_formacion_id)) {
-            $this->merge([
-                'centro_formacion_id' => $this->centro_formacion_id['value'],
-            ]);
-        }
+        $this->merge([
+            'experiencia_metodos_ensayo' => $this->experiencia_metodos_ensayo == '1' ? 1 : 0,
+        ]);
 
-        if (is_array($this->lugar_expedicion_id)) {
-            $this->merge([
-                'lugar_expedicion_id' => $this->lugar_expedicion_id['value'],
-            ]);
-        }
+        $this->merge([
+            'experiencia_metodos_calibracion' => $this->experiencia_metodos_calibracion == '1' ? 1 : 0,
+        ]);
 
-        if (is_array($this->red_conocimiento_id)) {
-            $this->merge([
-                'red_conocimiento_id' => $this->red_conocimiento_id['value'],
-            ]);
-        }
+        $this->merge([
+            'experiencia_minima_metodos' => $this->experiencia_minima_metodos == '1' ? 1 : 0,
+        ]);
 
-        if (is_array($this->rol_sennova_id)) {
-            $this->merge([
-                'rol_sennova_id' => $this->rol_sennova_id['value'],
-            ]);
-        }
-
-        if (is_array($this->cursos_evaluacion_proyectos)) {
-            $this->merge([
-                'cursos_evaluacion_proyectos' => $this->cursos_evaluacion_proyectos['value'] == '1' ? 1 : 0,
-            ]);
-        }
-
-        if (is_array($this->experiencia_como_evaluador)) {
-            $this->merge([
-                'experiencia_como_evaluador' => $this->experiencia_como_evaluador['value'] == '1' ? 1 : 0,
-            ]);
-        }
-
-        if (is_array($this->participacion_como_evaluador_sennova)) {
-            $this->merge([
-                'participacion_como_evaluador_sennova' => $this->participacion_como_evaluador_sennova['value'] == '1' ? 1 : 0,
-            ]);
-        }
-
-        if (is_array($this->conocimiento_iso_17025)) {
-            $this->merge([
-                'conocimiento_iso_17025' => $this->conocimiento_iso_17025['value'] == '1' ? 1 : 0,
-            ]);
-        }
-
-        if (is_array($this->conocimiento_iso_19011)) {
-            $this->merge([
-                'conocimiento_iso_19011' => $this->conocimiento_iso_19011['value'] == '1' ? 1 : 0,
-            ]);
-        }
-
-        if (is_array($this->conocimiento_iso_29119)) {
-            $this->merge([
-                'conocimiento_iso_29119' => $this->conocimiento_iso_29119['value'] == '1' ? 1 : 0,
-            ]);
-        }
-
-        if (is_array($this->conocimiento_iso_9001)) {
-            $this->merge([
-                'conocimiento_iso_9001' => $this->conocimiento_iso_9001['value'] == '1' ? 1 : 0,
-            ]);
-        }
-
-        if (is_array($this->experiencia_metodos_ensayo)) {
-            $this->merge([
-                'experiencia_metodos_ensayo' => $this->experiencia_metodos_ensayo['value'] == '1' ? 1 : 0,
-            ]);
-        }
-
-        if (is_array($this->experiencia_metodos_calibracion)) {
-            $this->merge([
-                'experiencia_metodos_calibracion' => $this->experiencia_metodos_calibracion['value'] == '1' ? 1 : 0,
-            ]);
-        }
-
-        if (is_array($this->experiencia_minima_metodos)) {
-            $this->merge([
-                'experiencia_minima_metodos' => $this->experiencia_minima_metodos['value'] == '1' ? 1 : 0,
-            ]);
-        }
-
-        if (is_array($this->informacion_completa)) {
-            $this->merge([
-                'informacion_completa' => $this->informacion_completa['value'] == '1' ? 1 : 0,
-            ]);
-        }
+        $this->merge([
+            'informacion_completa' => $this->informacion_completa == '1' ? 1 : 0,
+        ]);
 
         if (is_array($this->disciplinas_subarea_conocimiento)) {
             if (isset($this->disciplinas_subarea_conocimiento['value']) && is_numeric($this->disciplinas_subarea_conocimiento['value'])) {

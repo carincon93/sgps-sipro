@@ -18,6 +18,13 @@ class SoporteEstudioMercado extends Model
     protected $table = 'soportes_estudio_mercado';
 
     /**
+     * appends
+     *
+     * @var array
+     */
+    protected $appends = ['filename', 'extension'];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -81,5 +88,19 @@ class SoporteEstudioMercado extends Model
     public function getUpdatedAtAttribute($value)
     {
         return "Última modificación de este formulario: " . Carbon::parse($value, 'UTC')->timezone('America/Bogota')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY [a las] HH:mm:ss');
+    }
+
+    public function getFilenameAttribute()
+    {
+        $fileInfo = pathinfo($this->soporte);
+
+        return $fileInfo['filename'] ?? '';
+    }
+
+    public function getExtensionAttribute()
+    {
+        $fileInfo = pathinfo($this->soporte);
+
+        return $fileInfo['extension'] ?? '';
     }
 }

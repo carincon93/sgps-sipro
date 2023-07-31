@@ -24,7 +24,8 @@ class ResultadoRequest extends FormRequest
     public function rules()
     {
         return [
-            'descripcion' => ['required', 'string'],
+            'descripcion'               => ['required', 'string'],
+            'objetivo_especifico_id'    => ['required', 'min:0', 'max:2147483647', 'exists:objetivos_especificos,id'],
         ];
     }
 }

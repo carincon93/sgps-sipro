@@ -37,20 +37,20 @@ class ProyectosExport implements FromCollection, WithHeadings, WithMapping, With
     {
         $proyecto->updateValoresProyecto();
         $tipo = '';
-        if (!empty($proyecto->idi)) {
-            $this->datos = $proyecto->idi;
+        if (!empty($proyecto->proyectoLinea66)) {
+            $this->datos = $proyecto->proyectoLinea66;
             $tipo = 'I+D+I';
-        } else if (!empty($proyecto->ta)) {
-            $this->datos = $proyecto->ta;
+        } else if (!empty($proyecto->proyectoLinea70)) {
+            $this->datos = $proyecto->proyectoLinea70;
             $tipo = 'Tecnoacademia';
-        } else if (!empty($proyecto->tp)) {
-            $this->datos = $proyecto->tp;
+        } else if (!empty($proyecto->proyectoLinea69)) {
+            $this->datos = $proyecto->proyectoLinea69;
             $tipo = 'Tecnoparque';
-        } else if (!empty($proyecto->culturaInnovacion)) {
-            $this->datos = $proyecto->culturaInnovacion;
+        } else if (!empty($proyecto->proyectoLinea65)) {
+            $this->datos = $proyecto->proyectoLinea65;
             $tipo = 'Apropiación de la cultura de la innovación';
-        } else if (!empty($proyecto->servicioTecnologico)) {
-            $this->datos =  $proyecto->servicioTecnologico;
+        } else if (!empty($proyecto->proyectoLinea68)) {
+            $this->datos =  $proyecto->proyectoLinea68;
             $tipo = 'Servicios tecnológicos';
         }
 
@@ -78,12 +78,12 @@ class ProyectosExport implements FromCollection, WithHeadings, WithMapping, With
             $proyecto->precio_proyecto > 0 ? $proyecto->precio_proyecto : '0',
             ($proyecto->finalizado) ? 'SI' : 'NO',
             ($proyecto->radicado) ? 'NO' : 'SI',
-            ($proyecto->idi()->exists() ? $proyecto->estado_evaluacion_idi['estado'] : ($proyecto->culturaInnovacion()->exists() ? $proyecto->estado_evaluacion_cultura_innovacion['estado'] : ($proyecto->ta()->exists() ? $proyecto->estado_evaluacion_ta['estado'] : ($proyecto->tp()->exists() ? $proyecto->estado_evaluacion_tp['estado'] : ($proyecto->servicioTecnologico()->exists() ? $proyecto->estado_evaluacion_servicios_tecnologicos['estado'] : 'Sin información registrada'))))),
+            ($proyecto->proyectoLinea66()->exists() ? $proyecto->estado_evaluacion_idi['estado'] : ($proyecto->proyectoLinea65()->exists() ? $proyecto->estado_evaluacion_cultura_innovacion['estado'] : ($proyecto->proyectoLinea70()->exists() ? $proyecto->estado_evaluacion_ta['estado'] : ($proyecto->proyectoLinea69()->exists() ? $proyecto->estado_evaluacion_tp['estado'] : ($proyecto->proyectoLinea68()->exists() ? $proyecto->estado_evaluacion_servicios_tecnologicos['estado'] : 'Sin información registrada'))))),
             $proyecto->estado_cord_sennova ? json_decode($proyecto->estado_cord_sennova)->estado : '',
-            $proyecto->idi()->exists() ? $proyecto->estado_evaluacion_idi['puntaje'] : ($proyecto->culturaInnovacion()->exists() ? $proyecto->estado_evaluacion_cultura_innovacion['puntaje'] : ($proyecto->servicioTecnologico()->exists() ? $proyecto->estado_evaluacion_servicios_tecnologicos['puntaje'] : 'N/A')),
-            $proyecto->idi()->exists() ? $proyecto->estado_evaluacion_idi['alerta'] : 'N/A',
+            $proyecto->proyectoLinea66()->exists() ? $proyecto->estado_evaluacion_idi['puntaje'] : ($proyecto->proyectoLinea65()->exists() ? $proyecto->estado_evaluacion_cultura_innovacion['puntaje'] : ($proyecto->proyectoLinea68()->exists() ? $proyecto->estado_evaluacion_servicios_tecnologicos['puntaje'] : 'N/A')),
+            $proyecto->proyectoLinea66()->exists() ? $proyecto->estado_evaluacion_idi['alerta'] : 'N/A',
             $this->mapParticipantes($proyecto->participantes),
-            $proyecto->idi()->exists() ? $proyecto->idi->numero_aprendices : ($proyecto->culturaInnovacion()->exists() ? $proyecto->culturaInnovacion->numero_aprendices : 'N/A')
+            $proyecto->proyectoLinea66()->exists() ? $proyecto->proyectoLinea66->numero_aprendices : ($proyecto->proyectoLinea65()->exists() ? $proyecto->proyectoLinea65->numero_aprendices : 'N/A')
         ];
     }
 

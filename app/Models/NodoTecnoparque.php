@@ -64,25 +64,14 @@ class NodoTecnoparque extends Model
     }
 
     /**
-     * Relationship with Tp
+     * Relationship with ProyectoLinea69
      *
      * @return object
      */
-    public function tp()
+    public function proyectoLinea69()
     {
-        return $this->hasOne(Tp::class);
+        return $this->hasOne(ProyectoLinea69::class);
     }
-
-    /**
-     * Relationship with ReglaRolTp
-     *
-     * @return object
-     */
-    public function reglasRolesTp()
-    {
-        return $this->hasMany(ReglaRolTp::class);
-    }
-
 
     /**
      * Filtrar registros

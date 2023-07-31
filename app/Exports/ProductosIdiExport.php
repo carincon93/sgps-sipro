@@ -28,14 +28,14 @@ class ProductosIdiExport implements FromCollection, WithHeadings, WithMapping, W
      */
     public function collection()
     {
-        return Producto::selectRaw("productos.*, producto_idi.*, proyectos.id as proyecto_id, subtipologias_minciencias.nombre as subtipologia_minciencias, CASE producto_idi.tipo
+        return Producto::selectRaw("productos.*, productos_linea_66.*, proyectos.id as proyecto_id, subtipologias_minciencias.nombre as subtipologia_minciencias, CASE productos_linea_66.tipo
             WHEN '1' THEN 'Generación del conocimiento (GNC)'
             WHEN '2' THEN 'Desarrollo tecnólogico (DT)'
             WHEN '3' THEN 'Apropiación social del conocimiento (ASC)'
             WHEN '4' THEN 'Formación de recurso humano (FRH)'
             END as tipo")
-            ->join('producto_idi', 'productos.id', 'producto_idi.producto_id')
-            ->join('subtipologias_minciencias', 'producto_idi.subtipologia_minciencias_id', 'subtipologias_minciencias.id')
+            ->join('productos_linea_66', 'productos.id', 'productos_linea_66.producto_id')
+            ->join('subtipologias_minciencias', 'productos_linea_66.subtipologia_minciencias_id', 'subtipologias_minciencias.id')
             ->join('resultados', 'productos.resultado_id', 'resultados.id')
             ->join('objetivos_especificos', 'resultados.objetivo_especifico_id', 'objetivos_especificos.id')
             ->join('causas_directas', 'objetivos_especificos.causa_directa_id', 'causas_directas.id')

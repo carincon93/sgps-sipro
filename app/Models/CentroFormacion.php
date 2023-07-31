@@ -156,23 +156,13 @@ class CentroFormacion extends Model
     }
 
     /**
-     * Relationship with TipoProyectoSt
+     * Relationship with TipoProyectoLinea68
      *
      * @return object
      */
     public function tiposProyectoSt()
     {
-        return $this->hasMany(TipoProyectoSt::class);
-    }
-
-    /**
-     * Relationship with ReglaRolCultura
-     *
-     * @return object
-     */
-    public function reglasRolesCultura()
-    {
-        return $this->hasMany(ReglaRolCultura::class);
+        return $this->hasMany(TipoProyectoLinea68::class);
     }
 
     /**

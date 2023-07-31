@@ -23,12 +23,32 @@ class ConvocatoriaRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'descripcion'                  => ['required'],
-            'esta_activa'                  => ['required_if:tipo_convocatoria,1', 'nullable', 'boolean'],
-            'year'                         => ['required', 'integer', 'max:' . date('Y') + 2],
-            'lineas_programaticas_activas' => ['nullable', 'json'],
-        ];
+        if ($this->isMethod('PUT')) {
+            return [
+                'descripcion'                   => ['required'],
+                'esta_activa'                   => ['required_if:tipo_convocatoria,1', 'nullable', 'boolean'],
+                'year'                          => ['required', 'integer', 'max:' . date('Y') + 2],
+                'fase'                          => ['required', 'integer'],
+                'lineas_programaticas_activas'  => ['nullable', 'json'],
+                'visible'                       => ['nullable', 'boolean'],
+                'fecha_finalizacion_fase'       => ['required', 'date'],
+                'hora_finalizacion_fase'        => ['required'],
+            ];
+        } else {
+            return [
+                'descripcion'                   => ['required'],
+                'esta_activa'                   => ['required_if:tipo_convocatoria,1', 'nullable', 'boolean'],
+                'year'                          => ['required', 'integer', 'max:' . date('Y') + 2],
+                'fase'                          => ['required', 'integer'],
+                'lineas_programaticas_activas'  => ['nullable', 'json'],
+                'visible'                       => ['nullable', 'boolean'],
+                'fecha_finalizacion_fase'       => ['required', 'date'],
+                'hora_finalizacion_fase'        => ['required'],
+                'tipo_convocatoria'             => ['required', 'integer'],
+                'convocatoria_id'               => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:convocatorias,id'],
+            ];
+        }
+
     }
 
     /**
@@ -39,29 +59,8 @@ class ConvocatoriaRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'year' => date('Y', strtotime($this->year))
+            'fase'                         => 1,
+            'lineas_programaticas_activas' => json_encode($this->lineas_programaticas_activas)
         ]);
-
-        if (is_array($this->tipo_convocatoria)) {
-            $this->merge([
-                'tipo_convocatoria' => $this->tipo_convocatoria['value']
-            ]);
-        }
-
-        if (is_array($this->lineas_programaticas_activas)) {
-            if (isset($this->lineas_programaticas_activas['value']) && is_numeric($this->lineas_programaticas_activas['value'])) {
-                $this->merge([
-                    'lineas_programaticas_activas' => $this->lineas_programaticas_activas['value'],
-                ]);
-            } else {
-                $lineas_programaticas = [];
-                foreach ($this->lineas_programaticas_activas as $linea_programatica) {
-                    if (is_array($linea_programatica)) {
-                        array_push($lineas_programaticas, $linea_programatica['value']);
-                    }
-                }
-                $this->merge(['lineas_programaticas_activas' => json_encode($lineas_programaticas)]);
-            }
-        }
     }
 }

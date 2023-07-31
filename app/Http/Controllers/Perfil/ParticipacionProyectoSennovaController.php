@@ -19,7 +19,7 @@ class ParticipacionProyectoSennovaController extends Controller
      */
     public function index()
     {
-        // 
+        //
     }
 
     /**
@@ -31,9 +31,7 @@ class ParticipacionProyectoSennovaController extends Controller
     {
         $this->authorize('create', [ParticipacionProyectoSennova::class]);
 
-        return Inertia::render('Users/Perfil/ParticipacionesProyectosSennova/Create', [
-            'tiposProyectos' => json_decode(Storage::get('json/tipos-proyectos.json'), true),
-        ]);
+        //
     }
 
     /**
@@ -50,7 +48,7 @@ class ParticipacionProyectoSennovaController extends Controller
 
         $participacionPs = ParticipacionProyectoSennova::create($request->all());
 
-        return redirect()->route('users.change-user-profile')->with('success', 'El recurso se ha creado correctamente.');
+        return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
     /**
@@ -61,7 +59,7 @@ class ParticipacionProyectoSennovaController extends Controller
      */
     public function show(ParticipacionProyectoSennova $participacionPs)
     {
-        // 
+        //
     }
 
     /**
@@ -74,10 +72,7 @@ class ParticipacionProyectoSennovaController extends Controller
     {
         $this->authorize('update', [ParticipacionProyectoSennova::class, $participacionPs]);
 
-        return Inertia::render('Users/Perfil/ParticipacionesProyectosSennova/Edit', [
-            'participacionProyectoSennova'  => $participacionPs,
-            'tiposProyectos'                => json_decode(Storage::get('json/tipos-proyectos.json'), true),
-        ]);
+        //
     }
 
     /**
@@ -108,6 +103,6 @@ class ParticipacionProyectoSennovaController extends Controller
 
         $participacionPs->delete();
 
-        return redirect()->route('users.change-user-profile')->with('success', 'El recurso se ha eliminado correctamente.');
+        return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 }

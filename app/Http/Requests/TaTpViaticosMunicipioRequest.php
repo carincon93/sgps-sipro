@@ -23,9 +23,11 @@ class TaTpViaticosMunicipioRequest extends FormRequest
      */
     public function rules()
     {
+        // dd($this);
+
         return [
             'proyecto_rol_sennova_id'   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:proyecto_rol_sennova,id'],
-            'municipio_id'              => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:municipios,id'],
+            'municipios'                => ['required', 'json'],
             'frecuencia_semanal'        => ['required', 'min:0', 'max:2147483647', 'integer'],
             'numero_visitas'            => ['required', 'min:0', 'max:2147483647', 'integer'],
             'distancia_municipio'       => ['required', 'min:0', 'max:2147483647', 'integer'],
@@ -40,29 +42,8 @@ class TaTpViaticosMunicipioRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-
-        if (is_array($this->municipio_id)) {
-            $this->merge([
-                'municipio_id' => $this->municipio_id['value'],
-            ]);
-        }
-
-        if (is_array($this->proyecto_rol_sennova_id)) {
-            $this->merge([
-                'proyecto_rol_sennova_id' => $this->proyecto_rol_sennova_id['value'],
-            ]);
-        }
-
-        if (is_array($this->distancia_municipio)) {
-            $this->merge([
-                'distancia_municipio' => $this->distancia_municipio['value'],
-            ]);
-        }
-
-        if (is_array($this->frecuencia_semanal)) {
-            $this->merge([
-                'frecuencia_semanal' => $this->frecuencia_semanal['value'],
-            ]);
-        }
+        $this->merge([
+            'municipios' => json_encode($this->municipios)
+        ]);
     }
 }

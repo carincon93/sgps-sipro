@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('tipos_proyecto_st', function (Blueprint $table) {
+        Schema::table('tipos_proyecto_linea_68', function (Blueprint $table) {
             $table->foreign(['centro_formacion_id'], 'centro_formacion_id_fkey')->references(['id'])->on('centros_formacion')->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->foreign(['linea_tecnica_id'], 'linea_tecnica_id_fkey')->references(['id'])->on('lineas_tecnicas')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
@@ -26,7 +26,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('tipos_proyecto_st', function (Blueprint $table) {
+        Schema::table('tipos_proyecto_linea_68', function (Blueprint $table) {
             $table->dropForeign('centro_formacion_id_fkey');
             $table->dropForeign('linea_tecnica_id_fkey');
         });

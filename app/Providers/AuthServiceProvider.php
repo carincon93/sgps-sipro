@@ -40,16 +40,16 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
         $this->registerSuperAdminPolicy();
 
-        Gate::define('formular-proyecto', function (User $user, $lineaProgramaticaId, $convocatoria) {
+        Gate::define('formular-proyecto', function (User $user, $linea_programatica_id, $convocatoria) {
             // $user->hasRole([5, 17, 18, 19, 20]) -> Activadores de línea
             if ($user->hasRole([5, 17, 18, 19, 20])) {
                 return true;
             }
 
-            $lineaProgramatica = LineaProgramatica::find($lineaProgramaticaId);
+            $linea_programatica = LineaProgramatica::find($linea_programatica_id);
 
             // Usuarios específicos con permisos de creación de proyectos
-            if ($user->can_by_user->search(11) !== false && $lineaProgramatica->codigo == 65 || $user->can_by_user->search(1) !== false && $lineaProgramatica->codigo == 23 || $user->can_by_user->search(1) !== false && $lineaProgramatica->codigo == 66 || $user->can_by_user->search(1) !== false && $lineaProgramatica->codigo == 82 || $user->can_by_user->search(5) !== false && $lineaProgramatica->codigo == 68 || $user->can_by_user->search(8) !== false && $lineaProgramatica->codigo == 70 || $user->can_by_user->search(17) !== false && $lineaProgramatica->codigo == 69) {
+            if ($user->can_by_user->search(11) !== false && $linea_programatica->codigo == 65 || $user->can_by_user->search(1) !== false && $linea_programatica->codigo == 23 || $user->can_by_user->search(1) !== false && $linea_programatica->codigo == 66 || $user->can_by_user->search(1) !== false && $linea_programatica->codigo == 82 || $user->can_by_user->search(5) !== false && $linea_programatica->codigo == 68 || $user->can_by_user->search(8) !== false && $linea_programatica->codigo == 70 || $user->can_by_user->search(17) !== false && $linea_programatica->codigo == 69) {
                 return true;
             }
 
@@ -64,10 +64,8 @@ class AuthServiceProvider extends ServiceProvider
             }
 
             // Si el usuario tiene alguno de los siguiente permisos de cualquier línea programática: CREAR, EDITAR, ELIMINAR o VISUALIZACIÓN
-            if ($lineaProgramatica && $convocatoria->esta_activa == true) {
-                if ($lineaProgramatica->codigo == 23 && $convocatoria->idi_activa || $lineaProgramatica->codigo == 65 && $convocatoria->proyectos_linea_65_activo || $lineaProgramatica->codigo == 66 && $convocatoria->idi_activa || $lineaProgramatica->codigo == 68 && $convocatoria->proyectos_linea_68_activo || $lineaProgramatica->codigo == 69 && $convocatoria->proyectos_linea_69_activo || $lineaProgramatica->codigo == 70 && $convocatoria->proyectos_linea_70_activo || $lineaProgramatica->codigo == 82 && $convocatoria->idi_activa) {
-                    return $user->getAllPermissions()->whereIn('id', [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21])->count() > 0;
-                }
+            if ($linea_programatica && $convocatoria->esta_activa == true) {
+                return $user->getAllPermissions()->whereIn('id', [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21])->count() > 0;
             }
 
             return false;

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tipos_proyecto_st', function (Blueprint $table) {
+        Schema::create('tipos_proyecto_linea_68', function (Blueprint $table) {
             $table->increments('id');
 
             $table->char('tipologia', 1);
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipos_proyecto_st');
+        Schema::dropIfExists('tipos_proyecto_linea_68');
     }
 };

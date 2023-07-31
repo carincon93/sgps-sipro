@@ -55,13 +55,13 @@ class AreaConocimiento extends Model
     }
 
     /**
-     * Relationship with CulturaInnovacion
+     * Relationship with ProyectoLinea65
      *
      * @return object
      */
-    public function culturaInnovacion()
+    public function proyectosLinea65()
     {
-        return $this->hasMany(CulturaInnovacion::class);
+        return $this->hasMany(ProyectoLinea65::class);
     }
 
     /**

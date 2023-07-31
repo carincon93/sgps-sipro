@@ -22,7 +22,7 @@ class ProyectoPresupuesto extends Model
      *
      * @var array
      */
-    protected $appends = ['presupuesto_aprobado', 'item_page'];
+    protected $appends = ['presupuesto_aprobado', 'item_page', 'filename', 'extension'];
 
     /**
      * The attributes that are mass assignable.
@@ -129,7 +129,7 @@ class ProyectoPresupuesto extends Model
     }
 
     /**
-     * Relationship with TaTpViaticosMunicipio
+     * Relationship with ProyectoLinea70TpViaticosMunicipio
      *
      * @return object
      */
@@ -182,6 +182,20 @@ class ProyectoPresupuesto extends Model
     public function getUpdatedAtAttribute($value)
     {
         return "Última modificación de este formulario: " . Carbon::parse($value, 'UTC')->timezone('America/Bogota')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY [a las] HH:mm:ss');
+    }
+
+    public function getFilenameAttribute()
+    {
+        $fileInfo = pathinfo($this->formato_estudio_mercado);
+
+        return $fileInfo['filename'] ?? '';
+    }
+
+    public function getExtensionAttribute()
+    {
+        $fileInfo = pathinfo($this->formato_estudio_mercado);
+
+        return $fileInfo['extension'] ?? '';
     }
 
     /**

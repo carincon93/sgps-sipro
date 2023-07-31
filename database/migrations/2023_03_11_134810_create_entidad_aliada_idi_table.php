@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('entidad_aliada_idi', function (Blueprint $table) {
+        Schema::create('entidades_aliadas_linea_66', function (Blueprint $table) {
             $table->increments('id');
 
             $table->text('descripcion_convenio')->nullable();
@@ -40,6 +40,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('entidad_aliada_idi');
+        Schema::dropIfExists('entidades_aliadas_linea_66');
     }
 };

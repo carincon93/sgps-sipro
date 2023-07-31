@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cultura_innovacion_evaluaciones', function (Blueprint $table) {
+        Schema::create('evaluaciones_proyectos_linea_65', function (Blueprint $table) {
             $table->integer('id');
 
             $table->decimal('titulo_puntaje')->nullable();
@@ -68,6 +68,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cultura_innovacion_evaluaciones');
+        Schema::dropIfExists('evaluaciones_proyectos_linea_65');
     }
 };

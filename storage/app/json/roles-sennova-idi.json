@@ -1,9 +1,0 @@
-[
-    { "value": 1, "label": "Dinamizador SENNOVA", "maxHoras": 48 },
-    { "value": 2, "label": "Investigador experto", "maxHoras": 48 },
-    { "value": 3, "label": "Instructor investigador", "maxHoras": 16 },
-    { "value": 4, "label": "Aprendiz Sena de semillero de investigación", "maxHoras": 48 },
-    { "value": 5, "label": "Investigador junior", "maxHoras": 48 },
-    { "value": 6, "label": "Aprendiz SENA", "maxHoras": 48 },
-    { "value": 7, "label": "Formador de formadores", "maxHoras": 48 }
-]

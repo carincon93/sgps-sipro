@@ -44,20 +44,20 @@ class EvaluacionFinalizada extends Notification
         $proyecto = $this->proyecto;
         $year = null;
         switch ($proyecto) {
-            case $proyecto->idi()->exists():
-                $year = date('Y', strtotime($proyecto->idi->fecha_finalizacion));
+            case $proyecto->proyectoLinea66()->exists():
+                $year = date('Y', strtotime($proyecto->proyectoLinea66->fecha_finalizacion));
                 break;
-            case $proyecto->ta()->exists():
-                $year = date('Y', strtotime($proyecto->ta->fecha_finalizacion));
+            case $proyecto->proyectoLinea70()->exists():
+                $year = date('Y', strtotime($proyecto->proyectoLinea70->fecha_finalizacion));
                 break;
-            case $proyecto->tp()->exists():
-                $year = date('Y', strtotime($proyecto->tp->fecha_finalizacion));
+            case $proyecto->proyectoLinea69()->exists():
+                $year = date('Y', strtotime($proyecto->proyectoLinea69->fecha_finalizacion));
                 break;
-            case $proyecto->culturaInnovacion()->exists():
-                $year = date('Y', strtotime($proyecto->culturaInnovacion->fecha_finalizacion));
+            case $proyecto->proyectoLinea65()->exists():
+                $year = date('Y', strtotime($proyecto->proyectoLinea65->fecha_finalizacion));
                 break;
-            case $proyecto->servicioTecnologico()->exists():
-                $year = date('Y', strtotime($proyecto->servicioTecnologico->fecha_finalizacion));
+            case $proyecto->proyectoLinea68()->exists():
+                $year = date('Y', strtotime($proyecto->proyectoLinea68->fecha_finalizacion));
                 break;
             default:
                 break;
@@ -79,20 +79,20 @@ class EvaluacionFinalizada extends Notification
         $proyecto = $this->proyecto;
         $year = null;
         switch ($proyecto) {
-            case $proyecto->idi()->exists():
-                $year = date('Y', strtotime($proyecto->idi->fecha_finalizacion));
+            case $proyecto->proyectoLinea66()->exists():
+                $year = date('Y', strtotime($proyecto->proyectoLinea66->fecha_finalizacion));
                 break;
-            case $proyecto->ta()->exists():
-                $year = date('Y', strtotime($proyecto->ta->fecha_finalizacion));
+            case $proyecto->proyectoLinea70()->exists():
+                $year = date('Y', strtotime($proyecto->proyectoLinea70->fecha_finalizacion));
                 break;
-            case $proyecto->tp()->exists():
-                $year = date('Y', strtotime($proyecto->tp->fecha_finalizacion));
+            case $proyecto->proyectoLinea69()->exists():
+                $year = date('Y', strtotime($proyecto->proyectoLinea69->fecha_finalizacion));
                 break;
-            case $proyecto->culturaInnovacion()->exists():
-                $year = date('Y', strtotime($proyecto->culturaInnovacion->fecha_finalizacion));
+            case $proyecto->proyectoLinea65()->exists():
+                $year = date('Y', strtotime($proyecto->proyectoLinea65->fecha_finalizacion));
                 break;
-            case $proyecto->servicioTecnologico()->exists():
-                $year = date('Y', strtotime($proyecto->servicioTecnologico->fecha_finalizacion));
+            case $proyecto->proyectoLinea68()->exists():
+                $year = date('Y', strtotime($proyecto->proyectoLinea68->fecha_finalizacion));
                 break;
             default:
                 break;

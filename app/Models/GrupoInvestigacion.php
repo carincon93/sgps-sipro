@@ -113,23 +113,13 @@ class GrupoInvestigacion extends Model
     }
 
     /**
-     * Relationship with Idi
+     * Relationship with ProyectoLinea66
      *
      * @return object
      */
     public function idiEni()
     {
-        return $this->hasMany(Idi::class);
-    }
-
-    /**
-     * getUpdatedAtAttribute
-     *
-     * @return void
-     */
-    public function getUpdatedAtAttribute($value)
-    {
-        return "Última modificación de este formulario: " . Carbon::parse($value, 'UTC')->timezone('America/Bogota')->timezone('America/Bogota')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY [a las] HH:mm:ss');
+        return $this->hasMany(ProyectoLinea66::class);
     }
 
     /**
@@ -151,6 +141,16 @@ class GrupoInvestigacion extends Model
             $query->orWhereRaw("unaccent(centros_formacion.nombre) ilike unaccent('%" . $search . "%')");
             $query->orWhereRaw("unaccent(regionales.nombre) ilike unaccent('%" . $search . "%')");
         });
+    }
+
+        /**
+     * getUpdatedAtAttribute
+     *
+     * @return void
+     */
+    public function getUpdatedAtAttribute($value)
+    {
+        return "Última modificación de este formulario: " . Carbon::parse($value, 'UTC')->timezone('America/Bogota')->timezone('America/Bogota')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY [a las] HH:mm:ss');
     }
 
     /**
@@ -185,6 +185,11 @@ class GrupoInvestigacion extends Model
                 break;
         }
         return $categoriaMinciencias;
+    }
+
+    public function getNombreAttribute($value)
+    {
+        return ucfirst($value);
     }
 
     public function getNombreCarpetaSharepointAttribute()

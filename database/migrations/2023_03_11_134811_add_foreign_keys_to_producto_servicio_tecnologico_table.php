@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('producto_servicio_tecnologico', function (Blueprint $table) {
+        Schema::table('productos_linea_68', function (Blueprint $table) {
             $table->foreign(['producto_id'], 'producto_id')->references(['id'])->on('productos')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('producto_servicio_tecnologico', function (Blueprint $table) {
+        Schema::table('productos_linea_68', function (Blueprint $table) {
             $table->dropForeign('producto_id');
         });
     }

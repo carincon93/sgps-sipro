@@ -66,43 +66,53 @@ class Producto extends Model
     }
 
     /**
-     * Relationship with ProductoIdi
+     * Relationship with ProductoLinea66
      *
      * @return object
      */
-    public function productoIdi()
+    public function productoLinea66()
     {
-        return $this->hasOne(ProductoIdi::class);
+        return $this->hasOne(ProductoLinea66::class);
     }
 
     /**
-     * Relationship with ProductoCulturaInnovacion
+     * Relationship with ProductoLinea65
      *
      * @return object
      */
-    public function productoCulturaInnovacion()
+    public function productoLinea65()
     {
-        return $this->hasOne(ProductoCulturaInnovacion::class);
+        return $this->hasOne(ProductoLinea65::class);
     }
 
     /**
-     * Relationship with ProductoTaTp
+     * Relationship with ProductoLinea69
      *
      * @return object
      */
-    public function productoTaTp()
+    public function productoLinea69()
     {
-        return $this->hasOne(ProductoTaTp::class);
+        return $this->hasOne(ProductoLinea69::class);
     }
 
     /**
-     * Relationship with ProductoServicioTecnologico
+     * Relationship with ProductoLinea70
      *
      * @return object
      */
-    public function productoServicioTecnologico()
+    public function productoLinea70()
     {
-        return $this->hasOne(ProductoServicioTecnologico::class);
+        return $this->hasOne(ProductoLinea70::class);
+    }
+
+    /**
+     * Relationship with ProductoLinea68
+     *
+     * @return object
+     */
+    public function productoLinea68()
+    {
+        return $this->hasOne(ProductoLinea68::class);
     }
 
     /**
@@ -162,7 +172,7 @@ class Producto extends Model
         return date('Y', strtotime($this->fecha_finalizacion));
     }
 
-    public function getMEsFinalizacionAttribute()
+    public function getMesFinalizacionAttribute()
     {
         return date('m', strtotime($this->fecha_finalizacion));
     }

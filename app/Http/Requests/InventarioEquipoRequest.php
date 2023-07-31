@@ -46,34 +46,6 @@ class InventarioEquipoRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->estado)) {
-            $this->merge([
-                'estado' => $this->estado['value'],
-            ]);
-        }
-
-        if (is_array($this->uso_st)) {
-            $this->merge([
-                'uso_st' => $this->uso_st['value'],
-            ]);
-        }
-
-        if (is_array($this->uso_otra_dependencia)) {
-            $this->merge([
-                'uso_otra_dependencia' => $this->uso_otra_dependencia['value'],
-            ]);
-        }
-
-        if (is_array($this->mantenimiento_prox_year)) {
-            $this->merge([
-                'mantenimiento_prox_year' => $this->mantenimiento_prox_year['value'],
-            ]);
-        }
-
-        if (is_array($this->calibracion_prox_year)) {
-            $this->merge([
-                'calibracion_prox_year' => $this->calibracion_prox_year['value'],
-            ]);
-        }
+        //
     }
 }

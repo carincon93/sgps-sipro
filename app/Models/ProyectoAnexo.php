@@ -18,6 +18,13 @@ class ProyectoAnexo extends Model
     protected $table = 'proyecto_anexo';
 
     /**
+     * appends
+     *
+     * @var array
+     */
+    protected $appends = ['filename', 'extension'];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -91,5 +98,19 @@ class ProyectoAnexo extends Model
     public function getUpdatedAtAttribute($value)
     {
         return "Última modificación de este anexo: " . Carbon::parse($value, 'UTC')->timezone('America/Bogota')->timezone('America/Bogota')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY [a las] HH:mm:ss');
+    }
+
+    public function getFilenameAttribute()
+    {
+        $fileInfo = pathinfo($this->archivo);
+
+        return $fileInfo['filename'] ?? '';
+    }
+
+    public function getExtensionAttribute()
+    {
+        $fileInfo = pathinfo($this->archivo);
+
+        return $fileInfo['extension'] ?? '';
     }
 }

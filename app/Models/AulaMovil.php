@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +16,13 @@ class AulaMovil extends Model
      * @var string
      */
     protected $table = 'aulas_moviles';
+
+    /**
+     * appends
+     *
+     * @var array
+     */
+    protected $appends = ['filename', 'extension'];
 
     /**
      * The attributes that are mass assignable.
@@ -56,13 +64,13 @@ class AulaMovil extends Model
     ];
 
     /**
-     * Relationship with Ta
+     * Relationship with ProyectoLinea70
      *
      * @return object
      */
-    public function ta()
+    public function proyectoLinea70()
     {
-        return $this->belongsTo(Ta::class);
+        return $this->belongsTo(ProyectoLinea70::class);
     }
 
     /**
@@ -77,5 +85,35 @@ class AulaMovil extends Model
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $query->where('placa', 'ilike', '%' . $search . '%');
         });
+    }
+
+    /**
+     * getUpdatedAtAttribute
+     *
+     * @return void
+     */
+    public function getUpdatedAtAttribute($value)
+    {
+        return "Última modificación de este formulario: " . Carbon::parse($value, 'UTC')->timezone('America/Bogota')->timezone('America/Bogota')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY [a las] HH:mm:ss');
+    }
+
+    public function getFilenameAttribute()
+    {
+        $soatFileInfo               = pathinfo($this->soat);
+        $tecnicomecanicaFileInfo    = pathinfo($this->tecnicomecanica);
+
+        $arrayFileInfo = collect(['soatFilename' => $soatFileInfo['filename'], 'tecnicomecanicaFilename' => $tecnicomecanicaFileInfo['filename']]);
+
+        return $arrayFileInfo ?? '';
+    }
+
+    public function getExtensionAttribute()
+    {
+        $soatFileInfo               = pathinfo($this->soat);
+        $tecnicomecanicaFileInfo    = pathinfo($this->tecnicomecanica);
+
+        $arrayFileInfo = collect(['soatExtension' => $soatFileInfo['extension'], 'tecnicomecanicaExtension' => $tecnicomecanicaFileInfo['extension']]);
+
+        return $arrayFileInfo ?? '';
     }
 }

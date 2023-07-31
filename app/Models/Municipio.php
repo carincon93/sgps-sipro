@@ -70,13 +70,13 @@ class Municipio extends Model
     }
 
     /**
-     * Relationship with ProyectoIdiTecnoacademia
+     * Relationship with ProyectoProyectoLinea66Tecnoacademia
      *
      * @return object
      */
-    public function proyectosIdiTecnoacademia()
+    public function proyectosProyectoLinea66Tecnoacademia()
     {
-        return $this->belongsToMany(ProyectoIdiTecnoacademia::class, 'proyecto_idi_tecnoacademia_municipio', 'municipio_id', 'proyecto_idi_tecnoacademia_linea_id')->orderBy('municipios.nombre', 'ASC');
+        return $this->belongsToMany(ProyectoProyectoLinea66Tecnoacademia::class, 'proyecto_idi_tecnoacademia_municipio', 'municipio_id', 'proyecto_idi_tecnoacademia_linea_id')->orderBy('municipios.nombre', 'ASC');
     }
 
     /**
@@ -87,16 +87,6 @@ class Municipio extends Model
     public function proyectosImpactados()
     {
         return $this->belongsToMany(Proyecto::class, 'proyecto_municipio_impactar', 'municipio_id', 'proyecto_id')->orderBy('municipios.nombre', 'ASC');
-    }
-
-    /**
-     * Relationship with TaTpViaticosMunicipio
-     *
-     * @return object
-     */
-    public function taTpViaticosMunicipios()
-    {
-        return $this->hasMany(TaTpViaticosMunicipio::class);
     }
 
     /**

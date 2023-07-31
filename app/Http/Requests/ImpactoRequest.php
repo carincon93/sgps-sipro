@@ -36,10 +36,6 @@ class ImpactoRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->tipo)) {
-            $this->merge([
-                'tipo' => $this->tipo['value'],
-            ]);
-        }
+        //
     }
 }

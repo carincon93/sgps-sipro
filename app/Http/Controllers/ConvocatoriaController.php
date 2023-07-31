@@ -27,9 +27,7 @@ class ConvocatoriaController extends Controller
         $this->authorize('listar-convocatorias');
 
         return Inertia::render('Convocatorias/Index', [
-            'filters'               => request()->all('search'),
-            'convocatorias'         => Convocatoria::orderBy('id', 'DESC')->filterConvocatoria(request()->only('search'))->paginate()->appends(['search' => request()->search]),
-            'convocatoria_activa'   => Convocatoria::where('esta_activa', 1)->first(),
+            'convocatorias' => Convocatoria::orderBy('id', 'DESC')->filterConvocatoria(request()->only('search'))->paginate()->appends(['search' => request()->search]),
         ]);
     }
 
@@ -43,10 +41,10 @@ class ConvocatoriaController extends Controller
         $this->authorize('create', [Convocatoria::class]);
 
         return Inertia::render('Convocatorias/Create', [
-            'fases'                 => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
-            'tiposConvocatoria'     => collect(json_decode(Storage::get('json/tipos-convocatoria.json'), true)),
-            'lineasProgramaticas'   => LineaProgramatica::selectRaw("id as value, CONCAT(nombre, ' - Código: ', codigo) as label")->orderBy('nombre', 'ASC')->get(),
+            'lineas_programaticas'  => LineaProgramatica::selectRaw("id as value, CONCAT(nombre, ' - Código: ', codigo) as label")->orderBy('nombre', 'ASC')->get(),
             'convocatorias'         => SelectHelper::convocatorias(),
+            'fases'                 => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
+            'tipos_convocatoria'    => collect(json_decode(Storage::get('json/tipos-convocatoria.json'), true)),
         ]);
     }
 
@@ -62,26 +60,8 @@ class ConvocatoriaController extends Controller
 
         $convocatoria = Convocatoria::create($request->validated());
 
-        $convocatoriaFormulacionActiva = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 1)->first();
-        if ($convocatoriaFormulacionActiva && $request->esta_activa && $request->tipo_convocatoria == 1) {
-            $convocatoriaFormulacionActiva->esta_activa = false;
-            $convocatoriaFormulacionActiva->save();
-        }
-
-        $convocatoriaDemoActiva = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 2)->first();
-        if ($convocatoriaDemoActiva && $request->esta_activa && $request->tipo_convocatoria == 2) {
-            $convocatoriaDemoActiva->esta_activa = false;
-            $convocatoriaDemoActiva->save();
-        }
-
-        $convocatoriaTaTpActiva = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 3)->first();
-        if ($convocatoriaTaTpActiva && $convocatoriaTaTpActiva->id != $convocatoria->id && $convocatoria->tipo_convocatoria == 3) {
-            $convocatoriaTaTpActiva->esta_activa = false;
-            $convocatoriaTaTpActiva->save();
-        }
-
-        DB::select('SELECT public."crear_convocatoria_presupuesto"(' . $request->convocatoria_id['value'] . ',' . $convocatoria->id . ')');
-        DB::select('SELECT public."crear_convocatoria_rol_sennova"(' . $request->convocatoria_id['value'] . ',' . $convocatoria->id . ')');
+        DB::select('SELECT public."crear_convocatoria_presupuesto"(' . $request->convocatoria_id . ',' . $convocatoria->id . ')');
+        DB::select('SELECT public."crear_convocatoria_rol_sennova"(' . $request->convocatoria_id . ',' . $convocatoria->id . ')');
 
         return redirect()->route('convocatorias.index')->with('success', 'El recurso se ha creado correctamente.');
     }
@@ -108,10 +88,9 @@ class ConvocatoriaController extends Controller
         $this->authorize('update', [Convocatoria::class, $convocatoria]);
 
         return Inertia::render('Convocatorias/Edit', [
-            'convocatoria'                                  => $convocatoria,
-            'lineas_programaticas'                          => LineaProgramatica::selectRaw("id as value, CONCAT(nombre, ' - Código: ', codigo) as label")->orderBy('nombre', 'ASC')->get(),
-            'lineas_programaticas_activas_relacionadas'     => LineaProgramatica::selectRaw('id as value, nombre as label')->whereIn('id', $convocatoria->lineas_programaticas_activas ? json_decode($convocatoria->lineas_programaticas_activas) : [])->orderBy('nombre', 'ASC')->get(),
-            'fases'                                         => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
+            'convocatoria'         => $convocatoria,
+            'lineas_programaticas' => LineaProgramatica::selectRaw("id as value, CONCAT(nombre, ' - Código: ', codigo) as label")->orderBy('nombre', 'ASC')->get(),
+            'fases'                => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
         ]);
     }
 
@@ -127,26 +106,6 @@ class ConvocatoriaController extends Controller
         $this->authorize('update', [Convocatoria::class, $convocatoria]);
 
         $convocatoria->update($request->validated());
-
-        if ($request->esta_activa) {
-            $convocatoriaFormulacionActiva = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 1)->first();
-            if ($convocatoriaFormulacionActiva && $convocatoriaFormulacionActiva->id != $convocatoria->id && $convocatoria->tipo_convocatoria == 1) {
-                $convocatoriaFormulacionActiva->esta_activa = false;
-                $convocatoriaFormulacionActiva->save();
-            }
-
-            $convocatoriaDemoActiva = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 2)->first();
-            if ($convocatoriaDemoActiva && $convocatoriaDemoActiva->id != $convocatoria->id && $convocatoria->tipo_convocatoria == 2) {
-                $convocatoriaDemoActiva->esta_activa = false;
-                $convocatoriaDemoActiva->save();
-            }
-
-            $convocatoriaTaTpActiva = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 3)->first();
-            if ($convocatoriaTaTpActiva && $convocatoriaTaTpActiva->id != $convocatoria->id && $convocatoria->tipo_convocatoria == 3) {
-                $convocatoriaTaTpActiva->esta_activa = false;
-                $convocatoriaTaTpActiva->save();
-            }
-        }
 
         if ($request->mostrar_recomendaciones == true) {
             $convocatoria->proyectos()->update(['mostrar_recomendaciones' => true]);
@@ -166,10 +125,10 @@ class ConvocatoriaController extends Controller
     public function destroy(Request $request, Convocatoria $convocatoria)
     {
         $this->authorize('delete', [Convocatoria::class, $convocatoria]);
-        if (!Hash::check($request->password, Auth::user()->password)) {
-            return back()
-                ->withErrors(['password' => 'Contraseña incorrecta']);
-        }
+        // if (!Hash::check($request->password, Auth::user()->password)) {
+        //     return back()
+        //         ->withErrors(['password' => 'Contraseña incorrecta']);
+        // }
 
         $convocatoria->delete();
 
@@ -184,8 +143,8 @@ class ConvocatoriaController extends Controller
     public function lineasProgramaticas(Convocatoria $convocatoria)
     {
         return Inertia::render('Convocatorias/LineasProgramaticas', [
-            'convocatoria'          => $convocatoria,
-            'lineas_programaticas'  => LineaProgramatica::select('id', 'nombre', 'codigo')->get()
+            'convocatoria'         => $convocatoria,
+            'lineas_programaticas' => LineaProgramatica::select('id', 'nombre', 'codigo')->get()
         ]);
     }
 
@@ -194,30 +153,30 @@ class ConvocatoriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function proyectosPorLineaProgramatica(Convocatoria $convocatoria, LineaProgramatica $lineaProgramatica)
+    public function proyectosPorLineaProgramatica(Convocatoria $convocatoria, LineaProgramatica $linea_programatica)
     {
-        switch ($lineaProgramatica->id) {
+        switch ($linea_programatica->id) {
             case 1:
             case 2:
             case 3:
             case 29:
-                return redirect()->route('convocatorias.idi.index', [$convocatoria]);
+                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria]);
                 break;
 
             case 4:
-                return redirect()->route('convocatorias.tp.index', [$convocatoria]);
+                return redirect()->route('convocatorias.proyectos-linea-69.index', [$convocatoria]);
                 break;
 
             case 5:
-                return redirect()->route('convocatorias.ta.index', [$convocatoria]);
+                return redirect()->route('convocatorias.proyectos-linea-70.index', [$convocatoria]);
                 break;
 
             case 9:
-                return redirect()->route('convocatorias.cultura-innovacion.index', [$convocatoria]);
+                return redirect()->route('convocatorias.proyectos-linea-65.index', [$convocatoria]);
                 break;
 
             case 10:
-                return redirect()->route('convocatorias.servicios-tecnologicos.index', [$convocatoria]);
+                return redirect()->route('convocatorias.proyectos-linea-68.index', [$convocatoria]);
                 break;
             default:
                 return back();
@@ -238,18 +197,18 @@ class ConvocatoriaController extends Controller
             $evaluacion->update(['estado' => $evaluacion->verificar_estado_evaluacion]);
         }
 
-        $convocatoria->fase                     = $request->fase['value'];
+        $convocatoria->fase                     = $request->fase;
         $convocatoria->fecha_finalizacion_fase  = $request->fecha_finalizacion_fase;
         $convocatoria->hora_finalizacion_fase   = $request->hora_finalizacion_fase;
         $convocatoria->year                     = date('Y', strtotime($request->year));
         $convocatoria->save();
 
-        if ($request->fase['value'] == 1) { // Formulación
+        if ($request->fase == 1) { // Formulación
             $convocatoria->proyectos()->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false]);
             $convocatoria->evaluaciones()->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
-        } else if ($request->fase['value'] == 2) { // Primera evaluación
+        } else if ($request->fase == 2) { // Primera evaluación
             $convocatoria->proyectos()->update(['modificable' => false, 'habilitado_para_evaluar' => true, 'radicado' => true]);
-        } else if ($request->fase['value'] == 3) { // Subsanación
+        } else if ($request->fase == 3) { // Subsanación
 
             foreach ($convocatoria->proyectos()->get() as $proyecto) {
                 switch ($proyecto) {
@@ -299,7 +258,7 @@ class ConvocatoriaController extends Controller
             }
 
             $convocatoria->evaluaciones()->where('clausula_confidencialidad', true)->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
-        } else if ($request->fase['value'] == 4) { // Segunda evaluación
+        } else if ($request->fase == 4) { // Segunda evaluación
 
             foreach ($convocatoria->proyectos()->get() as $proyecto) {
                 switch ($proyecto) {
@@ -339,7 +298,7 @@ class ConvocatoriaController extends Controller
             }
 
             $convocatoria->evaluaciones()->where('clausula_confidencialidad', true)->update(['modificable' => true, 'finalizado' => false, 'iniciado' => false]);
-        } else if ($request->fase['value'] == 5) { // Finalizar convocatoria
+        } else if ($request->fase == 5) { // Finalizar convocatoria
             $convocatoria->proyectos()->update(['modificable' => false]);
             $convocatoria->evaluaciones()->where('clausula_confidencialidad', true)->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
         }

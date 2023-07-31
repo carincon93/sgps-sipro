@@ -20,7 +20,7 @@ class FormacionAcademicaSenaController extends Controller
      */
     public function index()
     {
-        // 
+        //
     }
 
     /**
@@ -32,10 +32,7 @@ class FormacionAcademicaSenaController extends Controller
     {
         $this->authorize('create', [FormacionAcademicaSena::class]);
 
-        return Inertia::render('Users/Perfil/FormacionesAcademicasSena/Create', [
-            'nivelesFormacion'      => json_decode(Storage::get('json/niveles-formacion.json'), true),
-            'modalidadesEstudio'    => json_decode(Storage::get('json/modalidades-estudio.json'), true),
-        ]);
+        //
     }
 
     /**
@@ -48,8 +45,6 @@ class FormacionAcademicaSenaController extends Controller
     {
         $this->authorize('create', [FormacionAcademicaSena::class]);
 
-        $request->merge(['user_id' => Auth::user()->id]);
-
         $formacionAcademicaSena = FormacionAcademicaSena::create($request->all());
 
         if ($request->hasFile('certificado_formacion')) {
@@ -57,7 +52,7 @@ class FormacionAcademicaSenaController extends Controller
             $this->saveFilesSharepoint($request->certificado_formacion, 'CENSO2023', $formacionAcademicaSena, 'certificado_formacion');
         }
 
-        return redirect()->route('users.change-user-profile')->with('success', 'El recurso se ha creado correctamente.');
+        return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
     /**
@@ -68,7 +63,7 @@ class FormacionAcademicaSenaController extends Controller
      */
     public function show(FormacionAcademicaSena $formacionAcademicaSena)
     {
-        // 
+        //
     }
 
     /**
@@ -81,13 +76,7 @@ class FormacionAcademicaSenaController extends Controller
     {
         $this->authorize('update', [FormacionAcademicaSena::class, $formacionAcademicaSena]);
 
-        $formacionAcademicaSena->egresado_sena = $formacionAcademicaSena->egresado_sena ? 1 : 2;
-
-        return Inertia::render('Users/Perfil/FormacionesAcademicasSena/Edit', [
-            'formacionAcademicaSena'    => $formacionAcademicaSena,
-            'nivelesFormacion'          => json_decode(Storage::get('json/niveles-formacion.json'), true),
-            'modalidadesEstudio'        => json_decode(Storage::get('json/modalidades-estudio.json'), true),
-        ]);
+        //
     }
 
     /**
@@ -108,7 +97,7 @@ class FormacionAcademicaSenaController extends Controller
             $this->saveFilesSharepoint($request->certificado_formacion, 'CENSO2023', $formacionAcademicaSena, 'certificado_formacion');
         }
 
-        return redirect()->back()->with('success', 'El recurso se ha actualizado correctamente.');
+        return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
     /**
@@ -123,16 +112,16 @@ class FormacionAcademicaSenaController extends Controller
 
         $formacionAcademicaSena->delete();
 
-        return redirect()->route('users.change-user-profile')->with('success', 'El recurso se ha eliminado correctamente.');
+        return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
-    public function saveFilesSharepoint($tmpFile, $modulo, $modelo, $campoBd)
+    public function saveFilesSharepoint($tmp_file, $modulo, $modelo, $campo_bd)
     {
         $user = Auth::user();
-        
+
         $centroFormacionSharePoint = $user->centroFormacion->nombre_carpeta_sharepoint;
 
-        $sharePointPath = "$modulo/$centroFormacionSharePoint/$user->nombre_carpeta_sharepoint";
-        SharepointHelper::saveFilesSharepoint($tmpFile, $modelo, $sharePointPath, $campoBd);
+        $sharepoint_path = "$modulo/$centroFormacionSharePoint/$user->nombre_carpeta_sharepoint";
+        SharepointHelper::saveFilesSharepoint($tmp_file, $modelo, $sharepoint_path, $campo_bd);
     }
 }

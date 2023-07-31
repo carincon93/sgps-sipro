@@ -88,13 +88,13 @@ class Regional extends Model
     }
 
     /**
-     * Relationship with Tp
+     * Relationship with ProyectoLinea69
      *
      * @return object
      */
-    public function tp()
+    public function proyectosLinea69()
     {
-        return $this->belongsToMany(Tp::class, 'talentos_otros_departamentos', 'regional_id', 'tp_id');
+        return $this->belongsToMany(ProyectoLinea69::class, 'talentos_otros_departamentos', 'regional_id', 'tp_id');
     }
 
     /**
@@ -123,5 +123,10 @@ class Regional extends Model
     public function getUpdatedAtAttribute($value)
     {
         return "Última modificación de este formulario: " . Carbon::parse($value, 'UTC')->timezone('America/Bogota')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY [a las] HH:mm:ss');
+    }
+
+    public function getNombreAttribute($value)
+    {
+        return ucfirst($value);
     }
 }

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('entidad_aliada_idi', function (Blueprint $table) {
+        Schema::table('entidades_aliadas_linea_66', function (Blueprint $table) {
             $table->foreign(['entidad_aliada_id'], 'entidad_aliada_id_fkey')->references(['id'])->on('entidades_aliadas')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('entidad_aliada_idi', function (Blueprint $table) {
+        Schema::table('entidades_aliadas_linea_66', function (Blueprint $table) {
             $table->dropForeign('entidad_aliada_id_fkey');
         });
     }

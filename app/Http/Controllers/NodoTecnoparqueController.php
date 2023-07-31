@@ -25,7 +25,7 @@ class NodoTecnoparqueController extends Controller
             'filters'           => request()->all('search'),
             'nodosTecnoparque'  => NodoTecnoparque::with('centroFormacion')->orderBy('nombre', 'ASC')
                 ->filterNodoTecnoparque(request()->only('search'))->paginate(),
-            'allowedToCreate'   => Gate::inspect('create', [NodoTecnoparque::class])->allowed()
+            'allowed_to_create'   => Gate::inspect('create', [NodoTecnoparque::class])->allowed()
 
         ]);
     }
@@ -41,7 +41,7 @@ class NodoTecnoparqueController extends Controller
 
         return Inertia::render('NodosTecnoparque/Create', [
             'centrosFormacion'  => SelectHelper::centrosFormacion(),
-            'allowedToCreate'   => Gate::inspect('create', [NodoTecnoparque::class])->allowed()
+            'allowed_to_create'   => Gate::inspect('create', [NodoTecnoparque::class])->allowed()
         ]);
     }
 

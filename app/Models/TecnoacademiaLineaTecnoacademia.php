@@ -75,22 +75,22 @@ class TecnoacademiaLineaTecnoacademia extends Model
     }
 
     /**
-     * Relationship with CulturaInnovacion
+     * Relationship with ProyectoLinea65
      *
      * @return void
      */
-    public function culturaInnovacion()
+    public function proyectosLinea65()
     {
-        return $this->hasMany(CulturaInnovacion::class);
+        return $this->hasMany(ProyectoLinea65::class);
     }
 
     /**
-     * Relationship with ProyectoIdiTecnoacademiaLinea
+     * Relationship with ProyectoProyectoLinea66TecnoacademiaLinea
      *
      * @return void
      */
-    public function proyectosIdiTecnoacademiaLinea()
+    public function proyectosProyectoLinea66TecnoacademiaLinea()
     {
-        return $this->hasMany(ProyectoIdiTecnoacademiaLinea::class);
+        return $this->hasMany(ProyectoProyectoLinea66TecnoacademiaLinea::class);
     }
 }

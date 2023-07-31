@@ -2,9 +2,10 @@
 
 namespace App\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class Email implements Rule
+class Email implements ValidationRule
 {
     /**
      * Create a new rule instance.
@@ -17,28 +18,15 @@ class Email implements Rule
     }
 
     /**
-     * Determine if the validation rule passes.
+     * Run the validation rule.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @return bool
+     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
      */
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (preg_match("/(.*)sena\.edu\.co$/i", $value) || preg_match("/(.*)soy.sena\.edu\.co$/i", $value)) {
-            return true;
+        if (preg_match("/(.*)sena\.edu\.co$/i", $value) == false && preg_match("/(.*)soy.sena\.edu\.co$/i", $value) == false) {
+            $fail("Debe ser un correo @sena.edu.co o @soy.sena.edu.co");
         }
 
-        return false;
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message()
-    {
-        return 'Debe ser un correo @sena.edu.co o @soy.sena.edu.co';
     }
 }
