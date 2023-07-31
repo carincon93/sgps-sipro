@@ -4,6 +4,7 @@ import DatePicker from '@/Components/DatePicker'
 import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
 import RadioMui from '@/Components/Radio'
+import Tags from '@/Components/Tags'
 import Textarea from '@/Components/Textarea'
 import TextInput from '@/Components/TextInput'
 import SelectMultiple from '@/Components/SelectMultiple'
@@ -15,7 +16,6 @@ import { useForm } from '@inertiajs/react'
 import { useEffect, useState } from 'react'
 
 import { monthDiff } from '@/Utils'
-import Tags from '@/Components/Tags'
 
 const Form = ({
     is_super_admin,
