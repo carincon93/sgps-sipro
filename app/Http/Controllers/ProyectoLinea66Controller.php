@@ -66,6 +66,7 @@ class ProyectoLinea66Controller extends Controller
             'grupos_investigacion'              => SelectHelper::gruposInvestigacion()->where('value', 126)->values()->all(),
             'areas_tematicas_eni'               => SelectHelper::areasTematicasEni(),
             'lineas_investigacion_eni'          => SelectHelper::lineasInvestigacion()->where('grupo_investigacion_id', 126)->values()->all(),
+            'areas_cualificacion_mnc'           => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),
 
             'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowed_to_create'                 => Gate::inspect('formular-proyecto', [3, $convocatoria])->allowed()
