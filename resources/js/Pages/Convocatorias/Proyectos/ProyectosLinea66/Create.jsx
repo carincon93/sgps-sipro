@@ -19,6 +19,7 @@ const Create = ({
     grupos_investigacion,
     lineas_investigacion_eni,
     areas_tematicas_eni,
+    areas_cualificacion_mnc,
     roles_sennova,
 }) => {
     const [auth_user, setAuthUser] = useState(auth.user)
@@ -40,6 +41,7 @@ const Create = ({
                 grupos_investigacion={grupos_investigacion}
                 lineas_investigacion_eni={lineas_investigacion_eni}
                 areas_tematicas_eni={areas_tematicas_eni}
+                areas_cualificacion_mnc={areas_cualificacion_mnc}
                 roles_sennova={roles_sennova}
             />
         </AuthenticatedLayout>
