@@ -274,30 +274,6 @@ class ActividadController extends Controller
                 $request->merge(['proyeccion_nuevas_instituciones' => $request->proyeccion_nuevas_instituciones]);
                 $request->merge(['proyeccion_articulacion_media' => $request->proyeccion_articulacion_media]);
 
-                if (is_array($request->programas_formacion_articulados)) {
-                    $request->merge([
-                        'programas_formacion_articulados' => json_encode($request->programas_formacion_articulados)
-                    ]);
-                }
-
-                if (is_array($request->diseno_curricular_id)) {
-                    $request->merge([
-                        'diseno_curricular_id' => json_encode($request->diseno_curricular_id)
-                    ]);
-                }
-
-                if (is_array($request->municipios)) {
-                    $request->merge([
-                        'municipios' => json_encode($request->municipios)
-                    ]);
-                }
-
-                if (is_array($request->municipios_impactar)) {
-                    $request->merge([
-                        'municipios_impactar' => json_encode($request->municipios_impactar)
-                    ]);
-                }
-
                 $request->validate([
                     'municipios*'                               => 'required|integer|exists:municipios,id',
                     'municipios_impactar*'                      => 'required|integer|exists:municipios,id',
@@ -336,19 +312,6 @@ class ActividadController extends Controller
                 $proyecto_linea_70->proyecto->disenosCurriculares()->sync($request->diseno_curricular_id);
                 break;
             case $proyecto->proyectoLinea69()->exists():
-                if (is_array($request->municipios)) {
-                    $request->merge([
-                        'municipios' => json_encode($request->municipios)
-                    ]);
-                }
-
-                if (is_array($request->talento_otros_departamentos)) {
-                    $request->merge([
-                        'talento_otros_departamentos' => json_encode($request->talento_otros_departamentos)
-                    ]);
-                }
-
-
                 $proyecto_linea_69                                         = $proyecto->proyectoLinea69;
                 $proyecto_linea_69->metodologia                            = $request->metodologia;
                 $proyecto_linea_69->metodologia_local                      = $request->metodologia_local;

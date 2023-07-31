@@ -34,7 +34,6 @@ class ProyectoLinea69Controller extends Controller
     {
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea69/Index', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'tipo_convocatoria'),
-            'filters'               => request()->all('search', 'estructuracion_proyectos'),
             'proyectos_linea_69'    => ProyectoLinea69::getProyectosPorRol($convocatoria)->appends(['search' => request()->search, 'estructuracion_proyectos' => request()->estructuracion_proyectos]),
             'allowed_to_create'     => Gate::inspect('formular-proyecto', [4, $convocatoria])->allowed()
         ]);
@@ -49,18 +48,9 @@ class ProyectoLinea69Controller extends Controller
     {
         $this->authorize('formular-proyecto', [4, $convocatoria]);
 
-        /** @var \App\Models\User */
-        $auth_user = Auth::user();
-
-        if ($auth_user->hasRole(16)) {
-            $nodos_tecnoparque = SelectHelper::nodosTecnoparque()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
-        } else {
-            $nodos_tecnoparque = SelectHelper::nodosTecnoparque();
-        }
-
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea69/Create', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_69', 'max_fecha_finalizacion_proyectos_linea_69', 'fecha_maxima_tp'),
-            'nodos_tecnoparque'     => $nodos_tecnoparque,
+            'nodos_tecnoparque'     => SelectHelper::nodosTecnoparque(),
             'roles_sennova'         => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowed_to_create'     => Gate::inspect('formular-proyecto', [4, $convocatoria])->allowed()
         ]);

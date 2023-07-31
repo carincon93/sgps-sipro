@@ -107,26 +107,6 @@ class ConvocatoriaController extends Controller
 
         $convocatoria->update($request->validated());
 
-        if ($request->esta_activa) {
-            $convocatoria_formulacion_activa = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 1)->first();
-            if ($convocatoria_formulacion_activa && $convocatoria_formulacion_activa->id != $convocatoria->id && $convocatoria->tipo_convocatoria == 1) {
-                $convocatoria_formulacion_activa->esta_activa = false;
-                $convocatoria_formulacion_activa->save();
-            }
-
-            $convocatoria_demo_activa = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 2)->first();
-            if ($convocatoria_demo_activa && $convocatoria_demo_activa->id != $convocatoria->id && $convocatoria->tipo_convocatoria == 2) {
-                $convocatoria_demo_activa->esta_activa = false;
-                $convocatoria_demo_activa->save();
-            }
-
-            $convocatoria_lineas_69_70_activa = Convocatoria::where('esta_activa', true)->where('tipo_convocatoria', 3)->first();
-            if ($convocatoria_lineas_69_70_activa && $convocatoria_lineas_69_70_activa->id != $convocatoria->id && $convocatoria->tipo_convocatoria == 3) {
-                $convocatoria_lineas_69_70_activa->esta_activa = false;
-                $convocatoria_lineas_69_70_activa->save();
-            }
-        }
-
         if ($request->mostrar_recomendaciones == true) {
             $convocatoria->proyectos()->update(['mostrar_recomendaciones' => true]);
         } else {

@@ -8,9 +8,11 @@ import { route, checkRole, checkPermission } from '@/Utils'
 import { Link } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useState } from 'react'
+import FormRoles from './Users/FormRoles'
 
-export default function Dashboard({ auth }) {
+export default function Dashboard({ auth, roles_sistema }) {
     const auth_user = auth.user
+
     const is_super_admin = checkRole(auth_user, [1])
     const [dialol_status, setDialogStatus] = useState(true)
 
@@ -66,28 +68,39 @@ export default function Dashboard({ auth }) {
 
                             <hr className="mt-10 mb-10" />
                             <div>
-                                <p>
-                                    El CENSO SENNOVA 2023 está habilitado. Por favor haga clic en <strong>'Ir al CENSO SENNOVA 2023'</strong> para diligenciarlo.
-                                    <br />
-                                </p>
-                                {auth_user.informacion_completa && (
-                                    <AlertMui className="mt-4">
-                                        Si ya diligenció el CENSO por favor de clic en <strong>'Ya he completado el CENSO'</strong>
-                                    </AlertMui>
+                                <AlertMui>
+                                    1. Por favor seleccione los roles de formulación según la línea en la que desea presentar proyectos. Todo usuario debe tener un rol. Si aparte de estos requiere
+                                    otro rol por favor comuníquese con el administrador del sistema.
+                                    <FormRoles usuario={auth_user} roles_sistema={roles_sistema} />
+                                </AlertMui>
+
+                                {auth_user.roles.length > 0 && (
+                                    <>
+                                        <p className="mt-10">
+                                            2. A continuación, diríjase al CENSO SENNOVA 2023. Por favor haga clic en <strong>'Ir al CENSO SENNOVA 2023'</strong> para diligenciarlo.
+                                        </p>
+                                        {auth_user.informacion_completa && (
+                                            <AlertMui className="mt-4">
+                                                Si ya diligenció el CENSO por favor de clic en <strong>'Ya he completado el CENSO'</strong>
+                                            </AlertMui>
+                                        )}
+                                    </>
                                 )}
                             </div>
                         </>
                     }
                     dialogActions={
                         <>
-                            <div className="p-4 flex">
-                                {auth_user.informacion_completa && <ButtonMui onClick={() => setDialogStatus(false)}>Ya he completado el CENSO</ButtonMui>}
-                                <Link
-                                    className="ml-2 overflow-hidden shadow-sm rounded px-6 py-2 bg-app-500 text-white flex justify-around items-center flex-col text-center"
-                                    href={route('users.perfil')}>
-                                    Ir al CENSO SENNOVA 2023
-                                </Link>
-                            </div>
+                            {auth_user.roles.length > 0 && (
+                                <div className="p-4 flex">
+                                    {auth_user.informacion_completa && <ButtonMui onClick={() => setDialogStatus(false)}>Ya he completado el CENSO</ButtonMui>}
+                                    <Link
+                                        className="ml-2 overflow-hidden shadow-sm rounded px-6 py-2 bg-app-500 text-white flex justify-around items-center flex-col text-center"
+                                        href={route('users.perfil')}>
+                                        Ir al CENSO SENNOVA 2023
+                                    </Link>
+                                </div>
+                            )}
                         </>
                     }
                 />

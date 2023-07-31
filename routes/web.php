@@ -63,7 +63,7 @@ use App\Http\Controllers\Perfil\EstudioAcademicoController;
 use App\Http\Controllers\Perfil\FormacionAcademicaSenaController;
 use App\Http\Controllers\Perfil\ParticipacionGrupoInvestigacionSenaController;
 use App\Http\Controllers\Perfil\ParticipacionProyectoSennovaController;
-
+use App\Models\Role;
 use Inertia\Inertia;
 
 /*
@@ -83,7 +83,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('manual-usuario/download', [ProyectoController::class, 'downloadManualUsuario'])->name('manual-usuario.download');
 
     Route::get('/', function () {
-        return Inertia::render('Dashboard');
+        return Inertia::render('Dashboard', [
+            'roles_sistema' => Role::whereIn('id', [6, 12, 13, 15, 16])->get()
+        ]);
     })->name('dashboard');
 
     Route::get('/proyectos/{proyecto}/download-any-file/{fileId}/{file}', [ProyectoController::class, 'downloadFileSharepoint'])->name('proyectos.download-any-file');
@@ -269,7 +271,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Finalizar formulación de proyectos
      *
      */
-    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/finalizar-proyecto', [ProyectoController::class, 'summary'])->name('convocatorias.proyectos.summary');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/finalizar-proyecto', [ProyectoController::class, 'resumenFinal'])->name('convocatorias.proyectos.resumen-final');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/finalizar-proyecto', [ProyectoController::class, 'finalizarProyecto'])->name('convocatorias.proyectos.finish');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/enviar-proyecto-evaluar', [ProyectoController::class, 'enviarAEvaluacion'])->name('convocatorias.proyectos.send');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/comentario-proyecto', [ProyectoController::class, 'devolverProyecto'])->name('convocatorias.proyectos.return-project');

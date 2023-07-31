@@ -8,9 +8,10 @@ import PasswordInput from '@/Components/PasswordInput'
 import PrimaryButton from '@/Components/PrimaryButton'
 import TextInput from '@/Components/TextInput'
 
-import { Head, Link, useForm } from '@inertiajs/react'
+import { Head, Link, useForm, usePage } from '@inertiajs/react'
 
 export default function Login({ tipos_documento, tipos_vinculacion, roles, centros_formacion, municipios, opciones_genero, user, status, ...props }) {
+    const { props: page_props } = usePage()
     const form = useForm({
         nombre: user?.nombre,
         email: user?.email,
@@ -39,10 +40,14 @@ export default function Login({ tipos_documento, tipos_vinculacion, roles, centr
 
             {status && <AlertMui error={props.flash?.error}>{status}</AlertMui>}
 
-            {user && (
+            {user ? (
                 <AlertMui>
-                    El usuario con número de documento {user.numero_documento} ya está registrado en el sistema. Por favor inicie sesión haciendo. Si no recuerda la contraseña la puede recuperar en la
-                    opcion: Recuperar contraseña.
+                    El usuario con número de documento <strong>{user.numero_documento}</strong> ya está registrado en el sistema. Por favor inicie sesión haciendo. Si no recuerda la contraseña la
+                    puede recuperar en la opcion: Recuperar contraseña.
+                </AlertMui>
+            ) : (
+                <AlertMui>
+                    El usuario con número de documento <strong>{page_props.ziggy.query.numero_documento}</strong> no está registrado en el sistema. Por favor diligencie el siguiente formulario:
                 </AlertMui>
             )}
             <form onSubmit={submit} className="mt-20 w-[22rem]">
@@ -176,7 +181,7 @@ export default function Login({ tipos_documento, tipos_vinculacion, roles, centr
                         label="Fecha de nacimiento"
                         value={form.data.fecha_nacimiento}
                         className="p-4 w-full"
-                        onChange={(e) => form.setData({ ...data, fecha_nacimiento: e.target.value })}
+                        onChange={(e) => form.setData('fecha_nacimiento', e.target.value)}
                         error={form.errors.fecha_nacimiento}
                         required
                     />

@@ -57,8 +57,8 @@ const Actividades = ({
     const form = useForm({
         metodologia: proyecto.metodologia,
         metodologia_local: proyecto.metodologia_local,
-        municipios: municipios.filter((item) => proyecto.municipios?.some((obj) => obj.id == item.value)).map((item) => item.value),
-        municipios_impactar: municipios.filter((item) => proyecto.municipiosAImpactar?.some((obj) => obj.id == item.value)).map((item) => item.value),
+        municipios: proyecto.municipios?.map((item) => item.id),
+        municipios_impactar: proyecto.municipiosAImpactar?.map((item) => item.id),
         otras_nuevas_instituciones: proyecto.otras_nuevas_instituciones,
         otras_nombre_instituciones_programas: proyecto.otras_nombre_instituciones_programas,
         otras_nombre_instituciones: proyecto.otras_nombre_instituciones,
@@ -72,8 +72,8 @@ const Actividades = ({
         implementacion_modelo_pedagogico: proyecto.implementacion_modelo_pedagogico,
         articulacion_plan_educacion: proyecto.articulacion_plan_educacion,
         articulacion_territorios_stem: proyecto.articulacion_territorios_stem,
-        programas_formacion_articulados: programas_formacion.filter((item) => proyecto.programasFormacionLinea70?.some((obj) => obj.id == item.value)).map((item) => item.value),
-        diseno_curricular_id: disenos_curriculares.filter((item) => proyecto.disenosCurriculares?.some((obj) => obj.id == item.value)).map((item) => item.value),
+        programas_formacion_articulados: proyecto.programasFormacionLinea70?.map((item) => item.id),
+        diseno_curricular_id: proyecto.disenosCurriculares?.map((item) => item.id),
         estrategia_articulacion_prox_vigencia: proyecto.estrategia_articulacion_prox_vigencia,
         alianzas_estrategicas: proyecto.alianzas_estrategicas,
         estrategia_divulgacion: proyecto.estrategia_divulgacion,
@@ -91,12 +91,13 @@ const Actividades = ({
         }
     }
 
-    const [municipio_ie_articulacion, setMunicipioIEArticulacion] = useState(null)
+    const [regional_ie_articulacion, setRegionalIEArticulacion] = useState(null)
     const [whitelist_instituciones_educativas_articular, setWhitelistInstitucionesEducativasArticular] = useState([])
-    useEffect(() => {
-        if (municipio_ie_articulacion) {
+    const getInstitucionesEducationArticular = (regional_seleccionada) => {
+        setRegionalIEArticulacion(regional_seleccionada)
+        if (regional_seleccionada) {
             axios
-                .get('https://www.datos.gov.co/resource/cfw5-qzt5.json?municipio=' + municipios.find((municipio) => municipio.value == municipio_ie_articulacion)?.label.toUpperCase())
+                .get('https://www.datos.gov.co/resource/cfw5-qzt5.json?cod_dane_departamento=' + regionales.find((item) => item.value == regional_seleccionada)?.codigo)
                 .then(function (response) {
                     const data = response.data.map((item) => item.nombre_establecimiento)
                     setWhitelistInstitucionesEducativasArticular(data)
@@ -105,22 +106,24 @@ const Actividades = ({
                     console.log(error)
                 })
         }
-    }, [municipio_ie_articulacion])
+    }
 
-    const [municipio_ie_ejecucion, setMunicipioIEEjecucion] = useState(null)
+    const [regional_ie_ejecucion, setMunicipioIEEjecucion] = useState(null)
     const [whitelist_instituciones_educativas_ejecutar, setWhitelistInstitucionesEducativasEjecutar] = useState([])
-    useEffect(() => {
-        axios
-            .get('https://www.datos.gov.co/resource/cfw5-qzt5.json?municipio=' + municipios.find((municipio) => municipio.value == municipio_ie_ejecucion)?.label.toUpperCase())
-            .then(function (response) {
-                const data = response.data.map((item) => item.nombre_establecimiento)
-
-                setWhitelistInstitucionesEducativasEjecutar(data)
-            })
-            .catch(function (error) {
-                console.log(error)
-            })
-    }, [municipio_ie_ejecucion])
+    const getInstitucionesEducationEjecutar = (regional_seleccionada) => {
+        setMunicipioIEEjecucion(regional_seleccionada)
+        if (regional_seleccionada) {
+            axios
+                .get('https://www.datos.gov.co/resource/cfw5-qzt5.json?cod_dane_departamento=' + regionales.find((item) => item.value == regional_seleccionada)?.codigo)
+                .then(function (response) {
+                    const data = response.data.map((item) => item.nombre_establecimiento)
+                    setWhitelistInstitucionesEducativasEjecutar(data)
+                })
+                .catch(function (error) {
+                    console.log(error)
+                })
+        }
+    }
 
     const tabs = tecnoacademia_relacionada?.modalidad == 2 ? [{ label: 'Metodología' }, { label: 'Actividades' }, { label: 'Aulas móviles' }] : [{ label: 'Metodología' }, { label: 'Actividades' }]
 
@@ -423,9 +426,9 @@ const Actividades = ({
                                             <Grid item md={6}>
                                                 <Autocomplete
                                                     id="departamento_instituciones_programas"
-                                                    selectedValue={municipio_ie_articulacion}
+                                                    selectedValue={regional_ie_articulacion}
                                                     onChange={(event, newValue) => {
-                                                        setMunicipioIEArticulacion(newValue.value)
+                                                        getInstitucionesEducationArticular(newValue.value)
                                                     }}
                                                     options={regionales}
                                                     placeholder="Seleccione un departamento"
@@ -494,14 +497,12 @@ const Actividades = ({
                                                     <Grid item md={6}>
                                                         <Autocomplete
                                                             id="departamento_nuevas_instituciones"
-                                                            selectedValue={municipio_ie_ejecucion}
+                                                            selectedValue={regional_ie_ejecucion}
                                                             onChange={(event, newValue) => {
-                                                                setMunicipioIEEjecucion(newValue.value)
+                                                                getInstitucionesEducationEjecutar(newValue.value)
                                                             }}
-                                                            options={municipios}
-                                                            isGroupable={true}
-                                                            groupBy={(option) => option.group}
-                                                            placeholder="Seleccione un municipio"
+                                                            options={regionales}
+                                                            placeholder="Seleccione un departamento"
                                                         />
 
                                                         <Tags
@@ -565,20 +566,18 @@ const Actividades = ({
                                                             required={form.data.otras_nombre_instituciones ? false : true}
                                                             className="mb-4"
                                                             labelFor="nombre_instituciones"
-                                                            value="Instituciones donde se implementará el programa que tienen <strong>articulación con la Media</strong>"
+                                                            value="Instituciones donde se implementará el programa que tienen articulación con la Media"
                                                         />
                                                     </Grid>
                                                     <Grid item md={6}>
                                                         <Autocomplete
                                                             id="departamento_instituciones_media"
-                                                            selectedValue={municipio_ie_articulacion}
+                                                            selectedValue={regional_ie_ejecucion}
                                                             onChange={(event, newValue) => {
-                                                                setMunicipioIEEjecucion(newValue.value)
+                                                                getInstitucionesEducationEjecutar(newValue.value)
                                                             }}
-                                                            options={municipios}
-                                                            isGroupable={true}
-                                                            groupBy={(option) => option.group}
-                                                            placeholder="Seleccione un municipio"
+                                                            options={regionales}
+                                                            placeholder="Seleccione un departamento"
                                                         />
 
                                                         <Tags
@@ -694,7 +693,13 @@ const Actividades = ({
                                                     value={`Proyectos Macro o líneas de proyecto de investigación formativa y aplicada de la TecnoAcademia para la vigencia ${convocatoria.year}`}
                                                 />
 
-                                                <Textarea id="proyectos_macro" error={form.errors.proyectos_macro} value={form.data.proyectos_macro} required />
+                                                <Textarea
+                                                    id="proyectos_macro"
+                                                    error={form.errors.proyectos_macro}
+                                                    value={form.data.proyectos_macro}
+                                                    onChange={(e) => form.setData('proyectos_macro', e.target.value)}
+                                                    required
+                                                />
                                             </Grid>
 
                                             <Grid item md={12}>

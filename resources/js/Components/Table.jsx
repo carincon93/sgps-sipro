@@ -20,7 +20,7 @@ export default function TableMui({ children, rows, sxCellThead = {}, className =
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {children.length > 0 ? (
+                    {children?.length > 0 ? (
                         <>{children}</>
                     ) : (
                         <TableRow>

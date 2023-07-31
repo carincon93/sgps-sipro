@@ -38,6 +38,7 @@ const ArticulacionSennova = ({
     tipos_documento,
     tipos_vinculacion,
     roles_sennova,
+    nuevo_participante,
     ...props
 }) => {
     const auth_user = auth.user
@@ -127,6 +128,7 @@ const ArticulacionSennova = ({
                         tipos_documento={tipos_documento}
                         tipos_vinculacion={tipos_vinculacion}
                         roles_sennova={roles_sennova}
+                        nuevo_participante={nuevo_participante}
                     />
                 </div>
             </Grid>

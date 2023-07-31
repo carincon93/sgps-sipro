@@ -343,10 +343,10 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                 <></>
             )} */}
 
-                <Step
-                    active={route().current('convocatorias.proyectos.summary')}
-                    onClick={() => route('convocatorias.proyectos.summary', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
-                    <StepLabel classes={{ root: classes.root }}>Finalizar proyecto</StepLabel>
+                <Step active={route().current('convocatorias.proyectos.resumen-final')}>
+                    <Link href={route('convocatorias.proyectos.resumen-final', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
+                        <StepLabel classes={{ root: classes.root }}>Finalizar proyecto</StepLabel>
+                    </Link>
                 </Step>
             </Stepper>
             <div className="flex items-center justify-center">

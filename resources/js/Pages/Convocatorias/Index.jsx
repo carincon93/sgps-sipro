@@ -4,7 +4,7 @@ import AlertMui from '@/Components/Alert'
 import ButtonMui from '@/Components/Button'
 import MenuMui from '@/Components/Menu'
 
-import { checkRole } from '@/Utils'
+import { checkPermission, checkRole } from '@/Utils'
 import { Link, router } from '@inertiajs/react'
 
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined'
@@ -31,7 +31,7 @@ export default function Dashboard({ auth, convocatorias }) {
 
             {is_super_admin && (
                 <Grid item md={12}>
-                    <AlertMui className="my-20">
+                    <AlertMui className="mt-10">
                         <p>A continuación, se listan todas las convocatorias, si desea crear una nueva de clic en el siguiente botón.</p>
                         <Link href={route('convocatorias.create')} className="mt-8 mb-20">
                             Crear convocatoria
@@ -41,7 +41,7 @@ export default function Dashboard({ auth, convocatorias }) {
             )}
 
             {is_super_admin || checkRole(auth_user, [11]) || checkPermission(auth_user, [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18, 19, 14, 15, 16, 20, 21]) ? (
-                <Grid container rowSpacing={2}>
+                <Grid container rowSpacing={2} className="!mt-10">
                     {convocatorias.data.map((convocatoria) =>
                         convocatoria.visible || is_super_admin || checkRole(auth_user, [5, 17, 18, 19, 20]) ? (
                             <Grid item md={4} key={convocatoria.id} className="relative parent-actions">

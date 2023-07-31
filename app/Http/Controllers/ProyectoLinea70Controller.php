@@ -131,9 +131,6 @@ class ProyectoLinea70Controller extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', [$proyecto_linea_70->proyecto]);
 
-        /** @var \App\Models\User */
-        $auth_user = Auth::user();
-
         $proyecto_linea_70->load('proyecto.evaluaciones.evaluacionProyectoLinea70');
 
         $proyecto_linea_70->proyecto->codigo_linea_programatica = $proyecto_linea_70->proyecto->lineaProgramatica->codigo;

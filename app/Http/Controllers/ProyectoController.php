@@ -354,12 +354,12 @@ class ProyectoController extends Controller
     }
 
     /**
-     * Show summary.
+     * Show resumen final del proyecto.
      *
      * @param  \App\Models\Proyecto  $proyecto
      * @return \Illuminate\Http\Response
      */
-    public function summary(Convocatoria $convocatoria, Proyecto $proyecto)
+    public function resumenFinal(Convocatoria $convocatoria, Proyecto $proyecto)
     {
         $this->authorize('visualizar-proyecto-autor', [$proyecto]);
 
@@ -372,7 +372,7 @@ class ProyectoController extends Controller
             $proyecto->tipo_proyecto = $proyecto->proyectoLinea65->tipo_proyecto;
         }
 
-        return Inertia::render('Convocatorias/Proyectos/Summary', [
+        return Inertia::render('Convocatorias/Proyectos/ResumenFinal', [
             'convocatoria'                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
             'proyecto'                      => $proyecto->only('id', 'precio_proyecto', 'codigo_linea_programatica', 'logs', 'finalizado', 'modificable', 'habilitado_para_evaluar', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
             'problemaCentral'               => ProyectoValidationTrait::problemaCentral($proyecto),

@@ -35,6 +35,7 @@ class Convocatoria extends Model
         'esta_activa',
         'fecha_finalizacion_fase',
         'fase',
+        'visible',
         'mostrar_recomendaciones',
         'hora_finalizacion_fase',
         'tipo_convocatoria',

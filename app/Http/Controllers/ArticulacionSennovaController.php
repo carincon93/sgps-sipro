@@ -11,6 +11,7 @@ use App\Models\Evaluacion\EvaluacionProyectoLinea70;
 use App\Models\LineaInvestigacion;
 use App\Models\Proyecto;
 use App\Models\RolSennova;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -119,6 +120,7 @@ class ArticulacionSennovaController extends Controller
             'tipos_vinculacion'                 => json_decode(Storage::get('json/tipos-vinculacion.json'), true),
             'centros_formacion'                 => SelectHelper::centrosFormacion(),
             'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'nuevo_participante'                => User::select('users.id', 'users.nombre', 'users.email', 'users.centro_formacion_id')->with('centroFormacion', 'centroFormacion.regional')->orderBy('users.nombre', 'ASC')->filterUser(request()->only('search'))->first(),
             'autor_principal'                   => $proyecto->participantes()->where('proyecto_participantes.es_formulador', true)->first(),
         ]);
     }
