@@ -81,6 +81,19 @@ class ProyectoLinea66 extends Model
         'transferencia_tecnologias',
         'calidad_formacion',
         'impacto_ambiental_proyectos',
+
+        'aporta_a_campesena',
+        'relacionado_estrategia_campesena',
+        'justificacion_relacion_campesena',
+        'lineas_estrategicas_convocatoria',
+        'justificacion_lineas_estrategicas',
+        'impacto_regional',
+        'justificacion_impacto_regional',
+        'justificacion_mesas_sectoriales',
+        'areas_cualificacion_mnc',
+        'lineas_estrategicas_beneficiadas',
+        'justificacion_lineas_estrategicas_beneficiadas',
+        'veredas_corregimientos'
     ];
 
     /**
@@ -262,6 +275,26 @@ class ProyectoLinea66 extends Model
         $fecha_inicio       = Carbon::parse($this->fecha_inicio, 'UTC')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY');
         $fecha_finalizacion = Carbon::parse($this->fecha_finalizacion, 'UTC')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY');
         return "$fecha_inicio al $fecha_finalizacion";
+    }
+
+    public function getLineasEstrategicasConvocatoriaAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function getAreasCualificacionMncAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function getLineasEstrategicasBeneficiadasAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function getVeredas_CorregimientosAttribute($value)
+    {
+        return json_decode($value);
     }
 
     /**

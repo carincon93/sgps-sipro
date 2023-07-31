@@ -18,7 +18,7 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, lineas
         fase: convocatoria?.fase,
         year: convocatoria?.year,
         lineas_programaticas_activas: convocatoria?.lineas_programaticas_activas,
-        visible: convocatoria?.visible,
+        visible: convocatoria?.visible ?? false,
         fecha_finalizacion_fase: convocatoria?.fecha_finalizacion_fase,
         hora_finalizacion_fase: convocatoria?.hora_finalizacion_fase,
         convocatoria_id: convocatoria?.convocatoria_id,

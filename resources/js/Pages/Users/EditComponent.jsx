@@ -127,6 +127,9 @@ const EditComponent = ({
                     </Grid>
                     <Grid item md={8} className="drop-shadow-lg">
                         <Paper elevation={0} sx={{ padding: 6 }}>
+                            {usuario.roles.map((rol) => (
+                                <>{rol.name}</>
+                            ))}
                             <FormRoles usuario={usuario} roles_sistema={roles_sistema} />
                         </Paper>
                     </Grid>

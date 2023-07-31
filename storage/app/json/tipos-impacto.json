@@ -4,5 +4,6 @@
     { "value": 3, "label": "Impacto económico" },
     { "value": 4, "label": "Impacto ambiental" },
     { "value": 5, "label": "Impacto en el centro de formación" },
-    { "value": 6, "label": "Impacto en el sector productivo" }
+    { "value": 6, "label": "Impacto en el sector productivo" },
+    { "value": 7, "label": "Regional" }
 ]

@@ -1,9 +1,0 @@
-[
-    { "value": 1, "label": "Automatización y TICs" },
-    { "value": 2, "label": "Calibración" },
-    { "value": 3, "label": "Consultoría técnica" },
-    { "value": 4, "label": "Ensayo" },
-    { "value": 5, "label": "Fabricación especial" },
-    { "value": 6, "label": "Seguridad y salud en el trabajo" },
-    { "value": 7, "label": "Servicios de salud" }
-]

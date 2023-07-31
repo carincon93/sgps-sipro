@@ -659,7 +659,6 @@ const Actividades = ({
                                                         }))
                                                     }}
                                                     error={form.errors.programas_formacion_articulados}
-                                                    placeholder="Buscar por el nombre del programa de formación"
                                                     required
                                                 />
                                             </Grid>
@@ -680,7 +679,6 @@ const Actividades = ({
                                                         }))
                                                     }}
                                                     error={form.errors.diseno_curricular_id}
-                                                    placeholder="Buscar por el nombre del programa de formación"
                                                     required
                                                 />
                                             </Grid>

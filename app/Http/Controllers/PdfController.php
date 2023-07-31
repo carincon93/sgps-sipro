@@ -32,8 +32,8 @@ class PdfController extends Controller
         $tipoProyectoLinea68 = null;
         if (!empty($proyecto->proyectoLinea66)) {
             $datos = $proyecto->proyectoLinea66;
-            $opcionesIDiDropdown = collect(json_decode(Storage::get('json/opciones-aplica-no-aplica.json'), true));
-            $datos->relacionado_plan_tecnologico = $opcionesIDiDropdown->where('value', $datos->relacionado_plan_tecnologico)->first();
+            // $opcionesIDiDropdown = collect(json_decode(Storage::get('json/opciones-aplica-no-aplica.json'), true));
+            // $datos->relacionado_plan_tecnologico = $opcionesIDiDropdown->where('value', $datos->relacionado_plan_tecnologico)->first();
             $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true));
         } else if (!empty($proyecto->proyectoLinea70)) {
             $datos = $proyecto->proyectoLinea70;

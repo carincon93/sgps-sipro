@@ -15,6 +15,7 @@ import { useForm } from '@inertiajs/react'
 import { useEffect, useState } from 'react'
 
 import { monthDiff } from '@/Utils'
+import Tags from '@/Components/Tags'
 
 const Form = ({
     is_super_admin,
@@ -41,6 +42,8 @@ const Form = ({
     lineas_investigacion_eni,
     programas_formacion_con_registro_calificado,
     programas_formacion_sin_registro_calificado,
+    areas_cualificacion_mnc,
+    lineas_estrategicas,
     roles_sennova,
     ...props
 }) => {
@@ -105,10 +108,26 @@ const Form = ({
         impacto_municipios: proyecto_linea_66?.impacto_municipios ?? '',
         impacto_centro_formacion: proyecto_linea_66?.impacto_centro_formacion ?? '',
 
+        // Campos 2023
+        aporta_a_campesena: proyecto_linea_66?.aporta_a_campesena ?? false,
+        relacionado_estrategia_campesena: proyecto_linea_66?.relacionado_estrategia_campesena ?? false,
+        justificacion_relacion_campesena: proyecto_linea_66?.justificacion_relacion_campesena,
+        lineas_estrategicas_convocatoria: proyecto_linea_66?.lineas_estrategicas_convocatoria,
+        justificacion_lineas_estrategicas: proyecto_linea_66?.justificacion_lineas_estrategicas,
+        impacto_regional: proyecto_linea_66?.impacto_regional ?? false,
+        justificacion_impacto_regional: proyecto_linea_66?.justificacion_impacto_regional,
+        justificacion_mesas_sectoriales: proyecto_linea_66?.justificacion_mesas_sectoriales,
+        areas_cualificacion_mnc: proyecto_linea_66?.areas_cualificacion_mnc,
+        lineas_estrategicas_beneficiadas: proyecto_linea_66?.lineas_estrategicas_beneficiadas,
+        justificacion_lineas_estrategicas_beneficiadas: proyecto_linea_66?.justificacion_lineas_estrategicas_beneficiadas,
+        veredas_corregimientos: proyecto_linea_66?.veredas_corregimientos,
+
         cantidad_meses: '',
         cantidad_horas: '',
         rol_sennova: null,
     })
+
+    console.log(proyecto_linea_66?.lineas_estrategicas_beneficiadas)
 
     useEffect(() => {
         const filtered_lineas_tecnoacademia = lineas_tecnoacademia?.filter((obj) => obj.tecnoacademia_id === form.data.tecnoacademia_id)
@@ -258,6 +277,28 @@ const Form = ({
                         error={form.errors.linea_programatica_id}
                         disabled={evaluacion ? true : false}
                         required
+                    />
+                </Grid>
+
+                <Grid item md={6}>
+                    <Label required labelFor="areas_cualificacion_mnc" className="mb-4" value="Areas de Cualificación - Marco Nacional de Cualificaciones" />
+                </Grid>
+                <Grid item md={6}>
+                    <SelectMultiple
+                        id="areas_cualificacion_mnc"
+                        bdValues={form.data.areas_cualificacion_mnc}
+                        options={lineas_investigacion_eni}
+                        onChange={(event, newValue) => {
+                            const selectedValues = newValue.map((option) => option.value)
+                            form.setData((prevData) => ({
+                                ...prevData,
+                                areas_cualificacion_mnc: selectedValues,
+                            }))
+                        }}
+                        error={form.errors.areas_cualificacion_mnc}
+                        label="Seleccione una o varias opciones"
+                        required
+                        disabled={evaluacion ? true : false}
                     />
                 </Grid>
 
@@ -503,6 +544,12 @@ const Form = ({
                             </>
                         )}
                         <Grid item md={6}>
+                            <Label required labelFor="aporta_a_campesena" value="¿El proyecto aporta a CAMPESENA?" />
+                        </Grid>
+                        <Grid item md={6}>
+                            <SwitchMui checked={form.data.aporta_a_campesena} onChange={(e) => form.setData('aporta_a_campesena', e.target.checked)} disabled={evaluacion ? true : false} />
+                        </Grid>
+                        <Grid item md={6}>
                             <Label labelFor="video" value="¿El proyecto tiene video?" />
                             <AlertMui className="mt-2 mr-4">
                                 Video de 3 minutos, en donde se presente de manera sencilla y dinámica la justificación del proyecto, la problemática, el objetivo general, los objetivos específicos,
@@ -510,7 +557,7 @@ const Form = ({
                             </AlertMui>
                         </Grid>
                         <Grid item md={6}>
-                            <SwitchMui checked={tiene_video} onChange={() => setTieneVideo(!tiene_video)} disabled={evaluacion ? true : false} />
+                            <SwitchMui className="!mb-4" checked={tiene_video} onChange={() => setTieneVideo(!tiene_video)} disabled={evaluacion ? true : false} />
                             {tiene_video && (
                                 <>
                                     <TextInput
@@ -528,10 +575,90 @@ const Form = ({
                             )}
                         </Grid>
                         <Grid item md={6}>
+                            <Label required labelFor="relacionado_estrategia_campesena" value="¿El proyecto está relacionado con la estratégia institucional CAMPESENA?" />
+                        </Grid>
+                        <Grid item md={6}>
+                            <SwitchMui
+                                className="!mb-4"
+                                checked={form.data.relacionado_estrategia_campesena}
+                                onChange={(e) => form.setData('relacionado_estrategia_campesena', e.target.checked)}
+                                disabled={evaluacion ? true : false}
+                            />
+
+                            {form.data.relacionado_estrategia_campesena && (
+                                <Textarea
+                                    label="Justificación"
+                                    id="justificacion_relacion_campesena"
+                                    onChange={(e) => form.setData('justificacion_relacion_campesena', e.target.value)}
+                                    error={form.errors.justificacion_relacion_campesena}
+                                    value={form.data.justificacion_relacion_campesena}
+                                    disabled={evaluacion ? true : false}
+                                    required
+                                />
+                            )}
+                        </Grid>
+                        <Grid item md={6}>
+                            <Label labelFor="lineas_estrategicas_convocatoria" value="¿El proyecto se vincula con alguna de las líneas estrategicas de la convocatoria?" />
+                        </Grid>
+                        <Grid item md={6}>
+                            <SelectMultiple
+                                id="lineas_estrategicas_convocatoria"
+                                bdValues={form.data.lineas_estrategicas_convocatoria}
+                                options={lineas_estrategicas}
+                                onChange={(event, newValue) => {
+                                    const selectedValues = newValue.map((option) => option.value)
+                                    form.setData((prevData) => ({
+                                        ...prevData,
+                                        lineas_estrategicas_convocatoria: selectedValues,
+                                    }))
+                                }}
+                                error={form.errors.lineas_estrategicas_convocatoria}
+                                label="Seleccione las líneas estrategicas"
+                                disabled={evaluacion ? true : false}
+                            />
+
+                            {form.data.lineas_estrategicas_convocatoria == 4 && (
+                                <Textarea
+                                    className="mt-4"
+                                    label="Justificación"
+                                    id="justificacion_lineas_estrategicas"
+                                    onChange={(e) => form.setData('justificacion_lineas_estrategicas', e.target.value)}
+                                    error={form.errors.justificacion_lineas_estrategicas}
+                                    value={form.data.justificacion_lineas_estrategicas}
+                                    disabled={evaluacion ? true : false}
+                                    required
+                                />
+                            )}
+                        </Grid>
+                        <Grid item md={6}>
+                            <Label required labelFor="impacto_regional" value="¿El proyecto tendrá impacto regional?" />
+                        </Grid>
+                        <Grid item md={6}>
+                            <SwitchMui
+                                className="!mb-4"
+                                checked={form.data.impacto_regional}
+                                onChange={(e) => form.setData('impacto_regional', e.target.checked)}
+                                disabled={evaluacion ? true : false}
+                            />
+
+                            {form.data.impacto_regional || form.data.impacto_regional == false ? (
+                                <Textarea
+                                    label="Justificación"
+                                    id="justificacion_impacto_regional"
+                                    onChange={(e) => form.setData('justificacion_impacto_regional', e.target.value)}
+                                    error={form.errors.justificacion_impacto_regional}
+                                    value={form.data.justificacion_impacto_regional}
+                                    disabled={evaluacion ? true : false}
+                                    required
+                                />
+                            ) : null}
+                        </Grid>
+                        <Grid item md={6}>
                             <Label id="justificacion_industria_4" value="¿El proyecto está relacionado con la industria 4.0?" />
                         </Grid>
                         <Grid item md={6}>
                             <SwitchMui
+                                className="!mb-4"
                                 checked={requiere_justificacion_industria4}
                                 onChange={() => setRequiereJustificacionIndustria4(!requiere_justificacion_industria4)}
                                 disabled={evaluacion ? true : false}
@@ -551,12 +678,12 @@ const Form = ({
                                 </>
                             )}
                         </Grid>
-
                         <Grid item md={6}>
                             <Label labelFor="justificacion_economia_naranja" value="¿El proyecto está relacionado con la economía naranja?" />
                         </Grid>
                         <Grid item md={6}>
                             <SwitchMui
+                                className="!mb-4"
                                 checked={requiere_justificacion_economia_naranja}
                                 onChange={() => setRequiereJustificacionEconomiaNaranja(!requiere_justificacion_economia_naranja)}
                                 disabled={evaluacion ? true : false}
@@ -578,12 +705,12 @@ const Form = ({
                                 </>
                             )}
                         </Grid>
-
                         <Grid item md={6}>
                             <Label labelFor="impacto_sector_agricola" value="¿El proyecto tendrá un impacto en el sector agrícola?" />
                         </Grid>
                         <Grid item md={6}>
                             <SwitchMui
+                                className="!mb-4"
                                 checked={requiere_justificacion_sector_agricola}
                                 onChange={() => setRequiereJustificacionSectorAgricola(!requiere_justificacion_sector_agricola)}
                                 disabled={evaluacion ? true : false}
@@ -601,13 +728,12 @@ const Form = ({
                                 />
                             )}
                         </Grid>
-
                         <Grid item md={6}>
                             <Label labelFor="justificacion_politica_discapacidad" value="¿El proyecto aporta a la Política Institucional para Atención de las Personas con discapacidad?" />
                         </Grid>
-
                         <Grid item md={6}>
                             <SwitchMui
+                                className="!mb-4"
                                 checked={requiere_justificacion_politica_discapacidad}
                                 onChange={() => setRequiereJustificacionPoliticaDiscapacidad(!requiere_justificacion_politica_discapacidad)}
                                 disabled={evaluacion ? true : false}
@@ -631,7 +757,6 @@ const Form = ({
                                 </>
                             )}
                         </Grid>
-
                         <Grid item md={6}>
                             <Label
                                 labelFor="atencion_pluralista_diferencial"
@@ -640,6 +765,7 @@ const Form = ({
                         </Grid>
                         <Grid item md={6}>
                             <SwitchMui
+                                className="!mb-4"
                                 checked={requiere_justificacion_atencion_pluralista}
                                 onChange={() => setRequiereJustificacionAntencionPluralista(!requiere_justificacion_atencion_pluralista)}
                                 disabled={evaluacion ? true : false}
@@ -657,7 +783,6 @@ const Form = ({
                                 />
                             )}
                         </Grid>
-
                         <Grid item md={12}>
                             <p className="text-center mb-8">
                                 ¿Cuál es el origen de las muestras con las que se realizarán las actividades de investigación, bioprospección y/o aprovechamiento comercial o industrial?
@@ -802,7 +927,6 @@ const Form = ({
                                 </div>
                             </RadioGroup>
                         </Grid>
-
                         <Grid item md={6}>
                             <Label
                                 required
@@ -828,11 +952,9 @@ const Form = ({
                                 disabled={evaluacion ? true : false}
                             />
                         </Grid>
-
                         <Grid item md={6}>
                             <Label required className="mb-4" labelFor="relacionado_plan_tecnologico" value="¿El proyecto se alinea con el plan tecnológico desarrollado por el centro de formación?" />
                         </Grid>
-
                         <Grid item md={6}>
                             <Autocomplete
                                 id="relacionado_plan_tecnologico"
@@ -850,7 +972,6 @@ const Form = ({
                                 disabled={evaluacion ? true : false}
                             />
                         </Grid>
-
                         <Grid item md={6}>
                             <Label
                                 required
@@ -876,7 +997,6 @@ const Form = ({
                                 disabled={evaluacion ? true : false}
                             />
                         </Grid>
-
                         <Grid item md={6}>
                             <Label required className="mb-4" labelFor="relacionado_mesas_sectoriales" value="¿El proyecto se alinea con las Mesas Sectoriales?" />
                         </Grid>
@@ -897,7 +1017,6 @@ const Form = ({
                                 disabled={evaluacion ? true : false}
                             />
                         </Grid>
-
                         {form.data.relacionado_mesas_sectoriales == 1 && (is_super_admin || proyecto_linea_66?.proyecto.allowed.to_update) && (
                             <>
                                 <Grid item md={6}>
@@ -905,6 +1024,7 @@ const Form = ({
                                 </Grid>
                                 <Grid item md={6}>
                                     <SelectMultiple
+                                        className="mb-6"
                                         id="mesa_sectorial_id"
                                         bdValues={form.data.mesa_sectorial_id}
                                         options={mesas_sectoriales}
@@ -920,14 +1040,22 @@ const Form = ({
                                         required
                                         disabled={evaluacion ? true : false}
                                     />
+
+                                    <Textarea
+                                        label="Justificación"
+                                        id="justificacion_mesas_sectoriales"
+                                        error={form.errors.justificacion_mesas_sectoriales}
+                                        value={form.data.justificacion_mesas_sectoriales}
+                                        onChange={(e) => form.setData('justificacion_mesas_sectoriales', e.target.value)}
+                                        required
+                                        disabled={evaluacion ? true : false}
+                                    />
                                 </Grid>
                             </>
                         )}
-
                         <Grid item md={6}>
                             <Label required className="mb-4" labelFor="relacionado_tecnoacademia" value="¿El proyecto se formuló en conjunto con la tecnoacademia?" />
                         </Grid>
-
                         <Grid item md={6}>
                             <Autocomplete
                                 id="relacionado_tecnoacademia"
@@ -945,7 +1073,6 @@ const Form = ({
                                 disabled={evaluacion ? true : false}
                             />
                         </Grid>
-
                         {form.data.relacionado_tecnoacademia == 1 && (is_super_admin || proyecto_linea_66?.proyecto.allowed.to_update) && (
                             <>
                                 <Grid item md={6}>
@@ -983,6 +1110,42 @@ const Form = ({
                                 </Grid>
                             </>
                         )}
+                        <Grid item md={6}>
+                            <Label
+                                required
+                                className="mb-4"
+                                labelFor="lineas_estrategicas_beneficiadas"
+                                value="¿El proyecto aporta a la divulgación y apropiación del conocimiento relacionado con los retos que incorporan las líneas estratégicas de la Convocatoria?"
+                            />
+                        </Grid>
+                        <Grid item md={6}>
+                            <SelectMultiple
+                                className="mb-6"
+                                id="lineas_estrategicas_beneficiadas"
+                                bdValues={form.data.lineas_estrategicas_beneficiadas}
+                                options={lineas_estrategicas}
+                                onChange={(event, newValue) => {
+                                    const selectedValues = newValue.map((option) => option.value)
+                                    form.setData((prevData) => ({
+                                        ...prevData,
+                                        lineas_estrategicas_beneficiadas: selectedValues,
+                                    }))
+                                }}
+                                error={form.errors.lineas_estrategicas_beneficiadas}
+                                label="Seleccione las líneas estrategicas"
+                                required
+                                disabled={evaluacion ? true : false}
+                            />
+
+                            <Textarea
+                                label="Justificación"
+                                id="justificacion_lineas_estrategicas_beneficiadas"
+                                value={form.data.justificacion_lineas_estrategicas_beneficiadas}
+                                onChange={(e) => form.setData('justificacion_lineas_estrategicas_beneficiadas', e.target.value)}
+                                required
+                                disabled={evaluacion ? true : false}
+                            />
+                        </Grid>
 
                         <Grid item md={12}>
                             <Label required className="mb-4" labelFor="resumen" value="Resumen del proyecto" />
@@ -992,7 +1155,6 @@ const Form = ({
                             </AlertMui>
                             <Textarea id="resumen" value={form.data.resumen} onChange={(e) => form.setData('resumen', e.target.value)} required disabled={evaluacion ? true : false} />
                         </Grid>
-
                         <Grid item md={12}>
                             <Label required className="mb-4" labelFor="antecedentes" value="Antecedentes" />
                             <AlertMui>
@@ -1008,7 +1170,6 @@ const Form = ({
                                 disabled={evaluacion ? true : false}
                             />
                         </Grid>
-
                         <Grid item md={12}>
                             <Label required className="mb-4" labelFor="marco_conceptual" value="Marco conceptual" />
                             <AlertMui>Descripción de los aspectos conceptuales y/o teóricos relacionados con el problema. Se hace la claridad que no es un listado de definiciones.</AlertMui>
@@ -1021,11 +1182,9 @@ const Form = ({
                                 disabled={evaluacion ? true : false}
                             />
                         </Grid>
-
                         <Grid item md={6}>
                             <Label required className="mb-4" labelFor="numero_aprendices" value="Número de los aprendices que se beneficiarán en la ejecución del proyecto" />
                         </Grid>
-
                         <Grid item md={6}>
                             <TextInput
                                 label="Número de aprendices"
@@ -1043,7 +1202,6 @@ const Form = ({
                                 disabled={evaluacion ? true : false}
                             />
                         </Grid>
-
                         <Grid item md={6}>
                             <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="municipios" value="Nombre de los municipios beneficiados" />
                         </Grid>
@@ -1063,6 +1221,30 @@ const Form = ({
                                 }}
                                 error={form.errors.municipios}
                                 label="Seleccionar municipios"
+                                required
+                                disabled={evaluacion ? true : false}
+                            />
+
+                            <Tags
+                                id="veredas_corregimientos"
+                                className="mt-4"
+                                enforceWhitelist={false}
+                                tags={form.data.veredas_corregimientos}
+                                value={form.data.veredas_corregimientos}
+                                onChange={(e) => form.setData('veredas_corregimientos', e.target.value)}
+                                placeholder="Nombres de las veredas o corregimientos"
+                                error={form.errors.veredas_corregimientos}
+                            />
+                        </Grid>
+
+                        <Grid item md={12}>
+                            <Label required className="mb-4" labelFor="impacto_municipios" value="Descripción del beneficio en los municipios, veradas o corregimientos" />
+
+                            <Textarea
+                                id="impacto_municipios"
+                                error={form.errors.impacto_municipios}
+                                value={form.data.impacto_municipios}
+                                onChange={(e) => form.setData('impacto_municipios', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
                             />
@@ -1089,7 +1271,6 @@ const Form = ({
                                 disabled={evaluacion ? true : false}
                             />
                         </Grid>
-
                         <Grid item md={6}>
                             <Label className="mb-4" labelFor="programas_formacion_articulados" value="Nombre de los programas de formación articulados" />
                         </Grid>
@@ -1112,19 +1293,6 @@ const Form = ({
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label required className="mb-4" labelFor="impacto_municipios" value="Descripción del beneficio en los municipios" />
-
-                            <Textarea
-                                id="impacto_municipios"
-                                error={form.errors.impacto_municipios}
-                                value={form.data.impacto_municipios}
-                                onChange={(e) => form.setData('impacto_municipios', e.target.value)}
-                                required
-                                disabled={evaluacion ? true : false}
-                            />
-                        </Grid>
-
-                        <Grid item md={12}>
                             <Label required className="mb-4" labelFor="impacto_centro_formacion" value="Impacto en el centro de formación" />
 
                             <Textarea
@@ -1136,7 +1304,6 @@ const Form = ({
                                 disabled={evaluacion ? true : false}
                             />
                         </Grid>
-
                         <Grid item md={12}>
                             <Label required className="mb-4" labelFor="bibliografia" value="Bibliografía" />
                             <AlertMui>

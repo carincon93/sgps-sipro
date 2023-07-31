@@ -68,11 +68,13 @@ export default function Dashboard({ auth, roles_sistema }) {
 
                             <hr className="mt-10 mb-10" />
                             <div>
-                                <AlertMui>
-                                    1. Por favor seleccione los roles de formulación según la línea en la que desea presentar proyectos. Todo usuario debe tener un rol. Si aparte de estos requiere
-                                    otro rol por favor comuníquese con el administrador del sistema.
-                                    <FormRoles usuario={auth_user} roles_sistema={roles_sistema} />
-                                </AlertMui>
+                                {auth_user.roles.length == 0 && (
+                                    <AlertMui>
+                                        1. Por favor seleccione los roles de formulación según la línea en la que desea presentar proyectos. Todo usuario debe tener un rol. Si aparte de estos requiere
+                                        otro rol por favor comuníquese con el administrador del sistema.
+                                        <FormRoles usuario={auth_user} roles_sistema={roles_sistema} />
+                                    </AlertMui>
+                                )}
 
                                 {auth_user.roles.length > 0 && (
                                     <>

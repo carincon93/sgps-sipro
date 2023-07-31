@@ -66,6 +66,7 @@ class ProyectoLinea66Controller extends Controller
             'grupos_investigacion'              => SelectHelper::gruposInvestigacion()->where('value', 126)->values()->all(),
             'areas_tematicas_eni'               => SelectHelper::areasTematicasEni(),
             'lineas_investigacion_eni'          => SelectHelper::lineasInvestigacion()->where('grupo_investigacion_id', 126)->values()->all(),
+
             'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowed_to_create'                 => Gate::inspect('formular-proyecto', [3, $convocatoria])->allowed()
         ]);
@@ -98,6 +99,7 @@ class ProyectoLinea66Controller extends Controller
         $proyecto_linea_66->justificacion_proyecto_investigacion_pedagogica   = $request->justificacion_proyecto_investigacion_pedagogica;
         $proyecto_linea_66->proyecto_investigacion_pedagogica                 = $request->proyecto_investigacion_pedagogica;
         $proyecto_linea_66->articulacion_eni                                  = $request->articulacion_eni;
+        $proyecto_linea_66->areas_cualificacion_mnc                           = $request->areas_cualificacion_mnc;
 
         $proyecto_linea_66->video                                             = null;
         $proyecto_linea_66->justificacion_industria_4                         = null;
@@ -214,6 +216,10 @@ class ProyectoLinea66Controller extends Controller
             'lineas_investigacion_eni'                          => SelectHelper::lineasInvestigacion()->where('grupo_investigacion_id', 126)->values()->all(),
             'programas_formacion_con_registro_calificado'       => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $proyecto_linea_66->proyecto->centro_formacion_id)->values()->all(),
             'programas_formacion_sin_registro_calificado'       => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),
+
+            'areas_cualificacion_mnc'                           => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),
+            'lineas_estrategicas'                               => json_decode(Storage::get('json/lineas-estrategicas.json'), true),
+
             'roles_sennova'                                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
         ]);
     }
@@ -229,37 +235,49 @@ class ProyectoLinea66Controller extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_linea_66->proyecto]);
 
-        $proyecto_linea_66->titulo                                = $request->titulo;
-        $proyecto_linea_66->fecha_inicio                          = $request->fecha_inicio;
-        $proyecto_linea_66->fecha_finalizacion                    = $request->fecha_finalizacion;
-        $proyecto_linea_66->max_meses_ejecucion                   = $request->max_meses_ejecucion;
-        $proyecto_linea_66->video                                 = $request->video;
-        $proyecto_linea_66->numero_aprendices                     = $request->numero_aprendices;
+        $proyecto_linea_66->titulo                                          = $request->titulo;
+        $proyecto_linea_66->fecha_inicio                                    = $request->fecha_inicio;
+        $proyecto_linea_66->fecha_finalizacion                              = $request->fecha_finalizacion;
+        $proyecto_linea_66->max_meses_ejecucion                             = $request->max_meses_ejecucion;
+        $proyecto_linea_66->video                                           = $request->video;
+        $proyecto_linea_66->numero_aprendices                               = $request->numero_aprendices;
 
-        $proyecto_linea_66->resumen                               = $request->resumen;
-        $proyecto_linea_66->antecedentes                          = $request->antecedentes;
-        $proyecto_linea_66->marco_conceptual                      = $request->marco_conceptual;
-        $proyecto_linea_66->justificacion_industria_4             = $request->justificacion_industria_4;
-        $proyecto_linea_66->justificacion_economia_naranja        = $request->justificacion_economia_naranja;
-        $proyecto_linea_66->justificacion_politica_discapacidad   = $request->justificacion_politica_discapacidad;
-        $proyecto_linea_66->atencion_pluralista_diferencial       = $request->atencion_pluralista_diferencial;
-        $proyecto_linea_66->impacto_sector_agricola               = $request->impacto_sector_agricola;
-        $proyecto_linea_66->bibliografia                          = $request->bibliografia;
-        $proyecto_linea_66->impacto_municipios                    = $request->impacto_municipios;
-        $proyecto_linea_66->impacto_centro_formacion              = $request->impacto_centro_formacion;
+        $proyecto_linea_66->resumen                                         = $request->resumen;
+        $proyecto_linea_66->antecedentes                                    = $request->antecedentes;
+        $proyecto_linea_66->marco_conceptual                                = $request->marco_conceptual;
+        $proyecto_linea_66->justificacion_industria_4                       = $request->justificacion_industria_4;
+        $proyecto_linea_66->justificacion_economia_naranja                  = $request->justificacion_economia_naranja;
+        $proyecto_linea_66->justificacion_politica_discapacidad             = $request->justificacion_politica_discapacidad;
+        $proyecto_linea_66->atencion_pluralista_diferencial                 = $request->atencion_pluralista_diferencial;
+        $proyecto_linea_66->impacto_sector_agricola                         = $request->impacto_sector_agricola;
+        $proyecto_linea_66->bibliografia                                    = $request->bibliografia;
+        $proyecto_linea_66->impacto_municipios                              = $request->impacto_municipios;
+        $proyecto_linea_66->impacto_centro_formacion                        = $request->impacto_centro_formacion;
 
-        $proyecto_linea_66->muestreo                              = $request->muestreo;
-        $proyecto_linea_66->actividades_muestreo                  = $request->muestreo == 1 ? $request->actividades_muestreo : null;
-        $proyecto_linea_66->objetivo_muestreo                     = $request->muestreo == 1 ? $request->objetivo_muestreo  : null;
-        $proyecto_linea_66->recoleccion_especimenes               = $request->recoleccion_especimenes;
+        $proyecto_linea_66->muestreo                                        = $request->muestreo;
+        $proyecto_linea_66->actividades_muestreo                            = $request->muestreo == 1 ? $request->actividades_muestreo : null;
+        $proyecto_linea_66->objetivo_muestreo                               = $request->muestreo == 1 ? $request->objetivo_muestreo  : null;
+        $proyecto_linea_66->recoleccion_especimenes                         = $request->recoleccion_especimenes;
 
-        $proyecto_linea_66->relacionado_plan_tecnologico          = $request->relacionado_plan_tecnologico;
-        $proyecto_linea_66->relacionado_agendas_competitividad    = $request->relacionado_agendas_competitividad;
-        $proyecto_linea_66->relacionado_mesas_sectoriales         = $request->relacionado_mesas_sectoriales;
-        $proyecto_linea_66->relacionado_tecnoacademia             = $request->relacionado_tecnoacademia;
-        $proyecto_linea_66->proyecto_investigacion_pedagogica     = $request->proyecto_investigacion_pedagogica;
-        $proyecto_linea_66->articulacion_eni                      = $request->articulacion_eni;
+        $proyecto_linea_66->relacionado_plan_tecnologico                    = $request->relacionado_plan_tecnologico;
+        $proyecto_linea_66->relacionado_agendas_competitividad              = $request->relacionado_agendas_competitividad;
+        $proyecto_linea_66->relacionado_mesas_sectoriales                   = $request->relacionado_mesas_sectoriales;
+        $proyecto_linea_66->relacionado_tecnoacademia                       = $request->relacionado_tecnoacademia;
+        $proyecto_linea_66->proyecto_investigacion_pedagogica               = $request->proyecto_investigacion_pedagogica;
+        $proyecto_linea_66->articulacion_eni                                = $request->articulacion_eni;
         $proyecto_linea_66->justificacion_proyecto_investigacion_pedagogica = $request->justificacion_proyecto_investigacion_pedagogica;
+
+        $proyecto_linea_66->relacionado_estrategia_campesena                = $request->relacionado_estrategia_campesena;
+        $proyecto_linea_66->justificacion_relacion_campesena                = $request->justificacion_relacion_campesena;
+        $proyecto_linea_66->lineas_estrategicas_convocatoria                = $request->lineas_estrategicas_convocatoria;
+        $proyecto_linea_66->justificacion_lineas_estrategicas               = $request->justificacion_lineas_estrategicas;
+        $proyecto_linea_66->impacto_regional                                = $request->impacto_regional;
+        $proyecto_linea_66->justificacion_impacto_regional                  = $request->justificacion_impacto_regional;
+        $proyecto_linea_66->justificacion_mesas_sectoriales                 = $request->justificacion_mesas_sectoriales;
+        $proyecto_linea_66->areas_cualificacion_mnc                         = $request->areas_cualificacion_mnc;
+        $proyecto_linea_66->lineas_estrategicas_beneficiadas                = $request->lineas_estrategicas_beneficiadas;
+        $proyecto_linea_66->justificacion_lineas_estrategicas_beneficiadas  = $request->justificacion_lineas_estrategicas_beneficiadas;
+        $proyecto_linea_66->veredas_corregimientos                          = $request->veredas_corregimientos;
 
         $proyecto_linea_66->lineaInvestigacion()->associate($request->linea_investigacion_id);
         $proyecto_linea_66->disciplinaSubareaConocimiento()->associate($request->disciplina_subarea_conocimiento_id);

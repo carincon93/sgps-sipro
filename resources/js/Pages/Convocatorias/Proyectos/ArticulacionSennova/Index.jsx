@@ -165,7 +165,6 @@ const ArticulacionSennova = ({
                                                 }))
                                             }}
                                             error={form.errors.lineas_investigacion}
-                                            placeholder="Buscar por el nombre de la línea de investigación"
                                             required
                                         />
                                     </Grid>

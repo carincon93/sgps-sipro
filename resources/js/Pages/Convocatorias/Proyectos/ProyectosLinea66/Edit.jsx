@@ -38,6 +38,8 @@ const Edit = ({
     lineas_investigacion_eni,
     programas_formacion_con_registro_calificado,
     programas_formacion_sin_registro_calificado,
+    areas_cualificacion_mnc,
+    lineas_estrategicas,
     roles_sennova,
 }) => {
     const auth_user = auth.user
@@ -164,6 +166,8 @@ const Edit = ({
                     lineas_investigacion_eni={lineas_investigacion_eni}
                     programas_formacion_con_registro_calificado={programas_formacion_con_registro_calificado}
                     programas_formacion_sin_registro_calificado={programas_formacion_sin_registro_calificado}
+                    areas_cualificacion_mnc={areas_cualificacion_mnc}
+                    lineas_estrategicas={lineas_estrategicas}
                     roles_sennova={roles_sennova}
                 />
             </Grid>

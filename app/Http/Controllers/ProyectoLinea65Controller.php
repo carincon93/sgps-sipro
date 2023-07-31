@@ -55,8 +55,8 @@ class ProyectoLinea65Controller extends Controller
             'areas_conocimiento'    => SelectHelper::areasConocimiento(),
             'actividades_economicas'=> SelectHelper::actividadesEconomicas(),
             'tematicas_estrategicas'=> SelectHelper::tematicasEstrategicas(),
-            'tipos_proyectos'       => json_decode(Storage::get('json/tipos-proyectos-cultura.json'), true),
-            'tipos_eventos'         => json_decode(Storage::get('json/tipos-eventos-cultura.json'), true),
+            'tipos_proyectos'       => json_decode(Storage::get('json/tipos-proyectos-linea-65.json'), true),
+            'tipos_eventos'         => json_decode(Storage::get('json/tipos-eventos-linea-65.json'), true),
             'roles_sennova'         => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowed_to_create'     => Gate::inspect('formular-proyecto', [9, $convocatoria])->allowed()
         ]);
@@ -180,8 +180,8 @@ class ProyectoLinea65Controller extends Controller
             'programas_formacion_con_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $proyecto_linea_65->proyecto->centro_formacion_id)->values()->all(),
             'programas_formacion_sin_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),
             'roles_sennova'                                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'tipos_proyectos'                               => json_decode(Storage::get('json/tipos-proyectos-cultura.json'), true),
-            'tipos_eventos'                                 => json_decode(Storage::get('json/tipos-eventos-cultura.json'), true),
+            'tipos_proyectos'                               => json_decode(Storage::get('json/tipos-proyectos-linea-65.json'), true),
+            'tipos_eventos'                                 => json_decode(Storage::get('json/tipos-eventos-linea-65.json'), true),
         ]);
     }
 

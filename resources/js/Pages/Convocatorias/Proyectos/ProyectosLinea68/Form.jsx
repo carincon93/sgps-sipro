@@ -351,7 +351,6 @@ const Form = ({
                                     }))
                                 }}
                                 error={form.errors.programas_formacion}
-                                placeholder="Buscar por el nombre del programa de formación"
                                 required
                                 disabled={evaluacion ? true : false}
                             />
@@ -368,7 +367,6 @@ const Form = ({
                                 error={form.errors.zona_influencia}
                                 value={form.data.zona_influencia}
                                 onChange={(e) => form.setData('zona_influencia', e.target.value)}
-                                placeholder="Escriba el número de aprendices que se beneficiarán en la ejecución del proyecto"
                                 required
                                 disabled={evaluacion ? true : false}
                             />

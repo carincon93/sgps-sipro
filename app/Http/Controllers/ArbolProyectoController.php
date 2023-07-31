@@ -608,7 +608,7 @@ class ArbolProyectoController extends Controller
             case $proyecto->proyectoLinea68()->exists():
                 $proyecto->objetivo_general   = $proyecto->proyectoLinea68->objetivo_general;
                 $proyecto->problema_central   = $proyecto->proyectoLinea68->problema_central;
-                $tipos_impacto = json_decode(Storage::get('json/tipos-impacto-st.json'), true);
+                $tipos_impacto = json_decode(Storage::get('json/tipos-impacto.json'), true);
                 break;
             default:
                 break;
