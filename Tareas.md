@@ -12,26 +12,3 @@ Agregar campo de programas de formación con registro calificado Revisar los ane
 
 66 Agregar TRL en productos donde se despliegue minciencias
 
-ALTER TABLE IF EXISTS public.idi ADD COLUMN aporta_a_campesena boolean;
-
-ALTER TABLE IF EXISTS public.idi ADD COLUMN relacionado_estrategia_campesena boolean;
-
-ALTER TABLE IF EXISTS public.idi ADD COLUMN justificacion_relacion_campesena text;
-
-ALTER TABLE IF EXISTS public.idi ADD COLUMN lineas_estrategicas_convocatoria json;
-
-ALTER TABLE IF EXISTS public.idi ADD COLUMN justificacion_lineas_estrategicas text;
-
-ALTER TABLE IF EXISTS public.idi ADD COLUMN impacto_regional boolean;
-
-ALTER TABLE IF EXISTS public.idi ADD COLUMN justificacion_impacto_regional text;
-
-ALTER TABLE IF EXISTS public.idi ADD COLUMN justificacion_mesas_sectoriales text;
-
-ALTER TABLE IF EXISTS public.idi ADD COLUMN areas_cualificacion_mnc json;
-
-ALTER TABLE IF EXISTS public.idi ADD COLUMN lineas_estrategicas_beneficiadas json;
-
-ALTER TABLE IF EXISTS public.idi ADD COLUMN justificacion_lineas_estrategicas_beneficiadas text;
-
-ALTER TABLE IF EXISTS public.idi ADD COLUMN veredas_corregimientos json;

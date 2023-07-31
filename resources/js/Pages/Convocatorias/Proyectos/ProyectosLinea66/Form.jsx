@@ -287,7 +287,7 @@ const Form = ({
                     <SelectMultiple
                         id="areas_cualificacion_mnc"
                         bdValues={form.data.areas_cualificacion_mnc}
-                        options={lineas_investigacion_eni}
+                        options={areas_cualificacion_mnc}
                         onChange={(event, newValue) => {
                             const selectedValues = newValue.map((option) => option.value)
                             form.setData((prevData) => ({
