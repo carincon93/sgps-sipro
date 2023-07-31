@@ -357,7 +357,6 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                 {
                     onSuccess: () => {
                         setShowImpactoForm(false)
-                        resultado_id = null
                         setImpactoId(null)
                         form_impacto.reset()
                     },

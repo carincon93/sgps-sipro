@@ -268,7 +268,7 @@ class UserController extends Controller
     {
         $user = User::find($request->user_id);
         if ($request->roles) {
-            $user->assignRole($request->roles);
+            $user->syncRoles($request->roles);
         }
 
         if ($request->permission_id) {
