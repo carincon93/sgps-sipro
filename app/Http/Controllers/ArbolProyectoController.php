@@ -140,6 +140,13 @@ class ArbolProyectoController extends Controller
                 $proyecto->objetivo_general         = $proyecto->proyectoLinea65->objetivo_general;
                 $proyecto->tipo_proyecto            = $proyecto->proyectoLinea65->tipo_proyecto;
                 break;
+
+            case $proyecto->proyectoLinea83()->exists():
+                $proyecto->problema_central         = $proyecto->proyectoLinea83->problema_central;
+                $proyecto->justificacion_problema   = $proyecto->proyectoLinea83->justificacion_problema;
+                $proyecto->identificacion_problema  = $proyecto->proyectoLinea83->identificacion_problema;
+                $proyecto->objetivo_general         = $proyecto->proyectoLinea83->objetivo_general;
+                break;
             default:
                 break;
         }
@@ -301,6 +308,22 @@ class ArbolProyectoController extends Controller
                 $proyecto_linea_68->justificacion_problema          = $request->justificacion_problema;
 
                 $proyecto_linea_68->save();
+                break;
+
+            case $proyecto->proyectoLinea83()->exists():
+                $request->validate([
+                    'problema_central'              => 'required|string|max:40000',
+                    'objetivo_general'              => 'required|string|max:40000',
+                    'identificacion_problema'       => 'required|string|max:40000',
+                    'justificacion_problema'        => 'required|string|max:40000',
+                ]);
+                $proyecto_linea_83                                  = $proyecto->proyectoLinea83;
+                $proyecto_linea_83->problema_central                = $request->problema_central;
+                $proyecto_linea_83->objetivo_general                = $request->objetivo_general;
+                $proyecto_linea_83->identificacion_problema         = $request->identificacion_problema;
+                $proyecto_linea_83->justificacion_problema          = $request->justificacion_problema;
+
+                $proyecto_linea_83->save();
                 break;
             default:
                 break;

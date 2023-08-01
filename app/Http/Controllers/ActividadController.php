@@ -41,6 +41,7 @@ class ActividadController extends Controller
                     })->flatten();
 
         $proyecto->proyectoHubLinea69;
+        $proyecto->proyectoLinea83;
 
         switch ($proyecto) {
             case $proyecto->proyectoLinea66()->exists():
@@ -132,6 +133,7 @@ class ActividadController extends Controller
                                             'evaluaciones',
                                             'mostrar_recomendaciones',
                                             'proyectoHubLinea69',
+                                            'proyectoLinea83',
                                             'allowed',
                                             'tipo_proyecto'
                                         ),
@@ -385,7 +387,6 @@ class ActividadController extends Controller
         return back()->with('success', 'El recurso se ha guardado correctamente.');
     }
 
-
     public function updateMetodologiaProyectoHub(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
@@ -415,6 +416,23 @@ class ActividadController extends Controller
         $proyecto_hub_linea_69->acciones_fortalecimiento_idi                    = $request->acciones_fortalecimiento_idi;
 
         $proyecto_hub_linea_69->save();
+
+        return back()->with('success', 'El recurso se ha guardado correctamente.');
+    }
+
+    public function updateMetodologiaProyectoLinea83(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        $this->authorize('modificar-proyecto-autor', $proyecto);
+
+        $proyecto_linea_83                                                          = $proyecto->proyectoLinea83;
+        $proyecto_linea_83->metodologia                                             = $request->metodologia;
+        $proyecto_linea_83->departamentos_a_impactar                                = $request->departamentos_a_impactar;
+        $proyecto_linea_83->estrategias_atencion_empresas_municipios                = $request->estrategias_atencion_empresas_municipios;
+        $proyecto_linea_83->estrategias_promover_logros                             = $request->estrategias_promover_logros;
+        $proyecto_linea_83->estrategias_visibilizacion                              = $request->estrategias_visibilizacion;
+        $proyecto_linea_83->estrategias_productividad_agropecuaria_agroindustrial   = $request->estrategias_productividad_agropecuaria_agroindustrial;
+
+        $proyecto_linea_83->save();
 
         return back()->with('success', 'El recurso se ha guardado correctamente.');
     }

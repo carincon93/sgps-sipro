@@ -301,8 +301,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion', [ArticulacionSennovaController::class, 'showArticulacionSennova'])->name('convocatorias.proyectos.articulacion-sennova');
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion', [ArticulacionSennovaController::class, 'storeArticulacionSennova'])->name('convocatorias.proyectos.articulacion-sennova.store');
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion-proyectos-hub', [ArticulacionSennovaController::class, 'storeArticulacionSennovaProyectosHub'])->name('convocatorias.proyectos.articulacion-sennova-proyectos-hub.store');
-
-
+    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion-proyectos-linea-83', [ArticulacionSennovaController::class, 'storeArticulacionSennovaProyectosLinea83'])->name('convocatorias.proyectos.articulacion-sennova-proyectos-linea-83.store');
 
     /**
      * Línea programática 66 - Estrategia regional
@@ -467,6 +466,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
      */
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia', [ActividadController::class, 'updateMetodologia'])->name('convocatorias.proyectos.metodologia');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia-proyecto-hub', [ActividadController::class, 'updateMetodologiaProyectoHub'])->name('convocatorias.proyectos.metodologia-proyecto-hub');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia-proyecto-linea-83', [ActividadController::class, 'updateMetodologiaProyectoLinea83'])->name('convocatorias.proyectos.metodologia-proyecto-linea-83');
     Route::resource('convocatorias.proyectos.actividades', ActividadController::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos' => 'proyecto', 'actividades' => 'actividad'])->except(['show']);
 
     /**

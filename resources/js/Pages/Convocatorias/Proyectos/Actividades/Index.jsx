@@ -127,6 +127,24 @@ const Actividades = ({
         }
     }
 
+    const formMetdologiaProyectoLinea83 = useForm({
+        metodologia: proyecto.proyectoLinea83?.metodologia,
+        departamentos_a_impactar: proyecto.proyectoLinea83?.departamentos_a_impactar,
+        estrategias_atencion_empresas_municipios: proyecto.proyectoLinea83?.estrategias_atencion_empresas_municipios,
+        estrategias_promover_logros: proyecto.proyectoLinea83?.estrategias_promover_logros,
+        estrategias_visibilizacion: proyecto.proyectoLinea83?.estrategias_visibilizacion,
+        estrategias_productividad_agropecuaria_agroindustrial: proyecto.proyectoLinea83?.estrategias_productividad_agropecuaria_agroindustrial,
+    })
+
+    const submitMetodologiaProyectoLinea83 = (e) => {
+        e.preventDefault()
+        if (proyecto.allowed.to_update) {
+            formMetdologiaProyectoLinea83.put(route('convocatorias.proyectos.metodologia-proyecto-linea-83', [convocatoria.id, proyecto.id]), {
+                preserveScroll: true,
+            })
+        }
+    }
+
     const [regional_ie_articulacion, setRegionalIEArticulacion] = useState(null)
     const [whitelist_instituciones_educativas_articular, setWhitelistInstitucionesEducativasArticular] = useState([])
     const getInstitucionesEducationArticular = (regional_seleccionada) => {
@@ -815,7 +833,7 @@ const Actividades = ({
                         </Grid>
                     ) : null}
 
-                    {Object.keys(proyecto.proyectoHubLinea69).length > 0 && (
+                    {proyecto.proyectoHubLinea69 && Object.keys(proyecto.proyectoHubLinea69).length > 0 && (
                         <form onSubmit={submitMetodologiaProyectoHub}>
                             <Grid container className="space-y-20">
                                 <Grid item md={12}>
@@ -1211,6 +1229,117 @@ const Actividades = ({
                             <div className=" flex items-center justify-between py-4">
                                 {proyecto.allowed.to_update && (
                                     <PrimaryButton disabled={formMetdologiaProyectoHub.processing} className="ml-auto" type="submit">
+                                        Guardar información de la metodología
+                                    </PrimaryButton>
+                                )}
+                            </div>
+                        </form>
+                    )}
+
+                    {proyecto.proyectoLinea83 && Object.keys(proyecto.proyectoLinea83).length > 0 && (
+                        <form onSubmit={submitMetodologiaProyectoLinea83}>
+                            <Grid container className="space-y-20">
+                                <Grid item md={12}>
+                                    <Label required className="mb-4" labelFor="metodologia" value="Metodología (Cómo se implementará la línea en el 2024" />
+
+                                    <Textarea
+                                        id="metodologia"
+                                        error={formMetdologiaProyectoLinea83.errors.metodologia}
+                                        value={formMetdologiaProyectoLinea83.data.metodologia}
+                                        onChange={(e) => formMetdologiaProyectoLinea83.setData('metodologia', e.target.value)}
+                                        required
+                                    />
+                                </Grid>
+
+                                <Grid item md={6}>
+                                    <Label required className="mb-4" labelFor="departamentos_a_impactar" value="Departamentos a impactar" />
+                                </Grid>
+                                <Grid item md={6}>
+                                    <SelectMultiple
+                                        id="departamentos_a_impactar"
+                                        bdValues={formMetdologiaProyectoLinea83.data.departamentos_a_impactar}
+                                        options={regionales}
+                                        onChange={(event, newValue) => {
+                                            const selectedValues = newValue.map((option) => option.value)
+                                            formMetdologiaProyectoLinea83.setData((prevData) => ({
+                                                ...prevData,
+                                                departamentos_a_impactar: selectedValues,
+                                            }))
+                                        }}
+                                        error={formMetdologiaProyectoLinea83.errors.departamentos_a_impactar}
+                                        label="Seleccione una o varias opciones"
+                                        required
+                                        disabled={evaluacion ? true : false}
+                                    />
+                                </Grid>
+                                <Grid item md={12}>
+                                    <Label
+                                        required
+                                        className="mb-4"
+                                        labelFor="estrategias_atencion_empresas_municipios"
+                                        value="Comparta la estrategia para la atención de Empresas en los departamentos mencionados"
+                                    />
+
+                                    <Textarea
+                                        id="estrategias_atencion_empresas_municipios"
+                                        error={formMetdologiaProyectoLinea83.errors.estrategias_atencion_empresas_municipios}
+                                        value={formMetdologiaProyectoLinea83.data.estrategias_atencion_empresas_municipios}
+                                        onChange={(e) => formMetdologiaProyectoLinea83.setData('estrategias_atencion_empresas_municipios', e.target.value)}
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item md={12}>
+                                    <Label
+                                        required
+                                        className="mb-4"
+                                        labelFor="estrategias_promover_logros"
+                                        value="Comparta las alianzas estratégicas a gestionar en el 2024 para promover el logro de las metas de Extensionismo Tecnológico"
+                                    />
+
+                                    <Textarea
+                                        id="estrategias_promover_logros"
+                                        error={formMetdologiaProyectoLinea83.errors.estrategias_promover_logros}
+                                        value={formMetdologiaProyectoLinea83.data.estrategias_promover_logros}
+                                        onChange={(e) => formMetdologiaProyectoLinea83.setData('estrategias_promover_logros', e.target.value)}
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item md={12}>
+                                    <Label
+                                        required
+                                        className="mb-4"
+                                        labelFor="estrategias_visibilizacion"
+                                        value="Comparta la estrategia de divulgación y visibilización de acciones de las acciones de la línea ET para el 2024"
+                                    />
+
+                                    <Textarea
+                                        id="estrategias_visibilizacion"
+                                        error={formMetdologiaProyectoLinea83.errors.estrategias_visibilizacion}
+                                        value={formMetdologiaProyectoLinea83.data.estrategias_visibilizacion}
+                                        onChange={(e) => formMetdologiaProyectoLinea83.setData('estrategias_visibilizacion', e.target.value)}
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item md={12}>
+                                    <Label
+                                        required
+                                        className="mb-4"
+                                        labelFor="estrategias_productividad_agropecuaria_agroindustrial"
+                                        value="Proponga las estrategias para el 2024 con el fin de que las estrategias de la lïnea de Extensionismo Tecnológico contribuya desde la ciencia, la Tecnología e Innovación a promover la productividad e innovación agropecuaria y agroindustrial "
+                                    />
+
+                                    <Textarea
+                                        id="estrategias_productividad_agropecuaria_agroindustrial"
+                                        error={formMetdologiaProyectoLinea83.errors.estrategias_productividad_agropecuaria_agroindustrial}
+                                        value={formMetdologiaProyectoLinea83.data.estrategias_productividad_agropecuaria_agroindustrial}
+                                        onChange={(e) => formMetdologiaProyectoLinea83.setData('estrategias_productividad_agropecuaria_agroindustrial', e.target.value)}
+                                        required
+                                    />
+                                </Grid>
+                            </Grid>
+                            <div className=" flex items-center justify-between py-4">
+                                {proyecto.allowed.to_update && (
+                                    <PrimaryButton disabled={formMetdologiaProyectoLinea83.processing} className="ml-auto" type="submit">
                                         Guardar información de la metodología
                                     </PrimaryButton>
                                 )}

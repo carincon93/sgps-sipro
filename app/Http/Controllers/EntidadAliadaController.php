@@ -46,7 +46,7 @@ class EntidadAliadaController extends Controller
             'proyecto'                      =>  $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed'),
             'evaluacion'                    =>  Evaluacion::find(request()->evaluacion_id),
             'entidades_aliadas'             =>  EntidadAliada::where('proyecto_id', $proyecto->id)->orderBy('nombre', 'ASC')
-                                                    ->filterEntidadAliada(request()->only('search'))->with('actividades', 'actividades.objetivoEspecifico', 'miembrosEntidadAliada', 'entidadAliadaLinea66', 'entidadAliadaLinea69', 'entidadAliadaLinea70')->paginate(),
+                                                    ->filterEntidadAliada(request()->only('search'))->with('actividades', 'actividades.objetivoEspecifico', 'miembrosEntidadAliada', 'entidadAliadaLinea66', 'entidadAliadaLinea69', 'entidadAliadaLinea70', 'entidadAliadaLinea83')->paginate(),
             'actividades'                   =>  Actividad::whereIn(
                                                     'objetivo_especifico_id',
                                                     $objetivo_especificos->map(function ($objetivo_especifico) {
@@ -155,6 +155,22 @@ class EntidadAliadaController extends Controller
             ]);
             if ($request->hasFile('soporte_convenio')) {
                 $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_70, 'soporte_convenio');
+            }
+
+            return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
+        } elseif ($proyecto->proyectoLinea83()->exists()) {
+            $request->validate([
+                'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
+                'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
+            ]);
+
+            $entidad_aliada_linea_83 = $entidad_aliada->entidadAliadaLinea83()->create($request->all());
+
+            $request->validate([
+                'soporte_convenio' => 'nullable|file|max:10240',
+            ]);
+            if ($request->hasFile('soporte_convenio')) {
+                $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_83, 'soporte_convenio');
             }
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
@@ -268,6 +284,24 @@ class EntidadAliadaController extends Controller
             ]);
             if ($request->hasFile('soporte_convenio')) {
                 $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_70, 'soporte_convenio');
+            }
+
+            return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
+        } elseif ($proyecto->proyectoLinea83()->exists()) {
+            $request->validate([
+                'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
+                'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
+            ]);
+
+            $entidad_aliada_linea_83 = $entidad_aliada->entidadAliadaLinea83;
+
+            $entidad_aliada_linea_83->update($request->all());
+
+            $request->validate([
+                'soporte_convenio' => 'nullable|file|max:10240',
+            ]);
+            if ($request->hasFile('soporte_convenio')) {
+                $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_83, 'soporte_convenio');
             }
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');

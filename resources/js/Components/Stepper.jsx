@@ -291,7 +291,11 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                     </Link>
                 </Step>
 
-                {proyecto?.codigo_linea_programatica == 66 || proyecto?.codigo_linea_programatica == 82 || proyecto?.codigo_linea_programatica == 69 || proyecto?.codigo_linea_programatica == 70 ? (
+                {proyecto?.codigo_linea_programatica == 66 ||
+                proyecto?.codigo_linea_programatica == 82 ||
+                proyecto?.codigo_linea_programatica == 69 ||
+                proyecto?.codigo_linea_programatica == 70 ||
+                proyecto?.codigo_linea_programatica == 83 ? (
                     <Step active={route().current('convocatorias.proyectos.entidades-aliadas.index') ? true : props.label == 'Miembros entidad aliada' ? true : false}>
                         <Link href={route('convocatorias.proyectos.entidades-aliadas.index', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                             <StepLabel classes={{ root: classes.root }}>

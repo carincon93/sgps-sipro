@@ -44,6 +44,7 @@ class ArticulacionSennovaController extends Controller
         $proyecto->lineasInvestigacion;
         $proyecto->semillerosInvestigacion;
         $proyecto->proyectoHubLinea69;
+        $proyecto->proyectoLinea83;
 
         switch ($proyecto->lineaProgramatica->codigo) {
             case 70:
@@ -110,6 +111,7 @@ class ArticulacionSennovaController extends Controller
                                                     'semillerosInvestigacion',
                                                     'proyectoHubLinea69',
                                                     'proyectoLinea70',
+                                                    'proyectoLinea83',
                                                     'diff_meses'
                                                 ),
             'evaluacion'                        => Evaluacion::find(request()->evaluacion_id),
@@ -230,6 +232,21 @@ class ArticulacionSennovaController extends Controller
             'proyeccion_articulacion_linea_83'                          => $request->proyeccion_articulacion_linea_83,
             'oportunidades_fortalecimiento_convocatorias_innovacion'    => $request->oportunidades_fortalecimiento_convocatorias_innovacion,
             'proyeccion_articulacion_centros_empresariales'             => $request->proyeccion_articulacion_centros_empresariales,
+        ]);
+
+        return back()->with('success', 'El recurso se ha guardado correctamente.');
+    }
+
+    public function storeArticulacionSennovaProyectosLinea83(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        $proyecto->proyectoLinea83->update([
+            'impacto_centros_formacion'                     => $request->impacto_centros_formacion,
+            'articulacion_semilleros_grupos_investigacion'  => $request->articulacion_semilleros_grupos_investigacion,
+            'articulacion_linea_68'                         => $request->articulacion_linea_68,
+            'articulacion_linea_69_y_hubs'                  => $request->articulacion_linea_69_y_hubs,
+            'articulacion_centros_desarrollo_empresarial'   => $request->articulacion_centros_desarrollo_empresarial,
+            'contribucion_formacion_regional_nacional'      => $request->contribucion_formacion_regional_nacional,
+            'proyeccion_capacidades_tecnologicas_empresas'  => $request->proyeccion_capacidades_tecnologicas_empresas,
         ]);
 
         return back()->with('success', 'El recurso se ha guardado correctamente.');
