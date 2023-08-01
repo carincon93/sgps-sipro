@@ -421,7 +421,6 @@ const Form = ({
                                 inputProps={{
                                     step: 1,
                                     min: 1,
-                                    max: form.data.rol_sennova?.maxHoras,
                                 }}
                                 value={form.data.cantidad_horas}
                                 onChange={(e) => form.setData('cantidad_horas', e.target.value)}

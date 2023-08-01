@@ -9,12 +9,14 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
-import { router } from '@inertiajs/react'
+import { router, usePage } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 import ButtonMui from '@/Components/Button'
 
 const Index = ({ auth, convocatoria, proyectos_linea_66, allowed_to_create }) => {
+    const { props: page_props } = usePage()
+
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -24,15 +26,17 @@ const Index = ({ auth, convocatoria, proyectos_linea_66, allowed_to_create }) =>
         <AuthenticatedLayout user={auth_user} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
             <Grid item md={12}>
                 <div className="text-center text-2xl">
-                    Investigación aplicada y semilleros de investigación en centros de formación - Línea 66
-                    <br />
-                    Actualización y modernización tecnológica de los centros de formación - Línea 23
-                    <br />
-                    Dotación tecnológica de ambientes de formación para las nuevas sedes - Línea 23
-                    <br />
-                    Fomento de la innovación y desarrollo tecnológico en las empresas - Línea 82
-                    <br />
-                    {convocatoria.tipo_convocatoria == 2 && <>- Proyectos de ejercicio (DEMO)</>}
+                    {page_props.ziggy.query.linea_programatica_id == 1 ? (
+                        <>Investigación aplicada y semilleros de investigación en centros de formación - Línea 66</>
+                    ) : page_props.ziggy.query.linea_programatica_id == 2 ? (
+                        <>Actualización y modernización tecnológica de los centros de formación - Línea 23</>
+                    ) : page_props.ziggy.query.linea_programatica_id == 29 ? (
+                        <>Dotación tecnológica de ambientes de formación para las nuevas sedes - Línea 23</>
+                    ) : page_props.ziggy.query.linea_programatica_id == 3 ? (
+                        <>Fomento de la innovación y desarrollo tecnológico en las empresas - Línea 82</>
+                    ) : (
+                        <>{convocatoria.tipo_convocatoria == 2 && <>- Proyectos de ejercicio (DEMO)</>}</>
+                    )}
                 </div>
             </Grid>
 
@@ -42,7 +46,7 @@ const Index = ({ auth, convocatoria, proyectos_linea_66, allowed_to_create }) =>
                 <TableMui rows={['Título', 'Fecha de ejecución', 'Estado (Evaluación)', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {allowed_to_create && (
                         <TableRow
-                            onClick={() => router.visit(route('convocatorias.proyectos-linea-66.create', [convocatoria.id]))}
+                            onClick={() => router.visit(route('convocatorias.proyectos-linea-66.create', [convocatoria.id, { linea_programatica_id: page_props.ziggy.query.linea_programatica_id }]))}
                             variant="raised"
                             className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={4}>
@@ -116,7 +120,11 @@ const Index = ({ auth, convocatoria, proyectos_linea_66, allowed_to_create }) =>
                                     {proyecto.id !== proyecto_linea_66_to_destroy ? (
                                         <div>
                                             <MenuItem
-                                                onClick={() => router.visit(route('convocatorias.proyectos-linea-66.edit', [convocatoria.id, id]))}
+                                                onClick={() =>
+                                                    router.visit(
+                                                        route('convocatorias.proyectos-linea-66.edit', [convocatoria.id, id, { linea_programatica_id: page_props.ziggy.query.linea_programatica_id }]),
+                                                    )
+                                                }
                                                 disabled={!proyecto?.allowed?.to_view}
                                                 className={!proyecto?.allowed?.to_view ? 'hidden' : ''}>
                                                 Editar

@@ -40,6 +40,7 @@ use App\Http\Controllers\ProyectoLinea68Controller;
 use App\Http\Controllers\ProyectoHubLinea69Controller;
 use App\Http\Controllers\ProyectoLinea69Controller;
 use App\Http\Controllers\ProyectoLinea70Controller;
+use App\Http\Controllers\ProyectoLinea83Controller;
 use App\Http\Controllers\ProyectoPresupuestoController;
 use App\Http\Controllers\ProyectoRolSennovaController;
 use App\Http\Controllers\ProductoController;
@@ -325,7 +326,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
      */
     Route::get('convocatorias/{convocatoria}/proyectos-linea-69/{proyecto_linea_69}/download-file-sharepoint/{tipo_archivo}', [ProyectoLinea69Controller::class, 'downloadFileSharepoint'])->name('convocatorias.proyectos-linea-69.download-file-sharepoint');
     Route::resource('convocatorias.proyectos-linea-69', ProyectoLinea69Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-linea-69' => 'proyecto-linea-69'])->except(['show']);
-    Route::put('convocatorias/{convocatoria}/tp/{tp}/column/{column}', [ProyectoLinea69Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-linea-69.updateLongColumn');
+    Route::put('convocatorias/{convocatoria}proyectos-linea-69/{proyecto_linea_69}/column/{column}', [ProyectoLinea69Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-linea-69.updateLongColumn');
 
 
     /**
@@ -357,6 +358,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
      */
     Route::resource('convocatorias.proyectos-linea-68', ProyectoLinea68Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-linea-68' => 'proyecto-linea-68'])->except(['show']);
     Route::put('convocatorias/{convocatoria}/proyectos-linea-68/{proyecto_linea_68}/column/{column}', [ProyectoLinea68Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-linea-68.updateLongColumn');
+
+     /**
+     * Línea programática 83 - Estrategia nacional
+     *
+     */
+    Route::get('convocatorias/{convocatoria}/proyectos-linea-83/{proyecto_linea_83}/download-file-sharepoint/{tipo_archivo}', [ProyectoLinea83Controller::class, 'downloadFileSharepoint'])->name('convocatorias.proyectos-linea-83.download-file-sharepoint');
+    Route::resource('convocatorias.proyectos-linea-83', ProyectoLinea83Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-linea-83' => 'proyecto-linea-83'])->except(['show']);
 
     /**
      * Convocatorias

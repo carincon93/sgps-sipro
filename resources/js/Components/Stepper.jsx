@@ -184,6 +184,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
 
     const isActive =
         route().current('convocatorias.proyectos-linea-70.edit') ||
+        route().current('convocatorias.proyectos-linea-83.edit') ||
         route().current('convocatorias.proyectos-linea-69.edit') ||
         route().current('convocatorias.proyectos-hub-linea-69.edit') ||
         route().current('convocatorias.proyectos-linea-66.edit') ||
@@ -199,7 +200,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                     </Link>
                 </Step>
 
-                {proyecto?.codigo_linea_programatica != 69 && proyecto?.codigo_linea_programatica != 70 ? (
+                {proyecto?.codigo_linea_programatica != 69 && proyecto?.codigo_linea_programatica != 70 && proyecto?.codigo_linea_programatica != 83 ? (
                     <Step active={route().current('convocatorias.proyectos.participantes')}>
                         <Link href={route('convocatorias.proyectos.participantes', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                             <StepLabel classes={{ root: classes.root }}>{proyecto?.codigo_linea_programatica == 68 ? 'Formulador del proyecto' : 'Participantes'}</StepLabel>

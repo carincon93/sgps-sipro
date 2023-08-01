@@ -52,6 +52,8 @@ class ProyectoLinea66Controller extends Controller
             $centros_formacion = SelectHelper::centrosFormacion();
         }
 
+        $lineas_programaticas = request()->linea_programatica_id ? SelectHelper::lineasProgramaticas()->where('value', request()->linea_programatica_id)->values()->all() : SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 2)->values()->all();
+
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea66/Create', [
             'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'campos_convocatoria'),
             'centros_formacion'                 => $centros_formacion,
@@ -59,7 +61,7 @@ class ProyectoLinea66Controller extends Controller
             'subareas_conocimiento'             => SelectHelper::subareasConocimiento(),
             'disciplinas_subarea_conocimiento'  => SelectHelper::disciplinasSubareaConocimiento(),
             'lineas_investigacion'              => SelectHelper::lineasInvestigacion(),
-            'lineas_programaticas'              => SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 2)->values()->all(),
+            'lineas_programaticas'              => $lineas_programaticas,
             'actividades_economicas'            => SelectHelper::actividadesEconomicas(),
             'tematicas_estrategicas'            => SelectHelper::tematicasEstrategicas(),
             'redes_conocimiento'                => SelectHelper::redesConocimiento(),

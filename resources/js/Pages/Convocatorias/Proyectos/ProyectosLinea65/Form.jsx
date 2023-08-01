@@ -58,7 +58,6 @@ const Form = ({
         max_meses_ejecucion: proyecto_linea_65?.max_meses_ejecucion ?? '',
         centro_formacion_id: proyecto_linea_65?.proyecto?.centro_formacion_id ?? null,
         linea_investigacion_id: proyecto_linea_65?.linea_investigacion_id ?? null,
-        linea_programatica_id: proyecto_linea_65?.proyecto?.linea_programatica_id ?? null,
         area_conocimiento_id: proyecto_linea_65?.area_conocimiento_id ?? null,
         tematica_estrategica_id: proyecto_linea_65?.tematica_estrategica_id ?? null,
         actividad_economica_id: proyecto_linea_65?.actividad_economica_id ?? null,
@@ -387,7 +386,6 @@ const Form = ({
                                 inputProps={{
                                     step: 1,
                                     min: 1,
-                                    max: form.data.rol_sennova?.maxHoras,
                                 }}
                                 className="mt-1"
                                 value={form.data.cantidad_horas}

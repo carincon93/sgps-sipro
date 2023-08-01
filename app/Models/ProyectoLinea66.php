@@ -313,10 +313,15 @@ class ProyectoLinea66 extends Model
             ->whereHas(
                 'proyecto.centroFormacion',
                 function ($query) use ($convocatoria, $auth_user) {
+                    if (request()->linea_programatica_id) {
+                        $query->where('proyectos.linea_programatica_id', request()->linea_programatica_id);
+                    }
 
                     if ($auth_user->hasRole([2]) && !$auth_user->hasRole([1])) {
                         $query->where('centros_formacion.regional_id', $auth_user->centroFormacion->regional->id);
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
+
+
                     } else if ($auth_user->hasRole([3, 4, 21, 27]) && !$auth_user->hasRole([1])) {
                         $query->where('centros_formacion.id', $auth_user->centro_formacion_id);
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);

@@ -30,7 +30,6 @@ const Form = ({
 }) => {
     const form = useForm({
         tipo_proyecto_linea_68_id: proyecto_linea_68?.tipo_proyecto_linea_68_id ?? '',
-        linea_programatica_id: proyecto_linea_68?.proyecto?.linea_programatica_id ?? '',
         titulo: proyecto_linea_68?.titulo ?? '',
         fecha_inicio: proyecto_linea_68?.fecha_inicio ?? '',
         fecha_finalizacion: proyecto_linea_68?.fecha_finalizacion ?? '',
@@ -241,13 +240,13 @@ const Form = ({
                             <Label required labelFor="cantidad_horas" className="mb-4" value="Número de horas semanales dedicadas para el desarrollo del proyecto" />
                         </Grid>
                         <Grid item md={6}>
+
                             <TextInput
                                 type="number"
                                 id="cantidad_horas"
                                 inputProps={{
                                     step: 1,
                                     min: 1,
-                                    max: form.data.rol_sennova?.maxHoras,
                                 }}
                                 value={form.data.cantidad_horas}
                                 onChange={(e) => form.setData('cantidad_horas', e.target.value)}

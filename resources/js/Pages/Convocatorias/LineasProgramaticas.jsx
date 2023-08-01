@@ -13,7 +13,6 @@ const ConvocatoriaLineasProgramaticas = ({ auth, convocatoria, lineas_programati
             <Grid item md={12}>
                 <h1 className="text-4xl text-center mb-8">A continuación, se listan las líneas programáticas de la vigencia {convocatoria.year} en las que puede formular proyectos.</h1>
             </Grid>
-
             {lineas_programaticas.map((linea_programatica) => {
                 if (convocatoria.lineas_programaticas_activas?.includes(linea_programatica.id)) {
                     return (

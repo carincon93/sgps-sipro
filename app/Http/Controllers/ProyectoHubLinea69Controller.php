@@ -34,7 +34,7 @@ class ProyectoHubLinea69Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosHubLinea69/Index', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'tipo_convocatoria'),
             'proyectos_hub_linea_69'    => ProyectoHubLinea69::getProyectosPorRol($convocatoria)->appends(['search' => request()->search]),
-            'allowed_to_create'         => Gate::inspect('formular-proyecto', [4, $convocatoria])->allowed()
+            'allowed_to_create'         => Gate::inspect('formular-proyecto', [37, $convocatoria])->allowed()
         ]);
     }
 
@@ -45,13 +45,13 @@ class ProyectoHubLinea69Controller extends Controller
      */
     public function create(Convocatoria $convocatoria)
     {
-        $this->authorize('formular-proyecto', [4, $convocatoria]);
+        $this->authorize('formular-proyecto', [37, $convocatoria]);
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosHubLinea69/Create', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
             'nodos_tecnoparque'     => SelectHelper::nodosTecnoparque(),
             'roles_sennova'         => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'allowed_to_create'     => Gate::inspect('formular-proyecto', [4, $convocatoria])->allowed()
+            'allowed_to_create'     => Gate::inspect('formular-proyecto', [37, $convocatoria])->allowed()
         ]);
     }
 
@@ -63,14 +63,14 @@ class ProyectoHubLinea69Controller extends Controller
      */
     public function store(ProyectoHubLinea69Request $request, Convocatoria $convocatoria)
     {
-        $this->authorize('formular-proyecto', [4, $convocatoria]);
+        $this->authorize('formular-proyecto', [37, $convocatoria]);
 
         $nodo_tecnoparque = NodoTecnoparque::find($request->nodo_tecnoparque_id);
 
         $proyecto = new Proyecto();
         $proyecto->arboles_completos = false;
         $proyecto->centroFormacion()->associate($nodo_tecnoparque->centro_formacion_id);
-        $proyecto->lineaProgramatica()->associate(4);
+        $proyecto->lineaProgramatica()->associate(37);
         $proyecto->convocatoria()->associate($convocatoria);
         $proyecto->save();
 
@@ -84,7 +84,7 @@ class ProyectoHubLinea69Controller extends Controller
             ]
         );
 
-        $proyecto->proyectoLineaHub69()->create([
+        $proyecto->proyectoHubLinea69()->create([
             'nodo_tecnoparque_id'   => $request->nodo_tecnoparque_id,
             'fecha_inicio'          => $request->fecha_inicio,
             'fecha_finalizacion'    => $request->fecha_finalizacion,
@@ -144,7 +144,7 @@ class ProyectoHubLinea69Controller extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosHubLinea69/Edit', [
-            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_hub_linea_69', 'max_fecha_finalizacion_proyectos_hub_linea_69', 'fecha_maxima_tp', 'mostrar_recomendaciones', 'year', 'descripcion'),
+            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'year', 'descripcion'),
             'proyecto_hub_linea_69'     => $proyecto_hub_linea_69,
             // 'evaluacion'            => EvaluacionProyectoHubLinea69::find(request()->evaluacion_id),
             'regionales'            => SelectHelper::regionales(),
@@ -177,7 +177,7 @@ class ProyectoHubLinea69Controller extends Controller
         $proyecto_hub_linea_69->retos_locales_regionales                        = $request->retos_locales_regionales;
         $proyecto_hub_linea_69->estado_actual_departamento                      = $request->estado_actual_departamento;
         $proyecto_hub_linea_69->contribucion_desarrollo_empresas                = $request->contribucion_desarrollo_empresas;
-        $proyecto_hub_linea_69->contribucion_agenda_regional_competitividad      = $request->contribucion_agenda_regional_competitividad;
+        $proyecto_hub_linea_69->contribucion_agenda_regional_competitividad     = $request->contribucion_agenda_regional_competitividad;
         $proyecto_hub_linea_69->aportes_conpes_4011                             = $request->aportes_conpes_4011;
         $proyecto_hub_linea_69->aportes_conpes_4080                             = $request->aportes_conpes_4080;
         $proyecto_hub_linea_69->situacion_actual_produccion_agricola            = $request->situacion_actual_produccion_agricola;
@@ -318,7 +318,7 @@ class ProyectoHubLinea69Controller extends Controller
                 foreach ($efecto_directo->resultado->productos as $producto) {
                     $nuevo_producto = $nuevo_resultado->productos()->create($producto->toArray());
 
-                    $nuevo_producto->productoLinea69()->create($producto->productoLinea69->toArray());
+                    $nuevo_producto->productoHubLinea69()->create($producto->productoHubLinea69->toArray());
                 }
 
                 foreach ($efecto_directo->efectosIndirectos as $efecto_indirecto) {

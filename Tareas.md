@@ -14,4 +14,5 @@ Agregar campo de programas de formación con registro calificado Revisar los ane
 
 69
 
-Subir el Archivo del Plan Tecnológico del Centro
+1. Subir el Archivo del Plan Tecnológico del Centro
+2. Faltan productos de minciencias

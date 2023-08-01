@@ -157,26 +157,34 @@ class ConvocatoriaController extends Controller
     {
         switch ($linea_programatica->id) {
             case 1:
-            case 2:
-            case 3:
-            case 29:
-                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria]);
+                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria, 'linea_programatica_id' => 1]);
                 break;
-
+            case 2:
+                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria, 'linea_programatica_id' => 2]);
+                break;
+            case 3:
+                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria, 'linea_programatica_id' => 3]);
+                break;
+            case 29:
+                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria, 'linea_programatica_id' => 29]);
+                break;
             case 4:
                 return redirect()->route('convocatorias.proyectos-linea-69.index', [$convocatoria]);
-                break;
-
             case 5:
                 return redirect()->route('convocatorias.proyectos-linea-70.index', [$convocatoria]);
                 break;
-
             case 9:
                 return redirect()->route('convocatorias.proyectos-linea-65.index', [$convocatoria]);
                 break;
 
             case 10:
                 return redirect()->route('convocatorias.proyectos-linea-68.index', [$convocatoria]);
+                break;
+            case 11:
+                return redirect()->route('convocatorias.proyectos-linea-83.index', [$convocatoria]);
+                break;
+            case 37:
+                return redirect()->route('convocatorias.proyectos-hub-linea-69.index', [$convocatoria]);
                 break;
             default:
                 return back();

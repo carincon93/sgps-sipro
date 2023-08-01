@@ -633,7 +633,7 @@ const ArticulacionSennova = ({
                     </form>
                 ) : null}
 
-                {Object.keys(proyecto.proyectoHubLinea69).length > 0 && (
+                {proyecto.proyectoHubLinea69 && Object.keys(proyecto.proyectoHubLinea69).length > 0 && (
                     <form onSubmit={submitArticulacionSennovaProyectoHub}>
                         <Grid container className="space-y-20">
                             <Grid item md={12}>

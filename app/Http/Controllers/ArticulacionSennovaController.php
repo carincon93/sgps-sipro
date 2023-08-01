@@ -32,7 +32,7 @@ class ArticulacionSennovaController extends Controller
         $proyecto->load('evaluaciones.evaluacionProyectoLinea70');
         $proyecto->load('participantes.centroFormacion.regional');
 
-        if ($proyecto->lineaProgramatica->codigo != 69 && $proyecto->lineaProgramatica->codigo != 70) {
+        if ($proyecto->lineaProgramatica->codigo != 69 && $proyecto->lineaProgramatica->codigo != 70 && $proyecto->lineaProgramatica->codigo != 83) {
             return back()->with('error', 'No puede acceder a este módulo.');
         }
 

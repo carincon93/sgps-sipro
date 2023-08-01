@@ -158,6 +158,16 @@ class Proyecto extends Model
     }
 
     /**
+     * Relationship with ProyectoLinea83
+     *
+     * @return object
+     */
+    public function proyectoLinea83()
+    {
+        return $this->hasOne(ProyectoLinea83::class, 'id');
+    }
+
+    /**
      * Relationship with ProyectoDemo
      *
      * @return object

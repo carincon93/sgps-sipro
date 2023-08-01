@@ -16,7 +16,6 @@ import { useEffect } from 'react'
 const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_linea_69, nodos_tecnoparque, lineas_programaticas, roles_sennova, evaluacion, ...props }) => {
     const form = useForm({
         centro_formacion_id: proyecto_linea_69?.proyecto.centro_formacion_id ?? '',
-        linea_programatica_id: proyecto_linea_69?.proyecto.linea_programatica_id ?? '',
         fecha_inicio: proyecto_linea_69?.fecha_inicio ?? '',
         fecha_finalizacion: proyecto_linea_69?.fecha_finalizacion ?? '',
         max_meses_ejecucion: proyecto_linea_69?.max_meses_ejecucion ?? '',
@@ -197,7 +196,6 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 inputProps={{
                                     step: 1,
                                     min: 1,
-                                    max: form.data.rol_sennova?.maxHoras,
                                 }}
                                 value={form.data.cantidad_horas}
                                 onChange={(e) => form.setData('cantidad_horas', e.target.value)}
