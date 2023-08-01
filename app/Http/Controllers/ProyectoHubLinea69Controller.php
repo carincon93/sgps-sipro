@@ -34,7 +34,7 @@ class ProyectoHubLinea69Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosHubLinea69/Index', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'tipo_convocatoria'),
             'proyectos_hub_linea_69'    => ProyectoHubLinea69::getProyectosPorRol($convocatoria)->appends(['search' => request()->search]),
-            'allowed_to_create'         => Gate::inspect('formular-proyecto', [37, $convocatoria])->allowed()
+            'allowed_to_create'         => Gate::inspect('formular-proyecto', [35, $convocatoria])->allowed()
         ]);
     }
 
@@ -45,13 +45,13 @@ class ProyectoHubLinea69Controller extends Controller
      */
     public function create(Convocatoria $convocatoria)
     {
-        $this->authorize('formular-proyecto', [37, $convocatoria]);
+        $this->authorize('formular-proyecto', [35, $convocatoria]);
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosHubLinea69/Create', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
             'nodos_tecnoparque'     => SelectHelper::nodosTecnoparque(),
             'roles_sennova'         => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'allowed_to_create'     => Gate::inspect('formular-proyecto', [37, $convocatoria])->allowed()
+            'allowed_to_create'     => Gate::inspect('formular-proyecto', [35, $convocatoria])->allowed()
         ]);
     }
 
@@ -63,14 +63,14 @@ class ProyectoHubLinea69Controller extends Controller
      */
     public function store(ProyectoHubLinea69Request $request, Convocatoria $convocatoria)
     {
-        $this->authorize('formular-proyecto', [37, $convocatoria]);
+        $this->authorize('formular-proyecto', [35, $convocatoria]);
 
         $nodo_tecnoparque = NodoTecnoparque::find($request->nodo_tecnoparque_id);
 
         $proyecto = new Proyecto();
         $proyecto->arboles_completos = false;
         $proyecto->centroFormacion()->associate($nodo_tecnoparque->centro_formacion_id);
-        $proyecto->lineaProgramatica()->associate(37);
+        $proyecto->lineaProgramatica()->associate(35);
         $proyecto->convocatoria()->associate($convocatoria);
         $proyecto->save();
 
