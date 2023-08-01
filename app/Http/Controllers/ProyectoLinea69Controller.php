@@ -307,7 +307,6 @@ class ProyectoLinea69Controller extends Controller
                     $nuevo_resultado = $nuevo_efecto_directo->resultado()->create([
                         'objetivo_especifico_id'    => $objetivos_especificos->where('numero', $efecto_directo->resultado->objetivoEspecifico->numero)->where('descripcion', $efecto_directo->resultado->objetivoEspecifico->descripcion)->first()->id,
                         'descripcion'               => $efecto_directo->resultado->descripcion,
-                        'trl'                       => $efecto_directo->resultado->trl,
                     ]);
                     $resultados->push($nuevo_resultado);
                 }

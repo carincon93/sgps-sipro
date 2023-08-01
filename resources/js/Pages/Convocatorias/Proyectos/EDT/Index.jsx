@@ -33,7 +33,7 @@ const EDT = ({ auth, convocatoria, proyecto, evaluacion, presupuesto, eventos, t
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} label="EDT" />
             </Grid>
 
-            <Grid item md={12}>
+            {/* <Grid item md={12}>
                 <h1 className="text-3xl mb-8 text-center">EDT</h1>
 
                 {is_super_admin || proyecto.mostrar_recomendaciones ? (
@@ -57,7 +57,7 @@ const EDT = ({ auth, convocatoria, proyecto, evaluacion, presupuesto, eventos, t
                         {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
                     </>
                 ) : null}
-            </Grid>
+            </Grid> */}
             <Grid item md={12}>
                 <TableMui className="mt-20 mb-8" rows={['Descripción del evento', 'Fechas', 'Presupuesto', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {proyecto.allowed.to_update ? (

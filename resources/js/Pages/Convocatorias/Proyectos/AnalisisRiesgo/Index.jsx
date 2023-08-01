@@ -35,7 +35,7 @@ const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisis_riesgos, nivel
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
-
+            {/*
             <Grid item md={4}>
                 Evaluación
             </Grid>
@@ -62,80 +62,79 @@ const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisis_riesgos, nivel
                         />
                     </>
                 )}
-            </Grid>
+            </Grid> */}
+
+            {/* {is_super_admin || proyecto.mostrar_recomendaciones ? (
+                <>
+                    {proyecto.evaluaciones.map((evaluacion, i) =>
+                        is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
+                            <ToolTipMui
+                                key={i}
+                                title={
+                                    <div>
+                                        <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
+                                        {evaluacion.evaluacion_proyecto_linea66 ? (
+                                            <p className="whitespace-pre-line text-xs">
+                                                {evaluacion.evaluacion_proyecto_linea66?.analisis_riesgos_comentario
+                                                    ? evaluacion.evaluacion_proyecto_linea66.analisis_riesgos_comentario
+                                                    : 'Sin recomendación'}
+                                            </p>
+                                        ) : evaluacion.evaluacion_proyecto_linea65 ? (
+                                            <p className="whitespace-pre-line text-xs">
+                                                {evaluacion.evaluacion_proyecto_linea65?.analisis_riesgos_comentario
+                                                    ? evaluacion.evaluacion_proyecto_linea65.analisis_riesgos_comentario
+                                                    : 'Sin recomendación'}
+                                            </p>
+                                        ) : evaluacion.evaluacion_proyecto_linea70 ? (
+                                            <p className="whitespace-pre-line text-xs">
+                                                {evaluacion.evaluacion_proyecto_linea70?.analisis_riesgos_comentario
+                                                    ? evaluacion.evaluacion_proyecto_linea70.analisis_riesgos_comentario
+                                                    : 'Sin recomendación'}
+                                            </p>
+                                        ) : evaluacion.evaluacion_proyecto_linea69 ? (
+                                            <p className="whitespace-pre-line text-xs">
+                                                {evaluacion.evaluacion_proyecto_linea69?.analisis_riesgos_comentario
+                                                    ? evaluacion.evaluacion_proyecto_linea69.analisis_riesgos_comentario
+                                                    : 'Sin recomendación'}
+                                            </p>
+                                        ) : (
+                                            evaluacion.evaluacion_proyecto_linea68 && (
+                                                <>
+                                                    <hr className="mt-10 mb-10 border-black-200" />
+                                                    <h1 className="font-black">Análisis de riesgos</h1>
+
+                                                    <ul className="list-disc pl-4">
+                                                        <li className="whitespace-pre-line text-xs mb-10">
+                                                            {evaluacion.evaluacion_proyecto_linea68?.riesgos_objetivo_general_comentario
+                                                                ? 'Recomendación riesgos a nivel de objetivo general: ' + evaluacion.evaluacion_proyecto_linea68.riesgos_objetivo_general_comentario
+                                                                : 'Sin recomendación'}
+                                                        </li>
+                                                        <li className="whitespace-pre-line text-xs mb-10">
+                                                            {evaluacion.evaluacion_proyecto_linea68?.riesgos_productos_comentario
+                                                                ? 'Recomendación riesgos a nivel de productos: ' + evaluacion.evaluacion_proyecto_linea68.riesgos_productos_comentario
+                                                                : 'Sin recomendación'}
+                                                        </li>
+                                                        <li className="whitespace-pre-line text-xs mb-10">
+                                                            {evaluacion.evaluacion_proyecto_linea68?.riesgos_analisis_riesgoes_comentario
+                                                                ? 'Recomendación riesgos a nivel de analisis_riesgoes: ' + evaluacion.evaluacion_proyecto_linea68.riesgos_analisis_riesgoes_comentario
+                                                                : 'Sin recomendación'}
+                                                        </li>
+                                                    </ul>
+                                                </>
+                                            )
+                                        )}
+                                    </div>
+                                }>
+                                Evaluación {i + 1}
+                            </ToolTipMui>
+                        ) : null,
+                    )}
+                    {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
+                </>
+            ) : null} */}
 
             <Grid item md={12}>
                 <h1 className="text-3xl mb-8 text-center">Análisis de riesgos</h1>
-
-                {is_super_admin || proyecto.mostrar_recomendaciones ? (
-                    <>
-                        {proyecto.evaluaciones.map((evaluacion, i) =>
-                            is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
-                                <ToolTipMui
-                                    key={i}
-                                    title={
-                                        <div>
-                                            <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                            {evaluacion.evaluacion_proyecto_linea66 ? (
-                                                <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.evaluacion_proyecto_linea66?.analisis_riesgos_comentario
-                                                        ? evaluacion.evaluacion_proyecto_linea66.analisis_riesgos_comentario
-                                                        : 'Sin recomendación'}
-                                                </p>
-                                            ) : evaluacion.evaluacion_proyecto_linea65 ? (
-                                                <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.evaluacion_proyecto_linea65?.analisis_riesgos_comentario
-                                                        ? evaluacion.evaluacion_proyecto_linea65.analisis_riesgos_comentario
-                                                        : 'Sin recomendación'}
-                                                </p>
-                                            ) : evaluacion.evaluacion_proyecto_linea70 ? (
-                                                <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.evaluacion_proyecto_linea70?.analisis_riesgos_comentario
-                                                        ? evaluacion.evaluacion_proyecto_linea70.analisis_riesgos_comentario
-                                                        : 'Sin recomendación'}
-                                                </p>
-                                            ) : evaluacion.evaluacion_proyecto_linea69 ? (
-                                                <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.evaluacion_proyecto_linea69?.analisis_riesgos_comentario
-                                                        ? evaluacion.evaluacion_proyecto_linea69.analisis_riesgos_comentario
-                                                        : 'Sin recomendación'}
-                                                </p>
-                                            ) : (
-                                                evaluacion.evaluacion_proyecto_linea68 && (
-                                                    <>
-                                                        <hr className="mt-10 mb-10 border-black-200" />
-                                                        <h1 className="font-black">Análisis de riesgos</h1>
-
-                                                        <ul className="list-disc pl-4">
-                                                            <li className="whitespace-pre-line text-xs mb-10">
-                                                                {evaluacion.evaluacion_proyecto_linea68?.riesgos_objetivo_general_comentario
-                                                                    ? 'Recomendación riesgos a nivel de objetivo general: ' + evaluacion.evaluacion_proyecto_linea68.riesgos_objetivo_general_comentario
-                                                                    : 'Sin recomendación'}
-                                                            </li>
-                                                            <li className="whitespace-pre-line text-xs mb-10">
-                                                                {evaluacion.evaluacion_proyecto_linea68?.riesgos_productos_comentario
-                                                                    ? 'Recomendación riesgos a nivel de productos: ' + evaluacion.evaluacion_proyecto_linea68.riesgos_productos_comentario
-                                                                    : 'Sin recomendación'}
-                                                            </li>
-                                                            <li className="whitespace-pre-line text-xs mb-10">
-                                                                {evaluacion.evaluacion_proyecto_linea68?.riesgos_analisis_riesgoes_comentario
-                                                                    ? 'Recomendación riesgos a nivel de analisis_riesgoes: ' +
-                                                                      evaluacion.evaluacion_proyecto_linea68.riesgos_analisis_riesgoes_comentario
-                                                                    : 'Sin recomendación'}
-                                                            </li>
-                                                        </ul>
-                                                    </>
-                                                )
-                                            )}
-                                        </div>
-                                    }>
-                                    Evaluación {i + 1}
-                                </ToolTipMui>
-                            ) : null,
-                        )}
-                        {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
-                    </>
-                ) : null}
             </Grid>
 
             <Grid item md={12}>

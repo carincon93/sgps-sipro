@@ -130,7 +130,7 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
-            <Grid item md={4}>
+            {/* <Grid item md={4}>
                 Evaluación
             </Grid>
             <Grid item md={8}>
@@ -156,95 +156,85 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
                         />
                     </>
                 )}
-            </Grid>
+            </Grid> */}
+
+            {/* {isSuperAdmin || proyecto.mostrar_recomendaciones ? (
+                <>
+                    {proyecto.evaluaciones.map((evaluacion, i) =>
+                        isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado) ? (
+                            <ToolTipMui
+                                key={i}
+                                title={
+                                    <div>
+                                        <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
+                                        {evaluacion.evaluacion_proyecto_linea66 ? (
+                                            <p className="whitespace-pre-line text-xs">
+                                                {evaluacion.evaluacion_proyecto_linea66?.cadena_valor_comentario ? evaluacion.evaluacion_proyecto_linea66.cadena_valor_comentario : 'Sin recomendación'}
+                                            </p>
+                                        ) : evaluacion.evaluacion_proyecto_linea65 ? (
+                                            <p className="whitespace-pre-line text-xs">
+                                                {evaluacion.evaluacion_proyecto_linea65?.cadena_valor_comentario ? evaluacion.evaluacion_proyecto_linea65.cadena_valor_comentario : 'Sin recomendación'}
+                                            </p>
+                                        ) : evaluacion.evaluacion_proyecto_linea70 ? (
+                                            <p className="whitespace-pre-line text-xs">
+                                                {evaluacion.evaluacion_proyecto_linea70?.cadena_valor_comentario ? evaluacion.evaluacion_proyecto_linea70.cadena_valor_comentario : 'Sin recomendación'}
+                                            </p>
+                                        ) : evaluacion.evaluacion_proyecto_linea69 ? (
+                                            <p className="whitespace-pre-line text-xs">
+                                                {evaluacion.evaluacion_proyecto_linea69?.cadena_valor_comentario ? evaluacion.evaluacion_proyecto_linea69.cadena_valor_comentario : 'Sin recomendación'}
+                                            </p>
+                                        ) : (
+                                            evaluacion.evaluacion_proyecto_linea68 && (
+                                                <>
+                                                    <hr className="mt-10 mb-10 border-black-200" />
+                                                    <h1 className="font-black">Propuesta de sostenibilidad</h1>
+
+                                                    <p className="whitespace-pre-line text-xs mb-10">
+                                                        {evaluacion.evaluacion_proyecto_linea68?.propuesta_sostenibilidad_comentario
+                                                            ? 'Recomendación: ' + evaluacion.evaluacion_proyecto_linea68.propuesta_sostenibilidad_comentario
+                                                            : 'Sin recomendación'}
+                                                    </p>
+
+                                                    <hr className="mt-10 mb-10 border-black-200" />
+                                                    <h1 className="font-black">Impactos</h1>
+
+                                                    <ul className="list-disc pl-4">
+                                                        <li className="whitespace-pre-line text-xs mb-10">
+                                                            {evaluacion.evaluacion_proyecto_linea68?.impacto_ambiental_comentario
+                                                                ? 'Recomendación impacto ambiental: ' + evaluacion.evaluacion_proyecto_linea68.impacto_ambiental_comentario
+                                                                : 'Sin recomendación'}
+                                                        </li>
+                                                        <li className="whitespace-pre-line text-xs mb-10">
+                                                            {evaluacion.evaluacion_proyecto_linea68?.impacto_social_centro_comentario
+                                                                ? 'Recomendación impacto social en el centro de formación: ' + evaluacion.evaluacion_proyecto_linea68.impacto_social_centro_comentario
+                                                                : 'Sin recomendación'}
+                                                        </li>
+                                                        <li className="whitespace-pre-line text-xs mb-10">
+                                                            {evaluacion.evaluacion_proyecto_linea68?.impacto_social_productivo_comentario
+                                                                ? 'Recomendación impacto social en el sector productivo: ' + evaluacion.evaluacion_proyecto_linea68.impacto_social_productivo_comentario
+                                                                : 'Sin recomendación'}
+                                                        </li>
+                                                        <li className="whitespace-pre-line text-xs mb-10">
+                                                            {evaluacion.evaluacion_proyecto_linea68?.impacto_tecnologico_comentario
+                                                                ? 'Recomendación impacto tecnológico: ' + evaluacion.evaluacion_proyecto_linea68.impacto_tecnologico_comentario
+                                                                : 'Sin recomendación'}
+                                                        </li>
+                                                    </ul>
+                                                </>
+                                            )
+                                        )}
+                                    </div>
+                                }>
+                                Evaluación {i + 1}
+                            </ToolTipMui>
+                        ) : null,
+                    )}
+                    {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
+                </>
+            ) : null} */}
 
             <Grid item md={12}>
                 <h1 className="text-3xl mt-24 text-center">Propuesta de sostenibilidad</h1>
-
-                {isSuperAdmin || proyecto.mostrar_recomendaciones ? (
-                    <>
-                        {proyecto.evaluaciones.map((evaluacion, i) =>
-                            isSuperAdmin || (evaluacion.finalizado && evaluacion.habilitado) ? (
-                                <ToolTipMui
-                                    key={i}
-                                    title={
-                                        <div>
-                                            <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                            {evaluacion.evaluacion_proyecto_linea66 ? (
-                                                <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.evaluacion_proyecto_linea66?.cadena_valor_comentario
-                                                        ? evaluacion.evaluacion_proyecto_linea66.cadena_valor_comentario
-                                                        : 'Sin recomendación'}
-                                                </p>
-                                            ) : evaluacion.evaluacion_proyecto_linea65 ? (
-                                                <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.evaluacion_proyecto_linea65?.cadena_valor_comentario
-                                                        ? evaluacion.evaluacion_proyecto_linea65.cadena_valor_comentario
-                                                        : 'Sin recomendación'}
-                                                </p>
-                                            ) : evaluacion.evaluacion_proyecto_linea70 ? (
-                                                <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.evaluacion_proyecto_linea70?.cadena_valor_comentario
-                                                        ? evaluacion.evaluacion_proyecto_linea70.cadena_valor_comentario
-                                                        : 'Sin recomendación'}
-                                                </p>
-                                            ) : evaluacion.evaluacion_proyecto_linea69 ? (
-                                                <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.evaluacion_proyecto_linea69?.cadena_valor_comentario
-                                                        ? evaluacion.evaluacion_proyecto_linea69.cadena_valor_comentario
-                                                        : 'Sin recomendación'}
-                                                </p>
-                                            ) : (
-                                                evaluacion.evaluacion_proyecto_linea68 && (
-                                                    <>
-                                                        <hr className="mt-10 mb-10 border-black-200" />
-                                                        <h1 className="font-black">Propuesta de sostenibilidad</h1>
-
-                                                        <p className="whitespace-pre-line text-xs mb-10">
-                                                            {evaluacion.evaluacion_proyecto_linea68?.propuesta_sostenibilidad_comentario
-                                                                ? 'Recomendación: ' + evaluacion.evaluacion_proyecto_linea68.propuesta_sostenibilidad_comentario
-                                                                : 'Sin recomendación'}
-                                                        </p>
-
-                                                        <hr className="mt-10 mb-10 border-black-200" />
-                                                        <h1 className="font-black">Impactos</h1>
-
-                                                        <ul className="list-disc pl-4">
-                                                            <li className="whitespace-pre-line text-xs mb-10">
-                                                                {evaluacion.evaluacion_proyecto_linea68?.impacto_ambiental_comentario
-                                                                    ? 'Recomendación impacto ambiental: ' + evaluacion.evaluacion_proyecto_linea68.impacto_ambiental_comentario
-                                                                    : 'Sin recomendación'}
-                                                            </li>
-                                                            <li className="whitespace-pre-line text-xs mb-10">
-                                                                {evaluacion.evaluacion_proyecto_linea68?.impacto_social_centro_comentario
-                                                                    ? 'Recomendación impacto social en el centro de formación: ' +
-                                                                      evaluacion.evaluacion_proyecto_linea68.impacto_social_centro_comentario
-                                                                    : 'Sin recomendación'}
-                                                            </li>
-                                                            <li className="whitespace-pre-line text-xs mb-10">
-                                                                {evaluacion.evaluacion_proyecto_linea68?.impacto_social_productivo_comentario
-                                                                    ? 'Recomendación impacto social en el sector productivo: ' +
-                                                                      evaluacion.evaluacion_proyecto_linea68.impacto_social_productivo_comentario
-                                                                    : 'Sin recomendación'}
-                                                            </li>
-                                                            <li className="whitespace-pre-line text-xs mb-10">
-                                                                {evaluacion.evaluacion_proyecto_linea68?.impacto_tecnologico_comentario
-                                                                    ? 'Recomendación impacto tecnológico: ' + evaluacion.evaluacion_proyecto_linea68.impacto_tecnologico_comentario
-                                                                    : 'Sin recomendación'}
-                                                            </li>
-                                                        </ul>
-                                                    </>
-                                                )
-                                            )}
-                                        </div>
-                                    }>
-                                    Evaluación {i + 1}
-                                </ToolTipMui>
-                            ) : null,
-                        )}
-                        {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
-                    </>
-                ) : null}
 
                 {proyecto.codigo_linea_programatica == 70 && (
                     <AlertMui className="text-center my-24">

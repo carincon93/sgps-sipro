@@ -43,6 +43,8 @@ export default function TabsMui({ children, tabs = [] }) {
         setValue(index)
     }
 
+    const filteredArray = children.filter((item) => item !== null)
+
     return (
         <>
             <AppBar position="static" color="transparent" sx={{ boxShadow: 'none' }}>
@@ -53,11 +55,17 @@ export default function TabsMui({ children, tabs = [] }) {
                 </Tabs>
             </AppBar>
             <SwipeableViews axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'} index={value} onChangeIndex={handleChangeIndex} className="w-full">
-                {children.map((child, i) => (
-                    <TabPanel key={i} value={value} index={i} dir={theme.direction}>
-                        {child?.props.children}
+                {filteredArray.length > 0 ? (
+                    filteredArray.map((child, i) => (
+                        <TabPanel key={i} value={value} index={i} dir={theme.direction}>
+                            {child?.props.children}
+                        </TabPanel>
+                    ))
+                ) : (
+                    <TabPanel value={value} index={0} dir={theme.direction}>
+                        {children}
                     </TabPanel>
-                ))}
+                )}
             </SwipeableViews>
         </>
     )

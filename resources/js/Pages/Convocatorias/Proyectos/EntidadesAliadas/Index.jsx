@@ -37,7 +37,7 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
-            <Grid item md={4}>
+            {/* <Grid item md={4}>
                 Evaluación
             </Grid>
             <Grid item md={8}>
@@ -65,41 +65,41 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                 )}
             </Grid>
 
+            {is_super_admin || proyecto.mostrar_recomendaciones ? (
+                <>
+                    {proyecto.evaluaciones.map((evaluacion, i) =>
+                        is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
+                            <ToolTipMui
+                                key={i}
+                                title={
+                                    <div>
+                                        <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
+                                        {evaluacion.evaluacion_proyecto_linea66 && (
+                                            <p className="whitespace-pre-line text-xs">
+                                                {evaluacion.evaluacion_proyecto_linea66?.entidad_aliada_comentario
+                                                    ? evaluacion.evaluacion_proyecto_linea66.entidad_aliada_comentario
+                                                    : 'Sin recomendación'}
+                                            </p>
+                                        )}
+                                        {evaluacion.evaluacion_proyecto_linea70 && (
+                                            <p className="whitespace-pre-line text-xs">
+                                                {evaluacion.evaluacion_proyecto_linea70?.entidad_aliada_comentario
+                                                    ? evaluacion.evaluacion_proyecto_linea70.entidad_aliada_comentario
+                                                    : 'Sin recomendación'}
+                                            </p>
+                                        )}
+                                    </div>
+                                }>
+                                Evaluación {i + 1}
+                            </ToolTipMui>
+                        ) : null,
+                    )}
+                    {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
+                </>
+            ) : null} */}
+
             <Grid item md={12}>
                 <h1 className="text-3xl mb-8 text-center">Entidades aliadas</h1>
-
-                {is_super_admin || proyecto.mostrar_recomendaciones ? (
-                    <>
-                        {proyecto.evaluaciones.map((evaluacion, i) =>
-                            is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
-                                <ToolTipMui
-                                    key={i}
-                                    title={
-                                        <div>
-                                            <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                            {evaluacion.evaluacion_proyecto_linea66 && (
-                                                <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.evaluacion_proyecto_linea66?.entidad_aliada_comentario
-                                                        ? evaluacion.evaluacion_proyecto_linea66.entidad_aliada_comentario
-                                                        : 'Sin recomendación'}
-                                                </p>
-                                            )}
-                                            {evaluacion.evaluacion_proyecto_linea70 && (
-                                                <p className="whitespace-pre-line text-xs">
-                                                    {evaluacion.evaluacion_proyecto_linea70?.entidad_aliada_comentario
-                                                        ? evaluacion.evaluacion_proyecto_linea70.entidad_aliada_comentario
-                                                        : 'Sin recomendación'}
-                                                </p>
-                                            )}
-                                        </div>
-                                    }>
-                                    Evaluación {i + 1}
-                                </ToolTipMui>
-                            ) : null,
-                        )}
-                        {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
-                    </>
-                ) : null}
             </Grid>
 
             <Grid item md={12}>

@@ -42,22 +42,6 @@ class ProductoRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->resultado_id)) {
-            $this->merge([
-                'resultado_id' => $this->resultado_id['value'],
-            ]);
-        }
-
-        if (is_array($this->subtipologia_minciencias_id)) {
-            $this->merge([
-                'subtipologia_minciencias_id' => $this->subtipologia_minciencias_id['value'],
-            ]);
-        }
-
-        if (is_array($this->tipo)) {
-            $this->merge([
-                'tipo' => $this->tipo['value'],
-            ]);
-        }
+        //
     }
 }

@@ -13,7 +13,7 @@ import { Grid, Paper } from '@mui/material'
 import { useState } from 'react'
 import { useEffect } from 'react'
 
-const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proyecto, producto, resultados, subtipologias_minciencias, tipos_producto, ...props }) => {
+const FormProductoIndicador = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proyecto, producto, resultados, subtipologias_minciencias, tipos_producto, ...props }) => {
     const form = useForm({
         nombre: producto?.nombre,
         resultado_id: producto?.resultado_id,
@@ -21,11 +21,18 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
         fecha_finalizacion: producto?.fecha_finalizacion,
 
         indicador: producto?.indicador,
+        medio_verificacion:
+            producto?.producto_linea69?.medio_verificacion ??
+            producto?.producto_linea68?.medio_verificacion ??
+            producto?.producto_linea70?.medio_verificacion ??
+            producto?.producto_linea83?.medio_verificacion ??
+            '',
 
-        tipo: producto?.producto_linea66?.tipo ?? producto?.producto_linea65?.tipo ?? '',
-        trl: producto?.producto_linea66?.trl ?? producto?.producto_linea65?.trl ?? '',
-        subtipologia_minciencias_id: producto?.producto_linea66?.subtipologia_minciencias_id ?? producto?.producto_linea65?.subtipologia_minciencias_id ?? null,
+        nombre_indicador: producto?.producto_linea68?.nombre_indicador,
+        formula_indicador: producto?.producto_linea68?.formula_indicador,
+        meta_indicador: producto?.producto_linea68?.meta_indicador,
 
+        valor_proyectado: producto?.producto_linea69?.valor_proyectado ?? producto?.producto_linea70?.valor_proyectado ?? producto?.producto_linea83?.valor_proyectado ?? '',
         actividad_id: producto?.actividades.map((item) => item.id),
     })
 
@@ -91,7 +98,6 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                         </AlertMui>
                                     )}
                                 </Grid>
-
                                 <Grid item md={3}>
                                     <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
                                 </Grid>
@@ -107,7 +113,6 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                         required
                                     />
                                 </Grid>
-
                                 <Grid item md={3}>
                                     <Label required labelFor="fecha_finalizacion" value="Fecha de finalización" />
                                 </Grid>
@@ -123,7 +128,6 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                         required
                                     />
                                 </Grid>
-
                                 <Grid item md={3}>
                                     <Label required labelFor="resultado_id" value="Resultado" />
                                 </Grid>
@@ -136,11 +140,10 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                         error={form.errors.resultado_id}
                                         label="Resultado"
                                         placeholder="Seleccione un resultado"
-                                        required
                                         disabled={proyecto.codigo_linea_programatica == 70 || !is_super_admin}
+                                        required
                                     />
                                 </Grid>
-
                                 <Grid item md={12}>
                                     <Textarea
                                         disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
@@ -167,7 +170,6 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                         </AlertMui>
                                     ) : null}
                                 </Grid>
-
                                 {proyecto.codigo_linea_programatica != 68 && (
                                     <Grid item md={12}>
                                         <Textarea
@@ -191,49 +193,95 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                         )}
                                     </Grid>
                                 )}
-
-                                <Grid item md={12}>
-                                    {proyecto.codigo_linea_programatica == 66 ||
-                                    proyecto.codigo_linea_programatica == 82 ||
-                                    proyecto.codigo_linea_programatica == 23 ||
-                                    proyecto.codigo_linea_programatica == 69 ||
-                                    proyecto.codigo_linea_programatica == 65 ? (
-                                        <>
-                                            <Autocomplete
-                                                id="subtipologia_minciencias_id"
-                                                options={subtipologias_minciencias}
-                                                selectedValue={form.data.subtipologia_minciencias_id}
-                                                onChange={(event, newValue) => form.setData('subtipologia_minciencias_id', newValue.value)}
-                                                error={form.errors.subtipologia_minciencias_id}
-                                                label="Subtipología Minciencias"
+                                {proyecto.codigo_linea_programatica == 68 ||
+                                proyecto.codigo_linea_programatica == 69 ||
+                                proyecto.codigo_linea_programatica == 70 ||
+                                proyecto.codigo_linea_programatica == 83 ? (
+                                    <>
+                                        <Grid item md={12}>
+                                            <Textarea
+                                                disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
+                                                id="medio_verificacion"
+                                                error={form.errors.medio_verificacion}
+                                                value={form.data.medio_verificacion}
+                                                onChange={(e) => form.setData('medio_verificacion', e.target.value)}
+                                                label="Medio de verificación"
                                                 required
                                             />
-
-                                            <Autocomplete
-                                                className="mt-8"
-                                                id="tipo"
-                                                options={tipos_producto}
-                                                selectedValue={form.data.tipo}
-                                                onChange={(event, newValue) => form.setData('tipo', newValue.value)}
-                                                error={form.errors.tipo}
-                                                label="Seleccione un tipo"
+                                            {proyecto.codigo_linea_programatica != 70 && (
+                                                <>
+                                                    {proyecto.codigo_linea_programatica == 68 ? (
+                                                        <AlertMui>
+                                                            Los medios de verificación corresponden a las evidencias y/o fuentes de información en las que está disponibles los registros, la
+                                                            información necesaria y suficiente. Dichos medios pueden ser documentos oficiales, informes, evaluaciones, encuestas, documentos o reportes
+                                                            internos que genera el proyecto, entre otros.
+                                                        </AlertMui>
+                                                    ) : (
+                                                        <AlertMui>Especifique los medios de verificación para validar los logros del objetivo específico.</AlertMui>
+                                                    )}
+                                                </>
+                                            )}
+                                        </Grid>
+                                    </>
+                                ) : null}
+                                {proyecto.codigo_linea_programatica == 68 && (
+                                    <>
+                                        <Grid item md={12}>
+                                            <Textarea
+                                                id="nombre_indicador"
+                                                error={form.errors.nombre_indicador}
+                                                value={form.data.nombre_indicador}
+                                                onChange={(e) => form.setData('nombre_indicador', e.target.value)}
+                                                label="Nombre del Indicador del producto"
                                                 required
                                             />
+                                            <AlertMui>
+                                                El indicador debe mantener una estructura coherente. Esta se compone de dos elementos: en primer lugar, debe ir el objeto a cuantificar, descrito por un
+                                                sujeto y posteriormente la condición deseada, definida a través de un verbo en participio. Por ejemplo: Kilómetros de red vial nacional construidos.
+                                            </AlertMui>
+                                        </Grid>
 
-                                            <TextInput
-                                                className="!mt-8"
-                                                id="trl"
-                                                type="number"
-                                                label="Diligencie el TRL para este producto"
-                                                value={form.data.trl}
-                                                inputProps={{ min: 0, max: 9, step: 1 }}
-                                                onChange={(e) => form.setData('trl', e.target.value)}
-                                                error={form.errors.trl}
+                                        <Grid item md={12}>
+                                            <Textarea
+                                                id="indicador"
+                                                error={form.errors.indicador}
+                                                value={form.data.indicador}
+                                                onChange={(e) => form.setData('indicador', e.target.value)}
+                                                label="Fórmula del Indicador del producto"
                                                 required
                                             />
-                                        </>
-                                    ) : null}
-                                </Grid>
+                                            <AlertMui>
+                                                El método de cálculo debe ser una expresión matemática definida de manera adecuada y de fácil comprensión, es decir, deben quedar claras cuáles son las
+                                                variables utilizadas. Los métodos de cálculo más comunes son el porcentaje, la tasa de variación, la razón y el número índice. Aunque éstos no son las
+                                                únicas expresiones para los indicadores, sí son las más frecuentes.
+                                            </AlertMui>
+                                        </Grid>
+
+                                        <Grid item md={12}>
+                                            <Textarea
+                                                id="meta_indicador"
+                                                error={form.errors.meta_indicador}
+                                                value={form.data.meta_indicador}
+                                                onChange={(e) => form.setData('meta_indicador', e.target.value)}
+                                                label="Meta del indicador"
+                                                required
+                                            />
+                                        </Grid>
+                                    </>
+                                )}
+
+                                {proyecto.codigo_linea_programatica == 69 || proyecto.codigo_linea_programatica == 70 || proyecto.codigo_linea_programatica == 83 ? (
+                                    <Grid item md={12}>
+                                        <Textarea
+                                            label="Meta"
+                                            id="valor_proyectado"
+                                            error={form.errors.valor_proyectado}
+                                            value={form.data.valor_proyectado}
+                                            onChange={(e) => form.setData('valor_proyectado', e.target.value)}
+                                            required
+                                        />
+                                    </Grid>
+                                ) : null}
 
                                 <Grid item md={12}>
                                     <h6 className="mt-20 mb-12 text-2xl">Actividades a desarrollar</h6>
@@ -293,4 +341,4 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
     )
 }
 
-export default Form
+export default FormProductoIndicador

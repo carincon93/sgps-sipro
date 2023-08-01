@@ -17,7 +17,6 @@ return new class extends Migration
             $table->increments('id');
 
             $table->text('descripcion')->nullable();
-            $table->char('trl', 1)->nullable();
 
             $table->integer('objetivo_especifico_id')->nullable();
             $table->integer('efecto_directo_id');

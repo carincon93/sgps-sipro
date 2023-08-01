@@ -187,7 +187,7 @@ const Actividades = ({
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
-            <Grid item md={4}>
+            {/* <Grid item md={4}>
                 Evaluación
             </Grid>
             <Grid item md={8}>
@@ -213,7 +213,93 @@ const Actividades = ({
                         />
                     </>
                 )}
-            </Grid>
+            </Grid> */}
+
+            {/* {is_super_admin || proyecto.mostrar_recomendaciones ? (
+                <>
+                    {proyecto.evaluaciones.map((evaluacion, i) =>
+                        is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
+                            <ToolTipMui
+                                key={i}
+                                title={
+                                    <div>
+                                        <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
+                                        {evaluacion.evaluacion_proyecto_linea66 && (
+                                            <p className="whitespace-pre-line text-xs">
+                                                {evaluacion.evaluacion_proyecto_linea66.metodologia_comentario ? evaluacion.evaluacion_proyecto_linea66.metodologia_comentario : 'Sin recomendación'}
+                                            </p>
+                                        )}
+                                        {!evaluacion.evaluacion_proyecto_linea66 && evaluacion.evaluacion_proyecto_linea65 && (
+                                            <p className="whitespace-pre-line text-xs">
+                                                {evaluacion.evaluacion_proyecto_linea65.metodologia_comentario ? evaluacion.evaluacion_proyecto_linea65.metodologia_comentario : 'Sin recomendación'}
+                                            </p>
+                                        )}
+                                        {!evaluacion.evaluacion_proyecto_linea66 && !evaluacion.evaluacion_proyecto_linea65 && evaluacion.evaluacion_proyecto_linea70 && (
+                                            <p className="whitespace-pre-line text-xs">
+                                                {evaluacion.evaluacion_proyecto_linea70.metodologia_comentario ? evaluacion.evaluacion_proyecto_linea70.metodologia_comentario : 'Sin recomendación'}
+                                            </p>
+                                        )}
+                                        {!evaluacion.evaluacion_proyecto_linea66 &&
+                                            !evaluacion.evaluacion_proyecto_linea65 &&
+                                            !evaluacion.evaluacion_proyecto_linea70 &&
+                                            evaluacion.evaluacion_proyecto_linea69 && (
+                                                <p className="whitespace-pre-line text-xs">
+                                                    {evaluacion.evaluacion_proyecto_linea69.metodologia_comentario
+                                                        ? evaluacion.evaluacion_proyecto_linea69.metodologia_comentario
+                                                        : 'Sin recomendación'}
+                                                </p>
+                                            )}
+                                        {!evaluacion.evaluacion_proyecto_linea66 &&
+                                            !evaluacion.evaluacion_proyecto_linea65 &&
+                                            !evaluacion.evaluacion_proyecto_linea70 &&
+                                            !evaluacion.evaluacion_proyecto_linea69 &&
+                                            evaluacion.evaluacion_proyecto_linea68 && (
+                                                <div>
+                                                    <h1 className="font-black mt-10">Metodología</h1>
+                                                    <p className="whitespace-pre-line text-xs">
+                                                        {evaluacion.evaluacion_proyecto_linea68.metodologia_comentario
+                                                            ? evaluacion.evaluacion_proyecto_linea68.metodologia_comentario
+                                                            : 'Sin recomendación'}
+                                                    </p>
+                                                    <hr className="mt-10 mb-10 border-black-200" />
+                                                    <h1 className="font-black">Actividades</h1>
+                                                    <ul className="list-disc pl-4">
+                                                        <li className="whitespace-pre-line text-xs mb-10">
+                                                            {evaluacion.evaluacion_proyecto_linea68.actividades_primer_obj_comentario
+                                                                ? 'Recomendación actividades del primer objetivo específico: ' +
+                                                                  evaluacion.evaluacion_proyecto_linea68.actividades_primer_obj_comentario
+                                                                : 'Sin recomendación'}
+                                                        </li>
+                                                        <li className="whitespace-pre-line text-xs mb-10">
+                                                            {evaluacion.evaluacion_proyecto_linea68.actividades_segundo_obj_comentario
+                                                                ? 'Recomendación actividades del segundo objetivo específico: ' +
+                                                                  evaluacion.evaluacion_proyecto_linea68.actividades_segundo_obj_comentario
+                                                                : 'Sin recomendación'}
+                                                        </li>
+                                                        <li className="whitespace-pre-line text-xs mb-10">
+                                                            {evaluacion.evaluacion_proyecto_linea68.actividades_tercer_obj_comentario
+                                                                ? 'Recomendación actividades del tercer objetivo específico: ' +
+                                                                  evaluacion.evaluacion_proyecto_linea68.actividades_tercer_obj_comentario
+                                                                : 'Sin recomendación'}
+                                                        </li>
+                                                        <li className="whitespace-pre-line text-xs mb-10">
+                                                            {evaluacion.evaluacion_proyecto_linea68.actividades_cuarto_obj_comentario
+                                                                ? 'Recomendación actividades del cuarto objetivo específico: ' +
+                                                                  evaluacion.evaluacion_proyecto_linea68.actividades_cuarto_obj_comentario
+                                                                : 'Sin recomendación'}
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            )}
+                                    </div>
+                                }>
+                                Evaluación {i + 1}
+                            </ToolTipMui>
+                        ) : null,
+                    )}
+                    {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
+                </>
+            ) : null} */}
 
             <TabsMui tabs={tabs}>
                 <div>
@@ -226,103 +312,11 @@ const Actividades = ({
                                 para alcanzar el objetivo general y cada uno de los objetivos específicos.
                             </p>
                         </AlertMui>
-
-                        {is_super_admin || proyecto.mostrar_recomendaciones ? (
-                            <>
-                                {proyecto.evaluaciones.map((evaluacion, i) =>
-                                    is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
-                                        <ToolTipMui
-                                            key={i}
-                                            title={
-                                                <div>
-                                                    <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
-                                                    {evaluacion.evaluacion_proyecto_linea66 && (
-                                                        <p className="whitespace-pre-line text-xs">
-                                                            {evaluacion.evaluacion_proyecto_linea66.metodologia_comentario
-                                                                ? evaluacion.evaluacion_proyecto_linea66.metodologia_comentario
-                                                                : 'Sin recomendación'}
-                                                        </p>
-                                                    )}
-                                                    {!evaluacion.evaluacion_proyecto_linea66 && evaluacion.evaluacion_proyecto_linea65 && (
-                                                        <p className="whitespace-pre-line text-xs">
-                                                            {evaluacion.evaluacion_proyecto_linea65.metodologia_comentario
-                                                                ? evaluacion.evaluacion_proyecto_linea65.metodologia_comentario
-                                                                : 'Sin recomendación'}
-                                                        </p>
-                                                    )}
-                                                    {!evaluacion.evaluacion_proyecto_linea66 && !evaluacion.evaluacion_proyecto_linea65 && evaluacion.evaluacion_proyecto_linea70 && (
-                                                        <p className="whitespace-pre-line text-xs">
-                                                            {evaluacion.evaluacion_proyecto_linea70.metodologia_comentario
-                                                                ? evaluacion.evaluacion_proyecto_linea70.metodologia_comentario
-                                                                : 'Sin recomendación'}
-                                                        </p>
-                                                    )}
-                                                    {!evaluacion.evaluacion_proyecto_linea66 &&
-                                                        !evaluacion.evaluacion_proyecto_linea65 &&
-                                                        !evaluacion.evaluacion_proyecto_linea70 &&
-                                                        evaluacion.evaluacion_proyecto_linea69 && (
-                                                            <p className="whitespace-pre-line text-xs">
-                                                                {evaluacion.evaluacion_proyecto_linea69.metodologia_comentario
-                                                                    ? evaluacion.evaluacion_proyecto_linea69.metodologia_comentario
-                                                                    : 'Sin recomendación'}
-                                                            </p>
-                                                        )}
-                                                    {!evaluacion.evaluacion_proyecto_linea66 &&
-                                                        !evaluacion.evaluacion_proyecto_linea65 &&
-                                                        !evaluacion.evaluacion_proyecto_linea70 &&
-                                                        !evaluacion.evaluacion_proyecto_linea69 &&
-                                                        evaluacion.evaluacion_proyecto_linea68 && (
-                                                            <div>
-                                                                <h1 className="font-black mt-10">Metodología</h1>
-                                                                <p className="whitespace-pre-line text-xs">
-                                                                    {evaluacion.evaluacion_proyecto_linea68.metodologia_comentario
-                                                                        ? evaluacion.evaluacion_proyecto_linea68.metodologia_comentario
-                                                                        : 'Sin recomendación'}
-                                                                </p>
-                                                                <hr className="mt-10 mb-10 border-black-200" />
-                                                                <h1 className="font-black">Actividades</h1>
-                                                                <ul className="list-disc pl-4">
-                                                                    <li className="whitespace-pre-line text-xs mb-10">
-                                                                        {evaluacion.evaluacion_proyecto_linea68.actividades_primer_obj_comentario
-                                                                            ? 'Recomendación actividades del primer objetivo específico: ' +
-                                                                              evaluacion.evaluacion_proyecto_linea68.actividades_primer_obj_comentario
-                                                                            : 'Sin recomendación'}
-                                                                    </li>
-                                                                    <li className="whitespace-pre-line text-xs mb-10">
-                                                                        {evaluacion.evaluacion_proyecto_linea68.actividades_segundo_obj_comentario
-                                                                            ? 'Recomendación actividades del segundo objetivo específico: ' +
-                                                                              evaluacion.evaluacion_proyecto_linea68.actividades_segundo_obj_comentario
-                                                                            : 'Sin recomendación'}
-                                                                    </li>
-                                                                    <li className="whitespace-pre-line text-xs mb-10">
-                                                                        {evaluacion.evaluacion_proyecto_linea68.actividades_tercer_obj_comentario
-                                                                            ? 'Recomendación actividades del tercer objetivo específico: ' +
-                                                                              evaluacion.evaluacion_proyecto_linea68.actividades_tercer_obj_comentario
-                                                                            : 'Sin recomendación'}
-                                                                    </li>
-                                                                    <li className="whitespace-pre-line text-xs mb-10">
-                                                                        {evaluacion.evaluacion_proyecto_linea68.actividades_cuarto_obj_comentario
-                                                                            ? 'Recomendación actividades del cuarto objetivo específico: ' +
-                                                                              evaluacion.evaluacion_proyecto_linea68.actividades_cuarto_obj_comentario
-                                                                            : 'Sin recomendación'}
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        )}
-                                                </div>
-                                            }>
-                                            Evaluación {i + 1}
-                                        </ToolTipMui>
-                                    ) : null,
-                                )}
-                                {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
-                            </>
-                        ) : null}
                     </Grid>
 
                     {(proyecto.codigo_linea_programatica == 69 && Object.keys(proyecto.proyectoHubLinea69) == 0) || proyecto.codigo_linea_programatica == 70 ? (
                         <Grid item md={12}>
-                            <form onSubmit={submit}>
+                            <form onSubmit={submit} className="!mt-20">
                                 <fieldset disabled={proyecto.allowed.to_update ? false : true}>
                                     <Grid container className="space-y-20">
                                         <Grid item md={12}>
@@ -834,7 +828,7 @@ const Actividades = ({
                     ) : null}
 
                     {proyecto.proyectoHubLinea69 && Object.keys(proyecto.proyectoHubLinea69).length > 0 && (
-                        <form onSubmit={submitMetodologiaProyectoHub}>
+                        <form onSubmit={submitMetodologiaProyectoHub} className="!mt-20">
                             <Grid container className="space-y-20">
                                 <Grid item md={12}>
                                     <Label required className="mb-4" labelFor="metodologia" value="Metodología General implemetnada por el Tecnoparque/Hub de Innovación" />

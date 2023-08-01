@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductoLinea66 extends Model
+class ProductoMincienciasLinea66 extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,7 @@ class ProductoLinea66 extends Model
      *
      * @var string
      */
-    protected $table = 'productos_linea_66';
+    protected $table = 'productos_minciencias_linea_66';
 
     /**
      * The attributes that are mass assignable.
@@ -25,6 +25,7 @@ class ProductoLinea66 extends Model
     protected $fillable = [
         'producto_id',
         'subtipologia_minciencias_id',
+        'trl',
         'medio_verificacion'
     ];
 
