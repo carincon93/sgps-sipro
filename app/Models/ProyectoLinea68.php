@@ -32,7 +32,6 @@ class ProyectoLinea68 extends Model
      * @var array
      */
     protected $fillable = [
-        'tipo_proyecto_linea_68_id',
         'titulo',
         'resumen',
         'nombre_area_tecnica',
@@ -52,7 +51,8 @@ class ProyectoLinea68 extends Model
         'video',
         'especificaciones_area',
         'infraestructura_adecuada',
-        'estado_sistema_gestion_id'
+        'estado_sistema_gestion_id',
+        'tipo_proyecto_linea_68_id',
     ];
 
     /**

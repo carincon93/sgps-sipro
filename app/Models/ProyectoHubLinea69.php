@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use DateTimeInterface;
 use Illuminate\Support\Facades\Auth;
 
-class ProyectoLinea69 extends Model
+class ProyectoHubLinea69 extends Model
 {
     use HasFactory;
 
@@ -17,14 +17,14 @@ class ProyectoLinea69 extends Model
      *
      * @var string
      */
-    protected $table = 'tp';
+    protected $table = 'proyectos_hub_linea_69';
 
     /**
      * appends
      *
      * @var array
      */
-    protected $appends = ['titulo', 'fecha_ejecucion'];
+    protected $appends = ['fecha_ejecucion'];
 
     /**
      * The attributes that are mass assignable.
@@ -33,48 +33,69 @@ class ProyectoLinea69 extends Model
      */
     protected $fillable = [
         'id',
-        'nodo_tecnoparque_id',
         'resumen',
+        'fecha_inicio',
+        'fecha_finalizacion',
         'resumen_regional',
         'antecedentes',
         'antecedentes_regional',
+        'logros_vigencia_anterior',
+        'contexto_general',
+        'retos_locales_regionales',
+        'estado_actual_departamento',
+        'contribucion_desarrollo_empresas',
+        'contribucion_agenda_regional_competitividad',
+        'aportes_conpes_4011',
+        'aportes_conpes_4080',
+        'situacion_actual_produccion_agricola',
+        'aportes_alternativas_generacion_electrica',
+        'aportes_impulso_economia_popular',
+        'justificacion_pertinencia',
+        'acciones_estrategias_campesena',
+        'bibliografia',
+        'contribucion_formacion_centro_regional',
+        'acciones_fortalecimiento_centro_regional',
+        'acciones_participacion_aprendices',
+        'acciones_aportes_por_edt',
+        'acciones_fortalecimiento_programas_calificados',
+        'acciones_categorizacion_grupos_investigacion',
+        'oportunidades_fortalecimiento_proyectos_sennova',
+        'proyeccion_articulacion_linea_68',
+        'proyeccion_articulacion_linea_83',
+        'oportunidades_fortalecimiento_convocatorias_innovacion',
+        'proyeccion_articulacion_centros_empresariales',
+
         'problema_central',
-        'justificacion_problema',
-        'retos_oportunidades',
-        'pertinencia_territorio',
-        'marco_conceptual',
         'objetivo_general',
         'metodologia',
         'metodologia_local',
-        'impacto_municipios',
-        'fecha_inicio',
-        'fecha_finalizacion',
-        'propuesta_sostenibilidad',
-        'impacto_centro_formacion',
-        'bibliografia',
-        'identificacion_problema',
-        'aportacion_semilleros_grupos',
-        'proyeccion_con_st',
-        'proyeccion_extensionismo_tecnologico',
-        'proyeccion_centros_desarrollo',
-        'proyeccion_formacion_regional',
-        'articulacion_agenda_competitividad',
-        'aportes_linea_ocho_conpes',
-        'estado_ecosistema_ctel',
-        'logros_vigencia_anterior',
-        'estrategia_articulacion_prox_vigencia',
-        'alianzas_estrategicas',
-        'estrategia_divulgacion',
-        'promover_productividad',
-        'departamentos_atencion_talentos',
+        'areas_cualificacion_mnc',
+        'talentos_otros_departamentos',
         'estrategia_atencion_talentos',
-        'numero_instituciones',
-        'nombre_instituciones',
-        'talento_otros_municipios',
-        'max_meses_ejecucion',
-        'modificable',
-        'pdf_proyecto_general',
+        'acciones_mejoramiento_idic',
+        'municipios_beneficiados_vigencia_anterior',
+        'beneficio_municipios_vigencia_anterior',
+        'municipios_beneficiados_vigencia_actual',
+        'estrategia_articulacion_pbts',
+        'numero_empresas_atendidas',
+        'analisis_impacto_sector_empresarial',
+        'numero_emprendedores_atendidos',
+        'analisis_impacto_regional',
+        'gestion_alianzas_estrategicas',
+        'estrategias_visibilizacion',
+        'integracion_plan_tecnologico',
+        'estrategias_productividad_agropecuaria',
+        'acciones_estrategia_campesena',
+        'estrategia_campesena_campesinos',
+        'acciones_fortalecimiento_economia_popular',
+        'acciones_fortalecimiento_idi',
+
+        'identificacion_problema',
+        'justificacion_problema',
+
+        'nodo_tecnoparque_id',
         'proyecto_base',
+
     ];
 
     /**
@@ -127,23 +148,13 @@ class ProyectoLinea69 extends Model
     }
 
     /**
-     * Relationship with Regional
-     *
-     * @return object
-     */
-    public function talentosOtrosDepartamentos()
-    {
-        return $this->belongsToMany(Regional::class, 'talentos_otros_departamentos', 'tp_id', 'regional_id');
-    }
-
-    /**
      * Filtrar registros
      *
      * @param  mixed $query
      * @param  mixed $filters
      * @return void
      */
-    public function scopeFilterProyectoLinea69($query, array $filters)
+    public function scopeFilterProyectoHubLinea69($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $search = str_replace('"', "", $search);
@@ -151,7 +162,7 @@ class ProyectoLinea69 extends Model
             $search = str_replace(' ', '%%', $search);
             $query->where('resumen', 'ilike', '%' . $search . '%');
             if (is_numeric($search)) {
-                $query->orWhere('tp.id', $search - 8000);
+                $query->orWhere('proyectos_hub_linea_69.id', $search - 8000);
             }
         });
     }
@@ -199,8 +210,8 @@ class ProyectoLinea69 extends Model
         /** @var \App\Models\User */
         $auth_user = Auth::user();
 
-        $proyectos_linea_69 = ProyectoLinea69::select('tp.id', 'tp.nodo_tecnoparque_id', 'tp.fecha_inicio', 'tp.fecha_finalizacion', 'tp.proyecto_base')
-            ->join('proyectos', 'tp.id', 'proyectos.id')
+        $proyectos_hub_linea_69 = ProyectoHubLinea69::select('proyectos_hub_linea_69.id', 'proyectos_hub_linea_69.nodo_tecnoparque_id', 'proyectos_hub_linea_69.fecha_inicio', 'proyectos_hub_linea_69.fecha_finalizacion', 'proyectos_hub_linea_69.proyecto_base')
+            ->join('proyectos', 'proyectos_hub_linea_69.id', 'proyectos.id')
             ->join('centros_formacion', 'proyectos.centro_formacion_id', 'centros_formacion.id')
             ->whereHas(
                 'proyecto.centroFormacion',
@@ -213,14 +224,14 @@ class ProyectoLinea69 extends Model
                         $query->where('centros_formacion.id', $auth_user->centro_formacion_id);
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
 
-                        $query->join('proyectos', 'tp.id', 'proyectos.id');
+                        $query->join('proyectos', 'proyectos_hub_linea_69.id', 'proyectos.id');
                         $query->join('proyecto_participantes', 'proyectos.id', 'proyecto_participantes.proyecto_id');
                         $query->orWhere('proyecto_participantes.user_id', $auth_user->id);
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
                     } else if ($auth_user->hasRole([1, 17, 23])) {
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
                     } else {
-                        $query->join('proyectos', 'tp.id', 'proyectos.id');
+                        $query->join('proyectos', 'proyectos_hub_linea_69.id', 'proyectos.id');
                         $query->join('proyecto_participantes', 'proyectos.id', 'proyecto_participantes.proyecto_id');
                         $query->where('proyecto_participantes.user_id', $auth_user->id);
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
@@ -228,14 +239,14 @@ class ProyectoLinea69 extends Model
                 }
             )
             ->distinct()
-            ->orderBy('tp.id', 'ASC')
-            ->filterProyectoLinea69(request()->only('search'))->paginate();
+            ->orderBy('proyectos_hub_linea_69.id', 'ASC')
+            ->filterProyectoHubLinea69(request()->only('search'))->paginate();
 
-        $proyectos_linea_69->load('proyecto');
-        $proyectos_linea_69->load('nodoTecnoparque');
-        $proyectos_linea_69->load('proyecto.evaluaciones');
+        $proyectos_hub_linea_69->load('proyecto');
+        $proyectos_hub_linea_69->load('nodoTecnoparque');
+        $proyectos_hub_linea_69->load('proyecto.evaluaciones');
 
-        return $proyectos_linea_69;
+        return $proyectos_hub_linea_69;
     }
 
     public function getProyectoBaseAttribute($value)
@@ -247,4 +258,25 @@ class ProyectoLinea69 extends Model
 
         return $value;
     }
+
+    public function getAreasCualificacionMncAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function getTalentosOtrosDepartamentosAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function getMunicipiosBeneficiadosVigenciaAnteriorAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function getMunicipiosBeneficiadosVigenciaActualAttribute($value)
+    {
+        return json_decode($value);
+    }
+
 }

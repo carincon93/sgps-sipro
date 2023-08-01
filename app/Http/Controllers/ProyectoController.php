@@ -195,7 +195,7 @@ class ProyectoController extends Controller
             'evaluacion'        => Evaluacion::find(request()->evaluacion_id),
             'productos'         => $productos,
             'objetivos'         => $objetivos,
-            'objetivo_general'  => $objetivo_general,
+            'objetivo_general'  => $objetivo_general ?? '',
         ]);
     }
 
@@ -341,6 +341,9 @@ class ProyectoController extends Controller
                 break;
             case $proyecto->proyectoLinea69()->exists():
                 return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-linea-69.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-linea-69.edit', [$convocatoria, $proyecto]);
+                break;
+            case $proyecto->proyectoHubLinea69()->exists():
+                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-linea-69.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-hub-linea-69.edit', [$convocatoria, $proyecto]);
                 break;
             case $proyecto->proyectoLinea68()->exists():
                 return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-linea-68.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-linea-68.edit', [$convocatoria, $proyecto]);

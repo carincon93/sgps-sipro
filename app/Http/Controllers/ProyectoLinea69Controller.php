@@ -49,7 +49,7 @@ class ProyectoLinea69Controller extends Controller
         $this->authorize('formular-proyecto', [4, $convocatoria]);
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea69/Create', [
-            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_69', 'max_fecha_finalizacion_proyectos_linea_69', 'fecha_maxima_tp'),
+            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
             'nodos_tecnoparque'     => SelectHelper::nodosTecnoparque(),
             'roles_sennova'         => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowed_to_create'     => Gate::inspect('formular-proyecto', [4, $convocatoria])->allowed()
@@ -62,7 +62,7 @@ class ProyectoLinea69Controller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProyectoLinea69Request $request, Convocatoria $convocatoria, ProyectoLinea69 $proyecto_linea_69)
+    public function store(ProyectoLinea69Request $request, Convocatoria $convocatoria)
     {
         $this->authorize('formular-proyecto', [4, $convocatoria]);
 
@@ -74,8 +74,6 @@ class ProyectoLinea69Controller extends Controller
         $proyecto->lineaProgramatica()->associate(4);
         $proyecto->convocatoria()->associate($convocatoria);
         $proyecto->save();
-
-        $proyecto_linea_69->nodoTecnoparque()->associate($request->nodo_tecnoparque_id);
 
         $proyecto->participantes()->attach(
             Auth::user()->id,
@@ -90,6 +88,7 @@ class ProyectoLinea69Controller extends Controller
         $proyecto_a_replicar = ProyectoLinea69::where('proyecto_base', true)->first();
 
         $nuevo_proyecto_linea_69 = $this->replicateRow($request, $proyecto_a_replicar, $proyecto);
+        $nuevo_proyecto_linea_69->nodoTecnoparque()->associate($request->nodo_tecnoparque_id);
 
         if ($nuevo_proyecto_linea_69) {
             return redirect()->route('convocatorias.proyectos-linea-69.edit', [$convocatoria, $nuevo_proyecto_linea_69])->with('success', 'El recurso se ha creado correctamente.');
@@ -139,7 +138,7 @@ class ProyectoLinea69Controller extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea69/Edit', [
-            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_69', 'max_fecha_finalizacion_proyectos_linea_69', 'fecha_maxima_tp', 'mostrar_recomendaciones', 'year', 'descripcion'),
+            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'year', 'descripcion'),
             'proyecto_linea_69'     => $proyecto_linea_69,
             'evaluacion'            => EvaluacionProyectoLinea69::find(request()->evaluacion_id),
             'regionales'            => SelectHelper::regionales(),
@@ -161,9 +160,6 @@ class ProyectoLinea69Controller extends Controller
     public function update(ProyectoLinea69Request $request, Convocatoria $convocatoria, ProyectoLinea69 $proyecto_linea_69)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_linea_69->proyecto]);
-        $request->validate([
-
-        ]);
 
         $proyecto_linea_69->fecha_inicio                           = $request->fecha_inicio;
         $proyecto_linea_69->fecha_finalizacion                     = $request->fecha_finalizacion;

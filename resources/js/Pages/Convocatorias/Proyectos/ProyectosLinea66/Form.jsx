@@ -127,8 +127,6 @@ const Form = ({
         rol_sennova: null,
     })
 
-    console.log(proyecto_linea_66?.lineas_estrategicas_beneficiadas)
-
     useEffect(() => {
         const filtered_lineas_tecnoacademia = lineas_tecnoacademia?.filter((obj) => obj.tecnoacademia_id === form.data.tecnoacademia_id)
         setArrayLineasTecnoacademia(filtered_lineas_tecnoacademia)

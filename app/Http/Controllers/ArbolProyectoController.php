@@ -118,6 +118,13 @@ class ArbolProyectoController extends Controller
                 $proyecto->objetivo_general         = $proyecto->proyectoLinea69->objetivo_general;
                 $proyecto->proyecto_base            = $proyecto->proyectoLinea69->proyecto_base;
                 break;
+            case $proyecto->proyectoHubLinea69()->exists():
+                $proyecto->justificacion_problema   = $proyecto->proyectoHubLinea69->justificacion_problema;
+                $proyecto->identificacion_problema  = $proyecto->proyectoHubLinea69->identificacion_problema;
+                $proyecto->problema_central         = $proyecto->proyectoHubLinea69->problema_central;
+                $proyecto->objetivo_general         = $proyecto->proyectoHubLinea69->objetivo_general;
+                $proyecto->proyecto_base            = $proyecto->proyectoHubLinea69->proyecto_base;
+            break;
             case $proyecto->proyectoLinea68()->exists():
                 $proyecto->objetivo_general                 = $proyecto->proyectoLinea68->objetivo_general;
                 $proyecto->problema_central                 = $proyecto->proyectoLinea68->problema_central;
@@ -198,14 +205,6 @@ class ArbolProyectoController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        /** @var \App\Models\User */
-        $auth_user = Auth::user();
-
-        // if ($proyecto->lineaProgramatica->codigo == 69 && $auth_user->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $auth_user->hasRole([1, 5, 17]) == false) {
-        if ($auth_user->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->proyectoLinea69->proyecto_base == false && (string)$auth_user->can_by_user->search(24) === "" || $auth_user->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->proyectoLinea70->proyecto_base == false && (string)$auth_user->can_by_user->search(23) === "") {
-            return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
-        }
-
         switch ($proyecto) {
             case $proyecto->proyectoLinea66()->exists():
                 $request->validate([
@@ -251,6 +250,23 @@ class ArbolProyectoController extends Controller
 
 
                 $proyecto_linea_69->save();
+                break;
+
+            case $proyecto->proyectoHubLinea69()->exists():
+                $proyecto_hub_linea_69 = $proyecto->proyectoHubLinea69;
+                $request->validate([
+                    'identificacion_problema'   => 'required|string|max:40000',
+                    'problema_central'          => 'required|string|max:40000',
+                    'justificacion_problema'    => 'required|string|max:40000',
+                    'objetivo_general'          => 'required|string|max:40000',
+                ]);
+                $proyecto_hub_linea_69->identificacion_problema    = $request->identificacion_problema;
+                $proyecto_hub_linea_69->justificacion_problema     = $request->justificacion_problema;
+                $proyecto_hub_linea_69->problema_central           = $request->problema_central;
+                $proyecto_hub_linea_69->objetivo_general           = $request->objetivo_general;
+
+
+                $proyecto_hub_linea_69->save();
                 break;
 
             case $proyecto->proyectoLinea65()->exists():
@@ -568,6 +584,8 @@ class ArbolProyectoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
+        $this->generarArboles($proyecto);
+
         $proyecto->load('evaluaciones.evaluacionProyectoLinea66');
 
         $efectos_directos    = $proyecto->efectosDirectos()->with('efectosIndirectos.impacto', 'resultado')->get();
@@ -628,7 +646,7 @@ class ArbolProyectoController extends Controller
             'evaluacion'            => Evaluacion::find(request()->evaluacion_id),
             'efectos_directos'      => $efectos_directos,
             'causas_directas'       => $causas_directas,
-            'tipos_impacto'         => $tipos_impacto,
+            'tipos_impacto'         => $tipos_impacto ?? [],
             'resultados'            => Resultado::select('id as value', 'descripcion as label', 'objetivo_especifico_id')->whereIn(
                                         'objetivo_especifico_id',
                                         $objetivo_especifico->map(function ($objetivo_especifico) {

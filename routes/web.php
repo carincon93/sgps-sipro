@@ -37,6 +37,7 @@ use App\Http\Controllers\ProyectoIdiTecnoacademiaController;
 use App\Http\Controllers\ProyectoLinea65Controller;
 use App\Http\Controllers\ProyectoLinea66Controller;
 use App\Http\Controllers\ProyectoLinea68Controller;
+use App\Http\Controllers\ProyectoHubLinea69Controller;
 use App\Http\Controllers\ProyectoLinea69Controller;
 use App\Http\Controllers\ProyectoLinea70Controller;
 use App\Http\Controllers\ProyectoPresupuestoController;
@@ -298,6 +299,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
      */
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion', [ArticulacionSennovaController::class, 'showArticulacionSennova'])->name('convocatorias.proyectos.articulacion-sennova');
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion', [ArticulacionSennovaController::class, 'storeArticulacionSennova'])->name('convocatorias.proyectos.articulacion-sennova.store');
+    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion-proyectos-hub', [ArticulacionSennovaController::class, 'storeArticulacionSennovaProyectosHub'])->name('convocatorias.proyectos.articulacion-sennova-proyectos-hub.store');
+
+
 
     /**
      * Línea programática 66 - Estrategia regional
@@ -322,6 +326,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('convocatorias/{convocatoria}/proyectos-linea-69/{proyecto_linea_69}/download-file-sharepoint/{tipo_archivo}', [ProyectoLinea69Controller::class, 'downloadFileSharepoint'])->name('convocatorias.proyectos-linea-69.download-file-sharepoint');
     Route::resource('convocatorias.proyectos-linea-69', ProyectoLinea69Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-linea-69' => 'proyecto-linea-69'])->except(['show']);
     Route::put('convocatorias/{convocatoria}/tp/{tp}/column/{column}', [ProyectoLinea69Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-linea-69.updateLongColumn');
+
+
+    /**
+     * Línea programática 69 Hubs - Estrategia nacional
+     *
+     */
+    Route::get('convocatorias/{convocatoria}/proyectos-hub-linea-69/{proyecto_linea_69}/download-file-sharepoint/{tipo_archivo}', [ProyectoHubLinea69Controller::class, 'downloadFileSharepoint'])->name('convocatorias.proyectos-hub-linea-69.download-file-sharepoint');
+    Route::resource('convocatorias.proyectos-hub-linea-69', ProyectoHubLinea69Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-hub-linea-69' => 'proyecto-hub-linea-69'])->except(['show']);
 
     /**
      * Línea programática 70 - Estrategia nacional
@@ -446,6 +458,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
      *
      */
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia', [ActividadController::class, 'updateMetodologia'])->name('convocatorias.proyectos.metodologia');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia-proyecto-hub', [ActividadController::class, 'updateMetodologiaProyectoHub'])->name('convocatorias.proyectos.metodologia-proyecto-hub');
     Route::resource('convocatorias.proyectos.actividades', ActividadController::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos' => 'proyecto', 'actividades' => 'actividad'])->except(['show']);
 
     /**

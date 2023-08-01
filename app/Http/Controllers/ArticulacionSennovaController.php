@@ -43,6 +43,7 @@ class ArticulacionSennovaController extends Controller
         $proyecto->gruposInvestigacion;
         $proyecto->lineasInvestigacion;
         $proyecto->semillerosInvestigacion;
+        $proyecto->proyectoHubLinea69;
 
         switch ($proyecto->lineaProgramatica->codigo) {
             case 70:
@@ -64,12 +65,15 @@ class ArticulacionSennovaController extends Controller
                 break;
 
             case 69:
-                $proyecto->impacto_centro_formacion             = $proyecto->proyectoLinea69->impacto_centro_formacion;
-                $proyecto->aportacion_semilleros_grupos         = $proyecto->proyectoLinea69->aportacion_semilleros_grupos;
-                $proyecto->proyeccion_con_st                    = $proyecto->proyectoLinea69->proyeccion_con_st;
-                $proyecto->proyeccion_extensionismo_tecnologico = $proyecto->proyectoLinea69->proyeccion_extensionismo_tecnologico;
-                $proyecto->proyeccion_centros_desarrollo        = $proyecto->proyectoLinea69->proyeccion_centros_desarrollo;
-                $proyecto->proyeccion_formacion_regional        = $proyecto->proyectoLinea69->proyeccion_formacion_regional;
+                if ($proyecto->proyectoLinea69()->exists()) {
+                    $proyecto->impacto_centro_formacion             = $proyecto->proyectoLinea69->impacto_centro_formacion;
+                    $proyecto->aportacion_semilleros_grupos         = $proyecto->proyectoLinea69->aportacion_semilleros_grupos;
+                    $proyecto->proyeccion_con_st                    = $proyecto->proyectoLinea69->proyeccion_con_st;
+                    $proyecto->proyeccion_extensionismo_tecnologico = $proyecto->proyectoLinea69->proyeccion_extensionismo_tecnologico;
+                    $proyecto->proyeccion_centros_desarrollo        = $proyecto->proyectoLinea69->proyeccion_centros_desarrollo;
+                    $proyecto->proyeccion_formacion_regional        = $proyecto->proyectoLinea69->proyeccion_formacion_regional;
+                }
+
                 break;
 
             default:
@@ -77,7 +81,7 @@ class ArticulacionSennovaController extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/ArticulacionSennova/Index', [
-            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year', 'min_fecha_inicio_proyectos_linea_70', 'max_fecha_finalizacion_proyectos_linea_70'),
+            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'proyecto'                          => $proyecto->only(
                                                     'id',
                                                     'precio_proyecto',
@@ -104,6 +108,7 @@ class ArticulacionSennovaController extends Controller
                                                     'gruposInvestigacion',
                                                     'lineasInvestigacion',
                                                     'semillerosInvestigacion',
+                                                    'proyectoHubLinea69',
                                                     'proyectoLinea70',
                                                     'diff_meses'
                                                 ),
@@ -136,8 +141,8 @@ class ArticulacionSennovaController extends Controller
     public function storeArticulacionSennova(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
     {
         $request->merge([
-            'semilleros_investigacion'  => count($request->semilleros_investigacion) == 0 ? null : $request->semilleros_investigacion,
-            'grupos_investigacion'      => count($request->grupos_investigacion) == 0 ? null : $request->grupos_investigacion
+            'semilleros_investigacion'  => is_array($request->semilleros_investigacion) && count($request->semilleros_investigacion) == 0 ? null : $request->semilleros_investigacion,
+            'grupos_investigacion'      => is_array($request->grupos_investigacion) && count($request->grupos_investigacion) == 0 ? null : $request->grupos_investigacion
         ]);
 
         switch ($proyecto->lineaProgramatica->codigo) {
@@ -199,6 +204,33 @@ class ArticulacionSennovaController extends Controller
             default:
                 break;
         }
+
+        return back()->with('success', 'El recurso se ha guardado correctamente.');
+    }
+
+    public function storeArticulacionSennovaProyectosHub(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        $request->merge([
+            'semilleros_investigacion'  => is_array($request->semilleros_investigacion) && count($request->semilleros_investigacion) == 0 ? null : $request->semilleros_investigacion,
+            'grupos_investigacion'      => is_array($request->grupos_investigacion) && count($request->grupos_investigacion) == 0 ? null : $request->grupos_investigacion
+        ]);
+
+        $proyecto->gruposInvestigacion()->sync($request->grupos_investigacion);
+        $proyecto->semillerosInvestigacion()->sync($request->semilleros_investigacion);
+
+        $proyecto->proyectoHubLinea69->update([
+            'contribucion_formacion_centro_regional'                    => $request->contribucion_formacion_centro_regional,
+            'acciones_fortalecimiento_centro_regional'                  => $request->acciones_fortalecimiento_centro_regional,
+            'acciones_participacion_aprendices'                         => $request->acciones_participacion_aprendices,
+            'acciones_aportes_por_edt'                                  => $request->acciones_aportes_por_edt,
+            'acciones_fortalecimiento_programas_calificados'            => $request->acciones_fortalecimiento_programas_calificados,
+            'acciones_categorizacion_grupos_investigacion'              => $request->acciones_categorizacion_grupos_investigacion,
+            'oportunidades_fortalecimiento_proyectos_sennova'           => $request->oportunidades_fortalecimiento_proyectos_sennova,
+            'proyeccion_articulacion_linea_68'                          => $request->proyeccion_articulacion_linea_68,
+            'proyeccion_articulacion_linea_83'                          => $request->proyeccion_articulacion_linea_83,
+            'oportunidades_fortalecimiento_convocatorias_innovacion'    => $request->oportunidades_fortalecimiento_convocatorias_innovacion,
+            'proyeccion_articulacion_centros_empresariales'             => $request->proyeccion_articulacion_centros_empresariales,
+        ]);
 
         return back()->with('success', 'El recurso se ha guardado correctamente.');
     }

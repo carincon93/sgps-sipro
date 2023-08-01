@@ -12,3 +12,6 @@ Agregar campo de programas de formación con registro calificado Revisar los ane
 
 66 Agregar TRL en productos donde se despliegue minciencias
 
+69
+
+Subir el Archivo del Plan Tecnológico del Centro

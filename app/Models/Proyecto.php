@@ -128,13 +128,13 @@ class Proyecto extends Model
     }
 
     /**
-     * Relationship with ProyectoLinea70
+     * Relationship with ProyectoHubLinea69
      *
      * @return object
      */
-    public function proyectoLinea70()
+    public function proyectoHubLinea69()
     {
-        return $this->hasOne(ProyectoLinea70::class, 'id');
+        return $this->hasOne(ProyectoHubLinea69::class, 'id');
     }
 
     /**
@@ -145,6 +145,16 @@ class Proyecto extends Model
     public function proyectoLinea69()
     {
         return $this->hasOne(ProyectoLinea69::class, 'id');
+    }
+
+    /**
+     * Relationship with ProyectoLinea70
+     *
+     * @return object
+     */
+    public function proyectoLinea70()
+    {
+        return $this->hasOne(ProyectoLinea70::class, 'id');
     }
 
     /**

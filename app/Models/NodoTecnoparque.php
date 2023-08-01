@@ -74,6 +74,16 @@ class NodoTecnoparque extends Model
     }
 
     /**
+     * Relationship with ProyectoHubLinea69
+     *
+     * @return object
+     */
+    public function proyectoLineaHub69()
+    {
+        return $this->hasOne(ProyectoHubLinea69::class);
+    }
+
+    /**
      * Filtrar registros
      *
      * @param  mixed $query

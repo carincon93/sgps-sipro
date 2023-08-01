@@ -185,6 +185,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
     const isActive =
         route().current('convocatorias.proyectos-linea-70.edit') ||
         route().current('convocatorias.proyectos-linea-69.edit') ||
+        route().current('convocatorias.proyectos-hub-linea-69.edit') ||
         route().current('convocatorias.proyectos-linea-66.edit') ||
         route().current('convocatorias.proyectos-linea-68.edit') ||
         route().current('convocatorias.proyectos-linea-65.edit')

@@ -40,6 +40,8 @@ class ActividadController extends Controller
                         return $resultado->productos;
                     })->flatten();
 
+        $proyecto->proyectoHubLinea69;
+
         switch ($proyecto) {
             case $proyecto->proyectoLinea66()->exists():
                 $proyecto->metodologia = $proyecto->proyectoLinea66->metodologia;
@@ -81,6 +83,7 @@ class ActividadController extends Controller
                 $proyecto->departamentos_atencion_talentos          = $proyecto->proyectoLinea69->departamentos_atencion_talentos;
                 $proyecto->estrategia_atencion_talentos             = $proyecto->proyectoLinea69->estrategia_atencion_talentos;
                 break;
+
             case $proyecto->proyectoLinea65()->exists():
                 $proyecto->metodologia      = $proyecto->proyectoLinea65->metodologia;
                 $proyecto->tipo_proyecto    = $proyecto->proyectoLinea65->tipo_proyecto;
@@ -128,6 +131,7 @@ class ActividadController extends Controller
                                             'en_subsanacion',
                                             'evaluaciones',
                                             'mostrar_recomendaciones',
+                                            'proyectoHubLinea69',
                                             'allowed',
                                             'tipo_proyecto'
                                         ),
@@ -160,6 +164,8 @@ class ActividadController extends Controller
                                             ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
                                             ->where('proyecto_rol_sennova.proyecto_id', $proyecto->id)->with('convocatoriaRolSennova.rolSennova:id,nombre')->get(),
             'productos'                 => $productos,
+            'areas_cualificacion_mnc'   => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),
+
         ]);
     }
 
@@ -328,6 +334,38 @@ class ActividadController extends Controller
                 $proyecto_linea_69->talentosOtrosDepartamentos()->sync($request->talento_otros_departamentos);
 
                 break;
+
+            case $proyecto->proyectoHubLinea69()->exists():
+                $proyecto_hub_linea_69                                                  = $proyecto->proyectoHubLinea69;
+                $proyecto_hub_linea_69->metodologia                                     = $request->metodologia;
+                $proyecto_hub_linea_69->metodologia_local                               = $request->metodologia_local;
+                $proyecto_hub_linea_69->areas_cualificacion_mnc                         = $request->areas_cualificacion_mnc;
+                $proyecto_hub_linea_69->talentos_otros_departamentos                    = $request->talentos_otros_departamentos;
+                $proyecto_hub_linea_69->estrategia_atencion_talentos                    = $request->estrategia_atencion_talentos;
+                $proyecto_hub_linea_69->acciones_mejoramiento_idic                      = $request->acciones_mejoramiento_idic;
+                $proyecto_hub_linea_69->municipios_beneficiados_vigencia_anterior       = $request->municipios_beneficiados_vigencia_anterior;
+                $proyecto_hub_linea_69->beneficio_municipios_vigencia_anterior          = $request->beneficio_municipios_vigencia_anterior;
+                $proyecto_hub_linea_69->municipios_beneficiados_vigencia_actual         = $request->municipios_beneficiados_vigencia_actual;
+                $proyecto_hub_linea_69->estrategia_articulacion_pbts                    = $request->estrategia_articulacion_pbts;
+                $proyecto_hub_linea_69->numero_empresas_atendidas                       = $request->numero_empresas_atendidas;
+                $proyecto_hub_linea_69->analisis_impacto_sector_empresarial             = $request->analisis_impacto_sector_empresarial;
+                $proyecto_hub_linea_69->numero_emprendedores_atendidos                  = $request->numero_emprendedores_atendidos;
+                $proyecto_hub_linea_69->analisis_impacto_regional                       = $request->analisis_impacto_regional;
+                $proyecto_hub_linea_69->gestion_alianzas_estrategicas                   = $request->gestion_alianzas_estrategicas;
+                $proyecto_hub_linea_69->estrategias_visibilizacion                      = $request->estrategias_visibilizacion;
+                $proyecto_hub_linea_69->integracion_plan_tecnologico                    = $request->integracion_plan_tecnologico;
+                $proyecto_hub_linea_69->estrategias_productividad_agropecuaria          = $request->estrategias_productividad_agropecuaria;
+                $proyecto_hub_linea_69->acciones_estrategia_campesena                   = $request->acciones_estrategia_campesena;
+                $proyecto_hub_linea_69->estrategia_campesena_campesinos                 = $request->estrategia_campesena_campesinos;
+                $proyecto_hub_linea_69->acciones_fortalecimiento_economia_popular       = $request->acciones_fortalecimiento_economia_popular;
+                $proyecto_hub_linea_69->acciones_fortalecimiento_idi                    = $request->acciones_fortalecimiento_idi;
+
+                $proyecto_hub_linea_69->save();
+
+                break;
+
+
+
             case $proyecto->proyectoLinea65()->exists():
                 $proyecto_linea_65              = $proyecto->proyectoLinea65;
                 $proyecto_linea_65->metodologia = $request->metodologia;
@@ -343,6 +381,40 @@ class ActividadController extends Controller
             default:
                 break;
         }
+
+        return back()->with('success', 'El recurso se ha guardado correctamente.');
+    }
+
+
+    public function updateMetodologiaProyectoHub(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        $this->authorize('modificar-proyecto-autor', $proyecto);
+
+        $proyecto_hub_linea_69                                                  = $proyecto->proyectoHubLinea69;
+        $proyecto_hub_linea_69->metodologia                                     = $request->metodologia;
+        $proyecto_hub_linea_69->metodologia_local                               = $request->metodologia_local;
+        $proyecto_hub_linea_69->areas_cualificacion_mnc                         = $request->areas_cualificacion_mnc;
+        $proyecto_hub_linea_69->talentos_otros_departamentos                    = $request->talentos_otros_departamentos;
+        $proyecto_hub_linea_69->estrategia_atencion_talentos                    = $request->estrategia_atencion_talentos;
+        $proyecto_hub_linea_69->acciones_mejoramiento_idic                      = $request->acciones_mejoramiento_idic;
+        $proyecto_hub_linea_69->municipios_beneficiados_vigencia_anterior       = $request->municipios_beneficiados_vigencia_anterior;
+        $proyecto_hub_linea_69->beneficio_municipios_vigencia_anterior          = $request->beneficio_municipios_vigencia_anterior;
+        $proyecto_hub_linea_69->municipios_beneficiados_vigencia_actual         = $request->municipios_beneficiados_vigencia_actual;
+        $proyecto_hub_linea_69->estrategia_articulacion_pbts                    = $request->estrategia_articulacion_pbts;
+        $proyecto_hub_linea_69->numero_empresas_atendidas                       = $request->numero_empresas_atendidas;
+        $proyecto_hub_linea_69->analisis_impacto_sector_empresarial             = $request->analisis_impacto_sector_empresarial;
+        $proyecto_hub_linea_69->numero_emprendedores_atendidos                  = $request->numero_emprendedores_atendidos;
+        $proyecto_hub_linea_69->analisis_impacto_regional                       = $request->analisis_impacto_regional;
+        $proyecto_hub_linea_69->gestion_alianzas_estrategicas                   = $request->gestion_alianzas_estrategicas;
+        $proyecto_hub_linea_69->estrategias_visibilizacion                      = $request->estrategias_visibilizacion;
+        $proyecto_hub_linea_69->integracion_plan_tecnologico                    = $request->integracion_plan_tecnologico;
+        $proyecto_hub_linea_69->estrategias_productividad_agropecuaria          = $request->estrategias_productividad_agropecuaria;
+        $proyecto_hub_linea_69->acciones_estrategia_campesena                   = $request->acciones_estrategia_campesena;
+        $proyecto_hub_linea_69->estrategia_campesena_campesinos                 = $request->estrategia_campesena_campesinos;
+        $proyecto_hub_linea_69->acciones_fortalecimiento_economia_popular       = $request->acciones_fortalecimiento_economia_popular;
+        $proyecto_hub_linea_69->acciones_fortalecimiento_idi                    = $request->acciones_fortalecimiento_idi;
+
+        $proyecto_hub_linea_69->save();
 
         return back()->with('success', 'El recurso se ha guardado correctamente.');
     }
