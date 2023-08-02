@@ -85,14 +85,14 @@ class FormacionAcademicaSena extends Model
 
         public function getFilenameAttribute()
     {
-        $fileInfo = pathinfo($this->soporte_titulo_obtenido);
+        $fileInfo = pathinfo($this->certificado_formacion);
 
         return $fileInfo['filename'] ?? '';
     }
 
     public function getExtensionAttribute()
     {
-        $fileInfo = pathinfo($this->soporte_titulo_obtenido);
+        $fileInfo = pathinfo($this->certificado_formacion);
 
         return $fileInfo['extension'] ?? '';
     }

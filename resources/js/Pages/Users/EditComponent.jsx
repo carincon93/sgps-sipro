@@ -56,8 +56,6 @@ const EditComponent = ({
         })
     }
 
-    console.log(usuario)
-
     return (
         <TabsMui
             tabs={[

@@ -37,10 +37,6 @@ class EstudioAcademicoRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->grado_formacion)) {
-            $this->merge([
-                'grado_formacion' => $this->grado_formacion['value'],
-            ]);
-        }
+        //
     }
 }

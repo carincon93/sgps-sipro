@@ -565,7 +565,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Usuarios
      *
      */
+    Route::get('estudios-academicos/{estudio_academico}/download-file-sharepoint/{tipo_archivo}', [EstudioAcademicoController::class, 'downloadFileSharepoint'])->name('estudios-academicos.download-file-sharepoint');
     Route::resource('estudios-academicos', EstudioAcademicoController::class)->parameters(['estudios-academicos' => 'estudio-academico'])->except(['index', 'show'])->withoutMiddleware(['auth', 'verified']);
+    Route::get('formaciones-academicas-sena/{formacion_academica_sena}/download-file-sharepoint/{tipo_archivo}', [FormacionAcademicaSenaController::class, 'downloadFileSharepoint'])->name('formaciones-academicas-sena.download-file-sharepoint');
     Route::resource('formaciones-academicas-sena', FormacionAcademicaSenaController::class)->parameters(['formaciones-academicas-sena' => 'formacion-academica-sena'])->except(['index', 'show'])->withoutMiddleware(['auth', 'verified']);
     Route::resource('participaciones-grupos-investigacion-sena', ParticipacionGrupoInvestigacionSenaController::class)->parameters(['participaciones-grupos-investigacion-sena' => 'participacion-gis'])->except(['index', 'show'])->withoutMiddleware(['auth', 'verified']);
     Route::resource('participaciones-proyectos-sennova', ParticipacionProyectoSennovaController::class)->parameters(['participaciones-proyectos-sennova' => 'participacion-ps'])->except(['index', 'show'])->withoutMiddleware(['auth', 'verified']);

@@ -45,11 +45,11 @@ class FormacionAcademicaSenaController extends Controller
     {
         $this->authorize('create', [FormacionAcademicaSena::class]);
 
-        $formacionAcademicaSena = FormacionAcademicaSena::create($request->all());
+        $formacion_academica_sena = FormacionAcademicaSena::create($request->all());
 
         if ($request->hasFile('certificado_formacion')) {
             // CENSO2023 Quemado
-            $this->saveFilesSharepoint($request->certificado_formacion, 'CENSO2023', $formacionAcademicaSena, 'certificado_formacion');
+            $this->saveFilesSharepoint($request->certificado_formacion, 'CENSO2023', $formacion_academica_sena, 'certificado_formacion');
         }
 
         return back()->with('success', 'El recurso se ha creado correctamente.');
@@ -58,10 +58,10 @@ class FormacionAcademicaSenaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\FormacionAcademicaSena  $formacionAcademicaSena
+     * @param  \App\Models\FormacionAcademicaSena  $formacion_academica_sena
      * @return \Illuminate\Http\Response
      */
-    public function show(FormacionAcademicaSena $formacionAcademicaSena)
+    public function show(FormacionAcademicaSena $formacion_academica_sena)
     {
         //
     }
@@ -69,12 +69,12 @@ class FormacionAcademicaSenaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\FormacionAcademicaSena  $formacionAcademicaSena
+     * @param  \App\Models\FormacionAcademicaSena  $formacion_academica_sena
      * @return \Illuminate\Http\Response
      */
-    public function edit(FormacionAcademicaSena $formacionAcademicaSena)
+    public function edit(FormacionAcademicaSena $formacion_academica_sena)
     {
-        $this->authorize('update', [FormacionAcademicaSena::class, $formacionAcademicaSena]);
+        $this->authorize('update', [FormacionAcademicaSena::class, $formacion_academica_sena]);
 
         //
     }
@@ -83,18 +83,18 @@ class FormacionAcademicaSenaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\FormacionAcademicaSena  $formacionAcademicaSena
+     * @param  \App\Models\FormacionAcademicaSena  $formacion_academica_sena
      * @return \Illuminate\Http\Response
      */
-    public function update(FormacionAcademicaSenaRequest $request, FormacionAcademicaSena $formacionAcademicaSena)
+    public function update(FormacionAcademicaSenaRequest $request, FormacionAcademicaSena $formacion_academica_sena)
     {
-        $this->authorize('update', [FormacionAcademicaSena::class, $formacionAcademicaSena]);
+        $this->authorize('update', [FormacionAcademicaSena::class, $formacion_academica_sena]);
 
-        $formacionAcademicaSena->update($request->validated());
+        $formacion_academica_sena->update($request->validated());
 
         if ($request->hasFile('certificado_formacion')) {
             // CENSO2023 Quemado
-            $this->saveFilesSharepoint($request->certificado_formacion, 'CENSO2023', $formacionAcademicaSena, 'certificado_formacion');
+            $this->saveFilesSharepoint($request->certificado_formacion, 'CENSO2023', $formacion_academica_sena, 'certificado_formacion');
         }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
@@ -103,14 +103,14 @@ class FormacionAcademicaSenaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\FormacionAcademicaSena  $formacionAcademicaSena
+     * @param  \App\Models\FormacionAcademicaSena  $formacion_academica_sena
      * @return \Illuminate\Http\Response
      */
-    public function destroy(FormacionAcademicaSena $formacionAcademicaSena)
+    public function destroy(FormacionAcademicaSena $formacion_academica_sena)
     {
-        $this->authorize('delete', [FormacionAcademicaSena::class, $formacionAcademicaSena]);
+        $this->authorize('delete', [FormacionAcademicaSena::class, $formacion_academica_sena]);
 
-        $formacionAcademicaSena->delete();
+        $formacion_academica_sena->delete();
 
         return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
@@ -119,9 +119,16 @@ class FormacionAcademicaSenaController extends Controller
     {
         $user = Auth::user();
 
-        $centroFormacionSharePoint = $user->centroFormacion->nombre_carpeta_sharepoint;
+        $sharepoint_centro_formacion = $user->centroFormacion->nombre_carpeta_sharepoint;
 
-        $sharepoint_path = "$modulo/$centroFormacionSharePoint/$user->nombre_carpeta_sharepoint";
+        $sharepoint_path = "$modulo/$sharepoint_centro_formacion/$user->nombre_carpeta_sharepoint";
         SharepointHelper::saveFilesSharepoint($tmp_file, $modelo, $sharepoint_path, $campo_bd);
+    }
+
+    public function downloadFileSharepoint(FormacionAcademicaSena $formacion_academica_sena, $tipo_archivo)
+    {
+        $sharepoint_path = $formacion_academica_sena[$tipo_archivo];
+
+        return SharepointHelper::downloadFile($sharepoint_path);
     }
 }

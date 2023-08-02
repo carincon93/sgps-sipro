@@ -34,8 +34,6 @@ const Form = ({ method = '', setDialogStatus, user_id, formacion_academica_sena,
               })
     }
 
-    console.log(form.errors)
-
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
@@ -124,7 +122,7 @@ const Form = ({ method = '', setDialogStatus, user_id, formacion_academica_sena,
                                     formacion_academica_sena?.certificado_formacion
                                         ? formacion_academica_sena?.certificado_formacion?.includes('http')
                                             ? null
-                                            : route('users.download-file-sharepoint', [user, formacion_academica_sena.id, 'certificado_formacion'])
+                                            : route('formaciones-academicas-sena.download-file-sharepoint', [formacion_academica_sena.id, 'certificado_formacion'])
                                         : null
                                 }
                                 onChange={(e) => form.setData('certificado_formacion', e.target.files[0])}

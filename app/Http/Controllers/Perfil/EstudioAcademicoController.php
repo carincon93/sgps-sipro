@@ -45,11 +45,11 @@ class EstudioAcademicoController extends Controller
     {
         $this->authorize('create', [EstudioAcademico::class]);
 
-        $estudioAcademico = EstudioAcademico::create($request->all());
+        $estudio_academico = EstudioAcademico::create($request->all());
 
         if ($request->hasFile('soporte_titulo_obtenido')) {
             // CENSO2023 Quemado
-            $this->saveFilesSharepoint($request->soporte_titulo_obtenido, 'CENSO2023', $estudioAcademico, 'soporte_titulo_obtenido');
+            $this->saveFilesSharepoint($request->soporte_titulo_obtenido, 'CENSO2023', $estudio_academico, 'soporte_titulo_obtenido');
         }
 
         return back()->with('success', 'El recurso se ha creado correctamente.');
@@ -58,10 +58,10 @@ class EstudioAcademicoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\EstudioAcademico  $estudioAcademico
+     * @param  \App\Models\EstudioAcademico  $estudio_academico
      * @return \Illuminate\Http\Response
      */
-    public function show(EstudioAcademico $estudioAcademico)
+    public function show(EstudioAcademico $estudio_academico)
     {
         //
     }
@@ -69,12 +69,12 @@ class EstudioAcademicoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\EstudioAcademico  $estudioAcademico
+     * @param  \App\Models\EstudioAcademico  $estudio_academico
      * @return \Illuminate\Http\Response
      */
-    public function edit(EstudioAcademico $estudioAcademico)
+    public function edit(EstudioAcademico $estudio_academico)
     {
-        $this->authorize('update', [EstudioAcademico::class, $estudioAcademico]);
+        $this->authorize('update', [EstudioAcademico::class, $estudio_academico]);
 
         //
     }
@@ -83,18 +83,18 @@ class EstudioAcademicoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\EstudioAcademico  $estudioAcademico
+     * @param  \App\Models\EstudioAcademico  $estudio_academico
      * @return \Illuminate\Http\Response
      */
-    public function update(EstudioAcademicoRequest $request, EstudioAcademico $estudioAcademico)
+    public function update(EstudioAcademicoRequest $request, EstudioAcademico $estudio_academico)
     {
-        $this->authorize('update', [EstudioAcademico::class, $estudioAcademico]);
+        $this->authorize('update', [EstudioAcademico::class, $estudio_academico]);
 
-        $estudioAcademico->update($request->all());
+        $estudio_academico->update($request->all());
 
         if ($request->hasFile('soporte_titulo_obtenido')) {
             // CENSO2023 Quemado
-            $this->saveFilesSharepoint($request->soporte_titulo_obtenido, 'CENSO2023', $estudioAcademico, 'soporte_titulo_obtenido');
+            $this->saveFilesSharepoint($request->soporte_titulo_obtenido, 'CENSO2023', $estudio_academico, 'soporte_titulo_obtenido');
         }
 
         return redirect()->back()->with('success', 'El recurso se ha actualizado correctamente.');
@@ -103,14 +103,14 @@ class EstudioAcademicoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\EstudioAcademico  $estudioAcademico
+     * @param  \App\Models\EstudioAcademico  $estudio_academico
      * @return \Illuminate\Http\Response
      */
-    public function destroy(EstudioAcademico $estudioAcademico)
+    public function destroy(EstudioAcademico $estudio_academico)
     {
-        $this->authorize('delete', [EstudioAcademico::class, $estudioAcademico]);
+        $this->authorize('delete', [EstudioAcademico::class, $estudio_academico]);
 
-        $estudioAcademico->delete();
+        $estudio_academico->delete();
 
         return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
@@ -119,9 +119,16 @@ class EstudioAcademicoController extends Controller
     {
         $user = Auth::user();
 
-        $centroFormacionSharePoint = $user->centroFormacion->nombre_carpeta_sharepoint;
+        $sharepoint_centro_formacion = $user->centroFormacion->nombre_carpeta_sharepoint;
 
-        $sharepoint_path = "$modulo/$centroFormacionSharePoint/$user->nombre_carpeta_sharepoint";
+        $sharepoint_path = "$modulo/$sharepoint_centro_formacion/$user->nombre_carpeta_sharepoint";
         SharepointHelper::saveFilesSharepoint($tmp_file, $modelo, $sharepoint_path, $campo_bd);
+    }
+
+    public function downloadFileSharepoint(EstudioAcademico $estudio_academico, $tipo_archivo)
+    {
+        $sharepoint_path = $estudio_academico[$tipo_archivo];
+
+        return SharepointHelper::downloadFile($sharepoint_path);
     }
 }
