@@ -313,7 +313,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 required
                                 disabled={evaluacion ? true : false}
                                 labelFor="logros_implementacion_ctel"
-                                value="Describa los principales logros de la implementación de la línea ET en el 2023"
+                                value={`Describa los principales logros de la implementación de la línea ET en el ${convocatoria.year - 1}`}
                             />
 
                             <Textarea
@@ -352,7 +352,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                             />
                         </Grid>
                         <Grid item md={12}>
-                            <h1 className="text-center">EJES TRANSVERSALES 2024</h1>
+                            <h1 className="text-center">EJES TRANSVERSALES {convocatoria.year}</h1>
                         </Grid>
                         <Grid item md={12}>
                             <Label

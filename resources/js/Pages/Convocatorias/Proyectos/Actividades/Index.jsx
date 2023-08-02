@@ -941,7 +941,7 @@ const Actividades = ({
                                         required
                                         className="mb-4"
                                         labelFor="metodologia_local"
-                                        value="A continuación, describa la metodología que será implementada en el 2024 en el nodo para lograr los objetivos propuestos en cada una de las etapas definidas para los Tecnoparques/ Hubs de Innovación:"
+                                        value={`A continuación, describa la metodología que será implementada en el ${convocatoria.year} en el nodo para lograr los objetivos propuestos en cada una de las etapas definidas para los Tecnoparques/ Hubs de Innovación:`}
                                     />
 
                                     <Textarea
@@ -978,7 +978,7 @@ const Actividades = ({
                                         required
                                         className="mb-4"
                                         labelFor="talentos_otros_departamentos"
-                                        value="¿Planea en el 2024 realizar acciones que beneficien talentos en otros departamentos?"
+                                        value={`¿Planea en el ${convocatoria.year} realizar acciones que beneficien talentos en otros departamentos?`}
                                     />
                                 </Grid>
                                 <Grid item md={6}>
@@ -1020,7 +1020,7 @@ const Actividades = ({
                                         required
                                         className="mb-4"
                                         labelFor="acciones_mejoramiento_idic"
-                                        value="Describa las acciones que serán realizadas en el 2024 para cotriuir al mejoramiento del IDIC del Departamento, desde el Tecnoparque/ Hub de Innovación"
+                                        value={`Describa las acciones que serán realizadas en el ${convocatoria.year} para cotriuir al mejoramiento del IDIC del Departamento, desde el Tecnoparque/ Hub de Innovación`}
                                     />
 
                                     <Textarea
@@ -1036,7 +1036,7 @@ const Actividades = ({
                                         required
                                         className="mb-4"
                                         labelFor="municipios_beneficiados_vigencia_anterior"
-                                        value="¿Planea en el 2024 realizar acciones que beneficien talentos en otros departamentos?"
+                                        value={`¿Planea en el ${convocatoria.year} realizar acciones que beneficien talentos en otros departamentos?`}
                                     />
                                 </Grid>
                                 <Grid item md={6}>
@@ -1075,7 +1075,12 @@ const Actividades = ({
                                 </Grid>
 
                                 <Grid item md={6}>
-                                    <Label required className="mb-4" labelFor="municipios_beneficiados_vigencia_actual" value="Nombre de los municipios que planea serán beneficiados en el 2024" />
+                                    <Label
+                                        required
+                                        className="mb-4"
+                                        labelFor="municipios_beneficiados_vigencia_actual"
+                                        value={`Nombre de los municipios que planea serán beneficiados en el ${convocatoria.year}`}
+                                    />
                                 </Grid>
                                 <Grid item md={6}>
                                     <SelectMultiple
@@ -1100,7 +1105,7 @@ const Actividades = ({
                                         required
                                         className="mb-4"
                                         labelFor="estrategia_articulacion_pbts"
-                                        value="De aceurdo a los resultados obtenidos, comparta la estrategia de Articulación de PBTs y Talentos para el 2024"
+                                        value={`De aceurdo a los resultados obtenidos, comparta la estrategia de Articulación de PBTs y Talentos para el ${convocatoria.year}`}
                                     />
 
                                     <Textarea
@@ -1113,7 +1118,12 @@ const Actividades = ({
                                 </Grid>
 
                                 <Grid item md={6}>
-                                    <Label required className="mb-4" labelFor="numero_empresas_atendidas" value="Número de Empresas atendidas en el 2023, por el Tecnoparque/Hub?" />
+                                    <Label
+                                        required
+                                        className="mb-4"
+                                        labelFor="numero_empresas_atendidas"
+                                        value={`Número de Empresas atendidas en el ${convocatoria.year - 1}, por el Tecnoparque/Hub?`}
+                                    />
                                 </Grid>
                                 <Grid item md={6}>
                                     <TextInput
@@ -1130,7 +1140,9 @@ const Actividades = ({
                                         required
                                         className="mb-4"
                                         labelFor="analisis_impacto_sector_empresarial"
-                                        value="Analice los impactos en el 2023 en el sector empresarial regional y determine acciones y estrategias a realizar en el 2024 para continuar con el fortalecimiento. "
+                                        value={`Analice los impactos en el ${convocatoria.year - 1} en el sector empresarial regional y determine acciones y estrategias a realizar en el ${
+                                            convocatoria.year
+                                        } para continuar con el fortalecimiento.`}
                                     />
 
                                     <Textarea
@@ -1143,7 +1155,7 @@ const Actividades = ({
                                 </Grid>
 
                                 <Grid item md={6}>
-                                    <Label required className="mb-4" labelFor="numero_emprendedores_atendidos" value="Número de Emprendedores atendidos en el 2023" />
+                                    <Label required className="mb-4" labelFor="numero_emprendedores_atendidos" value={`Número de Emprendedores atendidos en el ${convocatoria.year - 1}`} />
                                 </Grid>
                                 <Grid item md={6}>
                                     <TextInput
@@ -1160,7 +1172,9 @@ const Actividades = ({
                                         required
                                         className="mb-4"
                                         labelFor="analisis_impacto_regional"
-                                        value="Analice los impactos en el 2023 en el emprendimiento regional y determine acciones y estrategias a realizar en el 2024 para continuar con el fortalecimiento."
+                                        value={`Analice los impactos en el ${convocatoria.year - 1} en el emprendimiento regional y determine acciones y estrategias a realizar en el ${
+                                            convocatoria.year
+                                        } para continuar con el fortalecimiento.`}
                                     />
 
                                     <Textarea
@@ -1177,7 +1191,7 @@ const Actividades = ({
                                         required
                                         className="mb-4"
                                         labelFor="gestion_alianzas_estrategicas"
-                                        value="Comparta las alianzas estratégicas a gestionar en el 2024 para promover el logro de las metas del Tecnoparque/ Hub de Innovación"
+                                        value={`Comparta las alianzas estratégicas a gestionar en el ${convocatoria.year} para promover el logro de las metas del Tecnoparque/ Hub de Innovación`}
                                     />
 
                                     <Textarea
@@ -1194,7 +1208,7 @@ const Actividades = ({
                                         required
                                         className="mb-4"
                                         labelFor="estrategias_visibilizacion"
-                                        value="Comparta la estrategia de divulgación y visibilización de acciones del Tecnoparque/Hub de Innovación para el 2024"
+                                        value={`Comparta la estrategia de divulgación y visibilización de acciones del Tecnoparque/Hub de Innovación para el ${convocatoria.year}`}
                                     />
 
                                     <Textarea
@@ -1211,7 +1225,7 @@ const Actividades = ({
                                         required
                                         className="mb-4"
                                         labelFor="integracion_plan_tecnologico"
-                                        value="Cómo está integrado el Tecnoparque/Hub de Innovación en el Plan Tecnológico del Centro?"
+                                        value="¿Cómo está integrado el Tecnoparque/Hub de Innovación en el Plan Tecnológico del Centro?"
                                     />
 
                                     <Textarea
@@ -1225,7 +1239,7 @@ const Actividades = ({
 
                                 <Grid item md={12}>
                                     <h1 className="text-center">
-                                        PLANEACIÓN METODOLÓGICA PARA LA IMPLEMENTACIÓN DE ESTRATEGIAS Y ACCIONES QUE CONTRIBUYAN A LOS EJES PRIORIZADOS PARA LA VIGENCIA 2024
+                                        PLANEACIÓN METODOLÓGICA PARA LA IMPLEMENTACIÓN DE ESTRATEGIAS Y ACCIONES QUE CONTRIBUYAN A LOS EJES PRIORIZADOS PARA LA VIGENCIA {convocatoria.year}
                                     </h1>
                                 </Grid>
 
@@ -1234,7 +1248,9 @@ const Actividades = ({
                                         required
                                         className="mb-4"
                                         labelFor="estrategias_productividad_agropecuaria"
-                                        value="Proponga las estrategias para el 2023 con el fin de que el Tecnoparque contribuya desde la ciencia, la Tecnología e Innovación a promover la productividad e innovación agropecuaria y agroindustrial en los territorios que impacta el Tecnoparque/Hub de Innovación"
+                                        value={`Proponga las estrategias para el ${
+                                            convocatoria.year - 1
+                                        } con el fin de que el Tecnoparque contribuya desde la ciencia, la Tecnología e Innovación a promover la productividad e innovación agropecuaria y agroindustrial en los territorios que impacta el Tecnoparque/Hub de Innovación`}
                                     />
 
                                     <Textarea
@@ -1251,7 +1267,7 @@ const Actividades = ({
                                         required
                                         className="mb-4"
                                         labelFor="acciones_estrategia_campesena"
-                                        value="A partir de las necesidades y retos territoriales, plantee cuales serán las acciones a realizar en el 2024, integradas dentro de la Estrategia Campesena, en las que participará el Tecnoparque/Hub de Innovación"
+                                        value={`A partir de las necesidades y retos territoriales, plantee cuales serán las acciones a realizar en el ${convocatoria.year}, integradas dentro de la Estrategia Campesena, en las que participará el Tecnoparque/Hub de Innovación`}
                                     />
 
                                     <Textarea
@@ -1268,7 +1284,7 @@ const Actividades = ({
                                         required
                                         className="mb-4"
                                         labelFor="estrategia_campesena_campesinos"
-                                        value="Describa las acciones del  Tecnoparque/Hub de Innovación a  realizar en el 2024, que estarán integradas dentro de la Estrategia Campesena, para beneficiar Campensinos y agremiaciones campesinas y especialmente al acompañamiento de Proyectos de I + D + i tendientes a generar y articular mecanismos de atención diferencial, integral e incluyente, para los campesinos, de acuerdo con sus particularidades sociales, culturales, económicas y territoriales, que faciliten el acceso a los programas de formación y demás servicios de la Entidad"
+                                        value={`Describa las acciones del Tecnoparque/Hub de Innovación a  realizar en el ${convocatoria.year}, que estarán integradas dentro de la Estrategia Campesena, para beneficiar Campensinos y agremiaciones campesinas y especialmente al acompañamiento de Proyectos de I + D + i tendientes a generar y articular mecanismos de atención diferencial, integral e incluyente, para los campesinos, de acuerdo con sus particularidades sociales, culturales, económicas y territoriales, que faciliten el acceso a los programas de formación y demás servicios de la Entidad`}
                                     />
 
                                     <Textarea
@@ -1285,7 +1301,7 @@ const Actividades = ({
                                         required
                                         className="mb-4"
                                         labelFor="acciones_fortalecimiento_economia_popular"
-                                        value="Describa las acciones del  Tecnoparque/Hub de Innovación a  realizar en el 2024, que estarán direccionadas a fortalecer la Economía Popular"
+                                        value={`Describa las acciones del  Tecnoparque/Hub de Innovación a  realizar en el ${convocatoria.year}, que estarán direccionadas a fortalecer la Economía Popular`}
                                     />
 
                                     <Textarea
@@ -1302,7 +1318,7 @@ const Actividades = ({
                                         required
                                         className="mb-4"
                                         labelFor="acciones_fortalecimiento_idi"
-                                        value="Describa las acciones del  Tecnoparque/Hub de Innovación a  realizar en el 2024, que estarán direccionadas a fortalecer Proyectos de I + D + i tendientes generación eléctrica a partir de fuentes no convencionales de energía renovable"
+                                        value={`Describa las acciones del  Tecnoparque/Hub de Innovación a  realizar en el ${convocatoria.year}, que estarán direccionadas a fortalecer Proyectos de I + D + i tendientes generación eléctrica a partir de fuentes no convencionales de energía renovable`}
                                     />
 
                                     <Textarea
@@ -1329,7 +1345,7 @@ const Actividades = ({
                         <form onSubmit={submitMetodologiaProyectoLinea83}>
                             <Grid container className="space-y-20">
                                 <Grid item md={12}>
-                                    <Label required className="mb-4" labelFor="metodologia" value="Metodología (Cómo se implementará la línea en el 2024" />
+                                    <Label required className="mb-4" labelFor="metodologia" value={`Metodología (¿Cómo se implementará la línea en el ${convocatoria.year}?)`} />
 
                                     <Textarea
                                         id="metodologia"
@@ -1382,7 +1398,7 @@ const Actividades = ({
                                         required
                                         className="mb-4"
                                         labelFor="estrategias_promover_logros"
-                                        value="Comparta las alianzas estratégicas a gestionar en el 2024 para promover el logro de las metas de Extensionismo Tecnológico"
+                                        value={`Comparta las alianzas estratégicas a gestionar en el ${convocatoria.year} para promover el logro de las metas de Extensionismo Tecnológico`}
                                     />
 
                                     <Textarea
@@ -1398,7 +1414,7 @@ const Actividades = ({
                                         required
                                         className="mb-4"
                                         labelFor="estrategias_visibilizacion"
-                                        value="Comparta la estrategia de divulgación y visibilización de acciones de las acciones de la línea ET para el 2024"
+                                        value={`Comparta la estrategia de divulgación y visibilización de acciones de las acciones de la línea ET para el ${convocatoria.year}`}
                                     />
 
                                     <Textarea
@@ -1414,7 +1430,7 @@ const Actividades = ({
                                         required
                                         className="mb-4"
                                         labelFor="estrategias_productividad_agropecuaria_agroindustrial"
-                                        value="Proponga las estrategias para el 2024 con el fin de que las estrategias de la lïnea de Extensionismo Tecnológico contribuya desde la ciencia, la Tecnología e Innovación a promover la productividad e innovación agropecuaria y agroindustrial "
+                                        value={`Proponga las estrategias para el ${convocatoria.year} con el fin de que las estrategias de la lïnea de Extensionismo Tecnológico contribuya desde la ciencia, la Tecnología e Innovación a promover la productividad e innovación agropecuaria y agroindustrial`}
                                     />
 
                                     <Textarea

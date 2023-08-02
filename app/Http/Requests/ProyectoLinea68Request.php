@@ -41,6 +41,7 @@ class ProyectoLinea68Request extends FormRequest
                 'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
                 'max_meses_ejecucion'                       => ['required', 'numeric', 'min:1', 'max:12'],
                 'sector_productivo'                         => ['required', 'min:0', 'max:2147483647', 'integer'],
+                'continuidad'                               => ['required', 'string'],
                 'nombre_area_tecnica'                       => ['required', 'string', 'max:191'],
                 'rol_sennova'                               => ['required', 'min:0', 'max:2147483647', 'integer'],
             ];
@@ -54,9 +55,6 @@ class ProyectoLinea68Request extends FormRequest
      */
     protected function prepareForValidation()
     {
-        // dd($this);
-        // $this->merge([
-        //     'programas_formacion' => json_encode($this->programas_formacion)
-        // ]);
+        //
     }
 }

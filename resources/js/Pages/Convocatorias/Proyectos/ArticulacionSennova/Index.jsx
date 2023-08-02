@@ -662,7 +662,9 @@ const ArticulacionSennova = ({
                                     required
                                     className="mb-4"
                                     labelFor="contribucion_formacion_centro_regional"
-                                    value="Cuales fueron las principales acciones ejecutadas por el Tecnoparque /hub de innovación en la vigencia 2023 para contribuir a la formación en el Centro y en la Regional"
+                                    value={`Cuales fueron las principales acciones ejecutadas por el Tecnoparque /hub de innovación en la vigencia ${
+                                        convocatoria.year - 1
+                                    } para contribuir a la formación en el Centro y en la Regional`}
                                 />
 
                                 <Textarea
@@ -678,7 +680,7 @@ const ArticulacionSennova = ({
                                     required
                                     className="mb-4"
                                     labelFor="acciones_fortalecimiento_centro_regional"
-                                    value="Para la vigencia 2024, defina acciones a realizar desde el Tecnoparque/Hub de Innovación,  que sean verificables,  y que contribuyan al fortalecimiento de la formación en el Centro y en la regional"
+                                    value={`Para la vigencia ${convocatoria.year}, defina acciones a realizar desde el Tecnoparque/Hub de Innovación,  que sean verificables,  y que contribuyan al fortalecimiento de la formación en el Centro y en la regional`}
                                 />
 
                                 <Textarea
@@ -694,7 +696,7 @@ const ArticulacionSennova = ({
                                     required
                                     className="mb-4"
                                     labelFor="acciones_participacion_aprendices"
-                                    value="Defina acciones a realizar en el 2024, que promuevan la participación de aprendices en el Tecnoparque/Hub de Innovación"
+                                    value={`Defina acciones a realizar en el ${convocatoria.year}, que promuevan la participación de aprendices en el Tecnoparque/Hub de Innovación`}
                                 />
 
                                 <Textarea
@@ -710,7 +712,11 @@ const ArticulacionSennova = ({
                                     required
                                     className="mb-4"
                                     labelFor="acciones_aportes_por_edt"
-                                    value="A partir de las acciones realizadas en el 2023, desde la oferta de Formación Complementaria (EDTs y otros Eventos), proyecte las acciones a realizar en la vigencia 2024 en las que participe el Tecnoparque/Hub de Innovación."
+                                    value={`A partir de las acciones realizadas en el ${
+                                        convocatoria.year - 1
+                                    }, desde la oferta de Formación Complementaria (EDTs y otros Eventos), proyecte las acciones a realizar en la vigencia ${
+                                        convocatoria.year
+                                    } en las que participe el Tecnoparque/Hub de Innovación.`}
                                 />
 
                                 <Textarea
@@ -729,7 +735,11 @@ const ArticulacionSennova = ({
                                     required
                                     className="mb-4"
                                     labelFor="acciones_fortalecimiento_programas_calificados"
-                                    value="Describa las acciones realizadas o productos generados que contribuyeron en el 2023 al Registro Calificado de Programas del Centro de Formación o de la Regional y plantee, acciones a realizar en la vigencia 2024 que fortalezcan esta articulación."
+                                    value={`Describa las acciones realizadas o productos generados que contribuyeron en el ${
+                                        convocatoria.year - 1
+                                    } al Registro Calificado de Programas del Centro de Formación o de la Regional y plantee, acciones a realizar en la vigencia ${
+                                        convocatoria.year
+                                    } que fortalezcan esta articulación.`}
                                 />
 
                                 <Textarea
@@ -745,7 +755,11 @@ const ArticulacionSennova = ({
                                     required
                                     className="mb-4"
                                     labelFor="acciones_categorizacion_grupos_investigacion"
-                                    value="Describa las acciones realizadas o productos generados que contribuyeron en el 2023 a la categorización de Grupos de Investigación del Centro de Formación o de la Regional y plantee, acciones a realizar en la vigencia 2024 que fortalezcan esta articulación."
+                                    value={`Describa las acciones realizadas o productos generados que contribuyeron en el ${
+                                        convocatoria.year - 1
+                                    } a la categorización de Grupos de Investigación del Centro de Formación o de la Regional y plantee, acciones a realizar en la vigencia ${
+                                        convocatoria.year
+                                    } que fortalezcan esta articulación.`}
                                 />
 
                                 <Textarea
@@ -761,7 +775,9 @@ const ArticulacionSennova = ({
                                     required
                                     className="mb-4"
                                     labelFor="oportunidades_fortalecimiento_proyectos_sennova"
-                                    value="Describa los Proyectos de Investigación del Centro en la vigencia 2023, en los cuales participó el Tecnoparque /Hub. Plantee oportunidades para el fortalecimiento de esta articulación"
+                                    value={`Describa los Proyectos de Investigación del Centro en la vigencia ${
+                                        convocatoria.year - 1
+                                    }, en los cuales participó el Tecnoparque /Hub. Plantee oportunidades para el fortalecimiento de esta articulación`}
                                 />
 
                                 <Textarea
@@ -821,7 +837,9 @@ const ArticulacionSennova = ({
                                     required
                                     className="mb-4"
                                     labelFor="proyeccion_articulacion_linea_68"
-                                    value="A partir de los resultados y las acciones realizadas por el Tecnoparque/Hub de Innovación, cómo proyecta la articulación en el 2023, el Tecnoparque con la línea de Servicios Tecnológicos?"
+                                    value={`A partir de los resultados y las acciones realizadas por el Tecnoparque/Hub de Innovación, ¿Cómo proyecta la articulación en el ${
+                                        convocatoria.year - 1
+                                    }, el Tecnoparque con la línea de Servicios Tecnológicos?`}
                                 />
 
                                 <Textarea
@@ -837,7 +855,9 @@ const ArticulacionSennova = ({
                                     required
                                     className="mb-4"
                                     labelFor="proyeccion_articulacion_linea_83"
-                                    value="A partir de los resultados y las acciones realizadas por el Tecnoparque/Hub de Innovación, cómo proyecta la articulación en el 2023, el Tecnoparque con la línea de Extensionismo Tecnológico?"
+                                    value={`A partir de los resultados y las acciones realizadas por el Tecnoparque/Hub de Innovación, ¿Cómo proyecta la articulación en el ${
+                                        convocatoria.year - 1
+                                    }, el Tecnoparque con la línea de Extensionismo Tecnológico?`}
                                 />
 
                                 <Textarea
@@ -853,7 +873,7 @@ const ArticulacionSennova = ({
                                     required
                                     className="mb-4"
                                     labelFor="oportunidades_fortalecimiento_convocatorias_innovacion"
-                                    value="A partir de los resultados y las acciones realizadas por el Tecnoparque/Hub de Innovación en las convocatorias de Fomento a la Innovación, plantee oportunidades para el fortalecimietno de esta estrategia 2024 para ser implementadas en la siguiente vigencia."
+                                    value={`A partir de los resultados y las acciones realizadas por el Tecnoparque/Hub de Innovación en las convocatorias de Fomento a la Innovación, plantee oportunidades para el fortalecimietno de esta estrategia ${convocatoria.year} para ser implementadas en la siguiente vigencia.`}
                                 />
 
                                 <Textarea
@@ -869,7 +889,7 @@ const ArticulacionSennova = ({
                                     required
                                     className="mb-4"
                                     labelFor="proyeccion_articulacion_centros_empresariales"
-                                    value="¿Cómo proyecta la articulación en el 2023, el Tecnoparque con los centros de desarrollo empresarial de la Regional?"
+                                    value={`¿Cómo proyecta la articulación en el ${convocatoria.year - 1}, el Tecnoparque con los centros de desarrollo empresarial de la Regional?`}
                                 />
 
                                 <Textarea
@@ -917,7 +937,7 @@ const ArticulacionSennova = ({
                                         required
                                         className="mb-4"
                                         labelFor="articulacion_semilleros_grupos_investigacion"
-                                        value="Comente la articulación y aporte dela Línea de ET,  proyectada para el 2024 a los semilleros y grupos de investigación."
+                                        value={`Comente la articulación y aporte dela Línea de ET, proyectada para el ${convocatoria.year} a los semilleros y grupos de investigación.`}
                                     />
 
                                     <Textarea
@@ -933,7 +953,7 @@ const ArticulacionSennova = ({
                                         required
                                         className="mb-4"
                                         labelFor="articulacion_linea_68"
-                                        value="¿Cómo proyecta la articulación en el 2024, de las acciones de ET con la línea de Servicios Tecnológicos?"
+                                        value={`¿Cómo proyecta la articulación en el ${convocatoria.year}, de las acciones de ET con la línea de Servicios Tecnológicos?`}
                                     />
 
                                     <Textarea
@@ -949,7 +969,7 @@ const ArticulacionSennova = ({
                                         required
                                         className="mb-4"
                                         labelFor="articulacion_linea_69_y_hubs"
-                                        value="¿Cómo proyecta la articulación en el 2024, de la  línea de Extensionismo Tecnológico con la Red de Tecnoparques y Hubs de Innovación?"
+                                        value={`¿Cómo proyecta la articulación en el ${convocatoria.year}, de la  línea de Extensionismo Tecnológico con la Red de Tecnoparques y Hubs de Innovación?`}
                                     />
 
                                     <Textarea
@@ -965,7 +985,7 @@ const ArticulacionSennova = ({
                                         required
                                         className="mb-4"
                                         labelFor="articulacion_centros_desarrollo_empresarial"
-                                        value="¿Cómo se  proyectan las estrategias de Extensionismo Tecnológico para articularse  con los centros de desarrollo empresarial de(l) Los Centros en las Regionales impactadas?"
+                                        value="¿Cómo se  proyectan las estrategias de Extensionismo Tecnológico para articularse con los centros de desarrollo empresarial de(l) Los Centros en las Regionales impactadas?"
                                     />
 
                                     <Textarea
@@ -981,7 +1001,7 @@ const ArticulacionSennova = ({
                                         required
                                         className="mb-4"
                                         labelFor="contribucion_formacion_regional_nacional"
-                                        value="¿Cómo proyecta en el 2024, Extensionismo Tecnológico contribuir a la formación en la Regional o en el SENA?"
+                                        value={`¿Cómo proyecta en el ${convocatoria.year}, Extensionismo Tecnológico contribuir a la formación en la Regional o en el SENA?`}
                                     />
 
                                     <Textarea
@@ -997,7 +1017,7 @@ const ArticulacionSennova = ({
                                         required
                                         className="mb-4"
                                         labelFor="proyeccion_capacidades_tecnologicas_empresas"
-                                        value="¿Cómo proyecta en el 2024, Extensionismo Tecnológico promover el desarrollo y fortalecimiento de las capacidades tecnológicas de las empresas, cadenas productivas y clústeres en las regiones?"
+                                        value={`¿Cómo proyecta en el ${convocatoria.year}, Extensionismo Tecnológico promover el desarrollo y fortalecimiento de las capacidades tecnológicas de las empresas, cadenas productivas y clústeres en las regiones?`}
                                     />
 
                                     <Textarea

@@ -21,6 +21,7 @@ const Edit = ({
     tipos_proyecto_linea_68,
     sectores_productivos,
     estados_sistema_gestion,
+    programas_formacion_sin_registro_calificado,
     programas_formacion_con_registro_calificado,
     roles_sennova,
 }) => {
@@ -93,6 +94,7 @@ const Edit = ({
                     tipos_proyecto_linea_68={tipos_proyecto_linea_68}
                     sectores_productivos={sectores_productivos}
                     estados_sistema_gestion={estados_sistema_gestion}
+                    programas_formacion_sin_registro_calificado={programas_formacion_sin_registro_calificado}
                     programas_formacion_con_registro_calificado={programas_formacion_con_registro_calificado}
                     roles_sennova={roles_sennova}
                 />

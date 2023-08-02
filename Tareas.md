@@ -8,7 +8,8 @@ Tareas
 
 68
 
-Agregar campo de programas de formación con registro calificado Revisar los anexos a habilitar Agregar productos de minciencias
+1. Revisar los anexos a habilitar
+2. Agregar productos de minciencias
 
 69
 

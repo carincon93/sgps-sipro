@@ -23,6 +23,7 @@ const Form = ({
     tipos_proyecto_linea_68,
     sectores_productivos,
     estados_sistema_gestion,
+    programas_formacion_sin_registro_calificado,
     programas_formacion_con_registro_calificado,
     roles_sennova,
     evaluacion,
@@ -36,12 +37,14 @@ const Form = ({
         max_meses_ejecucion: proyecto_linea_68?.max_meses_ejecucion ?? '',
 
         programas_formacion: proyecto_linea_68?.proyecto.programas_formacion.map((item) => item.id) ?? null,
+        programas_formacion_articulados: proyecto_linea_68?.proyecto.programas_formacion.map((item) => item.id) ?? null,
 
         estado_sistema_gestion_id: proyecto_linea_68?.estado_sistema_gestion_id ?? '',
         sector_productivo: proyecto_linea_68?.sector_productivo ?? '',
 
         resumen: proyecto_linea_68?.resumen ?? '',
         antecedentes: proyecto_linea_68?.antecedentes ?? '',
+        continuidad: proyecto_linea_68?.continuidad ?? '',
         bibliografia: proyecto_linea_68?.bibliografia ?? '',
         zona_influencia: proyecto_linea_68?.zona_influencia ?? '',
         nombre_area_tecnica: proyecto_linea_68?.nombre_area_tecnica ?? '',
@@ -324,13 +327,54 @@ const Form = ({
                             />
                         </Grid>
 
+                        <Grid item md={12}>
+                            <Label
+                                required
+                                disabled={evaluacion ? true : false}
+                                className="mb-4"
+                                labelFor="antecedentes"
+                                value={`Relacione el último proyecto con el que fue financiada la operación del área técnica en la cual se desarrollará el proyecto en ${convocatoria.year}`}
+                            />
+
+                            <Textarea
+                                id="continuidad"
+                                error={form.errors.continuidad}
+                                value={form.data.continuidad}
+                                onChange={(e) => form.setData('continuidad', e.target.value)}
+                                required
+                                disabled={evaluacion ? true : false}
+                            />
+                        </Grid>
+
+                        <Grid item md={6}>
+                            <Label required className="mb-4" labelFor="programas_formacion_articulados" value="Nombre de los programas de formación con los que se relaciona el proyecto" />
+                        </Grid>
+                        <Grid item md={6}>
+                            <SelectMultiple
+                                id="programas_formacion_articulados"
+                                bdValues={form.data.programas_formacion_articulados}
+                                options={programas_formacion_sin_registro_calificado}
+                                onChange={(event, newValue) => {
+                                    const selectedValues = newValue.map((option) => option.value)
+                                    form.setData((prevData) => ({
+                                        ...prevData,
+                                        programas_formacion_articulados: selectedValues,
+                                    }))
+                                }}
+                                error={form.errors.programas_formacion_articulados}
+                                label="Seleccione los programas de formación"
+                                required
+                                disabled={evaluacion ? true : false}
+                            />
+                        </Grid>
+
                         <Grid item md={6}>
                             <Label
                                 required
                                 disabled={evaluacion ? true : false}
                                 className="mb-4"
                                 labelFor="programas_formacion"
-                                value="Nombre de los programas de formación con los que se relaciona el proyecto"
+                                value="Nombre de los programas de formación con registro calificado con los que se relaciona el proyecto"
                             />
                         </Grid>
                         <Grid item md={6}>

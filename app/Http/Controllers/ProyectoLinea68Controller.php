@@ -164,6 +164,7 @@ class ProyectoLinea68Controller extends Controller
             'evaluacion'                                    => EvaluacionProyectoLinea68::find(request()->evaluacion_id),
             'lineas_programaticas'                          => SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 3)->values()->all(),
             'estados_sistema_gestion'                       => SelectHelper::estadosSistemaGestion(),
+            'programas_formacion_sin_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),
             'programas_formacion_con_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $proyecto_linea_68->proyecto->centro_formacion_id)->values()->all(),
             'sectores_productivos'                          => collect(json_decode(Storage::get('json/sectores-productivos.json'), true)),
             'tipos_proyecto_linea_68'                       => $tipo_proyecto_linea_68,
@@ -182,21 +183,23 @@ class ProyectoLinea68Controller extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_linea_68->proyecto]);
 
-        $proyecto_linea_68->titulo                        = $request->titulo;
-        $proyecto_linea_68->fecha_inicio                  = $request->fecha_inicio;
-        $proyecto_linea_68->fecha_finalizacion            = $request->fecha_finalizacion;
-        $proyecto_linea_68->max_meses_ejecucion           = $request->max_meses_ejecucion;
-        $proyecto_linea_68->resumen                       = $request->resumen;
-        $proyecto_linea_68->antecedentes                  = $request->antecedentes;
-        $proyecto_linea_68->bibliografia                  = $request->bibliografia;
-        $proyecto_linea_68->zona_influencia               = $request->zona_influencia;
-        $proyecto_linea_68->nombre_area_tecnica           = $request->nombre_area_tecnica;
+        $proyecto_linea_68->titulo                      = $request->titulo;
+        $proyecto_linea_68->fecha_inicio                = $request->fecha_inicio;
+        $proyecto_linea_68->fecha_finalizacion          = $request->fecha_finalizacion;
+        $proyecto_linea_68->max_meses_ejecucion         = $request->max_meses_ejecucion;
+        $proyecto_linea_68->resumen                     = $request->resumen;
+        $proyecto_linea_68->antecedentes                = $request->antecedentes;
+        $proyecto_linea_68->bibliografia                = $request->bibliografia;
+        $proyecto_linea_68->zona_influencia             = $request->zona_influencia;
+        $proyecto_linea_68->nombre_area_tecnica         = $request->nombre_area_tecnica;
+        $proyecto_linea_68->continuidad                 = $request->continuidad;
 
         $proyecto_linea_68->especificaciones_area       = $request->especificaciones_area;
         $proyecto_linea_68->infraestructura_adecuada    = $request->infraestructura_adecuada;
         $proyecto_linea_68->video                       = $request->video;
 
-        $proyecto_linea_68->proyecto->programasFormacion()->sync($request->programas_formacion);
+        $proyecto_linea_68->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
+
 
         $proyecto_linea_68->save();
 

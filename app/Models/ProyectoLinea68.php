@@ -53,6 +53,7 @@ class ProyectoLinea68 extends Model
         'infraestructura_adecuada',
         'estado_sistema_gestion_id',
         'tipo_proyecto_linea_68_id',
+        'continuidad'
     ];
 
     /**

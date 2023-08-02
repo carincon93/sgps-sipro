@@ -277,7 +277,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
                                 required
                                 disabled={evaluacion ? true : false}
                                 labelFor="logros_vigencia_anterior"
-                                value="Describa los principales logros del Tecnoparque/ Hub de Innovación en el 2023"
+                                value={`Describa los principales logros del Tecnoparque/ Hub de Innovación en el ${convocatoria.year - 1}`}
                             />
 
                             <Textarea
@@ -309,7 +309,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
                                 required
                                 disabled={evaluacion ? true : false}
                                 labelFor="retos_locales_regionales"
-                                value="Descripción de retos y prioridades locales y regionales identificadas para ser atendidas por el Tecnoparque/ Hub de Innovación a corto (vigencia 2024), mediano y largo plazo."
+                                value={`Descripción de retos y prioridades locales y regionales identificadas para ser atendidas por el Tecnoparque/ Hub de Innovación a corto (vigencia ${convocatoria.year}), mediano y largo plazo.`}
                             />
 
                             <Textarea
@@ -326,8 +326,8 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
                                 required
                                 disabled={evaluacion ? true : false}
                                 labelFor="estado_actual_departamento"
-                                value="De acuerdo al IDIC (Indice Departamental de  Innovación para Colombia https://
-AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento y plantee acciones que puedan ser ejecutadas  por el Tecnoparque/Hub de Innovación en la vigencia 2024 para contribuir con el mejoramiento del estado actual."
+                                value={`De acuerdo al IDIC (Indice Departamental de  Innovación para Colombia https://
+AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento y plantee acciones que puedan ser ejecutadas por el Tecnoparque/Hub de Innovación en la vigencia ${convocatoria.year} para contribuir con el mejoramiento del estado actual.`}
                             />
 
                             <Textarea
@@ -344,7 +344,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 required
                                 disabled={evaluacion ? true : false}
                                 labelFor="contribucion_desarrollo_empresas"
-                                value="¿Cómo el Tecnoparque/Hub de Innovación, contribuirá en la vigencia 2024 al desarrollo y fortalecimiento de las capacidades tecnológicas de las empresas, cadenas productivas y clústeres de la región"
+                                value={`¿Cómo el Tecnoparque/Hub de Innovación, contribuirá en la vigencia ${convocatoria.year} al desarrollo y fortalecimiento de las capacidades tecnológicas de las empresas, cadenas productivas y clústeres de la región`}
                             />
 
                             <Textarea
@@ -361,7 +361,9 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 required
                                 disabled={evaluacion ? true : false}
                                 labelFor="contribucion_agenda_regional_competitividad"
-                                value="¿Cómo se articuló en el año 2023 y cual será la contribución del Tecnoparque/ Hub de Innovación con la Agenda de la Comisión Regional de Competitividad, en la vigencia 2024?"
+                                value={`¿Cómo se articuló en el año ${
+                                    convocatoria.year - 1
+                                } y cual será la contribución del Tecnoparque/ Hub de Innovación con la Agenda de la Comisión Regional de Competitividad, en la vigencia ${convocatoria.year}?`}
                             />
 
                             <Textarea
@@ -381,7 +383,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 required
                                 disabled={evaluacion ? true : false}
                                 labelFor="aportes_conpes_4011"
-                                value="Cuáles serán los aportes del Tecnoparque/Hub de Innovación en el 2024 a la Línea de acción 8 del Conpes 4011 'Facilitar intercambio de tecnología y la innovación en los emprendimientos CONPES, inlcuyendo acciones articuladas con Emprendimiento (Dirección de Empleo)"
+                                value={`¿Cuáles serán los aportes del Tecnoparque/Hub de Innovación en el ${convocatoria.year} a la Línea de acción 8 del Conpes 4011 'Facilitar intercambio de tecnología y la innovación en los emprendimientos CONPES, inlcuyendo acciones articuladas con Emprendimiento (Dirección de Empleo)?`}
                             />
 
                             <Textarea
@@ -398,7 +400,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 required
                                 disabled={evaluacion ? true : false}
                                 labelFor="aportes_conpes_4080"
-                                value="Cuáles serán los aportes del Tecnoparque/ Hub de Innovación en el 2024 a la Línea de acción 1 del Conpes 4080 'el SENA desde 2022 y hasta 2026, fomentará la participación de la mujer en sus programas de investigación, desarrollo tecnológico e innovación, buscando generar competitividad con enfoque de género'"
+                                value={`Cuáles serán los aportes del Tecnoparque/ Hub de Innovación en el ${convocatoria.year} a la Línea de acción 1 del Conpes 4080 'el SENA desde 2022 y hasta 2026, fomentará la participación de la mujer en sus programas de investigación, desarrollo tecnológico e innovación, buscando generar competitividad con enfoque de género'`}
                             />
 
                             <Textarea
@@ -483,7 +485,9 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 required
                                 disabled={evaluacion ? true : false}
                                 labelFor="acciones_estrategias_campesena"
-                                value="Describa las acciones realizadas en el 2023, integradas dentro de la Estrategia Campesena, en las que participó el Tecnoparque/Hub de Innovación"
+                                value={`Describa las acciones realizadas en el ${
+                                    convocatoria.year - 1
+                                }, integradas dentro de la Estrategia Campesena, en las que participó el Tecnoparque/Hub de Innovación`}
                             />
 
                             <Textarea
