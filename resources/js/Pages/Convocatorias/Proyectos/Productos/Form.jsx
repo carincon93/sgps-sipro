@@ -273,7 +273,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                                     required
                                                 />
                                             ) : (
-                                                <AlertMui>
+                                                <AlertMui severity="error">
                                                     El resultado seleccionado no tiene actividades asociadas. Debe completar la información de cada actividad en el numeral de{' '}
                                                     <strong>Metodología y actividades</strong>. Para ello diríjase a la parte inferior de la ventanta, haga clic en los tres puntos de cada actividad |
                                                     Ver detalles. En el formulario que visualiza deberá completar el resto de información.
@@ -290,7 +290,10 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                         <div className="flex items-center justify-between py-4">
                             {proyecto.allowed.to_update ? (
                                 <>
-                                    <PrimaryButton disabled={form.processing || !form.isDirty} className="mr-2 ml-auto" type="submit">
+                                    <PrimaryButton
+                                        disabled={actividades?.length == 0 || (actividades?.length > 0 && form.processing) || (actividades?.length > 0 && !form.isDirty)}
+                                        className="mr-2 ml-auto"
+                                        type="submit">
                                         {method == 'crear' ? 'Agregar' : 'Modificar'} producto
                                     </PrimaryButton>
                                     <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>

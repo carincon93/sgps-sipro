@@ -222,7 +222,9 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
 
                 <Step active={route().current('convocatorias.proyectos.arbol-objetivos')}>
                     <Link href={route('convocatorias.proyectos.arbol-objetivos', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
-                        <StepLabel classes={{ root: classes.root }}>Objetivos, resultados, impactos y actividades</StepLabel>
+                        <StepLabel classes={{ root: classes.root }}>
+                            <p className="line-clamp-2">Objetivos, resultados, impactos y actividades</p>
+                        </StepLabel>
                     </Link>
                 </Step>
 
@@ -355,7 +357,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                     </Link>
                 </Step>
             </Stepper>
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center mt-10">
                 <small className=" bg-app-500 text-white py-1 pr-3 pl-1 rounded-full w-max text-center mx-auto">
                     <AttachMoneyOutlinedIcon /> {new Intl.NumberFormat('de-DE').format(!isNaN(proyecto?.precio_proyecto) ? proyecto?.precio_proyecto : 0)} COP
                 </small>

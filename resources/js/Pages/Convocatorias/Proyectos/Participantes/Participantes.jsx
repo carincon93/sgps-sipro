@@ -70,9 +70,9 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                 <>
                     <AlertMui className="my-8">
                         <h1 className="mb-4 text-3xl font-black">Importante</h1>
-                        Debe relacionar mínimo 2 aprendices con el rol de "Aprendiz en semillero de investigación
+                        Debe relacionar mínimo 2 aprendices con el rol de "Aprendiz en semillero de investigación"
                         <br />
-                        Debe relacionar mínimo 1 instructor con el rol de “Instructor investigador
+                        Debe relacionar mínimo 1 instructor con el rol de “Instructor investigador"
                     </AlertMui>
                 </>
             ) : null}

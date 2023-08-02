@@ -187,7 +187,7 @@ const ArbolProblemasComponent = ({ auth, proyecto, fase_evaluacion }) => {
 
                         {proyecto.allowed.to_update && (
                             <PrimaryButton disabled={form_problema_central.processing} className="my-10" type="submit" form="problema-central">
-                                1. Guardar información sobre el problema central
+                                Guardar información sobre el problema central
                             </PrimaryButton>
                         )}
                     </form>

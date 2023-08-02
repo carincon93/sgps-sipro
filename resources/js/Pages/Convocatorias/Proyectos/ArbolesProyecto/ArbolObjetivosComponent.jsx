@@ -865,6 +865,12 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                     </React.Fragment>
                                 ))}
 
+                                {causaDirecta.causas_indirectas.length == 0 && (
+                                    <AlertMui severity="error" className="my-3">
+                                        Debe generar una causa indirecta
+                                    </AlertMui>
+                                )}
+
                                 <div className="flex items-center justify-end">
                                     <TooltipMui
                                         className="relative"
@@ -1140,6 +1146,11 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         )}
                                     </div>
                                 ))}
+                                {causaDirecta.causas_indirectas.length == 0 && (
+                                    <AlertMui severity="error" className="mt-3">
+                                        Debe generar una causa indirecta
+                                    </AlertMui>
+                                )}
                             </Grid>
                         </React.Fragment>
                     ))}
@@ -1303,6 +1314,13 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         )}
                                     </div>
                                 ))}
+
+                                {efectoDirecto.efectos_indirectos.length == 0 && (
+                                    <AlertMui severity="error" className="my-3">
+                                        Debe generar un efecto indirecto
+                                    </AlertMui>
+                                )}
+
                                 <div className="flex items-center justify-end">
                                     <ButtonMui
                                         primary={true}
@@ -1567,6 +1585,12 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         )}
                                     </div>
                                 ))}
+
+                                {efectoDirecto.efectos_indirectos.length == 0 && (
+                                    <AlertMui severity="error" className="my-3">
+                                        Debe generar un efecto indirecto
+                                    </AlertMui>
+                                )}
                             </Grid>
                         </React.Fragment>
                     ))}
