@@ -76,6 +76,16 @@ class SubtipologiaMinciencias extends Model
     }
 
     /**
+     * Relationship with ProductoMincienciasLinea68
+     *
+     * @return object
+     */
+    public function productosMincienciasLinea68()
+    {
+        return $this->hasMany(ProductoMincienciasLinea68::class);
+    }
+
+    /**
      * Relationship with ProductoMincienciasLinea69
      *
      * @return object

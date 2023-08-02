@@ -22,9 +22,24 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
 
         indicador: producto?.indicador,
 
-        tipo: producto?.producto_linea66?.tipo ?? producto?.producto_linea65?.tipo ?? '',
-        trl: producto?.producto_linea66?.trl ?? producto?.producto_linea65?.trl ?? '',
-        subtipologia_minciencias_id: producto?.producto_linea66?.subtipologia_minciencias_id ?? producto?.producto_linea65?.subtipologia_minciencias_id ?? null,
+        tipo:
+            producto?.producto_minciencias_linea65?.tipo ??
+            producto?.producto_minciencias_linea66?.tipo ??
+            producto?.producto_minciencias_linea68?.tipo ??
+            producto?.producto_minciencias_linea69?.tipo ??
+            '',
+        trl:
+            producto?.producto_minciencias_linea65?.trl ??
+            producto?.producto_minciencias_linea66?.trl ??
+            producto?.producto_minciencias_linea68?.trl ??
+            producto?.producto_minciencias_linea69?.trl ??
+            '',
+        subtipologia_minciencias_id:
+            producto?.producto_minciencias_linea65?.subtipologia_minciencias_id ??
+            producto?.producto_minciencias_linea66?.subtipologia_minciencias_id ??
+            producto?.producto_minciencias_linea68?.subtipologia_minciencias_id ??
+            producto?.producto_minciencias_linea69?.subtipologia_minciencias_id ??
+            null,
 
         actividad_id: producto?.actividades.map((item) => item.id),
     })

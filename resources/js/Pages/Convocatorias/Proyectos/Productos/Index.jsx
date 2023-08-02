@@ -36,7 +36,7 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
     const [producto, setProducto] = useState(null)
 
     const tabs =
-        proyecto?.proyectoLinea69 || proyecto?.proyectoHubLinea69
+        proyecto?.proyectoLinea68 || proyecto?.proyectoLinea69 || proyecto?.proyectoHubLinea69
             ? [{ label: 'Productos/Indicadores' }, { label: 'Productos Minciencias' }]
             : proyecto?.proyectoLinea68 || proyecto?.proyectoLinea70 || proyecto?.proyectoLinea83
             ? [{ label: 'Productos/Indicadores' }]
@@ -183,7 +183,7 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                                                         <p className="line-clamp-3">{producto.nombre}</p>
                                                     </TableCell>
                                                     <TableCell>
-                                                        <p className="line-clamp-3">{producto.resultado.objetivo_especifico.descripcion}</p>
+                                                        <p className="line-clamp-3">{producto.resultado.objetivo_especifico.descripcion ?? 'Sin información registrada'}</p>
                                                     </TableCell>
                                                     <TableCell>
                                                         <>
@@ -297,12 +297,12 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                                             <TableRow>
                                                 <TableCell>{producto.nombre}</TableCell>
                                                 <TableCell>
-                                                    <p className="line-clamp-3">{producto.resultado.objetivo_especifico.descripcion}</p>
+                                                    <p className="line-clamp-3">{producto.resultado.objetivo_especifico.descripcion ?? 'Sin información registrada'}</p>
                                                 </TableCell>
                                                 <TableCell>
                                                     <p className="line-clamp-3">
-                                                        {proyecto.codigo_linea_programatica != 69 && proyecto.codigo_linea_programatica != 70 ? (
-                                                            <>Código {producto.resultado.id + '-' + producto.resultado.descripcion}</>
+                                                        {proyecto.codigo_linea_programatica != 70 && proyecto.codigo_linea_programatica != 83 ? (
+                                                            <>Código {producto.resultado.id + ' - ' + producto.resultado.descripcion}</>
                                                         ) : null}
                                                     </p>
                                                 </TableCell>

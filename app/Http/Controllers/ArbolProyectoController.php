@@ -99,18 +99,29 @@ class ArbolProyectoController extends Controller
         $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
 
         switch ($proyecto) {
+            case $proyecto->proyectoLinea65()->exists():
+                $proyecto->problema_central         = $proyecto->proyectoLinea65->problema_central;
+                $proyecto->justificacion_problema   = $proyecto->proyectoLinea65->justificacion_problema;
+                $proyecto->identificacion_problema  = $proyecto->proyectoLinea65->identificacion_problema;
+                $proyecto->objetivo_general         = $proyecto->proyectoLinea65->objetivo_general;
+                $proyecto->tipo_proyecto            = $proyecto->proyectoLinea65->tipo_proyecto;
+                break;
+
             case $proyecto->proyectoLinea66()->exists():
                 $proyecto->problema_central         = $proyecto->proyectoLinea66->problema_central;
                 $proyecto->justificacion_problema   = $proyecto->proyectoLinea66->justificacion_problema;
                 $proyecto->identificacion_problema  = $proyecto->proyectoLinea66->identificacion_problema;
                 $proyecto->objetivo_general         = $proyecto->proyectoLinea66->objetivo_general;
                 break;
-            case $proyecto->proyectoLinea70()->exists():
-                $proyecto->problema_central         = $proyecto->proyectoLinea70->problema_central;
-                $proyecto->objetivo_general         = $proyecto->proyectoLinea70->objetivo_general;
-                $proyecto->proyecto_base            = $proyecto->proyectoLinea70->proyecto_base;
 
+            case $proyecto->proyectoLinea68()->exists():
+                $proyecto->objetivo_general                 = $proyecto->proyectoLinea68->objetivo_general;
+                $proyecto->problema_central                 = $proyecto->proyectoLinea68->problema_central;
+                $proyecto->pregunta_formulacion_problema    = $proyecto->proyectoLinea68->pregunta_formulacion_problema;
+                $proyecto->identificacion_problema          = $proyecto->proyectoLinea68->identificacion_problema;
+                $proyecto->justificacion_problema           = $proyecto->proyectoLinea68->justificacion_problema;
                 break;
+
             case $proyecto->proyectoLinea69()->exists():
                 $proyecto->justificacion_problema   = $proyecto->proyectoLinea69->justificacion_problema;
                 $proyecto->identificacion_problema  = $proyecto->proyectoLinea69->identificacion_problema;
@@ -125,20 +136,11 @@ class ArbolProyectoController extends Controller
                 $proyecto->objetivo_general         = $proyecto->proyectoHubLinea69->objetivo_general;
                 $proyecto->proyecto_base            = $proyecto->proyectoHubLinea69->proyecto_base;
             break;
-            case $proyecto->proyectoLinea68()->exists():
-                $proyecto->objetivo_general                 = $proyecto->proyectoLinea68->objetivo_general;
-                $proyecto->problema_central                 = $proyecto->proyectoLinea68->problema_central;
-                $proyecto->pregunta_formulacion_problema    = $proyecto->proyectoLinea68->pregunta_formulacion_problema;
-                $proyecto->identificacion_problema          = $proyecto->proyectoLinea68->identificacion_problema;
-                $proyecto->justificacion_problema           = $proyecto->proyectoLinea68->justificacion_problema;
 
-                break;
-            case $proyecto->proyectoLinea65()->exists():
-                $proyecto->problema_central         = $proyecto->proyectoLinea65->problema_central;
-                $proyecto->justificacion_problema   = $proyecto->proyectoLinea65->justificacion_problema;
-                $proyecto->identificacion_problema  = $proyecto->proyectoLinea65->identificacion_problema;
-                $proyecto->objetivo_general         = $proyecto->proyectoLinea65->objetivo_general;
-                $proyecto->tipo_proyecto            = $proyecto->proyectoLinea65->tipo_proyecto;
+            case $proyecto->proyectoLinea70()->exists():
+                $proyecto->problema_central         = $proyecto->proyectoLinea70->problema_central;
+                $proyecto->objetivo_general         = $proyecto->proyectoLinea70->objetivo_general;
+                $proyecto->proyecto_base            = $proyecto->proyectoLinea70->proyecto_base;
                 break;
 
             case $proyecto->proyectoLinea83()->exists():
@@ -213,6 +215,23 @@ class ArbolProyectoController extends Controller
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
         switch ($proyecto) {
+            case $proyecto->proyectoLinea65()->exists():
+                $request->validate([
+                    'identificacion_problema'  => 'required|string|max:40000',
+                    'problema_central'         => 'required|string|max:40000',
+                    'justificacion_problema'   => 'required|string|max:40000',
+                    'objetivo_general'         => 'required|string|max:40000',
+                ]);
+
+                $proyecto_linea_65 = $proyecto->proyectoLinea65;
+                $proyecto_linea_65->identificacion_problema  = $request->identificacion_problema;
+                $proyecto_linea_65->problema_central         = $request->problema_central;
+                $proyecto_linea_65->justificacion_problema   = $request->justificacion_problema;
+                $proyecto_linea_65->objetivo_general         = $request->objetivo_general;
+
+                $proyecto_linea_65->save();
+                break;
+
             case $proyecto->proyectoLinea66()->exists():
                 $request->validate([
                     'identificacion_problema'   => 'required|string|max:40000',
@@ -229,19 +248,25 @@ class ArbolProyectoController extends Controller
 
                 $proyecto_linea_66->save();
                 break;
-            case $proyecto->proyectoLinea70()->exists():
-                $proyecto_linea_70 = $proyecto->proyectoLinea70;
 
+            case $proyecto->proyectoLinea68()->exists():
                 $request->validate([
-                    'problema_central' => 'required|string|max:40000',
-                    'objetivo_general' => 'required|string|max:40000',
-
+                    'problema_central'              => 'required|string|max:40000',
+                    'objetivo_general'              => 'required|string|max:40000',
+                    'pregunta_formulacion_problema' => 'required|string|max:40000',
+                    'identificacion_problema'       => 'required|string|max:40000',
+                    'justificacion_problema'        => 'required|string|max:40000',
                 ]);
-                $proyecto_linea_70->problema_central = $request->problema_central;
-                $proyecto_linea_70->objetivo_general = $request->objetivo_general;
+                $proyecto_linea_68                                  = $proyecto->proyectoLinea68;
+                $proyecto_linea_68->problema_central                = $request->problema_central;
+                $proyecto_linea_68->objetivo_general                = $request->objetivo_general;
+                $proyecto_linea_68->pregunta_formulacion_problema   = $request->pregunta_formulacion_problema;
+                $proyecto_linea_68->identificacion_problema         = $request->identificacion_problema;
+                $proyecto_linea_68->justificacion_problema          = $request->justificacion_problema;
 
-                $proyecto_linea_70->save();
+                $proyecto_linea_68->save();
                 break;
+
             case $proyecto->proyectoLinea69()->exists():
                 $proyecto_linea_69 = $proyecto->proyectoLinea69;
                 $request->validate([
@@ -276,38 +301,18 @@ class ArbolProyectoController extends Controller
                 $proyecto_hub_linea_69->save();
                 break;
 
-            case $proyecto->proyectoLinea65()->exists():
+            case $proyecto->proyectoLinea70()->exists():
+                $proyecto_linea_70 = $proyecto->proyectoLinea70;
+
                 $request->validate([
-                    'identificacion_problema'  => 'required|string|max:40000',
-                    'problema_central'         => 'required|string|max:40000',
-                    'justificacion_problema'   => 'required|string|max:40000',
-                    'objetivo_general'         => 'required|string|max:40000',
+                    'problema_central' => 'required|string|max:40000',
+                    'objetivo_general' => 'required|string|max:40000',
+
                 ]);
+                $proyecto_linea_70->problema_central = $request->problema_central;
+                $proyecto_linea_70->objetivo_general = $request->objetivo_general;
 
-                $proyecto_linea_65 = $proyecto->proyectoLinea65;
-                $proyecto_linea_65->identificacion_problema  = $request->identificacion_problema;
-                $proyecto_linea_65->problema_central         = $request->problema_central;
-                $proyecto_linea_65->justificacion_problema   = $request->justificacion_problema;
-                $proyecto_linea_65->objetivo_general         = $request->objetivo_general;
-
-                $proyecto_linea_65->save();
-                break;
-            case $proyecto->proyectoLinea68()->exists():
-                $request->validate([
-                    'problema_central'              => 'required|string|max:40000',
-                    'objetivo_general'              => 'required|string|max:40000',
-                    'pregunta_formulacion_problema' => 'required|string|max:40000',
-                    'identificacion_problema'       => 'required|string|max:40000',
-                    'justificacion_problema'        => 'required|string|max:40000',
-                ]);
-                $proyecto_linea_68                                  = $proyecto->proyectoLinea68;
-                $proyecto_linea_68->problema_central                = $request->problema_central;
-                $proyecto_linea_68->objetivo_general                = $request->objetivo_general;
-                $proyecto_linea_68->pregunta_formulacion_problema   = $request->pregunta_formulacion_problema;
-                $proyecto_linea_68->identificacion_problema         = $request->identificacion_problema;
-                $proyecto_linea_68->justificacion_problema          = $request->justificacion_problema;
-
-                $proyecto_linea_68->save();
+                $proyecto_linea_70->save();
                 break;
 
             case $proyecto->proyectoLinea83()->exists():
@@ -611,49 +616,14 @@ class ArbolProyectoController extends Controller
 
         $proyecto->load('evaluaciones.evaluacionProyectoLinea66');
 
-        $efectos_directos    = $proyecto->efectosDirectos()->with('efectosIndirectos.impacto', 'resultado')->get();
-
-        $causas_directas     = $proyecto->causasDirectas()->with('causasIndirectas.actividad', 'objetivoEspecifico')->get();
-        $objetivo_especifico = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
-
         $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
-        switch ($proyecto) {
-            case $proyecto->proyectoLinea66()->exists():
-                $proyecto->problema_central         = $proyecto->proyectoLinea66->problema_central;
-                $proyecto->identificacion_problema  = $proyecto->proyectoLinea66->identificacion_problema;
-                $proyecto->objetivo_general         = $proyecto->proyectoLinea66->objetivo_general;
-                $tipos_impacto = json_decode(Storage::get('json/tipos-impacto.json'), true);
-                break;
-            case $proyecto->proyectoLinea70()->exists():
-                $proyecto->problema_central         = $proyecto->proyectoLinea70->problema_central;
-                $proyecto->identificacion_problema  = $proyecto->proyectoLinea70->identificacion_problema;
-                $proyecto->objetivo_general         = $proyecto->proyectoLinea70->objetivo_general;
-                $proyecto->proyecto_base            = $proyecto->proyectoLinea70->proyecto_base;
-                $tipos_impacto = json_decode(Storage::get('json/tipos-impacto.json'), true);
-                break;
-            case $proyecto->proyectoLinea69()->exists():
-                $proyecto->problema_central         = $proyecto->proyectoLinea69->problema_central;
-                $proyecto->identificacion_problema  = $proyecto->proyectoLinea69->identificacion_problema;
-                $proyecto->objetivo_general         = $proyecto->proyectoLinea69->objetivo_general;
-                $proyecto->proyecto_base            = $proyecto->proyectoLinea69->proyecto_base;
-                $tipos_impacto = json_decode(Storage::get('json/tipos-impacto.json'), true);
-                break;
-            case $proyecto->proyectoLinea65()->exists():
-                $proyecto->problema_central         = $proyecto->proyectoLinea65->problema_central;
-                $proyecto->identificacion_problema  = $proyecto->proyectoLinea65->identificacion_problema;
-                $proyecto->objetivo_general         = $proyecto->proyectoLinea65->objetivo_general;
-                $proyecto->tipo_proyecto            = $proyecto->proyectoLinea65->tipo_proyecto;
 
-                $tipos_impacto = json_decode(Storage::get('json/tipos-impacto.json'), true);
-                break;
-            case $proyecto->proyectoLinea68()->exists():
-                $proyecto->objetivo_general   = $proyecto->proyectoLinea68->objetivo_general;
-                $proyecto->problema_central   = $proyecto->proyectoLinea68->problema_central;
-                $tipos_impacto = json_decode(Storage::get('json/tipos-impacto.json'), true);
-                break;
-            default:
-                break;
-        }
+        $tipos_impacto          = json_decode(Storage::get('json/tipos-impacto.json'), true);
+
+        $efectos_directos       = $proyecto->efectosDirectos()->with('efectosIndirectos.impacto', 'resultado.objetivoEspecifico')->get();
+
+        $causas_directas        = $proyecto->causasDirectas()->with('causasIndirectas.actividad', 'objetivoEspecifico')->get();
+        $objetivo_especifico    = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
 
         $objetivos_especificos = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
 
@@ -662,21 +632,20 @@ class ArbolProyectoController extends Controller
             $arr_objetivos_especificos->push(['value' => $objetivo_especifico->id, 'label' => $objetivo_especifico->descripcion ? 'Objetivo específico #' . $objetivo_especifico->numero . ': ' . $objetivo_especifico->descripcion : 'Objetivo específico #' . $objetivo_especifico->numero . ': Sin descripción aún']);
         });
 
-
         return Inertia::render('Convocatorias/Proyectos/ArbolesProyecto/ArbolObjetivos', [
-            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
-            'proyecto'              => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'identificacion_problema', 'problema_central', 'objetivo_general', 'fecha_inicio', 'fecha_finalizacion', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'resultados', 'tipo_proyecto', 'proyecto_base'),
-            'evaluacion'            => Evaluacion::find(request()->evaluacion_id),
-            'efectos_directos'      => $efectos_directos,
-            'causas_directas'       => $causas_directas,
-            'tipos_impacto'         => $tipos_impacto ?? [],
-            'resultados'            => Resultado::select('id as value', 'descripcion as label', 'objetivo_especifico_id')->whereIn(
+            'convocatoria'          =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
+            'proyecto'              =>  $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'fecha_inicio', 'fecha_finalizacion', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'resultados', 'tipo_proyecto', 'proyecto_base'),
+            'evaluacion'            =>  Evaluacion::find(request()->evaluacion_id),
+            'efectos_directos'      =>  $efectos_directos,
+            'causas_directas'       =>  $causas_directas,
+            'tipos_impacto'         =>  $tipos_impacto ?? [],
+            'resultados'            =>  Resultado::select('id as value', 'descripcion as label', 'objetivo_especifico_id')->whereIn(
                                         'objetivo_especifico_id',
                                         $objetivo_especifico->map(function ($objetivo_especifico) {
                                             return $objetivo_especifico->id;
                                         })
                                     )->get(),
-            'objetivos_especificos'  => $arr_objetivos_especificos,
+            'objetivos_especificos' => $arr_objetivos_especificos,
         ]);
     }
 
@@ -752,67 +721,6 @@ class ArbolProyectoController extends Controller
         $evaluacion->save();
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
-    }
-
-    /**
-     * updateObjetivoGeneral
-     *
-     * @param  mixed $request
-     * @param  mixed $proyecto
-     * @return void
-     */
-    public function updateObjetivoGeneral(Request $request, Proyecto $proyecto)
-    {
-        $this->authorize('modificar-proyecto-autor', $proyecto);
-
-        /** @var \App\Models\User */
-        $auth_user = Auth::user();
-
-        // if ($proyecto->lineaProgramatica->codigo == 69 && $auth_user->hasRole([1, 5, 17]) == false || $proyecto->lineaProgramatica->codigo == 70 && $auth_user->hasRole([1, 5, 17]) == false) {
-        if ($auth_user->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 69 && $proyecto->proyectoLinea69->proyecto_base == false && (string)$auth_user->can_by_user->search(24) === "" || $auth_user->hasRole([1]) == false && $proyecto->lineaProgramatica->codigo == 70 && $proyecto->proyectoLinea70->proyecto_base == false && (string)$auth_user->can_by_user->search(23) === "") {
-            return back()->with('error', 'No se puede actualizar este recurso debido a que es información predefinida.');
-        }
-
-        $request->validate([
-            'objetivo_general' => 'required|string',
-        ]);
-
-        switch ($proyecto) {
-            case $proyecto->proyectoLinea66()->exists():
-                $proyecto_linea_66                   = $proyecto->proyectoLinea66;
-                $proyecto_linea_66->objetivo_general = $request->objetivo_general;
-
-                $proyecto_linea_66->save();
-                break;
-            case $proyecto->proyectoLinea70()->exists():
-                $proyecto_linea_70                   = $proyecto->proyectoLinea70;
-                $proyecto_linea_70->objetivo_general = $request->objetivo_general;
-
-                $proyecto_linea_70->save();
-                break;
-            case $proyecto->proyectoLinea69()->exists():
-                $proyecto_linea_69                   = $proyecto->proyectoLinea69;
-                $proyecto_linea_69->objetivo_general = $request->objetivo_general;
-
-                $proyecto_linea_69->save();
-                break;
-            case $proyecto->proyectoLinea65()->exists():
-                $proyecto_linea_65                   = $proyecto->proyectoLinea65;
-                $proyecto_linea_65->objetivo_general = $request->objetivo_general;
-
-                $proyecto_linea_65->save();
-                break;
-            case $proyecto->proyectoLinea68()->exists():
-                $proyecto_linea_68                   = $proyecto->proyectoLinea68;
-                $proyecto_linea_68->objetivo_general = $request->objetivo_general;
-
-                $proyecto_linea_68->save();
-                break;
-            default:
-                break;
-        }
-
-        return back()->with('success', 'El recurso se ha guardado correctamente.');
     }
 
     /**

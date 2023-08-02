@@ -1348,7 +1348,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
 
                             {/* Resultados e impactos relacionados */}
                             <Grid item md={6} className="!my-20 shadow p-2 pb-[76px]" style={{ backgroundColor: '#e0dddd30' }}>
-                                <small className="inline-block ml-2 mb-4">Resultado</small>
+                                <small className="inline-block ml-2 mb-4">Resultado del objetivo específico #{efectoDirecto.resultado?.objetivo_especifico?.numero}</small>
                                 {resultado_id !== efectoDirecto.resultado?.id && (
                                     <div
                                         className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] pr-14"

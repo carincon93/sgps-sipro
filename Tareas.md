@@ -9,7 +9,6 @@ Tareas
 68
 
 1. Revisar los anexos a habilitar
-2. Agregar productos de minciencias
 
 69
 

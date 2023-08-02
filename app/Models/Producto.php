@@ -86,6 +86,16 @@ class Producto extends Model
     }
 
     /**
+     * Relationship with ProductoMincienciasLinea68
+     *
+     * @return object
+     */
+    public function productoMincienciasLinea68()
+    {
+        return $this->hasOne(ProductoMincienciasLinea68::class);
+    }
+
+    /**
      * Relationship with ProductoMincienciasLinea69
      *
      * @return object

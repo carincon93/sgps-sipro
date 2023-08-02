@@ -434,11 +434,14 @@ class Proyecto extends Model
     public function getCodigoAttribute()
     {
         $fecha_finalizacion = null;
-        if ($this->proyectoLinea66()->exists()) $fecha_finalizacion =  $this->proyectoLinea66->fecha_finalizacion;
-        if ($this->proyectoLinea70()->exists()) $fecha_finalizacion =  $this->proyectoLinea70->fecha_finalizacion;
-        if ($this->proyectoLinea69()->exists()) $fecha_finalizacion =  $this->proyectoLinea69->fecha_finalizacion;
-        if ($this->proyectoLinea68()->exists()) $fecha_finalizacion =  $this->proyectoLinea68->fecha_finalizacion;
-        if ($this->proyectoLinea65()->exists()) $fecha_finalizacion =  $this->proyectoLinea65->fecha_finalizacion;
+        if ($this->proyectoLinea65()->exists()) $fecha_finalizacion     =  $this->proyectoLinea65->fecha_finalizacion;
+        if ($this->proyectoLinea66()->exists()) $fecha_finalizacion     =  $this->proyectoLinea66->fecha_finalizacion;
+        if ($this->proyectoLinea68()->exists()) $fecha_finalizacion     =  $this->proyectoLinea68->fecha_finalizacion;
+        if ($this->proyectoLinea69()->exists()) $fecha_finalizacion     =  $this->proyectoLinea69->fecha_finalizacion;
+        if ($this->proyectoHubLinea69()->exists()) $fecha_finalizacion  =  $this->proyectoHubLinea69->fecha_finalizacion;
+        if ($this->proyectoLinea70()->exists()) $fecha_finalizacion     =  $this->proyectoLinea70->fecha_finalizacion;
+        if ($this->proyectoLinea83()->exists()) $fecha_finalizacion     =  $this->proyectoLinea83->fecha_finalizacion;
+
         $codigo = 'SGPS-' . ($this->id + 8000) . '-' . date('Y', strtotime($fecha_finalizacion));
         if ($this->proyectoDemo()->exists()) {
             $numero_consecutivo = sprintf("%05s", $this->proyectoDemo->id);
@@ -452,16 +455,20 @@ class Proyecto extends Model
     public function getFechaInicioAttribute()
     {
         $fecha_inicio = null;
-        if ($this->proyectoLinea66()->exists()) {
+        if ($this->proyectoLinea65()->exists()) {
+            $fecha_inicio = $this->proyectoLinea65->fecha_inicio;
+        } else if ($this->proyectoLinea66()->exists()) {
             $fecha_inicio = $this->proyectoLinea66->fecha_inicio;
-        } else if ($this->proyectoLinea70()->exists()) {
-            $fecha_inicio = $this->proyectoLinea70->fecha_inicio;
-        } else if ($this->proyectoLinea69()->exists()) {
-            $fecha_inicio = $this->proyectoLinea69->fecha_inicio;
         } else if ($this->proyectoLinea68()->exists()) {
             $fecha_inicio = $this->proyectoLinea68->fecha_inicio;
-        } else if ($this->proyectoLinea65()->exists()) {
-            $fecha_inicio = $this->proyectoLinea65->fecha_inicio;
+        } else if ($this->proyectoLinea69()->exists()) {
+            $fecha_inicio = $this->proyectoLinea69->fecha_inicio;
+        } else if ($this->proyectoHubLinea69()->exists()) {
+            $fecha_inicio = $this->proyectoHubLinea69->fecha_inicio;
+        } else if ($this->proyectoLinea70()->exists()) {
+            $fecha_inicio = $this->proyectoLinea70->fecha_inicio;
+        } else if ($this->proyectoLinea83()->exists()) {
+            $fecha_inicio = $this->proyectoLinea83->fecha_inicio;
         }
 
         return $fecha_inicio;
@@ -469,20 +476,24 @@ class Proyecto extends Model
 
     public function getFechaFinalizacionAttribute()
     {
-        $fecha_inicio = null;
-        if ($this->proyectoLinea66()->exists()) {
-            $fecha_inicio = $this->proyectoLinea66->fecha_finalizacion;
-        } else if ($this->proyectoLinea70()->exists()) {
-            $fecha_inicio = $this->proyectoLinea70->fecha_finalizacion;
-        } else if ($this->proyectoLinea69()->exists()) {
-            $fecha_inicio = $this->proyectoLinea69->fecha_finalizacion;
+        $fecha_finalizacion = null;
+        if ($this->proyectoLinea65()->exists()) {
+            $fecha_finalizacion = $this->proyectoLinea65->fecha_finalizacion;
+        } else if ($this->proyectoLinea66()->exists()) {
+            $fecha_finalizacion = $this->proyectoLinea66->fecha_finalizacion;
         } else if ($this->proyectoLinea68()->exists()) {
-            $fecha_inicio = $this->proyectoLinea68->fecha_finalizacion;
-        } else if ($this->proyectoLinea65()->exists()) {
-            $fecha_inicio = $this->proyectoLinea65->fecha_finalizacion;
+            $fecha_finalizacion = $this->proyectoLinea68->fecha_finalizacion;
+        } else if ($this->proyectoLinea69()->exists()) {
+            $fecha_finalizacion = $this->proyectoLinea69->fecha_finalizacion;
+        } else if ($this->proyectoHubLinea69()->exists()) {
+            $fecha_finalizacion = $this->proyectoHubLinea69->fecha_finalizacion;
+        } else if ($this->proyectoLinea70()->exists()) {
+            $fecha_finalizacion = $this->proyectoLinea70->fecha_finalizacion;
+        } else if ($this->proyectoLinea83()->exists()) {
+            $fecha_finalizacion = $this->proyectoLinea83->fecha_finalizacion;
         }
 
-        return $fecha_inicio;
+        return $fecha_finalizacion;
     }
 
     /**
@@ -493,24 +504,33 @@ class Proyecto extends Model
     public function getDiffMesesAttribute()
     {
         $cantidad_meses_ejecucion = 0;
+
+        if ($this->proyectoLinea65()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoLinea65->max_meses_ejecucion;
+        }
+
         if ($this->proyectoLinea66()->exists()) {
             $cantidad_meses_ejecucion = $this->proyectoLinea66->max_meses_ejecucion;
-        }
-
-        if ($this->proyectoLinea70()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoLinea70->max_meses_ejecucion;
-        }
-
-        if ($this->proyectoLinea69()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoLinea69->max_meses_ejecucion;
         }
 
         if ($this->proyectoLinea68()->exists()) {
             $cantidad_meses_ejecucion = $this->proyectoLinea68->max_meses_ejecucion;
         }
 
-        if ($this->proyectoLinea65()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoLinea65->max_meses_ejecucion;
+        if ($this->proyectoLinea69()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoLinea69->max_meses_ejecucion;
+        }
+
+        if ($this->proyectoHubLinea69()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoHubLinea69->max_meses_ejecucion;
+        }
+
+        if ($this->proyectoLinea70()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoLinea70->max_meses_ejecucion;
+        }
+
+        if ($this->proyectoLinea83()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoLinea83->max_meses_ejecucion;
         }
 
         return $cantidad_meses_ejecucion;
