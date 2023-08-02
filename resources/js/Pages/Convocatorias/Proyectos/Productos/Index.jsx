@@ -36,8 +36,10 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
     const [producto, setProducto] = useState(null)
 
     const tabs =
-        proyecto?.proyectoLinea68 || proyecto?.proyectoLinea69 || proyecto?.proyectoHubLinea69 || proyecto?.proyectoLinea70 || proyecto?.proyectoLinea83
+        proyecto?.proyectoLinea69 || proyecto?.proyectoHubLinea69
             ? [{ label: 'Productos' }, { label: 'Productos Minciencias' }]
+            : proyecto?.proyectoLinea68 || proyecto?.proyectoLinea70 || proyecto?.proyectoLinea83
+            ? [{ label: 'Productos' }]
             : [{ label: 'Productos Minciencias' }]
 
     return (
