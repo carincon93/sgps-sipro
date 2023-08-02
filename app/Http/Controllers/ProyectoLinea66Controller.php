@@ -270,6 +270,7 @@ class ProyectoLinea66Controller extends Controller
         $proyecto_linea_66->articulacion_eni                                = $request->articulacion_eni;
         $proyecto_linea_66->justificacion_proyecto_investigacion_pedagogica = $request->justificacion_proyecto_investigacion_pedagogica;
 
+        $proyecto_linea_66->aporta_a_campesena                              = $request->aporta_a_campesena;
         $proyecto_linea_66->relacionado_estrategia_campesena                = $request->relacionado_estrategia_campesena;
         $proyecto_linea_66->justificacion_relacion_campesena                = $request->justificacion_relacion_campesena;
         $proyecto_linea_66->lineas_estrategicas_convocatoria                = $request->lineas_estrategicas_convocatoria;

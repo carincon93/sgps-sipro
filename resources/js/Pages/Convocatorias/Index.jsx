@@ -33,7 +33,7 @@ export default function Dashboard({ auth, convocatorias }) {
                 <Grid item md={12}>
                     <AlertMui className="mt-10">
                         <p>A continuación, se listan todas las convocatorias, si desea crear una nueva de clic en el siguiente botón.</p>
-                        <Link href={route('convocatorias.create')} className="mt-8 mb-20">
+                        <Link href={route('convocatorias.create')} className="my-4 bg-app-800 text-white py-2 px-4 rounded inline-block">
                             Crear convocatoria
                         </Link>
                     </AlertMui>
