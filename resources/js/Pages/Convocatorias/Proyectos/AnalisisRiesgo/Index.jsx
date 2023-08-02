@@ -151,7 +151,9 @@ const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisis_riesgos, nivel
 
                     {analisis_riesgos.data.map((analisis_riesgo, i) => (
                         <TableRow key={i}>
-                            <TableCell>{analisis_riesgo.descripcion}</TableCell>
+                            <TableCell>
+                                <p className="line-clamp-3">{analisis_riesgo.descripcion}</p>
+                            </TableCell>
                             <TableCell>{niveles_riesgo.find((item) => item.value == analisis_riesgo.nivel).label}</TableCell>
                             <TableCell>{tipos_riesgo.find((item) => item.value == analisis_riesgo.tipo).label}</TableCell>
 

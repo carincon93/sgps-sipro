@@ -240,7 +240,6 @@ const Form = ({
                             <Label required labelFor="cantidad_horas" className="mb-4" value="Número de horas semanales dedicadas para el desarrollo del proyecto" />
                         </Grid>
                         <Grid item md={6}>
-
                             <TextInput
                                 type="number"
                                 id="cantidad_horas"
@@ -263,16 +262,9 @@ const Form = ({
                             <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
                         </Grid>
                         <Grid item md={6}>
-                            <Autocomplete
-                                id="linea_programatica_id"
-                                options={lineas_programaticas}
-                                selectedValue={form.data.linea_programatica_id}
-                                onChange={(event, newValue) => form.setData('linea_programatica_id', newValue.value)}
-                                error={form.errors.linea_programatica_id}
-                                placeholder="Seleccione una línea programática"
-                                required
-                                disabled={is_super_admin ? false : evaluacion || method === 'editar'}
-                            />
+                            {proyecto_linea_68?.proyecto.linea_programatica
+                                ? proyecto_linea_68?.proyecto.linea_programatica.nombre + ' - ' + proyecto_linea_68?.proyecto.linea_programatica.codigo
+                                : ''}
                         </Grid>
 
                         <Grid item md={12}>

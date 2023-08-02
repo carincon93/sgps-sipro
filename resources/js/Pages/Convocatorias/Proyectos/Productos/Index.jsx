@@ -177,8 +177,12 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                                         <React.Fragment key={i}>
                                             {producto.producto_linea68 || producto.producto_linea69 || producto.producto_linea70 ? (
                                                 <TableRow>
-                                                    <TableCell>{producto.nombre}</TableCell>
-                                                    <TableCell>{producto.resultado.objetivo_especifico.descripcion}</TableCell>
+                                                    <TableCell>
+                                                        <p className="line-clamp-3">{producto.nombre}</p>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <p className="line-clamp-3">{producto.resultado.objetivo_especifico.descripcion}</p>
+                                                    </TableCell>
                                                     <TableCell>
                                                         <>
                                                             {proyecto.codigo_linea_programatica == 69 || proyecto.codigo_linea_programatica == 70 || proyecto.codigo_linea_programatica == 83 ? (
@@ -290,13 +294,15 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                                         {producto.producto_minciencias_linea65 || producto.producto_minciencias_linea66 || producto.producto_minciencias_linea69 ? (
                                             <TableRow>
                                                 <TableCell>{producto.nombre}</TableCell>
-                                                <TableCell>{producto.resultado.objetivo_especifico.descripcion}</TableCell>
                                                 <TableCell>
-                                                    <>
+                                                    <p className="line-clamp-3">{producto.resultado.objetivo_especifico.descripcion}</p>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <p className="line-clamp-3">
                                                         {proyecto.codigo_linea_programatica != 69 && proyecto.codigo_linea_programatica != 70 ? (
                                                             <>Código {producto.resultado.id + '-' + producto.resultado.descripcion}</>
                                                         ) : null}
-                                                    </>
+                                                    </p>
                                                 </TableCell>
 
                                                 <TableCell>

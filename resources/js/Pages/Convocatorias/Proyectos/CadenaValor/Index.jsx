@@ -20,7 +20,7 @@ import { useForm } from '@inertiajs/react'
 
 import { Grid } from '@mui/material'
 
-const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, objetivoGeneral, productos, ...props }) => {
+const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, objetivo_general, productos, ...props }) => {
     const auth_user = auth.user
     const isSuperAdmin = checkRole(auth_user, [1])
     const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
@@ -60,14 +60,17 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
 
         // For each orgchart box, provide the name, manager, and tooltip to show.
 
-        data.addRows([[{ v: 'Objetivo general', f: '<strong>Objetivo general</strong><div>' + objetivoGeneral + '</div>' }, '', 'Objetivo general']])
+        data.addRows([[{ v: 'Objetivo general', f: '<strong>Objetivo general</strong><div>' + objetivo_general?.substring(0, 250) + '...' + '</div>' }, '', 'Objetivo general']])
 
         objetivos.map((objetivo) => {
             data.addRows([
                 [
                     {
                         v: 'Objetivo específico ' + objetivo.numero,
-                        f: '<strong>Objetivo específico ' + objetivo.numero + '</strong><div>' + objetivo.descripcion ? objetivo.descripcion : 'Sin descripción registrada aún' + '</div>',
+                        f:
+                            '<strong>Objetivo específico ' + objetivo.numero + '</strong><div>' + objetivo.descripcion
+                                ? objetivo.descripcion.substring(0, 250) + '...'
+                                : 'Sin descripción registrada aún' + '</div>',
                     },
                     'Objetivo general',
                     'Objetivo específico ' + objetivo.numero,
@@ -78,7 +81,7 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
         let totalProyecto = 0
 
         productos.map((producto) => {
-            data.addRows([[{ v: producto.v, f: '<strong>Producto</strong><div>' + producto.f + '</div>' }, producto.fkey, producto.tooltip]])
+            data.addRows([[{ v: producto.v, f: '<strong>Producto</strong><div>' + producto.f.substring(0, 250) + '...' + '</div>' }, producto.fkey, producto.tooltip]])
             producto.actividades.map((actividad) => {
                 data.addRows([
                     [
@@ -86,7 +89,8 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
                             v: 'act' + producto.v + actividad.id,
                             f:
                                 '<strong>Actividad</strong><div>' +
-                                actividad.descripcion +
+                                actividad.descripcion.substring(0, 250) +
+                                '...' +
                                 '</div><div><strong>Roles:</strong><ul className="list-inside">' +
                                 actividad.proyecto_roles_sennova.map((proyectoRol) => '<li>' + proyectoRol.convocatoria_rol_sennova.rol_sennova.nombre + '</li>') +
                                 '</ul></div>',

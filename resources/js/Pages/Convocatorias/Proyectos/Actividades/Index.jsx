@@ -179,7 +179,12 @@ const Actividades = ({
         }
     }
 
-    const tabs = tecnoacademia_relacionada?.modalidad == 2 ? [{ label: 'Metodología' }, { label: 'Actividades' }, { label: 'Aulas móviles' }] : [{ label: 'Metodología' }, { label: 'Actividades' }]
+    const tabs =
+        tecnoacademia_relacionada?.modalidad == 2
+            ? [{ label: 'Actividades' }, { label: 'Metodología' }, { label: 'Aulas móviles' }]
+            : (proyecto.codigo_linea_programatica == 69 && proyecto.proyectoHubLinea69) || proyecto.codigo_linea_programatica == 70 || proyecto.codigo_linea_programatica == 83
+            ? [{ label: 'Actividades' }, { label: 'Metodología' }]
+            : [{ label: 'Actividades' }]
 
     return (
         <AuthenticatedLayout>
@@ -305,7 +310,97 @@ const Actividades = ({
                 <div>
                     <Grid item md={12}>
                         <AlertMui>
-                            <span className="text-5xl font-black">1.</span>
+                            <h1 className="text-3xl text-center">Actividades</h1>
+                        </AlertMui>
+                        <TableMui className="mt-20 mb-8" rows={['Descripción', 'Fechas', 'Objetivo específico', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                            {actividades.data.map((actividad, i) => (
+                                <TableRow key={i}>
+                                    <TableCell>
+                                        <p className="line-clamp-3">{actividad.descripcion}</p>
+                                    </TableCell>
+                                    <TableCell>
+                                        {actividad.fecha_inicio ? (
+                                            <p>
+                                                Del {actividad.fecha_inicio} al {actividad.fecha_finalizacion}
+                                            </p>
+                                        ) : (
+                                            <Chip className="!bg-red-100 !text-red-400 !hover:bg-red-200 px-2 py-1 my-2" label="Sin fechas definidas" />
+                                        )}
+                                    </TableCell>
+                                    <TableCell>
+                                        <p className="line-clamp-3">{actividad.objetivo_especifico != null ? actividad.objetivo_especifico.descripcion : 'Aún no ha registrado la descripción'}</p>
+                                    </TableCell>
+
+                                    <TableCell>
+                                        <MenuMui text={<MoreVertIcon />}>
+                                            {actividad.id !== actividad_to_destroy ? (
+                                                <div>
+                                                    <MenuItem
+                                                        onClick={() => (setDialogStatus(true), setMethod('editar'), setActividad(actividad))}
+                                                        disabled={!proyecto.allowed.to_update}
+                                                        className={!proyecto.allowed.to_update ? 'hidden' : ''}>
+                                                        Editar
+                                                    </MenuItem>
+                                                    <MenuItem
+                                                        onClick={() => {
+                                                            setActividadToDestroy(actividad.id)
+                                                        }}>
+                                                        Eliminar
+                                                    </MenuItem>
+                                                </div>
+                                            ) : (
+                                                <div>
+                                                    <MenuItem
+                                                        onClick={(e) => {
+                                                            setActividadToDestroy(null)
+                                                        }}>
+                                                        Cancelar
+                                                    </MenuItem>
+                                                    <MenuItem
+                                                        sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation()
+                                                            if (proyecto.allowed.to_update) {
+                                                                router.delete(route('convocatorias.proyectos.actividad.destroy', [convocatoria.id, proyecto.id, actividad.id]), {
+                                                                    preserveScroll: true,
+                                                                })
+                                                            }
+                                                        }}>
+                                                        Confirmar
+                                                    </MenuItem>
+                                                </div>
+                                            )}
+                                        </MenuMui>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableMui>
+
+                        <DialogMui
+                            open={dialog_status}
+                            fullWidth={true}
+                            maxWidth="lg"
+                            blurEnabled={true}
+                            dialogContent={
+                                <Form
+                                    is_super_admin={is_super_admin}
+                                    setDialogStatus={setDialogStatus}
+                                    method={method}
+                                    proyecto={proyecto}
+                                    convocatoria={convocatoria}
+                                    actividad={actividad}
+                                    proyecto_presupuesto={proyecto_presupuesto}
+                                    proyecto_roles={proyecto_roles}
+                                    productos={productos}
+                                />
+                            }
+                        />
+                    </Grid>
+                </div>
+
+                <div>
+                    <Grid item md={12}>
+                        <AlertMui>
                             <h1 className="text-3xl text-center">Metodología</h1>
                             <p className="my-8">
                                 Se debe evidenciar que la metodología se presente de forma organizada y de manera secuencial, de acuerdo con el ciclo P-H-V-A “Planificar – Hacer – Verificar - Actuar”
@@ -1342,99 +1437,10 @@ const Actividades = ({
                     )}
                 </div>
 
-                <div>
-                    <Grid item md={12}>
-                        <AlertMui>
-                            <span className="text-5xl font-black">2.</span>
-                            <h1 className="text-3xl text-center">Actividades</h1>
-                        </AlertMui>
-                        <TableMui className="mt-20 mb-8" rows={['Descripción', 'Fechas', 'Objetivo específico', 'Acciones']} sxCellThead={{ width: '320px' }}>
-                            {actividades.data.map((actividad, i) => (
-                                <TableRow key={i}>
-                                    <TableCell>{actividad.descripcion}</TableCell>
-                                    <TableCell>
-                                        {actividad.fecha_inicio ? (
-                                            <p>
-                                                Del {actividad.fecha_inicio} al {actividad.fecha_finalizacion}
-                                            </p>
-                                        ) : (
-                                            <Chip className="!bg-red-100 !text-red-400 !hover:bg-red-200 px-2 py-1 my-2" label="Sin fechas definidas" />
-                                        )}
-                                    </TableCell>
-                                    <TableCell>{actividad.objetivo_especifico != null ? actividad.objetivo_especifico.descripcion : 'Aún no ha registrado la descripción'}</TableCell>
-
-                                    <TableCell>
-                                        <MenuMui text={<MoreVertIcon />}>
-                                            {actividad.id !== actividad_to_destroy ? (
-                                                <div>
-                                                    <MenuItem
-                                                        onClick={() => (setDialogStatus(true), setMethod('editar'), setActividad(actividad))}
-                                                        disabled={!proyecto.allowed.to_update}
-                                                        className={!proyecto.allowed.to_update ? 'hidden' : ''}>
-                                                        Editar
-                                                    </MenuItem>
-                                                    <MenuItem
-                                                        onClick={() => {
-                                                            setActividadToDestroy(actividad.id)
-                                                        }}>
-                                                        Eliminar
-                                                    </MenuItem>
-                                                </div>
-                                            ) : (
-                                                <div>
-                                                    <MenuItem
-                                                        onClick={(e) => {
-                                                            setActividadToDestroy(null)
-                                                        }}>
-                                                        Cancelar
-                                                    </MenuItem>
-                                                    <MenuItem
-                                                        sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
-                                                        onClick={(e) => {
-                                                            e.stopPropagation()
-                                                            if (proyecto.allowed.to_update) {
-                                                                router.delete(route('convocatorias.proyectos.actividad.destroy', [convocatoria.id, proyecto.id, actividad.id]), {
-                                                                    preserveScroll: true,
-                                                                })
-                                                            }
-                                                        }}>
-                                                        Confirmar
-                                                    </MenuItem>
-                                                </div>
-                                            )}
-                                        </MenuMui>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableMui>
-
-                        <DialogMui
-                            open={dialog_status}
-                            fullWidth={true}
-                            maxWidth="lg"
-                            blurEnabled={true}
-                            dialogContent={
-                                <Form
-                                    is_super_admin={is_super_admin}
-                                    setDialogStatus={setDialogStatus}
-                                    method={method}
-                                    proyecto={proyecto}
-                                    convocatoria={convocatoria}
-                                    actividad={actividad}
-                                    proyecto_presupuesto={proyecto_presupuesto}
-                                    proyecto_roles={proyecto_roles}
-                                    productos={productos}
-                                />
-                            }
-                        />
-                    </Grid>
-                </div>
-
                 {tecnoacademia_relacionada?.modalidad == 2 ? (
                     <div>
                         <Grid item md={12}>
                             <AlertMui>
-                                <span className="text-5xl font-black">3.</span>
                                 <h1 className="text-3xl text-center">Aulas móviles</h1>
                             </AlertMui>
                             <AulaMovil auth={auth} convocatoria={convocatoria} proyecto={proyecto} aulas_moviles={aulas_moviles} />
