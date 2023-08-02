@@ -75,8 +75,7 @@ export default function Dashboard({ auth, roles_sistema }) {
                                         <FormRoles usuario={auth_user} roles_sistema={roles_sistema} />
                                     </AlertMui>
                                 )}
-
-                                {auth_user.roles.length > 0 && (
+                                {auth_user.roles.length > 0 && auth_user.check_soportes_titulo_obtenido == 0 && auth_user.check_certificados_formacion == 0 ? (
                                     <>
                                         <p className="mt-10">
                                             A continuación, diríjase al CENSO SENNOVA 2023. Por favor haga clic en <strong>'Ir al CENSO SENNOVA 2023'</strong> para diligenciarlo.
@@ -87,6 +86,11 @@ export default function Dashboard({ auth, roles_sistema }) {
                                             </AlertMui>
                                         )}
                                     </>
+                                ) : (
+                                    <AlertMui severity="error">
+                                        Tiene <strong>{auth_user.check_soportes_titulo_obtenido}</strong> soporte(s) de estudio académico y <strong>{auth_user.check_certificados_formacion}</strong>{' '}
+                                        certificado(s) de formación académica SENA sin cargar, por favor complete el CENSO SENNOVA.
+                                    </AlertMui>
                                 )}
                             </div>
                         </>
@@ -95,7 +99,9 @@ export default function Dashboard({ auth, roles_sistema }) {
                         <>
                             {auth_user.roles.length > 0 && (
                                 <div className="p-4 flex">
-                                    {auth_user.informacion_completa && <ButtonMui onClick={() => setDialogStatus(false)}>Ya he completado el CENSO</ButtonMui>}
+                                    {auth_user.informacion_completa && auth_user.check_soportes_titulo_obtenido == 0 && auth_user.check_certificados_formacion == 0 && (
+                                        <ButtonMui onClick={() => setDialogStatus(false)}>Ya he completado el CENSO</ButtonMui>
+                                    )}
                                     <Link
                                         className="ml-2 overflow-hidden shadow-sm rounded px-6 py-2 bg-app-500 text-white flex justify-around items-center flex-col text-center"
                                         href={route('users.perfil')}>

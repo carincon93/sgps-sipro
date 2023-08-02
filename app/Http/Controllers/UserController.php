@@ -114,9 +114,6 @@ class UserController extends Controller
     {
         $this->authorize('update', [User::class, $user]);
 
-        /** @var \App\Models\User */
-        $auth_user = Auth::user();
-
         $proyectos = $user->proyectos->load('proyectoLinea65', 'proyectoLinea66', 'proyectoLinea68', 'proyectoLinea69.nodoTecnoparque', 'tecnoacademiaLineasTecnoacademia.tecnoacademia', );
 
         if ($user->hasRole([2, 3, 4, 21])) {

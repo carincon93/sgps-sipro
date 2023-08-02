@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Perfil\EstudioAcademico;
+use App\Models\Perfil\FormacionAcademicaSena;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -24,7 +27,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $appends = ['can', 'can_by_user', 'allowed', 'nombre_carpeta_sharepoint'];
+    protected $appends = ['can', 'can_by_user', 'allowed', 'nombre_carpeta_sharepoint', 'check_soportes_titulo_obtenido', 'check_certificados_formacion'];
 
     /**
      * The attributes that are mass assignable.
@@ -202,6 +205,46 @@ class User extends Authenticatable
     public function evaluaciones()
     {
         return $this->hasMany(\App\Models\Evaluacion\Evaluacion::class);
+    }
+
+    /**
+     * Relationship with EstudioAcademico
+     *
+     * @return object
+     */
+    public function estudiosAcademicos()
+    {
+        return $this->hasMany(EstudioAcademico::class);
+    }
+
+    /**
+     * Relationship with FormacionAcademicaSena
+     *
+     * @return object
+     */
+    public function formacionesAcademicasSena()
+    {
+        return $this->hasMany(FormacionAcademicaSena::class);
+    }
+
+    /**
+     * Relationship with ParticipacionGrupoInvestigacionSena
+     *
+     * @return object
+     */
+    public function participacionesGruposInvestigacionSena()
+    {
+        return $this->hasMany(ParticipacionGrupoInvestigacionSena::class);
+    }
+
+    /**
+     * Relationship with ParticipacionProyectoSennova
+     *
+     * @return object
+     */
+    public function participacionesProyectoSennova()
+    {
+        return $this->hasMany(ParticipacionProyectoSennova::class);
     }
 
     /**
@@ -436,5 +479,29 @@ class User extends Authenticatable
     public function getCursosDeEvaluacionRealizadosAttribute($value)
     {
         return json_decode($value);
+    }
+
+    public function getCheckSoportesTituloObtenidoAttribute()
+    {
+        $count = 0;
+        foreach ($this->estudiosAcademicos as $estudio_academico) {
+            if ($estudio_academico->soporte_titulo_obtenido == null) {
+                $count++;
+            }
+        }
+
+        return $count;
+    }
+
+    public function getCheckCertificadosFormacionAttribute()
+    {
+        $count = 0;
+        foreach ($this->formacionesAcademicasSena as $formacion_academica_sena) {
+            if ($formacion_academica_sena->certificado_formacion == null) {
+                $count++;
+            }
+        }
+
+        return $count;
     }
 }

@@ -29,8 +29,6 @@ const Form = ({ method = '', setDialogStatus, user_id, participacion_grupo_inves
               })
     }
 
-    console.log(form.errors)
-
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
