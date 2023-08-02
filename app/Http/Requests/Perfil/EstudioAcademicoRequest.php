@@ -24,6 +24,7 @@ class EstudioAcademicoRequest extends FormRequest
     public function rules()
     {
         return [
+            'user_id'         => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:users,id'],
             'grado_formacion' => ['required', 'integer', 'min:1', 'max:9'],
             'titulo_obtenido' => ['required', 'string', 'max:255'],
         ];

@@ -70,7 +70,7 @@ export default function Dashboard({ auth, roles_sistema }) {
                             <div>
                                 {auth_user.roles.length == 0 && (
                                     <AlertMui>
-                                        1. Por favor seleccione los roles de formulación según la línea en la que desea presentar proyectos. Todo usuario debe tener un rol. Si aparte de estos requiere
+                                        Por favor seleccione los roles de formulación según la línea en la que desea presentar proyectos. Todo usuario debe tener un rol. Si aparte de estos requiere
                                         otro rol por favor comuníquese con el administrador del sistema.
                                         <FormRoles usuario={auth_user} roles_sistema={roles_sistema} />
                                     </AlertMui>
@@ -79,7 +79,7 @@ export default function Dashboard({ auth, roles_sistema }) {
                                 {auth_user.roles.length > 0 && (
                                     <>
                                         <p className="mt-10">
-                                            2. A continuación, diríjase al CENSO SENNOVA 2023. Por favor haga clic en <strong>'Ir al CENSO SENNOVA 2023'</strong> para diligenciarlo.
+                                            A continuación, diríjase al CENSO SENNOVA 2023. Por favor haga clic en <strong>'Ir al CENSO SENNOVA 2023'</strong> para diligenciarlo.
                                         </p>
                                         {auth_user.informacion_completa && (
                                             <AlertMui className="mt-4">

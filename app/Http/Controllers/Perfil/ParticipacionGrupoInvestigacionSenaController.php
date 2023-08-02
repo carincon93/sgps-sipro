@@ -45,7 +45,7 @@ class ParticipacionGrupoInvestigacionSenaController extends Controller
     {
         $this->authorize('create', [ParticipacionGrupoInvestigacionSena::class]);
 
-        $request->merge(['user_id' => Auth::user()->id]);
+        // $request->merge(['user_id' => Auth::user()->id]);
 
         $participacionGis = ParticipacionGrupoInvestigacionSena::create($request->all());
 

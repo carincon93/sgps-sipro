@@ -24,6 +24,7 @@ class ParticipacionProyectoSennovaRequest extends FormRequest
     public function rules()
     {
         return [
+            'user_id'                           => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:users,id'],
             'ha_formulado_proyectos_sennova'    => ['required', 'boolean'],
             'tipo_proyecto'                     => ['nullable', 'required_if:ha_formulado_proyectos_sennova,true', 'integer', 'min:1', 'max:9'],
             'fecha_inicio_proyecto'             => ['nullable', 'required_if:ha_formulado_proyectos_sennova,true', 'date_format:Y-m-d'],

@@ -24,6 +24,7 @@ class ParticipacionGrupoInvestigacionSenaRequest extends FormRequest
     public function rules()
     {
         return [
+            'user_id'                                   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:users,id'],
             'pertenece_grupo_investigacion_centro'      => ['required', 'boolean'],
             'pertenece_semillero_investigacion_centro'  => ['required', 'boolean'],
             'grupo_investigacion_id'                    => ['nullable', 'min:0', 'max:2147483647', 'integer', 'exists:grupos_investigacion,id'],

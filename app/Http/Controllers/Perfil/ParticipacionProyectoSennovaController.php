@@ -44,7 +44,7 @@ class ParticipacionProyectoSennovaController extends Controller
     {
         $this->authorize('create', [ParticipacionProyectoSennova::class]);
 
-        $request->merge(['user_id' => Auth::user()->id]);
+        // $request->merge(['user_id' => Auth::user()->id]);
 
         $participacionPs = ParticipacionProyectoSennova::create($request->all());
 

@@ -24,6 +24,7 @@ class FormacionAcademicaSenaRequest extends FormRequest
     public function rules()
     {
         return [
+            'user_id'                       => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:users,id'],
             'egresado_sena'                 => ['required', 'boolean'],
             'modalidad_sena'                => ['required', 'integer', 'min:0', 'max:9'],
             'nivel_sena'                    => ['required', 'integer', 'min:0', 'max:9'],
