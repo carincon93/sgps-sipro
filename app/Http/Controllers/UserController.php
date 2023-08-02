@@ -124,10 +124,10 @@ class UserController extends Controller
         }
 
         return Inertia::render('Users/Edit', [
-            'usuario'               => $user,
+            'usuario'                                       => $user,
             // 'permisosRelacionados'  => $user->permissions()->pluck('id'),
             // 'proyectos'             => $proyectos,
-            'roles_sistema'                                 => Role::getRolesByRol(),
+            'roles_sistema'                                 =>  Role::getRolesByRol(),
             'subareas_experiencia'                          =>  SubareaExperiencia::selectRaw("subareas_experiencia.id as value, CONCAT(subareas_experiencia.nombre,' - Área de experiencia: ', areas_experiencia.nombre) as label")->join('areas_experiencia', 'subareas_experiencia.area_experiencia_id', 'areas_experiencia.id')->orderBy('subareas_experiencia.nombre', 'ASC')->get(),
             'municipios'                                    =>  Municipio::selectRaw('id as value, nombre as label')->get(),
             'roles_sennova'                                 =>  RolSennova::selectRaw("roles_sennova.id as value, CASE
@@ -136,10 +136,10 @@ class UserController extends Controller
                                                                 END as label")->leftJoin('lineas_programaticas', 'roles_sennova.linea_programatica_id', 'lineas_programaticas.id')->distinct('roles_sennova.nombre')->get(),
             'redes_conocimiento'                            =>  RedConocimiento::selectRaw('id as value, nombre as label')->get(),
             'disciplinas_conocimiento'                      =>  DisciplinaSubareaConocimiento::selectRaw('id as value, nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'estudios_academicos'                           =>  EstudioAcademico::where('user_id', $auth_user->id)->get(),
-            'formaciones_academicas_sena'                   =>  FormacionAcademicaSena::where('user_id', $auth_user->id)->get(),
-            'participaciones_grupos_investigacion_sena'     =>  ParticipacionGrupoInvestigacionSena::with('semilleroInvestigacion', 'grupoInvestigacion')->where('user_id', $auth_user->id)->get(),
-            'participaciones_proyectos_sennova'             =>  ParticipacionProyectoSennova::where('user_id', $auth_user->id)->get(),
+            'estudios_academicos'                           =>  EstudioAcademico::where('user_id', $user->id)->get(),
+            'formaciones_academicas_sena'                   =>  FormacionAcademicaSena::where('user_id', $user->id)->get(),
+            'participaciones_grupos_investigacion_sena'     =>  ParticipacionGrupoInvestigacionSena::with('semilleroInvestigacion', 'grupoInvestigacion')->where('user_id', $user->id)->get(),
+            'participaciones_proyectos_sennova'             =>  ParticipacionProyectoSennova::where('user_id', $user->id)->get(),
             'grupos_investigacion'                          =>  GrupoInvestigacion::selectRaw('grupos_investigacion.id as value, concat(grupos_investigacion.nombre, chr(10), \'∙ Código: \', grupos_investigacion.codigo_minciencias) as label')->orderBy('grupos_investigacion.nombre', 'ASC')->get(),
             'semilleros_investigacion'                      =>  SemilleroInvestigacion::selectRaw('semilleros_investigacion.id as value, concat(semilleros_investigacion.nombre, chr(10), \'∙ Código: \', semilleros_investigacion.codigo) as label')->orderBy('semilleros_investigacion.nombre', 'ASC')->get(),
             'niveles_academicos'                            =>  json_decode(Storage::get('json/niveles-academicos.json'), true),

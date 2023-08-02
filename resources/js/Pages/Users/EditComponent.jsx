@@ -14,6 +14,7 @@ import ParticipacionesGrupoInvestigacionSENA from './Perfil/ParticipacionesGrupo
 import ParticipacionesProyectosSENNOVA from './Perfil/ParticipacionesProyectosSennova/Index'
 
 import { router, useForm } from '@inertiajs/react'
+import React from 'react'
 
 const EditComponent = ({
     usuario,
@@ -54,6 +55,8 @@ const EditComponent = ({
             preserveScroll: true,
         })
     }
+
+    console.log(usuario)
 
     return (
         <TabsMui
@@ -127,8 +130,8 @@ const EditComponent = ({
                     </Grid>
                     <Grid item md={8} className="drop-shadow-lg">
                         <Paper elevation={0} sx={{ padding: 6 }}>
-                            {usuario.roles.map((rol) => (
-                                <>{rol.name}</>
+                            {usuario.roles.map((rol, i) => (
+                                <React.Fragment key={i}>{rol.name}</React.Fragment>
                             ))}
                             <FormRoles usuario={usuario} roles_sistema={roles_sistema} />
                         </Paper>
