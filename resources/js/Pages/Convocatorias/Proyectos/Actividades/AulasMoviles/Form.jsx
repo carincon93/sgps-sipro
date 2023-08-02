@@ -9,6 +9,7 @@ import { Grid, Paper } from '@mui/material'
 
 const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil }) => {
     const form = useForm({
+        _method: method,
         id: aula_movil?.id ?? '',
         placa: aula_movil?.placa ?? '',
         modelo: aula_movil?.modelo ?? '',
@@ -27,12 +28,12 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
     const submit = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
-            method == 'crear'
-                ? form.post(route('convocatorias.ta.aulas-moviles.store', [convocatoria.id, proyecto.id]), {
+            method == 'POST'
+                ? form.post(route('convocatorias.proyectos-linea-70.aulas-moviles.store', [convocatoria.id, proyecto.id]), {
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
                   })
-                : form.post(route('convocatorias.ta.aulas-moviles.store', [convocatoria.id, proyecto.id, aula_movil.id]), {
+                : form.post(route('convocatorias.proyectos-linea-70.aulas-moviles.update', [convocatoria.id, proyecto.id, aula_movil.id]), {
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
                   })
@@ -181,7 +182,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
                                         aula_movil
                                             ? aula_movil?.soat.includes('http') == true || aula_movil?.soat.includes('http') == undefined
                                                 ? null
-                                                : route('convocatorias.ta.aulas-moviles.download-file-sharepoint', [convocatoria.id, proyecto.id, aula_movil.id, 'soat'])
+                                                : route('convocatorias.proyectos-linea-70.aulas-moviles.download-file-sharepoint', [convocatoria.id, proyecto.id, aula_movil.id, 'soat'])
                                             : null
                                     }
                                     onChange={(e) => form.setData('soat', e.target.files[0])}
@@ -201,7 +202,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
                                         aula_movil?.tecnicomecanica
                                             ? aula_movil?.tecnicomecanica?.includes('http')
                                                 ? null
-                                                : route('convocatorias.ta.aulas-moviles.download-file-sharepoint', [convocatoria, proyecto, aula_movil.id, 'tecnicomecánica'])
+                                                : route('convocatorias.proyectos-linea-70.aulas-moviles.download-file-sharepoint', [convocatoria, proyecto, aula_movil.id, 'tecnicomecánica'])
                                             : null
                                     }
                                     onChange={(e) => form.setData('tecnicomecanica', e.target.files[0])}
@@ -216,7 +217,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
                             {proyecto.allowed.to_update ? (
                                 <>
                                     <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                        {method == 'crear' ? 'Agregar' : 'Modificar'} aula móvil
+                                        {method == 'POST' ? 'Agregar' : 'Modificar'} aula móvil
                                     </PrimaryButton>
                                     <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
                                         Cancelar

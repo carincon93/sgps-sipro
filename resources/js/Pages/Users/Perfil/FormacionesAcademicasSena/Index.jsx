@@ -21,7 +21,7 @@ const FormacionesAcademicasSena = ({ usuario, formaciones_academicas_sena, modal
     return (
         <>
             <TableMui rows={['Modalidad', 'Nivel académico', 'Título obtenido', 'Acciones']} sxCellThead={{ width: '320px' }} className="mt-10">
-                <TableRow onClick={() => (setDialogStatus(true), setMethod('crear'), setFormacionAcademicaSena(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setFormacionAcademicaSena(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                     <TableCell colSpan={4}>
                         <ButtonMui>
                             <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar formacion académica SENA
@@ -43,7 +43,7 @@ const FormacionesAcademicasSena = ({ usuario, formaciones_academicas_sena, modal
                             <MenuMui text={<MoreVertIcon />}>
                                 {formacion_academica_sena.id !== formacion_academica_sena_to_destroy ? (
                                     <div>
-                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('editar'), setFormacionAcademicaSena(formacion_academica_sena))}>Editar</MenuItem>
+                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setFormacionAcademicaSena(formacion_academica_sena))}>Editar</MenuItem>
 
                                         <MenuItem
                                             onClick={() => {

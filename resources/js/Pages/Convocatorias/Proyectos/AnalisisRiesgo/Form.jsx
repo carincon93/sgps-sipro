@@ -21,7 +21,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisis_r
     const submit = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
-            method == 'crear'
+            method == 'POST'
                 ? form.post(route('convocatorias.proyectos.analisis-riesgos.store', [convocatoria.id, proyecto.id]), {
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
@@ -151,7 +151,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisis_r
                             {proyecto.allowed.to_update ? (
                                 <>
                                     <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                        {method == 'crear' ? 'Agregar' : 'Modificar'} análisis de riesgo
+                                        {method == 'POST' ? 'Agregar' : 'Modificar'} análisis de riesgo
                                     </PrimaryButton>
                                     <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
                                         Cancelar

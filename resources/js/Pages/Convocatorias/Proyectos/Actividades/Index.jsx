@@ -336,7 +336,7 @@ const Actividades = ({
                                             {actividad.id !== actividad_to_destroy ? (
                                                 <div>
                                                     <MenuItem
-                                                        onClick={() => (setDialogStatus(true), setMethod('editar'), setActividad(actividad))}
+                                                        onClick={() => (setDialogStatus(true), setMethod('PUT'), setActividad(actividad))}
                                                         disabled={!proyecto.allowed.to_update}
                                                         className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                                         Editar

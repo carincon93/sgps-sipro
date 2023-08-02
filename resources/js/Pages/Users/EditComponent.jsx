@@ -101,7 +101,7 @@ const EditComponent = ({
                     <Grid item md={8} className="drop-shadow-lg">
                         <Paper elevation={0} sx={{ padding: 2 }}>
                             <Form
-                                method="editar"
+                                method="PUT"
                                 usuario={usuario}
                                 tipos_documento={tipos_documento}
                                 tipos_vinculacion={tipos_vinculacion}

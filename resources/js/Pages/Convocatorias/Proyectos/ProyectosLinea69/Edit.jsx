@@ -74,7 +74,7 @@ const Edit = ({ auth, convocatoria, proyecto_linea_69, evaluacion, nodos_tecnopa
                 <Form
                     is_super_admin={is_super_admin}
                     auth_user={auth_user}
-                    method="editar"
+                    method="PUT"
                     convocatoria={convocatoria}
                     proyecto_linea_69={proyecto_linea_69}
                     nodos_tecnoparque={nodos_tecnoparque}

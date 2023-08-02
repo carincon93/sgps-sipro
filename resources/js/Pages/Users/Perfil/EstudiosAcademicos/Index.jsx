@@ -21,7 +21,7 @@ const EstudiosAcademicos = ({ usuario, estudios_academicos, niveles_academicos }
     return (
         <>
             <TableMui rows={['Grado de formación', 'Título obtenido', 'Acciones']} sxCellThead={{ width: '320px' }} className="mt-10">
-                <TableRow onClick={() => (setDialogStatus(true), setMethod('crear'), setEstudioAcademico(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setEstudioAcademico(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                     <TableCell colSpan={3}>
                         <ButtonMui>
                             <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar estudio académico
@@ -38,7 +38,7 @@ const EstudiosAcademicos = ({ usuario, estudios_academicos, niveles_academicos }
                             <MenuMui text={<MoreVertIcon />}>
                                 {estudio_academico.id !== estudio_academico_to_destroy ? (
                                     <div>
-                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('editar'), setEstudioAcademico(estudio_academico))}>Editar</MenuItem>
+                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setEstudioAcademico(estudio_academico))}>Editar</MenuItem>
 
                                         <MenuItem
                                             onClick={() => {

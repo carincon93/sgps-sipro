@@ -43,7 +43,7 @@ const MiembrosEntidadAliada = ({ auth, convocatoria, proyecto, evaluacion, entid
                 <TableMui className="mb-8" rows={['Nombre', 'Correo electrónico', 'Número de celular', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {proyecto.allowed.to_update && (
                         <TableRow
-                            onClick={() => (setDialogStatus(true), setMethod('crear'), setMiembroEntidadAliada(null))}
+                            onClick={() => (setDialogStatus(true), setMethod('POST'), setMiembroEntidadAliada(null))}
                             variant="raised"
                             className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={4}>
@@ -65,7 +65,7 @@ const MiembrosEntidadAliada = ({ auth, convocatoria, proyecto, evaluacion, entid
                                     {miembro_entidad_aliada.id !== miembro_entidad_aliada_to_destroy ? (
                                         <div>
                                             <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setMiembroEntidadAliada(miembro_entidad_aliada))}
+                                                onClick={() => (setDialogStatus(true), setMethod('PUT'), setMiembroEntidadAliada(miembro_entidad_aliada))}
                                                 disabled={!proyecto.allowed.to_update}
                                                 className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                                 Editar

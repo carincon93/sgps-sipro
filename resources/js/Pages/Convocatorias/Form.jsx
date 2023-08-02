@@ -28,7 +28,7 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, lineas
     const submit = (e) => {
         e.preventDefault()
         if (is_super_admin) {
-            method == 'crear'
+            method == 'POST'
                 ? form.post(route('convocatorias.store'), {
                       preserveScroll: true,
                   })
@@ -48,7 +48,7 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, lineas
                         <Label required className="mb-4" labelFor="fase" value="Fase" />
                     </Grid>
                     <Grid item md={6}>
-                        {method == 'crear' ? (
+                        {method == 'POST' ? (
                             <div>Formulación</div>
                         ) : (
                             <Autocomplete
@@ -106,7 +106,7 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, lineas
                         />
                     </Grid>
 
-                    {method == 'crear' && (
+                    {method == 'POST' && (
                         <>
                             <Grid item md={6}>
                                 <Label required className="mb-4" labelFor="tipo_convocatoria" value="Seleccione un tipo de convocatoria" />
@@ -205,7 +205,7 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, lineas
             <div className="flex items-center justify-between mt-14 px-8 py-4">
                 {is_super_admin && (
                     <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
-                        {method == 'crear' ? 'Crear' : 'Modificar'} convocatoria
+                        {method == 'POST' ? 'Crear' : 'Modificar'} convocatoria
                     </PrimaryButton>
                 )}
             </div>

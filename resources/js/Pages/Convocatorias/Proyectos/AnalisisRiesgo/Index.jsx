@@ -140,7 +140,7 @@ const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisis_riesgos, nivel
             <Grid item md={12}>
                 <TableMui className="mt-20 mb-8" rows={['Descripción', 'Nivel', 'Tipo de riesgo', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {proyecto.allowed.to_update ? (
-                        <TableRow onClick={() => (setDialogStatus(true), setMethod('crear'), setAnalisisRiesgo(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                        <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setAnalisisRiesgo(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={4}>
                                 <ButtonMui>
                                     <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar análisis de riesgo
@@ -162,7 +162,7 @@ const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisis_riesgos, nivel
                                     {analisis_riesgo.id !== analisis_riesgo_to_destroy ? (
                                         <div>
                                             <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setAnalisisRiesgo(analisis_riesgo))}
+                                                onClick={() => (setDialogStatus(true), setMethod('PUT'), setAnalisisRiesgo(analisis_riesgo))}
                                                 disabled={!proyecto.allowed.to_update}
                                                 className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                                 Editar

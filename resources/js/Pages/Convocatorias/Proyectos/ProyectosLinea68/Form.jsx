@@ -60,7 +60,7 @@ const Form = ({
 
     const submit = (e) => {
         e.preventDefault()
-        method == 'crear'
+        method == 'POST'
             ? form.post(route('convocatorias.proyectos-linea-68.store', [convocatoria.id]), {
                   preserveScroll: true,
               })
@@ -194,7 +194,7 @@ const Form = ({
                     />
                 </Grid>
 
-                {method == 'crear' && (
+                {method == 'POST' && (
                     <>
                         <Grid item md={12}>
                             <p className="text-center mt-36 mb-8">Información de mi participación en el proyecto</p>
@@ -263,7 +263,7 @@ const Form = ({
                     </>
                 )}
 
-                {method == 'editar' && (
+                {method == 'PUT' && (
                     <>
                         <Grid item md={6}>
                             <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
@@ -478,7 +478,7 @@ const Form = ({
                 )}
             </Grid>
 
-            {method == 'crear' || proyecto_linea_68.proyecto?.allowed?.to_update ? (
+            {method == 'POST' || proyecto_linea_68.proyecto?.allowed?.to_update ? (
                 <div className="pt-8 pb-4 space-y-4">
                     <PrimaryButton type="submit" className="ml-auto" disabled={form.processing || !form.isDirty}>
                         Guardar

@@ -72,7 +72,7 @@ const RubrosPresupuestales = ({
                     rows={['Descripción del bien o servicio', 'Subtotal del costo de los productos o servicios requeridos', 'Evaluación', 'Acciones']}
                     sxCellThead={{ width: '320px' }}>
                     {proyecto.allowed.to_update && (
-                        <TableRow onClick={() => (setDialogStatus(true), setMethod('crear'), setRubroPresupuestal(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                        <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setRubroPresupuestal(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={4}>
                                 <ButtonMui>
                                     <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar rubro presupuestal
@@ -185,7 +185,7 @@ const RubrosPresupuestales = ({
                                     {presupuesto.id !== rubro_presupuestal_to_destroy ? (
                                         <div>
                                             <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setRubroPresupuestal(presupuesto))}
+                                                onClick={() => (setDialogStatus(true), setMethod('PUT'), setRubroPresupuestal(presupuesto))}
                                                 disabled={!proyecto.allowed.to_update}
                                                 className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                                 Editar

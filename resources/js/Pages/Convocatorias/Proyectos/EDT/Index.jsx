@@ -61,7 +61,7 @@ const EDT = ({ auth, convocatoria, proyecto, evaluacion, presupuesto, eventos, t
             <Grid item md={12}>
                 <TableMui className="mt-20 mb-8" rows={['Descripción del evento', 'Fechas', 'Presupuesto', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {proyecto.allowed.to_update ? (
-                        <TableRow onClick={() => (setDialogStatus(true), setMethod('crear'), setEdt(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                        <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setEdt(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={4}>
                                 <ButtonMui>
                                     <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar EDT
@@ -81,7 +81,7 @@ const EDT = ({ auth, convocatoria, proyecto, evaluacion, presupuesto, eventos, t
                                     {evento.id !== eventoToDestroy ? (
                                         <div>
                                             <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setEdt(evento))}
+                                                onClick={() => (setDialogStatus(true), setMethod('PUT'), setEdt(evento))}
                                                 disabled={!proyecto.allowed.to_update}
                                                 className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                                 Editar

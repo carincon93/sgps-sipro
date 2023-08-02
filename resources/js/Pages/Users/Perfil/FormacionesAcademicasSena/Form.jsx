@@ -10,6 +10,7 @@ import { Grid, Paper } from '@mui/material'
 
 const Form = ({ method = '', setDialogStatus, user_id, formacion_academica_sena, modalidades_estudio, niveles_formacion }) => {
     const form = useForm({
+        _method: method,
         user_id: user_id,
         egresado_sena: formacion_academica_sena?.egresado_sena == false ? '2' : '1',
         modalidad_sena: formacion_academica_sena?.modalidad_sena ?? '',
@@ -23,12 +24,12 @@ const Form = ({ method = '', setDialogStatus, user_id, formacion_academica_sena,
     const submit = (e) => {
         e.preventDefault()
 
-        method == 'crear'
+        method == 'POST'
             ? form.post(route('formaciones-academicas-sena.store'), {
                   onSuccess: () => setDialogStatus(false),
                   preserveScroll: true,
               })
-            : form.put(route('formaciones-academicas-sena.update', formacion_academica_sena.id), {
+            : form.post(route('formaciones-academicas-sena.update', formacion_academica_sena.id), {
                   onSuccess: () => setDialogStatus(false),
                   preserveScroll: true,
               })
@@ -37,7 +38,7 @@ const Form = ({ method = '', setDialogStatus, user_id, formacion_academica_sena,
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
-                <h1 className="font-black text-right text-white text-2xl mr-10">{method == 'crear' ? 'Agregar' : 'Modificar'} formación académica SENA</h1>
+                <h1 className="font-black text-right text-white text-2xl mr-10">{method == 'POST' ? 'Agregar' : 'Modificar'} formación académica SENA</h1>
             </Grid>
 
             <Grid item md={8}>

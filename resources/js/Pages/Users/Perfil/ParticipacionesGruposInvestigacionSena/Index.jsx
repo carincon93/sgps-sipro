@@ -22,7 +22,7 @@ const ParticipacionesGrupoInvestigacionSENA = ({ usuario, participaciones_grupos
         <>
             <TableMui rows={['Grupo de investigación', 'Semillero de investigación', 'Acciones']} sxCellThead={{ width: '320px' }} className="mt-10">
                 <TableRow
-                    onClick={() => (setDialogStatus(true), setMethod('crear'), setParticipacionGrupoInvestigacionSena(null))}
+                    onClick={() => (setDialogStatus(true), setMethod('POST'), setParticipacionGrupoInvestigacionSena(null))}
                     variant="raised"
                     className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                     <TableCell colSpan={3}>
@@ -52,7 +52,7 @@ const ParticipacionesGrupoInvestigacionSENA = ({ usuario, participaciones_grupos
                             <MenuMui text={<MoreVertIcon />}>
                                 {participacion_grupo_investigacion_sena.id !== participacion_grupo_investigacion_sena_to_destroy ? (
                                     <div>
-                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('editar'), setParticipacionGrupoInvestigacionSena(participacion_grupo_investigacion_sena))}>
+                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setParticipacionGrupoInvestigacionSena(participacion_grupo_investigacion_sena))}>
                                             Editar
                                         </MenuItem>
 

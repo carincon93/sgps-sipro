@@ -164,7 +164,7 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                                 <TableMui className="mb-8" rows={['Descripción', 'Objetivo específico', 'Meta', 'Acciones']} sxCellThead={{ width: '320px' }}>
                                     {is_super_admin || checkRole(auth_user, [5, 17]) || (proyecto.allowed.to_update && proyecto.codigo_linea_programatica != 70) ? (
                                         <TableRow
-                                            onClick={() => (setDialogProductoIndicadoresStatus(true), setMethod('crear'), setProducto(null))}
+                                            onClick={() => (setDialogProductoIndicadoresStatus(true), setMethod('POST'), setProducto(null))}
                                             variant="raised"
                                             className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                                             <TableCell colSpan={4}>
@@ -204,7 +204,7 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                                                             {producto.id !== producto_to_destroy ? (
                                                                 <div>
                                                                     <MenuItem
-                                                                        onClick={() => (setDialogProductoIndicadoresStatus(true), setMethod('editar'), setProducto(producto))}
+                                                                        onClick={() => (setDialogProductoIndicadoresStatus(true), setMethod('PUT'), setProducto(producto))}
                                                                         disabled={!proyecto.allowed.to_update}
                                                                         className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                                                         Editar
@@ -280,7 +280,7 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                             <TableMui className="mb-8" rows={['Descripción', 'Objetivo específico', 'Resultado', 'Acciones']} sxCellThead={{ width: '320px' }}>
                                 {is_super_admin || checkRole(auth_user, [5, 17]) || (proyecto.allowed.to_update && proyecto.codigo_linea_programatica != 70) ? (
                                     <TableRow
-                                        onClick={() => (setDialogProductoMincienciasStatus(true), setMethod('crear'), setProducto(null))}
+                                        onClick={() => (setDialogProductoMincienciasStatus(true), setMethod('POST'), setProducto(null))}
                                         variant="raised"
                                         className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                                         <TableCell colSpan={4}>
@@ -312,7 +312,7 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                                                         {producto.id !== producto_to_destroy ? (
                                                             <div>
                                                                 <MenuItem
-                                                                    onClick={() => (setDialogProductoMincienciasStatus(true), setMethod('editar'), setProducto(producto))}
+                                                                    onClick={() => (setDialogProductoMincienciasStatus(true), setMethod('PUT'), setProducto(producto))}
                                                                     disabled={!proyecto.allowed.to_update}
                                                                     className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                                                     Editar

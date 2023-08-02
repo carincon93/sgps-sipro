@@ -86,7 +86,7 @@ const Edit = ({
             <Grid item md={12}>
                 <Form
                     is_super_admin={is_super_admin}
-                    method="editar"
+                    method="PUT"
                     convocatoria={convocatoria}
                     proyecto_linea_68={proyecto_linea_68}
                     centros_formacion={centros_formacion}

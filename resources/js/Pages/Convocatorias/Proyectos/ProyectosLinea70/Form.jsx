@@ -33,6 +33,7 @@ const Form = ({
     const [array_lineas_tecnoacademia, setArrayLineasTecnoacademia] = useState([])
 
     const form = useForm({
+        _method: method,
         centro_formacion_id: proyecto_linea_70?.proyecto.centro_formacion_id ?? '',
         fecha_inicio: proyecto_linea_70?.fecha_inicio ?? '',
         fecha_finalizacion: proyecto_linea_70?.fecha_finalizacion ?? '',
@@ -60,12 +61,12 @@ const Form = ({
 
     const submit = (e) => {
         e.preventDefault()
-        method == 'crear'
+        method == 'POST'
             ? form.post(route('convocatorias.proyectos-linea-70.store', [convocatoria.id]), {
                   preserveScroll: true,
               })
             : proyecto_linea_70.proyecto.allowed.to_update
-            ? form.put(route('convocatorias.proyectos-linea-70.update', [convocatoria.id, proyecto_linea_70.id]), {
+            ? form.post(route('convocatorias.proyectos-linea-70.update', [convocatoria.id, proyecto_linea_70.id]), {
                   preserveScroll: true,
               })
             : null
@@ -118,7 +119,7 @@ const Form = ({
                     />
                 </Grid>
 
-                {method == 'crear' && (
+                {method == 'POST' && (
                     <>
                         <Grid item md={6}>
                             <Label required labelFor="tecnoacademia_id" className="mb-4" value="TecnoAcademia" />
@@ -168,7 +169,7 @@ const Form = ({
                     </>
                 )}
 
-                {method == 'crear' && (
+                {method == 'POST' && (
                     <>
                         <Grid item md={12}>
                             <p className="text-center mt-36 mb-8">Información de mi participación en el proyecto</p>
@@ -234,7 +235,7 @@ const Form = ({
                     </>
                 )}
 
-                {method == 'editar' && (
+                {method == 'PUT' && (
                     <>
                         <Grid item md={6}>
                             <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
@@ -476,7 +477,7 @@ const Form = ({
                 )}
             </Grid>
 
-            {method == 'crear' || proyecto_linea_70.proyecto?.allowed?.to_update ? (
+            {method == 'POST' || proyecto_linea_70.proyecto?.allowed?.to_update ? (
                 <div className="pt-8 pb-4 space-y-4">
                     <PrimaryButton type="submit" className="ml-auto" disabled={form.processing || !form.isDirty}>
                         Guardar

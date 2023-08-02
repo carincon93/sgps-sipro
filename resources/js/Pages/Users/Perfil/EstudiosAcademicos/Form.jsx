@@ -9,6 +9,7 @@ import { Grid, Paper } from '@mui/material'
 
 const Form = ({ method = '', setDialogStatus, user_id, estudio_academico, niveles_academicos }) => {
     const form = useForm({
+        _method: method,
         user_id: user_id,
         grado_formacion: estudio_academico?.grado_formacion ?? null,
         titulo_obtenido: estudio_academico?.titulo_obtenido ?? '',
@@ -18,12 +19,12 @@ const Form = ({ method = '', setDialogStatus, user_id, estudio_academico, nivele
     const submit = (e) => {
         e.preventDefault()
 
-        method == 'crear'
+        method == 'POST'
             ? form.post(route('estudios-academicos.store'), {
                   onSuccess: () => setDialogStatus(false),
                   preserveScroll: true,
               })
-            : form.put(route('estudios-academicos.update', [estudio_academico.id]), {
+            : form.post(route('estudios-academicos.update', [estudio_academico.id]), {
                   onSuccess: () => setDialogStatus(false),
                   preserveScroll: true,
               })
@@ -32,7 +33,7 @@ const Form = ({ method = '', setDialogStatus, user_id, estudio_academico, nivele
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
-                <h1 className="font-black text-right text-white text-2xl mr-10">{method == 'crear' ? 'Agregar' : 'Modificar'} estudio académico</h1>
+                <h1 className="font-black text-right text-white text-2xl mr-10">{method == 'POST' ? 'Agregar' : 'Modificar'} estudio académico</h1>
             </Grid>
 
             <Grid item md={8}>

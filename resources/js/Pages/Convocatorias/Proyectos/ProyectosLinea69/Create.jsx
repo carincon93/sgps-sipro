@@ -15,7 +15,7 @@ const Create = ({ auth, convocatoria, nodos_tecnoparque, lineas_programaticas, l
             <Form
                 is_super_admin={is_super_admin}
                 auth_user={auth_user}
-                method="crear"
+                method="POST"
                 convocatoria={convocatoria}
                 nodos_tecnoparque={nodos_tecnoparque}
                 lineas_tecnoacademia={lineas_tecnoacademia}

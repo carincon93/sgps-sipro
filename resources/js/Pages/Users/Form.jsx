@@ -95,7 +95,7 @@ const Form = ({
     const submit = (e) => {
         e.preventDefault()
 
-        method == 'crear'
+        method == 'POST'
             ? form.post(route('users.store'), {
                   onSuccess: () => setDialogStatus(false),
                   preserveScroll: true,
@@ -107,12 +107,12 @@ const Form = ({
 
     const [modificar_tiempos_roles, setModicarTiemposRoles] = useState(false)
     useEffect(() => {
-        if ((modificar_tiempos_roles && form.data.otros_roles_sennova) || (method == 'crear' && form.data.otros_roles_sennova)) {
+        if ((modificar_tiempos_roles && form.data.otros_roles_sennova) || (method == 'POST' && form.data.otros_roles_sennova)) {
             form.setData('tiempo_por_rol', JSON.stringify(roles_sennova.filter((item) => form.data.otros_roles_sennova.includes(item.value)).map((item) => item.label + ' (Indique aquí los meses)')))
         } else {
             form.reset('otros_roles_sennova', 'tiempo_por_rol')
         }
-    }, [modificar_tiempos_roles, form.data.otros_roles_sennova, method == 'crear'])
+    }, [modificar_tiempos_roles, form.data.otros_roles_sennova, method == 'POST'])
 
     return (
         <form onSubmit={submit} id="informacion-basica">
@@ -487,10 +487,10 @@ const Form = ({
                             }))
                         }}
                         error={form.errors.otros_roles_sennova}
-                        disabled={!modificar_tiempos_roles && method == 'editar'}
+                        disabled={!modificar_tiempos_roles && method == 'PUT'}
                         label="Roles SENNOVA en los cuales ha sido contratado/vinculado"
                     />
-                    {method == 'editar' && (
+                    {method == 'PUT' && (
                         <ButtonMui primary={false} onClick={() => setModicarTiemposRoles(!modificar_tiempos_roles)} className="!mt-2 !normal-case  hover:!bg-gray-50 hover:!text-app-900">
                             {modificar_tiempos_roles ? 'Cancelar modificación' : 'Modificar roles SENNOVA'}
                         </ButtonMui>
@@ -533,7 +533,7 @@ const Form = ({
                     />
                 </Grid>
 
-                {method == 'editar' && (
+                {method == 'PUT' && (
                     <>
                         <Grid item md={12}>
                             <h1 className="text-2xl font-medium">EXPERIENCIA COMO FORMULADOR Y EVALUADOR DE PROYECTOS</h1>

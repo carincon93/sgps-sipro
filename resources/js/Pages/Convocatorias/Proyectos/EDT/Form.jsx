@@ -25,7 +25,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
     const submit = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
-            method == 'crear'
+            method == 'POST'
                 ? form.post(route('convocatorias.proyectos.presupuesto.edt.store', [convocatoria.id, proyecto.id, presupuesto.id]), {
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
@@ -40,7 +40,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
-                <h1 className="font-black text-right text-white text-2xl mr-10">{method == 'crear' ? 'Agregar' : 'Modificar'} EDT</h1>
+                <h1 className="font-black text-right text-white text-2xl mr-10">{method == 'POST' ? 'Agregar' : 'Modificar'} EDT</h1>
             </Grid>
 
             <Grid item md={8}>
@@ -162,7 +162,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
                             {proyecto.allowed.to_update ? (
                                 <>
                                     <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                        {method == 'crear' ? 'Agregar' : 'Modificar'} EDT
+                                        {method == 'POST' ? 'Agregar' : 'Modificar'} EDT
                                     </PrimaryButton>
                                     <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
                                         Cancelar

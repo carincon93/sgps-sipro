@@ -29,7 +29,7 @@ const Create = ({
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Formular proyecto</h2>}>
             <Form
                 is_super_admin={is_super_admin}
-                method="crear"
+                method="POST"
                 convocatoria={convocatoria}
                 centros_formacion={centros_formacion}
                 disciplinas_subarea_conocimiento={disciplinas_subarea_conocimiento}

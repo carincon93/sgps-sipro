@@ -27,7 +27,7 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) =>
                 <div className="flex justify-end mt-10">
                     <ButtonMui
                         onClick={() => {
-                            setDialogStatus(true), setMethod('crear'), setAulaMovil(null)
+                            setDialogStatus(true), setMethod('POST'), setAulaMovil(null)
                         }}
                         variant="raised"
                         type="button">
@@ -49,7 +49,7 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) =>
                                 {aula_movil.id !== aula_movil_to_destroy ? (
                                     <div>
                                         <MenuItem
-                                            onClick={() => (setDialogStatus(true), setMethod('editar'), setAulaMovil(aula_movil))}
+                                            onClick={() => (setDialogStatus(true), setMethod('PUT'), setAulaMovil(aula_movil))}
                                             disabled={!proyecto.allowed.to_update}
                                             className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                             Editar

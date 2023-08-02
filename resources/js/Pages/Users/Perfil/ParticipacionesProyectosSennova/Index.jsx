@@ -22,7 +22,7 @@ const ParticipacionesProyectosSENNOVA = ({ usuario, participaciones_proyectos_se
         <>
             <TableMui rows={['Tipo de proyecto', 'Código', 'Título', 'Fecha de inicio', 'Acciones']} sxCellThead={{ width: '320px' }} className="mt-10">
                 <TableRow
-                    onClick={() => (setDialogStatus(true), setMethod('crear'), setParticipacionProyectoSennova(null))}
+                    onClick={() => (setDialogStatus(true), setMethod('POST'), setParticipacionProyectoSennova(null))}
                     variant="raised"
                     className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                     <TableCell colSpan={5}>
@@ -60,7 +60,7 @@ const ParticipacionesProyectosSENNOVA = ({ usuario, participaciones_proyectos_se
                             <MenuMui text={<MoreVertIcon />}>
                                 {participacion_proyecto_sennova.id !== participacion_proyecto_sennova_to_destroy ? (
                                     <div>
-                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('editar'), setParticipacionProyectoSennova(participacion_proyecto_sennova))}>Editar</MenuItem>
+                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setParticipacionProyectoSennova(participacion_proyecto_sennova))}>Editar</MenuItem>
 
                                         <MenuItem
                                             onClick={() => {

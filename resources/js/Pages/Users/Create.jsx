@@ -37,7 +37,7 @@ const Crear = ({
                 <Grid item md={8} className="drop-shadow-lg">
                     <Paper elevation={0} sx={{ padding: 2 }}>
                         <Form
-                            method="crear"
+                            method="POST"
                             tipos_documento={tipos_documento}
                             tipos_vinculacion={tipos_vinculacion}
                             centros_formacion={centros_formacion}

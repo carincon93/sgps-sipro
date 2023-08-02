@@ -19,7 +19,7 @@ const Edit = ({ auth, convocatoria, convocatorias, lineas_programaticas, fases, 
                 <Grid item md={8} className="drop-shadow-lg">
                     <Paper elevation={0} sx={{ padding: 2 }}>
                         <Form
-                            method="editar"
+                            method="PUT"
                             is_super_admin={is_super_admin}
                             convocatoria={convocatoria}
                             convocatorias={convocatorias}

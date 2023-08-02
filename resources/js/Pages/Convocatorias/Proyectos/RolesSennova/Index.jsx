@@ -130,7 +130,7 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
             <Grid item md={12}>
                 <TableMui className="mb-8" rows={['Nombre', 'Asignación mensual', 'Evaluación', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {proyecto.allowed.to_update && (
-                        <TableRow onClick={() => (setDialogStatus(true), setMethod('crear'), setProyectoRolSennova(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                        <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setProyectoRolSennova(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={4}>
                                 <ButtonMui>
                                     <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar Rol SENNOVA
@@ -187,7 +187,7 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
                                     {proyecto_rol_sennova.id !== proyecto_rol_sennova_id_to_destroy ? (
                                         <div>
                                             <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setProyectoRolSennova(proyecto_rol_sennova))}
+                                                onClick={() => (setDialogStatus(true), setMethod('PUT'), setProyectoRolSennova(proyecto_rol_sennova))}
                                                 disabled={!proyecto.allowed.to_update}
                                                 className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                                 Editar

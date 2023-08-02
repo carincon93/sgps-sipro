@@ -50,7 +50,7 @@ const Municipios = ({
             <Grid item md={12}>
                 <TableMui className="mt-20 mb-8" rows={['Municipios a visitar', 'Información de la visita', 'Actividades a realizar', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {proyecto.allowed.to_update ? (
-                        <TableRow onClick={() => (setDialogStatus(true), setMethod('crear'), setMunicipio(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                        <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setMunicipio(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={4}>
                                 <ButtonMui>
                                     <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar municipio
@@ -82,7 +82,7 @@ const Municipios = ({
                                     {municipio_a_visitar.id !== municipio_to_destroy ? (
                                         <div>
                                             <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setMunicipio(municipio_a_visitar))}
+                                                onClick={() => (setDialogStatus(true), setMethod('PUT'), setMunicipio(municipio_a_visitar))}
                                                 disabled={!proyecto.allowed.to_update}
                                                 className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                                 Editar

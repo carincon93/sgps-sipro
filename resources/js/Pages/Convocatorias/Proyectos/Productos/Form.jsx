@@ -47,7 +47,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
     const submit = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
-            method == 'crear'
+            method == 'POST'
                 ? form.post(route('convocatorias.proyectos.productos.store', [convocatoria.id, proyecto.id]), {
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
@@ -89,7 +89,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
-                <h1 className="font-black text-right text-white text-2xl mr-10"> {method == 'crear' ? 'Agregar' : 'Modificar'} producto</h1>
+                <h1 className="font-black text-right text-white text-2xl mr-10"> {method == 'POST' ? 'Agregar' : 'Modificar'} producto</h1>
             </Grid>
 
             <Grid item md={8}>
@@ -294,7 +294,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                         disabled={actividades?.length == 0 || (actividades?.length > 0 && form.processing) || (actividades?.length > 0 && !form.isDirty)}
                                         className="mr-2 ml-auto"
                                         type="submit">
-                                        {method == 'crear' ? 'Agregar' : 'Modificar'} producto
+                                        {method == 'POST' ? 'Agregar' : 'Modificar'} producto
                                     </PrimaryButton>
                                     <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
                                         Cancelar

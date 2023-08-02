@@ -123,7 +123,7 @@ const Form = ({
         e.preventDefault()
 
         if (proyecto.allowed.to_update) {
-            method == 'crear'
+            method == 'POST'
                 ? form.post(route('convocatorias.proyectos.presupuesto.store', [convocatoria.id, proyecto.id]), {
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
@@ -220,7 +220,7 @@ const Form = ({
                                 </>
                             )}
 
-                            {method == 'editar' && (
+                            {method == 'PUT' && (
                                 <ButtonMui
                                     onClick={() => (
                                         setModificarUsosPresupuestales(!modificar_usos_presupuestales),
@@ -372,10 +372,10 @@ const Form = ({
                                 <>
                                     {same_values_requiere_estudio_mercado ? (
                                         <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                            {method == 'crear' ? 'Agregar' : 'Modificar'} rubro presupuestal
+                                            {method == 'POST' ? 'Agregar' : 'Modificar'} rubro presupuestal
                                         </PrimaryButton>
                                     ) : (
-                                        method == 'editar' && (
+                                        method == 'PUT' && (
                                             <AlertMui severity="error" className="r-10">
                                                 Hay algunos usos presupuestales que requieren de estudios de mercado y otros no, por favor seleccione primero los que si requieren. Aquellos usos
                                                 presupuestales que no requieren estudios debe agruparlos en otro formulario.

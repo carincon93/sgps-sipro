@@ -30,7 +30,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
     const submit = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
-            method == 'crear'
+            method == 'POST'
                 ? form.post(route('convocatorias.proyectos.proyecto-rol-sennova.store', [convocatoria.id, proyecto.id]), {
                       onSuccess: () => setDialogStatus(false),
                   })
@@ -174,7 +174,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                             {proyecto?.allowed?.to_update ? (
                                 <>
                                     <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                        {method == 'crear' ? 'Agregar' : 'Modificar'} rol SENNOVA
+                                        {method == 'POST' ? 'Agregar' : 'Modificar'} rol SENNOVA
                                     </PrimaryButton>
                                     <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
                                         Cancelar

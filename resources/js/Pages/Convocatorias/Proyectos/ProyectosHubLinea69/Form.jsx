@@ -1,7 +1,6 @@
 import AlertMui from '@/Components/Alert'
 import Autocomplete from '@/Components/Autocomplete'
 import DatePicker from '@/Components/DatePicker'
-import FileInput from '@/Components/FileInput'
 import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
 import TextInput from '@/Components/TextInput'
@@ -47,7 +46,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
 
     const submit = (e) => {
         e.preventDefault()
-        method == 'crear'
+        method == 'POST'
             ? form.post(route('convocatorias.proyectos-hub-linea-69.store', [convocatoria.id]), {
                   preserveScroll: true,
               })
@@ -89,7 +88,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
                     </div>
                 )}
 
-                {method == 'editar' && (
+                {method == 'PUT' && (
                     <>
                         <Grid item md={6}>
                             <Label required disabled={evaluacion ? true : false} labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
@@ -145,7 +144,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
                     />
                 </Grid>
 
-                {method == 'crear' && (
+                {method == 'POST' && (
                     <>
                         <Grid item md={12}>
                             <p className="text-center mt-36 mb-8">Información de mi participación en el proyecto</p>
@@ -213,7 +212,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
                         </Grid>
                     </>
                 )}
-                {method == 'editar' && (
+                {method == 'PUT' && (
                     <>
                         <Grid item md={12}>
                             <Label required disabled={evaluacion ? true : false} labelFor="resumen" value="Resumen del proyecto" />
@@ -519,7 +518,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                 )}
             </Grid>
 
-            {method == 'crear' || proyecto_hub_linea_69?.proyecto?.allowed?.to_update ? (
+            {method == 'POST' || proyecto_hub_linea_69?.proyecto?.allowed?.to_update ? (
                 <div className="pt-8 pb-4 space-y-4">
                     <PrimaryButton type="submit" className="ml-auto" disabled={form.processing || !form.isDirty}>
                         Guardar

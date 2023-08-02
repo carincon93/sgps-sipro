@@ -21,7 +21,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
     const submit = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
-            method == 'crear'
+            method == 'POST'
                 ? form.post(route('convocatorias.proyectos.entidades-aliadas.miembros-entidad-aliada.store', [convocatoria.id, proyecto.id, entidad_aliada.id]), {
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
@@ -36,7 +36,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
-                <h1 className="font-black text-right text-white text-2xl mr-10"> {method == 'crear' ? 'Agregar' : 'Modificar'} miembro</h1>
+                <h1 className="font-black text-right text-white text-2xl mr-10"> {method == 'POST' ? 'Agregar' : 'Modificar'} miembro</h1>
             </Grid>
 
             <Grid item md={8}>
@@ -130,8 +130,8 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                         <div className="flex items-center justify-between mt-14 py-4">
                             {proyecto.allowed.to_update ? (
                                 <>
-                                    <PrimaryButton disabled={form.processing || !form.isDirty || (!form.data.autorizacion_datos && method == 'crear')} className="mr-2 ml-auto" type="submit">
-                                        {method == 'crear' ? 'Agregar' : 'Modificar'} miembro
+                                    <PrimaryButton disabled={form.processing || !form.isDirty || (!form.data.autorizacion_datos && method == 'POST')} className="mr-2 ml-auto" type="submit">
+                                        {method == 'POST' ? 'Agregar' : 'Modificar'} miembro
                                     </PrimaryButton>
                                     <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
                                         Cancelar

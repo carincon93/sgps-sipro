@@ -21,7 +21,7 @@ const Form = ({
     proyecto_linea_65,
     convocatoria,
     evaluacion,
-    method = 'crear',
+    method = 'POST',
     centros_formacion,
     mesas_sectoriales,
     areas_conocimiento,
@@ -120,7 +120,7 @@ const Form = ({
 
     const submit = (e) => {
         e.preventDefault()
-        method == 'crear'
+        method == 'POST'
             ? form.post(route('convocatorias.proyectos-linea-65.store', [convocatoria.id]), {
                   preserveScroll: true,
               })
@@ -234,7 +234,7 @@ const Form = ({
                         selectedValue={form.data.linea_programatica_id}
                         onChange={(event, newValue) => form.setData('linea_programatica_id', newValue.value)}
                         options={
-                            method == 'crear'
+                            method == 'POST'
                                 ? lineas_programaticas
                                 : [
                                       {
@@ -327,7 +327,7 @@ const Form = ({
                     />
                 </Grid>
 
-                {method == 'crear' && (
+                {method == 'POST' && (
                     <>
                         <Grid item md={12}>
                             <p className="text-center mt-36 mb-8">Información de mi participación en el proyecto</p>
@@ -401,7 +401,7 @@ const Form = ({
                     </>
                 )}
 
-                {method == 'editar' && (
+                {method == 'PUT' && (
                     <>
                         <Grid item md={6}>
                             <Label labelFor="video" value="¿El proyecto tiene video?" />
@@ -1049,7 +1049,7 @@ const Form = ({
                 )}
             </Grid>
 
-            {method == 'crear' || proyecto_linea_65.proyecto?.allowed?.to_update ? (
+            {method == 'POST' || proyecto_linea_65.proyecto?.allowed?.to_update ? (
                 <div className="pt-8 pb-4 space-y-4">
                     <PrimaryButton type="submit" className="ml-auto" disabled={form.processing || !form.isDirty}>
                         Guardar

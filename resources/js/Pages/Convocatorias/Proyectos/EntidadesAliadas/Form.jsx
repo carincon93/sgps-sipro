@@ -15,6 +15,7 @@ import { Grid, Paper } from '@mui/material'
 
 const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_aliada, actividades, tipos_entidad_aliada, naturaleza_entidad_aliada, tipos_empresa, ...props }) => {
     const form = useForm({
+        _method: method,
         tipo: entidad_aliada?.tipo ?? '',
         nombre: entidad_aliada?.nombre ?? '',
         naturaleza: entidad_aliada?.naturaleza ?? '',
@@ -56,12 +57,12 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
     const submit = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
-            method == 'crear'
+            method == 'POST'
                 ? form.post(route('convocatorias.proyectos.entidades-aliadas.store', [convocatoria.id, proyecto.id]), {
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
                   })
-                : form.put(route('convocatorias.proyectos.entidades-aliadas.update', [convocatoria.id, proyecto.id, entidad_aliada.id]), {
+                : form.post(route('convocatorias.proyectos.entidades-aliadas.update', [convocatoria.id, proyecto.id, entidad_aliada.id]), {
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
                   })
@@ -71,7 +72,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
-                <h1 className="font-black text-right text-white text-2xl mr-10">{method == 'crear' ? 'Agregar' : 'Modificar'} entidad aliada</h1>
+                <h1 className="font-black text-right text-white text-2xl mr-10">{method == 'POST' ? 'Agregar' : 'Modificar'} entidad aliada</h1>
             </Grid>
 
             <Grid item md={8}>
@@ -402,7 +403,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                             {proyecto.allowed.to_update ? (
                                 <>
                                     <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                        {method == 'crear' ? 'Agregar' : 'Modificar'} entidad aliada
+                                        {method == 'POST' ? 'Agregar' : 'Modificar'} entidad aliada
                                     </PrimaryButton>
                                     <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
                                         Cancelar

@@ -43,7 +43,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
 
     const submit = (e) => {
         e.preventDefault()
-        method == 'crear'
+        method == 'POST'
             ? form.post(route('convocatorias.proyectos-linea-83.store', [convocatoria.id]), {
                   preserveScroll: true,
               })
@@ -78,7 +78,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                     />
                 </Grid>
 
-                {method == 'editar' && (
+                {method == 'PUT' && (
                     <>
                         <Grid item md={6}>
                             <Label required disabled={evaluacion ? true : false} labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
@@ -101,7 +101,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                     </>
                 )}
 
-                {method == 'crear' && (
+                {method == 'POST' && (
                     <>
                         <Grid item md={6}>
                             <Label required labelFor="centro_formacion_id" className="mb-4" value="Centro de formación" />
@@ -154,7 +154,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                     />
                 </Grid>
 
-                {method == 'crear' && (
+                {method == 'POST' && (
                     <>
                         <Grid item md={12}>
                             <p className="text-center mt-36 mb-8">Información de mi participación en el proyecto</p>
@@ -223,7 +223,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                     </>
                 )}
 
-                {method == 'editar' && (
+                {method == 'PUT' && (
                     <>
                         <Grid item md={12}>
                             <Label required disabled={evaluacion ? true : false} labelFor="resumen" value="Resumen del proyecto" />
@@ -437,7 +437,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                 )}
             </Grid>
 
-            {method == 'crear' || proyecto_linea_83?.proyecto?.allowed?.to_update ? (
+            {method == 'POST' || proyecto_linea_83?.proyecto?.allowed?.to_update ? (
                 <div className="pt-8 pb-4 space-y-4">
                     <PrimaryButton type="submit" className="ml-auto" disabled={form.processing || !form.isDirty}>
                         Guardar

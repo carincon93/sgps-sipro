@@ -1,9 +1,6 @@
 import Autocomplete from '@/Components/Autocomplete'
 import ButtonMui from '@/Components/Button'
-import DatePicker from '@/Components/DatePicker'
-import FileInput from '@/Components/FileInput'
 import PrimaryButton from '@/Components/PrimaryButton'
-import TextInput from '@/Components/TextInput'
 
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
@@ -20,7 +17,7 @@ const Form = ({ method = '', setDialogStatus, user_id, participacion_grupo_inves
     const submit = (e) => {
         e.preventDefault()
 
-        method == 'crear'
+        method == 'POST'
             ? form.post(route('participaciones-grupos-investigacion-sena.store'), {
                   onSuccess: () => setDialogStatus(false),
                   preserveScroll: true,
@@ -37,7 +34,7 @@ const Form = ({ method = '', setDialogStatus, user_id, participacion_grupo_inves
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
-                <h1 className="font-black text-right text-white text-2xl mr-10">{method == 'crear' ? 'Agregar' : 'Modificar'} participación</h1>
+                <h1 className="font-black text-right text-white text-2xl mr-10">{method == 'POST' ? 'Agregar' : 'Modificar'} participación</h1>
             </Grid>
 
             <Grid item md={8}>

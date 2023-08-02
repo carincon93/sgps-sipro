@@ -205,7 +205,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                             {proyecto.allowed.to_update ? (
                                 <>
                                     <PrimaryButton disabled={form.processing || !form.isDirty} className="mr-2 ml-auto" type="submit">
-                                        {method == 'crear' ? 'Agregar' : 'Modificar'} actividad
+                                        {method == 'POST' ? 'Agregar' : 'Modificar'} actividad
                                     </PrimaryButton>
                                     <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
                                         Cancelar

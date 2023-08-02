@@ -105,7 +105,7 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
             <Grid item md={12}>
                 <TableMui className="mt-20 mb-8" rows={['Nombre', 'Tipo de entidad aliada', 'Miembros', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {proyecto.allowed.to_update ? (
-                        <TableRow onClick={() => (setDialogStatus(true), setMethod('crear'), setEntidadAliada(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                        <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setEntidadAliada(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={4}>
                                 <ButtonMui>
                                     <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar entidad aliada
@@ -131,7 +131,7 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                                     {entidad_aliada.id !== entidad_aliada_to_destroy ? (
                                         <div>
                                             <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('editar'), setEntidadAliada(entidad_aliada))}
+                                                onClick={() => (setDialogStatus(true), setMethod('PUT'), setEntidadAliada(entidad_aliada))}
                                                 disabled={!proyecto.allowed.to_update}
                                                 className={!proyecto.allowed.to_update ? 'hidden' : ''}>
                                                 Editar
