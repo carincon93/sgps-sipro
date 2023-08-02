@@ -32,7 +32,7 @@ class ProyectoLinea83Controller extends Controller
     public function index(Convocatoria $convocatoria)
     {
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea83/Index', [
-            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'tipo_convocatoria'),
+            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'proyectos_hub_linea_69'    => ProyectoLinea83::getProyectosPorRol($convocatoria)->appends(['search' => request()->search]),
             'allowed_to_create'         => Gate::inspect('formular-proyecto', [11, $convocatoria])->allowed()
         ]);
@@ -57,7 +57,7 @@ class ProyectoLinea83Controller extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea83/Create', [
-            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
+            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'centros_formacion'     => $centros_formacion,
             'roles_sennova'         => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowed_to_create'     => Gate::inspect('formular-proyecto', [11, $convocatoria])->allowed()

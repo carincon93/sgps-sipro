@@ -30,7 +30,7 @@ class ProyectoLinea65Controller extends Controller
     public function index(Convocatoria $convocatoria)
     {
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea65/Index', [
-            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'fase'),
+            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'proyectos_linea_65'    => ProyectoLinea65::getProyectosPorRol($convocatoria)->appends(['search' => request()->search, 'estructuracion_proyectos' => request()->estructuracion_proyectos]),
             'allowed_to_create'     => Gate::inspect('formular-proyecto', [9, $convocatoria])->allowed()
         ]);
@@ -48,7 +48,7 @@ class ProyectoLinea65Controller extends Controller
         $centros_formacion = CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo) as label')->orderBy('centros_formacion.nombre', 'ASC')->get();
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea65/Create', [
-            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos_linea_65', 'max_fecha_finalizacion_proyectos_cultura', 'fecha_maxima_cultura'),
+            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year'),
             'centros_formacion'     => $centros_formacion,
             'lineas_investigacion'  => SelectHelper::lineasInvestigacion(),
             'lineas_programaticas'  => SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 5)->values()->all(),
@@ -164,7 +164,7 @@ class ProyectoLinea65Controller extends Controller
         $proyecto_linea_65->mostrar_requiere_subsanacion = $proyecto_linea_65->proyecto->mostrar_requiere_subsanacion;
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea65/Edit', [
-            'convocatoria'                                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'campos_convocatoria'),
+            'convocatoria'                                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year', 'tipo_convocatoria', 'mostrar_recomendaciones', 'campos_convocatoria'),
             'proyecto_linea_65'                             => $proyecto_linea_65,
             'evaluacion'                                    => EvaluacionProyectoLinea65::find(request()->evaluacion_id),
             'tecnoacademia'                                 => $proyecto_linea_65->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_linea_65->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,

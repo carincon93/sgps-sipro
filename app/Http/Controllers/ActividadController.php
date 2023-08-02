@@ -97,9 +97,11 @@ class ActividadController extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/Actividades/Index', [
-            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'year', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
+            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'year'),
             'proyecto'                  => $proyecto->only(
                                             'id',
+                                            'fecha_inicio',
+                                            'fecha_finalizacion',
                                             'codigo_linea_programatica',
                                             'precio_proyecto',
                                             'modificable',

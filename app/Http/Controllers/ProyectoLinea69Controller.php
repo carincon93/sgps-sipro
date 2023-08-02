@@ -33,7 +33,7 @@ class ProyectoLinea69Controller extends Controller
     public function index(Convocatoria $convocatoria)
     {
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea69/Index', [
-            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'tipo_convocatoria'),
+            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'proyectos_linea_69'    => ProyectoLinea69::getProyectosPorRol($convocatoria)->appends(['search' => request()->search, 'estructuracion_proyectos' => request()->estructuracion_proyectos]),
             'allowed_to_create'     => Gate::inspect('formular-proyecto', [4, $convocatoria])->allowed()
         ]);
@@ -49,7 +49,7 @@ class ProyectoLinea69Controller extends Controller
         $this->authorize('formular-proyecto', [4, $convocatoria]);
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea69/Create', [
-            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
+            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'nodos_tecnoparque'     => SelectHelper::nodosTecnoparque(),
             'roles_sennova'         => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowed_to_create'     => Gate::inspect('formular-proyecto', [4, $convocatoria])->allowed()

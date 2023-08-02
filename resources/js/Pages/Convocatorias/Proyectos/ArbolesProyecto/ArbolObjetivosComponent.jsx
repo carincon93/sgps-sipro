@@ -1099,8 +1099,8 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                                     id="fecha_inicio"
                                                                     className="mt-1 block w-full p-4"
                                                                     inputBackground="#fff"
-                                                                    min={proyecto.fecha_inicio}
-                                                                    max={proyecto.fecha_finalizacion}
+                                                                    minDate={proyecto.fecha_inicio}
+                                                                    maxDate={proyecto.fecha_finalizacion}
                                                                     value={form_actividad.data.fecha_inicio}
                                                                     onChange={(e) => form_actividad.setData('fecha_inicio', e.target.value)}
                                                                     error={form_actividad.errors.fecha_inicio}
@@ -1115,8 +1115,8 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                                     id="fecha_finalizacion"
                                                                     className="mt-1 block w-full p-4"
                                                                     inputBackground="#fff"
-                                                                    min={proyecto.fecha_inicio}
-                                                                    max={proyecto.fecha_finalizacion}
+                                                                    minDate={proyecto.fecha_inicio}
+                                                                    maxDate={proyecto.fecha_finalizacion}
                                                                     value={form_actividad.data.fecha_finalizacion}
                                                                     onChange={(e) => form_actividad.setData('fecha_finalizacion', e.target.value)}
                                                                     error={form_actividad.errors.fecha_finalizacion}

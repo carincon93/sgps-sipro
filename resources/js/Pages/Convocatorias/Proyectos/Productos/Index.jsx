@@ -37,9 +37,9 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
 
     const tabs =
         proyecto?.proyectoLinea69 || proyecto?.proyectoHubLinea69
-            ? [{ label: 'Productos' }, { label: 'Productos Minciencias' }]
+            ? [{ label: 'Productos/Indicadores' }, { label: 'Productos Minciencias' }]
             : proyecto?.proyectoLinea68 || proyecto?.proyectoLinea70 || proyecto?.proyectoLinea83
-            ? [{ label: 'Productos' }]
+            ? [{ label: 'Productos/Indicadores' }]
             : [{ label: 'Productos Minciencias' }]
 
     return (

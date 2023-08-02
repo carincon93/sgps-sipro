@@ -20,11 +20,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const DatePicker = ({ id, name, size = 'medium', label = '', value = null, onChange, error = '', inputBackground, required, disabled, ...props }) => {
+const DatePicker = ({ id, name, size = 'medium', label = '', value = null, minDate = null, maxDate = null, onChange, error = '', inputBackground, required, disabled, ...props }) => {
     const classes = useStyles({ background: inputBackground })
 
     const inputRef = useRef(null)
     const [newValue, setNewValue] = useState(null)
+
+    const min_date = minDate ? dayjs(minDate).format('YYYY-MM-DD') : null
+    const max_date = maxDate ? dayjs(maxDate).format('YYYY-MM-DD') : null
 
     useEffect(() => {
         if (inputRef.current) {
@@ -46,6 +49,8 @@ const DatePicker = ({ id, name, size = 'medium', label = '', value = null, onCha
                 <DatePickerMui
                     format="YYYY-MM-DD"
                     label={label}
+                    minDate={dayjs(min_date)}
+                    maxDate={dayjs(max_date)}
                     slotProps={{
                         textField: {
                             id: id,

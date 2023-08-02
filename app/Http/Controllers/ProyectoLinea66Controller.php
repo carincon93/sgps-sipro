@@ -28,7 +28,7 @@ class ProyectoLinea66Controller extends Controller
     public function index(Convocatoria $convocatoria)
     {
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea66/Index', [
-            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'tipo_convocatoria'),
+            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'proyectos_linea_66'    => ProyectoLinea66::getProyectosPorRol($convocatoria)->appends(['search' => request()->search]),
             'allowed_to_create'     => Gate::inspect('formular-proyecto', [3, $convocatoria])->allowed()
         ]);
@@ -55,7 +55,7 @@ class ProyectoLinea66Controller extends Controller
         $lineas_programaticas = request()->linea_programatica_id ? SelectHelper::lineasProgramaticas()->where('value', request()->linea_programatica_id)->values()->all() : SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 2)->values()->all();
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea66/Create', [
-            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'campos_convocatoria'),
+            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'centros_formacion'                 => $centros_formacion,
             'areas_conocimiento'                => SelectHelper::areasConocimiento(),
             'subareas_conocimiento'             => SelectHelper::subareasConocimiento(),
@@ -198,7 +198,7 @@ class ProyectoLinea66Controller extends Controller
         $proyecto_linea_66->mostrar_requiere_subsanacion = $proyecto_linea_66->proyecto->mostrar_requiere_subsanacion;
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea66/Edit', [
-            'convocatoria'                                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'campos_convocatoria'),
+            'convocatoria'                                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'year'),
             'proyecto_linea_66'                                 => $proyecto_linea_66,
             'evaluacion'                                        => EvaluacionProyectoLinea66::find(request()->evaluacion_id),
             'tecnoacademia'                                     => $proyecto_linea_66->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_linea_66->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,

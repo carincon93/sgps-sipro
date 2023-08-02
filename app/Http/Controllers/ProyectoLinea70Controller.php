@@ -33,7 +33,7 @@ class ProyectoLinea70Controller extends Controller
     public function index(Convocatoria $convocatoria)
     {
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea70/Index', [
-            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'tipo_convocatoria'),
+            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'filters'               => request()->all('search', 'estructuracion_proyectos'),
             'proyectos_linea_70'    => ProyectoLinea70::getProyectosPorRol($convocatoria)->appends(['search' => request()->search, 'estructuracion_proyectos' => request()->estructuracion_proyectos]),
             'allowed_to_create'     => Gate::inspect('formular-proyecto', [5, $convocatoria])->allowed()
@@ -59,7 +59,7 @@ class ProyectoLinea70Controller extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea70/Create', [
-            'convocatoria'           => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
+            'convocatoria'           => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'tecnoacademias'         => $tecnoacademias,
             'lineas_tecnoacademia'   => SelectHelper::lineasTecnoacademia(),
             'roles_sennova'          => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
@@ -142,7 +142,7 @@ class ProyectoLinea70Controller extends Controller
         $proyecto_linea_70->mostrar_requiere_subsanacion   = $proyecto_linea_70->proyecto->mostrar_requiere_subsanacion;
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea70/Edit', [
-            'convocatoria'                          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year', 'tipo_convocatoria', 'mostrar_recomendaciones', 'descripcion'),
+            'convocatoria'                          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year', 'tipo_convocatoria', 'year', 'mostrar_recomendaciones', 'descripcion'),
             'proyecto_linea_70'                     => $proyecto_linea_70,
             'tecnoacademias'                        => SelectHelper::tecnoacademias(),
             'tecnoacademia'                         => $proyecto_linea_70->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_linea_70->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,

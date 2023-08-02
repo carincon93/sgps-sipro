@@ -67,8 +67,8 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                     <DatePicker
                                         id="fecha_inicio"
                                         className="mt-1 block w-full p-4"
-                                        min={proyecto.fecha_inicio}
-                                        max={proyecto.fecha_finalizacion}
+                                        minDate={proyecto.fecha_inicio}
+                                        maxDate={proyecto.fecha_finalizacion}
                                         value={form.data.fecha_inicio}
                                         onChange={(e) => form.setData('fecha_inicio', e.target.value)}
                                         error={form.errors.fecha_inicio}
@@ -84,8 +84,8 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                     <DatePicker
                                         id="fecha_finalizacion"
                                         className="mt-1 block w-full p-4"
-                                        min={proyecto.fecha_inicio}
-                                        max={proyecto.fecha_finalizacion}
+                                        minDate={proyecto.fecha_inicio}
+                                        maxDate={proyecto.fecha_finalizacion}
                                         value={form.data.fecha_finalizacion}
                                         onChange={(e) => form.setData('fecha_finalizacion', e.target.value)}
                                         error={form.errors.fecha_finalizacion}

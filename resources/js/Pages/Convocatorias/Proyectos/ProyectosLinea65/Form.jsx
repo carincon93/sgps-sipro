@@ -8,7 +8,7 @@ import TextInput from '@/Components/TextInput'
 import SelectMultiple from '@/Components/SelectMultiple'
 import SwitchMui from '@/Components/Switch'
 
-import { Grid, RadioGroup, TableCell, TableRow } from '@mui/material'
+import { Grid, RadioGroup } from '@mui/material'
 
 import { useForm } from '@inertiajs/react'
 import { useEffect, useState } from 'react'
@@ -157,6 +157,8 @@ const Form = ({
                     <DatePicker
                         variant="outlined"
                         id="fecha_inicio"
+                        minDate={convocatoria.year + '-01-01'}
+                        maxDate={convocatoria.year + '-12-31'}
                         name="fecha_inicio"
                         value={form.data.fecha_inicio}
                         className="p-4 w-full"
@@ -171,6 +173,8 @@ const Form = ({
                     <DatePicker
                         variant="outlined"
                         id="fecha_finalizacion"
+                        minDate={convocatoria.year + '-01-01'}
+                        maxDate={convocatoria.year + '-12-31'}
                         name="fecha_finalizacion"
                         value={form.data.fecha_finalizacion}
                         className="p-4 w-full"
