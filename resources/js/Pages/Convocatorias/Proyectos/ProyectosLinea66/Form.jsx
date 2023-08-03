@@ -644,7 +644,7 @@ const Form = ({
                                 disabled={evaluacion ? true : false}
                             />
 
-                            {form.data.impacto_regional || form.data.impacto_regional == false ? (
+                            {form.data.impacto_regional == 1 ? (
                                 <Textarea
                                     label="Justificación"
                                     id="justificacion_impacto_regional"

@@ -7,6 +7,9 @@ import SelectMultiple from '@/Components/SelectMultiple'
 import SwitchMui from '@/Components/Switch'
 import TextInput from '@/Components/TextInput'
 import Textarea from '@/Components/Textarea'
+import ToolTipMui from '@/Components/Tooltip'
+
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 
 import { monthDiff } from '@/Utils'
 import { useForm } from '@inertiajs/react'
@@ -25,6 +28,7 @@ const Form = ({
     estados_sistema_gestion,
     programas_formacion_sin_registro_calificado,
     programas_formacion_con_registro_calificado,
+    municipios,
     roles_sennova,
     evaluacion,
     ...props
@@ -46,7 +50,8 @@ const Form = ({
         antecedentes: proyecto_linea_68?.antecedentes ?? '',
         continuidad: proyecto_linea_68?.continuidad ?? '',
         bibliografia: proyecto_linea_68?.bibliografia ?? '',
-        zona_influencia: proyecto_linea_68?.zona_influencia ?? '',
+        municipios_influencia: proyecto_linea_68?.municipios_influencia ?? '',
+        otras_zonas_influencia: proyecto_linea_68?.otras_zonas_influencia ?? '',
         nombre_area_tecnica: proyecto_linea_68?.nombre_area_tecnica ?? '',
 
         video: proyecto_linea_68?.video,
@@ -398,17 +403,39 @@ const Form = ({
                         </Grid>
 
                         <Grid item md={6}>
-                            <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="zona_influencia" value="Zona de influencia" />
+                            <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="municipios_influencia" value="Zonas de influencia" />
+                        </Grid>
+                        <Grid item md={6}>
+                            <SelectMultiple
+                                id="municipios_influencia"
+                                bdValues={form.data.municipios_influencia}
+                                options={municipios}
+                                isGroupable={true}
+                                groupBy={(option) => option.group}
+                                onChange={(event, newValue) => {
+                                    const selectedValues = newValue.map((option) => option.value)
+                                    form.setData((prevData) => ({
+                                        ...prevData,
+                                        municipios_influencia: selectedValues,
+                                    }))
+                                }}
+                                error={form.errors.municipios_influencia}
+                                required
+                                disabled={evaluacion ? true : false}
+                            />
+                        </Grid>
+
+                        <Grid item md={6}>
+                            <Label disabled={evaluacion ? true : false} className="mb-4" labelFor="otras_zonas_influencia" value="Otras zonas de influencia (Veredas, corregimientos)" />
                         </Grid>
                         <Grid item md={6}>
                             <TextInput
-                                label="Zona de influencia"
-                                id="zona_influencia"
+                                label="(Veredas, corregimientos)"
+                                id="otras_zonas_influencia"
                                 type="text"
-                                error={form.errors.zona_influencia}
-                                value={form.data.zona_influencia}
-                                onChange={(e) => form.setData('zona_influencia', e.target.value)}
-                                required
+                                error={form.errors.otras_zonas_influencia}
+                                value={form.data.otras_zonas_influencia}
+                                onChange={(e) => form.setData('otras_zonas_influencia', e.target.value)}
                                 disabled={evaluacion ? true : false}
                             />
                         </Grid>
@@ -456,10 +483,54 @@ const Form = ({
                         </Grid>
                         <Grid item md={6}>
                             <TextInput label="Enlace del video" type="url" value={form.data.video} error={form.errors.video} onChange={(e) => form.setData('video', e.target.value)} required />
-                            <AlertMui>
-                                El vídeo debe incluir durante el recorrido en las instalaciones, una voz en off que justifique puntualmente el proyecto e incluya: el impacto a la formación, al sector
-                                productivo y a la política nacional de ciencia, tecnología e innovación.
-                            </AlertMui>
+                            <ToolTipMui
+                                className="py-4 hover:cursor-pointer text-blue-500"
+                                title={
+                                    <>
+                                        <strong>Características técnico del video del área técnica:</strong>
+                                        <br />
+                                        Video actualizado en donde mediante el uso de voz en off y un recorrido por el área técnica destinada para la prestación del servicio (ejecución del proyecto de
+                                        ST) se tengan en cuenta, como mínimo los siguientes requisitos:
+                                        <ul>
+                                            <li>
+                                                1. Identificar el nombre del centro de formación (incluir el código) y el nombre del área técnica. Indicar el número de la resolución de creación del
+                                                área destinada para la ejecución del proyecto de Servicios Tecnológicos.
+                                            </li>
+                                            <li>2. Indicar la cantidad (número) de servicios implementados en el área técnica y las redes de conocimiento con las que se relaciona.</li>
+                                            <li>
+                                                3. Hacer un barrido de la totalidad del área técnica iniciando y terminando por la zona de acceso. En la medida de lo posible y de acuerdo con la
+                                                gestión de los riesgos asociados, deben mostrarse la ejecución de actividades técnicas en el video (operación de equipos) (solo aplica para proyectos en
+                                                continuidad)
+                                            </li>
+                                            <li>4. Indicar si el área es de uso exclusivo para el proyecto de ST o si se comparte con otras líneas del centro de formación.</li>
+                                            <li>
+                                                5. Se muestre claramente la zona operativa (ejecución de actividades técnicas, recepción y preparación de ítems para la prestación de servicio,
+                                                almacenamiento de reactivos/consumibles, disposición de residuos, zonas de seguridad, zonas de gestión de gases, plantas eléctricas) y zonas
+                                                administrativas (procesamiento de datos, gestión de información requerida por el proyecto y SENNOVA, etc.) según aplique a la tipología del portafolio
+                                                de servicios.
+                                            </li>
+                                            <li>
+                                                6. En los casos en los que se requieran recursos para viáticos, muestre el equipamiento utilizado para la prestación de servicio en sitio (toma de
+                                                muestras, ejecución de ensayos, calibraciones, toma de información, levantamiento de datos, etc.) o para participación en ensayos de aptitud (en caso en
+                                                que sean en sitio y requiera el desplazamiento de equipamiento)
+                                            </li>
+                                            <li>
+                                                7. En los casos en los que se soliciten recursos para la adquisición de maquinaria industrial, indicar la zona disponible para su ubicación y puntos de
+                                                suministro de servicios (eléctrico, gases, vapores, suministro de líquidos, etc. según aplique). En los casos en los que se soliciten recursos para la
+                                                adquisición de accesorios de equipos, mostrar los equipos de los que hará parte los accesorios a adquirir.
+                                            </li>
+                                            <li>
+                                                8. En los casos en los que se requieran construcciones o adecuaciones, se debe mostrar la zona o zonas en donde se requiere la ejecución de las mismas
+                                                con una corta explicación técnica que soporte la necesidad (la profundidad de la justificación se llevará a cabo en el texto de la formulación)
+                                            </li>
+                                        </ul>
+                                        <br />
+                                        <strong>Duración del vídeo máximo 5 minutos.</strong>
+                                    </>
+                                }>
+                                <InfoOutlinedIcon className="mr-2" />
+                                Por favor leer las siguientes indicaciones
+                            </ToolTipMui>
                         </Grid>
 
                         <Grid item md={12}>

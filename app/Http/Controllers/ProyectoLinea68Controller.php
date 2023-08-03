@@ -167,6 +167,7 @@ class ProyectoLinea68Controller extends Controller
             'programas_formacion_sin_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),
             'programas_formacion_con_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $proyecto_linea_68->proyecto->centro_formacion_id)->values()->all(),
             'sectores_productivos'                          => collect(json_decode(Storage::get('json/sectores-productivos.json'), true)),
+            'municipios'                                    => SelectHelper::municipios(),
             'tipos_proyecto_linea_68'                       => $tipo_proyecto_linea_68,
             'roles_sennova'                                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
         ]);
@@ -190,7 +191,9 @@ class ProyectoLinea68Controller extends Controller
         $proyecto_linea_68->resumen                     = $request->resumen;
         $proyecto_linea_68->antecedentes                = $request->antecedentes;
         $proyecto_linea_68->bibliografia                = $request->bibliografia;
-        $proyecto_linea_68->zona_influencia             = $request->zona_influencia;
+        $proyecto_linea_68->municipios_influencia       = $request->municipios_influencia;
+        $proyecto_linea_68->otras_zonas_influencia      = $request->otras_zonas_influencia;
+
         $proyecto_linea_68->nombre_area_tecnica         = $request->nombre_area_tecnica;
         $proyecto_linea_68->continuidad                 = $request->continuidad;
 

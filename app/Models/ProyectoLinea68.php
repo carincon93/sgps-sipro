@@ -45,7 +45,8 @@ class ProyectoLinea68 extends Model
         'fecha_inicio',
         'fecha_finalizacion',
         'propuesta_sostenibilidad',
-        'zona_influencia',
+        'municipios_influencia',
+        'otras_zonas_influencia',
         'bibliografia',
         'max_meses_ejecucion',
         'video',
@@ -199,5 +200,10 @@ class ProyectoLinea68 extends Model
         $proyectos_linea_68->load('proyecto.evaluaciones');
 
         return $proyectos_linea_68;
+    }
+
+        public function getMunicipiosInfluenciaAttribute($value)
+    {
+        return json_decode($value);
     }
 }

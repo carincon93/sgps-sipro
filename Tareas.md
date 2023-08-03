@@ -10,6 +10,12 @@ Tareas
 
 1. Revisar los anexos a habilitar
 
+ALTER TABLE IF EXISTS public.servicios_tecnologicos
+    RENAME zona_influencia TO otras_zonas_influencia;
+
+ALTER TABLE IF EXISTS public.servicios_tecnologicos
+    ADD COLUMN municipios_influencia json;
+
 69
 
 1. Subir el Archivo del Plan Tecnológico del Centro

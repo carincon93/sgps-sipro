@@ -23,6 +23,7 @@ const Edit = ({
     estados_sistema_gestion,
     programas_formacion_sin_registro_calificado,
     programas_formacion_con_registro_calificado,
+    municipios,
     roles_sennova,
 }) => {
     const auth_user = auth.user
@@ -96,6 +97,7 @@ const Edit = ({
                     estados_sistema_gestion={estados_sistema_gestion}
                     programas_formacion_sin_registro_calificado={programas_formacion_sin_registro_calificado}
                     programas_formacion_con_registro_calificado={programas_formacion_con_registro_calificado}
+                    municipios={municipios}
                     roles_sennova={roles_sennova}
                 />
             </Grid>
