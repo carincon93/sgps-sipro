@@ -21,15 +21,5 @@ Tareas
 " "Anexo 2. Ficha técnica para maquinaria y equipos "
 
 
-ALTER TABLE IF EXISTS public.convocatorias DROP COLUMN IF EXISTS lineas_programaticas_activas;
-ALTER TABLE IF EXISTS public.anexos DROP COLUMN IF EXISTS obligatorio;
-
-ALTER TABLE IF EXISTS public.anexos DROP COLUMN IF EXISTS habilitado;
-
-ALTER TABLE IF EXISTS public.convocatoria_anexos
-    ADD COLUMN created_at timestamp without time zone;
-
-ALTER TABLE IF EXISTS public.convocatoria_anexos
-    ADD COLUMN updated_at timestamp without time zone;
 
 

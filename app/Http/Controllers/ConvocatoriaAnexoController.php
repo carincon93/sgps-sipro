@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Helpers\SharepointHelper;
 use App\Helpers\SelectHelper;
 use App\Http\Requests\ConvocatoriaAnexoRequest;
+use App\Models\Anexo;
 use App\Models\ConvocatoriaAnexo;
 use App\Models\Convocatoria;
-use App\Models\LineaProgramatica;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -25,7 +25,7 @@ class ConvocatoriaAnexoController extends Controller
         return Inertia::render('Convocatorias/Anexos/Index', [
             'convocatoria'          => $convocatoria,
             'convocatoria_anexos'   => $convocatoria->convocatoriaAnexos()->with('anexo', 'lineasProgramaticas')->get(),
-            'anexos'                => ConvocatoriaAnexo::select('anexos.id as value', 'anexos.nombre as label')->join('anexos', 'convocatoria_anexos.anexo_id', 'anexos.id')->get(),
+            'anexos'                => Anexo::select('anexos.id as value', 'anexos.nombre as label')->get(),
             'lineas_programaticas'  => $convocatoria->lineasProgramaticas()->select('lineas_programaticas.id as value', 'lineas_programaticas.nombre as label')->get(),
         ]);
     }
