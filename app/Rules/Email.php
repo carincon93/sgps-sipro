@@ -24,8 +24,8 @@ class Email implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (preg_match("/(.*)sena\.edu\.co$/i", $value) == false && preg_match("/(.*)soy.sena\.edu\.co$/i", $value) == false) {
-            $fail("Debe ser un correo @sena.edu.co o @soy.sena.edu.co");
+        if (preg_match("/(.*)sena\.edu\.co$/i", $value) == false && preg_match("/(.*)soy.sena\.edu\.co$/i", $value) == false && preg_match("/(.*)misena\.edu\.co$/i", $value) == false) {
+            $fail("Debe ser un correo @sena.edu.co, @soy.sena.edu.co o @misena.edu.co");
         }
 
     }

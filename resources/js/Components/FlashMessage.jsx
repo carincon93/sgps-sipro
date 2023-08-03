@@ -22,7 +22,7 @@ const FlashMessage = () => {
             setTimeout(() => {
                 setShowSuccessMessage(false)
                 setSuccessMessage(null)
-            }, 5000)
+            }, 10000)
         }
 
         if (error) {
@@ -32,7 +32,7 @@ const FlashMessage = () => {
             setTimeout(() => {
                 setShowErrorMessage(false)
                 setErrorMessage(null)
-            }, 5000)
+            }, 10000)
         }
 
         if (Object.keys(errors).length > 0) {

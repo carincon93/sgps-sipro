@@ -1,4 +1,5 @@
 import ApplicationLogo from '@/Components/ApplicationLogo'
+import FlashMessage from '@/Components/FlashMessage'
 import SenaLogo from '@/Components/SenaLogo'
 import TextInput from '@/Components/TextInput'
 import { Link, useForm } from '@inertiajs/react'
@@ -70,6 +71,7 @@ export default function GuestLayout({ children }) {
                     </p>
                 </Link>
             </div>
+            <FlashMessage />
         </main>
     )
 }
