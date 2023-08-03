@@ -65,6 +65,10 @@ class UserPolicy
      */
     public function update(User $user, $proponente)
     {
+        if ($user->id == $proponente->id) {
+            return true;
+        }
+
         if ($this->checkRole($user, 'activador i+d+i') && $this->checkRole($proponente, 'proponente i+d+i') || $this->checkRole($user, 'activador cultura de la innovación') && $this->checkRole($proponente, 'proponente cultura de la innovación') || $this->checkRole($user, 'activador tecnoacademia') && $this->checkRole($proponente, 'proponente tecnoacademia') || $this->checkRole($user, 'activador tecnoparque') && $this->checkRole($proponente, 'proponente tecnoparque') || $this->checkRole($user, 'activador servicios tecnológicos') && $this->checkRole($proponente, 'proponente servicios tecnológicos')) {
             return true;
         }

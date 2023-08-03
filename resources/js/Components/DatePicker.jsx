@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const DatePicker = ({ id, name, size = 'medium', label = '', value = null, minDate = null, maxDate = null, onChange, error = '', inputBackground, className = '', required, disabled, ...props }) => {
+const DatePicker = ({ id, name, size = 'medium', label = '', value = null, minDate = null, maxDate = null, onChange, error = '', inputBackground, required, disabled, ...props }) => {
     const classes = useStyles({ background: inputBackground })
 
     const inputRef = useRef(null)
@@ -29,27 +29,19 @@ const DatePicker = ({ id, name, size = 'medium', label = '', value = null, minDa
     const min_date = minDate ? dayjs(minDate).format('YYYY-MM-DD') : null
     const max_date = maxDate ? dayjs(maxDate).format('YYYY-MM-DD') : null
 
-    const [isEmpty, setIsEmpty] = useState(false)
-
     useEffect(() => {
-        if (required && isEmpty) {
-            inputRef.current.setCustomValidity('Please fill out this field.')
-        } else {
-            inputRef.current.setCustomValidity('')
+        if (inputRef.current) {
+            if (value?.indexOf('NaN') !== -1) {
+                inputRef.current.setCustomValidity('Please fill out this field.')
+            } else if (value != null) {
+                inputRef.current.setCustomValidity('')
+            }
         }
 
-        if (newValue) {
-            setNewValue(dayjs(newValue))
+        if (value) {
+            setNewValue(dayjs(value))
         }
-    }, [inputRef, newValue, required, isEmpty])
-
-    const handleInputChange = (event) => {
-        const newValue = event.target.value
-        setNewValue(newValue)
-
-        // Check if the input is empty and update the isEmpty state accordingly
-        setIsEmpty(newValue.trim() === '')
-    }
+    }, [value])
 
     return (
         <>
@@ -59,16 +51,14 @@ const DatePicker = ({ id, name, size = 'medium', label = '', value = null, minDa
                     label={label}
                     minDate={dayjs(min_date)}
                     maxDate={dayjs(max_date)}
-                    className={`${className} ${error ? 'error' : ''}`}
                     slotProps={{
                         textField: {
                             id: id,
                             name: name,
                             size: size,
                             inputRef: inputRef,
-                            required: required ? true : false,
+                            required: required ? true : undefined,
                             classes: { root: inputBackground ? classes.root : '' },
-                            onChange: handleInputChange,
                         },
                     }}
                     value={newValue}
