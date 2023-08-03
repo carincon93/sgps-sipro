@@ -13,10 +13,13 @@ import FormacionesAcademicasSena from './Perfil/FormacionesAcademicasSena/Index'
 import ParticipacionesGrupoInvestigacionSENA from './Perfil/ParticipacionesGruposInvestigacionSena/Index'
 import ParticipacionesProyectosSENNOVA from './Perfil/ParticipacionesProyectosSennova/Index'
 
+import { checkRole } from '@/Utils'
 import { router, useForm } from '@inertiajs/react'
+
 import React from 'react'
 
 const EditComponent = ({
+    auth_user,
     usuario,
     tipos_documento,
     tipos_vinculacion,
@@ -76,27 +79,29 @@ const EditComponent = ({
                             </strong>
                         </AlertMui>
 
-                        <AlertMui className="mt-10">
-                            ¿Desea habilitar este usuario?
-                            <Checkbox
-                                name="default_password"
-                                className="mt-3"
-                                checked={usuario?.habilitado}
-                                onChange={(e) =>
-                                    router.put(
-                                        route('users.habilitar-usuario'),
-                                        {
-                                            user_id: usuario?.id,
-                                            habilitado: e.target.checked,
-                                        },
-                                        {
-                                            preserveScroll: true,
-                                        },
-                                    )
-                                }
-                                label="Habilitado(a)"
-                            />
-                        </AlertMui>
+                        {checkRole(auth_user, [1, 2, 3, 4, 5, 17, 18, 19, 20, 21, 22, 24, 27]) && (
+                            <AlertMui className="mt-10">
+                                ¿Desea habilitar este usuario?
+                                <Checkbox
+                                    name="default_password"
+                                    className="mt-3"
+                                    checked={usuario?.habilitado}
+                                    onChange={(e) =>
+                                        router.put(
+                                            route('users.habilitar-usuario'),
+                                            {
+                                                user_id: usuario?.id,
+                                                habilitado: e.target.checked,
+                                            },
+                                            {
+                                                preserveScroll: true,
+                                            },
+                                        )
+                                    }
+                                    label="Habilitado(a)"
+                                />
+                            </AlertMui>
+                        )}
 
                         <AlertMui severity="error" className="mt-10">
                             Una vez haya finalizado de diligenciar active la siguiente casilla:
