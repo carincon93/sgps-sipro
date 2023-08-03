@@ -189,8 +189,10 @@ class ProyectoController extends Controller
         }
 
         foreach ($proyecto->efectosDirectos as $efecto_directo) {
-            foreach ($efecto_directo->resultado->productos as $producto) {
-                $productos->prepend(['v' => 'prod' . $producto->id,  'f' => $producto->nombre, 'fkey' =>  'Objetivo específico ' . $efecto_directo->resultado->objetivoEspecifico->numero, 'tootlip' => 'prod' . $producto->id, 'actividades' => $producto->actividades->load('proyectoRolesSennova.convocatoriaRolSennova.rolSennova')]);
+            if ($efecto_directo->resultado) {
+                foreach ($efecto_directo->resultado->productos as $producto) {
+                    $productos->prepend(['v' => 'prod' . $producto->id,  'f' => $producto->nombre, 'fkey' =>  'Objetivo específico ' . $efecto_directo->resultado->objetivoEspecifico->numero, 'tootlip' => 'prod' . $producto->id, 'actividades' => $producto->actividades->load('proyectoRolesSennova.convocatoriaRolSennova.rolSennova')]);
+                }
             }
         }
 
@@ -575,21 +577,26 @@ class ProyectoController extends Controller
         /** @var \App\Models\User */
         $auth_user = Auth::user();
 
-        if (!Hash::check($request->password, $auth_user->password)) {
-            return back()
-                ->withErrors(['password' => __('The password is incorrect.')]);
+        // if (!Hash::check($request->password, $auth_user->password)) {
+        //     return back()
+        //         ->withErrors(['password' => __('The password is incorrect.')]);
+        // }
+
+        if ($request->finalizado) {
+            $proyecto->update([
+                'modificable' => false,
+                'finalizado'  => true,
+            ]);
+
+            return back()->with('success', 'Se ha finalizado el proyecto correctamente.');
+        } else if ($request->modificar) {
+            $proyecto->update([
+                'modificable' => true,
+                'finalizado'  => false,
+            ]);
+
+            return back()->with('success', 'El proyecto puede ser modificado nuevamente.');
         }
-
-        $proyecto->modificable = false;
-        $proyecto->finalizado = true;
-        $proyecto->save();
-
-        $proyecto->centroFormacion->dinamizadorSennova->notify(new ProyectoFinalizado($convocatoria, $proyecto));
-
-        $version = $proyecto->codigo . '-PDF-' . \Carbon\Carbon::now()->format('YmdHis');
-        $proyecto->PdfVersiones()->save(new ProyectoPdfVersion(['version' => $version]));
-
-        return back()->with('success', 'Se ha finalizado el proyecto correctamente.');
     }
 
     /**

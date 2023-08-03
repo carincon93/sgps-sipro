@@ -24,6 +24,7 @@ class SoporteEstudioMercadoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
+        $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
         /**
          * Denega el acceso si el rubro no requiere de estudio de mercado.
          */
@@ -43,7 +44,7 @@ class SoporteEstudioMercadoController extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectoPresupuesto/SoportesEstudioMercado/Index', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'evaluacion'                => Evaluacion::find(request()->evaluacion_id),
-            'proyecto'                  => $proyecto->only('id', 'modificable', 'mostrar_recomendaciones', 'allowed'),
+            'proyecto'                  => $proyecto->only('id', 'modificable', 'mostrar_recomendaciones', 'codigo_linea_programatica', 'allowed'),
             'proyecto_presupuesto'      => $presupuesto->load('convocatoriaProyectoRubrosPresupuestales.presupuestoSennova.usoPresupuestal'),
             'soportes_estudio_mercado'  => $presupuesto->soportesEstudioMercado,
         ]);

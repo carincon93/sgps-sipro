@@ -4,6 +4,9 @@ import AlertMui from '@/Components/Alert'
 import StepperMui from '@/Components/Stepper'
 
 import { Grid } from '@mui/material'
+import { useEffect, useState, useRef } from 'react'
+import Checkbox from '@/Components/Checkbox'
+import { router } from '@inertiajs/react'
 
 const ResumenFinal = ({
     convocatoria,
@@ -31,6 +34,16 @@ const ResumenFinal = ({
     estudiosMercadoArchivo,
     edt,
 }) => {
+    const ul_ref = useRef(null)
+
+    const [list_item_count, setListItemCount] = useState(0)
+
+    useEffect(() => {
+        if (ul_ref.current) {
+            const li_elements = ul_ref.current.querySelectorAll('li')
+            setListItemCount(li_elements.length)
+        }
+    }, [])
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
@@ -43,7 +56,7 @@ const ResumenFinal = ({
                         <p>
                             <strong>La información del proyecto está incompleta. Para poder finalizar el proyecto debe completar los siguientes ítems:</strong>
                         </p>
-                        <ul className="list-disc p-4">
+                        <ul className="list-disc p-4" ref={ul_ref}>
                             {!generalidades && <li>Generalidades</li>}
                             {!articulacionSennova && proyecto.codigo_linea_programatica == 70 && <li>Articulación SENNOVA</li>}
                             {!problemaCentral && <li>Problema central</li>}
@@ -114,6 +127,51 @@ const ResumenFinal = ({
                             {!estudiosMercadoArchivo && <li>Hay rubros presupuestales que no tienen el estudio de mercado cargado</li>}
                         </ul>
                     </AlertMui>
+                )}
+                {list_item_count == 0 && (
+                    <>
+                        <AlertMui className="mt-10">
+                            {proyecto?.finalizado
+                                ? 'Si desea seguir modificando el proyecto de clic en la casilla Modificar'
+                                : 'Por favor habilite la casilla para confirmar que ha finalizado el proyecto'}
+                            <br />
+                            <Checkbox
+                                name="default_password"
+                                className="mt-3"
+                                checked={!proyecto.finalizado}
+                                onChange={(e) =>
+                                    router.put(
+                                        route('convocatorias.proyectos.finalizar', [convocatoria.id, proyecto.id]),
+                                        {
+                                            modificar: e.target.checked,
+                                        },
+                                        {
+                                            preserveScroll: true,
+                                        },
+                                    )
+                                }
+                                label="Modificar proyecto"
+                            />
+
+                            <Checkbox
+                                name="default_password"
+                                className="mt-3"
+                                checked={proyecto.finalizado}
+                                onChange={(e) =>
+                                    router.put(
+                                        route('convocatorias.proyectos.finalizar', [convocatoria.id, proyecto.id]),
+                                        {
+                                            finalizado: e.target.checked,
+                                        },
+                                        {
+                                            preserveScroll: true,
+                                        },
+                                    )
+                                }
+                                label="Proyecto finalizado"
+                            />
+                        </AlertMui>
+                    </>
                 )}
             </Grid>
         </AuthenticatedLayout>
