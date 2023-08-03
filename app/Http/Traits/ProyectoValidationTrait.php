@@ -2,7 +2,6 @@
 
 namespace App\Http\Traits;
 
-use App\Models\Anexo;
 use App\Models\ConvocatoriaAnexo;
 use App\Models\Proyecto;
 use Illuminate\Support\Facades\Log;
@@ -19,21 +18,25 @@ trait ProyectoValidationTrait
     public static function problemaCentral(Proyecto $proyecto)
     {
         switch ($proyecto) {
+             case $proyecto->proyectoLinea65()->exists() && $proyecto->proyectoLinea65->problema_central == '':
+                return false;
+                break;
             case $proyecto->proyectoLinea66()->exists() && $proyecto->proyectoLinea66->problema_central == '':
-                return false;
-                break;
-            case $proyecto->proyectoLinea70()->exists() && $proyecto->proyectoLinea70->problema_central == '':
-                return false;
-                break;
-            case $proyecto->proyectoLinea69()->exists() && $proyecto->proyectoLinea69->problema_central == '':
                 return false;
                 break;
             case $proyecto->proyectoLinea68()->exists() && $proyecto->proyectoLinea68->problema_central == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea65()->exists() && $proyecto->proyectoLinea65->problema_central == '':
+            case $proyecto->proyectoHubLinea69()->exists() && $proyecto->proyectoHubLinea69->problema_central == '':
                 return false;
                 break;
+            case $proyecto->proyectoLinea70()->exists() && $proyecto->proyectoLinea70->problema_central == '':
+                return false;
+                break;
+            case $proyecto->proyectoLinea83()->exists() && $proyecto->proyectoLinea83->problema_central == '':
+                return false;
+                break;
+
             default:
                 break;
         }
@@ -103,8 +106,8 @@ trait ProyectoValidationTrait
     public static function efectosDirectos(Proyecto $proyecto)
     {
         $count = 0;
-        foreach ($proyecto->efectosDirectos as $efectoDirecto) {
-            if ($efectoDirecto->descripcion != '') {
+        foreach ($proyecto->efectosDirectos as $efecto_directo) {
+            if ($efecto_directo->descripcion != '') {
                 $count++;
             }
         }
@@ -121,14 +124,14 @@ trait ProyectoValidationTrait
      */
     public static function efectosIndirectos(Proyecto $proyecto)
     {
-        $countEfectoIndirecto = 0;
-        foreach ($proyecto->efectosDirectos as $efectoDirecto) {
-            if ($efectoDirecto->descripcion != '' && $efectoDirecto->efectosIndirectos()->count() == 0) {
-                $countEfectoIndirecto++;
+        $count_efecto_indirecto = 0;
+        foreach ($proyecto->efectosDirectos as $efecto_directo) {
+            if ($efecto_directo->descripcion != '' && $efecto_directo->efectosIndirectos()->count() == 0) {
+                $count_efecto_indirecto++;
             }
         }
 
-        return $countEfectoIndirecto == 0 ? true : false;
+        return $count_efecto_indirecto == 0 ? true : false;
     }
 
     /**
@@ -141,8 +144,8 @@ trait ProyectoValidationTrait
     public static function causasDirectas(Proyecto $proyecto)
     {
         $count = 0;
-        foreach ($proyecto->causasDirectas as $causaDirecta) {
-            if ($causaDirecta->descripcion != '') {
+        foreach ($proyecto->causasDirectas as $causa_directa) {
+            if ($causa_directa->descripcion != '') {
                 $count++;
             }
         }
@@ -159,14 +162,14 @@ trait ProyectoValidationTrait
      */
     public static function causasIndirectas(Proyecto $proyecto)
     {
-        $countCausaIndirecta = 0;
-        foreach ($proyecto->causasDirectas as $causaDirecta) {
-            if ($causaDirecta->descripcion != '' && $causaDirecta->causasIndirectas()->count() == 0) {
-                $countCausaIndirecta++;
+        $count_causa_indirecta = 0;
+        foreach ($proyecto->causasDirectas as $causa_directa) {
+            if ($causa_directa->descripcion != '' && $causa_directa->causasIndirectas()->count() == 0) {
+                $count_causa_indirecta++;
             }
         }
 
-        return $countCausaIndirecta == 0 ? true : false;
+        return $count_causa_indirecta == 0 ? true : false;
     }
 
     /**
@@ -179,21 +182,29 @@ trait ProyectoValidationTrait
     public static function objetivoGeneral(Proyecto $proyecto)
     {
         switch ($proyecto) {
+            case $proyecto->proyectoLinea65()->exists() && $proyecto->proyectoLinea65->objetivo_general == '':
+                return false;
+                break;
             case $proyecto->proyectoLinea66()->exists() && $proyecto->proyectoLinea66->objetivo_general == '':
-                return false;
-                break;
-            case $proyecto->proyectoLinea70()->exists() && $proyecto->proyectoLinea70->objetivo_general == '':
-                return false;
-                break;
-            case $proyecto->proyectoLinea69()->exists() && $proyecto->proyectoLinea69->objetivo_general == '':
                 return false;
                 break;
             case $proyecto->proyectoLinea68()->exists() && $proyecto->proyectoLinea68->objetivo_general == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea65()->exists() && $proyecto->proyectoLinea65->objetivo_general == '':
+            case $proyecto->proyectoLinea69()->exists() && $proyecto->proyectoLinea69->objetivo_general == '':
                 return false;
                 break;
+            case $proyecto->proyectoHubLinea69()->exists() && $proyecto->proyectoHubLinea69->objetivo_general == '':
+                return false;
+                break;
+            case $proyecto->proyectoLinea70()->exists() && $proyecto->proyectoLinea70->objetivo_general == '':
+                return false;
+                break;
+            case $proyecto->proyectoLinea83()->exists() && $proyecto->proyectoLinea83->objetivo_general == '':
+                return false;
+                break;
+
+
             default:
                 break;
         }
@@ -210,18 +221,18 @@ trait ProyectoValidationTrait
      */
     public static function resultados(Proyecto $proyecto)
     {
-        $countResultado = 0;
+        $count_resultado = 0;
 
         if ($proyecto->lineaProgramatica->codigo == 68) {
             return true;
         }
-        foreach ($proyecto->efectosDirectos as $efectoDirecto) {
-            if ($efectoDirecto->descripcion != '' && $efectoDirecto->resultado->descripcion == '') {
-                $countResultado++;
+        foreach ($proyecto->efectosDirectos as $efecto_directo) {
+            if ($efecto_directo->descripcion != '' && $efecto_directo->resultado->descripcion == '') {
+                $count_resultado++;
             }
         }
 
-        return $countResultado == 0 ? true : false;
+        return $count_resultado == 0 ? true : false;
     }
 
     /**
@@ -233,14 +244,14 @@ trait ProyectoValidationTrait
      */
     public static function objetivosEspecificos(Proyecto $proyecto)
     {
-        $countObjetivoEspecifico = 0;
-        foreach ($proyecto->causasDirectas as $causaDirecta) {
-            if ($causaDirecta->descripcion != '' && $causaDirecta->objetivoEspecifico && $causaDirecta->objetivoEspecifico->descripcion == '') {
-                $countObjetivoEspecifico++;
+        $count_objetivo_especifico = 0;
+        foreach ($proyecto->causasDirectas as $causa_directa) {
+            if ($causa_directa->descripcion != '' && $causa_directa->objetivoEspecifico && $causa_directa->objetivoEspecifico->descripcion == '') {
+                $count_objetivo_especifico++;
             }
         }
 
-        return $countObjetivoEspecifico == 0 ? true : false;
+        return $count_objetivo_especifico == 0 ? true : false;
     }
 
     /**
@@ -252,16 +263,16 @@ trait ProyectoValidationTrait
      */
     public static function actividades(Proyecto $proyecto)
     {
-        $countActividad = 0;
-        foreach ($proyecto->causasDirectas as $causaDirecta) {
-            foreach ($causaDirecta->causasIndirectas as $causaIndirecta) {
-                if ($causaIndirecta && $causaIndirecta->descripcion != '' && $causaIndirecta->actividad && $causaIndirecta->actividad->descripcion == null) {
-                    $countActividad++;
+        $count_actividad = 0;
+        foreach ($proyecto->causasDirectas as $causa_directa) {
+            foreach ($causa_directa->causasIndirectas as $causa_indirecta) {
+                if ($causa_indirecta && $causa_indirecta->descripcion != '' && $causa_indirecta->actividad && $causa_indirecta->actividad->descripcion == null) {
+                    $count_actividad++;
                 }
             }
         }
 
-        return $countActividad == 0 ? true : false;
+        return $count_actividad == 0 ? true : false;
     }
 
     /**
@@ -273,16 +284,16 @@ trait ProyectoValidationTrait
      */
     public static function impactos(Proyecto $proyecto)
     {
-        $countImpacto = 0;
-        foreach ($proyecto->efectosDirectos as $efectoDirecto) {
-            foreach ($efectoDirecto->efectosIndirectos as $efectoIndirecto) {
-                if ($efectoIndirecto->descripcion != '' && $efectoIndirecto->impacto && $efectoIndirecto->impacto->descripcion == null) {
-                    $countImpacto++;
+        $count_impacto = 0;
+        foreach ($proyecto->efectosDirectos as $efecto_directo) {
+            foreach ($efecto_directo->efectosIndirectos as $efecto_indirecto) {
+                if ($efecto_indirecto->descripcion != '' && $efecto_indirecto->impacto && $efecto_indirecto->impacto->descripcion == null) {
+                    $count_impacto++;
                 }
             }
         }
 
-        return $countImpacto == 0 ? true : false;
+        return $count_impacto == 0 ? true : false;
     }
 
     /**
@@ -294,16 +305,16 @@ trait ProyectoValidationTrait
      */
     public static function actividadesPresupuesto(Proyecto $proyecto)
     {
-        $countActividadPresupuesto = 0;
-        foreach ($proyecto->causasDirectas as $causaDirecta) {
-            foreach ($causaDirecta->causasIndirectas as $causaIndirecta) {
-                if ($causaIndirecta->descripcion != '' && $causaIndirecta->actividad && $causaIndirecta->actividad->proyectoPresupuesto()->count() == 0) {
-                    $countActividadPresupuesto++;
+        $count_actividad_presupuesto = 0;
+        foreach ($proyecto->causasDirectas as $causa_directa) {
+            foreach ($causa_directa->causasIndirectas as $causa_indirecta) {
+                if ($causa_indirecta->descripcion != '' && $causa_indirecta->actividad && $causa_indirecta->actividad->proyectoPresupuesto()->count() == 0) {
+                    $count_actividad_presupuesto++;
                 }
             }
         }
 
-        return $countActividadPresupuesto == 0 ? true : false;
+        return $count_actividad_presupuesto == 0 ? true : false;
     }
 
     /**
@@ -315,16 +326,18 @@ trait ProyectoValidationTrait
      */
     public static function productosActividades(Proyecto $proyecto)
     {
-        $countProductoActividad = 0;
-        foreach ($proyecto->efectosDirectos as $efectoDirecto) {
-            foreach ($efectoDirecto->resultado->productos as $producto) {
-                if ($producto->actividades()->count() == 0) {
-                    $countProductoActividad++;
+        $count_producto_actividad = 0;
+        foreach ($proyecto->efectosDirectos as $efecto_directo) {
+            if ($efecto_directo->resultado) {
+                foreach ($efecto_directo->resultado->productos as $producto) {
+                    if ($producto->actividades()->count() == 0) {
+                        $count_producto_actividad++;
+                    }
                 }
             }
         }
 
-        return $countProductoActividad == 0 ? true : false;
+        return $count_producto_actividad == 0 ? true : false;
     }
 
     /**
@@ -336,14 +349,14 @@ trait ProyectoValidationTrait
      */
     public static function resultadoProducto(Proyecto $proyecto)
     {
-        $countResultadoProducto = 0;
-        foreach ($proyecto->efectosDirectos as $efectoDirecto) {
-            if ($efectoDirecto->resultado->descripcion != '' && $efectoDirecto->resultado->productos()->count() == 0) {
-                $countResultadoProducto++;
+        $count_resultado_producto = 0;
+        foreach ($proyecto->efectosDirectos as $efecto_directo) {
+            if ($efecto_directo->resultado && $efecto_directo->resultado->descripcion != '' && $efecto_directo->resultado->productos()->count() == 0) {
+                $count_resultado_producto++;
             }
         }
 
-        return $countResultadoProducto == 0 ? true : false;
+        return $count_resultado_producto == 0 ? true : false;
     }
 
     /**
@@ -355,26 +368,25 @@ trait ProyectoValidationTrait
      */
     public static function analisisRiesgo(Proyecto $proyecto)
     {
-        $countAnalisisObjetivo = 0;
-        $countAnalisisProducto = 0;
-        $countAnalisisActividad = 0;
-        foreach ($proyecto->analisisRiesgos as $analisisRiesgo) {
-            if ($analisisRiesgo->nivel == 'A nivel del objetivo general') {
+        $count_analisis_objetivo = 0;
+        $count_analisis_producto = 0;
+        $count_analisis_actividad = 0;
+        foreach ($proyecto->analisisRiesgos as $analisis_riesgo) {
+            if ($analisis_riesgo->nivel == 'A nivel del objetivo general') {
 
-                $countAnalisisObjetivo++;
+                $count_analisis_objetivo++;
             }
 
-            if ($analisisRiesgo->nivel == 'A nivel de productos') {
-                $countAnalisisProducto++;
+            if ($analisis_riesgo->nivel == 'A nivel de productos') {
+                $count_analisis_producto++;
             }
 
-            if ($analisisRiesgo->nivel == 'A nivel de actividades') {
-                $countAnalisisActividad++;
+            if ($analisis_riesgo->nivel == 'A nivel de actividades') {
+                $count_analisis_actividad++;
             }
         }
 
-
-        return $countAnalisisObjetivo > 0 && $countAnalisisProducto > 0 && $countAnalisisActividad > 0 ? true : false;
+        return $count_analisis_objetivo > 0 && $count_analisis_producto > 0 && $count_analisis_actividad > 0 ? true : false;
     }
 
     /**
@@ -386,7 +398,6 @@ trait ProyectoValidationTrait
      */
     public static function anexos(Proyecto $proyecto)
     {
-
         $linea_programatica_id = $proyecto->linea_programatica_id;
 
         $convocatoria_anexos = ConvocatoriaAnexo::where('convocatoria_id', $proyecto->convocatoria_id)
@@ -416,19 +427,25 @@ trait ProyectoValidationTrait
     public static function generalidades(Proyecto $proyecto)
     {
         switch ($proyecto) {
+            case $proyecto->proyectoLinea65()->exists() && $proyecto->proyectoLinea65->bibliografia == '':
+                return false;
+                break;
             case $proyecto->proyectoLinea66()->exists() && $proyecto->proyectoLinea66->bibliografia == '':
-                return false;
-                break;
-            case $proyecto->proyectoLinea70()->exists() && $proyecto->proyectoLinea70->bibliografia == '':
-                return false;
-                break;
-            case $proyecto->proyectoLinea69()->exists() && $proyecto->proyectoLinea69->bibliografia == '':
                 return false;
                 break;
             case $proyecto->proyectoLinea68()->exists() && $proyecto->proyectoLinea68->bibliografia == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea65()->exists() && $proyecto->proyectoLinea65->bibliografia == '':
+            case $proyecto->proyectoLinea69()->exists() && $proyecto->proyectoLinea69->bibliografia == '':
+                return false;
+                break;
+            case $proyecto->proyectoHubLinea69()->exists() && $proyecto->proyectoHubLinea69->bibliografia == '':
+                return false;
+                break;
+             case $proyecto->proyectoLinea70()->exists() && $proyecto->proyectoLinea70->bibliografia == '':
+                return false;
+                break;
+            case $proyecto->proyectoLinea83()->exists() && $proyecto->proyectoLinea83->bibliografia == '':
                 return false;
                 break;
             default:
@@ -448,19 +465,25 @@ trait ProyectoValidationTrait
     public static function metodologia(Proyecto $proyecto)
     {
         switch ($proyecto) {
+            case $proyecto->proyectoLinea65()->exists() && $proyecto->proyectoLinea65->metodologia == '':
+                return false;
+                break;
             case $proyecto->proyectoLinea66()->exists() && $proyecto->proyectoLinea66->metodologia == '':
-                return false;
-                break;
-            case $proyecto->proyectoLinea70()->exists() && $proyecto->proyectoLinea70->metodologia_local == '':
-                return false;
-                break;
-            case $proyecto->proyectoLinea69()->exists() && $proyecto->proyectoLinea69->metodologia == '':
                 return false;
                 break;
             case $proyecto->proyectoLinea68()->exists() && $proyecto->proyectoLinea68->metodologia == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea65()->exists() && $proyecto->proyectoLinea65->metodologia == '':
+            case $proyecto->proyectoLinea69()->exists() && $proyecto->proyectoLinea69->metodologia == '':
+                return false;
+                break;
+            case $proyecto->proyectoHubLinea69()->exists() && $proyecto->proyectoHubLinea69->metodologia == '':
+                return false;
+                break;
+            case $proyecto->proyectoLinea70()->exists() && $proyecto->proyectoLinea70->metodologia_local == '':
+                return false;
+                break;
+            case $proyecto->proyectoLinea83()->exists() && $proyecto->proyectoLinea83->metodologia_local == '':
                 return false;
                 break;
             default:
@@ -480,21 +503,28 @@ trait ProyectoValidationTrait
     public static function propuestaSostenibilidad(Proyecto $proyecto)
     {
         switch ($proyecto) {
+            case $proyecto->proyectoLinea65()->exists() && $proyecto->proyectoLinea65->propuesta_sostenibilidad == '':
+                return false;
+                break;
             case $proyecto->proyectoLinea66()->exists() && $proyecto->proyectoLinea66->propuesta_sostenibilidad == '':
-                return false;
-                break;
-            case $proyecto->proyectoLinea70()->exists() && $proyecto->proyectoLinea70->propuesta_sostenibilidad_social == '':
-                return false;
-                break;
-            case $proyecto->proyectoLinea69()->exists() && $proyecto->proyectoLinea69->propuesta_sostenibilidad == '':
                 return false;
                 break;
             case $proyecto->proyectoLinea68()->exists() && $proyecto->proyectoLinea68->propuesta_sostenibilidad == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea65()->exists() && $proyecto->proyectoLinea65->propuesta_sostenibilidad == '':
+            case $proyecto->proyectoLinea69()->exists() && $proyecto->proyectoLinea69->propuesta_sostenibilidad == '':
                 return false;
                 break;
+            case $proyecto->proyectoHubLinea69()->exists() && $proyecto->proyectoHubLinea69->propuesta_sostenibilidad == '':
+                return false;
+                break;
+            case $proyecto->proyectoLinea70()->exists() && $proyecto->proyectoLinea70->propuesta_sostenibilidad_social == '':
+                return false;
+                break;
+            case $proyecto->proyectoLinea83()->exists() && $proyecto->proyectoLinea83->propuesta_sostenibilidad_social == '':
+                return false;
+                break;
+
             default:
                 break;
         }
@@ -523,25 +553,25 @@ trait ProyectoValidationTrait
      */
     public static function soportesEstudioMercado(Proyecto $proyecto)
     {
-        $rubrosRequierenEstudioMercado = true;
+        $rubros_requieren_estudio_mercado = true;
 
-        $countSoportes = 0;
+        $count_soportes = 0;
         foreach ($proyecto->proyectoPresupuesto as $presupuesto) {
             $data = $presupuesto->convocatoriaProyectoRubrosPresupuestales()->select('convocatoria_presupuesto.id', 'convocatoria_presupuesto.requiere_estudio_mercado')->get()->pluck(['requiere_estudio_mercado']);
 
             foreach ($data as $item) {
                 if (!$item) {
-                    $rubrosRequierenEstudioMercado = false;
+                    $rubros_requieren_estudio_mercado = false;
                     break;
                 }
             }
 
-            if ($rubrosRequierenEstudioMercado && $presupuesto->soportesEstudioMercado()->count() < 2) {
-                $countSoportes++;
+            if ($rubros_requieren_estudio_mercado && $presupuesto->soportesEstudioMercado()->count() < 2) {
+                $count_soportes++;
             }
         }
 
-        return $countSoportes > 0 ? false : true;
+        return $count_soportes > 0 ? false : true;
     }
 
     /**
@@ -553,24 +583,24 @@ trait ProyectoValidationTrait
      */
     public static function estudiosMercadoArchivo(Proyecto $proyecto)
     {
-        $rubrosRequierenEstudioMercado = true;
-        $countSoportes = 0;
+        $rubros_requieren_estudio_mercado = true;
+        $count_soportes = 0;
         foreach ($proyecto->proyectoPresupuesto as $presupuesto) {
             $data = $presupuesto->convocatoriaProyectoRubrosPresupuestales()->select('convocatoria_presupuesto.id', 'convocatoria_presupuesto.requiere_estudio_mercado')->get()->pluck(['requiere_estudio_mercado']);
 
             foreach ($data as $item) {
                 if (!$item) {
-                    $rubrosRequierenEstudioMercado = false;
+                    $rubros_requieren_estudio_mercado = false;
                     break;
                 }
             }
 
-            if (!$rubrosRequierenEstudioMercado && $presupuesto->formato_estudio_mercado == null) {
-                $countSoportes++;
+            if (!$rubros_requieren_estudio_mercado && $presupuesto->formato_estudio_mercado == null) {
+                $count_soportes++;
             }
         }
 
-        return $countSoportes > 0 ? false : true;
+        return $count_soportes > 0 ? false : true;
     }
 
     /**
@@ -584,15 +614,15 @@ trait ProyectoValidationTrait
     {
         return true;
 
-        $countEdt = 0;
+        $count_edt = 0;
         if ($proyecto->proyectoLinea70()->exists()) {
             foreach ($proyecto->proyectoPresupuesto as $presupuesto) {
                 if ($presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal->codigo == 20202008005096 && !$presupuesto->edt()->exists()) {
-                    $countEdt++;
+                    $count_edt++;
                 }
             }
         }
 
-        return $countEdt > 0 ? false : true;
+        return $count_edt > 0 ? false : true;
     }
 }

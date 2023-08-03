@@ -49,47 +49,43 @@ const ResumenFinal = ({
                             {!problemaCentral && <li>Problema central</li>}
                             {!efectosDirectos && (
                                 <li>
-                                    Efectos directos (Asegúrese que no hayan casillas en el árbol de problemas con el mensaje <strong>Sin información registrada aún.</strong>)
+                                    Efectos directos (Asegúrese que no hayan casillas en el árbol de problemas con el mensaje <strong>'Por favor diligencie este efecto directo'.</strong>
                                 </li>
                             )}
                             {!efectosIndirectos && (
                                 <li>
-                                    Efectos indirectos (Asegúrese que no hayan casillas en el árbol de problemas con el mensaje <strong>Sin información registrada aún.</strong>)
+                                    Efectos indirectos (Asegúrese que no hayan casillas en el árbol de problemas con el mensaje <strong>'Por favor diligencie este efecto indirecto'.</strong>
                                 </li>
                             )}
                             {!causasDirectas && (
                                 <li>
-                                    Causas directas (Asegúrese que no hayan casillas en el árbol de problemas con el mensaje <strong>Sin información registrada aún.</strong>)
+                                    Causas directas (Asegúrese que no hayan casillas en el árbol de problemas con el mensaje <strong>'Por favor diligencie esta causa directa'.</strong>
                                 </li>
                             )}
                             {!causasIndirectas && (
                                 <li>
-                                    Causas indirectas (Asegúrese que no hayan casillas en el árbol de problemas con el mensaje <strong>Sin información registrada aún.</strong>)
+                                    Causas indirectas (Asegúrese que no hayan casillas en el árbol de problemas con el mensaje <strong>'Por favor diligencie esta causa indirecta'.</strong>
                                 </li>
                             )}
-                            {!objetivoGeneral && (
-                                <li>
-                                    Objetivo general (Asegúrese que no hayan casillas en el árbol de objetivos con el mensaje <strong>Sin información registrada aún.</strong>)
-                                </li>
-                            )}
+                            {!objetivoGeneral && <li>Objetivo general</li>}
                             {!resultados && (
                                 <li>
-                                    Resultados (Asegúrese que no hayan casillas en el árbol de objetivos con el mensaje <strong>Sin información registrada aún.</strong>)
+                                    Resultados (Asegúrese que no hayan casillas en el árbol de objetivos con el mensaje <strong>'Por favor diligencie este resultado'.</strong>
                                 </li>
                             )}
                             {!objetivosEspecificos && (
                                 <li>
-                                    Objetivos específicos (Asegúrese que no hayan casillas en el árbol de objetivos con el mensaje <strong>Sin información registrada aún.</strong>)
+                                    Objetivos específicos (Asegúrese que no hayan casillas en el árbol de objetivos con el mensaje <strong>'Por favor diligencie este objetivo específico'.</strong>
                                 </li>
                             )}
                             {!actividades && (
                                 <li>
-                                    Actividades (Asegúrese que no hayan casillas en el árbol de objetivos con el mensaje <strong>Sin información registrada aún.</strong>)
+                                    Actividades (Asegúrese que no hayan casillas en el árbol de objetivos con el mensaje <strong>'Por favor diligencie esta actividad'.</strong>
                                 </li>
                             )}
                             {!impactos && (
                                 <li>
-                                    Impactos (Asegúrese que no hayan casillas en el árbol de objetivos con el mensaje <strong>Sin información registrada aún.</strong>)
+                                    Impactos (Asegúrese que no hayan casillas en el árbol de objetivos con el mensaje <strong>'Por favor diligencie este impacto'.</strong>
                                 </li>
                             )}
                             {!metodologia && <li>Metodología (Metodología y actividades)</li>}
