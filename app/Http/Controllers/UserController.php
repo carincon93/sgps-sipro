@@ -282,6 +282,13 @@ class UserController extends Controller
         return back()->with('success', 'Se han asignado los roles correctamente.');
     }
 
+    public function habilitarUsuario(Request $request)
+    {
+        $user = User::find($request->user_id)->update(['habilitado' => $request->habilitado]);
+
+        return back()->with('success', 'Se han guardado los cambios correctamente.');
+    }
+
     /**
      * markAsReadNotification
      *

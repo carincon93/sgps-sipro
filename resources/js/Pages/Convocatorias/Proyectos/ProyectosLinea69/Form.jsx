@@ -120,6 +120,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                         maxDate={convocatoria.year + '-12-31'}
                         name="fecha_inicio"
                         value={form.data.fecha_inicio}
+                        error={form.errors.fecha_inicio}
                         className="p-4 w-full"
                         onChange={(e) => form.setData('fecha_inicio', e.target.value)}
                         required
@@ -136,6 +137,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                         maxDate={convocatoria.year + '-12-31'}
                         name="fecha_finalizacion"
                         value={form.data.fecha_finalizacion}
+                        error={form.errors.fecha_finalizacion}
                         className="p-4 w-full"
                         onChange={(e) => form.setData('fecha_finalizacion', e.target.value)}
                         required
@@ -155,6 +157,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                             <Autocomplete
                                 id="rol_sennova"
                                 selectedValue={form.data.rol_sennova}
+                                error={form.errors.rol_sennova}
                                 onChange={(event, newValue) => form.setData('rol_sennova', newValue.value)}
                                 options={roles_sennova}
                                 placeholder="Seleccione un rol SENNOVA"
@@ -177,6 +180,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                             max: monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion),
                                         }}
                                         value={form.data.cantidad_meses}
+                                        error={form.errors.cantidad_meses}
                                         onChange={(e) => form.setData('cantidad_meses', e.target.value)}
                                         placeholder="Número de meses de vinculación"
                                         required
@@ -203,6 +207,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                     min: 1,
                                 }}
                                 value={form.data.cantidad_horas}
+                                error={form.errors.cantidad_horas}
                                 onChange={(e) => form.setData('cantidad_horas', e.target.value)}
                                 placeholder="Número de horas semanales dedicadas"
                                 required

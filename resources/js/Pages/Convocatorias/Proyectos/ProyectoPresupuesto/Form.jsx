@@ -313,6 +313,7 @@ const Form = ({
                                                 type="date"
                                                 className="mt-1 p-4"
                                                 value={form.data.fecha_inicio}
+                                                error={form.errors.fecha_inicio}
                                                 onChange={(e) => form.setData('fecha_inicio', e.target.value)}
                                                 required
                                             />
@@ -325,6 +326,7 @@ const Form = ({
                                                 type="date"
                                                 className="mt-1 p-4"
                                                 value={form.data.fecha_finalizacion}
+                                                error={form.errors.fecha_finalizacion}
                                                 onChange={(e) => form.setData('fecha_finalizacion', e.target.value)}
                                             />
                                         </div>

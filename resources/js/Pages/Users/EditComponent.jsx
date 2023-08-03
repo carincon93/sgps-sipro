@@ -76,6 +76,28 @@ const EditComponent = ({
                             </strong>
                         </AlertMui>
 
+                        <AlertMui className="mt-10">
+                            ¿Desea habilitar este usuario?
+                            <Checkbox
+                                name="default_password"
+                                className="mt-3"
+                                checked={usuario?.habilitado}
+                                onChange={(e) =>
+                                    router.put(
+                                        route('users.habilitar-usuario'),
+                                        {
+                                            user_id: usuario?.id,
+                                            habilitado: e.target.checked,
+                                        },
+                                        {
+                                            preserveScroll: true,
+                                        },
+                                    )
+                                }
+                                label="Habilitado(a)"
+                            />
+                        </AlertMui>
+
                         <AlertMui severity="error" className="mt-10">
                             Una vez haya finalizado de diligenciar active la siguiente casilla:
                             <Checkbox

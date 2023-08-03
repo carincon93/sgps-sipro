@@ -1,24 +1,11 @@
 import MiniDrawer from '@/Components/Drawer'
-import SnackbarMui from '@/Components/Snackbar'
+import FlashMessage from '@/Components/FlashMessage'
 
 import { usePage } from '@inertiajs/react'
 import { Grid } from '@mui/material'
-import { useEffect } from 'react'
-import { useState } from 'react'
 
 export default function Authenticated({ header, children }) {
-    const { auth, flash } = usePage().props
-    const [severity, setSeverity] = useState('')
-
-    useEffect(() => {
-        if (flash.success) {
-            setSeverity('success')
-        } else if (flash.error) {
-            setSeverity('error')
-        } else {
-            setSeverity('warn')
-        }
-    }, [flash])
+    const { auth } = usePage().props
 
     return (
         <>
@@ -27,7 +14,7 @@ export default function Authenticated({ header, children }) {
                     {children}
                 </Grid>
             </MiniDrawer>
-            {flash.success || flash.error || flash.warn ? <SnackbarMui pageStatus={true} severity={severity} message={flash.success || flash.error || flash.warn} /> : null}
+            <FlashMessage />
         </>
     )
 }

@@ -44,7 +44,6 @@ const Textarea = ({ error, id, value = '', label = '', disabled, inputBackground
                 error={error}
                 label={label}
                 multiline
-                color="secondary"
                 rows={4}
                 className={`w-full p-1 block ${className || ''}`}
                 classes={{

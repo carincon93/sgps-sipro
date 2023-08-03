@@ -198,3 +198,11 @@ tags.tagify {
     visibility: hidden;
     display: none;
 }
+
+.error .MuiOutlinedInput-notchedOutline {
+    border-color: #e76262;
+}
+
+.MuiSnackbar-root {
+    right: 24px !important;
+}

@@ -132,6 +132,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                         maxDate={convocatoria.year + '-12-31'}
                         name="fecha_inicio"
                         value={form.data.fecha_inicio}
+                        error={form.errors.fecha_inicio}
                         className="p-4 w-full"
                         onChange={(e) => form.setData('fecha_inicio', e.target.value)}
                         required
@@ -148,6 +149,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                         maxDate={convocatoria.year + '-12-31'}
                         name="fecha_finalizacion"
                         value={form.data.fecha_finalizacion}
+                        error={form.errors.fecha_finalizacion}
                         className="p-4 w-full"
                         onChange={(e) => form.setData('fecha_finalizacion', e.target.value)}
                         required

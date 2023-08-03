@@ -73,7 +73,6 @@ const Form = ({
         meses_experiencia_metodos_ensayo: usuario?.meses_experiencia_metodos_ensayo,
         meses_experiencia_metodos_calibracion: usuario?.meses_experiencia_metodos_calibracion,
 
-        habilitado: usuario?.habilitado,
         default_password: false,
         autorizacion_datos: usuario ? usuario?.autorizacion_datos : false,
         informacion_completa: usuario?.informacion_completa ? 1 : 2,
