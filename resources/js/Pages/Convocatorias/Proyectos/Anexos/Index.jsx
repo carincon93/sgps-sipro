@@ -17,7 +17,7 @@ import { Grid, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
 
-const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, anexos, ...props }) => {
+const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, convocatoria_anexos, ...props }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
     const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
@@ -28,7 +28,7 @@ const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, anex
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
-            <Grid item md={4}>
+            {/* <Grid item md={4}>
                 Evaluación
             </Grid>
             <Grid item md={8}>
@@ -54,22 +54,9 @@ const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, anex
                         />
                     </>
                 )}
-            </Grid>
+            </Grid> */}
 
-            <AlertMui className="mt-20">
-                <h1 className="mb-10 font-black">Importante:</h1>
-                <ul>
-                    <li>
-                        <strong>ANEXO 1A. Acta_Reunión Regional</strong> NO se adjunta en plataforma. Se envía junto al Anexo 1B a la Coordinación Sennova (Obligatorio)
-                    </li>
-
-                    <li>
-                        <strong>ANEXO 1C. Carta C.I Director Regional</strong> NO se adjunta en plataforma. Se envía a la Coordinación Sennova, uno por regional, junto con el Anexo 1A (Obligatorio)
-                    </li>
-                </ul>
-            </AlertMui>
-
-            {is_super_admin || proyecto.mostrar_recomendaciones ? (
+            {/* {is_super_admin || proyecto.mostrar_recomendaciones ? (
                 <>
                     {proyecto.evaluaciones.map((evaluacion, i) =>
                         is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
@@ -140,26 +127,39 @@ const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, anex
                     )}
                     {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
                 </>
-            ) : null}
+            ) : null} */}
+
+            <AlertMui className="mt-20">
+                <h1 className="mb-10 font-black">Importante:</h1>
+                <ul>
+                    <li>
+                        <strong>ANEXO 1A. Acta_Reunión Regional</strong> NO se adjunta en plataforma. Se envía junto al Anexo 1B a la Coordinación Sennova (Obligatorio)
+                    </li>
+
+                    <li>
+                        <strong>ANEXO 1C. Carta C.I Director Regional</strong> NO se adjunta en plataforma. Se envía a la Coordinación Sennova, uno por regional, junto con el Anexo 1A (Obligatorio)
+                    </li>
+                </ul>
+            </AlertMui>
 
             <Grid item md={12}>
                 <TableMui className="mt-20" rows={['Nombre', 'Archivo']} sxCellThead={{ width: '320px' }}>
-                    {anexos.data.map((anexo, i) => (
+                    {convocatoria_anexos.map((convocatoria_anexo, i) => (
                         <TableRow key={i}>
                             <TableCell>
                                 <p className="px-6 py-4 focus:text-app-500">
-                                    {anexo.nombre}
+                                    {convocatoria_anexo.anexo.nombre}
                                     <br />
-                                    {anexo.obligatorio && <span className="text-red-500">* El anexo es obligatorio</span>}
-                                    {anexo.archivo && (
-                                        <a target="_blank" className="text-app-400 underline mt-4 mb-4 flex" download href={anexo.archivo}>
+                                    {convocatoria_anexo.obligatorio && <span className="text-red-500">* El convocatoria_anexo es obligatorio</span>}
+                                    {convocatoria_anexo.archivo && (
+                                        <a target="_blank" className="text-app-400 underline mt-4 mb-4 flex" download href={convocatoria_anexo.archivo}>
                                             <DownloadIcon /> Descargar formato para diligenciar dando clic en este enlace.
                                         </a>
                                     )}
                                 </p>
                             </TableCell>
                             <TableCell>
-                                <Form convocatoria={convocatoria} proyecto={proyecto} anexo={anexo} proyecto_anexo={proyecto_anexo} />
+                                <Form convocatoria={convocatoria} proyecto={proyecto} anexo={convocatoria_anexo.anexo} proyecto_anexo={proyecto_anexo} />
                             </TableCell>
                         </TableRow>
                     ))}

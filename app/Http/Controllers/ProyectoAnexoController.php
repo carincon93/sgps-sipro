@@ -8,6 +8,7 @@ use App\Http\Requests\ProyectoAnexoRequest;
 use App\Models\Convocatoria;
 use App\Models\Proyecto;
 use App\Models\Anexo;
+use App\Models\ConvocatoriaAnexo;
 use App\Models\Evaluacion\Evaluacion;
 use App\Models\ProyectoAnexo;
 use Illuminate\Http\Request;
@@ -34,17 +35,19 @@ class ProyectoAnexoController extends Controller
             $proyecto->tipo_proyecto = $proyecto->proyectoLinea65->tipo_proyecto;
         }
 
+        $linea_programatica_id = $proyecto->linea_programatica_id;
+
         return Inertia::render('Convocatorias/Proyectos/Anexos/Index', [
-            'convocatoria'      =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
-            'proyecto'          =>  $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
-            'evaluacion'        =>  Evaluacion::find(request()->evaluacion_id),
-            'proyecto_anexo'    =>  $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('anexos', 'proyecto_anexo.anexo_id', 'anexos.id')->get(),
-            'anexos'            =>  DB::table('anexos')->select('anexos.id', 'anexos.nombre', 'anexos.archivo', 'convocatoria_anexos.obligatorio', 'convocatoria_anexos.habilitado')
-                                        ->join('convocatoria_anexos', 'anexos.id', 'convocatoria_anexos.anexo_id')
-                                        ->join('convocatoria_anexo_lineas_programaticas', 'convocatoria_anexos.id', 'convocatoria_anexo_lineas_programaticas.convocatoria_anexo_id')
-                                        ->where('convocatoria_anexo_lineas_programaticas.linea_programatica_id', $proyecto->lineaProgramatica->id)
-                                        ->where('convocatoria_anexos.convocatoria_id', $convocatoria->id)
-                                        ->filterAnexo(request()->only('search'))->paginate()->appends(['search' => request()->search])
+            'convocatoria'          =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
+            'proyecto'              =>  $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
+            'evaluacion'            =>  Evaluacion::find(request()->evaluacion_id),
+            'proyecto_anexo'        =>  $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('anexos', 'proyecto_anexo.anexo_id', 'anexos.id')->get(),
+            'convocatoria_anexos'   =>  ConvocatoriaAnexo::where('convocatoria_id', $convocatoria->id)
+                                        ->with('anexo', 'lineasProgramaticas')
+                                        ->whereHas('lineasProgramaticas', function ($query) use ($linea_programatica_id) {
+                                            $query->where('lineas_programaticas.id', $linea_programatica_id);
+                                        })
+                                        ->get()
         ]);
     }
 
@@ -57,11 +60,7 @@ class ProyectoAnexoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        return Inertia::render('Convocatorias/Proyectos/Anexos/Create', [
-            'convocatoria'  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'tipo_convocatoria'),
-            'proyecto'      => $proyecto->only('id', 'modificable', 'mostrar_recomendaciones'),
-            'anexos'        => SelectHelper::anexos()->where('linea_programatica_id', $proyecto->lineaProgramatica->id)->where('convocatoria_id', $convocatoria->id)->values()->all()
-        ]);
+        //
     }
 
     /**
