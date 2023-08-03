@@ -1,6 +1,8 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import MenuMui from '@/Components/Menu'
+import PaginationMui from '@/Components/Pagination'
+import SearchBar from '@/Components/SearchBar'
 import TableMui from '@/Components/Table'
 
 import MoreVertIcon from '@mui/icons-material/MoreVert'
@@ -10,8 +12,6 @@ import { useState } from 'react'
 import { Link, router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
-import PaginationMui from '@/Components/Pagination'
-import SearchBar from '@/Components/SearchBar'
 
 const Index = ({ auth, usuarios, allowed_to_create }) => {
     const auth_user = auth.user
@@ -20,7 +20,7 @@ const Index = ({ auth, usuarios, allowed_to_create }) => {
     const [user_to_destroy, setUserToDestroy] = useState(null)
 
     return (
-        <AuthenticatedLayout user={auth_user} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Usuarios</h2>}>
+        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Usuarios</h2>}>
             <Grid item md={12}>
                 <div>
                     {allowed_to_create && (

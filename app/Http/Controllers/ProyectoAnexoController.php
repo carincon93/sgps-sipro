@@ -11,6 +11,7 @@ use App\Models\Anexo;
 use App\Models\Evaluacion\Evaluacion;
 use App\Models\ProyectoAnexo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class ProyectoAnexoController extends Controller
@@ -28,25 +29,22 @@ class ProyectoAnexoController extends Controller
         $proyecto->load('evaluaciones.evaluacionProyectoLinea70');
 
         $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
-        $proyecto->codigo_linea_programatica == 68 ? $proyecto->infraestructura_adecuada = $proyecto->proyectoLinea68->infraestructura_adecuada : $proyecto->infraestructura_adecuada = null;
-        $proyecto->codigo_linea_programatica == 68 ? $proyecto->especificaciones_area = $proyecto->proyectoLinea68->especificaciones_area : $proyecto->especificaciones_area = null;
-        $proyecto->codigo_linea_programatica == 68 ? $proyecto->video = $proyecto->proyectoLinea68->video : $proyecto->video = null;
 
         if ($proyecto->codigo_linea_programatica == 65) {
             $proyecto->tipo_proyecto = $proyecto->proyectoLinea65->tipo_proyecto;
         }
 
         return Inertia::render('Convocatorias/Proyectos/Anexos/Index', [
-            'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
-            'proyecto'          => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'video', 'infraestructura_adecuada', 'especificaciones_area', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
-            'evaluacion'        => Evaluacion::find(request()->evaluacion_id),
-            'proyecto_anexo'    => $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('anexos', 'proyecto_anexo.anexo_id', 'anexos.id')->get(),
-            'anexos'            => Anexo::select('anexos.id', 'anexos.nombre', 'anexos.archivo', 'anexos.obligatorio', 'anexos.habilitado')
-                                    ->join('anexo_lineas_programaticas', 'anexos.id', 'anexo_lineas_programaticas.anexo_id')
-                                    ->join('convocatoria_anexos', 'anexos.id', 'convocatoria_anexos.anexo_id')
-                                    ->where('anexo_lineas_programaticas.linea_programatica_id', $proyecto->lineaProgramatica->id)
-                                    ->where('convocatoria_anexos.convocatoria_id', $convocatoria->id)
-                                    ->filterAnexo(request()->only('search'))->paginate()->appends(['search' => request()->search])
+            'convocatoria'      =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
+            'proyecto'          =>  $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
+            'evaluacion'        =>  Evaluacion::find(request()->evaluacion_id),
+            'proyecto_anexo'    =>  $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('anexos', 'proyecto_anexo.anexo_id', 'anexos.id')->get(),
+            'anexos'            =>  DB::table('anexos')->select('anexos.id', 'anexos.nombre', 'anexos.archivo', 'convocatoria_anexos.obligatorio', 'convocatoria_anexos.habilitado')
+                                        ->join('convocatoria_anexos', 'anexos.id', 'convocatoria_anexos.anexo_id')
+                                        ->join('convocatoria_anexo_lineas_programaticas', 'convocatoria_anexos.id', 'convocatoria_anexo_lineas_programaticas.convocatoria_anexo_id')
+                                        ->where('convocatoria_anexo_lineas_programaticas.linea_programatica_id', $proyecto->lineaProgramatica->id)
+                                        ->where('convocatoria_anexos.convocatoria_id', $convocatoria->id)
+                                        ->filterAnexo(request()->only('search'))->paginate()->appends(['search' => request()->search])
         ]);
     }
 

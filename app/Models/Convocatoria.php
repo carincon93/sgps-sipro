@@ -39,7 +39,6 @@ class Convocatoria extends Model
         'mostrar_recomendaciones',
         'hora_finalizacion_fase',
         'tipo_convocatoria',
-        'lineas_programaticas_activas',
         'year'
     ];
 
@@ -102,13 +101,23 @@ class Convocatoria extends Model
     }
 
     /**
-     * Relationship with Anexo
+     * Relationship with ConvocatoriaAnexo
      *
      * @return object
      */
-    public function anexos()
+    public function convocatoriaAnexos()
     {
-        return $this->belongsToMany(Anexo::class, 'convocatoria_anexos', 'convocatoria_id', 'anexo_id');
+        return $this->hasMany(ConvocatoriaAnexo::class);
+    }
+
+    /**
+     * Relationship with LineaProgramatica
+     *
+     * @return object
+     */
+    public function lineasProgramaticas()
+    {
+        return $this->belongsToMany(LineaProgramatica::class, 'convocatoria_lineas_programaticas', 'convocatoria_id', 'linea_programatica_id');
     }
 
     /**

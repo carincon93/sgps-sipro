@@ -7,11 +7,11 @@ use App\Http\Controllers\API\ApiController;
 use App\Http\Controllers\ActividadController;
 use App\Http\Controllers\AmbienteModernizacionController;
 use App\Http\Controllers\AnalisisRiesgoController;
-use App\Http\Controllers\AnexoController;
 use App\Http\Controllers\ArbolProyectoController;
 use App\Http\Controllers\ArticulacionSennovaController;
 use App\Http\Controllers\CentroFormacionController;
 use App\Http\Controllers\ConvocatoriaController;
+use App\Http\Controllers\ConvocatoriaAnexoController;
 use App\Http\Controllers\ConvocatoriaPresupuestoController;
 use App\Http\Controllers\ConvocatoriaRolSennovaController;
 use App\Http\Controllers\DisenoCurricularController;
@@ -130,9 +130,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Anexos
      *
      */
-    Route::get('anexos/{anexo}/download-file-sharepoint/{tipo_archivo}', [AnexoController::class, 'downloadFileSharepoint'])->name('anexos.download-file-sharepoint');
-    Route::get('anexos/{anexo}/download/{formato}', [AnexoController::class, 'downloadServerFile'])->name('anexos.download');
-    Route::resource('anexos', AnexoController::class)->parameters(['anexos' => 'anexo'])->except(['show']);
+    Route::get('anexos/{anexo}/download-file-sharepoint/{tipo_archivo}', [ConvocatoriaAnexoController::class, 'downloadFileSharepoint'])->name('anexos.download-file-sharepoint');
+    Route::get('anexos/{anexo}/download/{formato}', [ConvocatoriaAnexoController::class, 'downloadServerFile'])->name('anexos.download');
+    Route::resource('convocatorias.convocatoria-anexos', ConvocatoriaAnexoController::class)->parameters(['convocatorias' => 'convocatoria', 'convocatoria-anexos' => 'convocatoria-anexo'])->except(['show']);
 
     /**
      * Líneas programáticas

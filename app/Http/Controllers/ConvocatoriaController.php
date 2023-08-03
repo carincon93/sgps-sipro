@@ -60,6 +60,8 @@ class ConvocatoriaController extends Controller
 
         $convocatoria = Convocatoria::create($request->validated());
 
+        $convocatoria->sync($request->lineas_programaticas);
+
         DB::select('SELECT public."crear_convocatoria_presupuesto"(' . $request->convocatoria_id . ',' . $convocatoria->id . ')');
         DB::select('SELECT public."crear_convocatoria_rol_sennova"(' . $request->convocatoria_id . ',' . $convocatoria->id . ')');
 
@@ -87,6 +89,8 @@ class ConvocatoriaController extends Controller
     {
         $this->authorize('update', [Convocatoria::class, $convocatoria]);
 
+        $convocatoria->lineasProgramaticas;
+
         return Inertia::render('Convocatorias/Edit', [
             'convocatoria'         => $convocatoria,
             'lineas_programaticas' => LineaProgramatica::selectRaw("id as value, CONCAT(nombre, ' - Código: ', codigo) as label")->orderBy('nombre', 'ASC')->get(),
@@ -106,6 +110,8 @@ class ConvocatoriaController extends Controller
         $this->authorize('update', [Convocatoria::class, $convocatoria]);
 
         $convocatoria->update($request->validated());
+
+        $convocatoria->lineasProgramaticas()->sync($request->lineas_programaticas);
 
         if ($request->mostrar_recomendaciones == true) {
             $convocatoria->proyectos()->update(['mostrar_recomendaciones' => true]);
@@ -142,9 +148,10 @@ class ConvocatoriaController extends Controller
      */
     public function lineasProgramaticas(Convocatoria $convocatoria)
     {
+        $convocatoria->lineasProgramaticas;
+
         return Inertia::render('Convocatorias/LineasProgramaticas', [
             'convocatoria'         => $convocatoria,
-            'lineas_programaticas' => LineaProgramatica::select('id', 'nombre', 'codigo')->get()
         ]);
     }
 

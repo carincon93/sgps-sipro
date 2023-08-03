@@ -385,7 +385,8 @@ trait ProyectoValidationTrait
      */
     public static function anexos(Proyecto $proyecto)
     {
-        $anexos = Anexo::select('anexos.*')->join('anexo_lineas_programaticas', 'anexos.id', 'anexo_lineas_programaticas.anexo_id')->where('anexos.obligatorio', true)->where('anexo_lineas_programaticas.linea_programatica_id', $proyecto->lineaProgramatica->id)->get();
+        $anexos = Anexo::select('anexos.*')->join('convocatoria_anexo_lineas_programaticas', 'anexos.id', 'convocatoria_anexo_lineas_programaticas.anexo_id')
+            ->where('anexos.obligatorio', true)->where('convocatoria_anexo_lineas_programaticas.linea_programatica_id', $proyecto->lineaProgramatica->id)->get();
 
         $count = 0;
         foreach ($anexos as $anexo) {

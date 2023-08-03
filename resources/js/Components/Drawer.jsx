@@ -17,7 +17,7 @@ import ApplicationLogo from './ApplicationLogo'
 
 import { styled } from '@mui/material/styles'
 
-import { route } from '@/Utils'
+import { checkRole, route } from '@/Utils'
 import { useState } from 'react'
 import { Link, router } from '@inertiajs/react'
 
@@ -167,6 +167,25 @@ export default function MiniDrawer({ user, children }) {
                                 }}></ListItemIcon>
                             <ListItemText primary="Convocatorias" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
+
+                        {checkRole(user, [1, 4, 21, 18, 19, 5, 17]) && (
+                            <ListItemButton
+                                sx={{
+                                    borderRadius: '20px',
+                                    minHeight: 48,
+                                    justifyContent: open ? 'initial' : 'center',
+                                    px: 2.5,
+                                }}
+                                onClick={() => router.visit(route('users.index'))}>
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: open ? 3 : 'auto',
+                                        justifyContent: 'center',
+                                    }}></ListItemIcon>
+                                <ListItemText primary="Usuarios" sx={{ opacity: open ? 1 : 0 }} />
+                            </ListItemButton>
+                        )}
                     </ListItem>
                 </List>
             </Drawer>

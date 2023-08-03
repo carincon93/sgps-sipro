@@ -98,13 +98,23 @@ class LineaProgramatica extends Model
     }
 
     /**
-     * Relationship with Anexo
+     * Relationship with ConvocatoriaAnexo
      *
      * @return object
      */
-    public function anexos()
+    public function convocatoriaAnexos()
     {
-        return $this->belongsToMany(Anexo::class, 'anexos_linea_programatica', 'linea_programatica_id', 'anexo_id');
+        return $this->belongsToMany(ConvocatoriaAnexo::class, 'convocatoria_anexos_linea_programatica', 'linea_programatica_id', 'convocatoria_anexo_id');
+    }
+
+    /**
+     * Relationship with Convocatoria
+     *
+     * @return object
+     */
+    public function convocatorias()
+    {
+        return $this->belongsToMany(Convocatoria::class, 'convocatoria_lineas_programaticas', 'linea_programatica_id', 'convocatoria_id');
     }
 
     /**

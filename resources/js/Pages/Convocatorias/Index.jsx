@@ -53,6 +53,8 @@ export default function Dashboard({ auth, convocatorias }) {
                                             Editar convocatoria
                                         </MenuItem>
 
+                                        <MenuItem onClick={() => router.visit(route('convocatorias.convocatoria-anexos.index', convocatoria.id))}>Anexos</MenuItem>
+
                                         <MenuItem onClick={() => router.visit(route('convocatorias.convocatoria-rol-sennova.index', convocatoria.id))}>Roles SENNOVA</MenuItem>
 
                                         <MenuItem onClick={() => router.visit(route('convocatorias.convocatoria-presupuesto.index', convocatoria.id))}>Rúbrica presupuestal SENNOVA</MenuItem>

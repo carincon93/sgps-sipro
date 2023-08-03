@@ -165,10 +165,10 @@ class SelectHelper
      */
     public static function anexos()
     {
-        return Anexo::select('anexos.id as value', 'anexos.nombre as label', 'anexo_lineas_programaticas.linea_programatica_id', 'convocatoria_anexos.convocatoria_id')
-            ->join('anexo_lineas_programaticas', 'anexos.id', 'anexo_lineas_programaticas.anexo_id')
-            ->join('convocatoria_anexos', 'anexos.id', 'convocatoria_anexos.anexo_id')
-            ->get();
+        // return Anexo::select('anexos.id as value', 'anexos.nombre as label', 'anexo_lineas_programaticas.linea_programatica_id', 'convocatoria_anexos.convocatoria_id')
+        //     ->join('anexo_lineas_programaticas', 'anexos.id', 'anexo_lineas_programaticas.anexo_id')
+        //     ->join('convocatoria_anexos', 'anexos.id', 'convocatoria_anexos.anexo_id')
+        //     ->get();
     }
 
     /**

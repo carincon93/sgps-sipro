@@ -10,12 +10,6 @@ Tareas
 
 1. Revisar los anexos a habilitar
 
-ALTER TABLE IF EXISTS public.servicios_tecnologicos
-    RENAME zona_influencia TO otras_zonas_influencia;
-
-ALTER TABLE IF EXISTS public.servicios_tecnologicos
-    ADD COLUMN municipios_influencia json;
-
 69
 
 1. Subir el Archivo del Plan Tecnológico del Centro
@@ -25,3 +19,17 @@ ALTER TABLE IF EXISTS public.servicios_tecnologicos
 " "Anexo 9 – Portafolio de servicios prestados actualizado
 
 " "Anexo 2. Ficha técnica para maquinaria y equipos "
+
+
+ALTER TABLE IF EXISTS public.convocatorias DROP COLUMN IF EXISTS lineas_programaticas_activas;
+ALTER TABLE IF EXISTS public.anexos DROP COLUMN IF EXISTS obligatorio;
+
+ALTER TABLE IF EXISTS public.anexos DROP COLUMN IF EXISTS habilitado;
+
+ALTER TABLE IF EXISTS public.convocatoria_anexos
+    ADD COLUMN created_at timestamp without time zone;
+
+ALTER TABLE IF EXISTS public.convocatoria_anexos
+    ADD COLUMN updated_at timestamp without time zone;
+
+

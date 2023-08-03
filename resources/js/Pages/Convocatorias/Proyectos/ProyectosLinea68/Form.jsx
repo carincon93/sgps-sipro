@@ -484,7 +484,7 @@ const Form = ({
                         <Grid item md={6}>
                             <TextInput label="Enlace del video" type="url" value={form.data.video} error={form.errors.video} onChange={(e) => form.setData('video', e.target.value)} required />
                             <ToolTipMui
-                                className="py-4 hover:cursor-pointer text-blue-500"
+                                className="py-4 hover:cursor-pointer text-cyan-600"
                                 title={
                                     <>
                                         <strong>Características técnico del video del área técnica:</strong>

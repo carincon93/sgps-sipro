@@ -17,7 +17,7 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, lineas
         esta_activa: convocatoria?.esta_activa,
         fase: convocatoria?.fase,
         year: convocatoria?.year,
-        lineas_programaticas_activas: convocatoria?.lineas_programaticas_activas,
+        lineas_programaticas: convocatoria?.lineas_programaticas.map((item) => item.id),
         visible: convocatoria?.visible ?? false,
         fecha_finalizacion_fase: convocatoria?.fecha_finalizacion_fase,
         hora_finalizacion_fase: convocatoria?.hora_finalizacion_fase,
@@ -146,21 +146,21 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, lineas
                     )}
 
                     <Grid item md={6}>
-                        <Label required labelFor="lineas_programaticas_activas" className="mb-4" value="Seleccione las líneas programáticas las cuales quiere activar" />
+                        <Label required labelFor="lineas_programaticas" className="mb-4" value="Seleccione las líneas programáticas las cuales quiere activar" />
                     </Grid>
                     <Grid item md={6}>
                         <SelectMultiple
-                            id="lineas_programaticas_activas"
-                            bdValues={form.data.lineas_programaticas_activas}
+                            id="lineas_programaticas"
+                            bdValues={form.data.lineas_programaticas}
                             options={lineas_programaticas}
                             onChange={(event, newValue) => {
                                 const selected_values = newValue.map((option) => option.value)
                                 form.setData((prevData) => ({
                                     ...prevData,
-                                    lineas_programaticas_activas: selected_values,
+                                    lineas_programaticas: selected_values,
                                 }))
                             }}
-                            error={form.errors.lineas_programaticas_activas}
+                            error={form.errors.lineas_programaticas}
                             label="Seleccione las líneas programáticas"
                             required
                         />

@@ -29,7 +29,7 @@ class ConvocatoriaRequest extends FormRequest
                 'esta_activa'                   => ['required_if:tipo_convocatoria,1', 'nullable', 'boolean'],
                 'year'                          => ['required', 'integer', 'max:' . date('Y') + 2],
                 'fase'                          => ['required', 'integer'],
-                'lineas_programaticas_activas'  => ['nullable', 'json'],
+                'lineas_programaticas.*'        => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_programaticas,id'],
                 'visible'                       => ['nullable', 'boolean'],
                 'fecha_finalizacion_fase'       => ['required', 'date'],
                 'hora_finalizacion_fase'        => ['required'],
@@ -40,7 +40,7 @@ class ConvocatoriaRequest extends FormRequest
                 'esta_activa'                   => ['required_if:tipo_convocatoria,1', 'nullable', 'boolean'],
                 'year'                          => ['required', 'integer', 'max:' . date('Y') + 2],
                 'fase'                          => ['required', 'integer'],
-                'lineas_programaticas_activas'  => ['nullable', 'json'],
+                'lineas_programaticas.*'        => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_programaticas,id'],
                 'visible'                       => ['nullable', 'boolean'],
                 'fecha_finalizacion_fase'       => ['required', 'date'],
                 'hora_finalizacion_fase'        => ['required'],
@@ -59,8 +59,7 @@ class ConvocatoriaRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'fase'                         => 1,
-            'lineas_programaticas_activas' => json_encode($this->lineas_programaticas_activas)
+            'fase' => 1,
         ]);
     }
 }

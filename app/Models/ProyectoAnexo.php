@@ -30,7 +30,7 @@ class ProyectoAnexo extends Model
      * @var array
      */
     protected $fillable = [
-        'anexo_id',
+        'convocatoria_anexo_id',
         'proyecto_id',
         'archivo'
     ];
@@ -64,13 +64,13 @@ class ProyectoAnexo extends Model
     }
 
     /**
-     * Relationship with Anexo
+     * Relationship with ConvocatoriaAnexo
      *
      * @return object
      */
-    public function anexo()
+    public function convocatoriaAnexos()
     {
-        return $this->belongsTo(Anexo::class);
+        return $this->belongsTo(ConvocatoriaAnexo::class);
     }
 
     /**

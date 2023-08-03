@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Anexo extends Model
+class ConvocatoriaAnexo extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,7 @@ class Anexo extends Model
      *
      * @var string
      */
-    protected $table = 'anexos';
+    protected $table = 'convocatoria_anexos';
 
     /**
      * appends
@@ -30,9 +30,10 @@ class Anexo extends Model
      * @var array
      */
     protected $fillable = [
-        'nombre',
-        'descripcion',
-        'archivo',
+        'convocatoria_id',
+        'anexo_id',
+        'habilitado',
+        'obligatorio',
     ];
 
     /**
@@ -53,14 +54,44 @@ class Anexo extends Model
         //
     ];
 
+     /**
+     * Relationship with Anexo
+     *
+     * @return object
+     */
+    public function anexo()
+    {
+        return $this->belongsTo(Anexo::class);
+    }
+
     /**
-     * Relationship with ConvocatoriaAnexo
+     * Relationship with Convocatoria
      *
      * @return object
      */
     public function convocatorias()
     {
-        return $this->hasMany(ConvocatoriaAnexo::class);
+        return $this->belongsTo(Convocatoria::class);
+    }
+
+    /**
+     * Relationship with LineaProgramatica
+     *
+     * @return object
+     */
+    public function lineasProgramaticas()
+    {
+        return $this->belongsToMany(LineaProgramatica::class, 'convocatoria_anexo_lineas_programaticas', 'convocatoria_anexo_id', 'linea_programatica_id');
+    }
+
+    /**
+     * Relationship with ProyectoAnexo
+     *
+     * @return object
+     */
+    public function proyectoAnexo()
+    {
+        return $this->hasMany(ProyectoAnexo::class);
     }
 
     /**
