@@ -69,7 +69,7 @@ class UserPolicy
             return true;
         }
 
-        if ($this->checkRole($user, 'activador i+d+i') && $this->checkRole($proponente, 'proponente i+d+i') || $this->checkRole($user, 'activador cultura de la innovación') && $this->checkRole($proponente, 'proponente cultura de la innovación') || $this->checkRole($user, 'activador tecnoacademia') && $this->checkRole($proponente, 'proponente tecnoacademia') || $this->checkRole($user, 'activador tecnoparque') && $this->checkRole($proponente, 'proponente tecnoparque') || $this->checkRole($user, 'activador servicios tecnológicos') && $this->checkRole($proponente, 'proponente servicios tecnológicos')) {
+        if ($this->checkRole($user, 18) && $this->checkRole($proponente, 6) || $this->checkRole($user, 20) && $this->checkRole($proponente, 15) || $this->checkRole($user, 5) && $this->checkRole($proponente, 12) || $this->checkRole($user, 17) && $this->checkRole($proponente, 16) || $this->checkRole($user, 19) && $this->checkRole($proponente, 13)) {
             return true;
         }
 
@@ -119,7 +119,7 @@ class UserPolicy
     public function checkRole($user, $rol)
     {
         $userRole = $user->whereHas('roles', function (Builder $query) use ($user, $rol) {
-            return $query->where('name', 'ilike', '%' . $rol . '%')->where('users.id', $user->id);
+            return $query->where('id', $rol)->where('users.id', $user->id);
         })->first();
 
         return $userRole && $userRole->exists() ? true : false;
