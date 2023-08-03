@@ -113,7 +113,7 @@ const ResumenFinal = ({
                                     de productos)
                                 </li>
                             )}
-                            {!anexos && <li>No se han cargado todos los anexos</li>}
+                            {!anexos && <li>No se han cargado todos los anexos obligatorios</li>}
                             {!soportesEstudioMercado && <li>Hay estudios de mercado con menos de dos soportes</li>}
                             {!estudiosMercadoArchivo && <li>Hay rubros presupuestales que no tienen el estudio de mercado cargado</li>}
                         </ul>

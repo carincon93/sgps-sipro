@@ -5,10 +5,10 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import { useForm } from '@inertiajs/react'
 import { useEffect, useState } from 'react'
 
-const Form = ({ convocatoria, proyecto, anexo, proyecto_anexo, ...props }) => {
+const Form = ({ convocatoria, proyecto, convocatoria_anexo, proyecto_anexo, ...props }) => {
     const form = useForm({
         archivo: null,
-        anexo_id: anexo.id,
+        anexo_id: convocatoria_anexo?.anexo.id,
     })
 
     const submit = (e) => {
@@ -24,7 +24,7 @@ const Form = ({ convocatoria, proyecto, anexo, proyecto_anexo, ...props }) => {
 
     useEffect(() => {
         if (proyecto_anexo) {
-            const proyecto_anexo_info = proyecto_anexo.find((item) => item.anexo_id === anexo.id)
+            const proyecto_anexo_info = proyecto_anexo.find((item) => item.anexo_id === convocatoria_anexo?.anexo.id)
 
             if (proyecto_anexo_info) {
                 setArchivo(proyecto_anexo_info)
@@ -32,11 +32,11 @@ const Form = ({ convocatoria, proyecto, anexo, proyecto_anexo, ...props }) => {
                 setArchivo(null)
             }
         }
-    }, [proyecto_anexo, anexo.id])
+    }, [proyecto_anexo, convocatoria_anexo?.anexo.id])
 
     return (
         <form onSubmit={submit} className="mt-4 p-4">
-            <fieldset disabled={proyecto?.allowed?.to_update && anexo.habilitado == true ? false : true}>
+            <fieldset disabled={proyecto?.allowed?.to_update && convocatoria_anexo?.habilitado == true ? false : true}>
                 <div className="mt-20">
                     <Label value="Archivo/anexo" />
 
@@ -64,7 +64,7 @@ const Form = ({ convocatoria, proyecto, anexo, proyecto_anexo, ...props }) => {
                 </div>
                 <div>
                     <PrimaryButton disabled={form.processing} className="w-full mt-4" type="submit">
-                        Cargar {anexo.nombre}
+                        Cargar {convocatoria_anexo?.anexo.nombre}
                     </PrimaryButton>
                 </div>
             </fieldset>

@@ -150,7 +150,7 @@ const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, conv
                                 <p className="px-6 py-4 focus:text-app-500">
                                     {convocatoria_anexo.anexo.nombre}
                                     <br />
-                                    {convocatoria_anexo.obligatorio && <span className="text-red-500">* El convocatoria_anexo es obligatorio</span>}
+                                    {convocatoria_anexo.obligatorio && <span className="text-red-500">* El anexo es obligatorio</span>}
                                     {convocatoria_anexo.archivo && (
                                         <a target="_blank" className="text-app-400 underline mt-4 mb-4 flex" download href={convocatoria_anexo.archivo}>
                                             <DownloadIcon /> Descargar formato para diligenciar dando clic en este enlace.
@@ -159,7 +159,7 @@ const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, conv
                                 </p>
                             </TableCell>
                             <TableCell>
-                                <Form convocatoria={convocatoria} proyecto={proyecto} anexo={convocatoria_anexo.anexo} proyecto_anexo={proyecto_anexo} />
+                                <Form convocatoria={convocatoria} proyecto={proyecto} convocatoria_anexo={convocatoria_anexo} proyecto_anexo={proyecto_anexo} />
                             </TableCell>
                         </TableRow>
                     ))}

@@ -3,6 +3,7 @@
 namespace App\Http\Traits;
 
 use App\Models\Anexo;
+use App\Models\ConvocatoriaAnexo;
 use App\Models\Proyecto;
 use Illuminate\Support\Facades\Log;
 
@@ -385,17 +386,24 @@ trait ProyectoValidationTrait
      */
     public static function anexos(Proyecto $proyecto)
     {
-        $anexos = Anexo::select('anexos.*')->join('convocatoria_anexo_lineas_programaticas', 'anexos.id', 'convocatoria_anexo_lineas_programaticas.anexo_id')
-            ->where('anexos.obligatorio', true)->where('convocatoria_anexo_lineas_programaticas.linea_programatica_id', $proyecto->lineaProgramatica->id)->get();
+
+        $linea_programatica_id = $proyecto->linea_programatica_id;
+
+        $convocatoria_anexos = ConvocatoriaAnexo::where('convocatoria_id', $proyecto->convocatoria_id)
+                    ->with('anexo', 'lineasProgramaticas')
+                    ->whereHas('lineasProgramaticas', function ($query) use ($linea_programatica_id) {
+                        $query->where('lineas_programaticas.id', $linea_programatica_id);
+                    })
+                    ->get();
 
         $count = 0;
-        foreach ($anexos as $anexo) {
-            if ($proyecto->proyectoAnexo()->where('proyecto_anexo.anexo_id', $anexo->id)->first() && $proyecto->proyectoAnexo()->where('proyecto_anexo.anexo_id', $anexo->id)->first()->exists()) {
+        foreach ($convocatoria_anexos as $convocatoria_anexo) {
+            if ($proyecto->proyectoAnexo()->where('proyecto_anexo.anexo_id', $convocatoria_anexo->id)->first() && $proyecto->proyectoAnexo()->where('proyecto_anexo.anexo_id', $convocatoria_anexo->id)->first()->exists()) {
                 $count++;
             }
         }
 
-        return $count == count($anexos) ? true : false;
+        return $count == count($convocatoria_anexos) ? true : false;
     }
 
     /**
