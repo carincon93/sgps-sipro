@@ -5,6 +5,7 @@ namespace App\Http\Traits;
 use App\Models\ConvocatoriaAnexo;
 use App\Models\Proyecto;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\ErrorHandler\Debug;
 
 trait ProyectoValidationTrait
 {
@@ -372,16 +373,15 @@ trait ProyectoValidationTrait
         $count_analisis_producto = 0;
         $count_analisis_actividad = 0;
         foreach ($proyecto->analisisRiesgos as $analisis_riesgo) {
-            if ($analisis_riesgo->nivel == 'A nivel del objetivo general') {
-
+            if ($analisis_riesgo->nivel == 1) {
                 $count_analisis_objetivo++;
             }
 
-            if ($analisis_riesgo->nivel == 'A nivel de productos') {
+            if ($analisis_riesgo->nivel == 2) {
                 $count_analisis_producto++;
             }
 
-            if ($analisis_riesgo->nivel == 'A nivel de actividades') {
+            if ($analisis_riesgo->nivel == 3) {
                 $count_analisis_actividad++;
             }
         }
@@ -586,8 +586,9 @@ trait ProyectoValidationTrait
         $rubros_requieren_estudio_mercado = true;
         $count_soportes = 0;
         foreach ($proyecto->proyectoPresupuesto as $presupuesto) {
-            $data = $presupuesto->convocatoriaProyectoRubrosPresupuestales()->select('convocatoria_presupuesto.id', 'convocatoria_presupuesto.requiere_estudio_mercado')->get()->pluck(['requiere_estudio_mercado']);
+            $data = $presupuesto->convocatoriaProyectoRubrosPresupuestales()->select('convocatoria_presupuesto.id', 'convocatoria_presupuesto.requiere_estudio_mercado')->get();
 
+            Log::debug($data);
             foreach ($data as $item) {
                 if (!$item) {
                     $rubros_requieren_estudio_mercado = false;

@@ -106,9 +106,9 @@ const Form = ({
     }, [form.data.convocatoria_presupuesto_id])
 
     useEffect(() => {
-        if (rubro_presupuestal && rubro_presupuestal.convocatoria_proyecto_rubros_presupuestales[0].requiere_estudio_mercado === true) {
+        if (rubro_presupuestal && rubro_presupuestal.convocatoria_proyecto_rubros_presupuestales[0]?.requiere_estudio_mercado === true) {
             setRequiereEstudioMercado(true)
-        } else if (rubro_presupuestal && rubro_presupuestal.convocatoria_proyecto_rubros_presupuestales[0].requiere_estudio_mercado === false) {
+        } else if (rubro_presupuestal && rubro_presupuestal.convocatoria_proyecto_rubros_presupuestales[0]?.requiere_estudio_mercado === false) {
             setRequiereEstudioMercado(false)
         }
 

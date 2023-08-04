@@ -1,11 +1,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import AlertMui from '@/Components/Alert'
+import Checkbox from '@/Components/Checkbox'
 import StepperMui from '@/Components/Stepper'
 
 import { Grid } from '@mui/material'
 import { useEffect, useState, useRef } from 'react'
-import Checkbox from '@/Components/Checkbox'
 import { router } from '@inertiajs/react'
 
 const ResumenFinal = ({

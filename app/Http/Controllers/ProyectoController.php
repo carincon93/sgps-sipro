@@ -1001,12 +1001,12 @@ class ProyectoController extends Controller
      */
     public function udpdateEstadosProyectos(Request $request)
     {
-        $proyectosId = collect([]);
-        collect(json_decode($request->proyectos_id))->pluck('value')->map(function ($item) use ($proyectosId) {
-            return $proyectosId->push($item - 8000);
+        $proyectos_id = collect([]);
+        collect(json_decode($request->proyectos_id))->pluck('value')->map(function ($item) use ($proyectos_id) {
+            return $proyectos_id->push($item - 8000);
         });
 
-        $proyectos = Proyecto::whereIn('id', $proyectosId)->get();
+        $proyectos = Proyecto::whereIn('id', $proyectos_id)->get();
 
         if ($request->estado == 1) { // Subsanar
             foreach ($proyectos as $proyecto) {
@@ -1027,7 +1027,7 @@ class ProyectoController extends Controller
                 );
             }
 
-            Evaluacion::whereIn('proyecto_id', $proyectosId)->where('habilitado', true)->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
+            Evaluacion::whereIn('proyecto_id', $proyectos_id)->where('habilitado', true)->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
         } else if ($request->estado == 2) { // Finalizar
             foreach ($proyectos as $proyecto) {
                 $proyecto->update(['estado' => $proyecto->estado_evaluacion_idi ?? $proyecto->estado_evaluacion_cultura_innovacion ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_servicios_tecnologicos]);
@@ -1064,7 +1064,7 @@ class ProyectoController extends Controller
                 );
             }
 
-            Evaluacion::whereIn('proyecto_id', $proyectosId)->where('habilitado', true)->update(['modificable' => true, 'finalizado' => false, 'iniciado' => true]);
+            Evaluacion::whereIn('proyecto_id', $proyectos_id)->where('habilitado', true)->update(['modificable' => true, 'finalizado' => false, 'iniciado' => true]);
         }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
