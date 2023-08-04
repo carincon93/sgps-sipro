@@ -588,7 +588,6 @@ trait ProyectoValidationTrait
         foreach ($proyecto->proyectoPresupuesto as $presupuesto) {
             $data = $presupuesto->convocatoriaProyectoRubrosPresupuestales()->select('convocatoria_presupuesto.id', 'convocatoria_presupuesto.requiere_estudio_mercado')->get();
 
-            Log::debug($data);
             foreach ($data as $item) {
                 if (!$item) {
                     $rubros_requieren_estudio_mercado = false;
