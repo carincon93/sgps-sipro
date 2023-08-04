@@ -414,7 +414,7 @@ const Actividades = ({
                             </p>
                         </AlertMui>
                     </Grid>
-                    {(proyecto.codigo_linea_programatica == 69 && Object.keys(proyecto.proyectoHubLinea69) == 0) || proyecto.codigo_linea_programatica == 70 ? (
+                    {(proyecto.codigo_linea_programatica == 69 && !proyecto.proyectoHubLinea69) || proyecto.codigo_linea_programatica == 70 ? (
                         <Grid item md={12}>
                             <form onSubmit={submit} className="!mt-20">
                                 <fieldset disabled={proyecto.allowed.to_update ? false : true}>
