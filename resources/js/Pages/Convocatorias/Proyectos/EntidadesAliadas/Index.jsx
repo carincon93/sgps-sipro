@@ -9,7 +9,7 @@ import ToolTipMui from '@/Components/Tooltip'
 import StepperMui from '@/Components/Stepper'
 
 import { checkRole } from '@/Utils'
-import { router } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
 
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import GroupAddIcon from '@mui/icons-material/GroupAdd'
@@ -120,10 +120,11 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                             <TableCell>{tipos_entidad_aliada.find((item) => item.value == entidad_aliada.tipo).label}</TableCell>
 
                             <TableCell>
-                                <ButtonMui
-                                    onClick={() => router.visit(route('convocatorias.proyectos.entidades-aliadas.miembros-entidad-aliada.index', [convocatoria.id, proyecto.id, entidad_aliada.id]))}>
-                                    <GroupAddIcon />
-                                </ButtonMui>
+                                <Link
+                                    href={route('convocatorias.proyectos.entidades-aliadas.miembros-entidad-aliada.index', [convocatoria.id, proyecto.id, entidad_aliada.id])}
+                                    className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                    <GroupAddIcon className="mr-2" /> Agregar miembros de la entidad
+                                </Link>
                             </TableCell>
 
                             <TableCell>
