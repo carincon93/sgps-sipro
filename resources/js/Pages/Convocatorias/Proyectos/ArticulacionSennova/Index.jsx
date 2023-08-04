@@ -181,7 +181,7 @@ const ArticulacionSennova = ({
                     {proyecto.codigo_linea_programatica == 70 ? 'TecnoAcademia' : proyecto.codigo_linea_programatica == 69 ? 'TecnoParque' : ''} con las otras líneas de SENNOVA en el centro y la
                     regional:
                 </p>
-                {(proyecto.codigo_linea_programatica == 69 && Object.keys(proyecto.proyectoHubLinea69) == 0) || proyecto.codigo_linea_programatica == 70 ? (
+                {(proyecto.codigo_linea_programatica == 69 && !proyecto.proyectoHubLinea69) || proyecto.codigo_linea_programatica == 70 ? (
                     <form onSubmit={submit}>
                         <fieldset disabled={proyecto.allowed.to_update ? false : true}>
                             <Grid container className="space-y-20">

@@ -43,6 +43,7 @@ class ArticulacionSennovaController extends Controller
         $proyecto->gruposInvestigacion;
         $proyecto->lineasInvestigacion;
         $proyecto->semillerosInvestigacion;
+        $proyecto->proyectoLinea69;
         $proyecto->proyectoHubLinea69;
         $proyecto->proyectoLinea83;
 
@@ -109,6 +110,7 @@ class ArticulacionSennovaController extends Controller
                                                     'gruposInvestigacion',
                                                     'lineasInvestigacion',
                                                     'semillerosInvestigacion',
+                                                    'proyectoLinea69',
                                                     'proyectoHubLinea69',
                                                     'proyectoLinea70',
                                                     'proyectoLinea83',
