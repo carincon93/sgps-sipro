@@ -36,7 +36,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisis_r
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
-                <h1 className="font-black text-right text-white text-2xl mr-10">Modificar actividad</h1>
+                <h1 className="font-black text-right text-white text-2xl mr-10">Modificar análisis de riesgo</h1>
             </Grid>
 
             <Grid item md={8}>

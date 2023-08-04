@@ -178,24 +178,26 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                     </AlertMui>
                                 </Grid>
 
-                                <Grid item md={12}>
-                                    <h6 className="my-10 text-2xl">Roles responsables</h6>
-                                    <SelectMultiple
-                                        id="proyecto_rol_sennova_id"
-                                        bdValues={form.data.proyecto_rol_sennova_id}
-                                        options={proyecto_roles}
-                                        error={form.errors.proyecto_rol_sennova_id}
-                                        label="Relacione los roles responsables"
-                                        onChange={(event, newValue) => {
-                                            const selected_values = newValue.map((option) => option.value)
-                                            form.setData((prevData) => ({
-                                                ...prevData,
-                                                proyecto_rol_sennova_id: selected_values,
-                                            }))
-                                        }}
-                                    />
-                                    <AlertMui>Si la actividad tiene un responsable por favor seleccione su rol de la siguiente lista</AlertMui>
-                                </Grid>
+                                {proyecto.codigo_linea_programatica != 23 && (
+                                    <Grid item md={12}>
+                                        <h6 className="my-10 text-2xl">Roles responsables</h6>
+                                        <SelectMultiple
+                                            id="proyecto_rol_sennova_id"
+                                            bdValues={form.data.proyecto_rol_sennova_id}
+                                            options={proyecto_roles}
+                                            error={form.errors.proyecto_rol_sennova_id}
+                                            label="Relacione los roles responsables"
+                                            onChange={(event, newValue) => {
+                                                const selected_values = newValue.map((option) => option.value)
+                                                form.setData((prevData) => ({
+                                                    ...prevData,
+                                                    proyecto_rol_sennova_id: selected_values,
+                                                }))
+                                            }}
+                                        />
+                                        <AlertMui>Si la actividad tiene un responsable por favor seleccione su rol de la siguiente lista</AlertMui>
+                                    </Grid>
+                                )}
                             </Grid>
                         </fieldset>
 

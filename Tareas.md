@@ -23,3 +23,6 @@ Tareas
 
 
 
+Hola buenos días.
+
+Me presento mi nombre es Cristian Camilo Vasquez líder técnico de

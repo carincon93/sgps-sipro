@@ -1214,9 +1214,9 @@ class Proyecto extends Model
             }
         }
 
-        foreach ($this->proyectoAnexo()->get() as $proyecto_anexo) {
-            $collect->push(['id' => $proyecto_anexo->id, 'tipo_archivo' => 'archivo', 'anexo' => $proyecto_anexo->anexo->nombre, 'ruta_archivo' => $proyecto_anexo->archivo]);
-        }
+        // foreach ($this->proyectoAnexo()->get() as $proyecto_anexo) {
+        //     $collect->push(['id' => $proyecto_anexo->id, 'tipo_archivo' => 'archivo', 'anexo' => $proyecto_anexo->convocatoriaAnexo->anexo->nombre, 'ruta_archivo' => $proyecto_anexo->archivo]);
+        // }
 
         return $collect;
     }

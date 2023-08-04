@@ -183,6 +183,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                             type="text"
                                             className="mt-1"
                                             value={formSoporte.data.nombre_primer_empresa}
+                                            onChange={(e) => formSoporte.setData('nombre_primer_empresa', e.target.value)}
                                             error={formSoporte.errors.nombre_primer_empresa}
                                             required
                                         />
@@ -225,6 +226,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                             type="text"
                                             className="mt-1"
                                             value={formSoporte.data.nombre_segunda_empresa}
+                                            onChange={(e) => formSoporte.setData('nombre_segunda_empresa', e.target.value)}
                                             error={formSoporte.errors.nombre_segunda_empresa}
                                             required
                                         />
@@ -267,8 +269,8 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                             type="text"
                                             className="mt-1"
                                             value={formSoporte.data.nombre_tercer_empresa}
+                                            onChange={(e) => formSoporte.setData('nombre_tercer_empresa', e.target.value)}
                                             error={formSoporte.errors.nombre_tercer_empresa}
-                                            required
                                         />
                                     </div>
 

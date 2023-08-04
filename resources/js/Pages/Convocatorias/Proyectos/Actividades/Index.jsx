@@ -180,9 +180,15 @@ const Actividades = ({
     }
 
     const tabs =
-        tecnoacademia_relacionada?.modalidad == 2
+        proyecto.codigo_linea_programatica == 70 && tecnoacademia_relacionada?.modalidad == 2
             ? [{ label: 'Actividades' }, { label: 'Metodología' }, { label: 'Aulas móviles' }]
-            : (proyecto.codigo_linea_programatica == 69 && proyecto.proyectoHubLinea69) || proyecto.codigo_linea_programatica == 70 || proyecto.codigo_linea_programatica == 83
+            : proyecto.codigo_linea_programatica == 23 ||
+              proyecto.codigo_linea_programatica == 66 ||
+              proyecto.codigo_linea_programatica == 82 ||
+              proyecto.codigo_linea_programatica == 69 ||
+              proyecto.proyectoHubLinea69 ||
+              proyecto.codigo_linea_programatica == 70 ||
+              proyecto.codigo_linea_programatica == 83
             ? [{ label: 'Actividades' }, { label: 'Metodología' }]
             : [{ label: 'Actividades' }]
 
@@ -408,7 +414,6 @@ const Actividades = ({
                             </p>
                         </AlertMui>
                     </Grid>
-
                     {(proyecto.codigo_linea_programatica == 69 && Object.keys(proyecto.proyectoHubLinea69) == 0) || proyecto.codigo_linea_programatica == 70 ? (
                         <Grid item md={12}>
                             <form onSubmit={submit} className="!mt-20">
@@ -921,7 +926,6 @@ const Actividades = ({
                             </form>
                         </Grid>
                     ) : null}
-
                     {proyecto.proyectoHubLinea69 && Object.keys(proyecto.proyectoHubLinea69).length > 0 && (
                         <form onSubmit={submitMetodologiaProyectoHub} className="!mt-20">
                             <Grid container className="space-y-20">
@@ -1340,7 +1344,6 @@ const Actividades = ({
                             </div>
                         </form>
                     )}
-
                     {proyecto.proyectoLinea83 && Object.keys(proyecto.proyectoLinea83).length > 0 && (
                         <form onSubmit={submitMetodologiaProyectoLinea83}>
                             <Grid container className="space-y-20">
@@ -1451,6 +1454,24 @@ const Actividades = ({
                             </div>
                         </form>
                     )}
+                    {proyecto.codigo_linea_programatica == 23 || proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82 ? (
+                        <form onSubmit={submit} className="mt-10">
+                            <Grid container className="space-y-20">
+                                <Grid item md={12}>
+                                    <Label required className="mb-4" labelFor="metodologia" value={`Metodología (¿Cómo se implementará la línea en el ${convocatoria.year}?)`} />
+
+                                    <Textarea id="metodologia" error={form.errors.metodologia} value={form.data.metodologia} onChange={(e) => form.setData('metodologia', e.target.value)} required />
+                                </Grid>
+                            </Grid>
+                            <div className=" flex items-center justify-between py-4">
+                                {proyecto.allowed.to_update && (
+                                    <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
+                                        Guardar información de la metodología
+                                    </PrimaryButton>
+                                )}
+                            </div>
+                        </form>
+                    ) : null}
                 </div>
 
                 {tecnoacademia_relacionada?.modalidad == 2 ? (

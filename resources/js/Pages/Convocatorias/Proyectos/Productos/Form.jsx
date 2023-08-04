@@ -152,7 +152,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                         label="Resultado"
                                         placeholder="Seleccione un resultado"
                                         required
-                                        disabled={proyecto.codigo_linea_programatica == 70 || !is_super_admin}
+                                        disabled={proyecto.codigo_linea_programatica == 70}
                                     />
                                 </Grid>
 
