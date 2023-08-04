@@ -428,9 +428,6 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
     const destroyResultado = (resultado) => {
         if (proyecto.allowed.to_update) {
             router.delete(route('proyectos.resultado.destroy', [proyecto.id, resultado.id]), {
-                onSuccess: () => {
-                    closeDialog()
-                },
                 preserveScroll: true,
             })
         }
@@ -489,9 +486,6 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
     const destroyObjetivoEspecifico = (objetivoEspecifico) => {
         if (proyecto.allowed.to_update) {
             router.delete(route('proyectos.objetivo-especifico.destroy', [proyecto.id, objetivoEspecifico.id]), {
-                onSuccess: () => {
-                    closeDialog()
-                },
                 preserveScroll: true,
             })
         }
@@ -563,9 +557,6 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
     const destroyActividad = (actividad) => {
         if (proyecto.allowed.to_update) {
             router.delete(route('proyectos.actividad.destroy', [proyecto.id, actividad.id]), [], {
-                onSuccess: () => {
-                    closeDialog()
-                },
                 preserveScroll: true,
             })
         }

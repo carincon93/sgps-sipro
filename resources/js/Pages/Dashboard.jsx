@@ -70,12 +70,13 @@ export default function Dashboard({ auth, roles_sistema }) {
                             <div>
                                 {auth_user.roles.length == 0 && (
                                     <AlertMui>
-                                        Por favor seleccione los roles de formulación según la línea en la que desea presentar proyectos. Todo usuario debe tener un rol. Si aparte de estos requiere
-                                        otro rol por favor comuníquese con el administrador del sistema.
+                                        Por favor seleccione los roles de formulación según la línea en la que desea presentar proyectos. Si requiere otro rol por favor comuníquese con el
+                                        administrador del sistema.
                                         <FormRoles usuario={auth_user} roles_sistema={roles_sistema} />
                                     </AlertMui>
                                 )}
-                                {auth_user.roles.length > 0 && auth_user.check_soportes_titulo_obtenido == 0 && auth_user.check_certificados_formacion == 0 ? (
+
+                                {auth_user.roles.length > 0 && auth_user.check_soportes_titulo_obtenido === 0 && auth_user.check_certificados_formacion === 0 ? (
                                     <>
                                         <p className="mt-10">
                                             A continuación, diríjase al CENSO SENNOVA 2023. Por favor haga clic en <strong>'Ir al CENSO SENNOVA 2023'</strong> para diligenciarlo.
@@ -87,10 +88,12 @@ export default function Dashboard({ auth, roles_sistema }) {
                                         )}
                                     </>
                                 ) : (
-                                    <AlertMui severity="error">
-                                        Tiene <strong>{auth_user.check_soportes_titulo_obtenido}</strong> soporte(s) de estudio académico y <strong>{auth_user.check_certificados_formacion}</strong>{' '}
-                                        certificado(s) de formación académica SENA sin cargar, por favor complete el CENSO SENNOVA.
-                                    </AlertMui>
+                                    auth_user.roles.length > 0 && (
+                                        <AlertMui severity="error">
+                                            Tiene <strong>{auth_user.check_soportes_titulo_obtenido}</strong> soporte(s) de estudio académico y{' '}
+                                            <strong>{auth_user.check_certificados_formacion}</strong> certificado(s) de formación académica SENA sin cargar, por favor complete el CENSO SENNOVA.
+                                        </AlertMui>
+                                    )
                                 )}
                             </div>
                         </>

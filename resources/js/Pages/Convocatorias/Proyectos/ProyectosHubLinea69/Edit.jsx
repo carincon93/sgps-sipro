@@ -29,7 +29,7 @@ const Edit = ({ auth, convocatoria, proyecto_hub_linea_69, evaluacion, nodos_tec
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto_hub_linea_69?.proyecto} evaluacion={evaluacion} />
             </Grid>
 
-            <Grid item md={4}>
+            {/* <Grid item md={4}>
                 Evaluación
             </Grid>
 
@@ -69,7 +69,7 @@ const Edit = ({ auth, convocatoria, proyecto_hub_linea_69, evaluacion, nodos_tec
                         </ButtonMui>
                     }
                 />
-            </Grid>
+            </Grid> */}
             <Grid item md={12}>
                 <Form
                     is_super_admin={is_super_admin}

@@ -1,6 +1,8 @@
 import MiniDrawer from '@/Components/Drawer'
 import FlashMessage from '@/Components/FlashMessage'
 
+import HelpDesk from './HelpDesk'
+
 import { usePage } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 
@@ -12,6 +14,7 @@ export default function Authenticated({ header, children }) {
             <MiniDrawer user={auth.user}>
                 <Grid container={true} maxWidth="lg" spacing={2} justifyContent="center" alignItems="center" className="!m-auto py-4">
                     {children}
+                    <HelpDesk />
                 </Grid>
             </MiniDrawer>
             <FlashMessage />

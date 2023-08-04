@@ -59,7 +59,7 @@ const Edit = ({
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto_linea_66?.proyecto} evaluacion={evaluacion} />
             </Grid>
 
-            {!evaluacion && (
+            {/* {!evaluacion && (
                 <>
                     <Grid item md={4}>
                         Evaluación
@@ -136,7 +136,7 @@ const Edit = ({
                         />
                     </>
                 )}
-            </Grid>
+            </Grid> */}
 
             <Grid item md={12}>
                 <Form

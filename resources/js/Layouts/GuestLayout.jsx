@@ -3,6 +3,7 @@ import FlashMessage from '@/Components/FlashMessage'
 import SenaLogo from '@/Components/SenaLogo'
 import TextInput from '@/Components/TextInput'
 import { Link, useForm } from '@inertiajs/react'
+import HelpDesk from './HelpDesk'
 
 export default function GuestLayout({ children }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -71,6 +72,7 @@ export default function GuestLayout({ children }) {
                     </p>
                 </Link>
             </div>
+            <HelpDesk />
             <FlashMessage />
         </main>
     )

@@ -44,7 +44,7 @@ class EntidadAliadaController extends Controller
             'evaluacion'                    =>  Evaluacion::find(request()->evaluacion_id),
             'entidades_aliadas'             =>  EntidadAliada::where('proyecto_id', $proyecto->id)->orderBy('nombre', 'ASC')
                                                     ->filterEntidadAliada(request()->only('search'))->with('actividades', 'actividades.objetivoEspecifico', 'miembrosEntidadAliada', 'entidadAliadaLinea66', 'entidadAliadaLinea69', 'entidadAliadaLinea70', 'entidadAliadaLinea83')->paginate(),
-            'actividades'                   =>  Actividad::whereIn(
+            'actividades'                   =>  Actividad::select('id as value', 'descripcion as label')->whereIn(
                                                     'objetivo_especifico_id',
                                                     $objetivo_especificos->map(function ($objetivo_especifico) {
                                                         return $objetivo_especifico->id;
