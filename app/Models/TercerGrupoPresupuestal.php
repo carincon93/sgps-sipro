@@ -46,13 +46,13 @@ class TercerGrupoPresupuestal extends Model
     ];
 
     /**
-     * Relationship with PresupuestoSennova
+     * Relationship with RubroPresupuestal
      *
      * @return object
      */
-    public function presupuestoSennova()
+    public function rubroPresupuestal()
     {
-        return $this->hasMany(PresupuestoSennova::class);
+        return $this->hasMany(RubroPresupuestal::class);
     }
 
     /**

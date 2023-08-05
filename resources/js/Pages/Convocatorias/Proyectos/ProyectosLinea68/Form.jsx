@@ -529,7 +529,7 @@ const Form = ({
                                     </>
                                 }>
                                 <InfoOutlinedIcon className="mr-2" />
-                                Por favor leer las siguientes indicaciones
+                                Por favor lea las siguientes indicaciones
                             </ToolTipMui>
                         </Grid>
 

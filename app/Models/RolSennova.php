@@ -25,7 +25,6 @@ class RolSennova extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
-        'sumar_al_presupuesto',
         'linea_programatica_id'
     ];
 

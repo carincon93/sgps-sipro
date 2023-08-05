@@ -30,7 +30,7 @@ class PresupuestosExport implements FromCollection, WithHeadings, WithMapping, W
     public function collection()
     {
         $idproyectos = explode(',', $this->convocatoria->proyectos->implode('id', ','));
-        return ProyectoPresupuesto::whereIn('proyecto_id', $idproyectos)->whereNotIn('proyecto_id', [1052, 1113])->with('convocatoriaProyectoRubrosPresupuestales.presupuestoSennova.usoPresupuestal')->get();
+        return ProyectoPresupuesto::whereIn('proyecto_id', $idproyectos)->whereNotIn('proyecto_id', [1052, 1113])->with('convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.usoPresupuestal')->get();
     }
 
     /**
@@ -46,10 +46,10 @@ class PresupuestosExport implements FromCollection, WithHeadings, WithMapping, W
             $presupuesto->proyecto->lineaProgramatica->codigo,
             $presupuesto->proyecto->codigo,
             $presupuesto->proyecto->titulo,
-            $presupuesto->convocatoriaPresupuesto->presupuestoSennova->primerGrupoPresupuestal->nombre,
-            $presupuesto->convocatoriaPresupuesto->presupuestoSennova->tercerGrupoPresupuestal->nombre,
-            $presupuesto->convocatoriaPresupuesto->presupuestoSennova->segundoGrupoPresupuestal->nombre,
-            $presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal->nombre,
+            $presupuesto->convocatoriaPresupuesto->rubroPresupuestal->primerGrupoPresupuestal->nombre,
+            $presupuesto->convocatoriaPresupuesto->rubroPresupuestal->tercerGrupoPresupuestal->nombre,
+            $presupuesto->convocatoriaPresupuesto->rubroPresupuestal->segundoGrupoPresupuestal->nombre,
+            $presupuesto->convocatoriaPresupuesto->rubroPresupuestal->usoPresupuestal->nombre,
             $presupuesto->descripcion,
             $presupuesto->justificacion,
             $presupuesto->valor_total,

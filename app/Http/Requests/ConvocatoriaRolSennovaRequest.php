@@ -31,6 +31,7 @@ class ConvocatoriaRolSennovaRequest extends FormRequest
             'experiencia'           => ['nullable', 'string'],
             'perfil'                => ['nullable', 'string'],
             'mensaje'               => ['nullable', 'string'],
+            'sumar_al_presupuesto'  => ['required', 'boolean'],
         ];
     }
 
@@ -41,22 +42,6 @@ class ConvocatoriaRolSennovaRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->linea_programatica_id)) {
-            $this->merge([
-                'linea_programatica_id' => $this->linea_programatica_id['value'],
-            ]);
-        }
-
-        if (is_array($this->rol_sennova_id)) {
-            $this->merge([
-                'rol_sennova_id' => $this->rol_sennova_id['value'],
-            ]);
-        }
-
-        if (is_array($this->nivel_academico)) {
-            $this->merge([
-                'nivel_academico' => $this->nivel_academico['value'],
-            ]);
-        }
+        //
     }
 }

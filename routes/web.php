@@ -28,7 +28,6 @@ use App\Http\Controllers\MesaSectorialController;
 use App\Http\Controllers\MiembroEntidadAliadaController;
 use App\Http\Controllers\NodoTecnoparqueController;
 use App\Http\Controllers\PdfController;
-use App\Http\Controllers\PresupuestoSennovaController;
 use App\Http\Controllers\PrimerGrupoPresupuestalController;
 use App\Http\Controllers\ProyectoAnexoController;
 use App\Http\Controllers\ProyectoCapacidadInstaladaController;
@@ -50,6 +49,7 @@ use App\Http\Controllers\RegionalController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RolSennovaController;
+use App\Http\Controllers\RubroPresupuestalController;
 use App\Http\Controllers\SegundoGrupoPresupuestalController;
 use App\Http\Controllers\SemilleroInvestigacionController;
 use App\Http\Controllers\SoporteEstudioMercadoController;
@@ -550,10 +550,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Presupuesto SENNOVA
      *
      */
-    Route::resource('presupuesto-sennova',  PresupuestoSennovaController::class)->parameters(['presupuesto-sennova' => 'presupuesto-sennova'])->except(['show']);
+    Route::resource('rubros-presupuestales',  RubroPresupuestalController::class)->parameters(['rubros-presupuestales' => 'rubro-presupuestal'])->except(['show']);
 
-    Route::get('configuracion-presupuesto-sennova',  [PresupuestoSennovaController::class, 'configuracionPresupuestoSennova'])->name('configuracion-presupuesto-sennova');
-
+    Route::get('configuracion-presupuesto-sennova',  [RubroPresupuestalController::class, 'configuracionRubroPresupuestal'])->name('configuracion-presupuesto-sennova');
 
     /**
      * Roles SENNOVA

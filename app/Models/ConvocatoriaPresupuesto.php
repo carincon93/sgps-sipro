@@ -24,7 +24,8 @@ class ConvocatoriaPresupuesto extends Model
      */
     protected $fillable = [
         'convocatoria_id',
-        'presupuesto_sennova_id',
+        'rubro_presupuestal_id',
+        'linea_programatica_id',
         'sumar_al_presupuesto',
         'requiere_estudio_mercado',
         'habilitado'
@@ -59,13 +60,13 @@ class ConvocatoriaPresupuesto extends Model
     }
 
     /**
-     * Relationship with PresupuestoSennova
+     * Relationship with RubroPresupuestal
      *
      * @return object
      */
-    public function presupuestoSennova()
+    public function rubroPresupuestal()
     {
-        return $this->belongsTo(PresupuestoSennova::class);
+        return $this->belongsTo(RubroPresupuestal::class);
     }
 
     /**

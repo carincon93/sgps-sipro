@@ -45,7 +45,7 @@ class SoporteEstudioMercadoController extends Controller
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'evaluacion'                => Evaluacion::find(request()->evaluacion_id),
             'proyecto'                  => $proyecto->only('id', 'modificable', 'precio_proyecto', 'mostrar_recomendaciones', 'codigo_linea_programatica', 'allowed'),
-            'proyecto_presupuesto'      => $presupuesto->load('convocatoriaProyectoRubrosPresupuestales.presupuestoSennova.usoPresupuestal'),
+            'proyecto_presupuesto'      => $presupuesto->load('convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.usoPresupuestal'),
             'soportes_estudio_mercado'  => $presupuesto->soportesEstudioMercado,
         ]);
     }

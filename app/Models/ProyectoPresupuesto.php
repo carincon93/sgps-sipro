@@ -158,14 +158,14 @@ class ProyectoPresupuesto extends Model
     public function scopeFilterProyectoPresupuesto($query, array $filters)
     {
         // $query->join('convocatoria_presupuesto', 'proyecto_presupuesto.convocatoria_presupuesto_id', 'convocatoria_presupuesto.id');
-        // $query->join('presupuesto_sennova', 'convocatoria_presupuesto.presupuesto_sennova_id', 'presupuesto_sennova.id');
-        // $query->join('segundo_grupo_presupuestal', 'presupuesto_sennova.segundo_grupo_presupuestal_id', 'segundo_grupo_presupuestal.id');
+        // $query->join('rubros_presupuestales', 'convocatoria_presupuesto.rubro_presupuestal_id', 'rubros_presupuestales.id');
+        // $query->join('segundo_grupo_presupuestal', 'rubros_presupuestales.segundo_grupo_presupuestal_id', 'segundo_grupo_presupuestal.id');
         // $query->when($filters['search'] ?? null, function ($query, $search) {
         //     $search = str_replace('"', "", $search);
         //     $search = str_replace("'", "", $search);
         //     $search = str_replace(' ', '%%', $search);
-        //     $query->join('tercer_grupo_presupuestal', 'presupuesto_sennova.tercer_grupo_presupuestal_id', 'tercer_grupo_presupuestal.id');
-        //     $query->join('usos_presupuestales', 'presupuesto_sennova.uso_presupuestal_id', 'usos_presupuestales.id');
+        //     $query->join('tercer_grupo_presupuestal', 'rubros_presupuestales.tercer_grupo_presupuestal_id', 'tercer_grupo_presupuestal.id');
+        //     $query->join('usos_presupuestales', 'rubros_presupuestales.uso_presupuestal_id', 'usos_presupuestales.id');
         //     $query->whereRaw("unaccent(segundo_grupo_presupuestal.nombre) ilike unaccent('%" . $search . "%')");
         //     $query->orWhereRaw("unaccent(tercer_grupo_presupuestal.nombre) ilike unaccent('%" . $search . "%')");
         //     $query->orWhereRaw("unaccent(usos_presupuestales.descripcion) ilike unaccent('%" . $search . "%')");

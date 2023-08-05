@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PresupuestoSennova extends Model
+class RubroPresupuestal extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,7 @@ class PresupuestoSennova extends Model
      *
      * @var string
      */
-    protected $table = 'presupuesto_sennova';
+    protected $table = 'rubros_presupuestales';
 
     /**
      * appends
@@ -35,10 +35,6 @@ class PresupuestoSennova extends Model
         'tercer_grupo_presupuestal_id',
         'uso_presupuestal_id',
         'linea_programatica_id',
-        'requiere_estudio_mercado',
-        'sumar_al_presupuesto',
-        'mensaje',
-        'habilitado'
     ];
 
     /**
@@ -126,14 +122,12 @@ class PresupuestoSennova extends Model
      * @param  mixed $filters
      * @return void
      */
-    public function scopeFilterPresupuestoSennova($query, array $filters)
+    public function scopeFilterRubroPresupuestal($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $search = str_replace('"', "", $search);
             $search = str_replace("'", "", $search);
             $search = str_replace(' ', '%%', $search);
-            $query->whereRaw("unaccent(mensaje) ilike unaccent('%" . $search . "%')");
-            $query->orWhere('lineas_programaticas.codigo', 'ilike', $search);
         });
     }
 

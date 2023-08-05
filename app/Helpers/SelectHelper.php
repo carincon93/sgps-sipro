@@ -107,10 +107,10 @@ class SelectHelper
     public static function segundoGrupoPresupuestal($convocatoria, $linea_programatica)
     {
         return SegundoGrupoPresupuestal::selectRaw('DISTINCT(segundo_grupo_presupuestal.id) as value, segundo_grupo_presupuestal.nombre as label, segundo_grupo_presupuestal.codigo as codigo')
-            ->join('presupuesto_sennova', 'segundo_grupo_presupuestal.id', 'presupuesto_sennova.segundo_grupo_presupuestal_id')
-            ->join('convocatoria_presupuesto', 'presupuesto_sennova.id', 'convocatoria_presupuesto.presupuesto_sennova_id')
+            ->join('rubros_presupuestales', 'segundo_grupo_presupuestal.id', 'rubros_presupuestales.segundo_grupo_presupuestal_id')
+            ->join('convocatoria_presupuesto', 'rubros_presupuestales.id', 'convocatoria_presupuesto.rubro_presupuestal_id')
             ->where('convocatoria_presupuesto.convocatoria_id', $convocatoria)
-            ->where('presupuesto_sennova.linea_programatica_id', $linea_programatica)
+            ->where('convocatoria_presupuesto.linea_programatica_id', $linea_programatica)
             ->orderBy('segundo_grupo_presupuestal.nombre', 'ASC')
             ->get();
     }
@@ -122,11 +122,11 @@ class SelectHelper
      */
     public static function tercerGrupoPresupuestal($convocatoria, $linea_programatica)
     {
-        return TercerGrupoPresupuestal::selectRaw('DISTINCT(tercer_grupo_presupuestal.id) as value, tercer_grupo_presupuestal.nombre as label, presupuesto_sennova.segundo_grupo_presupuestal_id')
-            ->join('presupuesto_sennova', 'tercer_grupo_presupuestal.id', 'presupuesto_sennova.tercer_grupo_presupuestal_id')
-            ->join('convocatoria_presupuesto', 'presupuesto_sennova.id', 'convocatoria_presupuesto.presupuesto_sennova_id')
+        return TercerGrupoPresupuestal::selectRaw('DISTINCT(tercer_grupo_presupuestal.id) as value, tercer_grupo_presupuestal.nombre as label, rubros_presupuestales.segundo_grupo_presupuestal_id')
+            ->join('rubros_presupuestales', 'tercer_grupo_presupuestal.id', 'rubros_presupuestales.tercer_grupo_presupuestal_id')
+            ->join('convocatoria_presupuesto', 'rubros_presupuestales.id', 'convocatoria_presupuesto.rubro_presupuestal_id')
             ->where('convocatoria_presupuesto.convocatoria_id', $convocatoria)
-            ->where('presupuesto_sennova.linea_programatica_id', $linea_programatica)
+            ->where('convocatoria_presupuesto.linea_programatica_id', $linea_programatica)
             ->orderBy('tercer_grupo_presupuestal.nombre', 'ASC')
             ->get();
     }
@@ -138,11 +138,11 @@ class SelectHelper
      */
     public static function usosPresupuestales($convocatoria, $linea_programatica)
     {
-        return UsoPresupuestal::select('convocatoria_presupuesto.id as value', 'usos_presupuestales.descripcion as label', 'presupuesto_sennova.segundo_grupo_presupuestal_id', 'presupuesto_sennova.tercer_grupo_presupuestal_id', 'convocatoria_presupuesto.requiere_estudio_mercado', 'usos_presupuestales.codigo as codigo_uso_presupuestal')
-            ->join('presupuesto_sennova', 'usos_presupuestales.id', 'presupuesto_sennova.uso_presupuestal_id')
-            ->join('convocatoria_presupuesto', 'presupuesto_sennova.id', 'convocatoria_presupuesto.presupuesto_sennova_id')
+        return UsoPresupuestal::select('convocatoria_presupuesto.id as value', 'usos_presupuestales.descripcion as label', 'rubros_presupuestales.segundo_grupo_presupuestal_id', 'rubros_presupuestales.tercer_grupo_presupuestal_id', 'convocatoria_presupuesto.requiere_estudio_mercado', 'usos_presupuestales.codigo as codigo_uso_presupuestal')
+            ->join('rubros_presupuestales', 'usos_presupuestales.id', 'rubros_presupuestales.uso_presupuestal_id')
+            ->join('convocatoria_presupuesto', 'rubros_presupuestales.id', 'convocatoria_presupuesto.rubro_presupuestal_id')
             ->where('convocatoria_presupuesto.convocatoria_id', $convocatoria)
-            ->where('presupuesto_sennova.linea_programatica_id', $linea_programatica)
+            ->where('convocatoria_presupuesto.linea_programatica_id', $linea_programatica)
             ->where('convocatoria_presupuesto.habilitado', true)
             ->orderBy('usos_presupuestales.descripcion', 'ASC')
             ->get();

@@ -269,7 +269,7 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                         </Grid>
                     </div>
                 ) : null}
-                {proyecto?.proyectoLinea65 || proyecto?.proyectoLinea66 || proyecto?.proyectoHubLinea69 ? (
+                {proyecto?.proyectoLinea65 || proyecto?.proyectoLinea66 || proyecto?.proyectoLinea68 || proyecto?.proyectoHubLinea69 ? (
                     <div>
                         <Grid container className="!mt-20">
                             {proyecto.codigo_linea_programatica == 70 && (

@@ -138,7 +138,7 @@ const Form = ({
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
-                <h1 className="font-black text-right text-white text-2xl mr-10">Rol SENNOVA</h1>
+                <h1 className="font-black text-right text-white text-2xl mr-10">Rubro presupuestal</h1>
             </Grid>
 
             <Grid item md={8}>
@@ -151,7 +151,7 @@ const Form = ({
                                 {rubro_presupuestal.convocatoria_proyecto_rubros_presupuestales.map((convocatoriaRubroPresupuestal, i) => (
                                     <li key={i}>
                                         <p className="first-letter:uppercase">
-                                            {convocatoriaRubroPresupuestal.presupuesto_sennova.uso_presupuestal.descripcion}
+                                            {convocatoriaRubroPresupuestal.rubro_presupuestal.uso_presupuestal.descripcion}
                                             <Chip
                                                 component="span"
                                                 label={convocatoriaRubroPresupuestal.requiere_estudio_mercado ? 'Requiere estudio de mercado' : 'No requiere estudio de mercado'}

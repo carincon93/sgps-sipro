@@ -617,7 +617,7 @@ trait ProyectoValidationTrait
         $count_edt = 0;
         if ($proyecto->proyectoLinea70()->exists()) {
             foreach ($proyecto->proyectoPresupuesto as $presupuesto) {
-                if ($presupuesto->convocatoriaPresupuesto->presupuestoSennova->usoPresupuestal->codigo == 20202008005096 && !$presupuesto->edt()->exists()) {
+                if ($presupuesto->convocatoriaPresupuesto->rubroPresupuestal->usoPresupuestal->codigo == 20202008005096 && !$presupuesto->edt()->exists()) {
                     $count_edt++;
                 }
             }

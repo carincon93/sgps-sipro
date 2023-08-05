@@ -24,7 +24,8 @@ class ConvocatoriaPresupuestoRequest extends FormRequest
     public function rules()
     {
         return [
-            'presupuesto_sennova_id' => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:presupuesto_sennova,id'],
+            'rubro_presupuestal_id' => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:rubros_presupuestales,id'],
+            'linea_programatica_id' => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_programaticas,id'],
         ];
     }
 
@@ -35,10 +36,6 @@ class ConvocatoriaPresupuestoRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->presupuesto_sennova_id)) {
-            $this->merge([
-                'presupuesto_sennova_id' => $this->presupuesto_sennova_id['value'],
-            ]);
-        }
+        //
     }
 }

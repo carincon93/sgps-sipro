@@ -36,6 +36,7 @@ class ConvocatoriaRolSennova extends Model
         'asignacion_mensual',
         'experiencia',
         'nivel_academico',
+        'sumar_al_presupuesto',
         'perfil',
         'mensaje'
     ];

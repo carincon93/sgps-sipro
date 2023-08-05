@@ -574,7 +574,7 @@ class Proyecto extends Model
         $total = 0;
 
         foreach ($this->proyectoRolesSennova as $proyecto_rol_sennova) {
-            if ($proyecto_rol_sennova->convocatoriaRolSennova->rolSennova->sumar_al_presupuesto) {
+            if ($proyecto_rol_sennova->convocatoriaRolSennova->sumar_al_presupuesto) {
                 $total += $proyecto_rol_sennova->getTotalRolSennova();
             }
         }
@@ -620,7 +620,7 @@ class Proyecto extends Model
         $total = 0;
 
         foreach ($this->proyectoRolesSennova as $proyecto_rol_sennova) {
-            if ($proyecto_rol_sennova->convocatoriaRolSennova->rolSennova->sumar_al_presupuesto && $proyecto_rol_sennova->getRolAprobadoAttribute()) {
+            if ($proyecto_rol_sennova->convocatoriaRolSennova->sumar_al_presupuesto && $proyecto_rol_sennova->getRolAprobadoAttribute()) {
                 $total += $proyecto_rol_sennova->getTotalRolSennova();
             }
         }

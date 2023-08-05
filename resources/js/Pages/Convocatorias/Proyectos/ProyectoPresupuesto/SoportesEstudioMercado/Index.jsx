@@ -90,7 +90,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                     <ul className="list-disc ml-4">
                                         {proyecto_presupuesto.convocatoria_proyecto_rubros_presupuestales.map((convocatoria_rubro_presupuestal, i) => (
                                             <li key={i}>
-                                                <p className="first-letter:uppercase mb-2 font-black">{convocatoria_rubro_presupuestal.presupuesto_sennova.uso_presupuestal.descripcion}</p>
+                                                <p className="first-letter:uppercase mb-2 font-black">{convocatoria_rubro_presupuestal.rubro_presupuestal.uso_presupuestal.descripcion}</p>
                                             </li>
                                         ))}
                                     </ul>

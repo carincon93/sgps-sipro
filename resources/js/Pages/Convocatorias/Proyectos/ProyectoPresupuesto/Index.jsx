@@ -96,7 +96,7 @@ const RubrosPresupuestales = ({
                                             {presupuesto.convocatoria_proyecto_rubros_presupuestales.map((convocatoria_rubro_presupuestal, i) => (
                                                 <li key={i}>
                                                     <p className="first-letter:uppercase mb-2">
-                                                        {convocatoria_rubro_presupuestal.presupuesto_sennova.uso_presupuestal.descripcion}{' '}
+                                                        {convocatoria_rubro_presupuestal.rubro_presupuestal.uso_presupuestal.descripcion}{' '}
                                                         {convocatoria_rubro_presupuestal.sumar_al_presupuesto ? null : (
                                                             <Chip label="No suma al presupuesto" size="small" className="!bg-blue-200 hover:!bg-blue-50 !text-blue-500 mt-1" />
                                                         )}
@@ -142,9 +142,9 @@ const RubrosPresupuestales = ({
 
                                 {presupuesto.convocatoria_proyecto_rubros_presupuestales.map((rubro_presupuestal, i) => (
                                     <React.Fragment key={i}>
-                                        {rubro_presupuestal.presupuesto_sennova.segundo_grupo_presupuestal.codigo == '2041102' ||
-                                        rubro_presupuestal.presupuesto_sennova.segundo_grupo_presupuestal.codigo == '2041101' ||
-                                        rubro_presupuestal.presupuesto_sennova.segundo_grupo_presupuestal.codigo == '2041104' ? (
+                                        {rubro_presupuestal.rubro_presupuestal.segundo_grupo_presupuestal.codigo == '2041102' ||
+                                        rubro_presupuestal.rubro_presupuestal.segundo_grupo_presupuestal.codigo == '2041101' ||
+                                        rubro_presupuestal.rubro_presupuestal.segundo_grupo_presupuestal.codigo == '2041104' ? (
                                             <Link
                                                 href={route('convocatorias.proyectos.presupuesto.municipios.index', [convocatoria.id, proyecto.id, presupuesto.id])}
                                                 className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
