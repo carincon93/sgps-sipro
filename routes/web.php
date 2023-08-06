@@ -488,6 +488,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/download/{formato}', [ProyectoPresupuestoController::class, 'downloadServerFile'])->name('convocatorias.proyectos.presupuesto.download');
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/estudio-mercado', [ProyectoPresupuestoController::class, 'storeEstudioMercado'])->name('convocatorias.proyectos.presupuesto.estudio-mercado.store');
 
+    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/software-info', [ProyectoPresupuestoController::class, 'updateOrCreateSoftwareInfo'])->name('convocatorias.proyectos.presupuesto.software-info');
+    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/nodos-editoriales', [ProyectoPresupuestoController::class, 'updateOrCreateNodoEditorialInfo'])->name('convocatorias.proyectos.presupuesto.nodos-editoriales');
+
+
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/municipios', [ProyectoPresupuestoController::class, 'indexMunicipiosAVisitar'])->name('convocatorias.proyectos.presupuesto.municipios.index');
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/municipios', [ProyectoPresupuestoController::class, 'storeMunicipiosAVisitar'])->name('convocatorias.proyectos.presupuesto.municipios.store');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/municipios/{taTpViaticosMunicipio}', [ProyectoPresupuestoController::class, 'updateMunicipiosAVisitar'])->name('convocatorias.proyectos.presupuesto.municipios.update');

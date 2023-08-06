@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Evaluacion\Evaluacion;
 use App\Models\Evaluacion\ProyectoPresupuestoEvaluacion;
-use App\Models\ServicioEdicionInfo;
+use App\Models\NodoEditorialInfo;
 use App\Models\TaTpViaticosMunicipio;
 use Inertia\Inertia;
 
@@ -38,7 +38,7 @@ class ProyectoPresupuestoController extends Controller
             'rubros_presupuestales'             =>  ProyectoPresupuesto::select('proyecto_presupuesto.*')
                                                         ->where('proyecto_id', $proyecto->id)
                                                         ->filterProyectoPresupuesto(request()->only('search', 'presupuestos'))
-                                                        ->with('convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.usoPresupuestal', 'convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.segundoGrupoPresupuestal', 'proyectoPresupuestosEvaluaciones.evaluacion', 'softwareInfo', 'servicioEdicionInfo')
+                                                        ->with('convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.usoPresupuestal', 'convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.segundoGrupoPresupuestal', 'proyectoPresupuestosEvaluaciones.evaluacion', 'softwareInfo', 'nodoEditorialInfo')
                                                         ->orderBy('proyecto_presupuesto.id')
                                                         ->paginate()
                                                         ->appends(['search' => request()->search, 'presupuestos' => request()->presupuestos]),
@@ -78,29 +78,6 @@ class ProyectoPresupuestoController extends Controller
         $presupuesto = ProyectoPresupuesto::create($request->all());
 
         $presupuesto->convocatoriaProyectoRubrosPresupuestales()->sync($request->convocatoria_presupuesto_id);
-
-        if ($request->tipo_software) {
-            $request->validate([
-                'tipo_licencia'             => 'required|integer',
-                'tipo_licencia'             => 'required|integer',
-                'tipo_software'             => 'required|integer',
-                'fecha_inicio'              => 'required|date|date_format:Y-m-d|before:fecha_finalizacion',
-                'fecha_finalizacion'        => 'required|date|date_format:Y-m-d|after:fecha_inicio',
-            ]);
-
-            $software_info = new SoftwareInfo();
-            $software_info->tipo_licencia        = $request->tipo_licencia;
-            $software_info->tipo_software        = $request->tipo_software;
-            $software_info->fecha_inicio         = $request->fecha_inicio;
-            $software_info->fecha_finalizacion   = $request->fecha_finalizacion;
-
-            $presupuesto->softwareInfo()->save($software_info);
-        } else if ($request->servicio_edicion_info) {
-            $servicio_edicion_info = new ServicioEdicionInfo();
-            $servicio_edicion_info->info = $request->servicio_edicion_info;
-
-            $presupuesto->servicioEdicionInfo()->save($servicio_edicion_info);
-        }
 
         return back()->with('success', 'El recurso se ha creado correctamente.');
     }
@@ -151,42 +128,6 @@ class ProyectoPresupuestoController extends Controller
 
         $presupuesto->convocatoriaProyectoRubrosPresupuestales()->sync($request->convocatoria_presupuesto_id);
 
-        if ($request->tipo_licencia) {
-            $request->validate([
-                'tipo_licencia'             => 'required|integer',
-                'tipo_licencia'             => 'required|integer',
-                'tipo_software'             => 'required|integer',
-                'fecha_inicio'              => 'required|date|date_format:Y-m-d|before:fecha_finalizacion',
-                'fecha_finalizacion'        => 'required|date|date_format:Y-m-d|after:fecha_inicio',
-            ]);
-
-            $software_info = SoftwareInfo::where('proyecto_presupuesto_id', $presupuesto->id)->first();
-            $presupuesto->softwareInfo()->updateOrCreate(
-                ['id' => $software_info ? $software_info->id : null],
-                [
-                    'tipo_licencia'      => $request->tipo_licencia,
-                    'tipo_software'      => $request->tipo_software,
-                    'fecha_inicio'       => $request->fecha_inicio,
-                    'fecha_finalizacion' => $request->fecha_finalizacion
-                ]
-            );
-        } else {
-            $presupuesto->servicioEdicionInfo()->delete();
-        }
-
-        if ($request->servicio_edicion_info) {
-            $servicio_edicion_info = ServicioEdicionInfo::where('proyecto_presupuesto_id', $presupuesto->id)->first();
-
-            $presupuesto->servicioEdicionInfo()->updateOrCreate(
-                ['id' => $servicio_edicion_info ? $servicio_edicion_info->id : null],
-                [
-                    'info' => $request->servicio_edicion_info,
-                ]
-            );
-        } else {
-            $presupuesto->softwareInfo()->delete();
-        }
-
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
@@ -203,6 +144,37 @@ class ProyectoPresupuestoController extends Controller
         $presupuesto->delete();
 
         return redirect()->route('convocatorias.proyectos.presupuesto.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha eliminado correctamente.');
+    }
+
+    public function updateOrCreateSoftwareInfo(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto)
+    {
+        $request->validate([
+            'tipo_licencia'             => 'required|integer',
+            'tipo_licencia'             => 'required|integer',
+            'tipo_software'             => 'required|integer',
+            'fecha_inicio'              => 'required|date|date_format:Y-m-d|before:fecha_finalizacion',
+            'fecha_finalizacion'        => 'nullable|date|date_format:Y-m-d|after:fecha_inicio',
+        ]);
+
+        SoftwareInfo::updateOrCreate(
+        ['id' => $presupuesto->softwareInfo()->exists() ? $presupuesto->softwareInfo->id : null],
+        [
+            'proyecto_presupuesto_id'   => $presupuesto->id,
+            'tipo_licencia'             => $request->tipo_licencia,
+            'tipo_software'             => $request->tipo_software,
+            'fecha_inicio'              => $request->fecha_inicio,
+            'fecha_finalizacion'        => $request->fecha_finalizacion
+        ]);
+    }
+
+    public function updateOrCreateNodoEditorialInfo(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto)
+    {
+        NodoEditorialInfo::updateOrCreate(
+        ['id' => $presupuesto->nodoEditorialInfo()->exists() ? $presupuesto->nodoEditorialInfo->id : null],
+        [
+            'proyecto_presupuesto_id'   => $presupuesto->id,
+            'info'                      => $request->info,
+        ]);
     }
 
     public function storeEstudioMercado(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto)

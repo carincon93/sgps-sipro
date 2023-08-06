@@ -1,7 +1,6 @@
 import AlertMui from '@/Components/Alert'
 import Autocomplete from '@/Components/Autocomplete'
 import ButtonMui from '@/Components/Button'
-import DatePicker from '@/Components/DatePicker'
 import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
 import SelectMultiple from '@/Components/SelectMultiple'
@@ -13,14 +12,12 @@ import { Chip, Grid, Paper } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 const Form = ({
+    is_super_admin,
     method = '',
     setDialogStatus,
     convocatoria,
     proyecto,
     rubro_presupuestal,
-    tipos_licencia,
-    tipos_software,
-    opciones_servicios_edicion,
     segundo_grupo_presupuestal,
     tercer_grupo_presupuestal,
     usos_presupuestales,
@@ -29,7 +26,6 @@ const Form = ({
     const [array_tecer_grupo_presupuestal, setArrayTecerGrupoPresupuestal] = useState([])
     const [array_usos_presupuestales, setArrayUsosPresupuestales] = useState([])
     const [requiere_estudio_mercado, setRequiereEstudioMercado] = useState(true)
-    const [codigos_usos_presupuestales, setCodigosUsosPresupuestales] = useState([])
     const [codigo_segundo_grupo_presupuestal, setCodigoSegundoGrupoPresupuestal] = useState('')
     const [same_values_requiere_estudio_mercado, setSameValuesRequiereEstudioMercado] = useState(false)
     const [modificar_usos_presupuestales, setModificarUsosPresupuestales] = useState(false)
@@ -40,11 +36,6 @@ const Form = ({
         convocatoria_presupuesto_id: rubro_presupuestal?.convocatoria_proyecto_rubros_presupuestales.map((item) => item.id),
         descripcion: rubro_presupuestal?.descripcion ?? '',
         justificacion: rubro_presupuestal?.justificacion ?? '',
-        tipo_software: rubro_presupuestal?.software_info?.tipo_software ?? '',
-        tipo_licencia: rubro_presupuestal?.software_info?.tipo_licencia ?? '',
-        fecha_inicio: rubro_presupuestal?.software_info?.fecha_inicio ?? '',
-        fecha_finalizacion: rubro_presupuestal?.software_info?.fecha_finalizacion ?? '',
-        servicio_edicion_info: rubro_presupuestal?.servicio_edicion_info?.info ?? '',
         valor_total: rubro_presupuestal?.valor_total ?? '',
         concepto_viaticos: rubro_presupuestal?.concepto_viaticos ?? '',
     })
@@ -58,7 +49,6 @@ const Form = ({
             setTimeout(() => {
                 const filtered_tecer_grupo_presupuestal = tercer_grupo_presupuestal.filter((item) => item.segundo_grupo_presupuestal_id == form.data.segundo_grupo_presupuestal_id)
                 setArrayTecerGrupoPresupuestal(filtered_tecer_grupo_presupuestal)
-                setCodigoSegundoGrupoPresupuestal(segundo_grupo_presupuestal.find((item) => item.value == form.data.segundo_grupo_presupuestal_id)?.codigo)
             }, 500)
         }
     }, [form.data.segundo_grupo_presupuestal_id])
@@ -100,8 +90,6 @@ const Form = ({
             ) {
                 setRequiereEstudioMercado(false)
             }
-
-            setCodigosUsosPresupuestales(array_usos_presupuestales.filter((item) => form.data.convocatoria_presupuesto_id?.includes(item.value)))
         }
     }, [form.data.convocatoria_presupuesto_id])
 
@@ -115,8 +103,6 @@ const Form = ({
         if (rubro_presupuestal && rubro_presupuestal.convocatoria_proyecto_rubros_presupuestales.length > 0) {
             setModificarUsosPresupuestales(true)
         }
-
-        setCodigosUsosPresupuestales(usos_presupuestales.filter((item) => form.data.convocatoria_presupuesto_id?.includes(item.value)))
     }, [rubro_presupuestal])
 
     const submit = (e) => {
@@ -148,13 +134,13 @@ const Form = ({
                             <h1>Usos presupuestales</h1>
 
                             <ul className="mt-6 space-y-2 list-disc">
-                                {rubro_presupuestal.convocatoria_proyecto_rubros_presupuestales.map((convocatoriaRubroPresupuestal, i) => (
+                                {rubro_presupuestal.convocatoria_proyecto_rubros_presupuestales.map((convocatoria_rubro_presupuestal, i) => (
                                     <li key={i}>
                                         <p className="first-letter:uppercase">
-                                            {convocatoriaRubroPresupuestal.rubro_presupuestal.uso_presupuestal.descripcion}
+                                            {convocatoria_rubro_presupuestal.rubro_presupuestal.uso_presupuestal.descripcion}
                                             <Chip
                                                 component="span"
-                                                label={convocatoriaRubroPresupuestal.requiere_estudio_mercado ? 'Requiere estudio de mercado' : 'No requiere estudio de mercado'}
+                                                label={convocatoria_rubro_presupuestal.requiere_estudio_mercado ? 'Requiere estudio de mercado' : 'No requiere estudio de mercado'}
                                                 className="ml-2"
                                                 size="small"
                                             />
@@ -205,11 +191,11 @@ const Form = ({
                                                 options={array_usos_presupuestales}
                                                 bdValues={form.data.convocatoria_presupuesto_id}
                                                 onChange={(event, newValue) => {
-                                                    const selectedValues = newValue.map((option) => option.value)
+                                                    const selected_values = newValue.map((option) => option.value)
 
                                                     form.setData((prevData) => ({
                                                         ...prevData,
-                                                        convocatoria_presupuesto_id: selectedValues,
+                                                        convocatoria_presupuesto_id: selected_values,
                                                     }))
                                                 }}
                                                 error={form.errors.convocatoria_presupuesto_id}
@@ -220,19 +206,19 @@ const Form = ({
                                 </>
                             )}
 
-                            {method == 'PUT' && (
+                            {method === 'PUT' && (
                                 <ButtonMui
-                                    onClick={() => (
-                                        setModificarUsosPresupuestales(!modificar_usos_presupuestales),
+                                    onClick={() => {
+                                        setModificarUsosPresupuestales(!modificar_usos_presupuestales)
                                         form.setData((prevData) => ({
                                             ...prevData,
                                             segundo_grupo_presupuestal_id: [],
                                             tercer_grupo_presupuestal_id: [],
                                             convocatoria_presupuesto_id: [],
                                         }))
-                                    )}
+                                    }}
                                     className="!my-6">
-                                    {!modificar_usos_presupuestales ? 'Cancelar' : 'Modificar usos presupuestales'}
+                                    {modificar_usos_presupuestales ? 'Modificar usos presupuestales' : 'Cancelar'}
                                 </ButtonMui>
                             )}
 
@@ -275,78 +261,7 @@ const Form = ({
                                     required
                                 />
                             </div>
-                            {codigos_usos_presupuestales.some((item) => item.codigo_uso_presupuestal == '2010100600203101' || item.codigo_uso_presupuestal == '2020100400708') && (
-                                <>
-                                    <div className="mt-8">
-                                        <Autocomplete
-                                            id="tipo_licencia"
-                                            options={tipos_licencia}
-                                            label="Tipo de licencia"
-                                            selectedValue={form.data.tipo_licencia}
-                                            onChange={(e, newValue) => form.setData('tipo_licencia', newValue.value)}
-                                            error={form.errors.tipo_licencia}
-                                            placeholder="Seleccione una opción"
-                                            required
-                                        />
-                                    </div>
 
-                                    <div className="mt-8">
-                                        <Autocomplete
-                                            id="tipo_software"
-                                            options={tipos_software}
-                                            label="Tipo de software"
-                                            selectedValue={form.data.tipo_software}
-                                            onChange={(e, newValue) => form.setData('tipo_software', newValue.value)}
-                                            error={form.errors.tipo_software}
-                                            placeholder="Seleccione una opción"
-                                            required
-                                        />
-                                    </div>
-
-                                    <div className="mt-8">
-                                        <h1 className="font-black">Periodo de uso</h1>
-                                        <div className="mt-8 flex justify-between">
-                                            <Label required className="mb-4" labelFor="fecha_inicio" value="Fecha de inicio" />
-                                            <DatePicker
-                                                label="Fecha de inicio"
-                                                id="fecha_inicio"
-                                                type="date"
-                                                className="mt-1 p-4"
-                                                value={form.data.fecha_inicio}
-                                                error={form.errors.fecha_inicio}
-                                                onChange={(e) => form.setData('fecha_inicio', e.target.value)}
-                                                required
-                                            />
-                                        </div>
-                                        <div className="mt-8 flex justify-between">
-                                            <Label className="mb-4" labelFor="fecha_finalizacion" value="Fecha de finalización (Cuando aplique)" />
-                                            <DatePicker
-                                                label="Fecha de finalización"
-                                                id="fecha_finalizacion"
-                                                type="date"
-                                                className="mt-1 p-4"
-                                                value={form.data.fecha_finalizacion}
-                                                error={form.errors.fecha_finalizacion}
-                                                onChange={(e) => form.setData('fecha_finalizacion', e.target.value)}
-                                            />
-                                        </div>
-                                    </div>
-                                </>
-                            )}
-                            {codigos_usos_presupuestales.some((item) => item.codigo_uso_presupuestal == '2020200800901') && (
-                                <div className="mt-8">
-                                    <Label required className="mb-4" labelFor="servicio_edicion_info" value="Nodo editorial" />
-                                    <Autocomplete
-                                        id="servicio_edicion_info"
-                                        options={opciones_servicios_edicion}
-                                        selectedValue={form.data.servicio_edicion_info}
-                                        error={form.errors.servicio_edicion_info}
-                                        onChange={(e, newValue) => form.setData('servicio_edicion_info', newValue.value)}
-                                        placeholder="Seleccione una opción"
-                                        required
-                                    />
-                                </div>
-                            )}
                             {proyecto.codigo_linea_programatica == 69 && (
                                 <>
                                     {(form.data.concepto_viaticos ||

@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ServicioEdicionInfo extends Model
+class NodoEditorialInfo extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,7 @@ class ServicioEdicionInfo extends Model
      *
      * @var string
      */
-    protected $table = 'servicios_edicion_info';
+    protected $table = 'nodos_editoriales_info';
 
     /**
      * The attributes that are mass assignable.
@@ -62,7 +62,7 @@ class ServicioEdicionInfo extends Model
      * @param  mixed $filters
      * @return void
      */
-    public function scopeFilterServicioEdicionInfo($query, array $filters)
+    public function scopeFilterNodoEditorialInfo($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $search = str_replace('"', "", $search);
@@ -80,44 +80,5 @@ class ServicioEdicionInfo extends Model
     public function getUpdatedAtAttribute($value)
     {
         return "Última modificación de este formulario: " . Carbon::parse($value, 'UTC')->timezone('America/Bogota')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY [a las] HH:mm:ss');
-    }
-
-    /**
-     * getNivelAttribute
-     *
-     * @param  mixed $value
-     * @return void
-     */
-    public function getInfoAttribute($value)
-    {
-        switch ($value) {
-            case 1:
-                $value = 'Ingeniería y Tecnología';
-                break;
-            case 2:
-                $value = 'Ciencias Agrícolas';
-                break;
-            case 3:
-                $value = 'Ciencias Sociales';
-                break;
-            case 4:
-                $value = 'Ciencias Naturales';
-                break;
-            case 5:
-                $value = 'Ciencias Médicas y de Salud';
-                break;
-            case 6:
-                $value = 'Multidisciplinario y humanidades';
-                break;
-            case 7:
-                $value = 'Industrias Creativas, cuarta revolución y sostenibilidad y medio ambiente';
-                break;
-            case 8:
-                $value = 'Niños y jóvenes';
-                break;
-            default:
-                break;
-        }
-        return $value;
     }
 }

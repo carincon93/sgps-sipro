@@ -99,13 +99,13 @@ class ProyectoPresupuesto extends Model
     }
 
     /**
-     * Relationship with ServicioEdicionInfo
+     * Relationship with NodoEditorialInfo
      *
      * @return object
      */
-    public function servicioEdicionInfo()
+    public function nodoEditorialInfo()
     {
-        return $this->hasOne(ServicioEdicionInfo::class);
+        return $this->hasOne(NodoEditorialInfo::class);
     }
 
     /**

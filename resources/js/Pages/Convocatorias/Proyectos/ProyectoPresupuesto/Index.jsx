@@ -14,7 +14,9 @@ import AirplaneTicketIcon from '@mui/icons-material/AirplaneTicket'
 import CelebrationOutlinedIcon from '@mui/icons-material/CelebrationOutlined'
 import FolderSharedIcon from '@mui/icons-material/FolderShared'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
+import TerminalOutlinedIcon from '@mui/icons-material/TerminalOutlined'
 import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { Link, router } from '@inertiajs/react'
@@ -26,6 +28,8 @@ import Evaluacion from './Evaluacion'
 import Form from './Form'
 
 import React from 'react'
+import FormServiciosEdicionInfo from './FormNodoEditorial'
+import FormSoftwareInfo from './FormSoftwareInfo'
 
 const RubrosPresupuestales = ({
     auth,
@@ -44,6 +48,8 @@ const RubrosPresupuestales = ({
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
+    const [dialog_software_info_status, setDialogSoftwareInfoStatus] = useState(false)
+    const [dialog_servicio_edicion_info_status, setDialogServicioEdicionInfoStatus] = useState(false)
     const [dialog_status, setDialogStatus] = useState(false)
     const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
     const [proyecto_presupuesto_a_evaluar, setPresupuestoAEvaluar] = useState(null)
@@ -129,7 +135,6 @@ const RubrosPresupuestales = ({
                                         className="!bg-blue-200 hover:!bg-blue-50 !text-blue-500 mt-4"
                                     />
                                 )}
-
                                 {proyecto.codigo_linea_programatica == 70 && (
                                     <>
                                         {usos_presupuestales
@@ -145,7 +150,6 @@ const RubrosPresupuestales = ({
                                         )}
                                     </>
                                 )}
-
                                 {presupuesto.convocatoria_proyecto_rubros_presupuestales.some(
                                     (rubro_presupuestal) =>
                                         rubro_presupuestal.rubro_presupuestal.segundo_grupo_presupuestal.codigo === '2041102' ||
@@ -158,6 +162,32 @@ const RubrosPresupuestales = ({
                                         <AirplaneTicketIcon className="mr-2" />
                                         Debe relacionar los municipios a visitar
                                     </Link>
+                                )}
+                                {presupuesto.convocatoria_proyecto_rubros_presupuestales.some(
+                                    (rubro_presupuestal) => rubro_presupuestal.rubro_presupuestal.uso_presupuestal.codigo === '2020200800901',
+                                ) && (
+                                    <ButtonMui
+                                        onClick={() => {
+                                            setRubroPresupuestal(presupuesto), setDialogServicioEdicionInfoStatus(true)
+                                        }}
+                                        className="!my-1 !text-left !normal-case">
+                                        <MenuBookOutlinedIcon className="mr-2" />
+                                        Información del nodo editorial
+                                    </ButtonMui>
+                                )}
+                                {presupuesto.convocatoria_proyecto_rubros_presupuestales.some(
+                                    (rubro_presupuestal) =>
+                                        rubro_presupuestal.rubro_presupuestal.uso_presupuestal.codigo === '2010100600203101' ||
+                                        rubro_presupuestal.rubro_presupuestal.uso_presupuestal.codigo === '2020100400708',
+                                ) && (
+                                    <ButtonMui
+                                        onClick={() => {
+                                            setRubroPresupuestal(presupuesto), setDialogSoftwareInfoStatus(true)
+                                        }}
+                                        className="!my-1 !text-left !normal-case">
+                                        <TerminalOutlinedIcon className="mr-2" />
+                                        Información del software
+                                    </ButtonMui>
                                 )}
                             </TableCell>
                             <TableCell>
@@ -262,13 +292,47 @@ const RubrosPresupuestales = ({
                             proyecto={proyecto}
                             convocatoria={convocatoria}
                             rubro_presupuestal={rubro_presupuestal}
-                            tipos_licencia={tipos_licencia}
-                            tipos_software={tipos_software}
-                            opciones_servicios_edicion={opciones_servicios_edicion}
                             segundo_grupo_presupuestal={segundo_grupo_presupuestal}
                             tercer_grupo_presupuestal={tercer_grupo_presupuestal}
                             usos_presupuestales={usos_presupuestales}
                             conceptos_viaticos={conceptos_viaticos}
+                        />
+                    }
+                />
+
+                <DialogMui
+                    open={dialog_servicio_edicion_info_status}
+                    fullWidth={true}
+                    maxWidth="lg"
+                    blurEnabled={true}
+                    dialogContent={
+                        <FormServiciosEdicionInfo
+                            is_super_admin={is_super_admin}
+                            setDialogStatus={setDialogServicioEdicionInfoStatus}
+                            method={method}
+                            proyecto={proyecto}
+                            convocatoria={convocatoria}
+                            rubro_presupuestal={rubro_presupuestal}
+                            opciones_servicios_edicion={opciones_servicios_edicion}
+                        />
+                    }
+                />
+
+                <DialogMui
+                    open={dialog_software_info_status}
+                    fullWidth={true}
+                    maxWidth="lg"
+                    blurEnabled={true}
+                    dialogContent={
+                        <FormSoftwareInfo
+                            is_super_admin={is_super_admin}
+                            setDialogStatus={setDialogSoftwareInfoStatus}
+                            method={method}
+                            proyecto={proyecto}
+                            convocatoria={convocatoria}
+                            rubro_presupuestal={rubro_presupuestal}
+                            tipos_licencia={tipos_licencia}
+                            tipos_software={tipos_software}
                         />
                     }
                 />
