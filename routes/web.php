@@ -333,8 +333,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
      *
      */
     Route::get('convocatorias/{convocatoria}/proyectos-linea-70/{proyecto_linea_70}/download-pdf-sharepoint/{tipo_archivo}', [ProyectoLinea70Controller::class, 'downloadPdfSharepoint'])->name('convocatorias.proyectos-linea-70.download-pdf-sharepoint');
-    Route::post('convocatorias/{convocatoria}/proyectos-linea-70/{proyecto_linea_70}/aulas-moviles/', [ProyectoLinea70Controller::class, 'aulaMovilStore'])->name('convocatorias.proyectos-linea-70.aulas-moviles.store');
+    Route::post('convocatorias/{convocatoria}/proyectos-linea-70/{proyecto_linea_70}/aulas-moviles/', [ProyectoLinea70Controller::class, 'storeAulaMovil'])->name('convocatorias.proyectos-linea-70.aulas-moviles.store');
+    Route::put('convocatorias/{convocatoria}/proyectos-linea-70/{proyecto_linea_70}/aulas-moviles/{aula_movil}', [ProyectoLinea70Controller::class, 'updateAulaMovil'])->name('convocatorias.proyectos-linea-70.aulas-moviles.update');
     Route::delete('convocatorias/{convocatoria}/proyectos-linea-70/{proyecto_linea_70}/aulas-moviles/{aula_movil}', [ProyectoLinea70Controller::class, 'destroyAulaMovil'])->name('convocatorias.proyectos-linea-70.aulas-moviles.destroy');
+
     Route::get('convocatorias/{convocatoria}/proyectos-linea-70/{proyecto_linea_70}/aulas-moviles/{aula_movil}/download-file-sharepoint/{tipo_archivo}', [ProyectoLinea70Controller::class, 'downloadFileSharepoint'])->name('convocatorias.proyectos-linea-70.aulas-moviles.download-file-sharepoint');
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/programas-formacion', [ProyectoController::class, 'storeProgramaFormacion'])->name('convocatorias.proyectos.programas-formacion.store');
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/discurriculares', [DisenoCurricularController::class, 'storeDisCurricular'])->name('convocatorias.proyectos.dis-curriculares.store');

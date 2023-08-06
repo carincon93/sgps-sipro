@@ -30,7 +30,7 @@ class AulaMovil extends Model
      * @var array
      */
     protected $fillable = [
-        'ta_id',
+        'proeycto_linea70_id',
         'placa',
         'modelo',
         'logros_vigencia',
@@ -102,7 +102,7 @@ class AulaMovil extends Model
         $soatFileInfo               = pathinfo($this->soat);
         $tecnicomecanicaFileInfo    = pathinfo($this->tecnicomecanica);
 
-        $arrayFileInfo = collect(['soatFilename' => $soatFileInfo['filename'], 'tecnicomecanicaFilename' => $tecnicomecanicaFileInfo['filename']]);
+        $arrayFileInfo = collect(['soatFilename' => $soatFileInfo['filename'] ?? '', 'tecnicomecanicaFilename' => $tecnicomecanicaFileInfo['filename'] ?? '']);
 
         return $arrayFileInfo ?? '';
     }
@@ -112,7 +112,7 @@ class AulaMovil extends Model
         $soatFileInfo               = pathinfo($this->soat);
         $tecnicomecanicaFileInfo    = pathinfo($this->tecnicomecanica);
 
-        $arrayFileInfo = collect(['soatExtension' => $soatFileInfo['extension'], 'tecnicomecanicaExtension' => $tecnicomecanicaFileInfo['extension']]);
+        $arrayFileInfo = collect(['soatExtension' => $soatFileInfo['extension'] ?? '', 'tecnicomecanicaExtension' => $tecnicomecanicaFileInfo['extension'] ?? '']);
 
         return $arrayFileInfo ?? '';
     }

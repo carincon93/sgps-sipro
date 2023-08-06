@@ -142,7 +142,7 @@ class ProyectoLinea70 extends Model
      */
     public function aulasMoviles()
     {
-        return $this->hasMany(AulaMovil::class);
+        return $this->hasMany(AulaMovil::class, 'proeycto_linea70_id');
     }
 
     /**

@@ -102,9 +102,9 @@ export default function Dashboard({ auth, convocatorias }) {
                                                 {convocatoria.year}
                                             </>
                                         ) : convocatoria.tipo_convocatoria == 2 ? (
-                                            <>Proyectos de ejercicio (DEMO)</>
+                                            <>Proyectos de ejercicio (DEMO) {convocatoria.year}</>
                                         ) : (
-                                            <>Nuevas TecnoAcademias - Nuevos Tecnoparques</>
+                                            <>Nuevas TecnoAcademias - Nuevos Tecnoparques {convocatoria.year}</>
                                         )}
                                     </h1>
 

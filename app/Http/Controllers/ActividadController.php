@@ -160,7 +160,7 @@ class ActividadController extends Controller
             'municipios'                => SelectHelper::municipios(),
             'disenos_curriculares'      => SelectHelper::disenoCurriculares()->where('habilitado_convocatoria', true)->values()->all(),
             'tecnoacademia_relacionada' => $proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia : null,
-            'aulas_moviles'             => AulaMovil::where('ta_id', $proyecto->id)->get(),
+            'aulas_moviles'             => AulaMovil::where('proeycto_linea70_id', $proyecto->id)->get(),
 
             'proyecto_presupuesto'      => ProyectoPresupuesto::select('proyecto_presupuesto.id as value', 'proyecto_presupuesto.descripcion as label')->where('proyecto_presupuesto.proyecto_id', $proyecto->id)->with('convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.usoPresupuestal')->get(),
             'proyecto_roles'            => ProyectoRolSennova::select('proyecto_rol_sennova.id as value', 'roles_sennova.nombre as label')

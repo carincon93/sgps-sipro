@@ -74,7 +74,7 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) =>
                                             onClick={(e) => {
                                                 e.stopPropagation()
                                                 if (proyecto.allowed.to_update) {
-                                                    router.delete(route('convocatorias.ta.aulas-moviles.destroy', [convocatoria.id, proyecto.id, aula_movil.id]), {
+                                                    router.delete(route('convocatorias.proyectos-linea-70.aulas-moviles.destroy', [convocatoria.id, proyecto.id, aula_movil.id]), {
                                                         preserveScroll: true,
                                                     })
                                                 }
