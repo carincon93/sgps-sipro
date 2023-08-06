@@ -43,7 +43,6 @@ const RubrosPresupuestales = ({
     tipos_licencia,
     tipos_software,
     opciones_servicios_edicion,
-    conceptos_viaticos,
 }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
@@ -295,7 +294,6 @@ const RubrosPresupuestales = ({
                             segundo_grupo_presupuestal={segundo_grupo_presupuestal}
                             tercer_grupo_presupuestal={tercer_grupo_presupuestal}
                             usos_presupuestales={usos_presupuestales}
-                            conceptos_viaticos={conceptos_viaticos}
                         />
                     }
                 />

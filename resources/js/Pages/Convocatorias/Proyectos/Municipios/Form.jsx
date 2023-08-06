@@ -144,12 +144,14 @@ const Form = ({
                                     <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
                                         {method == 'POST' ? 'Agregar' : 'Modificar'} municipio
                                     </PrimaryButton>
+                                </>
+                            ) : (
+                                <>
+                                    <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
                                     <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
                                         Cancelar
                                     </ButtonMui>
                                 </>
-                            ) : (
-                                <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
                             )}
                         </div>
                     </form>

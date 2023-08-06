@@ -48,7 +48,6 @@ class ProyectoPresupuestoController extends Controller
             'tipos_licencia'                    =>  json_decode(Storage::get('json/tipos-licencia-software.json'), true),
             'opciones_servicios_edicion'        =>  json_decode(Storage::get('json/opciones-servicios-edicion.json'), true),
             'tipos_software'                    =>  json_decode(Storage::get('json/tipos-software.json'), true),
-            'conceptos_viaticos'                =>  json_decode(Storage::get('json/conceptos-viaticos.json'), true),
         ]);
     }
 
@@ -272,6 +271,7 @@ class ProyectoPresupuestoController extends Controller
             'frecuencias_semanales'         =>  json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true),
             'municipios'                    =>  SelectHelper::municipios(),
             'ta_tp_viaticos_municipios'     =>  $presupuesto->taTpViaticosMunicipios()->exists() ? $presupuesto->taTpViaticosMunicipios()->get() : collect([]),
+            'conceptos_viaticos'            =>  json_decode(Storage::get('json/conceptos-viaticos.json'), true),
             'proyecto_roles_sennova'        =>  $proyecto->proyectoRolesSennova()->selectRaw("proyecto_rol_sennova.id as value, convocatoria_rol_sennova.perfil, convocatoria_rol_sennova.mensaje,
                                                 CASE nivel_academico
                                                     WHEN '7' THEN   concat(roles_sennova.nombre, chr(10), '∙ ', 'Nivel académico: Ninguno', chr(10), '∙ ', convocatoria_rol_sennova.experiencia, chr(10), '∙ Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
@@ -288,6 +288,13 @@ class ProyectoPresupuestoController extends Controller
                                                 ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
                                                 ->get()
         ]);
+    }
+
+    public function storeConceptoViaticos(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto)
+    {
+        $presupuesto->update(['concepto_viaticos' => $request->concepto_viaticos]);
+
+        return back()->with('success', 'El recurso se ha modificado correctamente.');
     }
 
     public function storeMunicipiosAVisitar(TaTpViaticosMunicipioRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto)

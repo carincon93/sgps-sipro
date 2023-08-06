@@ -16,6 +16,8 @@ import { router } from '@inertiajs/react'
 import { useState } from 'react'
 
 import Form from './Form'
+import Autocomplete from '@/Components/Autocomplete'
+import PrimaryButton from '@/Components/PrimaryButton'
 
 const Municipios = ({
     auth,
@@ -28,6 +30,7 @@ const Municipios = ({
     proyecto_roles_sennova,
     distancias_municipios,
     frecuencias_semanales,
+    conceptos_viaticos,
     ...props
 }) => {
     const auth_user = auth.user
@@ -35,6 +38,11 @@ const Municipios = ({
 
     const [municipio_to_destroy, setMunicipioToDestroy] = useState(null)
     const [dialog_status, setDialogStatus] = useState(false)
+    const [dialog_concepto_viaticos_status, setDialogConceptoViaticosStatus] = useState(true)
+
+    const [opcion_concepto_viaticos, setOpcionConceptoViaticos] = useState(presupuesto.concepto_viaticos)
+    const [concepto_viaticos_loading, setConceptoViaticosLoading] = useState(false)
+
     const [method, setMethod] = useState('')
     const [municipio, setMunicipio] = useState(null)
 
@@ -144,6 +152,43 @@ const Municipios = ({
                             distancias_municipios={distancias_municipios}
                             frecuencias_semanales={frecuencias_semanales}
                         />
+                    }
+                />
+
+                <DialogMui
+                    open={dialog_concepto_viaticos_status}
+                    fullWidth={true}
+                    maxWidth="sm"
+                    dialogContent={
+                        <form>
+                            <Autocomplete
+                                id="concepto_viaticos"
+                                options={conceptos_viaticos}
+                                selectedValue={opcion_concepto_viaticos}
+                                onChange={(e, newValue) => (
+                                    setOpcionConceptoViaticos(newValue.value),
+                                    setConceptoViaticosLoading(true),
+                                    router.post(
+                                        route('convocatorias.proyectos.presupuesto.concepto-viaticos', [convocatoria.id, proyecto.id, presupuesto.id]),
+                                        { concepto_viaticos: newValue.value },
+                                        {
+                                            onSuccess: () => (setConceptoViaticosLoading(false), setDialogConceptoViaticosStatus(false)),
+                                            preserveScroll: true,
+                                        },
+                                    )
+                                )}
+                                label="¿Cuál es el concepto de los viáticos?"
+                                disabled={proyecto.allowed.to_update ? false : true}
+                                className="my-10"
+                                required
+                            />
+
+                            <div className="mt-4">
+                                <ButtonMui type="button" primary={false} onClick={() => setDialogConceptoViaticosStatus(false)} disabled={concepto_viaticos_loading}>
+                                    {concepto_viaticos_loading ? 'Guardando...' : 'Continuar'}
+                                </ButtonMui>
+                            </div>
+                        </form>
                     }
                 />
             </Grid>

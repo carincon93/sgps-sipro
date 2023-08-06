@@ -11,22 +11,10 @@ import { useForm } from '@inertiajs/react'
 import { Chip, Grid, Paper } from '@mui/material'
 import { useEffect, useState } from 'react'
 
-const Form = ({
-    is_super_admin,
-    method = '',
-    setDialogStatus,
-    convocatoria,
-    proyecto,
-    rubro_presupuestal,
-    segundo_grupo_presupuestal,
-    tercer_grupo_presupuestal,
-    usos_presupuestales,
-    conceptos_viaticos,
-}) => {
+const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proyecto, rubro_presupuestal, segundo_grupo_presupuestal, tercer_grupo_presupuestal, usos_presupuestales }) => {
     const [array_tecer_grupo_presupuestal, setArrayTecerGrupoPresupuestal] = useState([])
     const [array_usos_presupuestales, setArrayUsosPresupuestales] = useState([])
     const [requiere_estudio_mercado, setRequiereEstudioMercado] = useState(true)
-    const [codigo_segundo_grupo_presupuestal, setCodigoSegundoGrupoPresupuestal] = useState('')
     const [same_values_requiere_estudio_mercado, setSameValuesRequiereEstudioMercado] = useState(false)
     const [modificar_usos_presupuestales, setModificarUsosPresupuestales] = useState(false)
 
@@ -261,28 +249,6 @@ const Form = ({
                                     required
                                 />
                             </div>
-
-                            {proyecto.codigo_linea_programatica == 69 && (
-                                <>
-                                    {(form.data.concepto_viaticos ||
-                                        codigo_segundo_grupo_presupuestal == '2041102' ||
-                                        codigo_segundo_grupo_presupuestal == '2041101' ||
-                                        codigo_segundo_grupo_presupuestal == '2041104') && (
-                                        <div className="mt-8">
-                                            <Label required labelFor="concepto_viaticos" value="Concepto" />
-                                            <Autocomplete
-                                                id="concepto_viaticos"
-                                                options={conceptos_viaticos}
-                                                selectedValue={form.data.concepto_viaticos}
-                                                error={form.errors.concepto_viaticos}
-                                                onChange={(e, newValue) => form.setData('concepto_viaticos', newValue.value)}
-                                                placeholder="Seleccione una opción"
-                                                required
-                                            />
-                                        </div>
-                                    )}
-                                </>
-                            )}
                         </fieldset>
 
                         {rubro_presupuestal && <small className="flex items-center mt-14 text-app-700">{rubro_presupuestal.updated_at}</small>}
