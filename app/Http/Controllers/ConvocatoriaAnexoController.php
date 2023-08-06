@@ -22,11 +22,10 @@ class ConvocatoriaAnexoController extends Controller
     {
         $this->authorize('viewAny', [ConvocatoriaAnexo::class]);
 
-        return Inertia::render('Convocatorias/Anexos/Index', [
+        return Inertia::render('Convocatorias/ConvocatoriaAnexos/Index', [
             'convocatoria'          => $convocatoria,
-            'convocatoria_anexos'   => $convocatoria->convocatoriaAnexos()->with('anexo', 'lineasProgramaticas')->get(),
+            'convocatoria_anexos'   => $convocatoria->convocatoriaAnexos()->with('anexo', 'lineaProgramatica')   ->where('convocatoria_anexos.linea_programatica_id', request()->linea_programatica_id)->get(),
             'anexos'                => Anexo::select('anexos.id as value', 'anexos.nombre as label')->get(),
-            'lineas_programaticas'  => $convocatoria->lineasProgramaticas()->select('lineas_programaticas.id as value', 'lineas_programaticas.nombre as label')->get(),
         ]);
     }
 
@@ -54,13 +53,11 @@ class ConvocatoriaAnexoController extends Controller
 
         $convocatoria_anexo = $convocatoria->convocatoriaAnexos()->create($request->validated());
 
-        $convocatoria_anexo->lineasProgramaticas()->sync($request->lineas_programaticas);
-
         if ($request->hasFile('archivo')) {
             $this->saveFilesSharepoint($request, $convocatoria_anexo);
         }
 
-        return redirect()->route('convocatorias.convocatoria-anexos.index', [$convocatoria])->with('success', 'El recurso se ha creado correctamente.');
+        return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
     /**
@@ -98,11 +95,9 @@ class ConvocatoriaAnexoController extends Controller
     {
         $this->authorize('update', [ConvocatoriaAnexo::class, $convocatoria_anexo]);
 
-        $convocatoria_anexo->obligatorio     = $request->obligatorio;
-        $convocatoria_anexo->habilitado      = $request->habilitado;
+        $convocatoria_anexo->update($request->validated());
         $convocatoria_anexo->save();
 
-        $convocatoria_anexo->lineasProgramaticas()->sync($request->lineas_programaticas);
 
         if ($request->hasFile('archivo')) {
             $this->saveFilesSharepoint($request, $convocatoria_anexo);
@@ -155,5 +150,20 @@ class ConvocatoriaAnexoController extends Controller
         $sharepoint_path = $convocatoria_anexo[$tipo_archivo];
 
         return SharepointHelper::downloadFile($sharepoint_path);
+    }
+
+    public function cambiarEstados(Request $request, Convocatoria $convocatoria, ConvocatoriaAnexo $convocatoria_anexo)
+    {
+        $this->authorize('update', [ConvocatoriaAnexo::class, $convocatoria_anexo]);
+
+        if ($request->has('habilitado')) {
+            $convocatoria_anexo->update(['habilitado' => $request->habilitado]);
+        }
+
+        if ($request->has('obligatorio')) {
+            $convocatoria_anexo->update(['obligatorio' => $request->obligatorio]);
+        }
+
+        return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 }

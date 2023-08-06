@@ -1,5 +1,4 @@
 import FileInput from '@/Components/FileInput'
-import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
 
 import { useForm } from '@inertiajs/react'
@@ -38,8 +37,6 @@ const Form = ({ convocatoria, proyecto, convocatoria_anexo, proyecto_anexo, ...p
         <form onSubmit={submit} className="mt-4 p-4">
             <fieldset disabled={proyecto?.allowed?.to_update && convocatoria_anexo?.habilitado == true ? false : true}>
                 <div className="mt-20">
-                    <Label value="Archivo/anexo" />
-
                     <FileInput
                         id="archivo"
                         value={form.data.archivo}

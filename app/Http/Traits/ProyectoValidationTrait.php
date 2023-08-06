@@ -401,10 +401,9 @@ trait ProyectoValidationTrait
         $linea_programatica_id = $proyecto->linea_programatica_id;
 
         $convocatoria_anexos = ConvocatoriaAnexo::where('convocatoria_id', $proyecto->convocatoria_id)
-                    ->with('anexo', 'lineasProgramaticas')
-                    ->whereHas('lineasProgramaticas', function ($query) use ($linea_programatica_id) {
-                        $query->where('lineas_programaticas.id', $linea_programatica_id);
-                    })
+                    ->where('linea_programatica_id', $linea_programatica_id)
+                    ->with('anexo', 'lineaProgramatica')
+
                     ->get();
 
         $count = 0;

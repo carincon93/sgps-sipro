@@ -58,13 +58,23 @@ class LineaProgramatica extends Model
     }
 
     /**
-     * Relationship with RubroPresupuestal
+     * Relationship with ConvocatoriaAnexo
      *
      * @return object
      */
-    public function rubroPresupuestal()
+    public function convocatoriaAnexos()
     {
-        return $this->hasMany(RubroPresupuestal::class);
+        return $this->hasMany(ConvocatoriaAnexo::class);
+    }
+
+    /**
+     * Relationship with convocatoriaPresupuesto
+     *
+     * @return object
+     */
+    public function convocatoriaRubrosPresupuestales()
+    {
+        return $this->hasMany(convocatoriaPresupuesto::class);
     }
 
     /**
@@ -72,7 +82,7 @@ class LineaProgramatica extends Model
      *
      * @return object
      */
-    public function convocatoriaRolSennova()
+    public function convocatoriaRolesSennova()
     {
         return $this->hasMany(ConvocatoriaRolSennova::class);
     }
@@ -95,16 +105,6 @@ class LineaProgramatica extends Model
     public function rolesSennova()
     {
         return $this->hasMany(RolSennova::class);
-    }
-
-    /**
-     * Relationship with ConvocatoriaAnexo
-     *
-     * @return object
-     */
-    public function convocatoriaAnexos()
-    {
-        return $this->belongsToMany(ConvocatoriaAnexo::class, 'convocatoria_anexos_linea_programatica', 'linea_programatica_id', 'convocatoria_anexo_id');
     }
 
     /**

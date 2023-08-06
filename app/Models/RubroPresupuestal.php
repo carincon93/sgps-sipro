@@ -34,7 +34,6 @@ class RubroPresupuestal extends Model
         'segundo_grupo_presupuestal_id',
         'tercer_grupo_presupuestal_id',
         'uso_presupuestal_id',
-        'linea_programatica_id',
     ];
 
     /**

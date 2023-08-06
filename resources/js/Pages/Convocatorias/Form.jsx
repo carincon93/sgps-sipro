@@ -89,23 +89,6 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, lineas
                         />
                     </Grid>
 
-                    <Grid item md={6}>
-                        <Label required className="mb-4" labelFor="year" value="Año de ejecución de proyectos" />
-                    </Grid>
-                    <Grid item md={6}>
-                        <TextInput
-                            id="year"
-                            name="year"
-                            type="number"
-                            value={form.data.year}
-                            onChange={(e) => form.setData('year', e.target.value)}
-                            inputProps={{
-                                min: 2010,
-                                max: currentYear + 1,
-                            }}
-                        />
-                    </Grid>
-
                     {method == 'POST' && (
                         <>
                             <Grid item md={6}>
@@ -166,6 +149,23 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, lineas
                         />
                     </Grid>
 
+                    <Grid item md={6}>
+                        <Label required className="mb-4" labelFor="year" value="Año de ejecución de proyectos" />
+                    </Grid>
+                    <Grid item md={6}>
+                        <TextInput
+                            id="year"
+                            name="year"
+                            type="number"
+                            value={form.data.year}
+                            onChange={(e) => form.setData('year', e.target.value)}
+                            inputProps={{
+                                min: 2010,
+                                max: currentYear + 1,
+                            }}
+                        />
+                    </Grid>
+
                     <Grid item md={12}>
                         <Textarea
                             label="Descripción"
@@ -178,24 +178,14 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, lineas
                     </Grid>
 
                     <Grid item md={9}>
-                        <Label
-                            required
-                            labelFor="esta_activa"
-                            value="¿Desea activar esta convocatoria? (Si la opción está habilitada permite a los usuarios formular proyectos. Tenga en cuenta que solo puede activar una convocatoria por tipo --Proyectos de convocatoria - Proyectos de ejecicio DEMO)"
-                            className="inline-block text-justify mb-4"
-                        />
+                        <Label required labelFor="esta_activa" value="¿Desea activar esta convocatoria para que los usuarios formulen proyectos?" className="inline-block text-justify mb-4" />
                     </Grid>
                     <Grid item md={3}>
                         <SwitchMui className="!ml-4" checked={form.data.esta_activa} onChange={(e) => form.setData('esta_activa', e.target.checked)} />
                     </Grid>
 
                     <Grid item md={9}>
-                        <Label
-                            required
-                            labelFor="visible"
-                            value="Defina la visibilidad de la convocatoria. (Si la opción está habilitada permite a los usuarios visualizar la convocatoria)"
-                            className="inline-block mb-4"
-                        />
+                        <Label required labelFor="visible" value="¿Desea que la convocatoria sea visible para todos los usuarios?" className="inline-block mb-4" />
                     </Grid>
                     <Grid item md={3}>
                         <SwitchMui className="!ml-4" checked={form.data.visible} onChange={(e) => form.setData('visible', e.target.checked)} />

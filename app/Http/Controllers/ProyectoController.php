@@ -339,6 +339,39 @@ class ProyectoController extends Controller
         return back()->with('success', 'El recurso se ha guardado correctamente.');
     }
 
+
+    public function redireccionar(Request $request, Convocatoria $convocatoria)
+    {
+        switch (request()->linea_programatica_id) {
+            case 1:
+            case 2:
+            case 3:
+            case 29:
+                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria, 'linea_programatica_id' => request()->linea_programatica_id]);
+                break;
+            case 5:
+                return redirect()->route('convocatorias.proyectos-linea-70.index', [$convocatoria, 'linea_programatica_id' => request()->linea_programatica_id]);
+                break;
+            case 4:
+                return redirect()->route('convocatorias.proyectos-linea-69.index', [$convocatoria, 'linea_programatica_id' => request()->linea_programatica_id]);
+                break;
+            case 35:
+                return redirect()->route('convocatorias.proyectos-hub-linea-69.index', [$convocatoria, 'linea_programatica_id' => request()->linea_programatica_id]);
+                break;
+            case 10:
+                return redirect()->route('convocatorias.proyectos-linea-68.index', [$convocatoria, 'linea_programatica_id' => request()->linea_programatica_id]);
+                break;
+            case 9:
+                return redirect()->route('convocatorias.proyectos-linea-65.index', [$convocatoria, 'linea_programatica_id' => request()->linea_programatica_id]);
+                break;
+            case 11:
+                return redirect()->route('convocatorias.proyectos-linea-83.index', [$convocatoria, 'linea_programatica_id' => request()->linea_programatica_id]);
+                break;
+            default:
+                break;
+        }
+    }
+
     /**
      * Proyecto
      *

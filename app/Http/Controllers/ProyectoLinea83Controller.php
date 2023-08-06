@@ -32,9 +32,9 @@ class ProyectoLinea83Controller extends Controller
     public function index(Convocatoria $convocatoria)
     {
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea83/Index', [
-            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
-            'proyectos_hub_linea_69'    => ProyectoLinea83::getProyectosPorRol($convocatoria)->appends(['search' => request()->search]),
-            'allowed_to_create'         => Gate::inspect('formular-proyecto', [11, $convocatoria])->allowed()
+            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
+            'proyectos_linea_83'    => ProyectoLinea83::getProyectosPorRol($convocatoria)->appends(['search' => request()->search]),
+            'allowed_to_create'     => Gate::inspect('formular-proyecto', [11, $convocatoria])->allowed()
         ]);
     }
 

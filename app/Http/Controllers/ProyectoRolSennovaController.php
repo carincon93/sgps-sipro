@@ -57,20 +57,20 @@ class ProyectoRolSennovaController extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/RolesSennova/Index', [
-            'convocatoria'                              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
-            'proyecto'                                  => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'total_roles_sennova', 'cantidad_instructores_planta', 'cantidad_dinamizadores_planta', 'cantidad_psicopedagogos_planta', 'en_subsanacion', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'diff_meses', 'max_meses_ejecucion', 'fecha_inicio', 'fecha_finalizacion'),
-            'evaluacion'                                => Evaluacion::find(request()->evaluacion_id),
-            'proyecto_roles_sennova'                    => ProyectoRolSennova::where('proyecto_id', $proyecto->id)->filterProyectoRolSennova(request()->only('search'))->with('convocatoriaRolSennova.rolSennova', 'proyectoRolesEvaluaciones.evaluacion', 'actividades', 'lineasTecnoacademia', 'lineasTecnoparque')->orderBy('proyecto_rol_sennova.id')->paginate(),
-            'linea_programatica'                        => $proyecto->lineaProgramatica->only('id'),
-            'convocatoria_roles_sennova'                => SelectHelper::convocatoriaRolesSennova($convocatoria->id, $proyecto->id, $proyecto->lineaProgramatica->id),
-            'actividades'                               => Actividad::select('id as value', 'descripcion as label')->whereIn(
-                                                            'objetivo_especifico_id',
-                                                            $objetivos_especificos->map(function ($objetivoEspecifico) {
-                                                                return $objetivoEspecifico->id;
-                                                            })
-                                                        )->orderBy('actividades.descripcion')->with('objetivoEspecifico')->get(),
-            'lineas_tecnologicas'                       => $lineas_tecnologicas ?? [],
-            'niveles_academicos'                        => json_decode(Storage::get('json/niveles-academicos.json'), true)
+            'convocatoria'                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
+            'proyecto'                      => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'total_roles_sennova', 'cantidad_instructores_planta', 'cantidad_dinamizadores_planta', 'cantidad_psicopedagogos_planta', 'en_subsanacion', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'diff_meses', 'max_meses_ejecucion', 'fecha_inicio', 'fecha_finalizacion'),
+            'evaluacion'                    => Evaluacion::find(request()->evaluacion_id),
+            'proyecto_roles_sennova'        => ProyectoRolSennova::where('proyecto_id', $proyecto->id)->filterProyectoRolSennova(request()->only('search'))->with('convocatoriaRolSennova.rolSennova', 'proyectoRolesEvaluaciones.evaluacion', 'actividades', 'lineasTecnoacademia', 'lineasTecnoparque')->orderBy('proyecto_rol_sennova.id')->paginate(),
+            'linea_programatica'            => $proyecto->lineaProgramatica->only('id'),
+            'convocatoria_roles_sennova'    => SelectHelper::convocatoriaRolesSennova($convocatoria->id, $proyecto->id, $proyecto->lineaProgramatica->id),
+            'actividades'                   => Actividad::select('id as value', 'descripcion as label')->whereIn(
+                                                    'objetivo_especifico_id',
+                                                    $objetivos_especificos->map(function ($objetivoEspecifico) {
+                                                        return $objetivoEspecifico->id;
+                                                    })
+                                                )->orderBy('actividades.descripcion')->with('objetivoEspecifico')->get(),
+            'lineas_tecnologicas'           => $lineas_tecnologicas ?? [],
+            'niveles_academicos'            => json_decode(Storage::get('json/niveles-academicos.json'), true)
         ]);
     }
 

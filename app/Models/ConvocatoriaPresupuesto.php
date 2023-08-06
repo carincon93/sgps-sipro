@@ -70,6 +70,16 @@ class ConvocatoriaPresupuesto extends Model
     }
 
     /**
+     * Relationship with LineaProgramatica
+     *
+     * @return object
+     */
+    public function lineaProgramatica()
+    {
+        return $this->belongsTo(LineaProgramatica::class);
+    }
+
+    /**
      * Relationship with ProyectoPresupuesto
      *
      * @return object

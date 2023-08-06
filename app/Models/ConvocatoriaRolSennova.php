@@ -22,7 +22,7 @@ class ConvocatoriaRolSennova extends Model
      *
      * @var array
      */
-    protected $appends = ['nivel_academico_formateado'];
+    protected $appends = [];
 
     /**
      * The attributes that are mass assignable.
@@ -38,7 +38,8 @@ class ConvocatoriaRolSennova extends Model
         'nivel_academico',
         'sumar_al_presupuesto',
         'perfil',
-        'mensaje'
+        'mensaje',
+        'habilitado'
     ];
 
     /**

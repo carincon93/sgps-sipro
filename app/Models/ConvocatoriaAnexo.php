@@ -34,6 +34,7 @@ class ConvocatoriaAnexo extends Model
         'anexo_id',
         'habilitado',
         'obligatorio',
+        'linea_programatica_id'
     ];
 
     /**
@@ -79,9 +80,9 @@ class ConvocatoriaAnexo extends Model
      *
      * @return object
      */
-    public function lineasProgramaticas()
+    public function lineaProgramatica()
     {
-        return $this->belongsToMany(LineaProgramatica::class, 'convocatoria_anexo_lineas_programaticas', 'convocatoria_anexo_id', 'linea_programatica_id');
+        return $this->belongsTo(LineaProgramatica::class);
     }
 
     /**

@@ -85,7 +85,7 @@ const RubrosPresupuestales = ({
                         <TableRow key={i}>
                             <TableCell>
                                 <div className="flex flex-col focus:text-app-500 px-6 py-4" id={`PRE-${presupuesto.id}`}>
-                                    <small>Código: PRE-{presupuesto.id}</small>
+                                    <Chip size="small" label={<>Código: PRE-{presupuesto.id}</>} />
                                     <div className="mt-3">
                                         <p className="whitespace-pre-line line-clamp-6">{presupuesto.descripcion}</p>
                                     </div>
@@ -96,9 +96,15 @@ const RubrosPresupuestales = ({
                                             {presupuesto.convocatoria_proyecto_rubros_presupuestales.map((convocatoria_rubro_presupuestal, i) => (
                                                 <li key={i}>
                                                     <p className="first-letter:uppercase mb-2">
+                                                        <small>{convocatoria_rubro_presupuestal.rubro_presupuestal.segundo_grupo_presupuestal.nombre}: </small>
+                                                        <br />
+                                                        <small>{convocatoria_rubro_presupuestal.rubro_presupuestal.uso_presupuestal.codigo}: </small>
                                                         {convocatoria_rubro_presupuestal.rubro_presupuestal.uso_presupuestal.descripcion}{' '}
+                                                        {convocatoria_rubro_presupuestal.habilitado ? null : (
+                                                            <Chip label="Deshabilitado" size="small" className="!bg-red-200 !text-[10px] hover:!bg-red-50 mr-1 !text-red-500 mt-1" />
+                                                        )}
                                                         {convocatoria_rubro_presupuestal.sumar_al_presupuesto ? null : (
-                                                            <Chip label="No suma al presupuesto" size="small" className="!bg-blue-200 hover:!bg-blue-50 !text-blue-500 mt-1" />
+                                                            <Chip label="No suma al presupuesto" size="small" className="!bg-red-200 !text-[10px] hover:!bg-red-50 !text-red-500 mt-1" />
                                                         )}
                                                     </p>
                                                 </li>

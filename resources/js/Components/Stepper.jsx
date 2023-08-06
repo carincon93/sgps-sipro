@@ -110,12 +110,12 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
     },
     [`&.${stepConnectorClasses.active}`]: {
         [`& .${stepConnectorClasses.line}`]: {
-            backgroundImage: 'linear-gradient( 95deg,rgb(55 65 81) 0%,rgb(83 163 199) 50%,rgb(144 163 255) 100%)',
+            backgroundImage: 'linear-gradient( 95deg, rgb(144 163 255) 10%, rgb(83 163 199) 20%, rgb(55 65 81) 100%)',
         },
     },
     [`&.${stepConnectorClasses.completed}`]: {
         [`& .${stepConnectorClasses.line}`]: {
-            backgroundImage: 'linear-gradient( 95deg,rgb(55 65 81) 0%,rgb(83 163 199) 50%,rgb(144 163 255) 100%)',
+            backgroundImage: 'linear-gradient( 95deg, rgb(144 163 255) 10%, rgb(83 163 199) 20%, rgb(55 65 81) 100%)',
         },
     },
     [`& .${stepConnectorClasses.line}`]: {

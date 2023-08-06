@@ -163,7 +163,7 @@ class ProyectoLinea83 extends Model
         /** @var \App\Models\User */
         $auth_user = Auth::user();
 
-        $proyectos_linea_83 = ProyectoLinea83::select('proyectos_linea_83.id','proyectos_linea_83.fecha_inicio', 'proyectos_linea_83.fecha_finalizacion')
+        $proyectos_linea_83 = ProyectoLinea83::select('proyectos_linea_83.id', 'proyectos_linea_83.titulo', 'proyectos_linea_83.fecha_inicio', 'proyectos_linea_83.fecha_finalizacion')
             ->join('proyectos', 'proyectos_linea_83.id', 'proyectos.id')
             ->join('centros_formacion', 'proyectos.centro_formacion_id', 'centros_formacion.id')
             ->whereHas(

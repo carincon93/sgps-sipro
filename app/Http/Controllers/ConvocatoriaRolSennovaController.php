@@ -23,22 +23,20 @@ class ConvocatoriaRolSennovaController extends Controller
         $this->authorize('viewAny', [ConvocatoriaRolSennova::class]);
 
         return Inertia::render('Convocatorias/ConvocatoriaRolesSennova/Index', [
-            'filters'                   => request()->all('search'),
-            'convocatoria'              => $convocatoria,
-            'convocatoriaRolesSennova'  => $convocatoria->convocatoriaRolesSennova()
-                ->selectRaw("convocatoria_rol_sennova.id, lineas_programaticas.nombre as linea_programatica_nombre, convocatoria_rol_sennova.asignacion_mensual, CASE convocatoria_rol_sennova.nivel_academico
-                        WHEN '7' THEN	concat(roles_sennova.nombre, ' - Nivel académico: Ninguno')
-                        WHEN '1' THEN	concat(roles_sennova.nombre, ' - Nivel académico: Técnico')
-                        WHEN '2' THEN	concat(roles_sennova.nombre, ' - Nivel académico: Tecnólogo')
-                        WHEN '3' THEN	concat(roles_sennova.nombre, ' - Nivel académico: Pregrado')
-                        WHEN '4' THEN	concat(roles_sennova.nombre, ' - Nivel académico: Especalización')
-                        WHEN '5' THEN	concat(roles_sennova.nombre, ' - Nivel académico: Maestría')
-                        WHEN '6' THEN	concat(roles_sennova.nombre, ' - Nivel académico: Doctorado')
-                        WHEN '8' THEN	concat(roles_sennova.nombre, ' - Nivel académico: Técnico con especialización')
-                        WHEN '9' THEN	concat(roles_sennova.nombre, ' - Nivel académico: Tecnólogo con especialización')
-                    END as nombre")->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
-                ->join('lineas_programaticas', 'lineas_programaticas.id', 'convocatoria_rol_sennova.linea_programatica_id')
-                ->filterConvocatoriaRolSennova(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+            'filters'                       => request()->all('search'),
+            'convocatoria'                  => $convocatoria,
+            'convocatoria_roles_sennova'    => $convocatoria->convocatoriaRolesSennova()
+                                                ->select('convocatoria_rol_sennova.*')
+                                                ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
+                                                ->where('convocatoria_rol_sennova.linea_programatica_id', request()->linea_programatica_id)
+                                                ->orderBy('roles_sennova.nombre', 'ASC')
+                                                ->orderBy('convocatoria_rol_sennova.id', 'ASC')
+                                                ->with('rolSennova')
+                                                ->filterConvocatoriaRolSennova(request()->only('search'))
+                                                ->paginate(50)
+                                                ->appends(['search' => request()->search]),
+            'niveles_academicos'            => json_decode(Storage::get('json/niveles-academicos.json'), true),
+            'roles_sennova'                 => SelectHelper::rolesSennova(),
         ]);
     }
 
@@ -51,12 +49,7 @@ class ConvocatoriaRolSennovaController extends Controller
     {
         $this->authorize('create', [ConvocatoriaRolSennova::class]);
 
-        return Inertia::render('Convocatorias/ConvocatoriaRolesSennova/Create', [
-            'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
-            'nivelesAcademicos'     => json_decode(Storage::get('json/niveles-academicos.json'), true),
-            'rolesSennova'          => SelectHelper::rolesSennova(),
-            'lineasProgramaticas'   => SelectHelper::lineasProgramaticas()
-        ]);
+        //
     }
 
     /**
@@ -69,74 +62,56 @@ class ConvocatoriaRolSennovaController extends Controller
     {
         $this->authorize('create', [ConvocatoriaRolSennova::class]);
 
-        $convocatoriaRolSennova = new ConvocatoriaRolSennova();
-        $convocatoriaRolSennova->asignacion_mensual     = $request->asignacion_mensual;
-        $convocatoriaRolSennova->nivel_academico        = $request->nivel_academico;
-        $convocatoriaRolSennova->perfil                 = $request->perfil;
-        $convocatoriaRolSennova->mensaje                = $request->mensaje;
-        $convocatoriaRolSennova->experiencia            = $request->experiencia;
-        $convocatoriaRolSennova->convocatoria()->associate($convocatoria);
-        $convocatoriaRolSennova->rolSennova()->associate($request->rol_sennova_id);
-        $convocatoriaRolSennova->lineaProgramatica()->associate($request->linea_programatica_id);
+        if ($convocatoria->convocatoriaRolesSennova()->where('rol_sennova_id', $request->rol_sennova_id)->where('nivel_academico', $request->nivel_academico)->where('linea_programatica_id', $request->linea_programatica_id)->count() > 0) {
+            return back()->with('success', 'Error: Ya ha agregado un rol con el mismo nivel académico. Por favor seleccione un rol o nivel académico diferente.');
+        }
 
-        $convocatoriaRolSennova->save();
+        $convocatoria_rol_sennova = $convocatoria->convocatoriaRolesSennova()->create($request->validated());
 
-        return redirect()->route('convocatorias.convocatoria-rol-sennova.index', [$convocatoria])->with('success', 'El recurso se ha creado correctamente.');
+        return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ConvocatoriaRolSennova  $convocatoriaRolSennova
+     * @param  \App\Models\ConvocatoriaRolSennova  $convocatoria_rol_sennova
      * @return \Illuminate\Http\Response
      */
-    public function show(Convocatoria $convocatoria, ConvocatoriaRolSennova $convocatoriaRolSennova)
+    public function show(Convocatoria $convocatoria, ConvocatoriaRolSennova $convocatoria_rol_sennova)
     {
-        $this->authorize('view', [ConvocatoriaRolSennova::class, $convocatoriaRolSennova]);
+        $this->authorize('view', [ConvocatoriaRolSennova::class, $convocatoria_rol_sennova]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ConvocatoriaRolSennova  $convocatoriaRolSennova
+     * @param  \App\Models\ConvocatoriaRolSennova  $convocatoria_rol_sennova
      * @return \Illuminate\Http\Response
      */
-    public function edit(Convocatoria $convocatoria, ConvocatoriaRolSennova $convocatoriaRolSennova)
+    public function edit(Convocatoria $convocatoria, ConvocatoriaRolSennova $convocatoria_rol_sennova)
     {
-        $this->authorize('update', [ConvocatoriaRolSennova::class, $convocatoriaRolSennova]);
+        $this->authorize('update', [ConvocatoriaRolSennova::class, $convocatoria_rol_sennova]);
 
-        $convocatoriaRolSennova->rolSennova;
-
-        return Inertia::render('Convocatorias/ConvocatoriaRolesSennova/Edit', [
-            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
-            'convocatoriaRolSennova'    => $convocatoriaRolSennova,
-            'nivelesAcademicos'         => json_decode(Storage::get('json/niveles-academicos.json'), true),
-            'rolesSennova'              => SelectHelper::rolesSennova(),
-            'lineasProgramaticas'       => SelectHelper::lineasProgramaticas()
-        ]);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ConvocatoriaRolSennova  $convocatoriaRolSennova
+     * @param  \App\Models\ConvocatoriaRolSennova  $convocatoria_rol_sennova
      * @return \Illuminate\Http\Response
      */
-    public function update(ConvocatoriaRolSennovaRequest $request, Convocatoria $convocatoria, ConvocatoriaRolSennova $convocatoriaRolSennova)
+    public function update(ConvocatoriaRolSennovaRequest $request, Convocatoria $convocatoria, ConvocatoriaRolSennova $convocatoria_rol_sennova)
     {
-        $this->authorize('update', [ConvocatoriaRolSennova::class, $convocatoriaRolSennova]);
+        $this->authorize('update', [ConvocatoriaRolSennova::class, $convocatoria_rol_sennova]);
 
-        $convocatoriaRolSennova->asignacion_mensual     = $request->asignacion_mensual;
-        $convocatoriaRolSennova->nivel_academico        = $request->nivel_academico;
-        $convocatoriaRolSennova->perfil                 = $request->perfil;
-        $convocatoriaRolSennova->mensaje                = $request->mensaje;
-        $convocatoriaRolSennova->experiencia            = $request->experiencia;
-        $convocatoriaRolSennova->convocatoria()->associate($convocatoria);
-        $convocatoriaRolSennova->rolSennova()->associate($request->rol_sennova_id);
-        $convocatoriaRolSennova->lineaProgramatica()->associate($request->linea_programatica_id);
+        if ($convocatoria_rol_sennova->nivel_academico != $request->nivel_academico && $convocatoria->convocatoriaRolesSennova()->where('rol_sennova_id', $request->rol_sennova_id)->where('nivel_academico', $request->nivel_academico)->where('linea_programatica_id', $request->linea_programatica_id)->count() > 0) {
+            return back()->with('success', 'Error: Ya ha agregado un rol con el mismo nivel académico. Por favor seleccione un rol o nivel académico diferente.');
+        }
 
-        $convocatoriaRolSennova->save();
+        $convocatoria_rol_sennova->update($request->validated());
+        $convocatoria_rol_sennova->save();
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
@@ -144,15 +119,32 @@ class ConvocatoriaRolSennovaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ConvocatoriaRolSennova  $convocatoriaRolSennova
+     * @param  \App\Models\ConvocatoriaRolSennova  $convocatoria_rol_sennova
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Convocatoria $convocatoria, ConvocatoriaRolSennova $convocatoriaRolSennova)
+    public function destroy(Convocatoria $convocatoria, ConvocatoriaRolSennova $convocatoria_rol_sennova)
     {
-        $this->authorize('delete', [ConvocatoriaRolSennova::class, $convocatoriaRolSennova]);
+        $this->authorize('delete', [ConvocatoriaRolSennova::class, $convocatoria_rol_sennova]);
 
-        $convocatoriaRolSennova->delete();
+        $convocatoria_rol_sennova->delete();
 
         return back()->with('success', 'El recurso se ha eliminado correctamente.');
+    }
+
+    public function cambiarEstados(Request $request, Convocatoria $convocatoria, ConvocatoriaRolSennova $convocatoria_rol_sennova)
+    {
+        $this->authorize('update', [ConvocatoriaRolSennova::class, $convocatoria_rol_sennova]);
+
+        if ($request->has('habilitado')) {
+            $convocatoria_rol_sennova->update(['habilitado' => $request->habilitado]);
+
+            !$request->habilitado ? $convocatoria_rol_sennova->update(['sumar_al_presupuesto' => false]) : $convocatoria_rol_sennova->update(['sumar_al_presupuesto' => true]);
+        }
+
+        if ($request->has('sumar_al_presupuesto')) {
+            $convocatoria_rol_sennova->update(['sumar_al_presupuesto' => $request->sumar_al_presupuesto]);
+        }
+
+        return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 }

@@ -146,11 +146,14 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
                                 <br />
 
                                 <Chip
-                                    className="mt-1"
+                                    className="!bg-blue-200 hover:!bg-blue-50 !text-blue-500 mt-1"
                                     label={
-                                        <p className="first-letter:uppercase">
-                                            {niveles_academicos.find((item) => item.value == proyecto_rol_sennova?.convocatoria_rol_sennova?.nivel_academico).label}
-                                        </p>
+                                        <span className="flex">
+                                            Nivel académico:
+                                            <p className="first-letter:uppercase">
+                                                {niveles_academicos.find((item) => item.value == proyecto_rol_sennova?.convocatoria_rol_sennova?.nivel_academico).label}
+                                            </p>
+                                        </span>
                                     }
                                 />
                             </TableCell>
@@ -160,6 +163,12 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
                                     !isNaN(proyecto_rol_sennova?.convocatoria_rol_sennova?.asignacion_mensual) ? proyecto_rol_sennova?.convocatoria_rol_sennova?.asignacion_mensual : 0,
                                 )}{' '}
                                 / Meses: {proyecto_rol_sennova.numero_meses} / Cantidad: {proyecto_rol_sennova.numero_roles}
+                                {!proyecto_rol_sennova.convocatoria_rol_sennova.sumar_al_presupuesto && (
+                                    <>
+                                        <br />
+                                        <Chip className="!bg-red-200 hover:!bg-red-50 !text-red-500 mt-1" label="No suma al presupuesto" />
+                                    </>
+                                )}
                             </TableCell>
                             <TableCell>
                                 {is_super_admin || proyecto.mostrar_recomendaciones ? (

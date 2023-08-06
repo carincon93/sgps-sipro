@@ -24,8 +24,8 @@ class ConvocatoriaAnexoRequest extends FormRequest
     public function rules()
     {
         return [
-            'anexo_id*'                 => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:anexos,id'],
-            'linea_programatica_id*'    => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_programaticas,id'],
+            'anexo_id'                  => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:anexos,id'],
+            'linea_programatica_id'     => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_programaticas,id'],
             'obligatorio'               => ['required', 'boolean'],
             'habilitado'                => ['required', 'boolean'],
         ];

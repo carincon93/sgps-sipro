@@ -127,14 +127,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('lineas-tecnicas', LineaTecnicaController::class)->parameters(['lineas-tecnicas' => 'linea-tecnica'])->except(['show']);
 
     /**
-     * Anexos
-     *
-     */
-    Route::get('anexos/{anexo}/download-file-sharepoint/{tipo_archivo}', [ConvocatoriaAnexoController::class, 'downloadFileSharepoint'])->name('anexos.download-file-sharepoint');
-    Route::get('anexos/{anexo}/download/{formato}', [ConvocatoriaAnexoController::class, 'downloadServerFile'])->name('anexos.download');
-    Route::resource('convocatorias.convocatoria-anexos', ConvocatoriaAnexoController::class)->parameters(['convocatorias' => 'convocatoria', 'convocatoria-anexos' => 'convocatoria-anexo'])->except(['show']);
-
-    /**
      * Líneas programáticas
      *
      */
@@ -278,6 +270,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/radicar-proyecto', [ProyectoController::class, 'radicarProyecto'])->name('convocatorias.proyectos.radicar');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/comentario-proyecto', [ProyectoController::class, 'devolverProyecto'])->name('convocatorias.proyectos.return-project');
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/descargar-version/{version}', [ProyectoController::class, 'descargarPdf'])->name('convocatorias.proyectos.version');
+    Route::get('convocatorias/{convocatoria}/proyectos/redireccionar}', [ProyectoController::class, 'redireccionar'])->name('convocatorias.proyectos.index');
 
     /**
      * Inventario equipos - Estrategia regional
@@ -514,13 +507,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Rol SENNOVA de convocatoria
      *
      */
-    Route::resource('convocatorias.convocatoria-rol-sennova',  ConvocatoriaRolSennovaController::class)->parameters(['convocatorias' => 'convocatoria', 'convocatoria-rol-sennova' => 'convocatoria-rol-sennova'])->except(['show']);
+    Route::put('convocatorias/{convocatoria}/convocatoria-roles-sennova/{convocatoria_rol_sennova}/cambiar-estados',  [ConvocatoriaRolSennovaController::class, 'cambiarEstados'])->name('convocatorias.convocatoria-roles-sennova.cambiar-estados');
+    Route::resource('convocatorias.convocatoria-roles-sennova',  ConvocatoriaRolSennovaController::class)->parameters(['convocatorias' => 'convocatoria', 'convocatoria-roles-sennova' => 'convocatoria-rol-sennova'])->except(['show']);
 
     /**
      * Presupuesto de convocatoria
      *
      */
-    Route::resource('convocatorias.convocatoria-presupuesto',  ConvocatoriaPresupuestoController::class)->parameters(['convocatorias' => 'convocatoria', 'convocatoria-presupuesto' => 'convocatoria-presupuesto'])->except(['show']);
+    Route::put('convocatorias/{convocatoria}/convocatoria-rubros-presupuestales/{convocatoria_rubro_presupuestal}/cambiar-estados',  [ConvocatoriaPresupuestoController::class, 'cambiarEstados'])->name('convocatorias.convocatoria-rubros-presupuestales.cambiar-estados');
+    Route::resource('convocatorias.convocatoria-rubros-presupuestales',  ConvocatoriaPresupuestoController::class)->parameters(['convocatorias' => 'convocatoria', 'convocatoria-rubros-presupuestales' => 'convocatoria-rubro-presupuestal'])->except(['show']);
+
+    /**
+     * Anexos
+     *
+     */
+    Route::get('anexos/{anexo}/download-file-sharepoint/{tipo_archivo}', [ConvocatoriaAnexoController::class, 'downloadFileSharepoint'])->name('anexos.download-file-sharepoint');
+    Route::get('anexos/{anexo}/download/{formato}', [ConvocatoriaAnexoController::class, 'downloadServerFile'])->name('anexos.download');
+    Route::put('convocatorias/{convocatoria}/convocatoria-anexos/{convocatoria_anexo}/cambiar-estados',  [ConvocatoriaAnexoController::class, 'cambiarEstados'])->name('convocatorias.convocatoria-anexos.cambiar-estados');
+    Route::resource('convocatorias.convocatoria-anexos', ConvocatoriaAnexoController::class)->parameters(['convocatorias' => 'convocatoria', 'convocatoria-anexos' => 'convocatoria-anexo'])->except(['show']);
 
     /**
      * Primer grupo presupuestal

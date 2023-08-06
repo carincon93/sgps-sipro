@@ -41,6 +41,8 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
         }
     }
 
+    const roles_sennova_incompletos = convocatoria_roles_sennova.some((item) => item.label === null)
+
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
@@ -52,17 +54,24 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                     <form onSubmit={submit}>
                         <fieldset disabled={proyecto?.allowed?.to_update ? false : true}>
                             <div>
-                                <Autocomplete
-                                    id="convocatoria_rol_sennova_id"
-                                    label="Rol SENNOVA"
-                                    options={convocatoria_roles_sennova}
-                                    selectedValue={form.data.convocatoria_rol_sennova_id}
-                                    error={form.errors.convocatoria_rol_sennova_id}
-                                    onChange={(event, newValue) => {
-                                        form.setData('convocatoria_rol_sennova_id', newValue.value)
-                                    }}
-                                    required
-                                />
+                                {!roles_sennova_incompletos ? (
+                                    <Autocomplete
+                                        id="convocatoria_rol_sennova_id"
+                                        label="Rol SENNOVA"
+                                        options={convocatoria_roles_sennova}
+                                        selectedValue={form.data.convocatoria_rol_sennova_id}
+                                        error={form.errors.convocatoria_rol_sennova_id}
+                                        onChange={(event, newValue) => {
+                                            form.setData('convocatoria_rol_sennova_id', newValue.value)
+                                        }}
+                                        required
+                                    />
+                                ) : (
+                                    <AlertMui severity="error">
+                                        Aún no se ha completado la información de los roles, por favor desplegue los canales de ayuda e informe al respectivo activador(a) para que actualice la
+                                        información.{' '}
+                                    </AlertMui>
+                                )}
                             </div>
 
                             <div className="mt-8">
@@ -173,7 +182,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                         <div className="flex items-center justify-between mt-14 py-4">
                             {proyecto?.allowed?.to_update ? (
                                 <>
-                                    <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
+                                    <PrimaryButton disabled={form.processing || roles_sennova_incompletos || !form.isDirty} className="mr-2 ml-auto" type="submit">
                                         {method == 'POST' ? 'Agregar' : 'Modificar'} rol SENNOVA
                                     </PrimaryButton>
                                     <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>

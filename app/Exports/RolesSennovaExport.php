@@ -51,7 +51,7 @@ class RolesSennovaExport implements FromCollection, WithHeadings, WithMapping, W
             $rolSennova->numero_meses,
             $rolSennova->numero_roles,
             $rolSennova->convocatoriaRolSennova->experiencia,
-            ucfirst($rolSennova->convocatoriaRolSennova->nivel_academico_formateado),
+            // ucfirst($rolSennova->convocatoriaRolSennova->nivel_academico_formateado),
             $rolSennova->convocatoriaRolSennova->asignacion_mensual,
             $rolSennova->getTotalRolSennova(),
             $rolSennova->getRolAprobadoAttribute(),

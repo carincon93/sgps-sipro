@@ -43,10 +43,9 @@ class ProyectoAnexoController extends Controller
             'evaluacion'            =>  Evaluacion::find(request()->evaluacion_id),
             'proyecto_anexo'        =>  $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('anexos', 'proyecto_anexo.anexo_id', 'anexos.id')->get(),
             'convocatoria_anexos'   =>  ConvocatoriaAnexo::where('convocatoria_id', $convocatoria->id)
-                                        ->with('anexo', 'lineasProgramaticas')
-                                        ->whereHas('lineasProgramaticas', function ($query) use ($linea_programatica_id) {
-                                            $query->where('lineas_programaticas.id', $linea_programatica_id);
-                                        })
+                                        ->where('linea_programatica_id', $linea_programatica_id)
+                                        ->where('habilitado', true)
+                                        ->with('anexo', 'lineaProgramatica')
                                         ->get()
         ]);
     }

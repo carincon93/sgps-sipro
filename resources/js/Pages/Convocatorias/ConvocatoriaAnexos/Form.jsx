@@ -8,11 +8,10 @@ import SwitchMui from '@/Components/Switch'
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', setDialogStatus, convocatoria, convocatoria_anexo, anexos, lineas_programaticas, ...props }) => {
-    console.log(convocatoria_anexo)
+const Form = ({ method = '', setDialogStatus, convocatoria, convocatoria_anexo, anexos, linea_programatica_id, ...props }) => {
     const form = useForm({
         anexo_id: convocatoria_anexo?.anexo_id,
-        lineas_programaticas: convocatoria_anexo?.lineas_programaticas.map((item) => item.id),
+        linea_programatica_id: linea_programatica_id,
         habilitado: convocatoria_anexo?.habilitado,
         obligatorio: convocatoria_anexo?.obligatorio,
     })
@@ -48,24 +47,6 @@ const Form = ({ method = '', setDialogStatus, convocatoria, convocatoria_anexo, 
                                     onChange={(event, newValue) => form.setData('anexo_id', newValue.value)}
                                     error={form.errors.anexo_id}
                                     label="Anexos"
-                                    required
-                                />
-                            </div>
-
-                            <div className="mt-8">
-                                <SelectMultiple
-                                    id="lineas_programaticas"
-                                    bdValues={form.data.lineas_programaticas}
-                                    options={lineas_programaticas}
-                                    onChange={(event, newValue) => {
-                                        const selected_values = newValue.map((option) => option.value)
-                                        form.setData((prevData) => ({
-                                            ...prevData,
-                                            lineas_programaticas: selected_values,
-                                        }))
-                                    }}
-                                    error={form.errors.lineas_programaticas}
-                                    label="Líneas programáticas"
                                     required
                                 />
                             </div>

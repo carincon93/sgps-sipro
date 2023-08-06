@@ -532,24 +532,24 @@ class SelectHelper
             ->orderBy('users.nombre', 'ASC')->get();
     }
 
-    public static function convocatoriaRolesSennova($convocatoriaId, $proyectoId, $linea_programaticaId)
+    public static function convocatoriaRolesSennova($convocatoria_id, $proyecto_id, $linea_programatica_id)
     {
        return ConvocatoriaRolSennova::selectRaw("convocatoria_rol_sennova.id as value,
-            CASE nivel_academico
-                WHEN '7' THEN   CONCAT(roles_sennova.nombre )
-                WHEN '1' THEN   CONCAT(roles_sennova.nombre, ' (Técnico)')
-                WHEN '2' THEN   CONCAT(roles_sennova.nombre, ' (Tecnólogo)')
-                WHEN '3' THEN   CONCAT(roles_sennova.nombre, ' (Pregrado)')
-                WHEN '4' THEN   CONCAT(roles_sennova.nombre, ' (Especalización)')
-                WHEN '5' THEN   CONCAT(roles_sennova.nombre, ' (Maestría)')
-                WHEN '6' THEN   CONCAT(roles_sennova.nombre, ' (Doctorado)')
-                WHEN '8' THEN   CONCAT(roles_sennova.nombre, ' (Técnico con especialización)')
-                WHEN '9' THEN   CONCAT(roles_sennova.nombre, ' (Tecnólogo con especialización)')
-            END as label,
-            CONCAT('Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual) as tooltip")
+                CASE nivel_academico
+                    WHEN '7' THEN   CONCAT(roles_sennova.nombre )
+                    WHEN '1' THEN   CONCAT(roles_sennova.nombre, ' (Técnico)')
+                    WHEN '2' THEN   CONCAT(roles_sennova.nombre, ' (Tecnólogo)')
+                    WHEN '3' THEN   CONCAT(roles_sennova.nombre, ' (Pregrado)')
+                    WHEN '4' THEN   CONCAT(roles_sennova.nombre, ' (Especalización)')
+                    WHEN '5' THEN   CONCAT(roles_sennova.nombre, ' (Maestría)')
+                    WHEN '6' THEN   CONCAT(roles_sennova.nombre, ' (Doctorado)')
+                    WHEN '8' THEN   CONCAT(roles_sennova.nombre, ' (Técnico con especialización)')
+                    WHEN '9' THEN   CONCAT(roles_sennova.nombre, ' (Tecnólogo con especialización)')
+                END as label,
+                CONCAT('Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual) as tooltip")
             ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
-            ->where('convocatoria_rol_sennova.linea_programatica_id', $linea_programaticaId)
-            ->where('convocatoria_rol_sennova.convocatoria_id', $convocatoriaId)
+            ->where('convocatoria_rol_sennova.linea_programatica_id', $linea_programatica_id)
+            ->where('convocatoria_rol_sennova.convocatoria_id', $convocatoria_id)
             ->orderBy('roles_sennova.nombre')->get();
     }
 }

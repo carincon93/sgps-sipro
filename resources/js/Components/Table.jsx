@@ -9,7 +9,7 @@ import TableRow from '@mui/material/TableRow'
 export default function TableMui({ children, rows, sxCellThead = {}, className = '', ...props }) {
     return (
         <TableContainer component={Paper} elevation={0} className={`drop-shadow-lg ` + className} {...props}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table sx={{ minWidth: 650 }}>
                 <TableHead>
                     <TableRow>
                         {rows.map((row, i) => (

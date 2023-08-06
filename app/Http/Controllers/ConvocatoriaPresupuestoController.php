@@ -20,16 +20,24 @@ class ConvocatoriaPresupuestoController extends Controller
     {
         $this->authorize('viewAny', [ConvocatoriaPresupuesto::class]);
 
-        return Inertia::render('Convocatorias/ConvocatoriaPresupuesto/Index', [
-            'filters'                   => request()->all('search'),
-            'convocatoria'              => $convocatoria,
-            'convocatoriaPresupuesto'   => $convocatoria->convocatoriaPresupuestos()->select('convocatoria_presupuesto.id', 'convocatoria_presupuesto.rubro_presupuestal_id')
-                ->join('rubros_presupuestales', 'convocatoria_presupuesto.rubro_presupuestal_id', 'rubros_presupuestales.id')
-                ->join('lineas_programaticas', 'convocatoria_presupuesto.linea_programatica_id', 'lineas_programaticas.id')
-                ->join('segundo_grupo_presupuestal', 'rubros_presupuestales.segundo_grupo_presupuestal_id', 'segundo_grupo_presupuestal.id')
-                ->orderBy('convocatoria_presupuesto.linea_programatica_id', 'DESC')
-                ->with('rubrosPresupuestales.segundoGrupoPresupuestal', 'rubrosPresupuestales.tercerGrupoPresupuestal', 'rubrosPresupuestales.usoPresupuestal', 'lineaProgramatica')
-                ->filterConvocatoriaPresupuesto(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+        return Inertia::render('Convocatorias/ConvocatoriaRubrosPresupuestales/Index', [
+            'convocatoria'                          =>  $convocatoria,
+            'convocatoria_rubros_presupuestales'    =>  $convocatoria->convocatoriaPresupuestos()->select('convocatoria_presupuesto.*')
+                                                            ->join('rubros_presupuestales', 'convocatoria_presupuesto.rubro_presupuestal_id', 'rubros_presupuestales.id')
+                                                            ->join('lineas_programaticas', 'convocatoria_presupuesto.linea_programatica_id', 'lineas_programaticas.id')
+                                                            ->join('segundo_grupo_presupuestal', 'rubros_presupuestales.segundo_grupo_presupuestal_id', 'segundo_grupo_presupuestal.id')
+                                                            ->with('rubroPresupuestal.segundoGrupoPresupuestal', 'rubroPresupuestal.tercerGrupoPresupuestal', 'rubroPresupuestal.usoPresupuestal', 'lineaProgramatica')
+                                                            ->where('convocatoria_presupuesto.linea_programatica_id', request()->linea_programatica_id)
+                                                            ->orderBy('segundo_grupo_presupuestal.nombre', 'ASC')
+                                                            ->orderBy('convocatoria_presupuesto.id', 'ASC')
+                                                            ->filterConvocatoriaPresupuesto(request()->only('search'))->paginate(50)->appends(['search' => request()->search]),
+            'rubros_presupuestales'                 =>  RubroPresupuestal::selectRaw("rubros_presupuestales.id as value, CONCAT('∙ Concepto interno SENA: ', segundo_grupo_presupuestal.nombre, chr(10), '∙ Concepto ministerio de hacienda: ', tercer_grupo_presupuestal.nombre, chr(10), '∙ Uso presupuestal: ', usos_presupuestales.descripcion) as label")
+                                                            ->join('segundo_grupo_presupuestal', 'rubros_presupuestales.segundo_grupo_presupuestal_id', 'segundo_grupo_presupuestal.id')
+                                                            ->join('tercer_grupo_presupuestal', 'rubros_presupuestales.tercer_grupo_presupuestal_id', 'tercer_grupo_presupuestal.id')
+                                                            ->join('usos_presupuestales', 'rubros_presupuestales.uso_presupuestal_id', 'usos_presupuestales.id')
+                                                            ->whereNotIn('rubros_presupuestales.id', $convocatoria->convocatoriaPresupuestos()->where('convocatoria_presupuesto.linea_programatica_id', request()->linea_programatica_id)->pluck('rubro_presupuestal_id')->toArray())
+                                                            ->orderBy('rubros_presupuestales.id', 'ASC')
+                                                            ->get()
         ]);
     }
 
@@ -42,13 +50,7 @@ class ConvocatoriaPresupuestoController extends Controller
     {
         $this->authorize('create', [ConvocatoriaPresupuesto::class]);
 
-        return Inertia::render('Convocatorias/ConvocatoriaPresupuesto/Create', [
-            'convocatoria'          => $convocatoria,
-            'rubros_presupuestales' => RubroPresupuestal::selectRaw("rubros_presupuestales.id as value, CONCAT('PS-',to_char(rubros_presupuestales.id, 'fm0000'), '-', date_part('year', rubros_presupuestales.created_at), chr(10), '∙ Uso presupuestal: ', usos_presupuestales.descripcion as label")
-                                        ->join('usos_presupuestales', 'rubros_presupuestales.uso_presupuestal_id', 'usos_presupuestales.id')
-                                        ->orderBy('rubros_presupuestales.id', 'ASC')
-                                        ->get()
-        ]);
+        //
     }
 
     /**
@@ -61,63 +63,48 @@ class ConvocatoriaPresupuestoController extends Controller
     {
         $this->authorize('create', [ConvocatoriaPresupuesto::class]);
 
-        $convocatoriaPresupuesto = new ConvocatoriaPresupuesto();
-        $convocatoriaPresupuesto->convocatoria()->associate($convocatoria);
-        $convocatoriaPresupuesto->rubrosPresupuestales()->associate($request->rubro_presupuestal_id);
+        $convocatoria_rubro_presupuestal = $convocatoria->convocatoriaPresupuestos()->create($request->validated());
 
-        $convocatoriaPresupuesto->save();
-
-        return redirect()->route('convocatorias.convocatoria-presupuesto.index', [$convocatoria])->with('success', 'El recurso se ha creado correctamente.');
+        return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ConvocatoriaPresupuesto  $convocatoriaPresupuesto
+     * @param  \App\Models\ConvocatoriaPresupuesto  $convocatoria_rubro_presupuestal
      * @return \Illuminate\Http\Response
      */
-    public function show(Convocatoria $convocatoria, ConvocatoriaPresupuesto $convocatoriaPresupuesto)
+    public function show(Convocatoria $convocatoria, ConvocatoriaPresupuesto $convocatoria_rubro_presupuestal)
     {
-        $this->authorize('view', [ConvocatoriaPresupuesto::class, $convocatoriaPresupuesto]);
+        $this->authorize('view', [ConvocatoriaPresupuesto::class, $convocatoria_rubro_presupuestal]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ConvocatoriaPresupuesto  $convocatoriaPresupuesto
+     * @param  \App\Models\ConvocatoriaPresupuesto  $convocatoria_rubro_presupuestal
      * @return \Illuminate\Http\Response
      */
-    public function edit(Convocatoria $convocatoria, ConvocatoriaPresupuesto $convocatoriaPresupuesto)
+    public function edit(Convocatoria $convocatoria, ConvocatoriaPresupuesto $convocatoria_rubro_presupuestal)
     {
-        $this->authorize('update', [ConvocatoriaPresupuesto::class, $convocatoriaPresupuesto]);
+        $this->authorize('update', [ConvocatoriaPresupuesto::class, $convocatoria_rubro_presupuestal]);
 
-        $convocatoriaPresupuesto->rubroPresupuestal;
-
-        return Inertia::render('Convocatorias/ConvocatoriaPresupuesto/Edit', [
-            'convocatoria'              => $convocatoria,
-            'convocatoriaPresupuesto'   => $convocatoriaPresupuesto,
-            'rubros_presupuestales'     => RubroPresupuestal::selectRaw("rubros_presupuestales.id as value, CONCAT('PS-',to_char(rubros_presupuestales.id, 'fm0000'), '-', date_part('year', rubros_presupuestales.created_at), chr(10), '∙ Uso presupuestal: ', usos_presupuestales.descripcion as label")
-                                            ->join('usos_presupuestales', 'rubros_presupuestales.uso_presupuestal_id', 'usos_presupuestales.id')
-                                            ->orderBy('rubros_presupuestales.id', 'ASC')
-                                            ->get()
-        ]);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ConvocatoriaPresupuesto  $convocatoriaPresupuesto
+     * @param  \App\Models\ConvocatoriaPresupuesto  $convocatoria_rubro_presupuestal
      * @return \Illuminate\Http\Response
      */
-    public function update(ConvocatoriaPresupuestoRequest $request, Convocatoria $convocatoria, ConvocatoriaPresupuesto $convocatoriaPresupuesto)
+    public function update(ConvocatoriaPresupuestoRequest $request, Convocatoria $convocatoria, ConvocatoriaPresupuesto $convocatoria_rubro_presupuestal)
     {
-        $this->authorize('update', [ConvocatoriaPresupuesto::class, $convocatoriaPresupuesto]);
+        $this->authorize('update', [ConvocatoriaPresupuesto::class, $convocatoria_rubro_presupuestal]);
 
-        $convocatoriaPresupuesto->convocatoria()->associate($convocatoria);
-        $convocatoriaPresupuesto->rubrosPresupuestales()->associate($request->rubro_presupuestal_id);
-
-        $convocatoriaPresupuesto->save();
+        $convocatoria_rubro_presupuestal->update($request->validated());
+        $convocatoria_rubro_presupuestal->save();
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
@@ -125,15 +112,36 @@ class ConvocatoriaPresupuestoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ConvocatoriaPresupuesto  $convocatoriaPresupuesto
+     * @param  \App\Models\ConvocatoriaPresupuesto  $convocatoria_rubro_presupuestal
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Convocatoria $convocatoria, ConvocatoriaPresupuesto $convocatoriaPresupuesto)
+    public function destroy(Convocatoria $convocatoria, ConvocatoriaPresupuesto $convocatoria_rubro_presupuestal)
     {
-        $this->authorize('delete', [ConvocatoriaPresupuesto::class, $convocatoriaPresupuesto]);
+        $this->authorize('delete', [ConvocatoriaPresupuesto::class, $convocatoria_rubro_presupuestal]);
 
-        $convocatoriaPresupuesto->delete();
+        $convocatoria_rubro_presupuestal->delete();
 
         return back()->with('success', 'El recurso se ha eliminado correctamente.');
+    }
+
+    public function cambiarEstados(Request $request, Convocatoria $convocatoria, ConvocatoriaPresupuesto $convocatoria_rubro_presupuestal)
+    {
+        $this->authorize('update', [ConvocatoriaPresupuesto::class, $convocatoria_rubro_presupuestal]);
+
+        if ($request->has('habilitado')) {
+            $convocatoria_rubro_presupuestal->update(['habilitado' => $request->habilitado]);
+
+            !$request->habilitado ? $convocatoria_rubro_presupuestal->update(['sumar_al_presupuesto' => false]) : $convocatoria_rubro_presupuestal->update(['sumar_al_presupuesto' => true]);
+        }
+
+        if ($request->has('sumar_al_presupuesto')) {
+            $convocatoria_rubro_presupuestal->update(['sumar_al_presupuesto' => $request->sumar_al_presupuesto]);
+        }
+
+        if ($request->has('requiere_estudio_mercado')) {
+            $convocatoria_rubro_presupuestal->update(['requiere_estudio_mercado' => $request->requiere_estudio_mercado]);
+        }
+
+        return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 }
