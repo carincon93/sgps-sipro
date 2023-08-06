@@ -146,20 +146,19 @@ const RubrosPresupuestales = ({
                                     </>
                                 )}
 
-                                {presupuesto.convocatoria_proyecto_rubros_presupuestales.map((rubro_presupuestal, i) => (
-                                    <React.Fragment key={i}>
-                                        {rubro_presupuestal.rubro_presupuestal.segundo_grupo_presupuestal.codigo == '2041102' ||
-                                        rubro_presupuestal.rubro_presupuestal.segundo_grupo_presupuestal.codigo == '2041101' ||
-                                        rubro_presupuestal.rubro_presupuestal.segundo_grupo_presupuestal.codigo == '2041104' ? (
-                                            <Link
-                                                href={route('convocatorias.proyectos.presupuesto.municipios.index', [convocatoria.id, proyecto.id, presupuesto.id])}
-                                                className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
-                                                <AirplaneTicketIcon className="mr-2" />
-                                                Debe relacionar los municipios a visitar
-                                            </Link>
-                                        ) : null}
-                                    </React.Fragment>
-                                ))}
+                                {presupuesto.convocatoria_proyecto_rubros_presupuestales.some(
+                                    (rubro_presupuestal) =>
+                                        rubro_presupuestal.rubro_presupuestal.segundo_grupo_presupuestal.codigo === '2041102' ||
+                                        rubro_presupuestal.rubro_presupuestal.segundo_grupo_presupuestal.codigo === '2041101' ||
+                                        rubro_presupuestal.rubro_presupuestal.segundo_grupo_presupuestal.codigo === '2041104',
+                                ) && (
+                                    <Link
+                                        href={route('convocatorias.proyectos.presupuesto.municipios.index', [convocatoria.id, proyecto.id, presupuesto.id])}
+                                        className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                        <AirplaneTicketIcon className="mr-2" />
+                                        Debe relacionar los municipios a visitar
+                                    </Link>
+                                )}
                             </TableCell>
                             <TableCell>
                                 {is_super_admin || proyecto.mostrar_recomendaciones ? (

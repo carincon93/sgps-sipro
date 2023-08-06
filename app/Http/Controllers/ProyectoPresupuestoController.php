@@ -7,7 +7,6 @@ use App\Helpers\SelectHelper;
 use App\Http\Requests\ProyectoPresupuestoRequest;
 use App\Http\Requests\TaTpViaticosMunicipioRequest;
 use App\Models\Convocatoria;
-use App\Models\SegundoGrupoPresupuestal;
 use App\Models\Proyecto;
 use App\Models\ProyectoPresupuesto;
 use App\Models\SoftwareInfo;
@@ -49,6 +48,7 @@ class ProyectoPresupuestoController extends Controller
             'tipos_licencia'                    =>  json_decode(Storage::get('json/tipos-licencia-software.json'), true),
             'opciones_servicios_edicion'        =>  json_decode(Storage::get('json/opciones-servicios-edicion.json'), true),
             'tipos_software'                    =>  json_decode(Storage::get('json/tipos-software.json'), true),
+            'conceptos_viaticos'                =>  json_decode(Storage::get('json/conceptos-viaticos.json'), true),
         ]);
     }
 
@@ -296,7 +296,6 @@ class ProyectoPresupuestoController extends Controller
             'convocatoria'                  =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
             'proyecto'                      =>  $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable',  'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed'),
             'presupuesto'                   =>  $presupuesto,
-            'conceptos_viaticos'            =>  json_decode(Storage::get('json/conceptos-viaticos.json'), true),
             'distancias_municipios'         =>  json_decode(Storage::get('json/distancia-municipios.json'), true),
             'frecuencias_semanales'         =>  json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true),
             'municipios'                    =>  SelectHelper::municipios(),

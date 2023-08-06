@@ -349,7 +349,10 @@ const Form = ({
                             )}
                             {proyecto.codigo_linea_programatica == 69 && (
                                 <>
-                                    {(codigo_segundo_grupo_presupuestal == '2041102' || codigo_segundo_grupo_presupuestal == '2041101' || codigo_segundo_grupo_presupuestal == '2041104') && (
+                                    {(form.data.concepto_viaticos ||
+                                        codigo_segundo_grupo_presupuestal == '2041102' ||
+                                        codigo_segundo_grupo_presupuestal == '2041101' ||
+                                        codigo_segundo_grupo_presupuestal == '2041104') && (
                                         <div className="mt-8">
                                             <Label required labelFor="concepto_viaticos" value="Concepto" />
                                             <Autocomplete
