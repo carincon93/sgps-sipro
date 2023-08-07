@@ -64,7 +64,7 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
 
     return (
         <>
-            <h1 className="text-3xl text-center">Participantes vinculados</h1>
+            <h1 className="text-3xl mt-24 mb-8 text-center">Participantes vinculados</h1>
 
             {proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82 || proyecto.codigo_linea_programatica == 23 ? (
                 <>

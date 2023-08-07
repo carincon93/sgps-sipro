@@ -87,8 +87,27 @@ const Form = ({
 
     return (
         <form onSubmit={submit}>
-            <Grid container className="space-y-20">
-                <div className="py-24">
+            <Grid container rowSpacing={20}>
+                <Grid item md={12}>
+                    <div className="flex justify-around items-center bg-indigo-50 shadow rounded p-10">
+                        <figure className="mr-8">
+                            <img src="/images/projects.png" alt="" width={350} />
+                        </figure>
+                        <h1>
+                            {method == 'PUT' ? (
+                                <>
+                                    <strong>{proyecto_linea_68.titulo}</strong>
+                                    <br />
+                                    {proyecto_linea_68.proyecto.codigo}
+                                </>
+                            ) : (
+                                <>Fortalecimiento de la oferta de servicios tecnológicos para las empresas - Línea 68</>
+                            )}
+                        </h1>
+                    </div>
+                </Grid>
+
+                <Grid item md={12}>
                     <Label
                         required
                         labelFor="titulo"
@@ -96,7 +115,7 @@ const Form = ({
                         value="Debe corresponder al contenido del proyecto y responder a los siguientes interrogantes: ¿Qué se va a hacer?, ¿Sobre qué o quiénes se hará?, ¿Cómo?, ¿Dónde se llevará a cabo? Tiene que estar escrito de manera breve y concisa. Un buen título describe con exactitud y usando el menor número posible de palabras el tema central del proyecto. Nota: las respuestas a las preguntas anteriormente formuladas no necesariamente deben responderse en mismo orden en el que aparecen. (Máximo 40 palabras)"
                     />
                     <Textarea id="titulo" error={form.errors.titulo} value={form.data.titulo} onChange={(e) => form.setData('titulo', e.target.value)} required disabled={evaluacion ? true : false} />
-                </div>
+                </Grid>
 
                 <Grid item md={6}>
                     <Label required labelFor="fecha_inicio" error={form.errors.fecha_inicio} value="Fecha de inicio" />

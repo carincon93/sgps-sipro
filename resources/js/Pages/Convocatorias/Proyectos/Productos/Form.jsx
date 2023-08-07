@@ -96,7 +96,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                 <Paper className="p-8">
                     <form onSubmit={submit}>
                         <fieldset disabled={proyecto.allowed.to_update ? false : true}>
-                            <Grid container className="space-y-10">
+                            <Grid container rowSpacing={10}>
                                 <Grid item md={12}>
                                     {proyecto.codigo_linea_programatica == 70 && (
                                         <AlertMui>

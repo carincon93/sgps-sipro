@@ -22,7 +22,6 @@ export default function Dashboard({ auth, convocatorias }) {
             <Grid item md={6}>
                 <h1 className="font-bold text-5xl">Lista de convocatorias</h1>
             </Grid>
-
             <Grid item md={6}>
                 <figure>
                     <img src={'/images/dashboard.png'} alt="" />

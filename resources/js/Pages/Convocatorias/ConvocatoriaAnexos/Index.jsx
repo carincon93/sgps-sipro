@@ -97,8 +97,8 @@ const ConvocatoriaAnexos = ({ auth, convocatoria, convocatoria_anexos, anexos })
                                         } mt-1 group`}
                                         label={
                                             <>
-                                                <div class="group-hover:hidden">{convocatoria_anexo.obligatorio ? 'Obligatorio' : 'No obligatorio'}</div>
-                                                <div class="hidden group-hover:block">{convocatoria_anexo.obligatorio ? 'No obligatorio' : 'Obligatorio'}</div>
+                                                <div class="group-hover:hidden">{convocatoria_anexo.obligatorio ? 'Obligatorio' : 'No es obligatorio'}</div>
+                                                <div class="hidden group-hover:block">{convocatoria_anexo.obligatorio ? 'No es obligatorio' : 'Obligatorio'}</div>
                                             </>
                                         }
                                     />

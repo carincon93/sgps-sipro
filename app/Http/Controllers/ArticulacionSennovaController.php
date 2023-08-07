@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\SelectHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticulacionSennovaRequest;
+use App\Models\AulaMovil;
 use App\Models\Convocatoria;
 use App\Models\Evaluacion\Evaluacion;
 use App\Models\Evaluacion\EvaluacionProyectoLinea70;
@@ -131,6 +132,8 @@ class ArticulacionSennovaController extends Controller
             'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'nuevo_participante'                => User::select('users.id', 'users.nombre', 'users.email', 'users.centro_formacion_id')->with('centroFormacion', 'centroFormacion.regional')->orderBy('users.nombre', 'ASC')->filterUser(request()->only('search'))->first(),
             'autor_principal'                   => $proyecto->participantes()->where('proyecto_participantes.es_formulador', true)->first(),
+            'tecnoacademia_relacionada'         => $proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia : null,
+            'aulas_moviles'                     => AulaMovil::where('proeycto_linea70_id', $proyecto->id)->get(),
         ]);
     }
 

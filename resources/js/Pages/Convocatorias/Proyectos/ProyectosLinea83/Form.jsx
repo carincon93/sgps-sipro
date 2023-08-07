@@ -60,7 +60,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
 
     return (
         <form onSubmit={submit}>
-            <Grid container className="space-y-20">
+            <Grid container rowSpacing={20}>
                 <Grid item md={12}>
                     <Label
                         required

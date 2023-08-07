@@ -186,7 +186,7 @@ const Index = ({ auth, convocatoria, proyectos_linea_66, allowed_to_create }) =>
                         ))}
                     </TableMui>
 
-                    <PaginationMui links={proyectos_linea_66.links} />
+                    <PaginationMui links={proyectos_linea_66.links} className="mt-6" />
                 </Grid>
             </Grid>
         </AuthenticatedLayout>

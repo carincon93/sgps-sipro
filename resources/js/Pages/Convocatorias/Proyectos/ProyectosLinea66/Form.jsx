@@ -12,7 +12,7 @@ import SwitchMui from '@/Components/Switch'
 
 import { Grid, RadioGroup } from '@mui/material'
 
-import { useForm } from '@inertiajs/react'
+import { useForm, usePage } from '@inertiajs/react'
 import { useEffect, useState } from 'react'
 
 import { monthDiff } from '@/Utils'
@@ -47,6 +47,8 @@ const Form = ({
     roles_sennova,
     ...props
 }) => {
+    const { props: page_props } = usePage()
+
     const [array_lineas_tecnoacademia, setArrayLineasTecnoacademia] = useState([])
 
     const [tiene_video, setTieneVideo] = useState(proyecto_linea_66?.video !== null)
@@ -168,7 +170,25 @@ const Form = ({
 
     return (
         <form onSubmit={submit}>
-            <Grid container className="space-y-20">
+            <Grid container rowSpacing={20}>
+                <Grid item md={12}>
+                    <div className="flex justify-around items-center bg-indigo-50 shadow rounded p-10">
+                        <figure className="mr-8">
+                            <img src="/images/projects.png" alt="" width={350} />
+                        </figure>
+                        <h1>
+                            {method == 'PUT' ? (
+                                <>
+                                    <strong>{proyecto_linea_66.titulo}</strong>
+                                    <br />
+                                    {proyecto_linea_66.proyecto.codigo}
+                                </>
+                            ) : (
+                                <>{lineas_programaticas.find((item) => item.value == page_props.ziggy.query.linea_programatica_id)?.label}</>
+                            )}
+                        </h1>
+                    </div>
+                </Grid>
                 <Grid item md={12}>
                     <Label
                         required

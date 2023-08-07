@@ -84,7 +84,26 @@ const Form = ({
 
     return (
         <form onSubmit={submit}>
-            <Grid container className="space-y-20">
+            <Grid container rowSpacing={20}>
+                <Grid item md={12}>
+                    <div className="flex justify-around items-center bg-indigo-50 shadow rounded p-10">
+                        <figure>
+                            <img src="/images/projects.png" alt="" width={350} />
+                        </figure>
+                        <h1 className="text-2xl">
+                            {method == 'PUT' ? (
+                                <>
+                                    <strong>{proyecto_linea_70.titulo}</strong>
+                                    <br />
+                                    {proyecto_linea_70.proyecto.codigo}
+                                </>
+                            ) : (
+                                <>TecnoAcademia - Línea 70</>
+                            )}
+                        </h1>
+                    </div>
+                </Grid>
+
                 <Grid item md={6}>
                     <Label required labelFor="fecha_inicio" error={form.errors.fecha_inicio} value="Fecha de inicio" />
                 </Grid>

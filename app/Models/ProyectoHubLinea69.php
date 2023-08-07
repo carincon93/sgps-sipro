@@ -24,7 +24,7 @@ class ProyectoHubLinea69 extends Model
      *
      * @var array
      */
-    protected $appends = ['fecha_ejecucion'];
+    protected $appends = ['titulo', 'fecha_ejecucion'];
 
     /**
      * The attributes that are mass assignable.

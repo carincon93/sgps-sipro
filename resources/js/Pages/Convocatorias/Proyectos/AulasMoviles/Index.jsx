@@ -3,6 +3,7 @@ import DialogMui from '@/Components/Dialog'
 import MenuMui from '@/Components/Menu'
 import TableMui from '@/Components/Table'
 
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { MenuItem, TableCell, TableRow } from '@mui/material'
 
@@ -23,20 +24,18 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) =>
 
     return (
         <>
-            {proyecto.allowed.to_update && (
-                <div className="flex justify-end mt-10">
-                    <ButtonMui
-                        onClick={() => {
-                            setDialogStatus(true), setMethod('POST'), setAulaMovil(null)
-                        }}
-                        variant="raised"
-                        type="button">
-                        Añadir aula móvil
-                    </ButtonMui>
-                </div>
-            )}
+            <h1 className="text-3xl mt-24 mb-8 text-center">Aulas móviles</h1>
 
             <TableMui className="mt-20 mb-8" rows={['Placa / Modelo', 'Estado', 'Acciones']}>
+                {proyecto.allowed.to_update ? (
+                    <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setAulaMovil(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                        <TableCell colSpan={3}>
+                            <ButtonMui>
+                                <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar aula móvil
+                            </ButtonMui>
+                        </TableCell>
+                    </TableRow>
+                ) : null}
                 {aulas_moviles.map((aula_movil, i) => (
                     <TableRow key={i}>
                         <TableCell>

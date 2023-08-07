@@ -138,6 +138,7 @@ class ArbolProyectoController extends Controller
             break;
 
             case $proyecto->proyectoLinea70()->exists():
+                $proyecto->identificacion_problema  = $proyecto->proyectoLinea70->identificacion_problema;
                 $proyecto->problema_central         = $proyecto->proyectoLinea70->problema_central;
                 $proyecto->objetivo_general         = $proyecto->proyectoLinea70->objetivo_general;
                 $proyecto->proyecto_base            = $proyecto->proyectoLinea70->proyecto_base;

@@ -18,7 +18,6 @@ import StepperMui from '@/Components/Stepper'
 import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 
-import AulaMovil from './AulasMoviles/Index'
 import Evaluacion from './Evaluacion'
 import Form from './Form'
 
@@ -40,8 +39,6 @@ const Actividades = ({
     regionales,
     programas_formacion,
     disenos_curriculares,
-    tecnoacademia_relacionada,
-    aulas_moviles,
     areas_cualificacion_mnc,
     proyecto_presupuesto,
     proyecto_roles,
@@ -180,15 +177,13 @@ const Actividades = ({
     }
 
     const tabs =
-        proyecto.codigo_linea_programatica == 70 && tecnoacademia_relacionada?.modalidad == 2
-            ? [{ label: 'Actividades' }, { label: 'Metodología' }, { label: 'Aulas móviles' }]
-            : proyecto.codigo_linea_programatica == 23 ||
-              proyecto.codigo_linea_programatica == 66 ||
-              proyecto.codigo_linea_programatica == 82 ||
-              proyecto.codigo_linea_programatica == 69 ||
-              proyecto.proyectoHubLinea69 ||
-              proyecto.codigo_linea_programatica == 70 ||
-              proyecto.codigo_linea_programatica == 83
+        proyecto.codigo_linea_programatica == 23 ||
+        proyecto.codigo_linea_programatica == 66 ||
+        proyecto.codigo_linea_programatica == 82 ||
+        proyecto.codigo_linea_programatica == 69 ||
+        proyecto.proyectoHubLinea69 ||
+        proyecto.codigo_linea_programatica == 70 ||
+        proyecto.codigo_linea_programatica == 83
             ? [{ label: 'Actividades' }, { label: 'Metodología' }]
             : [{ label: 'Actividades' }]
 
@@ -418,7 +413,7 @@ const Actividades = ({
                         <Grid item md={12}>
                             <form onSubmit={submit} className="!mt-20">
                                 <fieldset disabled={proyecto.allowed.to_update ? false : true}>
-                                    <Grid container className="space-y-20">
+                                    <Grid container rowSpacing={20}>
                                         <Grid item md={12}>
                                             <Label required className="mb-4" labelFor="metodologia" value="Metodología" />
                                             <Textarea
@@ -928,7 +923,7 @@ const Actividades = ({
                     ) : null}
                     {proyecto.proyectoHubLinea69 && Object.keys(proyecto.proyectoHubLinea69).length > 0 && (
                         <form onSubmit={submitMetodologiaProyectoHub} className="!mt-20">
-                            <Grid container className="space-y-20">
+                            <Grid container rowSpacing={20}>
                                 <Grid item md={12}>
                                     <Label required className="mb-4" labelFor="metodologia" value="Metodología General implemetnada por el Tecnoparque/Hub de Innovación" />
 
@@ -1346,7 +1341,7 @@ const Actividades = ({
                     )}
                     {proyecto.proyectoLinea83 && Object.keys(proyecto.proyectoLinea83).length > 0 && (
                         <form onSubmit={submitMetodologiaProyectoLinea83}>
-                            <Grid container className="space-y-20">
+                            <Grid container rowSpacing={20}>
                                 <Grid item md={12}>
                                     <Label required className="mb-4" labelFor="metodologia" value={`Metodología (¿Cómo se implementará la línea en el ${convocatoria.year}?)`} />
 
@@ -1456,7 +1451,7 @@ const Actividades = ({
                     )}
                     {proyecto.codigo_linea_programatica == 23 || proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82 ? (
                         <form onSubmit={submit} className="mt-10">
-                            <Grid container className="space-y-20">
+                            <Grid container rowSpacing={20}>
                                 <Grid item md={12}>
                                     <Label required className="mb-4" labelFor="metodologia" value={`Metodología (¿Cómo se implementará la línea en el ${convocatoria.year}?)`} />
 
@@ -1473,17 +1468,6 @@ const Actividades = ({
                         </form>
                     ) : null}
                 </div>
-
-                {tecnoacademia_relacionada?.modalidad == 2 ? (
-                    <div>
-                        <Grid item md={12}>
-                            <AlertMui>
-                                <h1 className="text-3xl text-center">Aulas móviles</h1>
-                            </AlertMui>
-                            <AulaMovil auth={auth} convocatoria={convocatoria} proyecto={proyecto} aulas_moviles={aulas_moviles} />
-                        </Grid>
-                    </div>
-                ) : null}
             </TabsMui>
         </AuthenticatedLayout>
     )

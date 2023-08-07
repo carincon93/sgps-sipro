@@ -41,8 +41,8 @@ const ConvocatoriaRolesSennova = ({ auth, convocatoria, convocatoria_roles_senno
 
                 <Grid item md={12}>
                     <AlertMui className="mt-20">
-                        Por favor diligencie el nivel académico, experiencia, asignación mensual de cada uno de TODOS los roles SENNOVA que se listan en la tabla. Si hay algún rol con información
-                        incompleta se le inactivará al formulador el paso de <strong>Roles</strong>.
+                        Por favor diligencie el nivel académico, experiencia, asignación mensual de TODOS los roles SENNOVA que se listan en la tabla. Si hay algún rol con información incompleta se le
+                        inactivará al formulador el paso de <strong>Roles</strong>.
                         <br />
                         <br />
                         <strong>Importante:</strong> Si deshabilita o cambia el estado del rol a <strong>NO SUMA AL PRESUPUESTO</strong> este no sumára al total del precio del proyecto. Es de gran

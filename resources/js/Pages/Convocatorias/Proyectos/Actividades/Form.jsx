@@ -59,7 +59,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                 <Paper className="p-8">
                     <form onSubmit={submit}>
                         <fieldset disabled={proyecto.allowed.to_update ? false : true}>
-                            <Grid container className="space-y-10">
+                            <Grid container rowSpacing={10}>
                                 <Grid item md={6}>
                                     <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
                                 </Grid>

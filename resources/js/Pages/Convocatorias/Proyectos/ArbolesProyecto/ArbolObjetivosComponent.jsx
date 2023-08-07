@@ -716,7 +716,9 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                     <div
                                         className="bg-white relative p-4 rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] my-4 pr-14"
                                         onClick={() => setCausaDirecta(causaDirecta)}>
-                                        <p className="line-clamp-3">{causaDirecta.descripcion ? causaDirecta.descripcion : 'Por favor diligencie esta causa directa.'}</p>
+                                        <p className="line-clamp-3">
+                                            {causaDirecta.descripcion ? causaDirecta.descripcion : <span className="text-red-500 bg-red-100 p-2">Por favor diligencie esta causa directa</span>}
+                                        </p>
 
                                         <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                             {show_causa_directa_destroy_icon && causaDirecta.id === causa_directa_idToDestroy ? (
@@ -789,7 +791,13 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                             <div
                                                 className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] my-4 pr-14"
                                                 onClick={() => setCausaIndirecta(causaDirecta, causaIndirecta)}>
-                                                <p className="line-clamp-3">{causaIndirecta.descripcion ? causaIndirecta.descripcion : 'Por favor diligencie esta causa indirecta.'}</p>
+                                                <p className="line-clamp-3">
+                                                    {causaIndirecta.descripcion ? (
+                                                        causaIndirecta.descripcion
+                                                    ) : (
+                                                        <span className="text-red-500 bg-red-100 p-2">Por favor diligencie esta causa indirecta.</span>
+                                                    )}
+                                                </p>
 
                                                 <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                                     {show_causa_indirecta_destroy_icon && causaIndirecta.id === causa_indirecta_idToDestroy ? (
@@ -916,7 +924,11 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] pr-14"
                                         onClick={() => setObjetivoEspecifico(causaDirecta, causaDirecta.objetivo_especifico, i + 1)}>
                                         <p className="line-clamp-3">
-                                            {causaDirecta.objetivo_especifico?.descripcion ? causaDirecta.objetivo_especifico?.descripcion : 'Por favor diligencie este objetivo específico.'}
+                                            {causaDirecta.objetivo_especifico?.descripcion ? (
+                                                causaDirecta.objetivo_especifico?.descripcion
+                                            ) : (
+                                                <span className="text-red-500 bg-red-100 p-2">Por favor diligencie este objetivo específico.</span>
+                                            )}
                                         </p>
                                         <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                             {show_objetivo_especifico_destroy_icon && causaDirecta.objetivo_especifico?.id === objetivo_especifico_id_to_destroy ? (
@@ -1004,7 +1016,13 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                             <div
                                                 className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] my-4 pr-14"
                                                 onClick={() => setActividad(causaDirecta, causaIndirecta, causaIndirecta.actividad)}>
-                                                <p className="line-clamp-3">{causaIndirecta.actividad?.descripcion ? causaIndirecta.actividad?.descripcion : 'Por favor diligencie esta actividad.'}</p>
+                                                <p className="line-clamp-3">
+                                                    {causaIndirecta.actividad?.descripcion ? (
+                                                        causaIndirecta.actividad?.descripcion
+                                                    ) : (
+                                                        <span className="text-red-500 bg-red-100 p-2">Por favor diligencie esta actividad.</span>
+                                                    )}
+                                                </p>
                                                 <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                                     {show_actividad_destroy_icon && causaIndirecta.actividad?.id === actividad_id_to_destroy ? (
                                                         <>
@@ -1174,7 +1192,9 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                     <div
                                         className="bg-white relative p-4 rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] my-4 pr-14"
                                         onClick={() => setEfectoDirecto(efectoDirecto)}>
-                                        <p className="line-clamp-3">{efectoDirecto.descripcion ? efectoDirecto.descripcion : 'Por favor diligencie este efecto directo.'}</p>
+                                        <p className="line-clamp-3">
+                                            {efectoDirecto.descripcion ? efectoDirecto.descripcion : <span className="text-red-500 bg-red-100 p-2">Por favor diligencie este efecto directo.</span>}
+                                        </p>
                                         <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                             {show_efecto_directo_destroy_icon && efectoDirecto.id === efecto_directo_idToDestroy ? (
                                                 <>
@@ -1242,7 +1262,13 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                             <div
                                                 className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] my-4 pr-14"
                                                 onClick={() => setEfectoIndirecto(efectoDirecto, efectoIndirecto)}>
-                                                <p className="line-clamp-3">{efectoIndirecto.descripcion ? efectoIndirecto.descripcion : 'Por favor diligencie este efecto indirecto.'}</p>
+                                                <p className="line-clamp-3">
+                                                    {efectoIndirecto.descripcion ? (
+                                                        efectoIndirecto.descripcion
+                                                    ) : (
+                                                        <span className="text-red-500 bg-red-100 p-2">Por favor diligencie este efecto indirecto.</span>
+                                                    )}
+                                                </p>
                                                 <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                                     {show_efecto_indirecto_destroy_icon && efectoIndirecto.id === efecto_indirecto_idToDestroy ? (
                                                         <>
@@ -1362,7 +1388,13 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                     <div
                                         className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] pr-14"
                                         onClick={() => setResultado(efectoDirecto, efectoDirecto.resultado)}>
-                                        <p className="line-clamp-3">{efectoDirecto.resultado?.descripcion ? efectoDirecto.resultado?.descripcion : 'Por favor diligencie este resultado.'}</p>
+                                        <p className="line-clamp-3">
+                                            {efectoDirecto.resultado?.descripcion ? (
+                                                efectoDirecto.resultado?.descripcion
+                                            ) : (
+                                                <span className="text-red-500 bg-red-100 p-2">Por favor diligencie este resultado.</span>
+                                            )}
+                                        </p>
                                         <div className="absolute flex top-[40%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                             {show_resultado_destroy_icon && efectoDirecto.resultado?.id === resultado_id_to_destroy ? (
                                                 <>
@@ -1462,7 +1494,13 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                             <div
                                                 className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] my-4 pr-14"
                                                 onClick={() => setImpacto(efectoIndirecto, efectoIndirecto.impacto)}>
-                                                <p className="line-clamp-3">{efectoIndirecto.impacto?.descripcion ? efectoIndirecto.impacto?.descripcion : 'Por favor diligencie este impacto.'}</p>
+                                                <p className="line-clamp-3">
+                                                    {efectoIndirecto.impacto?.descripcion ? (
+                                                        efectoIndirecto.impacto?.descripcion
+                                                    ) : (
+                                                        <span className="text-red-500 bg-red-100 p-2">Por favor diligencie este impacto.</span>
+                                                    )}
+                                                </p>
                                                 <div className="absolute flex top-[40%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                                     {show_impacto_destroy_icon && efectoIndirecto.impacto?.id === impacto_id_to_destroy ? (
                                                         <>

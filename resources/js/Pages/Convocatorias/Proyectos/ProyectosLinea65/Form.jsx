@@ -133,7 +133,25 @@ const Form = ({
 
     return (
         <form onSubmit={submit}>
-            <Grid container className="space-y-36">
+            <Grid container rowSpacing={20}>
+                <Grid item md={12}>
+                    <div className="flex justify-around items-center bg-indigo-50 shadow rounded p-10">
+                        <figure>
+                            <img src="/images/projects.png" alt="" width={350} />
+                        </figure>
+                        <h1>
+                            {method == 'PUT' ? (
+                                <>
+                                    <strong>{proyecto_linea_65.titulo}</strong>
+                                    <br />
+                                    {proyecto_linea_65.proyecto.codigo}
+                                </>
+                            ) : (
+                                <>Apropiación de la ciencia y la tecnología y cultura de la innovación y la competitividad - Línea 65</>
+                            )}
+                        </h1>
+                    </div>
+                </Grid>
                 <Grid item md={12}>
                     <Label
                         required

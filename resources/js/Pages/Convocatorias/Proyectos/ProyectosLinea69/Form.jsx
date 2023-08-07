@@ -61,7 +61,26 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
 
     return (
         <form onSubmit={submit}>
-            <Grid container className="space-y-20">
+            <Grid container rowSpacing={20}>
+                <Grid item md={12}>
+                    <div className="flex justify-around items-center bg-indigo-50 shadow rounded p-10">
+                        <figure>
+                            <img src="/images/projects.png" alt="" width={350} />
+                        </figure>
+                        <h1 className="text-2xl">
+                            {method == 'PUT' ? (
+                                <>
+                                    <strong>{proyecto_linea_69.titulo}</strong>
+                                    <br />
+                                    {proyecto_linea_69.proyecto.codigo}
+                                </>
+                            ) : (
+                                <>Parques tecnológicos - Red tecnoparque Colombia - Línea 69</>
+                            )}
+                        </h1>
+                    </div>
+                </Grid>
+
                 {nodos_tecnoparque.length > 0 ? (
                     <Grid container>
                         <Grid item md={6}>

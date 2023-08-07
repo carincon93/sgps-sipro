@@ -72,24 +72,26 @@ const ArbolProblemasComponent = ({ auth, proyecto, fase_evaluacion }) => {
 
                     <form onSubmit={submitProblemaCentral} id="problema-central">
                         <fieldset className="space-y-20" disabled={proyecto.allowed.to_update ? undefined : true}>
-                            <div>
-                                <Label required className="mb-4" labelFor="identificacion_problema" value="Identificación y descripción del problema" />
-                                <AlertMui>
-                                    1. Descripción de la necesidad, problema u oportunidad identificada del plan tecnológico y/o agendas departamentales de innovación y competitividad.
-                                    <br />
-                                    2. Descripción del problema que se atiende con el proyecto, sustentado en el contexto, la caracterización, los datos, las estadísticas, de la regional, entre otros,
-                                    citar toda la información consignada utilizando normas APA última edición. La información debe ser de fuentes primarias de información, ejemplo: Secretarías, DANE,
-                                    Artículos científicos, entre otros.
-                                </AlertMui>
-                                <Textarea
-                                    id="identificacion_problema"
-                                    value={form_problema_central.data.identificacion_problema}
-                                    error={form_problema_central.errors.identificacion_problema}
-                                    onChange={(e) => form_problema_central.setData('identificacion_problema', e.target.value)}
-                                    disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
-                                    required
-                                />
-                            </div>
+                            {proyecto.codigo_linea_programatica != 70 && (
+                                <div>
+                                    <Label required className="mb-4" labelFor="identificacion_problema" value="Identificación y descripción del problema" />
+                                    <AlertMui>
+                                        1. Descripción de la necesidad, problema u oportunidad identificada del plan tecnológico y/o agendas departamentales de innovación y competitividad.
+                                        <br />
+                                        2. Descripción del problema que se atiende con el proyecto, sustentado en el contexto, la caracterización, los datos, las estadísticas, de la regional, entre
+                                        otros, citar toda la información consignada utilizando normas APA última edición. La información debe ser de fuentes primarias de información, ejemplo:
+                                        Secretarías, DANE, Artículos científicos, entre otros.
+                                    </AlertMui>
+                                    <Textarea
+                                        id="identificacion_problema"
+                                        value={form_problema_central.data.identificacion_problema}
+                                        error={form_problema_central.errors.identificacion_problema}
+                                        onChange={(e) => form_problema_central.setData('identificacion_problema', e.target.value)}
+                                        disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
+                                        required
+                                    />
+                                </div>
+                            )}
 
                             {proyecto.codigo_linea_programatica == 68 && (
                                 <div>
@@ -118,22 +120,24 @@ const ArbolProblemasComponent = ({ auth, proyecto, fase_evaluacion }) => {
                                 </div>
                             )}
 
-                            <div className="mt-10">
-                                <Label required className="mb-4" labelFor="justificacion_problema" value="Justificación" />
-                                <AlertMui>
-                                    Descripción de la solución al problema (descrito anteriormente) que se presenta en la regional, así como las consideraciones que justifican la elección del
-                                    proyecto. De igual forma, describir la pertinencia y viabilidad del proyecto en el marco del impacto regional identificado en el instrumento de planeación.
-                                </AlertMui>
+                            {proyecto.codigo_linea_programatica != 70 && (
+                                <div className="mt-10">
+                                    <Label required className="mb-4" labelFor="justificacion_problema" value="Justificación" />
+                                    <AlertMui>
+                                        Descripción de la solución al problema (descrito anteriormente) que se presenta en la regional, así como las consideraciones que justifican la elección del
+                                        proyecto. De igual forma, describir la pertinencia y viabilidad del proyecto en el marco del impacto regional identificado en el instrumento de planeación.
+                                    </AlertMui>
 
-                                <Textarea
-                                    disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
-                                    id="justificacion_problema"
-                                    error={form_problema_central.errors.justificacion_problema}
-                                    value={form_problema_central.data.justificacion_problema}
-                                    onChange={(e) => form_problema_central.setData('justificacion_problema', e.target.value)}
-                                    required
-                                />
-                            </div>
+                                    <Textarea
+                                        disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
+                                        id="justificacion_problema"
+                                        error={form_problema_central.errors.justificacion_problema}
+                                        value={form_problema_central.data.justificacion_problema}
+                                        onChange={(e) => form_problema_central.setData('justificacion_problema', e.target.value)}
+                                        required
+                                    />
+                                </div>
+                            )}
 
                             <div className="mt-10">
                                 <Label required className="mb-4" labelFor="problema_central" value="Problema central (tronco)" />

@@ -144,28 +144,26 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                             {!modificar_usos_presupuestales && (
                                 <>
                                     <div className={`${array_tecer_grupo_presupuestal.length == 0 ? 'mb-[13.8rem]' : 'mb-0'}`}>
-                                        <Label required labelFor="segundo_grupo_presupuestal_id" value="Rubro concepto interno SENA" />
                                         <Autocomplete
                                             id="segundo_grupo_presupuestal_id"
                                             options={segundo_grupo_presupuestal}
                                             selectedValue={form.data.segundo_grupo_presupuestal_id}
                                             onChange={(e, newValue) => form.setData('segundo_grupo_presupuestal_id', newValue.value)}
                                             error={form.errors.segundo_grupo_presupuestal_id}
-                                            placeholder="Seleccione una opción"
+                                            label="Rubro concepto interno SENA"
                                             required
                                         />
                                     </div>
 
                                     {array_tecer_grupo_presupuestal.length > 0 && (
                                         <div className={`mt-8 ${array_usos_presupuestales.length == 0 ? 'mb-[7rem]' : 'mb-0'}`}>
-                                            <Label required labelFor="tercer_grupo_presupuestal_id" value="Rubro concepto ministerio de hacienda" />
                                             <Autocomplete
                                                 id="tercer_grupo_presupuestal_id"
                                                 options={array_tecer_grupo_presupuestal}
                                                 selectedValue={form.data.tercer_grupo_presupuestal_id}
                                                 onChange={(e, newValue) => form.setData('tercer_grupo_presupuestal_id', newValue.value)}
                                                 error={form.errors.tercer_grupo_presupuestal_id}
-                                                placeholder="Seleccione una opción"
+                                                label="Rubro concepto ministerio de hacienda"
                                                 required
                                             />
                                         </div>
@@ -173,7 +171,6 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
 
                                     {array_usos_presupuestales.length > 0 && (
                                         <div className="mt-8">
-                                            <Label required labelFor="convocatoria_presupuesto_id" value="Usos presupuestales" />
                                             <SelectMultiple
                                                 id="convocatoria_presupuesto_id"
                                                 options={array_usos_presupuestales}
@@ -187,6 +184,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                                     }))
                                                 }}
                                                 error={form.errors.convocatoria_presupuesto_id}
+                                                label="Usos presupuestales"
                                                 required
                                             />
                                         </div>

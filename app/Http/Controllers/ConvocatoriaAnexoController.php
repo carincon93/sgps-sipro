@@ -118,7 +118,7 @@ class ConvocatoriaAnexoController extends Controller
 
         $convocatoria_anexo->delete();
 
-        return redirect()->route('convocatorias.convocatoria-anexos.index', [$convocatoria])->with('success', 'El recurso se ha eliminado correctamente.');
+        return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
     public function saveFilesSharepoint(Request $request, ConvocatoriaAnexo $convocatoria_anexo)
