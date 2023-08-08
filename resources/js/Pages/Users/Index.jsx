@@ -96,8 +96,6 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, allowed_to_create }) => 
                 </Grid>
 
                 <Grid item md={12}>
-                    <SearchBar />
-
                     <TableMui className="mt-20" rows={['Nombre', 'Centro de formación al que pertenece', 'Dinamizador/a del centro de formación:', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         {dinamizadores_sennova.map((dinamizador_sennova, i) => (
                             <TableRow key={i}>
@@ -117,7 +115,7 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, allowed_to_create }) => 
                                     <MenuMui text={<MoreVertIcon />}>
                                         {dinamizador_sennova.id !== user_to_destroy ? (
                                             <div>
-                                                <MenuItem onClick={() => router.visit(route('users.edit', [dinamizador_sennova.id]))} disabled={!checkRole(auth_user[(1, 20)])}>
+                                                <MenuItem onClick={() => router.visit(route('users.edit', [dinamizador_sennova.id]))} disabled={!checkRole(auth_user, [1, 20])}>
                                                     Editar
                                                 </MenuItem>
 
@@ -125,7 +123,7 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, allowed_to_create }) => 
                                                     onClick={() => {
                                                         setUserToDestroy(dinamizador_sennova.id)
                                                     }}
-                                                    disabled={!checkRole(auth_user[(1, 20)])}>
+                                                    disabled={!checkRole(auth_user, [1, 20, 18, 19, 5, 17])}>
                                                     Eliminar
                                                 </MenuItem>
                                             </div>
@@ -141,7 +139,7 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, allowed_to_create }) => 
                                                     sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
                                                     onClick={(e) => {
                                                         e.stopPropagation()
-                                                        if (checkRole(auth_user[(1, 20)])) {
+                                                        if (checkRole(auth_user, [1, 20, 18, 19, 5, 17])) {
                                                             router.delete(route('users.destroy', [dinamizador_sennova.id]), {
                                                                 preserveScroll: true,
                                                             })
