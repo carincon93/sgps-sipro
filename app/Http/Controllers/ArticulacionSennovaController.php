@@ -291,8 +291,6 @@ class ArticulacionSennovaController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto]);
 
-        // dd($proyecto->lineaProgramatica->id);
-
         switch ($proyecto->lineaProgramatica->id) {
             case 4:
                 if ($column == 'grupos_investigacion') {

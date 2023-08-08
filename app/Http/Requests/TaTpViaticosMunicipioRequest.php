@@ -23,8 +23,6 @@ class TaTpViaticosMunicipioRequest extends FormRequest
      */
     public function rules()
     {
-        // dd($this);
-
         return [
             'proyecto_rol_sennova_id'   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:proyecto_rol_sennova,id'],
             'municipios'                => ['required', 'json'],

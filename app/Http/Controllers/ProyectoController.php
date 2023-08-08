@@ -841,7 +841,6 @@ class ProyectoController extends Controller
             $proyecto->semillerosInvestigacion()->attach($semilleroInvestigacion->id);
             return back()->with('success', 'El recurso se ha vinculado correctamente.');
         } catch (\Throwable $th) {
-            dd($th);
             return back()->with('error', 'Oops! Algo salió mal.');
         }
 
