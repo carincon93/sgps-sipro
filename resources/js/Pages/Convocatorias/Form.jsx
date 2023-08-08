@@ -27,22 +27,20 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, lineas
 
     const submit = (e) => {
         e.preventDefault()
-        if (is_super_admin) {
-            method == 'POST'
-                ? form.post(route('convocatorias.store'), {
-                      preserveScroll: true,
-                  })
-                : form.put(route('convocatorias.update', [convocatoria.id]), {
-                      preserveScroll: true,
-                  })
-        }
+        method == 'POST'
+            ? form.post(route('convocatorias.store'), {
+                  preserveScroll: true,
+              })
+            : form.put(route('convocatorias.update', [convocatoria.id]), {
+                  preserveScroll: true,
+              })
     }
 
     const currentYear = new Date().getFullYear()
 
     return (
         <form onSubmit={submit}>
-            <fieldset disabled={is_super_admin ? undefined : true}>
+            <fieldset>
                 <Grid container rowSpacing={10} padding={4}>
                     <Grid item md={6}>
                         <Label required className="mb-4" labelFor="fase" value="Fase" />
@@ -168,7 +166,7 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, lineas
 
                     <Grid item md={12}>
                         <Textarea
-                            label="Descripción"
+                            label="Título"
                             id="descripcion"
                             error={form.errors.descripcion}
                             value={form.data.descripcion}
@@ -193,11 +191,9 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, lineas
                 </Grid>
             </fieldset>
             <div className="flex items-center justify-between mt-14 px-8 py-4">
-                {is_super_admin && (
-                    <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
-                        {method == 'POST' ? 'Crear' : 'Modificar'} convocatoria
-                    </PrimaryButton>
-                )}
+                <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
+                    {method == 'POST' ? 'Crear' : 'Modificar'} convocatoria
+                </PrimaryButton>
             </div>
         </form>
     )
