@@ -469,6 +469,9 @@ class ActividadController extends Controller
 
         switch ($proyecto->lineaProgramatica->id) {
             case 1:
+            case 2:
+            case 3:
+            case 29:
                 $proyecto->proyectoLinea66()->update($request->only($column));
                 break;
             case 9:

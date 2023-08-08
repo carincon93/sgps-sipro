@@ -951,6 +951,9 @@ class ArbolProyectoController extends Controller
                 $proyecto->proyectoLinea83()->update($request->only($column));
                 break;
             case 1:
+            case 2:
+            case 3:
+            case 29:
                 $proyecto->proyectoLinea66()->update($request->only($column));
                 break;
             case 10:
