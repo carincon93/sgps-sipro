@@ -9,7 +9,7 @@ import TableMui from '@/Components/Table'
 
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
+import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
 import { router } from '@inertiajs/react'
@@ -32,7 +32,7 @@ const Index = ({ auth, centros_formacion, regionales, subdirectores, dinamizador
             <Grid item md={12}>
                 <SearchBar />
 
-                <TableMui className="mt-20" rows={['Nombre', 'Centro de formación', 'Regional', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui className="mt-20" rows={['Nombre', 'Regional', 'Dinamizador/a SENNOVA', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {is_super_admin ? (
                         <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setCentroFormacion(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={4}>
@@ -47,7 +47,7 @@ const Index = ({ auth, centros_formacion, regionales, subdirectores, dinamizador
                             <TableCell>
                                 {centro_formacion.nombre}
                                 <br />
-                                {centro_formacion.codigo}
+                                <Chip label={centro_formacion.codigo} />
                             </TableCell>
 
                             <TableCell>{centro_formacion?.regional?.nombre}</TableCell>
