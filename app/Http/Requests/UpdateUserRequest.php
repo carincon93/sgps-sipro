@@ -65,6 +65,7 @@ class UpdateUserRequest extends FormRequest
             'experiencia_metodos_ensayo'            => $this->experiencia_metodos_ensayo == '1' ? 1 : 0,
             'experiencia_metodos_calibracion'       => $this->experiencia_metodos_calibracion == '1' ? 1 : 0,
             'experiencia_minima_metodos'            => $this->experiencia_minima_metodos == '1' ? 1 : 0,
+            'asignacion_mensual'                    => (int) $this->asignacion_mensual,
         ]);
 
         if ($this->default_password) {

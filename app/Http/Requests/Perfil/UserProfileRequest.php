@@ -89,79 +89,18 @@ class UserProfileRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'cursos_evaluacion_proyectos' => $this->cursos_evaluacion_proyectos == '1' ? 1 : 0,
+            'cursos_evaluacion_proyectos'           => $this->cursos_evaluacion_proyectos == '1' ? 1 : 0,
+            'experiencia_como_evaluador'            => $this->experiencia_como_evaluador == '1' ? 1 : 0,
+            'participacion_como_evaluador_sennova'  => $this->participacion_como_evaluador_sennova == '1' ? 1 : 0,
+            'conocimiento_iso_17025'                => $this->conocimiento_iso_17025 == '1' ? 1 : 0,
+            'conocimiento_iso_19011'                => $this->conocimiento_iso_19011 == '1' ? 1 : 0,
+            'conocimiento_iso_29119'                => $this->conocimiento_iso_29119 == '1' ? 1 : 0,
+            'conocimiento_iso_9001'                 => $this->conocimiento_iso_9001 == '1' ? 1 : 0,
+            'experiencia_metodos_ensayo'            => $this->experiencia_metodos_ensayo == '1' ? 1 : 0,
+            'experiencia_metodos_calibracion'       => $this->experiencia_metodos_calibracion == '1' ? 1 : 0,
+            'experiencia_minima_metodos'            => $this->experiencia_minima_metodos == '1' ? 1 : 0,
+            'informacion_completa'                  => $this->informacion_completa == '1' ? 1 : 0,
+            'asignacion_mensual'                    => (int) $this->asignacion_mensual,
         ]);
-
-        $this->merge([
-            'experiencia_como_evaluador' => $this->experiencia_como_evaluador == '1' ? 1 : 0,
-        ]);
-
-        $this->merge([
-            'participacion_como_evaluador_sennova' => $this->participacion_como_evaluador_sennova == '1' ? 1 : 0,
-        ]);
-
-        $this->merge([
-            'conocimiento_iso_17025' => $this->conocimiento_iso_17025 == '1' ? 1 : 0,
-        ]);
-
-        $this->merge([
-            'conocimiento_iso_19011' => $this->conocimiento_iso_19011 == '1' ? 1 : 0,
-        ]);
-
-        $this->merge([
-            'conocimiento_iso_29119' => $this->conocimiento_iso_29119 == '1' ? 1 : 0,
-        ]);
-
-        $this->merge([
-            'conocimiento_iso_9001' => $this->conocimiento_iso_9001 == '1' ? 1 : 0,
-        ]);
-
-        $this->merge([
-            'experiencia_metodos_ensayo' => $this->experiencia_metodos_ensayo == '1' ? 1 : 0,
-        ]);
-
-        $this->merge([
-            'experiencia_metodos_calibracion' => $this->experiencia_metodos_calibracion == '1' ? 1 : 0,
-        ]);
-
-        $this->merge([
-            'experiencia_minima_metodos' => $this->experiencia_minima_metodos == '1' ? 1 : 0,
-        ]);
-
-        $this->merge([
-            'informacion_completa' => $this->informacion_completa == '1' ? 1 : 0,
-        ]);
-
-        if (is_array($this->disciplinas_subarea_conocimiento)) {
-            if (isset($this->disciplinas_subarea_conocimiento['value']) && is_numeric($this->disciplinas_subarea_conocimiento['value'])) {
-                $this->merge([
-                    'disciplinas_subarea_conocimiento' => $this->disciplinas_subarea_conocimiento['value'],
-                ]);
-            } else {
-                $disciplinaSubareaConocimiento = [];
-                foreach ($this->disciplinas_subarea_conocimiento as $rolSennova) {
-                    if (is_array($rolSennova)) {
-                        array_push($disciplinaSubareaConocimiento, $rolSennova['value']);
-                    }
-                }
-                $this->merge(['disciplinas_subarea_conocimiento' => json_encode($disciplinaSubareaConocimiento)]);
-            }
-        }
-
-        if (is_array($this->otros_roles_sennova)) {
-            if (isset($this->otros_roles_sennova['value']) && is_numeric($this->otros_roles_sennova['value'])) {
-                $this->merge([
-                    'otros_roles_sennova' => $this->otros_roles_sennova['value'],
-                ]);
-            } else {
-                $rolesSennova = [];
-                foreach ($this->otros_roles_sennova as $rolSennova) {
-                    if (is_array($rolSennova)) {
-                        array_push($rolesSennova, $rolSennova['value']);
-                    }
-                }
-                $this->merge(['otros_roles_sennova' => json_encode($rolesSennova)]);
-            }
-        }
     }
 }
