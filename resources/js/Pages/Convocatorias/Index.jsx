@@ -28,7 +28,7 @@ export default function Dashboard({ auth, convocatorias }) {
                 </figure>
             </Grid>
 
-            {is_super_admin && (
+            {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                 <Grid item md={12}>
                     <AlertMui className="mt-10">
                         <p>A continuación, se listan todas las convocatorias, si desea crear una nueva de clic en el siguiente botón.</p>
