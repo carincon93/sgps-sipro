@@ -5,7 +5,7 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import Textarea from '@/Components/Textarea'
 import StepperMui from '@/Components/Stepper'
 
-import { useForm } from '@inertiajs/react'
+import { router, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 
 const Indicadores = ({ auth, convocatoria, proyecto_linea_66, evaluacion, ...props }) => {
@@ -25,6 +25,24 @@ const Indicadores = ({ auth, convocatoria, proyecto_linea_66, evaluacion, ...pro
         e.preventDefault()
         if (proyecto_linea_66.proyecto.allowed.to_update) {
             form.post(route('convocatorias.proyectos-linea-66.indicadores.store', [convocatoria.id, proyecto_linea_66.id]))
+        }
+    }
+
+    const syncColumnLong = async (column, form) => {
+        if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto_linea_66?.proyecto?.allowed?.to_update) {
+            try {
+                await router.put(
+                    route('convocatorias.proyectos-linea-66.updateLongColumn', [convocatoria.id, proyecto_linea_66?.proyecto?.id, column]),
+                    { [column]: form.data[column], is_array: Array.isArray(form.data[column]) },
+                    {
+                        onError: (resp) => console.log(resp),
+                        onFinish: () => console.log('Request finished'),
+                        preserveScroll: true,
+                    },
+                )
+            } catch (error) {
+                console.error('An error occurred:', error)
+            }
         }
     }
 
@@ -52,6 +70,7 @@ const Indicadores = ({ auth, convocatoria, proyecto_linea_66, evaluacion, ...pro
                                     error={form.errors.productividad_beneficiaros}
                                     value={form.data.productividad_beneficiaros}
                                     onChange={(e) => form.setData('productividad_beneficiaros', e.target.value)}
+                                    onBlur={() => syncColumnLong('productividad_beneficiaros', form)}
                                 />
                             </div>
                         </div>
@@ -66,6 +85,7 @@ const Indicadores = ({ auth, convocatoria, proyecto_linea_66, evaluacion, ...pro
                                     error={form.errors.generacion_empleo_beneficiarios}
                                     value={form.data.generacion_empleo_beneficiarios}
                                     onChange={(e) => form.setData('generacion_empleo_beneficiarios', e.target.value)}
+                                    onBlur={() => syncColumnLong('generacion_empleo_beneficiarios', form)}
                                 />
                             </div>
                         </div>
@@ -84,6 +104,7 @@ const Indicadores = ({ auth, convocatoria, proyecto_linea_66, evaluacion, ...pro
                                     error={form.errors.creacion_nuevos_desarrollos}
                                     value={form.data.creacion_nuevos_desarrollos}
                                     onChange={(e) => form.setData('creacion_nuevos_desarrollos', e.target.value)}
+                                    onBlur={() => syncColumnLong('creacion_nuevos_desarrollos', form)}
                                 />
                             </div>
                         </div>
@@ -102,6 +123,7 @@ const Indicadores = ({ auth, convocatoria, proyecto_linea_66, evaluacion, ...pro
                                     error={form.errors.generacion_conocimientos_beneficiarios}
                                     value={form.data.generacion_conocimientos_beneficiarios}
                                     onChange={(e) => form.setData('generacion_conocimientos_beneficiarios', e.target.value)}
+                                    onBlur={() => syncColumnLong('generacion_conocimientos_beneficiarios', form)}
                                 />
                             </div>
                         </div>
@@ -116,6 +138,7 @@ const Indicadores = ({ auth, convocatoria, proyecto_linea_66, evaluacion, ...pro
                                     error={form.errors.generacion_valor_beneficiarios}
                                     value={form.data.generacion_valor_beneficiarios}
                                     onChange={(e) => form.setData('generacion_valor_beneficiarios', e.target.value)}
+                                    onBlur={() => syncColumnLong('generacion_valor_beneficiarios', form)}
                                 />
                             </div>
                         </div>
@@ -130,6 +153,7 @@ const Indicadores = ({ auth, convocatoria, proyecto_linea_66, evaluacion, ...pro
                                     error={form.errors.fortalecimiento_programas_formacion}
                                     value={form.data.fortalecimiento_programas_formacion}
                                     onChange={(e) => form.setData('fortalecimiento_programas_formacion', e.target.value)}
+                                    onBlur={() => syncColumnLong('fortalecimiento_programas_formacion', form)}
                                 />
                             </div>
                         </div>
@@ -144,6 +168,7 @@ const Indicadores = ({ auth, convocatoria, proyecto_linea_66, evaluacion, ...pro
                                     error={form.errors.transferencia_tecnologias}
                                     value={form.data.transferencia_tecnologias}
                                     onChange={(e) => form.setData('transferencia_tecnologias', e.target.value)}
+                                    onBlur={() => syncColumnLong('transferencia_tecnologias', form)}
                                 />
                             </div>
                         </div>
@@ -158,6 +183,7 @@ const Indicadores = ({ auth, convocatoria, proyecto_linea_66, evaluacion, ...pro
                                     error={form.errors.calidad_formacion}
                                     value={form.data.calidad_formacion}
                                     onChange={(e) => form.setData('calidad_formacion', e.target.value)}
+                                    onBlur={() => syncColumnLong('calidad_formacion', form)}
                                 />
                             </div>
                         </div>
@@ -172,6 +198,7 @@ const Indicadores = ({ auth, convocatoria, proyecto_linea_66, evaluacion, ...pro
                                     error={form.errors.impacto_ambiental_proyectos}
                                     value={form.data.impacto_ambiental_proyectos}
                                     onChange={(e) => form.setData('impacto_ambiental_proyectos', e.target.value)}
+                                    onBlur={() => syncColumnLong('impacto_ambiental_proyectos', form)}
                                 />
                             </div>
                         </div>

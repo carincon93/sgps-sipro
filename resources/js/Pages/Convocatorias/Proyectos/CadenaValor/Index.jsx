@@ -268,16 +268,16 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
                 <form onSubmit={submit}>
                     <fieldset disabled={proyecto.allowed.to_update ? false : true}>
                         {proyecto.codigo_linea_programatica != 70 ? (
-                            <div className="mt-8">
+                            <div>
                                 {proyecto.codigo_linea_programatica == 68 ? (
-                                    <AlertMui className="mb-6">
+                                    <AlertMui className="my-10">
                                         Se deben mencionar aquellos factores que pueden comprometer la viabilidad, desarrollo de los objetivos y resultados del proyecto a través del tiempo.
                                         <br />
                                         Para definir la propuesta de sostenibilidad se deben tener en cuenta los impactos definidos en el árbol de objetivos (ambiental, social - en el centro de
                                         formación, social - en el sector productivo, tecnológico)
                                     </AlertMui>
                                 ) : (
-                                    <AlertMui className="mb-2">
+                                    <AlertMui className="my-10">
                                         Identificar los efectos que tiene el desarrollo del proyecto de investigación ya sea positivos o negativos. Se recomienda establecer las acciones pertinentes
                                         para mitigar los impactos negativos ambientales identificados y anexar el respectivo permiso ambiental cuando aplique. Tener en cuenta si aplica el decreto 1376
                                         de 2013.

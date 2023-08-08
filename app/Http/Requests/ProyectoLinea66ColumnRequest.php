@@ -61,6 +61,16 @@ class ProyectoLinea66ColumnRequest extends FormRequest
         'lineas_estrategicas_beneficiadas'                      => ['nullable', 'json'],
         'justificacion_lineas_estrategicas_beneficiadas'        => ['nullable', 'string'],
         'veredas_corregimientos*'                               => ['nullable', 'json'],
+
+        'productividad_beneficiaros'                            => ['nullable', 'string'],
+        'generacion_empleo_beneficiarios'                       => ['nullable', 'string'],
+        'creacion_nuevos_desarrollos'                           => ['nullable', 'string'],
+        'generacion_conocimientos_beneficiarios'                => ['nullable', 'string'],
+        'generacion_valor_beneficiarios'                        => ['nullable', 'string'],
+        'fortalecimiento_programas_formacion'                   => ['nullable', 'string'],
+        'transferencia_tecnologias'                             => ['nullable', 'string'],
+        'calidad_formacion'                                     => ['nullable', 'string'],
+        'impacto_ambiental_proyectos'                           => ['nullable', 'string'],
     ];
 
     /**
