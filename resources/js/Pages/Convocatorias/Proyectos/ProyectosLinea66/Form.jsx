@@ -12,7 +12,7 @@ import SwitchMui from '@/Components/Switch'
 
 import { Grid, RadioGroup } from '@mui/material'
 
-import { useForm, usePage } from '@inertiajs/react'
+import { router, useForm, usePage } from '@inertiajs/react'
 import { useEffect, useState } from 'react'
 
 import { monthDiff } from '@/Utils'
@@ -77,7 +77,6 @@ const Form = ({
         municipios: proyecto_linea_66?.proyecto.municipios?.map((item) => item.id) ?? null,
 
         programas_formacion: proyecto_linea_66?.proyecto.programas_formacion.map((item) => item.id) ?? null,
-        programas_formacion_articulados: proyecto_linea_66?.proyecto.programas_formacion.map((item) => item.id) ?? null,
 
         area_tematica_eni_id: proyecto_linea_66?.areas_tematicas_eni ? proyecto_linea_66?.areas_tematicas_eni?.map((item) => item.id) : null,
         linea_investigacion_eni_id: proyecto_linea_66?.lineas_investigacion_eni?.map((item) => item.id) ?? null,
@@ -168,6 +167,24 @@ const Form = ({
             : null
     }
 
+    const syncColumnLong = async (column, form) => {
+        if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto_linea_66?.proyecto?.allowed?.to_update) {
+            try {
+                await router.put(
+                    route('convocatorias.proyectos-linea-66.updateLongColumn', [convocatoria.id, proyecto_linea_66?.proyecto?.id, column]),
+                    { [column]: form.data[column], is_array: Array.isArray(form.data[column]) },
+                    {
+                        onError: (resp) => console.log(resp),
+                        onFinish: () => console.log('Request finished'),
+                        preserveScroll: true,
+                    },
+                )
+            } catch (error) {
+                console.error('An error occurred:', error)
+            }
+        }
+    }
+
     return (
         <form onSubmit={submit}>
             <Grid container rowSpacing={20}>
@@ -203,6 +220,7 @@ const Form = ({
                         onChange={(e) => form.setData('titulo', e.target.value)}
                         disabled={evaluacion ? true : false}
                         required
+                        onBlur={() => syncColumnLong('titulo', form)}
                     />
                 </Grid>
 
@@ -250,15 +268,20 @@ const Form = ({
                     <small> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </small>
                 </Grid>
                 <Grid item md={6}>
-                    <Autocomplete
-                        id="centro_formacion_id"
-                        selectedValue={form.data.centro_formacion_id}
-                        onChange={(event, newValue) => form.setData('centro_formacion_id', newValue.value)}
-                        options={centros_formacion ?? [{ value: proyecto_linea_66.proyecto.centro_formacion.id, label: proyecto_linea_66.proyecto.centro_formacion.nombre }]}
-                        error={form.errors.centro_formacion_id}
-                        disabled={evaluacion ? true : false}
-                        required
-                    />
+                    {method == 'POST' ? (
+                        <Autocomplete
+                            id="centro_formacion_id"
+                            selectedValue={form.data.centro_formacion_id}
+                            onChange={(event, newValue) => form.setData('centro_formacion_id', newValue.value)}
+                            options={centros_formacion ?? [{ value: proyecto_linea_66.proyecto.centro_formacion.id, label: proyecto_linea_66.proyecto.centro_formacion.nombre }]}
+                            error={form.errors.centro_formacion_id}
+                            disabled={evaluacion ? true : false}
+                            onBlur={() => syncColumnLong('centro_formacion_id', form)}
+                            required
+                        />
+                    ) : (
+                        <>{proyecto_linea_66.proyecto.centro_formacion.nombre}</>
+                    )}
                 </Grid>
 
                 {array_lineas_investigacion.length > 0 && (
@@ -274,6 +297,7 @@ const Form = ({
                                 options={array_lineas_investigacion}
                                 error={form.errors.linea_investigacion_id}
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('linea_investigacion_id', form)}
                                 required
                             />
                         </Grid>
@@ -300,6 +324,7 @@ const Form = ({
                         }
                         error={form.errors.linea_programatica_id}
                         disabled={evaluacion ? true : false}
+                        onBlur={() => syncColumnLong('linea_programatica_id', form)}
                         required
                     />
                 </Grid>
@@ -313,16 +338,17 @@ const Form = ({
                         bdValues={form.data.areas_cualificacion_mnc}
                         options={areas_cualificacion_mnc}
                         onChange={(event, newValue) => {
-                            const selectedValues = newValue.map((option) => option.value)
+                            const selected_values = newValue.map((option) => option.value)
                             form.setData((prevData) => ({
                                 ...prevData,
-                                areas_cualificacion_mnc: selectedValues,
+                                areas_cualificacion_mnc: selected_values,
                             }))
                         }}
                         error={form.errors.areas_cualificacion_mnc}
                         label="Seleccione una o varias opciones"
                         required
                         disabled={evaluacion ? true : false}
+                        onBlur={() => syncColumnLong('areas_cualificacion_mnc', form)}
                     />
                 </Grid>
 
@@ -337,6 +363,7 @@ const Form = ({
                         options={redes_conocimiento}
                         error={form.errors.red_conocimiento_id}
                         disabled={evaluacion ? true : false}
+                        onBlur={() => syncColumnLong('red_conocimiento_id', form)}
                         required
                     />
                 </Grid>
@@ -352,6 +379,7 @@ const Form = ({
                         options={disciplinas_subarea_conocimiento}
                         error={form.errors.disciplina_subarea_conocimiento_id}
                         disabled={evaluacion ? true : false}
+                        onBlur={() => syncColumnLong('disciplina_subarea_conocimiento_id', form)}
                         required
                     />
                 </Grid>
@@ -367,6 +395,7 @@ const Form = ({
                         options={actividades_economicas}
                         error={form.errors.actividad_economica_id}
                         disabled={evaluacion ? true : false}
+                        onBlur={() => syncColumnLong('actividad_economica_id', form)}
                         required
                     />
                 </Grid>
@@ -382,6 +411,7 @@ const Form = ({
                         options={tematicas_estrategicas}
                         error={form.errors.tematica_estrategica_id}
                         disabled={evaluacion ? true : false}
+                        onBlur={() => syncColumnLong('tematica_estrategica_id', form)}
                         required
                     />
                 </Grid>
@@ -429,7 +459,7 @@ const Form = ({
                                     />
                                     {monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion) && (
                                         <small>
-                                            El proyecto se ejecutará entre {form.data.fecha_inicio} y el {form.data.fecha_finalizacion}, por lo tanto el número de meses máximo es:
+                                            El proyecto se ejecutará entre {form.data.fecha_inicio} y el {form.data.fecha_finalizacion}, por lo tanto el número de meses máximo es:{' '}
                                             {monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion)}
                                         </small>
                                     )}
@@ -470,6 +500,7 @@ const Form = ({
                                         checked={form.data.proyecto_investigacion_pedagogica}
                                         onChange={(e) => form.setData('proyecto_investigacion_pedagogica', e.target.checked)}
                                         disabled={evaluacion ? true : false}
+                                        onBlur={() => syncColumnLong('proyecto_investigacion_pedagogica', form)}
                                     />
                                 </Grid>
 
@@ -486,6 +517,7 @@ const Form = ({
                                                 value={form.data.justificacion_proyecto_investigacion_pedagogica}
                                                 required
                                                 disabled={evaluacion ? true : false}
+                                                onBlur={() => syncColumnLong('justificacion_proyecto_investigacion_pedagogica', form)}
                                             />
                                         </Grid>
                                     </>
@@ -495,7 +527,12 @@ const Form = ({
                                     <Label required className="mb-4" labelFor="articulacion_eni" value="¿El proyecto está articulado con la ENI?" />
                                 </Grid>
                                 <Grid item md={6}>
-                                    <SwitchMui checked={form.data.articulacion_eni} onChange={(e) => form.setData('articulacion_eni', e.target.checked)} disabled={evaluacion ? true : false} />
+                                    <SwitchMui
+                                        checked={form.data.articulacion_eni}
+                                        onChange={(e) => form.setData('articulacion_eni', e.target.checked)}
+                                        disabled={evaluacion ? true : false}
+                                        onBlur={() => syncColumnLong('articulacion_eni', form)}
+                                    />
                                 </Grid>
 
                                 {form.data.articulacion_eni && (
@@ -515,6 +552,7 @@ const Form = ({
                                                 label="Seleccione un grupo de investigación"
                                                 required
                                                 disabled={evaluacion ? true : false}
+                                                onBlur={() => syncColumnLong('grupo_investigacion_eni_id', form)}
                                             />
                                         </Grid>
 
@@ -528,16 +566,17 @@ const Form = ({
                                                 bdValues={form.data.linea_investigacion_eni_id}
                                                 options={lineas_investigacion_eni}
                                                 onChange={(event, newValue) => {
-                                                    const selectedValues = newValue.map((option) => option.value)
+                                                    const selected_values = newValue.map((option) => option.value)
                                                     form.setData((prevData) => ({
                                                         ...prevData,
-                                                        linea_investigacion_eni_id: selectedValues,
+                                                        linea_investigacion_eni_id: selected_values,
                                                     }))
                                                 }}
                                                 error={form.errors.linea_investigacion_eni_id}
                                                 label="Seleccione una o varias opciones"
                                                 required
                                                 disabled={evaluacion ? true : false}
+                                                onBlur={() => syncColumnLong('linea_investigacion_eni_id', form)}
                                             />
                                         </Grid>
 
@@ -550,16 +589,17 @@ const Form = ({
                                                 bdValues={form.data.area_tematica_eni_id}
                                                 options={areas_tematicas_eni}
                                                 onChange={(event, newValue) => {
-                                                    const selectedValues = newValue.map((option) => option.value)
+                                                    const selected_values = newValue.map((option) => option.value)
                                                     form.setData((prevData) => ({
                                                         ...prevData,
-                                                        area_tematica_eni_id: selectedValues,
+                                                        area_tematica_eni_id: selected_values,
                                                     }))
                                                 }}
                                                 error={form.errors.area_tematica_eni_id}
                                                 label="Seleccione una o varias opciones"
                                                 required
                                                 disabled={evaluacion ? true : false}
+                                                onBlur={() => syncColumnLong('area_tematica_eni_id', form)}
                                             />
                                         </Grid>
                                     </>
@@ -570,7 +610,12 @@ const Form = ({
                             <Label required labelFor="aporta_a_campesena" value="¿El proyecto aporta a CAMPESENA?" />
                         </Grid>
                         <Grid item md={6}>
-                            <SwitchMui checked={form.data.aporta_a_campesena} onChange={(e) => form.setData('aporta_a_campesena', e.target.checked)} disabled={evaluacion ? true : false} />
+                            <SwitchMui
+                                checked={form.data.aporta_a_campesena}
+                                onChange={(e) => form.setData('aporta_a_campesena', e.target.checked)}
+                                disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('aporta_a_campesena', form)}
+                            />
                         </Grid>
                         <Grid item md={6}>
                             <Label labelFor="video" value="¿El proyecto tiene video?" />
@@ -592,6 +637,7 @@ const Form = ({
                                         value={form.data.video}
                                         onChange={(e) => form.setData('video', e.target.value)}
                                         disabled={evaluacion ? true : false}
+                                        onBlur={() => syncColumnLong('video', form)}
                                         required
                                     />
                                 </>
@@ -606,6 +652,7 @@ const Form = ({
                                 checked={form.data.relacionado_estrategia_campesena}
                                 onChange={(e) => form.setData('relacionado_estrategia_campesena', e.target.checked)}
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('relacionado_estrategia_campesena', form)}
                             />
 
                             {form.data.relacionado_estrategia_campesena && (
@@ -616,6 +663,7 @@ const Form = ({
                                     error={form.errors.justificacion_relacion_campesena}
                                     value={form.data.justificacion_relacion_campesena}
                                     disabled={evaluacion ? true : false}
+                                    onBlur={() => syncColumnLong('justificacion_relacion_campesena', form)}
                                     required
                                 />
                             )}
@@ -629,15 +677,16 @@ const Form = ({
                                 bdValues={form.data.lineas_estrategicas_convocatoria}
                                 options={lineas_estrategicas}
                                 onChange={(event, newValue) => {
-                                    const selectedValues = newValue.map((option) => option.value)
+                                    const selected_values = newValue.map((option) => option.value)
                                     form.setData((prevData) => ({
                                         ...prevData,
-                                        lineas_estrategicas_convocatoria: selectedValues,
+                                        lineas_estrategicas_convocatoria: selected_values,
                                     }))
                                 }}
                                 error={form.errors.lineas_estrategicas_convocatoria}
                                 label="Seleccione las líneas estrategicas"
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('lineas_estrategicas_convocatoria', form)}
                             />
 
                             {form.data.lineas_estrategicas_convocatoria == 4 && (
@@ -650,6 +699,7 @@ const Form = ({
                                     value={form.data.justificacion_lineas_estrategicas}
                                     disabled={evaluacion ? true : false}
                                     required
+                                    onBlur={() => syncColumnLong('justificacion_lineas_estrategicas', form)}
                                 />
                             )}
                         </Grid>
@@ -662,6 +712,7 @@ const Form = ({
                                 checked={form.data.impacto_regional}
                                 onChange={(e) => form.setData('impacto_regional', e.target.checked)}
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('impacto_regional', form)}
                             />
 
                             {form.data.impacto_regional == 1 ? (
@@ -672,6 +723,7 @@ const Form = ({
                                     error={form.errors.justificacion_impacto_regional}
                                     value={form.data.justificacion_impacto_regional}
                                     disabled={evaluacion ? true : false}
+                                    onBlur={() => syncColumnLong('justificacion_impacto_regional', form)}
                                     required
                                 />
                             ) : null}
@@ -695,6 +747,7 @@ const Form = ({
                                         error={form.errors.justificacion_industria_4}
                                         value={form.data.justificacion_industria_4}
                                         disabled={evaluacion ? true : false}
+                                        onBlur={() => syncColumnLong('justificacion_industria_4', form)}
                                         required
                                     />
                                     <AlertMui>Si el proyecto está relacionado con la industria 4.0 por favor realice la justificación.</AlertMui>
@@ -720,6 +773,7 @@ const Form = ({
                                         error={form.errors.justificacion_economia_naranja}
                                         value={form.data.justificacion_economia_naranja}
                                         disabled={evaluacion ? true : false}
+                                        onBlur={() => syncColumnLong('justificacion_economia_naranja', form)}
                                         required
                                     />
                                     <AlertMui>
@@ -747,6 +801,7 @@ const Form = ({
                                     error={form.errors.impacto_sector_agricola}
                                     value={form.data.impacto_sector_agricola}
                                     disabled={evaluacion ? true : false}
+                                    onBlur={() => syncColumnLong('impacto_sector_agricola', form)}
                                     required
                                 />
                             )}
@@ -771,6 +826,7 @@ const Form = ({
                                         error={form.errors.justificacion_politica_discapacidad}
                                         value={form.data.justificacion_politica_discapacidad}
                                         disabled={evaluacion ? true : false}
+                                        onBlur={() => syncColumnLong('justificacion_politica_discapacidad', form)}
                                         required
                                     />
                                     <AlertMui>
@@ -802,6 +858,7 @@ const Form = ({
                                     value={form.data.atencion_pluralista_diferencial}
                                     onChange={(e) => form.setData('atencion_pluralista_diferencial', e.target.value)}
                                     disabled={evaluacion ? true : false}
+                                    onBlur={() => syncColumnLong('atencion_pluralista_diferencial', form)}
                                     required
                                 />
                             )}
@@ -823,6 +880,7 @@ const Form = ({
                                         error={form.errors.muestreo}
                                         checked={form.data.muestreo == '1'}
                                         disabled={evaluacion ? true : false}
+                                        onBlur={() => syncColumnLong('muestreo', form)}
                                     />
                                     <span>
                                         Especies Nativas. (es la especie o subespecie taxonómica o variedad de animales cuya área de disposición geográfica se extiende al territorio nacional o a aguas
@@ -846,8 +904,9 @@ const Form = ({
                                                         <RadioMui
                                                             onChange={(e) => form.setData('actividades_muestreo', e.target.value)}
                                                             value="1.1.1"
-                                                            checked={form.data.objetivo_muestreo == '1.1.1'}
+                                                            checked={form.data.actividades_muestreo == '1.1.1'}
                                                             disabled={evaluacion ? true : false}
+                                                            onBlur={() => syncColumnLong('actividades_muestreo', form)}
                                                         />
                                                         <span>Separación de las unidades funcionales y no funcionales del ADN y el ARN, en todas las formas que se encuentran en la naturaleza.</span>
                                                     </div>
@@ -855,8 +914,9 @@ const Form = ({
                                                         <RadioMui
                                                             onChange={(e) => form.setData('actividades_muestreo', e.target.value)}
                                                             value="1.1.2"
-                                                            checked={form.data.objetivo_muestreo == '1.1.2'}
+                                                            checked={form.data.actividades_muestreo == '1.1.2'}
                                                             disabled={evaluacion ? true : false}
+                                                            onBlur={() => syncColumnLong('actividades_muestreo', form)}
                                                         />
                                                         <span>Aislamiento de una o varias moléculas, entendidas estas como micro y macromoléculas, producidas por el metabolismo de un organismo.</span>
                                                     </div>
@@ -864,8 +924,9 @@ const Form = ({
                                                         <RadioMui
                                                             onChange={(e) => form.setData('actividades_muestreo', e.target.value)}
                                                             value="1.1.3"
-                                                            checked={form.data.objetivo_muestreo == '1.1.3'}
+                                                            checked={form.data.actividades_muestreo == '1.1.3'}
                                                             disabled={evaluacion ? true : false}
+                                                            onBlur={() => syncColumnLong('actividades_muestreo', form)}
                                                         />
                                                         <span> Solicitar patente sobre una función o propiedad identificada de una molécula, que se ha aislado y purificado. </span>
                                                     </div>
@@ -873,8 +934,9 @@ const Form = ({
                                                         <RadioMui
                                                             onChange={(e) => form.setData('actividades_muestreo', e.target.value)}
                                                             value="1.1.4"
-                                                            checked={form.data.objetivo_muestreo == '1.1.4'}
+                                                            checked={form.data.actividades_muestreo == '1.1.4'}
                                                             disabled={evaluacion ? true : false}
+                                                            onBlur={() => syncColumnLong('actividades_muestreo', form)}
                                                         />
                                                         <span> No logro identificar la actividad a desarrollar con la especie nativa </span>
                                                     </div>
@@ -893,6 +955,7 @@ const Form = ({
                                                             value="1.2.1"
                                                             checked={form.data.objetivo_muestreo == '1.2.1'}
                                                             disabled={evaluacion ? true : false}
+                                                            onBlur={() => syncColumnLong('objetivo_muestreo', form)}
                                                         />
                                                         <span> Investigación básica sin fines comerciales </span>
                                                     </div>
@@ -902,6 +965,7 @@ const Form = ({
                                                             value="1.2.2"
                                                             checked={form.data.objetivo_muestreo == '1.2.2'}
                                                             disabled={evaluacion ? true : false}
+                                                            onBlur={() => syncColumnLong('objetivo_muestreo', form)}
                                                         />
                                                         <span> Bioprospección en cualquiera de sus fases </span>
                                                     </div>
@@ -911,6 +975,7 @@ const Form = ({
                                                             value="1.2.3"
                                                             checked={form.data.objetivo_muestreo == '1.2.3'}
                                                             disabled={evaluacion ? true : false}
+                                                            onBlur={() => syncColumnLong('objetivo_muestreo', form)}
                                                         />
                                                         <span> Comercial o Industrial </span>
                                                     </div>
@@ -921,15 +986,33 @@ const Form = ({
                                 )}
 
                                 <div className="flex mt-4 items-center">
-                                    <RadioMui onChange={(e) => form.setData('muestreo', e.target.value)} value="2" checked={form.data.muestreo == '2'} disabled={evaluacion ? true : false} />
+                                    <RadioMui
+                                        onChange={(e) => form.setData('muestreo', e.target.value)}
+                                        value="2"
+                                        checked={form.data.muestreo == '2'}
+                                        disabled={evaluacion ? true : false}
+                                        onBlur={() => syncColumnLong('muestreo', form)}
+                                    />
                                     <span> Especies Introducidas. (son aquellas que no son nativas de Colombia y que ingresaron al país por intervención humana) </span>
                                 </div>
                                 <div className="flex mt-4 items-center">
-                                    <RadioMui onChange={(e) => form.setData('muestreo', e.target.value)} value="3" checked={form.data.muestreo == '3'} disabled={evaluacion ? true : false} />
+                                    <RadioMui
+                                        onChange={(e) => form.setData('muestreo', e.target.value)}
+                                        value="3"
+                                        checked={form.data.muestreo == '3'}
+                                        disabled={evaluacion ? true : false}
+                                        onBlur={() => syncColumnLong('muestreo', form)}
+                                    />
                                     <span> Recursos genéticos humanos y sus productos derivados </span>
                                 </div>
                                 <div className="flex mt-4 items-center">
-                                    <RadioMui onChange={(e) => form.setData('muestreo', e.target.value)} value="4" checked={form.data.muestreo == '4'} disabled={evaluacion ? true : false} />
+                                    <RadioMui
+                                        onChange={(e) => form.setData('muestreo', e.target.value)}
+                                        value="4"
+                                        checked={form.data.muestreo == '4'}
+                                        disabled={evaluacion ? true : false}
+                                        onBlur={() => syncColumnLong('muestreo', form)}
+                                    />
                                     <span>
                                         Intercambio de recursos genéticos y sus productos derivados, recursos biológicos que los contienen o los componentes asociados a estos. (son aquellas que
                                         realizan las comunidades indígenas, afroamericanas y locales de los Países Miembros de la Comunidad Andina entre sí y para su propio consumo, basadas en sus
@@ -937,7 +1020,13 @@ const Form = ({
                                     </span>
                                 </div>
                                 <div className="flex mt-4 items-center">
-                                    <RadioMui onChange={(e) => form.setData('muestreo', e.target.value)} value="5" checked={form.data.muestreo == '5'} disabled={evaluacion ? true : false} />
+                                    <RadioMui
+                                        onChange={(e) => form.setData('muestreo', e.target.value)}
+                                        value="5"
+                                        checked={form.data.muestreo == '5'}
+                                        disabled={evaluacion ? true : false}
+                                        onBlur={() => syncColumnLong('muestreo', form)}
+                                    />
                                     <span>
                                         Recurso biológico que involucren actividades de sistemática molecular, ecología molecular, evolución y biogeografía molecular (siempre que el recurso biológico
                                         se haya colectado en el marco de un permiso de recolección de especímenes de especies silvestres de la diversidad biológica con fines de investigación
@@ -945,7 +1034,13 @@ const Form = ({
                                     </span>
                                 </div>
                                 <div className="flex mt-4 items-center">
-                                    <RadioMui onChange={(e) => form.setData('muestreo', e.target.value)} value="6" checked={form.data.muestreo == '6'} disabled={evaluacion ? true : false} />
+                                    <RadioMui
+                                        onChange={(e) => form.setData('muestreo', e.target.value)}
+                                        value="6"
+                                        checked={form.data.muestreo == '6'}
+                                        disabled={evaluacion ? true : false}
+                                        onBlur={() => syncColumnLong('muestreo', form)}
+                                    />
                                     <span> No aplica </span>
                                 </div>
                             </RadioGroup>
@@ -973,6 +1068,7 @@ const Form = ({
                                 label="Seleccione una opción"
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('recoleccion_especimenes', form)}
                             />
                         </Grid>
                         <Grid item md={6}>
@@ -993,6 +1089,7 @@ const Form = ({
                                 label="Seleccione una opción"
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('relacionado_plan_tecnologico', form)}
                             />
                         </Grid>
                         <Grid item md={6}>
@@ -1018,6 +1115,7 @@ const Form = ({
                                 label="Seleccione una opción"
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('relacionado_agendas_competitividad', form)}
                             />
                         </Grid>
                         <Grid item md={6}>
@@ -1038,6 +1136,7 @@ const Form = ({
                                 label="Seleccione una opción"
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('relacionado_mesas_sectoriales', form)}
                             />
                         </Grid>
                         {form.data.relacionado_mesas_sectoriales == 1 && (is_super_admin || proyecto_linea_66?.proyecto.allowed.to_update) && (
@@ -1052,16 +1151,17 @@ const Form = ({
                                         bdValues={form.data.mesa_sectorial_id}
                                         options={mesas_sectoriales}
                                         onChange={(event, newValue) => {
-                                            const selectedValues = newValue.map((option) => option.value)
+                                            const selected_values = newValue.map((option) => option.value)
                                             form.setData((prevData) => ({
                                                 ...prevData,
-                                                mesa_sectorial_id: selectedValues,
+                                                mesa_sectorial_id: selected_values,
                                             }))
                                         }}
                                         error={form.errors.mesa_sectorial_id}
                                         label="Seleccione las mesas sectoriales"
                                         required
                                         disabled={evaluacion ? true : false}
+                                        onBlur={() => syncColumnLong('mesa_sectorial_id', form)}
                                     />
 
                                     <Textarea
@@ -1072,6 +1172,7 @@ const Form = ({
                                         onChange={(e) => form.setData('justificacion_mesas_sectoriales', e.target.value)}
                                         required
                                         disabled={evaluacion ? true : false}
+                                        onBlur={() => syncColumnLong('justificacion_mesas_sectoriales', form)}
                                     />
                                 </Grid>
                             </>
@@ -1094,6 +1195,7 @@ const Form = ({
                                 label="Seleccione una opción"
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('relacionado_tecnoacademia', form)}
                             />
                         </Grid>
                         {form.data.relacionado_tecnoacademia == 1 && (is_super_admin || proyecto_linea_66?.proyecto.allowed.to_update) && (
@@ -1119,16 +1221,17 @@ const Form = ({
                                         bdValues={form.data.linea_tecnologica_id}
                                         options={array_lineas_tecnoacademia}
                                         onChange={(event, newValue) => {
-                                            const selectedValues = newValue.map((option) => option.value)
+                                            const selected_values = newValue.map((option) => option.value)
                                             form.setData((prevData) => ({
                                                 ...prevData,
-                                                linea_tecnologica_id: selectedValues,
+                                                linea_tecnologica_id: selected_values,
                                             }))
                                         }}
                                         error={form.errors.linea_tecnologica_id}
                                         label="Seleccione las líneas tecnológicas"
                                         required
                                         disabled={evaluacion ? true : false}
+                                        onBlur={() => syncColumnLong('linea_tecnologica_id', form)}
                                     />
                                 </Grid>
                             </>
@@ -1148,16 +1251,17 @@ const Form = ({
                                 bdValues={form.data.lineas_estrategicas_beneficiadas}
                                 options={lineas_estrategicas}
                                 onChange={(event, newValue) => {
-                                    const selectedValues = newValue.map((option) => option.value)
+                                    const selected_values = newValue.map((option) => option.value)
                                     form.setData((prevData) => ({
                                         ...prevData,
-                                        lineas_estrategicas_beneficiadas: selectedValues,
+                                        lineas_estrategicas_beneficiadas: selected_values,
                                     }))
                                 }}
                                 error={form.errors.lineas_estrategicas_beneficiadas}
                                 label="Seleccione las líneas estrategicas"
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('lineas_estrategicas_beneficiadas', form)}
                             />
 
                             <Textarea
@@ -1167,6 +1271,7 @@ const Form = ({
                                 onChange={(e) => form.setData('justificacion_lineas_estrategicas_beneficiadas', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('justificacion_lineas_estrategicas_beneficiadas', form)}
                             />
                         </Grid>
 
@@ -1176,7 +1281,14 @@ const Form = ({
                                 Información necesaria para darle al lector una idea precisa de la pertinencia y calidad del proyecto. Explique en qué consiste el problema o necesidad, cómo cree que lo
                                 resolverá, cuáles son las razones que justifican su ejecución y las herramientas que se utilizarán en el desarrollo del proyecto.
                             </AlertMui>
-                            <Textarea id="resumen" value={form.data.resumen} onChange={(e) => form.setData('resumen', e.target.value)} required disabled={evaluacion ? true : false} />
+                            <Textarea
+                                id="resumen"
+                                value={form.data.resumen}
+                                onChange={(e) => form.setData('resumen', e.target.value)}
+                                required
+                                disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('resumen', form)}
+                            />
                         </Grid>
                         <Grid item md={12}>
                             <Label required className="mb-4" labelFor="antecedentes" value="Antecedentes" />
@@ -1191,6 +1303,7 @@ const Form = ({
                                 onChange={(e) => form.setData('antecedentes', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('antecedentes', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
@@ -1203,6 +1316,7 @@ const Form = ({
                                 onChange={(e) => form.setData('marco_conceptual', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('marco_conceptual', form)}
                             />
                         </Grid>
                         <Grid item md={6}>
@@ -1223,6 +1337,7 @@ const Form = ({
                                 onChange={(e) => form.setData('numero_aprendices', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('numero_aprendices', form)}
                             />
                         </Grid>
                         <Grid item md={6}>
@@ -1236,16 +1351,17 @@ const Form = ({
                                 isGroupable={true}
                                 groupBy={(option) => option.group}
                                 onChange={(event, newValue) => {
-                                    const selectedValues = newValue.map((option) => option.value)
+                                    const selected_values = newValue.map((option) => option.value)
                                     form.setData((prevData) => ({
                                         ...prevData,
-                                        municipios: selectedValues,
+                                        municipios: selected_values,
                                     }))
                                 }}
                                 error={form.errors.municipios}
                                 label="Seleccionar municipios"
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('municipios', form)}
                             />
 
                             <Tags
@@ -1257,6 +1373,7 @@ const Form = ({
                                 onChange={(e) => form.setData('veredas_corregimientos', e.target.value)}
                                 placeholder="Nombres de las veredas o corregimientos"
                                 error={form.errors.veredas_corregimientos}
+                                onBlur={() => syncColumnLong('veredas_corregimientos', form)}
                             />
                         </Grid>
 
@@ -1270,6 +1387,7 @@ const Form = ({
                                 onChange={(e) => form.setData('impacto_municipios', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('impacto_municipios', form)}
                             />
                         </Grid>
 
@@ -1282,36 +1400,17 @@ const Form = ({
                                 bdValues={form.data.programas_formacion}
                                 options={programas_formacion_con_registro_calificado}
                                 onChange={(event, newValue) => {
-                                    const selectedValues = newValue.map((option) => option.value)
+                                    const selected_values = newValue.map((option) => option.value)
                                     form.setData((prevData) => ({
                                         ...prevData,
-                                        programas_formacion: selectedValues,
+                                        programas_formacion: selected_values,
                                     }))
                                 }}
                                 error={form.errors.programas_formacion}
                                 label="Seleccione los programas de formación"
                                 required
                                 disabled={evaluacion ? true : false}
-                            />
-                        </Grid>
-                        <Grid item md={6}>
-                            <Label className="mb-4" labelFor="programas_formacion_articulados" value="Nombre de los programas de formación articulados" />
-                        </Grid>
-                        <Grid item md={6}>
-                            <SelectMultiple
-                                id="programas_formacion_articulados"
-                                bdValues={form.data.programas_formacion_articulados}
-                                options={programas_formacion_sin_registro_calificado}
-                                onChange={(event, newValue) => {
-                                    const selectedValues = newValue.map((option) => option.value)
-                                    form.setData((prevData) => ({
-                                        ...prevData,
-                                        programas_formacion_articulados: selectedValues,
-                                    }))
-                                }}
-                                error={form.errors.programas_formacion_articulados}
-                                label="Seleccione los programas de formación"
-                                disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('programas_formacion', form)}
                             />
                         </Grid>
 
@@ -1325,6 +1424,7 @@ const Form = ({
                                 onChange={(e) => form.setData('impacto_centro_formacion', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('impacto_centro_formacion', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
@@ -1340,6 +1440,7 @@ const Form = ({
                                 onChange={(e) => form.setData('bibliografia', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('bibliografia', form)}
                             />
                         </Grid>
                     </>
@@ -1347,7 +1448,7 @@ const Form = ({
             </Grid>
 
             {method == 'POST' || proyecto_linea_66.proyecto?.allowed?.to_update ? (
-                <div className="pt-8 pb-4 space-y-4">
+                <div className="flex items-center justify-between p-4">
                     <PrimaryButton type="submit" className="ml-auto" disabled={form.processing || !form.isDirty}>
                         Guardar
                     </PrimaryButton>

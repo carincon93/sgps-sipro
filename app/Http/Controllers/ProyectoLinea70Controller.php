@@ -10,7 +10,7 @@ use App\Models\TecnoAcademia;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AulaMovilRequest;
 use App\Http\Requests\Evaluacion\EvaluacionProyectoLinea70Request;
-use App\Http\Requests\TaLongColumnRequest;
+use App\Http\Requests\ProyectoLinea70ColumnRequest;
 use App\Http\Requests\ProyectoLinea70Request;
 use App\Models\Actividad;
 use App\Models\AulaMovil;
@@ -183,11 +183,12 @@ class ProyectoLinea70Controller extends Controller
         $proyecto_linea_70->lineas_tecnologicas_centro             = $request->lineas_tecnologicas_centro;
         $proyecto_linea_70->logros_vigencia_anterior               = $request->logros_vigencia_anterior;
         $proyecto_linea_70->infraestructura_tecnoacademia          = $request->infraestructura_tecnoacademia;
-        $proyecto_linea_70->proyecto->tecnoacademiaLineasTecnoacademia()->sync($request->tecnoacademia_linea_tecnoacademia_id);
 
         $proyecto_linea_70->save();
 
-        $proyecto = $proyecto_linea_70->proyecto();
+        $proyecto_linea_70->proyecto->tecnoacademiaLineasTecnoacademia()->sync($request->tecnoacademia_linea_tecnoacademia_id);
+
+        $proyecto = $proyecto_linea_70->proyecto;
         if ($request->hasFile('pdf_proyecto_general')) {
             $this->saveFilesSharepoint($request->pdf_proyecto_general, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $proyecto_linea_70, $proyecto, 'pdf_proyecto_general');
         }
@@ -249,9 +250,15 @@ class ProyectoLinea70Controller extends Controller
         return redirect()->back()->with('success', 'El recurso ha sido actualizado correctamente.');
     }
 
-    public function updateLongColumn(TaLongColumnRequest $request, Convocatoria $convocatoria, ProyectoLinea70 $proyecto_linea_70, $column)
+    public function updateLongColumn(Request $request, Convocatoria $convocatoria, ProyectoLinea70 $proyecto_linea_70, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_linea_70->proyecto]);
+
+        if ($column == 'tecnoacademia_linea_tecnoacademia_id') {
+            $proyecto_linea_70->proyecto->tecnoacademiaLineasTecnoacademia()->sync($request->only($column)[$column]);
+
+            return back();
+        }
 
         $proyecto_linea_70->update($request->only($column));
 

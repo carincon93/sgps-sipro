@@ -14,7 +14,7 @@ import StepperMui from '@/Components/Stepper'
 import { checkRole } from '@/Utils'
 
 import { useState } from 'react'
-import { useForm } from '@inertiajs/react'
+import { router, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 
 import Participantes from '../Participantes/Participantes'
@@ -130,6 +130,24 @@ const ArticulacionSennova = ({
         }
     }
 
+    const syncColumnLong = async (column, form) => {
+        if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto?.allowed?.to_update) {
+            try {
+                await router.put(
+                    route('convocatorias.proyectos.articulacion-sennova.updateLongColumn', [convocatoria.id, proyecto?.id, column]),
+                    { [column]: form.data[column], is_array: Array.isArray(form.data[column]) },
+                    {
+                        onError: (resp) => console.log(resp),
+                        onFinish: () => console.log('Request finished'),
+                        preserveScroll: true,
+                    },
+                )
+            } catch (error) {
+                console.error('An error occurred:', error)
+            }
+        }
+    }
+
     const tabs =
         proyecto.codigo_linea_programatica == 70 && tecnoacademia_relacionada?.modalidad == 2
             ? [{ label: 'Participantes' }, { label: 'Articulación SENNOVA' }, { label: 'Aulas móviles' }]
@@ -220,6 +238,7 @@ const ArticulacionSennova = ({
                                                                 }))
                                                             }}
                                                             error={form.errors.lineas_investigacion}
+                                                            onBlur={() => syncColumnLong('lineas_investigacion', form)}
                                                             required
                                                         />
                                                     </Grid>
@@ -245,7 +264,7 @@ const ArticulacionSennova = ({
                                                                 }))
                                                             }}
                                                             error={form.errors.grupos_investigacion}
-                                                            placeholder="Seleccione el grupo de investigación"
+                                                            onBlur={() => syncColumnLong('grupos_investigacion', form)}
                                                             required
                                                         />
                                                     </Grid>
@@ -263,7 +282,7 @@ const ArticulacionSennova = ({
                                                             selectedValue={form.data.articulacion_semillero}
                                                             error={form.errors.articulacion_semillero}
                                                             onChange={(event, newValue) => form.setData('articulacion_semillero', newValue.value)}
-                                                            placeholder="Seleccione una opción"
+                                                            onBlur={() => syncColumnLong('articulacion_semillero', form)}
                                                             required
                                                         />
                                                     </Grid>
@@ -287,7 +306,7 @@ const ArticulacionSennova = ({
                                                                         }))
                                                                     }}
                                                                     error={form.errors.semilleros_investigacion}
-                                                                    placeholder="Seleccione el semillero de investigación"
+                                                                    onBlur={() => syncColumnLong('semilleros_investigacion', form)}
                                                                     required
                                                                 />
                                                             </Grid>
@@ -315,7 +334,7 @@ const ArticulacionSennova = ({
                                                                 }))
                                                             }}
                                                             error={form.errors.proyecto_idi_tecnoacademia_id}
-                                                            placeholder="Seleccione uno o varias iniciativas"
+                                                            onBlur={() => syncColumnLong('proyecto_idi_tecnoacademia_id', form)}
                                                             required
                                                         />
 
@@ -329,6 +348,7 @@ const ArticulacionSennova = ({
                                                             error={form.errors.proyectos_ejecucion}
                                                             value={form.data.proyectos_ejecucion}
                                                             onChange={(e) => form.setData('proyectos_ejecucion', e.target.value)}
+                                                            onBlur={() => syncColumnLong('proyectos_ejecucion', form)}
                                                         />
                                                     </Grid>
 
@@ -345,6 +365,7 @@ const ArticulacionSennova = ({
                                                             onChange={(e) => form.setData('semilleros_en_formalizacion', e.target.value)}
                                                             placeholder="Nombres de los semilleros"
                                                             error={form.errors.semilleros_en_formalizacion}
+                                                            onBlur={() => syncColumnLong('semilleros_en_formalizacion', form)}
                                                         />
                                                     </Grid>
 
@@ -364,7 +385,7 @@ const ArticulacionSennova = ({
                                                                 }))
                                                             }}
                                                             error={form.errors.disciplinas_subarea_conocimiento}
-                                                            placeholder="Disciplinas subárea de concimiento"
+                                                            onBlur={() => syncColumnLong('disciplinas_subarea_conocimiento', form)}
                                                             required
                                                         />
                                                     </Grid>
@@ -385,7 +406,7 @@ const ArticulacionSennova = ({
                                                                 }))
                                                             }}
                                                             error={form.errors.redes_conocimiento}
-                                                            placeholder="Seleccione la red de conocimiento"
+                                                            onBlur={() => syncColumnLong('redes_conocimiento', form)}
                                                             required
                                                         />
                                                     </Grid>
@@ -411,7 +432,7 @@ const ArticulacionSennova = ({
                                                                 }))
                                                             }}
                                                             error={form.errors.actividades_economicas}
-                                                            placeholder="Seleccione la actividad económica"
+                                                            onBlur={() => syncColumnLong('actividades_economicas', form)}
                                                             required
                                                         />
                                                     </Grid>
@@ -432,7 +453,7 @@ const ArticulacionSennova = ({
                                                                 }))
                                                             }}
                                                             error={form.errors.tematicas_estrategicas}
-                                                            placeholder="Seleccione la temática estratégica SENA"
+                                                            onBlur={() => syncColumnLong('tematicas_estrategicas', form)}
                                                             required
                                                         />
                                                     </Grid>
@@ -448,6 +469,7 @@ const ArticulacionSennova = ({
                                                             value={form.data.articulacion_centro_formacion}
                                                             onChange={(e) => form.setData('articulacion_centro_formacion', e.target.value)}
                                                             label="Articulación con el centro de formación"
+                                                            onBlur={() => syncColumnLong('articulacion_centro_formacion', form)}
                                                             required
                                                         />
                                                     </Grid>
@@ -461,6 +483,7 @@ const ArticulacionSennova = ({
                                                             value={form.data.articulacion_programas_centro}
                                                             onChange={(e) => form.setData('articulacion_programas_centro', e.target.value)}
                                                             label="¿Articulación de la TecnoAcademia en los programas de formación del Centro?"
+                                                            onBlur={() => syncColumnLong('articulacion_programas_centro', form)}
                                                             required
                                                         />
                                                     </Grid>
@@ -471,7 +494,8 @@ const ArticulacionSennova = ({
                                                             error={form.errors.articulacion_bienestar_aprendiz}
                                                             value={form.data.articulacion_bienestar_aprendiz}
                                                             onChange={(e) => form.setData('articulacion_bienestar_aprendiz', e.target.value)}
-                                                            label="¿Articulación de la TecnoAcademia en las acciones de Bienestar al aprendiz del Centro?  "
+                                                            label="¿Articulación de la TecnoAcademia en las acciones de Bienestar al aprendiz del Centro?"
+                                                            onBlur={() => syncColumnLong('articulacion_bienestar_aprendiz', form)}
                                                             required
                                                         />
                                                     </Grid>
@@ -483,6 +507,7 @@ const ArticulacionSennova = ({
                                                             value={form.data.favorecimiento_ruta_formacion}
                                                             onChange={(e) => form.setData('favorecimiento_ruta_formacion', e.target.value)}
                                                             label="¿Acciones conjuntas definidas con el equipo de Articulación con la Media del Centro para favorecer la ruta de formación desde la TecnoAcademia?"
+                                                            onBlur={() => syncColumnLong('favorecimiento_ruta_formacion', form)}
                                                             required
                                                         />
                                                     </Grid>
@@ -494,6 +519,7 @@ const ArticulacionSennova = ({
                                                             value={form.data.lineas_medulares_centro}
                                                             onChange={(e) => form.setData('lineas_medulares_centro', e.target.value)}
                                                             label="Líneas medulares del Centro con las que se articula la TecnoAcademia"
+                                                            onBlur={() => syncColumnLong('lineas_medulares_centro', form)}
                                                             required
                                                         />
                                                     </Grid>
@@ -510,6 +536,7 @@ const ArticulacionSennova = ({
                                                                 error={form.errors.impacto_centro_formacion}
                                                                 value={form.data.impacto_centro_formacion}
                                                                 onChange={(e) => form.setData('impacto_centro_formacion', e.target.value)}
+                                                                onBlur={() => syncColumnLong('impacto_centro_formacion', form)}
                                                                 required
                                                             />
                                                         </Grid>
@@ -527,6 +554,7 @@ const ArticulacionSennova = ({
                                                                 error={form.errors.aportacion_semilleros_grupos}
                                                                 value={form.data.aportacion_semilleros_grupos}
                                                                 onChange={(e) => form.setData('aportacion_semilleros_grupos', e.target.value)}
+                                                                onBlur={() => syncColumnLong('aportacion_semilleros_grupos', form)}
                                                                 required
                                                             />
                                                         </Grid>
@@ -544,6 +572,7 @@ const ArticulacionSennova = ({
                                                                 error={form.errors.proyeccion_con_st}
                                                                 value={form.data.proyeccion_con_st}
                                                                 onChange={(e) => form.setData('proyeccion_con_st', e.target.value)}
+                                                                onBlur={() => syncColumnLong('proyeccion_con_st', form)}
                                                                 required
                                                             />
                                                         </Grid>
@@ -561,6 +590,7 @@ const ArticulacionSennova = ({
                                                                 error={form.errors.proyeccion_extensionismo_tecnologico}
                                                                 value={form.data.proyeccion_extensionismo_tecnologico}
                                                                 onChange={(e) => form.setData('proyeccion_extensionismo_tecnologico', e.target.value)}
+                                                                onBlur={() => syncColumnLong('proyeccion_extensionismo_tecnologico', form)}
                                                                 required
                                                             />
                                                         </Grid>
@@ -578,6 +608,7 @@ const ArticulacionSennova = ({
                                                                 error={form.errors.proyeccion_centros_desarrollo}
                                                                 value={form.data.proyeccion_centros_desarrollo}
                                                                 onChange={(e) => form.setData('proyeccion_centros_desarrollo', e.target.value)}
+                                                                onBlur={() => syncColumnLong('proyeccion_centros_desarrollo', form)}
                                                                 required
                                                             />
                                                         </Grid>
@@ -595,6 +626,7 @@ const ArticulacionSennova = ({
                                                                 error={form.errors.proyeccion_formacion_regional}
                                                                 value={form.data.proyeccion_formacion_regional}
                                                                 onChange={(e) => form.setData('proyeccion_formacion_regional', e.target.value)}
+                                                                onBlur={() => syncColumnLong('proyeccion_formacion_regional', form)}
                                                                 required
                                                             />
                                                         </Grid>
@@ -619,7 +651,7 @@ const ArticulacionSennova = ({
                                                                     }))
                                                                 }}
                                                                 error={form.errors.semilleros_investigacion}
-                                                                placeholder="Seleccione el semillero de investigación"
+                                                                onBlur={() => syncColumnLong('semilleros_investigacion', form)}
                                                                 required
                                                             />
                                                         </Grid>
@@ -640,7 +672,7 @@ const ArticulacionSennova = ({
                                                                     }))
                                                                 }}
                                                                 error={form.errors.grupos_investigacion}
-                                                                placeholder="Seleccione el grupo de investigación"
+                                                                onBlur={() => syncColumnLong('grupos_investigacion', form)}
                                                                 required
                                                             />
                                                         </Grid>
@@ -680,6 +712,7 @@ const ArticulacionSennova = ({
                                                 error={formArticulacionSennovaProyectosHub.errors.contribucion_formacion_centro_regional}
                                                 value={formArticulacionSennovaProyectosHub.data.contribucion_formacion_centro_regional}
                                                 onChange={(e) => formArticulacionSennovaProyectosHub.setData('contribucion_formacion_centro_regional', e.target.value)}
+                                                onBlur={() => syncColumnLong('contribucion_formacion_centro_regional', formArticulacionSennovaProyectosHub)}
                                                 required
                                             />
                                         </Grid>
@@ -696,6 +729,7 @@ const ArticulacionSennova = ({
                                                 error={formArticulacionSennovaProyectosHub.errors.acciones_fortalecimiento_centro_regional}
                                                 value={formArticulacionSennovaProyectosHub.data.acciones_fortalecimiento_centro_regional}
                                                 onChange={(e) => formArticulacionSennovaProyectosHub.setData('acciones_fortalecimiento_centro_regional', e.target.value)}
+                                                onBlur={() => syncColumnLong('acciones_fortalecimiento_centro_regional', formArticulacionSennovaProyectosHub)}
                                                 required
                                             />
                                         </Grid>
@@ -712,6 +746,7 @@ const ArticulacionSennova = ({
                                                 error={formArticulacionSennovaProyectosHub.errors.acciones_participacion_aprendices}
                                                 value={formArticulacionSennovaProyectosHub.data.acciones_participacion_aprendices}
                                                 onChange={(e) => formArticulacionSennovaProyectosHub.setData('acciones_participacion_aprendices', e.target.value)}
+                                                onBlur={() => syncColumnLong('acciones_participacion_aprendices', formArticulacionSennovaProyectosHub)}
                                                 required
                                             />
                                         </Grid>
@@ -732,6 +767,7 @@ const ArticulacionSennova = ({
                                                 error={formArticulacionSennovaProyectosHub.errors.acciones_aportes_por_edt}
                                                 value={formArticulacionSennovaProyectosHub.data.acciones_aportes_por_edt}
                                                 onChange={(e) => formArticulacionSennovaProyectosHub.setData('acciones_aportes_por_edt', e.target.value)}
+                                                onBlur={() => syncColumnLong('acciones_aportes_por_edt', formArticulacionSennovaProyectosHub)}
                                                 required
                                             />
                                         </Grid>
@@ -755,6 +791,7 @@ const ArticulacionSennova = ({
                                                 error={formArticulacionSennovaProyectosHub.errors.acciones_fortalecimiento_programas_calificados}
                                                 value={formArticulacionSennovaProyectosHub.data.acciones_fortalecimiento_programas_calificados}
                                                 onChange={(e) => formArticulacionSennovaProyectosHub.setData('acciones_fortalecimiento_programas_calificados', e.target.value)}
+                                                onBlur={() => syncColumnLong('acciones_fortalecimiento_programas_calificados', formArticulacionSennovaProyectosHub)}
                                                 required
                                             />
                                         </Grid>
@@ -775,6 +812,7 @@ const ArticulacionSennova = ({
                                                 error={formArticulacionSennovaProyectosHub.errors.acciones_categorizacion_grupos_investigacion}
                                                 value={formArticulacionSennovaProyectosHub.data.acciones_categorizacion_grupos_investigacion}
                                                 onChange={(e) => formArticulacionSennovaProyectosHub.setData('acciones_categorizacion_grupos_investigacion', e.target.value)}
+                                                onBlur={() => syncColumnLong('acciones_categorizacion_grupos_investigacion', formArticulacionSennovaProyectosHub)}
                                                 required
                                             />
                                         </Grid>
@@ -793,6 +831,7 @@ const ArticulacionSennova = ({
                                                 error={formArticulacionSennovaProyectosHub.errors.oportunidades_fortalecimiento_proyectos_sennova}
                                                 value={formArticulacionSennovaProyectosHub.data.oportunidades_fortalecimiento_proyectos_sennova}
                                                 onChange={(e) => formArticulacionSennovaProyectosHub.setData('oportunidades_fortalecimiento_proyectos_sennova', e.target.value)}
+                                                onBlur={() => syncColumnLong('oportunidades_fortalecimiento_proyectos_sennova', formArticulacionSennovaProyectosHub)}
                                                 required
                                             />
                                         </Grid>
@@ -812,7 +851,7 @@ const ArticulacionSennova = ({
                                                     }))
                                                 }}
                                                 error={formArticulacionSennovaProyectosHub.errors.semilleros_investigacion}
-                                                placeholder="Seleccione el semillero de investigación"
+                                                onBlur={() => syncColumnLong('semilleros_investigacion', formArticulacionSennovaProyectosHub)}
                                                 required
                                             />
                                         </Grid>
@@ -833,7 +872,7 @@ const ArticulacionSennova = ({
                                                     }))
                                                 }}
                                                 error={formArticulacionSennovaProyectosHub.errors.grupos_investigacion}
-                                                placeholder="Seleccione el grupo de investigación"
+                                                onBlur={() => syncColumnLong('grupos_investigacion', formArticulacionSennovaProyectosHub)}
                                                 required
                                             />
                                         </Grid>
@@ -855,6 +894,7 @@ const ArticulacionSennova = ({
                                                 error={formArticulacionSennovaProyectosHub.errors.proyeccion_articulacion_linea_68}
                                                 value={formArticulacionSennovaProyectosHub.data.proyeccion_articulacion_linea_68}
                                                 onChange={(e) => formArticulacionSennovaProyectosHub.setData('proyeccion_articulacion_linea_68', e.target.value)}
+                                                onBlur={() => syncColumnLong('proyeccion_articulacion_linea_68', formArticulacionSennovaProyectosHub)}
                                                 required
                                             />
                                         </Grid>
@@ -873,6 +913,7 @@ const ArticulacionSennova = ({
                                                 error={formArticulacionSennovaProyectosHub.errors.proyeccion_articulacion_linea_83}
                                                 value={formArticulacionSennovaProyectosHub.data.proyeccion_articulacion_linea_83}
                                                 onChange={(e) => formArticulacionSennovaProyectosHub.setData('proyeccion_articulacion_linea_83', e.target.value)}
+                                                onBlur={() => syncColumnLong('proyeccion_articulacion_linea_83', formArticulacionSennovaProyectosHub)}
                                                 required
                                             />
                                         </Grid>
@@ -889,6 +930,7 @@ const ArticulacionSennova = ({
                                                 error={formArticulacionSennovaProyectosHub.errors.oportunidades_fortalecimiento_convocatorias_innovacion}
                                                 value={formArticulacionSennovaProyectosHub.data.oportunidades_fortalecimiento_convocatorias_innovacion}
                                                 onChange={(e) => formArticulacionSennovaProyectosHub.setData('oportunidades_fortalecimiento_convocatorias_innovacion', e.target.value)}
+                                                onBlur={() => syncColumnLong('oportunidades_fortalecimiento_convocatorias_innovacion', formArticulacionSennovaProyectosHub)}
                                                 required
                                             />
                                         </Grid>
@@ -905,6 +947,7 @@ const ArticulacionSennova = ({
                                                 error={formArticulacionSennovaProyectosHub.errors.proyeccion_articulacion_centros_empresariales}
                                                 value={formArticulacionSennovaProyectosHub.data.proyeccion_articulacion_centros_empresariales}
                                                 onChange={(e) => formArticulacionSennovaProyectosHub.setData('proyeccion_articulacion_centros_empresariales', e.target.value)}
+                                                onBlur={() => syncColumnLong('proyeccion_articulacion_centros_empresariales', formArticulacionSennovaProyectosHub)}
                                                 required
                                             />
                                         </Grid>
@@ -937,6 +980,7 @@ const ArticulacionSennova = ({
                                                     error={formArticulacionSennovaProyectosLinea83.errors.impacto_centros_formacion}
                                                     value={formArticulacionSennovaProyectosLinea83.data.impacto_centros_formacion}
                                                     onChange={(e) => formArticulacionSennovaProyectosLinea83.setData('impacto_centros_formacion', e.target.value)}
+                                                    onBlur={() => syncColumnLong('impacto_centros_formacion', formArticulacionSennovaProyectosLinea83)}
                                                     required
                                                 />
                                             </Grid>
@@ -953,6 +997,7 @@ const ArticulacionSennova = ({
                                                     error={formArticulacionSennovaProyectosLinea83.errors.articulacion_semilleros_grupos_investigacion}
                                                     value={formArticulacionSennovaProyectosLinea83.data.articulacion_semilleros_grupos_investigacion}
                                                     onChange={(e) => formArticulacionSennovaProyectosLinea83.setData('articulacion_semilleros_grupos_investigacion', e.target.value)}
+                                                    onBlur={() => syncColumnLong('articulacion_semilleros_grupos_investigacion', formArticulacionSennovaProyectosLinea83)}
                                                     required
                                                 />
                                             </Grid>
@@ -969,6 +1014,7 @@ const ArticulacionSennova = ({
                                                     error={formArticulacionSennovaProyectosLinea83.errors.articulacion_linea_68}
                                                     value={formArticulacionSennovaProyectosLinea83.data.articulacion_linea_68}
                                                     onChange={(e) => formArticulacionSennovaProyectosLinea83.setData('articulacion_linea_68', e.target.value)}
+                                                    onBlur={() => syncColumnLong('articulacion_linea_68', formArticulacionSennovaProyectosLinea83)}
                                                     required
                                                 />
                                             </Grid>
@@ -985,6 +1031,7 @@ const ArticulacionSennova = ({
                                                     error={formArticulacionSennovaProyectosLinea83.errors.articulacion_linea_69_y_hubs}
                                                     value={formArticulacionSennovaProyectosLinea83.data.articulacion_linea_69_y_hubs}
                                                     onChange={(e) => formArticulacionSennovaProyectosLinea83.setData('articulacion_linea_69_y_hubs', e.target.value)}
+                                                    onBlur={() => syncColumnLong('articulacion_linea_69_y_hubs', formArticulacionSennovaProyectosLinea83)}
                                                     required
                                                 />
                                             </Grid>
@@ -1001,6 +1048,7 @@ const ArticulacionSennova = ({
                                                     error={formArticulacionSennovaProyectosLinea83.errors.articulacion_centros_desarrollo_empresarial}
                                                     value={formArticulacionSennovaProyectosLinea83.data.articulacion_centros_desarrollo_empresarial}
                                                     onChange={(e) => formArticulacionSennovaProyectosLinea83.setData('articulacion_centros_desarrollo_empresarial', e.target.value)}
+                                                    onBlur={() => syncColumnLong('articulacion_centros_desarrollo_empresarial', formArticulacionSennovaProyectosLinea83)}
                                                     required
                                                 />
                                             </Grid>
@@ -1017,6 +1065,7 @@ const ArticulacionSennova = ({
                                                     error={formArticulacionSennovaProyectosLinea83.errors.contribucion_formacion_regional_nacional}
                                                     value={formArticulacionSennovaProyectosLinea83.data.contribucion_formacion_regional_nacional}
                                                     onChange={(e) => formArticulacionSennovaProyectosLinea83.setData('contribucion_formacion_regional_nacional', e.target.value)}
+                                                    onBlur={() => syncColumnLong('contribucion_formacion_regional_nacional', formArticulacionSennovaProyectosLinea83)}
                                                     required
                                                 />
                                             </Grid>
@@ -1033,6 +1082,7 @@ const ArticulacionSennova = ({
                                                     error={formArticulacionSennovaProyectosLinea83.errors.proyeccion_capacidades_tecnologicas_empresas}
                                                     value={formArticulacionSennovaProyectosLinea83.data.proyeccion_capacidades_tecnologicas_empresas}
                                                     onChange={(e) => formArticulacionSennovaProyectosLinea83.setData('proyeccion_capacidades_tecnologicas_empresas', e.target.value)}
+                                                    onBlur={() => syncColumnLong('proyeccion_capacidades_tecnologicas_empresas', formArticulacionSennovaProyectosLinea83)}
                                                     required
                                                 />
                                             </Grid>

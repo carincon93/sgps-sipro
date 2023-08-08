@@ -1,4 +1,4 @@
-import { useForm } from '@inertiajs/react'
+import { router, useForm } from '@inertiajs/react'
 import { route, checkRole, checkPermissionByUser } from '@/Utils'
 
 import AlertMui from '@/Components/Alert'
@@ -7,7 +7,7 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import Textarea from '@/Components/Textarea'
 import { Tooltip, Typography } from '@mui/material'
 
-const ArbolProblemasComponent = ({ auth, proyecto, fase_evaluacion }) => {
+const ArbolProblemasComponent = ({ auth, convocatoria, proyecto, fase_evaluacion }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -25,6 +25,24 @@ const ArbolProblemasComponent = ({ auth, proyecto, fase_evaluacion }) => {
             form_problema_central.post(route('proyectos.problema-central', proyecto.id), {
                 preserveScroll: true,
             })
+        }
+    }
+
+    const syncColumnLong = async (column, form) => {
+        if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto?.allowed?.to_update) {
+            try {
+                await router.put(
+                    route('convocatorias.proyectos.arboles.updateLongColumn', [convocatoria.id, proyecto?.id, column]),
+                    { [column]: form.data[column], is_array: Array.isArray(form.data[column]) },
+                    {
+                        onError: (resp) => console.log(resp),
+                        onFinish: () => console.log('Request finished'),
+                        preserveScroll: true,
+                    },
+                )
+            } catch (error) {
+                console.error('An error occurred:', error)
+            }
         }
     }
 
@@ -88,6 +106,7 @@ const ArbolProblemasComponent = ({ auth, proyecto, fase_evaluacion }) => {
                                         error={form_problema_central.errors.identificacion_problema}
                                         onChange={(e) => form_problema_central.setData('identificacion_problema', e.target.value)}
                                         disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
+                                        onBlur={() => syncColumnLong('identificacion_problema', form_problema_central)}
                                         required
                                     />
                                 </div>
@@ -115,6 +134,7 @@ const ArbolProblemasComponent = ({ auth, proyecto, fase_evaluacion }) => {
                                         error={form_problema_central.errors.pregunta_formulacion_problema}
                                         value={form_problema_central.data.pregunta_formulacion_problema}
                                         onChange={(e) => form_problema_central.setData('pregunta_formulacion_problema', e.target.value)}
+                                        onBlur={() => syncColumnLong('pregunta_formulacion_problema', form_problema_central)}
                                         required
                                     />
                                 </div>
@@ -134,6 +154,7 @@ const ArbolProblemasComponent = ({ auth, proyecto, fase_evaluacion }) => {
                                         error={form_problema_central.errors.justificacion_problema}
                                         value={form_problema_central.data.justificacion_problema}
                                         onChange={(e) => form_problema_central.setData('justificacion_problema', e.target.value)}
+                                        onBlur={() => syncColumnLong('justificacion_problema', form_problema_central)}
                                         required
                                     />
                                 </div>
@@ -152,6 +173,7 @@ const ArbolProblemasComponent = ({ auth, proyecto, fase_evaluacion }) => {
                                     error={form_problema_central.errors.problema_central}
                                     value={form_problema_central.data.problema_central}
                                     onChange={(e) => form_problema_central.setData('problema_central', e.target.value)}
+                                    onBlur={() => syncColumnLong('problema_central', form_problema_central)}
                                     required
                                 />
                             </div>
@@ -160,30 +182,31 @@ const ArbolProblemasComponent = ({ auth, proyecto, fase_evaluacion }) => {
                                 <span className="bg-clip-text text-transparent m-auto bg-gradient-to-r from-app-500 to-app-300 block w-max">2. Objetivo general</span>
                             </div>
 
-                            {proyecto.codigo_linea_programatica == 68 ? (
-                                <AlertMui>
-                                    El objetivo general se origina al convertir en positivo el problema principal (tronco) identificado en el árbol de problemas.
-                                    <br />
-                                    La redacción deberá iniciar con un verbo en modo infinitivo, es decir, con una palabra terminada en "ar", "er" o "ir". La estructura del objetivo debe contener al
-                                    menos tres componentes: (1) la acción que se espera realizar, (2) el objeto sobre el cual recae la acción y (3) elementos adicionales de contexto o descriptivos.
-                                    <br />
-                                    El objetivo general debe expresar el fin concreto del proyecto en correspondencia directa con el título del proyecto y la pregunta de la formulación del problema,
-                                    el cual debe ser claro, medible, alcanzable y consistente con el proyecto que está formulando. Debe responde al ¿Qué?, ¿Cómo? y el ¿Para qué?
-                                </AlertMui>
-                            ) : (
-                                <AlertMui>
-                                    Establece que pretende alcanzar la investigación. Se inicia con un verbo en modo infinitivo, es medible y alcanzable. Responde al Qué, Cómo y el Para qué
-                                </AlertMui>
-                            )}
-
                             <div>
                                 <Label required className="mb-4" labelFor="objetivo-general" value="Objetivo general" />
+                                {proyecto.codigo_linea_programatica == 68 ? (
+                                    <AlertMui>
+                                        El objetivo general se origina al convertir en positivo el problema principal (tronco) identificado en el árbol de problemas.
+                                        <br />
+                                        La redacción deberá iniciar con un verbo en modo infinitivo, es decir, con una palabra terminada en "ar", "er" o "ir". La estructura del objetivo debe contener
+                                        al menos tres componentes: (1) la acción que se espera realizar, (2) el objeto sobre el cual recae la acción y (3) elementos adicionales de contexto o
+                                        descriptivos.
+                                        <br />
+                                        El objetivo general debe expresar el fin concreto del proyecto en correspondencia directa con el título del proyecto y la pregunta de la formulación del
+                                        problema, el cual debe ser claro, medible, alcanzable y consistente con el proyecto que está formulando. Debe responde al ¿Qué?, ¿Cómo? y el ¿Para qué?
+                                    </AlertMui>
+                                ) : (
+                                    <AlertMui>
+                                        Establece que pretende alcanzar la investigación. Se inicia con un verbo en modo infinitivo, es medible y alcanzable. Responde al Qué, Cómo y el Para qué
+                                    </AlertMui>
+                                )}
                                 <Textarea
                                     disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
                                     id="objetivo-general"
                                     error={form_problema_central.errors.objetivo_general}
                                     value={form_problema_central.data.objetivo_general}
                                     onChange={(e) => form_problema_central.setData('objetivo_general', e.target.value)}
+                                    onBlur={() => syncColumnLong('objetivo_general', form_problema_central)}
                                     required
                                 />
                             </div>

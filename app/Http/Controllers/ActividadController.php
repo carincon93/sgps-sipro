@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Helpers\SelectHelper;
 use App\Http\Requests\ActividadRequest;
+use App\Http\Requests\MetodologiaColumnRequest;
 use App\Models\Convocatoria;
 use App\Models\Proyecto;
 use App\Models\Actividad;
-use App\Models\AulaMovil;
 use App\Models\Evaluacion\Evaluacion;
 use App\Models\ProyectoPresupuesto;
 use App\Models\ProyectoRolSennova;
@@ -98,47 +98,7 @@ class ActividadController extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/Actividades/Index', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'year'),
-            'proyecto'                  => $proyecto->only(
-                                            'id',
-                                            'fecha_inicio',
-                                            'fecha_finalizacion',
-                                            'codigo_linea_programatica',
-                                            'precio_proyecto',
-                                            'modificable',
-                                            'metodologia',
-                                            'metodologia_local',
-                                            'otras_nuevas_instituciones',
-                                            'otras_nombre_instituciones_programas',
-                                            'otras_nombre_instituciones',
-                                            'impacto_municipios',
-                                            'nombre_instituciones',
-                                            'nombre_instituciones_programas',
-                                            'nuevas_instituciones',
-                                            'proyeccion_nuevas_instituciones',
-                                            'proyeccion_articulacion_media',
-                                            'proyectos_macro',
-                                            'implementacion_modelo_pedagogico',
-                                            'articulacion_plan_educacion',
-                                            'articulacion_territorios_stem',
-                                            'impacto_municipios_tp',
-                                            'estrategia_articulacion_prox_vigencia',
-                                            'alianzas_estrategicas',
-                                            'estrategia_divulgacion',
-                                            'promover_productividad',
-                                            'departamentos_atencion_talentos',
-                                            'estrategia_atencion_talentos',
-                                            'municipios',
-                                            'municipiosAImpactar',
-                                            'disenosCurriculares',
-                                            'programasFormacionLinea70',
-                                            'en_subsanacion',
-                                            'evaluaciones',
-                                            'mostrar_recomendaciones',
-                                            'proyectoHubLinea69',
-                                            'proyectoLinea83',
-                                            'allowed',
-                                            'tipo_proyecto'
-                                        ),
+            'proyecto'                  => $proyecto,
             'evaluacion'                => Evaluacion::find(request()->evaluacion_id),
             'actividades'               => Actividad::whereIn(
                                             'objetivo_especifico_id',
@@ -451,28 +411,28 @@ class ActividadController extends Controller
         switch ($evaluacion) {
             case $evaluacion->evaluacionProyectoLinea66()->exists():
                 $evaluacion->evaluacionProyectoLinea66()->update([
-                    'metodologia_puntaje'      => $request->metodologia_puntaje,
-                    'metodologia_comentario'   => $request->metodologia_requiere_comentario == false ? $request->metodologia_comentario : null
+                    'metodologia_puntaje'                   => $request->metodologia_puntaje,
+                    'metodologia_comentario'                => $request->metodologia_requiere_comentario == false ? $request->metodologia_comentario : null
                 ]);
                 break;
             case $evaluacion->evaluacionProyectoLinea65()->exists():
                 $evaluacion->evaluacionProyectoLinea65()->update([
-                    'metodologia_puntaje'      => $request->metodologia_puntaje,
-                    'metodologia_comentario'   => $request->metodologia_requiere_comentario == false ? $request->metodologia_comentario : null
+                    'metodologia_puntaje'                   => $request->metodologia_puntaje,
+                    'metodologia_comentario'                => $request->metodologia_requiere_comentario == false ? $request->metodologia_comentario : null
                 ]);
                 break;
             case $evaluacion->evaluacionProyectoLinea70()->exists():
                 $evaluacion->evaluacionProyectoLinea70()->update([
-                    'metodologia_comentario'        => $request->metodologia_requiere_comentario == false ? $request->metodologia_comentario : null,
-                    'municipios_comentario'         => $request->municipios_requiere_comentario == false ? $request->municipios_comentario : null,
-                    'instituciones_comentario'      => $request->instituciones_requiere_comentario == false ? $request->instituciones_comentario : null,
-                    'proyectos_macro_comentario'    => $request->proyectos_macro_requiere_comentario == false ? $request->proyectos_macro_comentario : null
+                    'metodologia_comentario'                => $request->metodologia_requiere_comentario == false ? $request->metodologia_comentario : null,
+                    'municipios_comentario'                 => $request->municipios_requiere_comentario == false ? $request->municipios_comentario : null,
+                    'instituciones_comentario'              => $request->instituciones_requiere_comentario == false ? $request->instituciones_comentario : null,
+                    'proyectos_macro_comentario'            => $request->proyectos_macro_requiere_comentario == false ? $request->proyectos_macro_comentario : null
                 ]);
                 break;
             case $evaluacion->evaluacionProyectoLinea69()->exists():
                 $evaluacion->evaluacionProyectoLinea69()->update([
-                    'metodologia_comentario'   => $request->metodologia_requiere_comentario == false ? $request->metodologia_comentario : null,
-                    'municipios_comentario'    => $request->municipios_requiere_comentario == false ? $request->municipios_comentario : null
+                    'metodologia_comentario'                => $request->metodologia_requiere_comentario == false ? $request->metodologia_comentario : null,
+                    'municipios_comentario'                 => $request->municipios_requiere_comentario == false ? $request->municipios_comentario : null
                 ]);
                 break;
 
@@ -501,5 +461,64 @@ class ActividadController extends Controller
         $evaluacion->save();
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
+    }
+
+    public function updateLongColumn(MetodologiaColumnRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, $column)
+    {
+        $this->authorize('modificar-proyecto-autor', [$proyecto]);
+
+        switch ($proyecto->lineaProgramatica->id) {
+            case 1:
+                $proyecto->proyectoLinea66()->update($request->only($column));
+                break;
+            case 9:
+                $proyecto->proyectoLinea65()->update($request->only($column));
+                break;
+            case 10:
+                $proyecto->proyectoLinea68()->update($request->only($column));
+                break;
+            case 11:
+                $proyecto->proyectoLinea83()->update($request->only($column));
+                break;
+            case 4:
+                if ($column == 'talento_otros_departamentos') {
+                    $proyecto->proyectoLinea69->talentosOtrosDepartamentos()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'municipios') {
+                    $proyecto->municipios()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                $proyecto->proyectoLinea69()->update($request->only($column));
+                break;
+            case 5:
+                if ($column == 'municipios_impactar') {
+                    $proyecto->municipiosAImpactar()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'municipios') {
+                    $proyecto->municipios()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'programas_formacion_articulados') {
+                    $proyecto->programasFormacionLinea70()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'diseno_curricular_id') {
+                    $proyecto->disenosCurriculares()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                $proyecto->proyectoLinea70()->update($request->only($column));
+            default:
+                break;
+        }
+
+        return back();
     }
 }

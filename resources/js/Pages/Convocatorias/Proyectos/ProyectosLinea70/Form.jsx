@@ -9,7 +9,7 @@ import TextInput from '@/Components/TextInput'
 import Textarea from '@/Components/Textarea'
 import { checkPermissionByUser, monthDiff } from '@/Utils'
 
-import { useForm } from '@inertiajs/react'
+import { router, useForm } from '@inertiajs/react'
 
 import { Grid } from '@mui/material'
 import { useState } from 'react'
@@ -81,6 +81,24 @@ const Form = ({
     useEffect(() => {
         form.setData('max_meses_ejecucion', monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion))
     }, [form.data.fecha_inicio && form.data.fecha_finalizacion])
+
+    const syncColumnLong = async (column, form) => {
+        if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto_linea_70?.proyecto?.allowed?.to_update) {
+            try {
+                await router.put(
+                    route('convocatorias.proyectos-linea-70.updateLongColumn', [convocatoria.id, proyecto_linea_70?.proyecto?.id, column]),
+                    { [column]: form.data[column], is_array: Array.isArray(form.data[column]) },
+                    {
+                        onError: (resp) => console.log(resp),
+                        onFinish: () => console.log('Request finished'),
+                        preserveScroll: true,
+                    },
+                )
+            } catch (error) {
+                console.error('An error occurred:', error)
+            }
+        }
+    }
 
     return (
         <form onSubmit={submit}>
@@ -175,16 +193,17 @@ const Form = ({
                                 bdValues={form.data.tecnoacademia_linea_tecnoacademia_id}
                                 options={array_lineas_tecnoacademia}
                                 onChange={(event, newValue) => {
-                                    const selectedValues = newValue.map((option) => option.value)
+                                    const selected_values = newValue.map((option) => option.value)
                                     form.setData((prevData) => ({
                                         ...prevData,
-                                        tecnoacademia_linea_tecnoacademia_id: selectedValues,
+                                        tecnoacademia_linea_tecnoacademia_id: selected_values,
                                     }))
                                 }}
                                 error={form.errors.tecnoacademia_linea_tecnoacademia_id}
                                 label="Seleccione una o varias opciones"
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('tecnoacademia_linea_tecnoacademia_id', form)}
                             />
                         </Grid>
                     </>
@@ -279,16 +298,19 @@ const Form = ({
                         <Grid item md={6}>
                             <FileInput
                                 id="pdf_proyecto_general"
-                                maxSize="10000"
                                 value={form.data.pdf_proyecto_general}
-                                valueDb={proyecto_linea_70.pdf_proyecto_general}
-                                error={form.errors.pdf_proyecto_general}
-                                route={
-                                    proyecto_linea_70.pdf_proyecto_general?.includes('http')
-                                        ? null
-                                        : route('convocatorias.proyectos-linea-70.download-pdf-sharepoint', [convocatoria.id, proyecto_linea_70.id, 'pdf_proyecto_general'])
+                                filename={proyecto_linea_70?.filename}
+                                extension={proyecto_linea_70?.extension}
+                                label="Seleccione un archivo"
+                                downloadRoute={
+                                    proyecto_linea_70?.pdf_proyecto_general
+                                        ? proyecto_linea_70?.pdf_proyecto_general.includes('http') == true || proyecto_linea_70?.pdf_proyecto_general.includes('http') == undefined
+                                            ? null
+                                            : route('convocatorias.proyectos-linea-70.download-file-sharepoint', [convocatoria.id, proyecto_linea_70.id, 'pdf_proyecto_general'])
+                                        : null
                                 }
-                                required
+                                onChange={(e) => form.setData('pdf_proyecto_general', e.target.files[0])}
+                                error={form.errors.pdf_proyecto_general}
                             />
                         </Grid>
 
@@ -310,7 +332,7 @@ const Form = ({
                                 selectedValue={form.data.infraestructura_tecnoacademia}
                                 onChange={(event, newValue) => form.setData('infraestructura_tecnoacademia', newValue.value)}
                                 error={form.errors.infraestructura_tecnoacademia}
-                                label="Seleccione una opción"
+                                onBlur={() => syncColumnLong('infraestructura_tecnoacademia', form)}
                                 required
                             />
                         </Grid>
@@ -329,6 +351,7 @@ const Form = ({
                                 onChange={(e) => form.setData('resumen', e.target.value)}
                                 required
                                 disabled={!is_super_admin && !checkPermissionByUser(auth_user, [23]) && !proyecto_linea_70?.proyecto_base}
+                                onBlur={() => syncColumnLong('resumen', form)}
                             />
                         </Grid>
 
@@ -342,6 +365,7 @@ const Form = ({
                                 onChange={(e) => form.setData('resumen_regional', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('resumen_regional', form)}
                             />
                         </Grid>
 
@@ -360,6 +384,7 @@ const Form = ({
                                 onChange={(e) => form.setData('antecedentes', e.target.value)}
                                 required
                                 disabled={!is_super_admin && !checkPermissionByUser(auth_user, [23]) && !proyecto_linea_70?.proyecto_base}
+                                onBlur={() => syncColumnLong('antecedentes', form)}
                             />
                         </Grid>
 
@@ -379,6 +404,7 @@ const Form = ({
                                 onChange={(e) => form.setData('antecedentes_tecnoacademia', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('antecedentes_tecnoacademia', form)}
                             />
                         </Grid>
 
@@ -392,6 +418,7 @@ const Form = ({
                                 onChange={(e) => form.setData('justificacion_problema', e.target.value)}
                                 required
                                 disabled={!is_super_admin && !checkPermissionByUser(auth_user, [23]) && !proyecto_linea_70?.proyecto_base}
+                                onBlur={() => syncColumnLong('justificacion_problema', form)}
                             />
                         </Grid>
 
@@ -411,6 +438,7 @@ const Form = ({
                                 onChange={(e) => form.setData('logros_vigencia_anterior', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('logros_vigencia_anterior', form)}
                             />
                         </Grid>
 
@@ -430,6 +458,7 @@ const Form = ({
                                 onChange={(e) => form.setData('retos_oportunidades', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('retos_oportunidades', form)}
                             />
                         </Grid>
 
@@ -443,6 +472,7 @@ const Form = ({
                                 onChange={(e) => form.setData('pertinencia_territorio', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('pertinencia_territorio', form)}
                             />
                         </Grid>
 
@@ -457,6 +487,7 @@ const Form = ({
                                 onChange={(e) => form.setData('marco_conceptual', e.target.value)}
                                 required
                                 disabled={!is_super_admin && !checkPermissionByUser(auth_user, [23]) && !proyecto_linea_70?.proyecto_base}
+                                onBlur={() => syncColumnLong('marco_conceptual', form)}
                             />
                         </Grid>
 
@@ -476,6 +507,7 @@ const Form = ({
                                 onChange={(e) => form.setData('lineas_tecnologicas_centro', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('lineas_tecnologicas_centro', form)}
                             />
                         </Grid>
 
@@ -492,6 +524,7 @@ const Form = ({
                                 onChange={(e) => form.setData('bibliografia', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('bibliografia', form)}
                             />
                         </Grid>
                     </>
@@ -499,7 +532,7 @@ const Form = ({
             </Grid>
 
             {method == 'POST' || proyecto_linea_70.proyecto?.allowed?.to_update ? (
-                <div className="pt-8 pb-4 space-y-4">
+                <div className="flex items-center justify-between p-4">
                     <PrimaryButton type="submit" className="ml-auto" disabled={form.processing || !form.isDirty}>
                         Guardar
                     </PrimaryButton>

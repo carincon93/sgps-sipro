@@ -9,6 +9,7 @@ use App\Models\Convocatoria;
 use App\Models\MesaSectorial;
 use App\Http\Requests\ProyectoLinea65LongColumnRequest;
 use App\Http\Requests\Evaluacion\EvaluacionProyectoLinea65Request;
+use App\Http\Requests\ProyectoLinea65ColumnRequest;
 use App\Http\Requests\ProyectoLinea65Request;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -158,10 +159,10 @@ class ProyectoLinea65Controller extends Controller
         $proyecto_linea_65->proyecto->municipios;
         $proyecto_linea_65->proyecto->programasFormacion;
         $proyecto_linea_65->mesasSectoriales;
-        $proyecto_linea_65->tecnoacademiaLineasTecnoacademia;
+        $proyecto_linea_65->proyecto->tecnoacademiaLineasTecnoacademia;
 
-        $proyecto_linea_65->mostrar_recomendaciones = $proyecto_linea_65->proyecto->mostrar_recomendaciones;
-        $proyecto_linea_65->mostrar_requiere_subsanacion = $proyecto_linea_65->proyecto->mostrar_requiere_subsanacion;
+        $proyecto_linea_65->mostrar_recomendaciones             = $proyecto_linea_65->proyecto->mostrar_recomendaciones;
+        $proyecto_linea_65->mostrar_requiere_subsanacion        = $proyecto_linea_65->proyecto->mostrar_requiere_subsanacion;
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosLinea65/Edit', [
             'convocatoria'                                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year', 'tipo_convocatoria', 'mostrar_recomendaciones', 'campos_convocatoria'),
@@ -236,7 +237,6 @@ class ProyectoLinea65Controller extends Controller
         $proyecto_linea_65->proyecto->municipios()->sync($request->municipios);
         $proyecto_linea_65->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 
-
         $request->relacionado_mesas_sectoriales == 1 ? $proyecto_linea_65->mesasSectoriales()->sync($request->mesa_sectorial_id) : $proyecto_linea_65->mesasSectoriales()->detach();
         $request->relacionado_tecnoacademia == 1 ? $proyecto_linea_65->tecnoacademiaLineasTecnoacademia()->sync($request->linea_tecnologica_id) : $proyecto_linea_65->tecnoacademiaLineasTecnoacademia()->detach();
 
@@ -244,9 +244,29 @@ class ProyectoLinea65Controller extends Controller
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
-    public function updateLongColumn(ProyectoLinea65LongColumnRequest $request, Convocatoria $convocatoria, ProyectoLinea65 $proyecto_linea_65, $column)
+    public function updateLongColumn(ProyectoLinea65ColumnRequest $request, Convocatoria $convocatoria, ProyectoLinea65 $proyecto_linea_65, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_linea_65->proyecto]);
+
+        if ($column == 'programas_formacion' || $column == 'programas_formacion_articulados') {
+            $proyecto_linea_65->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
+            return back();
+        }
+
+        if ($column == 'municipios') {
+            $proyecto_linea_65->proyecto->municipios()->sync($request->only($column)[$column]);
+            return back();
+        }
+
+        if ($column == 'mesa_sectorial_id') {
+            $proyecto_linea_65->mesasSectoriales()->sync($request->only($column)[$column]);
+            return back();
+        }
+
+        if ($column == 'linea_tecnologica_id') {
+            $proyecto_linea_65->proyecto->tecnoacademiaLineasTecnoacademia()->sync($request->only($column)[$column]);
+            return back();
+        }
 
         $proyecto_linea_65->update($request->only($column));
 

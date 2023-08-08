@@ -152,6 +152,11 @@ class ProyectoLinea83 extends Model
         return "$fecha_inicio al $fecha_finalizacion";
     }
 
+    public function getDepartamentosAImpactarAttribute($value)
+    {
+        return json_decode($value);
+    }
+
     /**
      * getProyectosPorRol
      *

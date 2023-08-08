@@ -24,7 +24,7 @@ class ProyectoLinea69 extends Model
      *
      * @var array
      */
-    protected $appends = ['titulo', 'fecha_ejecucion'];
+    protected $appends = ['titulo', 'fecha_ejecucion', 'filename', 'extension'];
 
     /**
      * The attributes that are mass assignable.
@@ -246,5 +246,19 @@ class ProyectoLinea69 extends Model
         }
 
         return $value;
+    }
+
+    public function getFilenameAttribute()
+    {
+        $fileInfo = pathinfo($this->pdf_proyecto_general);
+
+        return $fileInfo['filename'] ?? '';
+    }
+
+    public function getExtensionAttribute()
+    {
+        $fileInfo = pathinfo($this->pdf_proyecto_general);
+
+        return $fileInfo['extension'] ?? '';
     }
 }

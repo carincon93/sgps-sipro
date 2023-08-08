@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\SelectHelper;
+use App\Http\Requests\CadenaValorColumnRequest;
 use App\Http\Requests\ProgramaFormacionRequest;
 use App\Http\Requests\ProponenteRequest;
 use App\Http\Traits\ProyectoValidationTrait;
@@ -16,7 +17,6 @@ use App\Models\ProyectoPdfVersion;
 use App\Models\RolSennova;
 use App\Notifications\ComentarioProyecto;
 use App\Notifications\EvaluacionFinalizada;
-use App\Notifications\ProyectoFinalizado;
 use App\Notifications\ProyectoConfirmado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -204,6 +204,34 @@ class ProyectoController extends Controller
             'objetivos'         => $objetivos,
             'objetivo_general'  => $objetivo_general ?? '',
         ]);
+    }
+
+    public function updateCadenaValorLongColumn(CadenaValorColumnRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, $column)
+    {
+        $this->authorize('modificar-proyecto-autor', [$proyecto]);
+
+        switch ($proyecto->lineaProgramatica->id) {
+            case 1:
+                $proyecto->proyectoLinea66()->update($request->only($column));
+                break;
+            case 4:
+                $proyecto->proyectoLinea69()->update($request->only($column));
+                break;
+            case 5:
+                $proyecto->proyectoLinea70()->update($request->only($column));
+                break;
+            case 9:
+                $proyecto->proyectoLinea65()->update($request->only($column));
+                break;
+            case 10:
+                $proyecto->proyectoLinea68()->update($request->only($column));
+                break;
+            case 11:
+                $proyecto->proyectoLinea83()->update($request->only($column));
+                break;
+            default:
+                break;
+        }
     }
 
     /**

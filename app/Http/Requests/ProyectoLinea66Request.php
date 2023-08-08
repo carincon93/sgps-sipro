@@ -106,7 +106,6 @@ class ProyectoLinea66Request extends FormRequest
         $this->merge([
             'municipios'                        => is_array($this->municipios) && count($this->municipios) == 0 ? null : $this->municipios,
             'programas_formacion'               => is_array($this->programas_formacion) && count($this->programas_formacion) == 0 ? null : $this->programas_formacion,
-            'programas_formacion_articulados'   => is_array($this->programas_formacion_articulados) && count($this->programas_formacion_articulados) == 0 ? null : $this->programas_formacion_articulados,
             'area_tematica_eni_id'              => is_array($this->area_tematica_eni_id) && count($this->area_tematica_eni_id) == 0 ? null : $this->area_tematica_eni_id,
             'linea_investigacion_eni_id'        => is_array($this->linea_investigacion_eni_id) && count($this->linea_investigacion_eni_id) == 0 ? null : $this->linea_investigacion_eni_id,
 

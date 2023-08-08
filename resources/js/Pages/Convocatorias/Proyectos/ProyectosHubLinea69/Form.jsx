@@ -8,7 +8,7 @@ import Textarea from '@/Components/Textarea'
 
 import { checkPermissionByUser, monthDiff } from '@/Utils'
 
-import { useForm } from '@inertiajs/react'
+import { router, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useEffect } from 'react'
 
@@ -61,6 +61,24 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
         form.setData('max_meses_ejecucion', monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion))
     }, [form.data.fecha_inicio && form.data.fecha_finalizacion])
 
+    const syncColumnLong = async (column, form) => {
+        if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto_hub_linea_69?.proyecto?.allowed?.to_update) {
+            try {
+                await router.put(
+                    route('convocatorias.proyectos-hub-linea-69.updateLongColumn', [convocatoria.id, proyecto_hub_linea_69?.proyecto?.id, column]),
+                    { [column]: form.data[column], is_array: Array.isArray(form.data[column]) },
+                    {
+                        onError: (resp) => console.log(resp),
+                        onFinish: () => console.log('Request finished'),
+                        preserveScroll: true,
+                    },
+                )
+            } catch (error) {
+                console.error('An error occurred:', error)
+            }
+        }
+    }
+
     return (
         <form onSubmit={submit}>
             <Grid container rowSpacing={20}>
@@ -95,9 +113,9 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
                                 selectedValue={form.data.nodo_tecnoparque_id}
                                 onChange={(event, newValue) => form.setData('nodo_tecnoparque_id', newValue.value)}
                                 error={form.errors.nodo_tecnoparque_id}
-                                placeholder="Seleccione un nodo Tecnoparque"
                                 disabled={is_super_admin ? false : evaluacion || method === 'editar'}
                                 required
+                                onBlur={() => syncColumnLong('nodo_tecnoparque_id', form)}
                             />
                         </Grid>
                     </Grid>
@@ -249,6 +267,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
                                 onChange={(e) => form.setData('resumen', e.target.value)}
                                 required
                                 disabled={!is_super_admin && !checkPermissionByUser(auth_user, [24]) && !proyecto_hub_linea_69?.proyecto_base}
+                                onBlur={() => syncColumnLong('resumen', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
@@ -261,6 +280,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
                                 onChange={(e) => form.setData('resumen_regional', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('resumen_regional', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
@@ -278,6 +298,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
                                 onChange={(e) => form.setData('antecedentes', e.target.value)}
                                 required
                                 disabled={!is_super_admin && !checkPermissionByUser(auth_user, [24]) && !proyecto_hub_linea_69?.proyecto_base}
+                                onBlur={() => syncColumnLong('antecedentes', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
@@ -290,6 +311,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
                                 onChange={(e) => form.setData('antecedentes_regional', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('antecedentes_regional', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
@@ -307,6 +329,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
                                 onChange={(e) => form.setData('logros_vigencia_anterior', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('logros_vigencia_anterior', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
@@ -319,6 +342,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
                                 onChange={(e) => form.setData('contexto_general', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('contexto_general', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
@@ -339,6 +363,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
                                 onChange={(e) => form.setData('retos_locales_regionales', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('retos_locales_regionales', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
@@ -357,6 +382,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 onChange={(e) => form.setData('estado_actual_departamento', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('estado_actual_departamento', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
@@ -374,6 +400,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 onChange={(e) => form.setData('contribucion_desarrollo_empresas', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('contribucion_desarrollo_empresas', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
@@ -393,6 +420,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 onChange={(e) => form.setData('contribucion_agenda_regional_competitividad', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('contribucion_agenda_regional_competitividad', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
@@ -413,6 +441,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 onChange={(e) => form.setData('aportes_conpes_4011', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('aportes_conpes_4011', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
@@ -430,6 +459,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 onChange={(e) => form.setData('aportes_conpes_4080', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('aportes_conpes_4080', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
@@ -447,6 +477,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 onChange={(e) => form.setData('situacion_actual_produccion_agricola', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('situacion_actual_produccion_agricola', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
@@ -464,6 +495,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 onChange={(e) => form.setData('aportes_alternativas_generacion_electrica', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('aportes_alternativas_generacion_electrica', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
@@ -481,6 +513,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 onChange={(e) => form.setData('aportes_impulso_economia_popular', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('aportes_impulso_economia_popular', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
@@ -498,6 +531,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 onChange={(e) => form.setData('justificacion_pertinencia', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('justificacion_pertinencia', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
@@ -517,6 +551,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 onChange={(e) => form.setData('acciones_estrategias_campesena', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('acciones_estrategias_campesena', form)}
                             />
                         </Grid>
 
@@ -533,6 +568,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 onChange={(e) => form.setData('bibliografia', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('bibliografia', form)}
                             />
                         </Grid>
                     </>
@@ -540,7 +576,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
             </Grid>
 
             {method == 'POST' || proyecto_hub_linea_69?.proyecto?.allowed?.to_update ? (
-                <div className="pt-8 pb-4 space-y-4">
+                <div className="flex items-center justify-between p-4">
                     <PrimaryButton type="submit" className="ml-auto" disabled={form.processing || !form.isDirty}>
                         Guardar
                     </PrimaryButton>

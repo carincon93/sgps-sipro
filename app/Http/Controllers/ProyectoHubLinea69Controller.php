@@ -8,6 +8,7 @@ use App\Models\Convocatoria;
 use App\Models\Proyecto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Evaluacion\EvaluacionProyectoHubLinea69Request;
+use App\Http\Requests\ProyectoHubLinea69ColumnRequest;
 use App\Http\Requests\ProyectoHubLinea69Request;
 use App\Http\Requests\TpLongColumnRequest;
 use App\Models\Actividad;
@@ -193,7 +194,7 @@ class ProyectoHubLinea69Controller extends Controller
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
-    public function updateLongColumn(TpLongColumnRequest $request, Convocatoria $convocatoria, ProyectoHubLinea69 $proyecto_hub_linea_69, $column)
+    public function updateLongColumn(ProyectoHubLinea69ColumnRequest $request, Convocatoria $convocatoria, ProyectoHubLinea69 $proyecto_hub_linea_69, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_hub_linea_69->proyecto]);
 

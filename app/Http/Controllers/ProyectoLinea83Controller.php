@@ -8,6 +8,7 @@ use App\Models\Convocatoria;
 use App\Models\Proyecto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Evaluacion\EvaluacionProyectoLinea83Request;
+use App\Http\Requests\ProyectoLinea83ColumnRequest;
 use App\Http\Requests\ProyectoLinea83Request;
 use App\Http\Requests\TpLongColumnRequest;
 use App\Models\Actividad;
@@ -187,7 +188,7 @@ class ProyectoLinea83Controller extends Controller
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
-    public function updateLongColumn(TpLongColumnRequest $request, Convocatoria $convocatoria, ProyectoLinea83 $proyecto_linea_83, $column)
+    public function updateLongColumn(ProyectoLinea83ColumnRequest $request, Convocatoria $convocatoria, ProyectoLinea83 $proyecto_linea_83, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_linea_83->proyecto]);
 

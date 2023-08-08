@@ -9,7 +9,7 @@ import Textarea from '@/Components/Textarea'
 
 import { checkPermissionByUser, monthDiff } from '@/Utils'
 
-import { useForm } from '@inertiajs/react'
+import { router, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useEffect } from 'react'
 
@@ -59,10 +59,28 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
         form.setData('max_meses_ejecucion', monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion))
     }, [form.data.fecha_inicio && form.data.fecha_finalizacion])
 
+    const syncColumnLong = async (column, form) => {
+        if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto_linea_69?.proyecto?.allowed?.to_update) {
+            try {
+                await router.put(
+                    route('convocatorias.proyectos-linea-69.updateLongColumn', [convocatoria.id, proyecto_linea_69?.proyecto?.id, column]),
+                    { [column]: form.data[column], is_array: Array.isArray(form.data[column]) },
+                    {
+                        onError: (resp) => console.log(resp),
+                        onFinish: () => console.log('Request finished'),
+                        preserveScroll: true,
+                    },
+                )
+            } catch (error) {
+                console.error('An error occurred:', error)
+            }
+        }
+    }
+
     return (
         <form onSubmit={submit}>
             <Grid container rowSpacing={20}>
-                <Grid item md={12}>
+                <Grid item md={12} className="!mb-20">
                     <div className="flex justify-around items-center bg-indigo-50 shadow rounded p-10">
                         <figure>
                             <img src="/images/projects.png" alt="" width={350} />
@@ -243,16 +261,19 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                         <Grid item md={6}>
                             <FileInput
                                 id="pdf_proyecto_general"
-                                maxSize="10000"
                                 value={form.data.pdf_proyecto_general}
-                                valueDb={proyecto_linea_69?.pdf_proyecto_general}
-                                error={form.errors.pdf_proyecto_general}
-                                route={
-                                    proyecto_linea_69?.pdf_proyecto_general?.includes('http')
-                                        ? null
-                                        : route('convocatorias.proyectos-linea-69.download-file-sharepoint', [convocatoria.id, proyecto_linea_69.id, 'pdf_proyecto_general'])
+                                filename={proyecto_linea_69?.filename}
+                                extension={proyecto_linea_69?.extension}
+                                label="Seleccione un archivo"
+                                downloadRoute={
+                                    proyecto_linea_69?.pdf_proyecto_general
+                                        ? proyecto_linea_69?.pdf_proyecto_general.includes('http') == true || proyecto_linea_69?.pdf_proyecto_general.includes('http') == undefined
+                                            ? null
+                                            : route('convocatorias.proyectos-linea-69.download-file-sharepoint', [convocatoria.id, proyecto_linea_69.id, 'pdf_proyecto_general'])
+                                        : null
                                 }
-                                required
+                                onChange={(e) => form.setData('pdf_proyecto_general', e.target.files[0])}
+                                error={form.errors.pdf_proyecto_general}
                             />
                         </Grid>
 
@@ -270,19 +291,20 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 onChange={(e) => form.setData('resumen', e.target.value)}
                                 required
                                 disabled={!is_super_admin && !checkPermissionByUser(auth_user, [24]) && !proyecto_linea_69?.proyecto_base}
+                                onBlur={() => syncColumnLong('resumen', form)}
                             />
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="resumen_regional" value="Complemento - Resumen ejecutivo regional" />
-
                             <Textarea
                                 id="resumen_regional"
+                                label="Complemento - Resumen ejecutivo regional"
                                 error={form.errors.resumen_regional}
                                 value={form.data.resumen_regional}
                                 onChange={(e) => form.setData('resumen_regional', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('resumen_regional', form)}
                             />
                         </Grid>
 
@@ -301,127 +323,100 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 onChange={(e) => form.setData('antecedentes', e.target.value)}
                                 required
                                 disabled={!is_super_admin && !checkPermissionByUser(auth_user, [24]) && !proyecto_linea_69?.proyecto_base}
+                                onBlur={() => {
+                                    syncColumnLong('antecedentes', form)
+                                }}
                             />
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="antecedentes_regional" value="Complemento - Antecedentes regional" />
-
                             <Textarea
                                 id="antecedentes_regional"
+                                label="Complemento - Antecedentes regional"
                                 error={form.errors.antecedentes_regional}
                                 value={form.data.antecedentes_regional}
                                 onChange={(e) => form.setData('antecedentes_regional', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('antecedentes_regional', form)}
                             />
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label
-                                required
-                                disabled={evaluacion ? true : false}
-                                className="mb-4"
-                                labelFor="retos_oportunidades"
-                                value="Descripción de retos y prioridades locales y regionales en los cuales el Tecnoparque tiene impacto"
-                            />
-
                             <Textarea
                                 id="retos_oportunidades"
+                                label="Descripción de retos y prioridades locales y regionales en los cuales el Tecnoparque tiene impacto"
                                 error={form.errors.retos_oportunidades}
                                 value={form.data.retos_oportunidades}
                                 onChange={(e) => form.setData('retos_oportunidades', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('retos_oportunidades', form)}
                             />
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label
-                                required
-                                disabled={evaluacion ? true : false}
-                                className="mb-4"
-                                labelFor="articulacion_agenda_competitividad"
-                                value="Articulación y contribución del Tecnoparque con la Agenda de la Comisión Regional de Competitividad."
-                            />
-
                             <Textarea
                                 id="articulacion_agenda_competitividad"
+                                label="Articulación y contribución del Tecnoparque con la Agenda de la Comisión Regional de Competitividad."
                                 error={form.errors.articulacion_agenda_competitividad}
                                 value={form.data.articulacion_agenda_competitividad}
                                 onChange={(e) => form.setData('articulacion_agenda_competitividad', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('articulacion_agenda_competitividad', form)}
                             />
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label
-                                required
-                                disabled={evaluacion ? true : false}
-                                className="mb-4"
-                                labelFor="aportes_linea_ocho_conpes"
-                                value={`Aportes del Tecnoparque en el ${convocatoria.year} a la Línea de acción 8 del Conpes 4011 'Facilitar intercambio de tecnología y la innovación en los emprendimientos  CONPES'`}
-                            />
-
                             <Textarea
                                 id="aportes_linea_ocho_conpes"
+                                label={`Aportes del Tecnoparque en el ${convocatoria.year} a la Línea de acción 8 del Conpes 4011 'Facilitar intercambio de tecnología y la innovación en los emprendimientos  CONPES'`}
                                 error={form.errors.aportes_linea_ocho_conpes}
                                 value={form.data.aportes_linea_ocho_conpes}
                                 onChange={(e) => form.setData('aportes_linea_ocho_conpes', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('aportes_linea_ocho_conpes', form)}
                             />
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label
-                                required
-                                disabled={evaluacion ? true : false}
-                                className="mb-4"
-                                labelFor="estado_ecosistema_ctel"
-                                value="Describir el estado actual del Ecosistema Territorial de CTeI en el Departamento y las oportunidades de articulación con el Tecnoparque."
-                            />
-
                             <Textarea
                                 id="estado_ecosistema_ctel"
+                                label="Describir el estado actual del Ecosistema Territorial de CTeI en el Departamento y las oportunidades de articulación con el Tecnoparque."
                                 error={form.errors.estado_ecosistema_ctel}
                                 value={form.data.estado_ecosistema_ctel}
                                 onChange={(e) => form.setData('estado_ecosistema_ctel', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('estado_ecosistema_ctel', form)}
                             />
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label
-                                required
-                                disabled={evaluacion ? true : false}
-                                className="mb-4"
-                                labelFor="logros_vigencia_anterior"
-                                value={`Describa los principales logros del Tecnoparque en el ${convocatoria.year - 1}`}
-                            />
-
                             <Textarea
                                 id="logros_vigencia_anterior"
+                                label={`Describa los principales logros del Tecnoparque en el ${convocatoria.year - 1}`}
                                 error={form.errors.logros_vigencia_anterior}
                                 value={form.data.logros_vigencia_anterior}
                                 onChange={(e) => form.setData('logros_vigencia_anterior', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('logros_vigencia_anterior', form)}
                             />
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="pertinencia_territorio" value="Justificación y pertinencia en el territorio" />
-
                             <Textarea
                                 id="pertinencia_territorio"
+                                label="Justificación y pertinencia en el territorio"
                                 error={form.errors.pertinencia_territorio}
                                 value={form.data.pertinencia_territorio}
                                 onChange={(e) => form.setData('pertinencia_territorio', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('pertinencia_territorio', form)}
                             />
                         </Grid>
 
@@ -436,6 +431,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 onChange={(e) => form.setData('marco_conceptual', e.target.value)}
                                 required
                                 disabled={!is_super_admin && !checkPermissionByUser(auth_user, [24]) && !proyecto_linea_69?.proyecto_base}
+                                onBlur={() => syncColumnLong('marco_conceptual', form)}
                             />
                         </Grid>
 
@@ -452,6 +448,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 onChange={(e) => form.setData('bibliografia', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('bibliografia', form)}
                             />
                         </Grid>
                     </>
@@ -459,7 +456,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
             </Grid>
 
             {method == 'POST' || proyecto_linea_69?.proyecto?.allowed?.to_update ? (
-                <div className="pt-8 pb-4 space-y-4">
+                <div className="flex items-center justify-between p-4">
                     <PrimaryButton type="submit" className="ml-auto" disabled={form.processing || !form.isDirty}>
                         Guardar
                     </PrimaryButton>

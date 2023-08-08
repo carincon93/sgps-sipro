@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ActividadRequest;
+use App\Http\Requests\ArbolesColumnRequest;
 use App\Models\Convocatoria;
 use App\Models\Proyecto;
 use App\Models\EfectoDirecto;
@@ -936,5 +937,38 @@ class ArbolProyectoController extends Controller
         $actividad->delete();
 
         return back()->with('success', 'El recurso se ha eliminado correctamente.');
+    }
+
+    public function updateLongColumn(ArbolesColumnRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, $column)
+    {
+        $this->authorize('modificar-proyecto-autor', [$proyecto]);
+
+        switch ($proyecto->lineaProgramatica->id) {
+            case 4:
+                $proyecto->proyectoLinea69()->update($request->only($column));
+                break;
+            case 11:
+                $proyecto->proyectoLinea83()->update($request->only($column));
+                break;
+            case 1:
+                $proyecto->proyectoLinea66()->update($request->only($column));
+                break;
+            case 10:
+                $proyecto->proyectoLinea68()->update($request->only($column));
+                break;
+            case 9:
+                $proyecto->proyectoLinea65()->update($request->only($column));
+                break;
+            case 5:
+                $proyecto->proyectoLinea70()->update($request->only($column));
+                break;
+            case 35:
+                $proyecto->proyectoHubLinea69()->update($request->only($column));
+                break;
+            default:
+                break;
+        }
+
+        return back();
     }
 }

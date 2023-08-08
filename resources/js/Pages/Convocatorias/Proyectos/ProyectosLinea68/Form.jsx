@@ -12,7 +12,7 @@ import ToolTipMui from '@/Components/Tooltip'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 
 import { monthDiff } from '@/Utils'
-import { useForm } from '@inertiajs/react'
+import { router, useForm } from '@inertiajs/react'
 
 import { Grid } from '@mui/material'
 import { useEffect } from 'react'
@@ -41,7 +41,6 @@ const Form = ({
         max_meses_ejecucion: proyecto_linea_68?.max_meses_ejecucion ?? '',
 
         programas_formacion: proyecto_linea_68?.proyecto.programas_formacion.map((item) => item.id) ?? null,
-        programas_formacion_articulados: proyecto_linea_68?.proyecto.programas_formacion.map((item) => item.id) ?? null,
 
         estado_sistema_gestion_id: proyecto_linea_68?.estado_sistema_gestion_id ?? '',
         sector_productivo: proyecto_linea_68?.sector_productivo ?? '',
@@ -85,6 +84,24 @@ const Form = ({
         }
     }, [form.data.fecha_inicio, form.data.fecha_finalizacion])
 
+    const syncColumnLong = async (column, form) => {
+        if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto_linea_68?.proyecto?.allowed?.to_update) {
+            try {
+                await router.put(
+                    route('convocatorias.proyectos-linea-68.updateLongColumn', [convocatoria.id, proyecto_linea_68?.proyecto?.id, column]),
+                    { [column]: form.data[column], is_array: Array.isArray(form.data[column]) },
+                    {
+                        onError: (resp) => console.log(resp),
+                        onFinish: () => console.log('Request finished'),
+                        preserveScroll: true,
+                    },
+                )
+            } catch (error) {
+                console.error('An error occurred:', error)
+            }
+        }
+    }
+
     return (
         <form onSubmit={submit}>
             <Grid container rowSpacing={20}>
@@ -114,7 +131,15 @@ const Form = ({
                         className="font-medium inline-block mb-10 text-center text-gray-700 text-sm w-full"
                         value="Debe corresponder al contenido del proyecto y responder a los siguientes interrogantes: ¿Qué se va a hacer?, ¿Sobre qué o quiénes se hará?, ¿Cómo?, ¿Dónde se llevará a cabo? Tiene que estar escrito de manera breve y concisa. Un buen título describe con exactitud y usando el menor número posible de palabras el tema central del proyecto. Nota: las respuestas a las preguntas anteriormente formuladas no necesariamente deben responderse en mismo orden en el que aparecen. (Máximo 40 palabras)"
                     />
-                    <Textarea id="titulo" error={form.errors.titulo} value={form.data.titulo} onChange={(e) => form.setData('titulo', e.target.value)} required disabled={evaluacion ? true : false} />
+                    <Textarea
+                        id="titulo"
+                        error={form.errors.titulo}
+                        value={form.data.titulo}
+                        onChange={(e) => form.setData('titulo', e.target.value)}
+                        required
+                        disabled={evaluacion ? true : false}
+                        onBlur={() => syncColumnLong('titulo', form)}
+                    />
                 </Grid>
 
                 <Grid item md={6}>
@@ -156,16 +181,19 @@ const Form = ({
                     <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="tipo_proyecto_linea_68_id" value="Tipo de proyecto ST" />
                 </Grid>
                 <Grid item md={6}>
-                    <Autocomplete
-                        id="tipo_proyecto_linea_68_id"
-                        options={tipos_proyecto_linea_68}
-                        selectedValue={form.data.tipo_proyecto_linea_68_id}
-                        onChange={(event, newValue) => form.setData('tipo_proyecto_linea_68_id', newValue.value)}
-                        error={form.errors.tipo_proyecto_linea_68_id}
-                        placeholder="Seleccione una tipología de ST"
-                        required
-                        disabled={is_super_admin ? false : evaluacion || method === 'editar'}
-                    />
+                    {method == 'POST' ? (
+                        <Autocomplete
+                            id="tipo_proyecto_linea_68_id"
+                            options={tipos_proyecto_linea_68}
+                            selectedValue={form.data.tipo_proyecto_linea_68_id}
+                            onChange={(event, newValue) => form.setData('tipo_proyecto_linea_68_id', newValue.value)}
+                            error={form.errors.tipo_proyecto_linea_68_id}
+                            required
+                            disabled={is_super_admin ? false : evaluacion || method === 'editar'}
+                        />
+                    ) : (
+                        <>{proyecto_linea_68.proyecto.centro_formacion.nombre}</>
+                    )}
                 </Grid>
 
                 <Grid item md={6}>
@@ -181,6 +209,7 @@ const Form = ({
                         onChange={(e) => form.setData('nombre_area_tecnica', e.target.value)}
                         required
                         disabled={evaluacion ? true : false}
+                        onBlur={() => syncColumnLong('nombre_area_tecnica', form)}
                     />
                 </Grid>
 
@@ -196,9 +225,9 @@ const Form = ({
                                 selectedValue={form.data.estado_sistema_gestion_id}
                                 onChange={(event, newValue) => form.setData('estado_sistema_gestion_id', newValue.value)}
                                 error={form.errors.estado_sistema_gestion_id}
-                                placeholder="Seleccione un estado"
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('estado_sistema_gestion_id', form)}
                             />
                         </Grid>
                     </>
@@ -214,9 +243,9 @@ const Form = ({
                         selectedValue={form.data.sector_productivo}
                         onChange={(event, newValue) => form.setData('sector_productivo', newValue.value)}
                         error={form.errors.sector_productivo}
-                        placeholder="Seleccione una sector"
                         required
                         disabled={evaluacion ? true : false}
+                        onBlur={() => syncColumnLong('sector_productivo', form)}
                     />
                 </Grid>
 
@@ -325,6 +354,7 @@ const Form = ({
                                 onChange={(e) => form.setData('resumen', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('resumen', form)}
                             />
                         </Grid>
 
@@ -350,6 +380,7 @@ const Form = ({
                                 onChange={(e) => form.setData('antecedentes', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('antecedentes', form)}
                             />
                         </Grid>
 
@@ -369,28 +400,7 @@ const Form = ({
                                 onChange={(e) => form.setData('continuidad', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
-                            />
-                        </Grid>
-
-                        <Grid item md={6}>
-                            <Label required className="mb-4" labelFor="programas_formacion_articulados" value="Nombre de los programas de formación con los que se relaciona el proyecto" />
-                        </Grid>
-                        <Grid item md={6}>
-                            <SelectMultiple
-                                id="programas_formacion_articulados"
-                                bdValues={form.data.programas_formacion_articulados}
-                                options={programas_formacion_sin_registro_calificado}
-                                onChange={(event, newValue) => {
-                                    const selectedValues = newValue.map((option) => option.value)
-                                    form.setData((prevData) => ({
-                                        ...prevData,
-                                        programas_formacion_articulados: selectedValues,
-                                    }))
-                                }}
-                                error={form.errors.programas_formacion_articulados}
-                                label="Seleccione los programas de formación"
-                                required
-                                disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('continuidad', form)}
                             />
                         </Grid>
 
@@ -409,15 +419,16 @@ const Form = ({
                                 bdValues={form.data.programas_formacion}
                                 options={programas_formacion_con_registro_calificado}
                                 onChange={(event, newValue) => {
-                                    const selectedValues = newValue.map((option) => option.value)
+                                    const selected_values = newValue.map((option) => option.value)
                                     form.setData((prevData) => ({
                                         ...prevData,
-                                        programas_formacion: selectedValues,
+                                        programas_formacion: selected_values,
                                     }))
                                 }}
                                 error={form.errors.programas_formacion}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('programas_formacion', form)}
                             />
                         </Grid>
 
@@ -432,15 +443,16 @@ const Form = ({
                                 isGroupable={true}
                                 groupBy={(option) => option.group}
                                 onChange={(event, newValue) => {
-                                    const selectedValues = newValue.map((option) => option.value)
+                                    const selected_values = newValue.map((option) => option.value)
                                     form.setData((prevData) => ({
                                         ...prevData,
-                                        municipios_influencia: selectedValues,
+                                        municipios_influencia: selected_values,
                                     }))
                                 }}
                                 error={form.errors.municipios_influencia}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('municipios_influencia', form)}
                             />
                         </Grid>
 
@@ -456,6 +468,7 @@ const Form = ({
                                 value={form.data.otras_zonas_influencia}
                                 onChange={(e) => form.setData('otras_zonas_influencia', e.target.value)}
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('otras_zonas_influencia', form)}
                             />
                         </Grid>
 
@@ -472,7 +485,11 @@ const Form = ({
                             />
                         </Grid>
                         <Grid item md={6}>
-                            <SwitchMui checked={form.data.infraestructura_adecuada} onChange={(e) => form.setData('infraestructura_adecuada', e.target.checked)} />
+                            <SwitchMui
+                                checked={form.data.infraestructura_adecuada}
+                                onChange={(e) => form.setData('infraestructura_adecuada', e.target.checked)}
+                                onBlur={() => syncColumnLong('infraestructura_adecuada', form)}
+                            />
                         </Grid>
 
                         <Grid item md={12}>
@@ -488,6 +505,7 @@ const Form = ({
                                 error={form.errors.especificaciones_area}
                                 value={form.data.especificaciones_area}
                                 onChange={(e) => form.setData('especificaciones_area', e.target.value)}
+                                onBlur={() => syncColumnLong('especificaciones_area', form)}
                                 required
                             />
                         </Grid>
@@ -501,7 +519,15 @@ const Form = ({
                             />
                         </Grid>
                         <Grid item md={6}>
-                            <TextInput label="Enlace del video" type="url" value={form.data.video} error={form.errors.video} onChange={(e) => form.setData('video', e.target.value)} required />
+                            <TextInput
+                                label="Enlace del video"
+                                type="url"
+                                value={form.data.video}
+                                error={form.errors.video}
+                                onChange={(e) => form.setData('video', e.target.value)}
+                                onBlur={() => syncColumnLong('video', form)}
+                                required
+                            />
                             <ToolTipMui
                                 className="py-4 hover:cursor-pointer text-cyan-600"
                                 title={
@@ -564,6 +590,7 @@ const Form = ({
                                 onChange={(e) => form.setData('bibliografia', e.target.value)}
                                 required
                                 disabled={evaluacion ? true : false}
+                                onBlur={() => syncColumnLong('bibliografia', form)}
                             />
                         </Grid>
                     </>
@@ -571,7 +598,7 @@ const Form = ({
             </Grid>
 
             {method == 'POST' || proyecto_linea_68.proyecto?.allowed?.to_update ? (
-                <div className="pt-8 pb-4 space-y-4">
+                <div className="flex items-center justify-between p-4">
                     <PrimaryButton type="submit" className="ml-auto" disabled={form.processing || !form.isDirty}>
                         Guardar
                     </PrimaryButton>

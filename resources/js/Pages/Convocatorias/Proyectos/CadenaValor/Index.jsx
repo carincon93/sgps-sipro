@@ -16,7 +16,7 @@ import ScrollBooster from 'scrollbooster'
 
 import { checkRole } from '@/Utils'
 import { useEffect, useState } from 'react'
-import { useForm } from '@inertiajs/react'
+import { router, useForm } from '@inertiajs/react'
 
 import { Grid } from '@mui/material'
 
@@ -126,6 +126,24 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
         }
 
         console.log(totalProyecto)
+    }
+
+    const syncColumnLong = async (column, form) => {
+        if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto?.allowed?.to_update) {
+            try {
+                await router.put(
+                    route('convocatorias.proyectos.cadena-valor.updateLongColumn', [convocatoria.id, proyecto?.id, column]),
+                    { [column]: form.data[column], is_array: Array.isArray(form.data[column]) },
+                    {
+                        onError: (resp) => console.log(resp),
+                        onFinish: () => console.log('Request finished'),
+                        preserveScroll: true,
+                    },
+                )
+            } catch (error) {
+                console.error('An error occurred:', error)
+            }
+        }
     }
 
     return (
@@ -271,6 +289,7 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
                                     error={form.errors.propuesta_sostenibilidad}
                                     value={form.data.propuesta_sostenibilidad}
                                     onChange={(e) => form.setData('propuesta_sostenibilidad', e.target.value)}
+                                    onBlur={() => syncColumnLong('propuesta_sostenibilidad', form)}
                                     required
                                 />
                             </div>
@@ -284,6 +303,7 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
                                             error={form.errors.propuesta_sostenibilidad_social}
                                             value={form.data.propuesta_sostenibilidad_social}
                                             onChange={(e) => form.setData('propuesta_sostenibilidad_social', e.target.value)}
+                                            onBlur={() => syncColumnLong('propuesta_sostenibilidad_social', form)}
                                             required
                                         />
                                     </div>
@@ -294,6 +314,7 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
                                             error={form.errors.propuesta_sostenibilidad_ambiental}
                                             value={form.data.propuesta_sostenibilidad_ambiental}
                                             onChange={(e) => form.setData('propuesta_sostenibilidad_ambiental', e.target.value)}
+                                            onBlur={() => syncColumnLong('propuesta_sostenibilidad_ambiental', form)}
                                             required
                                         />
                                     </div>
@@ -304,6 +325,7 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
                                             error={form.errors.propuesta_sostenibilidad_financiera}
                                             value={form.data.propuesta_sostenibilidad_financiera}
                                             onChange={(e) => form.setData('propuesta_sostenibilidad_financiera', e.target.value)}
+                                            onBlur={() => syncColumnLong('propuesta_sostenibilidad_financiera', form)}
                                             required
                                         />
                                     </div>

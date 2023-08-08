@@ -6,7 +6,7 @@ use App\Helpers\SelectHelper;
 use App\Models\ProyectoLinea68;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Evaluacion\EvaluacionProyectoLinea68Request;
-use App\Http\Requests\ProyectoLinea68LongColumnRequest;
+use App\Http\Requests\ProyectoLinea68ColumnRequest;
 use App\Http\Requests\ProyectoLinea68Request;
 use App\Models\Convocatoria;
 use App\Models\Evaluacion\EvaluacionProyectoLinea68;
@@ -184,6 +184,8 @@ class ProyectoLinea68Controller extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_linea_68->proyecto]);
 
+        $tipo_proyecto_linea_66 = TipoProyectoLinea68::find($request->tipo_proyecto_linea_68_id);
+
         $proyecto_linea_68->titulo                      = $request->titulo;
         $proyecto_linea_68->fecha_inicio                = $request->fecha_inicio;
         $proyecto_linea_68->fecha_finalizacion          = $request->fecha_finalizacion;
@@ -201,10 +203,11 @@ class ProyectoLinea68Controller extends Controller
         $proyecto_linea_68->infraestructura_adecuada    = $request->infraestructura_adecuada;
         $proyecto_linea_68->video                       = $request->video;
 
-        $proyecto_linea_68->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
-
+        $proyecto_linea_68->proyecto->centroFormacion()->associate($tipo_proyecto_linea_66->centro_formacion_id);
 
         $proyecto_linea_68->save();
+
+        $proyecto_linea_68->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
@@ -267,9 +270,15 @@ class ProyectoLinea68Controller extends Controller
         return redirect()->back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
-    public function updateLongColumn(ProyectoLinea68LongColumnRequest $request, Convocatoria $convocatoria, ProyectoLinea68 $proyecto_linea_68, $column)
+    public function updateLongColumn(ProyectoLinea68ColumnRequest $request, Convocatoria $convocatoria, ProyectoLinea68 $proyecto_linea_68, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_linea_68->proyecto]);
+
+        if ($column == 'programas_formacion' || $column == 'programas_formacion_articulados') {
+            $proyecto_linea_68->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
+
+            return back();
+        }
 
         $proyecto_linea_68->update($request->only($column));
 

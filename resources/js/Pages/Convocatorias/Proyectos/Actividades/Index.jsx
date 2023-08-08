@@ -57,7 +57,7 @@ const Actividades = ({
         metodologia: proyecto.metodologia,
         metodologia_local: proyecto.metodologia_local,
         municipios: proyecto.municipios?.map((item) => item.id),
-        municipios_impactar: proyecto.municipiosAImpactar?.map((item) => item.id),
+        municipios_impactar: proyecto.municipios_a_impactar?.map((item) => item.id),
         otras_nuevas_instituciones: proyecto.otras_nuevas_instituciones,
         otras_nombre_instituciones_programas: proyecto.otras_nombre_instituciones_programas,
         otras_nombre_instituciones: proyecto.otras_nombre_instituciones,
@@ -71,14 +71,13 @@ const Actividades = ({
         implementacion_modelo_pedagogico: proyecto.implementacion_modelo_pedagogico,
         articulacion_plan_educacion: proyecto.articulacion_plan_educacion,
         articulacion_territorios_stem: proyecto.articulacion_territorios_stem,
-        programas_formacion_articulados: proyecto.programasFormacionLinea70?.map((item) => item.id),
-        diseno_curricular_id: proyecto.disenosCurriculares?.map((item) => item.id),
+        programas_formacion_articulados: proyecto.programas_formacion_linea70?.map((item) => item.id),
+        diseno_curricular_id: proyecto.disenos_curriculares?.map((item) => item.id),
         estrategia_articulacion_prox_vigencia: proyecto.estrategia_articulacion_prox_vigencia,
         alianzas_estrategicas: proyecto.alianzas_estrategicas,
         estrategia_divulgacion: proyecto.estrategia_divulgacion,
         promover_productividad: proyecto.promover_productividad,
         estrategia_atencion_talentos: proyecto.estrategia_atencion_talentos,
-        talento_otros_departamentos: null,
     })
 
     const submit = (e) => {
@@ -91,28 +90,28 @@ const Actividades = ({
     }
 
     const formMetdologiaProyectoHub = useForm({
-        metodologia: proyecto.proyectoHubLinea69?.metodologia,
-        metodologia_local: proyecto.proyectoHubLinea69?.metodologia_local,
-        areas_cualificacion_mnc: proyecto.proyectoHubLinea69?.areas_cualificacion_mnc,
-        talentos_otros_departamentos: proyecto.proyectoHubLinea69?.talentos_otros_departamentos,
-        estrategia_atencion_talentos: proyecto.proyectoHubLinea69?.estrategia_atencion_talentos,
-        acciones_mejoramiento_idic: proyecto.proyectoHubLinea69?.acciones_mejoramiento_idic,
-        municipios_beneficiados_vigencia_anterior: proyecto.proyectoHubLinea69?.municipios_beneficiados_vigencia_anterior,
-        beneficio_municipios_vigencia_anterior: proyecto.proyectoHubLinea69?.beneficio_municipios_vigencia_anterior,
-        municipios_beneficiados_vigencia_actual: proyecto.proyectoHubLinea69?.municipios_beneficiados_vigencia_actual,
-        estrategia_articulacion_pbts: proyecto.proyectoHubLinea69?.estrategia_articulacion_pbts,
-        numero_empresas_atendidas: proyecto.proyectoHubLinea69?.numero_empresas_atendidas,
-        analisis_impacto_sector_empresarial: proyecto.proyectoHubLinea69?.analisis_impacto_sector_empresarial,
-        numero_emprendedores_atendidos: proyecto.proyectoHubLinea69?.numero_emprendedores_atendidos,
-        analisis_impacto_regional: proyecto.proyectoHubLinea69?.analisis_impacto_regional,
-        gestion_alianzas_estrategicas: proyecto.proyectoHubLinea69?.gestion_alianzas_estrategicas,
-        estrategias_visibilizacion: proyecto.proyectoHubLinea69?.estrategias_visibilizacion,
-        integracion_plan_tecnologico: proyecto.proyectoHubLinea69?.integracion_plan_tecnologico,
-        estrategias_productividad_agropecuaria: proyecto.proyectoHubLinea69?.estrategias_productividad_agropecuaria,
-        acciones_estrategia_campesena: proyecto.proyectoHubLinea69?.acciones_estrategia_campesena,
-        estrategia_campesena_campesinos: proyecto.proyectoHubLinea69?.estrategia_campesena_campesinos,
-        acciones_fortalecimiento_economia_popular: proyecto.proyectoHubLinea69?.acciones_fortalecimiento_economia_popular,
-        acciones_fortalecimiento_idi: proyecto.proyectoHubLinea69?.acciones_fortalecimiento_idi,
+        metodologia: proyecto.proyecto_hub_linea69?.metodologia,
+        metodologia_local: proyecto.proyecto_hub_linea69?.metodologia_local,
+        areas_cualificacion_mnc: proyecto.proyecto_hub_linea69?.areas_cualificacion_mnc,
+        talentos_otros_departamentos: proyecto.proyecto_hub_linea69?.talentos_otros_departamentos,
+        estrategia_atencion_talentos: proyecto.proyecto_hub_linea69?.estrategia_atencion_talentos,
+        acciones_mejoramiento_idic: proyecto.proyecto_hub_linea69?.acciones_mejoramiento_idic,
+        municipios_beneficiados_vigencia_anterior: proyecto.proyecto_hub_linea69?.municipios_beneficiados_vigencia_anterior,
+        beneficio_municipios_vigencia_anterior: proyecto.proyecto_hub_linea69?.beneficio_municipios_vigencia_anterior,
+        municipios_beneficiados_vigencia_actual: proyecto.proyecto_hub_linea69?.municipios_beneficiados_vigencia_actual,
+        estrategia_articulacion_pbts: proyecto.proyecto_hub_linea69?.estrategia_articulacion_pbts,
+        numero_empresas_atendidas: proyecto.proyecto_hub_linea69?.numero_empresas_atendidas,
+        analisis_impacto_sector_empresarial: proyecto.proyecto_hub_linea69?.analisis_impacto_sector_empresarial,
+        numero_emprendedores_atendidos: proyecto.proyecto_hub_linea69?.numero_emprendedores_atendidos,
+        analisis_impacto_regional: proyecto.proyecto_hub_linea69?.analisis_impacto_regional,
+        gestion_alianzas_estrategicas: proyecto.proyecto_hub_linea69?.gestion_alianzas_estrategicas,
+        estrategias_visibilizacion: proyecto.proyecto_hub_linea69?.estrategias_visibilizacion,
+        integracion_plan_tecnologico: proyecto.proyecto_hub_linea69?.integracion_plan_tecnologico,
+        estrategias_productividad_agropecuaria: proyecto.proyecto_hub_linea69?.estrategias_productividad_agropecuaria,
+        acciones_estrategia_campesena: proyecto.proyecto_hub_linea69?.acciones_estrategia_campesena,
+        estrategia_campesena_campesinos: proyecto.proyecto_hub_linea69?.estrategia_campesena_campesinos,
+        acciones_fortalecimiento_economia_popular: proyecto.proyecto_hub_linea69?.acciones_fortalecimiento_economia_popular,
+        acciones_fortalecimiento_idi: proyecto.proyecto_hub_linea69?.acciones_fortalecimiento_idi,
     })
 
     const submitMetodologiaProyectoHub = (e) => {
@@ -125,12 +124,12 @@ const Actividades = ({
     }
 
     const formMetdologiaProyectoLinea83 = useForm({
-        metodologia: proyecto.proyectoLinea83?.metodologia,
-        departamentos_a_impactar: proyecto.proyectoLinea83?.departamentos_a_impactar,
-        estrategias_atencion_empresas_municipios: proyecto.proyectoLinea83?.estrategias_atencion_empresas_municipios,
-        estrategias_promover_logros: proyecto.proyectoLinea83?.estrategias_promover_logros,
-        estrategias_visibilizacion: proyecto.proyectoLinea83?.estrategias_visibilizacion,
-        estrategias_productividad_agropecuaria_agroindustrial: proyecto.proyectoLinea83?.estrategias_productividad_agropecuaria_agroindustrial,
+        metodologia: proyecto.proyecto_linea83?.metodologia,
+        departamentos_a_impactar: proyecto.proyecto_linea83?.departamentos_a_impactar,
+        estrategias_atencion_empresas_municipios: proyecto.proyecto_linea83?.estrategias_atencion_empresas_municipios,
+        estrategias_promover_logros: proyecto.proyecto_linea83?.estrategias_promover_logros,
+        estrategias_visibilizacion: proyecto.proyecto_linea83?.estrategias_visibilizacion,
+        estrategias_productividad_agropecuaria_agroindustrial: proyecto.proyecto_linea83?.estrategias_productividad_agropecuaria_agroindustrial,
     })
 
     const submitMetodologiaProyectoLinea83 = (e) => {
@@ -179,6 +178,8 @@ const Actividades = ({
     const tabs =
         proyecto.codigo_linea_programatica == 23 ||
         proyecto.codigo_linea_programatica == 66 ||
+        proyecto.codigo_linea_programatica == 65 ||
+        proyecto.codigo_linea_programatica == 68 ||
         proyecto.codigo_linea_programatica == 82 ||
         proyecto.codigo_linea_programatica == 69 ||
         proyecto.proyectoHubLinea69 ||
@@ -187,6 +188,23 @@ const Actividades = ({
             ? [{ label: 'Actividades' }, { label: 'Metodología' }]
             : [{ label: 'Actividades' }]
 
+    const syncColumnLong = async (column, form) => {
+        if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto?.allowed?.to_update) {
+            try {
+                await router.put(
+                    route('convocatorias.proyectos.metodologia.updateLongColumn', [convocatoria.id, proyecto?.id, column]),
+                    { [column]: form.data[column], is_array: Array.isArray(form.data[column]) },
+                    {
+                        onError: (resp) => console.log(resp),
+                        onFinish: () => console.log('Request finished'),
+                        preserveScroll: true,
+                    },
+                )
+            } catch (error) {
+                console.error('An error occurred:', error)
+            }
+        }
+    }
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
@@ -422,6 +440,7 @@ const Actividades = ({
                                                 name="metodologia"
                                                 value={form.data.metodologia}
                                                 onChange={(e) => form.setData('metodologia', e.target.value)}
+                                                onBlur={() => syncColumnLong('metodologia', form)}
                                                 required
                                             />
                                         </Grid>
@@ -446,6 +465,7 @@ const Actividades = ({
                                                     name="metodologia_local"
                                                     value={form.data.metodologia_local}
                                                     onChange={(e) => form.setData('metodologia_local', e.target.value)}
+                                                    onBlur={() => syncColumnLong('metodologia_local', form)}
                                                     required
                                                 />
                                             </Grid>
@@ -467,6 +487,7 @@ const Actividades = ({
                                                         name="implementacion_modelo_pedagogico"
                                                         value={form.data.implementacion_modelo_pedagogico}
                                                         onChange={(e) => form.setData('implementacion_modelo_pedagogico', e.target.value)}
+                                                        onBlur={() => syncColumnLong('implementacion_modelo_pedagogico', form)}
                                                         required
                                                     />
                                                 </Grid>
@@ -480,8 +501,9 @@ const Actividades = ({
                                                         name="municipios"
                                                         bdValues={form.data.municipios}
                                                         options={municipios}
+                                                        isGroupable={true}
+                                                        groupBy={(option) => option.group}
                                                         error={form.errors.municipios}
-                                                        placeholder="Seleccionar municipios"
                                                         onChange={(event, newValue) => {
                                                             const selected_values = newValue.map((option) => option.value)
                                                             form.setData((prevData) => ({
@@ -489,6 +511,7 @@ const Actividades = ({
                                                                 municipios: selected_values,
                                                             }))
                                                         }}
+                                                        onBlur={() => syncColumnLong('municipios', form)}
                                                         required
                                                     />
                                                 </Grid>
@@ -502,8 +525,9 @@ const Actividades = ({
                                                         name="municipios_impactar"
                                                         bdValues={form.data.municipios_impactar}
                                                         options={municipios}
+                                                        isGroupable={true}
+                                                        groupBy={(option) => option.group}
                                                         error={form.errors.municipios_impactar}
-                                                        placeholder="Seleccionar municipios"
                                                         onChange={(event, newValue) => {
                                                             const selected_values = newValue.map((option) => option.value)
                                                             form.setData((prevData) => ({
@@ -511,6 +535,7 @@ const Actividades = ({
                                                                 municipios_impactar: selected_values,
                                                             }))
                                                         }}
+                                                        onBlur={() => syncColumnLong('municipios_impactar', form)}
                                                         required
                                                     />
                                                 </Grid>
@@ -529,6 +554,7 @@ const Actividades = ({
                                                         name="impacto_municipios"
                                                         value={form.data.impacto_municipios}
                                                         onChange={(e) => form.setData('impacto_municipios', e.target.value)}
+                                                        onBlur={() => syncColumnLong('impacto_municipios', form)}
                                                         required
                                                     />
                                                 </Grid>
@@ -575,7 +601,6 @@ const Actividades = ({
                                                             getInstitucionesEducationArticular(newValue.value)
                                                         }}
                                                         options={regionales}
-                                                        placeholder="Seleccione un departamento"
                                                     />
 
                                                     <Tags
@@ -592,6 +617,7 @@ const Actividades = ({
                                                                 : form.errors.nombre_instituciones_programas
                                                         }
                                                         required={form.data.nombre_instituciones_programas ? false : true}
+                                                        onBlur={() => syncColumnLong('nombre_instituciones_programas', form)}
                                                     />
                                                     <div className="mt-10">
                                                         <AlertMui>
@@ -603,6 +629,7 @@ const Actividades = ({
                                                             error={form.errors.otras_nombre_instituciones_programas}
                                                             value={form.data.otras_nombre_instituciones_programas}
                                                             onChange={(e) => form.setData('otras_nombre_instituciones_programas', e.target.value)}
+                                                            onBlur={() => syncColumnLong('otras_nombre_instituciones_programas', form)}
                                                         />
                                                     </div>
                                                 </Grid>
@@ -625,7 +652,7 @@ const Actividades = ({
                                                         selectedValue={form.data.proyeccion_nuevas_instituciones}
                                                         error={form.errors.proyeccion_nuevas_instituciones}
                                                         onChange={(event, newValue) => form.setData('proyeccion_nuevas_instituciones', newValue.value)}
-                                                        placeholder="Seleccione una opción"
+                                                        onBlur={() => syncColumnLong('proyeccion_nuevas_instituciones', form)}
                                                         required
                                                     />
                                                 </Grid>
@@ -648,7 +675,6 @@ const Actividades = ({
                                                                     getInstitucionesEducationEjecutar(newValue.value)
                                                                 }}
                                                                 options={regionales}
-                                                                placeholder="Seleccione un departamento"
                                                             />
 
                                                             <Tags
@@ -665,6 +691,7 @@ const Actividades = ({
                                                                         : form.errors.nuevas_instituciones
                                                                 }
                                                                 required={form.data.nuevas_instituciones ? false : true}
+                                                                onBlur={() => syncColumnLong('nuevas_instituciones', form)}
                                                             />
                                                             <div className="mt-10">
                                                                 <AlertMui>
@@ -676,6 +703,7 @@ const Actividades = ({
                                                                     error={form.errors.otras_nuevas_instituciones}
                                                                     value={form.data.otras_nuevas_instituciones}
                                                                     onChange={(e) => form.setData('otras_nuevas_instituciones', e.target.value)}
+                                                                    onBlur={() => syncColumnLong('otras_nuevas_instituciones', form)}
                                                                 />
                                                             </div>
                                                         </Grid>
@@ -700,7 +728,7 @@ const Actividades = ({
                                                         selectedValue={form.data.proyeccion_articulacion_media}
                                                         onChange={(event, newValue) => form.setData('proyeccion_articulacion_media', newValue.value)}
                                                         error={form.errors.proyeccion_articulacion_media}
-                                                        placeholder="Seleccione una opción"
+                                                        onBlur={() => syncColumnLong('proyeccion_articulacion_media', form)}
                                                         required
                                                     />
                                                 </Grid>
@@ -723,7 +751,6 @@ const Actividades = ({
                                                                     getInstitucionesEducationEjecutar(newValue.value)
                                                                 }}
                                                                 options={regionales}
-                                                                placeholder="Seleccione un departamento"
                                                             />
 
                                                             <Tags
@@ -740,6 +767,7 @@ const Actividades = ({
                                                                         : form.errors.nombre_instituciones
                                                                 }
                                                                 required={form.data.nombre_instituciones ? false : true}
+                                                                onBlur={() => syncColumnLong('nombre_instituciones', form)}
                                                             />
 
                                                             <div className="mt-10">
@@ -752,6 +780,7 @@ const Actividades = ({
                                                                     error={form.errors.otras_nombre_instituciones}
                                                                     value={form.data.otras_nombre_instituciones}
                                                                     onChange={(e) => form.setData('otras_nombre_instituciones', e.target.value)}
+                                                                    onBlur={() => syncColumnLong('otras_nombre_instituciones', form)}
                                                                 />
                                                             </div>
                                                         </Grid>
@@ -806,6 +835,7 @@ const Actividades = ({
                                                         }}
                                                         error={form.errors.programas_formacion_articulados}
                                                         required
+                                                        onBlur={() => syncColumnLong('programas_formacion_articulados', form)}
                                                     />
                                                 </Grid>
 
@@ -826,6 +856,7 @@ const Actividades = ({
                                                         }}
                                                         error={form.errors.diseno_curricular_id}
                                                         required
+                                                        onBlur={() => syncColumnLong('diseno_curricular_id', form)}
                                                     />
                                                 </Grid>
 
@@ -842,6 +873,7 @@ const Actividades = ({
                                                         error={form.errors.proyectos_macro}
                                                         value={form.data.proyectos_macro}
                                                         onChange={(e) => form.setData('proyectos_macro', e.target.value)}
+                                                        onBlur={() => syncColumnLong('proyectos_macro', form)}
                                                         required
                                                     />
                                                 </Grid>
@@ -887,6 +919,7 @@ const Actividades = ({
                                                         error={form.errors.articulacion_plan_educacion}
                                                         value={form.data.articulacion_plan_educacion}
                                                         onChange={(e) => form.setData('articulacion_plan_educacion', e.target.value)}
+                                                        onBlur={() => syncColumnLong('articulacion_plan_educacion', form)}
                                                         required
                                                     />
                                                 </Grid>
@@ -904,6 +937,7 @@ const Actividades = ({
                                                         error={form.errors.articulacion_territorios_stem}
                                                         value={form.data.articulacion_territorios_stem}
                                                         onChange={(e) => form.setData('articulacion_territorios_stem', e.target.value)}
+                                                        onBlur={() => syncColumnLong('articulacion_territorios_stem', form)}
                                                         required
                                                     />
                                                 </Grid>
@@ -932,6 +966,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoHub.errors.metodologia}
                                         value={formMetdologiaProyectoHub.data.metodologia}
                                         onChange={(e) => formMetdologiaProyectoHub.setData('metodologia', e.target.value)}
+                                        onBlur={() => syncColumnLong('metodologia', formMetdologiaProyectoHub)}
                                         required
                                     />
                                 </Grid>
@@ -948,6 +983,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoHub.errors.metodologia_local}
                                         value={formMetdologiaProyectoHub.data.metodologia_local}
                                         onChange={(e) => formMetdologiaProyectoHub.setData('metodologia_local', e.target.value)}
+                                        onBlur={() => syncColumnLong('metodologia_local', formMetdologiaProyectoHub)}
                                         required
                                     />
                                 </Grid>
@@ -960,16 +996,17 @@ const Actividades = ({
                                         bdValues={formMetdologiaProyectoHub.data.areas_cualificacion_mnc}
                                         options={areas_cualificacion_mnc}
                                         onChange={(event, newValue) => {
-                                            const selectedValues = newValue.map((option) => option.value)
+                                            const selected_values = newValue.map((option) => option.value)
                                             formMetdologiaProyectoHub.setData((prevData) => ({
                                                 ...prevData,
-                                                areas_cualificacion_mnc: selectedValues,
+                                                areas_cualificacion_mnc: selected_values,
                                             }))
                                         }}
                                         error={formMetdologiaProyectoHub.errors.areas_cualificacion_mnc}
                                         label="Seleccione una o varias opciones"
                                         required
                                         disabled={evaluacion ? true : false}
+                                        onBlur={() => syncColumnLong('areas_cualificacion_mnc', formMetdologiaProyectoHub)}
                                     />
                                 </Grid>
                                 <Grid item md={6}>
@@ -986,16 +1023,17 @@ const Actividades = ({
                                         bdValues={formMetdologiaProyectoHub.data.talentos_otros_departamentos}
                                         options={regionales}
                                         onChange={(event, newValue) => {
-                                            const selectedValues = newValue.map((option) => option.value)
+                                            const selected_values = newValue.map((option) => option.value)
                                             formMetdologiaProyectoHub.setData((prevData) => ({
                                                 ...prevData,
-                                                talentos_otros_departamentos: selectedValues,
+                                                talentos_otros_departamentos: selected_values,
                                             }))
                                         }}
                                         error={formMetdologiaProyectoHub.errors.talentos_otros_departamentos}
                                         label="Seleccione una o varias opciones"
                                         required
                                         disabled={evaluacion ? true : false}
+                                        onBlur={() => syncColumnLong('talentos_otros_departamentos', formMetdologiaProyectoHub)}
                                     />
                                 </Grid>
                                 <Grid item md={12}>
@@ -1011,6 +1049,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoHub.errors.estrategia_atencion_talentos}
                                         value={formMetdologiaProyectoHub.data.estrategia_atencion_talentos}
                                         onChange={(e) => formMetdologiaProyectoHub.setData('estrategia_atencion_talentos', e.target.value)}
+                                        onBlur={() => syncColumnLong('estrategia_atencion_talentos', formMetdologiaProyectoHub)}
                                         required
                                     />
                                 </Grid>
@@ -1027,6 +1066,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoHub.errors.acciones_mejoramiento_idic}
                                         value={formMetdologiaProyectoHub.data.acciones_mejoramiento_idic}
                                         onChange={(e) => formMetdologiaProyectoHub.setData('acciones_mejoramiento_idic', e.target.value)}
+                                        onBlur={() => syncColumnLong('acciones_mejoramiento_idic', formMetdologiaProyectoHub)}
                                         required
                                     />
                                 </Grid>
@@ -1043,17 +1083,20 @@ const Actividades = ({
                                         id="municipios_beneficiados_vigencia_anterior"
                                         bdValues={formMetdologiaProyectoHub.data.municipios_beneficiados_vigencia_anterior}
                                         options={municipios}
+                                        isGroupable={true}
+                                        groupBy={(option) => option.group}
                                         onChange={(event, newValue) => {
-                                            const selectedValues = newValue.map((option) => option.value)
+                                            const selected_values = newValue.map((option) => option.value)
                                             formMetdologiaProyectoHub.setData((prevData) => ({
                                                 ...prevData,
-                                                municipios_beneficiados_vigencia_anterior: selectedValues,
+                                                municipios_beneficiados_vigencia_anterior: selected_values,
                                             }))
                                         }}
                                         error={formMetdologiaProyectoHub.errors.municipios_beneficiados_vigencia_anterior}
                                         label="Seleccione una o varias opciones"
                                         required
                                         disabled={evaluacion ? true : false}
+                                        onBlur={() => syncColumnLong('municipios_beneficiados_vigencia_anterior', formMetdologiaProyectoHub)}
                                     />
                                 </Grid>
                                 <Grid item md={12}>
@@ -1069,6 +1112,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoHub.errors.beneficio_municipios_vigencia_anterior}
                                         value={formMetdologiaProyectoHub.data.beneficio_municipios_vigencia_anterior}
                                         onChange={(e) => formMetdologiaProyectoHub.setData('beneficio_municipios_vigencia_anterior', e.target.value)}
+                                        onBlur={() => syncColumnLong('beneficio_municipios_vigencia_anterior', formMetdologiaProyectoHub)}
                                         required
                                     />
                                 </Grid>
@@ -1086,17 +1130,20 @@ const Actividades = ({
                                         id="municipios_beneficiados_vigencia_actual"
                                         bdValues={formMetdologiaProyectoHub.data.municipios_beneficiados_vigencia_actual}
                                         options={municipios}
+                                        isGroupable={true}
+                                        groupBy={(option) => option.group}
                                         onChange={(event, newValue) => {
-                                            const selectedValues = newValue.map((option) => option.value)
+                                            const selected_values = newValue.map((option) => option.value)
                                             formMetdologiaProyectoHub.setData((prevData) => ({
                                                 ...prevData,
-                                                municipios_beneficiados_vigencia_actual: selectedValues,
+                                                municipios_beneficiados_vigencia_actual: selected_values,
                                             }))
                                         }}
                                         error={formMetdologiaProyectoHub.errors.municipios_beneficiados_vigencia_actual}
                                         label="Seleccione una o varias opciones"
                                         required
                                         disabled={evaluacion ? true : false}
+                                        onBlur={() => syncColumnLong('municipios_beneficiados_vigencia_actual', formMetdologiaProyectoHub)}
                                     />
                                 </Grid>
                                 <Grid item md={12}>
@@ -1112,6 +1159,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoHub.errors.estrategia_articulacion_pbts}
                                         value={formMetdologiaProyectoHub.data.estrategia_articulacion_pbts}
                                         onChange={(e) => formMetdologiaProyectoHub.setData('estrategia_articulacion_pbts', e.target.value)}
+                                        onBlur={() => syncColumnLong('estrategia_articulacion_pbts', formMetdologiaProyectoHub)}
                                         required
                                     />
                                 </Grid>
@@ -1131,6 +1179,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoHub.errors.numero_empresas_atendidas}
                                         value={formMetdologiaProyectoHub.data.numero_empresas_atendidas}
                                         onChange={(e) => formMetdologiaProyectoHub.setData('numero_empresas_atendidas', e.target.value)}
+                                        onBlur={() => syncColumnLong('numero_empresas_atendidas', formMetdologiaProyectoHub)}
                                     />
                                 </Grid>
 
@@ -1149,6 +1198,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoHub.errors.analisis_impacto_sector_empresarial}
                                         value={formMetdologiaProyectoHub.data.analisis_impacto_sector_empresarial}
                                         onChange={(e) => formMetdologiaProyectoHub.setData('analisis_impacto_sector_empresarial', e.target.value)}
+                                        onBlur={() => syncColumnLong('analisis_impacto_sector_empresarial', formMetdologiaProyectoHub)}
                                         required
                                     />
                                 </Grid>
@@ -1163,6 +1213,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoHub.errors.numero_emprendedores_atendidos}
                                         value={formMetdologiaProyectoHub.data.numero_emprendedores_atendidos}
                                         onChange={(e) => formMetdologiaProyectoHub.setData('numero_emprendedores_atendidos', e.target.value)}
+                                        onBlur={() => syncColumnLong('numero_emprendedores_atendidos', formMetdologiaProyectoHub)}
                                     />
                                 </Grid>
 
@@ -1181,6 +1232,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoHub.errors.analisis_impacto_regional}
                                         value={formMetdologiaProyectoHub.data.analisis_impacto_regional}
                                         onChange={(e) => formMetdologiaProyectoHub.setData('analisis_impacto_regional', e.target.value)}
+                                        onBlur={() => syncColumnLong('analisis_impacto_regional', formMetdologiaProyectoHub)}
                                         required
                                     />
                                 </Grid>
@@ -1198,6 +1250,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoHub.errors.gestion_alianzas_estrategicas}
                                         value={formMetdologiaProyectoHub.data.gestion_alianzas_estrategicas}
                                         onChange={(e) => formMetdologiaProyectoHub.setData('gestion_alianzas_estrategicas', e.target.value)}
+                                        onBlur={() => syncColumnLong('gestion_alianzas_estrategicas', formMetdologiaProyectoHub)}
                                         required
                                     />
                                 </Grid>
@@ -1215,6 +1268,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoHub.errors.estrategias_visibilizacion}
                                         value={formMetdologiaProyectoHub.data.estrategias_visibilizacion}
                                         onChange={(e) => formMetdologiaProyectoHub.setData('estrategias_visibilizacion', e.target.value)}
+                                        onBlur={() => syncColumnLong('estrategias_visibilizacion', formMetdologiaProyectoHub)}
                                         required
                                     />
                                 </Grid>
@@ -1232,6 +1286,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoHub.errors.integracion_plan_tecnologico}
                                         value={formMetdologiaProyectoHub.data.integracion_plan_tecnologico}
                                         onChange={(e) => formMetdologiaProyectoHub.setData('integracion_plan_tecnologico', e.target.value)}
+                                        onBlur={() => syncColumnLong('integracion_plan_tecnologico', formMetdologiaProyectoHub)}
                                         required
                                     />
                                 </Grid>
@@ -1257,6 +1312,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoHub.errors.estrategias_productividad_agropecuaria}
                                         value={formMetdologiaProyectoHub.data.estrategias_productividad_agropecuaria}
                                         onChange={(e) => formMetdologiaProyectoHub.setData('estrategias_productividad_agropecuaria', e.target.value)}
+                                        onBlur={() => syncColumnLong('estrategias_productividad_agropecuaria', formMetdologiaProyectoHub)}
                                         required
                                     />
                                 </Grid>
@@ -1274,6 +1330,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoHub.errors.acciones_estrategia_campesena}
                                         value={formMetdologiaProyectoHub.data.acciones_estrategia_campesena}
                                         onChange={(e) => formMetdologiaProyectoHub.setData('acciones_estrategia_campesena', e.target.value)}
+                                        onBlur={() => syncColumnLong('acciones_estrategia_campesena', formMetdologiaProyectoHub)}
                                         required
                                     />
                                 </Grid>
@@ -1291,6 +1348,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoHub.errors.estrategia_campesena_campesinos}
                                         value={formMetdologiaProyectoHub.data.estrategia_campesena_campesinos}
                                         onChange={(e) => formMetdologiaProyectoHub.setData('estrategia_campesena_campesinos', e.target.value)}
+                                        onBlur={() => syncColumnLong('estrategia_campesena_campesinos', formMetdologiaProyectoHub)}
                                         required
                                     />
                                 </Grid>
@@ -1308,6 +1366,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoHub.errors.acciones_fortalecimiento_economia_popular}
                                         value={formMetdologiaProyectoHub.data.acciones_fortalecimiento_economia_popular}
                                         onChange={(e) => formMetdologiaProyectoHub.setData('acciones_fortalecimiento_economia_popular', e.target.value)}
+                                        onBlur={() => syncColumnLong('acciones_fortalecimiento_economia_popular', formMetdologiaProyectoHub)}
                                         required
                                     />
                                 </Grid>
@@ -1325,6 +1384,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoHub.errors.acciones_fortalecimiento_idi}
                                         value={formMetdologiaProyectoHub.data.acciones_fortalecimiento_idi}
                                         onChange={(e) => formMetdologiaProyectoHub.setData('acciones_fortalecimiento_idi', e.target.value)}
+                                        onBlur={() => syncColumnLong('acciones_fortalecimiento_idi', formMetdologiaProyectoHub)}
                                         required
                                     />
                                 </Grid>
@@ -1339,8 +1399,8 @@ const Actividades = ({
                             </div>
                         </form>
                     )}
-                    {proyecto.proyectoLinea83 && Object.keys(proyecto.proyectoLinea83).length > 0 && (
-                        <form onSubmit={submitMetodologiaProyectoLinea83}>
+                    {proyecto.codigo_linea_programatica == 83 && (
+                        <form onSubmit={submitMetodologiaProyectoLinea83} className="!mt-20">
                             <Grid container rowSpacing={20}>
                                 <Grid item md={12}>
                                     <Label required className="mb-4" labelFor="metodologia" value={`Metodología (¿Cómo se implementará la línea en el ${convocatoria.year}?)`} />
@@ -1350,6 +1410,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoLinea83.errors.metodologia}
                                         value={formMetdologiaProyectoLinea83.data.metodologia}
                                         onChange={(e) => formMetdologiaProyectoLinea83.setData('metodologia', e.target.value)}
+                                        onBlur={() => syncColumnLong('metodologia', formMetdologiaProyectoLinea83)}
                                         required
                                     />
                                 </Grid>
@@ -1363,16 +1424,17 @@ const Actividades = ({
                                         bdValues={formMetdologiaProyectoLinea83.data.departamentos_a_impactar}
                                         options={regionales}
                                         onChange={(event, newValue) => {
-                                            const selectedValues = newValue.map((option) => option.value)
+                                            const selected_values = newValue.map((option) => option.value)
                                             formMetdologiaProyectoLinea83.setData((prevData) => ({
                                                 ...prevData,
-                                                departamentos_a_impactar: selectedValues,
+                                                departamentos_a_impactar: selected_values,
                                             }))
                                         }}
                                         error={formMetdologiaProyectoLinea83.errors.departamentos_a_impactar}
                                         label="Seleccione una o varias opciones"
                                         required
                                         disabled={evaluacion ? true : false}
+                                        onBlur={() => syncColumnLong('departamentos_a_impactar', formMetdologiaProyectoLinea83)}
                                     />
                                 </Grid>
                                 <Grid item md={12}>
@@ -1388,6 +1450,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoLinea83.errors.estrategias_atencion_empresas_municipios}
                                         value={formMetdologiaProyectoLinea83.data.estrategias_atencion_empresas_municipios}
                                         onChange={(e) => formMetdologiaProyectoLinea83.setData('estrategias_atencion_empresas_municipios', e.target.value)}
+                                        onBlur={() => syncColumnLong('estrategias_atencion_empresas_municipios', formMetdologiaProyectoLinea83)}
                                         required
                                     />
                                 </Grid>
@@ -1404,6 +1467,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoLinea83.errors.estrategias_promover_logros}
                                         value={formMetdologiaProyectoLinea83.data.estrategias_promover_logros}
                                         onChange={(e) => formMetdologiaProyectoLinea83.setData('estrategias_promover_logros', e.target.value)}
+                                        onBlur={() => syncColumnLong('estrategias_promover_logros', formMetdologiaProyectoLinea83)}
                                         required
                                     />
                                 </Grid>
@@ -1420,6 +1484,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoLinea83.errors.estrategias_visibilizacion}
                                         value={formMetdologiaProyectoLinea83.data.estrategias_visibilizacion}
                                         onChange={(e) => formMetdologiaProyectoLinea83.setData('estrategias_visibilizacion', e.target.value)}
+                                        onBlur={() => syncColumnLong('estrategias_visibilizacion', formMetdologiaProyectoLinea83)}
                                         required
                                     />
                                 </Grid>
@@ -1436,6 +1501,7 @@ const Actividades = ({
                                         error={formMetdologiaProyectoLinea83.errors.estrategias_productividad_agropecuaria_agroindustrial}
                                         value={formMetdologiaProyectoLinea83.data.estrategias_productividad_agropecuaria_agroindustrial}
                                         onChange={(e) => formMetdologiaProyectoLinea83.setData('estrategias_productividad_agropecuaria_agroindustrial', e.target.value)}
+                                        onBlur={() => syncColumnLong('estrategias_productividad_agropecuaria_agroindustrial', formMetdologiaProyectoLinea83)}
                                         required
                                     />
                                 </Grid>
@@ -1449,13 +1515,24 @@ const Actividades = ({
                             </div>
                         </form>
                     )}
-                    {proyecto.codigo_linea_programatica == 23 || proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82 ? (
+                    {proyecto.codigo_linea_programatica == 23 ||
+                    proyecto.codigo_linea_programatica == 66 ||
+                    proyecto.codigo_linea_programatica == 82 ||
+                    proyecto.codigo_linea_programatica == 68 ||
+                    proyecto.codigo_linea_programatica == 65 ? (
                         <form onSubmit={submit} className="mt-10">
                             <Grid container rowSpacing={20}>
                                 <Grid item md={12}>
                                     <Label required className="mb-4" labelFor="metodologia" value={`Metodología (¿Cómo se implementará la línea en el ${convocatoria.year}?)`} />
 
-                                    <Textarea id="metodologia" error={form.errors.metodologia} value={form.data.metodologia} onChange={(e) => form.setData('metodologia', e.target.value)} required />
+                                    <Textarea
+                                        id="metodologia"
+                                        error={form.errors.metodologia}
+                                        value={form.data.metodologia}
+                                        onChange={(e) => form.setData('metodologia', e.target.value)}
+                                        onBlur={() => syncColumnLong('metodologia', form)}
+                                        required
+                                    />
                                 </Grid>
                             </Grid>
                             <div className=" flex items-center justify-between py-4">

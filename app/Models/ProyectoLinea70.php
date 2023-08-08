@@ -25,7 +25,7 @@ class ProyectoLinea70 extends Model
      *
      * @var array
      */
-    protected $appends = ['titulo', 'fecha_ejecucion'];
+    protected $appends = ['titulo', 'fecha_ejecucion', 'filename', 'extension'];
 
     /**
      * The attributes that are mass assignable.
@@ -293,5 +293,19 @@ class ProyectoLinea70 extends Model
             ->join('tecnoacademias', 'tecnoacademia_linea_tecnoacademia.tecnoacademia_id', 'tecnoacademias.id')->where('proyectos.id', $this->id)->first() ? DB::table('proyectos')->select('tecnoacademias.nombre')->join('proyecto_linea_tecnoacademia', 'proyectos.id', 'proyecto_linea_tecnoacademia.proyecto_id')
             ->join('tecnoacademia_linea_tecnoacademia', 'proyecto_linea_tecnoacademia.tecnoacademia_linea_tecnoacademia_id', 'tecnoacademia_linea_tecnoacademia.id')
             ->join('tecnoacademias', 'tecnoacademia_linea_tecnoacademia.tecnoacademia_id', 'tecnoacademias.id')->where('proyectos.id', $this->id)->first()->nombre : '';
+    }
+
+    public function getFilenameAttribute()
+    {
+        $fileInfo = pathinfo($this->pdf_proyecto_general);
+
+        return $fileInfo['filename'] ?? '';
+    }
+
+    public function getExtensionAttribute()
+    {
+        $fileInfo = pathinfo($this->pdf_proyecto_general);
+
+        return $fileInfo['extension'] ?? '';
     }
 }

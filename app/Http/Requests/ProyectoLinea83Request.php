@@ -28,7 +28,6 @@ class ProyectoLinea83Request extends FormRequest
                 'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
                 'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
                 'max_meses_ejecucion'                       => ['required', 'numeric', 'min:1', 'max:12'],
-                'municipios*'                               => ['required', 'integer', 'min:0', 'max:2147483647', 'exists:municipios,id'],
             ];
         } else {
             return [

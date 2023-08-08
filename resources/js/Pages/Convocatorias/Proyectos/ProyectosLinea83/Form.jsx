@@ -8,7 +8,7 @@ import Textarea from '@/Components/Textarea'
 
 import { monthDiff } from '@/Utils'
 
-import { useForm } from '@inertiajs/react'
+import { router, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useEffect } from 'react'
 
@@ -58,9 +58,45 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
         form.setData('max_meses_ejecucion', monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion))
     }, [form.data.fecha_inicio && form.data.fecha_finalizacion])
 
+    const syncColumnLong = async (column, form) => {
+        if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto_linea_83?.proyecto?.allowed?.to_update) {
+            try {
+                await router.put(
+                    route('convocatorias.proyectos-linea-83.updateLongColumn', [convocatoria.id, proyecto_linea_83?.proyecto?.id, column]),
+                    { [column]: form.data[column], is_array: Array.isArray(form.data[column]) },
+                    {
+                        onError: (resp) => console.log(resp),
+                        onFinish: () => console.log('Request finished'),
+                        preserveScroll: true,
+                    },
+                )
+            } catch (error) {
+                console.error('An error occurred:', error)
+            }
+        }
+    }
+
     return (
         <form onSubmit={submit}>
             <Grid container rowSpacing={20}>
+                <Grid item md={12}>
+                    <div className="flex justify-around items-center bg-indigo-50 shadow rounded p-10">
+                        <figure>
+                            <img src="/images/projects.png" alt="" width={350} />
+                        </figure>
+                        <h1 className="text-2xl">
+                            {method == 'PUT' ? (
+                                <>
+                                    <strong>{proyecto_linea_83.titulo}</strong>
+                                    <br />
+                                    {proyecto_linea_83.proyecto.codigo}
+                                </>
+                            ) : (
+                                <>Asistencia técnica o extensionismo tecnológico - Línea 83</>
+                            )}
+                        </h1>
+                    </div>
+                </Grid>
                 <Grid item md={12}>
                     <Label
                         required
@@ -75,6 +111,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                         onChange={(e) => form.setData('titulo', e.target.value)}
                         disabled={evaluacion ? true : false}
                         required
+                        onBlur={() => syncColumnLong('titulo', form)}
                     />
                 </Grid>
 
@@ -116,6 +153,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 options={centros_formacion ?? [{ value: proyecto_linea_83.proyecto.centro_formacion.id, label: proyecto_linea_83.proyecto.centro_formacion.nombre }]}
                                 error={form.errors.centro_formacion_id}
                                 required
+                                onBlur={() => syncColumnLong('centro_formacion_id', form)}
                             />
                         </Grid>
                     </>
@@ -171,7 +209,6 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 selectedValue={form.data.rol_sennova}
                                 onChange={(event, newValue) => form.setData('rol_sennova', newValue.value)}
                                 options={roles_sennova}
-                                placeholder="Seleccione un rol SENNOVA"
                                 required
                             />
                         </Grid>
@@ -234,7 +271,14 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 resolverá, cuáles son las razones que justifican su ejecución y las herramientas que se utilizarán en el desarrollo del proyecto.
                             </AlertMui>
 
-                            <Textarea id="resumen" error={form.errors.resumen} value={form.data.resumen} onChange={(e) => form.setData('resumen', e.target.value)} required />
+                            <Textarea
+                                id="resumen"
+                                error={form.errors.resumen}
+                                value={form.data.resumen}
+                                onChange={(e) => form.setData('resumen', e.target.value)}
+                                onBlur={() => syncColumnLong('resumen', form)}
+                                required
+                            />
                         </Grid>
                         <Grid item md={12}>
                             <Label required disabled={evaluacion ? true : false} labelFor="antecedentes" value="Antecedentes" />
@@ -244,7 +288,14 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 forma, relacionar los proyectos ejecutados en vigencias anteriores (incluir códigos SGPS), si el proyecto corresponde a la continuidad de proyectos SENNOVA.
                             </AlertMui>
 
-                            <Textarea id="antecedentes" error={form.errors.antecedentes} value={form.data.antecedentes} onChange={(e) => form.setData('antecedentes', e.target.value)} required />
+                            <Textarea
+                                id="antecedentes"
+                                error={form.errors.antecedentes}
+                                value={form.data.antecedentes}
+                                onChange={(e) => form.setData('antecedentes', e.target.value)}
+                                onBlur={() => syncColumnLong('antecedentes', form)}
+                                required
+                            />
                         </Grid>
                         <Grid item md={12}>
                             <Label
@@ -259,6 +310,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 error={form.errors.retos_prioridades}
                                 value={form.data.retos_prioridades}
                                 onChange={(e) => form.setData('retos_prioridades', e.target.value)}
+                                onBlur={() => syncColumnLong('retos_prioridades', form)}
                                 required
                             />
                         </Grid>
@@ -275,6 +327,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 error={form.errors.contribucion_agenda_regional_competitividad}
                                 value={form.data.contribucion_agenda_regional_competitividad}
                                 onChange={(e) => form.setData('contribucion_agenda_regional_competitividad', e.target.value)}
+                                onBlur={() => syncColumnLong('contribucion_agenda_regional_competitividad', form)}
                                 required
                             />
                         </Grid>
@@ -291,6 +344,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 error={form.errors.aportes_conpes}
                                 value={form.data.aportes_conpes}
                                 onChange={(e) => form.setData('aportes_conpes', e.target.value)}
+                                onBlur={() => syncColumnLong('aportes_conpes', form)}
                                 required
                             />
                         </Grid>
@@ -307,6 +361,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 error={form.errors.estado_actual_ecosistema_ctel}
                                 value={form.data.estado_actual_ecosistema_ctel}
                                 onChange={(e) => form.setData('estado_actual_ecosistema_ctel', e.target.value)}
+                                onBlur={() => syncColumnLong('estado_actual_ecosistema_ctel', form)}
                                 required
                             />
                         </Grid>
@@ -323,6 +378,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 error={form.errors.logros_implementacion_ctel}
                                 value={form.data.logros_implementacion_ctel}
                                 onChange={(e) => form.setData('logros_implementacion_ctel', e.target.value)}
+                                onBlur={() => syncColumnLong('logros_implementacion_ctel', form)}
                                 required
                             />
                         </Grid>
@@ -339,6 +395,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 error={form.errors.justificacion_pertinencia_territorio}
                                 value={form.data.justificacion_pertinencia_territorio}
                                 onChange={(e) => form.setData('justificacion_pertinencia_territorio', e.target.value)}
+                                onBlur={() => syncColumnLong('justificacion_pertinencia_territorio', form)}
                                 required
                             />
                         </Grid>
@@ -350,6 +407,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 error={form.errors.marco_conceptual}
                                 value={form.data.marco_conceptual}
                                 onChange={(e) => form.setData('marco_conceptual', e.target.value)}
+                                onBlur={() => syncColumnLong('marco_conceptual', form)}
                                 required
                             />
                         </Grid>
@@ -369,6 +427,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 error={form.errors.aporta_fortalecimiento_cadenas_agricolas}
                                 value={form.data.aporta_fortalecimiento_cadenas_agricolas}
                                 onChange={(e) => form.setData('aporta_fortalecimiento_cadenas_agricolas', e.target.value)}
+                                onBlur={() => syncColumnLong('aporta_fortalecimiento_cadenas_agricolas', form)}
                                 required
                             />
                         </Grid>
@@ -385,6 +444,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 error={form.errors.estrategias_generacion_electrica}
                                 value={form.data.estrategias_generacion_electrica}
                                 onChange={(e) => form.setData('estrategias_generacion_electrica', e.target.value)}
+                                onBlur={() => syncColumnLong('estrategias_generacion_electrica', form)}
                                 required
                             />
                         </Grid>
@@ -401,6 +461,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 error={form.errors.estrategias_fortalecimiento_micronegocios}
                                 value={form.data.estrategias_fortalecimiento_micronegocios}
                                 onChange={(e) => form.setData('estrategias_fortalecimiento_micronegocios', e.target.value)}
+                                onBlur={() => syncColumnLong('estrategias_fortalecimiento_micronegocios', form)}
                                 required
                             />
                         </Grid>
@@ -417,6 +478,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 error={form.errors.estrategias_articulacion_campesinos}
                                 value={form.data.estrategias_articulacion_campesinos}
                                 onChange={(e) => form.setData('estrategias_articulacion_campesinos', e.target.value)}
+                                onBlur={() => syncColumnLong('estrategias_articulacion_campesinos', form)}
                                 required
                             />
                         </Grid>
@@ -432,6 +494,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 value={form.data.bibliografia}
                                 onChange={(e) => form.setData('bibliografia', e.target.value)}
                                 required
+                                onBlur={() => syncColumnLong('bibliografia', form)}
                                 disabled={evaluacion ? true : false}
                             />
                         </Grid>
@@ -440,7 +503,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
             </Grid>
 
             {method == 'POST' || proyecto_linea_83?.proyecto?.allowed?.to_update ? (
-                <div className="pt-8 pb-4 space-y-4">
+                <div className="flex items-center justify-between p-4">
                     <PrimaryButton type="submit" className="ml-auto" disabled={form.processing || !form.isDirty}>
                         Guardar
                     </PrimaryButton>

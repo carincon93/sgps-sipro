@@ -291,6 +291,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Articulación SENNOVA
      *
      */
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion/column/{column}', [ArticulacionSennovaController::class, 'updateLongColumn'])->name('convocatorias.proyectos.articulacion-sennova.updateLongColumn');
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion', [ArticulacionSennovaController::class, 'showArticulacionSennova'])->name('convocatorias.proyectos.articulacion-sennova');
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion', [ArticulacionSennovaController::class, 'storeArticulacionSennova'])->name('convocatorias.proyectos.articulacion-sennova.store');
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion-proyectos-hub', [ArticulacionSennovaController::class, 'storeArticulacionSennovaProyectosHub'])->name('convocatorias.proyectos.articulacion-sennova-proyectos-hub.store');
@@ -309,7 +310,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Línea programática 65 - Estrategia nacional
      *
      */
-    Route::post('convocatorias/{convocatoria}/proyectos-linea-65/{proyecto_linea_65}/column/{column}', [ProyectoLinea65Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-linea-65.updateLongColumn');
+    Route::put('convocatorias/{convocatoria}/proyectos-linea-65/{proyecto_linea_65}/column/{column}', [ProyectoLinea65Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-linea-65.updateLongColumn');
     Route::resource('convocatorias.proyectos-linea-65', ProyectoLinea65Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-linea-65' => 'proyecto-linea-65'])->except(['show']);
 
     /**
@@ -317,22 +318,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
      *
      */
     Route::get('convocatorias/{convocatoria}/proyectos-linea-69/{proyecto_linea_69}/download-file-sharepoint/{tipo_archivo}', [ProyectoLinea69Controller::class, 'downloadFileSharepoint'])->name('convocatorias.proyectos-linea-69.download-file-sharepoint');
-    Route::resource('convocatorias.proyectos-linea-69', ProyectoLinea69Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-linea-69' => 'proyecto-linea-69'])->except(['show']);
     Route::put('convocatorias/{convocatoria}proyectos-linea-69/{proyecto_linea_69}/column/{column}', [ProyectoLinea69Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-linea-69.updateLongColumn');
-
+    Route::resource('convocatorias.proyectos-linea-69', ProyectoLinea69Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-linea-69' => 'proyecto-linea-69'])->except(['show']);
 
     /**
      * Línea programática 69 Hubs - Estrategia nacional
      *
      */
-    Route::get('convocatorias/{convocatoria}/proyectos-hub-linea-69/{proyecto_linea_69}/download-file-sharepoint/{tipo_archivo}', [ProyectoHubLinea69Controller::class, 'downloadFileSharepoint'])->name('convocatorias.proyectos-hub-linea-69.download-file-sharepoint');
+    Route::get('convocatorias/{convocatoria}/proyectos-hub-linea-69/{proyecto_hub_linea_69}/download-file-sharepoint/{tipo_archivo}', [ProyectoHubLinea69Controller::class, 'downloadFileSharepoint'])->name('convocatorias.proyectos-hub-linea-69.download-file-sharepoint');
+    Route::put('convocatorias/{convocatoria}proyectos-hub-linea-69/{proyecto_hub_linea_69}/column/{column}', [ProyectoHubLinea69Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-hub-linea-69.updateLongColumn');
     Route::resource('convocatorias.proyectos-hub-linea-69', ProyectoHubLinea69Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-hub-linea-69' => 'proyecto-hub-linea-69'])->except(['show']);
 
     /**
      * Línea programática 70 - Estrategia nacional
      *
      */
-    Route::get('convocatorias/{convocatoria}/proyectos-linea-70/{proyecto_linea_70}/download-pdf-sharepoint/{tipo_archivo}', [ProyectoLinea70Controller::class, 'downloadPdfSharepoint'])->name('convocatorias.proyectos-linea-70.download-pdf-sharepoint');
+    Route::get('convocatorias/{convocatoria}/proyectos-linea-70/{proyecto_linea_70}/download-pdf-sharepoint/{tipo_archivo}', [ProyectoLinea70Controller::class, 'downloadPdfSharepoint'])->name('convocatorias.proyectos-linea-70.download-file-sharepoint');
     Route::post('convocatorias/{convocatoria}/proyectos-linea-70/{proyecto_linea_70}/aulas-moviles/', [ProyectoLinea70Controller::class, 'storeAulaMovil'])->name('convocatorias.proyectos-linea-70.aulas-moviles.store');
     Route::put('convocatorias/{convocatoria}/proyectos-linea-70/{proyecto_linea_70}/aulas-moviles/{aula_movil}', [ProyectoLinea70Controller::class, 'updateAulaMovil'])->name('convocatorias.proyectos-linea-70.aulas-moviles.update');
     Route::delete('convocatorias/{convocatoria}/proyectos-linea-70/{proyecto_linea_70}/aulas-moviles/{aula_movil}', [ProyectoLinea70Controller::class, 'destroyAulaMovil'])->name('convocatorias.proyectos-linea-70.aulas-moviles.destroy');
@@ -358,6 +359,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
      *
      */
     Route::get('convocatorias/{convocatoria}/proyectos-linea-83/{proyecto_linea_83}/download-file-sharepoint/{tipo_archivo}', [ProyectoLinea83Controller::class, 'downloadFileSharepoint'])->name('convocatorias.proyectos-linea-83.download-file-sharepoint');
+    Route::put('convocatorias/{convocatoria}proyectos-linea-83/{proyecto_linea_83}/column/{column}', [ProyectoLinea83Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-linea-83.updateLongColumn');
     Route::resource('convocatorias.proyectos-linea-83', ProyectoLinea83Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-linea-83' => 'proyecto-linea-83'])->except(['show']);
 
     /**
@@ -402,6 +404,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Muestra el árbol de problemas
      *
      */
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/arboles/column/{column}', [ArbolProyectoController::class, 'updateLongColumn'])->name('convocatorias.proyectos.arboles.updateLongColumn');
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/arbol-problemas', [ArbolProyectoController::class, 'showArbolProblemas'])->name('convocatorias.proyectos.arbol-problemas');
     // Actualiza el problema general del proyecto en el arbol de problemas
     Route::post('proyectos/{proyecto}/problema-central', [ArbolProyectoController::class, 'updateProblemaCentral'])->name('proyectos.problema-central');
@@ -439,6 +442,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('convocatorias/{convocatoria}/proyectos/{proyecto}/participantes/semilleros-investigacion/{semillero_investigacion}/unlink', [ProyectoController::class, 'unlinkSemilleroInvestigacion'])->name('convocatorias.proyectos.participantes.semilleros-investigacion.unlink');
 
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/cadena-valor/propuesta-sostenibilidad', [ProyectoController::class, 'updatePropuestaSostenibilidad'])->name('convocatorias.proyectos.propuesta-sostenibilidad');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/cadena-valor/column/{column}', [ProyectoController::class, 'updateCadenaValorLongColumn'])->name('convocatorias.proyectos.cadena-valor.updateLongColumn');
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/cadena-valor', [ProyectoController::class, 'showCadenaValor'])->name('convocatorias.proyectos.cadena-valor');
 
     // Redirecciona según el tipo de proyecto
@@ -457,6 +461,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Actividades
      *
      */
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia/column/{column}', [ActividadController::class, 'updateLongColumn'])->name('convocatorias.proyectos.metodologia.updateLongColumn');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia', [ActividadController::class, 'updateMetodologia'])->name('convocatorias.proyectos.metodologia');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia-proyecto-hub', [ActividadController::class, 'updateMetodologiaProyectoHub'])->name('convocatorias.proyectos.metodologia-proyecto-hub');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia-proyecto-linea-83', [ActividadController::class, 'updateMetodologiaProyectoLinea83'])->name('convocatorias.proyectos.metodologia-proyecto-linea-83');

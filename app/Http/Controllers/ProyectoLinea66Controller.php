@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\SelectHelper;
 use App\Http\Requests\Evaluacion\EvaluacionProyectoLinea66Request;
+use App\Http\Requests\ProyectoLinea66ColumnRequest;
 use App\Models\Proyecto;
 use App\Models\ProyectoLinea66;
 use App\Models\Convocatoria;
@@ -290,12 +291,12 @@ class ProyectoLinea66Controller extends Controller
         $proyecto_linea_66->actividadEconomica()->associate($request->actividad_economica_id);
         $proyecto_linea_66->grupoInvestigacionEni()->associate($request->grupo_investigacion_eni_id);
 
+        $proyecto_linea_66->save();
+
         $proyecto_linea_66->proyecto->municipios()->sync($request->municipios);
         $proyecto_linea_66->areasTematicasEni()->sync($request->area_tematica_eni_id);
         $proyecto_linea_66->lineasInvestigacionEni()->sync($request->linea_investigacion_eni_id);
         $proyecto_linea_66->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
-
-        $proyecto_linea_66->save();
 
         $request->relacionado_mesas_sectoriales == 1 ? $proyecto_linea_66->mesasSectoriales()->sync($request->mesa_sectorial_id) : $proyecto_linea_66->mesasSectoriales()->detach();
         $request->relacionado_tecnoacademia == 1 ? $proyecto_linea_66->proyecto->tecnoacademiaLineasTecnoacademia()->sync($request->linea_tecnologica_id) : $proyecto_linea_66->proyecto->tecnoacademiaLineasTecnoacademia()->detach();
@@ -361,9 +362,39 @@ class ProyectoLinea66Controller extends Controller
     }
 
 
-    public function updateLongColumn(ProyectoLinea66LongColumnRequest $request, Convocatoria $convocatoria, ProyectoLinea66 $proyecto_linea_66, $column)
+    public function updateLongColumn(ProyectoLinea66ColumnRequest $request, Convocatoria $convocatoria, ProyectoLinea66 $proyecto_linea_66, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_linea_66->proyecto]);
+
+        if ($column == 'programas_formacion' || $column == 'programas_formacion_articulados') {
+            $proyecto_linea_66->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
+            return back();
+        }
+
+        if ($column == 'municipios') {
+            $proyecto_linea_66->proyecto->municipios()->sync($request->only($column)[$column]);
+            return back();
+        }
+
+        if ($column == 'area_tematica_eni_id') {
+            $proyecto_linea_66->areasTematicasEni()->sync($request->only($column)[$column]);
+            return back();
+        }
+
+        if ($column == 'linea_investigacion_eni_id') {
+            $proyecto_linea_66->lineasInvestigacionEni()->sync($request->only($column)[$column]);
+            return back();
+        }
+
+        if ($column == 'mesa_sectorial_id') {
+            $proyecto_linea_66->mesasSectoriales()->sync($request->only($column)[$column]);
+            return back();
+        }
+
+        if ($column == 'linea_tecnologica_id') {
+            $proyecto_linea_66->proyecto->tecnoacademiaLineasTecnoacademia()->sync($request->only($column)[$column]);
+            return back();
+        }
 
         $proyecto_linea_66->update($request->only($column));
 

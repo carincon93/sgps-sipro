@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\SelectHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ArticulacionSennovaColumnRequest;
 use App\Http\Requests\ArticulacionSennovaRequest;
 use App\Models\AulaMovil;
 use App\Models\Convocatoria;
@@ -284,5 +285,73 @@ class ArticulacionSennovaController extends Controller
         }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
+    }
+
+    public function updateLongColumn(ArticulacionSennovaColumnRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, $column)
+    {
+        $this->authorize('modificar-proyecto-autor', [$proyecto]);
+
+        // dd($proyecto->lineaProgramatica->id);
+
+        switch ($proyecto->lineaProgramatica->id) {
+            case 4:
+                if ($column == 'grupos_investigacion') {
+                    $proyecto->gruposInvestigacion()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'semilleros_investigacion') {
+                    $proyecto->semillerosInvestigacion()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                $proyecto->proyectoLinea69()->update($request->only($column));
+                break;
+            case 11:
+                $proyecto->proyectoLinea83()->update($request->only($column));
+                break;
+            case 5:
+                if ($column == 'grupos_investigacion') {
+                    $proyecto->gruposInvestigacion()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'lineas_investigacion') {
+                    $proyecto->lineasInvestigacion()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'actividades_economicas') {
+                    $proyecto->proyectoLinea70->actividadesEconomicas()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'disciplinas_subarea_conocimiento') {
+                    $proyecto->proyectoLinea70->disciplinasSubareaConocimiento()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'redes_conocimiento') {
+                    $proyecto->proyectoLinea70->redesConocimiento()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'tematicas_estrategicas') {
+                    $proyecto->proyectoLinea70->tematicasEstrategicas()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'proyecto_idi_tecnoacademia_id') {
+                    $proyecto->proyectoLinea70->proyectosIdiTecnoacademia()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                $proyecto->proyectoLinea70()->update($request->only($column));
+                break;
+            default:
+                break;
+        }
+
+        return back();
     }
 }
