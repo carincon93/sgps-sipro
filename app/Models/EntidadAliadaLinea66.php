@@ -84,21 +84,21 @@ class EntidadAliadaLinea66 extends Model
 
     public function getFilenameAttribute()
     {
-        $cartaIntencionFileInfo               = pathinfo($this->carta_intencion);
-        $cartaPropiedadIntelectualFileInfo    = pathinfo($this->carta_propiedad_intelectual);
+        $carta_intencion_file_info               = pathinfo($this->carta_intencion);
+        $carta_propiedad_intelectual_file_info   = pathinfo($this->carta_propiedad_intelectual);
 
-        $arrayFileInfo = collect(['cartaIntencionFilename' =>  $cartaIntencionFileInfo['filename'] ?? '', 'cartaPropiedadIntelectualFilename' => $cartaPropiedadIntelectualFileInfo['filename'] ?? '']);
+        $array_file_info = collect(['cartaIntencionFilename' =>  $carta_intencion_file_info['filename'] ?? '', 'cartaPropiedadIntelectualFilename' => $carta_propiedad_intelectual_file_info['filename'] ?? '']);
 
-        return $arrayFileInfo ?? '';
+        return $array_file_info ?? '';
     }
 
     public function getExtensionAttribute()
     {
-        $cartaIntencionFileInfo               = pathinfo($this->carta_intencion);
-        $cartaPropiedadIntelectualFileInfo    = pathinfo($this->carta_propiedad_intelectual);
+        $carta_intencion_file_info               = pathinfo($this->carta_intencion);
+        $carta_propiedad_intelectual_file_info   = pathinfo($this->carta_propiedad_intelectual);
 
-        $arrayFileInfo = collect(['cartaIntencionExtension' => $cartaIntencionFileInfo['extension'] ?? '', 'cartaPropiedadIntelectualExtension' => $cartaPropiedadIntelectualFileInfo['extension'] ?? '']);
+        $array_file_info = collect(['cartaIntencionExtension' => $carta_intencion_file_info['extension'] ?? '', 'cartaPropiedadIntelectualExtension' => $carta_propiedad_intelectual_file_info['extension'] ?? '']);
 
-        return $arrayFileInfo ?? '';
+        return $array_file_info ?? '';
     }
 }

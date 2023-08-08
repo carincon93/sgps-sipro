@@ -70,7 +70,7 @@ const Form = ({ method = '', setDialogStatus, user_id, estudio_academico, nivele
                                 downloadRoute={
                                     estudio_academico?.soporte_titulo_obtenido
                                         ? estudio_academico?.soporte_titulo_obtenido?.includes('http')
-                                            ? null
+                                            ? estudio_academico?.soporte_titulo_obtenido
                                             : route('estudios-academicos.download-file-sharepoint', [estudio_academico.id, 'soporte_titulo_obtenido'])
                                         : null
                                 }

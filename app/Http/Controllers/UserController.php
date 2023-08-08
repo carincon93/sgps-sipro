@@ -41,10 +41,16 @@ class UserController extends Controller
         $this->authorize('viewAny', [User::class]);
 
         return Inertia::render('Users/Index', [
-            'filters'           => request()->all('search', 'roles'),
-            'usuarios'          => User::getUsersByRol()->appends(['search' => request()->search, 'roles' => request()->roles]),
-            'roles'             => Role::orderBy('name', 'ASC')->get(),
-            'allowed_to_create'   => Gate::inspect('create', [User::class])->allowed()
+            'filters'               => request()->all('search', 'roles'),
+            'usuarios'              => User::getUsersByRol()->appends(['search' => request()->search, 'roles' => request()->roles]),
+            'dinamizadores_sennova' => User::with('roles', 'centroFormacion', 'dinamizadorCentroFormacion')
+                                        ->whereHas('roles', function ($query)  {
+                                            $query->where('id', 4);
+                                        })
+                                        ->orderBy('centro_formacion_id')
+                                        ->get(),
+            'roles'                 => Role::orderBy('name', 'ASC')->get(),
+            'allowed_to_create'     => Gate::inspect('create', [User::class])->allowed()
         ]);
     }
 

@@ -109,7 +109,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                     downloadRoute={
                                         proyecto_presupuesto?.formato_estudio_mercado
                                             ? proyecto_presupuesto?.formato_estudio_mercado?.includes('http')
-                                                ? null
+                                                ? proyecto_presupuesto?.formato_estudio_mercado
                                                 : route('convocatorias.proyectos.presupuesto.download-file-sharepoint', [convocatoria, proyecto, proyecto_presupuesto, 'formato_estudio_mercado'])
                                             : null
                                     }
@@ -201,7 +201,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                             downloadRoute={
                                                 soportes_estudio_mercado[0]?.soporte
                                                     ? soportes_estudio_mercado[0]?.soporte?.includes('http') == true || soportes_estudio_mercado[0]?.soporte?.includes('http') == undefined
-                                                        ? null
+                                                        ? soportes_estudio_mercado[0]?.soporte
                                                         : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [
                                                               convocatoria,
                                                               proyecto,
@@ -244,7 +244,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                             downloadRoute={
                                                 soportes_estudio_mercado[1]?.soporte
                                                     ? soportes_estudio_mercado[1]?.soporte?.includes('http') == true || soportes_estudio_mercado[1]?.soporte?.includes('http') == undefined
-                                                        ? null
+                                                        ? soportes_estudio_mercado[1]?.soporte
                                                         : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [
                                                               convocatoria,
                                                               proyecto,
@@ -286,7 +286,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                             downloadRoute={
                                                 soportes_estudio_mercado[2]?.soporte
                                                     ? soportes_estudio_mercado[2]?.soporte?.includes('http') == true || soportes_estudio_mercado[2]?.soporte?.includes('http') == undefined
-                                                        ? null
+                                                        ? soportes_estudio_mercado[2]?.soporte
                                                         : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [
                                                               convocatoria,
                                                               proyecto,

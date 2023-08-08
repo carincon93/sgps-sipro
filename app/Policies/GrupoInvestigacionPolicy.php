@@ -60,12 +60,12 @@ class GrupoInvestigacionPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\GrupoInvestigacion  $grupoInvestigacion
+     * @param  \App\Models\GrupoInvestigacion  $grupo_investigacion
      * @return mixed
      */
-    public function update(User $user, GrupoInvestigacion $grupoInvestigacion)
+    public function update(User $user, GrupoInvestigacion $grupo_investigacion)
     {
-        if ($user->hasRole(4) && $user->dinamizadorCentroFormacion && optional($user->dinamizadorCentroFormacion)->id == optional($grupoInvestigacion->centroFormacion)->id) {
+        if ($user->hasRole(4) && $user->dinamizadorCentroFormacion && optional($user->dinamizadorCentroFormacion)->id == optional($grupo_investigacion->centroFormacion)->id) {
             return true;
         }
 
@@ -76,10 +76,10 @@ class GrupoInvestigacionPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\GrupoInvestigacion  $grupoInvestigacion
+     * @param  \App\Models\GrupoInvestigacion  $grupo_investigacion
      * @return mixed
      */
-    public function delete(User $user, GrupoInvestigacion $grupoInvestigacion)
+    public function delete(User $user, GrupoInvestigacion $grupo_investigacion)
     {
         return false;
     }
@@ -88,10 +88,10 @@ class GrupoInvestigacionPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\GrupoInvestigacion  $grupoInvestigacion
+     * @param  \App\Models\GrupoInvestigacion  $grupo_investigacion
      * @return mixed
      */
-    public function restore(User $user, GrupoInvestigacion $grupoInvestigacion)
+    public function restore(User $user, GrupoInvestigacion $grupo_investigacion)
     {
         //
     }
@@ -100,10 +100,10 @@ class GrupoInvestigacionPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\GrupoInvestigacion  $grupoInvestigacion
+     * @param  \App\Models\GrupoInvestigacion  $grupo_investigacion
      * @return mixed
      */
-    public function forceDelete(User $user, GrupoInvestigacion $grupoInvestigacion)
+    public function forceDelete(User $user, GrupoInvestigacion $grupo_investigacion)
     {
         //
     }

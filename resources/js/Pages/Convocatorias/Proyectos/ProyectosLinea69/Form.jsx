@@ -268,7 +268,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                                 downloadRoute={
                                     proyecto_linea_69?.pdf_proyecto_general
                                         ? proyecto_linea_69?.pdf_proyecto_general.includes('http') == true || proyecto_linea_69?.pdf_proyecto_general.includes('http') == undefined
-                                            ? null
+                                            ? proyecto_linea_69?.pdf_proyecto_general
                                             : route('convocatorias.proyectos-linea-69.download-file-sharepoint', [convocatoria.id, proyecto_linea_69.id, 'pdf_proyecto_general'])
                                         : null
                                 }

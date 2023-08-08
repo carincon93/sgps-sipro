@@ -53,36 +53,6 @@ class UpdateGrupoInvestigacionRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->centro_formacion_id)) {
-            $this->merge([
-                'centro_formacion_id' => $this->centro_formacion_id['value'],
-            ]);
-        }
-
-        if (is_array($this->categoria_minciencias)) {
-            $this->merge([
-                'categoria_minciencias' => $this->categoria_minciencias['value'],
-            ]);
-        }
-
-        $this->merge([
-            'email' => mb_strtolower($this->email),
-        ]);
-
-        if (is_array($this->redes_conocimiento)) {
-            if (isset($this->redes_conocimiento['value']) && is_numeric($this->redes_conocimiento['value'])) {
-                $this->merge([
-                    'redes_conocimiento' => $this->redes_conocimiento['value'],
-                ]);
-            } else {
-                $redes_conocimiento = [];
-                foreach ($this->redes_conocimiento as $red_conocimiento) {
-                    if (is_array($red_conocimiento)) {
-                        array_push($redes_conocimiento, $red_conocimiento['value']);
-                    }
-                }
-                $this->merge(['redes_conocimiento' => $redes_conocimiento]);
-            }
-        }
+        //
     }
 }

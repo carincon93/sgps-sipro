@@ -305,7 +305,7 @@ const Form = ({
                                 downloadRoute={
                                     proyecto_linea_70?.pdf_proyecto_general
                                         ? proyecto_linea_70?.pdf_proyecto_general.includes('http') == true || proyecto_linea_70?.pdf_proyecto_general.includes('http') == undefined
-                                            ? null
+                                            ? proyecto_linea_70?.pdf_proyecto_general
                                             : route('convocatorias.proyectos-linea-70.download-file-sharepoint', [convocatoria.id, proyecto_linea_70.id, 'pdf_proyecto_general'])
                                         : null
                                 }

@@ -122,7 +122,7 @@ const Form = ({ method = '', setDialogStatus, user_id, formacion_academica_sena,
                                 downloadRoute={
                                     formacion_academica_sena?.certificado_formacion
                                         ? formacion_academica_sena?.certificado_formacion?.includes('http')
-                                            ? null
+                                            ? formacion_academica_sena?.certificado_formacion
                                             : route('formaciones-academicas-sena.download-file-sharepoint', [formacion_academica_sena.id, 'certificado_formacion'])
                                         : null
                                 }

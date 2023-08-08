@@ -181,7 +181,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
                                     downloadRoute={
                                         aula_movil
                                             ? aula_movil?.soat?.includes('http') == true || aula_movil?.soat?.includes('http') == undefined
-                                                ? null
+                                                ? aula_movil?.soat
                                                 : route('convocatorias.proyectos-linea-70.aulas-moviles.download-file-sharepoint', [convocatoria.id, proyecto.id, aula_movil.id, 'soat'])
                                             : null
                                     }
@@ -201,7 +201,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
                                     downloadRoute={
                                         aula_movil?.tecnicomecanica
                                             ? aula_movil?.tecnicomecanica?.includes('http') || aula_movil?.tecnicomecanica?.includes('http') == undefined
-                                                ? null
+                                                ? aula_movil?.tecnicomecanica
                                                 : route('convocatorias.proyectos-linea-70.aulas-moviles.download-file-sharepoint', [convocatoria, proyecto, aula_movil.id, 'tecnicomecánica'])
                                             : null
                                     }

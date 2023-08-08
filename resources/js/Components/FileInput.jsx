@@ -25,6 +25,7 @@ const FileInput = ({ onChange, value = '', error = '', id = '', label = 'Selecci
         setFileType(value?.type)
     }, [value])
 
+
     return (
         <div>
             <input accept={accept} className={classes.input} id={id} multiple={false} type="file" onChange={onChange} />

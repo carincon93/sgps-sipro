@@ -22,12 +22,14 @@ class CentroFormacionController extends Controller
         $this->authorize('viewAny', [CentroFormacion::class]);
 
         return Inertia::render('CentrosFormacion/Index', [
-            'filters'               => request()->all('search'),
-            'centrosFormacion'      => CentroFormacion::select('centros_formacion.id', 'centros_formacion.nombre', 'centros_formacion.codigo', 'centros_formacion.regional_id', 'centros_formacion.dinamizador_sennova_id')
-                ->with(['regional'  => function ($query) {
-                    $query->orderBy('nombre', 'ASC');
-                }])->with('dinamizadorSennova')
-                ->filterCentroFormacion(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+            'centros_formacion'     => CentroFormacion::select('centros_formacion.*')
+                                        ->with(['regional'  => function ($query) {
+                                            $query->orderBy('nombre', 'ASC');
+                                        }])->with('dinamizadorSennova')
+                                        ->filterCentroFormacion(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+            'regionales'            => SelectHelper::regionales(),
+            'subdirectores'         => SelectHelper::usuariosPorRol('subdirector'),
+            'dinamizadores_sennova' => SelectHelper::usuariosPorRol('dinamizador sennova'),
         ]);
     }
 
@@ -40,11 +42,7 @@ class CentroFormacionController extends Controller
     {
         $this->authorize('create', [CentroFormacion::class]);
 
-        return Inertia::render('CentrosFormacion/Create', [
-            'regionales'            => SelectHelper::regionales(),
-            'subdirectores'         => SelectHelper::usuariosPorRol('subdirector'),
-            'dinamizadoresSennova'  => SelectHelper::usuariosPorRol('dinamizador sennova'),
-        ]);
+        //
     }
 
     /**
@@ -92,12 +90,7 @@ class CentroFormacionController extends Controller
     {
         $this->authorize('update', [CentroFormacion::class, $centroFormacion]);
 
-        return Inertia::render('CentrosFormacion/Edit', [
-            'centroFormacion'       => $centroFormacion->only(['id', 'nombre', 'codigo', 'regional_id', 'subdirector_id', 'dinamizador_sennova_id']),
-            'regionales'            => SelectHelper::regionales(),
-            'subdirectores'         => SelectHelper::usuariosPorRol('subdirector'),
-            'dinamizadoresSennova'  => SelectHelper::usuariosPorRol('dinamizador sennova'),
-        ]);
+        //
     }
 
     /**

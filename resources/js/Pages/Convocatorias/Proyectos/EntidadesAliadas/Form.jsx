@@ -272,7 +272,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                             downloadRoute={
                                                 entidad_aliada?.carta_intencion
                                                     ? entidad_aliada?.carta_intencion?.includes('http')
-                                                        ? null
+                                                        ? entidad_aliada?.carta_intencion
                                                         : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidad_aliada.id, 'carta_intencion'])
                                                     : null
                                             }
@@ -294,7 +294,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                             downloadRoute={
                                                 entidad_aliada?.carta_propiedad_intelectual
                                                     ? entidad_aliada?.carta_propiedad_intelectual?.includes('http')
-                                                        ? null
+                                                        ? entidad_aliada?.carta_propiedad_intelectual
                                                         : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [
                                                               convocatoria,
                                                               proyecto,
@@ -328,7 +328,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                             accept="application/pdf"
                                             downloadRoute={
                                                 soporte_convenio_url?.includes('http')
-                                                    ? null
+                                                    ? soporte_convenio_url
                                                     : entidad_aliada
                                                     ? route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidad_aliada?.id, 'soporte_convenio'])
                                                     : null
