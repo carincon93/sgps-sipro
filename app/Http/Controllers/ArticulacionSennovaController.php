@@ -346,6 +346,19 @@ class ArticulacionSennovaController extends Controller
 
                 $proyecto->proyectoLinea70()->update($request->only($column));
                 break;
+            case 35:
+                if ($column == 'grupos_investigacion') {
+                    $proyecto->gruposInvestigacion()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'semilleros_investigacion') {
+                    $proyecto->semillerosInvestigacion()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                $proyecto->proyectoHubLinea69()->update($request->only($column));
+                break;
             default:
                 break;
         }

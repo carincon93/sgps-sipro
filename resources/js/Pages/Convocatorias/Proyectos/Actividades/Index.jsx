@@ -114,6 +114,8 @@ const Actividades = ({
         acciones_fortalecimiento_idi: proyecto.proyecto_hub_linea69?.acciones_fortalecimiento_idi,
     })
 
+    console.log(proyecto.proyecto_hub_linea69)
+
     const submitMetodologiaProyectoHub = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
@@ -427,7 +429,7 @@ const Actividades = ({
                             </p>
                         </AlertMui>
                     </Grid>
-                    {(proyecto.codigo_linea_programatica == 69 && !proyecto.proyectoHubLinea69) || proyecto.codigo_linea_programatica == 70 ? (
+                    {(proyecto.codigo_linea_programatica == 69 && !proyecto.proyecto_hub_linea69) || proyecto.codigo_linea_programatica == 70 ? (
                         <Grid item md={12}>
                             <form onSubmit={submit} className="!mt-20">
                                 <fieldset disabled={proyecto.allowed.to_update ? false : true}>
@@ -445,7 +447,7 @@ const Actividades = ({
                                             />
                                         </Grid>
 
-                                        {proyecto.codigo_linea_programatica == 69 || proyecto.codigo_linea_programatica == 70 ? (
+                                        {(proyecto.codigo_linea_programatica == 69 && !proyecto.proyecto_hub_linea69) || proyecto.codigo_linea_programatica == 70 ? (
                                             <Grid item md={12}>
                                                 <Label
                                                     required
@@ -955,7 +957,7 @@ const Actividades = ({
                             </form>
                         </Grid>
                     ) : null}
-                    {proyecto.proyectoHubLinea69 && Object.keys(proyecto.proyectoHubLinea69).length > 0 && (
+                    {proyecto.proyecto_hub_linea69 && (
                         <form onSubmit={submitMetodologiaProyectoHub} className="!mt-20">
                             <Grid container rowSpacing={20}>
                                 <Grid item md={12}>

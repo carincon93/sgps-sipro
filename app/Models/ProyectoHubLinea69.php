@@ -96,7 +96,6 @@ class ProyectoHubLinea69 extends Model
 
         'nodo_tecnoparque_id',
         'proyecto_base',
-
     ];
 
     /**

@@ -514,9 +514,9 @@ trait ProyectoValidationTrait
             case $proyecto->proyectoLinea69()->exists() && $proyecto->proyectoLinea69->propuesta_sostenibilidad == '':
                 return false;
                 break;
-            case $proyecto->proyectoHubLinea69()->exists() && $proyecto->proyectoHubLinea69->propuesta_sostenibilidad == '':
-                return false;
-                break;
+            // case $proyecto->proyectoHubLinea69()->exists() && $proyecto->proyectoHubLinea69->propuesta_sostenibilidad == '':
+            //     return false;
+            //     break;
             case $proyecto->proyectoLinea70()->exists() && $proyecto->proyectoLinea70->propuesta_sostenibilidad_social == '':
                 return false;
                 break;

@@ -496,6 +496,9 @@ class ActividadController extends Controller
 
                 $proyecto->proyectoLinea69()->update($request->only($column));
                 break;
+            case 35:
+                $proyecto->proyectoHubLinea69()->update($request->only($column));
+                break;
             case 5:
                 if ($column == 'municipios_impactar') {
                     $proyecto->municipiosAImpactar()->sync($request->only($column)[$column]);

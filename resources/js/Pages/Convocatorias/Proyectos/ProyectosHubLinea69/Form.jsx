@@ -6,7 +6,7 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import TextInput from '@/Components/TextInput'
 import Textarea from '@/Components/Textarea'
 
-import { checkPermissionByUser, monthDiff } from '@/Utils'
+import { checkPermissionByUser, checkRole, monthDiff } from '@/Utils'
 
 import { router, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
@@ -82,7 +82,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
     return (
         <form onSubmit={submit}>
             <Grid container rowSpacing={20}>
-                <Grid item md={12}>
+                <Grid item md={12} className="!mb-20">
                     <div className="flex justify-around items-center bg-indigo-50 shadow rounded p-10">
                         <figure>
                             <img src="/images/projects.png" alt="" width={350} />
@@ -266,7 +266,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
                                 value={form.data.resumen}
                                 onChange={(e) => form.setData('resumen', e.target.value)}
                                 required
-                                disabled={!is_super_admin && !checkPermissionByUser(auth_user, [24]) && !proyecto_hub_linea_69?.proyecto_base}
+                                disabled={!checkRole(auth_user, [1, 17]) && !checkPermissionByUser(auth_user, [24]) && !proyecto_hub_linea_69?.proyecto_base}
                                 onBlur={() => syncColumnLong('resumen', form)}
                             />
                         </Grid>
@@ -297,7 +297,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
                                 value={form.data.antecedentes}
                                 onChange={(e) => form.setData('antecedentes', e.target.value)}
                                 required
-                                disabled={!is_super_admin && !checkPermissionByUser(auth_user, [24]) && !proyecto_hub_linea_69?.proyecto_base}
+                                disabled={!checkRole(auth_user, [1, 17]) && !checkPermissionByUser(auth_user, [24]) && !proyecto_hub_linea_69?.proyecto_base}
                                 onBlur={() => syncColumnLong('antecedentes', form)}
                             />
                         </Grid>

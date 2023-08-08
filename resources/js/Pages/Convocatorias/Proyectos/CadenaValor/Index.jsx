@@ -255,96 +255,98 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
                 </>
             ) : null} */}
 
-            <Grid item md={12}>
-                <h1 className="text-3xl mt-24 text-center">Propuesta de sostenibilidad</h1>
+            {!proyecto.proyecto_hub_linea69 && (
+                <Grid item md={12}>
+                    <h1 className="text-3xl mt-24 text-center">Propuesta de sostenibilidad</h1>
 
-                {proyecto.codigo_linea_programatica == 70 && (
-                    <AlertMui className="text-center my-24">
-                        A continuación, plantee las acciones concretas que contribuirán a la sostenibilidad financiera de la TecnoAcademia y su aporte a la sostenibilidad ambiental y social del
-                        territorio.
-                    </AlertMui>
-                )}
+                    {proyecto.codigo_linea_programatica == 70 && (
+                        <AlertMui className="text-center my-24">
+                            A continuación, plantee las acciones concretas que contribuirán a la sostenibilidad financiera de la TecnoAcademia y su aporte a la sostenibilidad ambiental y social del
+                            territorio.
+                        </AlertMui>
+                    )}
 
-                <form onSubmit={submit}>
-                    <fieldset disabled={proyecto.allowed.to_update ? false : true}>
-                        {proyecto.codigo_linea_programatica != 70 ? (
-                            <div>
-                                {proyecto.codigo_linea_programatica == 68 ? (
-                                    <AlertMui className="my-10">
-                                        Se deben mencionar aquellos factores que pueden comprometer la viabilidad, desarrollo de los objetivos y resultados del proyecto a través del tiempo.
-                                        <br />
-                                        Para definir la propuesta de sostenibilidad se deben tener en cuenta los impactos definidos en el árbol de objetivos (ambiental, social - en el centro de
-                                        formación, social - en el sector productivo, tecnológico)
-                                    </AlertMui>
-                                ) : (
-                                    <AlertMui className="my-10">
-                                        Identificar los efectos que tiene el desarrollo del proyecto de investigación ya sea positivos o negativos. Se recomienda establecer las acciones pertinentes
-                                        para mitigar los impactos negativos ambientales identificados y anexar el respectivo permiso ambiental cuando aplique. Tener en cuenta si aplica el decreto 1376
-                                        de 2013.
-                                    </AlertMui>
-                                )}
-                                <Textarea
-                                    label="Propuesta de sostenibilidad"
-                                    id="propuesta_sostenibilidad"
-                                    error={form.errors.propuesta_sostenibilidad}
-                                    value={form.data.propuesta_sostenibilidad}
-                                    onChange={(e) => form.setData('propuesta_sostenibilidad', e.target.value)}
-                                    onBlur={() => syncColumnLong('propuesta_sostenibilidad', form)}
-                                    required
-                                />
-                            </div>
-                        ) : (
-                            proyecto.codigo_linea_programatica == 70 && (
-                                <>
-                                    <div className="mt-8">
-                                        <Textarea
-                                            label="Propuesta de sostenibilidad social"
-                                            id="propuesta_sostenibilidad_social"
-                                            error={form.errors.propuesta_sostenibilidad_social}
-                                            value={form.data.propuesta_sostenibilidad_social}
-                                            onChange={(e) => form.setData('propuesta_sostenibilidad_social', e.target.value)}
-                                            onBlur={() => syncColumnLong('propuesta_sostenibilidad_social', form)}
-                                            required
-                                        />
-                                    </div>
-                                    <div className="mt-8">
-                                        <Textarea
-                                            label="Propuesta de sostenibilidad ambiental"
-                                            id="propuesta_sostenibilidad_ambiental"
-                                            error={form.errors.propuesta_sostenibilidad_ambiental}
-                                            value={form.data.propuesta_sostenibilidad_ambiental}
-                                            onChange={(e) => form.setData('propuesta_sostenibilidad_ambiental', e.target.value)}
-                                            onBlur={() => syncColumnLong('propuesta_sostenibilidad_ambiental', form)}
-                                            required
-                                        />
-                                    </div>
-                                    <div className="mt-8">
-                                        <Textarea
-                                            label="Propuesta de sostenibilidad financiera"
-                                            id="propuesta_sostenibilidad_financiera"
-                                            error={form.errors.propuesta_sostenibilidad_financiera}
-                                            value={form.data.propuesta_sostenibilidad_financiera}
-                                            onChange={(e) => form.setData('propuesta_sostenibilidad_financiera', e.target.value)}
-                                            onBlur={() => syncColumnLong('propuesta_sostenibilidad_financiera', form)}
-                                            required
-                                        />
-                                    </div>
-                                </>
-                            )
-                        )}
-                    </fieldset>
-                    <div className="flex items-center justify-between mt-14 py-4">
-                        <small className="flex items-center text-app-700">{proyecto.updated_at}</small>
-                        {proyecto.allowed.to_update ? (
-                            <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
-                                Guardar propuesta de sostenibilidad
-                            </PrimaryButton>
-                        ) : (
-                            <span className="inline-block ml-1.5"> El proyecto no se puede modificar </span>
-                        )}
-                    </div>
-                </form>
-            </Grid>
+                    <form onSubmit={submit}>
+                        <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+                            {proyecto.codigo_linea_programatica != 70 ? (
+                                <div>
+                                    {proyecto.codigo_linea_programatica == 68 ? (
+                                        <AlertMui className="my-10">
+                                            Se deben mencionar aquellos factores que pueden comprometer la viabilidad, desarrollo de los objetivos y resultados del proyecto a través del tiempo.
+                                            <br />
+                                            Para definir la propuesta de sostenibilidad se deben tener en cuenta los impactos definidos en el árbol de objetivos (ambiental, social - en el centro de
+                                            formación, social - en el sector productivo, tecnológico)
+                                        </AlertMui>
+                                    ) : (
+                                        <AlertMui className="my-10">
+                                            Identificar los efectos que tiene el desarrollo del proyecto de investigación ya sea positivos o negativos. Se recomienda establecer las acciones
+                                            pertinentes para mitigar los impactos negativos ambientales identificados y anexar el respectivo permiso ambiental cuando aplique. Tener en cuenta si aplica
+                                            el decreto 1376 de 2013.
+                                        </AlertMui>
+                                    )}
+                                    <Textarea
+                                        label="Propuesta de sostenibilidad"
+                                        id="propuesta_sostenibilidad"
+                                        error={form.errors.propuesta_sostenibilidad}
+                                        value={form.data.propuesta_sostenibilidad}
+                                        onChange={(e) => form.setData('propuesta_sostenibilidad', e.target.value)}
+                                        onBlur={() => syncColumnLong('propuesta_sostenibilidad', form)}
+                                        required
+                                    />
+                                </div>
+                            ) : (
+                                proyecto.codigo_linea_programatica == 70 && (
+                                    <>
+                                        <div className="mt-8">
+                                            <Textarea
+                                                label="Propuesta de sostenibilidad social"
+                                                id="propuesta_sostenibilidad_social"
+                                                error={form.errors.propuesta_sostenibilidad_social}
+                                                value={form.data.propuesta_sostenibilidad_social}
+                                                onChange={(e) => form.setData('propuesta_sostenibilidad_social', e.target.value)}
+                                                onBlur={() => syncColumnLong('propuesta_sostenibilidad_social', form)}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="mt-8">
+                                            <Textarea
+                                                label="Propuesta de sostenibilidad ambiental"
+                                                id="propuesta_sostenibilidad_ambiental"
+                                                error={form.errors.propuesta_sostenibilidad_ambiental}
+                                                value={form.data.propuesta_sostenibilidad_ambiental}
+                                                onChange={(e) => form.setData('propuesta_sostenibilidad_ambiental', e.target.value)}
+                                                onBlur={() => syncColumnLong('propuesta_sostenibilidad_ambiental', form)}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="mt-8">
+                                            <Textarea
+                                                label="Propuesta de sostenibilidad financiera"
+                                                id="propuesta_sostenibilidad_financiera"
+                                                error={form.errors.propuesta_sostenibilidad_financiera}
+                                                value={form.data.propuesta_sostenibilidad_financiera}
+                                                onChange={(e) => form.setData('propuesta_sostenibilidad_financiera', e.target.value)}
+                                                onBlur={() => syncColumnLong('propuesta_sostenibilidad_financiera', form)}
+                                                required
+                                            />
+                                        </div>
+                                    </>
+                                )
+                            )}
+                        </fieldset>
+                        <div className="flex items-center justify-between mt-14 py-4">
+                            <small className="flex items-center text-app-700">{proyecto.updated_at}</small>
+                            {proyecto.allowed.to_update ? (
+                                <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
+                                    Guardar propuesta de sostenibilidad
+                                </PrimaryButton>
+                            ) : (
+                                <span className="inline-block ml-1.5"> El proyecto no se puede modificar </span>
+                            )}
+                        </div>
+                    </form>
+                </Grid>
+            )}
 
             <Grid item md={12}>
                 <hr className="mb-20 mt-20" />

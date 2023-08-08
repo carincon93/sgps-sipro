@@ -146,6 +146,7 @@ class ProyectoController extends Controller
         $proyecto->load('evaluaciones.evaluacionProyectoLinea70');
 
         $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
+        $proyecto->proyectoHubLinea69;
 
         if ($proyecto->proyectoLinea66()->exists()) {
             $objetivo_general = $proyecto->proyectoLinea66->objetivo_general;
@@ -198,7 +199,7 @@ class ProyectoController extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/CadenaValor/Index', [
             'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'tipo_convocatoria', 'mostrar_recomendaciones'),
-            'proyecto'          => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'propuesta_sostenibilidad', 'propuesta_sostenibilidad_social', 'propuesta_sostenibilidad_ambiental', 'propuesta_sostenibilidad_financiera', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'updated_at', 'tipo_proyecto'),
+            'proyecto'          => $proyecto,
             'evaluacion'        => Evaluacion::find(request()->evaluacion_id),
             'productos'         => $productos,
             'objetivos'         => $objetivos,
@@ -230,6 +231,9 @@ class ProyectoController extends Controller
                 break;
             case 11:
                 $proyecto->proyectoLinea83()->update($request->only($column));
+                break;
+            case 35:
+                $proyecto->proyectoHubLinea69()->update($request->only($column));
                 break;
             default:
                 break;
