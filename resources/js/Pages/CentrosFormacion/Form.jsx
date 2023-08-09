@@ -105,7 +105,8 @@ const Form = ({ method = '', setDialogStatus, centro_formacion, regionales, subd
                                 Cancelar
                             </ButtonMui>
                         </div>
-                    </form>3
+                    </form>
+                    3
                 </Paper>
             </Grid>
         </Grid>

@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Helpers\SelectHelper;
 use App\Helpers\SharepointHelper;
-use App\Http\Requests\Perfil\UserProfileRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Models\CentroFormacion;
 use App\Models\DisciplinaSubareaConocimiento;
 use App\Models\GrupoInvestigacion;
-use App\Models\Municipio;
 use App\Models\Perfil\EstudioAcademico;
 use App\Models\Perfil\FormacionAcademicaSena;
 use App\Models\Perfil\ParticipacionGrupoInvestigacionSena;

@@ -189,6 +189,10 @@ tags.tagify {
     overflow: hidden;
 }
 
+tags.tagify:focus {
+    border-color: black;
+}
+
 .tagify__input {
     display: block;
     width: 100%;

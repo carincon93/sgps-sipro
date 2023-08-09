@@ -9,6 +9,9 @@ import SelectMultiple from '@/Components/SelectMultiple'
 import Tags from '@/Components/Tags'
 import TextInput from '@/Components/TextInput'
 
+import EditIcon from '@mui/icons-material/Edit'
+import UndoIcon from '@mui/icons-material/Undo'
+
 import { useForm } from '@inertiajs/react'
 
 import { Grid } from '@mui/material'
@@ -48,7 +51,6 @@ const Form = ({
         fecha_resolucion_nombramiento: usuario?.fecha_resolucion_nombramiento,
         fecha_acta_nombramiento: usuario?.fecha_acta_nombramiento,
         nro_acta_nombramiento: usuario?.nro_acta_nombramiento,
-        grado_sennova: usuario?.grado_sennova,
         fecha_inicio_contrato: usuario?.fecha_inicio_contrato,
         fecha_finalizacion_contrato: usuario?.fecha_finalizacion_contrato,
         asignacion_mensual: usuario?.asignacion_mensual,
@@ -73,7 +75,6 @@ const Form = ({
         meses_experiencia_metodos_ensayo: usuario?.meses_experiencia_metodos_ensayo,
         meses_experiencia_metodos_calibracion: usuario?.meses_experiencia_metodos_calibracion,
 
-        default_password: false,
         autorizacion_datos: usuario ? usuario?.autorizacion_datos : false,
         informacion_completa: usuario?.informacion_completa ? 1 : 2,
 
@@ -107,7 +108,7 @@ const Form = ({
     const [modificar_tiempos_roles, setModicarTiemposRoles] = useState(false)
     useEffect(() => {
         if ((modificar_tiempos_roles && form.data.otros_roles_sennova) || (method == 'POST' && form.data.otros_roles_sennova)) {
-            form.setData('tiempo_por_rol', JSON.stringify(roles_sennova.filter((item) => form.data.otros_roles_sennova.includes(item.value)).map((item) => item.label + ' (Indique aquí los meses)')))
+            form.setData('tiempo_por_rol', JSON.stringify(roles_sennova.filter((item) => form.data.otros_roles_sennova.includes(item.value)).map((item) => item.label + ' (ESCRIBA AQUÍ EL # MESES)')))
         } else {
             form.reset('otros_roles_sennova', 'tiempo_por_rol')
         }
@@ -477,35 +478,43 @@ const Form = ({
                 </Grid>
 
                 <Grid item md={12}>
-                    <SelectMultiple
-                        id="otros_roles_sennova"
-                        options={roles_sennova}
-                        bdValues={form.data.otros_roles_sennova}
-                        onChange={(event, newValue) => {
-                            const selected_values = newValue.map((option) => option.value)
-                            form.setData((prevData) => ({
-                                ...prevData,
-                                otros_roles_sennova: selected_values,
-                            }))
-                        }}
-                        error={form.errors.otros_roles_sennova}
-                        disabled={!modificar_tiempos_roles && method == 'PUT'}
-                        label="Roles SENNOVA en los cuales ha sido contratado/vinculado"
-                    />
-                    {method == 'PUT' && (
-                        <ButtonMui primary={false} onClick={() => setModicarTiemposRoles(!modificar_tiempos_roles)} className="!mt-2 !normal-case  hover:!bg-gray-50 hover:!text-app-900">
-                            {modificar_tiempos_roles ? 'Cancelar modificación' : 'Modificar roles SENNOVA'}
-                        </ButtonMui>
-                    )}
+                    <Grid container>
+                        <Grid item md={10}>
+                            <SelectMultiple
+                                id="otros_roles_sennova"
+                                options={roles_sennova}
+                                bdValues={form.data.otros_roles_sennova}
+                                onChange={(event, newValue) => {
+                                    const selected_values = newValue.map((option) => option.value)
+                                    form.setData((prevData) => ({
+                                        ...prevData,
+                                        otros_roles_sennova: selected_values,
+                                    }))
+                                }}
+                                error={form.errors.otros_roles_sennova}
+                                label="Roles SENNOVA en los cuales ha sido contratado/vinculado"
+                                disabled={!modificar_tiempos_roles && method == 'PUT'}
+                            />
+                        </Grid>
+                        <Grid item md={2}>
+                            {method == 'PUT' && (
+                                <ButtonMui primary={false} onClick={() => setModicarTiemposRoles(!modificar_tiempos_roles)} className="!mt-2 !normal-case  hover:!bg-gray-50 hover:!text-app-900">
+                                    {modificar_tiempos_roles ? (
+                                        <>
+                                            <UndoIcon className="!text-[16px] mr-1" /> Cancelar
+                                        </>
+                                    ) : (
+                                        <>
+                                            <EditIcon className="!text-[16px] mr-1" /> Modificar
+                                        </>
+                                    )}
+                                </ButtonMui>
+                            )}
+                        </Grid>
+                    </Grid>
 
                     {form.data.otros_roles_sennova && (
                         <>
-                            <p className="my-8">A continuación, indique el tiempo en meses que ha estado en cada rol SENNOVA.</p>
-                            <AlertMui>
-                                <strong>Importante:</strong> Asegúrese que haya seleccionado todos los roles SENNOVA en el campo anterior.
-                                <br />
-                                <strong>¿Cómo se agrega el tiempo?:</strong> Debe dar doble clic en cada rol y añadir el texto Ej: (20 meses)
-                            </AlertMui>
                             <Tags
                                 id="tiempo_por_rol"
                                 className="mt-2 tagify__tag__disabledRemoveBtn"
@@ -516,6 +525,9 @@ const Form = ({
                                 placeholder="Indique el tiempo en meses al lado del nombre del rol"
                                 error={form.errors.tiempo_por_rol}
                             />
+                            <AlertMui>
+                                <strong>¿Cómo se agrega el tiempo?:</strong> Debe dar doble clic en cada rol y añadir el texto Ej: (20 meses)
+                            </AlertMui>
                         </>
                     )}
                 </Grid>
@@ -530,7 +542,7 @@ const Form = ({
                         value={form.data.roles_fuera_sennova}
                         tags={form.data.roles_fuera_sennova}
                         onChange={(e) => form.setData('roles_fuera_sennova', e.target.value)}
-                        placeholder="Indique el rol"
+                        placeholder="Escriba el rol separado por coma (,)"
                         error={form.errors.roles_fuera_sennova}
                     />
                 </Grid>
