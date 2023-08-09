@@ -101,11 +101,11 @@ const Form = ({ method = '', setDialogStatus, centro_formacion, regionales, subd
                             <PrimaryButton disabled={form.processing || !form.isDirty} type="submit">
                                 Guardar cambios
                             </PrimaryButton>
-                            <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
+                            <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)} className="!ml-2">
                                 Cancelar
                             </ButtonMui>
                         </div>
-                    </form>
+                    </form>3
                 </Paper>
             </Grid>
         </Grid>

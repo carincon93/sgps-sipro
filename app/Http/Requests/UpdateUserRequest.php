@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\User;
 use App\Rules\Email;
+use App\Rules\ValidUtf8;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateUserRequest extends FormRequest
@@ -27,7 +28,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'centro_formacion_id'   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
-            'nombre'                => ['required', 'max:255', 'string'],
+            'nombre'                => ['required', 'max:255', 'string', new ValidUtf8],
             'email'                 => ['required', 'max:255', new Email, 'email', 'unique:users,email,' . $this->route('user')->id . ',id'],
             'tipo_documento'        => ['required', 'max:2'],
             'numero_documento'      => ['required', 'min:0', 'max:9223372036854775807', 'integer', 'unique:users,numero_documento,' . $this->route('user')->id . ',id'],

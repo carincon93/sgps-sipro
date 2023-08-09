@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Perfil;
 
 use App\Rules\Email;
+use App\Rules\ValidUtf8;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserProfileRequest extends FormRequest
@@ -25,7 +26,7 @@ class UserProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre'                                => ['required', 'string', 'max:255'],
+            'nombre'                                => ['required', 'string', 'max:255', new ValidUtf8],
             'email'                                 => ['required', 'max:255', new Email, 'email', 'unique:users,email,' . auth()->user()->id . ',id'],
             'tipo_documento'                        => ['required', 'max:2'],
             'tipo_vinculacion'                      => ['required', 'max:191'],
