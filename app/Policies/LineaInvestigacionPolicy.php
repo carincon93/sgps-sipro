@@ -52,13 +52,19 @@ class LineaInvestigacionPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\LineaInvestigacion  $lineaInvestigacion
+     * @param  \App\Models\LineaInvestigacion  $linea_investigacion
      * @return mixed
      */
-    public function update(User $user, LineaInvestigacion $lineaInvestigacion)
+    public function update(User $user, LineaInvestigacion $linea_investigacion)
     {
-        if ($user->hasRole([20, 18, 19, 5, 17]) || $user->dinamizadorCentroFormacion && $user->hasRole(4) && $user->dinamizadorCentroFormacion->id == $lineaInvestigacion->grupoInvestigacion->centroFormacion->id || $user->hasRole([21, 27]) && $user->centro_formacion_id == $lineaInvestigacion->grupoInvestigacion->centroFormacion->id) {
+        if ($user->hasRole([20, 18, 19, 5, 17])) {
             return true;
+        }
+
+        if ($linea_investigacion->grupoInvestigacion) {
+            if ($user->dinamizadorCentroFormacion && $user->hasRole(4) && $user->dinamizadorCentroFormacion->id == 5 || $user->hasRole([21, 27]) && $user->centro_formacion_id == 5) {
+                return true;
+            }
         }
 
         return false;
@@ -68,13 +74,19 @@ class LineaInvestigacionPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\LineaInvestigacion  $lineaInvestigacion
+     * @param  \App\Models\LineaInvestigacion  $linea_investigacion
      * @return mixed
      */
-    public function delete(User $user, LineaInvestigacion $lineaInvestigacion)
+    public function delete(User $user, LineaInvestigacion $linea_investigacion)
     {
-        if ($user->hasRole([20, 18, 19, 5, 17]) || $user->dinamizadorCentroFormacion && $user->hasRole(4) && $user->dinamizadorCentroFormacion->id == $lineaInvestigacion->grupoInvestigacion->centroFormacion->id || $user->hasRole([21, 27]) && $user->centro_formacion_id == $lineaInvestigacion->grupoInvestigacion->centroFormacion->id) {
+        if ($user->hasRole([20, 18, 19, 5, 17])) {
             return true;
+        }
+
+        if ($linea_investigacion->grupoInvestigacion) {
+            if ($user->dinamizadorCentroFormacion && $user->hasRole(4) && $user->dinamizadorCentroFormacion->id == $linea_investigacion->grupoInvestigacion->centroFormacion->id || $user->hasRole([21, 27]) && $user->centro_formacion_id == $linea_investigacion->grupoInvestigacion->centroFormacion->id) {
+                return true;
+            }
         }
 
         return false;
@@ -84,10 +96,10 @@ class LineaInvestigacionPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\LineaInvestigacion  $lineaInvestigacion
+     * @param  \App\Models\LineaInvestigacion  $linea_investigacion
      * @return mixed
      */
-    public function restore(User $user, LineaInvestigacion $lineaInvestigacion)
+    public function restore(User $user, LineaInvestigacion $linea_investigacion)
     {
         //
     }
@@ -96,10 +108,10 @@ class LineaInvestigacionPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\LineaInvestigacion  $lineaInvestigacion
+     * @param  \App\Models\LineaInvestigacion  $linea_investigacion
      * @return mixed
      */
-    public function forceDelete(User $user, LineaInvestigacion $lineaInvestigacion)
+    public function forceDelete(User $user, LineaInvestigacion $linea_investigacion)
     {
         //
     }

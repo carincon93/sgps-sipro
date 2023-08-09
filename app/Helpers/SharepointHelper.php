@@ -13,8 +13,8 @@ use Illuminate\Http\UploadedFile;
 
 class SharepointHelper
 {
-    protected static $apiUrl = 'https://sena4.sharepoint.com/sites/gruposennova';
-    protected static $rootFolder = 'SGPSSIPRO/';
+    protected static $api_url = 'https://sena4.sharepoint.com/sites/gruposennova';
+    protected static $root_folder = 'SGPSSIPRO/';
 
     public static function generateToken()
     {
@@ -46,18 +46,18 @@ class SharepointHelper
         }
     }
 
-    public static function checkFolderAndCreate($sharePointPath)
+    public static function checkFolderAndCreate($sharepoint_path)
     {
-        $carpetas = explode('/', $sharePointPath);
-        $carpetaFormateada = '';
+        $carpetas = explode('/', $sharepoint_path);
+        $carpeta_formateada = '';
         try {
             foreach ($carpetas as $carpeta) {
-                $carpetaFormateada .= $carpeta . '/';
+                $carpeta_formateada .= $carpeta . '/';
 
-                $status = static::checkFolder($carpetaFormateada);
+                $status = static::checkFolder($carpeta_formateada);
 
                 if ($status == 404) {
-                    $folder = static::createFolder($carpetaFormateada);
+                    $folder = static::createFolder($carpeta_formateada);
                     Log::debug($folder);
                 }
                 Log::debug('Se han creado todas las carpetas');
@@ -68,7 +68,7 @@ class SharepointHelper
         }
     }
 
-    public static function createFolder($nombreCarpeta)
+    public static function createFolder($nombre_carpeta)
     {
         $client = new Client();
 
@@ -82,10 +82,10 @@ class SharepointHelper
                 "__metadata": {
                     "type": "SP.Folder"
                 },
-                "ServerRelativeUrl": "' . self::$rootFolder . $nombreCarpeta . '"
+                "ServerRelativeUrl": "' . self::$root_folder . $nombre_carpeta . '"
             }';
 
-            $request = new Request('POST', self::$apiUrl . '/_api/web/folders', $headers, $body);
+            $request = new Request('POST', self::$api_url . '/_api/web/folders', $headers, $body);
             $response = $client->sendAsync($request)->wait();
             $response = json_decode($response->getBody()->getContents(), true);
 
@@ -98,33 +98,33 @@ class SharepointHelper
         }
     }
 
-    public static function getFolders($sharePointPath)
+    public static function getFolders($sharepoint_path)
     {
-        $carpetasFormateadas = '';
+        $carpetas_formateadas = '';
         $modulo = '';
-        foreach (explode('/', $sharePointPath) as $key => $value) {
+        foreach (explode('/', $sharepoint_path) as $key => $value) {
             if ($key == 0) {
                 $modulo = str_replace('+', '%20', urlencode($value));
             }
-            $carpetasFormateadas .= str_replace('+', '%20', urlencode($value)) . '/';
+            $carpetas_formateadas .= str_replace('+', '%20', urlencode($value)) . '/';
         }
 
-        return array('carpetasFormateadas' => $carpetasFormateadas, 'modulo' => $modulo);
+        return array('carpetasFormateadas' => $carpetas_formateadas, 'modulo' => $modulo);
     }
 
-    public static function uploadFile($sharePointPath, $uploadFile, $nombreArchivo)
+    public static function uploadFile($sharepoint_path, $upload_file, $nombre_archivo)
     {
-        $carpetasFormateadas = self::getFolders($sharePointPath)['carpetasFormateadas'];
+        $carpetas_formateadas = self::getFolders($sharepoint_path)['carpetasFormateadas'];
 
-        $urlFormat = str_replace(' ', '%20', self::$rootFolder) . $carpetasFormateadas;
+        $urlFormat = str_replace(' ', '%20', self::$root_folder) . $carpetas_formateadas;
 
         $curl = curl_init();
 
         try {
-            $fileHandler = fopen($uploadFile, 'r');
-            $fileData = fread($fileHandler, filesize($uploadFile));
+            $file_handler = fopen($upload_file, 'r');
+            $file_data = fread($file_handler, filesize($upload_file));
 
-            $url = self::$apiUrl . '/_api/web/GetFolderByServerRelativeUrl(\'' . $urlFormat . '\')/Files/add(url=\'' . $nombreArchivo . '\',overwrite=true)';
+            $url = self::$api_url . '/_api/web/GetFolderByServerRelativeUrl(\'' . $urlFormat . '\')/Files/add(url=\'' . $nombre_archivo . '\',overwrite=true)';
 
             curl_setopt_array($curl, array(
                 CURLOPT_URL => $url,
@@ -135,12 +135,12 @@ class SharepointHelper
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => $fileData,
-                CURLOPT_INFILE => $fileHandler,
-                CURLOPT_INFILESIZE => filesize($uploadFile),
+                CURLOPT_POSTFIELDS => $file_data,
+                CURLOPT_INFILE => $file_handler,
+                CURLOPT_INFILESIZE => filesize($upload_file),
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: Bearer ' . static::generateToken(),
-                    'Content-Type: ' . $uploadFile->getMimeType(),
+                    'Content-Type: ' . $upload_file->getMimeType(),
                     'Accept: application/json;odata=verbose'
                 ),
             ));
@@ -170,7 +170,7 @@ class SharepointHelper
                 'Content-Type'  => 'application/json;odata=verbose'
             ];
 
-            $request = new Request('GET', self::$apiUrl . "/_api/web/GetFileByServerRelativeUrl('" . $file . "')/\$value", $headers);
+            $request = new Request('GET', self::$api_url . "/_api/web/GetFileByServerRelativeUrl('" . $file . "')/\$value", $headers);
             $response = $client->sendAsync($request)->wait();
             return $response->getStatusCode();
         } catch (ClientException $e) {
@@ -181,7 +181,7 @@ class SharepointHelper
         }
     }
 
-    public static function checkFolder($nombreCarpeta)
+    public static function checkFolder($nombre_carpeta)
     {
         $client = new Client();
 
@@ -192,7 +192,7 @@ class SharepointHelper
                 'Content-Type'  => 'application/json;odata=verbose'
             ];
 
-            $request = new Request('GET', self::$apiUrl . "/_api/web/GetFolderByServerRelativeUrl('" . self::$rootFolder .  $nombreCarpeta . "')", $headers);
+            $request = new Request('GET', self::$api_url . "/_api/web/GetFolderByServerRelativeUrl('" . self::$root_folder .  $nombre_carpeta . "')", $headers);
             $response = $client->sendAsync($request)->wait();
             return $response->getStatusCode();
         } catch (ClientException $e) {
@@ -215,7 +215,7 @@ class SharepointHelper
                     'Content-Type'  => 'application/json;odata=verbose'
                 ];
 
-                $request = new Request('DELETE', self::$apiUrl . "/_api/web/GetFileByServerRelativeUrl('" . $file . "')", $headers);
+                $request = new Request('DELETE', self::$api_url . "/_api/web/GetFileByServerRelativeUrl('" . $file . "')", $headers);
                 $response = $client->sendAsync($request)->wait();
                 $response = json_decode($response->getBody()->getContents(), true);
 
@@ -230,15 +230,15 @@ class SharepointHelper
         }
     }
 
-    public static function downloadFile($sharePointPath)
+    public static function downloadFile($sharepoint_path)
     {
         $client = new Client();
 
-        $carpetasFormateadas = '';
-        $pathExplode = explode('/', $sharePointPath);
-        foreach ($pathExplode as $key => $value) {
-            if ($key > 2 && $key < count($pathExplode) - 1) {
-                $carpetasFormateadas .= str_replace('+', '%20', urlencode($value)) . '/';
+        $carpetas_formateadas = '';
+        $path_explode = explode('/', $sharepoint_path);
+        foreach ($path_explode as $key => $value) {
+            if ($key > 2 && $key < count($path_explode) - 1) {
+                $carpetas_formateadas .= str_replace('+', '%20', urlencode($value)) . '/';
             }
         }
 
@@ -246,18 +246,18 @@ class SharepointHelper
             $headers = [
                 'Authorization' => 'Bearer ' . static::generateToken(),
             ];
-            $request = new Request('GET', self::$apiUrl . "/_api/web/GetFolderByServerRelativeUrl('" . $carpetasFormateadas . "')/Files('" . end($pathExplode) . "')/\$value", $headers);
+            $request  = new Request('GET', self::$api_url . "/_api/web/GetFolderByServerRelativeUrl('" . $carpetas_formateadas . "')/Files('" . end($path_explode) . "')/\$value", $headers);
             $response = $client->sendAsync($request)->wait();
 
-            $contentType = $response->getHeader('Content-Type')[0];
-            $fileContent = $response->getBody();
+            $content_type = $response->getHeader('Content-Type')[0];
+            $file_content = $response->getBody();
 
-            return response($fileContent)
-                ->header('Content-Type', $contentType)
-                ->header('Content-Disposition', 'attachment; filename="' . end($pathExplode) . '"')
+            return response($file_content)
+                ->header('Content-Type', $content_type)
+                ->header('Content-Disposition', 'attachment; filename="' . end($path_explode) . '"')
                 ->header('Content-Transfer-Encoding', 'binary')
                 ->header('Accept-Ranges', 'bytes')
-                ->header('Filename', end($pathExplode));
+                ->header('Filename', end($path_explode));
         } catch (ClientException $e) {
             // $response = $e->getResponse();
             Log::debug($e->getMessage());
@@ -274,23 +274,23 @@ class SharepointHelper
     }
 
 
-    public static function saveFilesSharepoint($tmpFile, $modelo, $sharePointPath, $campoBd)
+    public static function saveFilesSharepoint($tmp_file, $modelo, $sharepoint_path, $campo_bd)
     {
-        $status = self::checkFolderAndCreate($sharePointPath);
+        $status = self::checkFolderAndCreate($sharepoint_path);
         $success = null;
 
         if ($status) {
-            $nombreArchivo = self::prepareFileName($campoBd, $tmpFile);
+            $nombre_archivo = self::prepareFileName($campo_bd, $tmp_file);
 
             if ($modelo) {
-                self::deleteFile($modelo->{$campoBd});
+                self::deleteFile($modelo->{$campo_bd});
             }
 
-            $sharePointPath = self::uploadFile($sharePointPath, $tmpFile, $nombreArchivo);
+            $sharepoint_path = self::uploadFile($sharepoint_path, $tmp_file, $nombre_archivo);
 
             try {
                 if ($modelo) {
-                    $modelo->update([$campoBd => $sharePointPath]);
+                    $modelo->update([$campo_bd => $sharepoint_path]);
                     $success = true;
                 }
             } catch (QueryException $e) {
@@ -299,16 +299,16 @@ class SharepointHelper
             }
         }
 
-        return collect(['success' => $success, 'sharePointPath' => $sharePointPath]);
+        return collect(['success' => $success, 'sharePointPath' => $sharepoint_path]);
     }
 
-    public static function prepareFileName($nombreArchivo, $uploadFile)
+    public static function prepareFileName($nombre_archivo, $upload_file)
     {
-        $nuevoNombreArchivo = str_replace(' ', '', substr($nombreArchivo, 0, 30));
-        $nuevoNombreArchivo = preg_replace('/[-`~!@#_$%\^&*()+={}[\]\\\\|;:\'",.><?\/]/', '', $nuevoNombreArchivo);
+        $nuevo_nombre_archivo = str_replace(' ', '', substr($nombre_archivo, 0, 30));
+        $nuevo_nombre_archivo = preg_replace('/[-`~!@#_$%\^&*()+={}[\]\\\\|;:\'",.><?\/]/', '', $nuevo_nombre_archivo);
 
         $random    = Str::random(10);
 
-        return str_replace(array("\r", "\n"), '', str_replace(array("\r", "\n"), '', "{$nuevoNombreArchivo}cod{$random}." . $uploadFile->extension()));
+        return str_replace(array("\r", "\n"), '', str_replace(array("\r", "\n"), '', "{$nuevo_nombre_archivo}cod{$random}." . $upload_file->extension()));
     }
 }

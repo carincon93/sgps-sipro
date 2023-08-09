@@ -24,7 +24,7 @@ class SemilleroInvestigacion extends Model
      *
      * @var array
      */
-    protected $appends = ['nombre_carpeta_sharepoint', 'allowed', 'ruta_final_sharepoint'];
+    protected $appends = ['nombre_carpeta_sharepoint', 'allowed', 'ruta_final_sharepoint', 'filename', 'extension'];
 
     /**
      * The attributes that are mass assignable.
@@ -210,11 +210,33 @@ class SemilleroInvestigacion extends Model
     {
         if (str_contains(request()->route()->uri, 'semilleros-investigacion')) {
 
-            $allowedToView      = Gate::inspect('view', [SemilleroInvestigacion::class, $this]);
-            $allowedToUpdate    = Gate::inspect('update', [SemilleroInvestigacion::class, $this]);
-            $allowedToDestroy   = Gate::inspect('delete', [SemilleroInvestigacion::class, $this]);
+            $allowed_to_view      = Gate::inspect('view', [SemilleroInvestigacion::class, $this]);
+            $allowed_to_update    = Gate::inspect('update', [SemilleroInvestigacion::class, $this]);
+            $allowed_to_destroy   = Gate::inspect('delete', [SemilleroInvestigacion::class, $this]);
 
-            return collect(['to_view' => $allowedToView->allowed(), 'to_update' => $allowedToUpdate->allowed(), 'to_destroy' => $allowedToDestroy->allowed()]);
+            return collect(['to_view' => $allowed_to_view->allowed(), 'to_update' => $allowed_to_update->allowed(), 'to_destroy' => $allowed_to_destroy->allowed()]);
         }
+    }
+
+    public function getFilenameAttribute()
+    {
+        $formato_gic_f_021_file_info        = pathinfo($this->formato_gic_f_021);
+        $formato_gic_f_032_file_info        = pathinfo($this->formato_gic_f_032);
+        $formato_aval_semillero_file_info   = pathinfo($this->formato_aval_semillero);
+
+        $array_file_info = collect(['formato_gic_f_021_filename' =>  $formato_gic_f_021_file_info['filename'] ?? '', 'formato_gic_f_032_filename' => $formato_gic_f_032_file_info['filename'] ?? '' , 'formato_aval_semillero_filename' => $formato_aval_semillero_file_info['filename'] ?? '']);
+
+        return $array_file_info ?? '';
+    }
+
+    public function getExtensionAttribute()
+    {
+        $formato_gic_f_021_file_info        = pathinfo($this->formato_gic_f_021);
+        $formato_gic_f_032_file_info        = pathinfo($this->formato_gic_f_032);
+        $formato_aval_semillero_file_info   = pathinfo($this->formato_aval_semillero);
+
+        $array_file_info = collect(['formato_gic_f_021_extension' => $formato_gic_f_021_file_info['extension'] ?? '', 'formato_gic_f_032_extension' => $formato_gic_f_032_file_info['extension'] ?? '', 'formato_aval_semillero_extension' => $formato_aval_semillero_file_info['extension'] ?? '']);
+
+        return $array_file_info ?? '';
     }
 }

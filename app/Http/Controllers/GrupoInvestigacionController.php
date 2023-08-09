@@ -60,32 +60,22 @@ class GrupoInvestigacionController extends Controller
     {
         $this->authorize('create', [GrupoInvestigacion::class]);
 
-        $grupo_investigacion = new GrupoInvestigacion();
-        $grupo_investigacion->nombre                                 = $request->nombre;
-        $grupo_investigacion->acronimo                               = $request->acronimo;
-        $grupo_investigacion->email                                  = $request->email;
-        $grupo_investigacion->enlace_gruplac                         = $request->enlace_gruplac;
-        $grupo_investigacion->codigo_minciencias                     = $request->codigo_minciencias;
-        $grupo_investigacion->categoria_minciencias                  = $request->categoria_minciencias;
-        $grupo_investigacion->mision                                 = $request->mision;
-        $grupo_investigacion->vision                                 = $request->vision;
-        $grupo_investigacion->fecha_creacion_grupo                   = $request->fecha_creacion_grupo;
-        $grupo_investigacion->nombre_lider_grupo                     = $request->nombre_lider_grupo;
-        $grupo_investigacion->email_contacto                         = $request->email_contacto;
-        $grupo_investigacion->programa_nal_ctei_principal            = $request->programa_nal_ctei_principal;
-        $grupo_investigacion->programa_nal_ctei_secundaria           = $request->programa_nal_ctei_secundaria;
-        $grupo_investigacion->reconocimientos_grupo_investigacion    = $request->reconocimientos_grupo_investigacion;
-        $grupo_investigacion->objetivo_general                       = $request->objetivo_general;
-        $grupo_investigacion->objetivos_especificos                  = $request->objetivos_especificos;
-        $grupo_investigacion->link_propio_grupo                      = $request->link_propio_grupo;
+        $grupo_investigacion = GrupoInvestigacion::create($request->validated());
+        $grupo_investigacion->redesConocimiento()->sync($request->redes_conocimiento);
 
-        $grupo_investigacion->centroFormacion()->associate($request->centro_formacion_id);
-
-        if ($grupo_investigacion->save()) {
-            $this->saveFilesSharepoint($request, $grupo_investigacion);
+        if ($request->hasFile('formato_gic_f_020')) {
+            $request->validate([
+                'formato_gic_f_020' => 'nullable|file|max:10240',
+            ]);
+            $this->saveFilesSharepoint($request->formato_gic_f_020, 'GRUPOS LÍNEAS Y SEMILLEROS', $grupo_investigacion, 'formato_gic_f_020');
         }
 
-        $grupo_investigacion->redesConocimiento()->attach($request->redes_conocimiento);
+        if ($request->hasFile('formato_gic_f_032')) {
+            $request->validate([
+                'formato_gic_f_032' => 'nullable|file|max:10240',
+            ]);
+            $this->saveFilesSharepoint($request->formato_gic_f_032, 'GRUPOS LÍNEAS Y SEMILLEROS', $grupo_investigacion, 'formato_gic_f_032');
+        }
 
         return back()->with('success', 'El recurso se ha creado correctamente.');
     }
@@ -125,33 +115,23 @@ class GrupoInvestigacionController extends Controller
     {
         $this->authorize('update', [GrupoInvestigacion::class, $grupo_investigacion]);
 
-        $grupo_investigacion->nombre                                 = $request->nombre;
-        $grupo_investigacion->acronimo                               = $request->acronimo;
-        $grupo_investigacion->email                                  = $request->email;
-        $grupo_investigacion->enlace_gruplac                         = $request->enlace_gruplac;
-        $grupo_investigacion->codigo_minciencias                     = $request->codigo_minciencias;
-        $grupo_investigacion->categoria_minciencias                  = $request->categoria_minciencias;
-        $grupo_investigacion->mision                                 = $request->mision;
-        $grupo_investigacion->vision                                 = $request->vision;
-        $grupo_investigacion->fecha_creacion_grupo                   = $request->fecha_creacion_grupo;
-        $grupo_investigacion->nombre_lider_grupo                     = $request->nombre_lider_grupo;
-        $grupo_investigacion->email_contacto                         = $request->email_contacto;
-        $grupo_investigacion->programa_nal_ctei_principal            = $request->programa_nal_ctei_principal;
-        $grupo_investigacion->programa_nal_ctei_secundaria           = $request->programa_nal_ctei_secundaria;
-        $grupo_investigacion->reconocimientos_grupo_investigacion    = $request->reconocimientos_grupo_investigacion;
-        $grupo_investigacion->objetivo_general                       = $request->objetivo_general;
-        $grupo_investigacion->objetivos_especificos                  = $request->objetivos_especificos;
-        $grupo_investigacion->link_propio_grupo                      = $request->link_propio_grupo;
+        $grupo_investigacion->update($request->validated());
+        $grupo_investigacion->save();
+        $grupo_investigacion->redesConocimiento()->sync($request->redes_conocimiento);
 
-        $grupo_investigacion->centroFormacion()->associate($request->centro_formacion_id);
-
-        if ($grupo_investigacion->save()) {
-            if ($request->hasFile('formato_gic_f_020') || $request->hasFile('formato_gic_f_032')) {
-                $this->saveFilesSharepoint($request, $grupo_investigacion);
-            }
+        if ($request->hasFile('formato_gic_f_020')) {
+            $request->validate([
+                'formato_gic_f_020' => 'nullable|file|max:10240',
+            ]);
+            $this->saveFilesSharepoint($request->formato_gic_f_020, 'GRUPOS LÍNEAS Y SEMILLEROS', $grupo_investigacion, 'formato_gic_f_020');
         }
 
-        $grupo_investigacion->redesConocimiento()->sync($request->redes_conocimiento);
+        if ($request->hasFile('formato_gic_f_032')) {
+            $request->validate([
+                'formato_gic_f_032' => 'nullable|file|max:10240',
+            ]);
+            $this->saveFilesSharepoint($request->formato_gic_f_032, 'GRUPOS LÍNEAS Y SEMILLEROS', $grupo_investigacion, 'formato_gic_f_032');
+        }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
@@ -171,28 +151,15 @@ class GrupoInvestigacionController extends Controller
         return back()->with('error', 'No se puede eliminar el recurso debido a que hay información relacionada. Comuníquese con el administrador del sistema.');
     }
 
-    public function saveFilesSharepoint(Request $request, GrupoInvestigacion $grupo_investigacion)
+    public function saveFilesSharepoint($tmp_file, $modulo, $modelo, $campo_bd)
     {
-        $request->validate([
-            'formato_gic_f_020' => 'nullable|file|max:10240',
-            'formato_gic_f_032' => 'nullable|file|max:10240',
-        ]);
+        $grupo_investigacion = $modelo;
 
-        $response = [];
+        $sharepoint_grupo_investigacion = $grupo_investigacion->centroFormacion->nombre_carpeta_sharepoint . '/' . mb_strtoupper($grupo_investigacion->nombre .'/FORMATOS');
 
-        if ($request->hasFile('formato_gic_f_020')) {
-            $response = SharepointHelper::saveFilesSharepoint($request, 'formato_gic_f_020', $grupo_investigacion, $grupo_investigacion->id . 'formato_gic_f_020');
-        }
+        $sharepoint_path                = "$modulo/$sharepoint_grupo_investigacion";
 
-        if ($request->hasFile('formato_gic_f_032')) {
-            $response = SharepointHelper::saveFilesSharepoint($request, 'formato_gic_f_032', $grupo_investigacion, $grupo_investigacion->id . 'formato_gic_f_032');
-        }
-
-        if (count($response) > 0 && $response['success']) {
-            return back()->with('success', 'Los archivos se han cargado correctamente');
-        } else if (count($response) > 0 && $response['success'] == false) {
-            return back()->with('error', 'No se han podido cargar los archivos. Por favor vuelva a intentar');
-        }
+        SharepointHelper::saveFilesSharepoint($tmp_file, $modelo, $sharepoint_path, $campo_bd);
     }
 
     public function downloadServerFile(Request $request, GrupoInvestigacion $grupo_investigacion)

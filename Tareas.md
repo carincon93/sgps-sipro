@@ -7,3 +7,4 @@ Tareas
 5. MEJORAR DESPLEGABLES
 6. onBlur syncColumn no funciona en DatePicker, Tags y FileInput
 7. Revisar lineas tecnologicas de la línea 65 y 66
+8. SelectMultiple required no funciona

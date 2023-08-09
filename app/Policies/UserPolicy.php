@@ -63,17 +63,17 @@ class UserPolicy
      * @param  \App\Models\User  $model
      * @return mixed
      */
-    public function update(User $user, $proponente)
+    public function update(User $user, $usuario_a_editar)
     {
-        if ($user->id == $proponente->id) {
+        if ($user->id == $usuario_a_editar->id) {
             return true;
         }
 
-        if ($this->checkRole($user, 18) && $this->checkRole($proponente, 6) || $this->checkRole($user, 20) && $this->checkRole($proponente, 15) || $this->checkRole($user, 5) && $this->checkRole($proponente, 12) || $this->checkRole($user, 17) && $this->checkRole($proponente, 16) || $this->checkRole($user, 19) && $this->checkRole($proponente, 13)) {
+        if ($this->checkRole($user, 18) && $this->checkRole($usuario_a_editar, 6) || $this->checkRole($user, 20) && $this->checkRole($usuario_a_editar, 15) || $this->checkRole($user, 5) && $this->checkRole($usuario_a_editar, 12) || $this->checkRole($user, 17) && $this->checkRole($usuario_a_editar, 16) || $this->checkRole($user, 19) && $this->checkRole($usuario_a_editar, 13)) {
             return true;
         }
 
-        if ($user->dinamizadorCentroFormacion && $user->dinamizadorCentroFormacion->id == $proponente->centroFormacion->id || $user->hasRole(21) && $user->centroFormacion->id == $proponente->centroFormacion->id) {
+        if ($user->dinamizadorCentroFormacion && $user->dinamizadorCentroFormacion->id == $usuario_a_editar->centroFormacion->id || $user->hasRole(21) && $user->centroFormacion->id == $usuario_a_editar->centroFormacion->id) {
             return true;
         }
 

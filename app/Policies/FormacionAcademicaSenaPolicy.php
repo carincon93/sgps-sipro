@@ -18,19 +18,19 @@ class FormacionAcademicaSenaPolicy
      */
     public function viewAny(User $user)
     {
-        // 
+        //
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\FormacionAcademicaSena  $formacionAcademicaSena
+     * @param  \App\Models\FormacionAcademicaSena  $formacion_academica_sena
      * @return mixed
      */
-    public function view(User $user, FormacionAcademicaSena $formacionAcademicaSena)
+    public function view(User $user, FormacionAcademicaSena $formacion_academica_sena)
     {
-        // 
+        //
     }
 
     /**
@@ -48,12 +48,12 @@ class FormacionAcademicaSenaPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\FormacionAcademicaSena  $formacionAcademicaSena
+     * @param  \App\Models\FormacionAcademicaSena  $formacion_academica_sena
      * @return mixed
      */
-    public function update(User $user, FormacionAcademicaSena $formacionAcademicaSena)
+    public function update(User $user, FormacionAcademicaSena $formacion_academica_sena)
     {
-        if ( $user->id == $formacionAcademicaSena->user_id ) {
+        if ( $user->id == $formacion_academica_sena->user_id || $user->dinamizadorCentroFormacion && $user->dinamizadorCentroFormacion->id == $formacion_academica_sena->user->centroFormacion->id ) {
             return true;
         }
     }
@@ -62,12 +62,12 @@ class FormacionAcademicaSenaPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\FormacionAcademicaSena  $formacionAcademicaSena
+     * @param  \App\Models\FormacionAcademicaSena  $formacion_academica_sena
      * @return mixed
      */
-    public function delete(User $user, FormacionAcademicaSena $formacionAcademicaSena)
+    public function delete(User $user, FormacionAcademicaSena $formacion_academica_sena)
     {
-        if ( $user->id == $formacionAcademicaSena->user_id ) {
+        if ( $user->id == $formacion_academica_sena->user_id || $user->dinamizadorCentroFormacion && $user->dinamizadorCentroFormacion->id == $formacion_academica_sena->user->centroFormacion->id ) {
             return true;
         }
     }
@@ -76,10 +76,10 @@ class FormacionAcademicaSenaPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\FormacionAcademicaSena  $formacionAcademicaSena
+     * @param  \App\Models\FormacionAcademicaSena  $formacion_academica_sena
      * @return mixed
      */
-    public function restore(User $user, FormacionAcademicaSena $formacionAcademicaSena)
+    public function restore(User $user, FormacionAcademicaSena $formacion_academica_sena)
     {
         //
     }
@@ -88,10 +88,10 @@ class FormacionAcademicaSenaPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\FormacionAcademicaSena  $formacionAcademicaSena
+     * @param  \App\Models\FormacionAcademicaSena  $formacion_academica_sena
      * @return mixed
      */
-    public function forceDelete(User $user, FormacionAcademicaSena $formacionAcademicaSena)
+    public function forceDelete(User $user, FormacionAcademicaSena $formacion_academica_sena)
     {
         //
     }

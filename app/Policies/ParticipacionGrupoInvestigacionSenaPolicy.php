@@ -18,19 +18,19 @@ class ParticipacionGrupoInvestigacionSenaPolicy
      */
     public function viewAny(User $user)
     {
-        // 
+        //
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ParticipacionGrupoInvestigacionSena  $participacionGrupoInvestigacionSena
+     * @param  \App\Models\ParticipacionGrupoInvestigacionSena  $participacion_grupo_investigacion_sena
      * @return mixed
      */
-    public function view(User $user, ParticipacionGrupoInvestigacionSena $participacionGrupoInvestigacionSena)
+    public function view(User $user, ParticipacionGrupoInvestigacionSena $participacion_grupo_investigacion_sena)
     {
-        // 
+        //
     }
 
     /**
@@ -48,12 +48,12 @@ class ParticipacionGrupoInvestigacionSenaPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ParticipacionGrupoInvestigacionSena  $participacionGrupoInvestigacionSena
+     * @param  \App\Models\ParticipacionGrupoInvestigacionSena  $participacion_grupo_investigacion_sena
      * @return mixed
      */
-    public function update(User $user, ParticipacionGrupoInvestigacionSena $participacionGrupoInvestigacionSena)
+    public function update(User $user, ParticipacionGrupoInvestigacionSena $participacion_grupo_investigacion_sena)
     {
-        if ( $user->id == $participacionGrupoInvestigacionSena->user_id ) {
+        if ( $user->id == $participacion_grupo_investigacion_sena->user_id || $user->dinamizadorCentroFormacion && $user->dinamizadorCentroFormacion->id == $participacion_grupo_investigacion_sena->user->centroFormacion->id ) {
             return true;
         }
     }
@@ -62,12 +62,12 @@ class ParticipacionGrupoInvestigacionSenaPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ParticipacionGrupoInvestigacionSena  $participacionGrupoInvestigacionSena
+     * @param  \App\Models\ParticipacionGrupoInvestigacionSena  $participacion_grupo_investigacion_sena
      * @return mixed
      */
-    public function delete(User $user, ParticipacionGrupoInvestigacionSena $participacionGrupoInvestigacionSena)
+    public function delete(User $user, ParticipacionGrupoInvestigacionSena $participacion_grupo_investigacion_sena)
     {
-        if ( $user->id == $participacionGrupoInvestigacionSena->user_id ) {
+        if ( $user->id == $participacion_grupo_investigacion_sena->user_id ) {
             return true;
         }
     }
@@ -76,10 +76,10 @@ class ParticipacionGrupoInvestigacionSenaPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ParticipacionGrupoInvestigacionSena  $participacionGrupoInvestigacionSena
+     * @param  \App\Models\ParticipacionGrupoInvestigacionSena  $participacion_grupo_investigacion_sena
      * @return mixed
      */
-    public function restore(User $user, ParticipacionGrupoInvestigacionSena $participacionGrupoInvestigacionSena)
+    public function restore(User $user, ParticipacionGrupoInvestigacionSena $participacion_grupo_investigacion_sena)
     {
         //
     }
@@ -88,10 +88,10 @@ class ParticipacionGrupoInvestigacionSenaPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ParticipacionGrupoInvestigacionSena  $participacionGrupoInvestigacionSena
+     * @param  \App\Models\ParticipacionGrupoInvestigacionSena  $participacion_grupo_investigacion_sena
      * @return mixed
      */
-    public function forceDelete(User $user, ParticipacionGrupoInvestigacionSena $participacionGrupoInvestigacionSena)
+    public function forceDelete(User $user, ParticipacionGrupoInvestigacionSena $participacion_grupo_investigacion_sena)
     {
         //
     }

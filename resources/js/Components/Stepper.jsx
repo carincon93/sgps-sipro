@@ -209,14 +209,14 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                 ) : (
                     <Step active={route().current('convocatorias.proyectos.articulacion-sennova')}>
                         <Link href={route('convocatorias.proyectos.articulacion-sennova', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
-                            <StepLabel classes={{ root: classes.root }}>Articulación SENNOVA</StepLabel>
+                            <StepLabel classes={{ root: classes.root }}>Articulación</StepLabel>
                         </Link>
                     </Step>
                 )}
 
                 <Step active={route().current('convocatorias.proyectos.arbol-problemas')}>
                     <Link href={route('convocatorias.proyectos.arbol-problemas', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
-                        <StepLabel classes={{ root: classes.root }}>Identificación del problema</StepLabel>
+                        <StepLabel classes={{ root: classes.root }}>Definición del problema</StepLabel>
                     </Link>
                 </Step>
 

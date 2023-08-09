@@ -114,7 +114,7 @@ class ProyectoLinea70Controller extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Ta  $ta
+     * @param  \App\Models\ProyectoLinea70 $proyecto_linea_70
      * @return \Illuminate\Http\Response
      */
     public function show(Convocatoria $convocatoria, ProyectoLinea70 $proyecto_linea_70)
@@ -125,7 +125,7 @@ class ProyectoLinea70Controller extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Ta  $ta
+     * @param  \App\Models\ProyectoLinea70 $proyecto_linea_70
      * @return \Illuminate\Http\Response
      */
     public function edit(Convocatoria $convocatoria, ProyectoLinea70 $proyecto_linea_70)
@@ -137,7 +137,7 @@ class ProyectoLinea70Controller extends Controller
         $proyecto_linea_70->proyecto->codigo_linea_programatica = $proyecto_linea_70->proyecto->lineaProgramatica->codigo;
         $proyecto_linea_70->proyecto->precio_proyecto           = $proyecto_linea_70->proyecto->precioProyecto;
         $proyecto_linea_70->proyecto->centroFormacion;
-        $proyecto_linea_70->proyecto->tecnoacademiaLineasTecnoacademia;;
+        $proyecto_linea_70->proyecto->tecnoacademiaLineasTecnoacademia;
 
         $proyecto_linea_70->mostrar_recomendaciones        = $proyecto_linea_70->proyecto->mostrar_recomendaciones;
         $proyecto_linea_70->mostrar_requiere_subsanacion   = $proyecto_linea_70->proyecto->mostrar_requiere_subsanacion;
@@ -159,7 +159,7 @@ class ProyectoLinea70Controller extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Ta  $ta
+     * @param  \App\Models\ProyectoLinea70 $proyecto_linea_70
      * @return \Illuminate\Http\Response
      */
     public function update(ProyectoLinea70Request $request, Convocatoria $convocatoria, ProyectoLinea70 $proyecto_linea_70)
@@ -199,7 +199,7 @@ class ProyectoLinea70Controller extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Ta  $ta
+     * @param  \App\Models\ProyectoLinea70 $proyecto_linea_70
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, Convocatoria $convocatoria, ProyectoLinea70 $proyecto_linea_70)

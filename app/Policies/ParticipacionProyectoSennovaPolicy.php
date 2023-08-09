@@ -18,19 +18,19 @@ class ParticipacionProyectoSennovaPolicy
      */
     public function viewAny(User $user)
     {
-        // 
+        //
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ParticipacionProyectoSennova  $participacionProyectoSennova
+     * @param  \App\Models\ParticipacionProyectoSennova  $participacion_proyecto_sennova
      * @return mixed
      */
-    public function view(User $user, ParticipacionProyectoSennova $participacionProyectoSennova)
+    public function view(User $user, ParticipacionProyectoSennova $participacion_proyecto_sennova)
     {
-        // 
+        //
     }
 
     /**
@@ -48,12 +48,12 @@ class ParticipacionProyectoSennovaPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ParticipacionProyectoSennova  $participacionProyectoSennova
+     * @param  \App\Models\ParticipacionProyectoSennova  $participacion_proyecto_sennova
      * @return mixed
      */
-    public function update(User $user, ParticipacionProyectoSennova $participacionProyectoSennova)
+    public function update(User $user, ParticipacionProyectoSennova $participacion_proyecto_sennova)
     {
-        if ( $user->id == $participacionProyectoSennova->user_id ) {
+        if ( $user->id == $participacion_proyecto_sennova->user_id || $user->dinamizadorCentroFormacion && $user->dinamizadorCentroFormacion->id == $participacion_proyecto_sennova->user->centroFormacion->id ) {
             return true;
         }
     }
@@ -62,12 +62,12 @@ class ParticipacionProyectoSennovaPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ParticipacionProyectoSennova  $participacionProyectoSennova
+     * @param  \App\Models\ParticipacionProyectoSennova  $participacion_proyecto_sennova
      * @return mixed
      */
-    public function delete(User $user, ParticipacionProyectoSennova $participacionProyectoSennova)
+    public function delete(User $user, ParticipacionProyectoSennova $participacion_proyecto_sennova)
     {
-        if ( $user->id == $participacionProyectoSennova->user_id ) {
+        if ( $user->id == $participacion_proyecto_sennova->user_id || $user->dinamizadorCentroFormacion && $user->dinamizadorCentroFormacion->id == $participacion_proyecto_sennova->user->centroFormacion->id  ) {
             return true;
         }
     }
@@ -76,10 +76,10 @@ class ParticipacionProyectoSennovaPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ParticipacionProyectoSennova  $participacionProyectoSennova
+     * @param  \App\Models\ParticipacionProyectoSennova  $participacion_proyecto_sennova
      * @return mixed
      */
-    public function restore(User $user, ParticipacionProyectoSennova $participacionProyectoSennova)
+    public function restore(User $user, ParticipacionProyectoSennova $participacion_proyecto_sennova)
     {
         //
     }
@@ -88,10 +88,10 @@ class ParticipacionProyectoSennovaPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ParticipacionProyectoSennova  $participacionProyectoSennova
+     * @param  \App\Models\ParticipacionProyectoSennova  $participacion_proyecto_sennova
      * @return mixed
      */
-    public function forceDelete(User $user, ParticipacionProyectoSennova $participacionProyectoSennova)
+    public function forceDelete(User $user, ParticipacionProyectoSennova $participacion_proyecto_sennova)
     {
         //
     }

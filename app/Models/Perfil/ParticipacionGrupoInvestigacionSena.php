@@ -4,6 +4,7 @@ namespace App\Models\Perfil;
 
 use App\Models\GrupoInvestigacion;
 use App\Models\SemilleroInvestigacion;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

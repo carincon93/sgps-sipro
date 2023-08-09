@@ -1,5 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
+import ButtonMui from '@/Components/Button'
+import DialogMui from '@/Components/Dialog'
 import MenuMui from '@/Components/Menu'
 import PaginationMui from '@/Components/Pagination'
 import SearchBar from '@/Components/SearchBar'
@@ -7,81 +9,90 @@ import TableMui from '@/Components/Table'
 
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
+import { Breadcrumbs, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
-import { router } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
-import DialogMui from '@/Components/Dialog'
-import Form from './Form'
-import ButtonMui from '@/Components/Button'
 
-const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formacion, centros_formacion, categorias_minciencias, redes_conocimiento, allowed_to_create }) => {
+import Form from './Form'
+
+const Index = ({ auth, grupo_investigacion, lineas_investigacion, allowed_to_create }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
     const [dialog_status, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
-    const [grupo_investigacion, setGrupoInvestigacion] = useState(null)
-    const [grupo_investigacion_to_destroy, setGrupoInvestigacionToDestroy] = useState(null)
+    const [linea_investigacion, setLineaInvestigacion] = useState(null)
+    const [linea_investigacion_to_destroy, setLineaInvestigacionToDestroy] = useState(null)
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Grupos de investigación de mi centro de formación</h2>}>
+        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas de investigación</h2>}>
+            <Grid item md={12} className="!mb-20">
+                <Breadcrumbs aria-label="breadcrumb">
+                    <Link underline="hover" color="inherit" href={route('grupos-investigacion.index')}>
+                        Grupos de investigación
+                    </Link>
+                    <Link underline="hover" color="inherit" href="#">
+                        {grupo_investigacion.nombre}
+                    </Link>
+                    <Link underline="hover" color="text.primary" href="#" aria-current="page">
+                        Líneas de investigación
+                    </Link>
+                </Breadcrumbs>
+            </Grid>
             <Grid item md={12}>
-                <SearchBar />
+                <SearchBar routeParams={[grupo_investigacion.id]} />
 
-                <TableMui className="mt-20" rows={['Nombre', 'Centro de formación', 'Regional', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui className="mt-20" rows={['Nombre', 'Grupo de investigación', 'Centro de formación', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {allowed_to_create ? (
-                        <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setGrupoInvestigacion(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                        <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setLineaInvestigacion(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={4}>
                                 <ButtonMui>
-                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar grupo de investigación
+                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar línea de investigación
                                 </ButtonMui>
                             </TableCell>
                         </TableRow>
                     ) : null}
-                    {grupos_investigacion_centro_formacion.map((grupo_investigacion, i) => (
+                    {lineas_investigacion.data.map((linea_investigacion, i) => (
                         <TableRow key={i}>
-                            <TableCell>{grupo_investigacion.nombre}</TableCell>
-
-                            <TableCell> {grupo_investigacion.centro_formacion?.nombre}</TableCell>
-                            <TableCell>{grupo_investigacion.centro_formacion?.regional?.nombre}</TableCell>
+                            <TableCell>{linea_investigacion.nombre}</TableCell>
+                            <TableCell> {linea_investigacion.grupo_investigacion?.nombre}</TableCell>
+                            <TableCell>{linea_investigacion.grupo_investigacion.centro_formacion?.regional?.nombre}</TableCell>
 
                             <TableCell>
                                 <MenuMui text={<MoreVertIcon />}>
-                                    {grupo_investigacion.id !== grupo_investigacion_to_destroy ? (
+                                    {linea_investigacion.id !== linea_investigacion_to_destroy ? (
                                         <div>
                                             <MenuItem
                                                 onClick={(e) => {
                                                     e.stopPropagation()
-                                                    router.visit(route('grupos-investigacion.lineas-investigacion.index', [grupo_investigacion.id]), {
+                                                    router.visit(route('grupos-investigacion.lineas-investigacion.semilleros-investigacion.index', [grupo_investigacion.id, linea_investigacion.id]), {
                                                         preserveScroll: true,
                                                     })
                                                 }}>
-                                                Líneas de investigación
+                                                Semilleros de investigación
                                             </MenuItem>
 
                                             <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('PUT'), setGrupoInvestigacion(grupo_investigacion))}
-                                                disabled={!grupo_investigacion?.allowed?.to_view}>
+                                                onClick={() => (setDialogStatus(true), setMethod('PUT'), setLineaInvestigacion(linea_investigacion))}
+                                                disabled={!linea_investigacion?.allowed?.to_view}>
                                                 Editar
                                             </MenuItem>
 
-                                            {is_super_admin && (
-                                                <MenuItem
-                                                    onClick={() => {
-                                                        setGrupoInvestigacionToDestroy(grupo_investigacion.id)
-                                                    }}>
-                                                    Eliminar
-                                                </MenuItem>
-                                            )}
+                                            <MenuItem
+                                                onClick={() => {
+                                                    setLineaInvestigacionToDestroy(linea_investigacion.id)
+                                                }}>
+                                                Eliminar
+                                            </MenuItem>
                                         </div>
                                     ) : (
                                         <div>
                                             <MenuItem
                                                 onClick={(e) => {
-                                                    setGrupoInvestigacionToDestroy(null)
+                                                    setLineaInvestigacionToDestroy(null)
                                                 }}>
                                                 Cancelar
                                             </MenuItem>
@@ -89,8 +100,8 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
                                                 sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
                                                 onClick={(e) => {
                                                     e.stopPropagation()
-                                                    if (grupo_investigacion.allowed.to_update) {
-                                                        router.delete(route('grupos-investigacion.destroy', [grupo_investigacion.id]), {
+                                                    if (linea_investigacion.allowed.to_update) {
+                                                        router.delete(route('grupos-investigacion.lineas-investigacion.destroy', [grupo_investigacion.id, linea_investigacion.id]), {
                                                             preserveScroll: true,
                                                         })
                                                     }
@@ -105,7 +116,7 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
                     ))}
                 </TableMui>
 
-                <PaginationMui links={grupos_investigacion_centro_formacion.links} className="mt-8" />
+                <PaginationMui links={lineas_investigacion.links} className="mt-8" />
 
                 <DialogMui
                     open={dialog_status}
@@ -119,9 +130,7 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
                             allowed_to_create={allowed_to_create}
                             method={method}
                             grupo_investigacion={grupo_investigacion}
-                            centros_formacion={centros_formacion}
-                            categorias_minciencias={categorias_minciencias}
-                            redes_conocimiento={redes_conocimiento}
+                            linea_investigacion={linea_investigacion}
                         />
                     }
                 />

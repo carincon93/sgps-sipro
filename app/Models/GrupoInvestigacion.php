@@ -167,7 +167,7 @@ class GrupoInvestigacion extends Model
     {
         $ruta = '';
         if ($this->centroFormacion) {
-            $ruta = trim($this->centroFormacion->nombre_carpeta_sharepoint . '/' . $this->nombre_carpeta_sharepoint);
+            $ruta = trim('GRUPOS Y SEMILLEROS/'.$this->centroFormacion->nombre_carpeta_sharepoint . '/' . $this->nombre_carpeta_sharepoint);
         }
 
         return $ruta;

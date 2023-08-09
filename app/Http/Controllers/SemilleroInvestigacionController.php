@@ -6,6 +6,7 @@ use App\Helpers\SharepointHelper;
 use App\Helpers\SelectHelper;
 use App\Http\Requests\SemilleroInvestigacionRequest;
 use App\Models\GrupoInvestigacion;
+use App\Models\LineaInvestigacion;
 use App\Models\ProgramaFormacion;
 use App\Models\SemilleroInvestigacion;
 use Illuminate\Http\Request;
@@ -20,19 +21,20 @@ class SemilleroInvestigacionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(GrupoInvestigacion $grupoInvestigacion)
+    public function index(GrupoInvestigacion $grupo_investigacion, LineaInvestigacion $linea_investigacion)
     {
         $this->authorize('viewAny', [SemilleroInvestigacion::class]);
 
         return Inertia::render('SemillerosInvestigacion/Index', [
-            'filters'                   => request()->all('search'),
-            'allowed_to_create'           => Gate::inspect('create', [SemilleroInvestigacion::class])->allowed(),
-            'grupoInvestigacion'        => $grupoInvestigacion,
-            'semillerosInvestigacion'   => SemilleroInvestigacion::select('semilleros_investigacion.id', 'semilleros_investigacion.nombre', 'semilleros_investigacion.codigo', 'semilleros_investigacion.linea_investigacion_id', 'lineas_investigacion.nombre as nombre_linea_principal')
-                ->join('lineas_investigacion', 'semilleros_investigacion.linea_investigacion_id', 'lineas_investigacion.id')
-                ->where('lineas_investigacion.grupo_investigacion_id', $grupoInvestigacion->id)
-                ->filterSemilleroInvestigacion(request()->only('search'))
-                ->orderBy('semilleros_investigacion.nombre', 'ASC')->paginate(),
+            'grupo_investigacion'       => $grupo_investigacion,
+            'linea_investigacion'       => $linea_investigacion,
+            'semilleros_investigacion'  => $linea_investigacion->semillerosInvestigacion()->select('semilleros_investigacion.*')
+                                                ->with('redesConocimiento', 'lineasInvestigacionArticulados')
+                                                ->filterSemilleroInvestigacion(request()->only('search'))
+                                                ->orderBy('semilleros_investigacion.nombre', 'ASC')->paginate(),
+            'lineas_investigacion'      => $grupo_investigacion->lineasInvestigacion()->select('lineas_investigacion.id as value', 'lineas_investigacion.nombre as label')->get()->toArray(),
+            'redes_conocimiento'        => SelectHelper::redesConocimiento(),
+            'allowed_to_create'         => Gate::inspect('create', [SemilleroInvestigacion::class])->allowed(),
         ]);
     }
 
@@ -41,17 +43,11 @@ class SemilleroInvestigacionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(GrupoInvestigacion $grupoInvestigacion)
+    public function create(GrupoInvestigacion $grupo_investigacion, LineaInvestigacion $linea_investigacion)
     {
         $this->authorize('create', [SemilleroInvestigacion::class]);
 
-        return Inertia::render('SemillerosInvestigacion/Create', [
-            'grupoInvestigacion'    => $grupoInvestigacion,
-            'lineasInvestigacion'   => SelectHelper::lineasInvestigacion()->where('grupo_investigacion_id', $grupoInvestigacion->id)->values()->all(),
-            'redesConocimiento'     => SelectHelper::redesConocimiento(),
-            'programasFormacion'    => ProgramaFormacion::selectRaw('programas_formacion.id as value, CONCAT(programas_formacion.nombre, chr(10), \'∙ Código: \', programas_formacion.codigo) as label, linea_investigacion_programa_formacion.linea_investigacion_id as linea_investigacion_id')->join('linea_investigacion_programa_formacion', 'programas_formacion.id', 'linea_investigacion_programa_formacion.programa_formacion_id')->where('programas_formacion.centro_formacion_id', $grupoInvestigacion->centro_formacion_id)->orderBy('programas_formacion.nombre', 'ASC')->get(),
-            'allowed_to_create'       => Gate::inspect('create', [SemilleroInvestigacion::class])->allowed()
-        ]);
+        //
     }
 
     /**
@@ -60,164 +56,141 @@ class SemilleroInvestigacionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SemilleroInvestigacionRequest $request, GrupoInvestigacion $grupoInvestigacion)
+    public function store(SemilleroInvestigacionRequest $request, GrupoInvestigacion $grupo_investigacion, LineaInvestigacion $linea_investigacion)
     {
         $this->authorize('create', [SemilleroInvestigacion::class]);
 
-        $semilleroInvestigacion = new SemilleroInvestigacion();
-        $semilleroInvestigacion->nombre                                     = $request->nombre;
-        $semilleroInvestigacion->fecha_creacion_semillero                   = $request->fecha_creacion_semillero;
-        $semilleroInvestigacion->nombre_lider_semillero                     = $request->nombre_lider_semillero;
-        $semilleroInvestigacion->email_contacto                             = $request->email_contacto;
-        $semilleroInvestigacion->reconocimientos_semillero_investigacion    = $request->reconocimientos_semillero_investigacion;
-        $semilleroInvestigacion->vision                                     = $request->vision;
-        $semilleroInvestigacion->mision                                     = $request->mision;
-        $semilleroInvestigacion->objetivo_general                           = $request->objetivo_general;
-        $semilleroInvestigacion->objetivos_especificos                      = $request->objetivos_especificos;
-        $semilleroInvestigacion->link_semillero                             = $request->link_semillero;
-        $semilleroInvestigacion->es_semillero_tecnoacademia                 = $request->es_semillero_tecnoacademia;
+        $semillero_investigacion = $linea_investigacion->semillerosInvestigacion()->create($request->validated());
 
-        $semilleroInvestigacion->lineaInvestigacion()->associate($request->linea_investigacion_id);
+        $semillero_investigacion->update(['codigo' => 'SGPS-SEM-' . $semillero_investigacion->id]);
+        $semillero_investigacion->lineaInvestigacion()->associate($request->linea_investigacion_id);
+        $semillero_investigacion->lineasInvestigacionArticulados()->sync($request->lineas_investigacion);
+        $semillero_investigacion->redesConocimiento()->sync($request->redes_conocimiento);
 
-        if ($semilleroInvestigacion->save()) {
-
-            SharepointHelper::checkFolderAndCreate($semilleroInvestigacion->ruta_final_sharepoint);
-
-            $semilleroInvestigacion->update(['codigo' => 'SGPS-SEM-' . $semilleroInvestigacion->id]);
-
-            $this->saveFilesSharepoint($request, $grupoInvestigacion, $semilleroInvestigacion);
-
-            $semilleroInvestigacion->redesConocimiento()->attach($request->redes_conocimiento);
-            $semilleroInvestigacion->programasFormacion()->attach($request->programas_formacion);
-            $semilleroInvestigacion->lineasInvestigacionArticulados()->attach($request->lineas_investigacion);
-
-            return redirect()->route('grupos-investigacion.semilleros-investigacion.edit', [$grupoInvestigacion, $semilleroInvestigacion])->with('success', 'El recurso se ha creado correctamente.');
-        } else {
-            abort(500, 'No se ha podido crear el semillero de investigación.');
+        if ($request->hasFile('formato_gic_f_021')) {
+            $request->validate([
+                'formato_gic_f_021' => 'nullable|file|max:10240',
+            ]);
+            $this->saveFilesSharepoint($request->formato_gic_f_021, 'GRUPOS LÍNEAS Y SEMILLEROS', $semillero_investigacion, 'formato_gic_f_021');
         }
+
+        if ($request->hasFile('formato_gic_f_032')) {
+            $request->validate([
+                'formato_gic_f_032' => 'nullable|file|max:10240',
+            ]);
+            $this->saveFilesSharepoint($request->formato_gic_f_032, 'GRUPOS LÍNEAS Y SEMILLEROS', $semillero_investigacion, 'formato_gic_f_032');
+        }
+
+        if ($request->hasFile('formato_aval_semillero')) {
+            $request->validate([
+                'formato_aval_semillero' => 'nullable|file|max:10240',
+            ]);
+            $this->saveFilesSharepoint($request->formato_aval_semillero, 'GRUPOS LÍNEAS Y SEMILLEROS', $semillero_investigacion, 'formato_aval_semillero');
+        }
+
+        return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\SemilleroInvestigacion  $semilleroInvestigacion
+     * @param  \App\Models\SemilleroInvestigacion  $semillero_investigacion
      * @return \Illuminate\Http\Response
      */
-    public function show(GrupoInvestigacion $grupoInvestigacion, SemilleroInvestigacion $semilleroInvestigacion)
+    public function show(GrupoInvestigacion $grupo_investigacion, LineaInvestigacion $linea_investigacion, SemilleroInvestigacion $semillero_investigacion)
     {
-        $this->authorize('view', [SemilleroInvestigacion::class, $semilleroInvestigacion]);
+        $this->authorize('view', [SemilleroInvestigacion::class, $semillero_investigacion]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\SemilleroInvestigacion  $semilleroInvestigacion
+     * @param  \App\Models\SemilleroInvestigacion  $semillero_investigacion
      * @return \Illuminate\Http\Response
      */
-    public function edit(GrupoInvestigacion $grupoInvestigacion, SemilleroInvestigacion $semilleroInvestigacion)
+    public function edit(GrupoInvestigacion $grupo_investigacion, LineaInvestigacion $linea_investigacion, SemilleroInvestigacion $semillero_investigacion)
     {
-        $this->authorize('view', [SemilleroInvestigacion::class, $semilleroInvestigacion]);
+        $this->authorize('view', [SemilleroInvestigacion::class, $semillero_investigacion]);
 
-        $semilleroInvestigacion->lineaInvestigacion->grupoInvestigacion;
-
-        return Inertia::render('SemillerosInvestigacion/Edit', [
-            'semilleroInvestigacion'                    => $semilleroInvestigacion,
-            'grupoInvestigacion'                        => $grupoInvestigacion,
-            'lineasInvestigacion'                       => SelectHelper::lineasInvestigacion()->where('grupo_investigacion_id', $grupoInvestigacion->id)->values()->all(),
-            'redesConocimiento'                         => SelectHelper::redesConocimiento(),
-            'programasFormacion'                        => ProgramaFormacion::selectRaw('programas_formacion.id as value, CONCAT(programas_formacion.nombre, chr(10), \'∙ Código: \', programas_formacion.codigo) as label, linea_investigacion_programa_formacion.linea_investigacion_id as linea_investigacion_id')->join('linea_investigacion_programa_formacion', 'programas_formacion.id', 'linea_investigacion_programa_formacion.programa_formacion_id')->where('programas_formacion.centro_formacion_id', $grupoInvestigacion->centro_formacion_id)->orderBy('programas_formacion.nombre', 'ASC')->get(),
-            'redesConocimientoSemilleroInvestigacion'   => $semilleroInvestigacion->redesConocimiento()->select('redes_conocimiento.id as value', 'redes_conocimiento.nombre as label')->get(),
-            'programasFormacionSemilleroInvestigacion'  => $semilleroInvestigacion->programasFormacion()->select('programas_formacion.id as value', 'programas_formacion.nombre as label')->get(),
-            'lineasInvestigacionSemilleroInvestigacion' => $semilleroInvestigacion->lineasInvestigacionArticulados()->select('lineas_investigacion.id as value', 'lineas_investigacion.nombre as label')->get(),
-        ]);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\SemilleroInvestigacion  $semilleroInvestigacion
+     * @param  \App\Models\SemilleroInvestigacion  $semillero_investigacion
      * @return \Illuminate\Http\Response
      */
-    public function update(SemilleroInvestigacionRequest $request, GrupoInvestigacion $grupoInvestigacion, SemilleroInvestigacion $semilleroInvestigacion)
+    public function update(SemilleroInvestigacionRequest $request, GrupoInvestigacion $grupo_investigacion, LineaInvestigacion $linea_investigacion, SemilleroInvestigacion $semillero_investigacion)
     {
-        $this->authorize('update', [SemilleroInvestigacion::class, $semilleroInvestigacion]);
+        $this->authorize('update', [SemilleroInvestigacion::class, $semillero_investigacion]);
 
-        $semilleroInvestigacion->nombre                                     = $request->nombre;
-        $semilleroInvestigacion->fecha_creacion_semillero                   = $request->fecha_creacion_semillero;
-        $semilleroInvestigacion->nombre_lider_semillero                     = $request->nombre_lider_semillero;
-        $semilleroInvestigacion->email_contacto                             = $request->email_contacto;
-        $semilleroInvestigacion->reconocimientos_semillero_investigacion    = $request->reconocimientos_semillero_investigacion;
-        $semilleroInvestigacion->vision                                     = $request->vision;
-        $semilleroInvestigacion->mision                                     = $request->mision;
-        $semilleroInvestigacion->objetivo_general                           = $request->objetivo_general;
-        $semilleroInvestigacion->objetivos_especificos                      = $request->objetivos_especificos;
-        $semilleroInvestigacion->link_semillero                             = $request->link_semillero;
-        $semilleroInvestigacion->es_semillero_tecnoacademia                 = $request->es_semillero_tecnoacademia;
+        $semillero_investigacion->update($request->validated());
+        $semillero_investigacion->save();
 
-        $semilleroInvestigacion->lineaInvestigacion()->associate($request->linea_investigacion_id);
+        $semillero_investigacion->lineaInvestigacion()->associate($request->linea_investigacion_id);
+        $semillero_investigacion->lineasInvestigacionArticulados()->sync($request->lineas_investigacion);
+        $semillero_investigacion->redesConocimiento()->sync($request->redes_conocimiento);
 
-        if ($semilleroInvestigacion->save()) {
-            if ($request->hasFile('formato_gic_f_021') || $request->hasFile('formato_gic_f_032') || $request->hasFile('formato_aval_semillero')) {
-                $this->saveFilesSharepoint($request, $grupoInvestigacion, $semilleroInvestigacion);
-            }
-
-            $semilleroInvestigacion->redesConocimiento()->sync($request->redes_conocimiento);
-            $semilleroInvestigacion->programasFormacion()->sync($request->programas_formacion);
-            $semilleroInvestigacion->lineasInvestigacionArticulados()->sync($request->lineas_investigacion);
-
-            return back()->with('success', 'El recurso se ha actualizado correctamente.');
-        } else {
-            abort(500, 'No se ha podido modificar el semillero de investigación.');
+        if ($request->hasFile('formato_gic_f_021')) {
+            $request->validate([
+                'formato_gic_f_021' => 'nullable|file|max:10240',
+            ]);
+            $this->saveFilesSharepoint($request->formato_gic_f_021, 'GRUPOS LÍNEAS Y SEMILLEROS', $semillero_investigacion, 'formato_gic_f_021');
         }
+
+        if ($request->hasFile('formato_gic_f_032')) {
+            $request->validate([
+                'formato_gic_f_032' => 'nullable|file|max:10240',
+            ]);
+            $this->saveFilesSharepoint($request->formato_gic_f_032, 'GRUPOS LÍNEAS Y SEMILLEROS', $semillero_investigacion, 'formato_gic_f_032');
+        }
+
+        if ($request->hasFile('formato_aval_semillero')) {
+            $request->validate([
+                'formato_aval_semillero' => 'nullable|file|max:10240',
+            ]);
+            $this->saveFilesSharepoint($request->formato_aval_semillero, 'GRUPOS LÍNEAS Y SEMILLEROS', $semillero_investigacion, 'formato_aval_semillero');
+        }
+
+        return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\SemilleroInvestigacion  $semilleroInvestigacion
+     * @param  \App\Models\SemilleroInvestigacion  $semillero_investigacion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(GrupoInvestigacion $grupoInvestigacion, SemilleroInvestigacion $semilleroInvestigacion)
+    public function destroy(GrupoInvestigacion $grupo_investigacion, LineaInvestigacion $linea_investigacion, SemilleroInvestigacion $semillero_investigacion)
     {
-        $this->authorize('delete', [SemilleroInvestigacion::class, $semilleroInvestigacion]);
+        $this->authorize('delete', [SemilleroInvestigacion::class, $semillero_investigacion]);
 
-        $semilleroInvestigacion->delete();
+        $semillero_investigacion->delete();
 
-        return redirect()->route('grupos-investigacion.semilleros-investigacion.index', [$grupoInvestigacion])->with('success', 'El recurso se ha eliminado correctamente.');
+        return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
-    public function saveFilesSharepoint(Request $request, GrupoInvestigacion $grupoInvestigacion, SemilleroInvestigacion $semilleroInvestigacion)
+    public function saveFilesSharepoint($tmp_file, $modulo, $modelo, $campo_bd)
     {
-        $response = [];
+        $semillero_investigacion = $modelo;
 
-        if ($request->hasFile('formato_gic_f_021')) {
-            $response = SharepointHelper::saveFilesSharepoint($request, 'formato_gic_f_021', $semilleroInvestigacion, $semilleroInvestigacion->id . 'formato_gic_f_021');
-        }
+        $sharepoint_semillero_investigacion = $semillero_investigacion->LineaInvestigacion->grupoInvestigacion->centroFormacion->nombre_carpeta_sharepoint .'/'. mb_strtoupper($semillero_investigacion->LineaInvestigacion->grupoInvestigacion->nombre) . '/SEMILLEROS/' . mb_strtoupper($semillero_investigacion->nombre);
 
-        if ($request->hasFile('formato_gic_f_032')) {
-            $response = SharepointHelper::saveFilesSharepoint($request, 'formato_gic_f_032', $semilleroInvestigacion, $semilleroInvestigacion->id . 'formato_gic_f_032');
-        }
+        $sharepoint_path                    = "$modulo/$sharepoint_semillero_investigacion";
 
-        if ($request->hasFile('formato_aval_semillero')) {
-            $response = SharepointHelper::saveFilesSharepoint($request, 'formato_aval_semillero', $semilleroInvestigacion, $semilleroInvestigacion->id . 'formato_aval_semillero');
-        }
-
-        if (count($response) > 0 && $response['success']) {
-            return back()->with('success', 'Los archivos se han cargado correctamente');
-        } else if (count($response) > 0 && $response['success'] == false) {
-            return back()->with('error', 'No se han podido cargar los archivos. Por favor vuelva a intentar');
-        }
+        SharepointHelper::saveFilesSharepoint($tmp_file, $modelo, $sharepoint_path, $campo_bd);
     }
 
-    public function downloadServerFile(Request $request, GrupoInvestigacion $grupoInvestigacion, SemilleroInvestigacion $semilleroInvestigacion)
+    public function downloadServerFile(Request $request, GrupoInvestigacion $grupo_investigacion, SemilleroInvestigacion $semillero_investigacion)
     {
-        SharepointHelper::downloadServerFile($semilleroInvestigacion, $request->formato);
+        SharepointHelper::downloadServerFile($semillero_investigacion, $request->formato);
     }
 
-    public function downloadFileSharepoint(GrupoInvestigacion $grupoInvestigacion, SemilleroInvestigacion $semilleroInvestigacion, $tipo_archivo)
+    public function downloadFileSharepoint(GrupoInvestigacion $grupo_investigacion, LineaInvestigacion $linea_investigacion, SemilleroInvestigacion $semillero_investigacion, $tipo_archivo)
     {
-        $sharepoint_path = $semilleroInvestigacion[$tipo_archivo];
+        $sharepoint_path = $semillero_investigacion[$tipo_archivo];
 
         return SharepointHelper::downloadFile($sharepoint_path);
     }

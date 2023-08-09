@@ -24,8 +24,7 @@ class LineaInvestigacionRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre'                => ['required', 'max:191', 'string'],
-            'programas_formacion'   => ['required'],
+            'nombre' => ['required', 'max:191', 'string'],
         ];
     }
 
@@ -36,20 +35,6 @@ class LineaInvestigacionRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->programas_formacion)) {
-            if (isset($this->programas_formacion['value']) && is_numeric($this->programas_formacion['value'])) {
-                $this->merge([
-                    'programas_formacion' => $this->programas_formacion['value'],
-                ]);
-            } else {
-                $programas_formacion = [];
-                foreach ($this->programas_formacion as $programa_formacion) {
-                    if (is_array($programa_formacion)) {
-                        array_push($programas_formacion, $programa_formacion['value']);
-                    }
-                }
-                $this->merge(['programas_formacion' => $programas_formacion]);
-            }
-        }
+        //
     }
 }

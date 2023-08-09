@@ -175,7 +175,7 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                             <Grid item md={12}>
                                 <Textarea
                                     id="reconocimientos_grupo_investigacion"
-                                    label="Reconocimientos grupo de investigación"
+                                    label="Reconocimientos del grupo de investigación"
                                     value={form.data.reconocimientos_grupo_investigacion}
                                     onChange={(e) => form.setData('reconocimientos_grupo_investigacion', e.target.value)}
                                     error={form.errors.reconocimientos_grupo_investigacion}

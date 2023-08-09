@@ -150,9 +150,9 @@ const ArticulacionSennova = ({
 
     const tabs =
         proyecto.codigo_linea_programatica == 70 && tecnoacademia_relacionada?.modalidad == 2
-            ? [{ label: 'Participantes' }, { label: 'Articulación SENNOVA' }, { label: 'Aulas móviles' }]
+            ? [{ label: 'Articulación' }, { label: 'Participantes' }, { label: 'Aulas móviles' }]
             : proyecto.codigo_linea_programatica == 69 || proyecto.proyectoHubLinea69 || proyecto.codigo_linea_programatica == 70 || proyecto.codigo_linea_programatica == 83
-            ? [{ label: 'Participantes' }, { label: 'Articulación SENNOVA' }]
+            ? [{ label: 'Articulación' }, { label: 'Participantes' }]
             : [{ label: 'Participantes' }]
 
     return (
@@ -193,19 +193,7 @@ const ArticulacionSennova = ({
                 <Grid item md={12}>
                     <TabsMui tabs={tabs}>
                         <div>
-                            <Participantes
-                                centros_formacion={centros_formacion}
-                                autor_principal={autor_principal}
-                                convocatoria={convocatoria}
-                                proyecto={proyecto}
-                                tipos_documento={tipos_documento}
-                                tipos_vinculacion={tipos_vinculacion}
-                                roles_sennova={roles_sennova}
-                                nuevo_participante={nuevo_participante}
-                            />
-                        </div>
-                        <div>
-                            <h1 className="text-3xl mt-24 mb-8 text-center">Articulación SENNOVA</h1>
+                            <h1 className="text-3xl mt-24 mb-8 text-center">Articulación </h1>
                             <AlertMui className="text-center my-10">
                                 A continuación, registre la información relacionada con la articulación de la línea de{' '}
                                 {proyecto.codigo_linea_programatica == 70 ? 'TecnoAcademia' : proyecto.codigo_linea_programatica == 69 ? 'TecnoParque' : ''} con las otras líneas de SENNOVA en el
@@ -1097,6 +1085,19 @@ const ArticulacionSennova = ({
                                     </form>
                                 </>
                             )}
+                        </div>
+
+                        <div>
+                            <Participantes
+                                centros_formacion={centros_formacion}
+                                autor_principal={autor_principal}
+                                convocatoria={convocatoria}
+                                proyecto={proyecto}
+                                tipos_documento={tipos_documento}
+                                tipos_vinculacion={tipos_vinculacion}
+                                roles_sennova={roles_sennova}
+                                nuevo_participante={nuevo_participante}
+                            />
                         </div>
 
                         {tecnoacademia_relacionada?.modalidad == 2 ? (

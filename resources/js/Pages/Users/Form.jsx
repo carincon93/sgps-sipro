@@ -159,6 +159,8 @@ const Form = ({
                         id="lugar_expedicion_id"
                         options={municipios}
                         selectedValue={form.data.lugar_expedicion_id}
+                        isGroupable={true}
+                        groupBy={(option) => option.group}
                         onChange={(event, newValue) => form.setData('lugar_expedicion_id', newValue.value)}
                         error={form.errors.lugar_expedicion_id}
                         label="Lugar de expedición"
@@ -243,6 +245,7 @@ const Form = ({
                         onChange={(event, newValue) => form.setData('red_conocimiento_id', newValue.value)}
                         error={form.errors.red_conocimiento_id}
                         label="Red de conocimiento sectorial en la cual se desempeña"
+                        required
                     />
                 </Grid>
                 <Grid item md={12}>

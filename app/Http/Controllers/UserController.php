@@ -41,7 +41,6 @@ class UserController extends Controller
         $this->authorize('viewAny', [User::class]);
 
         return Inertia::render('Users/Index', [
-            'filters'               => request()->all('search', 'roles'),
             'usuarios'              => User::getUsersByRol()->appends(['search' => request()->search, 'roles' => request()->roles]),
             'dinamizadores_sennova' => User::with('roles', 'centroFormacion', 'dinamizadorCentroFormacion')
                                         ->whereHas('roles', function ($query)  {
@@ -72,7 +71,7 @@ class UserController extends Controller
             'grupos_etnicos'            =>  json_decode(Storage::get('json/grupos-etnicos.json'), true),
             'tipos_discapacidad'        =>  json_decode(Storage::get('json/tipos-discapacidad.json'), true),
             'subareas_experiencia'      =>  SubareaExperiencia::selectRaw("subareas_experiencia.id as value, CONCAT(subareas_experiencia.nombre,' - Área de experiencia: ', areas_experiencia.nombre) as label")->join('areas_experiencia', 'subareas_experiencia.area_experiencia_id', 'areas_experiencia.id')->orderBy('subareas_experiencia.nombre', 'ASC')->get(),
-            'municipios'                =>  Municipio::selectRaw('id as value, nombre as label')->get(),
+            'municipios'                =>  SelectHelper::municipios(),
             'roles_sennova'             =>  RolSennova::selectRaw("roles_sennova.id as value, CASE
                                                 WHEN linea_programatica_id IS NOT NULL THEN CONCAT(roles_sennova.nombre,  chr(10), ' - Línea programática ', lineas_programaticas.codigo)
                                                 ELSE roles_sennova.nombre
@@ -132,7 +131,7 @@ class UserController extends Controller
             // 'proyectos'             => $proyectos,
             'roles_sistema'                                 =>  Role::getRolesByRol(),
             'subareas_experiencia'                          =>  SubareaExperiencia::selectRaw("subareas_experiencia.id as value, CONCAT(subareas_experiencia.nombre,' - Área de experiencia: ', areas_experiencia.nombre) as label")->join('areas_experiencia', 'subareas_experiencia.area_experiencia_id', 'areas_experiencia.id')->orderBy('subareas_experiencia.nombre', 'ASC')->get(),
-            'municipios'                                    =>  Municipio::selectRaw('id as value, nombre as label')->get(),
+            'municipios'                                    =>  SelectHelper::municipios(),
             'roles_sennova'                                 =>  RolSennova::selectRaw("roles_sennova.id as value, CASE
                                                                     WHEN linea_programatica_id IS NOT NULL THEN CONCAT(roles_sennova.nombre, ' (Línea ', lineas_programaticas.codigo, ')')
                                                                     ELSE roles_sennova.nombre
@@ -213,7 +212,7 @@ class UserController extends Controller
             'usuario'                                       =>  $auth_user,
             'roles_sistema'                                 =>  Role::getRolesByRol(),
             'subareas_experiencia'                          =>  SubareaExperiencia::selectRaw("subareas_experiencia.id as value, CONCAT(subareas_experiencia.nombre,' - Área de experiencia: ', areas_experiencia.nombre) as label")->join('areas_experiencia', 'subareas_experiencia.area_experiencia_id', 'areas_experiencia.id')->orderBy('subareas_experiencia.nombre', 'ASC')->get(),
-            'municipios'                                    =>  Municipio::selectRaw('id as value, nombre as label')->get(),
+            'municipios'                                    =>  SelectHelper::municipios(),
             'roles_sennova'                                 =>  RolSennova::selectRaw("roles_sennova.id as value, CASE
                                                                     WHEN linea_programatica_id IS NOT NULL THEN CONCAT(roles_sennova.nombre, ' (Línea ', lineas_programaticas.codigo, ')')
                                                                     ELSE roles_sennova.nombre
