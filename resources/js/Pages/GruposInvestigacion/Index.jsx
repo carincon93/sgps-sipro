@@ -29,6 +29,7 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Grupos de investigación de mi centro de formación</h2>}>
             <Grid item md={12}>
+                <h1 className="text-2xl text-center my-20">{centros_formacion.find((item) => (item.value = auth_user.centro_formacion_id)).label}</h1>
                 <SearchBar />
 
                 <TableMui className="mt-20" rows={['Nombre', 'Centro de formación', 'Regional', 'Acciones']} sxCellThead={{ width: '320px' }}>

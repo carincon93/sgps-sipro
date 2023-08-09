@@ -187,22 +187,24 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        <ListItemButton
-                            sx={{
-                                borderRadius: '20px',
-                                minHeight: 48,
-                                justifyContent: open ? 'initial' : 'center',
-                                px: 2.5,
-                            }}
-                            onClick={() => router.visit(route('grupos-investigacion.index'))}>
-                            <ListItemIcon
+                        {checkRole(user, [1, 4, 21, 18, 19, 5, 17]) && (
+                            <ListItemButton
                                 sx={{
-                                    minWidth: 0,
-                                    mr: open ? 3 : 'auto',
-                                    justifyContent: 'center',
-                                }}></ListItemIcon>
-                            <ListItemText primary="Grupos de investigación" sx={{ opacity: open ? 1 : 0 }} />
-                        </ListItemButton>
+                                    borderRadius: '20px',
+                                    minHeight: 48,
+                                    justifyContent: open ? 'initial' : 'center',
+                                    px: 2.5,
+                                }}
+                                onClick={() => router.visit(route('grupos-investigacion.index'))}>
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: open ? 3 : 'auto',
+                                        justifyContent: 'center',
+                                    }}></ListItemIcon>
+                                <ListItemText primary="Grupos de investigación" sx={{ opacity: open ? 1 : 0 }} />
+                            </ListItemButton>
+                        )}
 
                         {checkRole(user, [1, 4, 21, 18, 19, 5, 17]) && (
                             <ListItemButton
