@@ -295,7 +295,9 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                                     <React.Fragment key={i}>
                                         {producto.producto_minciencias_linea65 || producto.producto_minciencias_linea66 || producto.producto_minciencias_linea69 ? (
                                             <TableRow>
-                                                <TableCell>{producto.nombre}</TableCell>
+                                                <TableCell>
+                                                    <p className="line-clamp-3">{producto.nombre}</p>
+                                                </TableCell>
                                                 <TableCell>
                                                     <p className="line-clamp-3">{producto.resultado.objetivo_especifico.descripcion ?? 'Sin información registrada'}</p>
                                                 </TableCell>

@@ -761,9 +761,6 @@ const ArticulacionSennova = ({
                                             />
                                         </Grid>
                                         <Grid item md={12}>
-                                            <h1 className="text-center">CONTRIBUCIÓN A LA INVESTIGACIÓN</h1>
-                                        </Grid>
-                                        <Grid item md={12}>
                                             <Label
                                                 required
                                                 className="mb-4"
@@ -784,6 +781,10 @@ const ArticulacionSennova = ({
                                                 required
                                             />
                                         </Grid>
+                                        <Grid item md={12}>
+                                            <h1 className="text-center">CONTRIBUCIÓN A LA INVESTIGACIÓN</h1>
+                                        </Grid>
+
                                         <Grid item md={12}>
                                             <Label
                                                 required
