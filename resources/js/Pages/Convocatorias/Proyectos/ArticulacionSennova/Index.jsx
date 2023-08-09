@@ -130,12 +130,12 @@ const ArticulacionSennova = ({
         }
     }
 
-    const syncColumnLong = async (column, form) => {
+    const syncColumnLong = async (column, form, data) => {
         if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto?.allowed?.to_update) {
             try {
                 await router.put(
                     route('convocatorias.proyectos.articulacion-sennova.updateLongColumn', [convocatoria.id, proyecto?.id, column]),
-                    { [column]: form.data[column], is_array: Array.isArray(form.data[column]) },
+                    { [column]: data ? data : form.data[column], is_array: Array.isArray(form.data[column]) },
                     {
                         onError: (resp) => console.log(resp),
                         onFinish: () => console.log('Request finished'),
@@ -350,10 +350,11 @@ const ArticulacionSennova = ({
                                                             enforceWhitelist={false}
                                                             tags={form.data.semilleros_en_formalizacion}
                                                             value={form.data.semilleros_en_formalizacion}
-                                                            onChange={(e) => form.setData('semilleros_en_formalizacion', e.target.value)}
+                                                            onChange={(e) => (
+                                                                form.setData('semilleros_en_formalizacion', e.target.value), syncColumnLong('semilleros_en_formalizacion', form, e.target.value)
+                                                            )}
                                                             placeholder="Nombres de los semilleros"
                                                             error={form.errors.semilleros_en_formalizacion}
-                                                            onBlur={() => syncColumnLong('semilleros_en_formalizacion', form)}
                                                         />
                                                     </Grid>
 

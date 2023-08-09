@@ -128,12 +128,12 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
         console.log(totalProyecto)
     }
 
-    const syncColumnLong = async (column, form) => {
+    const syncColumnLong = async (column, form, data) => {
         if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto?.allowed?.to_update) {
             try {
                 await router.put(
                     route('convocatorias.proyectos.cadena-valor.updateLongColumn', [convocatoria.id, proyecto?.id, column]),
-                    { [column]: form.data[column], is_array: Array.isArray(form.data[column]) },
+                    { [column]: data ? data : form.data[column], is_array: Array.isArray(form.data[column]) },
                     {
                         onError: (resp) => console.log(resp),
                         onFinish: () => console.log('Request finished'),

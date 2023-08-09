@@ -93,8 +93,8 @@ const Form = ({
         relacionado_agendas_competitividad: proyecto_linea_66?.relacionado_agendas_competitividad ?? '',
         relacionado_mesas_sectoriales: proyecto_linea_66?.relacionado_mesas_sectoriales ?? '',
         relacionado_tecnoacademia: proyecto_linea_66?.relacionado_tecnoacademia ?? '',
-        proyecto_investigacion_pedagogica: proyecto_linea_66?.proyecto_investigacion_pedagogica ?? '',
-        articulacion_eni: proyecto_linea_66?.articulacion_eni ?? '',
+        proyecto_investigacion_pedagogica: proyecto_linea_66?.proyecto_investigacion_pedagogica,
+        articulacion_eni: proyecto_linea_66?.articulacion_eni,
         justificacion_proyecto_investigacion_pedagogica: proyecto_linea_66?.justificacion_proyecto_investigacion_pedagogica ?? '',
 
         resumen: proyecto_linea_66?.resumen ?? '',
@@ -110,12 +110,12 @@ const Form = ({
         impacto_centro_formacion: proyecto_linea_66?.impacto_centro_formacion ?? '',
 
         // Campos 2023
-        aporta_a_campesena: proyecto_linea_66?.aporta_a_campesena ?? false,
-        relacionado_estrategia_campesena: proyecto_linea_66?.relacionado_estrategia_campesena ?? false,
+        aporta_a_campesena: proyecto_linea_66?.aporta_a_campesena,
+        relacionado_estrategia_campesena: proyecto_linea_66?.relacionado_estrategia_campesena,
         justificacion_relacion_campesena: proyecto_linea_66?.justificacion_relacion_campesena,
         lineas_estrategicas_convocatoria: proyecto_linea_66?.lineas_estrategicas_convocatoria,
         justificacion_lineas_estrategicas: proyecto_linea_66?.justificacion_lineas_estrategicas,
-        impacto_regional: proyecto_linea_66?.impacto_regional ?? false,
+        impacto_regional: proyecto_linea_66?.impacto_regional,
         justificacion_impacto_regional: proyecto_linea_66?.justificacion_impacto_regional,
         justificacion_mesas_sectoriales: proyecto_linea_66?.justificacion_mesas_sectoriales,
         areas_cualificacion_mnc: proyecto_linea_66?.areas_cualificacion_mnc,
@@ -167,12 +167,12 @@ const Form = ({
             : null
     }
 
-    const syncColumnLong = async (column, form) => {
+    const syncColumnLong = async (column, form, data) => {
         if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto_linea_66?.proyecto?.allowed?.to_update) {
             try {
                 await router.put(
                     route('convocatorias.proyectos-linea-66.updateLongColumn', [convocatoria.id, proyecto_linea_66?.proyecto?.id, column]),
-                    { [column]: form.data[column], is_array: Array.isArray(form.data[column]) },
+                    { [column]: data ? data : form.data[column], is_array: Array.isArray(form.data[column]) },
                     {
                         onError: (resp) => console.log(resp),
                         onFinish: () => console.log('Request finished'),
@@ -237,7 +237,7 @@ const Form = ({
                         value={form.data.fecha_inicio}
                         error={form.errors.fecha_inicio}
                         className="p-4 w-full"
-                        onChange={(e) => form.setData('fecha_inicio', e.target.value)}
+                        onChange={(e) => (form.setData('fecha_inicio', e.target.value), syncColumnLong('fecha_inicio', form, e.target.value))}
                         disabled={evaluacion ? true : false}
                         required
                     />
@@ -256,7 +256,7 @@ const Form = ({
                         value={form.data.fecha_finalizacion}
                         error={form.errors.fecha_finalizacion}
                         className="p-4 w-full"
-                        onChange={(e) => form.setData('fecha_finalizacion', e.target.value)}
+                        onChange={(e) => (form.setData('fecha_finalizacion', e.target.value), syncColumnLong('fecha_finalizacion', form, e.target.value))}
                         disabled={evaluacion ? true : false}
                         required
                     />
@@ -1370,10 +1370,9 @@ const Form = ({
                                 enforceWhitelist={false}
                                 tags={form.data.veredas_corregimientos}
                                 value={form.data.veredas_corregimientos}
-                                onChange={(e) => form.setData('veredas_corregimientos', e.target.value)}
+                                onChange={(e) => (form.setData('veredas_corregimientos', e.target.value), syncColumnLong('veredas_corregimientos', form, e.target.value))}
                                 placeholder="Nombres de las veredas o corregimientos"
                                 error={form.errors.veredas_corregimientos}
-                                onBlur={() => syncColumnLong('veredas_corregimientos', form)}
                             />
                         </Grid>
 

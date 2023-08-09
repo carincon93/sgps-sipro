@@ -189,8 +189,12 @@ tags.tagify {
     overflow: hidden;
 }
 
-tags.tagify:focus {
+tags.tagify.tagify--focus {
     border-color: black;
+}
+
+.tagify__dropdown {
+    display: none !important;
 }
 
 .tagify__input {

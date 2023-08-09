@@ -526,7 +526,7 @@ const Form = ({
                                 error={form.errors.tiempo_por_rol}
                             />
                             <AlertMui>
-                                <strong>¿Cómo se agrega el tiempo?:</strong> Debe dar doble clic en cada rol y añadir el texto Ej: (20 meses)
+                                <strong>¿Cómo se agrega el tiempo?:</strong> Debe dar doble clic sobre el recuadro gris que contiene cada cada rol y reemplazar el texto (ESCRIBA AQUÍ EL # MESES).
                             </AlertMui>
                         </>
                     )}

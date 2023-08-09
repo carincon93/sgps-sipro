@@ -84,12 +84,12 @@ const Form = ({
         }
     }, [form.data.fecha_inicio, form.data.fecha_finalizacion])
 
-    const syncColumnLong = async (column, form) => {
+    const syncColumnLong = async (column, form, data) => {
         if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto_linea_68?.proyecto?.allowed?.to_update) {
             try {
                 await router.put(
                     route('convocatorias.proyectos-linea-68.updateLongColumn', [convocatoria.id, proyecto_linea_68?.proyecto?.id, column]),
-                    { [column]: form.data[column], is_array: Array.isArray(form.data[column]) },
+                    { [column]: data ? data : form.data[column], is_array: Array.isArray(form.data[column]) },
                     {
                         onError: (resp) => console.log(resp),
                         onFinish: () => console.log('Request finished'),
@@ -155,7 +155,7 @@ const Form = ({
                         value={form.data.fecha_inicio}
                         error={form.errors.fecha_inicio}
                         className="p-4 w-full"
-                        onChange={(e) => form.setData('fecha_inicio', e.target.value)}
+                        onChange={(e) => (form.setData('fecha_inicio', e.target.value), syncColumnLong('fecha_inicio', form, e.target.value))}
                         required
                     />
                 </Grid>
@@ -172,7 +172,7 @@ const Form = ({
                         value={form.data.fecha_finalizacion}
                         error={form.errors.fecha_finalizacion}
                         className="p-4 w-full"
-                        onChange={(e) => form.setData('fecha_finalizacion', e.target.value)}
+                        onChange={(e) => (form.setData('fecha_finalizacion', e.target.value), syncColumnLong('fecha_finalizacion', form, e.target.value))}
                         required
                     />
                 </Grid>

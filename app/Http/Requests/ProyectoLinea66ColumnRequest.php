@@ -60,7 +60,7 @@ class ProyectoLinea66ColumnRequest extends FormRequest
         'areas_cualificacion_mnc*'                              => ['nullable', 'json'],
         'lineas_estrategicas_beneficiadas'                      => ['nullable', 'json'],
         'justificacion_lineas_estrategicas_beneficiadas'        => ['nullable', 'string'],
-        'veredas_corregimientos*'                               => ['nullable', 'json'],
+        'veredas_corregimientos'                                => ['nullable', 'json'],
 
         'productividad_beneficiaros'                            => ['nullable', 'string'],
         'generacion_empleo_beneficiarios'                       => ['nullable', 'string'],

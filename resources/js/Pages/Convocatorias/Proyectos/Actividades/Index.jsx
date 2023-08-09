@@ -190,12 +190,12 @@ const Actividades = ({
             ? [{ label: 'Metodología' }, { label: 'Actividades' }]
             : [{ label: 'Actividades' }]
 
-    const syncColumnLong = async (column, form) => {
+    const syncColumnLong = async (column, form, data) => {
         if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto?.allowed?.to_update) {
             try {
                 await router.put(
                     route('convocatorias.proyectos.metodologia.updateLongColumn', [convocatoria.id, proyecto?.id, column]),
-                    { [column]: form.data[column], is_array: Array.isArray(form.data[column]) },
+                    { [column]: data ? data : form.data[column], is_array: Array.isArray(form.data[column]) },
                     {
                         onError: (resp) => console.log(resp),
                         onFinish: () => console.log('Request finished'),
@@ -520,7 +520,9 @@ const Actividades = ({
                                                         whitelist={whitelist_instituciones_educativas_articular}
                                                         tags={form.data.nombre_instituciones_programas}
                                                         value={form.data.nombre_instituciones_programas}
-                                                        onChange={(e) => form.setData('nombre_instituciones_programas', e.target.value)}
+                                                        onChange={(e) => (
+                                                            form.setData('nombre_instituciones_programas', e.target.value), syncColumnLong('nombre_instituciones_programas', form, e.target.value)
+                                                        )}
                                                         placeholder="Nombre(s) de la(s) IE"
                                                         error={
                                                             whitelist_instituciones_educativas_articular.length == 0
@@ -528,7 +530,6 @@ const Actividades = ({
                                                                 : form.errors.nombre_instituciones_programas
                                                         }
                                                         required={form.data.nombre_instituciones_programas ? false : true}
-                                                        onBlur={() => syncColumnLong('nombre_instituciones_programas', form)}
                                                     />
                                                     <div className="mt-10">
                                                         <AlertMui>
@@ -594,7 +595,7 @@ const Actividades = ({
                                                                 whitelist={whitelist_instituciones_educativas_ejecutar}
                                                                 tags={form.data.nuevas_instituciones}
                                                                 value={form.data.nuevas_instituciones}
-                                                                onChange={(e) => form.setData('nuevas_instituciones', e.target.value)}
+                                                                onChange={(e) => (form.setData('nuevas_instituciones', e.target.value), syncColumnLong('nuevas_instituciones', form, e.target.value))}
                                                                 placeholder="Nombre(s) de la(s) IE"
                                                                 error={
                                                                     whitelist_instituciones_educativas_ejecutar.length == 0
@@ -602,7 +603,6 @@ const Actividades = ({
                                                                         : form.errors.nuevas_instituciones
                                                                 }
                                                                 required={form.data.nuevas_instituciones ? false : true}
-                                                                onBlur={() => syncColumnLong('nuevas_instituciones', form)}
                                                             />
                                                             <div className="mt-10">
                                                                 <AlertMui>
@@ -670,7 +670,7 @@ const Actividades = ({
                                                                 whitelist={whitelist_instituciones_educativas_ejecutar}
                                                                 tags={form.data.nombre_instituciones}
                                                                 value={form.data.nombre_instituciones}
-                                                                onChange={(e) => form.setData('nombre_instituciones', e.target.value)}
+                                                                onChange={(e) => (form.setData('nombre_instituciones', e.target.value), syncColumnLong('nombre_instituciones', form, e.target.value))}
                                                                 placeholder="Nombre(s) de la(s) IE"
                                                                 error={
                                                                     whitelist_instituciones_educativas_ejecutar.length == 0
@@ -678,7 +678,6 @@ const Actividades = ({
                                                                         : form.errors.nombre_instituciones
                                                                 }
                                                                 required={form.data.nombre_instituciones ? false : true}
-                                                                onBlur={() => syncColumnLong('nombre_instituciones', form)}
                                                             />
 
                                                             <div className="mt-10">

@@ -61,12 +61,12 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
         form.setData('max_meses_ejecucion', monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion))
     }, [form.data.fecha_inicio && form.data.fecha_finalizacion])
 
-    const syncColumnLong = async (column, form) => {
+    const syncColumnLong = async (column, form, dasta) => {
         if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto_hub_linea_69?.proyecto?.allowed?.to_update) {
             try {
                 await router.put(
                     route('convocatorias.proyectos-hub-linea-69.updateLongColumn', [convocatoria.id, proyecto_hub_linea_69?.proyecto?.id, column]),
-                    { [column]: form.data[column], is_array: Array.isArray(form.data[column]) },
+                    { [column]: dasta ? dasta : form.data[column], is_array: Array.isArray(form.data[column]) },
                     {
                         onError: (resp) => console.log(resp),
                         onFinish: () => console.log('Request finished'),
@@ -161,7 +161,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
                         value={form.data.fecha_inicio}
                         error={form.errors.fecha_inicio}
                         className="p-4 w-full"
-                        onChange={(e) => form.setData('fecha_inicio', e.target.value)}
+                        onChange={(e) => (form.setData('fecha_inicio', e.target.value), syncColumnLong('fecha_inicio', form, e.target.value))}
                         required
                     />
                 </Grid>
@@ -178,7 +178,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_h
                         value={form.data.fecha_finalizacion}
                         error={form.errors.fecha_finalizacion}
                         className="p-4 w-full"
-                        onChange={(e) => form.setData('fecha_finalizacion', e.target.value)}
+                        onChange={(e) => (form.setData('fecha_finalizacion', e.target.value), syncColumnLong('fecha_finalizacion', form, e.target.value))}
                         required
                     />
                 </Grid>
