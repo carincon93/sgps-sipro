@@ -52,7 +52,6 @@ const Form = ({
         retos_oportunidades: proyecto_linea_70?.retos_oportunidades ?? '',
         lineas_tecnologicas_centro: proyecto_linea_70?.lineas_tecnologicas_centro ?? '',
         infraestructura_tecnoacademia: proyecto_linea_70?.infraestructura_tecnoacademia ?? '',
-        pdf_proyecto_general: null,
 
         cantidad_meses: 0,
         cantidad_horas: 0,
@@ -290,28 +289,6 @@ const Form = ({
                         </Grid>
                         <Grid item md={6}>
                             <p className="first-letter:uppercase">{proyecto_linea_70.proyecto.centro_formacion.nombre}</p>
-                        </Grid>
-
-                        <Grid item md={6}>
-                            <Label required className="mb-4" labelFor="pdf_proyecto_general" value="Archivo en formato (.pdf) del proyecto general" />
-                        </Grid>
-                        <Grid item md={6}>
-                            <FileInput
-                                id="pdf_proyecto_general"
-                                value={form.data.pdf_proyecto_general}
-                                filename={proyecto_linea_70?.filename}
-                                extension={proyecto_linea_70?.extension}
-                                label="Seleccione un archivo"
-                                downloadRoute={
-                                    proyecto_linea_70?.pdf_proyecto_general
-                                        ? proyecto_linea_70?.pdf_proyecto_general.includes('http') == true || proyecto_linea_70?.pdf_proyecto_general.includes('http') == undefined
-                                            ? proyecto_linea_70?.pdf_proyecto_general
-                                            : route('convocatorias.proyectos-linea-70.download-file-sharepoint', [convocatoria.id, proyecto_linea_70.id, 'pdf_proyecto_general'])
-                                        : null
-                                }
-                                onChange={(e) => form.setData('pdf_proyecto_general', e.target.files[0])}
-                                error={form.errors.pdf_proyecto_general}
-                            />
                         </Grid>
 
                         <Grid item md={6}>

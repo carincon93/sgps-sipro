@@ -87,7 +87,7 @@ class EntidadAliadaLinea66 extends Model
         $carta_intencion_file_info               = pathinfo($this->carta_intencion);
         $carta_propiedad_intelectual_file_info   = pathinfo($this->carta_propiedad_intelectual);
 
-        $array_file_info = collect(['cartaIntencionFilename' =>  $carta_intencion_file_info['filename'] ?? '', 'cartaPropiedadIntelectualFilename' => $carta_propiedad_intelectual_file_info['filename'] ?? '']);
+        $array_file_info = collect(['carta_intencion_filename' =>  $carta_intencion_file_info['filename'] ?? '', 'carta_propiedad_intelectual_filename' => $carta_propiedad_intelectual_file_info['filename'] ?? '']);
 
         return $array_file_info ?? '';
     }
@@ -97,7 +97,7 @@ class EntidadAliadaLinea66 extends Model
         $carta_intencion_file_info               = pathinfo($this->carta_intencion);
         $carta_propiedad_intelectual_file_info   = pathinfo($this->carta_propiedad_intelectual);
 
-        $array_file_info = collect(['cartaIntencionExtension' => $carta_intencion_file_info['extension'] ?? '', 'cartaPropiedadIntelectualExtension' => $carta_propiedad_intelectual_file_info['extension'] ?? '']);
+        $array_file_info = collect(['carta_intencion_extension' => $carta_intencion_file_info['extension'] ?? '', 'carta_propiedad_intelectual_extension' => $carta_propiedad_intelectual_file_info['extension'] ?? '']);
 
         return $array_file_info ?? '';
     }

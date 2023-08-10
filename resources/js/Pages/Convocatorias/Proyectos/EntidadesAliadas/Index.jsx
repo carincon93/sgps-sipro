@@ -9,17 +9,20 @@ import ToolTipMui from '@/Components/Tooltip'
 import StepperMui from '@/Components/Stepper'
 
 import { checkRole } from '@/Utils'
-import { Link, router } from '@inertiajs/react'
+import { Link, router, useForm } from '@inertiajs/react'
 
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import GroupAddIcon from '@mui/icons-material/GroupAdd'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
+import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
 
 import Form from './Form'
 import Evaluacion from './Evaluacion'
+import PrimaryButton from '@/Components/PrimaryButton'
+import FileInput from '@/Components/FileInput'
+import DownloadFile from '@/Components/DownloadFile'
 
 const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_aliadas, actividades, tipos_entidad_aliada, naturaleza_entidad_aliada, tipos_empresa, ...props }) => {
     const auth_user = auth.user
@@ -28,8 +31,26 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
     const [entidad_aliada_to_destroy, setEntidadAliadaToDestroy] = useState(null)
     const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
     const [dialog_status, setDialogStatus] = useState(false)
+    const [dialog_formato_status, setDialogFormatoStatus] = useState(false)
+    const [tipo_archivo, setTipoArchivo] = useState('')
     const [method, setMethod] = useState('')
     const [entidad_aliada, setEntidadAliada] = useState(null)
+
+    const form = useForm({
+        _method: 'PUT',
+        carta_intencion: null,
+        carta_propiedad_intelectual: null,
+        soporte_convenio: null,
+    })
+
+    const submit = (e) => {
+        e.preventDefault()
+
+        form.post(route('convocatorias.proyectos.entidades-aliadas.upload-soporte', [convocatoria.id, proyecto.id, entidad_aliada.id]), {
+            onSuccess: () => setDialogFormatoStatus(false),
+            preserveScroll: true,
+        })
+    }
 
     return (
         <AuthenticatedLayout>
@@ -103,10 +124,10 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
             </Grid>
 
             <Grid item md={12}>
-                <TableMui className="mt-20 mb-8" rows={['Nombre', 'Tipo de entidad aliada', 'Miembros', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui className="mt-20 mb-8" rows={['Nombre', 'Soportes', 'Miembros', 'Acciones']}>
                     {proyecto.allowed.to_update ? (
                         <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setEntidadAliada(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
-                            <TableCell colSpan={4}>
+                            <TableCell colSpan={5}>
                                 <ButtonMui>
                                     <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar entidad aliada
                                 </ButtonMui>
@@ -116,9 +137,128 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
 
                     {entidades_aliadas.data.map((entidad_aliada, i) => (
                         <TableRow key={i}>
-                            <TableCell>{entidad_aliada.nombre}</TableCell>
-                            <TableCell>{tipos_entidad_aliada.find((item) => item.value == entidad_aliada.tipo).label}</TableCell>
+                            <TableCell>
+                                {entidad_aliada.nombre}
+                                <br />
+                                <Chip label={tipos_entidad_aliada.find((item) => item.value == entidad_aliada.tipo).label} />
+                            </TableCell>
+                            <TableCell>
+                                {entidad_aliada?.entidad_aliada_linea66 && (
+                                    <>
+                                        <DownloadFile
+                                            label="carta de intención"
+                                            className="!p-2"
+                                            filename={entidad_aliada?.entidad_aliada_linea66.filename.carta_intencion_filename}
+                                            extension={entidad_aliada?.entidad_aliada_linea66.extension.carta_intencion_extension}
+                                            downloadRoute={
+                                                entidad_aliada?.entidad_aliada_linea66.filename.carta_intencion_filename
+                                                    ? entidad_aliada?.entidad_aliada_linea66.filename.carta_intencion_filename?.includes('http')
+                                                        ? entidad_aliada?.entidad_aliada_linea66.filename.carta_intencion_filename
+                                                        : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidad_aliada.id, 'carta_intencion'])
+                                                    : null
+                                            }
+                                        />
+                                        <ButtonMui
+                                            onClick={() => (setDialogFormatoStatus(true), setEntidadAliada(entidad_aliada), setTipoArchivo('carta_intencion'))}
+                                            className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                            {entidad_aliada?.entidad_aliada_linea66.filename.carta_intencion_filename ? 'Reemplazar' : 'Cargar'} carta de intención
+                                        </ButtonMui>
 
+                                        <DownloadFile
+                                            label="carta de propiedad intelectual"
+                                            className="mt-10 !p-2"
+                                            filename={entidad_aliada?.entidad_aliada_linea66.filename.carta_propiedad_intelectual_filename}
+                                            extension={entidad_aliada?.entidad_aliada_linea66.extension.carta_propiedad_intelectual_extension}
+                                            downloadRoute={
+                                                entidad_aliada?.entidad_aliada_linea66.filename.carta_propiedad_intelectual_filename
+                                                    ? entidad_aliada?.entidad_aliada_linea66.filename.carta_propiedad_intelectual_filename?.includes('http')
+                                                        ? entidad_aliada?.entidad_aliada_linea66.filename.carta_propiedad_intelectual_filename
+                                                        : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [
+                                                              convocatoria,
+                                                              proyecto,
+                                                              entidad_aliada.id,
+                                                              'carta_propiedad_intelectual',
+                                                          ])
+                                                    : null
+                                            }
+                                        />
+                                        <ButtonMui
+                                            onClick={() => (setDialogFormatoStatus(true), setEntidadAliada(entidad_aliada), setTipoArchivo('carta_propiedad_intelectual'))}
+                                            className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                            {entidad_aliada?.entidad_aliada_linea66.filename.carta_propiedad_intelectual_filename ? 'Reemplazar' : 'Cargar'} carta de propiedad intelectual
+                                        </ButtonMui>
+                                    </>
+                                )}
+
+                                {entidad_aliada?.entidad_aliada_linea69 && (
+                                    <>
+                                        <DownloadFile
+                                            label="convenio"
+                                            className="mt-10 !p-2"
+                                            filename={entidad_aliada?.entidad_aliada_linea69.filename}
+                                            extension={entidad_aliada?.entidad_aliada_linea69.extension}
+                                            downloadRoute={
+                                                entidad_aliada?.entidad_aliada_linea69.filename
+                                                    ? entidad_aliada?.entidad_aliada_linea69.filename?.includes('http')
+                                                        ? entidad_aliada?.entidad_aliada_linea69.filename
+                                                        : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidad_aliada.id, 'soporte_convenio'])
+                                                    : null
+                                            }
+                                        />
+                                        <ButtonMui
+                                            onClick={() => (setDialogFormatoStatus(true), setEntidadAliada(entidad_aliada), setTipoArchivo('soporte_convenio'))}
+                                            className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                            {entidad_aliada?.entidad_aliada_linea69.filename ? 'Reemplazar' : 'Cargar'} convenio
+                                        </ButtonMui>
+                                    </>
+                                )}
+
+                                {entidad_aliada?.entidad_aliada_linea70 && (
+                                    <>
+                                        <DownloadFile
+                                            label="convenio"
+                                            className="mt-10 !p-2"
+                                            filename={entidad_aliada?.entidad_aliada_linea70.filename}
+                                            extension={entidad_aliada?.entidad_aliada_linea70.extension}
+                                            downloadRoute={
+                                                entidad_aliada?.entidad_aliada_linea70.filename
+                                                    ? entidad_aliada?.entidad_aliada_linea70.filename?.includes('http')
+                                                        ? entidad_aliada?.entidad_aliada_linea70.filename
+                                                        : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidad_aliada.id, 'soporte_convenio'])
+                                                    : null
+                                            }
+                                        />
+                                        <ButtonMui
+                                            onClick={() => (setDialogFormatoStatus(true), setEntidadAliada(entidad_aliada), setTipoArchivo('soporte_convenio'))}
+                                            className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                            {entidad_aliada?.entidad_aliada_linea70.filename ? 'Reemplazar' : 'Cargar'} convenio
+                                        </ButtonMui>
+                                    </>
+                                )}
+
+                                {entidad_aliada?.entidad_aliada_linea83 && (
+                                    <>
+                                        <DownloadFile
+                                            label="convenio"
+                                            className="mt-10 !p-2"
+                                            filename={entidad_aliada?.entidad_aliada_linea83.filename}
+                                            extension={entidad_aliada?.entidad_aliada_linea83.extension}
+                                            downloadRoute={
+                                                entidad_aliada?.entidad_aliada_linea83.filename
+                                                    ? entidad_aliada?.entidad_aliada_linea83.filename?.includes('http')
+                                                        ? entidad_aliada?.entidad_aliada_linea83.filename
+                                                        : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidad_aliada.id, 'soporte_convenio'])
+                                                    : null
+                                            }
+                                        />
+                                        <ButtonMui
+                                            onClick={() => (setDialogFormatoStatus(true), setEntidadAliada(entidad_aliada), setTipoArchivo('soporte_convenio'))}
+                                            className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                            {entidad_aliada?.entidad_aliada_linea83.filename ? 'Reemplazar' : 'Cargar'} convenio
+                                        </ButtonMui>
+                                    </>
+                                )}
+                            </TableCell>
                             <TableCell>
                                 <Link
                                     href={route('convocatorias.proyectos.entidades-aliadas.miembros-entidad-aliada.index', [convocatoria.id, proyecto.id, entidad_aliada.id])}
@@ -192,6 +332,33 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                             naturaleza_entidad_aliada={naturaleza_entidad_aliada}
                             tipos_empresa={tipos_empresa}
                         />
+                    }
+                />
+
+                <DialogMui
+                    open={dialog_formato_status}
+                    fullWidth={true}
+                    maxWidth="lg"
+                    blurEnabled={true}
+                    dialogContent={
+                        <form onSubmit={submit}>
+                            <FileInput
+                                id={tipo_archivo}
+                                value={form.data[tipo_archivo]}
+                                label={`Seleccione: ${tipo_archivo} `}
+                                accept="application/pdf"
+                                onChange={(e) => form.setData(tipo_archivo, e.target.files[0])}
+                                error={form.errors[tipo_archivo]}
+                            />
+                            <div className="flex items-center justify-between mt-14 py-4">
+                                <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
+                                    Cargar soporte
+                                </PrimaryButton>
+                                <ButtonMui type="button" primary={false} onClick={() => setDialogFormatoStatus(false)} className="!ml-2 !bg-transparent">
+                                    Cancelar
+                                </ButtonMui>
+                            </div>
+                        </form>
                     }
                 />
             </Grid>

@@ -47,11 +47,6 @@ class EstudioAcademicoController extends Controller
 
         $estudio_academico = EstudioAcademico::create($request->validated());
 
-        if ($request->hasFile('soporte_titulo_obtenido')) {
-            // CENSO2023 Quemado
-            return $this->saveFilesSharepoint($request->soporte_titulo_obtenido, 'CENSO2023', $estudio_academico, 'soporte_titulo_obtenido');
-        }
-
         return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
@@ -92,11 +87,6 @@ class EstudioAcademicoController extends Controller
 
         $estudio_academico->update($request->validated());
 
-        if ($request->hasFile('soporte_titulo_obtenido')) {
-            // CENSO2023 Quemado
-            return $this->saveFilesSharepoint($request->soporte_titulo_obtenido, 'CENSO2023', $estudio_academico, 'soporte_titulo_obtenido');
-        }
-
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
@@ -113,6 +103,17 @@ class EstudioAcademicoController extends Controller
         $estudio_academico->delete();
 
         return back()->with('success', 'El recurso se ha eliminado correctamente.');
+    }
+
+    public function uploadSoporteTituloObtenido(Request $request, EstudioAcademico $estudio_academico)
+    {
+        $request->validate([
+            'soporte_titulo_obtenido' => 'nullable|file|max:10240',
+        ]);
+
+        if ($request->hasFile('soporte_titulo_obtenido')) {
+            return $this->saveFilesSharepoint($request->soporte_titulo_obtenido, 'CENSO'.date('Y'), $estudio_academico, 'soporte_titulo_obtenido');
+        }
     }
 
     public function saveFilesSharepoint($tmp_file, $modulo, $modelo, $campo_bd)

@@ -47,11 +47,6 @@ class FormacionAcademicaSenaController extends Controller
 
         $formacion_academica_sena = FormacionAcademicaSena::create($request->validated());
 
-        if ($request->hasFile('certificado_formacion')) {
-            // CENSO2023 Quemado
-            return $this->saveFilesSharepoint($request->certificado_formacion, 'CENSO2023', $formacion_academica_sena, 'certificado_formacion');
-        }
-
         return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
@@ -92,11 +87,6 @@ class FormacionAcademicaSenaController extends Controller
 
         $formacion_academica_sena->update($request->validated());
 
-        if ($request->hasFile('certificado_formacion')) {
-            // CENSO2023 Quemado
-            return $this->saveFilesSharepoint($request->certificado_formacion, 'CENSO2023', $formacion_academica_sena, 'certificado_formacion');
-        }
-
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
@@ -113,6 +103,17 @@ class FormacionAcademicaSenaController extends Controller
         $formacion_academica_sena->delete();
 
         return back()->with('success', 'El recurso se ha eliminado correctamente.');
+    }
+
+    public function uploadCertificadoFormacion(Request $request, FormacionAcademicaSena $formacion_academica_sena)
+    {
+        $request->validate([
+            'certificado_formacion' => 'nullable|file|max:10240',
+        ]);
+
+        if ($request->hasFile('certificado_formacion')) {
+            return $this->saveFilesSharepoint($request->certificado_formacion, 'CENSO'.date('Y'), $formacion_academica_sena, 'certificado_formacion');
+        }
     }
 
     public function saveFilesSharepoint($tmp_file, $modulo, $modelo, $campo_bd)

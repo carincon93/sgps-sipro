@@ -67,27 +67,6 @@ class SemilleroInvestigacionController extends Controller
         $semillero_investigacion->lineasInvestigacionArticulados()->sync($request->lineas_investigacion);
         $semillero_investigacion->redesConocimiento()->sync($request->redes_conocimiento);
 
-        if ($request->hasFile('formato_gic_f_021')) {
-            $request->validate([
-                'formato_gic_f_021' => 'nullable|file|max:10240',
-            ]);
-            return $this->saveFilesSharepoint($request->formato_gic_f_021, 'GRUPOS LÍNEAS Y SEMILLEROS', $semillero_investigacion, 'formato_gic_f_021');
-        }
-
-        if ($request->hasFile('formato_gic_f_032')) {
-            $request->validate([
-                'formato_gic_f_032' => 'nullable|file|max:10240',
-            ]);
-            return $this->saveFilesSharepoint($request->formato_gic_f_032, 'GRUPOS LÍNEAS Y SEMILLEROS', $semillero_investigacion, 'formato_gic_f_032');
-        }
-
-        if ($request->hasFile('formato_aval_semillero')) {
-            $request->validate([
-                'formato_aval_semillero' => 'nullable|file|max:10240',
-            ]);
-            return $this->saveFilesSharepoint($request->formato_aval_semillero, 'GRUPOS LÍNEAS Y SEMILLEROS', $semillero_investigacion, 'formato_aval_semillero');
-        }
-
         return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
@@ -133,27 +112,6 @@ class SemilleroInvestigacionController extends Controller
         $semillero_investigacion->lineasInvestigacionArticulados()->sync($request->lineas_investigacion);
         $semillero_investigacion->redesConocimiento()->sync($request->redes_conocimiento);
 
-        if ($request->hasFile('formato_gic_f_021')) {
-            $request->validate([
-                'formato_gic_f_021' => 'nullable|file|max:10240',
-            ]);
-            return $this->saveFilesSharepoint($request->formato_gic_f_021, 'GRUPOS LÍNEAS Y SEMILLEROS', $semillero_investigacion, 'formato_gic_f_021');
-        }
-
-        if ($request->hasFile('formato_gic_f_032')) {
-            $request->validate([
-                'formato_gic_f_032' => 'nullable|file|max:10240',
-            ]);
-            return $this->saveFilesSharepoint($request->formato_gic_f_032, 'GRUPOS LÍNEAS Y SEMILLEROS', $semillero_investigacion, 'formato_gic_f_032');
-        }
-
-        if ($request->hasFile('formato_aval_semillero')) {
-            $request->validate([
-                'formato_aval_semillero' => 'nullable|file|max:10240',
-            ]);
-            return $this->saveFilesSharepoint($request->formato_aval_semillero, 'GRUPOS LÍNEAS Y SEMILLEROS', $semillero_investigacion, 'formato_aval_semillero');
-        }
-
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
@@ -170,6 +128,36 @@ class SemilleroInvestigacionController extends Controller
         $semillero_investigacion->delete();
 
         return back()->with('success', 'El recurso se ha eliminado correctamente.');
+    }
+
+    public function uploadFormatoGicF021(Request $request, SemilleroInvestigacion $semillero_investigacion)
+    {
+        if ($request->hasFile('formato_gic_f_021')) {
+            $request->validate([
+                'formato_gic_f_021' => 'nullable|file|max:10240',
+            ]);
+            return $this->saveFilesSharepoint($request->formato_gic_f_021, 'GRUPOS LÍNEAS Y SEMILLEROS', $semillero_investigacion, 'formato_gic_f_021');
+        }
+    }
+
+    public function uploadFormatoGicF032(Request $request, SemilleroInvestigacion $semillero_investigacion)
+    {
+        if ($request->hasFile('formato_gic_f_032')) {
+            $request->validate([
+                'formato_gic_f_032' => 'nullable|file|max:10240',
+            ]);
+            return $this->saveFilesSharepoint($request->formato_gic_f_032, 'GRUPOS LÍNEAS Y SEMILLEROS', $semillero_investigacion, 'formato_gic_f_032');
+        }
+    }
+
+    public function uploadFormatoAvalSemillero(Request $request, SemilleroInvestigacion $semillero_investigacion)
+    {
+        if ($request->hasFile('formato_aval_semillero')) {
+            $request->validate([
+                'formato_aval_semillero' => 'nullable|file|max:10240',
+            ]);
+            return $this->saveFilesSharepoint($request->formato_aval_semillero, 'GRUPOS LÍNEAS Y SEMILLEROS', $semillero_investigacion, 'formato_aval_semillero');
+        }
     }
 
     public function saveFilesSharepoint($tmp_file, $modulo, $modelo, $campo_bd)

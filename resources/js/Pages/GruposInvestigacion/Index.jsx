@@ -1,7 +1,12 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
+import ButtonMui from '@/Components/Button'
+import DialogMui from '@/Components/Dialog'
+import DownloadFile from '@/Components/DownloadFile'
+import FileInput from '@/Components/FileInput'
 import MenuMui from '@/Components/Menu'
 import PaginationMui from '@/Components/Pagination'
+import PrimaryButton from '@/Components/PrimaryButton'
 import SearchBar from '@/Components/SearchBar'
 import TableMui from '@/Components/Table'
 
@@ -10,21 +15,36 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
-import { router } from '@inertiajs/react'
+import { router, useForm } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
-import DialogMui from '@/Components/Dialog'
 import Form from './Form'
-import ButtonMui from '@/Components/Button'
 
 const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formacion, centros_formacion, categorias_minciencias, redes_conocimiento, allowed_to_create }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
     const [dialog_status, setDialogStatus] = useState(false)
+    const [dialog_formato_status, setDialogFormatoStatus] = useState(false)
+    const [tipo_archivo, setTipoArchivo] = useState('')
     const [method, setMethod] = useState('')
     const [grupo_investigacion, setGrupoInvestigacion] = useState(null)
     const [grupo_investigacion_to_destroy, setGrupoInvestigacionToDestroy] = useState(null)
+
+    const form = useForm({
+        _method: 'PUT',
+        formato_gic_f_020: null,
+        formato_gic_f_032: null,
+    })
+
+    const submit = (e) => {
+        e.preventDefault()
+
+        form.post(route('grupos-investigacion.upload-formato', [grupo_investigacion.id]), {
+            onSuccess: () => setDialogFormatoStatus(false),
+            preserveScroll: true,
+        })
+    }
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Grupos de investigación de mi centro de formación</h2>}>
@@ -32,10 +52,10 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
                 <h1 className="text-2xl text-center my-20">{centros_formacion.find((item) => (item.value = auth_user.centro_formacion_id)).label}</h1>
                 <SearchBar />
 
-                <TableMui className="mt-20" rows={['Nombre', 'Centro de formación', 'Regional', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui className="mt-20" rows={['Nombre', 'Centro de formación', 'Regional', 'Formatos', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {allowed_to_create ? (
                         <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setGrupoInvestigacion(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
-                            <TableCell colSpan={4}>
+                            <TableCell colSpan={5}>
                                 <ButtonMui>
                                     <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar grupo de investigación
                                 </ButtonMui>
@@ -48,6 +68,48 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
 
                             <TableCell> {grupo_investigacion.centro_formacion?.nombre}</TableCell>
                             <TableCell>{grupo_investigacion.centro_formacion?.regional?.nombre}</TableCell>
+
+                            <TableCell>
+                                <DownloadFile
+                                    label="formato GIC F 032"
+                                    className="!p-2"
+                                    filename={grupo_investigacion?.filename.formato_gic_f_032_filename}
+                                    extension={grupo_investigacion?.extension.formato_gic_f_032_extension}
+                                    downloadRoute={
+                                        grupo_investigacion?.filename.formato_gic_f_032_filename
+                                            ? grupo_investigacion?.filename.formato_gic_f_032_filename.includes('http') == true ||
+                                              grupo_investigacion?.filename.formato_gic_f_032_filename.includes('http') == undefined
+                                                ? grupo_investigacion?.filename.formato_gic_f_032_filename
+                                                : route('grupos-investigacion.download-file-sharepoint', [grupo_investigacion.id, 'formato_gic_f_032'])
+                                            : null
+                                    }
+                                />
+                                <ButtonMui
+                                    onClick={() => (setDialogFormatoStatus(true), setGrupoInvestigacion(grupo_investigacion), setTipoArchivo('formato_gic_f_032'))}
+                                    className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                    {grupo_investigacion?.filename.formato_gic_f_032_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 032
+                                </ButtonMui>
+
+                                <DownloadFile
+                                    label="formato GIC F 032"
+                                    className="mt-10 !p-2"
+                                    filename={grupo_investigacion?.filename.formato_gic_f_020_filename}
+                                    extension={grupo_investigacion?.extension.formato_gic_f_020_extension}
+                                    downloadRoute={
+                                        grupo_investigacion?.filename.formato_gic_f_020_filename
+                                            ? grupo_investigacion?.filename.formato_gic_f_020_filename.includes('http') == true ||
+                                              grupo_investigacion?.filename.formato_gic_f_020_filename.includes('http') == undefined
+                                                ? grupo_investigacion?.filename.formato_gic_f_020_filename
+                                                : route('grupos-investigacion.download-file-sharepoint', [grupo_investigacion.id, 'formato_gic_f_020'])
+                                            : null
+                                    }
+                                />
+                                <ButtonMui
+                                    onClick={() => (setDialogFormatoStatus(true), setGrupoInvestigacion(grupo_investigacion), setTipoArchivo('formato_gic_f_020'))}
+                                    className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                    {grupo_investigacion?.filename.formato_gic_f_020_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 020
+                                </ButtonMui>
+                            </TableCell>
 
                             <TableCell>
                                 <MenuMui text={<MoreVertIcon />}>
@@ -124,6 +186,33 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
                             categorias_minciencias={categorias_minciencias}
                             redes_conocimiento={redes_conocimiento}
                         />
+                    }
+                />
+
+                <DialogMui
+                    open={dialog_formato_status}
+                    fullWidth={true}
+                    maxWidth="lg"
+                    blurEnabled={true}
+                    dialogContent={
+                        <form onSubmit={submit}>
+                            <FileInput
+                                id={tipo_archivo}
+                                value={form.data[tipo_archivo]}
+                                label={`Seleccione el ${tipo_archivo} `}
+                                accept="application/pdf"
+                                onChange={(e) => form.setData(tipo_archivo, e.target.files[0])}
+                                error={form.errors[tipo_archivo]}
+                            />
+                            <div className="flex items-center justify-between mt-14 py-4">
+                                <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
+                                    Cargar formato
+                                </PrimaryButton>
+                                <ButtonMui type="button" primary={false} onClick={() => setDialogFormatoStatus(false)} className="!ml-2 !bg-transparent">
+                                    Cancelar
+                                </ButtonMui>
+                            </div>
+                        </form>
                     }
                 />
             </Grid>

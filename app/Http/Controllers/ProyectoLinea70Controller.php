@@ -188,11 +188,6 @@ class ProyectoLinea70Controller extends Controller
 
         $proyecto_linea_70->proyecto->tecnoacademiaLineasTecnoacademia()->sync($request->tecnoacademia_linea_tecnoacademia_id);
 
-        $proyecto = $proyecto_linea_70->proyecto;
-        if ($request->hasFile('pdf_proyecto_general')) {
-            return $this->saveFilesSharepoint($request->pdf_proyecto_general, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $proyecto_linea_70, $proyecto, 'pdf_proyecto_general');
-        }
-
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
@@ -296,44 +291,45 @@ class ProyectoLinea70Controller extends Controller
     {
         $aula_movil = $proyecto_linea_70->aulasMoviles()->create($request->validated());
 
-        $proyecto = $proyecto_linea_70->proyecto;
-        if ($request->hasFile('soat')) {
-            $request->validate([
-                'soat'              => 'nullable|file|max:10240|mimetypes:application/pdf',
-            ]);
-            return $this->saveFilesSharepoint($request->soat, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $aula_movil, $proyecto, 'soat');
-        }
-
-        if ($request->hasFile('tecnicomecanica')) {
-            $request->validate([
-                'tecnicomecanica'   => 'nullable|file|max:10240|mimetypes:application/pdf',
-            ]);
-            return $this->saveFilesSharepoint($request->tecnicomecanica, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $aula_movil, $proyecto, 'tecnicomecanica');
-        }
-
-        return back()->with('success', $request-> id ? 'El recurso se ha modificado correctamente' : 'El recurso se ha creado correctamente');
+        return back()->with('success', 'El recurso se ha creado correctamente');
     }
 
     public function updateAulaMovil(AulaMovilRequest $request, Convocatoria $convocatoria, ProyectoLinea70 $proyecto_linea_70, AulaMovil $aula_movil)
     {
         $aula_movil->update($request->validated());
 
-        $proyecto = $proyecto_linea_70->proyecto;
+        return back()->with('success', 'El recurso se ha modificado correctamente');
+    }
+
+    public function destroyAulaMovil(Convocatoria $convocatoria, ProyectoLinea70 $proyecto_linea_70, AulaMovil $aula_movil)
+    {
+        $this->authorize('modificar-proyecto-autor', [$proyecto_linea_70->proyecto]);
+
+        $aula_movil->delete();
+
+        return back()->with('success', 'El recurso se ha eliminado correctamente.');
+    }
+
+    public function uploadSoat(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, AulaMovil $aula_movil)
+    {
         if ($request->hasFile('soat')) {
             $request->validate([
-                'soat'              => 'nullable|file|max:10240|mimetypes:application/pdf',
+                'soat' => 'nullable|file|max:10240|mimetypes:application/pdf',
             ]);
+
             return $this->saveFilesSharepoint($request->soat, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $aula_movil, $proyecto, 'soat');
         }
+    }
 
+    public function uploadTecnicomecanica(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, AulaMovil $aula_movil)
+    {
         if ($request->hasFile('tecnicomecanica')) {
             $request->validate([
-                'tecnicomecanica'   => 'nullable|file|max:10240|mimetypes:application/pdf',
+                'tecnicomecanica' => 'nullable|file|max:10240|mimetypes:application/pdf',
             ]);
+
             return $this->saveFilesSharepoint($request->tecnicomecanica, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $aula_movil, $proyecto, 'tecnicomecanica');
         }
-
-        return back()->with('success', $request-> id ? 'El recurso se ha modificado correctamente' : 'El recurso se ha creado correctamente');
     }
 
     public function saveFilesSharepoint($tmp_file, $modulo, $modelo, $proyecto, $campo_bd)
@@ -350,15 +346,6 @@ class ProyectoLinea70Controller extends Controller
         $sharepoint_path = $aula_movil[$tipo_archivo];
 
         return SharepointHelper::downloadFile($sharepoint_path);
-    }
-
-    public function destroyAulaMovil(Convocatoria $convocatoria, ProyectoLinea70 $proyecto_linea_70, AulaMovil $aula_movil)
-    {
-        $this->authorize('modificar-proyecto-autor', [$proyecto_linea_70->proyecto]);
-
-        $aula_movil->delete();
-
-        return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
     /**

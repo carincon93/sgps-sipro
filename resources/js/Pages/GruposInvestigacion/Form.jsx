@@ -1,7 +1,6 @@
 import Autocomplete from '@/Components/Autocomplete'
 import ButtonMui from '@/Components/Button'
 import DatePicker from '@/Components/DatePicker'
-import FileInput from '@/Components/FileInput'
 import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
 import SelectMultiple from '@/Components/SelectMultiple'
@@ -33,9 +32,6 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
         link_propio_grupo: grupo_investigacion?.link_propio_grupo,
         redes_conocimiento: grupo_investigacion?.redes_conocimiento.map((item) => item.id),
         centro_formacion_id: grupo_investigacion?.centro_formacion_id,
-
-        formato_gic_f_020: null,
-        formato_gic_f_032: null,
     })
 
     const submit = (e) => {
@@ -60,7 +56,6 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
             <Grid item md={8}>
                 <Paper className="p-8">
                     <form onSubmit={submit}>
-                        {/* <fieldset className="p-8" disabled={grupo_investigacion?.allowed.to_update || allowed_to_create ? undefined : true}> */}
                         <Grid container rowSpacing={8}>
                             <Grid item md={12}>
                                 <Autocomplete
@@ -257,53 +252,13 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                                     required
                                 />
                             </Grid>
-                            <Grid item md={12}>
-                                <Label className="mb-4 mt-8" labelFor="formato_gic_f_020" value="Formato GIC – F – 021" />
-
-                                <FileInput
-                                    id="formato_gic_f_020"
-                                    value={form.data.formato_gic_f_020}
-                                    filename={grupo_investigacion?.filename.formato_gic_f_020_filename}
-                                    extension={grupo_investigacion?.extension.formato_gic_f_020_extension}
-                                    label="Seleccione un archivo"
-                                    downloadRoute={
-                                        grupo_investigacion?.formato_gic_f_020
-                                            ? grupo_investigacion?.formato_gic_f_020.includes('http') == true || grupo_investigacion?.formato_gic_f_020.includes('http') == undefined
-                                                ? grupo_investigacion?.formato_gic_f_020
-                                                : route('grupos-investigacion.download-file-sharepoint', [grupo_investigacion.id, 'formato_gic_f_020'])
-                                            : null
-                                    }
-                                    onChange={(e) => form.setData('formato_gic_f_020', e.target.files[0])}
-                                    error={form.errors.formato_gic_f_020}
-                                />
-                            </Grid>
-
-                            <Grid item md={12}>
-                                <Label className="mb-4 mt-8" labelFor="formato_gic_f_032" value="Formato GIC – F – 032" />
-                                <FileInput
-                                    id="formato_gic_f_032"
-                                    value={form.data.formato_gic_f_032}
-                                    filename={grupo_investigacion?.filename.formato_gic_f_032_filename}
-                                    extension={grupo_investigacion?.extension.formato_gic_f_032_extension}
-                                    label="Seleccione un archivo"
-                                    downloadRoute={
-                                        grupo_investigacion?.formato_gic_f_032
-                                            ? grupo_investigacion?.formato_gic_f_032.includes('http') == true || grupo_investigacion?.formato_gic_f_032.includes('http') == undefined
-                                                ? grupo_investigacion?.formato_gic_f_032
-                                                : route('grupos-investigacion.download-file-sharepoint', [grupo_investigacion.id, 'formato_gic_f_032'])
-                                            : null
-                                    }
-                                    onChange={(e) => form.setData('formato_gic_f_032', e.target.files[0])}
-                                    error={form.errors.formato_gic_f_032}
-                                />
-                            </Grid>
                         </Grid>
-                        {/* </fieldset> */}
+
                         <div className="py-4 flex items-center justify-end">
                             <PrimaryButton disabled={form.processing || !form.isDirty} type="submit">
                                 Guardar cambios
                             </PrimaryButton>
-                            <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
+                            <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)} className="!ml-2">
                                 Cancelar
                             </ButtonMui>
                         </div>

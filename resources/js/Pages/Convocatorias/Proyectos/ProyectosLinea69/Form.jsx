@@ -35,7 +35,6 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
         bibliografia: proyecto_linea_69?.bibliografia ?? '',
         retos_oportunidades: proyecto_linea_69?.retos_oportunidades ?? '',
         pertinencia_territorio: proyecto_linea_69?.pertinencia_territorio ?? '',
-        pdf_proyecto_general: null,
 
         cantidad_meses: 0,
         cantidad_horas: 0,
@@ -254,29 +253,6 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_l
                 )}
                 {method == 'PUT' && (
                     <>
-                        <Grid item md={6}>
-                            <Label required labelFor="pdf_proyecto_general" value="Archivo en formato (.pdf) del proyecto general" />
-                        </Grid>
-
-                        <Grid item md={6}>
-                            <FileInput
-                                id="pdf_proyecto_general"
-                                value={form.data.pdf_proyecto_general}
-                                filename={proyecto_linea_69?.filename}
-                                extension={proyecto_linea_69?.extension}
-                                label="Seleccione un archivo"
-                                downloadRoute={
-                                    proyecto_linea_69?.pdf_proyecto_general
-                                        ? proyecto_linea_69?.pdf_proyecto_general.includes('http') == true || proyecto_linea_69?.pdf_proyecto_general.includes('http') == undefined
-                                            ? proyecto_linea_69?.pdf_proyecto_general
-                                            : route('convocatorias.proyectos-linea-69.download-file-sharepoint', [convocatoria.id, proyecto_linea_69.id, 'pdf_proyecto_general'])
-                                        : null
-                                }
-                                onChange={(e) => form.setData('pdf_proyecto_general', e.target.files[0])}
-                                error={form.errors.pdf_proyecto_general}
-                            />
-                        </Grid>
-
                         <Grid item md={12}>
                             <Label required disabled={evaluacion ? true : false} labelFor="resumen" value="Resumen del proyecto" />
                             <AlertMui>

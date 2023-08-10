@@ -7,26 +7,46 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { MenuItem, TableCell, TableRow } from '@mui/material'
 
-import { router } from '@inertiajs/react'
+import { router, useForm } from '@inertiajs/react'
 import { useState } from 'react'
 import { checkRole } from '@/Utils'
 
 import Form from './Form'
+import DownloadFile from '@/Components/DownloadFile'
+import PrimaryButton from '@/Components/PrimaryButton'
+import FileInput from '@/Components/FileInput'
 
 const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
     const [dialog_status, setDialogStatus] = useState(false)
+    const [dialog_archivo_status, setDialogArchivoStatus] = useState(false)
+    const [tipo_archivo, setTipoArchivo] = useState('')
     const [method, setMethod] = useState('')
     const [aula_movil, setAulaMovil] = useState(null)
     const [aula_movil_to_destroy, setAulaMovilToDestroy] = useState(null)
+
+    const form = useForm({
+        _method: 'PUT',
+        soat: null,
+        tecnicomecanica: null,
+    })
+
+    const submit = (e) => {
+        e.preventDefault()
+
+        form.post(route('convocatorias.proyectos-linea-70.aulas-moviles.upload-archivo', [convocatoria.id, proyecto.id, aula_movil.id]), {
+            onSuccess: () => setDialogArchivoStatus(false),
+            preserveScroll: true,
+        })
+    }
 
     return (
         <>
             <h1 className="text-3xl mt-24 mb-8 text-center">Aulas móviles</h1>
 
-            <TableMui className="mt-20 mb-8" rows={['Placa / Modelo', 'Estado', 'Acciones']}>
+            <TableMui className="mt-20 mb-8" rows={['Placa / Modelo', 'Archivos', 'Acciones']} sxCellThead={{ width: '320px' }}>
                 {proyecto.allowed.to_update ? (
                     <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setAulaMovil(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                         <TableCell colSpan={3}>
@@ -41,7 +61,46 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) =>
                         <TableCell>
                             {aula_movil.placa} / {aula_movil.modelo}
                         </TableCell>
-                        <TableCell>{aula_movil.estado}</TableCell>
+
+                        <TableCell>
+                            <DownloadFile
+                                label="SOAT"
+                                className="!p-2"
+                                filename={aula_movil?.filename.soat_filename}
+                                extension={aula_movil?.extension.soat_extension}
+                                downloadRoute={
+                                    aula_movil?.filename.soat_filename
+                                        ? aula_movil?.filename.soat_filename?.includes('http') == true || aula_movil?.filename.soat_filename?.includes('http') == undefined
+                                            ? aula_movil?.filename.soat_filename
+                                            : route('convocatorias.proyectos-linea-70.aulas-moviles.download-file-sharepoint', [convocatoria.id, proyecto.id, aula_movil.id, 'soat'])
+                                        : null
+                                }
+                            />
+                            <ButtonMui
+                                onClick={() => (setDialogArchivoStatus(true), setAulaMovil(aula_movil), setTipoArchivo('soat'))}
+                                className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                {aula_movil.filename.soat_filename ? 'Reemplazar' : 'Cargar'} SOAT
+                            </ButtonMui>
+
+                            <DownloadFile
+                                label="tecnicomecánica"
+                                className="mt-10 !p-2"
+                                filename={aula_movil?.filename.tecnicomecanica_filename}
+                                extension={aula_movil?.extension.tecnicomecanica_extension}
+                                downloadRoute={
+                                    aula_movil?.filename.tecnicomecanica_filename
+                                        ? aula_movil?.filename.tecnicomecanica_filename?.includes('http') || aula_movil?.filename.tecnicomecanica_filename?.includes('http') == undefined
+                                            ? aula_movil?.filename.tecnicomecanica_filename
+                                            : route('convocatorias.proyectos-linea-70.aulas-moviles.download-file-sharepoint', [convocatoria, proyecto, aula_movil.id, 'tecnicomecanica'])
+                                        : null
+                                }
+                            />
+                            <ButtonMui
+                                onClick={() => (setDialogArchivoStatus(true), setAulaMovil(aula_movil), setTipoArchivo('tecnicomecanica'))}
+                                className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                {aula_movil?.filename.tecnicomecanica_filename ? 'Reemplazar' : 'Cargar'} tecnicomecánica
+                            </ButtonMui>
+                        </TableCell>
 
                         <TableCell>
                             <MenuMui text={<MoreVertIcon />}>
@@ -94,6 +153,33 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) =>
                 maxWidth="lg"
                 blurEnabled={true}
                 dialogContent={<Form is_super_admin={is_super_admin} setDialogStatus={setDialogStatus} method={method} proyecto={proyecto} convocatoria={convocatoria} aula_movil={aula_movil} />}
+            />
+
+            <DialogMui
+                open={dialog_archivo_status}
+                fullWidth={true}
+                maxWidth="lg"
+                blurEnabled={true}
+                dialogContent={
+                    <form onSubmit={submit}>
+                        <FileInput
+                            id={tipo_archivo}
+                            value={form.data[tipo_archivo]}
+                            label={`Seleccione: ${tipo_archivo}`}
+                            accept="application/pdf"
+                            onChange={(e) => form.setData(tipo_archivo, e.target.files[0])}
+                            error={form.errors[tipo_archivo]}
+                        />
+                        <div className="flex items-center justify-between mt-14 py-4">
+                            <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
+                                Cargar archivo
+                            </PrimaryButton>
+                            <ButtonMui type="button" primary={false} onClick={() => setDialogArchivoStatus(false)} className="!ml-2 !bg-transparent">
+                                Cancelar
+                            </ButtonMui>
+                        </div>
+                    </form>
+                }
             />
         </>
     )

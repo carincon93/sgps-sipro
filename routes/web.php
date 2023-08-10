@@ -65,7 +65,15 @@ use App\Http\Controllers\Perfil\EstudioAcademicoController;
 use App\Http\Controllers\Perfil\FormacionAcademicaSenaController;
 use App\Http\Controllers\Perfil\ParticipacionGrupoInvestigacionSenaController;
 use App\Http\Controllers\Perfil\ParticipacionProyectoSennovaController;
+use App\Models\AulaMovil;
+use App\Models\Convocatoria;
+use App\Models\EntidadAliada;
+use App\Models\GrupoInvestigacion;
+use App\Models\LineaInvestigacion;
+use App\Models\Proyecto;
 use App\Models\Role;
+use App\Models\SemilleroInvestigacion;
+use GuzzleHttp\Psr7\Request;
 use Inertia\Inertia;
 
 /*
@@ -168,12 +176,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
      */
     Route::get('grupos-investigacion/{grupo_investigacion}/download-file-sharepoint/{tipo_archivo}', [GrupoInvestigacionController::class, 'downloadFileSharepoint'])->name('grupos-investigacion.download-file-sharepoint');
     Route::get('grupos-investigacion/{grupo_investigacion}/download/{formato}', [GrupoInvestigacionController::class, 'downloadServerFile'])->name('grupos-investigacion.download');
+    Route::put('grupos-investigacion/{grupo_investigacion}/upload-formato', function (GrupoInvestigacion $grupo_investigacion) {
+        $controller = app(GrupoInvestigacionController::class);
+
+        if (request()->hasFile('formato_gic_f_020')) {
+            return $controller->uploadFormatoGicF020(request(), $grupo_investigacion);
+        } elseif (request()->hasFile('formato_gic_f_032')) {
+            return $controller->uploadFormatoGicF032(request(), $grupo_investigacion);
+        } else {
+            abort(404);
+        }
+    })->name('grupos-investigacion.upload-formato');
+
     Route::resource('grupos-investigacion', GrupoInvestigacionController::class)->parameters(['grupos-investigacion' => 'grupo-investigacion'])->except(['show']);
 
     /**
      * Líneas de investigación
-     *
-     * Trae las líneas de investigación
      *
      */
     Route::resource('grupos-investigacion.lineas-investigacion', LineaInvestigacionController::class)->parameters(['grupos-investigacion' => 'grupo-investigacion', 'lineas-investigacion' => 'linea-investigacion'])->except(['show']);
@@ -181,10 +199,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     /**
      * Semilleros de investigación
      *
-     * Trae los semilleros de investigación
      */
     Route::get('grupos-investigacion/{grupo_investigacion}/lineas-investigacion/{linea_investigacion}/semilleros-investigacion/{semillero_investigacion}/download-file-sharepoint/{tipo_archivo}', [SemilleroInvestigacionController::class, 'downloadFileSharepoint'])->name('grupos-investigacion.lineas-investigacion.semilleros-investigacion.download-file-sharepoint');
     Route::get('grupos-investigacion/{grupo_investigacion}/lineas-investigacion/{linea_investigacion}/semilleros-investigacion/{semillero_investigacion}/download/{formato}', [SemilleroInvestigacionController::class, 'downloadServerFile'])->name('grupos-investigacion.semilleros-investigacion.download');
+    Route::put('grupos-investigacion/{grupo_investigacion}/lineas-investigacion/{linea_investigacion}/semilleros-investigacion/{semillero_investigacion}/upload-formato', function (GrupoInvestigacion $grupo_investigacion, LineaInvestigacion $linea_investigacion, SemilleroInvestigacion $semillero_investigacion) {
+        $controller = app(SemilleroInvestigacionController::class);
+
+        if (request()->hasFile('formato_gic_f_021')) {
+            return $controller->uploadFormatoGicF021(request(), $semillero_investigacion);
+        } elseif (request()->hasFile('formato_gic_f_032')) {
+            return $controller->uploadFormatoGicF032(request(), $semillero_investigacion);
+        } elseif (request()->hasFile('formato_aval_semillero')) {
+            return $controller->uploadFormatoAvalSemillero(request(), $semillero_investigacion);
+        } else {
+            abort(404);
+        }
+    })->name('grupos-investigacion.lineas-investigacion.semilleros-investigacion.upload-formato');
     Route::resource('grupos-investigacion.lineas-investigacion.semilleros-investigacion', SemilleroInvestigacionController::class)->parameters(['grupos-investigacion' => 'grupo-investigacion', 'lineas-investigacion' => 'linea-investigacion', 'semilleros-investigacion' => 'semillero-investigacion'])->except(['show']);
 
     /**
@@ -282,6 +312,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
      */
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/entidades-aliadas/{entidad_aliada}/download-file-sharepoint/{tipo_archivo}', [EntidadAliadaController::class, 'downloadFileSharepoint'])->name('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint');
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/entidades-aliadas/{entidad_aliada}/download/{formato}', [EntidadAliadaController::class, 'downloadServerFile'])->name('convocatorias.proyectos.entidades-aliadas.download');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/entidades-aliadas/{entidad_aliada}/upload-soporte', function (Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidad_aliada) {
+        $controller = app(EntidadAliadaController::class);
+
+        if (request()->hasFile('carta_intencion')) {
+            return $controller->uploadCartaIntencion(request(), $convocatoria, $proyecto, $entidad_aliada);
+        } elseif (request()->hasFile('carta_propiedad_intelectual')) {
+            return $controller->uploadCartaPropiedadIntelectual(request(), $convocatoria, $proyecto, $entidad_aliada);
+        } elseif (request()->hasFile('soporte_convenio')) {
+            return $controller->uploadSoporteConvenio(request(), $convocatoria, $proyecto, $entidad_aliada);
+        } else {
+            abort(404);
+        }
+    })->name('convocatorias.proyectos.entidades-aliadas.upload-soporte');
     Route::resource('convocatorias.proyectos.entidades-aliadas', EntidadAliadaController::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos' => 'proyecto', 'entidades-aliadas' => 'entidad-aliada'])->except(['show']);
     Route::resource('convocatorias.proyectos.entidades-aliadas.miembros-entidad-aliada', MiembroEntidadAliadaController::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos' => 'proyecto', 'entidades-aliadas' => 'entidad-aliada', 'miembros-entidad-aliada' => 'miembro-entidad-aliada'])->except(['show']);
 
@@ -332,6 +375,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
      *
      */
     Route::get('convocatorias/{convocatoria}/proyectos-linea-70/{proyecto_linea_70}/download-pdf-sharepoint/{tipo_archivo}', [ProyectoLinea70Controller::class, 'downloadPdfSharepoint'])->name('convocatorias.proyectos-linea-70.download-file-sharepoint');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/aulas-moviles/{aula_movil}/upload-archivo', function (Convocatoria $convocatoria, Proyecto $proyecto, AulaMovil $aula_movil) {
+        $controller = app(ProyectoLinea70Controller::class);
+
+        if (request()->hasFile('soat')) {
+            return $controller->uploadSoat(request(), $convocatoria, $proyecto, $aula_movil);
+        } elseif (request()->hasFile('tecnicomecanica')) {
+            return $controller->uploadTecnicomecanica(request(), $convocatoria, $proyecto, $aula_movil);
+        } else {
+            abort(404);
+        }
+    })->name('convocatorias.proyectos-linea-70.aulas-moviles.upload-archivo');
     Route::post('convocatorias/{convocatoria}/proyectos-linea-70/{proyecto_linea_70}/aulas-moviles/', [ProyectoLinea70Controller::class, 'storeAulaMovil'])->name('convocatorias.proyectos-linea-70.aulas-moviles.store');
     Route::put('convocatorias/{convocatoria}/proyectos-linea-70/{proyecto_linea_70}/aulas-moviles/{aula_movil}', [ProyectoLinea70Controller::class, 'updateAulaMovil'])->name('convocatorias.proyectos-linea-70.aulas-moviles.update');
     Route::delete('convocatorias/{convocatoria}/proyectos-linea-70/{proyecto_linea_70}/aulas-moviles/{aula_movil}', [ProyectoLinea70Controller::class, 'destroyAulaMovil'])->name('convocatorias.proyectos-linea-70.aulas-moviles.destroy');
@@ -579,9 +633,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
      *
      */
     Route::get('estudios-academicos/{estudio_academico}/download-file-sharepoint/{tipo_archivo}', [EstudioAcademicoController::class, 'downloadFileSharepoint'])->name('estudios-academicos.download-file-sharepoint');
+    Route::put('estudios-academicos/{estudio_academico}/upload-soporte-titulo-obtenido', [EstudioAcademicoController::class, 'uploadSoporteTituloObtenido'])->name('estudios-academicos.upload-soporte-titulo-obtenido');
     Route::resource('estudios-academicos', EstudioAcademicoController::class)->parameters(['estudios-academicos' => 'estudio-academico'])->except(['index', 'show'])->withoutMiddleware(['auth', 'verified']);
+
     Route::get('formaciones-academicas-sena/{formacion_academica_sena}/download-file-sharepoint/{tipo_archivo}', [FormacionAcademicaSenaController::class, 'downloadFileSharepoint'])->name('formaciones-academicas-sena.download-file-sharepoint');
+    Route::put('formaciones-academicas-sena/{formacion_academica_sena}/upload-certificado-formacion', [FormacionAcademicaSenaController::class, 'uploadCertificadoFormacion'])->name('formaciones-academicas-sena.upload-certificado-formacion');
     Route::resource('formaciones-academicas-sena', FormacionAcademicaSenaController::class)->parameters(['formaciones-academicas-sena' => 'formacion-academica-sena'])->except(['index', 'show'])->withoutMiddleware(['auth', 'verified']);
+
     Route::resource('participaciones-grupos-investigacion-sena', ParticipacionGrupoInvestigacionSenaController::class)->parameters(['participaciones-grupos-investigacion-sena' => 'participacion-gis'])->except(['index', 'show'])->withoutMiddleware(['auth', 'verified']);
     Route::resource('participaciones-proyectos-sennova', ParticipacionProyectoSennovaController::class)->parameters(['participaciones-proyectos-sennova' => 'participacion-ps'])->except(['index', 'show'])->withoutMiddleware(['auth', 'verified']);
 

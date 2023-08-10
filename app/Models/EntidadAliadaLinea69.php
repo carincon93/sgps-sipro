@@ -33,7 +33,6 @@ class EntidadAliadaLinea69 extends Model
         'soporte_convenio',
         'fecha_inicio_convenio',
         'fecha_fin_convenio',
-        'infraestructura_tecnoacademia'
     ];
 
     /**
@@ -76,15 +75,15 @@ class EntidadAliadaLinea69 extends Model
 
     public function getFilenameAttribute()
     {
-        $fileInfo = pathinfo($this->soporte_convenio);
+        $file_info = pathinfo($this->soporte_convenio);
 
-        return $fileInfo['filename'] ?? '';
+        return $file_info['filename'] ?? '';
     }
 
     public function getExtensionAttribute()
     {
-        $fileInfo = pathinfo($this->soporte_convenio);
+        $file_info = pathinfo($this->soporte_convenio);
 
-        return $fileInfo['extension'] ?? '';
+        return $file_info['extension'] ?? '';
     }
 }

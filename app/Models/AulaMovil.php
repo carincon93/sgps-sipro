@@ -99,21 +99,21 @@ class AulaMovil extends Model
 
     public function getFilenameAttribute()
     {
-        $soatFileInfo               = pathinfo($this->soat);
-        $tecnicomecanicaFileInfo    = pathinfo($this->tecnicomecanica);
+        $soat_file_info               = pathinfo($this->soat);
+        $tecnicomecanica_file_info    = pathinfo($this->tecnicomecanica);
 
-        $arrayFileInfo = collect(['soatFilename' => $soatFileInfo['filename'] ?? '', 'tecnicomecanicaFilename' => $tecnicomecanicaFileInfo['filename'] ?? '']);
+        $array_file_info = collect(['soat_filename' => $soat_file_info['filename'] ?? '', 'tecnicomecanica_filename' => $tecnicomecanica_file_info['filename'] ?? '']);
 
-        return $arrayFileInfo ?? '';
+        return $array_file_info ?? '';
     }
 
     public function getExtensionAttribute()
     {
-        $soatFileInfo               = pathinfo($this->soat);
-        $tecnicomecanicaFileInfo    = pathinfo($this->tecnicomecanica);
+        $soat_file_info               = pathinfo($this->soat);
+        $tecnicomecanica_file_info    = pathinfo($this->tecnicomecanica);
 
-        $arrayFileInfo = collect(['soatExtension' => $soatFileInfo['extension'] ?? '', 'tecnicomecanicaExtension' => $tecnicomecanicaFileInfo['extension'] ?? '']);
+        $array_file_info = collect(['soat_extension' => $soat_file_info['extension'] ?? '', 'tecnicomecanica_extension' => $tecnicomecanica_file_info['extension'] ?? '']);
 
-        return $arrayFileInfo ?? '';
+        return $array_file_info ?? '';
     }
 }

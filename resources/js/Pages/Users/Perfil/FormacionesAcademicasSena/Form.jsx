@@ -1,7 +1,6 @@
 import Autocomplete from '@/Components/Autocomplete'
 import ButtonMui from '@/Components/Button'
 import DatePicker from '@/Components/DatePicker'
-import FileInput from '@/Components/FileInput'
 import PrimaryButton from '@/Components/PrimaryButton'
 import TextInput from '@/Components/TextInput'
 
@@ -18,7 +17,6 @@ const Form = ({ method = '', setDialogStatus, user_id, formacion_academica_sena,
         titulo_obtenido: formacion_academica_sena?.titulo_obtenido ?? '',
         fecha_inicio_formacion: formacion_academica_sena?.fecha_inicio_formacion ?? '',
         fecha_finalizacion_formacion: formacion_academica_sena?.fecha_finalizacion_formacion ?? '',
-        certificado_formacion: null,
     })
 
     const submit = (e) => {
@@ -110,24 +108,6 @@ const Form = ({ method = '', setDialogStatus, user_id, formacion_academica_sena,
                                 error={form.errors.fecha_finalizacion_formacion}
                                 label="Fecha de finalización de la formación"
                                 required
-                            />
-
-                            <FileInput
-                                id="certificado_formacion"
-                                value={form.data.certificado_formacion}
-                                filename={formacion_academica_sena?.filename}
-                                extension={formacion_academica_sena?.extension}
-                                label="Seleccione certificado"
-                                accept="application/pdf"
-                                downloadRoute={
-                                    formacion_academica_sena?.certificado_formacion
-                                        ? formacion_academica_sena?.certificado_formacion?.includes('http')
-                                            ? formacion_academica_sena?.certificado_formacion
-                                            : route('formaciones-academicas-sena.download-file-sharepoint', [formacion_academica_sena.id, 'certificado_formacion'])
-                                        : null
-                                }
-                                onChange={(e) => form.setData('certificado_formacion', e.target.files[0])}
-                                error={form.errors.certificado_formacion}
                             />
                         </fieldset>
 

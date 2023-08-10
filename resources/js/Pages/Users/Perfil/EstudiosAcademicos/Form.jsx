@@ -1,6 +1,5 @@
 import Autocomplete from '@/Components/Autocomplete'
 import ButtonMui from '@/Components/Button'
-import FileInput from '@/Components/FileInput'
 import PrimaryButton from '@/Components/PrimaryButton'
 import TextInput from '@/Components/TextInput'
 
@@ -13,7 +12,6 @@ const Form = ({ method = '', setDialogStatus, user_id, estudio_academico, nivele
         user_id: user_id,
         grado_formacion: estudio_academico?.grado_formacion ?? null,
         titulo_obtenido: estudio_academico?.titulo_obtenido ?? '',
-        soporte_titulo_obtenido: null,
     })
 
     const submit = (e) => {
@@ -58,24 +56,6 @@ const Form = ({ method = '', setDialogStatus, user_id, estudio_academico, nivele
                                 onChange={(e) => form.setData('titulo_obtenido', e.target.value)}
                                 error={form.errors.titulo_obtenido}
                                 required
-                            />
-
-                            <FileInput
-                                id="soporte_titulo_obtenido"
-                                value={form.data.soporte_titulo_obtenido}
-                                filename={estudio_academico?.filename}
-                                extension={estudio_academico?.extension}
-                                label="Seleccione el soporte del título obtenido"
-                                accept="application/pdf"
-                                downloadRoute={
-                                    estudio_academico?.soporte_titulo_obtenido
-                                        ? estudio_academico?.soporte_titulo_obtenido?.includes('http')
-                                            ? estudio_academico?.soporte_titulo_obtenido
-                                            : route('estudios-academicos.download-file-sharepoint', [estudio_academico.id, 'soporte_titulo_obtenido'])
-                                        : null
-                                }
-                                onChange={(e) => form.setData('soporte_titulo_obtenido', e.target.files[0])}
-                                error={form.errors.soporte_titulo_obtenido}
                             />
                         </fieldset>
                         <div className="flex items-center justify-between mt-14 px-8 py-4">

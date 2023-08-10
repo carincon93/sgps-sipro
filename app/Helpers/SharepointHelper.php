@@ -302,7 +302,7 @@ class SharepointHelper
                 $success = false;
             }
 
-            return back()->with('success', 'Se ha modificado la información y se ha cargado el archivo correctamente.');
+            return back()->with('success', 'Se ha cargado el archivo correctamente.');
         }
     }
 

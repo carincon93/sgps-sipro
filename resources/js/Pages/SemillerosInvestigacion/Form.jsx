@@ -1,7 +1,6 @@
 import Autocomplete from '@/Components/Autocomplete'
 import ButtonMui from '@/Components/Button'
 import DatePicker from '@/Components/DatePicker'
-import FileInput from '@/Components/FileInput'
 import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
 import SelectMultiple from '@/Components/SelectMultiple'
@@ -30,10 +29,6 @@ const Form = ({ method = '', setDialogStatus, semillero_investigacion, grupo_inv
         lineas_investigacion: semillero_investigacion?.lineas_investigacion_articulados.map((item) => item.id),
         redes_conocimiento: semillero_investigacion?.redes_conocimiento.map((item) => item.id),
         es_semillero_tecnoacademia: semillero_investigacion?.es_semillero_tecnoacademia ? 1 : 2,
-
-        formato_gic_f_021: null,
-        formato_gic_f_032: null,
-        formato_aval_semillero: null,
     })
 
     const submit = (e) => {
@@ -223,81 +218,6 @@ const Form = ({ method = '', setDialogStatus, semillero_investigacion, grupo_inv
                                     label="Redes de conocimiento afines al Semillero de Investigación"
                                     error={form.errors.redes_conocimiento}
                                     required
-                                />
-                            </Grid>
-                            <Grid item md={12}>
-                                <Label className="mb-4 mt-8" labelFor="formato_gic_f_021" value="Formato GIC – F – 021" />
-
-                                <FileInput
-                                    id="formato_gic_f_021"
-                                    value={form.data.formato_gic_f_021}
-                                    filename={semillero_investigacion?.filename.formato_gic_f_021_filename}
-                                    extension={semillero_investigacion?.extension.formato_gic_f_021_extension}
-                                    label="Seleccione un archivo"
-                                    downloadRoute={
-                                        semillero_investigacion?.formato_gic_f_021
-                                            ? semillero_investigacion?.formato_gic_f_021.includes('http') == true || semillero_investigacion?.formato_gic_f_021.includes('http') == undefined
-                                                ? semillero_investigacion?.formato_gic_f_021
-                                                : route('grupos-investigacion.lineas-investigacion.semilleros-investigacion.download-file-sharepoint', [
-                                                      grupo_investigacion.id,
-                                                      linea_investigacion.id,
-                                                      semillero_investigacion.id,
-                                                      'formato_gic_f_021',
-                                                  ])
-                                            : null
-                                    }
-                                    onChange={(e) => form.setData('formato_gic_f_021', e.target.files[0])}
-                                    error={form.errors.formato_gic_f_021}
-                                />
-                            </Grid>
-
-                            <Grid item md={12}>
-                                <Label className="mb-4 mt-8" labelFor="formato_gic_f_032" value="Formato GIC – F – 032" />
-                                <FileInput
-                                    id="formato_gic_f_032"
-                                    value={form.data.formato_gic_f_032}
-                                    filename={semillero_investigacion?.filename.formato_gic_f_032_filename}
-                                    extension={semillero_investigacion?.extension.formato_gic_f_032_extension}
-                                    label="Seleccione un archivo"
-                                    downloadRoute={
-                                        semillero_investigacion?.formato_gic_f_032
-                                            ? semillero_investigacion?.formato_gic_f_032.includes('http') == true || semillero_investigacion?.formato_gic_f_032.includes('http') == undefined
-                                                ? semillero_investigacion?.formato_gic_f_032
-                                                : route('grupos-investigacion.lineas-investigacion.semilleros-investigacion.download-file-sharepoint', [
-                                                      grupo_investigacion.id,
-                                                      linea_investigacion.id,
-                                                      semillero_investigacion.id,
-                                                      'formato_gic_f_032',
-                                                  ])
-                                            : null
-                                    }
-                                    onChange={(e) => form.setData('formato_gic_f_032', e.target.files[0])}
-                                    error={form.errors.formato_gic_f_032}
-                                />
-                            </Grid>
-
-                            <Grid item md={12}>
-                                <Label className="mb-4 mt-8" labelFor="formato_aval_semillero" value="Aval del semillero" />
-                                <FileInput
-                                    id="formato_aval_semillero"
-                                    value={form.data.formato_aval_semillero}
-                                    filename={semillero_investigacion?.filename.formato_aval_semillero_filename}
-                                    extension={semillero_investigacion?.extension.formato_aval_semillero_extension}
-                                    label="Seleccione un archivo"
-                                    downloadRoute={
-                                        semillero_investigacion?.formato_aval_semillero
-                                            ? semillero_investigacion?.formato_aval_semillero.includes('http') == true || semillero_investigacion?.formato_aval_semillero.includes('http') == undefined
-                                                ? semillero_investigacion?.formato_aval_semillero
-                                                : route('grupos-investigacion.lineas-investigacion.semilleros-investigacion.download-file-sharepoint', [
-                                                      grupo_investigacion.id,
-                                                      linea_investigacion.id,
-                                                      semillero_investigacion.id,
-                                                      'formato_aval_semillero',
-                                                  ])
-                                            : null
-                                    }
-                                    onChange={(e) => form.setData('formato_aval_semillero', e.target.files[0])}
-                                    error={form.errors.formato_aval_semillero}
                                 />
                             </Grid>
                         </Grid>

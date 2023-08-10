@@ -63,20 +63,6 @@ class GrupoInvestigacionController extends Controller
         $grupo_investigacion = GrupoInvestigacion::create($request->validated());
         $grupo_investigacion->redesConocimiento()->sync($request->redes_conocimiento);
 
-        if ($request->hasFile('formato_gic_f_020')) {
-            $request->validate([
-                'formato_gic_f_020' => 'nullable|file|max:10240',
-            ]);
-            return $this->saveFilesSharepoint($request->formato_gic_f_020, 'GRUPOS LÍNEAS Y SEMILLEROS', $grupo_investigacion, 'formato_gic_f_020');
-        }
-
-        if ($request->hasFile('formato_gic_f_032')) {
-            $request->validate([
-                'formato_gic_f_032' => 'nullable|file|max:10240',
-            ]);
-            return $this->saveFilesSharepoint($request->formato_gic_f_032, 'GRUPOS LÍNEAS Y SEMILLEROS', $grupo_investigacion, 'formato_gic_f_032');
-        }
-
         return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
@@ -119,20 +105,6 @@ class GrupoInvestigacionController extends Controller
         $grupo_investigacion->save();
         $grupo_investigacion->redesConocimiento()->sync($request->redes_conocimiento);
 
-        if ($request->hasFile('formato_gic_f_020')) {
-            $request->validate([
-                'formato_gic_f_020' => 'nullable|file|max:10240',
-            ]);
-            return $this->saveFilesSharepoint($request->formato_gic_f_020, 'GRUPOS LÍNEAS Y SEMILLEROS', $grupo_investigacion, 'formato_gic_f_020');
-        }
-
-        if ($request->hasFile('formato_gic_f_032')) {
-            $request->validate([
-                'formato_gic_f_032' => 'nullable|file|max:10240',
-            ]);
-            return $this->saveFilesSharepoint($request->formato_gic_f_032, 'GRUPOS LÍNEAS Y SEMILLEROS', $grupo_investigacion, 'formato_gic_f_032');
-        }
-
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
@@ -149,6 +121,26 @@ class GrupoInvestigacionController extends Controller
         // $grupo_investigacion->delete();
 
         return back()->with('error', 'No se puede eliminar el recurso debido a que hay información relacionada. Comuníquese con el administrador del sistema.');
+    }
+
+    public function uploadFormatoGicF020(Request $request, GrupoInvestigacion $grupo_investigacion)
+    {
+        if ($request->hasFile('formato_gic_f_020')) {
+            $request->validate([
+                'formato_gic_f_020' => 'nullable|file|max:10240',
+            ]);
+            return $this->saveFilesSharepoint($request->formato_gic_f_020, 'GRUPOS LÍNEAS Y SEMILLEROS', $grupo_investigacion, 'formato_gic_f_020');
+        }
+    }
+
+    public function uploadFormatoGicF032(Request $request, GrupoInvestigacion $grupo_investigacion)
+    {
+        if ($request->hasFile('formato_gic_f_032')) {
+            $request->validate([
+                'formato_gic_f_032' => 'nullable|file|max:10240',
+            ]);
+            return $this->saveFilesSharepoint($request->formato_gic_f_032, 'GRUPOS LÍNEAS Y SEMILLEROS', $grupo_investigacion, 'formato_gic_f_032');
+        }
     }
 
     public function saveFilesSharepoint($tmp_file, $modulo, $modelo, $campo_bd)
