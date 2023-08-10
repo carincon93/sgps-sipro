@@ -8,8 +8,8 @@ class ProyectoLinea69ColumnRequest extends FormRequest
 {
 
     private $columnsRules = [
-        'fecha_inicio'                       => ['required', 'date', 'before:fecha_finalizacion'],
-        'fecha_finalizacion'                 => ['required', 'date', 'after:fecha_inicio'],
+        'fecha_inicio'                       => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
+        'fecha_finalizacion'                 => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
         'articulacion_agenda_competitividad' => ['nullable','string'],
         'aportes_linea_ocho_conpes'          => ['nullable','string'],
         'estado_ecosistema_ctel'             => ['nullable','string'],

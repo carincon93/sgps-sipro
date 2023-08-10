@@ -7,6 +7,14 @@ use Illuminate\Foundation\Http\FormRequest;
 class ProyectoLinea68ColumnRequest extends FormRequest
 {
     private $columnsRules = [
+        'tipo_proyecto_linea_68_id'         => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tipos_proyecto_linea_68,id'],
+        'estado_sistema_gestion_id'         => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:estados_sistema_gestion,id'],
+        'titulo'                            => ['required', 'string'],
+        'fecha_inicio'                      => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
+        'fecha_finalizacion'                => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
+        'sector_productivo'                 => ['required', 'min:0', 'max:2147483647', 'integer'],
+        'nombre_area_tecnica'               => ['required', 'string', 'max:191'],
+
         'resumen'                           => ['required', 'string'],
         'antecedentes'                      => ['required', 'string'],
         'identificacion_problema'           => ['required', 'string'],
@@ -20,14 +28,6 @@ class ProyectoLinea68ColumnRequest extends FormRequest
         'video'                             => ['nullable', 'string'],
         'infraestructura_adecuada'          => ['nullable', 'boolean'],
         'especificaciones_area'             => ['nullable', 'string'],
-
-        'tipo_proyecto_linea_68_id'         => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tipos_proyecto_linea_68,id'],
-        'estado_sistema_gestion_id'         => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:estados_sistema_gestion,id'],
-        'titulo'                            => ['required', 'string'],
-        'fecha_inicio'                      => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
-        'fecha_finalizacion'                => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
-        'sector_productivo'                 => ['required', 'min:0', 'max:2147483647', 'integer'],
-        'nombre_area_tecnica'               => ['required', 'string', 'max:191'],
     ];
 
     /**

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class ProyectoLinea83ColumnRequest extends FormRequest
 {
     private $columnsRules = [
+        'titulo'                                        => ['nullable', 'string'],
         'fecha_inicio'                                  => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
         'fecha_finalizacion'                            => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
         'logros_vigencia_anterior'                      => ['nullable', 'string'],
@@ -15,7 +16,6 @@ class ProyectoLinea83ColumnRequest extends FormRequest
         'marco_conceptual'                              => ['required', 'string'],
         'bibliografia'                                  => ['required', 'string'],
         'pertinencia_territorio'                        => ['required', 'string'],
-        'titulo'                                        => ['nullable', 'string'],
         'retos_prioridades'                             => ['nullable', 'string'],
         'contribucion_agenda_regional_competitividad'   => ['nullable', 'string'],
         'aportes_conpes'                                => ['nullable', 'string'],

@@ -7,6 +7,10 @@ use Illuminate\Foundation\Http\FormRequest;
 class ProyectoLinea65ColumnRequest extends FormRequest
 {
     private $columnsRules = [
+        'titulo'                                    => ['required', 'string'],
+        'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
+        'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
+
         'resumen'                                   => ['required', 'max:40000', 'string'],
         'antecedentes'                              => ['required', 'max:40000', 'string'],
         'marco_conceptual'                          => ['required', 'string'],
@@ -26,9 +30,7 @@ class ProyectoLinea65ColumnRequest extends FormRequest
         'area_conocimiento_id'                      => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:areas_conocimiento,id'],
         'tematica_estrategica_id'                   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tematicas_estrategicas,id'],
         'actividad_economica_id'                    => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:actividades_economicas,id'],
-        'titulo'                                    => ['required', 'string'],
-        'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
-        'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
+
         'video'                                     => ['nullable', 'string', 'url'],
         'muestreo'                                  => ['required', 'max:191'],
         'actividades_muestreo'                      => ['nullable', 'max:191'],

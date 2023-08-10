@@ -7,6 +7,9 @@ use Illuminate\Foundation\Http\FormRequest;
 class ProyectoLinea66ColumnRequest extends FormRequest
 {
     private $columnsRules = [
+        'fecha_inicio'                                          => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
+        'fecha_finalizacion'                                    => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
+
         'resumen'                                               => ['required', 'string'],
         'antecedentes'                                          => ['required', 'string'],
         'marco_conceptual'                                      => ['required', 'string'],
@@ -18,8 +21,7 @@ class ProyectoLinea66ColumnRequest extends FormRequest
         'bibliografia'                                          => ['required', 'string'],
         'impacto_municipios'                                    => ['required', 'string'],
         'impacto_centro_formacion'                              => ['required', 'string'],
-        'fecha_inicio'                                          => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
-        'fecha_finalizacion'                                    => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
+
         'justificacion_proyecto_investigacion_pedagogica'       => ['nullable', 'string'],
         'centro_formacion_id'                                   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
         'linea_programatica_id'                                 => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_programaticas,id'],
