@@ -277,6 +277,7 @@ class SharepointHelper
     public static function saveFilesSharepoint($tmp_file, $modelo, $sharepoint_path, $campo_bd)
     {
         $status = self::checkFolderAndCreate($sharepoint_path);
+
         $success = null;
 
         if ($status) {
@@ -287,6 +288,9 @@ class SharepointHelper
             }
 
             $sharepoint_path = self::uploadFile($sharepoint_path, $tmp_file, $nombre_archivo);
+            if (strpos($sharepoint_path, '.tmp') > 0) {
+                return back()->with('error', 'Error: No se ha podido cargar el archivo');
+            }
 
             try {
                 if ($modelo) {
@@ -297,9 +301,9 @@ class SharepointHelper
                 Log::debug($e->getMessage());
                 $success = false;
             }
-        }
 
-        return collect(['success' => $success, 'sharePointPath' => $sharepoint_path]);
+            return back()->with('success', 'Se ha modificado la información y se ha cargado el archivo correctamente.');
+        }
     }
 
     public static function prepareFileName($nombre_archivo, $upload_file)

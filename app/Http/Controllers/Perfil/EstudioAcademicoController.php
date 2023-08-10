@@ -45,11 +45,11 @@ class EstudioAcademicoController extends Controller
     {
         $this->authorize('create', [EstudioAcademico::class]);
 
-        $estudio_academico = EstudioAcademico::create($request->all());
+        $estudio_academico = EstudioAcademico::create($request->validated());
 
         if ($request->hasFile('soporte_titulo_obtenido')) {
             // CENSO2023 Quemado
-            $this->saveFilesSharepoint($request->soporte_titulo_obtenido, 'CENSO2023', $estudio_academico, 'soporte_titulo_obtenido');
+            return $this->saveFilesSharepoint($request->soporte_titulo_obtenido, 'CENSO2023', $estudio_academico, 'soporte_titulo_obtenido');
         }
 
         return back()->with('success', 'El recurso se ha creado correctamente.');
@@ -90,14 +90,14 @@ class EstudioAcademicoController extends Controller
     {
         $this->authorize('update', [EstudioAcademico::class, $estudio_academico]);
 
-        $estudio_academico->update($request->all());
+        $estudio_academico->update($request->validated());
 
         if ($request->hasFile('soporte_titulo_obtenido')) {
             // CENSO2023 Quemado
-            $this->saveFilesSharepoint($request->soporte_titulo_obtenido, 'CENSO2023', $estudio_academico, 'soporte_titulo_obtenido');
+            return $this->saveFilesSharepoint($request->soporte_titulo_obtenido, 'CENSO2023', $estudio_academico, 'soporte_titulo_obtenido');
         }
 
-        return redirect()->back()->with('success', 'El recurso se ha actualizado correctamente.');
+        return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
     /**

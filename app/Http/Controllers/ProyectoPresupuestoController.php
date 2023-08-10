@@ -184,7 +184,7 @@ class ProyectoPresupuestoController extends Controller
         ]);
 
         if ($request->hasFile('formato_estudio_mercado')) {
-            $this->saveFilesSharepoint($request->formato_estudio_mercado, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $presupuesto, 'formato_estudio_mercado');
+            return $this->saveFilesSharepoint($request->formato_estudio_mercado, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $presupuesto, 'formato_estudio_mercado');
         }
 
         $presupuesto->update(['valor_total' => $request->valor_total]);

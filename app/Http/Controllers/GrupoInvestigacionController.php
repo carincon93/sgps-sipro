@@ -67,14 +67,14 @@ class GrupoInvestigacionController extends Controller
             $request->validate([
                 'formato_gic_f_020' => 'nullable|file|max:10240',
             ]);
-            $this->saveFilesSharepoint($request->formato_gic_f_020, 'GRUPOS LÍNEAS Y SEMILLEROS', $grupo_investigacion, 'formato_gic_f_020');
+            return $this->saveFilesSharepoint($request->formato_gic_f_020, 'GRUPOS LÍNEAS Y SEMILLEROS', $grupo_investigacion, 'formato_gic_f_020');
         }
 
         if ($request->hasFile('formato_gic_f_032')) {
             $request->validate([
                 'formato_gic_f_032' => 'nullable|file|max:10240',
             ]);
-            $this->saveFilesSharepoint($request->formato_gic_f_032, 'GRUPOS LÍNEAS Y SEMILLEROS', $grupo_investigacion, 'formato_gic_f_032');
+            return $this->saveFilesSharepoint($request->formato_gic_f_032, 'GRUPOS LÍNEAS Y SEMILLEROS', $grupo_investigacion, 'formato_gic_f_032');
         }
 
         return back()->with('success', 'El recurso se ha creado correctamente.');
@@ -123,14 +123,14 @@ class GrupoInvestigacionController extends Controller
             $request->validate([
                 'formato_gic_f_020' => 'nullable|file|max:10240',
             ]);
-            $this->saveFilesSharepoint($request->formato_gic_f_020, 'GRUPOS LÍNEAS Y SEMILLEROS', $grupo_investigacion, 'formato_gic_f_020');
+            return $this->saveFilesSharepoint($request->formato_gic_f_020, 'GRUPOS LÍNEAS Y SEMILLEROS', $grupo_investigacion, 'formato_gic_f_020');
         }
 
         if ($request->hasFile('formato_gic_f_032')) {
             $request->validate([
                 'formato_gic_f_032' => 'nullable|file|max:10240',
             ]);
-            $this->saveFilesSharepoint($request->formato_gic_f_032, 'GRUPOS LÍNEAS Y SEMILLEROS', $grupo_investigacion, 'formato_gic_f_032');
+            return $this->saveFilesSharepoint($request->formato_gic_f_032, 'GRUPOS LÍNEAS Y SEMILLEROS', $grupo_investigacion, 'formato_gic_f_032');
         }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');

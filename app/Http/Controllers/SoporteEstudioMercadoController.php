@@ -78,7 +78,7 @@ class SoporteEstudioMercadoController extends Controller
         ]);
 
         if ($request->hasFile('soporte_primer_empresa')) {
-            $this->saveFilesSharepoint($request->soporte_primer_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soporte_primer_empresa, 'soporte');
+            return $this->saveFilesSharepoint($request->soporte_primer_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soporte_primer_empresa, 'soporte');
         }
 
         $soporte_segunda_empresa = SoporteEstudioMercado::updateOrCreate(['id' => $request->id_segunda_empresa], [
@@ -86,7 +86,7 @@ class SoporteEstudioMercadoController extends Controller
             'proyecto_presupuesto_id'   => $presupuesto->id
         ]);
         if ($request->hasFile('soporte_segunda_empresa')) {
-            $this->saveFilesSharepoint($request->soporte_segunda_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soporte_segunda_empresa, 'soporte');
+            return $this->saveFilesSharepoint($request->soporte_segunda_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soporte_segunda_empresa, 'soporte');
         }
 
         if ($request->hasFile('soporte_tercer_empresa')) {
@@ -95,7 +95,7 @@ class SoporteEstudioMercadoController extends Controller
                 'proyecto_presupuesto_id'   => $presupuesto->id
             ]);
             if ($request->hasFile('soporte_tercer_empresa')) {
-                $this->saveFilesSharepoint($request->soporte_tercer_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soporte_tercer_empresa, 'soporte');
+                return $this->saveFilesSharepoint($request->soporte_tercer_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soporte_tercer_empresa, 'soporte');
             }
         }
 

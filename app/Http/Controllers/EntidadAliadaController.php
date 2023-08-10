@@ -113,11 +113,11 @@ class EntidadAliadaController extends Controller
                 'carta_propiedad_intelectual'               => 'required_if:tipo_convocatoria,1|nullable|file|max:10240',
             ]);
             if ($request->hasFile('carta_intencion')) {
-                $this->saveFilesSharepoint($request->carta_intencion, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_66, 'carta_intencion');
+                return $this->saveFilesSharepoint($request->carta_intencion, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_66, 'carta_intencion');
             }
 
             if ($request->hasFile('carta_propiedad_intelectual')) {
-                $this->saveFilesSharepoint($request->carta_propiedad_intelectual, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_66, 'carta_propiedad_intelectual');
+                return $this->saveFilesSharepoint($request->carta_propiedad_intelectual, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_66, 'carta_propiedad_intelectual');
             }
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.edit', [$convocatoria, $proyecto, $entidad_aliada])->with('success', 'El recurso se ha creado correctamente.');
@@ -134,7 +134,7 @@ class EntidadAliadaController extends Controller
                 'soporte_convenio' => 'nullable|file|max:10240',
             ]);
             if ($request->hasFile('soporte_convenio')) {
-                $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_69, 'soporte_convenio');
+                return $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_69, 'soporte_convenio');
             }
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
@@ -151,7 +151,7 @@ class EntidadAliadaController extends Controller
                 'soporte_convenio' => 'nullable|file|max:10240',
             ]);
             if ($request->hasFile('soporte_convenio')) {
-                $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_70, 'soporte_convenio');
+                return $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_70, 'soporte_convenio');
             }
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
@@ -167,7 +167,7 @@ class EntidadAliadaController extends Controller
                 'soporte_convenio' => 'nullable|file|max:10240',
             ]);
             if ($request->hasFile('soporte_convenio')) {
-                $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_83, 'soporte_convenio');
+                return $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_83, 'soporte_convenio');
             }
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
@@ -240,11 +240,11 @@ class EntidadAliadaController extends Controller
                 'carta_propiedad_intelectual'               => 'required_if:tipo_convocatoria,1|nullable|file|max:10240',
             ]);
             if ($request->hasFile('carta_intencion')) {
-                $this->saveFilesSharepoint($request->carta_intencion, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_66, 'carta_intencion');
+                return $this->saveFilesSharepoint($request->carta_intencion, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_66, 'carta_intencion');
             }
 
             if ($request->hasFile('carta_propiedad_intelectual')) {
-                $this->saveFilesSharepoint($request->carta_propiedad_intelectual, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_66, 'carta_propiedad_intelectual');
+                return $this->saveFilesSharepoint($request->carta_propiedad_intelectual, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_66, 'carta_propiedad_intelectual');
             }
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.edit', [$convocatoria, $proyecto, $entidad_aliada])->with('success', 'El recurso se ha creado correctamente.');
@@ -262,7 +262,7 @@ class EntidadAliadaController extends Controller
                 'soporte_convenio' => 'nullable|file|max:10240',
             ]);
             if ($request->hasFile('soporte_convenio')) {
-                $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_69, 'soporte_convenio');
+                return $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_69, 'soporte_convenio');
             }
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
@@ -280,7 +280,7 @@ class EntidadAliadaController extends Controller
                 'soporte_convenio' => 'nullable|file|max:10240',
             ]);
             if ($request->hasFile('soporte_convenio')) {
-                $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_70, 'soporte_convenio');
+                return $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_70, 'soporte_convenio');
             }
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
@@ -298,7 +298,7 @@ class EntidadAliadaController extends Controller
                 'soporte_convenio' => 'nullable|file|max:10240',
             ]);
             if ($request->hasFile('soporte_convenio')) {
-                $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_83, 'soporte_convenio');
+                return $this->saveFilesSharepoint($request->soporte_convenio, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $entidad_aliada_linea_83, 'soporte_convenio');
             }
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');

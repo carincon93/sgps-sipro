@@ -190,7 +190,7 @@ class ProyectoLinea70Controller extends Controller
 
         $proyecto = $proyecto_linea_70->proyecto;
         if ($request->hasFile('pdf_proyecto_general')) {
-            $this->saveFilesSharepoint($request->pdf_proyecto_general, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $proyecto_linea_70, $proyecto, 'pdf_proyecto_general');
+            return $this->saveFilesSharepoint($request->pdf_proyecto_general, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $proyecto_linea_70, $proyecto, 'pdf_proyecto_general');
         }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
@@ -301,14 +301,14 @@ class ProyectoLinea70Controller extends Controller
             $request->validate([
                 'soat'              => 'nullable|file|max:10240|mimetypes:application/pdf',
             ]);
-            $this->saveFilesSharepoint($request->soat, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $aula_movil, $proyecto, 'soat');
+            return $this->saveFilesSharepoint($request->soat, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $aula_movil, $proyecto, 'soat');
         }
 
         if ($request->hasFile('tecnicomecanica')) {
             $request->validate([
                 'tecnicomecanica'   => 'nullable|file|max:10240|mimetypes:application/pdf',
             ]);
-            $this->saveFilesSharepoint($request->tecnicomecanica, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $aula_movil, $proyecto, 'tecnicomecanica');
+            return $this->saveFilesSharepoint($request->tecnicomecanica, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $aula_movil, $proyecto, 'tecnicomecanica');
         }
 
         return back()->with('success', $request-> id ? 'El recurso se ha modificado correctamente' : 'El recurso se ha creado correctamente');
@@ -323,14 +323,14 @@ class ProyectoLinea70Controller extends Controller
             $request->validate([
                 'soat'              => 'nullable|file|max:10240|mimetypes:application/pdf',
             ]);
-            $this->saveFilesSharepoint($request->soat, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $aula_movil, $proyecto, 'soat');
+            return $this->saveFilesSharepoint($request->soat, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $aula_movil, $proyecto, 'soat');
         }
 
         if ($request->hasFile('tecnicomecanica')) {
             $request->validate([
                 'tecnicomecanica'   => 'nullable|file|max:10240|mimetypes:application/pdf',
             ]);
-            $this->saveFilesSharepoint($request->tecnicomecanica, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $aula_movil, $proyecto, 'tecnicomecanica');
+            return $this->saveFilesSharepoint($request->tecnicomecanica, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $aula_movil, $proyecto, 'tecnicomecanica');
         }
 
         return back()->with('success', $request-> id ? 'El recurso se ha modificado correctamente' : 'El recurso se ha creado correctamente');

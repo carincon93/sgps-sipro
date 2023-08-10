@@ -183,7 +183,7 @@ class ProyectoLinea69Controller extends Controller
         $proyecto_linea_69->save();
 
         if ($request->hasFile('pdf_proyecto_general')) {
-            $this->saveFilesSharepoint($request->pdf_proyecto_general, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $proyecto_linea_69, 'pdf_proyecto_general');
+            return $this->saveFilesSharepoint($request->pdf_proyecto_general, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $proyecto_linea_69, 'pdf_proyecto_general');
         }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');

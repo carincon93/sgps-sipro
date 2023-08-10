@@ -45,11 +45,11 @@ class FormacionAcademicaSenaController extends Controller
     {
         $this->authorize('create', [FormacionAcademicaSena::class]);
 
-        $formacion_academica_sena = FormacionAcademicaSena::create($request->all());
+        $formacion_academica_sena = FormacionAcademicaSena::create($request->validated());
 
         if ($request->hasFile('certificado_formacion')) {
             // CENSO2023 Quemado
-            $this->saveFilesSharepoint($request->certificado_formacion, 'CENSO2023', $formacion_academica_sena, 'certificado_formacion');
+            return $this->saveFilesSharepoint($request->certificado_formacion, 'CENSO2023', $formacion_academica_sena, 'certificado_formacion');
         }
 
         return back()->with('success', 'El recurso se ha creado correctamente.');
@@ -94,7 +94,7 @@ class FormacionAcademicaSenaController extends Controller
 
         if ($request->hasFile('certificado_formacion')) {
             // CENSO2023 Quemado
-            $this->saveFilesSharepoint($request->certificado_formacion, 'CENSO2023', $formacion_academica_sena, 'certificado_formacion');
+            return $this->saveFilesSharepoint($request->certificado_formacion, 'CENSO2023', $formacion_academica_sena, 'certificado_formacion');
         }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');

@@ -115,11 +115,11 @@ class ProyectoIdiTecnoacademiaController extends Controller
         if ($proyectoIdiTecnoacademia->save()) {
 
             if ($request->hasFile('pdf_proyecto')) {
-                $this->saveFilesSharepoint($request, $proyectoIdiTecnoacademia);
+                return $this->saveFilesSharepoint($request, $proyectoIdiTecnoacademia);
             }
 
             if ($request->hasFile('documentos_resultados')) {
-                $this->saveFilesSharepoint($request, $proyectoIdiTecnoacademia);
+                return $this->saveFilesSharepoint($request, $proyectoIdiTecnoacademia);
             }
 
             $proyectoIdiTecnoacademia->municipios()->attach($request->municipios);
@@ -221,11 +221,11 @@ class ProyectoIdiTecnoacademiaController extends Controller
 
         if ($proyectoIdiTecnoacademia->save()) {
             if ($request->hasFile('pdf_proyecto')) {
-                $this->saveFilesSharepoint($request, $proyectoIdiTecnoacademia);
+                return $this->saveFilesSharepoint($request, $proyectoIdiTecnoacademia);
             }
 
             if ($request->hasFile('documentos_resultados')) {
-                $this->saveFilesSharepoint($request, $proyectoIdiTecnoacademia);
+                return $this->saveFilesSharepoint($request, $proyectoIdiTecnoacademia);
             }
         }
 
