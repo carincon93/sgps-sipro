@@ -58,20 +58,18 @@ const FormacionesAcademicasSena = ({ usuario, formaciones_academicas_sena, modal
                             <p className="first-letter:uppercase">{formacion_academica_sena.titulo_obtenido}</p>
                         </TableCell>
                         <TableCell>
-                            {formacion_academica_sena?.filename && (
-                                <DownloadFile
-                                    label="certificado del título obtenido"
-                                    filename={formacion_academica_sena?.filename}
-                                    extension={formacion_academica_sena?.extension}
-                                    downloadRoute={
-                                        formacion_academica_sena?.certificado_formacion
-                                            ? formacion_academica_sena?.certificado_formacion?.includes('http')
-                                                ? formacion_academica_sena?.certificado_formacion
-                                                : route('formaciones-academicas-sena.download-file-sharepoint', [formacion_academica_sena.id, 'certificado_formacion'])
-                                            : null
-                                    }
-                                />
-                            )}
+                            <DownloadFile
+                                label="certificado del título obtenido"
+                                filename={formacion_academica_sena?.filename}
+                                extension={formacion_academica_sena?.extension}
+                                downloadRoute={
+                                    formacion_academica_sena?.certificado_formacion
+                                        ? formacion_academica_sena?.certificado_formacion?.includes('http')
+                                            ? formacion_academica_sena?.certificado_formacion
+                                            : route('formaciones-academicas-sena.download-file-sharepoint', [formacion_academica_sena.id, 'certificado_formacion'])
+                                        : null
+                                }
+                            />
                             <ButtonMui
                                 onClick={() => (setDialogCertificadoStatus(true), setFormacionAcademicaSena(formacion_academica_sena))}
                                 className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
