@@ -761,7 +761,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                             <Textarea
                                                 id="causa-directa-descripcion"
                                                 inputBackground="#fff"
-                                                disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                                disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                                 error={form_causa_directa.errors.descripcion}
                                                 value={form_causa_directa.data.descripcion}
                                                 onChange={(e) => form_causa_directa.setData('descripcion', e.target.value)}
@@ -841,7 +841,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                         <Textarea
                                                             id="causa-directa-descripcion"
                                                             inputBackground="#fff"
-                                                            disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                                            disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                                             error={form_causa_indirecta.errors.descripcion}
                                                             value={form_causa_indirecta.data.descripcion}
                                                             onChange={(e) => form_causa_indirecta.setData('descripcion', e.target.value)}
@@ -893,7 +893,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                 <Textarea
                                                     id="causa-directa-descripcion"
                                                     inputBackground="#fff"
-                                                    disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                                    disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                                     label="Escriba la nueva causa indirecta"
                                                     error={form_causa_indirecta.errors.descripcion}
                                                     value={form_causa_indirecta.data.descripcion}
@@ -986,7 +986,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                     <Textarea
                                                         id="descripcion-objetivo-especifico"
                                                         inputBackground="#fff"
-                                                        disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                                        disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                                         error={form_objetivo_especifico.errors.descripcion}
                                                         value={form_objetivo_especifico.data.descripcion}
                                                         onChange={(e) => form_objetivo_especifico.setData('descripcion', e.target.value)}
@@ -1081,7 +1081,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                             <Textarea
                                                                 id="descripcion-actividad"
                                                                 inputBackground="#fff"
-                                                                disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                                                disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                                                 error={form_actividad.errors.descripcion}
                                                                 value={form_actividad.data.descripcion}
                                                                 onChange={(e) => form_actividad.setData('descripcion', e.target.value)}
@@ -1090,7 +1090,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                         </TooltipMui>
                                                     </div>
 
-                                                    {proyecto.codigo_linea_programatica === 69 || proyecto.codigo_linea_programatica === 70 ? (
+                                                    {proyecto.tipo_formulario_convocatoria_id == 5 || proyecto.tipo_formulario_convocatoria_id == 4 ? (
                                                         <div>
                                                             <Label required labelFor="resultado_id" value="Resultado" />
                                                             <Autocomplete
@@ -1235,7 +1235,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                             <Textarea
                                                 id="efecto-directo-descripcion"
                                                 inputBackground="#fff"
-                                                disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                                disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                                 error={form_efecto_directo.errors.descripcion}
                                                 value={form_efecto_directo.data.descripcion}
                                                 onChange={(e) => form_efecto_directo.setData('descripcion', e.target.value)}
@@ -1310,7 +1310,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                         <Textarea
                                                             id="efecto-directo-descripcion"
                                                             inputBackground="#fff"
-                                                            disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                                            disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                                             label="Escriba el nuevo efecto indirecto"
                                                             error={form_efecto_indirecto.errors.descripcion}
                                                             value={form_efecto_indirecto.data.descripcion}
@@ -1360,7 +1360,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                 <Textarea
                                                     id="efecto-directo-descripcion"
                                                     inputBackground="#fff"
-                                                    disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                                    disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                                     label="Escriba el nuevo efecto indirecto"
                                                     error={form_efecto_indirecto.errors.descripcion}
                                                     value={form_efecto_indirecto.data.descripcion}
@@ -1448,7 +1448,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                             <Textarea
                                                                 id="descripcion-resultado"
                                                                 inputBackground="#fff"
-                                                                disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                                                disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                                                 error={form_resultado.errors.descripcion}
                                                                 value={form_resultado.data.descripcion}
                                                                 onChange={(e) => form_resultado.setData('descripcion', e.target.value)}
@@ -1578,7 +1578,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                             <Textarea
                                                                 id="descripcion-impacto"
                                                                 inputBackground="#fff"
-                                                                disabled={is_super_admin ? false : proyecto.codigo_linea_programatica === 70 ? true : false}
+                                                                disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                                                 error={form_impacto.errors.descripcion}
                                                                 value={form_impacto.data.descripcion}
                                                                 onChange={(e) => form_impacto.setData('descripcion', e.target.value)}

@@ -68,7 +68,7 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
             </Grid>
 
             <Grid item md={12}>
-                {proyecto.codigo_linea_programatica == 70 && (
+                {proyecto.tipo_formulario_convocatoria_id == 4 && (
                     <>
                         <AlertMui>Ingrese el número de instructores de planta, dinamizadores de planta y psicopedagógos de planta que requiere el proyecto.</AlertMui>
                         <form onSubmit={submit} className="mb-40">

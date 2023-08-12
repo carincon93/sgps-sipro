@@ -30,7 +30,7 @@ class ConvocatoriaRolSennova extends Model
      * @var array
      */
     protected $fillable = [
-        'linea_programatica_id',
+        'tipo_formulario_convocatoria_id',
         'convocatoria_id',
         'rol_sennova_id',
         'asignacion_mensual',
@@ -81,13 +81,13 @@ class ConvocatoriaRolSennova extends Model
     }
 
     /**
-     * Relationship with LineaProgramatica
+     * Relationship with TipoFormularioConvocatoria
      *
      * @return object
      */
-    public function lineaProgramatica()
+    public function tipoFormularioConvocatoria()
     {
-        return $this->belongsTo(LineaProgramatica::class);
+        return $this->belongsTo(TipoFormularioConvocatoria::class);
     }
 
     /**

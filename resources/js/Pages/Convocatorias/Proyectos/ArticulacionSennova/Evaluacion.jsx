@@ -108,7 +108,7 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
                             )}
                         </div>
                     </AlertMui>
-                    {proyecto.codigo_linea_programatica == 70 && (
+                    {proyecto.tipo_formulario_convocatoria_id == 4 && (
                         <AlertMui>
                             <div className="mt-4">
                                 <p>¿La información sobre las líneas medulares es correcta? Por favor seleccione si Cumple o No cumple.</p>

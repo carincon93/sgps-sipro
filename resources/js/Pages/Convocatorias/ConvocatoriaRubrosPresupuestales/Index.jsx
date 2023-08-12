@@ -35,7 +35,7 @@ const ConvocatoriaRubroPresupuestales = ({ auth, convocatoria, convocatoria_rubr
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                     <Grid item md={12}>
-                        <TabsConvocatoria value="2" convocatoria={convocatoria} linea_programatica_id={page_props.ziggy.query.linea_programatica_id} />
+                        <TabsConvocatoria value="2" convocatoria={convocatoria} tipo_formulario_convocatoria_id={page_props.ziggy.query.tipo_formulario_convocatoria_id} />
                     </Grid>
                 )}
 
@@ -89,8 +89,8 @@ const ConvocatoriaRubroPresupuestales = ({ auth, convocatoria, convocatoria_rubr
                                         } mt-1 group`}
                                         label={
                                             <>
-                                                <div class="group-hover:hidden">{convocatoria_rubro_presupuestal.habilitado ? 'Habilitado' : 'Deshabilitado'}</div>
-                                                <div class="hidden group-hover:block">{convocatoria_rubro_presupuestal.habilitado ? 'Deshabilitar' : 'Habilitar'}</div>
+                                                <div className="group-hover:hidden">{convocatoria_rubro_presupuestal.habilitado ? 'Habilitado' : 'Deshabilitado'}</div>
+                                                <div className="hidden group-hover:block">{convocatoria_rubro_presupuestal.habilitado ? 'Deshabilitar' : 'Habilitar'}</div>
                                             </>
                                         }
                                     />
@@ -116,8 +116,10 @@ const ConvocatoriaRubroPresupuestales = ({ auth, convocatoria, convocatoria_rubr
                                         } mt-1 group`}
                                         label={
                                             <>
-                                                <div class="group-hover:hidden">{convocatoria_rubro_presupuestal.sumar_al_presupuesto ? 'Suma al presupuesto' : 'No suma al presupuesto'}</div>
-                                                <div class="hidden group-hover:block">{convocatoria_rubro_presupuestal.sumar_al_presupuesto ? 'No suma al presupuesto' : 'Suma al presupuesto'}</div>
+                                                <div className="group-hover:hidden">{convocatoria_rubro_presupuestal.sumar_al_presupuesto ? 'Suma al presupuesto' : 'No suma al presupuesto'}</div>
+                                                <div className="hidden group-hover:block">
+                                                    {convocatoria_rubro_presupuestal.sumar_al_presupuesto ? 'No suma al presupuesto' : 'Suma al presupuesto'}
+                                                </div>
                                             </>
                                         }
                                     />
@@ -143,10 +145,10 @@ const ConvocatoriaRubroPresupuestales = ({ auth, convocatoria, convocatoria_rubr
                                         } mt-1 group`}
                                         label={
                                             <>
-                                                <div class="group-hover:hidden">
+                                                <div className="group-hover:hidden">
                                                     {convocatoria_rubro_presupuestal.requiere_estudio_mercado ? 'Requiere estudio de mercado' : 'No requiere estudio de mercado'}
                                                 </div>
-                                                <div class="hidden group-hover:block">
+                                                <div className="hidden group-hover:block">
                                                     {convocatoria_rubro_presupuestal.requiere_estudio_mercado ? 'No requiere estudio de mercado' : 'Requiere estudio de mercado'}
                                                 </div>
                                             </>
@@ -193,8 +195,8 @@ const ConvocatoriaRubroPresupuestales = ({ auth, convocatoria, convocatoria_rubr
 
                     <PaginationMui
                         links={convocatoria_rubros_presupuestales.links}
-                        route_params="linea_programatica_id"
-                        route_params_value={page_props.ziggy.query.linea_programatica_id}
+                        route_params="tipo_formulario_convocatoria_id"
+                        route_params_value={page_props.ziggy.query.tipo_formulario_convocatoria_id}
                         className="mt-6"
                     />
 
@@ -211,7 +213,7 @@ const ConvocatoriaRubroPresupuestales = ({ auth, convocatoria, convocatoria_rubr
                                 convocatoria={convocatoria}
                                 convocatoria_rubro_presupuestal={convocatoria_rubro_presupuestal}
                                 rubros_presupuestales={rubros_presupuestales}
-                                linea_programatica_id={page_props.ziggy.query.linea_programatica_id}
+                                tipo_formulario_convocatoria_id={page_props.ziggy.query.tipo_formulario_convocatoria_id}
                             />
                         }
                     />

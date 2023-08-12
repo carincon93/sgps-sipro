@@ -77,13 +77,13 @@ class LineaTecnoacademia extends Model
     }
 
     /**
-     * Relationship with ProyectoLinea70
+     * Relationship with ProyectoFormulario4Linea70
      *
      * @return object
      */
     public function proyectosLinea70()
     {
-        return $this->hasMany(ProyectoLinea70::class);
+        return $this->hasMany(ProyectoFormulario4Linea70::class);
     }
 
     /**

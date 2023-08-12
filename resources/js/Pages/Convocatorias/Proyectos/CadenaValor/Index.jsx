@@ -259,7 +259,7 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
                 <Grid item md={12}>
                     <h1 className="text-3xl mt-24 text-center">Propuesta de sostenibilidad</h1>
 
-                    {proyecto.codigo_linea_programatica == 70 && (
+                    {proyecto.tipo_formulario_convocatoria_id == 4 && (
                         <AlertMui className="text-center my-24">
                             A continuación, plantee las acciones concretas que contribuirán a la sostenibilidad financiera de la TecnoAcademia y su aporte a la sostenibilidad ambiental y social del
                             territorio.
@@ -268,9 +268,9 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
 
                     <form onSubmit={submit}>
                         <fieldset disabled={proyecto.allowed.to_update ? false : true}>
-                            {proyecto.codigo_linea_programatica != 70 ? (
+                            {proyecto.tipo_formulario_convocatoria_id != 4 ? (
                                 <div>
-                                    {proyecto.codigo_linea_programatica == 68 ? (
+                                    {proyecto.tipo_formulario_convocatoria_id == 12 ? (
                                         <AlertMui className="my-10">
                                             Se deben mencionar aquellos factores que pueden comprometer la viabilidad, desarrollo de los objetivos y resultados del proyecto a través del tiempo.
                                             <br />
@@ -295,7 +295,7 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
                                     />
                                 </div>
                             ) : (
-                                proyecto.codigo_linea_programatica == 70 && (
+                                proyecto.tipo_formulario_convocatoria_id == 4 && (
                                     <>
                                         <div className="mt-8">
                                             <Textarea

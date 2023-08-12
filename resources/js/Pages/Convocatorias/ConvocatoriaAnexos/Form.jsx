@@ -8,10 +8,10 @@ import SwitchMui from '@/Components/Switch'
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', setDialogStatus, convocatoria, convocatoria_anexo, anexos, linea_programatica_id, ...props }) => {
+const Form = ({ method = '', setDialogStatus, convocatoria, convocatoria_anexo, anexos, tipo_formulario_convocatoria_id, ...props }) => {
     const form = useForm({
         anexo_id: convocatoria_anexo?.anexo_id,
-        linea_programatica_id: linea_programatica_id,
+        tipo_formulario_convocatoria_id: tipo_formulario_convocatoria_id,
         habilitado: convocatoria_anexo?.habilitado,
         obligatorio: convocatoria_anexo?.obligatorio,
     })

@@ -27,25 +27,18 @@ class ProyectoAnexoController extends Controller
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
         $proyecto->load('evaluaciones.evaluacionProyectoLinea66');
-        $proyecto->load('evaluaciones.evaluacionProyectoLinea70');
+        $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
-        $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
-
-        if ($proyecto->codigo_linea_programatica == 65) {
-            $proyecto->tipo_proyecto = $proyecto->proyectoLinea65->tipo_proyecto;
-        }
-
-        $linea_programatica_id = $proyecto->linea_programatica_id;
 
         return Inertia::render('Convocatorias/Proyectos/Anexos/Index', [
             'convocatoria'          =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
-            'proyecto'              =>  $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
+            'proyecto'              =>  $proyecto->only('id', 'tipo_formulario_convocatoria_id', 'precio_proyecto', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
             'evaluacion'            =>  Evaluacion::find(request()->evaluacion_id),
             'proyecto_anexo'        =>  $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('anexos', 'proyecto_anexo.anexo_id', 'anexos.id')->get(),
             'convocatoria_anexos'   =>  ConvocatoriaAnexo::where('convocatoria_id', $convocatoria->id)
-                                        ->where('linea_programatica_id', $linea_programatica_id)
+                                        ->where('tipo_formulario_convocatoria_id', $proyecto->tipo_formulario_convocatoria_id)
                                         ->where('habilitado', true)
-                                        ->with('anexo', 'lineaProgramatica')
+                                        ->with('anexo')
                                         ->get()
         ]);
     }
@@ -143,7 +136,7 @@ class ProyectoAnexoController extends Controller
         $anexo              = $modelo;
         $proyecto           = Proyecto::find($anexo->proyecto_id);
 
-        $sharepoint_anexo   = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ANEXOS';
+        $sharepoint_anexo   = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->tipoFormularioConvocatoria->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ANEXOS';
 
         $sharepoint_path    = "$modulo/$sharepoint_anexo";
 
@@ -180,23 +173,23 @@ class ProyectoAnexoController extends Controller
                     'anexos_comentario'   => $request->anexos_requiere_comentario == false ? $request->anexos_comentario : null
                 ]);
                 break;
-            case $evaluacion->evaluacionProyectoLinea65()->exists():
-                $evaluacion->evaluacionProyectoLinea65()->update([
+            case $evaluacion->evaluacionProyectoFormulario1Linea65()->exists():
+                $evaluacion->evaluacionProyectoFormulario1Linea65()->update([
                     'anexos_comentario'   => $request->anexos_requiere_comentario == false ? $request->anexos_comentario : null
                 ]);
                 break;
-            case $evaluacion->evaluacionProyectoLinea70()->exists():
-                $evaluacion->evaluacionProyectoLinea70()->update([
+            case $evaluacion->evaluacionProyectoFormulario4Linea70()->exists():
+                $evaluacion->evaluacionProyectoFormulario4Linea70()->update([
                     'anexos_comentario'   => $request->anexos_requiere_comentario == false ? $request->anexos_comentario : null
                 ]);
                 break;
-            case $evaluacion->evaluacionProyectoLinea69()->exists():
-                $evaluacion->evaluacionProyectoLinea69()->update([
+            case $evaluacion->evaluacionProyectoFormulario5Linea69()->exists():
+                $evaluacion->evaluacionProyectoFormulario5Linea69()->update([
                     'anexos_comentario'   => $request->anexos_requiere_comentario == false ? $request->anexos_comentario : null
                 ]);
                 break;
-            case $evaluacion->evaluacionProyectoLinea68()->exists():
-                $evaluacion->evaluacionProyectoLinea68()->update([
+            case $evaluacion->evaluacionProyectoFormulario12Linea68()->exists():
+                $evaluacion->evaluacionProyectoFormulario12Linea68()->update([
                     'anexos_comentario'                     => $request->anexos_requiere_comentario == false ? $request->anexos_comentario : null,
                     'video_comentario'                      => $request->video_requiere_comentario == false ? $request->video_comentario : null,
                     'especificaciones_area_comentario'      => $request->especificaciones_area_requiere_comentario == false ? $request->especificaciones_area_comentario : null,

@@ -11,6 +11,7 @@ use App\Models\Idi;
 use App\Models\LineaProgramatica;
 use App\Models\RolSennova;
 use App\Models\RubroPresupuestal;
+use App\Models\TipoFormularioConvocatoria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -45,10 +46,10 @@ class ConvocatoriaController extends Controller
         $this->authorize('create', [Convocatoria::class]);
 
         return Inertia::render('Convocatorias/Create', [
-            'lineas_programaticas'  => LineaProgramatica::selectRaw("id as value, CONCAT(nombre, ' - Código: ', codigo) as label")->orderBy('nombre', 'ASC')->get(),
-            'convocatorias'         => SelectHelper::convocatorias(),
-            'fases'                 => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
-            'tipos_convocatoria'    => collect(json_decode(Storage::get('json/tipos-convocatoria.json'), true)),
+            'tipos_formulario_convocatoria' => TipoFormularioConvocatoria::selectRaw("tipos_formulario_convocatoria.id as value, CONCAT(tipos_formulario_convocatoria.nombre, ' - Línea: ', lineas_programaticas.codigo) as label")->join('lineas_programaticas', 'tipos_formulario_convocatoria.linea_programatica_id', 'lineas_programaticas.id')->orderBy('tipos_formulario_convocatoria.nombre', 'ASC')->get(),
+            'convocatorias'                 => SelectHelper::convocatorias(),
+            'fases'                         => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
+            'tipos_convocatoria'            => collect(json_decode(Storage::get('json/tipos-convocatoria.json'), true)),
         ]);
     }
 
@@ -64,27 +65,27 @@ class ConvocatoriaController extends Controller
 
         $convocatoria = Convocatoria::create($request->validated());
 
-        $convocatoria->lineasProgramaticas()->sync($request->lineas_programaticas);
+        $convocatoria->tiposFormularioConvocatoria()->sync($request->tipos_formulario_convocatoria);
 
         DB::select('SELECT public."crear_convocatoria_presupuesto"(' . $request->convocatoria_id . ',' . $convocatoria->id . ')');
         DB::select('SELECT public."crear_convocatoria_rol_sennova"(' . $request->convocatoria_id . ',' . $convocatoria->id . ')');
 
-        $convocatoria_rubro_lineas_programaticas = ConvocatoriaPresupuesto::selectRaw('DISTINCT(linea_programatica_id)')->where('convocatoria_id', $request->convocatoria_id)->pluck('linea_programatica_id')->toArray();
+        $rubros_convocatoria_por_formulario     = ConvocatoriaPresupuesto::selectRaw('DISTINCT(tipo_formulario_convocatoria_id)')->where('convocatoria_id', $request->convocatoria_id)->pluck('tipo_formulario_convocatoria_id')->toArray();
 
-        $lineas_programaticas_rubro_fuera_convocatoria = array_diff($request->lineas_programaticas, $convocatoria_rubro_lineas_programaticas);
+        $rubro_formulario_fuera_convocatoria    = array_diff($request->tipos_formulario_convocatoria, $rubros_convocatoria_por_formulario);
 
-        if (count($lineas_programaticas_rubro_fuera_convocatoria) > 0) {
-            foreach ($lineas_programaticas_rubro_fuera_convocatoria as $value) {
+        if (count($rubro_formulario_fuera_convocatoria) > 0) {
+            foreach ($rubro_formulario_fuera_convocatoria as $value) {
                 $rubros_a_agregar = RubroPresupuestal::all();
 
                 $insert_data = $rubros_a_agregar->map(function ($rubro) use ($value, $convocatoria) {
                     return [
-                        'convocatoria_id'           => $convocatoria->id,
-                        'rubro_presupuestal_id'     => $rubro->id,
-                        'linea_programatica_id'     => $value,
-                        'sumar_al_presupuesto'      => true,
-                        'requiere_estudio_mercado'  => true,
-                        'habilitado'                => true,
+                        'convocatoria_id'                   => $convocatoria->id,
+                        'rubro_presupuestal_id'             => $rubro->id,
+                        'tipo_formulario_convocatoria_id'   => $value,
+                        'sumar_al_presupuesto'              => true,
+                        'requiere_estudio_mercado'          => true,
+                        'habilitado'                        => true,
                     ];
                 });
 
@@ -92,26 +93,26 @@ class ConvocatoriaController extends Controller
             }
         }
 
-        $convocatoria_rol_lineas_programaticas = ConvocatoriaRolSennova::selectRaw('DISTINCT(linea_programatica_id)')->where('convocatoria_id', $request->convocatoria_id)->pluck('linea_programatica_id')->toArray();
+        $roles_convocatoria_por_formulario = ConvocatoriaRolSennova::selectRaw('DISTINCT(tipo_formulario_convocatoria_id)')->where('convocatoria_id', $request->convocatoria_id)->pluck('tipo_formulario_convocatoria_id')->toArray();
 
-        $lineas_programaticas_rol_fuera_convocatoria = array_diff($request->lineas_programaticas, $convocatoria_rol_lineas_programaticas);
+        $rol_formulario_fuera_convocatoria = array_diff($request->tipos_formulario_convocatoria, $roles_convocatoria_por_formulario);
 
-        if (count($lineas_programaticas_rol_fuera_convocatoria) > 0) {
-            foreach ($lineas_programaticas_rol_fuera_convocatoria as $value) {
+        if (count($rol_formulario_fuera_convocatoria) > 0) {
+            foreach ($rol_formulario_fuera_convocatoria as $value) {
                 $roles_a_agregar = RolSennova::all();
 
                 $insert_data = $roles_a_agregar->map(function ($rol) use ($value, $convocatoria) {
                     return [
-                        'linea_programatica_id'     => $value,
-                        'convocatoria_id'           => $convocatoria->id,
-                        'rol_sennova_id'            => $rol->id,
-                        'asignacion_mensual'        => null,
-                        'experiencia'               => null,
-                        'nivel_academico'           => null,
-                        'perfil'                    => null,
-                        'mensaje'                   => null,
-                        'sumar_al_presupuesto'      => true,
-                        'habilitado'                => true,
+                        'tipo_formulario_convocatoria_id'   => $value,
+                        'convocatoria_id'                   => $convocatoria->id,
+                        'rol_sennova_id'                    => $rol->id,
+                        'asignacion_mensual'                => null,
+                        'experiencia'                       => null,
+                        'nivel_academico'                   => null,
+                        'perfil'                            => null,
+                        'mensaje'                           => null,
+                        'sumar_al_presupuesto'              => true,
+                        'habilitado'                        => true,
                     ];
                 });
 
@@ -143,12 +144,12 @@ class ConvocatoriaController extends Controller
     {
         $this->authorize('update', [Convocatoria::class, $convocatoria]);
 
-        $convocatoria->lineasProgramaticas;
+        $convocatoria->tiposFormularioConvocatoria;
 
         return Inertia::render('Convocatorias/Edit', [
-            'convocatoria'         => $convocatoria,
-            'lineas_programaticas' => LineaProgramatica::selectRaw("id as value, CONCAT(nombre, ' - Código: ', codigo) as label")->orderBy('nombre', 'ASC')->get(),
-            'fases'                => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
+            'convocatoria'                  => $convocatoria,
+            'tipos_formulario_convocatoria' => TipoFormularioConvocatoria::selectRaw("tipos_formulario_convocatoria.id as value, CONCAT(tipos_formulario_convocatoria.nombre, ' - Línea: ', lineas_programaticas.codigo) as label")->join('lineas_programaticas', 'tipos_formulario_convocatoria.linea_programatica_id', 'lineas_programaticas.id')->orderBy('tipos_formulario_convocatoria.nombre', 'ASC')->get(),
+            'fases'                         => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
         ]);
     }
 
@@ -165,24 +166,24 @@ class ConvocatoriaController extends Controller
 
         $convocatoria->update($request->validated());
 
-        $convocatoria->lineasProgramaticas()->sync($request->lineas_programaticas);
+        $convocatoria->tiposFormularioConvocatoria()->sync($request->tipos_formulario_convocatoria);
 
-        $convocatoria_rubro_lineas_programaticas = ConvocatoriaPresupuesto::selectRaw('DISTINCT(linea_programatica_id)')->where('convocatoria_id', $convocatoria->id)->pluck('linea_programatica_id')->toArray();
+        $rubros_convocatoria_por_formulario     = ConvocatoriaPresupuesto::selectRaw('DISTINCT(tipo_formulario_convocatoria_id)')->where('convocatoria_id', $convocatoria->id)->pluck('tipo_formulario_convocatoria_id')->toArray();
 
-        $lineas_programaticas_rubro_fuera_convocatoria = array_diff($request->lineas_programaticas, $convocatoria_rubro_lineas_programaticas);
+        $rubro_formulario_fuera_convocatoria    = array_diff($request->tipos_formulario_convocatoria, $rubros_convocatoria_por_formulario);
 
-        if (count($lineas_programaticas_rubro_fuera_convocatoria) > 0) {
-            foreach ($lineas_programaticas_rubro_fuera_convocatoria as $value) {
+        if (count($rubro_formulario_fuera_convocatoria) > 0) {
+            foreach ($rubro_formulario_fuera_convocatoria as $value) {
                 $rubros_a_agregar = RubroPresupuestal::all();
 
                 $insert_data = $rubros_a_agregar->map(function ($rubro) use ($value, $convocatoria) {
                     return [
-                        'convocatoria_id'           => $convocatoria->id,
-                        'rubro_presupuestal_id'     => $rubro->id,
-                        'linea_programatica_id'     => $value,
-                        'sumar_al_presupuesto'      => true,
-                        'requiere_estudio_mercado'  => true,
-                        'habilitado'                => true,
+                        'convocatoria_id'                   => $convocatoria->id,
+                        'rubro_presupuestal_id'             => $rubro->id,
+                        'tipo_formulario_convocatoria_id'   => $value,
+                        'sumar_al_presupuesto'              => true,
+                        'requiere_estudio_mercado'          => true,
+                        'habilitado'                        => true,
                     ];
                 });
 
@@ -190,26 +191,28 @@ class ConvocatoriaController extends Controller
             }
         }
 
-        $convocatoria_rol_lineas_programaticas = ConvocatoriaRolSennova::selectRaw('DISTINCT(linea_programatica_id)')->where('convocatoria_id', $convocatoria->id)->pluck('linea_programatica_id')->toArray();
+        $roles_convocatoria_por_formulario = ConvocatoriaRolSennova::selectRaw('DISTINCT(tipo_formulario_convocatoria_id)')->where('convocatoria_id', $convocatoria->id)->pluck('tipo_formulario_convocatoria_id')->toArray();
 
-        $lineas_programaticas_rol_fuera_convocatoria = array_diff($request->lineas_programaticas, $convocatoria_rol_lineas_programaticas);
 
-        if (count($lineas_programaticas_rol_fuera_convocatoria) > 0) {
-            foreach ($lineas_programaticas_rol_fuera_convocatoria as $value) {
+        $rol_formulario_fuera_convocatoria = array_diff($request->tipos_formulario_convocatoria, $roles_convocatoria_por_formulario);
+
+
+        if (count($rol_formulario_fuera_convocatoria) > 0) {
+            foreach ($rol_formulario_fuera_convocatoria as $value) {
                 $roles_a_agregar = RolSennova::all();
 
                 $insert_data = $roles_a_agregar->map(function ($rol) use ($value, $convocatoria) {
                     return [
-                        'linea_programatica_id'     => $value,
-                        'convocatoria_id'           => $convocatoria->id,
-                        'rol_sennova_id'            => $rol->id,
-                        'asignacion_mensual'        => null,
-                        'experiencia'               => null,
-                        'nivel_academico'           => null,
-                        'perfil'                    => null,
-                        'mensaje'                   => null,
-                        'sumar_al_presupuesto'      => true,
-                        'habilitado'                => true,
+                        'tipo_formulario_convocatoria_id'   => $value,
+                        'convocatoria_id'                   => $convocatoria->id,
+                        'rol_sennova_id'                    => $rol->id,
+                        'asignacion_mensual'                => null,
+                        'experiencia'                       => null,
+                        'nivel_academico'                   => null,
+                        'perfil'                            => null,
+                        'mensaje'                           => null,
+                        'sumar_al_presupuesto'              => true,
+                        'habilitado'                        => true,
                     ];
                 });
 
@@ -246,16 +249,15 @@ class ConvocatoriaController extends Controller
     }
 
     /**
-     * Display the lineasProgramaticas.
+     * Display the tiposFormularioConvocatoria.
      *
      * @return \Illuminate\Http\Response
      */
-    public function lineasProgramaticas(Convocatoria $convocatoria)
+    public function tiposFormularioConvocatoria(Convocatoria $convocatoria)
     {
-        $convocatoria->lineasProgramaticas;
-
-        return Inertia::render('Convocatorias/LineasProgramaticas', [
-            'convocatoria'         => $convocatoria,
+        return Inertia::render('Convocatorias/TiposFormularioConvocatoria', [
+            'convocatoria'                  => $convocatoria,
+            'tipos_formulario_convocatoria' => $convocatoria->tiposFormularioConvocatoria()->with('lineaProgramatica')->get()
         ]);
     }
 
@@ -264,38 +266,38 @@ class ConvocatoriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function proyectosPorLineaProgramatica(Convocatoria $convocatoria, LineaProgramatica $linea_programatica)
+    public function proyectosPorTipoFormulario(Convocatoria $convocatoria, TipoFormularioConvocatoria $tipo_formulario_convocatoria)
     {
-        switch ($linea_programatica->id) {
-            case 1:
-                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria, 'linea_programatica_id' => 1]);
+        switch ($tipo_formulario_convocatoria->id) {
+            case 8:
+                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => 8]);
                 break;
-            case 2:
-                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria, 'linea_programatica_id' => 2]);
+            case 7:
+                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => 7]);
                 break;
-            case 3:
-                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria, 'linea_programatica_id' => 3]);
-                break;
-            case 29:
-                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria, 'linea_programatica_id' => 29]);
-                break;
-            case 4:
-                return redirect()->route('convocatorias.proyectos-linea-69.index', [$convocatoria]);
-            case 5:
-                return redirect()->route('convocatorias.proyectos-linea-70.index', [$convocatoria]);
+            case 6:
+                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => 6]);
                 break;
             case 9:
-                return redirect()->route('convocatorias.proyectos-linea-65.index', [$convocatoria]);
+                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => 9]);
+                break;
+            case 5:
+                return redirect()->route('convocatorias.proyectos-formulario-5-linea-69.index', [$convocatoria]);
+            case 4:
+                return redirect()->route('convocatorias.proyectos-formulario-4-linea-70.index', [$convocatoria]);
+                break;
+            case 1:
+                return redirect()->route('convocatorias.proyectos-formulario-1-linea-65.index', [$convocatoria]);
                 break;
 
-            case 10:
-                return redirect()->route('convocatorias.proyectos-linea-68.index', [$convocatoria]);
+            case 12:
+                return redirect()->route('convocatorias.proyectos-formulario-12-linea-68.index', [$convocatoria]);
                 break;
             case 11:
-                return redirect()->route('convocatorias.proyectos-linea-83.index', [$convocatoria]);
+                return redirect()->route('convocatorias.proyectos-formulario-11-linea-83.index', [$convocatoria]);
                 break;
-            case 35:
-                return redirect()->route('convocatorias.proyectos-hub-linea-69.index', [$convocatoria]);
+            case 10:
+                return redirect()->route('convocatorias.proyectos-formulario-10-linea-69.index', [$convocatoria]);
                 break;
             default:
                 return back();
@@ -339,35 +341,35 @@ class ConvocatoriaController extends Controller
                         }
                         break;
 
-                    case $proyecto->estado_evaluacion_cultura_innovacion != null:
-                        if (json_decode($proyecto->estado_evaluacion_cultura_innovacion)->requiereSubsanar) {
-                            $proyecto->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_cultura_innovacion, 'mostrar_recomendaciones' => true]);
+                    case $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 != null:
+                        if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_1_linea_65)->requiereSubsanar) {
+                            $proyecto->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65, 'mostrar_recomendaciones' => true]);
                         } else {
-                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_cultura_innovacion]);
+                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65]);
                         }
                         break;
 
-                    case $proyecto->estado_evaluacion_ta != null:
-                        if (json_decode($proyecto->estado_evaluacion_ta)->requiereSubsanar) {
-                            $proyecto->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_ta, 'mostrar_recomendaciones' => true]);
+                    case $proyecto->estado_evaluacion_proyecto_formulario_5_linea_70 != null:
+                        if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_5_linea_70)->requiereSubsanar) {
+                            $proyecto->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_5_linea_70, 'mostrar_recomendaciones' => true]);
                         } else {
-                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_ta]);
+                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_5_linea_70]);
                         }
                         break;
 
-                    case $proyecto->estado_evaluacion_tp != null:
-                        if (json_decode($proyecto->estado_evaluacion_tp)->requiereSubsanar) {
-                            $proyecto->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_tp, 'mostrar_recomendaciones' => true]);
+                    case $proyecto->estado_evaluacion_proyecto_formulario_4_linea_69 != null:
+                        if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_4_linea_69)->requiereSubsanar) {
+                            $proyecto->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_4_linea_69, 'mostrar_recomendaciones' => true]);
                         } else {
-                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_tp]);
+                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_4_linea_69]);
                         }
                         break;
 
-                    case $proyecto->estado_evaluacion_servicios_tecnologicos != null:
-                        if (json_decode($proyecto->estado_evaluacion_servicios_tecnologicos)->requiereSubsanar) {
-                            $proyecto->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_servicios_tecnologicos, 'mostrar_recomendaciones' => true]);
+                    case $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68 != null:
+                        if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_12_linea_68)->requiereSubsanar) {
+                            $proyecto->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68, 'mostrar_recomendaciones' => true]);
                         } else {
-                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_servicios_tecnologicos]);
+                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
                         }
                         break;
 
@@ -387,27 +389,27 @@ class ConvocatoriaController extends Controller
                         }
                         break;
 
-                    case $proyecto->estado_evaluacion_cultura_innovacion != null:
-                        if (json_decode($proyecto->estado_evaluacion_cultura_innovacion)->requiereSubsanar) {
-                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => true, 'estado' => $proyecto->estado_evaluacion_cultura_innovacion, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
+                    case $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 != null:
+                        if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_1_linea_65)->requiereSubsanar) {
+                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => true, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
                         }
                         break;
 
-                    case $proyecto->estado_evaluacion_ta != null:
-                        if (json_decode($proyecto->estado_evaluacion_ta)->requiereSubsanar) {
-                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => true, 'estado' => $proyecto->estado_evaluacion_ta, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
+                    case $proyecto->estado_evaluacion_proyecto_formulario_5_linea_70 != null:
+                        if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_5_linea_70)->requiereSubsanar) {
+                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => true, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_5_linea_70, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
                         }
                         break;
 
-                    case $proyecto->estado_evaluacion_tp != null:
-                        if (json_decode($proyecto->estado_evaluacion_tp)->requiereSubsanar) {
-                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => true, 'estado' => $proyecto->estado_evaluacion_tp, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
+                    case $proyecto->estado_evaluacion_proyecto_formulario_4_linea_69 != null:
+                        if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_4_linea_69)->requiereSubsanar) {
+                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => true, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_4_linea_69, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
                         }
                         break;
 
-                    case $proyecto->estado_evaluacion_servicios_tecnologicos != null:
-                        if (json_decode($proyecto->estado_evaluacion_servicios_tecnologicos)->requiereSubsanar) {
-                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => true, 'estado' => $proyecto->estado_evaluacion_servicios_tecnologicos, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
+                    case $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68 != null:
+                        if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_12_linea_68)->requiereSubsanar) {
+                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => true, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
                         }
                         break;
 

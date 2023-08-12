@@ -6,7 +6,7 @@ import { route, checkRole } from '@/Utils'
 
 import Form from './Form'
 
-const Edit = ({ auth, convocatoria, convocatorias, lineas_programaticas, fases, tipos_convocatoria }) => {
+const Edit = ({ auth, convocatoria, convocatorias, tipos_formulario_convocatoria, fases, tipos_convocatoria }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -23,7 +23,7 @@ const Edit = ({ auth, convocatoria, convocatorias, lineas_programaticas, fases, 
                             is_super_admin={is_super_admin}
                             convocatoria={convocatoria}
                             convocatorias={convocatorias}
-                            lineas_programaticas={lineas_programaticas}
+                            tipos_formulario_convocatoria={tipos_formulario_convocatoria}
                             tipos_convocatoria={tipos_convocatoria}
                             fases={fases}
                         />

@@ -129,13 +129,13 @@ class ProyectoPresupuesto extends Model
     }
 
     /**
-     * Relationship with ProyectoLinea70TpViaticosMunicipio
+     * Relationship with ViaticoMunicipio
      *
      * @return object
      */
-    public function taTpViaticosMunicipios()
+    public function viaticosMunicipio()
     {
-        return $this->hasMany(TaTpViaticosMunicipio::class);
+        return $this->hasMany(ViaticoMunicipio::class);
     }
 
     /**

@@ -35,7 +35,7 @@ const ConvocatoriaRolesSennova = ({ auth, convocatoria, convocatoria_roles_senno
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                     <Grid item md={12}>
-                        <TabsConvocatoria value="1" convocatoria={convocatoria} linea_programatica_id={page_props.ziggy.query.linea_programatica_id} />
+                        <TabsConvocatoria value="1" convocatoria={convocatoria} tipo_formulario_convocatoria_id={page_props.ziggy.query.tipo_formulario_convocatoria_id} />
                     </Grid>
                 )}
 
@@ -102,8 +102,8 @@ const ConvocatoriaRolesSennova = ({ auth, convocatoria, convocatoria_roles_senno
                                         } mt-1 group`}
                                         label={
                                             <>
-                                                <div class="group-hover:hidden">{convocatoria_rol_sennova.habilitado ? 'Habilitado' : 'Deshabilitado'}</div>
-                                                <div class="hidden group-hover:block">{convocatoria_rol_sennova.habilitado ? 'Deshabilitar' : 'Habilitar'}</div>
+                                                <div className="group-hover:hidden">{convocatoria_rol_sennova.habilitado ? 'Habilitado' : 'Deshabilitado'}</div>
+                                                <div className="hidden group-hover:block">{convocatoria_rol_sennova.habilitado ? 'Deshabilitar' : 'Habilitar'}</div>
                                             </>
                                         }
                                     />
@@ -128,8 +128,8 @@ const ConvocatoriaRolesSennova = ({ auth, convocatoria, convocatoria_roles_senno
                                         } mt-1 group`}
                                         label={
                                             <>
-                                                <div class="group-hover:hidden">{convocatoria_rol_sennova.sumar_al_presupuesto ? 'Suma al presupuesto' : 'No suma al presupuesto'}</div>
-                                                <div class="hidden group-hover:block">{convocatoria_rol_sennova.sumar_al_presupuesto ? 'No suma al presupuesto' : 'Suma al presupuesto'}</div>
+                                                <div className="group-hover:hidden">{convocatoria_rol_sennova.sumar_al_presupuesto ? 'Suma al presupuesto' : 'No suma al presupuesto'}</div>
+                                                <div className="hidden group-hover:block">{convocatoria_rol_sennova.sumar_al_presupuesto ? 'No suma al presupuesto' : 'Suma al presupuesto'}</div>
                                             </>
                                         }
                                     />
@@ -173,7 +173,12 @@ const ConvocatoriaRolesSennova = ({ auth, convocatoria, convocatoria_roles_senno
                         ))}
                     </TableMui>
 
-                    <PaginationMui links={convocatoria_roles_sennova.links} route_params="linea_programatica_id" route_params_value={page_props.ziggy.query.linea_programatica_id} className="mt-6" />
+                    <PaginationMui
+                        links={convocatoria_roles_sennova.links}
+                        route_params="tipo_formulario_convocatoria_id"
+                        route_params_value={page_props.ziggy.query.tipo_formulario_convocatoria_id}
+                        className="mt-6"
+                    />
 
                     <DialogMui
                         open={dialog_status}
@@ -189,7 +194,7 @@ const ConvocatoriaRolesSennova = ({ auth, convocatoria, convocatoria_roles_senno
                                 convocatoria_rol_sennova={convocatoria_rol_sennova}
                                 roles_sennova={roles_sennova}
                                 niveles_academicos={niveles_academicos}
-                                linea_programatica_id={page_props.ziggy.query.linea_programatica_id}
+                                tipo_formulario_convocatoria_id={page_props.ziggy.query.tipo_formulario_convocatoria_id}
                             />
                         }
                     />

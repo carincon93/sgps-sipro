@@ -66,13 +66,13 @@ class RedConocimiento extends Model
     }
 
     /**
-     * Relationship with ProyectoLinea70
+     * Relationship with Proyecto
      *
      * @return object
      */
-    public function proyectosLinea70()
+    public function proyectos()
     {
-        return $this->belongsToMany(ProyectoLinea70::class, 'ta_red_conocimiento', 'red_conocimiento_id', 'ta_id');
+        return $this->belongsToMany(Proyecto::class, 'proyecto_red_conocimiento', 'red_conocimiento_id', 'proyecto_id');
     }
 
     /**

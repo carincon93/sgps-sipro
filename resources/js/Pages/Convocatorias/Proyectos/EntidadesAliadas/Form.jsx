@@ -126,7 +126,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                     <TextInput label="NIT" id="nit" type="text" value={form.data.nit} onChange={(e) => form.setData('nit', e.target.value)} error={form.errors.nit} required />
                                 </Grid>
 
-                                {proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82 ? (
+                                {proyecto.tipo_formulario_convocatoria_id == 8 || proyecto.tipo_formulario_convocatoria_id == 6 ? (
                                     <>
                                         <Grid item md={12}>
                                             <p>¿Hay convenio?</p>
@@ -251,7 +251,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                             />
                                         </Grid>
                                     </>
-                                ) : proyecto.codigo_linea_programatica == 69 || proyecto.codigo_linea_programatica == 70 || proyecto.codigo_linea_programatica == 83 ? (
+                                ) : proyecto.tipo_formulario_convocatoria_id == 5 || proyecto.tipo_formulario_convocatoria_id == 4 || proyecto.tipo_formulario_convocatoria_id == 11 ? (
                                     <>
                                         <Grid item md={12}>
                                             <p className="text-center">Fechas de vigencia Convenio/Acuerdos</p>
@@ -283,7 +283,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                     </>
                                 ) : null}
 
-                                {proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82 ? (
+                                {proyecto.tipo_formulario_convocatoria_id == 8 || proyecto.tipo_formulario_convocatoria_id == 6 ? (
                                     <Grid item md={12}>
                                         <h6 className="mt-20 mb-12 text-2xl" id="actividades">
                                             Actividades a desarrollar

@@ -27,11 +27,11 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
         e.preventDefault()
         if (proyecto.allowed.to_update) {
             method == 'POST'
-                ? form.post(route('convocatorias.proyectos-linea-70.aulas-moviles.store', [convocatoria.id, proyecto.id]), {
+                ? form.post(route('convocatorias.proyectos-formulario-4-linea-70.aulas-moviles.store', [convocatoria.id, proyecto.id]), {
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
                   })
-                : form.post(route('convocatorias.proyectos-linea-70.aulas-moviles.update', [convocatoria.id, proyecto.id, aula_movil.id]), {
+                : form.post(route('convocatorias.proyectos-formulario-4-linea-70.aulas-moviles.update', [convocatoria.id, proyecto.id, aula_movil.id]), {
                       onSuccess: () => setDialogStatus(false),
                       preserveScroll: true,
                   })

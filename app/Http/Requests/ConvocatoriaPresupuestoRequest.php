@@ -24,11 +24,11 @@ class ConvocatoriaPresupuestoRequest extends FormRequest
     public function rules()
     {
         return [
-            'rubro_presupuestal_id'     => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:rubros_presupuestales,id'],
-            'linea_programatica_id'     => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_programaticas,id'],
-            'requiere_estudio_mercado'  => ['required', 'boolean'],
-            'sumar_al_presupuesto'      => ['required', 'boolean'],
-            'habilitado'                => ['required', 'boolean'],
+            'rubro_presupuestal_id'             => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:rubros_presupuestales,id'],
+            'tipo_formulario_convocatoria_id'   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tipos_formulario_convocatoria,id'],
+            'requiere_estudio_mercado'          => ['required', 'boolean'],
+            'sumar_al_presupuesto'              => ['required', 'boolean'],
+            'habilitado'                        => ['required', 'boolean'],
         ];
     }
 

@@ -64,23 +64,23 @@ class NodoTecnoparque extends Model
     }
 
     /**
-     * Relationship with ProyectoLinea69
+     * Relationship with ProyectoFormulario5Linea69
      *
      * @return object
      */
     public function proyectoLinea69()
     {
-        return $this->hasOne(ProyectoLinea69::class);
+        return $this->hasOne(ProyectoFormulario5Linea69::class);
     }
 
     /**
-     * Relationship with ProyectoHubLinea69
+     * Relationship with ProyectoFormulario10Linea69
      *
      * @return object
      */
     public function proyectoLineaHub69()
     {
-        return $this->hasOne(ProyectoHubLinea69::class);
+        return $this->hasOne(ProyectoFormulario10Linea69::class);
     }
 
     /**

@@ -54,13 +54,13 @@ class LineaTecnica extends Model
     ];
 
     /**
-     * Relationship with TipoProyectoLinea68
+     * Relationship with TipoProyectoFormulario12Linea68
      *
      * @return object
      */
     public function tiposProyectoSt()
     {
-        return $this->hasMany(TipoProyectoLinea68::class);
+        return $this->hasMany(TipoProyectoFormulario12Linea68::class);
     }
 
     /**

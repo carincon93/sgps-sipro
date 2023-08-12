@@ -48,7 +48,7 @@ const ArbolProblemasComponent = ({ auth, convocatoria, proyecto, fase_evaluacion
 
     return (
         <div>
-            {is_super_admin || (proyecto.mostrar_recomendaciones && fase_evaluacion == false) ? (
+            {/* {is_super_admin || (proyecto.mostrar_recomendaciones && fase_evaluacion == false) ? (
                 <>
                     {proyecto.evaluaciones.map((evaluacion, i) =>
                         is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
@@ -80,7 +80,7 @@ const ArbolProblemasComponent = ({ auth, convocatoria, proyecto, fase_evaluacion
                     )}
                     {proyecto.evaluaciones.length == 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
                 </>
-            ) : null}
+            ) : null} */}
 
             <div className="efecto-directo-container">
                 <div className="p-2">
@@ -90,7 +90,7 @@ const ArbolProblemasComponent = ({ auth, convocatoria, proyecto, fase_evaluacion
 
                     <form onSubmit={submitProblemaCentral} id="problema-central">
                         <fieldset className="space-y-20" disabled={proyecto.allowed.to_update ? undefined : true}>
-                            {proyecto.codigo_linea_programatica != 70 && (
+                            {proyecto.tipo_formulario_convocatoria_id != 4 && (
                                 <div>
                                     <Label required className="mb-4" labelFor="identificacion_problema" value="Identificación y descripción del problema" />
                                     <AlertMui>
@@ -105,14 +105,14 @@ const ArbolProblemasComponent = ({ auth, convocatoria, proyecto, fase_evaluacion
                                         value={form_problema_central.data.identificacion_problema}
                                         error={form_problema_central.errors.identificacion_problema}
                                         onChange={(e) => form_problema_central.setData('identificacion_problema', e.target.value)}
-                                        disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
+                                        disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                         onBlur={() => syncColumnLong('identificacion_problema', form_problema_central)}
                                         required
                                     />
                                 </div>
                             )}
 
-                            {proyecto.codigo_linea_programatica == 68 && (
+                            {proyecto.tipo_formulario_convocatoria_id == 12 && (
                                 <div>
                                     <Label required className="mb-4" labelFor="pregunta_formulacion_problema" value="Pregunta de formulación del problema" />
                                     <AlertMui className="my-2">
@@ -140,7 +140,7 @@ const ArbolProblemasComponent = ({ auth, convocatoria, proyecto, fase_evaluacion
                                 </div>
                             )}
 
-                            {proyecto.codigo_linea_programatica != 70 && (
+                            {proyecto.tipo_formulario_convocatoria_id != 4 && (
                                 <div className="mt-10">
                                     <Label required className="mb-4" labelFor="justificacion_problema" value="Justificación" />
                                     <AlertMui>
@@ -149,7 +149,7 @@ const ArbolProblemasComponent = ({ auth, convocatoria, proyecto, fase_evaluacion
                                     </AlertMui>
 
                                     <Textarea
-                                        disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
+                                        disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                         id="justificacion_problema"
                                         error={form_problema_central.errors.justificacion_problema}
                                         value={form_problema_central.data.justificacion_problema}
@@ -168,7 +168,7 @@ const ArbolProblemasComponent = ({ auth, convocatoria, proyecto, fase_evaluacion
                                     claridad; el problema se debe formular mediante una oración clara y sin ambigüedades.
                                 </AlertMui>
                                 <Textarea
-                                    disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
+                                    disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                     id="problema_central"
                                     error={form_problema_central.errors.problema_central}
                                     value={form_problema_central.data.problema_central}
@@ -184,7 +184,7 @@ const ArbolProblemasComponent = ({ auth, convocatoria, proyecto, fase_evaluacion
 
                             <div>
                                 <Label required className="mb-4" labelFor="objetivo-general" value="Objetivo general" />
-                                {proyecto.codigo_linea_programatica == 68 ? (
+                                {proyecto.tipo_formulario_convocatoria_id == 12 ? (
                                     <AlertMui>
                                         El objetivo general se origina al convertir en positivo el problema principal (tronco) identificado en el árbol de problemas.
                                         <br />
@@ -201,7 +201,7 @@ const ArbolProblemasComponent = ({ auth, convocatoria, proyecto, fase_evaluacion
                                     </AlertMui>
                                 )}
                                 <Textarea
-                                    disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
+                                    disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                     id="objetivo-general"
                                     error={form_problema_central.errors.objetivo_general}
                                     value={form_problema_central.data.objetivo_general}

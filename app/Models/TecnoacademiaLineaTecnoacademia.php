@@ -73,24 +73,4 @@ class TecnoacademiaLineaTecnoacademia extends Model
     {
         return $this->hasMany(Proyecto::class);
     }
-
-    /**
-     * Relationship with ProyectoLinea65
-     *
-     * @return void
-     */
-    public function proyectosLinea65()
-    {
-        return $this->hasMany(ProyectoLinea65::class);
-    }
-
-    /**
-     * Relationship with ProyectoProyectoLinea66TecnoacademiaLinea
-     *
-     * @return void
-     */
-    public function proyectosProyectoLinea66TecnoacademiaLinea()
-    {
-        return $this->hasMany(ProyectoProyectoLinea66TecnoacademiaLinea::class);
-    }
 }

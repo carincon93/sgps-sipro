@@ -87,13 +87,13 @@ class DisciplinaSubareaConocimiento extends Model
     }
 
     /**
-     * Relationship with ProyectoLinea70
+     * Relationship with ProyectoFormulario4Linea70
      *
      * @return object
      */
-    public function proyectoLinea70()
+    public function proyectoFormulario4Linea70()
     {
-        return $this->belongsToMany(ProyectoLinea70::class, 'ta_disciplina_subarea_conocimiento', 'disciplina_subarea_conocimiento_id', 'ta_id');
+        return $this->belongsToMany(ProyectoFormulario4Linea70::class, 'proyecto_linea_70_disciplina_subarea_conocimiento', 'disciplina_subarea_conocimiento_id', 'proyecto_linea_70_id');
     }
 
     /**

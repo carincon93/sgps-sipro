@@ -71,7 +71,7 @@ const Actividades = ({
         implementacion_modelo_pedagogico: proyecto.implementacion_modelo_pedagogico,
         articulacion_plan_educacion: proyecto.articulacion_plan_educacion,
         articulacion_territorios_stem: proyecto.articulacion_territorios_stem,
-        programas_formacion_articulados: proyecto.programas_formacion_linea70?.map((item) => item.id),
+        programas_formacion_articulados: proyecto.programas_formacion?.map((item) => item.id),
         diseno_curricular_id: proyecto.disenos_curriculares?.map((item) => item.id),
         estrategia_articulacion_prox_vigencia: proyecto.estrategia_articulacion_prox_vigencia,
         alianzas_estrategicas: proyecto.alianzas_estrategicas,
@@ -89,7 +89,7 @@ const Actividades = ({
         }
     }
 
-    const formMetdologiaProyectoHub = useForm({
+    const form_metodologia_proyecto_hub = useForm({
         metodologia: proyecto.proyecto_hub_linea69?.metodologia,
         metodologia_local: proyecto.proyecto_hub_linea69?.metodologia_local,
         areas_cualificacion_mnc: proyecto.proyecto_hub_linea69?.areas_cualificacion_mnc,
@@ -114,18 +114,16 @@ const Actividades = ({
         acciones_fortalecimiento_idi: proyecto.proyecto_hub_linea69?.acciones_fortalecimiento_idi,
     })
 
-    console.log(proyecto.proyecto_hub_linea69)
-
     const submitMetodologiaProyectoHub = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
-            formMetdologiaProyectoHub.put(route('convocatorias.proyectos.metodologia-proyecto-hub', [convocatoria.id, proyecto.id]), {
+            form_metodologia_proyecto_hub.put(route('convocatorias.proyectos.metodologia-proyecto-hub', [convocatoria.id, proyecto.id]), {
                 preserveScroll: true,
             })
         }
     }
 
-    const formMetdologiaProyectoLinea83 = useForm({
+    const formMetdologiaProyectoFormulario11Linea83 = useForm({
         metodologia: proyecto.proyecto_linea83?.metodologia,
         departamentos_a_impactar: proyecto.proyecto_linea83?.departamentos_a_impactar,
         estrategias_atencion_empresas_municipios: proyecto.proyecto_linea83?.estrategias_atencion_empresas_municipios,
@@ -134,10 +132,10 @@ const Actividades = ({
         estrategias_productividad_agropecuaria_agroindustrial: proyecto.proyecto_linea83?.estrategias_productividad_agropecuaria_agroindustrial,
     })
 
-    const submitMetodologiaProyectoLinea83 = (e) => {
+    const submitMetodologiaProyectoFormulario11Linea83 = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
-            formMetdologiaProyectoLinea83.put(route('convocatorias.proyectos.metodologia-proyecto-linea-83', [convocatoria.id, proyecto.id]), {
+            formMetdologiaProyectoFormulario11Linea83.put(route('convocatorias.proyectos.metodologia-proyecto-linea-83', [convocatoria.id, proyecto.id]), {
                 preserveScroll: true,
             })
         }
@@ -178,15 +176,16 @@ const Actividades = ({
     }
 
     const tabs =
-        proyecto.codigo_linea_programatica == 23 ||
-        proyecto.codigo_linea_programatica == 66 ||
-        proyecto.codigo_linea_programatica == 65 ||
-        proyecto.codigo_linea_programatica == 68 ||
-        proyecto.codigo_linea_programatica == 82 ||
-        proyecto.codigo_linea_programatica == 69 ||
-        proyecto.proyectoHubLinea69 ||
-        proyecto.codigo_linea_programatica == 70 ||
-        proyecto.codigo_linea_programatica == 83
+        proyecto.tipo_formulario_convocatoria_id == 7 ||
+        proyecto.tipo_formulario_convocatoria_id == 9 ||
+        proyecto.tipo_formulario_convocatoria_id == 8 ||
+        proyecto.tipo_formulario_convocatoria_id == 1 ||
+        proyecto.tipo_formulario_convocatoria_id == 12 ||
+        proyecto.tipo_formulario_convocatoria_id == 6 ||
+        proyecto.tipo_formulario_convocatoria_id == 5 ||
+        proyecto.proyectoFormulario10Linea69 ||
+        proyecto.tipo_formulario_convocatoria_id == 4 ||
+        proyecto.tipo_formulario_convocatoria_id == 11
             ? [{ label: 'Metodología' }, { label: 'Actividades' }]
             : [{ label: 'Actividades' }]
 
@@ -338,7 +337,7 @@ const Actividades = ({
                             </p>
                         </AlertMui>
                     </Grid>
-                    {(proyecto.codigo_linea_programatica == 69 && !proyecto.proyecto_hub_linea69) || proyecto.codigo_linea_programatica == 70 ? (
+                    {(proyecto.tipo_formulario_convocatoria_id == 5 && !proyecto.proyecto_hub_linea69) || proyecto.tipo_formulario_convocatoria_id == 4 ? (
                         <Grid item md={12}>
                             <form onSubmit={submit} className="!mt-20">
                                 <fieldset disabled={proyecto.allowed.to_update ? false : true}>
@@ -356,14 +355,14 @@ const Actividades = ({
                                             />
                                         </Grid>
 
-                                        {(proyecto.codigo_linea_programatica == 69 && !proyecto.proyecto_hub_linea69) || proyecto.codigo_linea_programatica == 70 ? (
+                                        {(proyecto.tipo_formulario_convocatoria_id == 5 && !proyecto.proyecto_hub_linea69) || proyecto.tipo_formulario_convocatoria_id == 4 ? (
                                             <Grid item md={12}>
                                                 <Label
                                                     required
                                                     className="mb-4"
                                                     labelFor="metodologia_local"
                                                     value={
-                                                        proyecto.codigo_linea_programatica == 69
+                                                        proyecto.tipo_formulario_convocatoria_id == 5
                                                             ? 'A continuación, describa la metodología que será implementada en el ' +
                                                               convocatoria.year +
                                                               ' en el nodo para lograr los objetivos propuestos en cada una de las etapas definidas para los Tecnoparques:'
@@ -382,7 +381,7 @@ const Actividades = ({
                                             </Grid>
                                         ) : null}
 
-                                        {proyecto.codigo_linea_programatica == 70 && (
+                                        {proyecto.tipo_formulario_convocatoria_id == 4 && (
                                             <>
                                                 <Grid item md={12}>
                                                     <Label
@@ -470,7 +469,7 @@ const Actividades = ({
                                                     />
                                                 </Grid>
 
-                                                <Grid item md={12}>
+                                                {/* <Grid item md={12}>
                                                     {(is_super_admin && proyecto.evaluaciones.length > 0) || (proyecto.mostrar_recomendaciones && proyecto.evaluaciones.length > 0) ? (
                                                         <>
                                                             {proyecto.evaluaciones.map((evaluacion, i) =>
@@ -494,7 +493,7 @@ const Actividades = ({
                                                             {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
                                                         </>
                                                     ) : null}
-                                                </Grid>
+                                                </Grid> */}
 
                                                 <Grid item md={6}>
                                                     <Label
@@ -697,7 +696,7 @@ const Actividades = ({
                                                     </>
                                                 )}
 
-                                                <Grid item md={12}>
+                                                {/* <Grid item md={12}>
                                                     {(is_super_admin && proyecto.evaluaciones.length > 0) || (proyecto.mostrar_recomendaciones && proyecto.evaluaciones.length > 0) ? (
                                                         <>
                                                             {proyecto.evaluaciones.map((evaluacion, i) =>
@@ -721,7 +720,7 @@ const Actividades = ({
                                                             {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
                                                         </>
                                                     ) : null}
-                                                </Grid>
+                                                </Grid> */}
 
                                                 <Grid item md={6}>
                                                     <Label
@@ -788,7 +787,7 @@ const Actividades = ({
                                                     />
                                                 </Grid>
 
-                                                <Grid item md={12}>
+                                                {/* <Grid item md={12}>
                                                     {(is_super_admin && proyecto.evaluaciones.length > 0) || (proyecto.mostrar_recomendaciones && proyecto.evaluaciones.length > 0) ? (
                                                         <>
                                                             {proyecto.evaluaciones.map((evaluacion, i) =>
@@ -812,7 +811,7 @@ const Actividades = ({
                                                             {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
                                                         </>
                                                     ) : null}
-                                                </Grid>
+                                                </Grid> */}
 
                                                 <Grid item md={12}>
                                                     <Label
@@ -873,10 +872,10 @@ const Actividades = ({
 
                                     <Textarea
                                         id="metodologia"
-                                        error={formMetdologiaProyectoHub.errors.metodologia}
-                                        value={formMetdologiaProyectoHub.data.metodologia}
-                                        onChange={(e) => formMetdologiaProyectoHub.setData('metodologia', e.target.value)}
-                                        onBlur={() => syncColumnLong('metodologia', formMetdologiaProyectoHub)}
+                                        error={form_metodologia_proyecto_hub.errors.metodologia}
+                                        value={form_metodologia_proyecto_hub.data.metodologia}
+                                        onChange={(e) => form_metodologia_proyecto_hub.setData('metodologia', e.target.value)}
+                                        onBlur={() => syncColumnLong('metodologia', form_metodologia_proyecto_hub)}
                                         required
                                     />
                                 </Grid>
@@ -890,10 +889,10 @@ const Actividades = ({
 
                                     <Textarea
                                         id="metodologia_local"
-                                        error={formMetdologiaProyectoHub.errors.metodologia_local}
-                                        value={formMetdologiaProyectoHub.data.metodologia_local}
-                                        onChange={(e) => formMetdologiaProyectoHub.setData('metodologia_local', e.target.value)}
-                                        onBlur={() => syncColumnLong('metodologia_local', formMetdologiaProyectoHub)}
+                                        error={form_metodologia_proyecto_hub.errors.metodologia_local}
+                                        value={form_metodologia_proyecto_hub.data.metodologia_local}
+                                        onChange={(e) => form_metodologia_proyecto_hub.setData('metodologia_local', e.target.value)}
+                                        onBlur={() => syncColumnLong('metodologia_local', form_metodologia_proyecto_hub)}
                                         required
                                     />
                                 </Grid>
@@ -903,20 +902,20 @@ const Actividades = ({
                                 <Grid item md={6}>
                                     <SelectMultiple
                                         id="areas_cualificacion_mnc"
-                                        bdValues={formMetdologiaProyectoHub.data.areas_cualificacion_mnc}
+                                        bdValues={form_metodologia_proyecto_hub.data.areas_cualificacion_mnc}
                                         options={areas_cualificacion_mnc}
                                         onChange={(event, newValue) => {
                                             const selected_values = newValue.map((option) => option.value)
-                                            formMetdologiaProyectoHub.setData((prevData) => ({
+                                            form_metodologia_proyecto_hub.setData((prevData) => ({
                                                 ...prevData,
                                                 areas_cualificacion_mnc: selected_values,
                                             }))
                                         }}
-                                        error={formMetdologiaProyectoHub.errors.areas_cualificacion_mnc}
+                                        error={form_metodologia_proyecto_hub.errors.areas_cualificacion_mnc}
                                         label="Seleccione una o varias opciones"
                                         required
                                         disabled={evaluacion ? true : false}
-                                        onBlur={() => syncColumnLong('areas_cualificacion_mnc', formMetdologiaProyectoHub)}
+                                        onBlur={() => syncColumnLong('areas_cualificacion_mnc', form_metodologia_proyecto_hub)}
                                     />
                                 </Grid>
                                 <Grid item md={6}>
@@ -930,20 +929,20 @@ const Actividades = ({
                                 <Grid item md={6}>
                                     <SelectMultiple
                                         id="talentos_otros_departamentos"
-                                        bdValues={formMetdologiaProyectoHub.data.talentos_otros_departamentos}
+                                        bdValues={form_metodologia_proyecto_hub.data.talentos_otros_departamentos}
                                         options={regionales}
                                         onChange={(event, newValue) => {
                                             const selected_values = newValue.map((option) => option.value)
-                                            formMetdologiaProyectoHub.setData((prevData) => ({
+                                            form_metodologia_proyecto_hub.setData((prevData) => ({
                                                 ...prevData,
                                                 talentos_otros_departamentos: selected_values,
                                             }))
                                         }}
-                                        error={formMetdologiaProyectoHub.errors.talentos_otros_departamentos}
+                                        error={form_metodologia_proyecto_hub.errors.talentos_otros_departamentos}
                                         label="Seleccione una o varias opciones"
                                         required
                                         disabled={evaluacion ? true : false}
-                                        onBlur={() => syncColumnLong('talentos_otros_departamentos', formMetdologiaProyectoHub)}
+                                        onBlur={() => syncColumnLong('talentos_otros_departamentos', form_metodologia_proyecto_hub)}
                                     />
                                 </Grid>
                                 <Grid item md={12}>
@@ -956,10 +955,10 @@ const Actividades = ({
 
                                     <Textarea
                                         id="estrategia_atencion_talentos"
-                                        error={formMetdologiaProyectoHub.errors.estrategia_atencion_talentos}
-                                        value={formMetdologiaProyectoHub.data.estrategia_atencion_talentos}
-                                        onChange={(e) => formMetdologiaProyectoHub.setData('estrategia_atencion_talentos', e.target.value)}
-                                        onBlur={() => syncColumnLong('estrategia_atencion_talentos', formMetdologiaProyectoHub)}
+                                        error={form_metodologia_proyecto_hub.errors.estrategia_atencion_talentos}
+                                        value={form_metodologia_proyecto_hub.data.estrategia_atencion_talentos}
+                                        onChange={(e) => form_metodologia_proyecto_hub.setData('estrategia_atencion_talentos', e.target.value)}
+                                        onBlur={() => syncColumnLong('estrategia_atencion_talentos', form_metodologia_proyecto_hub)}
                                         required
                                     />
                                 </Grid>
@@ -973,10 +972,10 @@ const Actividades = ({
 
                                     <Textarea
                                         id="acciones_mejoramiento_idic"
-                                        error={formMetdologiaProyectoHub.errors.acciones_mejoramiento_idic}
-                                        value={formMetdologiaProyectoHub.data.acciones_mejoramiento_idic}
-                                        onChange={(e) => formMetdologiaProyectoHub.setData('acciones_mejoramiento_idic', e.target.value)}
-                                        onBlur={() => syncColumnLong('acciones_mejoramiento_idic', formMetdologiaProyectoHub)}
+                                        error={form_metodologia_proyecto_hub.errors.acciones_mejoramiento_idic}
+                                        value={form_metodologia_proyecto_hub.data.acciones_mejoramiento_idic}
+                                        onChange={(e) => form_metodologia_proyecto_hub.setData('acciones_mejoramiento_idic', e.target.value)}
+                                        onBlur={() => syncColumnLong('acciones_mejoramiento_idic', form_metodologia_proyecto_hub)}
                                         required
                                     />
                                 </Grid>
@@ -991,22 +990,22 @@ const Actividades = ({
                                 <Grid item md={6}>
                                     <SelectMultiple
                                         id="municipios_beneficiados_vigencia_anterior"
-                                        bdValues={formMetdologiaProyectoHub.data.municipios_beneficiados_vigencia_anterior}
+                                        bdValues={form_metodologia_proyecto_hub.data.municipios_beneficiados_vigencia_anterior}
                                         options={municipios}
                                         isGroupable={true}
                                         groupBy={(option) => option.group}
                                         onChange={(event, newValue) => {
                                             const selected_values = newValue.map((option) => option.value)
-                                            formMetdologiaProyectoHub.setData((prevData) => ({
+                                            form_metodologia_proyecto_hub.setData((prevData) => ({
                                                 ...prevData,
                                                 municipios_beneficiados_vigencia_anterior: selected_values,
                                             }))
                                         }}
-                                        error={formMetdologiaProyectoHub.errors.municipios_beneficiados_vigencia_anterior}
+                                        error={form_metodologia_proyecto_hub.errors.municipios_beneficiados_vigencia_anterior}
                                         label="Seleccione una o varias opciones"
                                         required
                                         disabled={evaluacion ? true : false}
-                                        onBlur={() => syncColumnLong('municipios_beneficiados_vigencia_anterior', formMetdologiaProyectoHub)}
+                                        onBlur={() => syncColumnLong('municipios_beneficiados_vigencia_anterior', form_metodologia_proyecto_hub)}
                                     />
                                 </Grid>
                                 <Grid item md={12}>
@@ -1019,10 +1018,10 @@ const Actividades = ({
 
                                     <Textarea
                                         id="beneficio_municipios_vigencia_anterior"
-                                        error={formMetdologiaProyectoHub.errors.beneficio_municipios_vigencia_anterior}
-                                        value={formMetdologiaProyectoHub.data.beneficio_municipios_vigencia_anterior}
-                                        onChange={(e) => formMetdologiaProyectoHub.setData('beneficio_municipios_vigencia_anterior', e.target.value)}
-                                        onBlur={() => syncColumnLong('beneficio_municipios_vigencia_anterior', formMetdologiaProyectoHub)}
+                                        error={form_metodologia_proyecto_hub.errors.beneficio_municipios_vigencia_anterior}
+                                        value={form_metodologia_proyecto_hub.data.beneficio_municipios_vigencia_anterior}
+                                        onChange={(e) => form_metodologia_proyecto_hub.setData('beneficio_municipios_vigencia_anterior', e.target.value)}
+                                        onBlur={() => syncColumnLong('beneficio_municipios_vigencia_anterior', form_metodologia_proyecto_hub)}
                                         required
                                     />
                                 </Grid>
@@ -1038,22 +1037,22 @@ const Actividades = ({
                                 <Grid item md={6}>
                                     <SelectMultiple
                                         id="municipios_beneficiados_vigencia_actual"
-                                        bdValues={formMetdologiaProyectoHub.data.municipios_beneficiados_vigencia_actual}
+                                        bdValues={form_metodologia_proyecto_hub.data.municipios_beneficiados_vigencia_actual}
                                         options={municipios}
                                         isGroupable={true}
                                         groupBy={(option) => option.group}
                                         onChange={(event, newValue) => {
                                             const selected_values = newValue.map((option) => option.value)
-                                            formMetdologiaProyectoHub.setData((prevData) => ({
+                                            form_metodologia_proyecto_hub.setData((prevData) => ({
                                                 ...prevData,
                                                 municipios_beneficiados_vigencia_actual: selected_values,
                                             }))
                                         }}
-                                        error={formMetdologiaProyectoHub.errors.municipios_beneficiados_vigencia_actual}
+                                        error={form_metodologia_proyecto_hub.errors.municipios_beneficiados_vigencia_actual}
                                         label="Seleccione una o varias opciones"
                                         required
                                         disabled={evaluacion ? true : false}
-                                        onBlur={() => syncColumnLong('municipios_beneficiados_vigencia_actual', formMetdologiaProyectoHub)}
+                                        onBlur={() => syncColumnLong('municipios_beneficiados_vigencia_actual', form_metodologia_proyecto_hub)}
                                     />
                                 </Grid>
                                 <Grid item md={12}>
@@ -1066,10 +1065,10 @@ const Actividades = ({
 
                                     <Textarea
                                         id="estrategia_articulacion_pbts"
-                                        error={formMetdologiaProyectoHub.errors.estrategia_articulacion_pbts}
-                                        value={formMetdologiaProyectoHub.data.estrategia_articulacion_pbts}
-                                        onChange={(e) => formMetdologiaProyectoHub.setData('estrategia_articulacion_pbts', e.target.value)}
-                                        onBlur={() => syncColumnLong('estrategia_articulacion_pbts', formMetdologiaProyectoHub)}
+                                        error={form_metodologia_proyecto_hub.errors.estrategia_articulacion_pbts}
+                                        value={form_metodologia_proyecto_hub.data.estrategia_articulacion_pbts}
+                                        onChange={(e) => form_metodologia_proyecto_hub.setData('estrategia_articulacion_pbts', e.target.value)}
+                                        onBlur={() => syncColumnLong('estrategia_articulacion_pbts', form_metodologia_proyecto_hub)}
                                         required
                                     />
                                 </Grid>
@@ -1086,10 +1085,10 @@ const Actividades = ({
                                     <TextInput
                                         id="numero_empresas_atendidas"
                                         type="number"
-                                        error={formMetdologiaProyectoHub.errors.numero_empresas_atendidas}
-                                        value={formMetdologiaProyectoHub.data.numero_empresas_atendidas}
-                                        onChange={(e) => formMetdologiaProyectoHub.setData('numero_empresas_atendidas', e.target.value)}
-                                        onBlur={() => syncColumnLong('numero_empresas_atendidas', formMetdologiaProyectoHub)}
+                                        error={form_metodologia_proyecto_hub.errors.numero_empresas_atendidas}
+                                        value={form_metodologia_proyecto_hub.data.numero_empresas_atendidas}
+                                        onChange={(e) => form_metodologia_proyecto_hub.setData('numero_empresas_atendidas', e.target.value)}
+                                        onBlur={() => syncColumnLong('numero_empresas_atendidas', form_metodologia_proyecto_hub)}
                                     />
                                 </Grid>
 
@@ -1105,10 +1104,10 @@ const Actividades = ({
 
                                     <Textarea
                                         id="analisis_impacto_sector_empresarial"
-                                        error={formMetdologiaProyectoHub.errors.analisis_impacto_sector_empresarial}
-                                        value={formMetdologiaProyectoHub.data.analisis_impacto_sector_empresarial}
-                                        onChange={(e) => formMetdologiaProyectoHub.setData('analisis_impacto_sector_empresarial', e.target.value)}
-                                        onBlur={() => syncColumnLong('analisis_impacto_sector_empresarial', formMetdologiaProyectoHub)}
+                                        error={form_metodologia_proyecto_hub.errors.analisis_impacto_sector_empresarial}
+                                        value={form_metodologia_proyecto_hub.data.analisis_impacto_sector_empresarial}
+                                        onChange={(e) => form_metodologia_proyecto_hub.setData('analisis_impacto_sector_empresarial', e.target.value)}
+                                        onBlur={() => syncColumnLong('analisis_impacto_sector_empresarial', form_metodologia_proyecto_hub)}
                                         required
                                     />
                                 </Grid>
@@ -1120,10 +1119,10 @@ const Actividades = ({
                                     <TextInput
                                         id="numero_emprendedores_atendidos"
                                         type="number"
-                                        error={formMetdologiaProyectoHub.errors.numero_emprendedores_atendidos}
-                                        value={formMetdologiaProyectoHub.data.numero_emprendedores_atendidos}
-                                        onChange={(e) => formMetdologiaProyectoHub.setData('numero_emprendedores_atendidos', e.target.value)}
-                                        onBlur={() => syncColumnLong('numero_emprendedores_atendidos', formMetdologiaProyectoHub)}
+                                        error={form_metodologia_proyecto_hub.errors.numero_emprendedores_atendidos}
+                                        value={form_metodologia_proyecto_hub.data.numero_emprendedores_atendidos}
+                                        onChange={(e) => form_metodologia_proyecto_hub.setData('numero_emprendedores_atendidos', e.target.value)}
+                                        onBlur={() => syncColumnLong('numero_emprendedores_atendidos', form_metodologia_proyecto_hub)}
                                     />
                                 </Grid>
 
@@ -1139,10 +1138,10 @@ const Actividades = ({
 
                                     <Textarea
                                         id="analisis_impacto_regional"
-                                        error={formMetdologiaProyectoHub.errors.analisis_impacto_regional}
-                                        value={formMetdologiaProyectoHub.data.analisis_impacto_regional}
-                                        onChange={(e) => formMetdologiaProyectoHub.setData('analisis_impacto_regional', e.target.value)}
-                                        onBlur={() => syncColumnLong('analisis_impacto_regional', formMetdologiaProyectoHub)}
+                                        error={form_metodologia_proyecto_hub.errors.analisis_impacto_regional}
+                                        value={form_metodologia_proyecto_hub.data.analisis_impacto_regional}
+                                        onChange={(e) => form_metodologia_proyecto_hub.setData('analisis_impacto_regional', e.target.value)}
+                                        onBlur={() => syncColumnLong('analisis_impacto_regional', form_metodologia_proyecto_hub)}
                                         required
                                     />
                                 </Grid>
@@ -1157,10 +1156,10 @@ const Actividades = ({
 
                                     <Textarea
                                         id="gestion_alianzas_estrategicas"
-                                        error={formMetdologiaProyectoHub.errors.gestion_alianzas_estrategicas}
-                                        value={formMetdologiaProyectoHub.data.gestion_alianzas_estrategicas}
-                                        onChange={(e) => formMetdologiaProyectoHub.setData('gestion_alianzas_estrategicas', e.target.value)}
-                                        onBlur={() => syncColumnLong('gestion_alianzas_estrategicas', formMetdologiaProyectoHub)}
+                                        error={form_metodologia_proyecto_hub.errors.gestion_alianzas_estrategicas}
+                                        value={form_metodologia_proyecto_hub.data.gestion_alianzas_estrategicas}
+                                        onChange={(e) => form_metodologia_proyecto_hub.setData('gestion_alianzas_estrategicas', e.target.value)}
+                                        onBlur={() => syncColumnLong('gestion_alianzas_estrategicas', form_metodologia_proyecto_hub)}
                                         required
                                     />
                                 </Grid>
@@ -1175,10 +1174,10 @@ const Actividades = ({
 
                                     <Textarea
                                         id="estrategias_visibilizacion"
-                                        error={formMetdologiaProyectoHub.errors.estrategias_visibilizacion}
-                                        value={formMetdologiaProyectoHub.data.estrategias_visibilizacion}
-                                        onChange={(e) => formMetdologiaProyectoHub.setData('estrategias_visibilizacion', e.target.value)}
-                                        onBlur={() => syncColumnLong('estrategias_visibilizacion', formMetdologiaProyectoHub)}
+                                        error={form_metodologia_proyecto_hub.errors.estrategias_visibilizacion}
+                                        value={form_metodologia_proyecto_hub.data.estrategias_visibilizacion}
+                                        onChange={(e) => form_metodologia_proyecto_hub.setData('estrategias_visibilizacion', e.target.value)}
+                                        onBlur={() => syncColumnLong('estrategias_visibilizacion', form_metodologia_proyecto_hub)}
                                         required
                                     />
                                 </Grid>
@@ -1193,10 +1192,10 @@ const Actividades = ({
 
                                     <Textarea
                                         id="integracion_plan_tecnologico"
-                                        error={formMetdologiaProyectoHub.errors.integracion_plan_tecnologico}
-                                        value={formMetdologiaProyectoHub.data.integracion_plan_tecnologico}
-                                        onChange={(e) => formMetdologiaProyectoHub.setData('integracion_plan_tecnologico', e.target.value)}
-                                        onBlur={() => syncColumnLong('integracion_plan_tecnologico', formMetdologiaProyectoHub)}
+                                        error={form_metodologia_proyecto_hub.errors.integracion_plan_tecnologico}
+                                        value={form_metodologia_proyecto_hub.data.integracion_plan_tecnologico}
+                                        onChange={(e) => form_metodologia_proyecto_hub.setData('integracion_plan_tecnologico', e.target.value)}
+                                        onBlur={() => syncColumnLong('integracion_plan_tecnologico', form_metodologia_proyecto_hub)}
                                         required
                                     />
                                 </Grid>
@@ -1219,10 +1218,10 @@ const Actividades = ({
 
                                     <Textarea
                                         id="estrategias_productividad_agropecuaria"
-                                        error={formMetdologiaProyectoHub.errors.estrategias_productividad_agropecuaria}
-                                        value={formMetdologiaProyectoHub.data.estrategias_productividad_agropecuaria}
-                                        onChange={(e) => formMetdologiaProyectoHub.setData('estrategias_productividad_agropecuaria', e.target.value)}
-                                        onBlur={() => syncColumnLong('estrategias_productividad_agropecuaria', formMetdologiaProyectoHub)}
+                                        error={form_metodologia_proyecto_hub.errors.estrategias_productividad_agropecuaria}
+                                        value={form_metodologia_proyecto_hub.data.estrategias_productividad_agropecuaria}
+                                        onChange={(e) => form_metodologia_proyecto_hub.setData('estrategias_productividad_agropecuaria', e.target.value)}
+                                        onBlur={() => syncColumnLong('estrategias_productividad_agropecuaria', form_metodologia_proyecto_hub)}
                                         required
                                     />
                                 </Grid>
@@ -1237,10 +1236,10 @@ const Actividades = ({
 
                                     <Textarea
                                         id="acciones_estrategia_campesena"
-                                        error={formMetdologiaProyectoHub.errors.acciones_estrategia_campesena}
-                                        value={formMetdologiaProyectoHub.data.acciones_estrategia_campesena}
-                                        onChange={(e) => formMetdologiaProyectoHub.setData('acciones_estrategia_campesena', e.target.value)}
-                                        onBlur={() => syncColumnLong('acciones_estrategia_campesena', formMetdologiaProyectoHub)}
+                                        error={form_metodologia_proyecto_hub.errors.acciones_estrategia_campesena}
+                                        value={form_metodologia_proyecto_hub.data.acciones_estrategia_campesena}
+                                        onChange={(e) => form_metodologia_proyecto_hub.setData('acciones_estrategia_campesena', e.target.value)}
+                                        onBlur={() => syncColumnLong('acciones_estrategia_campesena', form_metodologia_proyecto_hub)}
                                         required
                                     />
                                 </Grid>
@@ -1255,10 +1254,10 @@ const Actividades = ({
 
                                     <Textarea
                                         id="estrategia_campesena_campesinos"
-                                        error={formMetdologiaProyectoHub.errors.estrategia_campesena_campesinos}
-                                        value={formMetdologiaProyectoHub.data.estrategia_campesena_campesinos}
-                                        onChange={(e) => formMetdologiaProyectoHub.setData('estrategia_campesena_campesinos', e.target.value)}
-                                        onBlur={() => syncColumnLong('estrategia_campesena_campesinos', formMetdologiaProyectoHub)}
+                                        error={form_metodologia_proyecto_hub.errors.estrategia_campesena_campesinos}
+                                        value={form_metodologia_proyecto_hub.data.estrategia_campesena_campesinos}
+                                        onChange={(e) => form_metodologia_proyecto_hub.setData('estrategia_campesena_campesinos', e.target.value)}
+                                        onBlur={() => syncColumnLong('estrategia_campesena_campesinos', form_metodologia_proyecto_hub)}
                                         required
                                     />
                                 </Grid>
@@ -1273,10 +1272,10 @@ const Actividades = ({
 
                                     <Textarea
                                         id="acciones_fortalecimiento_economia_popular"
-                                        error={formMetdologiaProyectoHub.errors.acciones_fortalecimiento_economia_popular}
-                                        value={formMetdologiaProyectoHub.data.acciones_fortalecimiento_economia_popular}
-                                        onChange={(e) => formMetdologiaProyectoHub.setData('acciones_fortalecimiento_economia_popular', e.target.value)}
-                                        onBlur={() => syncColumnLong('acciones_fortalecimiento_economia_popular', formMetdologiaProyectoHub)}
+                                        error={form_metodologia_proyecto_hub.errors.acciones_fortalecimiento_economia_popular}
+                                        value={form_metodologia_proyecto_hub.data.acciones_fortalecimiento_economia_popular}
+                                        onChange={(e) => form_metodologia_proyecto_hub.setData('acciones_fortalecimiento_economia_popular', e.target.value)}
+                                        onBlur={() => syncColumnLong('acciones_fortalecimiento_economia_popular', form_metodologia_proyecto_hub)}
                                         required
                                     />
                                 </Grid>
@@ -1291,10 +1290,10 @@ const Actividades = ({
 
                                     <Textarea
                                         id="acciones_fortalecimiento_idi"
-                                        error={formMetdologiaProyectoHub.errors.acciones_fortalecimiento_idi}
-                                        value={formMetdologiaProyectoHub.data.acciones_fortalecimiento_idi}
-                                        onChange={(e) => formMetdologiaProyectoHub.setData('acciones_fortalecimiento_idi', e.target.value)}
-                                        onBlur={() => syncColumnLong('acciones_fortalecimiento_idi', formMetdologiaProyectoHub)}
+                                        error={form_metodologia_proyecto_hub.errors.acciones_fortalecimiento_idi}
+                                        value={form_metodologia_proyecto_hub.data.acciones_fortalecimiento_idi}
+                                        onChange={(e) => form_metodologia_proyecto_hub.setData('acciones_fortalecimiento_idi', e.target.value)}
+                                        onBlur={() => syncColumnLong('acciones_fortalecimiento_idi', form_metodologia_proyecto_hub)}
                                         required
                                     />
                                 </Grid>
@@ -1302,25 +1301,25 @@ const Actividades = ({
 
                             <div className=" flex items-center justify-between py-4">
                                 {proyecto.allowed.to_update && (
-                                    <PrimaryButton disabled={formMetdologiaProyectoHub.processing} className="ml-auto" type="submit">
+                                    <PrimaryButton disabled={form_metodologia_proyecto_hub.processing} className="ml-auto" type="submit">
                                         Guardar información de la metodología
                                     </PrimaryButton>
                                 )}
                             </div>
                         </form>
                     )}
-                    {proyecto.codigo_linea_programatica == 83 && (
-                        <form onSubmit={submitMetodologiaProyectoLinea83} className="!mt-20">
+                    {proyecto.tipo_formulario_convocatoria_id == 11 && (
+                        <form onSubmit={submitMetodologiaProyectoFormulario11Linea83} className="!mt-20">
                             <Grid container rowSpacing={20}>
                                 <Grid item md={12}>
                                     <Label required className="mb-4" labelFor="metodologia" value={`Metodología (¿Cómo se implementará la línea en el ${convocatoria.year}?)`} />
 
                                     <Textarea
                                         id="metodologia"
-                                        error={formMetdologiaProyectoLinea83.errors.metodologia}
-                                        value={formMetdologiaProyectoLinea83.data.metodologia}
-                                        onChange={(e) => formMetdologiaProyectoLinea83.setData('metodologia', e.target.value)}
-                                        onBlur={() => syncColumnLong('metodologia', formMetdologiaProyectoLinea83)}
+                                        error={formMetdologiaProyectoFormulario11Linea83.errors.metodologia}
+                                        value={formMetdologiaProyectoFormulario11Linea83.data.metodologia}
+                                        onChange={(e) => formMetdologiaProyectoFormulario11Linea83.setData('metodologia', e.target.value)}
+                                        onBlur={() => syncColumnLong('metodologia', formMetdologiaProyectoFormulario11Linea83)}
                                         required
                                     />
                                 </Grid>
@@ -1331,20 +1330,20 @@ const Actividades = ({
                                 <Grid item md={6}>
                                     <SelectMultiple
                                         id="departamentos_a_impactar"
-                                        bdValues={formMetdologiaProyectoLinea83.data.departamentos_a_impactar}
+                                        bdValues={formMetdologiaProyectoFormulario11Linea83.data.departamentos_a_impactar}
                                         options={regionales}
                                         onChange={(event, newValue) => {
                                             const selected_values = newValue.map((option) => option.value)
-                                            formMetdologiaProyectoLinea83.setData((prevData) => ({
+                                            formMetdologiaProyectoFormulario11Linea83.setData((prevData) => ({
                                                 ...prevData,
                                                 departamentos_a_impactar: selected_values,
                                             }))
                                         }}
-                                        error={formMetdologiaProyectoLinea83.errors.departamentos_a_impactar}
+                                        error={formMetdologiaProyectoFormulario11Linea83.errors.departamentos_a_impactar}
                                         label="Seleccione una o varias opciones"
                                         required
                                         disabled={evaluacion ? true : false}
-                                        onBlur={() => syncColumnLong('departamentos_a_impactar', formMetdologiaProyectoLinea83)}
+                                        onBlur={() => syncColumnLong('departamentos_a_impactar', formMetdologiaProyectoFormulario11Linea83)}
                                     />
                                 </Grid>
                                 <Grid item md={12}>
@@ -1357,10 +1356,10 @@ const Actividades = ({
 
                                     <Textarea
                                         id="estrategias_atencion_empresas_municipios"
-                                        error={formMetdologiaProyectoLinea83.errors.estrategias_atencion_empresas_municipios}
-                                        value={formMetdologiaProyectoLinea83.data.estrategias_atencion_empresas_municipios}
-                                        onChange={(e) => formMetdologiaProyectoLinea83.setData('estrategias_atencion_empresas_municipios', e.target.value)}
-                                        onBlur={() => syncColumnLong('estrategias_atencion_empresas_municipios', formMetdologiaProyectoLinea83)}
+                                        error={formMetdologiaProyectoFormulario11Linea83.errors.estrategias_atencion_empresas_municipios}
+                                        value={formMetdologiaProyectoFormulario11Linea83.data.estrategias_atencion_empresas_municipios}
+                                        onChange={(e) => formMetdologiaProyectoFormulario11Linea83.setData('estrategias_atencion_empresas_municipios', e.target.value)}
+                                        onBlur={() => syncColumnLong('estrategias_atencion_empresas_municipios', formMetdologiaProyectoFormulario11Linea83)}
                                         required
                                     />
                                 </Grid>
@@ -1374,10 +1373,10 @@ const Actividades = ({
 
                                     <Textarea
                                         id="estrategias_promover_logros"
-                                        error={formMetdologiaProyectoLinea83.errors.estrategias_promover_logros}
-                                        value={formMetdologiaProyectoLinea83.data.estrategias_promover_logros}
-                                        onChange={(e) => formMetdologiaProyectoLinea83.setData('estrategias_promover_logros', e.target.value)}
-                                        onBlur={() => syncColumnLong('estrategias_promover_logros', formMetdologiaProyectoLinea83)}
+                                        error={formMetdologiaProyectoFormulario11Linea83.errors.estrategias_promover_logros}
+                                        value={formMetdologiaProyectoFormulario11Linea83.data.estrategias_promover_logros}
+                                        onChange={(e) => formMetdologiaProyectoFormulario11Linea83.setData('estrategias_promover_logros', e.target.value)}
+                                        onBlur={() => syncColumnLong('estrategias_promover_logros', formMetdologiaProyectoFormulario11Linea83)}
                                         required
                                     />
                                 </Grid>
@@ -1391,10 +1390,10 @@ const Actividades = ({
 
                                     <Textarea
                                         id="estrategias_visibilizacion"
-                                        error={formMetdologiaProyectoLinea83.errors.estrategias_visibilizacion}
-                                        value={formMetdologiaProyectoLinea83.data.estrategias_visibilizacion}
-                                        onChange={(e) => formMetdologiaProyectoLinea83.setData('estrategias_visibilizacion', e.target.value)}
-                                        onBlur={() => syncColumnLong('estrategias_visibilizacion', formMetdologiaProyectoLinea83)}
+                                        error={formMetdologiaProyectoFormulario11Linea83.errors.estrategias_visibilizacion}
+                                        value={formMetdologiaProyectoFormulario11Linea83.data.estrategias_visibilizacion}
+                                        onChange={(e) => formMetdologiaProyectoFormulario11Linea83.setData('estrategias_visibilizacion', e.target.value)}
+                                        onBlur={() => syncColumnLong('estrategias_visibilizacion', formMetdologiaProyectoFormulario11Linea83)}
                                         required
                                     />
                                 </Grid>
@@ -1408,28 +1407,29 @@ const Actividades = ({
 
                                     <Textarea
                                         id="estrategias_productividad_agropecuaria_agroindustrial"
-                                        error={formMetdologiaProyectoLinea83.errors.estrategias_productividad_agropecuaria_agroindustrial}
-                                        value={formMetdologiaProyectoLinea83.data.estrategias_productividad_agropecuaria_agroindustrial}
-                                        onChange={(e) => formMetdologiaProyectoLinea83.setData('estrategias_productividad_agropecuaria_agroindustrial', e.target.value)}
-                                        onBlur={() => syncColumnLong('estrategias_productividad_agropecuaria_agroindustrial', formMetdologiaProyectoLinea83)}
+                                        error={formMetdologiaProyectoFormulario11Linea83.errors.estrategias_productividad_agropecuaria_agroindustrial}
+                                        value={formMetdologiaProyectoFormulario11Linea83.data.estrategias_productividad_agropecuaria_agroindustrial}
+                                        onChange={(e) => formMetdologiaProyectoFormulario11Linea83.setData('estrategias_productividad_agropecuaria_agroindustrial', e.target.value)}
+                                        onBlur={() => syncColumnLong('estrategias_productividad_agropecuaria_agroindustrial', formMetdologiaProyectoFormulario11Linea83)}
                                         required
                                     />
                                 </Grid>
                             </Grid>
                             <div className=" flex items-center justify-between py-4">
                                 {proyecto.allowed.to_update && (
-                                    <PrimaryButton disabled={formMetdologiaProyectoLinea83.processing} className="ml-auto" type="submit">
+                                    <PrimaryButton disabled={formMetdologiaProyectoFormulario11Linea83.processing} className="ml-auto" type="submit">
                                         Guardar información de la metodología
                                     </PrimaryButton>
                                 )}
                             </div>
                         </form>
                     )}
-                    {proyecto.codigo_linea_programatica == 23 ||
-                    proyecto.codigo_linea_programatica == 66 ||
-                    proyecto.codigo_linea_programatica == 82 ||
-                    proyecto.codigo_linea_programatica == 68 ||
-                    proyecto.codigo_linea_programatica == 65 ? (
+                    {proyecto.tipo_formulario_convocatoria_id == 7 ||
+                    proyecto.tipo_formulario_convocatoria_id == 9 ||
+                    proyecto.tipo_formulario_convocatoria_id == 8 ||
+                    proyecto.tipo_formulario_convocatoria_id == 6 ||
+                    proyecto.tipo_formulario_convocatoria_id == 12 ||
+                    proyecto.tipo_formulario_convocatoria_id == 1 ? (
                         <form onSubmit={submit} className="mt-10">
                             <Grid container rowSpacing={20}>
                                 <Grid item md={12}>

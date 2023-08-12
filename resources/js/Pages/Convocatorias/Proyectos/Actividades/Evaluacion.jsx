@@ -117,7 +117,11 @@ const Evaluacion = ({ auth_user, convocatoria, proyecto, evaluacion }) => {
 
     return (
         <>
-            {proyecto.codigo_linea_programatica == 23 || proyecto.codigo_linea_programatica == 65 || proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82 ? (
+            {proyecto.tipo_formulario_convocatoria_id == 7 ||
+            proyecto.tipo_formulario_convocatoria_id == 9 ||
+            proyecto.tipo_formulario_convocatoria_id == 1 ||
+            proyecto.tipo_formulario_convocatoria_id == 8 ||
+            proyecto.tipo_formulario_convocatoria_id == 6 ? (
                 <>
                     <hr className="mt-10 mb-10" />
 
@@ -196,7 +200,7 @@ const Evaluacion = ({ auth_user, convocatoria, proyecto, evaluacion }) => {
                         </form>
                     </div>
                 </>
-            ) : proyecto.codigo_linea_programatica == 68 ? (
+            ) : proyecto.tipo_formulario_convocatoria_id == 12 ? (
                 <>
                     <hr className="mt-10 mb-10" />
 
@@ -484,7 +488,7 @@ const Evaluacion = ({ auth_user, convocatoria, proyecto, evaluacion }) => {
                         </form>
                     </div>
                 </>
-            ) : proyecto.codigo_linea_programatica == 70 ? (
+            ) : proyecto.tipo_formulario_convocatoria_id == 4 ? (
                 <>
                     <hr className="mt-10 mb-10" />
 
@@ -589,7 +593,7 @@ const Evaluacion = ({ auth_user, convocatoria, proyecto, evaluacion }) => {
                         </form>
                     </div>
                 </>
-            ) : proyecto.codigo_linea_programatica == 69 ? (
+            ) : proyecto.tipo_formulario_convocatoria_id == 5 ? (
                 <>
                     <hr className="mt-10 mb-10" />
 

@@ -25,16 +25,16 @@ trait ProyectoValidationTrait
             case $proyecto->proyectoLinea66()->exists() && $proyecto->proyectoLinea66->problema_central == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea68()->exists() && $proyecto->proyectoLinea68->problema_central == '':
+            case $proyecto->proyectoFormulario12Linea68()->exists() && $proyecto->proyectoFormulario12Linea68->problema_central == '':
                 return false;
                 break;
-            case $proyecto->proyectoHubLinea69()->exists() && $proyecto->proyectoHubLinea69->problema_central == '':
+            case $proyecto->proyectoFormulario10Linea69()->exists() && $proyecto->proyectoFormulario10Linea69->problema_central == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea70()->exists() && $proyecto->proyectoLinea70->problema_central == '':
+            case $proyecto->proyectoFormulario4Linea70()->exists() && $proyecto->proyectoFormulario4Linea70->problema_central == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea83()->exists() && $proyecto->proyectoLinea83->problema_central == '':
+            case $proyecto->proyectoFormulario11Linea83()->exists() && $proyecto->proyectoFormulario11Linea83->problema_central == '':
                 return false;
                 break;
 
@@ -189,19 +189,19 @@ trait ProyectoValidationTrait
             case $proyecto->proyectoLinea66()->exists() && $proyecto->proyectoLinea66->objetivo_general == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea68()->exists() && $proyecto->proyectoLinea68->objetivo_general == '':
+            case $proyecto->proyectoFormulario12Linea68()->exists() && $proyecto->proyectoFormulario12Linea68->objetivo_general == '':
                 return false;
                 break;
             case $proyecto->proyectoLinea69()->exists() && $proyecto->proyectoLinea69->objetivo_general == '':
                 return false;
                 break;
-            case $proyecto->proyectoHubLinea69()->exists() && $proyecto->proyectoHubLinea69->objetivo_general == '':
+            case $proyecto->proyectoFormulario10Linea69()->exists() && $proyecto->proyectoFormulario10Linea69->objetivo_general == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea70()->exists() && $proyecto->proyectoLinea70->objetivo_general == '':
+            case $proyecto->proyectoFormulario4Linea70()->exists() && $proyecto->proyectoFormulario4Linea70->objetivo_general == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea83()->exists() && $proyecto->proyectoLinea83->objetivo_general == '':
+            case $proyecto->proyectoFormulario11Linea83()->exists() && $proyecto->proyectoFormulario11Linea83->objetivo_general == '':
                 return false;
                 break;
 
@@ -224,9 +224,6 @@ trait ProyectoValidationTrait
     {
         $count_resultado = 0;
 
-        if ($proyecto->lineaProgramatica->codigo == 68) {
-            return true;
-        }
         foreach ($proyecto->efectosDirectos as $efecto_directo) {
             if ($efecto_directo->descripcion != '' && $efecto_directo->resultado->descripcion == '') {
                 $count_resultado++;
@@ -398,12 +395,9 @@ trait ProyectoValidationTrait
      */
     public static function anexos(Proyecto $proyecto)
     {
-        $linea_programatica_id = $proyecto->linea_programatica_id;
-
         $convocatoria_anexos = ConvocatoriaAnexo::where('convocatoria_id', $proyecto->convocatoria_id)
-                    ->where('linea_programatica_id', $linea_programatica_id)
-                    ->with('anexo', 'lineaProgramatica')
-
+                    ->where('tipo_formulario_convocatoria_id', $proyecto->tipo_formulario_convocatoria_id)
+                    ->with('anexo')
                     ->get();
 
         $count = 0;
@@ -432,19 +426,19 @@ trait ProyectoValidationTrait
             case $proyecto->proyectoLinea66()->exists() && $proyecto->proyectoLinea66->bibliografia == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea68()->exists() && $proyecto->proyectoLinea68->bibliografia == '':
+            case $proyecto->proyectoFormulario12Linea68()->exists() && $proyecto->proyectoFormulario12Linea68->bibliografia == '':
                 return false;
                 break;
             case $proyecto->proyectoLinea69()->exists() && $proyecto->proyectoLinea69->bibliografia == '':
                 return false;
                 break;
-            case $proyecto->proyectoHubLinea69()->exists() && $proyecto->proyectoHubLinea69->bibliografia == '':
+            case $proyecto->proyectoFormulario10Linea69()->exists() && $proyecto->proyectoFormulario10Linea69->bibliografia == '':
                 return false;
                 break;
-             case $proyecto->proyectoLinea70()->exists() && $proyecto->proyectoLinea70->bibliografia == '':
+             case $proyecto->proyectoFormulario4Linea70()->exists() && $proyecto->proyectoFormulario4Linea70->bibliografia == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea83()->exists() && $proyecto->proyectoLinea83->bibliografia == '':
+            case $proyecto->proyectoFormulario11Linea83()->exists() && $proyecto->proyectoFormulario11Linea83->bibliografia == '':
                 return false;
                 break;
             default:
@@ -470,19 +464,19 @@ trait ProyectoValidationTrait
             case $proyecto->proyectoLinea66()->exists() && $proyecto->proyectoLinea66->metodologia == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea68()->exists() && $proyecto->proyectoLinea68->metodologia == '':
+            case $proyecto->proyectoFormulario12Linea68()->exists() && $proyecto->proyectoFormulario12Linea68->metodologia == '':
                 return false;
                 break;
             case $proyecto->proyectoLinea69()->exists() && $proyecto->proyectoLinea69->metodologia == '':
                 return false;
                 break;
-            case $proyecto->proyectoHubLinea69()->exists() && $proyecto->proyectoHubLinea69->metodologia == '':
+            case $proyecto->proyectoFormulario10Linea69()->exists() && $proyecto->proyectoFormulario10Linea69->metodologia == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea70()->exists() && $proyecto->proyectoLinea70->metodologia_local == '':
+            case $proyecto->proyectoFormulario4Linea70()->exists() && $proyecto->proyectoFormulario4Linea70->metodologia_local == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea83()->exists() && $proyecto->proyectoLinea83->metodologia_local == '':
+            case $proyecto->proyectoFormulario11Linea83()->exists() && $proyecto->proyectoFormulario11Linea83->metodologia_local == '':
                 return false;
                 break;
             default:
@@ -508,19 +502,19 @@ trait ProyectoValidationTrait
             case $proyecto->proyectoLinea66()->exists() && $proyecto->proyectoLinea66->propuesta_sostenibilidad == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea68()->exists() && $proyecto->proyectoLinea68->propuesta_sostenibilidad == '':
+            case $proyecto->proyectoFormulario12Linea68()->exists() && $proyecto->proyectoFormulario12Linea68->propuesta_sostenibilidad == '':
                 return false;
                 break;
             case $proyecto->proyectoLinea69()->exists() && $proyecto->proyectoLinea69->propuesta_sostenibilidad == '':
                 return false;
                 break;
-            // case $proyecto->proyectoHubLinea69()->exists() && $proyecto->proyectoHubLinea69->propuesta_sostenibilidad == '':
+            // case $proyecto->proyectoFormulario10Linea69()->exists() && $proyecto->proyectoFormulario10Linea69->propuesta_sostenibilidad == '':
             //     return false;
             //     break;
-            case $proyecto->proyectoLinea70()->exists() && $proyecto->proyectoLinea70->propuesta_sostenibilidad_social == '':
+            case $proyecto->proyectoFormulario4Linea70()->exists() && $proyecto->proyectoFormulario4Linea70->propuesta_sostenibilidad_social == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea83()->exists() && $proyecto->proyectoLinea83->propuesta_sostenibilidad_social == '':
+            case $proyecto->proyectoFormulario11Linea83()->exists() && $proyecto->proyectoFormulario11Linea83->propuesta_sostenibilidad_social == '':
                 return false;
                 break;
 
@@ -614,7 +608,7 @@ trait ProyectoValidationTrait
         return true;
 
         $count_edt = 0;
-        if ($proyecto->proyectoLinea70()->exists()) {
+        if ($proyecto->proyectoFormulario4Linea70()->exists()) {
             foreach ($proyecto->proyectoPresupuesto as $presupuesto) {
                 if ($presupuesto->convocatoriaPresupuesto->rubroPresupuestal->usoPresupuestal->codigo == 20202008005096 && !$presupuesto->edt()->exists()) {
                     $count_edt++;

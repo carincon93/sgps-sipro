@@ -25,7 +25,7 @@ class ConvocatoriaPresupuesto extends Model
     protected $fillable = [
         'convocatoria_id',
         'rubro_presupuestal_id',
-        'linea_programatica_id',
+        'tipo_formulario_convocatoria_id',
         'sumar_al_presupuesto',
         'requiere_estudio_mercado',
         'habilitado'
@@ -70,13 +70,13 @@ class ConvocatoriaPresupuesto extends Model
     }
 
     /**
-     * Relationship with LineaProgramatica
+     * Relationship with TipoFormularioConvocatoria
      *
      * @return object
      */
-    public function lineaProgramatica()
+    public function tipoFormularioConvocatoria()
     {
-        return $this->belongsTo(LineaProgramatica::class);
+        return $this->belongsTo(TipoFormularioConvocatoria::class);
     }
 
     /**

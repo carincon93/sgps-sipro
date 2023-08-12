@@ -28,16 +28,14 @@ class ProyectoRolSennovaController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
-
-        if ($proyecto->proyectoLinea70()->exists()) {
-            $proyecto->cantidad_instructores_planta     = $proyecto->proyectoLinea70->cantidad_instructores_planta;
-            $proyecto->cantidad_dinamizadores_planta    = $proyecto->proyectoLinea70->cantidad_dinamizadores_planta;
-            $proyecto->cantidad_psicopedagogos_planta   = $proyecto->proyectoLinea70->cantidad_psicopedagogos_planta;
+        if ($proyecto->proyectoFormulario4Linea70()->exists()) {
+            $proyecto->cantidad_instructores_planta     = $proyecto->proyectoFormulario4Linea70->cantidad_instructores_planta;
+            $proyecto->cantidad_dinamizadores_planta    = $proyecto->proyectoFormulario4Linea70->cantidad_dinamizadores_planta;
+            $proyecto->cantidad_psicopedagogos_planta   = $proyecto->proyectoFormulario4Linea70->cantidad_psicopedagogos_planta;
         }
 
         if ($proyecto->codigo_linea_programatica == 68) {
-            $proyecto->max_meses_ejecucion = $proyecto->proyectoLinea68->max_meses_ejecucion;
+            $proyecto->max_meses_ejecucion = $proyecto->proyectoFormulario12Linea68->max_meses_ejecucion;
         }
 
         $lineas_tecnologicas = [];
@@ -58,11 +56,10 @@ class ProyectoRolSennovaController extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/RolesSennova/Index', [
             'convocatoria'                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
-            'proyecto'                      => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'total_roles_sennova', 'cantidad_instructores_planta', 'cantidad_dinamizadores_planta', 'cantidad_psicopedagogos_planta', 'en_subsanacion', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'diff_meses', 'max_meses_ejecucion', 'fecha_inicio', 'fecha_finalizacion'),
+            'proyecto'                      => $proyecto->only('id','tipo_formulario_convocatoria_id', 'precio_proyecto', 'modificable', 'total_roles_sennova', 'cantidad_instructores_planta', 'cantidad_dinamizadores_planta', 'cantidad_psicopedagogos_planta', 'en_subsanacion', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'diff_meses', 'max_meses_ejecucion', 'fecha_inicio', 'fecha_finalizacion'),
             'evaluacion'                    => Evaluacion::find(request()->evaluacion_id),
             'proyecto_roles_sennova'        => ProyectoRolSennova::where('proyecto_id', $proyecto->id)->filterProyectoRolSennova(request()->only('search'))->with('convocatoriaRolSennova.rolSennova', 'proyectoRolesEvaluaciones.evaluacion', 'actividades', 'lineasTecnoacademia', 'lineasTecnoparque')->orderBy('proyecto_rol_sennova.id')->paginate(),
-            'linea_programatica'            => $proyecto->lineaProgramatica->only('id'),
-            'convocatoria_roles_sennova'    => SelectHelper::convocatoriaRolesSennova($convocatoria->id, $proyecto->id, $proyecto->lineaProgramatica->id),
+            'convocatoria_roles_sennova'    => SelectHelper::convocatoriaRolesSennova($convocatoria->id, $proyecto->id, $proyecto->tipo_formulario_convocatoria_id),
             'actividades'                   => Actividad::select('id as value', 'descripcion as label')->whereIn(
                                                     'objetivo_especifico_id',
                                                     $objetivos_especificos->map(function ($objetivoEspecifico) {
@@ -111,21 +108,21 @@ class ProyectoRolSennovaController extends Controller
         $proyecto_rol_sennova = ProyectoRolSennova::create($request->all());
         $proyecto_rol_sennova->actividades()->sync($request->actividad_id);
 
-        if ($proyecto->lineaProgramatica->codigo == 70) {
-            $request->validate(
-                [
-                    'linea_tecnologica_id*' => 'nullable|min:0|max:2147483647|exists:lineas_tecnoacademia,id'
-                ]
-            );
-            $proyecto_rol_sennova->lineasTecnoacademia()->sync($request->linea_tecnologica_id);
-        } else if ($proyecto->lineaProgramatica->codigo == 69) {
-            $request->validate(
-                [
-                    'linea_tecnologica_id*' => 'nullable|min:0|max:2147483647|exists:lineas_tecnoparque,id'
-                ]
-            );
-            $proyecto_rol_sennova->lineasTecnoparque()->sync($request->linea_tecnologica_id);
-        }
+        // if ($proyecto->lineaProgramatica->codigo == 70) {
+        //     $request->validate(
+        //         [
+        //             'linea_tecnologica_id*' => 'nullable|min:0|max:2147483647|exists:lineas_tecnoacademia,id'
+        //         ]
+        //     );
+        //     $proyecto_rol_sennova->lineasTecnoacademia()->sync($request->linea_tecnologica_id);
+        // } else if ($proyecto->lineaProgramatica->codigo == 69) {
+        //     $request->validate(
+        //         [
+        //             'linea_tecnologica_id*' => 'nullable|min:0|max:2147483647|exists:lineas_tecnoparque,id'
+        //         ]
+        //     );
+        //     $proyecto_rol_sennova->lineasTecnoparque()->sync($request->linea_tecnologica_id);
+        // }
 
         return redirect()->route('convocatorias.proyectos.proyecto-rol-sennova.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
     }
@@ -181,21 +178,21 @@ class ProyectoRolSennovaController extends Controller
         $proyecto_rol_sennova->update($request->validated());
         $proyecto_rol_sennova->actividades()->sync($request->actividad_id);
 
-        if ($proyecto->lineaProgramatica->codigo == 70) {
-            $request->validate(
-                [
-                    'linea_tecnologica_id*' => 'nullable|min:0|max:2147483647|exists:lineas_tecnoacademia,id'
-                ]
-            );
-            $proyecto_rol_sennova->lineasTecnoacademia()->sync($request->linea_tecnologica_id);
-        } else if ($proyecto->lineaProgramatica->codigo == 69) {
-            $request->validate(
-                [
-                    'linea_tecnologica_id*' => 'nullable|min:0|max:2147483647|exists:lineas_tecnoparque,id'
-                ]
-            );
-            $proyecto_rol_sennova->lineasTecnoparque()->sync($request->linea_tecnologica_id);
-        }
+        // if ($proyecto->lineaProgramatica->codigo == 70) {
+        //     $request->validate(
+        //         [
+        //             'linea_tecnologica_id*' => 'nullable|min:0|max:2147483647|exists:lineas_tecnoacademia,id'
+        //         ]
+        //     );
+        //     $proyecto_rol_sennova->lineasTecnoacademia()->sync($request->linea_tecnologica_id);
+        // } else if ($proyecto->lineaProgramatica->codigo == 69) {
+        //     $request->validate(
+        //         [
+        //             'linea_tecnologica_id*' => 'nullable|min:0|max:2147483647|exists:lineas_tecnoparque,id'
+        //         ]
+        //     );
+        //     $proyecto_rol_sennova->lineasTecnoparque()->sync($request->linea_tecnologica_id);
+        // }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }

@@ -44,30 +44,6 @@ class ProyectoRolSennovaRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->convocatoria_rol_sennova_id)) {
-            $this->merge([
-                'convocatoria_rol_sennova_id' => $this->convocatoria_rol_sennova_id['value'],
-            ]);
-        }
-
-        if (is_array($this->numero_meses_monitorias)) {
-            $this->merge([
-                'numero_meses' => $this->numero_meses_monitorias['value'],
-            ]);
-        }
-
-        if (is_array($this->numero_monitorias)) {
-            $this->merge([
-                'numero_roles' => $this->numero_monitorias['value'],
-            ]);
-        }
-
-        $convocatoriaRolSennova = ConvocatoriaRolSennova::find($this->convocatoria_rol_sennova_id);
-        $proyecto               = Proyecto::find($this->proyecto_id);
-        if ($convocatoriaRolSennova && $convocatoriaRolSennova->rolSennova->nombre == 'aprendiz sennova (contrato aprendizaje)' && $proyecto && $proyecto->lineaProgramatica->codigo == 68) {
-            $this->merge([
-                'numero_meses' => 6,
-            ]);
-        }
+        //
     }
 }

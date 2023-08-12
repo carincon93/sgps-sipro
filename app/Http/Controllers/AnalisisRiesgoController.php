@@ -23,17 +23,11 @@ class AnalisisRiesgoController extends Controller
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
         $proyecto->load('evaluaciones.evaluacionProyectoLinea66');
-        $proyecto->load('evaluaciones.evaluacionProyectoLinea70');
-
-        $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
-
-        if ($proyecto->codigo_linea_programatica == 65) {
-            $proyecto->tipo_proyecto = $proyecto->proyectoLinea65->tipo_proyecto;
-        }
+        $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
         return Inertia::render('Convocatorias/Proyectos/AnalisisRiesgo/Index', [
             'convocatoria'           => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
-            'proyecto'               => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
+            'proyecto'               => $proyecto->only('id', 'tipo_formulario_convocatoria_id', 'precio_proyecto', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
             'evaluacion'             => Evaluacion::find(request()->evaluacion_id),
             'analisis_riesgos'       => AnalisisRiesgo::where('proyecto_id', $proyecto->id)->orderBy('descripcion', 'ASC')
                                             ->filterAnalisisRiesgo(request()->only('search'))->paginate()->appends(['search' => request()->search]),
@@ -166,26 +160,26 @@ class AnalisisRiesgoController extends Controller
                     'analisis_riesgos_comentario'   => $request->analisis_riesgos_requiere_comentario == false ? $request->analisis_riesgos_comentario : null
                 ]);
                 break;
-            case $evaluacion->evaluacionProyectoLinea65()->exists():
-                $evaluacion->evaluacionProyectoLinea65()->update([
+            case $evaluacion->evaluacionProyectoFormulario1Linea65()->exists():
+                $evaluacion->evaluacionProyectoFormulario1Linea65()->update([
                     'analisis_riesgos_puntaje'      => $request->analisis_riesgos_puntaje,
                     'analisis_riesgos_comentario'   => $request->analisis_riesgos_requiere_comentario == false ? $request->analisis_riesgos_comentario : null
                 ]);
                 break;
 
-            case $evaluacion->evaluacionProyectoLinea70()->exists():
-                $evaluacion->evaluacionProyectoLinea70()->update([
+            case $evaluacion->evaluacionProyectoFormulario4Linea70()->exists():
+                $evaluacion->evaluacionProyectoFormulario4Linea70()->update([
                     'analisis_riesgos_comentario'   => $request->analisis_riesgos_requiere_comentario == false ? $request->analisis_riesgos_comentario : null
                 ]);
                 break;
-            case $evaluacion->evaluacionProyectoLinea69()->exists():
-                $evaluacion->evaluacionProyectoLinea69()->update([
+            case $evaluacion->evaluacionProyectoFormulario5Linea69()->exists():
+                $evaluacion->evaluacionProyectoFormulario5Linea69()->update([
                     'analisis_riesgos_comentario'   => $request->analisis_riesgos_requiere_comentario == false ? $request->analisis_riesgos_comentario : null
                 ]);
                 break;
 
-            case $evaluacion->evaluacionProyectoLinea68()->exists():
-                $evaluacion->evaluacionProyectoLinea68()->update([
+            case $evaluacion->evaluacionProyectoFormulario12Linea68()->exists():
+                $evaluacion->evaluacionProyectoFormulario12Linea68()->update([
                     'riesgos_objetivo_general_puntaje'      => $request->riesgos_objetivo_general_puntaje,
                     'riesgos_objetivo_general_comentario'   => $request->riesgos_objetivo_general_requiere_comentario == false ? $request->riesgos_objetivo_general_comentario : null,
 

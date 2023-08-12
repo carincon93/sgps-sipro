@@ -36,9 +36,9 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
     const [producto, setProducto] = useState(null)
 
     const tabs =
-        proyecto?.proyectoLinea68 || proyecto?.proyectoLinea69 || proyecto?.proyectoHubLinea69
+        proyecto?.tipo_formulario_convocatoria_id == 12 || proyecto?.tipo_formulario_convocatoria_id == 5 || proyecto?.proyectoFormulario10Linea69
             ? [{ label: 'Productos indicador de gestión' }, { label: 'Productos Minciencias' }]
-            : proyecto?.proyectoLinea68 || proyecto?.proyectoLinea70 || proyecto?.proyectoLinea83
+            : proyecto?.tipo_formulario_convocatoria_id == 4 || proyecto?.proyectoFormulario11Linea83
             ? [{ label: 'Productos indicador de gestión' }]
             : [{ label: 'Productos Minciencias' }]
 
@@ -87,13 +87,13 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                                                 <div>
                                                     <p className="text-xs">Evaluador COD-{evaluacion.id}:</p>
                                                     {evaluacion.evaluacion_proyecto_linea66 ? (
-                                                        <p class="whitespace-pre-line text-xs">
+                                                        <p className="whitespace-pre-line text-xs">
                                                             {evaluacion.evaluacion_proyecto_linea66?.productos_comentario
                                                                 ? evaluacion.evaluacion_proyecto_linea66.productos_comentario
                                                                 : 'Sin recomendación'}
                                                         </p>
                                                     ) : evaluacion.evaluacion_proyecto_linea65 ? (
-                                                        <p class="whitespace-pre-line text-xs">
+                                                        <p className="whitespace-pre-line text-xs">
                                                             {evaluacion.evaluacion_proyecto_linea65?.productos_comentario
                                                                 ? evaluacion.evaluacion_proyecto_linea65.productos_comentario
                                                                 : 'Sin recomendación'}
@@ -101,29 +101,29 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                                                     ) : (
                                                         evaluacion.evaluacion_proyecto_linea68 && (
                                                             <>
-                                                                <hr class="mt-10 mb-10 border-black-200" />
-                                                                <h1 class="font-black">Productos</h1>
+                                                                <hr className="mt-10 mb-10 border-black-200" />
+                                                                <h1 className="font-black">Productos</h1>
 
-                                                                <ul class="list-disc pl-4">
-                                                                    <li class="whitespace-pre-line text-xs mb-10">
+                                                                <ul className="list-disc pl-4">
+                                                                    <li className="whitespace-pre-line text-xs mb-10">
                                                                         {evaluacion.evaluacion_proyecto_linea68?.productos_primer_obj_comentario
                                                                             ? 'Recomendación productos del primer objetivo específico: ' +
                                                                               evaluacion.evaluacion_proyecto_linea68.productos_primer_obj_comentario
                                                                             : 'Sin recomendación'}
                                                                     </li>
-                                                                    <li class="whitespace-pre-line text-xs mb-10">
+                                                                    <li className="whitespace-pre-line text-xs mb-10">
                                                                         {evaluacion.evaluacion_proyecto_linea68?.productos_segundo_obj_comentario
                                                                             ? 'Recomendación productos del segundo objetivo específico: ' +
                                                                               evaluacion.evaluacion_proyecto_linea68.productos_segundo_obj_comentario
                                                                             : 'Sin recomendación'}
                                                                     </li>
-                                                                    <li class="whitespace-pre-line text-xs mb-10">
+                                                                    <li className="whitespace-pre-line text-xs mb-10">
                                                                         {evaluacion.evaluacion_proyecto_linea68?.productos_tercer_obj_comentario
                                                                             ? 'Recomendación productos del tercer objetivo específico: ' +
                                                                               evaluacion.evaluacion_proyecto_linea68.productos_tercer_obj_comentario
                                                                             : 'Sin recomendación'}
                                                                     </li>
-                                                                    <li class="whitespace-pre-line text-xs mb-10">
+                                                                    <li className="whitespace-pre-line text-xs mb-10">
                                                                         {evaluacion.evaluacion_proyecto_linea68?.productos_cuarto_obj_comentario
                                                                             ? 'Recomendación productos del cuarto objetivo específico: ' +
                                                                               evaluacion.evaluacion_proyecto_linea68.productos_cuarto_obj_comentario
@@ -152,17 +152,21 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
             </Grid>
 
             <TabsMui tabs={tabs}>
-                {proyecto?.proyectoLinea68 || proyecto?.proyectoLinea69 || proyecto?.proyectoHubLinea69 || proyecto?.proyectoLinea70 || proyecto?.proyectoLinea83 ? (
+                {proyecto?.tipo_formulario_convocatoria_id == 12 ||
+                proyecto?.tipo_formulario_convocatoria_id == 5 ||
+                proyecto?.proyectoFormulario10Linea69 ||
+                proyecto?.tipo_formulario_convocatoria_id == 4 ||
+                proyecto?.proyectoFormulario11Linea83 ? (
                     <div>
                         <Grid container className="!mt-20">
                             <Grid item md={12}>
-                                {proyecto.codigo_linea_programatica == 70 && (
+                                {proyecto.tipo_formulario_convocatoria_id == 4 && (
                                     <AlertMui className="mt-20">
                                         Debe asociar las fechas y actividades a cada uno de los productos haciendo clic en los tres puntos, a continuación, clic en 'Editar'.
                                     </AlertMui>
                                 )}
                                 <TableMui className="mb-8" rows={['Descripción', 'Objetivo específico', 'Meta', 'Acciones']} sxCellThead={{ width: '320px' }}>
-                                    {is_super_admin || checkRole(auth_user, [5, 17]) || (proyecto.allowed.to_update && proyecto.codigo_linea_programatica != 70) ? (
+                                    {is_super_admin || checkRole(auth_user, [5, 17]) || (proyecto.allowed.to_update && proyecto.tipo_formulario_convocatoria_id != 4) ? (
                                         <TableRow
                                             onClick={() => (setDialogProductoIndicadoresStatus(true), setMethod('POST'), setProducto(null))}
                                             variant="raised"
@@ -187,7 +191,9 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                                                     </TableCell>
                                                     <TableCell>
                                                         <>
-                                                            {proyecto.codigo_linea_programatica == 69 || proyecto.codigo_linea_programatica == 70 || proyecto.codigo_linea_programatica == 83 ? (
+                                                            {proyecto.tipo_formulario_convocatoria_id == 5 ||
+                                                            proyecto.tipo_formulario_convocatoria_id == 4 ||
+                                                            proyecto.tipo_formulario_convocatoria_id == 11 ? (
                                                                 <>
                                                                     {producto.producto_linea69?.valor_proyectado ??
                                                                         producto.producto_linea70?.valor_proyectado ??
@@ -195,7 +201,7 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                                                                 </>
                                                             ) : null}
 
-                                                            {proyecto.codigo_linea_programatica == 68 ? <>{producto.producto_linea68?.meta_indicador}</> : null}
+                                                            {proyecto.tipo_formulario_convocatoria_id == 12 ? <>{producto.producto_linea68?.meta_indicador}</> : null}
                                                         </>
                                                     </TableCell>
 
@@ -269,16 +275,21 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                         </Grid>
                     </div>
                 ) : null}
-                {proyecto?.proyectoLinea65 || proyecto?.proyectoLinea66 || proyecto?.proyectoLinea68 || proyecto?.proyectoHubLinea69 ? (
+                {proyecto?.proyectoLinea65 ||
+                proyecto?.proyectoLinea66 ||
+                proyecto?.tipo_formulario_convocatoria_id == 4 ||
+                proyecto?.tipo_formulario_convocatoria_id == 5 ||
+                proyecto?.tipo_formulario_convocatoria_id == 12 ||
+                proyecto?.proyectoFormulario10Linea69 ? (
                     <div>
                         <Grid container className="!mt-20">
-                            {proyecto.codigo_linea_programatica == 70 && (
+                            {proyecto.tipo_formulario_convocatoria_id == 4 && (
                                 <AlertMui className="mt-20">
                                     Debe asociar las fechas y actividades a cada uno de los productos haciendo clic en los tres puntos, a continuación, clic en 'Editar'.
                                 </AlertMui>
                             )}
                             <TableMui className="mb-8" rows={['Descripción', 'Objetivo específico', 'Resultado', 'Acciones']} sxCellThead={{ width: '320px' }}>
-                                {is_super_admin || checkRole(auth_user, [5, 17]) || (proyecto.allowed.to_update && proyecto.codigo_linea_programatica != 70) ? (
+                                {is_super_admin || checkRole(auth_user, [5, 17]) || (proyecto.allowed.to_update && proyecto.tipo_formulario_convocatoria_id != 4) ? (
                                     <TableRow
                                         onClick={() => (setDialogProductoMincienciasStatus(true), setMethod('POST'), setProducto(null))}
                                         variant="raised"
@@ -303,7 +314,7 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                                                 </TableCell>
                                                 <TableCell>
                                                     <p className="line-clamp-3">
-                                                        {proyecto.codigo_linea_programatica != 70 && proyecto.codigo_linea_programatica != 83 ? (
+                                                        {proyecto.tipo_formulario_convocatoria_id != 4 && proyecto.tipo_formulario_convocatoria_id != 11 ? (
                                                             <>Código {producto.resultado.id + ' - ' + producto.resultado.descripcion}</>
                                                         ) : null}
                                                     </p>

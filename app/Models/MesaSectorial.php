@@ -45,23 +45,13 @@ class MesaSectorial extends Model
     ];
 
     /**
-     * Relationship with ProyectoLinea66
+     * Relationship with Proyecto
      *
      * @return object
      */
-    public function proyectosLinea66()
+    public function proyectos()
     {
-        return $this->belongsToMany(ProyectoLinea66::class, 'idi_mesa_sectorial', 'mesa_sectorial_id', 'idi_id');
-    }
-
-    /**
-     * Relationship with ProyectoLinea65
-     *
-     * @return object
-     */
-    public function proyectosLinea65()
-    {
-        return $this->belongsToMany(ProyectoLinea65::class, 'cultura_innovacion_mesa_sectorial', 'mesa_sectorial_id', 'cultura_innovacion_id');
+        return $this->belongsToMany(Proyecto::class, 'proyecto_mesa_sectorial', 'mesa_sectorial_id', 'proyecto_id');
     }
 
     /**

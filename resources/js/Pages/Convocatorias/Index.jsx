@@ -89,7 +89,7 @@ export default function Dashboard({ auth, convocatorias }) {
                                 )}
                                 <ButtonMui
                                     onClick={(e) => {
-                                        e.stopPropagation, router.visit(route('convocatorias.lineas-programaticas.index', convocatoria.id))
+                                        e.stopPropagation, router.visit(route('convocatorias.tipos-formulario-convocatoria', convocatoria.id))
                                     }}
                                     className="w-full relative overflow-hidden !shadow-md px-6 py-2 h-72 flex justify-center items-center flex-col"
                                     primary={false}>

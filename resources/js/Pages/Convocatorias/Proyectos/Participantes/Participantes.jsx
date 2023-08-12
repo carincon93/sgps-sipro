@@ -66,7 +66,10 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
         <>
             <h1 className="text-3xl mt-24 mb-8 text-center">Participantes vinculados</h1>
 
-            {proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82 || proyecto.codigo_linea_programatica == 23 ? (
+            {proyecto.tipo_formulario_convocatoria_id == 8 ||
+            proyecto.tipo_formulario_convocatoria_id == 6 ||
+            proyecto.tipo_formulario_convocatoria_id == 7 ||
+            proyecto.tipo_formulario_convocatoria_id == 9 ? (
                 <>
                     <AlertMui className="my-8">
                         <h1 className="mb-4 text-3xl font-black">Importante</h1>

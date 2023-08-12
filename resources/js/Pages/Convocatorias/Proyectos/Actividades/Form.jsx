@@ -118,7 +118,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
 
                                 <Grid item md={12}>
                                     <Textarea
-                                        disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
+                                        disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                         label="Descripción"
                                         id="descripcion"
                                         error={form.errors.descripcion}
@@ -178,7 +178,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                     </AlertMui>
                                 </Grid>
 
-                                {proyecto.codigo_linea_programatica != 23 && (
+                                {proyecto.tipo_formulario_convocatoria_id != 7 || proyecto.tipo_formulario_convocatoria_id != 9 ? (
                                     <Grid item md={12}>
                                         <h6 className="my-10 text-2xl">Roles responsables</h6>
                                         <SelectMultiple
@@ -197,7 +197,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                         />
                                         <AlertMui>Si la actividad tiene un responsable por favor seleccione su rol de la siguiente lista</AlertMui>
                                     </Grid>
-                                )}
+                                ) : null}
                             </Grid>
                         </fieldset>
 

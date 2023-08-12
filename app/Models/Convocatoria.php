@@ -111,13 +111,13 @@ class Convocatoria extends Model
     }
 
     /**
-     * Relationship with LineaProgramatica
+     * Relationship with TipoFormularioConvocatoria
      *
      * @return object
      */
-    public function lineasProgramaticas()
+    public function tiposFormularioConvocatoria()
     {
-        return $this->belongsToMany(LineaProgramatica::class, 'convocatoria_lineas_programaticas', 'convocatoria_id', 'linea_programatica_id');
+        return $this->belongsToMany(TipoFormularioConvocatoria::class, 'convocatoria_tipos_formularios', 'convocatoria_id', 'tipo_formulario_convocatoria_id');
     }
 
     /**

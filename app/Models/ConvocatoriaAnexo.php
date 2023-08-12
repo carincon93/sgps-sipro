@@ -34,7 +34,7 @@ class ConvocatoriaAnexo extends Model
         'anexo_id',
         'habilitado',
         'obligatorio',
-        'linea_programatica_id'
+        'tipo_formulario_convocatoria_id'
     ];
 
     /**
@@ -76,13 +76,13 @@ class ConvocatoriaAnexo extends Model
     }
 
     /**
-     * Relationship with LineaProgramatica
+     * Relationship with TipoFormularioConvocatoria
      *
      * @return object
      */
-    public function lineaProgramatica()
+    public function tipoFormularioConvocatoria()
     {
-        return $this->belongsTo(LineaProgramatica::class);
+        return $this->belongsTo(TipoFormularioConvocatoria::class);
     }
 
     /**

@@ -24,13 +24,13 @@ class ConvocatoriaRolSennovaRequest extends FormRequest
     public function rules()
     {
         return [
-            'linea_programatica_id' => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_programaticas,id'],
-            'rol_sennova_id'        => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:roles_sennova,id'],
-            'asignacion_mensual'    => ['required', 'integer', 'min:0'],
-            'nivel_academico'       => ['required', 'integer', 'min:0', 'max:2147483647'],
-            'experiencia'           => ['nullable', 'string'],
-            'sumar_al_presupuesto'  => ['required', 'boolean'],
-            'habilitado'            => ['required', 'boolean'],
+            'tipo_formulario_convocatoria_id'   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tipos_formulario_convocatoria,id'],
+            'rol_sennova_id'                    => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:roles_sennova,id'],
+            'asignacion_mensual'                => ['required', 'integer', 'min:0'],
+            'nivel_academico'                   => ['required', 'integer', 'min:0', 'max:2147483647'],
+            'experiencia'                       => ['nullable', 'string'],
+            'sumar_al_presupuesto'              => ['required', 'boolean'],
+            'habilitado'                        => ['required', 'boolean'],
         ];
     }
 

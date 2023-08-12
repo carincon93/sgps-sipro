@@ -58,7 +58,7 @@ const ResumenFinal = ({
                         </p>
                         <ul className="list-disc p-4" ref={ul_ref}>
                             {!generalidades && <li>Generalidades</li>}
-                            {!articulacionSennova && proyecto.codigo_linea_programatica == 70 && <li>Articulación SENNOVA</li>}
+                            {!articulacionSennova && proyecto.tipo_formulario_convocatoria_id == 4 && <li>Articulación SENNOVA</li>}
                             {!problemaCentral && <li>Problema central</li>}
                             {!efectosDirectos && (
                                 <li>
@@ -103,7 +103,7 @@ const ResumenFinal = ({
                             )}
                             {!metodologia && <li>Metodología (Metodología y actividades)</li>}
                             {!propuestaSostenibilidad && <li>Propuesta de sostenibilidad (Cadena de valor)</li>}
-                            {proyecto.codigo_linea_programatica == 70 && (
+                            {proyecto.tipo_formulario_convocatoria_id == 4 && (
                                 <>{!edt && <li>Tiene un rubro presupuestal 'Servicios de organización y asistencia de convenciones y ferias' y le debe asociar al menos un EDT</li>}</>
                             )}
                             {!productosActividades && (

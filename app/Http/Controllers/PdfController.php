@@ -35,8 +35,8 @@ class PdfController extends Controller
             // $opcionesIDiDropdown = collect(json_decode(Storage::get('json/opciones-aplica-no-aplica.json'), true));
             // $datos->relacionado_plan_tecnologico = $opcionesIDiDropdown->where('value', $datos->relacionado_plan_tecnologico)->first();
             $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true));
-        } else if (!empty($proyecto->proyectoLinea70)) {
-            $datos = $proyecto->proyectoLinea70;
+        } else if (!empty($proyecto->proyectoFormulario4Linea70)) {
+            $datos = $proyecto->proyectoFormulario4Linea70;
             $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-ta.json'), true));
         } else if (!empty($proyecto->proyectoLinea69)) {
             $proyecto->proyectoLinea69->talentosOtrosDepartamentos;
@@ -45,8 +45,8 @@ class PdfController extends Controller
         } else if (!empty($proyecto->proyectoLinea65)) {
             $datos = $proyecto->proyectoLinea65;
             $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true));
-        } else if (!empty($proyecto->proyectoLinea68)) {
-            $datos = $proyecto->proyectoLinea68;
+        } else if (!empty($proyecto->proyectoFormulario12Linea68)) {
+            $datos = $proyecto->proyectoFormulario12Linea68;
             $tipoProyectoLinea68 = TipoProyectoLinea68::selectRaw("tipos_proyecto_linea_68.id as value, CASE tipos_proyecto_linea_68.tipo_proyecto
                         WHEN '1' THEN   concat(centros_formacion.nombre, chr(10), '∙ Tipo de proyecto: A', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
                         WHEN '2' THEN   concat(centros_formacion.nombre, chr(10), '∙ Tipo de proyecto: B', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)

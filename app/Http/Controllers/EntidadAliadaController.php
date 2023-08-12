@@ -25,9 +25,7 @@ class EntidadAliadaController extends Controller
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
         $proyecto->load('evaluaciones.evaluacionProyectoLinea66');
-        $proyecto->load('evaluaciones.evaluacionProyectoLinea70');
-
-        $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
+        $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
         $objetivo_especificos = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
 
@@ -40,7 +38,7 @@ class EntidadAliadaController extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/EntidadesAliadas/Index', [
             'convocatoria'                  =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
-            'proyecto'                      =>  $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed'),
+            'proyecto'                      =>  $proyecto->only('id', 'tipo_formulario_convocatoria_id', 'precio_proyecto', 'modificable', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed'),
             'evaluacion'                    =>  Evaluacion::find(request()->evaluacion_id),
             'entidades_aliadas'             =>  EntidadAliada::where('proyecto_id', $proyecto->id)->orderBy('nombre', 'ASC')
                                                     ->filterEntidadAliada(request()->only('search'))->with('actividades', 'actividades.objetivoEspecifico', 'miembrosEntidadAliada', 'entidadAliadaLinea66', 'entidadAliadaLinea69', 'entidadAliadaLinea70', 'entidadAliadaLinea83')->paginate(),
@@ -120,7 +118,7 @@ class EntidadAliadaController extends Controller
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
 
-        } elseif ($proyecto->proyectoLinea70()->exists()) {
+        } elseif ($proyecto->proyectoFormulario4Linea70()->exists()) {
             $request->validate([
                 'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
                 'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
@@ -129,7 +127,7 @@ class EntidadAliadaController extends Controller
             $entidad_aliada_linea_70 = $entidad_aliada->entidadAliadaLinea70()->create($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
-        } elseif ($proyecto->proyectoLinea83()->exists()) {
+        } elseif ($proyecto->proyectoFormulario11Linea83()->exists()) {
             $request->validate([
                 'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
                 'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
@@ -216,7 +214,7 @@ class EntidadAliadaController extends Controller
             $entidad_aliada_linea_69->update($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
-        } elseif ($proyecto->proyectoLinea70()->exists()) {
+        } elseif ($proyecto->proyectoFormulario4Linea70()->exists()) {
             $request->validate([
                 'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
                 'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
@@ -227,7 +225,7 @@ class EntidadAliadaController extends Controller
             $entidad_aliada_linea_70->update($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
-        } elseif ($proyecto->proyectoLinea83()->exists()) {
+        } elseif ($proyecto->proyectoFormulario11Linea83()->exists()) {
             $request->validate([
                 'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
                 'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
@@ -304,10 +302,10 @@ class EntidadAliadaController extends Controller
             case $proyecto->proyectoLinea69()->exists():
                 $modelo = $entidad_aliada->entidadAliadaLinea69;
                 break;
-            case $proyecto->proyectoLinea70()->exists():
+            case $proyecto->proyectoFormulario4Linea70()->exists():
                 $modelo = $entidad_aliada->entidadAliadaLinea70;
                 break;
-            case $proyecto->proyectoLinea83()->exists():
+            case $proyecto->proyectoFormulario11Linea83()->exists():
                 $modelo = $entidad_aliada->entidadAliadaLinea83;
                 break;
             default:
@@ -327,7 +325,7 @@ class EntidadAliadaController extends Controller
         $entidad_aliada = $modelo;
         $proyecto       = Proyecto::find($entidad_aliada->entidadAliada->proyecto_id);
 
-        $sharepoint_entidad_aliada  = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ENTIDADES ALIADAS';
+        $sharepoint_entidad_aliada  = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->tipoFormularioConvocatoria->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ENTIDADES ALIADAS';
 
         $sharepoint_path            = "$modulo/$sharepoint_entidad_aliada";
 
@@ -337,13 +335,13 @@ class EntidadAliadaController extends Controller
     public function downloadServerFile(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, EntidadAliada $entidad_aliada)
     {
         if ($entidad_aliada->entidadAliadaLinea66()->exists()) {
-            $entidad_aliada->entidadAliadaLinea66->ruta_final_sharepoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ENTIDADES ALIADAS';
+            $entidad_aliada->entidadAliadaLinea66->ruta_final_sharepoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->tipoFormularioConvocatoria->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ENTIDADES ALIADAS';
             SharepointHelper::downloadServerFile($entidad_aliada->entidadAliadaLinea66, $request->formato);
         } else if ($entidad_aliada->entidadAliadaLinea69()->exists()) {
-            $entidad_aliada->entidadAliadaLinea69->ruta_final_sharepoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ENTIDADES ALIADAS';
+            $entidad_aliada->entidadAliadaLinea69->ruta_final_sharepoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->tipoFormularioConvocatoria->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ENTIDADES ALIADAS';
             SharepointHelper::downloadServerFile($entidad_aliada->entidadAliadaLinea69, $request->formato);
         } else if ($entidad_aliada->entidadAliadaLinea70()->exists()) {
-            $entidad_aliada->entidadAliadaLinea70->ruta_final_sharepoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ENTIDADES ALIADAS';
+            $entidad_aliada->entidadAliadaLinea70->ruta_final_sharepoint = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->tipoFormularioConvocatoria->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ENTIDADES ALIADAS';
             SharepointHelper::downloadServerFile($entidad_aliada->entidadAliadaLinea70, $request->formato);
         }
     }
@@ -423,7 +421,7 @@ class EntidadAliadaController extends Controller
             $evaluacion->entidad_aliada_puntaje = 0;
         }
 
-        $evaluacion->evaluacionProyectoLinea70()->update([
+        $evaluacion->evaluacionProyectoFormulario4Linea70()->update([
             'entidad_aliada_comentario'   => $request->entidad_aliada_requiere_comentario == false ? $request->entidad_aliada_comentario : null
         ]);
 

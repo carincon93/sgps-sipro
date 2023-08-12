@@ -68,7 +68,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                     />
                                 ) : (
                                     <AlertMui severity="error">
-                                        Aún no se ha completado la información de los roles, por favor desplegue los canales de ayuda e informe al respectivo activador(a) para que actualice la
+                                        Aún no se ha completado la información de los roles, por favor revise los canales de ayuda e informe al respectivo activador(a) para que actualice la
                                         información.{' '}
                                     </AlertMui>
                                 )}
@@ -129,7 +129,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                 />
                             </div>
 
-                            {proyecto.codigo_linea_programatica === 69 && (
+                            {proyecto.tipo_formulario_convocatoria_id == 5 && (
                                 <>
                                     <h6 className="mt-20 mb-12 text-2xl">Líneas tecnológicas</h6>
                                     <AlertMui className="ml-10 mb-6">Seleccione una o varias líneas</AlertMui>

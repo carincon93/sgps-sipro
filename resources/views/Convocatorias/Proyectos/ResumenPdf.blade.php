@@ -100,13 +100,13 @@
                 <td align="left">{{ $datos->zona_influencia }}</td>
             </tr>
         @endif
-        @if ($proyecto->proyectoLinea68)
+        @if ($proyecto->proyectoFormulario12Linea68)
             <tr>
                 <td align="left">
                     <p class="title">Tipo de proyecto</p>
                 </td>
                 <td align="left">
-                    {{ $tipoProyectoLinea68->where('value', $datos->tipo_proyecto_linea_68_id)->first() ? $tipoProyectoLinea68->where('value', $datos->tipo_proyecto_linea_68_id)->first()['label'] : '' }}
+                    {{ $tipoProyectoFormulario12Linea68->where('value', $datos->tipo_proyecto_linea_68_id)->first() ? $tipoProyectoFormulario12Linea68->where('value', $datos->tipo_proyecto_linea_68_id)->first()['label'] : '' }}
                 </td>
             </tr>
         @endif

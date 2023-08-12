@@ -103,7 +103,11 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
 
     return (
         <>
-            {proyecto.codigo_linea_programatica == 23 || proyecto.codigo_linea_programatica == 65 || proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82 ? (
+            {proyecto.tipo_formulario_convocatoria_id == 7 ||
+            proyecto.tipo_formulario_convocatoria_id == 9 ||
+            proyecto.tipo_formulario_convocatoria_id == 1 ||
+            proyecto.tipo_formulario_convocatoria_id == 8 ||
+            proyecto.tipo_formulario_convocatoria_id == 6 ? (
                 <>
                     <hr className="mt-10 mb-10" />
 
@@ -118,9 +122,9 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
                                 <ul className="list-disc p-4">
                                     <li>
                                         <strong>
-                                            {proyecto.codigo_linea_programatica == 23 || proyecto.codigo_linea_programatica == 65
+                                            {proyecto.tipo_formulario_convocatoria_id == 7 || proyecto.tipo_formulario_convocatoria_id == 9 || proyecto.tipo_formulario_convocatoria_id == 1
                                                 ? '0 a 12'
-                                                : proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82
+                                                : proyecto.tipo_formulario_convocatoria_id == 8 || proyecto.tipo_formulario_convocatoria_id == 6
                                                 ? '0 a 9'
                                                 : ''}
                                         </strong>{' '}
@@ -129,9 +133,9 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
                                     </li>
                                     <li>
                                         <strong>
-                                            {proyecto.codigo_linea_programatica == 23 || proyecto.codigo_linea_programatica == 65
+                                            {proyecto.tipo_formulario_convocatoria_id == 7 || proyecto.tipo_formulario_convocatoria_id == 9 || proyecto.tipo_formulario_convocatoria_id == 1
                                                 ? '13 a 23'
-                                                : proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82
+                                                : proyecto.tipo_formulario_convocatoria_id == 8 || proyecto.tipo_formulario_convocatoria_id == 6
                                                 ? '10 a 18'
                                                 : ''}
                                         </strong>{' '}
@@ -140,9 +144,9 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
                                     </li>
                                     <li>
                                         <strong>
-                                            {proyecto.codigo_linea_programatica == 23 || proyecto.codigo_linea_programatica == 65
+                                            {proyecto.tipo_formulario_convocatoria_id == 7 || proyecto.tipo_formulario_convocatoria_id == 9 || proyecto.tipo_formulario_convocatoria_id == 1
                                                 ? '24 a 25'
-                                                : proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82
+                                                : proyecto.tipo_formulario_convocatoria_id == 8 || proyecto.tipo_formulario_convocatoria_id == 6
                                                 ? '19 a 20'
                                                 : ''}
                                         </strong>{' '}
@@ -155,9 +159,9 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
                                     className="mt-4 mb-4"
                                     labelFor="cadena_valor_puntaje"
                                     value={
-                                        proyecto.codigo_linea_programatica == 23 || proyecto.codigo_linea_programatica == 65
+                                        proyecto.tipo_formulario_convocatoria_id == 7 || proyecto.tipo_formulario_convocatoria_id == 9 || proyecto.tipo_formulario_convocatoria_id == 1
                                             ? 'Puntaje (Máximo 25)'
-                                            : proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82
+                                            : proyecto.tipo_formulario_convocatoria_id == 8 || proyecto.tipo_formulario_convocatoria_id == 6
                                             ? 'Puntaje (Máximo 20)'
                                             : 'Puntaje (Máximo 0)'
                                     }
@@ -171,9 +175,9 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
                                         step: 1,
                                         min: 0,
                                         max:
-                                            proyecto.codigo_linea_programatica == 23 || proyecto.codigo_linea_programatica == 65
+                                            proyecto.tipo_formulario_convocatoria_id == 7 || proyecto.tipo_formulario_convocatoria_id == 9 || proyecto.tipo_formulario_convocatoria_id == 1
                                                 ? 25
-                                                : proyecto.codigo_linea_programatica == 66 || proyecto.codigo_linea_programatica == 82
+                                                : proyecto.tipo_formulario_convocatoria_id == 8 || proyecto.tipo_formulario_convocatoria_id == 6
                                                 ? 20
                                                 : 0,
                                     }}
@@ -216,7 +220,7 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
                         </form>
                     </div>
                 </>
-            ) : proyecto.codigo_linea_programatica == 68 ? (
+            ) : proyecto.tipo_formulario_convocatoria_id == 12 ? (
                 <>
                     <hr className="mt-10 mb-10" />
 
@@ -465,7 +469,7 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
                         </form>
                     </div>
                 </>
-            ) : proyecto.codigo_linea_programatica == 70 ? (
+            ) : proyecto.tipo_formulario_convocatoria_id == 4 ? (
                 <>
                     <hr className="mt-10 mb-10" />
 
@@ -510,7 +514,7 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
                         </form>
                     </div>
                 </>
-            ) : proyecto.codigo_linea_programatica == 69 ? (
+            ) : proyecto.tipo_formulario_convocatoria_id == 5 ? (
                 <>
                     <hr className="mt-10 mb-10" />
 

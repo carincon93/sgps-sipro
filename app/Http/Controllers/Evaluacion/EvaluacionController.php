@@ -90,23 +90,23 @@ class EvaluacionController extends Controller
                     'id' => $evaluacion->id
                 ]);
                 break;
-            case $proyecto->proyectoLinea70()->exists():
-                $evaluacion->evaluacionProyectoLinea70()->create([
+            case $proyecto->proyectoFormulario4Linea70()->exists():
+                $evaluacion->evaluacionProyectoFormulario4Linea70()->create([
                     'id' => $evaluacion->id
                 ]);
                 break;
             case $proyecto->proyectoLinea69()->exists():
-                $evaluacion->evaluacionProyectoLinea69()->create([
+                $evaluacion->evaluacionProyectoFormulario5Linea69()->create([
                     'id' => $evaluacion->id
                 ]);
                 break;
-            case $proyecto->proyectoLinea68()->exists():
-                $evaluacion->evaluacionProyectoLinea68()->create([
+            case $proyecto->proyectoFormulario12Linea68()->exists():
+                $evaluacion->evaluacionProyectoFormulario12Linea68()->create([
                     'id' => $evaluacion->id
                 ]);
                 break;
             case $proyecto->proyectoLinea65()->exists():
-                $evaluacion->evaluacionProyectoLinea65()->create([
+                $evaluacion->evaluacionProyectoFormulario1Linea65()->create([
                     'id' => $evaluacion->id
                 ]);
                 break;

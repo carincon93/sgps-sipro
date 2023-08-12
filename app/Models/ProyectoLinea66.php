@@ -186,16 +186,6 @@ class ProyectoLinea66 extends Model
     }
 
     /**
-     * Relationship with MesaSectorial
-     *
-     * @return object
-     */
-    public function mesasSectoriales()
-    {
-        return $this->belongsToMany(MesaSectorial::class, 'idi_mesa_sectorial', 'idi_id', 'mesa_sectorial_id');
-    }
-
-    /**
      * Relationship with LineaTecnica
      *
      * @return object
@@ -313,8 +303,8 @@ class ProyectoLinea66 extends Model
             ->whereHas(
                 'proyecto.centroFormacion',
                 function ($query) use ($convocatoria, $auth_user) {
-                    if (request()->linea_programatica_id) {
-                        $query->where('proyectos.linea_programatica_id', request()->linea_programatica_id);
+                    if (request()->tip) {
+                        $query->where('proyectos.tip', request()->tip);
                     }
 
                     if ($auth_user->hasRole([2]) && !$auth_user->hasRole([1])) {

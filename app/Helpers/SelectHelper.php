@@ -104,13 +104,13 @@ class SelectHelper
      *
      * Trae los conceptos internos SENA
      */
-    public static function segundoGrupoPresupuestal($convocatoria, $linea_programatica)
+    public static function segundoGrupoPresupuestal($convocatoria, $tipo_formulario_convocatoria_id)
     {
         return SegundoGrupoPresupuestal::selectRaw('DISTINCT(segundo_grupo_presupuestal.id) as value, segundo_grupo_presupuestal.nombre as label, segundo_grupo_presupuestal.codigo as codigo')
             ->join('rubros_presupuestales', 'segundo_grupo_presupuestal.id', 'rubros_presupuestales.segundo_grupo_presupuestal_id')
             ->join('convocatoria_presupuesto', 'rubros_presupuestales.id', 'convocatoria_presupuesto.rubro_presupuestal_id')
             ->where('convocatoria_presupuesto.convocatoria_id', $convocatoria)
-            ->where('convocatoria_presupuesto.linea_programatica_id', $linea_programatica)
+            ->where('convocatoria_presupuesto.tipo_formulario_convocatoria_id', $tipo_formulario_convocatoria_id)
             ->orderBy('segundo_grupo_presupuestal.nombre', 'ASC')
             ->get();
     }
@@ -120,13 +120,13 @@ class SelectHelper
      *
      * Trae el tercer grupo presupuestal
      */
-    public static function tercerGrupoPresupuestal($convocatoria, $linea_programatica)
+    public static function tercerGrupoPresupuestal($convocatoria, $tipo_formulario_convocatoria_id)
     {
         return TercerGrupoPresupuestal::selectRaw('DISTINCT(tercer_grupo_presupuestal.id) as value, tercer_grupo_presupuestal.nombre as label, rubros_presupuestales.segundo_grupo_presupuestal_id')
             ->join('rubros_presupuestales', 'tercer_grupo_presupuestal.id', 'rubros_presupuestales.tercer_grupo_presupuestal_id')
             ->join('convocatoria_presupuesto', 'rubros_presupuestales.id', 'convocatoria_presupuesto.rubro_presupuestal_id')
             ->where('convocatoria_presupuesto.convocatoria_id', $convocatoria)
-            ->where('convocatoria_presupuesto.linea_programatica_id', $linea_programatica)
+            ->where('convocatoria_presupuesto.tipo_formulario_convocatoria_id', $tipo_formulario_convocatoria_id)
             ->orderBy('tercer_grupo_presupuestal.nombre', 'ASC')
             ->get();
     }
@@ -136,13 +136,13 @@ class SelectHelper
      *
      * Trae los usos presupuestales
      */
-    public static function usosPresupuestales($convocatoria, $linea_programatica)
+    public static function usosPresupuestales($convocatoria, $tipo_formulario_convocatoria_id)
     {
         return UsoPresupuestal::select('convocatoria_presupuesto.id as value', 'usos_presupuestales.descripcion as label', 'rubros_presupuestales.segundo_grupo_presupuestal_id', 'rubros_presupuestales.tercer_grupo_presupuestal_id', 'convocatoria_presupuesto.requiere_estudio_mercado', 'usos_presupuestales.codigo as codigo_uso_presupuestal')
             ->join('rubros_presupuestales', 'usos_presupuestales.id', 'rubros_presupuestales.uso_presupuestal_id')
             ->join('convocatoria_presupuesto', 'rubros_presupuestales.id', 'convocatoria_presupuesto.rubro_presupuestal_id')
             ->where('convocatoria_presupuesto.convocatoria_id', $convocatoria)
-            ->where('convocatoria_presupuesto.linea_programatica_id', $linea_programatica)
+            ->where('convocatoria_presupuesto.tipo_formulario_convocatoria_id', $tipo_formulario_convocatoria_id)
             ->where('convocatoria_presupuesto.habilitado', true)
             ->orderBy('usos_presupuestales.descripcion', 'ASC')
             ->get();
@@ -532,7 +532,7 @@ class SelectHelper
             ->orderBy('users.nombre', 'ASC')->get();
     }
 
-    public static function convocatoriaRolesSennova($convocatoria_id, $proyecto_id, $linea_programatica_id)
+    public static function convocatoriaRolesSennova($convocatoria_id, $proyecto_id, $tipo_formulario_convocatoria_id)
     {
        return ConvocatoriaRolSennova::selectRaw("convocatoria_rol_sennova.id as value,
                 CASE nivel_academico
@@ -548,7 +548,7 @@ class SelectHelper
                 END as label,
                 CONCAT('Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual) as tooltip")
             ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
-            ->where('convocatoria_rol_sennova.linea_programatica_id', $linea_programatica_id)
+            ->where('convocatoria_rol_sennova.tipo_formulario_convocatoria_id', $tipo_formulario_convocatoria_id)
             ->where('convocatoria_rol_sennova.convocatoria_id', $convocatoria_id)
             ->orderBy('roles_sennova.nombre')->get();
     }

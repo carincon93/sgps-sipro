@@ -48,43 +48,13 @@ class LineaProgramatica extends Model
     ];
 
     /**
-     * Relationship with Proyecto
+     * Relationship with TipoFormularioConvocatoria
      *
      * @return object
      */
-    public function proyectos()
+    public function TiposFormularioConvocatoria()
     {
-        return $this->belongsTo(Proyecto::class);
-    }
-
-    /**
-     * Relationship with ConvocatoriaAnexo
-     *
-     * @return object
-     */
-    public function convocatoriaAnexos()
-    {
-        return $this->hasMany(ConvocatoriaAnexo::class);
-    }
-
-    /**
-     * Relationship with convocatoriaPresupuesto
-     *
-     * @return object
-     */
-    public function convocatoriaRubrosPresupuestales()
-    {
-        return $this->hasMany(convocatoriaPresupuesto::class);
-    }
-
-    /**
-     * Relationship with ConvocatoriaRolSennova
-     *
-     * @return object
-     */
-    public function convocatoriaRolesSennova()
-    {
-        return $this->hasMany(ConvocatoriaRolSennova::class);
+        return $this->hasMany(TipoFormularioConvocatoria::class);
     }
 
     /**
@@ -105,16 +75,6 @@ class LineaProgramatica extends Model
     public function rolesSennova()
     {
         return $this->hasMany(RolSennova::class);
-    }
-
-    /**
-     * Relationship with Convocatoria
-     *
-     * @return object
-     */
-    public function convocatorias()
-    {
-        return $this->belongsToMany(Convocatoria::class, 'convocatoria_lineas_programaticas', 'linea_programatica_id', 'convocatoria_id');
     }
 
     /**

@@ -6,7 +6,7 @@ import { Grid, Paper } from '@mui/material'
 
 import Form from './Form'
 
-const CreateConvocatoria = ({ auth, convocatorias, lineas_programaticas, tipos_convocatoria }) => {
+const CreateConvocatoria = ({ auth, convocatorias, tipos_formulario_convocatoria, tipos_convocatoria }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -18,7 +18,13 @@ const CreateConvocatoria = ({ auth, convocatorias, lineas_programaticas, tipos_c
                 </Grid>
                 <Grid item md={8} className="drop-shadow-lg">
                     <Paper elevation={0} sx={{ padding: 2 }}>
-                        <Form method="POST" is_super_admin={is_super_admin} convocatorias={convocatorias} lineas_programaticas={lineas_programaticas} tipos_convocatoria={tipos_convocatoria} />
+                        <Form
+                            method="POST"
+                            is_super_admin={is_super_admin}
+                            convocatorias={convocatorias}
+                            tipos_formulario_convocatoria={tipos_formulario_convocatoria}
+                            tipos_convocatoria={tipos_convocatoria}
+                        />
                     </Paper>
                 </Grid>
             </Grid>

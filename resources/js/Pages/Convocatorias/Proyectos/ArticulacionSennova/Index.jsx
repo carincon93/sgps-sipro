@@ -50,16 +50,16 @@ const ArticulacionSennova = ({
     const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
 
     const form = useForm({
-        lineas_investigacion: proyecto.lineasInvestigacion?.map((item) => item.id),
-        grupos_investigacion: proyecto.gruposInvestigacion?.map((item) => item.id),
-        semilleros_investigacion: proyecto.semillerosInvestigacion?.map((item) => item.id),
+        lineas_investigacion: proyecto.lineas_investigacion?.map((item) => item.id),
+        grupos_investigacion: proyecto.grupos_investigacion?.map((item) => item.id),
+        semilleros_investigacion: proyecto.semilleros_investigacion?.map((item) => item.id),
 
         // Línea 70
-        disciplinas_subarea_conocimiento: proyecto?.proyectoLinea70?.disciplinas_subarea_conocimiento?.map((item) => item.id),
-        redes_conocimiento: proyecto?.proyectoLinea70?.redes_conocimiento?.map((item) => item.id),
-        actividades_economicas: proyecto?.proyectoLinea70?.actividades_economicas?.map((item) => item.id),
-        tematicas_estrategicas: proyecto?.proyectoLinea70?.tematicas_estrategicas?.map((item) => item.id),
-        proyecto_idi_tecnoacademia_id: proyecto?.proyectoLinea70?.proyectos_idi_tecnoacademia?.map((item) => item.id),
+        disciplinas_subarea_conocimiento: proyecto?.proyecto_formulario4_linea70?.disciplinas_subarea_conocimiento?.map((item) => item.id),
+        redes_conocimiento: proyecto?.proyecto_formulario4_linea70?.redes_conocimiento?.map((item) => item.id),
+        actividades_economicas: proyecto?.proyecto_formulario4_linea70?.actividades_economicas?.map((item) => item.id),
+        tematicas_estrategicas: proyecto?.proyecto_formulario4_linea70?.tematicas_estrategicas?.map((item) => item.id),
+        proyecto_idi_tecnoacademia_id: proyecto?.proyecto_formulario4_linea70?.proyectos_idi_tecnoacademia?.map((item) => item.id),
 
         proyectos_ejecucion: proyecto.proyectos_ejecucion ? proyecto.proyectos_ejecucion : '',
         semilleros_en_formalizacion: proyecto.semilleros_en_formalizacion,
@@ -88,43 +88,43 @@ const ArticulacionSennova = ({
         }
     }
 
-    const formArticulacionSennovaProyectosHub = useForm({
-        contribucion_formacion_centro_regional: proyecto.proyectoHubLinea69?.contribucion_formacion_centro_regional,
-        acciones_fortalecimiento_centro_regional: proyecto.proyectoHubLinea69?.acciones_fortalecimiento_centro_regional,
-        acciones_participacion_aprendices: proyecto.proyectoHubLinea69?.acciones_participacion_aprendices,
-        acciones_aportes_por_edt: proyecto.proyectoHubLinea69?.acciones_aportes_por_edt,
-        acciones_fortalecimiento_programas_calificados: proyecto.proyectoHubLinea69?.acciones_fortalecimiento_programas_calificados,
-        acciones_categorizacion_grupos_investigacion: proyecto.proyectoHubLinea69?.acciones_categorizacion_grupos_investigacion,
-        oportunidades_fortalecimiento_proyectos_sennova: proyecto.proyectoHubLinea69?.oportunidades_fortalecimiento_proyectos_sennova,
-        proyeccion_articulacion_linea_68: proyecto.proyectoHubLinea69?.proyeccion_articulacion_linea_68,
-        proyeccion_articulacion_linea_83: proyecto.proyectoHubLinea69?.proyeccion_articulacion_linea_83,
-        oportunidades_fortalecimiento_convocatorias_innovacion: proyecto.proyectoHubLinea69?.oportunidades_fortalecimiento_convocatorias_innovacion,
-        proyeccion_articulacion_centros_empresariales: proyecto.proyectoHubLinea69?.proyeccion_articulacion_centros_empresariales,
+    const form_articulacion_proyectos_hub = useForm({
+        contribucion_formacion_centro_regional: proyecto.proyecto_formulario10_linea69?.contribucion_formacion_centro_regional,
+        acciones_fortalecimiento_centro_regional: proyecto.proyecto_formulario10_linea69?.acciones_fortalecimiento_centro_regional,
+        acciones_participacion_aprendices: proyecto.proyecto_formulario10_linea69?.acciones_participacion_aprendices,
+        acciones_aportes_por_edt: proyecto.proyecto_formulario10_linea69?.acciones_aportes_por_edt,
+        acciones_fortalecimiento_programas_calificados: proyecto.proyecto_formulario10_linea69?.acciones_fortalecimiento_programas_calificados,
+        acciones_categorizacion_grupos_investigacion: proyecto.proyecto_formulario10_linea69?.acciones_categorizacion_grupos_investigacion,
+        oportunidades_fortalecimiento_proyectos_sennova: proyecto.proyecto_formulario10_linea69?.oportunidades_fortalecimiento_proyectos_sennova,
+        proyeccion_articulacion_linea_68: proyecto.proyecto_formulario10_linea69?.proyeccion_articulacion_linea_68,
+        proyeccion_articulacion_linea_83: proyecto.proyecto_formulario10_linea69?.proyeccion_articulacion_linea_83,
+        oportunidades_fortalecimiento_convocatorias_innovacion: proyecto.proyecto_formulario10_linea69?.oportunidades_fortalecimiento_convocatorias_innovacion,
+        proyeccion_articulacion_centros_empresariales: proyecto.proyecto_formulario10_linea69?.proyeccion_articulacion_centros_empresariales,
         grupos_investigacion: proyecto.gruposInvestigacion?.map((item) => item.id),
         semilleros_investigacion: proyecto.semillerosInvestigacion?.map((item) => item.id),
     })
     const submitArticulacionSennovaProyectoHub = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
-            formArticulacionSennovaProyectosHub.post(route('convocatorias.proyectos.articulacion-sennova-proyectos-hub.store', [convocatoria.id, proyecto.id]), {
+            form_articulacion_proyectos_hub.post(route('convocatorias.proyectos.articulacion-sennova-proyectos-hub.store', [convocatoria.id, proyecto.id]), {
                 preserveScroll: true,
             })
         }
     }
 
-    const formArticulacionSennovaProyectosLinea83 = useForm({
-        impacto_centros_formacion: proyecto.proyectoLinea83?.impacto_centros_formacion,
-        articulacion_semilleros_grupos_investigacion: proyecto.proyectoLinea83?.articulacion_semilleros_grupos_investigacion,
-        articulacion_linea_68: proyecto.proyectoLinea83?.articulacion_linea_68,
-        articulacion_linea_69_y_hubs: proyecto.proyectoLinea83?.articulacion_linea_69_y_hubs,
-        articulacion_centros_desarrollo_empresarial: proyecto.proyectoLinea83?.articulacion_centros_desarrollo_empresarial,
-        contribucion_formacion_regional_nacional: proyecto.proyectoLinea83?.contribucion_formacion_regional_nacional,
-        proyeccion_capacidades_tecnologicas_empresas: proyecto.proyectoLinea83?.proyeccion_capacidades_tecnologicas_empresas,
+    const form_articulacion_proyectos_linea_83 = useForm({
+        impacto_centros_formacion: proyecto.proyecto_formulario11_linea83?.impacto_centros_formacion,
+        articulacion_semilleros_grupos_investigacion: proyecto.proyecto_formulario11_linea83?.articulacion_semilleros_grupos_investigacion,
+        articulacion_linea_68: proyecto.proyecto_formulario11_linea83?.articulacion_linea_68,
+        articulacion_linea_69_y_hubs: proyecto.proyecto_formulario11_linea83?.articulacion_linea_69_y_hubs,
+        articulacion_centros_desarrollo_empresarial: proyecto.proyecto_formulario11_linea83?.articulacion_centros_desarrollo_empresarial,
+        contribucion_formacion_regional_nacional: proyecto.proyecto_formulario11_linea83?.contribucion_formacion_regional_nacional,
+        proyeccion_capacidades_tecnologicas_empresas: proyecto.proyecto_formulario11_linea83?.proyeccion_capacidades_tecnologicas_empresas,
     })
     const submitArticulacionSennovaProyectosLinea83 = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
-            formArticulacionSennovaProyectosLinea83.post(route('convocatorias.proyectos.articulacion-sennova-proyectos-linea-83.store', [convocatoria.id, proyecto.id]), {
+            form_articulacion_proyectos_linea_83.post(route('convocatorias.proyectos.articulacion-sennova-proyectos-linea-83.store', [convocatoria.id, proyecto.id]), {
                 preserveScroll: true,
             })
         }
@@ -149,9 +149,12 @@ const ArticulacionSennova = ({
     }
 
     const tabs =
-        proyecto.codigo_linea_programatica == 70 && tecnoacademia_relacionada?.modalidad == 2
+        proyecto.tipo_formulario_convocatoria_id == 4 && tecnoacademia_relacionada?.modalidad == 2
             ? [{ label: 'Articulación' }, { label: 'Participantes' }, { label: 'Aulas móviles' }]
-            : proyecto.codigo_linea_programatica == 69 || proyecto.proyectoHubLinea69 || proyecto.codigo_linea_programatica == 70 || proyecto.codigo_linea_programatica == 83
+            : proyecto.tipo_formulario_convocatoria_id == 4 ||
+              proyecto.tipo_formulario_convocatoria_id == 5 ||
+              proyecto.tipo_formulario_convocatoria_id == 10 ||
+              proyecto.tipo_formulario_convocatoria_id == 11
             ? [{ label: 'Articulación' }, { label: 'Participantes' }]
             : [{ label: 'Participantes' }]
 
@@ -193,17 +196,17 @@ const ArticulacionSennova = ({
                 <Grid item md={12}>
                     <TabsMui tabs={tabs}>
                         <div>
-                            <h1 className="text-3xl mt-24 mb-8 text-center">Articulación </h1>
+                            <h1 className="text-3xl mt-24 mb-8 text-center">Articulación</h1>
                             <AlertMui className="text-center my-10">
-                                A continuación, registre la información relacionada con la articulación de la línea de{' '}
-                                {proyecto.codigo_linea_programatica == 70 ? 'TecnoAcademia' : proyecto.codigo_linea_programatica == 69 ? 'TecnoParque' : ''} con las otras líneas de SENNOVA en el
-                                centro y la regional:
+                                A continuación, registre la información relacionada con la articulación de la línea de
+                                {proyecto.tipo_formulario_convocatoria_id == 4 ? 'TecnoAcademia' : proyecto.tipo_formulario_convocatoria_id == 5 ? 'TecnoParque' : ''} con las otras líneas de SENNOVA
+                                en el centro y la regional:
                             </AlertMui>
-                            {(proyecto.codigo_linea_programatica == 69 && !proyecto.proyectoHubLinea69) || proyecto.codigo_linea_programatica == 70 ? (
+                            {proyecto.tipo_formulario_convocatoria_id == 5 || proyecto.tipo_formulario_convocatoria_id == 4 ? (
                                 <form onSubmit={submit}>
                                     <fieldset disabled={proyecto.allowed.to_update ? false : true}>
                                         <Grid container rowSpacing={20}>
-                                            {proyecto.codigo_linea_programatica == 70 ? (
+                                            {proyecto.tipo_formulario_convocatoria_id == 4 ? (
                                                 <>
                                                     <Grid item md={6}>
                                                         <Label
@@ -514,8 +517,7 @@ const ArticulacionSennova = ({
                                                     </Grid>
                                                 </>
                                             ) : (
-                                                proyecto.codigo_linea_programatica == 69 &&
-                                                proyecto.proyectoLinea69 && (
+                                                proyecto.tipo_formulario_convocatoria_id == 5 && (
                                                     <>
                                                         <Grid item md={12}>
                                                             <Label required className="mb-4" labelFor="impacto_centro_formacion" value="Impacto en el centro de formación" />
@@ -680,7 +682,7 @@ const ArticulacionSennova = ({
                                 </form>
                             ) : null}
 
-                            {proyecto.proyectoHubLinea69 && Object.keys(proyecto.proyectoHubLinea69).length > 0 && (
+                            {proyecto.tipo_formulario_convocatoria_id == 10 && (
                                 <form onSubmit={submitArticulacionSennovaProyectoHub}>
                                     <Grid container rowSpacing={20}>
                                         <Grid item md={12}>
@@ -698,10 +700,10 @@ const ArticulacionSennova = ({
 
                                             <Textarea
                                                 id="contribucion_formacion_centro_regional"
-                                                error={formArticulacionSennovaProyectosHub.errors.contribucion_formacion_centro_regional}
-                                                value={formArticulacionSennovaProyectosHub.data.contribucion_formacion_centro_regional}
-                                                onChange={(e) => formArticulacionSennovaProyectosHub.setData('contribucion_formacion_centro_regional', e.target.value)}
-                                                onBlur={() => syncColumnLong('contribucion_formacion_centro_regional', formArticulacionSennovaProyectosHub)}
+                                                error={form_articulacion_proyectos_hub.errors.contribucion_formacion_centro_regional}
+                                                value={form_articulacion_proyectos_hub.data.contribucion_formacion_centro_regional}
+                                                onChange={(e) => form_articulacion_proyectos_hub.setData('contribucion_formacion_centro_regional', e.target.value)}
+                                                onBlur={() => syncColumnLong('contribucion_formacion_centro_regional', form_articulacion_proyectos_hub)}
                                                 required
                                             />
                                         </Grid>
@@ -715,10 +717,10 @@ const ArticulacionSennova = ({
 
                                             <Textarea
                                                 id="acciones_fortalecimiento_centro_regional"
-                                                error={formArticulacionSennovaProyectosHub.errors.acciones_fortalecimiento_centro_regional}
-                                                value={formArticulacionSennovaProyectosHub.data.acciones_fortalecimiento_centro_regional}
-                                                onChange={(e) => formArticulacionSennovaProyectosHub.setData('acciones_fortalecimiento_centro_regional', e.target.value)}
-                                                onBlur={() => syncColumnLong('acciones_fortalecimiento_centro_regional', formArticulacionSennovaProyectosHub)}
+                                                error={form_articulacion_proyectos_hub.errors.acciones_fortalecimiento_centro_regional}
+                                                value={form_articulacion_proyectos_hub.data.acciones_fortalecimiento_centro_regional}
+                                                onChange={(e) => form_articulacion_proyectos_hub.setData('acciones_fortalecimiento_centro_regional', e.target.value)}
+                                                onBlur={() => syncColumnLong('acciones_fortalecimiento_centro_regional', form_articulacion_proyectos_hub)}
                                                 required
                                             />
                                         </Grid>
@@ -732,10 +734,10 @@ const ArticulacionSennova = ({
 
                                             <Textarea
                                                 id="acciones_participacion_aprendices"
-                                                error={formArticulacionSennovaProyectosHub.errors.acciones_participacion_aprendices}
-                                                value={formArticulacionSennovaProyectosHub.data.acciones_participacion_aprendices}
-                                                onChange={(e) => formArticulacionSennovaProyectosHub.setData('acciones_participacion_aprendices', e.target.value)}
-                                                onBlur={() => syncColumnLong('acciones_participacion_aprendices', formArticulacionSennovaProyectosHub)}
+                                                error={form_articulacion_proyectos_hub.errors.acciones_participacion_aprendices}
+                                                value={form_articulacion_proyectos_hub.data.acciones_participacion_aprendices}
+                                                onChange={(e) => form_articulacion_proyectos_hub.setData('acciones_participacion_aprendices', e.target.value)}
+                                                onBlur={() => syncColumnLong('acciones_participacion_aprendices', form_articulacion_proyectos_hub)}
                                                 required
                                             />
                                         </Grid>
@@ -753,10 +755,10 @@ const ArticulacionSennova = ({
 
                                             <Textarea
                                                 id="acciones_aportes_por_edt"
-                                                error={formArticulacionSennovaProyectosHub.errors.acciones_aportes_por_edt}
-                                                value={formArticulacionSennovaProyectosHub.data.acciones_aportes_por_edt}
-                                                onChange={(e) => formArticulacionSennovaProyectosHub.setData('acciones_aportes_por_edt', e.target.value)}
-                                                onBlur={() => syncColumnLong('acciones_aportes_por_edt', formArticulacionSennovaProyectosHub)}
+                                                error={form_articulacion_proyectos_hub.errors.acciones_aportes_por_edt}
+                                                value={form_articulacion_proyectos_hub.data.acciones_aportes_por_edt}
+                                                onChange={(e) => form_articulacion_proyectos_hub.setData('acciones_aportes_por_edt', e.target.value)}
+                                                onBlur={() => syncColumnLong('acciones_aportes_por_edt', form_articulacion_proyectos_hub)}
                                                 required
                                             />
                                         </Grid>
@@ -774,10 +776,10 @@ const ArticulacionSennova = ({
 
                                             <Textarea
                                                 id="acciones_fortalecimiento_programas_calificados"
-                                                error={formArticulacionSennovaProyectosHub.errors.acciones_fortalecimiento_programas_calificados}
-                                                value={formArticulacionSennovaProyectosHub.data.acciones_fortalecimiento_programas_calificados}
-                                                onChange={(e) => formArticulacionSennovaProyectosHub.setData('acciones_fortalecimiento_programas_calificados', e.target.value)}
-                                                onBlur={() => syncColumnLong('acciones_fortalecimiento_programas_calificados', formArticulacionSennovaProyectosHub)}
+                                                error={form_articulacion_proyectos_hub.errors.acciones_fortalecimiento_programas_calificados}
+                                                value={form_articulacion_proyectos_hub.data.acciones_fortalecimiento_programas_calificados}
+                                                onChange={(e) => form_articulacion_proyectos_hub.setData('acciones_fortalecimiento_programas_calificados', e.target.value)}
+                                                onBlur={() => syncColumnLong('acciones_fortalecimiento_programas_calificados', form_articulacion_proyectos_hub)}
                                                 required
                                             />
                                         </Grid>
@@ -799,10 +801,10 @@ const ArticulacionSennova = ({
 
                                             <Textarea
                                                 id="acciones_categorizacion_grupos_investigacion"
-                                                error={formArticulacionSennovaProyectosHub.errors.acciones_categorizacion_grupos_investigacion}
-                                                value={formArticulacionSennovaProyectosHub.data.acciones_categorizacion_grupos_investigacion}
-                                                onChange={(e) => formArticulacionSennovaProyectosHub.setData('acciones_categorizacion_grupos_investigacion', e.target.value)}
-                                                onBlur={() => syncColumnLong('acciones_categorizacion_grupos_investigacion', formArticulacionSennovaProyectosHub)}
+                                                error={form_articulacion_proyectos_hub.errors.acciones_categorizacion_grupos_investigacion}
+                                                value={form_articulacion_proyectos_hub.data.acciones_categorizacion_grupos_investigacion}
+                                                onChange={(e) => form_articulacion_proyectos_hub.setData('acciones_categorizacion_grupos_investigacion', e.target.value)}
+                                                onBlur={() => syncColumnLong('acciones_categorizacion_grupos_investigacion', form_articulacion_proyectos_hub)}
                                                 required
                                             />
                                         </Grid>
@@ -818,10 +820,10 @@ const ArticulacionSennova = ({
 
                                             <Textarea
                                                 id="oportunidades_fortalecimiento_proyectos_sennova"
-                                                error={formArticulacionSennovaProyectosHub.errors.oportunidades_fortalecimiento_proyectos_sennova}
-                                                value={formArticulacionSennovaProyectosHub.data.oportunidades_fortalecimiento_proyectos_sennova}
-                                                onChange={(e) => formArticulacionSennovaProyectosHub.setData('oportunidades_fortalecimiento_proyectos_sennova', e.target.value)}
-                                                onBlur={() => syncColumnLong('oportunidades_fortalecimiento_proyectos_sennova', formArticulacionSennovaProyectosHub)}
+                                                error={form_articulacion_proyectos_hub.errors.oportunidades_fortalecimiento_proyectos_sennova}
+                                                value={form_articulacion_proyectos_hub.data.oportunidades_fortalecimiento_proyectos_sennova}
+                                                onChange={(e) => form_articulacion_proyectos_hub.setData('oportunidades_fortalecimiento_proyectos_sennova', e.target.value)}
+                                                onBlur={() => syncColumnLong('oportunidades_fortalecimiento_proyectos_sennova', form_articulacion_proyectos_hub)}
                                                 required
                                             />
                                         </Grid>
@@ -831,17 +833,17 @@ const ArticulacionSennova = ({
                                         <Grid item md={6}>
                                             <SelectMultiple
                                                 id="semilleros_investigacion"
-                                                bdValues={formArticulacionSennovaProyectosHub.data.semilleros_investigacion}
+                                                bdValues={form_articulacion_proyectos_hub.data.semilleros_investigacion}
                                                 options={semilleros_investigacion}
                                                 onChange={(event, newValue) => {
                                                     const selected_values = newValue.map((option) => option.value)
-                                                    formArticulacionSennovaProyectosHub.setData((prevData) => ({
+                                                    form_articulacion_proyectos_hub.setData((prevData) => ({
                                                         ...prevData,
                                                         semilleros_investigacion: selected_values,
                                                     }))
                                                 }}
-                                                error={formArticulacionSennovaProyectosHub.errors.semilleros_investigacion}
-                                                onBlur={() => syncColumnLong('semilleros_investigacion', formArticulacionSennovaProyectosHub)}
+                                                error={form_articulacion_proyectos_hub.errors.semilleros_investigacion}
+                                                onBlur={() => syncColumnLong('semilleros_investigacion', form_articulacion_proyectos_hub)}
                                                 required
                                             />
                                         </Grid>
@@ -852,17 +854,17 @@ const ArticulacionSennova = ({
                                         <Grid item md={6}>
                                             <SelectMultiple
                                                 id="grupos_investigacion"
-                                                bdValues={formArticulacionSennovaProyectosHub.data.grupos_investigacion}
+                                                bdValues={form_articulacion_proyectos_hub.data.grupos_investigacion}
                                                 options={grupos_investigacion}
                                                 onChange={(event, newValue) => {
                                                     const selected_values = newValue.map((option) => option.value)
-                                                    formArticulacionSennovaProyectosHub.setData((prevData) => ({
+                                                    form_articulacion_proyectos_hub.setData((prevData) => ({
                                                         ...prevData,
                                                         grupos_investigacion: selected_values,
                                                     }))
                                                 }}
-                                                error={formArticulacionSennovaProyectosHub.errors.grupos_investigacion}
-                                                onBlur={() => syncColumnLong('grupos_investigacion', formArticulacionSennovaProyectosHub)}
+                                                error={form_articulacion_proyectos_hub.errors.grupos_investigacion}
+                                                onBlur={() => syncColumnLong('grupos_investigacion', form_articulacion_proyectos_hub)}
                                                 required
                                             />
                                         </Grid>
@@ -881,10 +883,10 @@ const ArticulacionSennova = ({
 
                                             <Textarea
                                                 id="proyeccion_articulacion_linea_68"
-                                                error={formArticulacionSennovaProyectosHub.errors.proyeccion_articulacion_linea_68}
-                                                value={formArticulacionSennovaProyectosHub.data.proyeccion_articulacion_linea_68}
-                                                onChange={(e) => formArticulacionSennovaProyectosHub.setData('proyeccion_articulacion_linea_68', e.target.value)}
-                                                onBlur={() => syncColumnLong('proyeccion_articulacion_linea_68', formArticulacionSennovaProyectosHub)}
+                                                error={form_articulacion_proyectos_hub.errors.proyeccion_articulacion_linea_68}
+                                                value={form_articulacion_proyectos_hub.data.proyeccion_articulacion_linea_68}
+                                                onChange={(e) => form_articulacion_proyectos_hub.setData('proyeccion_articulacion_linea_68', e.target.value)}
+                                                onBlur={() => syncColumnLong('proyeccion_articulacion_linea_68', form_articulacion_proyectos_hub)}
                                                 required
                                             />
                                         </Grid>
@@ -900,10 +902,10 @@ const ArticulacionSennova = ({
 
                                             <Textarea
                                                 id="proyeccion_articulacion_linea_83"
-                                                error={formArticulacionSennovaProyectosHub.errors.proyeccion_articulacion_linea_83}
-                                                value={formArticulacionSennovaProyectosHub.data.proyeccion_articulacion_linea_83}
-                                                onChange={(e) => formArticulacionSennovaProyectosHub.setData('proyeccion_articulacion_linea_83', e.target.value)}
-                                                onBlur={() => syncColumnLong('proyeccion_articulacion_linea_83', formArticulacionSennovaProyectosHub)}
+                                                error={form_articulacion_proyectos_hub.errors.proyeccion_articulacion_linea_83}
+                                                value={form_articulacion_proyectos_hub.data.proyeccion_articulacion_linea_83}
+                                                onChange={(e) => form_articulacion_proyectos_hub.setData('proyeccion_articulacion_linea_83', e.target.value)}
+                                                onBlur={() => syncColumnLong('proyeccion_articulacion_linea_83', form_articulacion_proyectos_hub)}
                                                 required
                                             />
                                         </Grid>
@@ -917,10 +919,10 @@ const ArticulacionSennova = ({
 
                                             <Textarea
                                                 id="oportunidades_fortalecimiento_convocatorias_innovacion"
-                                                error={formArticulacionSennovaProyectosHub.errors.oportunidades_fortalecimiento_convocatorias_innovacion}
-                                                value={formArticulacionSennovaProyectosHub.data.oportunidades_fortalecimiento_convocatorias_innovacion}
-                                                onChange={(e) => formArticulacionSennovaProyectosHub.setData('oportunidades_fortalecimiento_convocatorias_innovacion', e.target.value)}
-                                                onBlur={() => syncColumnLong('oportunidades_fortalecimiento_convocatorias_innovacion', formArticulacionSennovaProyectosHub)}
+                                                error={form_articulacion_proyectos_hub.errors.oportunidades_fortalecimiento_convocatorias_innovacion}
+                                                value={form_articulacion_proyectos_hub.data.oportunidades_fortalecimiento_convocatorias_innovacion}
+                                                onChange={(e) => form_articulacion_proyectos_hub.setData('oportunidades_fortalecimiento_convocatorias_innovacion', e.target.value)}
+                                                onBlur={() => syncColumnLong('oportunidades_fortalecimiento_convocatorias_innovacion', form_articulacion_proyectos_hub)}
                                                 required
                                             />
                                         </Grid>
@@ -934,10 +936,10 @@ const ArticulacionSennova = ({
 
                                             <Textarea
                                                 id="proyeccion_articulacion_centros_empresariales"
-                                                error={formArticulacionSennovaProyectosHub.errors.proyeccion_articulacion_centros_empresariales}
-                                                value={formArticulacionSennovaProyectosHub.data.proyeccion_articulacion_centros_empresariales}
-                                                onChange={(e) => formArticulacionSennovaProyectosHub.setData('proyeccion_articulacion_centros_empresariales', e.target.value)}
-                                                onBlur={() => syncColumnLong('proyeccion_articulacion_centros_empresariales', formArticulacionSennovaProyectosHub)}
+                                                error={form_articulacion_proyectos_hub.errors.proyeccion_articulacion_centros_empresariales}
+                                                value={form_articulacion_proyectos_hub.data.proyeccion_articulacion_centros_empresariales}
+                                                onChange={(e) => form_articulacion_proyectos_hub.setData('proyeccion_articulacion_centros_empresariales', e.target.value)}
+                                                onBlur={() => syncColumnLong('proyeccion_articulacion_centros_empresariales', form_articulacion_proyectos_hub)}
                                                 required
                                             />
                                         </Grid>
@@ -945,7 +947,7 @@ const ArticulacionSennova = ({
 
                                     <div className=" flex items-center justify-between mt-14  py-4">
                                         {proyecto.allowed.to_update && (
-                                            <PrimaryButton disabled={formArticulacionSennovaProyectosHub.processing} className="ml-auto" type="submit">
+                                            <PrimaryButton disabled={form_articulacion_proyectos_hub.processing} className="ml-auto" type="submit">
                                                 Guardar
                                             </PrimaryButton>
                                         )}
@@ -953,7 +955,7 @@ const ArticulacionSennova = ({
                                 </form>
                             )}
 
-                            {proyecto.proyectoLinea83 && Object.keys(proyecto.proyectoLinea83).length > 0 && (
+                            {proyecto.proyecto_formulario11_linea83 && (
                                 <>
                                     <form onSubmit={submitArticulacionSennovaProyectosLinea83}>
                                         <Grid container rowSpacing={20}>
@@ -967,10 +969,10 @@ const ArticulacionSennova = ({
 
                                                 <Textarea
                                                     id="impacto_centros_formacion"
-                                                    error={formArticulacionSennovaProyectosLinea83.errors.impacto_centros_formacion}
-                                                    value={formArticulacionSennovaProyectosLinea83.data.impacto_centros_formacion}
-                                                    onChange={(e) => formArticulacionSennovaProyectosLinea83.setData('impacto_centros_formacion', e.target.value)}
-                                                    onBlur={() => syncColumnLong('impacto_centros_formacion', formArticulacionSennovaProyectosLinea83)}
+                                                    error={form_articulacion_proyectos_linea_83.errors.impacto_centros_formacion}
+                                                    value={form_articulacion_proyectos_linea_83.data.impacto_centros_formacion}
+                                                    onChange={(e) => form_articulacion_proyectos_linea_83.setData('impacto_centros_formacion', e.target.value)}
+                                                    onBlur={() => syncColumnLong('impacto_centros_formacion', form_articulacion_proyectos_linea_83)}
                                                     required
                                                 />
                                             </Grid>
@@ -984,10 +986,10 @@ const ArticulacionSennova = ({
 
                                                 <Textarea
                                                     id="articulacion_semilleros_grupos_investigacion"
-                                                    error={formArticulacionSennovaProyectosLinea83.errors.articulacion_semilleros_grupos_investigacion}
-                                                    value={formArticulacionSennovaProyectosLinea83.data.articulacion_semilleros_grupos_investigacion}
-                                                    onChange={(e) => formArticulacionSennovaProyectosLinea83.setData('articulacion_semilleros_grupos_investigacion', e.target.value)}
-                                                    onBlur={() => syncColumnLong('articulacion_semilleros_grupos_investigacion', formArticulacionSennovaProyectosLinea83)}
+                                                    error={form_articulacion_proyectos_linea_83.errors.articulacion_semilleros_grupos_investigacion}
+                                                    value={form_articulacion_proyectos_linea_83.data.articulacion_semilleros_grupos_investigacion}
+                                                    onChange={(e) => form_articulacion_proyectos_linea_83.setData('articulacion_semilleros_grupos_investigacion', e.target.value)}
+                                                    onBlur={() => syncColumnLong('articulacion_semilleros_grupos_investigacion', form_articulacion_proyectos_linea_83)}
                                                     required
                                                 />
                                             </Grid>
@@ -1001,10 +1003,10 @@ const ArticulacionSennova = ({
 
                                                 <Textarea
                                                     id="articulacion_linea_68"
-                                                    error={formArticulacionSennovaProyectosLinea83.errors.articulacion_linea_68}
-                                                    value={formArticulacionSennovaProyectosLinea83.data.articulacion_linea_68}
-                                                    onChange={(e) => formArticulacionSennovaProyectosLinea83.setData('articulacion_linea_68', e.target.value)}
-                                                    onBlur={() => syncColumnLong('articulacion_linea_68', formArticulacionSennovaProyectosLinea83)}
+                                                    error={form_articulacion_proyectos_linea_83.errors.articulacion_linea_68}
+                                                    value={form_articulacion_proyectos_linea_83.data.articulacion_linea_68}
+                                                    onChange={(e) => form_articulacion_proyectos_linea_83.setData('articulacion_linea_68', e.target.value)}
+                                                    onBlur={() => syncColumnLong('articulacion_linea_68', form_articulacion_proyectos_linea_83)}
                                                     required
                                                 />
                                             </Grid>
@@ -1018,10 +1020,10 @@ const ArticulacionSennova = ({
 
                                                 <Textarea
                                                     id="articulacion_linea_69_y_hubs"
-                                                    error={formArticulacionSennovaProyectosLinea83.errors.articulacion_linea_69_y_hubs}
-                                                    value={formArticulacionSennovaProyectosLinea83.data.articulacion_linea_69_y_hubs}
-                                                    onChange={(e) => formArticulacionSennovaProyectosLinea83.setData('articulacion_linea_69_y_hubs', e.target.value)}
-                                                    onBlur={() => syncColumnLong('articulacion_linea_69_y_hubs', formArticulacionSennovaProyectosLinea83)}
+                                                    error={form_articulacion_proyectos_linea_83.errors.articulacion_linea_69_y_hubs}
+                                                    value={form_articulacion_proyectos_linea_83.data.articulacion_linea_69_y_hubs}
+                                                    onChange={(e) => form_articulacion_proyectos_linea_83.setData('articulacion_linea_69_y_hubs', e.target.value)}
+                                                    onBlur={() => syncColumnLong('articulacion_linea_69_y_hubs', form_articulacion_proyectos_linea_83)}
                                                     required
                                                 />
                                             </Grid>
@@ -1035,10 +1037,10 @@ const ArticulacionSennova = ({
 
                                                 <Textarea
                                                     id="articulacion_centros_desarrollo_empresarial"
-                                                    error={formArticulacionSennovaProyectosLinea83.errors.articulacion_centros_desarrollo_empresarial}
-                                                    value={formArticulacionSennovaProyectosLinea83.data.articulacion_centros_desarrollo_empresarial}
-                                                    onChange={(e) => formArticulacionSennovaProyectosLinea83.setData('articulacion_centros_desarrollo_empresarial', e.target.value)}
-                                                    onBlur={() => syncColumnLong('articulacion_centros_desarrollo_empresarial', formArticulacionSennovaProyectosLinea83)}
+                                                    error={form_articulacion_proyectos_linea_83.errors.articulacion_centros_desarrollo_empresarial}
+                                                    value={form_articulacion_proyectos_linea_83.data.articulacion_centros_desarrollo_empresarial}
+                                                    onChange={(e) => form_articulacion_proyectos_linea_83.setData('articulacion_centros_desarrollo_empresarial', e.target.value)}
+                                                    onBlur={() => syncColumnLong('articulacion_centros_desarrollo_empresarial', form_articulacion_proyectos_linea_83)}
                                                     required
                                                 />
                                             </Grid>
@@ -1052,10 +1054,10 @@ const ArticulacionSennova = ({
 
                                                 <Textarea
                                                     id="contribucion_formacion_regional_nacional"
-                                                    error={formArticulacionSennovaProyectosLinea83.errors.contribucion_formacion_regional_nacional}
-                                                    value={formArticulacionSennovaProyectosLinea83.data.contribucion_formacion_regional_nacional}
-                                                    onChange={(e) => formArticulacionSennovaProyectosLinea83.setData('contribucion_formacion_regional_nacional', e.target.value)}
-                                                    onBlur={() => syncColumnLong('contribucion_formacion_regional_nacional', formArticulacionSennovaProyectosLinea83)}
+                                                    error={form_articulacion_proyectos_linea_83.errors.contribucion_formacion_regional_nacional}
+                                                    value={form_articulacion_proyectos_linea_83.data.contribucion_formacion_regional_nacional}
+                                                    onChange={(e) => form_articulacion_proyectos_linea_83.setData('contribucion_formacion_regional_nacional', e.target.value)}
+                                                    onBlur={() => syncColumnLong('contribucion_formacion_regional_nacional', form_articulacion_proyectos_linea_83)}
                                                     required
                                                 />
                                             </Grid>
@@ -1069,17 +1071,17 @@ const ArticulacionSennova = ({
 
                                                 <Textarea
                                                     id="proyeccion_capacidades_tecnologicas_empresas"
-                                                    error={formArticulacionSennovaProyectosLinea83.errors.proyeccion_capacidades_tecnologicas_empresas}
-                                                    value={formArticulacionSennovaProyectosLinea83.data.proyeccion_capacidades_tecnologicas_empresas}
-                                                    onChange={(e) => formArticulacionSennovaProyectosLinea83.setData('proyeccion_capacidades_tecnologicas_empresas', e.target.value)}
-                                                    onBlur={() => syncColumnLong('proyeccion_capacidades_tecnologicas_empresas', formArticulacionSennovaProyectosLinea83)}
+                                                    error={form_articulacion_proyectos_linea_83.errors.proyeccion_capacidades_tecnologicas_empresas}
+                                                    value={form_articulacion_proyectos_linea_83.data.proyeccion_capacidades_tecnologicas_empresas}
+                                                    onChange={(e) => form_articulacion_proyectos_linea_83.setData('proyeccion_capacidades_tecnologicas_empresas', e.target.value)}
+                                                    onBlur={() => syncColumnLong('proyeccion_capacidades_tecnologicas_empresas', form_articulacion_proyectos_linea_83)}
                                                     required
                                                 />
                                             </Grid>
                                         </Grid>
                                         <div className=" flex items-center justify-between mt-14  py-4">
                                             {proyecto.allowed.to_update && (
-                                                <PrimaryButton disabled={formArticulacionSennovaProyectosLinea83.processing} className="ml-auto" type="submit">
+                                                <PrimaryButton disabled={form_articulacion_proyectos_linea_83.processing} className="ml-auto" type="submit">
                                                     Guardar
                                                 </PrimaryButton>
                                             )}

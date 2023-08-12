@@ -57,14 +57,7 @@ class LineaProgramaticaController extends Controller
     {
         $this->authorize('create', [LineaProgramatica::class]);
 
-        $lineaProgramatica = new LineaProgramatica();
-        $lineaProgramatica->nombre               = $request->nombre;
-        $lineaProgramatica->codigo               = $request->codigo;
-        $lineaProgramatica->categoria_proyecto   = $request->categoria_proyecto;
-        $lineaProgramatica->descripcion          = $request->descripcion;
-
-        $lineaProgramatica->save();
-
+        $lineaProgramatica = LineaProgramatica::create($request->validated());
         $lineaProgramatica->activadores()->sync($request->activadores);
 
         return redirect()->route('lineas-programaticas.index')->with('success', 'El recurso se ha creado correctamente.');
@@ -112,10 +105,7 @@ class LineaProgramaticaController extends Controller
     {
         $this->authorize('update', [LineaProgramatica::class, $lineaProgramatica]);
 
-        $lineaProgramatica->nombre              = $request->nombre;
-        $lineaProgramatica->codigo              = $request->codigo;
-        $lineaProgramatica->categoria_proyecto  = $request->categoria_proyecto;
-        $lineaProgramatica->descripcion         = $request->descripcion;
+        $lineaProgramatica->update($request->validated());
 
         $lineaProgramatica->save();
 

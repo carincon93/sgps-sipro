@@ -23,11 +23,9 @@ class MiembroEntidadAliadaController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
-
         return Inertia::render('Convocatorias/Proyectos/EntidadesAliadas/MiembrosEntidadAliada/Index', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
-            'proyecto'                  => $proyecto->only('id', 'modificable', 'mostrar_recomendaciones', 'codigo_linea_programatica', 'allowed'),
+            'proyecto'                  => $proyecto->only('id', 'modificable', 'mostrar_recomendaciones', 'allowed'),
             'evaluacion'                => Evaluacion::find(request()->evaluacion_id),
             'entidad_aliada'            => $entidad_aliada,
             'miembros_entidad_aliada'   => MiembroEntidadAliada::where('entidad_aliada_id', $entidad_aliada->id)->orderBy('nombre', 'ASC')

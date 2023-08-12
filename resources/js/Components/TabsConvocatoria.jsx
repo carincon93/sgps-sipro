@@ -1,13 +1,13 @@
 import { router } from '@inertiajs/react'
 import { Tab, Tabs } from '@mui/material'
 
-const TabsConvocatoria = ({ convocatoria, linea_programatica_id, value }) => {
+const TabsConvocatoria = ({ convocatoria, tipo_formulario_convocatoria_id, value }) => {
     return (
         <Tabs value={value} centered={true}>
             <Tab
                 component="a"
                 onClick={() => {
-                    router.visit(route('convocatorias.proyectos.index', [convocatoria.id, { linea_programatica_id: linea_programatica_id }]))
+                    router.visit(route('convocatorias.tipos-formulario-convocatoria.proyectos', [convocatoria.id, tipo_formulario_convocatoria_id]))
                 }}
                 label="Proyectos"
                 value="0"
@@ -15,7 +15,7 @@ const TabsConvocatoria = ({ convocatoria, linea_programatica_id, value }) => {
             <Tab
                 component="a"
                 onClick={() => {
-                    router.visit(route('convocatorias.convocatoria-roles-sennova.index', [convocatoria.id, { linea_programatica_id: linea_programatica_id }]))
+                    router.visit(route('convocatorias.convocatoria-roles-sennova.index', [convocatoria.id, { tipo_formulario_convocatoria_id: tipo_formulario_convocatoria_id }]))
                 }}
                 label="Roles SENNOVA"
                 value="1"
@@ -24,7 +24,7 @@ const TabsConvocatoria = ({ convocatoria, linea_programatica_id, value }) => {
             <Tab
                 component="a"
                 onClick={() => {
-                    router.visit(route('convocatorias.convocatoria-rubros-presupuestales.index', [convocatoria.id, { linea_programatica_id: linea_programatica_id }]))
+                    router.visit(route('convocatorias.convocatoria-rubros-presupuestales.index', [convocatoria.id, { tipo_formulario_convocatoria_id: tipo_formulario_convocatoria_id }]))
                 }}
                 label="Rubros presupuestales"
                 value="2"
@@ -33,7 +33,7 @@ const TabsConvocatoria = ({ convocatoria, linea_programatica_id, value }) => {
             <Tab
                 component="a"
                 onClick={() => {
-                    router.visit(route('convocatorias.convocatoria-anexos.index', [convocatoria.id, { linea_programatica_id: linea_programatica_id }]))
+                    router.visit(route('convocatorias.convocatoria-anexos.index', [convocatoria.id, { tipo_formulario_convocatoria_id: tipo_formulario_convocatoria_id }]))
                 }}
                 label="Anexos"
                 value="3"

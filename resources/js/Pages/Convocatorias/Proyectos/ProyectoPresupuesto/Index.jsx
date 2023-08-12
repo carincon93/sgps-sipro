@@ -134,7 +134,7 @@ const RubrosPresupuestales = ({
                                         className="!bg-blue-200 hover:!bg-blue-50 !text-blue-500 mt-4"
                                     />
                                 )}
-                                {proyecto.codigo_linea_programatica == 70 && (
+                                {proyecto.tipo_formulario_convocatoria_id == 4 && (
                                     <>
                                         {usos_presupuestales
                                             .filter((item1) => presupuesto?.convocatoria_proyecto_rubros_presupuestales?.some((item2) => item2.id == item1.value))

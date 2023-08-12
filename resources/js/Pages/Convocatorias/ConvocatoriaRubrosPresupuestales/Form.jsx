@@ -8,10 +8,10 @@ import SwitchMui from '@/Components/Switch'
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', setDialogStatus, convocatoria, convocatoria_rubro_presupuestal, linea_programatica_id, rubros_presupuestales, ...props }) => {
+const Form = ({ method = '', setDialogStatus, convocatoria, convocatoria_rubro_presupuestal, tipo_formulario_convocatoria_id, rubros_presupuestales, ...props }) => {
     const form = useForm({
         rubro_presupuestal_id: convocatoria_rubro_presupuestal?.rubro_presupuestal_id,
-        linea_programatica_id: linea_programatica_id,
+        tipo_formulario_convocatoria_id: tipo_formulario_convocatoria_id,
         habilitado: convocatoria_rubro_presupuestal?.habilitado,
         sumar_al_presupuesto: convocatoria_rubro_presupuestal?.sumar_al_presupuesto,
         requiere_estudio_mercado: convocatoria_rubro_presupuestal?.requiere_estudio_mercado,

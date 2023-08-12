@@ -36,7 +36,7 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) =>
     const submit = (e) => {
         e.preventDefault()
 
-        form.post(route('convocatorias.proyectos-linea-70.aulas-moviles.upload-archivo', [convocatoria.id, proyecto.id, aula_movil.id]), {
+        form.post(route('convocatorias.proyectos-formulario-4-linea-70.aulas-moviles.upload-archivo', [convocatoria.id, proyecto.id, aula_movil.id]), {
             onSuccess: () => setDialogArchivoStatus(false),
             preserveScroll: true,
         })
@@ -72,7 +72,7 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) =>
                                     aula_movil?.filename.soat_filename
                                         ? aula_movil?.filename.soat_filename?.includes('http') == true || aula_movil?.filename.soat_filename?.includes('http') == undefined
                                             ? aula_movil?.filename.soat_filename
-                                            : route('convocatorias.proyectos-linea-70.aulas-moviles.download-file-sharepoint', [convocatoria.id, proyecto.id, aula_movil.id, 'soat'])
+                                            : route('convocatorias.proyectos-formulario-4-linea-70.aulas-moviles.download-file-sharepoint', [convocatoria.id, proyecto.id, aula_movil.id, 'soat'])
                                         : null
                                 }
                             />
@@ -91,7 +91,7 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) =>
                                     aula_movil?.filename.tecnicomecanica_filename
                                         ? aula_movil?.filename.tecnicomecanica_filename?.includes('http') || aula_movil?.filename.tecnicomecanica_filename?.includes('http') == undefined
                                             ? aula_movil?.filename.tecnicomecanica_filename
-                                            : route('convocatorias.proyectos-linea-70.aulas-moviles.download-file-sharepoint', [convocatoria, proyecto, aula_movil.id, 'tecnicomecanica'])
+                                            : route('convocatorias.proyectos-formulario-4-linea-70.aulas-moviles.download-file-sharepoint', [convocatoria, proyecto, aula_movil.id, 'tecnicomecanica'])
                                         : null
                                 }
                             />
@@ -132,7 +132,7 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) =>
                                             onClick={(e) => {
                                                 e.stopPropagation()
                                                 if (proyecto.allowed.to_update) {
-                                                    router.delete(route('convocatorias.proyectos-linea-70.aulas-moviles.destroy', [convocatoria.id, proyecto.id, aula_movil.id]), {
+                                                    router.delete(route('convocatorias.proyectos-formulario-4-linea-70.aulas-moviles.destroy', [convocatoria.id, proyecto.id, aula_movil.id]), {
                                                         preserveScroll: true,
                                                     })
                                                 }

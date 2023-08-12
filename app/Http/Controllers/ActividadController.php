@@ -27,10 +27,9 @@ class ActividadController extends Controller
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
         $proyecto->load('evaluaciones.evaluacionProyectoLinea66');
-        $proyecto->load('evaluaciones.evaluacionProyectoLinea70');
+        $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
         $objetivo_especifico                    = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
-        $proyecto->codigo_linea_programatica    = $proyecto->lineaProgramatica->codigo;
 
         $resultados = $proyecto->efectosDirectos()->whereHas('resultado', function ($query) {
                         $query->where('descripcion', '!=', null);
@@ -40,29 +39,29 @@ class ActividadController extends Controller
                         return $resultado->productos;
                     })->flatten();
 
-        $proyecto->proyectoHubLinea69;
-        $proyecto->proyectoLinea83;
+        $proyecto->proyectoFormulario10Linea69;
+        $proyecto->proyectoFormulario11Linea83;
 
         switch ($proyecto) {
             case $proyecto->proyectoLinea66()->exists():
                 $proyecto->metodologia = $proyecto->proyectoLinea66->metodologia;
                 break;
-            case $proyecto->proyectoLinea70()->exists():
-                $proyecto->metodologia                          = $proyecto->proyectoLinea70->metodologia;
-                $proyecto->metodologia_local                    = $proyecto->proyectoLinea70->metodologia_local;
-                $proyecto->otras_nuevas_instituciones           = $proyecto->proyectoLinea70->otras_nuevas_instituciones;
-                $proyecto->otras_nombre_instituciones_programas = $proyecto->proyectoLinea70->otras_nombre_instituciones_programas;
-                $proyecto->otras_nombre_instituciones           = $proyecto->proyectoLinea70->otras_nombre_instituciones;
-                $proyecto->impacto_municipios                   = $proyecto->proyectoLinea70->impacto_municipios;
-                $proyecto->nombre_instituciones                 = $proyecto->proyectoLinea70->nombre_instituciones;
-                $proyecto->nombre_instituciones_programas       = $proyecto->proyectoLinea70->nombre_instituciones_programas;
-                $proyecto->nuevas_instituciones                 = $proyecto->proyectoLinea70->nuevas_instituciones;
-                $proyecto->proyeccion_nuevas_instituciones      = $proyecto->proyectoLinea70->proyeccion_nuevas_instituciones;
-                $proyecto->proyeccion_articulacion_media        = $proyecto->proyectoLinea70->proyeccion_articulacion_media;
-                $proyecto->proyectos_macro                      = $proyecto->proyectoLinea70->proyectos_macro;
-                $proyecto->implementacion_modelo_pedagogico     = $proyecto->proyectoLinea70->implementacion_modelo_pedagogico;
-                $proyecto->articulacion_plan_educacion          = $proyecto->proyectoLinea70->articulacion_plan_educacion;
-                $proyecto->articulacion_territorios_stem        = $proyecto->proyectoLinea70->articulacion_territorios_stem;
+            case $proyecto->proyectoFormulario4Linea70()->exists():
+                $proyecto->metodologia                          = $proyecto->proyectoFormulario4Linea70->metodologia;
+                $proyecto->metodologia_local                    = $proyecto->proyectoFormulario4Linea70->metodologia_local;
+                $proyecto->otras_nuevas_instituciones           = $proyecto->proyectoFormulario4Linea70->otras_nuevas_instituciones;
+                $proyecto->otras_nombre_instituciones_programas = $proyecto->proyectoFormulario4Linea70->otras_nombre_instituciones_programas;
+                $proyecto->otras_nombre_instituciones           = $proyecto->proyectoFormulario4Linea70->otras_nombre_instituciones;
+                $proyecto->impacto_municipios                   = $proyecto->proyectoFormulario4Linea70->impacto_municipios;
+                $proyecto->nombre_instituciones                 = $proyecto->proyectoFormulario4Linea70->nombre_instituciones;
+                $proyecto->nombre_instituciones_programas       = $proyecto->proyectoFormulario4Linea70->nombre_instituciones_programas;
+                $proyecto->nuevas_instituciones                 = $proyecto->proyectoFormulario4Linea70->nuevas_instituciones;
+                $proyecto->proyeccion_nuevas_instituciones      = $proyecto->proyectoFormulario4Linea70->proyeccion_nuevas_instituciones;
+                $proyecto->proyeccion_articulacion_media        = $proyecto->proyectoFormulario4Linea70->proyeccion_articulacion_media;
+                $proyecto->proyectos_macro                      = $proyecto->proyectoFormulario4Linea70->proyectos_macro;
+                $proyecto->implementacion_modelo_pedagogico     = $proyecto->proyectoFormulario4Linea70->implementacion_modelo_pedagogico;
+                $proyecto->articulacion_plan_educacion          = $proyecto->proyectoFormulario4Linea70->articulacion_plan_educacion;
+                $proyecto->articulacion_territorios_stem        = $proyecto->proyectoFormulario4Linea70->articulacion_territorios_stem;
                 $programas_formacion                            = SelectHelper::programasFormacion()->where('centro_formacion_id', $proyecto->centroFormacion->id)->values()->all();
                 $modalidades                                    = json_decode(Storage::get('json/modalidades-estudio.json'), true);
                 $niveles_formacion                              = json_decode(Storage::get('json/nivel-formacion.json'), true);
@@ -70,7 +69,7 @@ class ActividadController extends Controller
                 $proyecto->municipios;
                 $proyecto->municipiosAImpactar;
                 $proyecto->disenosCurriculares;
-                $proyecto->programasFormacionLinea70;
+                $proyecto->programasFormacion;
 
                 break;
             case $proyecto->proyectoLinea69()->exists():
@@ -89,8 +88,8 @@ class ActividadController extends Controller
                 $proyecto->metodologia      = $proyecto->proyectoLinea65->metodologia;
                 $proyecto->tipo_proyecto    = $proyecto->proyectoLinea65->tipo_proyecto;
                 break;
-            case $proyecto->proyectoLinea68()->exists():
-                $proyecto->metodologia = $proyecto->proyectoLinea68->metodologia;
+            case $proyecto->proyectoFormulario12Linea68()->exists():
+                $proyecto->metodologia = $proyecto->proyectoFormulario12Linea68->metodologia;
                 break;
             default:
                 break;
@@ -237,7 +236,7 @@ class ActividadController extends Controller
 
                 $proyecto_linea_66->save();
                 break;
-            case $proyecto->proyectoLinea70()->exists():
+            case $proyecto->proyectoFormulario4Linea70()->exists():
                 $request->merge(['proyeccion_nuevas_instituciones' => $request->proyeccion_nuevas_instituciones]);
                 $request->merge(['proyeccion_articulacion_media' => $request->proyeccion_articulacion_media]);
 
@@ -253,7 +252,7 @@ class ActividadController extends Controller
                     'diseno_curricular_id*'                     => 'required|integer|exists:disenos_curriculares,id',
                 ]);
 
-                $proyecto_linea_70                                         = $proyecto->proyectoLinea70;
+                $proyecto_linea_70                                         = $proyecto->proyectoFormulario4Linea70;
                 $proyecto_linea_70->metodologia                            = $request->metodologia;
                 $proyecto_linea_70->metodologia_local                      = $request->metodologia_local;
                 $proyecto_linea_70->impacto_municipios                     = $request->impacto_municipios;
@@ -296,8 +295,8 @@ class ActividadController extends Controller
 
                 break;
 
-            case $proyecto->proyectoHubLinea69()->exists():
-                $proyecto_hub_linea_69                                                  = $proyecto->proyectoHubLinea69;
+            case $proyecto->proyectoFormulario10Linea69()->exists():
+                $proyecto_hub_linea_69                                                  = $proyecto->proyectoFormulario10Linea69;
                 $proyecto_hub_linea_69->metodologia                                     = $request->metodologia;
                 $proyecto_hub_linea_69->metodologia_local                               = $request->metodologia_local;
                 $proyecto_hub_linea_69->areas_cualificacion_mnc                         = $request->areas_cualificacion_mnc;
@@ -333,8 +332,8 @@ class ActividadController extends Controller
 
                 $proyecto_linea_65->save();
                 break;
-            case $proyecto->proyectoLinea68()->exists():
-                $proyecto_linea_68              = $proyecto->proyectoLinea68;
+            case $proyecto->proyectoFormulario12Linea68()->exists():
+                $proyecto_linea_68              = $proyecto->proyectoFormulario12Linea68;
                 $proyecto_linea_68->metodologia = $request->metodologia;
 
                 $proyecto_linea_68->save();
@@ -350,7 +349,7 @@ class ActividadController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $proyecto_hub_linea_69                                                  = $proyecto->proyectoHubLinea69;
+        $proyecto_hub_linea_69                                                  = $proyecto->proyectoFormulario10Linea69;
         $proyecto_hub_linea_69->metodologia                                     = $request->metodologia;
         $proyecto_hub_linea_69->metodologia_local                               = $request->metodologia_local;
         $proyecto_hub_linea_69->areas_cualificacion_mnc                         = $request->areas_cualificacion_mnc;
@@ -379,11 +378,11 @@ class ActividadController extends Controller
         return back()->with('success', 'El recurso se ha guardado correctamente.');
     }
 
-    public function updateMetodologiaProyectoLinea83(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
+    public function updateMetodologiaProyectoFormulario11Linea83(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $proyecto_linea_83                                                          = $proyecto->proyectoLinea83;
+        $proyecto_linea_83                                                          = $proyecto->proyectoFormulario11Linea83;
         $proyecto_linea_83->metodologia                                             = $request->metodologia;
         $proyecto_linea_83->departamentos_a_impactar                                = $request->departamentos_a_impactar;
         $proyecto_linea_83->estrategias_atencion_empresas_municipios                = $request->estrategias_atencion_empresas_municipios;
@@ -415,29 +414,29 @@ class ActividadController extends Controller
                     'metodologia_comentario'                => $request->metodologia_requiere_comentario == false ? $request->metodologia_comentario : null
                 ]);
                 break;
-            case $evaluacion->evaluacionProyectoLinea65()->exists():
-                $evaluacion->evaluacionProyectoLinea65()->update([
+            case $evaluacion->evaluacionProyectoFormulario1Linea65()->exists():
+                $evaluacion->evaluacionProyectoFormulario1Linea65()->update([
                     'metodologia_puntaje'                   => $request->metodologia_puntaje,
                     'metodologia_comentario'                => $request->metodologia_requiere_comentario == false ? $request->metodologia_comentario : null
                 ]);
                 break;
-            case $evaluacion->evaluacionProyectoLinea70()->exists():
-                $evaluacion->evaluacionProyectoLinea70()->update([
+            case $evaluacion->evaluacionProyectoFormulario4Linea70()->exists():
+                $evaluacion->evaluacionProyectoFormulario4Linea70()->update([
                     'metodologia_comentario'                => $request->metodologia_requiere_comentario == false ? $request->metodologia_comentario : null,
                     'municipios_comentario'                 => $request->municipios_requiere_comentario == false ? $request->municipios_comentario : null,
                     'instituciones_comentario'              => $request->instituciones_requiere_comentario == false ? $request->instituciones_comentario : null,
                     'proyectos_macro_comentario'            => $request->proyectos_macro_requiere_comentario == false ? $request->proyectos_macro_comentario : null
                 ]);
                 break;
-            case $evaluacion->evaluacionProyectoLinea69()->exists():
-                $evaluacion->evaluacionProyectoLinea69()->update([
+            case $evaluacion->evaluacionProyectoFormulario5Linea69()->exists():
+                $evaluacion->evaluacionProyectoFormulario5Linea69()->update([
                     'metodologia_comentario'                => $request->metodologia_requiere_comentario == false ? $request->metodologia_comentario : null,
                     'municipios_comentario'                 => $request->municipios_requiere_comentario == false ? $request->municipios_comentario : null
                 ]);
                 break;
 
-            case $evaluacion->evaluacionProyectoLinea68()->exists():
-                $evaluacion->evaluacionProyectoLinea68()->update([
+            case $evaluacion->evaluacionProyectoFormulario12Linea68()->exists():
+                $evaluacion->evaluacionProyectoFormulario12Linea68()->update([
                     'metodologia_puntaje'                   => $request->metodologia_puntaje,
                     'metodologia_comentario'                => $request->metodologia_requiere_comentario == false ? $request->metodologia_comentario : null,
 
@@ -467,23 +466,34 @@ class ActividadController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto]);
 
-        switch ($proyecto->lineaProgramatica->id) {
+        switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 1:
-            case 2:
-            case 3:
-            case 29:
-                $proyecto->proyectoLinea66()->update($request->only($column));
-                break;
-            case 9:
                 $proyecto->proyectoLinea65()->update($request->only($column));
                 break;
-            case 10:
-                $proyecto->proyectoLinea68()->update($request->only($column));
-                break;
-            case 11:
-                $proyecto->proyectoLinea83()->update($request->only($column));
-                break;
             case 4:
+                if ($column == 'municipios_impactar') {
+                    $proyecto->municipiosAImpactar()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'municipios') {
+                    $proyecto->municipios()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'programas_formacion_articulados') {
+                    $proyecto->programasFormacion()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'diseno_curricular_id') {
+                    $proyecto->disenosCurriculares()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                $proyecto->proyectoFormulario4Linea70()->update($request->only($column));
+                break;
+            case 5:
                 if ($column == 'talento_otros_departamentos') {
                     $proyecto->proyectoLinea69->talentosOtrosDepartamentos()->sync($request->only($column)[$column]);
                     break;
@@ -496,31 +506,18 @@ class ActividadController extends Controller
 
                 $proyecto->proyectoLinea69()->update($request->only($column));
                 break;
-            case 35:
-                $proyecto->proyectoHubLinea69()->update($request->only($column));
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+                $proyecto->proyectoLinea66()->update($request->only($column));
                 break;
-            case 5:
-                if ($column == 'municipios_impactar') {
-                    $proyecto->municipiosAImpactar()->sync($request->only($column)[$column]);
-                    break;
-                }
-
-                if ($column == 'municipios') {
-                    $proyecto->municipios()->sync($request->only($column)[$column]);
-                    break;
-                }
-
-                if ($column == 'programas_formacion_articulados') {
-                    $proyecto->programasFormacionLinea70()->sync($request->only($column)[$column]);
-                    break;
-                }
-
-                if ($column == 'diseno_curricular_id') {
-                    $proyecto->disenosCurriculares()->sync($request->only($column)[$column]);
-                    break;
-                }
-
-                $proyecto->proyectoLinea70()->update($request->only($column));
+            case 11:
+                $proyecto->proyectoFormulario11Linea83()->update($request->only($column));
+                break;
+            case 12:
+                $proyecto->proyectoFormulario12Linea68()->update($request->only($column));
+                break;
             default:
                 break;
         }

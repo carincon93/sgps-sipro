@@ -69,13 +69,13 @@ class TipoProyectoLinea68 extends Model
     }
 
     /**
-     * Relationship with ProyectoLinea68
+     * Relationship with ProyectoFormulario12Linea68
      *
      * @return object
      */
-    public function proyectoLinea68()
+    public function proyectoFormulario12Linea68()
     {
-        return $this->hasMany(ProyectoLinea68::class);
+        return $this->hasMany(ProyectoFormulario12Linea68::class);
     }
 
     /**
@@ -85,7 +85,7 @@ class TipoProyectoLinea68 extends Model
      * @param  mixed $filters
      * @return void
      */
-    public function scopeFilterTipoProyectoLinea68($query, array $filters)
+    public function scopeFilterTipoProyectoFormulario12Linea68($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $query->where('tipologia', 'ilike', '%' . $search . '%');

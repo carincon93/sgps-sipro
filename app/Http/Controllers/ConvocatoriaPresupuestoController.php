@@ -24,10 +24,9 @@ class ConvocatoriaPresupuestoController extends Controller
             'convocatoria'                          =>  $convocatoria,
             'convocatoria_rubros_presupuestales'    =>  $convocatoria->convocatoriaPresupuestos()->select('convocatoria_presupuesto.*')
                                                             ->join('rubros_presupuestales', 'convocatoria_presupuesto.rubro_presupuestal_id', 'rubros_presupuestales.id')
-                                                            ->join('lineas_programaticas', 'convocatoria_presupuesto.linea_programatica_id', 'lineas_programaticas.id')
                                                             ->join('segundo_grupo_presupuestal', 'rubros_presupuestales.segundo_grupo_presupuestal_id', 'segundo_grupo_presupuestal.id')
-                                                            ->with('rubroPresupuestal.segundoGrupoPresupuestal', 'rubroPresupuestal.tercerGrupoPresupuestal', 'rubroPresupuestal.usoPresupuestal', 'lineaProgramatica')
-                                                            ->where('convocatoria_presupuesto.linea_programatica_id', request()->linea_programatica_id)
+                                                            ->with('rubroPresupuestal.segundoGrupoPresupuestal', 'rubroPresupuestal.tercerGrupoPresupuestal', 'rubroPresupuestal.usoPresupuestal', 'tipoFormularioConvocatoria.lineaProgramatica')
+                                                            ->where('convocatoria_presupuesto.tipo_formulario_convocatoria_id', request()->tipo_formulario_convocatoria_id)
                                                             ->orderBy('segundo_grupo_presupuestal.nombre', 'ASC')
                                                             ->orderBy('convocatoria_presupuesto.id', 'ASC')
                                                             ->filterConvocatoriaPresupuesto(request()->only('search'))->paginate(50)->appends(['search' => request()->search]),
@@ -35,7 +34,9 @@ class ConvocatoriaPresupuestoController extends Controller
                                                             ->join('segundo_grupo_presupuestal', 'rubros_presupuestales.segundo_grupo_presupuestal_id', 'segundo_grupo_presupuestal.id')
                                                             ->join('tercer_grupo_presupuestal', 'rubros_presupuestales.tercer_grupo_presupuestal_id', 'tercer_grupo_presupuestal.id')
                                                             ->join('usos_presupuestales', 'rubros_presupuestales.uso_presupuestal_id', 'usos_presupuestales.id')
-                                                            ->whereNotIn('rubros_presupuestales.id', $convocatoria->convocatoriaPresupuestos()->where('convocatoria_presupuesto.linea_programatica_id', request()->linea_programatica_id)->pluck('rubro_presupuestal_id')->toArray())
+                                                            ->whereNotIn('rubros_presupuestales.id', $convocatoria->convocatoriaPresupuestos()
+                                                            ->where('convocatoria_presupuesto.tipo_formulario_convocatoria_id', request()->tipo_formulario_convocatoria_id)
+                                                            ->pluck('rubro_presupuestal_id')->toArray())
                                                             ->orderBy('rubros_presupuestales.id', 'ASC')
                                                             ->get()
         ]);

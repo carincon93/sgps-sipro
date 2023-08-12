@@ -9,10 +9,10 @@ import Textarea from '@/Components/Textarea'
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', setDialogStatus, convocatoria, convocatoria_rol_sennova, linea_programatica_id, roles_sennova, niveles_academicos, ...props }) => {
+const Form = ({ method = '', setDialogStatus, convocatoria, convocatoria_rol_sennova, tipo_formulario_convocatoria_id, roles_sennova, niveles_academicos, ...props }) => {
     const form = useForm({
         rol_sennova_id: convocatoria_rol_sennova?.rol_sennova_id,
-        linea_programatica_id: linea_programatica_id,
+        tipo_formulario_convocatoria_id: tipo_formulario_convocatoria_id,
         habilitado: convocatoria_rol_sennova?.habilitado,
         sumar_al_presupuesto: convocatoria_rol_sennova?.sumar_al_presupuesto,
         asignacion_mensual: convocatoria_rol_sennova?.asignacion_mensual,

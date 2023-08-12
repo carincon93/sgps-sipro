@@ -88,7 +88,7 @@ class ProyectoLinea66Controller extends Controller
 
         $proyecto = new Proyecto();
         $proyecto->centroFormacion()->associate($request->centro_formacion_id);
-        $proyecto->lineaProgramatica()->associate($request->linea_programatica_id);
+        $proyecto->tipoFormularioConvocatoria()->associate(null);
         $proyecto->convocatoria()->associate($convocatoria);
         $proyecto->tecnoacademiaLineasTecnoacademia()->sync($request->tecnoacademia_linea_tecnoacademia_id);
         $proyecto->save();
@@ -178,7 +178,6 @@ class ProyectoLinea66Controller extends Controller
 
         $proyecto_linea_66->load('proyecto.evaluaciones.evaluacionProyectoLinea66');
 
-        $proyecto_linea_66->proyecto->codigo_linea_programatica = $proyecto_linea_66->proyecto->lineaProgramatica->codigo;
         $proyecto_linea_66->proyecto->precio_proyecto           = $proyecto_linea_66->proyecto->precioProyecto;
 
         $proyecto_linea_66->proyecto->centroFormacion;
@@ -407,8 +406,7 @@ class ProyectoLinea66Controller extends Controller
 
         $proyecto_linea_66->proyecto->pdfVersiones;
 
-        $proyecto_linea_66->proyecto->codigo_linea_programatica = $proyecto_linea_66->proyecto->lineaProgramatica->codigo;
-        $proyecto_linea_66->proyecto->precio_proyecto           = $proyecto_linea_66->proyecto->precioProyecto;
+        $proyecto_linea_66->proyecto->precio_proyecto = $proyecto_linea_66->proyecto->precioProyecto;
 
         $proyecto_linea_66->disciplinaSubareaConocimiento->subareaConocimiento->areaConocimiento;
         $proyecto_linea_66->proyecto->centroFormacion;

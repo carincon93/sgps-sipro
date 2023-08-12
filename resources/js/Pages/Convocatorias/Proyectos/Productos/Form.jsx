@@ -98,7 +98,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                         <fieldset disabled={proyecto.allowed.to_update ? false : true}>
                             <Grid container rowSpacing={10}>
                                 <Grid item md={12}>
-                                    {proyecto.codigo_linea_programatica == 70 && (
+                                    {proyecto.tipo_formulario_convocatoria_id == 4 && (
                                         <AlertMui>
                                             <p>
                                                 <strong>Importante:</strong> Debe modifcar las fechas de ejecución, meta y las actividades a asociar.
@@ -152,13 +152,13 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                         label="Resultado"
                                         placeholder="Seleccione un resultado"
                                         required
-                                        disabled={proyecto.codigo_linea_programatica == 70}
+                                        disabled={proyecto.tipo_formulario_convocatoria_id == 4}
                                     />
                                 </Grid>
 
                                 <Grid item md={12}>
                                     <Textarea
-                                        disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
+                                        disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                         label="Descripción"
                                         id="nombre"
                                         error={form.errors.nombre}
@@ -166,7 +166,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                         onChange={(e) => form.setData('nombre', e.target.value)}
                                         required
                                     />
-                                    {proyecto.codigo_linea_programatica == 68 || proyecto.codigo_linea_programatica == 69 ? (
+                                    {proyecto.tipo_formulario_convocatoria_id == 12 || proyecto.tipo_formulario_convocatoria_id == 5 ? (
                                         <AlertMui>
                                             <p>
                                                 Los productos pueden corresponder a bienes o servicios. Un bien es un objeto tangible, almacenable o transportable, mientras que el servicio es una
@@ -183,10 +183,10 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                     ) : null}
                                 </Grid>
 
-                                {proyecto.codigo_linea_programatica != 68 && (
+                                {proyecto.tipo_formulario_convocatoria_id != 12 && (
                                     <Grid item md={12}>
                                         <Textarea
-                                            disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
+                                            disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                             id="indicador"
                                             error={form.errors.indicador}
                                             value={form.data.indicador}
@@ -195,9 +195,9 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                             required
                                         />
 
-                                        {proyecto.codigo_linea_programatica != 70 && (
+                                        {proyecto.tipo_formulario_convocatoria_id != 4 && (
                                             <>
-                                                {proyecto.codigo_linea_programatica == 69 ? (
+                                                {proyecto.tipo_formulario_convocatoria_id == 5 ? (
                                                     <AlertMui>Deber ser medible y con una fórmula. Por ejemplo: (# metodologías validadas/# metodologías totales) X 100</AlertMui>
                                                 ) : (
                                                     <AlertMui>Especifique los medios de verificación para validar los logros del proyecto.</AlertMui>
@@ -208,11 +208,12 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                 )}
 
                                 <Grid item md={12}>
-                                    {proyecto.codigo_linea_programatica == 66 ||
-                                    proyecto.codigo_linea_programatica == 82 ||
-                                    proyecto.codigo_linea_programatica == 23 ||
-                                    proyecto.codigo_linea_programatica == 69 ||
-                                    proyecto.codigo_linea_programatica == 65 ? (
+                                    {proyecto.tipo_formulario_convocatoria_id == 8 ||
+                                    proyecto.tipo_formulario_convocatoria_id == 6 ||
+                                    proyecto.tipo_formulario_convocatoria_id == 7 ||
+                                    proyecto.tipo_formulario_convocatoria_id == 9 ||
+                                    proyecto.tipo_formulario_convocatoria_id == 5 ||
+                                    proyecto.tipo_formulario_convocatoria_id == 1 ? (
                                         <>
                                             <Autocomplete
                                                 id="subtipologia_minciencias_id"

@@ -34,7 +34,6 @@ class ProyectoController extends Controller
     public function index()
     {
         return Inertia::render('Proyectos/Index', [
-            'filters'       => request()->all('search'),
             'convocatorias' => SelectHelper::convocatorias(),
             'proyectos'     => Proyecto::with('PdfVersiones', 'convocatoria')->orderBy('id', 'ASC')->filterProyecto(request()->only('search'))->paginate()->appends(['search' => request()->search]),
             'proyectosId'   => Proyecto::selectRaw("id + 8000 as codigo_only")->orderBy('id', 'ASC')->get()->pluck('codigo_only')->flatten('codigo_only')
@@ -92,7 +91,7 @@ class ProyectoController extends Controller
 
         $proyecto->save();
 
-        $proyecto->update(['estado' => $proyecto->estado_evaluacion_idi ?? $proyecto->estado_evaluacion_cultura_innovacion ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_servicios_tecnologicos]);
+        $proyecto->update(['estado' => $proyecto->estado_evaluacion_idi ?? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
 
         if ($request->subsanacion == true) {
             $request->merge(['subsanacion' => $request->subsanacion ? 'true' : 'false']) ;
@@ -143,21 +142,20 @@ class ProyectoController extends Controller
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
         $proyecto->load('evaluaciones.evaluacionProyectoLinea66');
-        $proyecto->load('evaluaciones.evaluacionProyectoLinea70');
+        $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
-        $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
-        $proyecto->proyectoHubLinea69;
+        $proyecto->proyectoFormulario10Linea69;
 
         if ($proyecto->proyectoLinea66()->exists()) {
             $objetivo_general = $proyecto->proyectoLinea66->objetivo_general;
             $proyecto->propuesta_sostenibilidad = $proyecto->proyectoLinea66->propuesta_sostenibilidad;
         }
 
-        if ($proyecto->proyectoLinea70()->exists()) {
-            $objetivo_general = $proyecto->proyectoLinea70->objetivo_general;
-            $proyecto->propuesta_sostenibilidad_social      = $proyecto->proyectoLinea70->propuesta_sostenibilidad_social;
-            $proyecto->propuesta_sostenibilidad_ambiental   = $proyecto->proyectoLinea70->propuesta_sostenibilidad_ambiental;
-            $proyecto->propuesta_sostenibilidad_financiera  = $proyecto->proyectoLinea70->propuesta_sostenibilidad_financiera;
+        if ($proyecto->proyectoFormulario4Linea70()->exists()) {
+            $objetivo_general = $proyecto->proyectoFormulario4Linea70->objetivo_general;
+            $proyecto->propuesta_sostenibilidad_social      = $proyecto->proyectoFormulario4Linea70->propuesta_sostenibilidad_social;
+            $proyecto->propuesta_sostenibilidad_ambiental   = $proyecto->proyectoFormulario4Linea70->propuesta_sostenibilidad_ambiental;
+            $proyecto->propuesta_sostenibilidad_financiera  = $proyecto->proyectoFormulario4Linea70->propuesta_sostenibilidad_financiera;
         }
 
         if ($proyecto->proyectoLinea69()->exists()) {
@@ -165,10 +163,10 @@ class ProyectoController extends Controller
             $proyecto->propuesta_sostenibilidad = $proyecto->proyectoLinea69->propuesta_sostenibilidad;
         }
 
-        if ($proyecto->proyectoLinea68()->exists()) {
-            $objetivo_general = $proyecto->proyectoLinea68->objetivo_general;
-            $proyecto->propuesta_sostenibilidad = $proyecto->proyectoLinea68->propuesta_sostenibilidad;
-            $proyecto->propuesta_sostenibilidad = $proyecto->proyectoLinea68->propuesta_sostenibilidad;
+        if ($proyecto->proyectoFormulario12Linea68()->exists()) {
+            $objetivo_general = $proyecto->proyectoFormulario12Linea68->objetivo_general;
+            $proyecto->propuesta_sostenibilidad = $proyecto->proyectoFormulario12Linea68->propuesta_sostenibilidad;
+            $proyecto->propuesta_sostenibilidad = $proyecto->proyectoFormulario12Linea68->propuesta_sostenibilidad;
         }
 
         if ($proyecto->proyectoLinea65()->exists()) {
@@ -177,9 +175,9 @@ class ProyectoController extends Controller
             $proyecto->tipo_proyecto            = $proyecto->proyectoLinea65->tipo_proyecto;
         }
 
-        if ($proyecto->proyectoLinea83()->exists()) {
-            $objetivo_general                   = $proyecto->proyectoLinea83->objetivo_general;
-            $proyecto->propuesta_sostenibilidad = $proyecto->proyectoLinea83->propuesta_sostenibilidad;
+        if ($proyecto->proyectoFormulario11Linea83()->exists()) {
+            $objetivo_general                   = $proyecto->proyectoFormulario11Linea83->objetivo_general;
+            $proyecto->propuesta_sostenibilidad = $proyecto->proyectoFormulario11Linea83->propuesta_sostenibilidad;
         }
 
         $objetivos = collect([]);
@@ -211,29 +209,27 @@ class ProyectoController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto]);
 
-        switch ($proyecto->lineaProgramatica->id) {
+        switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 1:
-            case 2:
-            case 3:
-                $proyecto->proyectoLinea66()->update($request->only($column));
-                break;
-            case 4:
-                $proyecto->proyectoLinea69()->update($request->only($column));
-                break;
-            case 5:
-                $proyecto->proyectoLinea70()->update($request->only($column));
-                break;
-            case 9:
                 $proyecto->proyectoLinea65()->update($request->only($column));
                 break;
-            case 10:
-                $proyecto->proyectoLinea68()->update($request->only($column));
+            case 4:
+                $proyecto->proyectoFormulario4Linea70()->update($request->only($column));
+                break;
+            case 5:
+                $proyecto->proyectoLinea69()->update($request->only($column));
+                break;
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+                $proyecto->proyectoLinea66()->update($request->only($column));
                 break;
             case 11:
-                $proyecto->proyectoLinea83()->update($request->only($column));
+                $proyecto->proyectoFormulario11Linea83()->update($request->only($column));
                 break;
-            case 35:
-                $proyecto->proyectoHubLinea69()->update($request->only($column));
+            case 12:
+                $proyecto->proyectoFormulario12Linea68()->update($request->only($column));
                 break;
             default:
                 break;
@@ -259,25 +255,25 @@ class ProyectoController extends Controller
                     'cadena_valor_comentario'   => $request->cadena_valor_requiere_comentario == false ? $request->cadena_valor_comentario : null
                 ]);
                 break;
-            case $evaluacion->evaluacionProyectoLinea65()->exists():
-                $evaluacion->evaluacionProyectoLinea65()->update([
+            case $evaluacion->evaluacionProyectoFormulario1Linea65()->exists():
+                $evaluacion->evaluacionProyectoFormulario1Linea65()->update([
                     'cadena_valor_puntaje'      => $request->cadena_valor_puntaje,
                     'cadena_valor_comentario'   => $request->cadena_valor_requiere_comentario == false ? $request->cadena_valor_comentario : null
                 ]);
                 break;
-            case $evaluacion->evaluacionProyectoLinea70()->exists():
-                $evaluacion->evaluacionProyectoLinea70()->update([
+            case $evaluacion->evaluacionProyectoFormulario4Linea70()->exists():
+                $evaluacion->evaluacionProyectoFormulario4Linea70()->update([
                     'cadena_valor_comentario'   => $request->cadena_valor_requiere_comentario == false ? $request->cadena_valor_comentario : null
                 ]);
                 break;
-            case $evaluacion->evaluacionProyectoLinea69()->exists():
-                $evaluacion->evaluacionProyectoLinea69()->update([
+            case $evaluacion->evaluacionProyectoFormulario5Linea69()->exists():
+                $evaluacion->evaluacionProyectoFormulario5Linea69()->update([
                     'cadena_valor_comentario'   => $request->cadena_valor_requiere_comentario == false ? $request->cadena_valor_comentario : null
                 ]);
                 break;
 
-            case $evaluacion->evaluacionProyectoLinea68()->exists():
-                $evaluacion->evaluacionProyectoLinea68()->update([
+            case $evaluacion->evaluacionProyectoFormulario12Linea68()->exists():
+                $evaluacion->evaluacionProyectoFormulario12Linea68()->update([
                     'propuesta_sostenibilidad_puntaje'      => $request->propuesta_sostenibilidad_puntaje,
                     'propuesta_sostenibilidad_comentario'   => $request->propuesta_sostenibilidad_requiere_comentario == false ? $request->propuesta_sostenibilidad_comentario : null,
 
@@ -317,13 +313,13 @@ class ProyectoController extends Controller
 
                 $proyecto_linea_66->save();
                 break;
-            case $proyecto->proyectoLinea70()->exists():
+            case $proyecto->proyectoFormulario4Linea70()->exists():
                 $request->validate([
                     'propuesta_sostenibilidad_social'       => 'required|string|max:40000',
                     'propuesta_sostenibilidad_ambiental'    => 'required|string|max:40000',
                     'propuesta_sostenibilidad_financiera'   => 'required|string|max:40000',
                 ]);
-                $proyecto_linea_70 = $proyecto->proyectoLinea70;
+                $proyecto_linea_70 = $proyecto->proyectoFormulario4Linea70;
                 $proyecto_linea_70->propuesta_sostenibilidad_social        = $request->propuesta_sostenibilidad_social;
                 $proyecto_linea_70->propuesta_sostenibilidad_ambiental     = $request->propuesta_sostenibilidad_ambiental;
                 $proyecto_linea_70->propuesta_sostenibilidad_financiera    = $request->propuesta_sostenibilidad_financiera;
@@ -348,20 +344,20 @@ class ProyectoController extends Controller
 
                 $proyecto_linea_65->save();
                 break;
-            case $proyecto->proyectoLinea83()->exists():
+            case $proyecto->proyectoFormulario11Linea83()->exists():
                 $request->validate([
                     'propuesta_sostenibilidad' => 'required|string|max:40000',
                 ]);
-                $proyecto_linea_83                              = $proyecto->proyectoLinea83;
+                $proyecto_linea_83                              = $proyecto->proyectoFormulario11Linea83;
                 $proyecto_linea_83->propuesta_sostenibilidad    = $request->propuesta_sostenibilidad;
 
                 $proyecto_linea_83->save();
                 break;
-            case $proyecto->proyectoLinea68()->exists():
+            case $proyecto->proyectoFormulario12Linea68()->exists():
                 $request->validate([
                     'propuesta_sostenibilidad' => 'required|string|max:40000',
                 ]);
-                $proyecto_linea_68                            = $proyecto->proyectoLinea68;
+                $proyecto_linea_68                            = $proyecto->proyectoFormulario12Linea68;
                 $proyecto_linea_68->propuesta_sostenibilidad  = $request->propuesta_sostenibilidad;
 
                 $proyecto_linea_68->save();
@@ -376,30 +372,27 @@ class ProyectoController extends Controller
 
     public function redireccionar(Request $request, Convocatoria $convocatoria)
     {
-        switch (request()->linea_programatica_id) {
+        switch (request()->tipo_formulario_convocatoria_id) {
             case 1:
-            case 2:
-            case 3:
-            case 29:
-                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria, 'linea_programatica_id' => request()->linea_programatica_id]);
-                break;
-            case 5:
-                return redirect()->route('convocatorias.proyectos-linea-70.index', [$convocatoria, 'linea_programatica_id' => request()->linea_programatica_id]);
+                return redirect()->route('convocatorias.proyectos-formulario-1-linea-65.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => request()->tipo_formulario_convocatoria_id]);
                 break;
             case 4:
-                return redirect()->route('convocatorias.proyectos-linea-69.index', [$convocatoria, 'linea_programatica_id' => request()->linea_programatica_id]);
+                return redirect()->route('convocatorias.proyectos-formulario-4-linea-70.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => request()->tipo_formulario_convocatoria_id]);
                 break;
-            case 35:
-                return redirect()->route('convocatorias.proyectos-hub-linea-69.index', [$convocatoria, 'linea_programatica_id' => request()->linea_programatica_id]);
+            case 5:
+                return redirect()->route('convocatorias.proyectos-formulario-5-linea-69.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => request()->tipo_formulario_convocatoria_id]);
                 break;
-            case 10:
-                return redirect()->route('convocatorias.proyectos-linea-68.index', [$convocatoria, 'linea_programatica_id' => request()->linea_programatica_id]);
-                break;
+            case 6:
+            case 7:
+            case 8:
             case 9:
-                return redirect()->route('convocatorias.proyectos-linea-65.index', [$convocatoria, 'linea_programatica_id' => request()->linea_programatica_id]);
+                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => request()->tipo_formulario_convocatoria_id]);
                 break;
             case 11:
-                return redirect()->route('convocatorias.proyectos-linea-83.index', [$convocatoria, 'linea_programatica_id' => request()->linea_programatica_id]);
+                return redirect()->route('convocatorias.proyectos-formulario-11-linea-83.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => request()->tipo_formulario_convocatoria_id]);
+                break;
+            case 12:
+                return redirect()->route('convocatorias.proyectos-formulario-12-linea-68.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => request()->tipo_formulario_convocatoria_id]);
                 break;
             default:
                 break;
@@ -419,23 +412,23 @@ class ProyectoController extends Controller
             case $proyecto->proyectoLinea66()->exists():
                 return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-linea-66.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-linea-66.edit', [$convocatoria, $proyecto]);
                 break;
-            case $proyecto->proyectoLinea70()->exists():
-                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-linea-70.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-linea-70.edit', [$convocatoria, $proyecto]);
+            case $proyecto->proyectoFormulario4Linea70()->exists():
+                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-formulario-4-linea-70.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-formulario-4-linea-70.edit', [$convocatoria, $proyecto]);
                 break;
             case $proyecto->proyectoLinea69()->exists():
-                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-linea-69.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-linea-69.edit', [$convocatoria, $proyecto]);
+                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-formulario-5-linea-69.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-formulario-5-linea-69.edit', [$convocatoria, $proyecto]);
                 break;
-            case $proyecto->proyectoHubLinea69()->exists():
-                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-linea-69.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-hub-linea-69.edit', [$convocatoria, $proyecto]);
+            case $proyecto->proyectoFormulario10Linea69()->exists():
+                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-formulario-5-linea-69.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-formulario-10-linea-69.edit', [$convocatoria, $proyecto]);
                 break;
-            case $proyecto->proyectoLinea68()->exists():
-                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-linea-68.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-linea-68.edit', [$convocatoria, $proyecto]);
+            case $proyecto->proyectoFormulario12Linea68()->exists():
+                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-formulario-12-linea-68.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-formulario-12-linea-68.edit', [$convocatoria, $proyecto]);
                 break;
             case $proyecto->proyectoLinea65()->exists():
-                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-linea-65.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-linea-65.edit', [$convocatoria, $proyecto]);
+                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-formulario-1-linea-65.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-formulario-1-linea-65.edit', [$convocatoria, $proyecto]);
                 break;
-            case $proyecto->proyectoLinea83()->exists():
-                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-linea-83.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-linea-83.edit', [$convocatoria, $proyecto]);
+            case $proyecto->proyectoFormulario11Linea83()->exists():
+                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-formulario-11-linea-83.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-formulario-11-linea-83.edit', [$convocatoria, $proyecto]);
                 break;
             default:
                 break;
@@ -452,10 +445,7 @@ class ProyectoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', [$proyecto]);
 
-        $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
-        $proyecto->precio_proyecto           = $proyecto->precioProyecto;
-
-        $proyecto->logs = $proyecto::getLog($proyecto->id);
+        $proyecto->precio_proyecto = $proyecto->precioProyecto;
 
         if ($proyecto->proyectoLinea65()->exists()) {
             $proyecto->tipo_proyecto = $proyecto->proyectoLinea65->tipo_proyecto;
@@ -463,7 +453,7 @@ class ProyectoController extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/ResumenFinal', [
             'convocatoria'                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
-            'proyecto'                      => $proyecto->only('id', 'precio_proyecto', 'codigo_linea_programatica', 'logs', 'finalizado', 'modificable', 'habilitado_para_evaluar', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
+            'proyecto'                      => $proyecto->only('id', 'tipo_formulario_convocatoria_id', 'precio_proyecto', 'finalizado', 'modificable', 'habilitado_para_evaluar', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
             'problemaCentral'               => ProyectoValidationTrait::problemaCentral($proyecto),
             'efectosDirectos'               => ProyectoValidationTrait::efectosDirectos($proyecto),
             'causasIndirectas'              => ProyectoValidationTrait::causasIndirectas($proyecto),
@@ -524,57 +514,57 @@ class ProyectoController extends Controller
                 $evaluacion->redaccion_puntaje          = $evaluacion->evaluacionProyectoLinea66->redaccion_puntaje;
                 $evaluacion->normas_apa_puntaje         = $evaluacion->evaluacionProyectoLinea66->normas_apa_puntaje;
                 break;
-            case $evaluacion->evaluacionProyectoLinea65()->exists():
-                $evaluacion->titulo_puntaje             = $evaluacion->evaluacionProyectoLinea65->titulo_puntaje;
-                $evaluacion->video_puntaje              = $evaluacion->evaluacionProyectoLinea65->video_puntaje;
-                $evaluacion->resumen_puntaje            = $evaluacion->evaluacionProyectoLinea65->resumen_puntaje;
-                $evaluacion->problema_central_puntaje   = $evaluacion->evaluacionProyectoLinea65->problema_central_puntaje;
-                $evaluacion->objetivos_puntaje          = $evaluacion->evaluacionProyectoLinea65->objetivos_puntaje;
-                $evaluacion->metodologia_puntaje        = $evaluacion->evaluacionProyectoLinea65->metodologia_puntaje;
-                $evaluacion->entidad_aliada_puntaje     = $evaluacion->evaluacionProyectoLinea65->entidad_aliada_puntaje;
-                $evaluacion->resultados_puntaje         = $evaluacion->evaluacionProyectoLinea65->resultados_puntaje;
-                $evaluacion->productos_puntaje          = $evaluacion->evaluacionProyectoLinea65->productos_puntaje;
-                $evaluacion->cadena_valor_puntaje       = $evaluacion->evaluacionProyectoLinea65->cadena_valor_puntaje;
-                $evaluacion->analisis_riesgos_puntaje   = $evaluacion->evaluacionProyectoLinea65->analisis_riesgos_puntaje;
-                $evaluacion->ortografia_puntaje         = $evaluacion->evaluacionProyectoLinea65->ortografia_puntaje;
-                $evaluacion->redaccion_puntaje          = $evaluacion->evaluacionProyectoLinea65->redaccion_puntaje;
-                $evaluacion->normas_apa_puntaje         = $evaluacion->evaluacionProyectoLinea65->normas_apa_puntaje;
+            case $evaluacion->evaluacionProyectoFormulario1Linea65()->exists():
+                $evaluacion->titulo_puntaje             = $evaluacion->evaluacionProyectoFormulario1Linea65->titulo_puntaje;
+                $evaluacion->video_puntaje              = $evaluacion->evaluacionProyectoFormulario1Linea65->video_puntaje;
+                $evaluacion->resumen_puntaje            = $evaluacion->evaluacionProyectoFormulario1Linea65->resumen_puntaje;
+                $evaluacion->problema_central_puntaje   = $evaluacion->evaluacionProyectoFormulario1Linea65->problema_central_puntaje;
+                $evaluacion->objetivos_puntaje          = $evaluacion->evaluacionProyectoFormulario1Linea65->objetivos_puntaje;
+                $evaluacion->metodologia_puntaje        = $evaluacion->evaluacionProyectoFormulario1Linea65->metodologia_puntaje;
+                $evaluacion->entidad_aliada_puntaje     = $evaluacion->evaluacionProyectoFormulario1Linea65->entidad_aliada_puntaje;
+                $evaluacion->resultados_puntaje         = $evaluacion->evaluacionProyectoFormulario1Linea65->resultados_puntaje;
+                $evaluacion->productos_puntaje          = $evaluacion->evaluacionProyectoFormulario1Linea65->productos_puntaje;
+                $evaluacion->cadena_valor_puntaje       = $evaluacion->evaluacionProyectoFormulario1Linea65->cadena_valor_puntaje;
+                $evaluacion->analisis_riesgos_puntaje   = $evaluacion->evaluacionProyectoFormulario1Linea65->analisis_riesgos_puntaje;
+                $evaluacion->ortografia_puntaje         = $evaluacion->evaluacionProyectoFormulario1Linea65->ortografia_puntaje;
+                $evaluacion->redaccion_puntaje          = $evaluacion->evaluacionProyectoFormulario1Linea65->redaccion_puntaje;
+                $evaluacion->normas_apa_puntaje         = $evaluacion->evaluacionProyectoFormulario1Linea65->normas_apa_puntaje;
                 break;
-            case $evaluacion->evaluacionProyectoLinea68()->exists():
-                $evaluacion->titulo_puntaje = $evaluacion->evaluacionProyectoLinea68->titulo_puntaje;
-                $evaluacion->resumen_puntaje = $evaluacion->evaluacionProyectoLinea68->resumen_puntaje;
-                $evaluacion->antecedentes_puntaje = $evaluacion->evaluacionProyectoLinea68->antecedentes_puntaje;
-                $evaluacion->justificacion_problema_puntaje = $evaluacion->evaluacionProyectoLinea68->justificacion_problema_puntaje;
-                $evaluacion->pregunta_formulacion_problema_puntaje = $evaluacion->evaluacionProyectoLinea68->pregunta_formulacion_problema_puntaje;
-                $evaluacion->propuesta_sostenibilidad_puntaje = $evaluacion->evaluacionProyectoLinea68->propuesta_sostenibilidad_puntaje;
-                $evaluacion->identificacion_problema_puntaje = $evaluacion->evaluacionProyectoLinea68->identificacion_problema_puntaje;
-                $evaluacion->arbol_problemas_puntaje = $evaluacion->evaluacionProyectoLinea68->arbol_problemas_puntaje;
-                $evaluacion->impacto_ambiental_puntaje = $evaluacion->evaluacionProyectoLinea68->impacto_ambiental_puntaje;
-                $evaluacion->impacto_social_centro_puntaje = $evaluacion->evaluacionProyectoLinea68->impacto_social_centro_puntaje;
-                $evaluacion->impacto_social_productivo_puntaje = $evaluacion->evaluacionProyectoLinea68->impacto_social_productivo_puntaje;
-                $evaluacion->impacto_tecnologico_puntaje = $evaluacion->evaluacionProyectoLinea68->impacto_tecnologico_puntaje;
-                $evaluacion->objetivo_general_puntaje = $evaluacion->evaluacionProyectoLinea68->objetivo_general_puntaje;
-                $evaluacion->primer_objetivo_puntaje = $evaluacion->evaluacionProyectoLinea68->primer_objetivo_puntaje;
-                $evaluacion->segundo_objetivo_puntaje = $evaluacion->evaluacionProyectoLinea68->segundo_objetivo_puntaje;
-                $evaluacion->tercer_objetivo_puntaje = $evaluacion->evaluacionProyectoLinea68->tercer_objetivo_puntaje;
-                $evaluacion->cuarto_objetivo_puntaje = $evaluacion->evaluacionProyectoLinea68->cuarto_objetivo_puntaje;
-                $evaluacion->resultados_primer_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->resultados_primer_obj_puntaje;
-                $evaluacion->resultados_segundo_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->resultados_segundo_obj_puntaje;
-                $evaluacion->resultados_tercer_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->resultados_tercer_obj_puntaje;
-                $evaluacion->resultados_cuarto_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->resultados_cuarto_obj_puntaje;
-                $evaluacion->metodologia_puntaje = $evaluacion->evaluacionProyectoLinea68->metodologia_puntaje;
-                $evaluacion->actividades_primer_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->actividades_primer_obj_puntaje;
-                $evaluacion->actividades_segundo_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->actividades_segundo_obj_puntaje;
-                $evaluacion->actividades_tercer_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->actividades_tercer_obj_puntaje;
-                $evaluacion->actividades_cuarto_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->actividades_cuarto_obj_puntaje;
-                $evaluacion->productos_primer_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->productos_primer_obj_puntaje;
-                $evaluacion->productos_segundo_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->productos_segundo_obj_puntaje;
-                $evaluacion->productos_tercer_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->productos_tercer_obj_puntaje;
-                $evaluacion->productos_cuarto_obj_puntaje = $evaluacion->evaluacionProyectoLinea68->productos_cuarto_obj_puntaje;
+            case $evaluacion->evaluacionProyectoFormulario12Linea68()->exists():
+                $evaluacion->titulo_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->titulo_puntaje;
+                $evaluacion->resumen_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->resumen_puntaje;
+                $evaluacion->antecedentes_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->antecedentes_puntaje;
+                $evaluacion->justificacion_problema_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->justificacion_problema_puntaje;
+                $evaluacion->pregunta_formulacion_problema_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->pregunta_formulacion_problema_puntaje;
+                $evaluacion->propuesta_sostenibilidad_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->propuesta_sostenibilidad_puntaje;
+                $evaluacion->identificacion_problema_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->identificacion_problema_puntaje;
+                $evaluacion->arbol_problemas_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->arbol_problemas_puntaje;
+                $evaluacion->impacto_ambiental_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->impacto_ambiental_puntaje;
+                $evaluacion->impacto_social_centro_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->impacto_social_centro_puntaje;
+                $evaluacion->impacto_social_productivo_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->impacto_social_productivo_puntaje;
+                $evaluacion->impacto_tecnologico_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->impacto_tecnologico_puntaje;
+                $evaluacion->objetivo_general_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->objetivo_general_puntaje;
+                $evaluacion->primer_objetivo_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->primer_objetivo_puntaje;
+                $evaluacion->segundo_objetivo_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->segundo_objetivo_puntaje;
+                $evaluacion->tercer_objetivo_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->tercer_objetivo_puntaje;
+                $evaluacion->cuarto_objetivo_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->cuarto_objetivo_puntaje;
+                $evaluacion->resultados_primer_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->resultados_primer_obj_puntaje;
+                $evaluacion->resultados_segundo_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->resultados_segundo_obj_puntaje;
+                $evaluacion->resultados_tercer_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->resultados_tercer_obj_puntaje;
+                $evaluacion->resultados_cuarto_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->resultados_cuarto_obj_puntaje;
+                $evaluacion->metodologia_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->metodologia_puntaje;
+                $evaluacion->actividades_primer_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->actividades_primer_obj_puntaje;
+                $evaluacion->actividades_segundo_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->actividades_segundo_obj_puntaje;
+                $evaluacion->actividades_tercer_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->actividades_tercer_obj_puntaje;
+                $evaluacion->actividades_cuarto_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->actividades_cuarto_obj_puntaje;
+                $evaluacion->productos_primer_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->productos_primer_obj_puntaje;
+                $evaluacion->productos_segundo_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->productos_segundo_obj_puntaje;
+                $evaluacion->productos_tercer_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->productos_tercer_obj_puntaje;
+                $evaluacion->productos_cuarto_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->productos_cuarto_obj_puntaje;
 
-                $evaluacion->riesgos_objetivo_general_puntaje = $evaluacion->evaluacionProyectoLinea68->riesgos_objetivo_general_puntaje;
-                $evaluacion->riesgos_productos_puntaje = $evaluacion->evaluacionProyectoLinea68->riesgos_productos_puntaje;
-                $evaluacion->riesgos_actividades_puntaje = $evaluacion->evaluacionProyectoLinea68->riesgos_actividades_puntaje;
+                $evaluacion->riesgos_objetivo_general_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->riesgos_objetivo_general_puntaje;
+                $evaluacion->riesgos_productos_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->riesgos_productos_puntaje;
+                $evaluacion->riesgos_actividades_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->riesgos_actividades_puntaje;
 
                 break;
             default:
@@ -584,7 +574,7 @@ class ProyectoController extends Controller
         return Inertia::render('Convocatorias/Evaluaciones/Summary', [
             'convocatoria' => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos', 'finalizado'),
             'evaluacion'   => $evaluacion,
-            'proyecto'     => $evaluacion->proyecto->only('id', 'precio_proyecto', 'codigo_linea_programatica', 'logs', 'finalizado', 'modificable', 'habilitado_para_evaluar'),
+            'proyecto'     => $evaluacion->proyecto->only('id', 'precio_proyecto', 'finalizado', 'modificable', 'habilitado_para_evaluar'),
             'versiones'    => $evaluacion->proyecto->PdfVersiones,
         ]);
     }
@@ -610,7 +600,7 @@ class ProyectoController extends Controller
         $evaluacion->modificable = false;
         $evaluacion->save();
 
-        $evaluacion->proyecto()->update(['estado' => $evaluacion->proyecto->estado_evaluacion_idi ?? $evaluacion->proyecto->estado_evaluacion_cultura_innovacion ?? $evaluacion->proyecto->estado_evaluacion_ta ?? $evaluacion->proyecto->estado_evaluacion_tp ?? $evaluacion->proyecto->estado_evaluacion_servicios_tecnologicos]);
+        $evaluacion->proyecto()->update(['estado' => $evaluacion->proyecto->estado_evaluacion_idi ?? $evaluacion->proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $evaluacion->proyecto->estado_evaluacion_ta ?? $evaluacion->proyecto->estado_evaluacion_tp ?? $evaluacion->proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
 
         $auth_user->notify(new EvaluacionFinalizada($convocatoria, $evaluacion->proyecto));
 
@@ -696,27 +686,6 @@ class ProyectoController extends Controller
     }
 
     /**
-     * El dinamizador devuelve el proyecto al proponente con algún comentario.
-     *
-     * @param  \App\Models\Proyecto  $proyecto
-     * @return \Illuminate\Http\Response
-     */
-    public function devolverProyecto(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
-    {
-        $this->authorize('validar-dinamizador', [$proyecto]);
-
-        $proyecto->habilitado_para_evaluar = false;
-        $proyecto->finalizado = false;
-        $proyecto->modificable = true;
-        $proyecto->save();
-
-        $user = $proyecto->participantes()->where('es_formulador', true)->first();
-        $user->notify(new ComentarioProyecto($convocatoria, $proyecto, $request->comentario));
-
-        return back()->with('success', 'Se ha notificado al proponente.');
-    }
-
-    /**
      * participantes
      *
      * @param  mixed $convocatoria
@@ -727,17 +696,14 @@ class ProyectoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
         $proyecto->participantes;
         $proyecto->programasFormacion;
         $proyecto->semillerosInvestigacion;
 
-        // $proyecto->PdfVersiones;
-
         if ($proyecto->codigo_linea_programatica == 70) {
-            return redirect()->route('convocatorias.proyectos-linea-70.edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
+            return redirect()->route('convocatorias.proyectos-formulario-4-linea-70.edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
         } else if ($proyecto->codigo_linea_programatica == 69) {
-            return redirect()->route('convocatorias.proyectos-linea-69.edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
+            return redirect()->route('convocatorias.proyectos-formulario-5-linea-69.edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
         }
 
         $proyecto->load('participantes.centroFormacion.regional');
@@ -745,7 +711,7 @@ class ProyectoController extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/Participantes/Index', [
             'convocatoria'                  => $convocatoria,
-            'proyecto'                      => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable', 'diff_meses', 'participantes', 'semillerosInvestigacion', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'fecha_inicio', 'fecha_finalizacion', 'tipo_proyecto'),
+            'proyecto'                      => $proyecto->only('id', 'tipo_formulario_convocatoria_id', 'precio_proyecto', 'modificable', 'diff_meses', 'participantes', 'semillerosInvestigacion', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'fecha_inicio', 'fecha_finalizacion', 'tipo_proyecto'),
             'evaluacion'                    => Evaluacion::find(request()->evaluacion_id),
             'roles_sennova'                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'nuevo_participante'            => User::select('users.id', 'users.nombre', 'users.email', 'users.centro_formacion_id')->with('centroFormacion', 'centroFormacion.regional')->orderBy('users.nombre', 'ASC')->filterUser(request()->only('search'))->first(),
@@ -990,8 +956,8 @@ class ProyectoController extends Controller
 
         $programaFormacion->save();
 
-        if ($proyecto->proyectoLinea70()->exists()) {
-            $proyecto->proyectoLinea70ProgramasFormacion()->attach($programaFormacion);
+        if ($proyecto->proyectoFormulario4Linea70()->exists()) {
+            $proyecto->proyectoFormulario4Linea70ProgramasFormacion()->attach($programaFormacion);
         }
 
         return back()->with('success', 'El recurso se ha creado correctamente.');
@@ -1020,8 +986,6 @@ class ProyectoController extends Controller
     public function showComentariosGeneralesForm(Convocatoria $convocatoria, Proyecto $proyecto)
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
-
-        $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
 
         if ($proyecto->codigo_linea_programatica == 65) {
             $proyecto->tipo_proyecto = $proyecto->proyectoLinea65->tipo_proyecto;
@@ -1076,7 +1040,7 @@ class ProyectoController extends Controller
 
         if ($request->estado == 1) { // Subsanar
             foreach ($proyectos as $proyecto) {
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_idi ?? $proyecto->estado_evaluacion_cultura_innovacion ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_servicios_tecnologicos]);
+                $proyecto->update(['estado' => $proyecto->estado_evaluacion_idi ?? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
                 sleep(2);
 
                 $proyecto->update(
@@ -1096,7 +1060,7 @@ class ProyectoController extends Controller
             Evaluacion::whereIn('proyecto_id', $proyectos_id)->where('habilitado', true)->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
         } else if ($request->estado == 2) { // Finalizar
             foreach ($proyectos as $proyecto) {
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_idi ?? $proyecto->estado_evaluacion_cultura_innovacion ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_servicios_tecnologicos]);
+                $proyecto->update(['estado' => $proyecto->estado_evaluacion_idi ?? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
 
                 sleep(2);
                 $proyecto->update(
@@ -1114,7 +1078,7 @@ class ProyectoController extends Controller
             }
         } else if ($request->estado == 3) { // Evaluar
             foreach ($proyectos as $proyecto) {
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_idi ?? $proyecto->estado_evaluacion_cultura_innovacion ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_servicios_tecnologicos]);
+                $proyecto->update(['estado' => $proyecto->estado_evaluacion_idi ?? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
 
                 sleep(2);
                 $proyecto->update(
@@ -1149,7 +1113,7 @@ class ProyectoController extends Controller
     {
         $proyectos = Proyecto::where('convocatoria_id', $request->convocatoria_id)->get();
         foreach ($proyectos as $proyecto) {
-            $proyecto->update(['estado' => $proyecto->estado_evaluacion_idi ?? $proyecto->estado_evaluacion_cultura_innovacion ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_servicios_tecnologicos]);
+            $proyecto->update(['estado' => $proyecto->estado_evaluacion_idi ?? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
         }
 
         return back()->with('success', 'Se han actualizado los estados de los proyectos correctamente.');

@@ -9,7 +9,7 @@ use App\Http\Requests\ArticulacionSennovaRequest;
 use App\Models\AulaMovil;
 use App\Models\Convocatoria;
 use App\Models\Evaluacion\Evaluacion;
-use App\Models\Evaluacion\EvaluacionProyectoLinea70;
+use App\Models\Evaluacion\EvaluacionProyectoFormulario4Linea70;
 use App\Models\LineaInvestigacion;
 use App\Models\Proyecto;
 use App\Models\RolSennova;
@@ -31,52 +31,49 @@ class ArticulacionSennovaController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', [$proyecto]);
 
-        $proyecto->load('evaluaciones.evaluacionProyectoLinea70');
+        $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
         $proyecto->load('participantes.centroFormacion.regional');
 
-        if ($proyecto->lineaProgramatica->codigo != 69 && $proyecto->lineaProgramatica->codigo != 70 && $proyecto->lineaProgramatica->codigo != 83) {
+        if ($proyecto->tipo_formulario_convocatoria_id != 4 && $proyecto->tipo_formulario_convocatoria_id != 5 && $proyecto->tipo_formulario_convocatoria_id != 10 && $proyecto->tipo_formulario_convocatoria_id != 11) {
             return back()->with('error', 'No puede acceder a este módulo.');
         }
 
+        $proyecto->precio_proyecto = $proyecto->precioProyecto;
         $proyecto->participantes;
-        $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
-        $proyecto->precio_proyecto           = $proyecto->precioProyecto;
 
         $proyecto->gruposInvestigacion;
         $proyecto->lineasInvestigacion;
         $proyecto->semillerosInvestigacion;
         $proyecto->proyectoLinea69;
-        $proyecto->proyectoHubLinea69;
-        $proyecto->proyectoLinea83;
+        $proyecto->proyectoFormulario10Linea69;
+        $proyecto->proyectoFormulario11Linea83;
 
-        switch ($proyecto->lineaProgramatica->codigo) {
-            case 70:
-                $proyecto->proyectos_ejecucion                  = $proyecto->proyectoLinea70->proyectos_ejecucion;
-                $proyecto->articulacion_semillero               = $proyecto->proyectoLinea70->articulacion_semillero;
-                $proyecto->semilleros_en_formalizacion          = $proyecto->proyectoLinea70->semilleros_en_formalizacion;
-                $proyecto->articulacion_centro_formacion        = $proyecto->proyectoLinea70->articulacion_centro_formacion;
-                $proyecto->lineas_medulares_centro              = $proyecto->proyectoLinea70->lineas_medulares_centro;
-                $proyecto->articulacion_programas_centro        = $proyecto->proyectoLinea70->articulacion_programas_centro;
-                $proyecto->articulacion_bienestar_aprendiz      = $proyecto->proyectoLinea70->articulacion_bienestar_aprendiz;
-                $proyecto->favorecimiento_ruta_formacion        = $proyecto->proyectoLinea70->favorecimiento_ruta_formacion;
+        switch ($proyecto->tipo_formulario_convocatoria_id) {
+            case 4:
+                $proyecto->proyectos_ejecucion                  = $proyecto->proyectoFormulario4Linea70->proyectos_ejecucion;
+                $proyecto->articulacion_semillero               = $proyecto->proyectoFormulario4Linea70->articulacion_semillero;
+                $proyecto->semilleros_en_formalizacion          = $proyecto->proyectoFormulario4Linea70->semilleros_en_formalizacion;
+                $proyecto->articulacion_centro_formacion        = $proyecto->proyectoFormulario4Linea70->articulacion_centro_formacion;
+                $proyecto->lineas_medulares_centro              = $proyecto->proyectoFormulario4Linea70->lineas_medulares_centro;
+                $proyecto->articulacion_programas_centro        = $proyecto->proyectoFormulario4Linea70->articulacion_programas_centro;
+                $proyecto->articulacion_bienestar_aprendiz      = $proyecto->proyectoFormulario4Linea70->articulacion_bienestar_aprendiz;
+                $proyecto->favorecimiento_ruta_formacion        = $proyecto->proyectoFormulario4Linea70->favorecimiento_ruta_formacion;
 
-                $proyecto->proyectoLinea70->disciplinasSubareaConocimiento;
-                $proyecto->proyectoLinea70->redesConocimiento;
-                $proyecto->proyectoLinea70->tematicasEstrategicas;
-                $proyecto->proyectoLinea70->actividadesEconomicas;
-                $proyecto->proyectoLinea70->proyectosIdiTecnoacademia;
+                $proyecto->proyectoFormulario4Linea70->disciplinasSubareaConocimiento;
+                $proyecto->proyectoFormulario4Linea70->redesConocimiento;
+                $proyecto->proyectoFormulario4Linea70->tematicasEstrategicas;
+                $proyecto->proyectoFormulario4Linea70->actividadesEconomicas;
+                $proyecto->proyectoFormulario4Linea70->proyectosIdiTecnoacademia;
 
                 break;
 
-            case 69:
-                if ($proyecto->proyectoLinea69()->exists()) {
-                    $proyecto->impacto_centro_formacion             = $proyecto->proyectoLinea69->impacto_centro_formacion;
-                    $proyecto->aportacion_semilleros_grupos         = $proyecto->proyectoLinea69->aportacion_semilleros_grupos;
-                    $proyecto->proyeccion_con_st                    = $proyecto->proyectoLinea69->proyeccion_con_st;
-                    $proyecto->proyeccion_extensionismo_tecnologico = $proyecto->proyectoLinea69->proyeccion_extensionismo_tecnologico;
-                    $proyecto->proyeccion_centros_desarrollo        = $proyecto->proyectoLinea69->proyeccion_centros_desarrollo;
-                    $proyecto->proyeccion_formacion_regional        = $proyecto->proyectoLinea69->proyeccion_formacion_regional;
-                }
+            case 5:
+                $proyecto->impacto_centro_formacion             = $proyecto->proyectoLinea69->impacto_centro_formacion;
+                $proyecto->aportacion_semilleros_grupos         = $proyecto->proyectoLinea69->aportacion_semilleros_grupos;
+                $proyecto->proyeccion_con_st                    = $proyecto->proyectoLinea69->proyeccion_con_st;
+                $proyecto->proyeccion_extensionismo_tecnologico = $proyecto->proyectoLinea69->proyeccion_extensionismo_tecnologico;
+                $proyecto->proyeccion_centros_desarrollo        = $proyecto->proyectoLinea69->proyeccion_centros_desarrollo;
+                $proyecto->proyeccion_formacion_regional        = $proyecto->proyectoLinea69->proyeccion_formacion_regional;
 
                 break;
 
@@ -86,38 +83,7 @@ class ArticulacionSennovaController extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/ArticulacionSennova/Index', [
             'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
-            'proyecto'                          => $proyecto->only(
-                                                    'id',
-                                                    'precio_proyecto',
-                                                    'codigo_linea_programatica',
-                                                    'proyectos_ejecucion',
-                                                    'modificable',
-                                                    'articulacion_semillero',
-                                                    'semilleros_en_formalizacion',
-                                                    'mostrar_recomendaciones',
-                                                    'allowed',
-                                                    'evaluaciones',
-                                                    'articulacion_centro_formacion',
-                                                    'lineas_medulares_centro',
-                                                    'articulacion_programas_centro',
-                                                    'articulacion_bienestar_aprendiz',
-                                                    'favorecimiento_ruta_formacion',
-                                                    'impacto_centro_formacion',
-                                                    'aportacion_semilleros_grupos',
-                                                    'proyeccion_con_st',
-                                                    'proyeccion_extensionismo_tecnologico',
-                                                    'proyeccion_centros_desarrollo',
-                                                    'proyeccion_formacion_regional',
-                                                    'participantes',
-                                                    'gruposInvestigacion',
-                                                    'lineasInvestigacion',
-                                                    'semillerosInvestigacion',
-                                                    'proyectoLinea69',
-                                                    'proyectoHubLinea69',
-                                                    'proyectoLinea70',
-                                                    'proyectoLinea83',
-                                                    'diff_meses'
-                                                ),
+            'proyecto'                          => $proyecto,
             'evaluacion'                        => Evaluacion::find(request()->evaluacion_id),
             'lineas_investigacion'              => LineaInvestigacion::selectRaw('lineas_investigacion.id as value, concat(lineas_investigacion.nombre, chr(10), \'∙ Grupo de investigación: \', grupos_investigacion.nombre, chr(10)) as label')->join('grupos_investigacion', 'lineas_investigacion.grupo_investigacion_id', 'grupos_investigacion.id')->where('grupos_investigacion.centro_formacion_id', $proyecto->centroFormacion->id)->get(),
             'grupos_investigacion'              => SelectHelper::gruposInvestigacion()->where('regional_id', $proyecto->centroFormacion->regional->id)->values()->all(),
@@ -153,8 +119,8 @@ class ArticulacionSennovaController extends Controller
             'grupos_investigacion'      => is_array($request->grupos_investigacion) && count($request->grupos_investigacion) == 0 ? null : $request->grupos_investigacion
         ]);
 
-        switch ($proyecto->lineaProgramatica->codigo) {
-            case 70:
+        switch ($proyecto->tipo_formulario_convocatoria_id) {
+            case 4:
                 $request->validate([
                     'lineas_investigacion*'             => 'required|integer|min:0|max:2147483647|exists:lineas_investigacion,id',
                     'grupos_investigacion*'             => 'required|integer|min:0|max:2147483647|exists:grupos_investigacion,id',
@@ -168,7 +134,7 @@ class ArticulacionSennovaController extends Controller
                     'semilleros_en_formalizacion'       => 'nullable|json',
                 ]);
 
-                $proyecto->proyectoLinea70->update([
+                $proyecto->proyectoFormulario4Linea70->update([
                     'proyectos_ejecucion'               => $request->proyectos_ejecucion,
                     'articulacion_semillero'            => $request->articulacion_semillero,
                     'semilleros_en_formalizacion'       => $request->semilleros_en_formalizacion,
@@ -187,15 +153,15 @@ class ArticulacionSennovaController extends Controller
 
                 $proyecto->gruposInvestigacion()->sync($request->grupos_investigacion);
                 $proyecto->lineasInvestigacion()->sync($request->lineas_investigacion);
-                $proyecto->proyectoLinea70->actividadesEconomicas()->sync($request->actividades_economicas);
-                $proyecto->proyectoLinea70->disciplinasSubareaConocimiento()->sync($request->disciplinas_subarea_conocimiento);
-                $proyecto->proyectoLinea70->redesConocimiento()->sync($request->redes_conocimiento);
-                $proyecto->proyectoLinea70->tematicasEstrategicas()->sync($request->tematicas_estrategicas);
-                $proyecto->proyectoLinea70->proyectosIdiTecnoacademia()->sync($request->proyecto_idi_tecnoacademia_id);
+                $proyecto->proyectoFormulario4Linea70->actividadesEconomicas()->sync($request->actividades_economicas);
+                $proyecto->proyectoFormulario4Linea70->disciplinasSubareaConocimiento()->sync($request->disciplinas_subarea_conocimiento);
+                $proyecto->proyectoFormulario4Linea70->redesConocimiento()->sync($request->redes_conocimiento);
+                $proyecto->proyectoFormulario4Linea70->tematicasEstrategicas()->sync($request->tematicas_estrategicas);
+                $proyecto->proyectoFormulario4Linea70->proyectosIdiTecnoacademia()->sync($request->proyecto_idi_tecnoacademia_id);
 
                 break;
 
-            case 69:
+            case 5:
                 $proyecto->gruposInvestigacion()->sync($request->grupos_investigacion);
                 $proyecto->semillerosInvestigacion()->sync($request->semilleros_investigacion);
 
@@ -226,7 +192,7 @@ class ArticulacionSennovaController extends Controller
         $proyecto->gruposInvestigacion()->sync($request->grupos_investigacion);
         $proyecto->semillerosInvestigacion()->sync($request->semilleros_investigacion);
 
-        $proyecto->proyectoHubLinea69->update([
+        $proyecto->proyectoFormulario10Linea69->update([
             'contribucion_formacion_centro_regional'                    => $request->contribucion_formacion_centro_regional,
             'acciones_fortalecimiento_centro_regional'                  => $request->acciones_fortalecimiento_centro_regional,
             'acciones_participacion_aprendices'                         => $request->acciones_participacion_aprendices,
@@ -245,7 +211,7 @@ class ArticulacionSennovaController extends Controller
 
     public function storeArticulacionSennovaProyectosLinea83(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
     {
-        $proyecto->proyectoLinea83->update([
+        $proyecto->proyectoFormulario11Linea83->update([
             'impacto_centros_formacion'                     => $request->impacto_centros_formacion,
             'articulacion_semilleros_grupos_investigacion'  => $request->articulacion_semilleros_grupos_investigacion,
             'articulacion_linea_68'                         => $request->articulacion_linea_68,
@@ -270,15 +236,15 @@ class ArticulacionSennovaController extends Controller
     {
         $this->authorize('modificar-evaluacion-autor', $evaluacion);
 
-        if ($evaluacion->evaluacionProyectoLinea70()->exists()) {
-            $evaluacion->evaluacionProyectoLinea70()->update([
+        if ($evaluacion->evaluacionProyectoFormulario4Linea70()->exists()) {
+            $evaluacion->evaluacionProyectoFormulario4Linea70()->update([
                 'articulacion_sennova_comentario'       => $request->articulacion_sennova_requiere_comentario == false ? $request->articulacion_sennova_comentario : null,
                 'impacto_centro_formacion_comentario'   => $request->impacto_centro_formacion_requiere_comentario == false ? $request->impacto_centro_formacion_comentario : null,
                 'lineas_medulares_centro_comentario'    => $request->lineas_medulares_centro_requiere_comentario == false ? $request->lineas_medulares_centro_comentario : null,
             ]);
-        } else if ($evaluacion->evaluacionProyectoLinea69()->exists()) {
+        } else if ($evaluacion->evaluacionProyectoFormulario5Linea69()->exists()) {
 
-            $evaluacion->evaluacionProyectoLinea69()->update([
+            $evaluacion->evaluacionProyectoFormulario5Linea69()->update([
                 'articulacion_sennova_comentario'       => $request->articulacion_sennova_requiere_comentario == false ? $request->articulacion_sennova_comentario : null,
                 'impacto_centro_formacion_comentario'   => $request->impacto_centro_formacion_requiere_comentario == false ? $request->impacto_centro_formacion_comentario : null,
             ]);
@@ -291,8 +257,46 @@ class ArticulacionSennovaController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto]);
 
-        switch ($proyecto->lineaProgramatica->id) {
+        switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 4:
+                if ($column == 'grupos_investigacion') {
+                    $proyecto->gruposInvestigacion()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'lineas_investigacion') {
+                    $proyecto->lineasInvestigacion()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'actividades_economicas') {
+                    $proyecto->proyectoFormulario4Linea70->actividadesEconomicas()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'disciplinas_subarea_conocimiento') {
+                    $proyecto->proyectoFormulario4Linea70->disciplinasSubareaConocimiento()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'redes_conocimiento') {
+                    $proyecto->proyectoFormulario4Linea70->redesConocimiento()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'tematicas_estrategicas') {
+                    $proyecto->proyectoFormulario4Linea70->tematicasEstrategicas()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'proyecto_idi_tecnoacademia_id') {
+                    $proyecto->proyectoFormulario4Linea70->proyectosIdiTecnoacademia()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                $proyecto->proyectoFormulario4Linea70()->update($request->only($column));
+                break;
+            case 5:
                 if ($column == 'grupos_investigacion') {
                     $proyecto->gruposInvestigacion()->sync($request->only($column)[$column]);
                     break;
@@ -306,58 +310,7 @@ class ArticulacionSennovaController extends Controller
                 $proyecto->proyectoLinea69()->update($request->only($column));
                 break;
             case 11:
-                $proyecto->proyectoLinea83()->update($request->only($column));
-                break;
-            case 5:
-                if ($column == 'grupos_investigacion') {
-                    $proyecto->gruposInvestigacion()->sync($request->only($column)[$column]);
-                    break;
-                }
-
-                if ($column == 'lineas_investigacion') {
-                    $proyecto->lineasInvestigacion()->sync($request->only($column)[$column]);
-                    break;
-                }
-
-                if ($column == 'actividades_economicas') {
-                    $proyecto->proyectoLinea70->actividadesEconomicas()->sync($request->only($column)[$column]);
-                    break;
-                }
-
-                if ($column == 'disciplinas_subarea_conocimiento') {
-                    $proyecto->proyectoLinea70->disciplinasSubareaConocimiento()->sync($request->only($column)[$column]);
-                    break;
-                }
-
-                if ($column == 'redes_conocimiento') {
-                    $proyecto->proyectoLinea70->redesConocimiento()->sync($request->only($column)[$column]);
-                    break;
-                }
-
-                if ($column == 'tematicas_estrategicas') {
-                    $proyecto->proyectoLinea70->tematicasEstrategicas()->sync($request->only($column)[$column]);
-                    break;
-                }
-
-                if ($column == 'proyecto_idi_tecnoacademia_id') {
-                    $proyecto->proyectoLinea70->proyectosIdiTecnoacademia()->sync($request->only($column)[$column]);
-                    break;
-                }
-
-                $proyecto->proyectoLinea70()->update($request->only($column));
-                break;
-            case 35:
-                if ($column == 'grupos_investigacion') {
-                    $proyecto->gruposInvestigacion()->sync($request->only($column)[$column]);
-                    break;
-                }
-
-                if ($column == 'semilleros_investigacion') {
-                    $proyecto->semillerosInvestigacion()->sync($request->only($column)[$column]);
-                    break;
-                }
-
-                $proyecto->proyectoHubLinea69()->update($request->only($column));
+                $proyecto->proyectoFormulario11Linea83()->update($request->only($column));
                 break;
             default:
                 break;

@@ -183,13 +183,13 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
     const classes = useStyles()
 
     const isActive =
-        route().current('convocatorias.proyectos-linea-70.edit') ||
-        route().current('convocatorias.proyectos-linea-83.edit') ||
-        route().current('convocatorias.proyectos-linea-69.edit') ||
-        route().current('convocatorias.proyectos-hub-linea-69.edit') ||
+        route().current('convocatorias.proyectos-formulario-4-linea-70.edit') ||
+        route().current('convocatorias.proyectos-formulario-11-linea-83.edit') ||
+        route().current('convocatorias.proyectos-formulario-5-linea-69.edit') ||
+        route().current('convocatorias.proyectos-formulario-10-linea-69.edit') ||
         route().current('convocatorias.proyectos-linea-66.edit') ||
-        route().current('convocatorias.proyectos-linea-68.edit') ||
-        route().current('convocatorias.proyectos-linea-65.edit')
+        route().current('convocatorias.proyectos-formulario-12-linea-68.edit') ||
+        route().current('convocatorias.proyectos-formulario-1-linea-65.edit')
 
     return (
         <>
@@ -200,10 +200,13 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                     </Link>
                 </Step>
 
-                {proyecto?.codigo_linea_programatica != 69 && proyecto?.codigo_linea_programatica != 70 && proyecto?.codigo_linea_programatica != 83 ? (
+                {proyecto?.tipo_formulario_convocatoria_id != 4 &&
+                proyecto?.tipo_formulario_convocatoria_id != 5 &&
+                proyecto?.tipo_formulario_convocatoria_id != 10 &&
+                proyecto?.tipo_formulario_convocatoria_id != 11 ? (
                     <Step active={route().current('convocatorias.proyectos.participantes')}>
                         <Link href={route('convocatorias.proyectos.participantes', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
-                            <StepLabel classes={{ root: classes.root }}>{proyecto?.codigo_linea_programatica == 68 ? 'Formulador del proyecto' : 'Participantes'}</StepLabel>
+                            <StepLabel classes={{ root: classes.root }}>{proyecto?.tipo_formulario_convocatoria_id == 12 ? 'Formulador del proyecto' : 'Participantes'}</StepLabel>
                         </Link>
                     </Step>
                 ) : (
@@ -228,15 +231,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                     </Link>
                 </Step>
 
-                {proyecto?.codigo_linea_programatica != 23 && proyecto?.codigo_linea_programatica != 65 && (
-                    <Step active={route().current('convocatorias.proyectos.proyecto-rol-sennova.index')}>
-                        <Link href={route('convocatorias.proyectos.proyecto-rol-sennova.index', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
-                            <StepLabel classes={{ root: classes.root }}>Roles</StepLabel>
-                        </Link>
-                    </Step>
-                )}
-
-                {proyecto?.codigo_linea_programatica == 65 && proyecto?.tipo_proyecto != 2 && (
+                {proyecto?.tipo_formulario_convocatoria_id != 7 && proyecto?.tipo_formulario_convocatoria_id != 9 && proyecto?.tipo_formulario_convocatoria_id != 1 && (
                     <Step active={route().current('convocatorias.proyectos.proyecto-rol-sennova.index')}>
                         <Link href={route('convocatorias.proyectos.proyecto-rol-sennova.index', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                             <StepLabel classes={{ root: classes.root }}>Roles</StepLabel>
@@ -293,11 +288,11 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                     </Link>
                 </Step>
 
-                {proyecto?.codigo_linea_programatica == 66 ||
-                proyecto?.codigo_linea_programatica == 82 ||
-                proyecto?.codigo_linea_programatica == 69 ||
-                proyecto?.codigo_linea_programatica == 70 ||
-                proyecto?.codigo_linea_programatica == 83 ? (
+                {proyecto?.tipo_formulario_convocatoria_id == 4 ||
+                proyecto?.tipo_formulario_convocatoria_id == 5 ||
+                proyecto?.tipo_formulario_convocatoria_id == 6 ||
+                proyecto?.tipo_formulario_convocatoria_id == 8 ||
+                proyecto?.tipo_formulario_convocatoria_id == 11 ? (
                     <Step active={route().current('convocatorias.proyectos.entidades-aliadas.index') ? true : props.label == 'Miembros entidad aliada' ? true : false}>
                         <Link href={route('convocatorias.proyectos.entidades-aliadas.index', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                             <StepLabel classes={{ root: classes.root }}>
@@ -313,7 +308,10 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                     </Step>
                 ) : null}
 
-                {proyecto?.codigo_linea_programatica == 23 || proyecto?.codigo_linea_programatica == 66 || proyecto?.codigo_linea_programatica == 82 ? (
+                {proyecto?.tipo_formulario_convocatoria_id == 6 ||
+                proyecto?.tipo_formulario_convocatoria_id == 7 ||
+                proyecto?.tipo_formulario_convocatoria_id == 8 ||
+                proyecto?.tipo_formulario_convocatoria_id == 9 ? (
                     <Step active={route().current('convocatorias.proyectos-linea-66.indicadores')}>
                         <Link href={route('convocatorias.proyectos-linea-66.indicadores', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                             <StepLabel classes={{ root: classes.root }}>Indicadores</StepLabel>
@@ -327,7 +325,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                     </Link>
                 </Step>
 
-                {/* {proyecto?.codigo_linea_programatica == 68 && (
+                {/* {proyecto?.tipo_formulario_convocatoria_id == 12 && (
                 <Step active={route().current('convocatorias.proyectos.inventario-equipos.index')}>
                     <Link href={route('convocatorias.proyectos.inventario-equipos.index', [convocatoria?.id, proyecto?.id])}>
                         <StepLabel classes={{ root: classes.root }}>Inventario de equipos</StepLabel>

@@ -7,7 +7,7 @@ use App\Http\Requests\EdtRequest;
 use App\Models\Convocatoria;
 use App\Models\Edt;
 use App\Models\Evaluacion\Evaluacion;
-use App\Models\Evaluacion\EvaluacionProyectoLinea70;
+use App\Models\Evaluacion\EvaluacionProyectoFormulario4Linea70;
 use App\Models\Proyecto;
 use App\Models\ProyectoPresupuesto;
 use Illuminate\Http\Request;
@@ -25,10 +25,7 @@ class EdtController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->load('evaluaciones.evaluacionProyectoLinea70');
-
-
-        $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
+        $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
         /**
          * Si el proyecto es diferente de la línea programática 70 se prohibe el acceso. No requiere de edt
@@ -39,10 +36,10 @@ class EdtController extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/EDT/Index', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
-            'proyecto'              => $proyecto->only('id', 'codigo_linea_programatica', 'precio_proyecto', 'modificable',  'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed'),
+            'proyecto'              => $proyecto->only('id', 'precio_proyecto', 'modificable',  'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed'),
             'evaluacion'            => Evaluacion::find(request()->evaluacion_id),
             'presupuesto'           => $presupuesto,
-            'eventos'               => Edt::with('proyectoPresupuesto')->orderBy('descripcion_evento', 'ASC')->where('ta_id', $proyecto->id)
+            'eventos'               => Edt::with('proyectoPresupuesto')->orderBy('descripcion_evento', 'ASC')->where('proyecto_linea_70_id', $proyecto->id)
                                         ->filterEdt(request()->only('search'))->paginate(),
             'tiposEvento'           => json_decode(Storage::get('json/tipos-edt.json'), true),
         ]);
@@ -70,7 +67,7 @@ class EdtController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $request->merge(['ta_id' => $proyecto->id, 'proyecto_presupuesto_id' => $presupuesto->id]);
+        $request->merge(['proyecto_linea_70_id' => $proyecto->id, 'proyecto_presupuesto_id' => $presupuesto->id]);
         $edt = Edt::create($request->all());
 
         return redirect()->route('convocatorias.proyectos.presupuesto.edt.index', [$convocatoria, $proyecto, $presupuesto])->with('success', 'El recurso se ha creado correctamente.');
@@ -142,7 +139,7 @@ class EdtController extends Controller
     {
         $this->authorize('modificar-evaluacion-autor', $evaluacion);
 
-        $evaluacion->evaluacionProyectoLinea70()->update([
+        $evaluacion->evaluacionProyectoFormulario4Linea70()->update([
             'edt_comentario'   => $request->edt_requiere_comentario == false ? $request->edt_comentario : null
         ]);
 

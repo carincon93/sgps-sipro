@@ -11,13 +11,13 @@ import TextInput from '@/Components/TextInput'
 import { useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 
-const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, lineas_programaticas, tipos_convocatoria, fases }) => {
+const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, tipos_formulario_convocatoria, tipos_convocatoria, fases }) => {
     const form = useForm({
         descripcion: convocatoria?.descripcion,
         esta_activa: convocatoria?.esta_activa,
         fase: convocatoria?.fase,
         year: convocatoria?.year,
-        lineas_programaticas: convocatoria?.lineas_programaticas.map((item) => item.id),
+        tipos_formulario_convocatoria: convocatoria?.tipos_formulario_convocatoria.map((item) => item.id),
         visible: convocatoria?.visible ?? false,
         fecha_finalizacion_fase: convocatoria?.fecha_finalizacion_fase,
         hora_finalizacion_fase: convocatoria?.hora_finalizacion_fase,
@@ -127,21 +127,21 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, lineas
                     )}
 
                     <Grid item md={6}>
-                        <Label required labelFor="lineas_programaticas" className="mb-4" value="Seleccione las líneas programáticas las cuales quiere activar" />
+                        <Label required labelFor="tipos_formulario_convocatoria" className="mb-4" value="Seleccione las líneas programáticas las cuales quiere activar" />
                     </Grid>
                     <Grid item md={6}>
                         <SelectMultiple
-                            id="lineas_programaticas"
-                            bdValues={form.data.lineas_programaticas}
-                            options={lineas_programaticas}
+                            id="tipos_formulario_convocatoria"
+                            bdValues={form.data.tipos_formulario_convocatoria}
+                            options={tipos_formulario_convocatoria}
                             onChange={(event, newValue) => {
                                 const selected_values = newValue.map((option) => option.value)
                                 form.setData((prevData) => ({
                                     ...prevData,
-                                    lineas_programaticas: selected_values,
+                                    tipos_formulario_convocatoria: selected_values,
                                 }))
                             }}
-                            error={form.errors.lineas_programaticas}
+                            error={form.errors.tipos_formulario_convocatoria}
                             label="Seleccione las líneas programáticas"
                             required
                         />

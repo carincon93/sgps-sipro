@@ -90,16 +90,6 @@ class ProgramaFormacion extends Model
     }
 
     /**
-     * Relationship with Proyecto
-     *
-     * @return object
-     */
-    public function taArticulados()
-    {
-        return $this->belongsToMany(Proyecto::class, 'ta_programa_formacion', 'programa_formacion_id', 'proyecto_id');
-    }
-
-    /**
      * Relationship with AmbienteModernizacion
      *
      * @return object

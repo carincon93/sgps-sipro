@@ -24,7 +24,6 @@ class SoporteEstudioMercadoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->codigo_linea_programatica = $proyecto->lineaProgramatica->codigo;
         /**
          * Denega el acceso si el rubro no requiere de estudio de mercado.
          */
@@ -43,8 +42,8 @@ class SoporteEstudioMercadoController extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/ProyectoPresupuesto/SoportesEstudioMercado/Index', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
+            'proyecto'                  => $proyecto->only('id', 'tipo_formulario_convocatoria_id', 'modificable', 'precio_proyecto', 'mostrar_recomendaciones', 'allowed'),
             'evaluacion'                => Evaluacion::find(request()->evaluacion_id),
-            'proyecto'                  => $proyecto->only('id', 'modificable', 'precio_proyecto', 'mostrar_recomendaciones', 'codigo_linea_programatica', 'allowed'),
             'proyecto_presupuesto'      => $presupuesto->load('convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.usoPresupuestal'),
             'soportes_estudio_mercado'  => $presupuesto->soportesEstudioMercado,
         ]);
@@ -165,7 +164,7 @@ class SoporteEstudioMercadoController extends Controller
         $estudio_mercado = $modelo;
         $proyecto        = Proyecto::find($estudio_mercado->proyectoPresupuesto->proyecto_id);
 
-        $sharepoint_soporte_estudio_mercado = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ESTUDIOS MERCADO/COTIZACIONES';
+        $sharepoint_soporte_estudio_mercado = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->tipoFormularioConvocatoria->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/ESTUDIOS MERCADO/COTIZACIONES';
 
         $sharepoint_path = "$modulo/$sharepoint_soporte_estudio_mercado";
 

@@ -55,23 +55,23 @@ class ActividadEconomica extends Model
     }
 
     /**
-     * Relationship with ProyectoLinea65
+     * Relationship with ProyectoFormulario1Linea65
      *
      * @return object
      */
     public function proyectosLinea65()
     {
-        return $this->hasMany(ProyectoLinea65::class);
+        return $this->hasMany(ProyectoFormulario1Linea65::class);
     }
 
     /**
-     * Relationship with ProyectoLinea70
+     * Relationship with ProyectoFormulario4Linea70
      *
      * @return object
      */
-    public function proyectoLinea70()
+    public function ProyectoFormulario4Linea70()
     {
-        return $this->belongsToMany(ProyectoLinea70::class, 'ta_actividad_economica', 'actividad_economica_id', 'ta_id');
+        return $this->belongsToMany(ProyectoFormulario4Linea70::class, 'ta_actividad_economica', 'actividad_economica_id', 'proyecto_linea_70_id');
     }
 
     /**

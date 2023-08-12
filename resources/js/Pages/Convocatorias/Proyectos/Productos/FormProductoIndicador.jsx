@@ -90,7 +90,7 @@ const FormProductoIndicador = ({ method = '', setDialogStatus, is_super_admin, c
                         <fieldset disabled={proyecto.allowed.to_update ? false : true}>
                             <Grid container rowSpacing={10}>
                                 <Grid item md={12}>
-                                    {proyecto.codigo_linea_programatica == 70 && (
+                                    {proyecto.tipo_formulario_convocatoria_id == 4 && (
                                         <AlertMui>
                                             <p>
                                                 <strong>Importante:</strong> Debe modifcar las fechas de ejecución, meta y las actividades a asociar.
@@ -140,13 +140,13 @@ const FormProductoIndicador = ({ method = '', setDialogStatus, is_super_admin, c
                                         error={form.errors.resultado_id}
                                         label="Resultado"
                                         placeholder="Seleccione un resultado"
-                                        disabled={proyecto.codigo_linea_programatica == 70 || !is_super_admin}
+                                        disabled={proyecto.tipo_formulario_convocatoria_id == 4 || !is_super_admin}
                                         required
                                     />
                                 </Grid>
                                 <Grid item md={12}>
                                     <Textarea
-                                        disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
+                                        disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                         label="Descripción"
                                         id="nombre"
                                         error={form.errors.nombre}
@@ -154,7 +154,7 @@ const FormProductoIndicador = ({ method = '', setDialogStatus, is_super_admin, c
                                         onChange={(e) => form.setData('nombre', e.target.value)}
                                         required
                                     />
-                                    {proyecto.codigo_linea_programatica == 68 || proyecto.codigo_linea_programatica == 69 ? (
+                                    {proyecto.tipo_formulario_convocatoria_id == 12 || proyecto.tipo_formulario_convocatoria_id == 5 ? (
                                         <AlertMui>
                                             <p>
                                                 Los productos pueden corresponder a bienes o servicios. Un bien es un objeto tangible, almacenable o transportable, mientras que el servicio es una
@@ -170,10 +170,10 @@ const FormProductoIndicador = ({ method = '', setDialogStatus, is_super_admin, c
                                         </AlertMui>
                                     ) : null}
                                 </Grid>
-                                {proyecto.codigo_linea_programatica != 68 && (
+                                {proyecto.tipo_formulario_convocatoria_id != 12 && (
                                     <Grid item md={12}>
                                         <Textarea
-                                            disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
+                                            disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                             id="indicador"
                                             error={form.errors.indicador}
                                             value={form.data.indicador}
@@ -182,9 +182,9 @@ const FormProductoIndicador = ({ method = '', setDialogStatus, is_super_admin, c
                                             required
                                         />
 
-                                        {proyecto.codigo_linea_programatica != 70 && (
+                                        {proyecto.tipo_formulario_convocatoria_id != 4 && (
                                             <>
-                                                {proyecto.codigo_linea_programatica == 69 ? (
+                                                {proyecto.tipo_formulario_convocatoria_id == 5 ? (
                                                     <AlertMui>Deber ser medible y con una fórmula. Por ejemplo: (# metodologías validadas/# metodologías totales) X 100</AlertMui>
                                                 ) : (
                                                     <AlertMui>Especifique los medios de verificación para validar los logros del proyecto.</AlertMui>
@@ -193,14 +193,14 @@ const FormProductoIndicador = ({ method = '', setDialogStatus, is_super_admin, c
                                         )}
                                     </Grid>
                                 )}
-                                {proyecto.codigo_linea_programatica == 68 ||
-                                proyecto.codigo_linea_programatica == 69 ||
-                                proyecto.codigo_linea_programatica == 70 ||
-                                proyecto.codigo_linea_programatica == 83 ? (
+                                {proyecto.tipo_formulario_convocatoria_id == 12 ||
+                                proyecto.tipo_formulario_convocatoria_id == 5 ||
+                                proyecto.tipo_formulario_convocatoria_id == 4 ||
+                                proyecto.tipo_formulario_convocatoria_id == 11 ? (
                                     <>
                                         <Grid item md={12}>
                                             <Textarea
-                                                disabled={is_super_admin ? false : proyecto.codigo_linea_programatica == 70 ? true : false}
+                                                disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                                 id="medio_verificacion"
                                                 error={form.errors.medio_verificacion}
                                                 value={form.data.medio_verificacion}
@@ -208,9 +208,9 @@ const FormProductoIndicador = ({ method = '', setDialogStatus, is_super_admin, c
                                                 label="Medio de verificación"
                                                 required
                                             />
-                                            {proyecto.codigo_linea_programatica != 70 && (
+                                            {proyecto.tipo_formulario_convocatoria_id != 4 && (
                                                 <>
-                                                    {proyecto.codigo_linea_programatica == 68 ? (
+                                                    {proyecto.tipo_formulario_convocatoria_id == 12 ? (
                                                         <AlertMui>
                                                             Los medios de verificación corresponden a las evidencias y/o fuentes de información en las que está disponibles los registros, la
                                                             información necesaria y suficiente. Dichos medios pueden ser documentos oficiales, informes, evaluaciones, encuestas, documentos o reportes
@@ -224,7 +224,7 @@ const FormProductoIndicador = ({ method = '', setDialogStatus, is_super_admin, c
                                         </Grid>
                                     </>
                                 ) : null}
-                                {proyecto.codigo_linea_programatica == 68 && (
+                                {proyecto.tipo_formulario_convocatoria_id == 12 && (
                                     <>
                                         <Grid item md={12}>
                                             <Textarea
@@ -270,7 +270,7 @@ const FormProductoIndicador = ({ method = '', setDialogStatus, is_super_admin, c
                                     </>
                                 )}
 
-                                {proyecto.codigo_linea_programatica == 69 || proyecto.codigo_linea_programatica == 70 || proyecto.codigo_linea_programatica == 83 ? (
+                                {proyecto.tipo_formulario_convocatoria_id == 5 || proyecto.tipo_formulario_convocatoria_id == 4 || proyecto.tipo_formulario_convocatoria_id == 11 ? (
                                     <Grid item md={12}>
                                         <Textarea
                                             label="Meta"

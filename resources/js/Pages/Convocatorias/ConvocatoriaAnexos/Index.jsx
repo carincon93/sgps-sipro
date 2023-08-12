@@ -32,12 +32,12 @@ const ConvocatoriaAnexos = ({ auth, convocatoria, convocatoria_anexos, anexos })
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                     <Grid item md={12}>
-                        <TabsConvocatoria value="3" convocatoria={convocatoria} linea_programatica_id={page_props.ziggy.query.linea_programatica_id} />
+                        <TabsConvocatoria value="3" convocatoria={convocatoria} tipo_formulario_convocatoria_id={page_props.ziggy.query.tipo_formulario_convocatoria_id} />
                     </Grid>
                 )}
 
                 <Grid item md={12}>
-                    <TableMui className="mt-20" rows={['Nombre', 'Líneas programáticas', 'Habilitado?', '¿Obligatorio?', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui className="mt-20" rows={['Nombre', 'Líneas programáticas', 'Habilitado?', '¿Obligatorio?', 'Acciones']}>
                         <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setConvocatoriaAnexo(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={5}>
                                 <ButtonMui>
@@ -49,7 +49,11 @@ const ConvocatoriaAnexos = ({ auth, convocatoria, convocatoria_anexos, anexos })
                             <TableRow key={i}>
                                 <TableCell>{convocatoria_anexo.anexo.nombre}</TableCell>
                                 <TableCell>
-                                    <Chip key={i} className="m-1" label={convocatoria_anexo.linea_programatica.nombre + ' - ' + convocatoria_anexo.linea_programatica.codigo} />
+                                    <Chip
+                                        key={i}
+                                        className="m-1"
+                                        label={convocatoria_anexo.tipo_formulario_convocatoria.nombre + ' - Línea: ' + convocatoria_anexo.tipo_formulario_convocatoria.linea_programatica.codigo}
+                                    />
                                 </TableCell>
                                 <TableCell>
                                     <Chip
@@ -71,8 +75,8 @@ const ConvocatoriaAnexos = ({ auth, convocatoria, convocatoria_anexos, anexos })
                                         } mt-1 group`}
                                         label={
                                             <>
-                                                <div class="group-hover:hidden">{convocatoria_anexo.habilitado ? 'Habilitado' : 'Deshabilitado'}</div>
-                                                <div class="hidden group-hover:block">{convocatoria_anexo.habilitado ? 'Deshabilitar' : 'Habilitar'}</div>
+                                                <div className="group-hover:hidden">{convocatoria_anexo.habilitado ? 'Habilitado' : 'Deshabilitado'}</div>
+                                                <div className="hidden group-hover:block">{convocatoria_anexo.habilitado ? 'Deshabilitar' : 'Habilitar'}</div>
                                             </>
                                         }
                                     />
@@ -97,8 +101,8 @@ const ConvocatoriaAnexos = ({ auth, convocatoria, convocatoria_anexos, anexos })
                                         } mt-1 group`}
                                         label={
                                             <>
-                                                <div class="group-hover:hidden">{convocatoria_anexo.obligatorio ? 'Obligatorio' : 'No es obligatorio'}</div>
-                                                <div class="hidden group-hover:block">{convocatoria_anexo.obligatorio ? 'No es obligatorio' : 'Obligatorio'}</div>
+                                                <div className="group-hover:hidden">{convocatoria_anexo.obligatorio ? 'Obligatorio' : 'No es obligatorio'}</div>
+                                                <div className="hidden group-hover:block">{convocatoria_anexo.obligatorio ? 'No es obligatorio' : 'Obligatorio'}</div>
                                             </>
                                         }
                                     />
@@ -155,7 +159,7 @@ const ConvocatoriaAnexos = ({ auth, convocatoria, convocatoria_anexos, anexos })
                                 convocatoria={convocatoria}
                                 convocatoria_anexo={convocatoria_anexo}
                                 anexos={anexos}
-                                linea_programatica_id={page_props.ziggy.query.linea_programatica_id}
+                                tipo_formulario_convocatoria_id={page_props.ziggy.query.tipo_formulario_convocatoria_id}
                             />
                         }
                     />

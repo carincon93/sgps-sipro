@@ -113,8 +113,8 @@ class ApiController extends Controller
             } else if (!empty($proyecto->proyectoLinea65)) {
                 $datos =  $proyecto->proyectoLinea65;
                 $tipo = 'Apropiación de la cultura de la innovación';
-            } else if (!empty($proyecto->proyectoLinea68)) {
-                $datos =  $proyecto->proyectoLinea68;
+            } else if (!empty($proyecto->proyectoFormulario12Linea68)) {
+                $datos =  $proyecto->proyectoFormulario12Linea68;
                 $tipo = 'Servicios tecnológicos';
             }
             $data = [
@@ -128,7 +128,7 @@ class ApiController extends Controller
                     'general_objective' => $datos->objetivo_general,
                     'start_date' => $proyecto->fecha_inicio,
                     'end_date' => $proyecto->fecha_finalizacion,
-                    'evaluation_state' => $proyecto->estado_cord_sennova ? json_decode($proyecto->estado_cord_sennova)->estado : ($proyecto->proyectoLinea66()->exists() ? $proyecto->estado_evaluacion_idi['estado'] : ($proyecto->proyectoLinea65()->exists() ? $proyecto->estado_evaluacion_cultura_innovacion['estado'] : ($proyecto->proyectoLinea70()->exists() ? $proyecto->estado_evaluacion_ta['estado'] : ($proyecto->proyectoLinea69()->exists() ? $proyecto->estado_evaluacion_tp['estado'] : ($proyecto->proyectoLinea68()->exists() ? $proyecto->estado_evaluacion_servicios_tecnologicos['estado'] : 'Sin información registrada'))))),
+                    'evaluation_state' => $proyecto->estado_cord_sennova ? json_decode($proyecto->estado_cord_sennova)->estado : ($proyecto->proyectoLinea66()->exists() ? $proyecto->estado_evaluacion_idi['estado'] : ($proyecto->proyectoLinea65()->exists() ? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65['estado'] : ($proyecto->proyectoLinea70()->exists() ? $proyecto->estado_evaluacion_ta['estado'] : ($proyecto->proyectoLinea69()->exists() ? $proyecto->estado_evaluacion_tp['estado'] : ($proyecto->proyectoFormulario12Linea68()->exists() ? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68['estado'] : 'Sin información registrada'))))),
                     "links" => [
                         "proyect_api" => route('v1.project', $proyecto->id),
                         "public_url" => route('convocatorias.proyectos.edit', ['convocatoria' => $proyecto->convocatoria, 'proyecto' => $proyecto]),
@@ -196,8 +196,8 @@ class ApiController extends Controller
             } else if (!empty($proyecto->proyectoLinea65)) {
                 $datos =  $proyecto->proyectoLinea65;
                 $tipo = 'Apropiación de la cultura de la innovación';
-            } else if (!empty($proyecto->proyectoLinea68)) {
-                $datos =  $proyecto->proyectoLinea68;
+            } else if (!empty($proyecto->proyectoFormulario12Linea68)) {
+                $datos =  $proyecto->proyectoFormulario12Linea68;
                 $tipo = 'Servicios tecnológicos';
             }
             $data = [
@@ -209,7 +209,7 @@ class ApiController extends Controller
                     'code' => $proyecto->codigo,
                     'title' => $datos->titulo,
                     'general_objective' => $datos->objetivo_general,
-                    'evaluation_state' => $proyecto->estado_cord_sennova ? json_decode($proyecto->estado_cord_sennova)->estado : ($proyecto->proyectoLinea66()->exists() ? $proyecto->estado_evaluacion_idi['estado'] : ($proyecto->proyectoLinea65()->exists() ? $proyecto->estado_evaluacion_cultura_innovacion['estado'] : ($proyecto->proyectoLinea70()->exists() ? $proyecto->estado_evaluacion_ta['estado'] : ($proyecto->proyectoLinea69()->exists() ? $proyecto->estado_evaluacion_tp['estado'] : ($proyecto->proyectoLinea68()->exists() ? $proyecto->estado_evaluacion_servicios_tecnologicos['estado'] : 'Sin información registrada'))))),
+                    'evaluation_state' => $proyecto->estado_cord_sennova ? json_decode($proyecto->estado_cord_sennova)->estado : ($proyecto->proyectoLinea66()->exists() ? $proyecto->estado_evaluacion_idi['estado'] : ($proyecto->proyectoLinea65()->exists() ? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65['estado'] : ($proyecto->proyectoLinea70()->exists() ? $proyecto->estado_evaluacion_ta['estado'] : ($proyecto->proyectoLinea69()->exists() ? $proyecto->estado_evaluacion_tp['estado'] : ($proyecto->proyectoFormulario12Linea68()->exists() ? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68['estado'] : 'Sin información registrada'))))),
                     'start_date' => $proyecto->fecha_inicio,
                     'end_date' => $proyecto->fecha_finalizacion,
                     "links" => [
@@ -275,8 +275,8 @@ class ApiController extends Controller
         } else if (!empty($proyecto->proyectoLinea65)) {
             $datos =  $proyecto->proyectoLinea65;
             $tipo = 'Apropiación de la cultura de la innovación';
-        } else if (!empty($proyecto->proyectoLinea68)) {
-            $datos =  $proyecto->proyectoLinea68;
+        } else if (!empty($proyecto->proyectoFormulario12Linea68)) {
+            $datos =  $proyecto->proyectoFormulario12Linea68;
             $tipo = 'Servicios tecnológicos';
         }
 
@@ -306,8 +306,8 @@ class ApiController extends Controller
                 'price_project' => $proyecto->precio_proyecto > 0 ? $proyecto->precio_proyecto : '0',
                 'finalized' => ($proyecto->finalizado) ? 'SI' : 'NO',
                 'to_evaluate' => ($proyecto->habilitado_para_evaluar) ? 'SI' : 'NO',
-                'evaluation_state' => $proyecto->estado_cord_sennova ? json_decode($proyecto->estado_cord_sennova)->estado : ($proyecto->proyectoLinea66()->exists() ? $proyecto->estado_evaluacion_idi['estado'] : ($proyecto->proyectoLinea65()->exists() ? $proyecto->estado_evaluacion_cultura_innovacion['estado'] : ($proyecto->proyectoLinea70()->exists() ? $proyecto->estado_evaluacion_ta['estado'] : ($proyecto->proyectoLinea69()->exists() ? $proyecto->estado_evaluacion_tp['estado'] : ($proyecto->proyectoLinea68()->exists() ? $proyecto->estado_evaluacion_servicios_tecnologicos['estado'] : 'Sin información registrada'))))),
-                'score' => $proyecto->proyectoLinea66()->exists() ? $proyecto->estado_evaluacion_idi['puntaje'] : ($proyecto->proyectoLinea65()->exists() ? $proyecto->estado_evaluacion_cultura_innovacion['puntaje'] : ($proyecto->proyectoLinea68()->exists() ? $proyecto->estado_evaluacion_servicios_tecnologicos['puntaje'] : 'N/A')),
+                'evaluation_state' => $proyecto->estado_cord_sennova ? json_decode($proyecto->estado_cord_sennova)->estado : ($proyecto->proyectoLinea66()->exists() ? $proyecto->estado_evaluacion_idi['estado'] : ($proyecto->proyectoLinea65()->exists() ? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65['estado'] : ($proyecto->proyectoLinea70()->exists() ? $proyecto->estado_evaluacion_ta['estado'] : ($proyecto->proyectoLinea69()->exists() ? $proyecto->estado_evaluacion_tp['estado'] : ($proyecto->proyectoFormulario12Linea68()->exists() ? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68['estado'] : 'Sin información registrada'))))),
+                'score' => $proyecto->proyectoLinea66()->exists() ? $proyecto->estado_evaluacion_idi['puntaje'] : ($proyecto->proyectoLinea65()->exists() ? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65['puntaje'] : ($proyecto->proyectoFormulario12Linea68()->exists() ? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68['puntaje'] : 'N/A')),
                 'alert' => $proyecto->proyectoLinea66()->exists() ? $proyecto->estado_evaluacion_idi['alerta'] : 'N/A'
             ],
             'participants' => $this->mapParticipantes($proyecto->participantes),
