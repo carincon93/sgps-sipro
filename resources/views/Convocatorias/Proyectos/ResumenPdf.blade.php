@@ -172,30 +172,30 @@
         @endif
     </table>
 
-    @if ($proyecto->proyectoLinea66)
+    @if ($proyecto->proyectoFormulario8Linea66)
 
         <hr style="margin: 4rem 0">
 
-        @if ($proyecto->proyectoLinea66->proyecto_investigacion_pedagogica)
+        @if ($proyecto->proyectoFormulario8Linea66->proyecto_investigacion_pedagogica)
             <h4>¿El proyecto es de investigación pedagógica?</h4>
-            <p>{{ $proyecto->proyectoLinea66->proyecto_investigacion_pedagogica ? 'Si' : 'No' }}</p>
+            <p>{{ $proyecto->proyectoFormulario8Linea66->proyecto_investigacion_pedagogica ? 'Si' : 'No' }}</p>
 
             <h4>¿El proyecto está articulado con la ENI?</h4>
             <p>{{ $datos->articulacion_eni ? 'Si' : 'No' }}</p>
 
             <h4>Grupo de investigación ENI</h4>
-            <p>{{ ucfirst($proyecto->proyectoLinea66->grupoInvestigacionEni->nombre) }}</p>
+            <p>{{ ucfirst($proyecto->proyectoFormulario8Linea66->grupoInvestigacionEni->nombre) }}</p>
 
             <h4>Líneas de investigación ENI</h4>
             <li>
-                @foreach ($proyecto->proyectoLinea66->lineasInvestigacionEni('nombre', 'asc')->cursor() as $lineaInvestigacionEni)
+                @foreach ($proyecto->proyectoFormulario8Linea66->lineasInvestigacionEni('nombre', 'asc')->cursor() as $lineaInvestigacionEni)
                     <li>{{ ucfirst($lineaInvestigacionEni->nombre) }}</li>
                 @endforeach
             </li>
 
             <h4>Áreas temáticas</h4>
             <li>
-                @foreach ($proyecto->proyectoLinea66->areasTematicasEni('nombre', 'asc')->cursor() as $areaTematicaEni)
+                @foreach ($proyecto->proyectoFormulario8Linea66->areasTematicasEni('nombre', 'asc')->cursor() as $areaTematicaEni)
                     <li>{{ ucfirst($areaTematicaEni->nombre) }}</li>
                 @endforeach
             </li>
@@ -385,7 +385,7 @@
     <p>{{ $datos->metodologia }}</p>
 
     @if ($datos->metodologia_local)
-        @if ($proyecto->proyectoLinea69)
+        @if ($proyecto->proyectoFormulario5Linea69)
             <h4>A continuación, describa la metodología que será implementada en el {{ $convocatoria->year + 1 }} en el nodo para lograr los objetivos propuestos en cada una de las etapas definidas para los Tecnoparques:</h4>
         @else
             <h2>Metodología local</h2>
@@ -590,7 +590,7 @@
         <p>{{ $datos->articulacion_territorios_stem }}</p>
     @endif
 
-    @if ($proyecto->proyectoLinea66)
+    @if ($proyecto->proyectoFormulario8Linea66)
         <h4>Nombre de los programas de formación con registro calificado a impactar</h4>
         @foreach ($proyecto->programasFormacion()->where('registro_calificado', true)->orderBy('nombre')->get() as $programaFormacion)
             <li>{{ ucfirst($programaFormacion->nombre) .' - '.  $programaFormacion->codigo}}</li>
@@ -732,14 +732,14 @@
         </div>
     @endif
 
-    @if ($proyecto->proyectoLinea70 || $proyecto->proyectoLinea69)
+    @if ($proyecto->proyectoLinea70 || $proyecto->proyectoFormulario5Linea69)
 
         <hr style="margin: 4rem 0">
 
         <h1>Articulación SENNOVA</h1>
     @endif
 
-    @if ($proyecto->proyectoLinea69)
+    @if ($proyecto->proyectoFormulario5Linea69)
         <h4>Comente la articulación y aporte del TecnoParque proyectada para el {{ $convocatoria->year +  1 }} a los semilleros y grupos de investigación</h4>
         <p>{{ $datos->aportacion_semilleros_grupos }}</p>
 

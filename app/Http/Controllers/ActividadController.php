@@ -26,7 +26,7 @@ class ActividadController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->load('evaluaciones.evaluacionProyectoLinea66');
+        $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
         $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
         $objetivo_especifico                    = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
@@ -43,8 +43,8 @@ class ActividadController extends Controller
         $proyecto->proyectoFormulario11Linea83;
 
         switch ($proyecto) {
-            case $proyecto->proyectoLinea66()->exists():
-                $proyecto->metodologia = $proyecto->proyectoLinea66->metodologia;
+            case $proyecto->proyectoFormulario8Linea66()->exists():
+                $proyecto->metodologia = $proyecto->proyectoFormulario8Linea66->metodologia;
                 break;
             case $proyecto->proyectoFormulario4Linea70()->exists():
                 $proyecto->metodologia                          = $proyecto->proyectoFormulario4Linea70->metodologia;
@@ -72,21 +72,21 @@ class ActividadController extends Controller
                 $proyecto->programasFormacion;
 
                 break;
-            case $proyecto->proyectoLinea69()->exists():
-                $proyecto->metodologia                              = $proyecto->proyectoLinea69->metodologia;
-                $proyecto->metodologia_local                        = $proyecto->proyectoLinea69->metodologia_local;
-                $proyecto->impacto_municipios                       = $proyecto->proyectoLinea69->impacto_municipios;
-                $proyecto->estrategia_articulacion_prox_vigencia    = $proyecto->proyectoLinea69->estrategia_articulacion_prox_vigencia;
-                $proyecto->alianzas_estrategicas                    = $proyecto->proyectoLinea69->alianzas_estrategicas;
-                $proyecto->estrategia_divulgacion                   = $proyecto->proyectoLinea69->estrategia_divulgacion;
-                $proyecto->promover_productividad                   = $proyecto->proyectoLinea69->promover_productividad;
-                $proyecto->departamentos_atencion_talentos          = $proyecto->proyectoLinea69->departamentos_atencion_talentos;
-                $proyecto->estrategia_atencion_talentos             = $proyecto->proyectoLinea69->estrategia_atencion_talentos;
+            case $proyecto->proyectoFormulario5Linea69()->exists():
+                $proyecto->metodologia                              = $proyecto->proyectoFormulario5Linea69->metodologia;
+                $proyecto->metodologia_local                        = $proyecto->proyectoFormulario5Linea69->metodologia_local;
+                $proyecto->impacto_municipios                       = $proyecto->proyectoFormulario5Linea69->impacto_municipios;
+                $proyecto->estrategia_articulacion_prox_vigencia    = $proyecto->proyectoFormulario5Linea69->estrategia_articulacion_prox_vigencia;
+                $proyecto->alianzas_estrategicas                    = $proyecto->proyectoFormulario5Linea69->alianzas_estrategicas;
+                $proyecto->estrategia_divulgacion                   = $proyecto->proyectoFormulario5Linea69->estrategia_divulgacion;
+                $proyecto->promover_productividad                   = $proyecto->proyectoFormulario5Linea69->promover_productividad;
+                $proyecto->departamentos_atencion_talentos          = $proyecto->proyectoFormulario5Linea69->departamentos_atencion_talentos;
+                $proyecto->estrategia_atencion_talentos             = $proyecto->proyectoFormulario5Linea69->estrategia_atencion_talentos;
                 break;
 
-            case $proyecto->proyectoLinea65()->exists():
-                $proyecto->metodologia      = $proyecto->proyectoLinea65->metodologia;
-                $proyecto->tipo_proyecto    = $proyecto->proyectoLinea65->tipo_proyecto;
+            case $proyecto->proyectoFormulario1Linea65()->exists():
+                $proyecto->metodologia      = $proyecto->proyectoFormulario1Linea65->metodologia;
+                $proyecto->tipo_proyecto    = $proyecto->proyectoFormulario1Linea65->tipo_proyecto;
                 break;
             case $proyecto->proyectoFormulario12Linea68()->exists():
                 $proyecto->metodologia = $proyecto->proyectoFormulario12Linea68->metodologia;
@@ -230,11 +230,11 @@ class ActividadController extends Controller
         ]);
 
         switch ($proyecto) {
-            case $proyecto->proyectoLinea66()->exists():
-                $proyecto_linea_66              = $proyecto->proyectoLinea66;
-                $proyecto_linea_66->metodologia = $request->metodologia;
+            case $proyecto->proyectoFormulario8Linea66()->exists():
+                $proyecto_formulario_8_linea_66              = $proyecto->proyectoFormulario8Linea66;
+                $proyecto_formulario_8_linea_66->metodologia = $request->metodologia;
 
-                $proyecto_linea_66->save();
+                $proyecto_formulario_8_linea_66->save();
                 break;
             case $proyecto->proyectoFormulario4Linea70()->exists():
                 $request->merge(['proyeccion_nuevas_instituciones' => $request->proyeccion_nuevas_instituciones]);
@@ -277,8 +277,8 @@ class ActividadController extends Controller
                 $proyecto_linea_70->proyecto->programasFormacionLinea70()->sync($request->programas_formacion_articulados);
                 $proyecto_linea_70->proyecto->disenosCurriculares()->sync($request->diseno_curricular_id);
                 break;
-            case $proyecto->proyectoLinea69()->exists():
-                $proyecto_linea_69                                         = $proyecto->proyectoLinea69;
+            case $proyecto->proyectoFormulario5Linea69()->exists():
+                $proyecto_linea_69                                         = $proyecto->proyectoFormulario5Linea69;
                 $proyecto_linea_69->metodologia                            = $request->metodologia;
                 $proyecto_linea_69->metodologia_local                      = $request->metodologia_local;
                 $proyecto_linea_69->impacto_municipios                     = $request->impacto_municipios;
@@ -326,8 +326,8 @@ class ActividadController extends Controller
 
 
 
-            case $proyecto->proyectoLinea65()->exists():
-                $proyecto_linea_65              = $proyecto->proyectoLinea65;
+            case $proyecto->proyectoFormulario1Linea65()->exists():
+                $proyecto_linea_65              = $proyecto->proyectoFormulario1Linea65;
                 $proyecto_linea_65->metodologia = $request->metodologia;
 
                 $proyecto_linea_65->save();
@@ -408,8 +408,8 @@ class ActividadController extends Controller
         $this->authorize('modificar-evaluacion-autor', $evaluacion);
 
         switch ($evaluacion) {
-            case $evaluacion->evaluacionProyectoLinea66()->exists():
-                $evaluacion->evaluacionProyectoLinea66()->update([
+            case $evaluacion->evaluacionProyectoFormulario8Linea66()->exists():
+                $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
                     'metodologia_puntaje'                   => $request->metodologia_puntaje,
                     'metodologia_comentario'                => $request->metodologia_requiere_comentario == false ? $request->metodologia_comentario : null
                 ]);
@@ -468,7 +468,7 @@ class ActividadController extends Controller
 
         switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 1:
-                $proyecto->proyectoLinea65()->update($request->only($column));
+                $proyecto->proyectoFormulario1Linea65()->update($request->only($column));
                 break;
             case 4:
                 if ($column == 'municipios_impactar') {
@@ -495,7 +495,7 @@ class ActividadController extends Controller
                 break;
             case 5:
                 if ($column == 'talento_otros_departamentos') {
-                    $proyecto->proyectoLinea69->talentosOtrosDepartamentos()->sync($request->only($column)[$column]);
+                    $proyecto->proyectoFormulario5Linea69->talentosOtrosDepartamentos()->sync($request->only($column)[$column]);
                     break;
                 }
 
@@ -504,13 +504,13 @@ class ActividadController extends Controller
                     break;
                 }
 
-                $proyecto->proyectoLinea69()->update($request->only($column));
+                $proyecto->proyectoFormulario5Linea69()->update($request->only($column));
                 break;
             case 6:
             case 7:
             case 8:
             case 9:
-                $proyecto->proyectoLinea66()->update($request->only($column));
+                $proyecto->proyectoFormulario8Linea66()->update($request->only($column));
                 break;
             case 11:
                 $proyecto->proyectoFormulario11Linea83()->update($request->only($column));

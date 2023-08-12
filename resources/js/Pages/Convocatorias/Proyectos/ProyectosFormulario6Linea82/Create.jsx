@@ -12,7 +12,6 @@ const Create = ({
     centros_formacion,
     disciplinas_subarea_conocimiento,
     lineas_investigacion,
-    lineas_programaticas,
     actividades_economicas,
     tematicas_estrategicas,
     redes_conocimiento,
@@ -34,7 +33,6 @@ const Create = ({
                 centros_formacion={centros_formacion}
                 disciplinas_subarea_conocimiento={disciplinas_subarea_conocimiento}
                 lineas_investigacion={lineas_investigacion}
-                lineas_programaticas={lineas_programaticas}
                 actividades_economicas={actividades_economicas}
                 tematicas_estrategicas={tematicas_estrategicas}
                 redes_conocimiento={redes_conocimiento}

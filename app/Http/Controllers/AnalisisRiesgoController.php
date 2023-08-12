@@ -22,7 +22,7 @@ class AnalisisRiesgoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->load('evaluaciones.evaluacionProyectoLinea66');
+        $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
         $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
         return Inertia::render('Convocatorias/Proyectos/AnalisisRiesgo/Index', [
@@ -154,8 +154,8 @@ class AnalisisRiesgoController extends Controller
         $this->authorize('modificar-evaluacion-autor', $evaluacion);
 
         switch ($evaluacion) {
-            case $evaluacion->evaluacionProyectoLinea66()->exists():
-                $evaluacion->evaluacionProyectoLinea66()->update([
+            case $evaluacion->evaluacionProyectoFormulario8Linea66()->exists():
+                $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
                     'analisis_riesgos_puntaje'      => $request->analisis_riesgos_puntaje,
                     'analisis_riesgos_comentario'   => $request->analisis_riesgos_requiere_comentario == false ? $request->analisis_riesgos_comentario : null
                 ]);

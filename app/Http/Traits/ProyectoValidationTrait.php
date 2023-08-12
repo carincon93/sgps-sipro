@@ -19,10 +19,10 @@ trait ProyectoValidationTrait
     public static function problemaCentral(Proyecto $proyecto)
     {
         switch ($proyecto) {
-             case $proyecto->proyectoLinea65()->exists() && $proyecto->proyectoLinea65->problema_central == '':
+             case $proyecto->proyectoFormulario1Linea65()->exists() && $proyecto->proyectoFormulario1Linea65->problema_central == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea66()->exists() && $proyecto->proyectoLinea66->problema_central == '':
+            case $proyecto->proyectoFormulario8Linea66()->exists() && $proyecto->proyectoFormulario8Linea66->problema_central == '':
                 return false;
                 break;
             case $proyecto->proyectoFormulario12Linea68()->exists() && $proyecto->proyectoFormulario12Linea68->problema_central == '':
@@ -56,7 +56,7 @@ trait ProyectoValidationTrait
     {
         $numero = 0;
         switch ($proyecto) {
-            case $proyecto->proyectoLinea66()->exists():
+            case $proyecto->proyectoFormulario8Linea66()->exists():
                 foreach ($proyecto->participantes as $participante) {
                     if ($participante->pivot->rol_sennova == 3) {
                         $numero++;
@@ -82,7 +82,7 @@ trait ProyectoValidationTrait
     {
         $numero = 0;
         switch ($proyecto) {
-            case $proyecto->proyectoLinea66()->exists():
+            case $proyecto->proyectoFormulario8Linea66()->exists():
                 foreach ($proyecto->participantes as $participante) {
                     if ($participante->pivot->rol_sennova == 4) {
                         $numero++;
@@ -183,16 +183,16 @@ trait ProyectoValidationTrait
     public static function objetivoGeneral(Proyecto $proyecto)
     {
         switch ($proyecto) {
-            case $proyecto->proyectoLinea65()->exists() && $proyecto->proyectoLinea65->objetivo_general == '':
+            case $proyecto->proyectoFormulario1Linea65()->exists() && $proyecto->proyectoFormulario1Linea65->objetivo_general == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea66()->exists() && $proyecto->proyectoLinea66->objetivo_general == '':
+            case $proyecto->proyectoFormulario8Linea66()->exists() && $proyecto->proyectoFormulario8Linea66->objetivo_general == '':
                 return false;
                 break;
             case $proyecto->proyectoFormulario12Linea68()->exists() && $proyecto->proyectoFormulario12Linea68->objetivo_general == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea69()->exists() && $proyecto->proyectoLinea69->objetivo_general == '':
+            case $proyecto->proyectoFormulario5Linea69()->exists() && $proyecto->proyectoFormulario5Linea69->objetivo_general == '':
                 return false;
                 break;
             case $proyecto->proyectoFormulario10Linea69()->exists() && $proyecto->proyectoFormulario10Linea69->objetivo_general == '':
@@ -420,16 +420,16 @@ trait ProyectoValidationTrait
     public static function generalidades(Proyecto $proyecto)
     {
         switch ($proyecto) {
-            case $proyecto->proyectoLinea65()->exists() && $proyecto->proyectoLinea65->bibliografia == '':
+            case $proyecto->proyectoFormulario1Linea65()->exists() && $proyecto->proyectoFormulario1Linea65->bibliografia == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea66()->exists() && $proyecto->proyectoLinea66->bibliografia == '':
+            case $proyecto->proyectoFormulario8Linea66()->exists() && $proyecto->proyectoFormulario8Linea66->bibliografia == '':
                 return false;
                 break;
             case $proyecto->proyectoFormulario12Linea68()->exists() && $proyecto->proyectoFormulario12Linea68->bibliografia == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea69()->exists() && $proyecto->proyectoLinea69->bibliografia == '':
+            case $proyecto->proyectoFormulario5Linea69()->exists() && $proyecto->proyectoFormulario5Linea69->bibliografia == '':
                 return false;
                 break;
             case $proyecto->proyectoFormulario10Linea69()->exists() && $proyecto->proyectoFormulario10Linea69->bibliografia == '':
@@ -458,16 +458,16 @@ trait ProyectoValidationTrait
     public static function metodologia(Proyecto $proyecto)
     {
         switch ($proyecto) {
-            case $proyecto->proyectoLinea65()->exists() && $proyecto->proyectoLinea65->metodologia == '':
+            case $proyecto->proyectoFormulario1Linea65()->exists() && $proyecto->proyectoFormulario1Linea65->metodologia == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea66()->exists() && $proyecto->proyectoLinea66->metodologia == '':
+            case $proyecto->proyectoFormulario8Linea66()->exists() && $proyecto->proyectoFormulario8Linea66->metodologia == '':
                 return false;
                 break;
             case $proyecto->proyectoFormulario12Linea68()->exists() && $proyecto->proyectoFormulario12Linea68->metodologia == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea69()->exists() && $proyecto->proyectoLinea69->metodologia == '':
+            case $proyecto->proyectoFormulario5Linea69()->exists() && $proyecto->proyectoFormulario5Linea69->metodologia == '':
                 return false;
                 break;
             case $proyecto->proyectoFormulario10Linea69()->exists() && $proyecto->proyectoFormulario10Linea69->metodologia == '':
@@ -496,16 +496,16 @@ trait ProyectoValidationTrait
     public static function propuestaSostenibilidad(Proyecto $proyecto)
     {
         switch ($proyecto) {
-            case $proyecto->proyectoLinea65()->exists() && $proyecto->proyectoLinea65->propuesta_sostenibilidad == '':
+            case $proyecto->proyectoFormulario1Linea65()->exists() && $proyecto->proyectoFormulario1Linea65->propuesta_sostenibilidad == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea66()->exists() && $proyecto->proyectoLinea66->propuesta_sostenibilidad == '':
+            case $proyecto->proyectoFormulario8Linea66()->exists() && $proyecto->proyectoFormulario8Linea66->propuesta_sostenibilidad == '':
                 return false;
                 break;
             case $proyecto->proyectoFormulario12Linea68()->exists() && $proyecto->proyectoFormulario12Linea68->propuesta_sostenibilidad == '':
                 return false;
                 break;
-            case $proyecto->proyectoLinea69()->exists() && $proyecto->proyectoLinea69->propuesta_sostenibilidad == '':
+            case $proyecto->proyectoFormulario5Linea69()->exists() && $proyecto->proyectoFormulario5Linea69->propuesta_sostenibilidad == '':
                 return false;
                 break;
             // case $proyecto->proyectoFormulario10Linea69()->exists() && $proyecto->proyectoFormulario10Linea69->propuesta_sostenibilidad == '':

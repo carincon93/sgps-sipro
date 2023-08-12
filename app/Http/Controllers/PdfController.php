@@ -30,20 +30,20 @@ class PdfController extends Controller
 
         $datos = null;
         $tipoProyectoLinea68 = null;
-        if (!empty($proyecto->proyectoLinea66)) {
-            $datos = $proyecto->proyectoLinea66;
+        if (!empty($proyecto->proyectoFormulario8Linea66)) {
+            $datos = $proyecto->proyectoFormulario8Linea66;
             // $opcionesIDiDropdown = collect(json_decode(Storage::get('json/opciones-aplica-no-aplica.json'), true));
             // $datos->relacionado_plan_tecnologico = $opcionesIDiDropdown->where('value', $datos->relacionado_plan_tecnologico)->first();
             $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true));
         } else if (!empty($proyecto->proyectoFormulario4Linea70)) {
             $datos = $proyecto->proyectoFormulario4Linea70;
             $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-ta.json'), true));
-        } else if (!empty($proyecto->proyectoLinea69)) {
-            $proyecto->proyectoLinea69->talentosOtrosDepartamentos;
-            $datos = $proyecto->proyectoLinea69;
+        } else if (!empty($proyecto->proyectoFormulario5Linea69)) {
+            $proyecto->proyectoFormulario5Linea69->talentosOtrosDepartamentos;
+            $datos = $proyecto->proyectoFormulario5Linea69;
             $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-tp.json'), true));
-        } else if (!empty($proyecto->proyectoLinea65)) {
-            $datos = $proyecto->proyectoLinea65;
+        } else if (!empty($proyecto->proyectoFormulario1Linea65)) {
+            $datos = $proyecto->proyectoFormulario1Linea65;
             $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true));
         } else if (!empty($proyecto->proyectoFormulario12Linea68)) {
             $datos = $proyecto->proyectoFormulario12Linea68;

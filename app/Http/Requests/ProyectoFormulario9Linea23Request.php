@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\MaxWords;
 
-class ProyectoLinea66Request extends FormRequest
+class ProyectoFormulario9Linea23Request extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

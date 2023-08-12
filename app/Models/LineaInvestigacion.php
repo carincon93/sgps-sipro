@@ -75,13 +75,13 @@ class LineaInvestigacion extends Model
     }
 
     /**
-     * Relationship with ProyectoLinea66
+     * Relationship with ProyectoFormulario8Linea66
      *
      * @return object
      */
     public function proyectosLinea66()
     {
-        return $this->hasMany(ProyectoLinea66::class);
+        return $this->hasMany(ProyectoFormulario8Linea66::class);
     }
 
     /**
@@ -141,7 +141,7 @@ class LineaInvestigacion extends Model
      */
     public function idiEni()
     {
-        return $this->belongsToMany(ProyectoLinea66::class, 'idi_lineas_investigacion_eni', 'linea_investigacion_id', 'idi_id');
+        return $this->belongsToMany(ProyectoFormulario8Linea66::class, 'idi_lineas_investigacion_eni', 'linea_investigacion_id', 'idi_id');
     }
 
     /**

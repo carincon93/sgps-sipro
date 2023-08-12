@@ -44,7 +44,7 @@ class ArticulacionSennovaController extends Controller
         $proyecto->gruposInvestigacion;
         $proyecto->lineasInvestigacion;
         $proyecto->semillerosInvestigacion;
-        $proyecto->proyectoLinea69;
+        $proyecto->proyectoFormulario5Linea69;
         $proyecto->proyectoFormulario10Linea69;
         $proyecto->proyectoFormulario11Linea83;
 
@@ -68,12 +68,12 @@ class ArticulacionSennovaController extends Controller
                 break;
 
             case 5:
-                $proyecto->impacto_centro_formacion             = $proyecto->proyectoLinea69->impacto_centro_formacion;
-                $proyecto->aportacion_semilleros_grupos         = $proyecto->proyectoLinea69->aportacion_semilleros_grupos;
-                $proyecto->proyeccion_con_st                    = $proyecto->proyectoLinea69->proyeccion_con_st;
-                $proyecto->proyeccion_extensionismo_tecnologico = $proyecto->proyectoLinea69->proyeccion_extensionismo_tecnologico;
-                $proyecto->proyeccion_centros_desarrollo        = $proyecto->proyectoLinea69->proyeccion_centros_desarrollo;
-                $proyecto->proyeccion_formacion_regional        = $proyecto->proyectoLinea69->proyeccion_formacion_regional;
+                $proyecto->impacto_centro_formacion             = $proyecto->proyectoFormulario5Linea69->impacto_centro_formacion;
+                $proyecto->aportacion_semilleros_grupos         = $proyecto->proyectoFormulario5Linea69->aportacion_semilleros_grupos;
+                $proyecto->proyeccion_con_st                    = $proyecto->proyectoFormulario5Linea69->proyeccion_con_st;
+                $proyecto->proyeccion_extensionismo_tecnologico = $proyecto->proyectoFormulario5Linea69->proyeccion_extensionismo_tecnologico;
+                $proyecto->proyeccion_centros_desarrollo        = $proyecto->proyectoFormulario5Linea69->proyeccion_centros_desarrollo;
+                $proyecto->proyeccion_formacion_regional        = $proyecto->proyectoFormulario5Linea69->proyeccion_formacion_regional;
 
                 break;
 
@@ -165,7 +165,7 @@ class ArticulacionSennovaController extends Controller
                 $proyecto->gruposInvestigacion()->sync($request->grupos_investigacion);
                 $proyecto->semillerosInvestigacion()->sync($request->semilleros_investigacion);
 
-                $proyecto->proyectoLinea69->update([
+                $proyecto->proyectoFormulario5Linea69->update([
                     'impacto_centro_formacion'              => $request->impacto_centro_formacion,
                     'aportacion_semilleros_grupos'          => $request->aportacion_semilleros_grupos,
                     'proyeccion_con_st'                     => $request->proyeccion_con_st,
@@ -307,7 +307,7 @@ class ArticulacionSennovaController extends Controller
                     break;
                 }
 
-                $proyecto->proyectoLinea69()->update($request->only($column));
+                $proyecto->proyectoFormulario5Linea69()->update($request->only($column));
                 break;
             case 11:
                 $proyecto->proyectoFormulario11Linea83()->update($request->only($column));

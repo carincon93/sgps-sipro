@@ -24,7 +24,7 @@ class EntidadAliadaController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->load('evaluaciones.evaluacionProyectoLinea66');
+        $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
         $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
         $objetivo_especificos = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
@@ -88,7 +88,7 @@ class EntidadAliadaController extends Controller
         $entidad_aliada->save();
         $request->merge(['entidad_aliada_id' => $entidad_aliada->id]);
 
-        if ($proyecto->proyectoLinea66()->exists()) {
+        if ($proyecto->proyectoFormulario8Linea66()->exists()) {
             $request->validate([
                 'descripcion_convenio'                      => 'nullable|string',
                 'grupo_investigacion'                       => 'nullable|max:191',
@@ -108,7 +108,7 @@ class EntidadAliadaController extends Controller
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.edit', [$convocatoria, $proyecto, $entidad_aliada])->with('success', 'El recurso se ha creado correctamente.');
 
-        } elseif ($proyecto->proyectoLinea69()->exists()) {
+        } elseif ($proyecto->proyectoFormulario5Linea69()->exists()) {
             $request->validate([
                 'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
                 'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
@@ -182,7 +182,7 @@ class EntidadAliadaController extends Controller
 
         $entidad_aliada->save();
 
-        if ($proyecto->proyectoLinea66()->exists()) {
+        if ($proyecto->proyectoFormulario8Linea66()->exists()) {
             $request->validate([
                 'descripcion_convenio'                      => 'nullable|string',
                 'grupo_investigacion'                       => 'nullable|max:191',
@@ -203,7 +203,7 @@ class EntidadAliadaController extends Controller
             $entidad_aliada->actividades()->attach($request->actividad_id);
 
             return redirect()->route('convocatorias.proyectos.entidades-aliadas.edit', [$convocatoria, $proyecto, $entidad_aliada])->with('success', 'El recurso se ha creado correctamente.');
-        } elseif ($proyecto->proyectoLinea69()->exists()) {
+        } elseif ($proyecto->proyectoFormulario5Linea69()->exists()) {
             $request->validate([
                 'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
                 'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
@@ -260,7 +260,7 @@ class EntidadAliadaController extends Controller
     {
         $modelo = null;
         switch ($proyecto) {
-            case $proyecto->proyectoLinea66()->exists():
+            case $proyecto->proyectoFormulario8Linea66()->exists():
                 $modelo = $entidad_aliada->entidadAliadaLinea66;
                 break;
             default:
@@ -279,7 +279,7 @@ class EntidadAliadaController extends Controller
     {
         $modelo = null;
         switch ($proyecto) {
-            case $proyecto->proyectoLinea66()->exists():
+            case $proyecto->proyectoFormulario8Linea66()->exists():
                 $modelo = $entidad_aliada->entidadAliadaLinea66;
                 break;
             default:
@@ -299,7 +299,7 @@ class EntidadAliadaController extends Controller
     {
         $modelo = null;
         switch ($proyecto) {
-            case $proyecto->proyectoLinea69()->exists():
+            case $proyecto->proyectoFormulario5Linea69()->exists():
                 $modelo = $entidad_aliada->entidadAliadaLinea69;
                 break;
             case $proyecto->proyectoFormulario4Linea70()->exists():
@@ -373,7 +373,7 @@ class EntidadAliadaController extends Controller
         $this->authorize('modificar-evaluacion-autor', $evaluacion);
 
         $tipo = 'Sin información';
-        if ($evaluacion->evaluacionProyectoLinea66()->exists() && $evaluacion->evaluacionProyectoLinea66->entidad_aliada_verificada) {
+        if ($evaluacion->evaluacionProyectoFormulario8Linea66()->exists() && $evaluacion->evaluacionProyectoFormulario8Linea66->entidad_aliada_verificada) {
             if ($evaluacion->proyecto->codigo_linea_programatica == 66) {
                 $puntaje = 0;
                 $tipo = '';
@@ -391,7 +391,7 @@ class EntidadAliadaController extends Controller
                     }
                 }
 
-                $evaluacion->evaluacionProyectoLinea66()->update([
+                $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
                     'entidad_aliada_puntaje' => $puntaje
                 ]);
             } else if ($evaluacion->proyecto->codigo_linea_programatica == 82) {
@@ -411,7 +411,7 @@ class EntidadAliadaController extends Controller
                     }
                 }
 
-                $evaluacion->evaluacionProyectoLinea66()->update([
+                $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
                     'entidad_aliada_puntaje' => $puntaje
                 ]);
             }
@@ -430,8 +430,8 @@ class EntidadAliadaController extends Controller
 
     public function validarEntidadAliada(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion, EntidadAliada $entidad_aliada)
     {
-        if ($evaluacion->evaluacionProyectoLinea66()->exists()) {
-            $evaluacion->evaluacionProyectoLinea66()->update([
+        if ($evaluacion->evaluacionProyectoFormulario8Linea66()->exists()) {
+            $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
                 'entidad_aliada_verificada' => $request->entidad_aliada_verificada
             ]);
         }

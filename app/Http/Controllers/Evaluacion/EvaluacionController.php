@@ -85,8 +85,8 @@ class EvaluacionController extends Controller
         $proyecto->save();
 
         switch ($proyecto) {
-            case $proyecto->proyectoLinea66()->exists():
-                $evaluacion->evaluacionProyectoLinea66()->create([
+            case $proyecto->proyectoFormulario8Linea66()->exists():
+                $evaluacion->evaluacionProyectoFormulario8Linea66()->create([
                     'id' => $evaluacion->id
                 ]);
                 break;
@@ -95,7 +95,7 @@ class EvaluacionController extends Controller
                     'id' => $evaluacion->id
                 ]);
                 break;
-            case $proyecto->proyectoLinea69()->exists():
+            case $proyecto->proyectoFormulario5Linea69()->exists():
                 $evaluacion->evaluacionProyectoFormulario5Linea69()->create([
                     'id' => $evaluacion->id
                 ]);
@@ -105,7 +105,7 @@ class EvaluacionController extends Controller
                     'id' => $evaluacion->id
                 ]);
                 break;
-            case $proyecto->proyectoLinea65()->exists():
+            case $proyecto->proyectoFormulario1Linea65()->exists():
                 $evaluacion->evaluacionProyectoFormulario1Linea65()->create([
                     'id' => $evaluacion->id
                 ]);

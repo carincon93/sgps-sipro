@@ -116,7 +116,7 @@ class UserController extends Controller
     {
         $this->authorize('update', [User::class, $user]);
 
-        $proyectos = $user->proyectos->load('proyectoLinea65', 'proyectoLinea66', 'proyectoFormulario12Linea68', 'proyectoLinea69.nodoTecnoparque', 'tecnoacademiaLineasTecnoacademia.tecnoacademia', );
+        $proyectos = $user->proyectos->load('proyectoFormulario1Linea65', 'proyectoFormulario8Linea66', 'proyectoFormulario12Linea68', 'proyectoFormulario5Linea69.nodoTecnoparque', 'tecnoacademiaLineasTecnoacademia.tecnoacademia', );
 
         if ($user->hasRole([2, 3, 4, 21])) {
             $proyectos->where('centro_formacion_id', $user->centro_formacion_id);

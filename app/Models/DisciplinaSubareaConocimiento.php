@@ -57,13 +57,13 @@ class DisciplinaSubareaConocimiento extends Model
     }
 
     /**
-     * Relationship with ProyectoLinea66
+     * Relationship with ProyectoFormulario8Linea66
      *
      * @return object
      */
     public function proyectosLinea66()
     {
-        return $this->hasMany(ProyectoLinea66::class);
+        return $this->hasMany(ProyectoFormulario8Linea66::class);
     }
 
     /**

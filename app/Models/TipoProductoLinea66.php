@@ -45,13 +45,13 @@ class TipoProductoLinea66 extends Model
     ];
 
     /**
-     * Relationship with ProyectoProyectoLinea66TecnoacademiaProducto
+     * Relationship with ProyectoProyectoFormulario8Linea66TecnoacademiaProducto
      *
      * @return object
      */
-    public function proyectosProyectoLinea66TecnoacademiaProducto()
+    public function proyectosProyectoFormulario8Linea66TecnoacademiaProducto()
     {
-        return $this->hasMany(ProyectoProyectoLinea66TecnoacademiaProducto::class);
+        return $this->hasMany(ProyectoProyectoFormulario8Linea66TecnoacademiaProducto::class);
     }
 
     /**
@@ -61,7 +61,7 @@ class TipoProductoLinea66 extends Model
      * @param  mixed $filters
      * @return void
      */
-    public function scopeFilterTipoProductoProyectoLinea66($query, array $filters)
+    public function scopeFilterTipoProductoProyectoFormulario8Linea66($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $query->where('tipo', 'ilike', '%' . $search . '%');

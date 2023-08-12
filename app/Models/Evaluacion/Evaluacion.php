@@ -24,7 +24,7 @@ class Evaluacion extends Model
      *
      * @var array
      */
-    protected $appends = ['total_evaluacion', 'validar_evaluacion', 'total_recomendaciones', 'verificar_estado_evaluacion', 'estado_proyecto_por_evaluador', 'causal_rechazo_proyecto_linea_66', 'allowed'];
+    protected $appends = ['total_evaluacion', 'validar_evaluacion', 'total_recomendaciones', 'verificar_estado_evaluacion', 'estado_proyecto_por_evaluador', 'causal_rechazo_proyecto_formulario_8_linea_66', 'allowed'];
 
     /**
      * The attributes that are mass assignable.
@@ -87,13 +87,13 @@ class Evaluacion extends Model
     }
 
     /**
-     * Relationship with EvaluacionProyectoLinea66
+     * Relationship with EvaluacionProyectoFormulario8Linea66
      *
      * @return object
      */
-    public function evaluacionProyectoLinea66()
+    public function evaluacionProyectoFormulario8Linea66()
     {
-        return $this->hasOne(EvaluacionProyectoLinea66::class, 'id');
+        return $this->hasOne(EvaluacionProyectoFormulario8Linea66::class, 'id');
     }
 
     /**
@@ -194,13 +194,13 @@ class Evaluacion extends Model
     public function getVerificarEstadoEvaluacionAttribute()
     {
         $estado = null;
-        if ($this->evaluacionProyectoLinea66 && $this->proyecto->proyectoLinea66()->exists()) {
-            $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoLinea66->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
-        } else if ($this->evaluacionProyectoFormulario1Linea65 && $this->proyecto->proyectoLinea65()->exists()) {
+        if ($this->evaluacionProyectoFormulario8Linea66 && $this->proyecto->proyectoFormulario8Linea66()->exists()) {
+            $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario8Linea66->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
+        } else if ($this->evaluacionProyectoFormulario1Linea65 && $this->proyecto->proyectoFormulario1Linea65()->exists()) {
             $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario1Linea65->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
         } else if ($this->evaluacionProyectoFormulario4Linea70 && $this->proyecto->proyectoFormulario4Linea70()->exists()) {
             $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario4Linea70->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
-        } else if ($this->evaluacionProyectoFormulario5Linea69 && $this->proyecto->proyectoLinea69()->exists()) {
+        } else if ($this->evaluacionProyectoFormulario5Linea69 && $this->proyecto->proyectoFormulario5Linea69()->exists()) {
             $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario5Linea69->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
         } else if ($this->evaluacionProyectoFormulario12Linea68 && $this->proyecto->proyectoFormulario12Linea68()->exists()) {
             $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario12Linea68->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
@@ -217,22 +217,22 @@ class Evaluacion extends Model
     public function getTotalEvaluacionAttribute()
     {
         $total = 0;
-        if ($this->evaluacionProyectoLinea66 && $this->proyecto->proyectoLinea66()->exists()) {
-            $total = $this->evaluacionProyectoLinea66->titulo_puntaje +
-                $this->evaluacionProyectoLinea66->video_puntaje +
-                $this->evaluacionProyectoLinea66->resumen_puntaje +
-                $this->evaluacionProyectoLinea66->problema_central_puntaje +
-                $this->evaluacionProyectoLinea66->objetivos_puntaje +
-                $this->evaluacionProyectoLinea66->metodologia_puntaje +
-                $this->evaluacionProyectoLinea66->entidad_aliada_puntaje +
-                $this->evaluacionProyectoLinea66->resultados_puntaje +
-                $this->evaluacionProyectoLinea66->productos_puntaje +
-                $this->evaluacionProyectoLinea66->cadena_valor_puntaje +
-                $this->evaluacionProyectoLinea66->analisis_riesgos_puntaje +
-                $this->evaluacionProyectoLinea66->ortografia_puntaje +
-                $this->evaluacionProyectoLinea66->redaccion_puntaje +
-                $this->evaluacionProyectoLinea66->normas_apa_puntaje;
-        } else if ($this->evaluacionProyectoFormulario1Linea65 && $this->proyecto->proyectoLinea65()->exists()) {
+        if ($this->evaluacionProyectoFormulario8Linea66 && $this->proyecto->proyectoFormulario8Linea66()->exists()) {
+            $total = $this->evaluacionProyectoFormulario8Linea66->titulo_puntaje +
+                $this->evaluacionProyectoFormulario8Linea66->video_puntaje +
+                $this->evaluacionProyectoFormulario8Linea66->resumen_puntaje +
+                $this->evaluacionProyectoFormulario8Linea66->problema_central_puntaje +
+                $this->evaluacionProyectoFormulario8Linea66->objetivos_puntaje +
+                $this->evaluacionProyectoFormulario8Linea66->metodologia_puntaje +
+                $this->evaluacionProyectoFormulario8Linea66->entidad_aliada_puntaje +
+                $this->evaluacionProyectoFormulario8Linea66->resultados_puntaje +
+                $this->evaluacionProyectoFormulario8Linea66->productos_puntaje +
+                $this->evaluacionProyectoFormulario8Linea66->cadena_valor_puntaje +
+                $this->evaluacionProyectoFormulario8Linea66->analisis_riesgos_puntaje +
+                $this->evaluacionProyectoFormulario8Linea66->ortografia_puntaje +
+                $this->evaluacionProyectoFormulario8Linea66->redaccion_puntaje +
+                $this->evaluacionProyectoFormulario8Linea66->normas_apa_puntaje;
+        } else if ($this->evaluacionProyectoFormulario1Linea65 && $this->proyecto->proyectoFormulario1Linea65()->exists()) {
             $total = $this->evaluacionProyectoFormulario1Linea65->titulo_puntaje +
                 $this->evaluacionProyectoFormulario1Linea65->video_puntaje +
                 $this->evaluacionProyectoFormulario1Linea65->resumen_puntaje +
@@ -297,43 +297,43 @@ class Evaluacion extends Model
     public function getTotalRecomendacionesAttribute()
     {
         $total = 0;
-        if ($this->evaluacionProyectoLinea66 && $this->proyecto->proyectoLinea66()->exists()) {
-            $this->evaluacionProyectoLinea66->titulo_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->video_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->resumen_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->problema_central_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->objetivos_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->metodologia_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->entidad_aliada_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->resultados_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->productos_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->cadena_valor_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->analisis_riesgos_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->justificacion_economia_naranja_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->justificacion_economia_naranja_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->justificacion_industria_4_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->justificacion_industria_4_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->bibliografia_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->bibliografia_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->fechas_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->fechas_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->justificacion_politica_discapacidad_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->justificacion_politica_discapacidad_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->actividad_economica_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->actividad_economica_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->disciplina_subarea_conocimiento_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->disciplina_subarea_conocimiento_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->red_conocimiento_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->red_conocimiento_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->tematica_estrategica_requiere_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->tematica_estrategica_comentario != null ? $total++ : null;
+        if ($this->evaluacionProyectoFormulario8Linea66 && $this->proyecto->proyectoFormulario8Linea66()->exists()) {
+            $this->evaluacionProyectoFormulario8Linea66->titulo_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->video_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->resumen_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->problema_central_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->objetivos_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->metodologia_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->entidad_aliada_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->resultados_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->productos_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->cadena_valor_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->analisis_riesgos_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->justificacion_economia_naranja_requiere_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->justificacion_economia_naranja_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->justificacion_industria_4_requiere_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->justificacion_industria_4_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->bibliografia_requiere_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->bibliografia_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->fechas_requiere_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->fechas_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->justificacion_politica_discapacidad_requiere_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->justificacion_politica_discapacidad_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->actividad_economica_requiere_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->actividad_economica_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->disciplina_subarea_conocimiento_requiere_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->disciplina_subarea_conocimiento_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->red_conocimiento_requiere_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->red_conocimiento_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->tematica_estrategica_requiere_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->tematica_estrategica_comentario != null ? $total++ : null;
 
-            $this->evaluacionProyectoLinea66->ortografia_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->redaccion_comentario != null ? $total++ : null;
-            $this->evaluacionProyectoLinea66->normas_apa_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->ortografia_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->redaccion_comentario != null ? $total++ : null;
+            $this->evaluacionProyectoFormulario8Linea66->normas_apa_comentario != null ? $total++ : null;
 
             $this->comentario_evaluador != null ? $total++ : null;
-        } else if ($this->evaluacionProyectoFormulario1Linea65 && $this->proyecto->proyectoLinea65()->exists()) {
+        } else if ($this->evaluacionProyectoFormulario1Linea65 && $this->proyecto->proyectoFormulario1Linea65()->exists()) {
             $this->evaluacionProyectoFormulario1Linea65->titulo_comentario != null ? $total++ : null;
             $this->evaluacionProyectoFormulario1Linea65->video_comentario != null ? $total++ : null;
             $this->evaluacionProyectoFormulario1Linea65->resumen_comentario != null ? $total++ : null;
@@ -396,7 +396,7 @@ class Evaluacion extends Model
             $this->evaluacionProyectoFormulario4Linea70->normas_apa_comentario != null ? $total++ : null;
 
             $this->comentario_evaluador != null ? $total++ : null;
-        } else if ($this->evaluacionProyectoFormulario5Linea69 && $this->proyecto->proyectoLinea69()->exists()) {
+        } else if ($this->evaluacionProyectoFormulario5Linea69 && $this->proyecto->proyectoFormulario5Linea69()->exists()) {
             $this->evaluacionProyectoFormulario5Linea69->resumen_regional_comentario != null ? $total++ : null;
             $this->evaluacionProyectoFormulario5Linea69->antecedentes_regional_comentario != null ? $total++ : null;
             $this->evaluacionProyectoFormulario5Linea69->municipios_comentario != null ? $total++ : null;
@@ -479,21 +479,21 @@ class Evaluacion extends Model
         $itemsPorEvaluar = [];
         $countRolesSinEvaluar = 0;
 
-        if ($this->evaluacionProyectoLinea66 && $this->proyecto->proyectoLinea66()->exists()) {
-            $this->evaluacionProyectoLinea66->titulo_puntaje == null ? array_push($itemsPorEvaluar, 'Título') : null;
-            $this->evaluacionProyectoLinea66->resumen_puntaje == null ? array_push($itemsPorEvaluar, 'Resumen') : null;
-            $this->evaluacionProyectoLinea66->problema_central_puntaje == null ? array_push($itemsPorEvaluar, 'Problema central') : null;
-            $this->evaluacionProyectoLinea66->objetivos_puntaje == null ? array_push($itemsPorEvaluar, 'Objetivos') : null;
-            $this->evaluacionProyectoLinea66->metodologia_puntaje == null ? array_push($itemsPorEvaluar, 'Metodología') : null;
-            $this->evaluacionProyectoLinea66->resultados_puntaje == null ? array_push($itemsPorEvaluar, 'Resultados') : null;
-            $this->evaluacionProyectoLinea66->productos_puntaje == null ? array_push($itemsPorEvaluar, 'Productos') : null;
-            $this->evaluacionProyectoLinea66->cadena_valor_puntaje == null ? array_push($itemsPorEvaluar, 'Cadena de valor') : null;
-            $this->evaluacionProyectoLinea66->analisis_riesgos_puntaje == null ? array_push($itemsPorEvaluar, 'Análisis de riesgos') : null;
+        if ($this->evaluacionProyectoFormulario8Linea66 && $this->proyecto->proyectoFormulario8Linea66()->exists()) {
+            $this->evaluacionProyectoFormulario8Linea66->titulo_puntaje == null ? array_push($itemsPorEvaluar, 'Título') : null;
+            $this->evaluacionProyectoFormulario8Linea66->resumen_puntaje == null ? array_push($itemsPorEvaluar, 'Resumen') : null;
+            $this->evaluacionProyectoFormulario8Linea66->problema_central_puntaje == null ? array_push($itemsPorEvaluar, 'Problema central') : null;
+            $this->evaluacionProyectoFormulario8Linea66->objetivos_puntaje == null ? array_push($itemsPorEvaluar, 'Objetivos') : null;
+            $this->evaluacionProyectoFormulario8Linea66->metodologia_puntaje == null ? array_push($itemsPorEvaluar, 'Metodología') : null;
+            $this->evaluacionProyectoFormulario8Linea66->resultados_puntaje == null ? array_push($itemsPorEvaluar, 'Resultados') : null;
+            $this->evaluacionProyectoFormulario8Linea66->productos_puntaje == null ? array_push($itemsPorEvaluar, 'Productos') : null;
+            $this->evaluacionProyectoFormulario8Linea66->cadena_valor_puntaje == null ? array_push($itemsPorEvaluar, 'Cadena de valor') : null;
+            $this->evaluacionProyectoFormulario8Linea66->analisis_riesgos_puntaje == null ? array_push($itemsPorEvaluar, 'Análisis de riesgos') : null;
 
-            $this->evaluacionProyectoLinea66->ortografia_puntaje == null ? array_push($itemsPorEvaluar, 'Ortografía') : null;
-            $this->evaluacionProyectoLinea66->redaccion_puntaje == null ? array_push($itemsPorEvaluar, 'Redacción') : null;
-            $this->evaluacionProyectoLinea66->normas_apa_puntaje == null ? array_push($itemsPorEvaluar, 'Normas APA') : null;
-        } else if ($this->evaluacionProyectoFormulario1Linea65 && $this->proyecto->proyectoLinea65()->exists()) {
+            $this->evaluacionProyectoFormulario8Linea66->ortografia_puntaje == null ? array_push($itemsPorEvaluar, 'Ortografía') : null;
+            $this->evaluacionProyectoFormulario8Linea66->redaccion_puntaje == null ? array_push($itemsPorEvaluar, 'Redacción') : null;
+            $this->evaluacionProyectoFormulario8Linea66->normas_apa_puntaje == null ? array_push($itemsPorEvaluar, 'Normas APA') : null;
+        } else if ($this->evaluacionProyectoFormulario1Linea65 && $this->proyecto->proyectoFormulario1Linea65()->exists()) {
             $this->evaluacionProyectoFormulario1Linea65->titulo_puntaje == null ? array_push($itemsPorEvaluar, 'Título') : null;
             $this->evaluacionProyectoFormulario1Linea65->resumen_puntaje == null ? array_push($itemsPorEvaluar, 'Resumen') : null;
             $this->evaluacionProyectoFormulario1Linea65->problema_central_puntaje == null ? array_push($itemsPorEvaluar, 'Problema central') : null;
@@ -531,14 +531,14 @@ class Evaluacion extends Model
 
     public function getEstadoProyectoPorEvaluadorAttribute()
     {
-        if ($this->evaluacionProyectoLinea66()->exists()) {
+        if ($this->evaluacionProyectoFormulario8Linea66()->exists()) {
             $causal_rechazo = null;
             if ($this->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
                 $causal_rechazo = 'En revisión por Cord. SENNOVA';
             } else if ($this->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
                 $causal_rechazo = 'Rechazado - Por causal de rechazo';
             }
-            return $this->proyecto->estadoEvaluacionProyectoLinea66($this->total_evaluacion, $this->total_recomendaciones, null, $causal_rechazo);
+            return $this->proyecto->estadoEvaluacionProyectoFormulario8Linea66($this->total_evaluacion, $this->total_recomendaciones, null, $causal_rechazo);
         } else if ($this->evaluacionProyectoFormulario12Linea68()->exists()) {
             return $this->proyecto->estadoEvaluacionProyectoFormulario12Linea68($this->total_evaluacion, $this->total_recomendaciones, null);
         } else if ($this->evaluacionProyectoFormulario1Linea65()->exists()) {
@@ -546,10 +546,10 @@ class Evaluacion extends Model
         }
     }
 
-    public function getCausalRechazoProyectoLinea66Attribute()
+    public function getCausalRechazoProyectoFormulario8Linea66Attribute()
     {
         $causal_rechazo = null;
-        if ($this->evaluacionProyectoLinea66()->exists()) {
+        if ($this->evaluacionProyectoFormulario8Linea66()->exists()) {
             if ($this->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
                 $causal_rechazo = 'En revisión por Cord. SENNOVA';
             } else if ($this->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {

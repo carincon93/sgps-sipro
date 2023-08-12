@@ -49,15 +49,15 @@ class ProyectoFormulario12Linea68Controller extends Controller
         $auth_user = Auth::user();
 
         if ($auth_user->hasRole(13)) {
-            $tipo_proyecto_linea_66 = SelectHelper::tiposProyectosLinea68()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
+            $tipo_proyecto_linea_68 = SelectHelper::tiposProyectosLinea68()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
         } else {
-            $tipo_proyecto_linea_66 = SelectHelper::tiposProyectosLinea68();
+            $tipo_proyecto_linea_68 = SelectHelper::tiposProyectosLinea68();
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario12Linea68/Create', [
             'convocatoria'                => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'sectores_productivos'        => collect(json_decode(Storage::get('json/sectores-productivos.json'), true)),
-            'tipos_proyecto_linea_68'     => $tipo_proyecto_linea_66,
+            'tipos_proyecto_linea_68'     => $tipo_proyecto_linea_68,
             'estados_sistema_gestion'     => SelectHelper::estadosSistemaGestion(),
             'roles_sennova'               => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowed_to_create'           => Gate::inspect('formular-proyecto', [10, $convocatoria])->allowed()
@@ -74,10 +74,10 @@ class ProyectoFormulario12Linea68Controller extends Controller
     {
         $this->authorize('formular-proyecto', [10, $convocatoria]);
 
-        $tipo_proyecto_linea_66 = TipoProyectoLinea68::find($request->tipo_proyecto_linea_68_id);
+        $tipo_proyecto_linea_68 = TipoProyectoLinea68::find($request->tipo_proyecto_linea_68_id);
 
         $proyecto = new Proyecto();
-        $proyecto->centroFormacion()->associate($tipo_proyecto_linea_66->centro_formacion_id);
+        $proyecto->centroFormacion()->associate($tipo_proyecto_linea_68->centro_formacion_id);
         $proyecto->tipoFormularioConvocatoria()->associate(12);
         $proyecto->convocatoria()->associate($convocatoria);
         $proyecto->save();
@@ -184,7 +184,7 @@ class ProyectoFormulario12Linea68Controller extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_12_linea_68->proyecto]);
 
-        $tipo_proyecto_linea_66 = TipoProyectoLinea68::find($request->tipo_proyecto_formulario_12_linea_68_id);
+        $tipo_proyecto_linea_68 = TipoProyectoLinea68::find($request->tipo_proyecto_formulario_12_linea_68_id);
 
         $proyecto_formulario_12_linea_68->titulo                      = $request->titulo;
         $proyecto_formulario_12_linea_68->fecha_inicio                = $request->fecha_inicio;
@@ -203,7 +203,7 @@ class ProyectoFormulario12Linea68Controller extends Controller
         $proyecto_formulario_12_linea_68->infraestructura_adecuada    = $request->infraestructura_adecuada;
         $proyecto_formulario_12_linea_68->video                       = $request->video;
 
-        $proyecto_formulario_12_linea_68->proyecto->centroFormacion()->associate($tipo_proyecto_linea_66->centro_formacion_id);
+        $proyecto_formulario_12_linea_68->proyecto->centroFormacion()->associate($tipo_proyecto_linea_68->centro_formacion_id);
 
         $proyecto_formulario_12_linea_68->save();
 

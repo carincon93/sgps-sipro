@@ -26,7 +26,7 @@ class ProyectoAnexoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->load('evaluaciones.evaluacionProyectoLinea66');
+        $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
         $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
 
@@ -168,8 +168,8 @@ class ProyectoAnexoController extends Controller
         $this->authorize('modificar-evaluacion-autor', $evaluacion);
 
         switch ($evaluacion) {
-            case $evaluacion->evaluacionProyectoLinea66()->exists():
-                $evaluacion->evaluacionProyectoLinea66()->update([
+            case $evaluacion->evaluacionProyectoFormulario8Linea66()->exists():
+                $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
                     'anexos_comentario'   => $request->anexos_requiere_comentario == false ? $request->anexos_comentario : null
                 ]);
                 break;

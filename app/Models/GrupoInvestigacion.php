@@ -113,13 +113,13 @@ class GrupoInvestigacion extends Model
     }
 
     /**
-     * Relationship with ProyectoLinea66
+     * Relationship with ProyectoFormulario8Linea66
      *
      * @return object
      */
     public function idiEni()
     {
-        return $this->hasMany(ProyectoLinea66::class);
+        return $this->hasMany(ProyectoFormulario8Linea66::class);
     }
 
     /**

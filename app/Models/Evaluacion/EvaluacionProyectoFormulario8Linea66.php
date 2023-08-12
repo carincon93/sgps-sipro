@@ -5,7 +5,7 @@ namespace App\Models\Evaluacion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EvaluacionProyectoLinea66 extends Model
+class EvaluacionProyectoFormulario8Linea66 extends Model
 {
     use HasFactory;
 
@@ -117,7 +117,7 @@ class EvaluacionProyectoLinea66 extends Model
      * @param  mixed $filters
      * @return void
      */
-    public function scopeFilterEvaluacionProyectoLinea66($query, array $filters)
+    public function scopeFilterEvaluacionProyectoFormulario8Linea66($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $search = str_replace('"', "", $search);

@@ -25,7 +25,7 @@ class Proyecto extends Model
      *
      * @var array
      */
-    protected $appends = ['codigo', 'diff_meses', 'precio_proyecto', 'total_roles_sennova', 'fecha_inicio', 'fecha_finalizacion', 'estado_evaluacion_proyecto_linea_66', 'estado_evaluacion_proyecto_formulario_1_linea_65', 'estado_evaluacion_proyecto_formulario_4_linea_70', 'estado_evaluacion_proyecto_formulario_5_linea_69', 'estado_evaluacion_proyecto_formulario_12_linea_68', 'cantidad_objetivos', 'total_proyecto_presupuesto_aprobado', 'total_roles_sennova_aprobado', 'precio_proyecto_aprobado', 'all_files', 'allowed', 'resultados'];
+    protected $appends = ['codigo', 'diff_meses', 'precio_proyecto', 'total_roles_sennova', 'fecha_inicio', 'fecha_finalizacion', 'estado_evaluacion_proyecto_formulario_8_linea_66', 'estado_evaluacion_proyecto_formulario_1_linea_65', 'estado_evaluacion_proyecto_formulario_4_linea_70', 'estado_evaluacion_proyecto_formulario_5_linea_69', 'estado_evaluacion_proyecto_formulario_12_linea_68', 'cantidad_objetivos', 'total_proyecto_presupuesto_aprobado', 'total_roles_sennova_aprobado', 'precio_proyecto_aprobado', 'all_files', 'allowed', 'resultados'];
 
     /**
      * The attributes that are mass assignable.
@@ -98,13 +98,23 @@ class Proyecto extends Model
     }
 
     /**
-     * Relationship with ProyectoLinea66
+     * Relationship with ProyectoFormulario7Linea23
      *
      * @return object
      */
-    public function proyectoLinea66()
+    public function proyectoFormulario7Linea23()
     {
-        return $this->hasOne(ProyectoLinea66::class, 'id');
+        return $this->hasOne(ProyectoFormulario7Linea23::class, 'id');
+    }
+
+    /**
+     * Relationship with ProyectoFormulario9Linea23
+     *
+     * @return object
+     */
+    public function proyectoFormulario9Linea23()
+    {
+        return $this->hasOne(ProyectoFormulario9Linea23::class, 'id');
     }
 
     /**
@@ -112,9 +122,19 @@ class Proyecto extends Model
      *
      * @return object
      */
-    public function proyectoLinea65()
+    public function proyectoFormulario1Linea65()
     {
         return $this->hasOne(ProyectoFormulario1Linea65::class, 'id');
+    }
+
+    /**
+     * Relationship with ProyectoFormulario8Linea66
+     *
+     * @return object
+     */
+    public function proyectoFormulario8Linea66()
+    {
+        return $this->hasOne(ProyectoFormulario8Linea66::class, 'id');
     }
 
     /**
@@ -128,6 +148,16 @@ class Proyecto extends Model
     }
 
     /**
+     * Relationship with ProyectoFormulario5Linea69
+     *
+     * @return object
+     */
+    public function proyectoFormulario5Linea69()
+    {
+        return $this->hasOne(ProyectoFormulario5Linea69::class, 'id');
+    }
+
+    /**
      * Relationship with ProyectoFormulario10Linea69
      *
      * @return object
@@ -138,16 +168,6 @@ class Proyecto extends Model
     }
 
     /**
-     * Relationship with ProyectoFormulario5Linea69
-     *
-     * @return object
-     */
-    public function proyectoLinea69()
-    {
-        return $this->hasOne(ProyectoFormulario5Linea69::class, 'id');
-    }
-
-    /**
      * Relationship with ProyectoFormulario4Linea70
      *
      * @return object
@@ -155,6 +175,16 @@ class Proyecto extends Model
     public function proyectoFormulario4Linea70()
     {
         return $this->hasOne(ProyectoFormulario4Linea70::class, 'id');
+    }
+
+    /**
+     * Relationship with ProyectoFormulario6Linea82
+     *
+     * @return object
+     */
+    public function proyectoFormulario6Linea66()
+    {
+        return $this->hasOne(ProyectoFormulario6Linea82::class, 'id');
     }
 
     /**
@@ -275,16 +305,6 @@ class Proyecto extends Model
     public function inventarioEquipos()
     {
         return $this->hasMany(InventarioEquipo::class);
-    }
-
-    /**
-     * Relationship with ProyectoProyectoLinea66Tecnoacademia
-     *
-     * @return object
-     */
-    public function proyectosProyectoLinea66Tecnoacademia()
-    {
-        return $this->hasMany(ProyectoProyectoLinea66Tecnoacademia::class);
     }
 
     /**
@@ -444,10 +464,10 @@ class Proyecto extends Model
     public function getCodigoAttribute()
     {
         $fecha_finalizacion = null;
-        if ($this->proyectoLinea65()->exists()) $fecha_finalizacion                 =  $this->proyectoLinea65->fecha_finalizacion;
-        if ($this->proyectoLinea66()->exists()) $fecha_finalizacion                 =  $this->proyectoLinea66->fecha_finalizacion;
+        if ($this->proyectoFormulario1Linea65()->exists()) $fecha_finalizacion                 =  $this->proyectoFormulario1Linea65->fecha_finalizacion;
+        if ($this->proyectoFormulario8Linea66()->exists()) $fecha_finalizacion                 =  $this->proyectoFormulario8Linea66->fecha_finalizacion;
         if ($this->proyectoFormulario12Linea68()->exists()) $fecha_finalizacion     =  $this->proyectoFormulario12Linea68->fecha_finalizacion;
-        if ($this->proyectoLinea69()->exists()) $fecha_finalizacion                 =  $this->proyectoLinea69->fecha_finalizacion;
+        if ($this->proyectoFormulario5Linea69()->exists()) $fecha_finalizacion                 =  $this->proyectoFormulario5Linea69->fecha_finalizacion;
         if ($this->proyectoFormulario10Linea69()->exists()) $fecha_finalizacion              =  $this->proyectoFormulario10Linea69->fecha_finalizacion;
         if ($this->proyectoFormulario4Linea70()->exists()) $fecha_finalizacion      =  $this->proyectoFormulario4Linea70->fecha_finalizacion;
         if ($this->proyectoFormulario11Linea83()->exists()) $fecha_finalizacion                 =  $this->proyectoFormulario11Linea83->fecha_finalizacion;
@@ -456,7 +476,7 @@ class Proyecto extends Model
         if ($this->proyectoDemo()->exists()) {
             $numero_consecutivo = sprintf("%05s", $this->proyectoDemo->id);
             $codigo = 'DEMO-' . $numero_consecutivo . '-' . date('Y', strtotime($fecha_finalizacion));
-            $fecha_finalizacion =  $this->proyectoLinea66->fecha_finalizacion;
+            $fecha_finalizacion =  $this->proyectoFormulario8Linea66->fecha_finalizacion;
         }
 
         return $codigo;
@@ -465,14 +485,14 @@ class Proyecto extends Model
     public function getFechaInicioAttribute()
     {
         $fecha_inicio = null;
-        if ($this->proyectoLinea65()->exists()) {
-            $fecha_inicio = $this->proyectoLinea65->fecha_inicio;
-        } else if ($this->proyectoLinea66()->exists()) {
-            $fecha_inicio = $this->proyectoLinea66->fecha_inicio;
+        if ($this->proyectoFormulario1Linea65()->exists()) {
+            $fecha_inicio = $this->proyectoFormulario1Linea65->fecha_inicio;
+        } else if ($this->proyectoFormulario8Linea66()->exists()) {
+            $fecha_inicio = $this->proyectoFormulario8Linea66->fecha_inicio;
         } else if ($this->proyectoFormulario12Linea68()->exists()) {
             $fecha_inicio = $this->proyectoFormulario12Linea68->fecha_inicio;
-        } else if ($this->proyectoLinea69()->exists()) {
-            $fecha_inicio = $this->proyectoLinea69->fecha_inicio;
+        } else if ($this->proyectoFormulario5Linea69()->exists()) {
+            $fecha_inicio = $this->proyectoFormulario5Linea69->fecha_inicio;
         } else if ($this->proyectoFormulario10Linea69()->exists()) {
             $fecha_inicio = $this->proyectoFormulario10Linea69->fecha_inicio;
         } else if ($this->proyectoFormulario4Linea70()->exists()) {
@@ -487,14 +507,14 @@ class Proyecto extends Model
     public function getFechaFinalizacionAttribute()
     {
         $fecha_finalizacion = null;
-        if ($this->proyectoLinea65()->exists()) {
-            $fecha_finalizacion = $this->proyectoLinea65->fecha_finalizacion;
-        } else if ($this->proyectoLinea66()->exists()) {
-            $fecha_finalizacion = $this->proyectoLinea66->fecha_finalizacion;
+        if ($this->proyectoFormulario1Linea65()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario1Linea65->fecha_finalizacion;
+        } else if ($this->proyectoFormulario8Linea66()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario8Linea66->fecha_finalizacion;
         } else if ($this->proyectoFormulario12Linea68()->exists()) {
             $fecha_finalizacion = $this->proyectoFormulario12Linea68->fecha_finalizacion;
-        } else if ($this->proyectoLinea69()->exists()) {
-            $fecha_finalizacion = $this->proyectoLinea69->fecha_finalizacion;
+        } else if ($this->proyectoFormulario5Linea69()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario5Linea69->fecha_finalizacion;
         } else if ($this->proyectoFormulario10Linea69()->exists()) {
             $fecha_finalizacion = $this->proyectoFormulario10Linea69->fecha_finalizacion;
         } else if ($this->proyectoFormulario4Linea70()->exists()) {
@@ -515,20 +535,20 @@ class Proyecto extends Model
     {
         $cantidad_meses_ejecucion = 0;
 
-        if ($this->proyectoLinea65()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoLinea65->max_meses_ejecucion;
+        if ($this->proyectoFormulario1Linea65()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoFormulario1Linea65->max_meses_ejecucion;
         }
 
-        if ($this->proyectoLinea66()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoLinea66->max_meses_ejecucion;
+        if ($this->proyectoFormulario8Linea66()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoFormulario8Linea66->max_meses_ejecucion;
         }
 
         if ($this->proyectoFormulario12Linea68()->exists()) {
             $cantidad_meses_ejecucion = $this->proyectoFormulario12Linea68->max_meses_ejecucion;
         }
 
-        if ($this->proyectoLinea69()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoLinea69->max_meses_ejecucion;
+        if ($this->proyectoFormulario5Linea69()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoFormulario5Linea69->max_meses_ejecucion;
         }
 
         if ($this->proyectoFormulario10Linea69()->exists()) {
@@ -674,13 +694,13 @@ class Proyecto extends Model
     }
 
     /**
-     * getEstadoEvaluacionProyectoLinea66Attribute - Estrategia regional
+     * getEstadoEvaluacionProyectoFormulario8Linea66Attribute - Estrategia regional
      *
      * @return void
      */
-    public function getEstadoEvaluacionProyectoLinea66Attribute()
+    public function getEstadoEvaluacionProyectoFormulario8Linea66Attribute()
     {
-        if ($this->proyectoLinea66()->exists()) {
+        if ($this->proyectoFormulario8Linea66()->exists()) {
             $convocatoria = Convocatoria::select('fase')->where('esta_activa', true)->first();
             $evaluaciones = $this->evaluaciones()->where('habilitado', true)->get();
             $evaluaciones_finalizadas = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
@@ -698,12 +718,12 @@ class Proyecto extends Model
                 $puntaje_total += $evaluacion->total_evaluacion;
                 $total_recomendaciones += $evaluacion->total_recomendaciones;
 
-                array_push($estados, $this->estadoEvaluacionProyectoLinea66($evaluacion->total_evaluacion, $total_recomendaciones, $requiere_subsanar, null)['id']);
+                array_push($estados, $this->estadoEvaluacionProyectoFormulario8Linea66($evaluacion->total_evaluacion, $total_recomendaciones, $requiere_subsanar, null)['id']);
 
                 if ($causal_rechazo == null) {
 
                     switch ($evaluacion) {
-                        case $evaluacion->evaluacionProyectoLinea66()->exists():
+                        case $evaluacion->evaluacionProyectoFormulario8Linea66()->exists():
 
                             if ($evaluacion->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
                                 $causal_rechazo = 'En revisión por Cord. SENNOVA';
@@ -711,7 +731,7 @@ class Proyecto extends Model
                                 $causal_rechazo = 'Rechazado - Por causal de rechazo';
                             }
 
-                            if ($evaluacion->evaluacionProyectoLinea66->anexos_comentario != null) {
+                            if ($evaluacion->evaluacionProyectoFormulario8Linea66->anexos_comentario != null) {
                                 $requiere_subsanar = true;
                             }
                             break;
@@ -743,8 +763,8 @@ class Proyecto extends Model
             $cantidad_evaluaciones > 0 ? $puntaje_total = $puntaje_total / $cantidad_evaluaciones : $puntaje_total = 0;
 
             if ($causal_rechazo == null && $cantidad_evaluaciones > 0) {
-                $estado_evaluacion = $this->estadoEvaluacionProyectoLinea66($puntaje_total, $total_recomendaciones, $requiere_subsanar, null)['estado'];
-                $requiere_subsanar = $this->estadoEvaluacionProyectoLinea66($puntaje_total, $total_recomendaciones, $requiere_subsanar, null)['requiere_subsanar'];
+                $estado_evaluacion = $this->estadoEvaluacionProyectoFormulario8Linea66($puntaje_total, $total_recomendaciones, $requiere_subsanar, null)['estado'];
+                $requiere_subsanar = $this->estadoEvaluacionProyectoFormulario8Linea66($puntaje_total, $total_recomendaciones, $requiere_subsanar, null)['requiere_subsanar'];
             } else {
                 $estado_evaluacion = $causal_rechazo;
             }
@@ -770,7 +790,7 @@ class Proyecto extends Model
      */
     public function getEstadoEvaluacionProyectoFormulario1Linea65Attribute()
     {
-        if ($this->proyectoLinea65()->exists()) {
+        if ($this->proyectoFormulario1Linea65()->exists()) {
 
             $evaluaciones                   = $this->evaluaciones()->where('habilitado', true)->get();
             $evaluaciones_finalizadas       = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
@@ -1001,7 +1021,7 @@ class Proyecto extends Model
      */
     public function getEstadoEvaluacionProyectoFormulario5Linea69Attribute()
     {
-        if ($this->proyectoLinea69()->exists()) {
+        if ($this->proyectoFormulario5Linea69()->exists()) {
             $evaluaciones               = $this->evaluaciones()->where('habilitado', true)->get();
             $evaluaciones_finalizadas   = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
             $cantidad_evaluaciones      = count($evaluaciones);
@@ -1041,7 +1061,7 @@ class Proyecto extends Model
     }
 
     /**
-     * estadoEvaluacionProyectoLinea66
+     * estadoEvaluacionProyectoFormulario8Linea66
      *
      * @param  mixed $puntaje_total
      * @param  mixed $total_recomendaciones
@@ -1049,7 +1069,7 @@ class Proyecto extends Model
      * @param  mixed $causal_rechazo
      * @return void
      */
-    public function estadoEvaluacionProyectoLinea66($puntaje_total, $total_recomendaciones, $requiere_subsanar, $causal_rechazo)
+    public function estadoEvaluacionProyectoFormulario8Linea66($puntaje_total, $total_recomendaciones, $requiere_subsanar, $causal_rechazo)
     {
         $estados_evaluacion = collect(json_decode(Storage::get('json/estados_evaluacion.json'), true));
 
@@ -1087,7 +1107,7 @@ class Proyecto extends Model
     }
 
     /**
-     * estadoEvaluacionProyectoLinea66
+     * estadoEvaluacionProyectoFormulario8Linea66
      *
      * @param  mixed $puntaje_total
      * @param  mixed $total_recomendaciones
@@ -1181,20 +1201,20 @@ class Proyecto extends Model
         $proyecto = $this;
         $proyecto->update(['precio_proyecto' => $proyecto->precio_proyecto]);
         switch ($proyecto) {
-            case $proyecto->estado_evaluacion_proyecto_linea_66 != null:
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_linea_66]);
+            case $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 != null:
+                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66]);
                 break;
-            case $proyecto->estado_evaluacion_proyecto_linea_65 != null:
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_linea_65]);
+            case $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 != null:
+                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65]);
                 break;
-            case $proyecto->estado_evaluacion_proyecto_linea_70 != null:
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_linea_70]);
+            case $proyecto->estado_evaluacion_proyecto_formulario_4_linea_70 != null:
+                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_formulario_4_linea_70]);
                 break;
-            case $proyecto->estado_evaluacion_proyecto_linea_69 != null:
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_linea_69]);
+            case $proyecto->estado_evaluacion_proyecto_formulario_5_linea_69 != null:
+                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_formulario_5_linea_69]);
                 break;
-            case $proyecto->estado_evaluacion_proyecto_linea_68 != null:
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_linea_68]);
+            case $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68 != null:
+                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
                 break;
             default:
                 break;

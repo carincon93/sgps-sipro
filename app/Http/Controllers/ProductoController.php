@@ -32,13 +32,13 @@ class ProductoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->load('evaluaciones.evaluacionProyectoLinea66');
+        $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
 
         $resultado = $proyecto->efectosDirectos()->with('resultado')->get()->pluck('resultado')->flatten()->filter();
 
         return Inertia::render('Convocatorias/Proyectos/Productos/Index', [
             'convocatoria'              =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
-            'proyecto'                  =>  $proyecto->only('id', 'tipo_formulario_convocatoria_id', 'precio_proyecto', 'proyectoLinea65', 'proyectoLinea66', 'proyectoFormulario12Linea68', 'proyectoLinea69', 'proyectoFormulario10Linea69', 'proyectoFormulario4Linea70', 'proyectoFormulario11Linea83', 'fecha_inicio', 'fecha_finalizacion', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
+            'proyecto'                  =>  $proyecto->only('id', 'tipo_formulario_convocatoria_id', 'precio_proyecto', 'proyectoFormulario1Linea65', 'proyectoFormulario8Linea66', 'proyectoFormulario12Linea68', 'proyectoFormulario5Linea69', 'proyectoFormulario10Linea69', 'proyectoFormulario4Linea70', 'proyectoFormulario11Linea83', 'fecha_inicio', 'fecha_finalizacion', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
             'evaluacion'                =>  Evaluacion::find(request()->evaluacion_id),
             'productos'                 =>  Producto::whereIn(
                                                 'resultado_id',
@@ -89,7 +89,7 @@ class ProductoController extends Controller
         $producto->actividades()->attach($request->actividad_id);
 
         // Valida si es un producto Minciencias de la línea 65
-        if ($proyecto->proyectoLinea65()->exists()) {
+        if ($proyecto->proyectoFormulario1Linea65()->exists()) {
             $request->validate([
                 'tipo'                          => 'required|between:1,4',
                 'trl'                           => 'required|min:1|max:9',
@@ -104,7 +104,7 @@ class ProductoController extends Controller
         }
 
         // Valida si es un producto Minciencias de la línea 66
-        if ($proyecto->proyectoLinea66()->exists()) {
+        if ($proyecto->proyectoFormulario8Linea66()->exists()) {
 
             $request->validate([
                 'tipo'                          => 'required|between:1,4',
@@ -135,7 +135,7 @@ class ProductoController extends Controller
         }
 
         // Valida si es un producto Minciencias de la línea 69
-        if ($proyecto->proyectoLinea69()->exists() && $request->has('trl') || $proyecto->proyectoFormulario10Linea69()->exists() && $request->has('trl')) {
+        if ($proyecto->proyectoFormulario5Linea69()->exists() && $request->has('trl') || $proyecto->proyectoFormulario10Linea69()->exists() && $request->has('trl')) {
             $request->validate([
                 'tipo'                          => 'required|between:1,4',
                 'trl'                           => 'required|min:1|max:9',
@@ -168,7 +168,7 @@ class ProductoController extends Controller
         }
 
         // Valida si es un producto de la línea 69
-        if ($proyecto->proyectoLinea69()->exists() && $request->has('valor_proyectado') || $proyecto->proyectoFormulario10Linea69()->exists() && $request->has('valor_proyectado')) {
+        if ($proyecto->proyectoFormulario5Linea69()->exists() && $request->has('valor_proyectado') || $proyecto->proyectoFormulario10Linea69()->exists() && $request->has('valor_proyectado')) {
             $request->validate([
                 'medio_verificacion' => 'required|string',
                 'valor_proyectado'   => 'required|string',
@@ -250,7 +250,7 @@ class ProductoController extends Controller
             $producto->actividades()->sync($request->actividad_id);
         }
 
-        if ($proyecto->proyectoLinea65()->exists()) {
+        if ($proyecto->proyectoFormulario1Linea65()->exists()) {
             $request->validate([
                 'tipo'                          => 'required|between:1,4',
                 'trl'                           => 'required|min:1|max:9',
@@ -259,7 +259,7 @@ class ProductoController extends Controller
             $producto->productoMincienciasLinea65()->update(['subtipologia_minciencias_id' => $request->subtipologia_minciencias_id, 'tipo' => $request->tipo, 'trl' => $request->trl]);
         }
 
-        if ($proyecto->proyectoLinea66()->exists()) {
+        if ($proyecto->proyectoFormulario8Linea66()->exists()) {
             $request->validate([
                 'tipo'                          => 'required|between:1,4',
                 'trl'                           => 'required|min:1|max:9',
@@ -278,7 +278,7 @@ class ProductoController extends Controller
             $producto->productoMincienciasLinea68()->update(['subtipologia_minciencias_id' => $request->subtipologia_minciencias_id, 'tipo' => $request->tipo, 'trl' => $request->trl]);
         }
 
-        if ($proyecto->proyectoLinea69()->exists() && $request->has('trl') || $proyecto->proyectoFormulario10Linea69()->exists() && $request->has('trl')) {
+        if ($proyecto->proyectoFormulario5Linea69()->exists() && $request->has('trl') || $proyecto->proyectoFormulario10Linea69()->exists() && $request->has('trl')) {
             $request->validate([
                 'tipo'                          => 'required|between:1,4',
                 'trl'                           => 'required|min:1|max:9',
@@ -301,7 +301,7 @@ class ProductoController extends Controller
             ]);
         }
 
-        if ($proyecto->proyectoLinea69()->exists() && $request->has('valor_proyectado') || $proyecto->proyectoFormulario10Linea69()->exists() && $request->has('valor_proyectado')) {
+        if ($proyecto->proyectoFormulario5Linea69()->exists() && $request->has('valor_proyectado') || $proyecto->proyectoFormulario10Linea69()->exists() && $request->has('valor_proyectado')) {
             $request->validate([
                 'medio_verificacion' => 'required|string',
                 'valor_proyectado'   => 'required|string',
@@ -377,8 +377,8 @@ class ProductoController extends Controller
         $this->authorize('modificar-evaluacion-autor', $evaluacion);
 
         switch ($evaluacion) {
-            case $evaluacion->evaluacionProyectoLinea66()->exists():
-                $evaluacion->evaluacionProyectoLinea66()->update([
+            case $evaluacion->evaluacionProyectoFormulario8Linea66()->exists():
+                $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
                     'productos_puntaje'      => $request->productos_puntaje,
                     'productos_comentario'   => $request->productos_requiere_comentario == false ? $request->productos_comentario : null
                 ]);

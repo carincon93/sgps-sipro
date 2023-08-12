@@ -45,13 +45,13 @@ class ProgramaSennova extends Model
     ];
 
     /**
-     * Relationship with ProyectoProyectoLinea66Tecnoacademia
+     * Relationship with ProyectoProyectoFormulario8Linea66Tecnoacademia
      *
      * @return object
      */
-    public function proyectosProyectoLinea66Tecnoacademia()
+    public function proyectosProyectoFormulario8Linea66Tecnoacademia()
     {
-        return $this->belongsToMany(ProyectoProyectoLinea66Tecnoacademia::class, 'proyecto_idi_tecnoacademia_programa_sennova', 'programa_sennova_id', 'proyecto_idi_tecnoacademia_id');
+        return $this->belongsToMany(ProyectoProyectoFormulario8Linea66Tecnoacademia::class, 'proyecto_idi_tecnoacademia_programa_sennova', 'programa_sennova_id', 'proyecto_idi_tecnoacademia_id');
     }
 
     /**
@@ -61,7 +61,7 @@ class ProgramaSennova extends Model
      * @param  mixed $filters
      * @return void
      */
-    public function scopeFilterProyectoProyectoLinea66TecnoacademiaProgramaSennova($query, array $filters)
+    public function scopeFilterProyectoProyectoFormulario8Linea66TecnoacademiaProgramaSennova($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $query->where('nombre', 'ilike', '%' . $search . '%');

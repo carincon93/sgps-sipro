@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use DateTimeInterface;
 use Illuminate\Support\Facades\Auth;
 
-class ProyectoLinea66 extends Model
+class ProyectoFormulario8Linea66 extends Model
 {
     use HasFactory;
 
@@ -18,7 +18,7 @@ class ProyectoLinea66 extends Model
      *
      * @var string
      */
-    protected $table = 'idi';
+    protected $table = 'proyectos_formulario_8_linea_66';
 
     /**
      * appends
@@ -232,7 +232,7 @@ class ProyectoLinea66 extends Model
      * @param  mixed $filters
      * @return void
      */
-    public function scopeFilterProyectoLinea66($query, array $filters)
+    public function scopeFilterProyectoFormulario8Linea66($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $search = str_replace('"', "", $search);
@@ -240,7 +240,7 @@ class ProyectoLinea66 extends Model
             $search = str_replace(' ', '%%', $search);
             $query->whereRaw("unaccent(titulo) ilike unaccent('%" . $search . "%')");
             if (is_numeric($search)) {
-                $query->orWhere('idi.id', $search - 8000);
+                $query->orWhere('proyectos_formulario_8_linea_66.id', $search - 8000);
             }
         });
     }
@@ -298,15 +298,11 @@ class ProyectoLinea66 extends Model
         /** @var \App\Models\User */
         $auth_user = Auth::user();
 
-        $proyectos_linea_66 = ProyectoLinea66::select('idi.id', 'idi.titulo', 'idi.fecha_inicio', 'idi.fecha_finalizacion')
-            ->join('proyectos', 'idi.id', 'proyectos.id')
+        $proyectos_formulario_8_linea_66 = ProyectoFormulario8Linea66::select('proyectos_formulario_8_linea_66.id', 'proyectos_formulario_8_linea_66.titulo', 'proyectos_formulario_8_linea_66.fecha_inicio', 'proyectos_formulario_8_linea_66.fecha_finalizacion')
+            ->join('proyectos', 'proyectos_formulario_8_linea_66.id', 'proyectos.id')
             ->whereHas(
                 'proyecto.centroFormacion',
                 function ($query) use ($convocatoria, $auth_user) {
-                    if (request()->tip) {
-                        $query->where('proyectos.tip', request()->tip);
-                    }
-
                     if ($auth_user->hasRole([2]) && !$auth_user->hasRole([1])) {
                         $query->where('centros_formacion.regional_id', $auth_user->centroFormacion->regional->id);
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
@@ -318,7 +314,7 @@ class ProyectoLinea66 extends Model
                     } else if ($auth_user->hasRole([1, 18, 23])) {
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
                     } else {
-                        $query->join('proyectos', 'idi.id', 'proyectos.id');
+                        $query->join('proyectos', 'proyectos_formulario_8_linea_66.id', 'proyectos.id');
                         $query->join('proyecto_participantes', 'proyectos.id', 'proyecto_participantes.proyecto_id');
                         $query->where('proyecto_participantes.user_id', $auth_user->id);
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
@@ -326,13 +322,13 @@ class ProyectoLinea66 extends Model
                 }
             )
             ->with('proyecto.proyectoPresupuesto')
-            ->distinct('idi.id')
-            ->orderBy('idi.id', 'ASC')
-            ->filterProyectoLinea66(request()->only('search'))->paginate();
+            ->distinct('proyectos_formulario_8_linea_66.id')
+            ->orderBy('proyectos_formulario_8_linea_66.id', 'ASC')
+            ->filterProyectoFormulario8Linea66(request()->only('search'))->paginate();
 
-        $proyectos_linea_66->load('proyecto');
-        $proyectos_linea_66->load('proyecto.evaluaciones');
+        $proyectos_formulario_8_linea_66->load('proyecto');
+        $proyectos_formulario_8_linea_66->load('proyecto.evaluaciones');
 
-        return $proyectos_linea_66;
+        return $proyectos_formulario_8_linea_66;
     }
 }

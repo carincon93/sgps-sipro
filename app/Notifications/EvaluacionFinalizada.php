@@ -44,17 +44,17 @@ class EvaluacionFinalizada extends Notification
         $proyecto = $this->proyecto;
         $year = null;
         switch ($proyecto) {
-            case $proyecto->proyectoLinea66()->exists():
-                $year = date('Y', strtotime($proyecto->proyectoLinea66->fecha_finalizacion));
+            case $proyecto->proyectoFormulario8Linea66()->exists():
+                $year = date('Y', strtotime($proyecto->proyectoFormulario8Linea66->fecha_finalizacion));
                 break;
             case $proyecto->proyectoFormulario4Linea70()->exists():
                 $year = date('Y', strtotime($proyecto->proyectoFormulario4Linea70->fecha_finalizacion));
                 break;
-            case $proyecto->proyectoLinea69()->exists():
-                $year = date('Y', strtotime($proyecto->proyectoLinea69->fecha_finalizacion));
+            case $proyecto->proyectoFormulario5Linea69()->exists():
+                $year = date('Y', strtotime($proyecto->proyectoFormulario5Linea69->fecha_finalizacion));
                 break;
-            case $proyecto->proyectoLinea65()->exists():
-                $year = date('Y', strtotime($proyecto->proyectoLinea65->fecha_finalizacion));
+            case $proyecto->proyectoFormulario1Linea65()->exists():
+                $year = date('Y', strtotime($proyecto->proyectoFormulario1Linea65->fecha_finalizacion));
                 break;
             case $proyecto->proyectoFormulario12Linea68()->exists():
                 $year = date('Y', strtotime($proyecto->proyectoFormulario12Linea68->fecha_finalizacion));
@@ -79,17 +79,17 @@ class EvaluacionFinalizada extends Notification
         $proyecto = $this->proyecto;
         $year = null;
         switch ($proyecto) {
-            case $proyecto->proyectoLinea66()->exists():
-                $year = date('Y', strtotime($proyecto->proyectoLinea66->fecha_finalizacion));
+            case $proyecto->proyectoFormulario8Linea66()->exists():
+                $year = date('Y', strtotime($proyecto->proyectoFormulario8Linea66->fecha_finalizacion));
                 break;
             case $proyecto->proyectoFormulario4Linea70()->exists():
                 $year = date('Y', strtotime($proyecto->proyectoFormulario4Linea70->fecha_finalizacion));
                 break;
-            case $proyecto->proyectoLinea69()->exists():
-                $year = date('Y', strtotime($proyecto->proyectoLinea69->fecha_finalizacion));
+            case $proyecto->proyectoFormulario5Linea69()->exists():
+                $year = date('Y', strtotime($proyecto->proyectoFormulario5Linea69->fecha_finalizacion));
                 break;
-            case $proyecto->proyectoLinea65()->exists():
-                $year = date('Y', strtotime($proyecto->proyectoLinea65->fecha_finalizacion));
+            case $proyecto->proyectoFormulario1Linea65()->exists():
+                $year = date('Y', strtotime($proyecto->proyectoFormulario1Linea65->fecha_finalizacion));
                 break;
             case $proyecto->proyectoFormulario12Linea68()->exists():
                 $year = date('Y', strtotime($proyecto->proyectoFormulario12Linea68->fecha_finalizacion));

@@ -58,7 +58,7 @@ const Form = ({
         max_meses_ejecucion: proyecto_formulario_1_linea_65?.max_meses_ejecucion ?? '',
         centro_formacion_id: proyecto_formulario_1_linea_65?.proyecto?.centro_formacion_id ?? null,
         linea_investigacion_id: proyecto_formulario_1_linea_65?.linea_investigacion_id ?? null,
-        linea_programatica_id: proyecto_formulario_1_linea_65?.proyecto.linea_programatica_id ?? null,
+
         area_conocimiento_id: proyecto_formulario_1_linea_65?.area_conocimiento_id ?? null,
         tematica_estrategica_id: proyecto_formulario_1_linea_65?.tematica_estrategica_id ?? null,
         actividad_economica_id: proyecto_formulario_1_linea_65?.actividad_economica_id ?? null,
@@ -271,28 +271,7 @@ const Form = ({
                     <Label required labelFor="linea_programatica_id" className="mb-4" value="Código dependencia presupuestal (SIIF)" />
                 </Grid>
                 <Grid item md={6}>
-                    {method == 'POST' ? (
-                        <Autocomplete
-                            id="linea_programatica_id"
-                            selectedValue={form.data.linea_programatica_id}
-                            onChange={(event, newValue) => form.setData('linea_programatica_id', newValue.value)}
-                            options={
-                                method == 'POST'
-                                    ? lineas_programaticas
-                                    : [
-                                          {
-                                              value: proyecto_formulario_1_linea_65?.proyecto.linea_programatica.id,
-                                              label: proyecto_formulario_1_linea_65?.proyecto.linea_programatica.nombre + ' - ' + proyecto_formulario_1_linea_65?.proyecto.linea_programatica.codigo,
-                                          },
-                                      ]
-                            }
-                            error={form.errors.linea_programatica_id}
-                            required
-                            onBlur={() => syncColumnLong('linea_programatica_id', form)}
-                        />
-                    ) : (
-                        <>{proyecto_formulario_1_linea_65?.proyecto.tipo_formulario_convocatoria.linea_programatica.nombre}</>
-                    )}
+                    {proyecto_formulario_1_linea_65?.proyecto.tipo_formulario_convocatoria.linea_programatica.nombre}
                 </Grid>
 
                 <Grid item md={6}>

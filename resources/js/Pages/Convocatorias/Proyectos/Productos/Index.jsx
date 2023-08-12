@@ -275,8 +275,8 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                         </Grid>
                     </div>
                 ) : null}
-                {proyecto?.proyectoLinea65 ||
-                proyecto?.proyectoLinea66 ||
+                {proyecto?.proyectoFormulario1Linea65 ||
+                proyecto?.proyectoFormulario8Linea66 ||
                 proyecto?.tipo_formulario_convocatoria_id == 4 ||
                 proyecto?.tipo_formulario_convocatoria_id == 5 ||
                 proyecto?.tipo_formulario_convocatoria_id == 12 ||

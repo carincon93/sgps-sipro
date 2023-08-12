@@ -50,7 +50,7 @@ class ProyectoRolSennovaController extends Controller
         /**
          * Si el proyecto es de la línea programática 23 se prohibe el acceso. No requiere de roles SENNOVA
          */
-        if ($proyecto->codigo_linea_programatica == 23 || $proyecto->proyectoLinea65()->exists() && $proyecto->proyectoLinea65->tipo_proyecto == 2) {
+        if ($proyecto->codigo_linea_programatica == 23 || $proyecto->proyectoFormulario1Linea65()->exists() && $proyecto->proyectoFormulario1Linea65->tipo_proyecto == 2) {
             return redirect()->route('convocatorias.proyectos.arbol-objetivos', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de roles SENNOVA');
         }
 

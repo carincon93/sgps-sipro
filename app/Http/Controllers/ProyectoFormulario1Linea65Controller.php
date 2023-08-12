@@ -113,7 +113,7 @@ class ProyectoFormulario1Linea65Controller extends Controller
         $proyecto_formulario_1_linea_65->tematicaEstrategica()->associate($request->tematica_estrategica_id);
         $proyecto_formulario_1_linea_65->actividadEconomica()->associate($request->actividad_economica_id);
 
-        $proyecto->proyectoLinea65()->save($proyecto_formulario_1_linea_65);
+        $proyecto->proyectoFormulario1Linea65()->save($proyecto_formulario_1_linea_65);
 
         $proyecto->participantes()->attach(
             Auth::user()->id,

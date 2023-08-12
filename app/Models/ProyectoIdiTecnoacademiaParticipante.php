@@ -47,13 +47,13 @@ class ProyectoIdiTecnoacademiaParticipante extends Model
     ];
 
     /**
-     * Relationship with ProyectoProyectoLinea66Tecnoacademia
+     * Relationship with ProyectoProyectoFormulario8Linea66Tecnoacademia
      *
      * @return object
      */
-    public function proyectoProyectoLinea66Tecnoacademia()
+    public function proyectoProyectoFormulario8Linea66Tecnoacademia()
     {
-        return $this->belongsTo(ProyectoProyectoLinea66Tecnoacademia::class);
+        return $this->belongsTo(ProyectoProyectoFormulario8Linea66Tecnoacademia::class);
     }
 
     /**

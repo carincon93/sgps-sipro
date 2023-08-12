@@ -68,7 +68,7 @@ class NodoTecnoparque extends Model
      *
      * @return object
      */
-    public function proyectoLinea69()
+    public function proyectoFormulario5Linea69()
     {
         return $this->hasOne(ProyectoFormulario5Linea69::class);
     }

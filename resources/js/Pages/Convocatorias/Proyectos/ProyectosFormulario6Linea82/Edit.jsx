@@ -15,7 +15,7 @@ import Evaluacion from './Evaluacion'
 const Edit = ({
     auth,
     convocatoria,
-    proyecto_linea_66,
+    proyecto_formulario_6_linea_82,
     evaluacion,
     centros_formacion,
     mesas_sectoriales_relacionadas,
@@ -25,7 +25,6 @@ const Edit = ({
     areas_conocimiento,
     subareas_conocimiento,
     disciplinas_subarea_conocimiento,
-    lineas_programaticas,
     actividades_economicas,
     tematicas_estrategicas,
     redes_conocimiento,
@@ -49,14 +48,14 @@ const Edit = ({
     const [dialog_status, setDialogStatus] = useState(false)
 
     const comentarios_evaluaciones =
-        proyecto_linea_66?.proyecto.evaluaciones.length > 0
-            ? Object.keys(proyecto_linea_66?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_linea66).filter((field) => field.endsWith('_comentario'))
+        proyecto_formulario_6_linea_82?.proyecto.evaluaciones.length > 0
+            ? Object.keys(proyecto_formulario_6_linea_82?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_formulario6_linea82).filter((field) => field.endsWith('_comentario'))
             : null
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyecto_linea_66.titulo}</h2>}>
+        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyecto_formulario_6_linea_82.titulo}</h2>}>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto_linea_66?.proyecto} evaluacion={evaluacion} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto_formulario_6_linea_82?.proyecto} evaluacion={evaluacion} />
             </Grid>
 
             {/* {!evaluacion && (
@@ -76,7 +75,7 @@ const Edit = ({
                                     open={dialog_status}
                                     dialogContent={
                                         <>
-                                            {proyecto_linea_66?.proyecto.evaluaciones.map((evaluacion, i) => (
+                                            {proyecto_formulario_6_linea_82?.proyecto.evaluaciones.map((evaluacion, i) => (
                                                 <ButtonMui onClick={() => setEvaluacionIndex(i)} primary={evaluacion_index == i} key={i} className="!ml-2">
                                                     Comentarios de la evaluación #{i + 1} <Chip className="ml-2 !text-white" label={evaluacion.id} size="small" />
                                                 </ButtonMui>
@@ -91,7 +90,7 @@ const Edit = ({
                                                                     <p className="first-letter:uppercase">{field.replace(/_comentario/g, '').replace(/_/g, ' ')}</p>
                                                                 </TableCell>
                                                                 <TableCell>
-                                                                    {proyecto_linea_66?.proyecto.evaluaciones[evaluacion_index]?.evaluacion_proyecto_linea66[field] ?? 'Sin comentarios'}
+                                                                    {proyecto_formulario_6_linea_82?.proyecto.evaluaciones[evaluacion_index]?.evaluacion_proyecto_formulario6_linea82[field] ?? 'Sin comentarios'}
                                                                 </TableCell>
                                                             </TableRow>
                                                         ))}
@@ -143,7 +142,7 @@ const Edit = ({
                     is_super_admin={is_super_admin}
                     method="PUT"
                     convocatoria={convocatoria}
-                    proyecto_linea_66={proyecto_linea_66}
+                    proyecto_formulario_6_linea_82={proyecto_formulario_6_linea_82}
                     evaluacion={evaluacion}
                     centros_formacion={centros_formacion}
                     mesas_sectoriales_relacionadas={mesas_sectoriales_relacionadas}
@@ -153,7 +152,6 @@ const Edit = ({
                     areas_conocimiento={areas_conocimiento}
                     subareas_conocimiento={subareas_conocimiento}
                     disciplinas_subarea_conocimiento={disciplinas_subarea_conocimiento}
-                    lineas_programaticas={lineas_programaticas}
                     actividades_economicas={actividades_economicas}
                     tematicas_estrategicas={tematicas_estrategicas}
                     redes_conocimiento={redes_conocimiento}

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProyectoLinea66ColumnRequest extends FormRequest
+class ProyectoFormulario6Linea82ColumnRequest extends FormRequest
 {
     private $columnsRules = [
         'fecha_inicio'                                          => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],

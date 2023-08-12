@@ -269,35 +269,34 @@ class ConvocatoriaController extends Controller
     public function proyectosPorTipoFormulario(Convocatoria $convocatoria, TipoFormularioConvocatoria $tipo_formulario_convocatoria)
     {
         switch ($tipo_formulario_convocatoria->id) {
-            case 8:
-                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => 8]);
-                break;
-            case 7:
-                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => 7]);
-                break;
-            case 6:
-                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => 6]);
-                break;
-            case 9:
-                return redirect()->route('convocatorias.proyectos-linea-66.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => 9]);
-                break;
-            case 5:
-                return redirect()->route('convocatorias.proyectos-formulario-5-linea-69.index', [$convocatoria]);
-            case 4:
-                return redirect()->route('convocatorias.proyectos-formulario-4-linea-70.index', [$convocatoria]);
-                break;
             case 1:
                 return redirect()->route('convocatorias.proyectos-formulario-1-linea-65.index', [$convocatoria]);
                 break;
-
-            case 12:
-                return redirect()->route('convocatorias.proyectos-formulario-12-linea-68.index', [$convocatoria]);
+            case 4:
+                return redirect()->route('convocatorias.proyectos-formulario-4-linea-70.index', [$convocatoria]);
+                break;
+            case 5:
+                return redirect()->route('convocatorias.proyectos-formulario-5-linea-69.index', [$convocatoria]);
+            case 6:
+                return redirect()->route('convocatorias.proyectos-formulario-6-linea-82.index', [$convocatoria]);
+                break;
+            case 7:
+                return redirect()->route('convocatorias.proyectos-formulario-7-linea-23.index', [$convocatoria]);
+                break;
+            case 8:
+                return redirect()->route('convocatorias.proyectos-formulario-8-linea-66.index', [$convocatoria]);
+                break;
+            case 9:
+                return redirect()->route('convocatorias.proyectos-formulario-9-linea-23.index', [$convocatoria]);
+                break;
+            case 10:
+                return redirect()->route('convocatorias.proyectos-formulario-10-linea-69.index', [$convocatoria]);
                 break;
             case 11:
                 return redirect()->route('convocatorias.proyectos-formulario-11-linea-83.index', [$convocatoria]);
                 break;
-            case 10:
-                return redirect()->route('convocatorias.proyectos-formulario-10-linea-69.index', [$convocatoria]);
+            case 12:
+                return redirect()->route('convocatorias.proyectos-formulario-12-linea-68.index', [$convocatoria]);
                 break;
             default:
                 return back();
