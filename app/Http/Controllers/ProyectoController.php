@@ -1167,7 +1167,6 @@ class ProyectoController extends Controller
         return back()->with('success', 'Se ha actualizado correctamente el autor principal.');
     }
 
-
     public function actualizarEstadosTodosProyectos(Request $request)
     {
         $proyectos = Proyecto::where('convocatoria_id', $request->convocatoria_id)->get();
@@ -1176,5 +1175,43 @@ class ProyectoController extends Controller
         }
 
         return back()->with('success', 'Se han actualizado los estados de los proyectos correctamente.');
+    }
+
+      public function showIndicadores(Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        $this->authorize('visualizar-proyecto-autor', [$proyecto]);
+
+        $proyecto->precio_proyecto = $proyecto->precioProyecto;
+        $proyecto->proyectoFormulario7Linea23;
+        $proyecto->proyectoFormulario9Linea23;
+        $proyecto->proyectoFormulario8Linea66;
+        $proyecto->proyectoFormulario6Linea82;
+
+        $proyecto->centroFormacion;
+
+        return Inertia::render('Convocatorias/Proyectos/Indicadores/Index', [
+            'convocatoria'  => $convocatoria,
+            'proyecto'      => $proyecto,
+            // 'evaluacion'        => EvaluacionProyectoFormulario8Linea66::find(request()->evaluacion_id),
+        ]);
+    }
+
+    public function storeIndicadores(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        $this->authorize('modificar-proyecto-autor', [$proyecto]);
+
+        $proyecto->productividad_beneficiaros                = $request->productividad_beneficiaros;
+        $proyecto->generacion_empleo_beneficiarios           = $request->generacion_empleo_beneficiarios;
+        $proyecto->creacion_nuevos_desarrollos               = $request->creacion_nuevos_desarrollos;
+        $proyecto->generacion_conocimientos_beneficiarios    = $request->generacion_conocimientos_beneficiarios;
+        $proyecto->generacion_valor_beneficiarios            = $request->generacion_valor_beneficiarios;
+        $proyecto->fortalecimiento_programas_formacion       = $request->fortalecimiento_programas_formacion;
+        $proyecto->transferencia_tecnologias                 = $request->transferencia_tecnologias;
+        $proyecto->calidad_formacion                         = $request->calidad_formacion;
+        $proyecto->impacto_ambiental_proyectos               = $request->impacto_ambiental_proyectos;
+
+        $proyecto->save();
+
+        return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 }

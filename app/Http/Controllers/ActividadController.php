@@ -43,8 +43,33 @@ class ActividadController extends Controller
         $proyecto->proyectoFormulario11Linea83;
 
         switch ($proyecto) {
+            case $proyecto->proyectoFormulario7Linea23()->exists():
+                $proyecto->metodologia = $proyecto->proyectoFormulario7Linea23->metodologia;
+                break;
+            case $proyecto->proyectoFormulario9Linea23()->exists():
+                $proyecto->metodologia = $proyecto->proyectoFormulario9Linea23->metodologia;
+                break;
+            case $proyecto->proyectoFormulario1Linea65()->exists():
+                $proyecto->metodologia      = $proyecto->proyectoFormulario1Linea65->metodologia;
+                $proyecto->tipo_proyecto    = $proyecto->proyectoFormulario1Linea65->tipo_proyecto;
+                break;
             case $proyecto->proyectoFormulario8Linea66()->exists():
                 $proyecto->metodologia = $proyecto->proyectoFormulario8Linea66->metodologia;
+                break;
+            case $proyecto->proyectoFormulario5Linea69()->exists():
+                $proyecto->metodologia                              = $proyecto->proyectoFormulario5Linea69->metodologia;
+                $proyecto->metodologia_local                        = $proyecto->proyectoFormulario5Linea69->metodologia_local;
+                $proyecto->impacto_municipios                       = $proyecto->proyectoFormulario5Linea69->impacto_municipios;
+                $proyecto->estrategia_articulacion_prox_vigencia    = $proyecto->proyectoFormulario5Linea69->estrategia_articulacion_prox_vigencia;
+                $proyecto->alianzas_estrategicas                    = $proyecto->proyectoFormulario5Linea69->alianzas_estrategicas;
+                $proyecto->estrategia_divulgacion                   = $proyecto->proyectoFormulario5Linea69->estrategia_divulgacion;
+                $proyecto->promover_productividad                   = $proyecto->proyectoFormulario5Linea69->promover_productividad;
+                $proyecto->departamentos_atencion_talentos          = $proyecto->proyectoFormulario5Linea69->departamentos_atencion_talentos;
+                $proyecto->estrategia_atencion_talentos             = $proyecto->proyectoFormulario5Linea69->estrategia_atencion_talentos;
+                break;
+
+            case $proyecto->proyectoFormulario12Linea68()->exists():
+                $proyecto->metodologia = $proyecto->proyectoFormulario12Linea68->metodologia;
                 break;
             case $proyecto->proyectoFormulario4Linea70()->exists():
                 $proyecto->metodologia                          = $proyecto->proyectoFormulario4Linea70->metodologia;
@@ -72,24 +97,8 @@ class ActividadController extends Controller
                 $proyecto->programasFormacion;
 
                 break;
-            case $proyecto->proyectoFormulario5Linea69()->exists():
-                $proyecto->metodologia                              = $proyecto->proyectoFormulario5Linea69->metodologia;
-                $proyecto->metodologia_local                        = $proyecto->proyectoFormulario5Linea69->metodologia_local;
-                $proyecto->impacto_municipios                       = $proyecto->proyectoFormulario5Linea69->impacto_municipios;
-                $proyecto->estrategia_articulacion_prox_vigencia    = $proyecto->proyectoFormulario5Linea69->estrategia_articulacion_prox_vigencia;
-                $proyecto->alianzas_estrategicas                    = $proyecto->proyectoFormulario5Linea69->alianzas_estrategicas;
-                $proyecto->estrategia_divulgacion                   = $proyecto->proyectoFormulario5Linea69->estrategia_divulgacion;
-                $proyecto->promover_productividad                   = $proyecto->proyectoFormulario5Linea69->promover_productividad;
-                $proyecto->departamentos_atencion_talentos          = $proyecto->proyectoFormulario5Linea69->departamentos_atencion_talentos;
-                $proyecto->estrategia_atencion_talentos             = $proyecto->proyectoFormulario5Linea69->estrategia_atencion_talentos;
-                break;
-
-            case $proyecto->proyectoFormulario1Linea65()->exists():
-                $proyecto->metodologia      = $proyecto->proyectoFormulario1Linea65->metodologia;
-                $proyecto->tipo_proyecto    = $proyecto->proyectoFormulario1Linea65->tipo_proyecto;
-                break;
-            case $proyecto->proyectoFormulario12Linea68()->exists():
-                $proyecto->metodologia = $proyecto->proyectoFormulario12Linea68->metodologia;
+            case $proyecto->proyectoFormulario6Linea82()->exists():
+                $proyecto->metodologia = $proyecto->proyectoFormulario6Linea82->metodologia;
                 break;
             default:
                 break;

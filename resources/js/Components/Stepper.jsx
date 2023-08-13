@@ -183,13 +183,16 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
     const classes = useStyles()
 
     const isActive =
-        route().current('convocatorias.proyectos-formulario-4-linea-70.edit') ||
-        route().current('convocatorias.proyectos-formulario-11-linea-83.edit') ||
+        route().current('convocatorias.proyectos-formulario-7-linea-23.edit') ||
+        route().current('convocatorias.proyectos-formulario-9-linea-23.edit') ||
+        route().current('convocatorias.proyectos-formulario-8-linea-66.edit') ||
+        route().current('convocatorias.proyectos-formulario-1-linea-65.edit') ||
+        route().current('convocatorias.proyectos-formulario-12-linea-68.edit') ||
         route().current('convocatorias.proyectos-formulario-5-linea-69.edit') ||
         route().current('convocatorias.proyectos-formulario-10-linea-69.edit') ||
-        route().current('convocatorias.proyectos-formulario-8-linea-66.edit') ||
-        route().current('convocatorias.proyectos-formulario-12-linea-68.edit') ||
-        route().current('convocatorias.proyectos-formulario-1-linea-65.edit')
+        route().current('convocatorias.proyectos-formulario-4-linea-70.edit') ||
+        route().current('convocatorias.proyectos-formulario-6-linea-82.edit') ||
+        route().current('convocatorias.proyectos-formulario-11-linea-83.edit')
 
     return (
         <>
@@ -312,8 +315,8 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                 proyecto?.tipo_formulario_convocatoria_id == 7 ||
                 proyecto?.tipo_formulario_convocatoria_id == 8 ||
                 proyecto?.tipo_formulario_convocatoria_id == 9 ? (
-                    <Step active={route().current('convocatorias.proyectos-formulario-8-linea-66.indicadores')}>
-                        <Link href={route('convocatorias.proyectos-formulario-8-linea-66.indicadores', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
+                    <Step active={route().current('convocatorias.proyectos.indicadores')}>
+                        <Link href={route('convocatorias.proyectos.indicadores', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                             <StepLabel classes={{ root: classes.root }}>Indicadores</StepLabel>
                         </Link>
                     </Step>

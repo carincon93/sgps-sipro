@@ -182,7 +182,7 @@ class Proyecto extends Model
      *
      * @return object
      */
-    public function proyectoFormulario6Linea66()
+    public function proyectoFormulario6Linea82()
     {
         return $this->hasOne(ProyectoFormulario6Linea82::class, 'id');
     }

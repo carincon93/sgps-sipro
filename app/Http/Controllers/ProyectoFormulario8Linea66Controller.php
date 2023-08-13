@@ -395,44 +395,4 @@ class ProyectoFormulario8Linea66Controller extends Controller
 
         return back();
     }
-
-    public function showIndicadores(Convocatoria $convocatoria, ProyectoFormulario8Linea66 $proyecto_formulario_8_linea_66)
-    {
-        $this->authorize('visualizar-proyecto-autor', [$proyecto_formulario_8_linea_66->proyecto]);
-
-        $proyecto_formulario_8_linea_66->proyecto->pdfVersiones;
-
-        $proyecto_formulario_8_linea_66->proyecto->precio_proyecto = $proyecto_formulario_8_linea_66->proyecto->precioProyecto;
-
-        $proyecto_formulario_8_linea_66->disciplinaSubareaConocimiento->subareaConocimiento->areaConocimiento;
-        $proyecto_formulario_8_linea_66->proyecto->centroFormacion;
-        $proyecto_formulario_8_linea_66->proyecto->all_files;
-        $proyecto_formulario_8_linea_66->mostrar_recomendaciones = $proyecto_formulario_8_linea_66->proyecto->mostrar_recomendaciones;
-        $proyecto_formulario_8_linea_66->mostrar_requiere_subsanacion = $proyecto_formulario_8_linea_66->proyecto->mostrar_requiere_subsanacion;
-
-        return Inertia::render('Convocatorias/Proyectos/Indicadores/Index', [
-            'convocatoria'      => $convocatoria,
-            'proyecto_formulario_8_linea_66' => $proyecto_formulario_8_linea_66,
-            'evaluacion'        => EvaluacionProyectoFormulario8Linea66::find(request()->evaluacion_id),
-        ]);
-    }
-
-    public function storeIndicadores(Request $request, Convocatoria $convocatoria, ProyectoFormulario8Linea66 $proyecto_formulario_8_linea_66)
-    {
-        $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_8_linea_66->proyecto]);
-
-        $proyecto_formulario_8_linea_66->productividad_beneficiaros                = $request->productividad_beneficiaros;
-        $proyecto_formulario_8_linea_66->generacion_empleo_beneficiarios           = $request->generacion_empleo_beneficiarios;
-        $proyecto_formulario_8_linea_66->creacion_nuevos_desarrollos               = $request->creacion_nuevos_desarrollos;
-        $proyecto_formulario_8_linea_66->generacion_conocimientos_beneficiarios    = $request->generacion_conocimientos_beneficiarios;
-        $proyecto_formulario_8_linea_66->generacion_valor_beneficiarios            = $request->generacion_valor_beneficiarios;
-        $proyecto_formulario_8_linea_66->fortalecimiento_programas_formacion       = $request->fortalecimiento_programas_formacion;
-        $proyecto_formulario_8_linea_66->transferencia_tecnologias                 = $request->transferencia_tecnologias;
-        $proyecto_formulario_8_linea_66->calidad_formacion                         = $request->calidad_formacion;
-        $proyecto_formulario_8_linea_66->impacto_ambiental_proyectos               = $request->impacto_ambiental_proyectos;
-
-        $proyecto_formulario_8_linea_66->save();
-
-        return back()->with('success', 'El recurso se ha actualizado correctamente.');
-    }
 }

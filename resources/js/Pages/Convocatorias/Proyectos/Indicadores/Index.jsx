@@ -8,31 +8,74 @@ import StepperMui from '@/Components/Stepper'
 import { router, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 
-const Indicadores = ({ auth, convocatoria, proyecto_formulario_8_linea_66, evaluacion, ...props }) => {
+const Indicadores = ({ auth, convocatoria, proyecto, evaluacion, ...props }) => {
+    console.log(proyecto)
     const form = useForm({
-        productividad_beneficiaros: proyecto_formulario_8_linea_66.productividad_beneficiaros ? proyecto_formulario_8_linea_66.productividad_beneficiaros : '',
-        generacion_empleo_beneficiarios: proyecto_formulario_8_linea_66.generacion_empleo_beneficiarios ? proyecto_formulario_8_linea_66.generacion_empleo_beneficiarios : '',
-        creacion_nuevos_desarrollos: proyecto_formulario_8_linea_66.creacion_nuevos_desarrollos ? proyecto_formulario_8_linea_66.creacion_nuevos_desarrollos : '',
-        generacion_conocimientos_beneficiarios: proyecto_formulario_8_linea_66.generacion_conocimientos_beneficiarios ? proyecto_formulario_8_linea_66.generacion_conocimientos_beneficiarios : '',
-        generacion_valor_beneficiarios: proyecto_formulario_8_linea_66.generacion_valor_beneficiarios ? proyecto_formulario_8_linea_66.generacion_valor_beneficiarios : '',
-        fortalecimiento_programas_formacion: proyecto_formulario_8_linea_66.fortalecimiento_programas_formacion ? proyecto_formulario_8_linea_66.fortalecimiento_programas_formacion : '',
-        transferencia_tecnologias: proyecto_formulario_8_linea_66.transferencia_tecnologias ? proyecto_formulario_8_linea_66.transferencia_tecnologias : '',
-        calidad_formacion: proyecto_formulario_8_linea_66.calidad_formacion ? proyecto_formulario_8_linea_66.calidad_formacion : '',
-        impacto_ambiental_proyectos: proyecto_formulario_8_linea_66.impacto_ambiental_proyectos ? proyecto_formulario_8_linea_66.impacto_ambiental_proyectos : '',
+        productividad_beneficiaros:
+            proyecto.proyecto_formulario8_linea66?.productividad_beneficiaros ??
+            proyecto.proyecto_formulario7_linea23?.productividad_beneficiaros ??
+            proyecto.proyecto_formulario9_linea23?.productividad_beneficiaros ??
+            '',
+        generacion_empleo_beneficiarios:
+            proyecto.proyecto_formulario8_linea66?.generacion_empleo_beneficiarios ??
+            proyecto.proyecto_formulario7_linea23?.generacion_empleo_beneficiarios ??
+            proyecto.proyecto_formulario9_linea23?.generacion_empleo_beneficiarios ??
+            '',
+        creacion_nuevos_desarrollos:
+            proyecto.proyecto_formulario8_linea66?.creacion_nuevos_desarrollos ??
+            proyecto.proyecto_formulario7_linea23?.creacion_nuevos_desarrollos ??
+            proyecto.proyecto_formulario9_linea23?.creacion_nuevos_desarrollos ??
+            '',
+        generacion_conocimientos_beneficiarios:
+            proyecto.proyecto_formulario8_linea66?.generacion_conocimientos_beneficiarios ??
+            proyecto.proyecto_formulario7_linea23?.generacion_conocimientos_beneficiarios ??
+            proyecto.proyecto_formulario9_linea23?.generacion_conocimientos_beneficiarios ??
+            proyecto.proyecto_formulario6_linea82?.generacion_conocimientos_beneficiarios ??
+            '',
+        generacion_valor_beneficiarios:
+            proyecto.proyecto_formulario8_linea66?.generacion_valor_beneficiarios ??
+            proyecto.proyecto_formulario7_linea23?.generacion_valor_beneficiarios ??
+            proyecto.proyecto_formulario9_linea23?.generacion_valor_beneficiarios ??
+            proyecto.proyecto_formulario6_linea82?.generacion_valor_beneficiarios ??
+            '',
+        fortalecimiento_programas_formacion:
+            proyecto.proyecto_formulario8_linea66?.fortalecimiento_programas_formacion ??
+            proyecto.proyecto_formulario7_linea23?.fortalecimiento_programas_formacion ??
+            proyecto.proyecto_formulario9_linea23?.fortalecimiento_programas_formacion ??
+            proyecto.proyecto_formulario6_linea82?.fortalecimiento_programas_formacion ??
+            '',
+        transferencia_tecnologias:
+            proyecto.proyecto_formulario8_linea66?.transferencia_tecnologias ??
+            proyecto.proyecto_formulario7_linea23?.transferencia_tecnologias ??
+            proyecto.proyecto_formulario9_linea23?.transferencia_tecnologias ??
+            proyecto.proyecto_formulario6_linea82?.transferencia_tecnologias ??
+            '',
+        calidad_formacion:
+            proyecto.proyecto_formulario8_linea66?.calidad_formacion ??
+            proyecto.proyecto_formulario7_linea23?.calidad_formacion ??
+            proyecto.proyecto_formulario9_linea23?.calidad_formacion ??
+            proyecto.proyecto_formulario6_linea82?.calidad_formacion ??
+            '',
+        impacto_ambiental_proyectos:
+            proyecto.proyecto_formulario8_linea66?.impacto_ambiental_proyectos ??
+            proyecto.proyecto_formulario7_linea23?.impacto_ambiental_proyectos ??
+            proyecto.proyecto_formulario9_linea23?.impacto_ambiental_proyectos ??
+            proyecto.proyecto_formulario6_linea82?.impacto_ambiental_proyectos ??
+            '',
     })
 
     const submit = (e) => {
         e.preventDefault()
-        if (proyecto_formulario_8_linea_66.proyecto.allowed.to_update) {
-            form.post(route('convocatorias.proyectos-formulario-8-linea-66.indicadores.store', [convocatoria.id, proyecto_formulario_8_linea_66.id]))
+        if (proyecto.proyecto.allowed.to_update) {
+            form.post(route('convocatorias.proyectos.indicadores.store', [convocatoria.id, proyecto.id]))
         }
     }
 
     const syncColumnLong = async (column, form, data) => {
-        if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update) {
+        if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto?.allowed?.to_update) {
             try {
                 await router.put(
-                    route('convocatorias.proyectos-formulario-8-linea-66.updateLongColumn', [convocatoria.id, proyecto_formulario_8_linea_66?.proyecto?.id, column]),
+                    route('convocatorias.proyectos.updateLongColumn', [convocatoria.id, proyecto?.id, column]),
                     { [column]: data ? data : form.data[column], is_array: Array.isArray(form.data[column]) },
                     {
                         onError: (resp) => console.log(resp),
@@ -49,7 +92,7 @@ const Indicadores = ({ auth, convocatoria, proyecto_formulario_8_linea_66, evalu
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto_formulario_8_linea_66.proyecto} evaluacion={evaluacion} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
             <Grid item md={12} className="!mb-20">
@@ -59,7 +102,7 @@ const Indicadores = ({ auth, convocatoria, proyecto_formulario_8_linea_66, evalu
                 </p>
 
                 <form onSubmit={submit}>
-                    <fieldset className="p-8 divide-y" disabled={proyecto_formulario_8_linea_66.proyecto.allowed.to_update ? false : true}>
+                    <fieldset className="p-8 divide-y" disabled={proyecto.allowed.to_update ? false : true}>
                         <div className="py-24 grid grid-cols-2">
                             <div>
                                 <Label className="mb-4" labelFor="productividad_beneficiaros" value="a) Productividad y competitividad del (los) beneficiario(s) final(es) del proyecto" />
@@ -204,7 +247,7 @@ const Indicadores = ({ auth, convocatoria, proyecto_formulario_8_linea_66, evalu
                         </div>
 
                         <div className="flex items-center justify-between mt-14 py-4">
-                            {proyecto_formulario_8_linea_66.proyecto.allowed.to_update ? (
+                            {proyecto.allowed.to_update ? (
                                 <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
                                     Guardar
                                 </PrimaryButton>

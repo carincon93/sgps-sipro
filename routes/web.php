@@ -342,11 +342,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion-proyectos-formulario-11-linea-83', [ArticulacionSennovaController::class, 'storeArticulacionSennovaProyectosLinea83'])->name('convocatorias.proyectos.articulacion-sennova-proyectos-formulario-11-linea-83.store');
 
     /**
+     * Indicadores
+     *
+     */
+    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/indicadores', [ProyectoController::class, 'storeIndicadores'])->name('convocatorias.proyectos.indicadores.store');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/indicadores', [ProyectoController::class, 'showIndicadores'])->name('convocatorias.proyectos.indicadores');
+
+    /**
      * Línea programática 23 - Estrategia regional
      *
      */
-    Route::post('convocatorias/{convocatoria}/proyectos-formulario-7-linea-23/{proyecto_formulario_7_linea_23}/indicadores', [ProyectoFormulario7Linea23Controller::class, 'storeIndicadores'])->name('convocatorias.proyectos-formulario-7-linea-23.indicadores.store');
-    Route::get('convocatorias/{convocatoria}/proyectos-formulario-7-linea-23/{proyecto_formulario_7_linea_23}/indicadores', [ProyectoFormulario7Linea23Controller::class, 'showIndicadores'])->name('convocatorias.proyectos-formulario-7-linea-23.indicadores');
     Route::put('convocatorias/{convocatoria}/proyectos-formulario-7-linea-23/{proyecto_formulario_7_linea_23}/column/{column}', [ProyectoFormulario7Linea23Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-formulario-7-linea-23.updateLongColumn');
     Route::resource('convocatorias.proyectos-formulario-7-linea-23', ProyectoFormulario7Linea23Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-formulario-7-linea-23' => 'proyecto-formulario-7-linea-23'])->except(['show']);
 
@@ -354,8 +359,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Línea programática 23 - Estrategia regional
      *
      */
-    Route::post('convocatorias/{convocatoria}/proyectos-formulario-9-linea-23/{proyecto_formulario_9_linea_23}/indicadores', [ProyectoFormulario9Linea23Controller::class, 'storeIndicadores'])->name('convocatorias.proyectos-formulario-9-linea-23.indicadores.store');
-    Route::get('convocatorias/{convocatoria}/proyectos-formulario-9-linea-23/{proyecto_formulario_9_linea_23}/indicadores', [ProyectoFormulario9Linea23Controller::class, 'showIndicadores'])->name('convocatorias.proyectos-formulario-9-linea-23.indicadores');
     Route::put('convocatorias/{convocatoria}/proyectos-formulario-9-linea-23/{proyecto_formulario_9_linea_23}/column/{column}', [ProyectoFormulario9Linea23Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-formulario-9-linea-23.updateLongColumn');
     Route::resource('convocatorias.proyectos-formulario-9-linea-23', ProyectoFormulario9Linea23Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-formulario-9-linea-23' => 'proyecto-formulario-9-linea-23'])->except(['show']);
 
@@ -370,8 +373,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Línea programática 66 - Estrategia regional
      *
      */
-    Route::post('convocatorias/{convocatoria}/proyectos-formulario-8-linea-66/{proyecto_formulario_8_linea_66}/indicadores', [ProyectoFormulario8Linea66Controller::class, 'storeIndicadores'])->name('convocatorias.proyectos-formulario-8-linea-66.indicadores.store');
-    Route::get('convocatorias/{convocatoria}/proyectos-formulario-8-linea-66/{proyecto_formulario_8_linea_66}/indicadores', [ProyectoFormulario8Linea66Controller::class, 'showIndicadores'])->name('convocatorias.proyectos-formulario-8-linea-66.indicadores');
     Route::put('convocatorias/{convocatoria}/proyectos-formulario-8-linea-66/{proyecto_formulario_8_linea_66}/column/{column}', [ProyectoFormulario8Linea66Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-formulario-8-linea-66.updateLongColumn');
     Route::resource('convocatorias.proyectos-formulario-8-linea-66', ProyectoFormulario8Linea66Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-formulario-8-linea-66' => 'proyecto-formulario-8-linea-66'])->except(['show']);
 

@@ -38,7 +38,7 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
     const tabs =
         proyecto?.tipo_formulario_convocatoria_id == 12 || proyecto?.tipo_formulario_convocatoria_id == 5 || proyecto?.proyectoFormulario10Linea69
             ? [{ label: 'Productos indicador de gestión' }, { label: 'Productos Minciencias' }]
-            : proyecto?.tipo_formulario_convocatoria_id == 4 || proyecto?.proyectoFormulario11Linea83
+            : proyecto?.tipo_formulario_convocatoria_id == 4 || proyecto?.tipo_formulario_convocatoria_id == 11
             ? [{ label: 'Productos indicador de gestión' }]
             : [{ label: 'Productos Minciencias' }]
 
@@ -275,10 +275,13 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                         </Grid>
                     </div>
                 ) : null}
-                {proyecto?.proyectoFormulario1Linea65 ||
-                proyecto?.proyectoFormulario8Linea66 ||
+                {proyecto?.tipo_formulario_convocatoria_id == 1 ||
                 proyecto?.tipo_formulario_convocatoria_id == 4 ||
                 proyecto?.tipo_formulario_convocatoria_id == 5 ||
+                proyecto?.tipo_formulario_convocatoria_id == 6 ||
+                proyecto?.tipo_formulario_convocatoria_id == 7 ||
+                proyecto?.tipo_formulario_convocatoria_id == 8 ||
+                proyecto?.tipo_formulario_convocatoria_id == 9 ||
                 proyecto?.tipo_formulario_convocatoria_id == 12 ||
                 proyecto?.proyectoFormulario10Linea69 ? (
                     <div>

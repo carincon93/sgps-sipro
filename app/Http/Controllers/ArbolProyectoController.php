@@ -99,6 +99,18 @@ class ArbolProyectoController extends Controller
         $this->generarArboles($proyecto);
 
         switch ($proyecto) {
+            case $proyecto->proyectoFormulario7Linea23()->exists():
+                $proyecto->problema_central         = $proyecto->proyectoFormulario7Linea23->problema_central;
+                $proyecto->justificacion_problema   = $proyecto->proyectoFormulario7Linea23->justificacion_problema;
+                $proyecto->identificacion_problema  = $proyecto->proyectoFormulario7Linea23->identificacion_problema;
+                $proyecto->objetivo_general         = $proyecto->proyectoFormulario7Linea23->objetivo_general;
+                break;
+            case $proyecto->proyectoFormulario9Linea23()->exists():
+                $proyecto->problema_central         = $proyecto->proyectoFormulario9Linea23->problema_central;
+                $proyecto->justificacion_problema   = $proyecto->proyectoFormulario9Linea23->justificacion_problema;
+                $proyecto->identificacion_problema  = $proyecto->proyectoFormulario9Linea23->identificacion_problema;
+                $proyecto->objetivo_general         = $proyecto->proyectoFormulario9Linea23->objetivo_general;
+                break;
             case $proyecto->proyectoFormulario1Linea65()->exists():
                 $proyecto->problema_central         = $proyecto->proyectoFormulario1Linea65->problema_central;
                 $proyecto->justificacion_problema   = $proyecto->proyectoFormulario1Linea65->justificacion_problema;
@@ -144,6 +156,12 @@ class ArbolProyectoController extends Controller
                 $proyecto->proyecto_base            = $proyecto->proyectoFormulario4Linea70->proyecto_base;
                 break;
 
+            case $proyecto->proyectoFormulario6Linea82()->exists():
+                $proyecto->problema_central         = $proyecto->proyectoFormulario6Linea82->problema_central;
+                $proyecto->justificacion_problema   = $proyecto->proyectoFormulario6Linea82->justificacion_problema;
+                $proyecto->identificacion_problema  = $proyecto->proyectoFormulario6Linea82->identificacion_problema;
+                $proyecto->objetivo_general         = $proyecto->proyectoFormulario6Linea82->objetivo_general;
+                break;
             case $proyecto->proyectoFormulario11Linea83()->exists():
                 $proyecto->problema_central         = $proyecto->proyectoFormulario11Linea83->problema_central;
                 $proyecto->justificacion_problema   = $proyecto->proyectoFormulario11Linea83->justificacion_problema;

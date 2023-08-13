@@ -172,7 +172,7 @@ class ProyectoFormulario6Linea82Controller extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', [$proyecto_formulario_6_linea_82->proyecto]);
 
-        $proyecto_formulario_6_linea_82->load('proyecto.evaluaciones.evaluacionProyectoFormulario6Linea82');
+        // $proyecto_formulario_6_linea_82->load('proyecto.evaluaciones.evaluacionProyectoFormulario6Linea82');
 
         $proyecto_formulario_6_linea_82->proyecto->precio_proyecto = $proyecto_formulario_6_linea_82->proyecto->precioProyecto;
 
