@@ -6,11 +6,11 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TipoProyectoLinea68 extends Model
+class LaboratorioServicioTecnologico extends Model
 {
     use HasFactory;
 
-    /**
+     /**
      * table
      *
      * @var string
@@ -85,7 +85,7 @@ class TipoProyectoLinea68 extends Model
      * @param  mixed $filters
      * @return void
      */
-    public function scopeFilterTipoProyectoFormulario12Linea68($query, array $filters)
+    public function scopeFilterLaboratorioServicioTecnologico($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $query->where('tipologia', 'ilike', '%' . $search . '%');

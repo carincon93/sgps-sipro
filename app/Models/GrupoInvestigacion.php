@@ -117,7 +117,7 @@ class GrupoInvestigacion extends Model
      *
      * @return object
      */
-    public function idiEni()
+    public function proyectoLinea66Eni()
     {
         return $this->hasMany(ProyectoFormulario8Linea66::class);
     }

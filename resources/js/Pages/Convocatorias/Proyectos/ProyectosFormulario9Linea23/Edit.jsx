@@ -33,8 +33,6 @@ const Edit = ({
     tecnoacademias,
     municipios,
     grupos_investigacion,
-    areas_tematicas_eni,
-    lineas_investigacion_eni,
     programas_formacion_con_registro_calificado,
     programas_formacion_sin_registro_calificado,
     areas_cualificacion_mnc,
@@ -160,8 +158,6 @@ const Edit = ({
                     tecnoacademias={tecnoacademias}
                     municipios={municipios}
                     grupos_investigacion={grupos_investigacion}
-                    areas_tematicas_eni={areas_tematicas_eni}
-                    lineas_investigacion_eni={lineas_investigacion_eni}
                     programas_formacion_con_registro_calificado={programas_formacion_con_registro_calificado}
                     programas_formacion_sin_registro_calificado={programas_formacion_sin_registro_calificado}
                     areas_cualificacion_mnc={areas_cualificacion_mnc}

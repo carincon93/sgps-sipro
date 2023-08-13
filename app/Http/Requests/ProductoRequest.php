@@ -26,12 +26,15 @@ class ProductoRequest extends FormRequest
     public function rules()
     {
         return [
-            'resultado_id'                  => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:resultados,id'],
-            'nombre'                        => ['required', 'string'],
-            'fecha_inicio'                  => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
-            'fecha_finalizacion'            => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
-            'indicador'                     => ['required', 'string'],
-            'actividad_id*'                 => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:actividades,id'],
+            'resultado_id'       => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:resultados,id'],
+            'nombre'             => ['required', 'string'],
+            'fecha_inicio'       => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
+            'fecha_finalizacion' => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
+            'unidad_indicador'   => ['required', 'string'],
+            'meta_indicador'     => ['required', 'integer'],
+            'medio_verificacion' => ['required', 'string'],
+            'formula_indicador'  => ['required', 'string'],
+            'actividad_id*'      => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:actividades,id'],
         ];
     }
 

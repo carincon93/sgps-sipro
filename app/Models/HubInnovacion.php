@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductoLinea70 extends Model
+class HubInnovacion extends Model
 {
     use HasFactory;
 
@@ -15,7 +14,7 @@ class ProductoLinea70 extends Model
      *
      * @var string
      */
-    protected $table = 'productos_linea_70';
+    protected $table = 'hubs_innovacion';
 
     /**
      * The attributes that are mass assignable.
@@ -23,9 +22,7 @@ class ProductoLinea70 extends Model
      * @var array
      */
     protected $fillable = [
-        'producto_id',
-        'valor_proyectado',
-        'medio_verificacion'
+        'nombre',
     ];
 
     /**
@@ -47,22 +44,26 @@ class ProductoLinea70 extends Model
     ];
 
     /**
-     * Relationship with Producto
+     * Relationship with Proyecto
      *
      * @return object
      */
-    public function producto()
+    public function proyecto()
     {
-        return $this->belongsTo(Producto::class);
+        return $this->belongsTo(Proyecto::class, 'id');
     }
 
     /**
-     * getUpdatedAtAttribute
+     * Filtrar registros
      *
+     * @param  mixed $query
+     * @param  mixed $filters
      * @return void
      */
-    public function getUpdatedAtAttribute($value)
+    public function scopeFilterHubInnovacion($query, array $filters)
     {
-        return "Última modificación de este formulario: " . Carbon::parse($value, 'UTC')->timezone('America/Bogota')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY [a las] HH:mm:ss');
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where('nombre', 'ilike', '%' . $search . '%');
+        });
     }
 }

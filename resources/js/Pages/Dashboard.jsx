@@ -26,7 +26,10 @@ export default function Dashboard({ auth, roles_sistema }) {
                                 ¡Bienvenido(a) <span className="capitalize">{auth.user.nombre}</span>! 👋🏻
                             </h1>
 
-                            <p className="my-8">Formule proyectos de I+D+i, Tecnoacademia-Tecnoparque, Servicios Tecnológicos y/o Cultura de la innovación.</p>
+                            <p className="my-8">
+                                Formule proyectos de I+D+i, Tecnoacademia-Tecnoparque, Servicios Tecnológicos y/o Apropiación de la ciencia y la tecnología y cultura de la innovación y la
+                                competitividad.
+                            </p>
                         </div>
                         <div>
                             <figure>
@@ -44,12 +47,62 @@ export default function Dashboard({ auth, roles_sistema }) {
                     </Link>
                 </Grid>
 
+                {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) && (
+                    <Grid item md={4}>
+                        <Link
+                            className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
+                            href={route('centros-formacion.index')}>
+                            Centros de formación
+                        </Link>
+                    </Grid>
+                )}
+
                 {checkRole(auth_user, [1, 4, 21, 18, 19, 5, 17]) && (
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
                             href={route('grupos-investigacion.index')}>
                             Grupos de investigación
+                        </Link>
+                    </Grid>
+                )}
+
+                {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) && (
+                    <Grid item md={4}>
+                        <Link
+                            className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
+                            href={route('hubs-innovacion.index')}>
+                            Hubs de innovación
+                        </Link>
+                    </Grid>
+                )}
+
+                {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) && (
+                    <Grid item md={4}>
+                        <Link
+                            className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
+                            href={route('laboratorios-servicios-tecnologicos.index')}>
+                            Laboratorios de Servicios Tecnológicos
+                        </Link>
+                    </Grid>
+                )}
+
+                {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) && (
+                    <Grid item md={4}>
+                        <Link
+                            className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
+                            href={route('tecnoacademias.index')}>
+                            TecnoAcademias
+                        </Link>
+                    </Grid>
+                )}
+
+                {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) && (
+                    <Grid item md={4}>
+                        <Link
+                            className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
+                            href={route('hubs-innovacion.index')}>
+                            Hubs de innovación
                         </Link>
                     </Grid>
                 )}

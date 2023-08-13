@@ -52,12 +52,6 @@ class ProyectoFormulario9Linea23Request extends FormRequest
                 'relacionado_tecnoacademia'                     => ['required', 'min:0', 'max:3', 'integer'],
                 'mesa_sectorial_id*'                            => ['required_if:relacionado_mesas_sectoriales,1', 'min:0', 'max:2147483647', 'exists:mesas_sectoriales,id'],
                 'linea_tecnologica_id*'                         => ['required_if:relacionado_tecnoacademia,1', 'min:0', 'max:2147483647', 'exists:lineas_tecnoacademia,id'],
-                'proyecto_investigacion_pedagogica'             => ['nullable', 'boolean'],
-                'articulacion_eni'                              => ['nullable', 'boolean'],
-                'area_tematica_eni_id*'                         => ['nullable', 'integer', 'exists:areas_tematicas_eni,id'],
-                'linea_investigacion_eni_id*'                   => ['nullable', 'integer', 'exists:lineas_investigacion,id'],
-                'grupo_investigacion_eni_id'                    => ['nullable', 'integer', 'exists:grupos_investigacion,id'],
-
                 'aporta_a_campesena'                            => ['nullable', 'boolean'],
                 'relacionado_estrategia_campesena'              => ['nullable', 'boolean'],
                 'justificacion_relacion_campesena'              => ['nullable', 'string'],
@@ -88,8 +82,6 @@ class ProyectoFormulario9Linea23Request extends FormRequest
                 'rol_sennova'                               => ['required', 'min:0', 'max:2147483647', 'integer'],
                 'cantidad_horas'                            => ['required', 'numeric', 'min:1', 'max:168'],
                 'cantidad_meses'                            => ['required', 'numeric', 'min:1', 'max:12'],
-                'proyecto_investigacion_pedagogica'         => ['nullable', 'boolean'],
-                'articulacion_eni'                          => ['nullable', 'boolean'],
                 'areas_cualificacion_mnc'                   => ['nullable', 'json'],
             ];
         }
@@ -106,9 +98,6 @@ class ProyectoFormulario9Linea23Request extends FormRequest
         $this->merge([
             'municipios'                        => is_array($this->municipios) && count($this->municipios) == 0 ? null : $this->municipios,
             'programas_formacion'               => is_array($this->programas_formacion) && count($this->programas_formacion) == 0 ? null : $this->programas_formacion,
-            'area_tematica_eni_id'              => is_array($this->area_tematica_eni_id) && count($this->area_tematica_eni_id) == 0 ? null : $this->area_tematica_eni_id,
-            'linea_investigacion_eni_id'        => is_array($this->linea_investigacion_eni_id) && count($this->linea_investigacion_eni_id) == 0 ? null : $this->linea_investigacion_eni_id,
-
             'lineas_estrategicas_convocatoria'  => json_encode($this->lineas_estrategicas_convocatoria),
             'areas_cualificacion_mnc'           => json_encode($this->areas_cualificacion_mnc),
             'lineas_estrategicas_beneficiadas'  => json_encode($this->lineas_estrategicas_beneficiadas),

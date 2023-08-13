@@ -98,13 +98,13 @@ class ProyectoFormulario12Linea68 extends Model
     }
 
     /**
-     * Relationship with TipoProyectoLinea68
+     * Relationship with LaboratorioServicioTecnologico
      *
      * @return object
      */
     public function tipoProyectoLinea68()
     {
-        return $this->belongsTo(TipoProyectoLinea68::class, 'tipo_proyecto_linea_68_id');
+        return $this->belongsTo(LaboratorioServicioTecnologico::class);
     }
 
     /**

@@ -206,6 +206,82 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
+                        {checkRole(user, [1, 21, 18, 19, 5, 17]) && (
+                            <ListItemButton
+                                sx={{
+                                    borderRadius: '20px',
+                                    minHeight: 48,
+                                    justifyContent: open ? 'initial' : 'center',
+                                    px: 2.5,
+                                }}
+                                onClick={() => router.visit(route('hubs-innovacion.index'))}>
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: open ? 3 : 'auto',
+                                        justifyContent: 'center',
+                                    }}></ListItemIcon>
+                                <ListItemText primary="Hubs de innovación" sx={{ opacity: open ? 1 : 0 }} />
+                            </ListItemButton>
+                        )}
+
+                        {checkRole(user, [1, 21, 18, 19, 5, 17]) && (
+                            <ListItemButton
+                                sx={{
+                                    borderRadius: '20px',
+                                    minHeight: 48,
+                                    justifyContent: open ? 'initial' : 'center',
+                                    px: 2.5,
+                                }}
+                                onClick={() => router.visit(route('laboratorios-servicios-tecnologicos.index'))}>
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: open ? 3 : 'auto',
+                                        justifyContent: 'center',
+                                    }}></ListItemIcon>
+                                <ListItemText primary="Laboratorios ST" sx={{ opacity: open ? 1 : 0 }} />
+                            </ListItemButton>
+                        )}
+
+                        {checkRole(user, [1, 21, 18, 19, 5, 17]) && (
+                            <ListItemButton
+                                sx={{
+                                    borderRadius: '20px',
+                                    minHeight: 48,
+                                    justifyContent: open ? 'initial' : 'center',
+                                    px: 2.5,
+                                }}
+                                onClick={() => router.visit(route('nodos-tecnoparque.index'))}>
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: open ? 3 : 'auto',
+                                        justifyContent: 'center',
+                                    }}></ListItemIcon>
+                                <ListItemText primary="Nodos Tecnoparque" sx={{ opacity: open ? 1 : 0 }} />
+                            </ListItemButton>
+                        )}
+
+                        {checkRole(user, [1, 21, 18, 19, 5, 17]) && (
+                            <ListItemButton
+                                sx={{
+                                    borderRadius: '20px',
+                                    minHeight: 48,
+                                    justifyContent: open ? 'initial' : 'center',
+                                    px: 2.5,
+                                }}
+                                onClick={() => router.visit(route('tecnoacademias.index'))}>
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: open ? 3 : 'auto',
+                                        justifyContent: 'center',
+                                    }}></ListItemIcon>
+                                <ListItemText primary="Tecnoacademias" sx={{ opacity: open ? 1 : 0 }} />
+                            </ListItemButton>
+                        )}
+
                         {checkRole(user, [1, 4, 21, 18, 19, 5, 17]) && (
                             <ListItemButton
                                 sx={{

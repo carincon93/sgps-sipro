@@ -304,20 +304,20 @@ class ArbolProyectoController extends Controller
                 break;
 
             case $proyecto->proyectoFormulario10Linea69()->exists():
-                $proyecto_hub_linea_69 = $proyecto->proyectoFormulario10Linea69;
+                $proyecto_formulario_10_linea_69 = $proyecto->proyectoFormulario10Linea69;
                 $request->validate([
                     'identificacion_problema'   => 'required|string|max:40000',
                     'problema_central'          => 'required|string|max:40000',
                     'justificacion_problema'    => 'required|string|max:40000',
                     'objetivo_general'          => 'required|string|max:40000',
                 ]);
-                $proyecto_hub_linea_69->identificacion_problema    = $request->identificacion_problema;
-                $proyecto_hub_linea_69->justificacion_problema     = $request->justificacion_problema;
-                $proyecto_hub_linea_69->problema_central           = $request->problema_central;
-                $proyecto_hub_linea_69->objetivo_general           = $request->objetivo_general;
+                $proyecto_formulario_10_linea_69->identificacion_problema    = $request->identificacion_problema;
+                $proyecto_formulario_10_linea_69->justificacion_problema     = $request->justificacion_problema;
+                $proyecto_formulario_10_linea_69->problema_central           = $request->problema_central;
+                $proyecto_formulario_10_linea_69->objetivo_general           = $request->objetivo_general;
 
 
-                $proyecto_hub_linea_69->save();
+                $proyecto_formulario_10_linea_69->save();
                 break;
 
             case $proyecto->proyectoFormulario4Linea70()->exists():

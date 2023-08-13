@@ -37,8 +37,6 @@ const Form = ({
     tecnoacademias,
     municipios,
     grupos_investigacion,
-    areas_tematicas_eni,
-    lineas_investigacion_eni,
     programas_formacion_con_registro_calificado,
     programas_formacion_sin_registro_calificado,
     areas_cualificacion_mnc,
@@ -69,15 +67,11 @@ const Form = ({
         disciplina_subarea_conocimiento_id: proyecto_formulario_6_linea_82?.disciplina_subarea_conocimiento_id ?? null,
         tematica_estrategica_id: proyecto_formulario_6_linea_82?.tematica_estrategica_id ?? null,
         actividad_economica_id: proyecto_formulario_6_linea_82?.actividad_economica_id ?? null,
-        grupo_investigacion_eni_id: proyecto_formulario_6_linea_82?.grupo_investigacion_eni_id,
         video: proyecto_formulario_6_linea_82?.video,
         numero_aprendices: proyecto_formulario_6_linea_82?.numero_aprendices,
         municipios: proyecto_formulario_6_linea_82?.proyecto.municipios?.map((item) => item.id) ?? null,
 
         programas_formacion: proyecto_formulario_6_linea_82?.proyecto.programas_formacion.map((item) => item.id) ?? null,
-
-        area_tematica_eni_id: proyecto_formulario_6_linea_82?.areas_tematicas_eni ? proyecto_formulario_6_linea_82?.areas_tematicas_eni?.map((item) => item.id) : null,
-        linea_investigacion_eni_id: proyecto_formulario_6_linea_82?.lineas_investigacion_eni?.map((item) => item.id) ?? null,
 
         tecnoacademia_id: tecnoacademia?.id ?? '',
         linea_tecnologica_id: proyecto_formulario_6_linea_82?.proyecto.tecnoacademia_lineas_tecnoacademia?.map((item) => item.id) ?? null,
@@ -92,7 +86,6 @@ const Form = ({
         relacionado_mesas_sectoriales: proyecto_formulario_6_linea_82?.relacionado_mesas_sectoriales ?? '',
         relacionado_tecnoacademia: proyecto_formulario_6_linea_82?.relacionado_tecnoacademia ?? '',
         proyecto_investigacion_pedagogica: proyecto_formulario_6_linea_82?.proyecto_investigacion_pedagogica,
-        articulacion_eni: proyecto_formulario_6_linea_82?.articulacion_eni,
         justificacion_proyecto_investigacion_pedagogica: proyecto_formulario_6_linea_82?.justificacion_proyecto_investigacion_pedagogica ?? '',
 
         resumen: proyecto_formulario_6_linea_82?.resumen ?? '',
@@ -130,14 +123,6 @@ const Form = ({
         const filtered_lineas_tecnoacademia = lineas_tecnoacademia?.filter((obj) => obj.tecnoacademia_id === form.data.tecnoacademia_id)
         setArrayLineasTecnoacademia(filtered_lineas_tecnoacademia)
     }, [form.data.tecnoacademia_id])
-
-    useEffect(() => {
-        if (form.data.proyecto_investigacion_pedagogica === false || form.data.articulacion_eni === false) {
-            form.data.grupo_investigacion_eni_id = null
-            form.data.linea_investigacion_eni_id = null
-            form.data.area_tematica_eni_id = null
-        }
-    }, [form.data.proyecto_investigacion_pedagogica, form.data.articulacion_eni])
 
     useEffect(() => {
         setArrayLineasInvestigacion(lineas_investigacion.filter((obj) => obj.centro_formacion_id === form.data.centro_formacion_id))
@@ -465,118 +450,6 @@ const Form = ({
 
                 {method == 'PUT' && (
                     <>
-                        <Grid item md={6}>
-                            <Label required className="mb-4" labelFor="proyecto_investigacion_pedagogica" value="¿El proyecto es de investigación pedagógica?" />
-                        </Grid>
-                        <Grid item md={6}>
-                            <SwitchMui
-                                checked={form.data.proyecto_investigacion_pedagogica}
-                                onChange={(e) => form.setData('proyecto_investigacion_pedagogica', e.target.checked)}
-                                disabled={evaluacion ? true : false}
-                                onBlur={() => syncColumnLong('proyecto_investigacion_pedagogica', form)}
-                            />
-                        </Grid>
-
-                        {form.data.proyecto_investigacion_pedagogica && (
-                            <>
-                                <Grid item md={6}>
-                                    <Label required className="mb-4" labelFor="justificacion_proyecto_investigacion_pedagogica" value="Justificación" />
-                                </Grid>
-                                <Grid item md={6}>
-                                    <Textarea
-                                        id="justificacion_proyecto_investigacion_pedagogica"
-                                        onChange={(e) => form.setData('justificacion_proyecto_investigacion_pedagogica', e.target.value)}
-                                        error={form.errors.justificacion_proyecto_investigacion_pedagogica}
-                                        value={form.data.justificacion_proyecto_investigacion_pedagogica}
-                                        required
-                                        disabled={evaluacion ? true : false}
-                                        onBlur={() => syncColumnLong('justificacion_proyecto_investigacion_pedagogica', form)}
-                                    />
-                                </Grid>
-                            </>
-                        )}
-
-                        <Grid item md={6}>
-                            <Label required className="mb-4" labelFor="articulacion_eni" value="¿El proyecto está articulado con la ENI?" />
-                        </Grid>
-                        <Grid item md={6}>
-                            <SwitchMui
-                                checked={form.data.articulacion_eni}
-                                onChange={(e) => form.setData('articulacion_eni', e.target.checked)}
-                                disabled={evaluacion ? true : false}
-                                onBlur={() => syncColumnLong('articulacion_eni', form)}
-                            />
-                        </Grid>
-
-                        {form.data.articulacion_eni && (
-                            <>
-                                <Grid item md={6}>
-                                    <Label required className="mb-4" labelFor="grupo_investigacion_eni_id" value="Grupo de investigación ENI" />
-                                </Grid>
-                                <Grid item md={6}>
-                                    <Autocomplete
-                                        id="grupo_investigacion_eni_id"
-                                        options={grupos_investigacion}
-                                        selectedValue={form.data.grupo_investigacion_eni_id}
-                                        onChange={(event, newValue) => {
-                                            form.setData('grupo_investigacion_eni_id', newValue.value)
-                                        }}
-                                        error={form.errors.grupo_investigacion_eni_id}
-                                        label="Seleccione un grupo de investigación"
-                                        required
-                                        disabled={evaluacion ? true : false}
-                                        onBlur={() => syncColumnLong('grupo_investigacion_eni_id', form)}
-                                    />
-                                </Grid>
-
-                                <Grid item md={6}>
-                                    <Label required className="mb-4" labelFor="linea_investigacion_eni_id" value="Líneas de investigación ENI" />
-                                </Grid>
-
-                                <Grid item md={6}>
-                                    <SelectMultiple
-                                        id="linea_investigacion_eni_id"
-                                        bdValues={form.data.linea_investigacion_eni_id}
-                                        options={lineas_investigacion_eni}
-                                        onChange={(event, newValue) => {
-                                            const selected_values = newValue.map((option) => option.value)
-                                            form.setData((prevData) => ({
-                                                ...prevData,
-                                                linea_investigacion_eni_id: selected_values,
-                                            }))
-                                        }}
-                                        error={form.errors.linea_investigacion_eni_id}
-                                        label="Seleccione una o varias opciones"
-                                        required
-                                        disabled={evaluacion ? true : false}
-                                        onBlur={() => syncColumnLong('linea_investigacion_eni_id', form)}
-                                    />
-                                </Grid>
-
-                                <Grid item md={6}>
-                                    <Label required className="mb-4" labelFor="area_tematica_eni_id" value="Áreas temáticas" />
-                                </Grid>
-                                <Grid item md={6}>
-                                    <SelectMultiple
-                                        id="area_tematica_eni_id"
-                                        bdValues={form.data.area_tematica_eni_id}
-                                        options={areas_tematicas_eni}
-                                        onChange={(event, newValue) => {
-                                            const selected_values = newValue.map((option) => option.value)
-                                            form.setData((prevData) => ({
-                                                ...prevData,
-                                                area_tematica_eni_id: selected_values,
-                                            }))
-                                        }}
-                                        error={form.errors.area_tematica_eni_id}
-                                        label="Seleccione una o varias opciones"
-                                        required
-                                        disabled={evaluacion ? true : false}
-                                        onBlur={() => syncColumnLong('area_tematica_eni_id', form)}
-                                    />
-                                </Grid>
-                            </>
-                        )}
                         <Grid item md={6}>
                             <Label required labelFor="aporta_a_campesena" value="¿El proyecto aporta a CAMPESENA?" />
                         </Grid>

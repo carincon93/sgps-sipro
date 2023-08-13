@@ -332,11 +332,11 @@ class ConvocatoriaController extends Controller
 
             foreach ($convocatoria->proyectos()->get() as $proyecto) {
                 switch ($proyecto) {
-                    case $proyecto->estado_evaluacion_idi != null:
-                        if (json_decode($proyecto->estado_evaluacion_idi)->requiereSubsanar) {
-                            $proyecto->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_idi, 'mostrar_recomendaciones' => true]);
+                    case $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 != null:
+                        if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_8_linea_66)->requiereSubsanar) {
+                            $proyecto->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66, 'mostrar_recomendaciones' => true]);
                         } else {
-                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_idi]);
+                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66]);
                         }
                         break;
 
@@ -382,9 +382,9 @@ class ConvocatoriaController extends Controller
 
             foreach ($convocatoria->proyectos()->get() as $proyecto) {
                 switch ($proyecto) {
-                    case $proyecto->estado_evaluacion_idi != null:
-                        if (json_decode($proyecto->estado_evaluacion_idi)->requiereSubsanar) {
-                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => true, 'estado' => $proyecto->estado_evaluacion_idi, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
+                    case $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 != null:
+                        if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_8_linea_66)->requiereSubsanar) {
+                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => true, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
                         }
                         break;
 

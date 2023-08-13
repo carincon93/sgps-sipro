@@ -22,7 +22,6 @@ class ProyectoFormulario7Linea23ColumnRequest extends FormRequest
         'impacto_municipios'                                    => ['required', 'string'],
         'impacto_centro_formacion'                              => ['required', 'string'],
 
-        'justificacion_proyecto_investigacion_pedagogica'       => ['nullable', 'string'],
         'centro_formacion_id'                                   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
         'linea_programatica_id'                                 => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_programaticas,id'],
         'linea_investigacion_id'                                => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_investigacion,id'],
@@ -46,11 +45,7 @@ class ProyectoFormulario7Linea23ColumnRequest extends FormRequest
         'relacionado_tecnoacademia'                             => ['required', 'min:0', 'max:3', 'integer'],
         'mesa_sectorial_id'                                     => ['required_if:relacionado_mesas_sectoriales,1'],
         'linea_tecnologica_id'                                  => ['required_if:relacionado_tecnoacademia,1'],
-        'proyecto_investigacion_pedagogica'                     => ['nullable', 'boolean'],
-        'articulacion_eni'                                      => ['nullable', 'boolean'],
-        'area_tematica_eni_id'                                  => ['nullable', 'array', 'exists:areas_tematicas_eni,id'],
-        'linea_investigacion_eni_id'                            => ['nullable', 'array', 'exists:lineas_investigacion,id'],
-        'grupo_investigacion_eni_id'                            => ['nullable', 'array', 'exists:grupos_investigacion,id'],
+
         'aporta_a_campesena'                                    => ['nullable', 'boolean'],
         'relacionado_estrategia_campesena'                      => ['nullable', 'boolean'],
         'justificacion_relacion_campesena'                      => ['nullable', 'string'],
@@ -113,9 +108,6 @@ class ProyectoFormulario7Linea23ColumnRequest extends FormRequest
         $this->merge([
             'municipios'                        => is_array($this->municipios) && count($this->municipios) == 0 ? null : $this->municipios,
             'programas_formacion'               => is_array($this->programas_formacion) && count($this->programas_formacion) == 0 ? null : $this->programas_formacion,
-            'area_tematica_eni_id'              => is_array($this->area_tematica_eni_id) && count($this->area_tematica_eni_id) == 0 ? null : $this->area_tematica_eni_id,
-            'linea_investigacion_eni_id'        => is_array($this->linea_investigacion_eni_id) && count($this->linea_investigacion_eni_id) == 0 ? null : $this->linea_investigacion_eni_id,
-
             'lineas_estrategicas_convocatoria'  => json_encode($this->lineas_estrategicas_convocatoria),
             'areas_cualificacion_mnc'           => json_encode($this->areas_cualificacion_mnc),
             'lineas_estrategicas_beneficiadas'  => json_encode($this->lineas_estrategicas_beneficiadas),

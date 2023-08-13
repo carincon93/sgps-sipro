@@ -86,7 +86,6 @@ class ProyectoFormulario1Linea65Controller extends Controller
         $proyecto_formulario_1_linea_65->tipo_evento                         = $request->tipo_evento;
         $proyecto_formulario_1_linea_65->video                               = null;
         $proyecto_formulario_1_linea_65->justificacion_industria_4           = null;
-        $proyecto_formulario_1_linea_65->justificacion_economia_naranja      = null;
         $proyecto_formulario_1_linea_65->justificacion_politica_discapacidad = null;
         $proyecto_formulario_1_linea_65->resumen                             = '';
         $proyecto_formulario_1_linea_65->antecedentes                        = '';
@@ -97,11 +96,6 @@ class ProyectoFormulario1Linea65Controller extends Controller
         $proyecto_formulario_1_linea_65->numero_aprendices                   = 0;
         $proyecto_formulario_1_linea_65->impacto_municipios                  = '';
         $proyecto_formulario_1_linea_65->impacto_centro_formacion            = '';
-
-        $proyecto_formulario_1_linea_65->muestreo                            = 6;
-        $proyecto_formulario_1_linea_65->actividades_muestreo                = null;
-        $proyecto_formulario_1_linea_65->objetivo_muestreo                   = null;
-        $proyecto_formulario_1_linea_65->recoleccion_especimenes             = 2;
 
         $proyecto_formulario_1_linea_65->relacionado_plan_tecnologico        = 2;
         $proyecto_formulario_1_linea_65->relacionado_agendas_competitividad  = 2;
@@ -202,16 +196,11 @@ class ProyectoFormulario1Linea65Controller extends Controller
         $proyecto_formulario_1_linea_65->tipo_proyecto                       = $request->tipo_proyecto;
         $proyecto_formulario_1_linea_65->tipo_evento                         = $request->tipo_evento;
         $proyecto_formulario_1_linea_65->numero_aprendices                   = $request->numero_aprendices;
-        $proyecto_formulario_1_linea_65->muestreo                            = $request->muestreo;
-        $proyecto_formulario_1_linea_65->actividades_muestreo                = $request->muestreo == 1 ? $request->actividades_muestreo : null;
-        $proyecto_formulario_1_linea_65->objetivo_muestreo                   = $request->muestreo == 1 ? $request->objetivo_muestreo  : null;
-        $proyecto_formulario_1_linea_65->recoleccion_especimenes             = $request->recoleccion_especimenes;
 
         $proyecto_formulario_1_linea_65->resumen                             = $request->resumen;
         $proyecto_formulario_1_linea_65->antecedentes                        = $request->antecedentes;
         $proyecto_formulario_1_linea_65->marco_conceptual                    = $request->marco_conceptual;
         $proyecto_formulario_1_linea_65->justificacion_industria_4           = $request->justificacion_industria_4;
-        $proyecto_formulario_1_linea_65->justificacion_economia_naranja      = $request->justificacion_economia_naranja;
         $proyecto_formulario_1_linea_65->justificacion_politica_discapacidad = $request->justificacion_politica_discapacidad;
         $proyecto_formulario_1_linea_65->impacto_municipios                  = $request->impacto_municipios;
         $proyecto_formulario_1_linea_65->impacto_centro_formacion            = $request->impacto_centro_formacion;

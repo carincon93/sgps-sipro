@@ -91,7 +91,7 @@ class ProyectoController extends Controller
 
         $proyecto->save();
 
-        $proyecto->update(['estado' => $proyecto->estado_evaluacion_idi ?? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
+        $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 ?? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
 
         if ($request->subsanacion == true) {
             $request->merge(['subsanacion' => $request->subsanacion ? 'true' : 'false']) ;
@@ -659,7 +659,7 @@ class ProyectoController extends Controller
         $evaluacion->modificable = false;
         $evaluacion->save();
 
-        $evaluacion->proyecto()->update(['estado' => $evaluacion->proyecto->estado_evaluacion_idi ?? $evaluacion->proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $evaluacion->proyecto->estado_evaluacion_ta ?? $evaluacion->proyecto->estado_evaluacion_tp ?? $evaluacion->proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
+        $evaluacion->proyecto()->update(['estado' => $evaluacion->proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 ?? $evaluacion->proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $evaluacion->proyecto->estado_evaluacion_ta ?? $evaluacion->proyecto->estado_evaluacion_tp ?? $evaluacion->proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
 
         $auth_user->notify(new EvaluacionFinalizada($convocatoria, $evaluacion->proyecto));
 
@@ -1099,7 +1099,7 @@ class ProyectoController extends Controller
 
         if ($request->estado == 1) { // Subsanar
             foreach ($proyectos as $proyecto) {
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_idi ?? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
+                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 ?? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
                 sleep(2);
 
                 $proyecto->update(
@@ -1119,7 +1119,7 @@ class ProyectoController extends Controller
             Evaluacion::whereIn('proyecto_id', $proyectos_id)->where('habilitado', true)->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
         } else if ($request->estado == 2) { // Finalizar
             foreach ($proyectos as $proyecto) {
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_idi ?? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
+                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 ?? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
 
                 sleep(2);
                 $proyecto->update(
@@ -1137,7 +1137,7 @@ class ProyectoController extends Controller
             }
         } else if ($request->estado == 3) { // Evaluar
             foreach ($proyectos as $proyecto) {
-                $proyecto->update(['estado' => $proyecto->estado_evaluacion_idi ?? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
+                $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 ?? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
 
                 sleep(2);
                 $proyecto->update(
@@ -1171,7 +1171,7 @@ class ProyectoController extends Controller
     {
         $proyectos = Proyecto::where('convocatoria_id', $request->convocatoria_id)->get();
         foreach ($proyectos as $proyecto) {
-            $proyecto->update(['estado' => $proyecto->estado_evaluacion_idi ?? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
+            $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 ?? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
         }
 
         return back()->with('success', 'Se han actualizado los estados de los proyectos correctamente.');

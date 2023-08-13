@@ -41,7 +41,7 @@ use App\Models\TipoBeneficiadoLinea70;
 use App\Models\TipologiaAmbiente;
 use App\Models\TipoProductoLinea66;
 use App\Models\TipoProyectoCapacidadInstalada;
-use App\Models\TipoProyectoLinea68;
+use App\Models\LaboratorioServicioTecnologico;
 use App\Models\User;
 use App\Models\UsoPresupuestal;
 
@@ -178,7 +178,7 @@ class SelectHelper
      */
     public static function tiposProyectosLinea68()
     {
-        return TipoProyectoLinea68::selectRaw("tipos_proyecto_linea_68.id as value, CASE subclasificacion
+        return LaboratorioServicioTecnologico::selectRaw("tipos_proyecto_linea_68.id as value, CASE subclasificacion
                     WHEN '1' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), '∙ Automatización y TICs', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
                     WHEN '2' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), '∙ Calibración', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
                     WHEN '3' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), '∙ Consultoría técnica', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)

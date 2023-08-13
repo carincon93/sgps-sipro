@@ -68,10 +68,6 @@ class ProyectoFormulario6Linea82 extends Model
         'bibliografia',
         'numero_aprendices',
         'max_meses_ejecucion',
-        'proyecto_investigacion_pedagogica',
-        'articulacion_eni',
-        'grupo_investigacion_eni_id',
-        'justificacion_proyecto_investigacion_pedagogica',
         'productividad_beneficiaros',
         'generacion_empleo_beneficiarios',
         'creacion_nuevos_desarrollos',
@@ -193,36 +189,6 @@ class ProyectoFormulario6Linea82 extends Model
     public function lineaTecnica()
     {
         return $this->belongsTo(LineaTecnica::class);
-    }
-
-    /**
-     * Relationship with GrupoInvestigacion
-     *
-     * @return object
-     */
-    public function grupoInvestigacionEni()
-    {
-        return $this->belongsTo(GrupoInvestigacion::class, 'grupo_investigacion_eni_id');
-    }
-
-    /**
-     * Relationship with AreaTematicaEni
-     *
-     * @return object
-     */
-    public function areasTematicasEni()
-    {
-        return $this->belongsToMany(AreaTematicaEni::class, 'idi_areas_tematicas_eni', 'idi_id', 'area_tematica_eni_id');
-    }
-
-    /**
-     * Relationship with lineasInvestigacionEni
-     *
-     * @return object
-     */
-    public function lineasInvestigacionEni()
-    {
-        return $this->belongsToMany(LineaInvestigacion::class, 'idi_lineas_investigacion_eni', 'idi_id', 'linea_investigacion_id');
     }
 
     /**

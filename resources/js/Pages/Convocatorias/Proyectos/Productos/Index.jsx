@@ -9,20 +9,19 @@ import TableMui from '@/Components/Table'
 import ToolTipMui from '@/Components/Tooltip'
 import StepperMui from '@/Components/Stepper'
 
-import { checkRole } from '@/Utils'
-
-import { useState } from 'react'
-import { router } from '@inertiajs/react'
-
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { MenuItem, Grid, TableRow, TableCell } from '@mui/material'
 
 import Form from './Form'
 import Evaluacion from './Evaluacion'
-import TabsMui from '@/Components/TabsMui'
-import FormProductoIndicador from './FormProductoIndicador'
+
 import React from 'react'
+
+import { checkRole } from '@/Utils'
+
+import { useState } from 'react'
+import { router } from '@inertiajs/react'
 
 const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, resultados, subtipologias_minciencias, tipos_producto }) => {
     const auth_user = auth.user
@@ -151,248 +150,101 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                 </AlertMui>
             </Grid>
 
-            <TabsMui tabs={tabs}>
-                {proyecto?.tipo_formulario_convocatoria_id == 12 ||
-                proyecto?.tipo_formulario_convocatoria_id == 5 ||
-                proyecto?.proyectoFormulario10Linea69 ||
-                proyecto?.tipo_formulario_convocatoria_id == 4 ||
-                proyecto?.proyectoFormulario11Linea83 ? (
-                    <div>
-                        <Grid container className="!mt-20">
-                            <Grid item md={12}>
-                                {proyecto.tipo_formulario_convocatoria_id == 4 && (
-                                    <AlertMui className="mt-20">
-                                        Debe asociar las fechas y actividades a cada uno de los productos haciendo clic en los tres puntos, a continuación, clic en 'Editar'.
-                                    </AlertMui>
-                                )}
-                                <TableMui className="mb-8" rows={['Descripción', 'Objetivo específico', 'Meta', 'Acciones']} sxCellThead={{ width: '320px' }}>
-                                    {is_super_admin || checkRole(auth_user, [5, 17]) || (proyecto.allowed.to_update && proyecto.tipo_formulario_convocatoria_id != 4) ? (
-                                        <TableRow
-                                            onClick={() => (setDialogProductoIndicadoresStatus(true), setMethod('POST'), setProducto(null))}
-                                            variant="raised"
-                                            className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
-                                            <TableCell colSpan={4}>
-                                                <ButtonMui>
-                                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar producto
-                                                </ButtonMui>
-                                            </TableCell>
-                                        </TableRow>
-                                    ) : null}
+            <Grid item md={12} className="!mt-20">
+                <TableMui className="mb-8" rows={['Descripción', 'Resultado', 'Unidad / Meta', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    {is_super_admin || checkRole(auth_user, [5, 17]) || (proyecto.allowed.to_update && proyecto.tipo_formulario_convocatoria_id != 4) ? (
+                        <TableRow
+                            onClick={() => (setDialogProductoMincienciasStatus(true), setMethod('POST'), setProducto(null))}
+                            variant="raised"
+                            className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                            <TableCell colSpan={4}>
+                                <ButtonMui>
+                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar producto
+                                </ButtonMui>
+                            </TableCell>
+                        </TableRow>
+                    ) : null}
 
-                                    {productos.map((producto, i) => (
-                                        <React.Fragment key={i}>
-                                            {producto.producto_linea68 || producto.producto_linea69 || producto.producto_linea70 ? (
-                                                <TableRow>
-                                                    <TableCell>
-                                                        <p className="line-clamp-3">{producto.nombre}</p>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <p className="line-clamp-3">{producto.resultado.objetivo_especifico.descripcion ?? 'Sin información registrada'}</p>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <>
-                                                            {proyecto.tipo_formulario_convocatoria_id == 5 ||
-                                                            proyecto.tipo_formulario_convocatoria_id == 4 ||
-                                                            proyecto.tipo_formulario_convocatoria_id == 11 ? (
-                                                                <>
-                                                                    {producto.producto_linea69?.valor_proyectado ??
-                                                                        producto.producto_linea70?.valor_proyectado ??
-                                                                        producto.producto_linea83?.valor_proyectado}
-                                                                </>
-                                                            ) : null}
+                    {productos.map((producto, i) => (
+                        <TableRow key={i}>
+                            <TableCell>
+                                <p className="line-clamp-3">{producto.nombre}</p>
+                            </TableCell>
 
-                                                            {proyecto.tipo_formulario_convocatoria_id == 12 ? <>{producto.producto_linea68?.meta_indicador}</> : null}
-                                                        </>
-                                                    </TableCell>
+                            <TableCell>
+                                <p className="line-clamp-3">{producto.resultado.descripcion}</p>
+                            </TableCell>
 
-                                                    <TableCell>
-                                                        <MenuMui text={<MoreVertIcon />}>
-                                                            {producto.id !== producto_to_destroy ? (
-                                                                <div>
-                                                                    <MenuItem
-                                                                        onClick={() => (setDialogProductoIndicadoresStatus(true), setMethod('PUT'), setProducto(producto))}
-                                                                        disabled={!proyecto.allowed.to_update}
-                                                                        className={!proyecto.allowed.to_update ? 'hidden' : ''}>
-                                                                        Editar
-                                                                    </MenuItem>
-                                                                    <MenuItem
-                                                                        onClick={() => {
-                                                                            setProductoToDestroy(producto.id)
-                                                                        }}>
-                                                                        Eliminar
-                                                                    </MenuItem>
-                                                                </div>
-                                                            ) : (
-                                                                <div>
-                                                                    <MenuItem
-                                                                        onClick={(e) => {
-                                                                            setProductoToDestroy(null)
-                                                                        }}>
-                                                                        Cancelar
-                                                                    </MenuItem>
-                                                                    <MenuItem
-                                                                        sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
-                                                                        onClick={(e) => {
-                                                                            e.stopPropagation()
-                                                                            if (proyecto.allowed.to_update) {
-                                                                                router.delete(route('convocatorias.proyectos.productos.destroy', [convocatoria.id, proyecto.id, producto.id]), {
-                                                                                    preserveScroll: true,
-                                                                                })
-                                                                            }
-                                                                        }}>
-                                                                        Confirmar
-                                                                    </MenuItem>
-                                                                </div>
-                                                            )}
-                                                        </MenuMui>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ) : null}
-                                        </React.Fragment>
-                                    ))}
-                                </TableMui>
+                            <TableCell>
+                                {producto.unidad_indicador} /{' '}
+                                {producto.meta_indicador ? producto.meta_indicador : <span className="text-red-500 bg-red-100 p-1 rounded inline-block">Sin la unidad definida</span>}
+                            </TableCell>
 
-                                <DialogMui
-                                    open={dialog_productos_indicadores_status}
-                                    fullWidth={true}
-                                    maxWidth="lg"
-                                    blurEnabled={true}
-                                    dialogContent={
-                                        <FormProductoIndicador
-                                            is_super_admin={is_super_admin}
-                                            setDialogStatus={setDialogProductoIndicadoresStatus}
-                                            method={method}
-                                            convocatoria={convocatoria}
-                                            proyecto={proyecto}
-                                            producto={producto}
-                                            resultados={resultados}
-                                            subtipologias_minciencias={subtipologias_minciencias}
-                                            tipos_producto={tipos_producto}
-                                        />
-                                    }
-                                />
-                            </Grid>
-                        </Grid>
-                    </div>
-                ) : null}
-                {proyecto?.tipo_formulario_convocatoria_id == 1 ||
-                proyecto?.tipo_formulario_convocatoria_id == 4 ||
-                proyecto?.tipo_formulario_convocatoria_id == 5 ||
-                proyecto?.tipo_formulario_convocatoria_id == 6 ||
-                proyecto?.tipo_formulario_convocatoria_id == 7 ||
-                proyecto?.tipo_formulario_convocatoria_id == 8 ||
-                proyecto?.tipo_formulario_convocatoria_id == 9 ||
-                proyecto?.tipo_formulario_convocatoria_id == 12 ||
-                proyecto?.proyectoFormulario10Linea69 ? (
-                    <div>
-                        <Grid container className="!mt-20">
-                            {proyecto.tipo_formulario_convocatoria_id == 4 && (
-                                <AlertMui className="mt-20">
-                                    Debe asociar las fechas y actividades a cada uno de los productos haciendo clic en los tres puntos, a continuación, clic en 'Editar'.
-                                </AlertMui>
-                            )}
-                            <TableMui className="mb-8" rows={['Descripción', 'Objetivo específico', 'Resultado', 'Acciones']} sxCellThead={{ width: '320px' }}>
-                                {is_super_admin || checkRole(auth_user, [5, 17]) || (proyecto.allowed.to_update && proyecto.tipo_formulario_convocatoria_id != 4) ? (
-                                    <TableRow
-                                        onClick={() => (setDialogProductoMincienciasStatus(true), setMethod('POST'), setProducto(null))}
-                                        variant="raised"
-                                        className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
-                                        <TableCell colSpan={4}>
-                                            <ButtonMui>
-                                                <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar producto
-                                            </ButtonMui>
-                                        </TableCell>
-                                    </TableRow>
-                                ) : null}
+                            <TableCell>
+                                <MenuMui text={<MoreVertIcon />}>
+                                    {producto.id !== producto_to_destroy ? (
+                                        <div>
+                                            <MenuItem
+                                                onClick={() => (setDialogProductoMincienciasStatus(true), setMethod('PUT'), setProducto(producto))}
+                                                disabled={!proyecto.allowed.to_update}
+                                                className={!proyecto.allowed.to_update ? 'hidden' : ''}>
+                                                Editar
+                                            </MenuItem>
+                                            <MenuItem
+                                                onClick={() => {
+                                                    setProductoToDestroy(producto.id)
+                                                }}>
+                                                Eliminar
+                                            </MenuItem>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <MenuItem
+                                                onClick={(e) => {
+                                                    setProductoToDestroy(null)
+                                                }}>
+                                                Cancelar
+                                            </MenuItem>
+                                            <MenuItem
+                                                sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
+                                                onClick={(e) => {
+                                                    e.stopPropagation()
+                                                    if (proyecto.allowed.to_update) {
+                                                        router.delete(route('convocatorias.proyectos.productos.destroy', [convocatoria.id, proyecto.id, producto.id]), {
+                                                            preserveScroll: true,
+                                                        })
+                                                    }
+                                                }}>
+                                                Confirmar
+                                            </MenuItem>
+                                        </div>
+                                    )}
+                                </MenuMui>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableMui>
 
-                                {productos.map((producto, i) => (
-                                    <React.Fragment key={i}>
-                                        {producto.producto_minciencias_linea65 || producto.producto_minciencias_linea66 || producto.producto_minciencias_linea69 ? (
-                                            <TableRow>
-                                                <TableCell>
-                                                    <p className="line-clamp-3">{producto.nombre}</p>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <p className="line-clamp-3">{producto.resultado.objetivo_especifico.descripcion ?? 'Sin información registrada'}</p>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <p className="line-clamp-3">
-                                                        {proyecto.tipo_formulario_convocatoria_id != 4 && proyecto.tipo_formulario_convocatoria_id != 11 ? (
-                                                            <>Código {producto.resultado.id + ' - ' + producto.resultado.descripcion}</>
-                                                        ) : null}
-                                                    </p>
-                                                </TableCell>
-
-                                                <TableCell>
-                                                    <MenuMui text={<MoreVertIcon />}>
-                                                        {producto.id !== producto_to_destroy ? (
-                                                            <div>
-                                                                <MenuItem
-                                                                    onClick={() => (setDialogProductoMincienciasStatus(true), setMethod('PUT'), setProducto(producto))}
-                                                                    disabled={!proyecto.allowed.to_update}
-                                                                    className={!proyecto.allowed.to_update ? 'hidden' : ''}>
-                                                                    Editar
-                                                                </MenuItem>
-                                                                <MenuItem
-                                                                    onClick={() => {
-                                                                        setProductoToDestroy(producto.id)
-                                                                    }}>
-                                                                    Eliminar
-                                                                </MenuItem>
-                                                            </div>
-                                                        ) : (
-                                                            <div>
-                                                                <MenuItem
-                                                                    onClick={(e) => {
-                                                                        setProductoToDestroy(null)
-                                                                    }}>
-                                                                    Cancelar
-                                                                </MenuItem>
-                                                                <MenuItem
-                                                                    sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
-                                                                    onClick={(e) => {
-                                                                        e.stopPropagation()
-                                                                        if (proyecto.allowed.to_update) {
-                                                                            router.delete(route('convocatorias.proyectos.productos.destroy', [convocatoria.id, proyecto.id, producto.id]), {
-                                                                                preserveScroll: true,
-                                                                            })
-                                                                        }
-                                                                    }}>
-                                                                    Confirmar
-                                                                </MenuItem>
-                                                            </div>
-                                                        )}
-                                                    </MenuMui>
-                                                </TableCell>
-                                            </TableRow>
-                                        ) : null}
-                                    </React.Fragment>
-                                ))}
-                            </TableMui>
-
-                            <DialogMui
-                                open={dialog_productos_minciencias_status}
-                                fullWidth={true}
-                                maxWidth="lg"
-                                blurEnabled={true}
-                                dialogContent={
-                                    <Form
-                                        is_super_admin={is_super_admin}
-                                        setDialogStatus={setDialogProductoMincienciasStatus}
-                                        method={method}
-                                        convocatoria={convocatoria}
-                                        proyecto={proyecto}
-                                        producto={producto}
-                                        resultados={resultados}
-                                        subtipologias_minciencias={subtipologias_minciencias}
-                                        tipos_producto={tipos_producto}
-                                    />
-                                }
-                            />
-                        </Grid>
-                    </div>
-                ) : null}
-            </TabsMui>
+                <DialogMui
+                    open={dialog_productos_minciencias_status}
+                    fullWidth={true}
+                    maxWidth="lg"
+                    blurEnabled={true}
+                    dialogContent={
+                        <Form
+                            is_super_admin={is_super_admin}
+                            setDialogStatus={setDialogProductoMincienciasStatus}
+                            method={method}
+                            convocatoria={convocatoria}
+                            proyecto={proyecto}
+                            producto={producto}
+                            resultados={resultados}
+                            subtipologias_minciencias={subtipologias_minciencias}
+                            tipos_producto={tipos_producto}
+                        />
+                    }
+                />
+            </Grid>
         </AuthenticatedLayout>
     )
 }

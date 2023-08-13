@@ -63,8 +63,6 @@ class ProyectoFormulario7Linea23Controller extends Controller
             'tematicas_estrategicas'            => SelectHelper::tematicasEstrategicas(),
             'redes_conocimiento'                => SelectHelper::redesConocimiento(),
             'grupos_investigacion'              => SelectHelper::gruposInvestigacion()->where('value', 126)->values()->all(),
-            'areas_tematicas_eni'               => SelectHelper::areasTematicasEni(),
-            'lineas_investigacion_eni'          => SelectHelper::lineasInvestigacion()->where('grupo_investigacion_id', 126)->values()->all(),
             'areas_cualificacion_mnc'           => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),
 
             'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
@@ -94,11 +92,6 @@ class ProyectoFormulario7Linea23Controller extends Controller
         $proyecto_formulario_7_linea_23->fecha_inicio                                      = $request->fecha_inicio;
         $proyecto_formulario_7_linea_23->fecha_finalizacion                                = $request->fecha_finalizacion;
         $proyecto_formulario_7_linea_23->max_meses_ejecucion                               = $request->max_meses_ejecucion;
-        $proyecto_formulario_7_linea_23->proyecto_investigacion_pedagogica                 = $request->proyecto_investigacion_pedagogica;
-        $proyecto_formulario_7_linea_23->articulacion_eni                                  = $request->articulacion_eni;
-        $proyecto_formulario_7_linea_23->justificacion_proyecto_investigacion_pedagogica   = $request->justificacion_proyecto_investigacion_pedagogica;
-        $proyecto_formulario_7_linea_23->proyecto_investigacion_pedagogica                 = $request->proyecto_investigacion_pedagogica;
-        $proyecto_formulario_7_linea_23->articulacion_eni                                  = $request->articulacion_eni;
         $proyecto_formulario_7_linea_23->areas_cualificacion_mnc                           = $request->areas_cualificacion_mnc;
 
         $proyecto_formulario_7_linea_23->video                                             = null;
@@ -211,8 +204,6 @@ class ProyectoFormulario7Linea23Controller extends Controller
             'tecnoacademias'                                    => SelectHelper::tecnoacademias(),
             'municipios'                                        => SelectHelper::municipios(),
             'grupos_investigacion'                              => SelectHelper::gruposInvestigacion()->where('value', 126)->values()->all(),
-            'areas_tematicas_eni'                               => SelectHelper::areasTematicasEni(),
-            'lineas_investigacion_eni'                          => SelectHelper::lineasInvestigacion()->where('grupo_investigacion_id', 126)->values()->all(),
             'programas_formacion_con_registro_calificado'       => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $proyecto_formulario_7_linea_23->proyecto->centro_formacion_id)->values()->all(),
             'programas_formacion_sin_registro_calificado'       => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),
 
@@ -262,9 +253,6 @@ class ProyectoFormulario7Linea23Controller extends Controller
         $proyecto_formulario_7_linea_23->relacionado_agendas_competitividad              = $request->relacionado_agendas_competitividad;
         $proyecto_formulario_7_linea_23->relacionado_mesas_sectoriales                   = $request->relacionado_mesas_sectoriales;
         $proyecto_formulario_7_linea_23->relacionado_tecnoacademia                       = $request->relacionado_tecnoacademia;
-        $proyecto_formulario_7_linea_23->proyecto_investigacion_pedagogica               = $request->proyecto_investigacion_pedagogica;
-        $proyecto_formulario_7_linea_23->articulacion_eni                                = $request->articulacion_eni;
-        $proyecto_formulario_7_linea_23->justificacion_proyecto_investigacion_pedagogica = $request->justificacion_proyecto_investigacion_pedagogica;
 
         $proyecto_formulario_7_linea_23->aporta_a_campesena                              = $request->aporta_a_campesena;
         $proyecto_formulario_7_linea_23->relacionado_estrategia_campesena                = $request->relacionado_estrategia_campesena;
@@ -284,13 +272,10 @@ class ProyectoFormulario7Linea23Controller extends Controller
         $proyecto_formulario_7_linea_23->tematicaEstrategica()->associate($request->tematica_estrategica_id);
         $proyecto_formulario_7_linea_23->redConocimiento()->associate($request->red_conocimiento_id);
         $proyecto_formulario_7_linea_23->actividadEconomica()->associate($request->actividad_economica_id);
-        $proyecto_formulario_7_linea_23->grupoInvestigacionEni()->associate($request->grupo_investigacion_eni_id);
 
         $proyecto_formulario_7_linea_23->save();
 
         $proyecto_formulario_7_linea_23->proyecto->municipios()->sync($request->municipios);
-        $proyecto_formulario_7_linea_23->areasTematicasEni()->sync($request->area_tematica_eni_id);
-        $proyecto_formulario_7_linea_23->lineasInvestigacionEni()->sync($request->linea_investigacion_eni_id);
         $proyecto_formulario_7_linea_23->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 
         $request->relacionado_mesas_sectoriales == 1 ? $proyecto_formulario_7_linea_23->mesasSectoriales()->sync($request->mesa_sectorial_id) : $proyecto_formulario_7_linea_23->mesasSectoriales()->detach();

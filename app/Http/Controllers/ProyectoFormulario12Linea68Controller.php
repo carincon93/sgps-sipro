@@ -12,7 +12,7 @@ use App\Models\Convocatoria;
 use App\Models\Evaluacion\EvaluacionProyectoFormulario12Linea68;
 use App\Models\Proyecto;
 use App\Models\RolSennova;
-use App\Models\TipoProyectoLinea68;
+use App\Models\LaboratorioServicioTecnologico;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -74,7 +74,7 @@ class ProyectoFormulario12Linea68Controller extends Controller
     {
         $this->authorize('formular-proyecto', [10, $convocatoria]);
 
-        $tipo_proyecto_linea_68 = TipoProyectoLinea68::find($request->tipo_proyecto_linea_68_id);
+        $tipo_proyecto_linea_68 = LaboratorioServicioTecnologico::find($request->tipo_proyecto_linea_68_id);
 
         $proyecto = new Proyecto();
         $proyecto->centroFormacion()->associate($tipo_proyecto_linea_68->centro_formacion_id);
@@ -184,7 +184,7 @@ class ProyectoFormulario12Linea68Controller extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_12_linea_68->proyecto]);
 
-        $tipo_proyecto_linea_68 = TipoProyectoLinea68::find($request->tipo_proyecto_formulario_12_linea_68_id);
+        $tipo_proyecto_linea_68 = LaboratorioServicioTecnologico::find($request->tipo_proyecto_formulario_12_linea_68_id);
 
         $proyecto_formulario_12_linea_68->titulo                      = $request->titulo;
         $proyecto_formulario_12_linea_68->fecha_inicio                = $request->fecha_inicio;

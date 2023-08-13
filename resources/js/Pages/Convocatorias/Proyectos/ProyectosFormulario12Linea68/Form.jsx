@@ -326,9 +326,7 @@ const Form = ({
                             <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
                         </Grid>
                         <Grid item md={6}>
-                            {proyecto_formulario_12_linea_68?.proyecto.linea_programatica
-                                ? proyecto_formulario_12_linea_68?.proyecto.linea_programatica.nombre + ' - ' + proyecto_formulario_12_linea_68?.proyecto.linea_programatica.codigo
-                                : ''}
+                            Fortalecimiento de la oferta de servicios tecnológicos para las empresas
                         </Grid>
 
                         <Grid item md={12}>

@@ -8,14 +8,7 @@ use App\Models\Convocatoria;
 use App\Models\Evaluacion\Evaluacion;
 use App\Models\Proyecto;
 use App\Models\Producto;
-use App\Models\ProductoLinea69;
-use App\Models\ProductoMincienciasLinea65;
-use App\Models\ProductoMincienciasLinea66;
-use App\Models\ProductoLinea68;
-use App\Models\ProductoMincienciasLinea69;
-use App\Models\ProductoLinea70;
-use App\Models\ProductoLinea83;
-use App\Models\ProductoMincienciasLinea68;
+use App\Models\ProductoMinciencias;
 use App\Models\Resultado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -38,14 +31,14 @@ class ProductoController extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/Productos/Index', [
             'convocatoria'              =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
-            'proyecto'                  =>  $proyecto->only('id', 'tipo_formulario_convocatoria_id', 'precio_proyecto', 'proyectoFormulario1Linea65', 'proyectoFormulario8Linea66', 'proyectoFormulario12Linea68', 'proyectoFormulario5Linea69', 'proyectoFormulario10Linea69', 'proyectoFormulario4Linea70', 'proyectoFormulario11Linea83', 'fecha_inicio', 'fecha_finalizacion', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
+            'proyecto'                  =>  $proyecto->only('id', 'tipo_formulario_convocatoria_id', 'precio_proyecto', 'proyectoFormulario1Linea65', 'proyectoFormulario8Linea66', 'proyectoFormulario12Linea68', 'proyectoFormulario5Linea69', 'proyectoFormulario10Linea69', 'proyectoFormulario4Linea70', 'proyectoFormulario11Linea83', 'fecha_inicio', 'fecha_finalizacion', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'all_files', 'allowed', 'tipo_proyecto'),
             'evaluacion'                =>  Evaluacion::find(request()->evaluacion_id),
             'productos'                 =>  Producto::whereIn(
                                                 'resultado_id',
                                                     $resultado->map(function ($resultado) {
                                                         return $resultado->id;
                                                     })
-                                                )->with('actividades', 'resultado.objetivoEspecifico', 'productoMincienciasLinea65', 'productoMincienciasLinea66', 'productoMincienciasLinea69', 'productoLinea68', 'productoLinea69', 'productoLinea70', 'productoLinea83')->orderBy('resultado_id', 'ASC')->get(),
+                                                )->with('actividades', 'resultado.objetivoEspecifico', 'productoMinciencias')->orderBy('resultado_id', 'ASC')->get(),
 
             'resultados'                =>  Resultado::select('resultados.id as value', 'resultados.descripcion as label', 'resultados.id as id')->whereHas('efectoDirecto', function ($query) use ($proyecto) {
                                                  $query->where('efectos_directos.proyecto_id', $proyecto->id);
@@ -78,33 +71,11 @@ class ProductoController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $producto = new Producto();
-        $producto->nombre               = $request->nombre;
-        $producto->fecha_inicio         = $request->fecha_inicio;
-        $producto->fecha_finalizacion   = $request->fecha_finalizacion;
-        $producto->indicador            = $request->indicador;
-        $producto->resultado()->associate($request->resultado_id);
-        $producto->save();
+        $producto = Producto::create($request->only('resultado_id' ,'nombre', 'fecha_inicio','fecha_finalizacion','unidad_indicador','meta_indicador','medio_verificacion', 'formula_indicador'));
 
         $producto->actividades()->attach($request->actividad_id);
 
-        // Valida si es un producto Minciencias de la línea 65
-        if ($proyecto->proyectoFormulario1Linea65()->exists()) {
-            $request->validate([
-                'tipo'                          => 'required|between:1,4',
-                'trl'                           => 'required|min:1|max:9',
-                'subtipologia_minciencias_id'   => 'required|min:0|max:2147483647|integer|exists:subtipologias_minciencias,id'
-            ]);
-
-            $producto_minciencias_linea_65 = new ProductoMincienciasLinea65();
-            $producto_minciencias_linea_65->tipo = $request->tipo;
-            $producto_minciencias_linea_65->trl  = $request->trl;
-            $producto_minciencias_linea_65->subtipologiaMinciencias()->associate($request->subtipologia_minciencias_id);
-            $producto->productoMincienciasLinea65()->save($producto_minciencias_linea_65);
-        }
-
-        // Valida si es un producto Minciencias de la línea 66
-        if ($proyecto->proyectoFormulario8Linea66()->exists()) {
+        if ($request->has('tipo') && $request->has('trl') && $request->has('subtipologia_minciencias_id')) {
 
             $request->validate([
                 'tipo'                          => 'required|between:1,4',
@@ -112,98 +83,11 @@ class ProductoController extends Controller
                 'subtipologia_minciencias_id'   => 'required|min:0|max:2147483647|integer|exists:subtipologias_minciencias,id'
             ]);
 
-            $producto_minciencias_linea_66 = new ProductoMincienciasLinea66();
+            $producto_minciencias_linea_66 = new ProductoMinciencias();
             $producto_minciencias_linea_66->tipo = $request->tipo;
             $producto_minciencias_linea_66->trl  = $request->trl;
             $producto_minciencias_linea_66->subtipologiaMinciencias()->associate($request->subtipologia_minciencias_id);
-            $producto->productoMincienciasLinea66()->save($producto_minciencias_linea_66);
-        }
-
-        // Valida si es un producto Minciencias de la línea 68
-        if ($proyecto->proyectoFormulario12Linea68()->exists() && $request->has('trl')) {
-            $request->validate([
-                'tipo'                          => 'required|between:1,4',
-                'trl'                           => 'required|min:1|max:9',
-                'subtipologia_minciencias_id'   => 'required|min:0|max:2147483647|integer|exists:subtipologias_minciencias,id'
-            ]);
-
-            $producto_minciencias_linea_69 = new ProductoMincienciasLinea68();
-            $producto_minciencias_linea_69->tipo = $request->tipo;
-            $producto_minciencias_linea_69->trl  = $request->trl;
-            $producto_minciencias_linea_69->subtipologiaMinciencias()->associate($request->subtipologia_minciencias_id);
-            $producto->productoMincienciasLinea68()->save($producto_minciencias_linea_69);
-        }
-
-        // Valida si es un producto Minciencias de la línea 69
-        if ($proyecto->proyectoFormulario5Linea69()->exists() && $request->has('trl') || $proyecto->proyectoFormulario10Linea69()->exists() && $request->has('trl')) {
-            $request->validate([
-                'tipo'                          => 'required|between:1,4',
-                'trl'                           => 'required|min:1|max:9',
-                'subtipologia_minciencias_id'   => 'required|min:0|max:2147483647|integer|exists:subtipologias_minciencias,id'
-            ]);
-
-
-            $producto_minciencias_linea_69 = new ProductoMincienciasLinea69();
-            $producto_minciencias_linea_69->tipo = $request->tipo;
-            $producto_minciencias_linea_69->trl  = $request->trl;
-            $producto_minciencias_linea_69->subtipologiaMinciencias()->associate($request->subtipologia_minciencias_id);
-            $producto->productoMincienciasLinea69()->save($producto_minciencias_linea_69);
-        }
-
-        // Valida si es un producto de la línea 68
-        if ($proyecto->proyectoFormulario12Linea68()->exists() && $request->has('meta_indicador')) {
-            $request->validate([
-                'medio_verificacion' => 'required|string',
-                'nombre_indicador'   => 'required|string',
-                'formula_indicador'  => 'required|string',
-                'meta_indicador'     => 'required|string',
-            ]);
-            $producto_linea_68 = new ProductoLinea68();
-            $producto_linea_68->producto()->associate($producto->id);
-            $producto_linea_68->medio_verificacion    = $request->medio_verificacion;
-            $producto_linea_68->nombre_indicador      = $request->nombre_indicador;
-            $producto_linea_68->formula_indicador     = $request->formula_indicador;
-            $producto_linea_68->meta_indicador        = $request->meta_indicador;
-            $producto->productoLinea68()->save($producto_linea_68);
-        }
-
-        // Valida si es un producto de la línea 69
-        if ($proyecto->proyectoFormulario5Linea69()->exists() && $request->has('valor_proyectado') || $proyecto->proyectoFormulario10Linea69()->exists() && $request->has('valor_proyectado')) {
-            $request->validate([
-                'medio_verificacion' => 'required|string',
-                'valor_proyectado'   => 'required|string',
-            ]);
-            $producto_linea_69 = new ProductoLinea69();
-            $producto_linea_69->producto()->associate($producto->id);
-            $producto_linea_69->valor_proyectado     = $request->valor_proyectado;
-            $producto_linea_69->medio_verificacion   = $request->medio_verificacion;
-            $producto->ProductoLinea69()->save($producto_linea_69);
-        }
-
-        // Valida si es un producto de la línea 70
-        if ($proyecto->proyectoFormulario4Linea70()->exists()) {
-            $request->validate([
-                'medio_verificacion' => 'required|string',
-                'valor_proyectado'   => 'required|string',
-            ]);
-            $producto_linea_70 = new ProductoLinea70();
-            $producto_linea_70->producto()->associate($producto->id);
-            $producto_linea_70->valor_proyectado     = $request->valor_proyectado;
-            $producto_linea_70->medio_verificacion   = $request->medio_verificacion;
-            $producto->productoLinea70()->save($producto_linea_70);
-        }
-
-        // Valida si es un producto de la línea 83
-        if ($proyecto->proyectoFormulario11Linea83()->exists()) {
-            $request->validate([
-                'medio_verificacion' => 'required|string',
-                'valor_proyectado'   => 'required|string',
-            ]);
-            $producto_linea_83 = new ProductoLinea83();
-            $producto_linea_83->producto()->associate($producto->id);
-            $producto_linea_83->valor_proyectado     = $request->valor_proyectado;
-            $producto_linea_83->medio_verificacion   = $request->medio_verificacion;
-            $producto->productoLinea83()->save($producto_linea_83);
+            $producto->productoMinciencias()->save($producto_minciencias_linea_66);
         }
 
         return redirect()->route('convocatorias.proyectos.productos.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
@@ -244,107 +128,19 @@ class ProductoController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        if ($producto->resultado_id != $request->resultado_id) {
-            $producto->actividades()->sync([]);
-        } else {
-            $producto->actividades()->sync($request->actividad_id);
-        }
-
-        if ($proyecto->proyectoFormulario1Linea65()->exists()) {
-            $request->validate([
-                'tipo'                          => 'required|between:1,4',
-                'trl'                           => 'required|min:1|max:9',
-                'subtipologia_minciencias_id'   => 'required|min:0|max:2147483647|integer|exists:subtipologias_minciencias,id'
-            ]);
-            $producto->productoMincienciasLinea65()->update(['subtipologia_minciencias_id' => $request->subtipologia_minciencias_id, 'tipo' => $request->tipo, 'trl' => $request->trl]);
-        }
-
-        if ($proyecto->proyectoFormulario8Linea66()->exists()) {
-            $request->validate([
-                'tipo'                          => 'required|between:1,4',
-                'trl'                           => 'required|min:1|max:9',
-                'subtipologia_minciencias_id'   => 'required|min:0|max:2147483647|integer|exists:subtipologias_minciencias,id'
-            ]);
-            $producto->productoMincienciasLinea66()->update(['subtipologia_minciencias_id' => $request->subtipologia_minciencias_id, 'tipo' => $request->tipo, 'trl' => $request->trl]);
-        }
-
-        if ($proyecto->proyectoFormulario12Linea68()->exists() && $request->has('trl')) {
-            $request->validate([
-                'tipo'                          => 'required|between:1,4',
-                'trl'                           => 'required|min:1|max:9',
-                'subtipologia_minciencias_id'   => 'required|min:0|max:2147483647|integer|exists:subtipologias_minciencias,id'
-            ]);
-
-            $producto->productoMincienciasLinea68()->update(['subtipologia_minciencias_id' => $request->subtipologia_minciencias_id, 'tipo' => $request->tipo, 'trl' => $request->trl]);
-        }
-
-        if ($proyecto->proyectoFormulario5Linea69()->exists() && $request->has('trl') || $proyecto->proyectoFormulario10Linea69()->exists() && $request->has('trl')) {
-            $request->validate([
-                'tipo'                          => 'required|between:1,4',
-                'trl'                           => 'required|min:1|max:9',
-                'subtipologia_minciencias_id'   => 'required|min:0|max:2147483647|integer|exists:subtipologias_minciencias,id'
-            ]);
-
-            $producto->productoMincienciasLinea69()->update(['subtipologia_minciencias_id' => $request->subtipologia_minciencias_id, 'tipo' => $request->tipo, 'trl' => $request->trl]);
-        }
-
-        if ($proyecto->proyectoFormulario12Linea68()->exists() && $request->has('meta_indicador')) {
-            $request->validate([
-                'medio_verificacion' => 'required|string',
-            ]);
-            $producto->productoLinea68()->update([
-                'medio_verificacion' => $request->medio_verificacion,
-                'nombre_indicador'   => $request->nombre_indicador,
-                'formula_indicador'  => $request->formula_indicador,
-                'meta_indicador'     => $request->meta_indicador
-
-            ]);
-        }
-
-        if ($proyecto->proyectoFormulario5Linea69()->exists() && $request->has('valor_proyectado') || $proyecto->proyectoFormulario10Linea69()->exists() && $request->has('valor_proyectado')) {
-            $request->validate([
-                'medio_verificacion' => 'required|string',
-                'valor_proyectado'   => 'required|string',
-            ]);
-            if ($producto->productoLinea69()->exists()) {
-                $producto->productoLinea69()->update(['valor_proyectado' => $request->valor_proyectado, 'medio_verificacion' => $request->medio_verificacion]);
-            } else {
-                $producto->productoLinea69()->create(['valor_proyectado' => $request->valor_proyectado, 'medio_verificacion' => $request->medio_verificacion]);
-            }
-        }
-
-         if ($proyecto->proyectoFormulario4Linea70()->exists()) {
-            $request->validate([
-                'medio_verificacion' => 'required|string',
-                'valor_proyectado'   => 'required|string',
-            ]);
-            if ($producto->productoLinea70()->exists()) {
-                $producto->productoLinea70()->update(['valor_proyectado' => $request->valor_proyectado, 'medio_verificacion' => $request->medio_verificacion]);
-            } else {
-                $producto->productoLinea70()->create(['valor_proyectado' => $request->valor_proyectado, 'medio_verificacion' => $request->medio_verificacion]);
-            }
-        }
-
-         if ($proyecto->proyectoFormulario11Linea83()->exists()) {
-            $request->validate([
-                'medio_verificacion' => 'required|string',
-                'valor_proyectado'   => 'required|string',
-            ]);
-            if ($producto->productoLinea83()->exists()) {
-                $producto->productoLinea83()->update(['valor_proyectado' => $request->valor_proyectado, 'medio_verificacion' => $request->medio_verificacion]);
-            } else {
-                $producto->productoLinea83()->create(['valor_proyectado' => $request->valor_proyectado, 'medio_verificacion' => $request->medio_verificacion]);
-            }
-        }
-
-
-
-        $producto->nombre               = $request->nombre;
-        $producto->fecha_inicio         = $request->fecha_inicio;
-        $producto->fecha_finalizacion   = $request->fecha_finalizacion;
-        $producto->indicador            = $request->indicador;
-        $producto->resultado()->associate($request->resultado_id);
+        $producto->update($request->only('resultado_id' ,'nombre', 'fecha_inicio','fecha_finalizacion','unidad_indicador','meta_indicador','medio_verificacion', 'formula_indicador'));
         $producto->save();
+
+        $producto->actividades()->sync($request->actividad_id);
+
+        if ($request->has('tipo') && $request->has('trl') && $request->has('subtipologia_minciencias_id')) {
+            $request->validate([
+                'tipo'                          => 'required|between:1,4',
+                'trl'                           => 'required|min:1|max:9',
+                'subtipologia_minciencias_id'   => 'required|min:0|max:2147483647|integer|exists:subtipologias_minciencias,id'
+            ]);
+            $producto->productoMinciencias()->update(['subtipologia_minciencias_id' => $request->subtipologia_minciencias_id, 'tipo' => $request->tipo, 'trl' => $request->trl]);
+        }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }

@@ -22,10 +22,10 @@ class NodoTecnoparqueController extends Controller
         $this->authorize('viewAny', [NodoTecnoparque::class]);
 
         return Inertia::render('NodosTecnoparque/Index', [
-            'filters'           => request()->all('search'),
-            'nodosTecnoparque'  => NodoTecnoparque::with('centroFormacion')->orderBy('nombre', 'ASC')
-                ->filterNodoTecnoparque(request()->only('search'))->paginate(),
-            'allowed_to_create'   => Gate::inspect('create', [NodoTecnoparque::class])->allowed()
+            'nodos_tecnoparque'  => NodoTecnoparque::with('centroFormacion')->orderBy('nombre', 'ASC')
+                                    ->filterNodoTecnoparque(request()->only('search'))->paginate(),
+            'centros_formacion'  => SelectHelper::centrosFormacion(),
+            'allowed_to_create'  => Gate::inspect('create', [NodoTecnoparque::class])->allowed()
 
         ]);
     }
@@ -39,10 +39,7 @@ class NodoTecnoparqueController extends Controller
     {
         $this->authorize('create', [NodoTecnoparque::class]);
 
-        return Inertia::render('NodosTecnoparque/Create', [
-            'centrosFormacion'  => SelectHelper::centrosFormacion(),
-            'allowed_to_create'   => Gate::inspect('create', [NodoTecnoparque::class])->allowed()
-        ]);
+        //
     }
 
     /**
@@ -55,57 +52,49 @@ class NodoTecnoparqueController extends Controller
     {
         $this->authorize('create', [NodoTecnoparque::class]);
 
-        $nodoTecnoparque = new NodoTecnoparque();
-        $nodoTecnoparque->nombre                = $request->nombre;
-        $nodoTecnoparque->centroFormacion()->associate($request->centro_formacion_id);
+        $nodo_tecnoparque = NodoTecnoparque::create($request->validated());
 
-        $nodoTecnoparque->save();
-
-        return redirect()->route('nodos-tecnoparque.index')->with('success', 'El recurso se ha creado correctamente.');
+        return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\NodoTecnoparque  $nodoTecnoparque
+     * @param  \App\Models\NodoTecnoparque  $nodo_tecnoparque
      * @return \Illuminate\Http\Response
      */
-    public function show(NodoTecnoparque $nodoTecnoparque)
+    public function show(NodoTecnoparque $nodo_tecnoparque)
     {
-        $this->authorize('view', [NodoTecnoparque::class, $nodoTecnoparque]);
+        $this->authorize('view', [NodoTecnoparque::class, $nodo_tecnoparque]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\NodoTecnoparque  $nodoTecnoparque
+     * @param  \App\Models\NodoTecnoparque  $nodo_tecnoparque
      * @return \Illuminate\Http\Response
      */
-    public function edit(NodoTecnoparque $nodoTecnoparque)
+    public function edit(NodoTecnoparque $nodo_tecnoparque)
     {
-        $this->authorize('update', [NodoTecnoparque::class, $nodoTecnoparque]);
+        $this->authorize('update', [NodoTecnoparque::class, $nodo_tecnoparque]);
 
-        return Inertia::render('NodosTecnoparque/Edit', [
-            'nodoTecnoparque'   => $nodoTecnoparque,
-            'centrosFormacion'  => SelectHelper::centrosFormacion()
-        ]);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\NodoTecnoparque  $nodoTecnoparque
+     * @param  \App\Models\NodoTecnoparque  $nodo_tecnoparque
      * @return \Illuminate\Http\Response
      */
-    public function update(NodoTecnoparqueRequest $request, NodoTecnoparque $nodoTecnoparque)
+    public function update(NodoTecnoparqueRequest $request, NodoTecnoparque $nodo_tecnoparque)
     {
-        $this->authorize('update', [NodoTecnoparque::class, $nodoTecnoparque]);
+        $this->authorize('update', [NodoTecnoparque::class, $nodo_tecnoparque]);
 
-        $nodoTecnoparque->nombre                = $request->nombre;
-        $nodoTecnoparque->centroFormacion()->associate($request->centro_formacion_id);
+        $nodo_tecnoparque->update($request->validated());
 
-        $nodoTecnoparque->save();
+        $nodo_tecnoparque->save();
 
         return redirect()->back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
@@ -113,14 +102,14 @@ class NodoTecnoparqueController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\NodoTecnoparque  $nodoTecnoparque
+     * @param  \App\Models\NodoTecnoparque  $nodo_tecnoparque
      * @return \Illuminate\Http\Response
      */
-    public function destroy(NodoTecnoparque $nodoTecnoparque)
+    public function destroy(NodoTecnoparque $nodo_tecnoparque)
     {
-        $this->authorize('delete', [NodoTecnoparque::class, $nodoTecnoparque]);
+        $this->authorize('delete', [NodoTecnoparque::class, $nodo_tecnoparque]);
 
-        $nodoTecnoparque->delete();
+        $nodo_tecnoparque->delete();
 
         return redirect()->route('nodos-tecnoparque.index')->with('success', 'El recurso se ha eliminado correctamente.');
     }

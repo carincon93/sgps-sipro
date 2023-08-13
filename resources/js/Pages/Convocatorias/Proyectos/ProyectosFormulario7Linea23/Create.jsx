@@ -16,8 +16,6 @@ const Create = ({
     tematicas_estrategicas,
     redes_conocimiento,
     grupos_investigacion,
-    lineas_investigacion_eni,
-    areas_tematicas_eni,
     areas_cualificacion_mnc,
     roles_sennova,
 }) => {
@@ -37,8 +35,6 @@ const Create = ({
                 tematicas_estrategicas={tematicas_estrategicas}
                 redes_conocimiento={redes_conocimiento}
                 grupos_investigacion={grupos_investigacion}
-                lineas_investigacion_eni={lineas_investigacion_eni}
-                areas_tematicas_eni={areas_tematicas_eni}
                 areas_cualificacion_mnc={areas_cualificacion_mnc}
                 roles_sennova={roles_sennova}
             />

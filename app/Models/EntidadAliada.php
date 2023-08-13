@@ -88,17 +88,6 @@ class EntidadAliada extends Model
         return $this->hasOne(EntidadAliadaLinea70::class);
     }
 
-
-    /**
-     * Relationship with EntidadAliadaLinea83
-     *
-     * @return object
-     */
-    public function entidadAliadaLinea83()
-    {
-        return $this->hasOne(EntidadAliadaLinea83::class);
-    }
-
     /**
      * Relationship with Actividad
      *

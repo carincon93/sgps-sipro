@@ -212,7 +212,7 @@ class ProyectoFormulario8Linea66 extends Model
      */
     public function areasTematicasEni()
     {
-        return $this->belongsToMany(AreaTematicaEni::class, 'idi_areas_tematicas_eni', 'idi_id', 'area_tematica_eni_id');
+        return $this->belongsToMany(AreaTematicaEni::class, 'proyecto_linea_66_areas_tematicas_eni', 'proyecto_linea_66_id', 'area_tematica_eni_id');
     }
 
     /**
@@ -222,7 +222,7 @@ class ProyectoFormulario8Linea66 extends Model
      */
     public function lineasInvestigacionEni()
     {
-        return $this->belongsToMany(LineaInvestigacion::class, 'idi_lineas_investigacion_eni', 'idi_id', 'linea_investigacion_id');
+        return $this->belongsToMany(LineaInvestigacion::class, 'proyecto_linea_66_lineas_investigacion_eni', 'proyecto_linea_66_id', 'linea_investigacion_id');
     }
 
     /**

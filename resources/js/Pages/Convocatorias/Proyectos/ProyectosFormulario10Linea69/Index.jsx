@@ -20,7 +20,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_10_linea_69, allowed_t
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
-    const [proyecto_hub_linea_69_to_destroy, setProyectoFormulario10Linea69ToDestroy] = useState(null)
+    const [proyecto_formulario_10_linea_69_to_destroy, setProyectoFormulario10Linea69ToDestroy] = useState(null)
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
@@ -114,7 +114,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_10_linea_69, allowed_t
 
                                 <TableCell>
                                     <MenuMui text={<MoreVertIcon />}>
-                                        {proyecto.id !== proyecto_hub_linea_69_to_destroy ? (
+                                        {proyecto.id !== proyecto_formulario_10_linea_69_to_destroy ? (
                                             <div>
                                                 <MenuItem
                                                     onClick={() => router.visit(route('convocatorias.proyectos-formulario-10-linea-69.edit', [convocatoria.id, id]))}

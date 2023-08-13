@@ -34,7 +34,10 @@ class Producto extends Model
         'nombre',
         'fecha_inicio',
         'fecha_finalizacion',
-        'indicador'
+        'medio_verificacion',
+        'formula_indicador',
+        'meta_indicador',
+        'unidad_indicador',
     ];
 
     /**
@@ -66,83 +69,13 @@ class Producto extends Model
     }
 
     /**
-     * Relationship with ProductoMincienciasLinea65
+     * Relationship with ProductoMinciencias
      *
      * @return object
      */
-    public function productoMincienciasLinea65()
+    public function productoMinciencias()
     {
-        return $this->hasOne(ProductoMincienciasLinea65::class);
-    }
-
-    /**
-     * Relationship with ProductoMincienciasLinea66
-     *
-     * @return object
-     */
-    public function productoMincienciasLinea66()
-    {
-        return $this->hasOne(ProductoMincienciasLinea66::class);
-    }
-
-    /**
-     * Relationship with ProductoMincienciasLinea68
-     *
-     * @return object
-     */
-    public function productoMincienciasLinea68()
-    {
-        return $this->hasOne(ProductoMincienciasLinea68::class);
-    }
-
-    /**
-     * Relationship with ProductoMincienciasLinea69
-     *
-     * @return object
-     */
-    public function productoMincienciasLinea69()
-    {
-        return $this->hasOne(ProductoMincienciasLinea69::class);
-    }
-
-    /**
-     * Relationship with ProductoLinea68
-     *
-     * @return object
-     */
-    public function productoLinea68()
-    {
-        return $this->hasOne(ProductoLinea68::class);
-    }
-
-    /**
-     * Relationship with ProductoLinea69
-     *
-     * @return object
-     */
-    public function productoLinea69()
-    {
-        return $this->hasOne(ProductoLinea69::class);
-    }
-
-    /**
-     * Relationship with ProductoLinea70
-     *
-     * @return object
-     */
-    public function productoLinea70()
-    {
-        return $this->hasOne(ProductoLinea70::class);
-    }
-
-    /**
-     * Relationship with ProductoLinea83
-     *
-     * @return object
-     */
-    public function productoLinea83()
-    {
-        return $this->hasOne(ProductoLinea83::class);
+        return $this->hasOne(ProductoMinciencias::class);
     }
 
     /**

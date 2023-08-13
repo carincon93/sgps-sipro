@@ -49,29 +49,11 @@ class AuthServiceProvider extends ServiceProvider
                 return true;
             }
 
-            $linea_programatica = LineaProgramatica::find($linea_programatica_id);
-
-            // Usuarios específicos con permisos de creación de proyectos
-            if ($user->can_by_user->search(11) !== false && $linea_programatica->codigo == 65 || $user->can_by_user->search(1) !== false && $linea_programatica->codigo == 23 || $user->can_by_user->search(1) !== false && $linea_programatica->codigo == 66 || $user->can_by_user->search(1) !== false && $linea_programatica->codigo == 82 || $user->can_by_user->search(5) !== false && $linea_programatica->codigo == 68 || $user->can_by_user->search(8) !== false && $linea_programatica->codigo == 70 || $user->can_by_user->search(17) !== false && $linea_programatica->codigo == 69) {
-                return true;
-            }
-
-            // Cuando la convocatoria es de proyectos DEMO y está activa
-            if ($convocatoria && $convocatoria->tipo_convocatoria == 2 && $convocatoria->esta_activa == true || $convocatoria && $convocatoria->tipo_convocatoria == 3 && $convocatoria->esta_activa == true) {
-                return true;
-            }
-
-            // NO se puede formular cuando es una convocatoria NORMAL, está activa y está en un fase diferente a la de formulación
-            if ($convocatoria->tipo_convocatoria == 1 && $convocatoria->esta_activa && $convocatoria->fase != 1) {
+            if (!$convocatoria->esta_activa) {
                 return false;
             }
 
-            // Si el usuario tiene alguno de los siguiente permisos de cualquier línea programática: CREAR, EDITAR, ELIMINAR o VISUALIZACIÓN
-            if ($linea_programatica && $convocatoria->esta_activa == true) {
-                return $user->getAllPermissions()->whereIn('id', [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21])->count() > 0;
-            }
-
-            return false;
+            return true;
         });
 
         Gate::define('visualizar-proyecto-autor', function (User $user, Proyecto $proyecto) {

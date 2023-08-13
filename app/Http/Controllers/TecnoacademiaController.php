@@ -23,13 +23,14 @@ class TecnoacademiaController extends Controller
         $this->authorize('viewAny', [Tecnoacademia::class]);
 
         return Inertia::render('Tecnoacademias/Index', [
-            'filters'           => request()->all('search'),
             'tecnoacademias'    => Tecnoacademia::selectRaw("tecnoacademias.id, tecnoacademias.nombre, tecnoacademias.centro_formacion_id, CASE modalidad
-                WHEN '1' THEN 'itinerante'
-                WHEN '2' THEN 'itinerante - vehículo'
-                WHEN '3' THEN 'fija con extensión'
-            END as modalidad")->with('centroFormacion')->orderBy('nombre', 'ASC')
-                ->filterTecnoacademia(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+                                            WHEN '1' THEN 'itinerante'
+                                            WHEN '2' THEN 'itinerante - vehículo'
+                                            WHEN '3' THEN 'fija con extensión'
+                                            END as modalidad")
+                                        ->with('centroFormacion')
+                                        ->orderBy('nombre', 'ASC')
+                                        ->filterTecnoacademia(request()->only('search'))->paginate()->appends(['search' => request()->search]),
             'allowed_to_create'   => Gate::inspect('create', [Tecnoacademia::class])->allowed()
         ]);
     }

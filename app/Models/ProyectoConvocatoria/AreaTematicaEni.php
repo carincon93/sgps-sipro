@@ -44,13 +44,13 @@ class AreaTematicaEni extends Model
     ];
 
     /**
-     * Relationship with Proyecto
+     * Relationship with ProyectoFormulario8Linea66
      *
      * @return object
      */
     public function proyectos()
     {
-        return $this->belongsToMany(Proyecto::class, 'proyecto_areas_tematicas_eni', 'area_tematica_eni_id', 'proyecto_id');
+        return $this->belongsToMany(ProyectoFormulario8Linea66::class, 'proyecto_linea_66_areas_tematicas_eni', 'area_tematica_eni_id', 'proyecto_linea_66_id');
     }
 
     /**

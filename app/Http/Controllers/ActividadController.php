@@ -305,31 +305,31 @@ class ActividadController extends Controller
                 break;
 
             case $proyecto->proyectoFormulario10Linea69()->exists():
-                $proyecto_hub_linea_69                                                  = $proyecto->proyectoFormulario10Linea69;
-                $proyecto_hub_linea_69->metodologia                                     = $request->metodologia;
-                $proyecto_hub_linea_69->metodologia_local                               = $request->metodologia_local;
-                $proyecto_hub_linea_69->areas_cualificacion_mnc                         = $request->areas_cualificacion_mnc;
-                $proyecto_hub_linea_69->talentos_otros_departamentos                    = $request->talentos_otros_departamentos;
-                $proyecto_hub_linea_69->estrategia_atencion_talentos                    = $request->estrategia_atencion_talentos;
-                $proyecto_hub_linea_69->acciones_mejoramiento_idic                      = $request->acciones_mejoramiento_idic;
-                $proyecto_hub_linea_69->municipios_beneficiados_vigencia_anterior       = $request->municipios_beneficiados_vigencia_anterior;
-                $proyecto_hub_linea_69->beneficio_municipios_vigencia_anterior          = $request->beneficio_municipios_vigencia_anterior;
-                $proyecto_hub_linea_69->municipios_beneficiados_vigencia_actual         = $request->municipios_beneficiados_vigencia_actual;
-                $proyecto_hub_linea_69->estrategia_articulacion_pbts                    = $request->estrategia_articulacion_pbts;
-                $proyecto_hub_linea_69->numero_empresas_atendidas                       = $request->numero_empresas_atendidas;
-                $proyecto_hub_linea_69->analisis_impacto_sector_empresarial             = $request->analisis_impacto_sector_empresarial;
-                $proyecto_hub_linea_69->numero_emprendedores_atendidos                  = $request->numero_emprendedores_atendidos;
-                $proyecto_hub_linea_69->analisis_impacto_regional                       = $request->analisis_impacto_regional;
-                $proyecto_hub_linea_69->gestion_alianzas_estrategicas                   = $request->gestion_alianzas_estrategicas;
-                $proyecto_hub_linea_69->estrategias_visibilizacion                      = $request->estrategias_visibilizacion;
-                $proyecto_hub_linea_69->integracion_plan_tecnologico                    = $request->integracion_plan_tecnologico;
-                $proyecto_hub_linea_69->estrategias_productividad_agropecuaria          = $request->estrategias_productividad_agropecuaria;
-                $proyecto_hub_linea_69->acciones_estrategia_campesena                   = $request->acciones_estrategia_campesena;
-                $proyecto_hub_linea_69->estrategia_campesena_campesinos                 = $request->estrategia_campesena_campesinos;
-                $proyecto_hub_linea_69->acciones_fortalecimiento_economia_popular       = $request->acciones_fortalecimiento_economia_popular;
-                $proyecto_hub_linea_69->acciones_fortalecimiento_idi                    = $request->acciones_fortalecimiento_idi;
+                $proyecto_formulario_10_linea_69                                                  = $proyecto->proyectoFormulario10Linea69;
+                $proyecto_formulario_10_linea_69->metodologia                                     = $request->metodologia;
+                $proyecto_formulario_10_linea_69->metodologia_local                               = $request->metodologia_local;
+                $proyecto_formulario_10_linea_69->areas_cualificacion_mnc                         = $request->areas_cualificacion_mnc;
+                $proyecto_formulario_10_linea_69->talentos_otros_departamentos                    = $request->talentos_otros_departamentos;
+                $proyecto_formulario_10_linea_69->estrategia_atencion_talentos                    = $request->estrategia_atencion_talentos;
+                $proyecto_formulario_10_linea_69->acciones_mejoramiento_idic                      = $request->acciones_mejoramiento_idic;
+                $proyecto_formulario_10_linea_69->municipios_beneficiados_vigencia_anterior       = $request->municipios_beneficiados_vigencia_anterior;
+                $proyecto_formulario_10_linea_69->beneficio_municipios_vigencia_anterior          = $request->beneficio_municipios_vigencia_anterior;
+                $proyecto_formulario_10_linea_69->municipios_beneficiados_vigencia_actual         = $request->municipios_beneficiados_vigencia_actual;
+                $proyecto_formulario_10_linea_69->estrategia_articulacion_pbts                    = $request->estrategia_articulacion_pbts;
+                $proyecto_formulario_10_linea_69->numero_empresas_atendidas                       = $request->numero_empresas_atendidas;
+                $proyecto_formulario_10_linea_69->analisis_impacto_sector_empresarial             = $request->analisis_impacto_sector_empresarial;
+                $proyecto_formulario_10_linea_69->numero_emprendedores_atendidos                  = $request->numero_emprendedores_atendidos;
+                $proyecto_formulario_10_linea_69->analisis_impacto_regional                       = $request->analisis_impacto_regional;
+                $proyecto_formulario_10_linea_69->gestion_alianzas_estrategicas                   = $request->gestion_alianzas_estrategicas;
+                $proyecto_formulario_10_linea_69->estrategias_visibilizacion                      = $request->estrategias_visibilizacion;
+                $proyecto_formulario_10_linea_69->integracion_plan_tecnologico                    = $request->integracion_plan_tecnologico;
+                $proyecto_formulario_10_linea_69->estrategias_productividad_agropecuaria          = $request->estrategias_productividad_agropecuaria;
+                $proyecto_formulario_10_linea_69->acciones_estrategia_campesena                   = $request->acciones_estrategia_campesena;
+                $proyecto_formulario_10_linea_69->estrategia_campesena_campesinos                 = $request->estrategia_campesena_campesinos;
+                $proyecto_formulario_10_linea_69->acciones_fortalecimiento_economia_popular       = $request->acciones_fortalecimiento_economia_popular;
+                $proyecto_formulario_10_linea_69->acciones_fortalecimiento_idi                    = $request->acciones_fortalecimiento_idi;
 
-                $proyecto_hub_linea_69->save();
+                $proyecto_formulario_10_linea_69->save();
 
                 break;
 
@@ -358,31 +358,31 @@ class ActividadController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $proyecto_hub_linea_69                                                  = $proyecto->proyectoFormulario10Linea69;
-        $proyecto_hub_linea_69->metodologia                                     = $request->metodologia;
-        $proyecto_hub_linea_69->metodologia_local                               = $request->metodologia_local;
-        $proyecto_hub_linea_69->areas_cualificacion_mnc                         = $request->areas_cualificacion_mnc;
-        $proyecto_hub_linea_69->talentos_otros_departamentos                    = $request->talentos_otros_departamentos;
-        $proyecto_hub_linea_69->estrategia_atencion_talentos                    = $request->estrategia_atencion_talentos;
-        $proyecto_hub_linea_69->acciones_mejoramiento_idic                      = $request->acciones_mejoramiento_idic;
-        $proyecto_hub_linea_69->municipios_beneficiados_vigencia_anterior       = $request->municipios_beneficiados_vigencia_anterior;
-        $proyecto_hub_linea_69->beneficio_municipios_vigencia_anterior          = $request->beneficio_municipios_vigencia_anterior;
-        $proyecto_hub_linea_69->municipios_beneficiados_vigencia_actual         = $request->municipios_beneficiados_vigencia_actual;
-        $proyecto_hub_linea_69->estrategia_articulacion_pbts                    = $request->estrategia_articulacion_pbts;
-        $proyecto_hub_linea_69->numero_empresas_atendidas                       = $request->numero_empresas_atendidas;
-        $proyecto_hub_linea_69->analisis_impacto_sector_empresarial             = $request->analisis_impacto_sector_empresarial;
-        $proyecto_hub_linea_69->numero_emprendedores_atendidos                  = $request->numero_emprendedores_atendidos;
-        $proyecto_hub_linea_69->analisis_impacto_regional                       = $request->analisis_impacto_regional;
-        $proyecto_hub_linea_69->gestion_alianzas_estrategicas                   = $request->gestion_alianzas_estrategicas;
-        $proyecto_hub_linea_69->estrategias_visibilizacion                      = $request->estrategias_visibilizacion;
-        $proyecto_hub_linea_69->integracion_plan_tecnologico                    = $request->integracion_plan_tecnologico;
-        $proyecto_hub_linea_69->estrategias_productividad_agropecuaria          = $request->estrategias_productividad_agropecuaria;
-        $proyecto_hub_linea_69->acciones_estrategia_campesena                   = $request->acciones_estrategia_campesena;
-        $proyecto_hub_linea_69->estrategia_campesena_campesinos                 = $request->estrategia_campesena_campesinos;
-        $proyecto_hub_linea_69->acciones_fortalecimiento_economia_popular       = $request->acciones_fortalecimiento_economia_popular;
-        $proyecto_hub_linea_69->acciones_fortalecimiento_idi                    = $request->acciones_fortalecimiento_idi;
+        $proyecto_formulario_10_linea_69                                                  = $proyecto->proyectoFormulario10Linea69;
+        $proyecto_formulario_10_linea_69->metodologia                                     = $request->metodologia;
+        $proyecto_formulario_10_linea_69->metodologia_local                               = $request->metodologia_local;
+        $proyecto_formulario_10_linea_69->areas_cualificacion_mnc                         = $request->areas_cualificacion_mnc;
+        $proyecto_formulario_10_linea_69->talentos_otros_departamentos                    = $request->talentos_otros_departamentos;
+        $proyecto_formulario_10_linea_69->estrategia_atencion_talentos                    = $request->estrategia_atencion_talentos;
+        $proyecto_formulario_10_linea_69->acciones_mejoramiento_idic                      = $request->acciones_mejoramiento_idic;
+        $proyecto_formulario_10_linea_69->municipios_beneficiados_vigencia_anterior       = $request->municipios_beneficiados_vigencia_anterior;
+        $proyecto_formulario_10_linea_69->beneficio_municipios_vigencia_anterior          = $request->beneficio_municipios_vigencia_anterior;
+        $proyecto_formulario_10_linea_69->municipios_beneficiados_vigencia_actual         = $request->municipios_beneficiados_vigencia_actual;
+        $proyecto_formulario_10_linea_69->estrategia_articulacion_pbts                    = $request->estrategia_articulacion_pbts;
+        $proyecto_formulario_10_linea_69->numero_empresas_atendidas                       = $request->numero_empresas_atendidas;
+        $proyecto_formulario_10_linea_69->analisis_impacto_sector_empresarial             = $request->analisis_impacto_sector_empresarial;
+        $proyecto_formulario_10_linea_69->numero_emprendedores_atendidos                  = $request->numero_emprendedores_atendidos;
+        $proyecto_formulario_10_linea_69->analisis_impacto_regional                       = $request->analisis_impacto_regional;
+        $proyecto_formulario_10_linea_69->gestion_alianzas_estrategicas                   = $request->gestion_alianzas_estrategicas;
+        $proyecto_formulario_10_linea_69->estrategias_visibilizacion                      = $request->estrategias_visibilizacion;
+        $proyecto_formulario_10_linea_69->integracion_plan_tecnologico                    = $request->integracion_plan_tecnologico;
+        $proyecto_formulario_10_linea_69->estrategias_productividad_agropecuaria          = $request->estrategias_productividad_agropecuaria;
+        $proyecto_formulario_10_linea_69->acciones_estrategia_campesena                   = $request->acciones_estrategia_campesena;
+        $proyecto_formulario_10_linea_69->estrategia_campesena_campesinos                 = $request->estrategia_campesena_campesinos;
+        $proyecto_formulario_10_linea_69->acciones_fortalecimiento_economia_popular       = $request->acciones_fortalecimiento_economia_popular;
+        $proyecto_formulario_10_linea_69->acciones_fortalecimiento_idi                    = $request->acciones_fortalecimiento_idi;
 
-        $proyecto_hub_linea_69->save();
+        $proyecto_formulario_10_linea_69->save();
 
         return back()->with('success', 'El recurso se ha guardado correctamente.');
     }

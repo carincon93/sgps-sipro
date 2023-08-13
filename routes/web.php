@@ -60,7 +60,8 @@ use App\Http\Controllers\UsoPresupuestalController;
 use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\Evaluacion\EvaluacionController;
-
+use App\Http\Controllers\HubInnovacionController;
+use App\Http\Controllers\LaboratorioServicioTecnologicoController;
 use App\Http\Controllers\Perfil\EstudioAcademicoController;
 use App\Http\Controllers\Perfil\FormacionAcademicaSenaController;
 use App\Http\Controllers\Perfil\ParticipacionGrupoInvestigacionSenaController;
@@ -76,7 +77,6 @@ use App\Models\LineaInvestigacion;
 use App\Models\Proyecto;
 use App\Models\Role;
 use App\Models\SemilleroInvestigacion;
-use GuzzleHttp\Psr7\Request;
 use Inertia\Inertia;
 
 /*
@@ -168,10 +168,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('lineas-tecnoacademia', LineaTecnoacademiaController::class)->parameters(['lineas-tecnoacademia' => 'linea-tecnoacademia'])->except(['show']);
 
     /**
+     * Hubs de innovacion
+     *
+     */
+    Route::resource('hubs-innovacion', HubInnovacionController::class)->parameters(['hubs-innovacion' => 'hub-innovacion']);
+
+    /**
      * Nodos Tecnoparque
      *
      */
     Route::resource('nodos-tecnoparque', NodoTecnoparqueController::class)->parameters(['nodos-tecnoparque' => 'nodo-tecnoparque']);
+
+    /**
+     * Laboratorios de Servicios Tecnológicos
+     *
+     */
+    Route::resource('laboratorios-servicios-tecnologicos', LaboratorioServicioTecnologicoController::class)->parameters(['laboratorios-servicios-tecnologicos' => 'laboratorio-st']);
 
     /**
      * Grupos de investigación

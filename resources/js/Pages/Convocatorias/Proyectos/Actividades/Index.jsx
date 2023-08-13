@@ -1249,7 +1249,7 @@ const Actividades = ({
                                         required
                                         className="mb-4"
                                         labelFor="estrategia_campesena_campesinos"
-                                        value={`Describa las acciones del Tecnoparque/Hub de Innovación a  realizar en el ${convocatoria.year}, que estarán integradas dentro de la Estrategia Campesena, para beneficiar Campensinos y agremiaciones campesinas y especialmente al acompañamiento de Proyectos de I + D + i tendientes a generar y articular mecanismos de atención diferencial, integral e incluyente, para los campesinos, de acuerdo con sus particularidades sociales, culturales, económicas y territoriales, que faciliten el acceso a los programas de formación y demás servicios de la Entidad`}
+                                        value={`Describa las acciones del Tecnoparque/Hub de Innovación a  realizar en el ${convocatoria.year}, que estarán integradas dentro de la Estrategia Campesena, para beneficiar Campesinos y agremiaciones campesinas y especialmente al acompañamiento de Proyectos de I + D + i tendientes a generar y articular mecanismos de atención diferencial, integral e incluyente, para los campesinos, de acuerdo con sus particularidades sociales, culturales, económicas y territoriales, que faciliten el acceso a los programas de formación y demás servicios de la Entidad`}
                                     />
 
                                     <Textarea
