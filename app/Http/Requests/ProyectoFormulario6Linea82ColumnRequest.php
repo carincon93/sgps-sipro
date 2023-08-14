@@ -23,7 +23,6 @@ class ProyectoFormulario6Linea82ColumnRequest extends FormRequest
         'impacto_centro_formacion'                              => ['required', 'string'],
 
         'centro_formacion_id'                                   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
-        'linea_programatica_id'                                 => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_programaticas,id'],
         'linea_investigacion_id'                                => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_investigacion,id'],
         'disciplina_subarea_conocimiento_id'                    => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:disciplinas_subarea_conocimiento,id'],
         'tematica_estrategica_id'                               => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tematicas_estrategicas,id'],

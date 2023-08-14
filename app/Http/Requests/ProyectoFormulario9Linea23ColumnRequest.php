@@ -23,7 +23,6 @@ class ProyectoFormulario9Linea23ColumnRequest extends FormRequest
         'impacto_centro_formacion'                              => ['required', 'string'],
 
         'centro_formacion_id'                                   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
-        'linea_programatica_id'                                 => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_programaticas,id'],
         'linea_investigacion_id'                                => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_investigacion,id'],
         'disciplina_subarea_conocimiento_id'                    => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:disciplinas_subarea_conocimiento,id'],
         'tematica_estrategica_id'                               => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tematicas_estrategicas,id'],
@@ -32,10 +31,6 @@ class ProyectoFormulario9Linea23ColumnRequest extends FormRequest
         'titulo'                                                => ['required', 'string'],
         'max_meses_ejecucion'                                   => ['required', 'numeric', 'min:1', 'max:12'],
         'video'                                                 => ['nullable', 'string', 'url'],
-        'muestreo'                                              => ['required', 'max:191'],
-        'actividades_muestreo'                                  => ['nullable', 'max:191'],
-        'objetivo_muestreo'                                     => ['nullable', 'max:191'],
-        'recoleccion_especimenes'                               => ['required', 'min:1', 'max:2', 'integer'],
         'numero_aprendices'                                     => ['required', 'min:0', 'max:2147483647', 'integer'],
         'municipios'                                            => ['required', 'array'],
         'programas_formacion'                                   => ['required', 'array'],

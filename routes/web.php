@@ -358,6 +358,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Indicadores
      *
      */
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/indicadores/column/{column}', [ProyectoController::class, 'updateIndicadoresLongColumn'])->name('convocatorias.proyectos.indicadores.updateLongColumn');
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/indicadores', [ProyectoController::class, 'storeIndicadores'])->name('convocatorias.proyectos.indicadores.store');
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/indicadores', [ProyectoController::class, 'showIndicadores'])->name('convocatorias.proyectos.indicadores');
 
@@ -452,8 +453,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Línea programática 82 - Estrategia regional
      *
      */
-    Route::post('convocatorias/{convocatoria}/proyectos-formulario-6-linea-82/{proyecto_formulario_6_linea_82}/indicadores', [ProyectoFormulario6Linea82Controller::class, 'storeIndicadores'])->name('convocatorias.proyectos-formulario-6-linea-82.indicadores.store');
-    Route::get('convocatorias/{convocatoria}/proyectos-formulario-6-linea-82/{proyecto_formulario_6_linea_82}/indicadores', [ProyectoFormulario6Linea82Controller::class, 'showIndicadores'])->name('convocatorias.proyectos-formulario-6-linea-82.indicadores');
     Route::put('convocatorias/{convocatoria}/proyectos-formulario-6-linea-82/{proyecto_formulario_6_linea_82}/column/{column}', [ProyectoFormulario6Linea82Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-formulario-6-linea-82.updateLongColumn');
     Route::resource('convocatorias.proyectos-formulario-6-linea-82', ProyectoFormulario6Linea82Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-formulario-6-linea-82' => 'proyecto-formulario-6-linea-82'])->except(['show']);
 

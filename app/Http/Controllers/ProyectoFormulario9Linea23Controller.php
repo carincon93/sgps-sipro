@@ -107,10 +107,6 @@ class ProyectoFormulario9Linea23Controller extends Controller
         $proyecto_formulario_9_linea_23->numero_aprendices                                 = 0;
         $proyecto_formulario_9_linea_23->impacto_municipios                                = '';
         $proyecto_formulario_9_linea_23->impacto_centro_formacion                          = '';
-        $proyecto_formulario_9_linea_23->muestreo                                          = 6;
-        $proyecto_formulario_9_linea_23->actividades_muestreo                              = null;
-        $proyecto_formulario_9_linea_23->objetivo_muestreo                                 = null;
-        $proyecto_formulario_9_linea_23->recoleccion_especimenes                           = 2;
         $proyecto_formulario_9_linea_23->relacionado_plan_tecnologico                      = 2;
         $proyecto_formulario_9_linea_23->relacionado_agendas_competitividad                = 2;
         $proyecto_formulario_9_linea_23->relacionado_mesas_sectoriales                     = 2;
@@ -122,7 +118,7 @@ class ProyectoFormulario9Linea23Controller extends Controller
         $proyecto_formulario_9_linea_23->redConocimiento()->associate($request->red_conocimiento_id);
         $proyecto_formulario_9_linea_23->actividadEconomica()->associate($request->actividad_economica_id);
 
-        $proyecto->proyectoFormulario8Linea82()->save($proyecto_formulario_9_linea_23);
+        $proyecto->proyectoFormulario9Linea23()->save($proyecto_formulario_9_linea_23);
 
         if ($convocatoria->tipo_convocatoria == 2) {
             $proyecto->proyectoDemo()->create([
@@ -140,7 +136,7 @@ class ProyectoFormulario9Linea23Controller extends Controller
             ]
         );
 
-        return redirect()->route('convocatorias.proyectos-formulario-8-linea-66.edit', [$convocatoria, $proyecto_formulario_9_linea_23])->with('success', 'El recurso se ha creado correctamente. Por favor continue diligenciando la información.');
+        return redirect()->route('convocatorias.proyectos-formulario-9-linea-23.edit', [$convocatoria, $proyecto_formulario_9_linea_23])->with('success', 'El recurso se ha creado correctamente. Por favor continue diligenciando la información.');
     }
 
     /**
@@ -242,11 +238,6 @@ class ProyectoFormulario9Linea23Controller extends Controller
         $proyecto_formulario_9_linea_23->bibliografia                                    = $request->bibliografia;
         $proyecto_formulario_9_linea_23->impacto_municipios                              = $request->impacto_municipios;
         $proyecto_formulario_9_linea_23->impacto_centro_formacion                        = $request->impacto_centro_formacion;
-
-        $proyecto_formulario_9_linea_23->muestreo                                        = $request->muestreo;
-        $proyecto_formulario_9_linea_23->actividades_muestreo                            = $request->muestreo == 1 ? $request->actividades_muestreo : null;
-        $proyecto_formulario_9_linea_23->objetivo_muestreo                               = $request->muestreo == 1 ? $request->objetivo_muestreo  : null;
-        $proyecto_formulario_9_linea_23->recoleccion_especimenes                         = $request->recoleccion_especimenes;
 
         $proyecto_formulario_9_linea_23->relacionado_plan_tecnologico                    = $request->relacionado_plan_tecnologico;
         $proyecto_formulario_9_linea_23->relacionado_agendas_competitividad              = $request->relacionado_agendas_competitividad;

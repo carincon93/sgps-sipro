@@ -9,7 +9,6 @@ import { router, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 
 const Indicadores = ({ auth, convocatoria, proyecto, evaluacion, ...props }) => {
-    console.log(proyecto)
     const form = useForm({
         productividad_beneficiaros:
             proyecto.proyecto_formulario8_linea66?.productividad_beneficiaros ??
@@ -66,7 +65,7 @@ const Indicadores = ({ auth, convocatoria, proyecto, evaluacion, ...props }) => 
 
     const submit = (e) => {
         e.preventDefault()
-        if (proyecto.proyecto.allowed.to_update) {
+        if (proyecto.allowed.to_update) {
             form.post(route('convocatorias.proyectos.indicadores.store', [convocatoria.id, proyecto.id]))
         }
     }
@@ -75,7 +74,7 @@ const Indicadores = ({ auth, convocatoria, proyecto, evaluacion, ...props }) => 
         if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto?.allowed?.to_update) {
             try {
                 await router.put(
-                    route('convocatorias.proyectos.updateLongColumn', [convocatoria.id, proyecto?.id, column]),
+                    route('convocatorias.proyectos.indicadores.updateLongColumn', [convocatoria.id, proyecto?.id, column]),
                     { [column]: data ? data : form.data[column], is_array: Array.isArray(form.data[column]) },
                     {
                         onError: (resp) => console.log(resp),
