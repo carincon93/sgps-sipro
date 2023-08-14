@@ -101,7 +101,6 @@ class ProyectoFormulario13Linea65Controller extends Controller
         $proyecto_formulario_13_linea_65->relacionado_plan_tecnologico        = 2;
         $proyecto_formulario_13_linea_65->relacionado_agendas_competitividad  = 2;
         $proyecto_formulario_13_linea_65->relacionado_mesas_sectoriales       = 2;
-        $proyecto_formulario_13_linea_65->relacionado_tecnoacademia           = 2;
 
         $proyecto_formulario_13_linea_65->lineaInvestigacion()->associate($request->linea_investigacion_id);
         $proyecto_formulario_13_linea_65->areaConocimiento()->associate($request->area_conocimiento_id);
@@ -215,7 +214,6 @@ class ProyectoFormulario13Linea65Controller extends Controller
         $proyecto_formulario_13_linea_65->relacionado_plan_tecnologico              = $request->relacionado_plan_tecnologico;
         $proyecto_formulario_13_linea_65->relacionado_agendas_competitividad        = $request->relacionado_agendas_competitividad;
         $proyecto_formulario_13_linea_65->relacionado_mesas_sectoriales             = $request->relacionado_mesas_sectoriales;
-        $proyecto_formulario_13_linea_65->relacionado_tecnoacademia                 = $request->relacionado_tecnoacademia;
 
         $proyecto_formulario_13_linea_65->eje_sennova                               = $request->eje_sennova;
         $proyecto_formulario_13_linea_65->areas_cualificacion_mnc                   = $request->areas_cualificacion_mnc;
@@ -240,8 +238,6 @@ class ProyectoFormulario13Linea65Controller extends Controller
         $proyecto_formulario_13_linea_65->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 
         $request->relacionado_mesas_sectoriales == 1 ? $proyecto_formulario_13_linea_65->proyecto->mesasSectoriales()->sync($request->mesa_sectorial_id) : $proyecto_formulario_13_linea_65->proyecto->mesasSectoriales()->detach();
-        $request->relacionado_tecnoacademia     == 1 ? $proyecto_formulario_13_linea_65->proyecto->tecnoacademiaLineasTecnoacademia()->sync($request->linea_tecnologica_id) : $proyecto_formulario_13_linea_65->proyecto->tecnoacademiaLineasTecnoacademia()->detach();
-
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }

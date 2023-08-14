@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use DateTimeInterface;
 
-class ProyectoFormulario13Linea65 extends Model
+class ProyectoFormulario15Linea65 extends Model
 {
     use HasFactory;
 
@@ -17,7 +17,7 @@ class ProyectoFormulario13Linea65 extends Model
      *
      * @var string
      */
-    protected $table = 'proyectos_formulario_13_linea_65';
+    protected $table = 'proyectos_formulario_15_linea_65';
 
     /**
      * appends
@@ -40,7 +40,6 @@ class ProyectoFormulario13Linea65 extends Model
         'fecha_inicio',
         'fecha_finalizacion',
         'video',
-        'justificacion_industria_4',
         'justificacion_politica_discapacidad',
         'resumen',
         'antecedentes',
@@ -59,17 +58,12 @@ class ProyectoFormulario13Linea65 extends Model
         'numero_aprendices',
         'max_meses_ejecucion',
         'atencion_pluralista_diferencial',
-        'impacto_sector_agricola',
         'eje_sennova',
         'areas_cualificacion_mnc',
         'aportacion_linea_transeversal_campesena',
         'lineas_estrategicas_sena',
         'justificacion_aportes_lineas_estrategicas',
         'lineas_programaticas_sennova',
-        'tecnoparques_relacionados',
-        'tecnoacademias_relacionadas',
-        'hubs_innovacion_relacionados',
-        'laboratorios_st_relacionados'
     ];
 
     /**
@@ -152,23 +146,13 @@ class ProyectoFormulario13Linea65 extends Model
     }
 
     /**
-     * Relationship with LineaTecnica
-     *
-     * @return object
-     */
-    public function lineaTecnica()
-    {
-        return $this->belongsTo(LineaTecnica::class);
-    }
-
-    /**
      * Filtrar registros
      *
      * @param  mixed $query
      * @param  mixed $filters
      * @return void
      */
-    public function scopeFilterProyectoFormulario13Linea65($query, array $filters)
+    public function scopeFilterProyectoFormulario15Linea65($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $search = str_replace('"', "", $search);
@@ -176,7 +160,7 @@ class ProyectoFormulario13Linea65 extends Model
             $search = str_replace(' ', '%%', $search);
             $query->whereRaw("unaccent(titulo) ilike unaccent('%" . $search . "%')");
             if (is_numeric($search)) {
-                $query->orWhere('proyectos_formulario_13_linea_65.id', $search - 8000);
+                $query->orWhere('proyectos_formulario_15_linea_65.id', $search - 8000);
             }
         });
     }
@@ -204,8 +188,8 @@ class ProyectoFormulario13Linea65 extends Model
         /** @var \App\Models\User */
         $auth_user = Auth::user();
 
-        $proyectos_formulario_13_linea_65 = ProyectoFormulario13Linea65::select('proyectos_formulario_13_linea_65.id', 'proyectos_formulario_13_linea_65.titulo', 'proyectos_formulario_13_linea_65.fecha_inicio', 'proyectos_formulario_13_linea_65.fecha_finalizacion')
-            ->join('proyectos', 'proyectos_formulario_13_linea_65.id', 'proyectos.id')
+        $proyectos_formulario_15_linea_65 = ProyectoFormulario15Linea65::select('proyectos_formulario_15_linea_65.id', 'proyectos_formulario_15_linea_65.titulo', 'proyectos_formulario_15_linea_65.fecha_inicio', 'proyectos_formulario_15_linea_65.fecha_finalizacion')
+            ->join('proyectos', 'proyectos_formulario_15_linea_65.id', 'proyectos.id')
             ->whereHas(
                 'proyecto.centroFormacion',
                 function ($query) use ($convocatoria, $auth_user) {
@@ -218,7 +202,7 @@ class ProyectoFormulario13Linea65 extends Model
                     } else if ($auth_user->hasRole([1, 20, 23])) {
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
                     } else {
-                        $query->join('proyectos', 'proyectos_formulario_13_linea_65.id', 'proyectos.id');
+                        $query->join('proyectos', 'proyectos_formulario_15_linea_65.id', 'proyectos.id');
                         $query->join('proyecto_participantes', 'proyectos.id', 'proyecto_participantes.proyecto_id');
                         $query->where('proyecto_participantes.user_id', $auth_user->id);
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
@@ -226,14 +210,14 @@ class ProyectoFormulario13Linea65 extends Model
                 }
             )
             ->distinct()
-            ->orderBy('proyectos_formulario_13_linea_65.id', 'ASC')
-            ->filterProyectoFormulario13Linea65(request()->only('search'))->paginate();
+            ->orderBy('proyectos_formulario_15_linea_65.id', 'ASC')
+            ->filterProyectoFormulario15Linea65(request()->only('search'))->paginate();
 
 
-        $proyectos_formulario_13_linea_65->load('proyecto');
-        $proyectos_formulario_13_linea_65->load('proyecto.evaluaciones');
+        $proyectos_formulario_15_linea_65->load('proyecto');
+        $proyectos_formulario_15_linea_65->load('proyecto.evaluaciones');
 
-        return $proyectos_formulario_13_linea_65;
+        return $proyectos_formulario_15_linea_65;
     }
 
     /**
@@ -257,26 +241,6 @@ class ProyectoFormulario13Linea65 extends Model
     }
 
     public function getLineasProgramaticasSennovaAttribute($value)
-    {
-        return json_decode($value);
-    }
-
-    public function getTecnoparquesRelacionadosAttribute($value)
-    {
-        return json_decode($value);
-    }
-
-    public function getTecnoacademiasRelacionadasAttribute($value)
-    {
-        return json_decode($value);
-    }
-
-    public function getHubsInnovacionRelacionadosAttribute($value)
-    {
-        return json_decode($value);
-    }
-
-    public function getLaboratoriosStRelacionadosAttribute($value)
     {
         return json_decode($value);
     }

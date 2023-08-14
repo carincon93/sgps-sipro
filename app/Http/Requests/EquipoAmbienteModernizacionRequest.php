@@ -35,7 +35,7 @@ class EquipoAmbienteModernizacionRequest extends FormRequest
             'frecuencia_mantenimiento'      => ['required', 'string', 'max:50'],
             'year_adquisicion'              => ['required', 'integer', 'min:0', 'max:3099'],
             'nombre_cuentadante'            => ['required', 'string', 'max:100'],
-            'cedula_cuentadante'            => ['required', 'integer', 'min:0', 'max:9223372036854775807'],
+            'cedula_cuentadante'            => ['required', 'integer', 'min:0', 'max:2147483647'],
             'rol_cuentadante'               => ['required', 'string', 'max:50'],
         ];
     }

@@ -188,6 +188,8 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
         route().current('convocatorias.proyectos-formulario-8-linea-66.edit') ||
         route().current('convocatorias.proyectos-formulario-1-linea-65.edit') ||
         route().current('convocatorias.proyectos-formulario-13-linea-65.edit') ||
+        route().current('convocatorias.proyectos-formulario-15-linea-65.edit') ||
+        route().current('convocatorias.proyectos-formulario-16-linea-65.edit') ||
         route().current('convocatorias.proyectos-formulario-12-linea-68.edit') ||
         route().current('convocatorias.proyectos-formulario-5-linea-69.edit') ||
         route().current('convocatorias.proyectos-formulario-10-linea-69.edit') ||

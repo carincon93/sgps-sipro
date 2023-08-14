@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\MaxWords;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProyectoFormulario13Linea65Request extends FormRequest
+class ProyectoFormulario15Linea65Request extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -50,10 +50,6 @@ class ProyectoFormulario13Linea65Request extends FormRequest
                 'lineas_estrategicas_sena'                      => ['nullable', 'json'],
                 'justificacion_aportes_lineas_estrategicas'     => ['nullable', 'string'],
                 'lineas_programaticas_sennova'                  => ['nullable', 'json'],
-                'tecnoparques_relacionados'                     => ['nullable', 'json'],
-                'tecnoacademias_relacionadas'                   => ['nullable', 'json'],
-                'hubs_innovacion_relacionados'                  => ['nullable', 'json'],
-                'laboratorios_st_relacionados'                  => ['nullable', 'json'],
             ];
         } else {
             return [
@@ -86,10 +82,6 @@ class ProyectoFormulario13Linea65Request extends FormRequest
             'areas_cualificacion_mnc'       => json_encode($this->areas_cualificacion_mnc),
             'lineas_estrategicas_sena'      => json_encode($this->lineas_estrategicas_sena),
             'lineas_programaticas_sennova'  => json_encode($this->lineas_programaticas_sennova),
-            'tecnoparques_relacionados'     => json_encode($this->tecnoparques_relacionados),
-            'tecnoacademias_relacionadas'   => json_encode($this->tecnoacademias_relacionadas),
-            'hubs_innovacion_relacionados'  => json_encode($this->hubs_innovacion_relacionados),
-            'laboratorios_st_relacionados'  => json_encode($this->laboratorios_st_relacionados),
         ]);
     }
 }

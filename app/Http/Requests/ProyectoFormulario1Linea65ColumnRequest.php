@@ -30,11 +30,7 @@ class ProyectoFormulario1Linea65ColumnRequest extends FormRequest
         'actividad_economica_id'                        => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:actividades_economicas,id'],
 
         'video'                                         => ['nullable', 'string', 'url'],
-        'muestreo'                                      => ['required', 'max:191'],
-        'actividades_muestreo'                          => ['nullable', 'max:191'],
-        'objetivo_muestreo'                             => ['nullable', 'max:191'],
-        'recoleccion_especimenes'                       => ['required', 'min:1', 'max:2', 'integer'],
-        'numero_aprendices'                             => ['required', 'min:0', 'max:9223372036854775807', 'integer'],
+        'numero_aprendices'                             => ['required', 'min:0', 'max:2147483647', 'integer'],
         'municipios'                                    => ['required', 'array'],
         'programas_formacion'                           => ['required', 'array'],
         'relacionado_plan_tecnologico'                  => ['required', 'min:0', 'max:3', 'integer'],

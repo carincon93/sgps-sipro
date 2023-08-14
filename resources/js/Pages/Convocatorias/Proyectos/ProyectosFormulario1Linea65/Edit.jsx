@@ -37,11 +37,6 @@ const Edit = ({
     programas_formacion_con_registro_calificado,
     programas_formacion_sin_registro_calificado,
     municipios,
-    proyecto_municipios,
-    mesas_sectoriales_relacionadas,
-    lineas_tecnoacademia_relacionadas,
-    programas_formacion_con_registro_relacionados,
-    programas_formacion_sin_registro_relacionados,
     tipos_eventos,
     roles_sennova,
     ...props
@@ -130,11 +125,6 @@ const Edit = ({
                     programas_formacion_con_registro_calificado={programas_formacion_con_registro_calificado}
                     programas_formacion_sin_registro_calificado={programas_formacion_sin_registro_calificado}
                     municipios={municipios}
-                    proyecto_municipios={proyecto_municipios}
-                    mesas_sectoriales_relacionadas={mesas_sectoriales_relacionadas}
-                    lineas_tecnoacademia_relacionadas={lineas_tecnoacademia_relacionadas}
-                    programas_formacion_con_registro_relacionados={programas_formacion_con_registro_relacionados}
-                    programas_formacion_sin_registro_relacionados={programas_formacion_sin_registro_relacionados}
                     tipos_eventos={tipos_eventos}
                     roles_sennova={roles_sennova}
                 />

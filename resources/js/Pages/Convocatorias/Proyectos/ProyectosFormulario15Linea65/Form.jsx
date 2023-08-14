@@ -17,7 +17,7 @@ import PrimaryButton from '@/Components/PrimaryButton'
 
 const Form = ({
     is_super_admin,
-    proyecto_formulario_13_linea_65,
+    proyecto_formulario_15_linea_65,
     convocatoria,
     evaluacion,
     method = 'POST',
@@ -29,93 +29,69 @@ const Form = ({
     ejes_sennova,
     areas_cualificacion_mnc,
     lineas_estrategicas_sena,
-    lineas_tecnoacademia,
     actividades_economicas,
     tematicas_estrategicas,
-    tecnoacademia,
-    tecnoacademias,
-    nodos_tecnoparques,
-    hubs_innovacion,
-    laboratorios_st,
     programas_formacion_con_registro_calificado,
     programas_formacion_sin_registro_calificado,
     municipios,
     roles_sennova,
     ...props
 }) => {
-    const [array_lineas_tecnoacademia, setArrayLineasTecnoacademia] = useState([])
+    const [tiene_video, setTieneVideo] = useState(proyecto_formulario_15_linea_65?.video !== null)
+    const [requiere_justificacion_politica_discapacidad, setRequiereJustificacionPoliticaDiscapacidad] = useState(proyecto_formulario_15_linea_65?.justificacion_politica_discapacidad !== null)
+    const [requiere_justificacion_atencion_pluralista, setRequiereJustificacionAntencionPluralista] = useState(proyecto_formulario_15_linea_65?.atencion_pluralista_diferencial !== null)
+    const [requiere_justificacion_sector_agricola, setRequiereJustificacionSectorAgricola] = useState(proyecto_formulario_15_linea_65?.impacto_sector_agricola !== null)
 
-    const [tiene_video, setTieneVideo] = useState(proyecto_formulario_13_linea_65?.video !== null)
-    const [requiere_justificacion_industria4, setRequiereJustificacionIndustria4] = useState(proyecto_formulario_13_linea_65?.justificacion_industria_4 !== null)
-    const [requiere_justificacion_politica_discapacidad, setRequiereJustificacionPoliticaDiscapacidad] = useState(proyecto_formulario_13_linea_65?.justificacion_politica_discapacidad !== null)
-    const [requiere_justificacion_atencion_pluralista, setRequiereJustificacionAntencionPluralista] = useState(proyecto_formulario_13_linea_65?.atencion_pluralista_diferencial !== null)
-    const [requiere_justificacion_sector_agricola, setRequiereJustificacionSectorAgricola] = useState(proyecto_formulario_13_linea_65?.impacto_sector_agricola !== null)
-
-    const [requiere_justificacion_aportes_campesena, setRequiereJustificacionAportesCampesenea] = useState(proyecto_formulario_13_linea_65?.aportacion_linea_transeversal_campesena != null)
-    const [requiere_lineas_estrategicas, setRequiereLineasEstrategicas] = useState(proyecto_formulario_13_linea_65?.lineas_estrategicas_sena != null)
-    const [requiere_lineas_programaticas, setRequiereLineasProgramaticas] = useState(proyecto_formulario_13_linea_65?.lineas_programaticas_sennova != null)
+    const [requiere_justificacion_aportes_campesena, setRequiereJustificacionAportesCampesenea] = useState(proyecto_formulario_15_linea_65?.aportacion_linea_transeversal_campesena != null)
+    const [requiere_lineas_estrategicas, setRequiereLineasEstrategicas] = useState(proyecto_formulario_15_linea_65?.lineas_estrategicas_sena != null)
+    const [requiere_lineas_programaticas, setRequiereLineasProgramaticas] = useState(proyecto_formulario_15_linea_65?.lineas_programaticas_sennova != null)
 
     const [array_lineas_investigacion, setArrayLineasInvestigacion] = useState([])
 
     const form = useForm({
-        titulo: proyecto_formulario_13_linea_65?.titulo ?? '',
-        fecha_inicio: proyecto_formulario_13_linea_65?.fecha_inicio ?? '',
-        fecha_finalizacion: proyecto_formulario_13_linea_65?.fecha_finalizacion ?? '',
-        max_meses_ejecucion: proyecto_formulario_13_linea_65?.max_meses_ejecucion ?? '',
-        centro_formacion_id: proyecto_formulario_13_linea_65?.proyecto?.centro_formacion_id ?? null,
-        linea_investigacion_id: proyecto_formulario_13_linea_65?.linea_investigacion_id ?? null,
+        titulo: proyecto_formulario_15_linea_65?.titulo ?? '',
+        fecha_inicio: proyecto_formulario_15_linea_65?.fecha_inicio ?? '',
+        fecha_finalizacion: proyecto_formulario_15_linea_65?.fecha_finalizacion ?? '',
+        max_meses_ejecucion: proyecto_formulario_15_linea_65?.max_meses_ejecucion ?? '',
+        centro_formacion_id: proyecto_formulario_15_linea_65?.proyecto?.centro_formacion_id ?? null,
+        linea_investigacion_id: proyecto_formulario_15_linea_65?.linea_investigacion_id ?? null,
 
-        area_conocimiento_id: proyecto_formulario_13_linea_65?.area_conocimiento_id ?? null,
-        tematica_estrategica_id: proyecto_formulario_13_linea_65?.tematica_estrategica_id ?? null,
-        actividad_economica_id: proyecto_formulario_13_linea_65?.actividad_economica_id ?? null,
+        area_conocimiento_id: proyecto_formulario_15_linea_65?.area_conocimiento_id ?? null,
+        tematica_estrategica_id: proyecto_formulario_15_linea_65?.tematica_estrategica_id ?? null,
+        actividad_economica_id: proyecto_formulario_15_linea_65?.actividad_economica_id ?? null,
 
-        video: proyecto_formulario_13_linea_65?.video,
-        numero_aprendices: proyecto_formulario_13_linea_65?.numero_aprendices,
-        municipios: proyecto_formulario_13_linea_65?.proyecto.municipios?.map((item) => item.id),
+        video: proyecto_formulario_15_linea_65?.video,
+        numero_aprendices: proyecto_formulario_15_linea_65?.numero_aprendices,
+        municipios: proyecto_formulario_15_linea_65?.proyecto.municipios?.map((item) => item.id),
 
-        programas_formacion: proyecto_formulario_13_linea_65?.proyecto.programas_formacion.map((item) => item.id),
+        programas_formacion: proyecto_formulario_15_linea_65?.proyecto.programas_formacion.map((item) => item.id),
 
-        relacionado_plan_tecnologico: proyecto_formulario_13_linea_65?.relacionado_plan_tecnologico ?? '',
-        relacionado_agendas_competitividad: proyecto_formulario_13_linea_65?.relacionado_agendas_competitividad ?? '',
-        relacionado_mesas_sectoriales: proyecto_formulario_13_linea_65?.relacionado_mesas_sectoriales ?? '',
-        relacionado_tecnoacademia: proyecto_formulario_13_linea_65?.relacionado_tecnoacademia ?? '',
+        relacionado_plan_tecnologico: proyecto_formulario_15_linea_65?.relacionado_plan_tecnologico ?? '',
+        relacionado_agendas_competitividad: proyecto_formulario_15_linea_65?.relacionado_agendas_competitividad ?? '',
+        relacionado_mesas_sectoriales: proyecto_formulario_15_linea_65?.relacionado_mesas_sectoriales ?? '',
 
-        tecnoacademia_id: tecnoacademia?.id ?? '',
-        linea_tecnologica_id: proyecto_formulario_13_linea_65?.proyecto.tecnoacademia_lineas_tecnoacademia?.map((item) => item.id),
-        mesa_sectorial_id: proyecto_formulario_13_linea_65?.proyecto.mesas_sectoriales?.map((item) => item.id),
+        mesa_sectorial_id: proyecto_formulario_15_linea_65?.proyecto.mesas_sectoriales?.map((item) => item.id),
 
-        resumen: proyecto_formulario_13_linea_65?.resumen ?? '',
-        antecedentes: proyecto_formulario_13_linea_65?.antecedentes ?? '',
-        marco_conceptual: proyecto_formulario_13_linea_65?.marco_conceptual ?? '',
-        justificacion_industria_4: proyecto_formulario_13_linea_65?.justificacion_industria_4 ?? '',
-        justificacion_politica_discapacidad: proyecto_formulario_13_linea_65?.justificacion_politica_discapacidad ?? '',
-        atencion_pluralista_diferencial: proyecto_formulario_13_linea_65?.atencion_pluralista_diferencial ?? '',
-        impacto_sector_agricola: proyecto_formulario_13_linea_65?.impacto_sector_agricola ?? '',
-        bibliografia: proyecto_formulario_13_linea_65?.bibliografia ?? '',
-        impacto_municipios: proyecto_formulario_13_linea_65?.impacto_municipios ?? '',
-        impacto_centro_formacion: proyecto_formulario_13_linea_65?.impacto_centro_formacion ?? '',
+        resumen: proyecto_formulario_15_linea_65?.resumen ?? '',
+        antecedentes: proyecto_formulario_15_linea_65?.antecedentes ?? '',
+        marco_conceptual: proyecto_formulario_15_linea_65?.marco_conceptual ?? '',
+        justificacion_politica_discapacidad: proyecto_formulario_15_linea_65?.justificacion_politica_discapacidad ?? '',
+        atencion_pluralista_diferencial: proyecto_formulario_15_linea_65?.atencion_pluralista_diferencial ?? '',
+        bibliografia: proyecto_formulario_15_linea_65?.bibliografia ?? '',
+        impacto_municipios: proyecto_formulario_15_linea_65?.impacto_municipios ?? '',
+        impacto_centro_formacion: proyecto_formulario_15_linea_65?.impacto_centro_formacion ?? '',
 
-        eje_sennova: proyecto_formulario_13_linea_65?.eje_sennova,
-        areas_cualificacion_mnc: proyecto_formulario_13_linea_65?.areas_cualificacion_mnc,
-        aportacion_linea_transeversal_campesena: proyecto_formulario_13_linea_65?.aportacion_linea_transeversal_campesena,
-        lineas_estrategicas_sena: proyecto_formulario_13_linea_65?.lineas_estrategicas_sena,
-        justificacion_aportes_lineas_estrategicas: proyecto_formulario_13_linea_65?.justificacion_aportes_lineas_estrategicas,
-        lineas_programaticas_sennova: proyecto_formulario_13_linea_65?.lineas_programaticas_sennova,
-
-        tecnoparques_relacionados: proyecto_formulario_13_linea_65?.tecnoparques_relacionados,
-        tecnoacademias_relacionadas: proyecto_formulario_13_linea_65?.tecnoacademias_relacionadas,
-        hubs_innovacion_relacionados: proyecto_formulario_13_linea_65?.hubs_innovacion_relacionados,
-        laboratorios_st_relacionados: proyecto_formulario_13_linea_65?.laboratorios_st_relacionados,
+        eje_sennova: proyecto_formulario_15_linea_65?.eje_sennova,
+        areas_cualificacion_mnc: proyecto_formulario_15_linea_65?.areas_cualificacion_mnc,
+        aportacion_linea_transeversal_campesena: proyecto_formulario_15_linea_65?.aportacion_linea_transeversal_campesena,
+        lineas_estrategicas_sena: proyecto_formulario_15_linea_65?.lineas_estrategicas_sena,
+        justificacion_aportes_lineas_estrategicas: proyecto_formulario_15_linea_65?.justificacion_aportes_lineas_estrategicas,
+        lineas_programaticas_sennova: proyecto_formulario_15_linea_65?.lineas_programaticas_sennova,
 
         cantidad_meses: '',
         cantidad_horas: '',
         rol_sennova: null,
     })
-
-    useEffect(() => {
-        const filtered_lineas_tecnoacademia = lineas_tecnoacademia?.filter((obj) => obj.tecnoacademia_id === form.data.tecnoacademia_id)
-        setArrayLineasTecnoacademia(filtered_lineas_tecnoacademia)
-    }, [form.data.tecnoacademia_id])
 
     useEffect(() => {
         setArrayLineasInvestigacion(lineas_investigacion.filter((obj) => obj.centro_formacion_id === form.data.centro_formacion_id))
@@ -133,21 +109,21 @@ const Form = ({
     const submit = (e) => {
         e.preventDefault()
         method == 'POST'
-            ? form.post(route('convocatorias.proyectos-formulario-13-linea-65.store', [convocatoria.id]), {
+            ? form.post(route('convocatorias.proyectos-formulario-15-linea-65.store', [convocatoria.id]), {
                   preserveScroll: true,
               })
-            : proyecto_formulario_13_linea_65.proyecto.allowed.to_update
-            ? form.put(route('convocatorias.proyectos-formulario-13-linea-65.update', [convocatoria.id, proyecto_formulario_13_linea_65.id]), {
+            : proyecto_formulario_15_linea_65.proyecto.allowed.to_update
+            ? form.put(route('convocatorias.proyectos-formulario-15-linea-65.update', [convocatoria.id, proyecto_formulario_15_linea_65.id]), {
                   preserveScroll: true,
               })
             : null
     }
 
     const syncColumnLong = async (column, form, data) => {
-        if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update) {
+        if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto_formulario_15_linea_65?.proyecto?.allowed?.to_update) {
             try {
                 await router.put(
-                    route('convocatorias.proyectos-formulario-13-linea-65.updateLongColumn', [convocatoria.id, proyecto_formulario_13_linea_65?.proyecto?.id, column]),
+                    route('convocatorias.proyectos-formulario-15-linea-65.updateLongColumn', [convocatoria.id, proyecto_formulario_15_linea_65?.proyecto?.id, column]),
                     { [column]: data ? data : form.data[column], is_array: Array.isArray(form.data[column]) },
                     {
                         onError: (resp) => console.log(resp),
@@ -172,9 +148,9 @@ const Form = ({
                         <h1>
                             {method == 'PUT' ? (
                                 <>
-                                    <strong>{proyecto_formulario_13_linea_65.titulo}</strong>
+                                    <strong>{proyecto_formulario_15_linea_65.titulo}</strong>
                                     <br />
-                                    {proyecto_formulario_13_linea_65.proyecto.codigo}
+                                    {proyecto_formulario_15_linea_65.proyecto.codigo}
                                 </>
                             ) : (
                                 <>Formulario 13: Gestión Editorial de Publicaciones Seriadas - Apropiación de la ciencia y la tecnología y cultura de la innovación y la competitividad - Línea 65</>
@@ -248,8 +224,8 @@ const Form = ({
                             options={
                                 centros_formacion ?? [
                                     {
-                                        value: proyecto_formulario_13_linea_65?.proyecto.centro_formacion.id,
-                                        label: proyecto_formulario_13_linea_65?.proyecto.centro_formacion.nombre,
+                                        value: proyecto_formulario_15_linea_65?.proyecto.centro_formacion.id,
+                                        label: proyecto_formulario_15_linea_65?.proyecto.centro_formacion.nombre,
                                     },
                                 ]
                             }
@@ -258,7 +234,7 @@ const Form = ({
                             onBlur={() => syncColumnLong('centro_formacion_id', form)}
                         />
                     ) : (
-                        <>{proyecto_formulario_13_linea_65?.proyecto.centro_formacion.nombre}</>
+                        <>{proyecto_formulario_15_linea_65?.proyecto.centro_formacion.nombre}</>
                     )}
                 </Grid>
 
@@ -542,50 +518,6 @@ const Form = ({
                         </Grid>
 
                         <Grid item md={6}>
-                            <Label id="justificacion_industria_4" value="¿El proyecto está relacionado con la industria 4.0?" />
-                        </Grid>
-
-                        <Grid item md={6}>
-                            <SwitchMui className="mb-4" checked={requiere_justificacion_industria4} onChange={() => setRequiereJustificacionIndustria4(!requiere_justificacion_industria4)} />
-                            {requiere_justificacion_industria4 && (
-                                <>
-                                    <Textarea
-                                        label="Justificación"
-                                        id="justificacion_industria_4"
-                                        onChange={(e) => form.setData('justificacion_industria_4', e.target.value)}
-                                        error={form.errors.justificacion_industria_4}
-                                        value={form.data.justificacion_industria_4}
-                                        required={requiere_justificacion_industria4 ? true : undefined}
-                                        onBlur={() => syncColumnLong('justificacion_industria_4', form)}
-                                    />
-                                    <AlertMui>Si el proyecto está relacionado con la industria 4.0 por favor realice la justificación.</AlertMui>
-                                </>
-                            )}
-                        </Grid>
-
-                        <Grid item md={6}>
-                            <Label labelFor="impacto_sector_agricola" value="¿El proyecto tendrá un impacto en el sector agrícola?" />
-                        </Grid>
-                        <Grid item md={6}>
-                            <SwitchMui
-                                className="mb-4"
-                                checked={requiere_justificacion_sector_agricola}
-                                onChange={() => setRequiereJustificacionSectorAgricola(!requiere_justificacion_sector_agricola)}
-                            />
-                            {requiere_justificacion_sector_agricola && (
-                                <Textarea
-                                    label="Justificación"
-                                    id="impacto_sector_agricola"
-                                    onChange={(e) => form.setData('impacto_sector_agricola', e.target.value)}
-                                    error={form.errors.impacto_sector_agricola}
-                                    value={form.data.impacto_sector_agricola}
-                                    required={requiere_justificacion_sector_agricola ? true : undefined}
-                                    onBlur={() => syncColumnLong('impacto_sector_agricola', form)}
-                                />
-                            )}
-                        </Grid>
-
-                        <Grid item md={6}>
                             <Label labelFor="justificacion_politica_discapacidad" value="¿El proyecto aporta a la Política Institucional para Atención de las Personas con discapacidad?" />
                         </Grid>
                         <Grid item md={6}>
@@ -720,7 +652,7 @@ const Form = ({
                             />
                         </Grid>
 
-                        {form.data.relacionado_mesas_sectoriales == 1 && (is_super_admin || proyecto_formulario_13_linea_65?.proyecto.allowed.to_update) && (
+                        {form.data.relacionado_mesas_sectoriales == 1 && (is_super_admin || proyecto_formulario_15_linea_65?.proyecto.allowed.to_update) && (
                             <>
                                 <Grid item md={6}>
                                     <p className="text-app-600">Por favor seleccione la o las mesas sectoriales con la cual o las cuales se alinea el proyecto</p>
@@ -772,94 +704,6 @@ const Form = ({
                                     onBlur={() => syncColumnLong('lineas_programaticas_sennova', form)}
                                 />
                             )}
-                        </Grid>
-
-                        <Grid item md={6}>
-                            <Label id="tecnoparques_relacionados" value="Seleccione los Tecnoparques con que se relaciona o que aportan al desarrollo del proyecto." />
-                        </Grid>
-                        <Grid item md={6}>
-                            <SelectMultiple
-                                id="tecnoparques_relacionados"
-                                bdValues={form.data.tecnoparques_relacionados}
-                                options={nodos_tecnoparques}
-                                onChange={(event, newValue) => {
-                                    const selected_values = newValue.map((option) => option.value)
-                                    form.setData((prevData) => ({
-                                        ...prevData,
-                                        tecnoparques_relacionados: selected_values,
-                                    }))
-                                }}
-                                error={form.errors.tecnoparques_relacionados}
-                                label="Seleccione una o varias opciones"
-                                disabled={evaluacion ? true : false}
-                                onBlur={() => syncColumnLong('tecnoparques_relacionados', form)}
-                            />
-                        </Grid>
-
-                        <Grid item md={6}>
-                            <Label id="tecnoacademias_relacionadas" value="Seleccione las TecnoAcademias con que se relaciona o que aportan al desarrollo del proyecto." />
-                        </Grid>
-                        <Grid item md={6}>
-                            <SelectMultiple
-                                id="tecnoacademias_relacionadas"
-                                bdValues={form.data.tecnoacademias_relacionadas}
-                                options={tecnoacademias}
-                                onChange={(event, newValue) => {
-                                    const selected_values = newValue.map((option) => option.value)
-                                    form.setData((prevData) => ({
-                                        ...prevData,
-                                        tecnoacademias_relacionadas: selected_values,
-                                    }))
-                                }}
-                                error={form.errors.tecnoacademias_relacionadas}
-                                label="Seleccione una o varias opciones"
-                                disabled={evaluacion ? true : false}
-                                onBlur={() => syncColumnLong('tecnoacademias_relacionadas', form)}
-                            />
-                        </Grid>
-
-                        <Grid item md={6}>
-                            <Label id="hubs_innovacion_relacionados" value="Seleccione los Hubs de innovación con que se relaciona o que aportan al desarrollo del proyecto." />
-                        </Grid>
-                        <Grid item md={6}>
-                            <SelectMultiple
-                                id="hubs_innovacion_relacionados"
-                                bdValues={form.data.hubs_innovacion_relacionados}
-                                options={hubs_innovacion}
-                                onChange={(event, newValue) => {
-                                    const selected_values = newValue.map((option) => option.value)
-                                    form.setData((prevData) => ({
-                                        ...prevData,
-                                        hubs_innovacion_relacionados: selected_values,
-                                    }))
-                                }}
-                                error={form.errors.hubs_innovacion_relacionados}
-                                label="Seleccione una o varias opciones"
-                                disabled={evaluacion ? true : false}
-                                onBlur={() => syncColumnLong('hubs_innovacion_relacionados', form)}
-                            />
-                        </Grid>
-
-                        <Grid item md={6}>
-                            <Label id="laboratorios_st_relacionados" value="Seleccione los Laboratorios de ST con que se relaciona o que aportan al desarrollo del proyecto." />
-                        </Grid>
-                        <Grid item md={6}>
-                            <SelectMultiple
-                                id="laboratorios_st_relacionados"
-                                bdValues={form.data.laboratorios_st_relacionados}
-                                options={laboratorios_st}
-                                onChange={(event, newValue) => {
-                                    const selected_values = newValue.map((option) => option.value)
-                                    form.setData((prevData) => ({
-                                        ...prevData,
-                                        laboratorios_st_relacionados: selected_values,
-                                    }))
-                                }}
-                                error={form.errors.laboratorios_st_relacionados}
-                                label="Seleccione una o varias opciones"
-                                disabled={evaluacion ? true : false}
-                                onBlur={() => syncColumnLong('laboratorios_st_relacionados', form)}
-                            />
                         </Grid>
 
                         <Grid item md={12}>
@@ -1045,7 +889,7 @@ const Form = ({
                 )}
             </Grid>
 
-            {method == 'POST' || proyecto_formulario_13_linea_65.proyecto?.allowed?.to_update ? (
+            {method == 'POST' || proyecto_formulario_15_linea_65.proyecto?.allowed?.to_update ? (
                 <div className="flex items-center justify-between p-4">
                     <PrimaryButton type="submit" className="ml-auto" disabled={form.processing || !form.isDirty}>
                         Guardar

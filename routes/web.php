@@ -67,6 +67,8 @@ use App\Http\Controllers\Perfil\FormacionAcademicaSenaController;
 use App\Http\Controllers\Perfil\ParticipacionGrupoInvestigacionSenaController;
 use App\Http\Controllers\Perfil\ParticipacionProyectoSennovaController;
 use App\Http\Controllers\ProyectoFormulario13Linea65Controller;
+use App\Http\Controllers\ProyectoFormulario15Linea65Controller;
+use App\Http\Controllers\ProyectoFormulario16Linea65Controller;
 use App\Http\Controllers\ProyectoFormulario6Linea82Controller;
 use App\Http\Controllers\ProyectoFormulario7Linea23Controller;
 use App\Http\Controllers\ProyectoFormulario9Linea23Controller;
@@ -389,6 +391,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
      */
     Route::put('convocatorias/{convocatoria}/proyectos-formulario-13-linea-65/{proyecto_formulario_13_linea_65}/column/{column}', [ProyectoFormulario13Linea65Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-formulario-13-linea-65.updateLongColumn');
     Route::resource('convocatorias.proyectos-formulario-13-linea-65', ProyectoFormulario13Linea65Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-formulario-13-linea-65' => 'proyecto-formulario-13-linea-65'])->except(['show']);
+
+    /**
+     * Línea programática 65 - Estrategia nacional
+     *
+     */
+    Route::put('convocatorias/{convocatoria}/proyectos-formulario-15-linea-65/{proyecto_formulario_15_linea_65}/column/{column}', [ProyectoFormulario15Linea65Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-formulario-15-linea-65.updateLongColumn');
+    Route::resource('convocatorias.proyectos-formulario-15-linea-65', ProyectoFormulario15Linea65Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-formulario-15-linea-65' => 'proyecto-formulario-15-linea-65'])->except(['show']);
+
+    /**
+     * Línea programática 65 - Estrategia nacional
+     *
+     */
+    Route::put('convocatorias/{convocatoria}/proyectos-formulario-16-linea-65/{proyecto_formulario_16_linea_65}/column/{column}', [ProyectoFormulario16Linea65Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-formulario-16-linea-65.updateLongColumn');
+    Route::resource('convocatorias.proyectos-formulario-16-linea-65', ProyectoFormulario16Linea65Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-formulario-16-linea-65' => 'proyecto-formulario-16-linea-65'])->except(['show']);
 
     /**
      * Línea programática 66 - Estrategia regional

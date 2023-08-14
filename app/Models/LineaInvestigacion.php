@@ -85,6 +85,16 @@ class LineaInvestigacion extends Model
     }
 
     /**
+     * Relationship with ProyectoFormulario15Linea65
+     *
+     * @return object
+     */
+    public function proyectoFormulario15Linea65()
+    {
+        return $this->hasOne(ProyectoFormulario15Linea65::class);
+    }
+
+    /**
      * Relationship with ProyectoFormulario8Linea66
      *
      * @return object

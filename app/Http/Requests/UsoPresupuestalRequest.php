@@ -25,7 +25,7 @@ class UsoPresupuestalRequest extends FormRequest
     {
         return [
             'descripcion'   => ['required', 'string'],
-            'codigo'        => ['required', 'integer', 'unique:usos_presupuestales,codigo', 'min:0', 'max:9223372036854775807']
+            'codigo'        => ['required', 'integer', 'unique:usos_presupuestales,codigo', 'min:0', 'max:2147483647']
         ];
     }
 }

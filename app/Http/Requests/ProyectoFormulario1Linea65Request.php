@@ -37,7 +37,7 @@ class ProyectoFormulario1Linea65Request extends FormRequest
                 'fecha_finalizacion'                            => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
                 'max_meses_ejecucion'                           => ['required', 'numeric', 'min:1', 'max:12'],
                 'video'                                         => ['nullable', 'string', 'url'],
-                'numero_aprendices'                             => ['required', 'min:0', 'max:9223372036854775807', 'integer'],
+                'numero_aprendices'                             => ['required', 'min:0', 'max:2147483647', 'integer'],
                 'municipios*'                                   => ['required', 'integer', 'min:0', 'max:2147483647', 'exists:municipios,id'],
                 'programas_formacion*'                          => ['required', 'integer', 'min:0', 'max:2147483647', 'exists:programas_formacion,id'],
                 'programas_formacion_articulados*'              => ['nullable', 'integer', 'min:0', 'max:2147483647', 'exists:programas_formacion,id'],

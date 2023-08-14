@@ -410,8 +410,8 @@ class ProyectoIdiTecnoacademiaController extends Controller
                 'nombre'                => 'required', 'max:255', 'string',
                 'email'                 => 'required', 'max:255', new Email, 'unique:users,email', 'email',
                 'tipo_documento'        => 'required', 'max:2',
-                'numero_documento'      => 'required', 'min:0', 'unique:users,numero_documento', 'max:9223372036854775807', 'integer',
-                'numero_celular'        => 'required', 'min:0', 'max:9223372036854775807', 'integer',
+                'numero_documento'      => 'required', 'min:0', 'unique:users,numero_documento', 'max:2147483647', 'integer',
+                'numero_celular'        => 'required', 'min:0', 'max:2147483647', 'integer',
                 'tipo_vinculacion'      => 'required', 'max:191',
                 'autorizacion_datos'    => 'required', 'boolean'
             ]

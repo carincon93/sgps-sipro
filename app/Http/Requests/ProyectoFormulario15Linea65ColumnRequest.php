@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProyectoFormulario13Linea65ColumnRequest extends FormRequest
+class ProyectoFormulario15Linea65ColumnRequest extends FormRequest
 {
     private $columnsRules = [
         'titulo'                                        => ['required', 'string'],
@@ -14,14 +14,10 @@ class ProyectoFormulario13Linea65ColumnRequest extends FormRequest
         'resumen'                                       => ['required', 'max:40000', 'string'],
         'antecedentes'                                  => ['required', 'max:40000', 'string'],
         'marco_conceptual'                              => ['required', 'string'],
-        'justificacion_industria_4'                     => ['nullable', 'string'],
-        'justificacion_economia_naranja'                => ['nullable', 'string'],
-        'justificacion_politica_discapacidad'           => ['nullable', 'string'],
         'impacto_municipios'                            => ['required', 'string'],
         'impacto_centro_formacion'                      => ['required', 'string'],
         'bibliografia'                                  => ['required', 'string'],
         'atencion_pluralista_diferencial'               => ['nullable', 'string'],
-        'impacto_sector_agricola'                       => ['nullable', 'string'],
         'centro_formacion_id'                           => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
         'linea_investigacion_id'                        => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_investigacion,id'],
         'area_conocimiento_id'                          => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:areas_conocimiento,id'],
@@ -42,10 +38,6 @@ class ProyectoFormulario13Linea65ColumnRequest extends FormRequest
         'lineas_estrategicas_sena'                      => ['nullable', 'json'],
         'justificacion_aportes_lineas_estrategicas'     => ['nullable', 'string'],
         'lineas_programaticas_sennova'                  => ['nullable', 'json'],
-        'tecnoparques_relacionados'                     => ['nullable', 'json'],
-        'tecnoacademias_relacionadas'                   => ['nullable', 'json'],
-        'hubs_innovacion_relacionados'                  => ['nullable', 'json'],
-        'laboratorios_st_relacionados'                  => ['nullable', 'json'],
     ];
     /**
      * Determine if the user is authorized to make this request.
@@ -88,10 +80,6 @@ class ProyectoFormulario13Linea65ColumnRequest extends FormRequest
             'areas_cualificacion_mnc'       => json_encode($this->areas_cualificacion_mnc),
             'lineas_estrategicas_sena'      => json_encode($this->lineas_estrategicas_sena),
             'lineas_programaticas_sennova'  => json_encode($this->lineas_programaticas_sennova),
-            'tecnoparques_relacionados'     => json_encode($this->tecnoparques_relacionados),
-            'tecnoacademias_relacionadas'   => json_encode($this->tecnoacademias_relacionadas),
-            'hubs_innovacion_relacionados'  => json_encode($this->hubs_innovacion_relacionados),
-            'laboratorios_st_relacionados'  => json_encode($this->laboratorios_st_relacionados),
         ]);
     }
 }

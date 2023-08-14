@@ -147,7 +147,7 @@ class ProyectoController extends Controller
 
         $proyecto->proyectoFormulario10Linea69;
 
-        switch (request()->tipo_formulario_convocatoria_id) {
+        switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 1:
                 $objetivo_general                   = $proyecto->proyectoFormulario1Linea65->objetivo_general;
                 $proyecto->propuesta_sostenibilidad = $proyecto->proyectoFormulario1Linea65->propuesta_sostenibilidad;
@@ -196,6 +196,16 @@ class ProyectoController extends Controller
                 $objetivo_general                   = $proyecto->proyectoFormulario13Linea65->objetivo_general;
                 $proyecto->propuesta_sostenibilidad = $proyecto->proyectoFormulario13Linea65->propuesta_sostenibilidad;
                 $proyecto->tipo_proyecto            = $proyecto->proyectoFormulario13Linea65->tipo_proyecto;
+                break;
+            case 15:
+                $objetivo_general                   = $proyecto->proyectoFormulario15Linea65->objetivo_general;
+                $proyecto->propuesta_sostenibilidad = $proyecto->proyectoFormulario15Linea65->propuesta_sostenibilidad;
+                $proyecto->tipo_proyecto            = $proyecto->proyectoFormulario15Linea65->tipo_proyecto;
+                break;
+            case 16:
+                $objetivo_general                   = $proyecto->proyectoFormulario16Linea65->objetivo_general;
+                $proyecto->propuesta_sostenibilidad = $proyecto->proyectoFormulario16Linea65->propuesta_sostenibilidad;
+                $proyecto->tipo_proyecto            = $proyecto->proyectoFormulario16Linea65->tipo_proyecto;
                 break;
             default:
                 break;
@@ -263,6 +273,12 @@ class ProyectoController extends Controller
                 break;
             case 13:
                 $proyecto->proyectoFormulario13Linea65()->update($request->only($column));
+                break;
+            case 15:
+                $proyecto->proyectoFormulario15Linea65()->update($request->only($column));
+                break;
+            case 16:
+                $proyecto->proyectoFormulario16Linea65()->update($request->only($column));
                 break;
             default:
                 break;
@@ -441,6 +457,24 @@ class ProyectoController extends Controller
 
                 $proyecto_formulario_13_linea_65->save();
                 break;
+            case 15:
+                $request->validate([
+                    'propuesta_sostenibilidad' => 'required|string|max:40000',
+                ]);
+                $proyecto_formulario_15_linea_65                              = $proyecto->proyectoFormulario15Linea65;
+                $proyecto_formulario_15_linea_65->propuesta_sostenibilidad    = $request->propuesta_sostenibilidad;
+
+                $proyecto_formulario_15_linea_65->save();
+                break;
+            case 16:
+                $request->validate([
+                    'propuesta_sostenibilidad' => 'required|string|max:40000',
+                ]);
+                $proyecto_formulario_16_linea_65                              = $proyecto->proyectoFormulario16Linea65;
+                $proyecto_formulario_16_linea_65->propuesta_sostenibilidad    = $request->propuesta_sostenibilidad;
+
+                $proyecto_formulario_16_linea_65->save();
+                break;
             default:
                 return back();
                 break;
@@ -485,6 +519,12 @@ class ProyectoController extends Controller
                 break;
             case 13:
                 return redirect()->route('convocatorias.proyectos-formulario-13-linea-65.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => request()->tipo_formulario_convocatoria_id]);
+                break;
+            case 15:
+                return redirect()->route('convocatorias.proyectos-formulario-15-linea-65.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => request()->tipo_formulario_convocatoria_id]);
+                break;
+            case 16:
+                return redirect()->route('convocatorias.proyectos-formulario-16-linea-65.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => request()->tipo_formulario_convocatoria_id]);
                 break;
             default:
                 break;
@@ -533,6 +573,12 @@ class ProyectoController extends Controller
                 break;
             case 13:
                 return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-formulario-13-linea-65.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-formulario-13-linea-65.edit', [$convocatoria, $proyecto]);
+                break;
+            case 15:
+                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-formulario-15-linea-65.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-formulario-15-linea-65.edit', [$convocatoria, $proyecto]);
+                break;
+            case 16:
+                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-formulario-16-linea-65.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-formulario-16-linea-65.edit', [$convocatoria, $proyecto]);
                 break;
             default:
                 break;
