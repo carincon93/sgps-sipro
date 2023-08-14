@@ -19,7 +19,7 @@ const Edit = ({ auth, convocatoria, proyecto_formulario_10_linea_69, evaluacion,
     const [dialog_status, setDialogStatus] = useState(false)
 
     const comentarios_evaluaciones =
-        proyecto_formulario_10_linea_69?.proyecto.evaluaciones.length > 0
+        proyecto_formulario_10_linea_69?.proyecto?.evaluaciones?.length > 0
             ? Object.keys(proyecto_formulario_10_linea_69?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_formulario10_linea69).filter((field) => field.endsWith('_comentario'))
             : null
 

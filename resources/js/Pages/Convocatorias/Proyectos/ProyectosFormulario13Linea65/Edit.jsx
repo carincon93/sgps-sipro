@@ -16,9 +16,8 @@ import { useState } from 'react'
 const Edit = ({
     auth,
     convocatoria,
-    proyecto_formulario_1_linea_65,
+    proyecto_formulario_13_linea_65,
     evaluacion,
-    centros_formacion,
     mesas_sectoriales,
     areas_conocimiento,
     lineas_investigacion,
@@ -42,7 +41,6 @@ const Edit = ({
     lineas_tecnoacademia_relacionadas,
     programas_formacion_con_registro_relacionados,
     programas_formacion_sin_registro_relacionados,
-    tipos_eventos,
     roles_sennova,
     ...props
 }) => {
@@ -53,14 +51,14 @@ const Edit = ({
     const [dialog_status, setDialogStatus] = useState(false)
 
     const comentarios_evaluaciones =
-        proyecto_formulario_1_linea_65?.proyecto?.evaluaciones?.length > 0
-            ? Object.keys(proyecto_formulario_1_linea_65?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_formulario1_linea65).filter((field) => field.endsWith('_comentario'))
+        proyecto_formulario_13_linea_65?.proyecto?.evaluaciones?.length > 0
+            ? Object.keys(proyecto_formulario_13_linea_65?.proyecto?.evaluaciones[evaluacion_index].evaluacion_proyecto_formulario1_linea65).filter((field) => field.endsWith('_comentario'))
             : null
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyecto_formulario_1_linea_65.titulo}</h2>}>
+        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyecto_formulario_13_linea_65.titulo}</h2>}>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto_formulario_1_linea_65?.proyecto} evaluacion={evaluacion} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto_formulario_13_linea_65?.proyecto} evaluacion={evaluacion} />
             </Grid>
 
             {/* <Grid item md={4}>
@@ -77,7 +75,7 @@ const Edit = ({
                     open={dialog_status}
                     dialogContent={
                         <>
-                            {proyecto_formulario_1_linea_65?.proyecto.evaluaciones.map((evaluacion, i) => (
+                            {proyecto_formulario_13_linea_65?.proyecto.evaluaciones.map((evaluacion, i) => (
                                 <ButtonMui onClick={() => setEvaluacionIndex(i)} primary={evaluacion_index == i} key={i} className="!ml-2">
                                     Comentarios de la evaluación #{i + 1} <Chip className="ml-2 !text-white" label={evaluacion.id} size="small" />
                                 </ButtonMui>
@@ -91,7 +89,7 @@ const Edit = ({
                                                 <TableCell>
                                                     <p className="first-letter:uppercase">{field.replace(/_comentario/g, '').replace(/_/g, ' ')}</p>
                                                 </TableCell>
-                                                <TableCell>{proyecto_formulario_1_linea_65?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_formulario1_linea65[field] ?? 'Sin comentarios'}</TableCell>
+                                                <TableCell>{proyecto_formulario_13_linea_65?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_formulario1_linea65[field] ?? 'Sin comentarios'}</TableCell>
                                             </TableRow>
                                         ))}
                             </TableMui>
@@ -110,8 +108,7 @@ const Edit = ({
                     is_super_admin={is_super_admin}
                     method="PUT"
                     convocatoria={convocatoria}
-                    proyecto_formulario_1_linea_65={proyecto_formulario_1_linea_65}
-                    centros_formacion={centros_formacion}
+                    proyecto_formulario_13_linea_65={proyecto_formulario_13_linea_65}
                     mesas_sectoriales={mesas_sectoriales}
                     areas_conocimiento={areas_conocimiento}
                     lineas_investigacion={lineas_investigacion}
@@ -135,7 +132,6 @@ const Edit = ({
                     lineas_tecnoacademia_relacionadas={lineas_tecnoacademia_relacionadas}
                     programas_formacion_con_registro_relacionados={programas_formacion_con_registro_relacionados}
                     programas_formacion_sin_registro_relacionados={programas_formacion_sin_registro_relacionados}
-                    tipos_eventos={tipos_eventos}
                     roles_sennova={roles_sennova}
                 />
             </Grid>

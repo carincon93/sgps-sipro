@@ -34,7 +34,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario10Linea69/Index', [
             'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'proyectos_formulario_10_linea_69'  => ProyectoFormulario10Linea69::getProyectosPorRol($convocatoria)->appends(['search' => request()->search]),
-            'allowed_to_create'                 => Gate::inspect('formular-proyecto', [35, $convocatoria])->allowed()
+            'allowed_to_create'                 => Gate::inspect('formular-proyecto', [4, $convocatoria])->allowed()
         ]);
     }
 
@@ -45,13 +45,13 @@ class ProyectoFormulario10Linea69Controller extends Controller
      */
     public function create(Convocatoria $convocatoria)
     {
-        $this->authorize('formular-proyecto', [35, $convocatoria]);
+        $this->authorize('formular-proyecto', [4, $convocatoria]);
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario10Linea69/Create', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'nodos_tecnoparque'     => SelectHelper::nodosTecnoparque(),
             'roles_sennova'         => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'allowed_to_create'     => Gate::inspect('formular-proyecto', [35, $convocatoria])->allowed()
+            'allowed_to_create'     => Gate::inspect('formular-proyecto', [4, $convocatoria])->allowed()
         ]);
     }
 
@@ -63,7 +63,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
      */
     public function store(ProyectoFormulario10Linea69Request $request, Convocatoria $convocatoria)
     {
-        $this->authorize('formular-proyecto', [35, $convocatoria]);
+        $this->authorize('formular-proyecto', [4, $convocatoria]);
 
         $nodo_tecnoparque = NodoTecnoparque::find($request->nodo_tecnoparque_id);
 
@@ -127,7 +127,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
         /** @var \App\Models\User */
         $auth_user = Auth::user();
 
-        $proyecto_formulario_10_linea_69->load('proyecto.evaluaciones.evaluacionProyectoFormulario10Linea69');
+        // $proyecto_formulario_10_linea_69->load('proyecto.evaluaciones.evaluacionProyectoFormulario10Linea69');
 
         $proyecto_formulario_10_linea_69->proyecto->precio_proyecto      = $proyecto_formulario_10_linea_69->proyecto->precioProyecto;
         $proyecto_formulario_10_linea_69->proyecto->centroFormacion;

@@ -46,7 +46,10 @@ class ConvocatoriaController extends Controller
         $this->authorize('create', [Convocatoria::class]);
 
         return Inertia::render('Convocatorias/Create', [
-            'tipos_formulario_convocatoria' => TipoFormularioConvocatoria::selectRaw("tipos_formulario_convocatoria.id as value, CONCAT(tipos_formulario_convocatoria.nombre, ' - Línea: ', lineas_programaticas.codigo) as label")->join('lineas_programaticas', 'tipos_formulario_convocatoria.linea_programatica_id', 'lineas_programaticas.id')->orderBy('tipos_formulario_convocatoria.nombre', 'ASC')->get(),
+            'tipos_formulario_convocatoria' => TipoFormularioConvocatoria::selectRaw("tipos_formulario_convocatoria.id as value, CONCAT(tipos_formulario_convocatoria.nombre, ' - Línea: ', lineas_programaticas.codigo) as label")
+                                                ->join('lineas_programaticas', 'tipos_formulario_convocatoria.linea_programatica_id', 'lineas_programaticas.id')
+                                                ->where('tipos_formulario_convocatoria.habilitado', true)
+                                                ->orderBy('tipos_formulario_convocatoria.id', 'ASC')->get(),
             'convocatorias'                 => SelectHelper::convocatorias(),
             'fases'                         => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
             'tipos_convocatoria'            => collect(json_decode(Storage::get('json/tipos-convocatoria.json'), true)),
@@ -148,7 +151,10 @@ class ConvocatoriaController extends Controller
 
         return Inertia::render('Convocatorias/Edit', [
             'convocatoria'                  => $convocatoria,
-            'tipos_formulario_convocatoria' => TipoFormularioConvocatoria::selectRaw("tipos_formulario_convocatoria.id as value, CONCAT(tipos_formulario_convocatoria.nombre, ' - Línea: ', lineas_programaticas.codigo) as label")->join('lineas_programaticas', 'tipos_formulario_convocatoria.linea_programatica_id', 'lineas_programaticas.id')->orderBy('tipos_formulario_convocatoria.nombre', 'ASC')->get(),
+            'tipos_formulario_convocatoria' => TipoFormularioConvocatoria::selectRaw("tipos_formulario_convocatoria.id as value, CONCAT(tipos_formulario_convocatoria.nombre, ' - Línea: ', lineas_programaticas.codigo) as label")
+                                                ->join('lineas_programaticas', 'tipos_formulario_convocatoria.linea_programatica_id', 'lineas_programaticas.id')
+                                                ->where('tipos_formulario_convocatoria.habilitado', true)
+                                                ->orderBy('tipos_formulario_convocatoria.nombre', 'ASC')->get(),
             'fases'                         => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
         ]);
     }
@@ -277,6 +283,7 @@ class ConvocatoriaController extends Controller
                 break;
             case 5:
                 return redirect()->route('convocatorias.proyectos-formulario-5-linea-69.index', [$convocatoria]);
+                break;
             case 6:
                 return redirect()->route('convocatorias.proyectos-formulario-6-linea-82.index', [$convocatoria]);
                 break;
@@ -297,6 +304,9 @@ class ConvocatoriaController extends Controller
                 break;
             case 12:
                 return redirect()->route('convocatorias.proyectos-formulario-12-linea-68.index', [$convocatoria]);
+                break;
+            case 13:
+                return redirect()->route('convocatorias.proyectos-formulario-13-linea-65.index', [$convocatoria]);
                 break;
             default:
                 return back();

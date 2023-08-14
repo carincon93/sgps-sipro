@@ -280,9 +280,7 @@ const Form = ({
                             <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
                         </Grid>
                         <Grid item md={6}>
-                            {proyecto_formulario_4_linea_70?.proyecto.tipo_formulario_convocatoria.linea_programatica.nombre +
-                                ' - ' +
-                                proyecto_formulario_4_linea_70?.proyecto.tipo_formulario_convocatoria.linea_programatica.codigo}
+                            TecnoAcademia
                         </Grid>
 
                         <Grid item md={6}>

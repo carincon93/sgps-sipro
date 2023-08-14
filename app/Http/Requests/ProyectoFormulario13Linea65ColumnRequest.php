@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProyectoFormulario1Linea65ColumnRequest extends FormRequest
+class ProyectoFormulario13Linea65ColumnRequest extends FormRequest
 {
     private $columnsRules = [
         'titulo'                                        => ['required', 'string'],
@@ -22,7 +22,6 @@ class ProyectoFormulario1Linea65ColumnRequest extends FormRequest
         'bibliografia'                                  => ['required', 'string'],
         'atencion_pluralista_diferencial'               => ['nullable', 'string'],
         'impacto_sector_agricola'                       => ['nullable', 'string'],
-        'tipo_evento'                                   => ['nullable', 'min:1', 'max:3', 'integer'],
         'centro_formacion_id'                           => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
         'linea_investigacion_id'                        => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_investigacion,id'],
         'area_conocimiento_id'                          => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:areas_conocimiento,id'],
@@ -53,9 +52,6 @@ class ProyectoFormulario1Linea65ColumnRequest extends FormRequest
         'tecnoacademias_relacionadas'                   => ['nullable', 'json'],
         'hubs_innovacion_relacionados'                  => ['nullable', 'json'],
         'laboratorios_st_relacionados'                  => ['nullable', 'json'],
-
-        'alcance_evento'                                => ['nullable', 'integer'],
-        'centros_formacion'                             => ['nullable', 'json'],
     ];
     /**
      * Determine if the user is authorized to make this request.
@@ -98,7 +94,6 @@ class ProyectoFormulario1Linea65ColumnRequest extends FormRequest
             'areas_cualificacion_mnc'       => json_encode($this->areas_cualificacion_mnc),
             'lineas_estrategicas_sena'      => json_encode($this->lineas_estrategicas_sena),
             'lineas_programaticas_sennova'  => json_encode($this->lineas_programaticas_sennova),
-            'centros_formacion'             => json_encode($this->centros_formacion),
             'tecnoparques_relacionados'     => json_encode($this->tecnoparques_relacionados),
             'tecnoacademias_relacionadas'   => json_encode($this->tecnoacademias_relacionadas),
             'hubs_innovacion_relacionados'  => json_encode($this->hubs_innovacion_relacionados),

@@ -32,7 +32,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_11_linea_83, allowed_t
                 )}
 
                 <Grid item md={12} className="!mt-20">
-                    <h1 className="text-3xl text-center">Asistencia técnica o extensionismo tecnológico - Línea 83</h1>
+                    <h1 className="text-3xl text-center">Formulario 11: Asistencia técnica o extensionismo tecnológico - Línea 83</h1>
                 </Grid>
 
                 <Grid item md={12}>

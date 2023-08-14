@@ -131,11 +131,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                             <Label required disabled={evaluacion ? true : false} labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
                         </Grid>
                         <Grid item md={6}>
-                            {proyecto_formulario_10_linea_69?.proyecto.tipo_formulario_convocatoria.linea_programatica
-                                ? proyecto_formulario_10_linea_69?.proyecto.tipo_formulario_convocatoria.linea_programatica.nombre +
-                                  ' - ' +
-                                  proyecto_formulario_10_linea_69?.proyecto.tipo_formulario_convocatoria.linea_programatica.codigo
-                                : ''}
+                            Hubs de innovación
                         </Grid>
 
                         <Grid item md={6}>

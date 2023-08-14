@@ -22,6 +22,7 @@ use App\Models\LineaProgramatica;
 use App\Models\ConvocatoriaRolSennova;
 use App\Models\DisenoCurricular;
 use App\Models\EstadoSistemaGestion;
+use App\Models\HubInnovacion;
 use App\Models\SegundoGrupoPresupuestal;
 use App\Models\TercerGrupoPresupuestal;
 use App\Models\Tecnoacademia;
@@ -174,9 +175,19 @@ class SelectHelper
     /**
      * Web api
      *
+     * Trae los Hubs de innovacion
+     */
+    public static function hubsInnovacion()
+    {
+        return HubInnovacion::select('id as value', 'nombre as label')->get();
+    }
+
+    /**
+     * Web api
+     *
      * Trae los tipos de proyectos ST
      */
-    public static function tiposProyectosLinea68()
+    public static function laboratoriosServiciosTecnologicos()
     {
         return LaboratorioServicioTecnologico::selectRaw("tipos_proyecto_linea_68.id as value, CASE subclasificacion
                     WHEN '1' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), '∙ Automatización y TICs', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)

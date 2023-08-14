@@ -26,7 +26,7 @@ class EvaluacionController extends Controller
         return Inertia::render('Evaluaciones/Index', [
             'filters'           => request()->all('search'),
             'proyectosId'       => Proyecto::selectRaw("id + 8000 as codigo_only")->orderBy('id', 'ASC')->get()->pluck('codigo_only')->flatten('codigo_only'),
-            'evaluaciones'      => Evaluacion::with('proyecto.tecnoacademiaLineasTecnoacademia.tecnoacademia', 'proyecto.proyectosLinea70:id,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosLinea66:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosLinea69:id,nodo_tecnoparque_id,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosLinea65:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosLinea68:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.centroFormacion', 'evaluador:id,nombre')->orderBy('proyecto_id', 'ASC')
+            'evaluaciones'      => Evaluacion::with('proyecto.tecnoacademiaLineasTecnoacademia.tecnoacademia', 'proyecto.proyectosFormulario4Linea70:id,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosFormulario8Linea66:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosFormulario5Linea69:id,nodo_tecnoparque_id,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosFormulario1Linea65:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosFormulario12Linea68:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.centroFormacion', 'evaluador:id,nombre')->orderBy('proyecto_id', 'ASC')
                 ->filterEvaluacion(request()->only('search', 'estado'))->paginate()->appends(['search' => request()->search, 'estado' => request()->estado]),
             'allowed_to_create'   => Gate::inspect('create', [Evaluacion::class])->allowed()
         ]);
@@ -42,7 +42,7 @@ class EvaluacionController extends Controller
         $this->authorize('create', [Evaluacion::class]);
 
         return Inertia::render('Evaluaciones/Create', [
-            'proyectos'         => Proyecto::selectRaw("id as value, concat('SGPS-', id + 8000, '-SIPRO') as label")->with('proyectosLinea66', 'proyectosLinea70', 'proyectosLinea69', 'proyectosLinea68', 'proyectosLinea65')->orderBy('id', 'ASC')->get(),
+            'proyectos'         => Proyecto::selectRaw("id as value, concat('SGPS-', id + 8000, '-SIPRO') as label")->with('proyectosFormulario8Linea66', 'proyectosFormulario4Linea70', 'proyectosFormulario5Linea69', 'proyectosFormulario12Linea68', 'proyectosFormulario1Linea65')->orderBy('id', 'ASC')->get(),
             'evaluadores'       => User::select('users.id as value', 'users.nombre as label')->join('model_has_roles', 'users.id', 'model_has_roles.model_id')->join('roles', 'model_has_roles.role_id', 'roles.id')->where('roles.id', 11)->get(),
             'allowed_to_create'   => Gate::inspect('create', [Evaluacion::class])->allowed()
         ]);
@@ -143,7 +143,7 @@ class EvaluacionController extends Controller
 
         return Inertia::render('Evaluaciones/Edit', [
             'evaluacion'    => $evaluacion,
-            'proyectos'     => Proyecto::selectRaw("id as value, concat('SGPS-', id + 8000, '-SIPRO') as label")->with('proyectosLinea66', 'proyectosLinea70', 'proyectosLinea69', 'proyectosLinea68', 'proyectosLinea65')->orderBy('id', 'ASC')->get(),
+            'proyectos'     => Proyecto::selectRaw("id as value, concat('SGPS-', id + 8000, '-SIPRO') as label")->with('proyectosFormulario8Linea66', 'proyectosFormulario4Linea70', 'proyectosFormulario5Linea69', 'proyectosFormulario12Linea68', 'proyectosFormulario1Linea65')->orderBy('id', 'ASC')->get(),
             'evaluadores'   => User::select('users.id as value', 'users.nombre as label')->join('model_has_roles', 'users.id', 'model_has_roles.model_id')->join('roles', 'model_has_roles.role_id', 'roles.id')->whereIn('roles.id', [11, 20, 18, 19, 5, 17])->get()
         ]);
     }
@@ -208,7 +208,7 @@ class EvaluacionController extends Controller
         $this->authorize('viewAny', [Evaluacion::class]);
 
         return Inertia::render('Evaluaciones/Activas', [
-            'evaluaciones'  => Evaluacion::where('modificable', true)->with('proyecto.tecnoacademiaLineasTecnoacademia.tecnoacademia', 'proyecto.proyectosLinea70:id,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosLinea66:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosLinea69:id,nodo_tecnoparque_id,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosLinea65:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosLinea68:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.centroFormacion', 'evaluador:id,nombre')->orderBy('proyecto_id', 'ASC')->paginate(),
+            'evaluaciones'  => Evaluacion::where('modificable', true)->with('proyecto.tecnoacademiaLineasTecnoacademia.tecnoacademia', 'proyecto.proyectosFormulario4Linea70:id,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosFormulario8Linea66:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosFormulario5Linea69:id,nodo_tecnoparque_id,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosFormulario1Linea65:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosFormulario12Linea68:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.centroFormacion', 'evaluador:id,nombre')->orderBy('proyecto_id', 'ASC')->paginate(),
         ]);
     }
 

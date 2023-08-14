@@ -27,7 +27,7 @@ const Form = ({ method = '', setDialogStatus, hub_innovacion, ...props }) => {
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
-                <h1 className="font-black text-right text-white text-2xl mr-10">{method == 'POST' ? 'Agregar' : 'Modificar'} hub de innovación</h1>
+                <h1 className="font-black text-right text-white text-2xl mr-10">{method == 'POST' ? 'Agregar' : 'Modificar'} TecnoAcademia</h1>
             </Grid>
 
             <Grid item md={8}>

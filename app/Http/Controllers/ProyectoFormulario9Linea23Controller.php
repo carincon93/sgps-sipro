@@ -30,7 +30,7 @@ class ProyectoFormulario9Linea23Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario9Linea23/Index', [
             'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'proyectos_formulario_9_linea_23'   => ProyectoFormulario9Linea23::getProyectosPorRol($convocatoria)->appends(['search' => request()->search]),
-            'allowed_to_create'                 => Gate::inspect('formular-proyecto', [3, $convocatoria])->allowed()
+            'allowed_to_create'                 => Gate::inspect('formular-proyecto', [29, $convocatoria])->allowed()
         ]);
     }
 
@@ -41,7 +41,7 @@ class ProyectoFormulario9Linea23Controller extends Controller
      */
     public function create(Convocatoria $convocatoria)
     {
-        $this->authorize('formular-proyecto', [3, $convocatoria]);
+        $this->authorize('formular-proyecto', [29, $convocatoria]);
 
         /** @var \App\Models\User */
         $auth_user = Auth::user();
@@ -78,7 +78,7 @@ class ProyectoFormulario9Linea23Controller extends Controller
      */
     public function store(ProyectoFormulario9Linea23Request $request, Convocatoria $convocatoria)
     {
-        $this->authorize('formular-proyecto', [$request->linea_programatica_id, $convocatoria]);
+        $this->authorize('formular-proyecto', [29, $convocatoria]);
 
         $proyecto = new Proyecto();
         $proyecto->centroFormacion()->associate($request->centro_formacion_id);

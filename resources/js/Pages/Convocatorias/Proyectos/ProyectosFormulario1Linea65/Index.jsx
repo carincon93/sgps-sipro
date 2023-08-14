@@ -32,7 +32,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_1_linea_65, allowed_to
                 )}
 
                 <Grid item md={12} className="!mt-20">
-                    <h1 className="text-3xl text-center">Apropiación de la ciencia y la tecnología y cultura de la innovación y la competitividad - Línea 65</h1>
+                    <h1 className="text-3xl text-center">Formulario 1: Evento de Divulgación - Apropiación de la ciencia y la tecnología y cultura de la innovación y la competitividad - Línea 65</h1>
                 </Grid>
 
                 <Grid item md={12}>

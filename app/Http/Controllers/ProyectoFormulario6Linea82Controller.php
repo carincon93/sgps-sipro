@@ -30,7 +30,7 @@ class ProyectoFormulario6Linea82Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario6Linea82/Index', [
             'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'proyectos_formulario_6_linea_82'   => ProyectoFormulario6Linea82::getProyectosPorRol($convocatoria)->appends(['search' => request()->search]),
-            'allowed_to_create'                 => Gate::inspect('formular-proyecto', [3, $convocatoria])->allowed()
+            'allowed_to_create'                 => Gate::inspect('formular-proyecto', [1, $convocatoria])->allowed()
         ]);
     }
 
@@ -66,7 +66,7 @@ class ProyectoFormulario6Linea82Controller extends Controller
             'areas_cualificacion_mnc'           => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),
 
             'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'allowed_to_create'                 => Gate::inspect('formular-proyecto', [3, $convocatoria])->allowed()
+            'allowed_to_create'                 => Gate::inspect('formular-proyecto', [1, $convocatoria])->allowed()
         ]);
     }
 
@@ -78,7 +78,7 @@ class ProyectoFormulario6Linea82Controller extends Controller
      */
     public function store(ProyectoFormulario6Linea82Request $request, Convocatoria $convocatoria)
     {
-        $this->authorize('formular-proyecto', [$request->linea_programatica_id, $convocatoria]);
+        $this->authorize('formular-proyecto', [1, $convocatoria]);
 
         $proyecto = new Proyecto();
         $proyecto->centroFormacion()->associate($request->centro_formacion_id);

@@ -50,7 +50,7 @@ class RedConocimiento extends Model
      *
      * @return object
      */
-    public function proyectosLinea66()
+    public function proyectosFormulario8Linea66()
     {
         return $this->hasMany(ProyectoFormulario8Linea66::class);
     }

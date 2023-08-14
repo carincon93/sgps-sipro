@@ -30,7 +30,7 @@ class ProyectoFormulario7Linea23Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario7Linea23/Index', [
             'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'proyectos_formulario_7_linea_23'   => ProyectoFormulario7Linea23::getProyectosPorRol($convocatoria)->appends(['search' => request()->search]),
-            'allowed_to_create'                 => Gate::inspect('formular-proyecto', [3, $convocatoria])->allowed()
+            'allowed_to_create'                 => Gate::inspect('formular-proyecto', [2, $convocatoria])->allowed()
         ]);
     }
 
@@ -41,7 +41,7 @@ class ProyectoFormulario7Linea23Controller extends Controller
      */
     public function create(Convocatoria $convocatoria)
     {
-        $this->authorize('formular-proyecto', [3, $convocatoria]);
+        $this->authorize('formular-proyecto', [2, $convocatoria]);
 
         /** @var \App\Models\User */
         $auth_user = Auth::user();
@@ -78,7 +78,7 @@ class ProyectoFormulario7Linea23Controller extends Controller
      */
     public function store(ProyectoFormulario7Linea23Request $request, Convocatoria $convocatoria)
     {
-        $this->authorize('formular-proyecto', [$request->linea_programatica_id, $convocatoria]);
+        $this->authorize('formular-proyecto', [2, $convocatoria]);
 
         $proyecto = new Proyecto();
         $proyecto->centroFormacion()->associate($request->centro_formacion_id);
@@ -165,7 +165,7 @@ class ProyectoFormulario7Linea23Controller extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', [$proyecto_formulario_7_linea_23->proyecto]);
 
-        $proyecto_formulario_7_linea_23->load('proyecto.evaluaciones.evaluacionProyectoFormulario7Linea23');
+        // $proyecto_formulario_7_linea_23->load('proyecto.evaluaciones.evaluacionProyectoFormulario7Linea23');
 
         $proyecto_formulario_7_linea_23->proyecto->precio_proyecto = $proyecto_formulario_7_linea_23->proyecto->precioProyecto;
 

@@ -32,7 +32,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_4_linea_70, allowed_to
                 )}
 
                 <Grid item md={12} className="!mt-20">
-                    <h1 className="text-3xl text-center">TecnoAcademia - Línea 70</h1>
+                    <h1 className="text-3xl text-center">Formulario 4: TecnoAcademia - Línea 70</h1>
                 </Grid>
 
                 <Grid item md={12}>

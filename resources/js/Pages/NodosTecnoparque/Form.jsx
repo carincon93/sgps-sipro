@@ -29,7 +29,7 @@ const Form = ({ method = '', setDialogStatus, nodo_tecnoparque, centros_formacio
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
-                <h1 className="font-black text-right text-white text-2xl mr-10">{method == 'POST' ? 'Agregar' : 'Modificar'} nodo Tecnoparque</h1>
+                <h1 className="font-black text-right text-white text-2xl mr-10">{method == 'POST' ? 'Agregar' : 'Modificar'} Nodo Tecnoparque</h1>
             </Grid>
 
             <Grid item md={8}>
@@ -42,7 +42,7 @@ const Form = ({ method = '', setDialogStatus, nodo_tecnoparque, centros_formacio
                                     type="text"
                                     value={form.data.nombre}
                                     error={form.errors.nombre}
-                                    label="Nombre del nodo Tecnoparque"
+                                    label="Nombre del Nodo Tecnoparque"
                                     onChange={(e) => form.setData('nombre', e.target.value)}
                                     required
                                 />

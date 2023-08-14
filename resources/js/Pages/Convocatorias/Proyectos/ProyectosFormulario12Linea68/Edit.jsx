@@ -33,7 +33,7 @@ const Edit = ({
     const [dialog_status, setDialogStatus] = useState(false)
 
     const comentarios_evaluaciones =
-        proyecto_formulario_12_linea_68?.proyecto.evaluaciones.length > 0
+        proyecto_formulario_12_linea_68?.proyecto?.evaluaciones?.length > 0
             ? Object.keys(proyecto_formulario_12_linea_68?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_formulario12_linea68).filter((field) => field.endsWith('_comentario'))
             : null
 

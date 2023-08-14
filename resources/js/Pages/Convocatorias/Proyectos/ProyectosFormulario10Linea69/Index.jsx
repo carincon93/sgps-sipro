@@ -32,7 +32,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_10_linea_69, allowed_t
                 )}
 
                 <Grid item md={12} className="!mt-20">
-                    <h1 className="text-3xl text-center">Parques tecnológicos - Red tecnoparque/Hubs Colombia - Línea 69</h1>
+                    <h1 className="text-3xl text-center">Formulario 10: Hubs de innovación - Línea 69</h1>
                 </Grid>
 
                 <Grid item md={12}>

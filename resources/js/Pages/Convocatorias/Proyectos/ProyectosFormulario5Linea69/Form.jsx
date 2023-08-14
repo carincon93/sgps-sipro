@@ -127,9 +127,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                             <Label required disabled={evaluacion ? true : false} labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
                         </Grid>
                         <Grid item md={6}>
-                            {proyecto_formulario_5_linea_69?.proyecto.linea_programatica
-                                ? proyecto_formulario_5_linea_69?.proyecto.linea_programatica.nombre + ' - ' + proyecto_formulario_5_linea_69?.proyecto.linea_programatica.codigo
-                                : ''}
+                            Parques tecnológicos - Red tecnoparque Colombia
                         </Grid>
 
                         <Grid item md={6}>

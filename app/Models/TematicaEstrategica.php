@@ -49,7 +49,7 @@ class TematicaEstrategica extends Model
      *
      * @return object
      */
-    public function proyectosLinea66()
+    public function proyectosFormulario8Linea66()
     {
         return $this->hasMany(ProyectoFormulario8Linea66::class);
     }
@@ -59,7 +59,7 @@ class TematicaEstrategica extends Model
      *
      * @return object
      */
-    public function proyectosLinea65()
+    public function proyectosFormulario1Linea65()
     {
         return $this->hasMany(ProyectoFormulario1Linea65::class);
     }
@@ -69,7 +69,7 @@ class TematicaEstrategica extends Model
      *
      * @return object
      */
-    public function proyectosLinea70()
+    public function proyectosFormulario4Linea70()
     {
         return $this->belongsToMany(ProyectoFormulario4Linea70::class, 'proyecto_linea_70_tematica_estrategica', 'tematica_estrategica_id', 'proyecto_linea_70_id');
     }

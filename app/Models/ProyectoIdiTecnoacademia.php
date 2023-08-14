@@ -119,7 +119,7 @@ class ProyectoIdiTecnoacademia extends Model
      *
      * @return object
      */
-    public function proyectosLinea70()
+    public function proyectosFormulario4Linea70()
     {
         return $this->belongsToMany(ProyectoFormulario4Linea70::class, 'proyecto_linea_70_proyectos_idi_tecnoacademia', 'proyecto_idi_tecnoacademia_id', 'proyecto_linea_70_id');
     }

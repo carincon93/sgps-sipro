@@ -49,9 +49,9 @@ class ProyectoFormulario12Linea68Controller extends Controller
         $auth_user = Auth::user();
 
         if ($auth_user->hasRole(13)) {
-            $tipo_proyecto_linea_68 = SelectHelper::tiposProyectosLinea68()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
+            $tipo_proyecto_linea_68 = SelectHelper::laboratoriosServiciosTecnologicos()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
         } else {
-            $tipo_proyecto_linea_68 = SelectHelper::tiposProyectosLinea68();
+            $tipo_proyecto_linea_68 = SelectHelper::laboratoriosServiciosTecnologicos();
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario12Linea68/Create', [
@@ -153,9 +153,9 @@ class ProyectoFormulario12Linea68Controller extends Controller
         $proyecto_formulario_12_linea_68->mostrar_requiere_subsanacion  = $proyecto_formulario_12_linea_68->proyecto->mostrar_requiere_subsanacion;
 
         if ($auth_user->hasRole(13)) {
-            $tipo_proyecto_formulario_12_linea_68 = SelectHelper::tiposProyectosLinea68()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
+            $tipo_proyecto_formulario_12_linea_68 = SelectHelper::laboratoriosServiciosTecnologicos()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
         } else {
-            $tipo_proyecto_formulario_12_linea_68 = SelectHelper::tiposProyectosLinea68();
+            $tipo_proyecto_formulario_12_linea_68 = SelectHelper::laboratoriosServiciosTecnologicos();
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario12Linea68/Edit', [

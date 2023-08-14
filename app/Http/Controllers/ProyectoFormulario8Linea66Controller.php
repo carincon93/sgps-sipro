@@ -80,7 +80,7 @@ class ProyectoFormulario8Linea66Controller extends Controller
      */
     public function store(ProyectoFormulario8Linea66Request $request, Convocatoria $convocatoria)
     {
-        $this->authorize('formular-proyecto', [$request->linea_programatica_id, $convocatoria]);
+        $this->authorize('formular-proyecto', [3, $convocatoria]);
 
         $proyecto = new Proyecto();
         $proyecto->centroFormacion()->associate($request->centro_formacion_id);
@@ -172,7 +172,7 @@ class ProyectoFormulario8Linea66Controller extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', [$proyecto_formulario_8_linea_66->proyecto]);
 
-        $proyecto_formulario_8_linea_66->load('proyecto.evaluaciones.evaluacionProyectoFormulario8Linea66');
+        // $proyecto_formulario_8_linea_66->load('proyecto.evaluaciones.evaluacionProyectoFormulario8Linea66');
 
         $proyecto_formulario_8_linea_66->proyecto->precio_proyecto = $proyecto_formulario_8_linea_66->proyecto->precioProyecto;
 

@@ -61,7 +61,7 @@ class LineaTecnoacademia extends Model
      *
      * @return object
      */
-    public function proyectosLinea66()
+    public function proyectosFormulario8Linea66()
     {
         return $this->belongsToMany(Proyecto::class, 'proyecto_linea_tecnoacademia', 'tecnoacademia_linea_tecnoacademia_id', 'proyecto_id');
     }
@@ -81,7 +81,7 @@ class LineaTecnoacademia extends Model
      *
      * @return object
      */
-    public function proyectosLinea70()
+    public function proyectosFormulario4Linea70()
     {
         return $this->hasMany(ProyectoFormulario4Linea70::class);
     }

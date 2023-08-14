@@ -23,6 +23,7 @@ class TipoFormularioConvocatoria extends Model
      */
     protected $fillable = [
         'nombre',
+        'habilitado',
         'linea_programatica_id'
     ];
 

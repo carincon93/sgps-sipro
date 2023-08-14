@@ -32,9 +32,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_6_linea_82, allowed_to
                 )}
 
                 <Grid item md={12} className="!mt-20">
-                    <div className="text-center text-2xl">
-                        <>Fomento de la innovación y desarrollo tecnológico en las empresas - Línea 82</>
-                    </div>
+                    <div className="text-center text-2xl">Formulario 6: Fomento de la innovación y desarrollo tecnológico en las empresas - Línea 82</div>
                 </Grid>
 
                 <Grid item md={12}>

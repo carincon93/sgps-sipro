@@ -59,7 +59,7 @@ class AreaConocimiento extends Model
      *
      * @return object
      */
-    public function proyectosLinea65()
+    public function proyectosFormulario1Linea65()
     {
         return $this->hasMany(ProyectoFormulario1Linea65::class);
     }

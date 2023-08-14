@@ -12,9 +12,6 @@ const Create = ({
     areas_conocimiento,
     lineas_investigacion,
     lineas_programaticas,
-    ejes_sennova,
-    areas_cualificacion_mnc,
-    lineas_estrategicas_sena,
     lineas_tecnoacademia,
     actividades_economicas,
     tematicas_estrategicas,
@@ -23,7 +20,8 @@ const Create = ({
     programas_formacion_con_registro_calificado,
     programas_formacion_sin_registro_calificado,
     municipios,
-    tipos_eventos,
+    areas_cualificacion_mnc,
+    ejes_sennova,
     roles_sennova,
     ...props
 }) => {
@@ -41,9 +39,6 @@ const Create = ({
                 areas_conocimiento={areas_conocimiento}
                 lineas_investigacion={lineas_investigacion}
                 lineas_programaticas={lineas_programaticas}
-                ejes_sennova={ejes_sennova}
-                areas_cualificacion_mnc={areas_cualificacion_mnc}
-                lineas_estrategicas_sena={lineas_estrategicas_sena}
                 lineas_tecnoacademia={lineas_tecnoacademia}
                 actividades_economicas={actividades_economicas}
                 tematicas_estrategicas={tematicas_estrategicas}
@@ -52,7 +47,8 @@ const Create = ({
                 programas_formacion_con_registro_calificado={programas_formacion_con_registro_calificado}
                 programas_formacion_sin_registro_calificado={programas_formacion_sin_registro_calificado}
                 municipios={municipios}
-                tipos_eventos={tipos_eventos}
+                ejes_sennova={ejes_sennova}
+                areas_cualificacion_mnc={areas_cualificacion_mnc}
                 roles_sennova={roles_sennova}
             />
         </AuthenticatedLayout>
