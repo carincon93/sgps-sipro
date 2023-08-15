@@ -359,7 +359,7 @@ class ProyectoController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        switch ($proyecto->tipo_formulario_convocatoria->id) {
+        switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 1:
                 $request->validate([
                     'propuesta_sostenibilidad' => 'required|string|max:40000',

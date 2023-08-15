@@ -88,7 +88,7 @@ class UpdateUserRequest extends FormRequest
         $this->merge([
             'nombre'                                => mb_strtolower($this->nombre),
             'email'                                 => mb_strtolower($this->email),
-            'habilitado'                            => $this->habilitado == '1' ? 1 : 0,
+            'habilitado'                            => true,
             'cursos_de_evaluacion_realizados'       => json_encode($this->cursos_de_evaluacion_realizados),
             'tiempo_por_rol'                        => json_encode($this->tiempo_por_rol),
             'roles_fuera_sennova'                   => json_encode($this->roles_fuera_sennova),
