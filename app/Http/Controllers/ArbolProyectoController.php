@@ -98,83 +98,35 @@ class ArbolProyectoController extends Controller
 
         $this->generarArboles($proyecto);
 
-        switch ($proyecto) {
-            case $proyecto->proyectoFormulario7Linea23()->exists():
-                $proyecto->problema_central         = $proyecto->proyectoFormulario7Linea23->problema_central;
-                $proyecto->justificacion_problema   = $proyecto->proyectoFormulario7Linea23->justificacion_problema;
-                $proyecto->identificacion_problema  = $proyecto->proyectoFormulario7Linea23->identificacion_problema;
-                $proyecto->objetivo_general         = $proyecto->proyectoFormulario7Linea23->objetivo_general;
-                break;
-            case $proyecto->proyectoFormulario9Linea23()->exists():
-                $proyecto->problema_central         = $proyecto->proyectoFormulario9Linea23->problema_central;
-                $proyecto->justificacion_problema   = $proyecto->proyectoFormulario9Linea23->justificacion_problema;
-                $proyecto->identificacion_problema  = $proyecto->proyectoFormulario9Linea23->identificacion_problema;
-                $proyecto->objetivo_general         = $proyecto->proyectoFormulario9Linea23->objetivo_general;
-                break;
-            case $proyecto->proyectoFormulario1Linea65()->exists():
-                $proyecto->problema_central         = $proyecto->proyectoFormulario1Linea65->problema_central;
-                $proyecto->justificacion_problema   = $proyecto->proyectoFormulario1Linea65->justificacion_problema;
-                $proyecto->identificacion_problema  = $proyecto->proyectoFormulario1Linea65->identificacion_problema;
-                $proyecto->objetivo_general         = $proyecto->proyectoFormulario1Linea65->objetivo_general;
-                $proyecto->tipo_proyecto            = $proyecto->proyectoFormulario1Linea65->tipo_proyecto;
-                break;
+        $proyecto_form_fields = [
+            'proyectoFormulario7Linea23' => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general'],
+            'proyectoFormulario9Linea23' => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general'],
+            'proyectoFormulario1Linea65' => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general', 'tipo_proyecto'],
+            'proyectoFormulario13Linea65' => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general', 'tipo_proyecto'],
+            'proyectoFormulario15Linea65' => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general', 'tipo_proyecto'],
+            'proyectoFormulario16Linea65' => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general', 'tipo_proyecto'],
+            'proyectoFormulario8Linea66' => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general'],
+            'proyectoFormulario12Linea68' => ['objetivo_general', 'problema_central', 'pregunta_formulacion_problema', 'identificacion_problema', 'justificacion_problema'],
+            'proyectoFormulario5Linea69' => ['justificacion_problema', 'identificacion_problema', 'problema_central', 'objetivo_general', 'proyecto_base'],
+            'proyectoFormulario10Linea69' => ['justificacion_problema', 'identificacion_problema', 'problema_central', 'objetivo_general', 'proyecto_base'],
+            'proyectoFormulario17Linea69' => ['justificacion_problema', 'identificacion_problema', 'problema_central', 'objetivo_general', 'proyecto_base'],
+            'proyectoFormulario4Linea70' => ['identificacion_problema', 'problema_central', 'objetivo_general', 'proyecto_base'],
+            'proyectoFormulario6Linea82' => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general'],
+            'proyectoFormulario11Linea83' => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general'],
+        ];
 
-            case $proyecto->proyectoFormulario8Linea66()->exists():
-                $proyecto->problema_central         = $proyecto->proyectoFormulario8Linea66->problema_central;
-                $proyecto->justificacion_problema   = $proyecto->proyectoFormulario8Linea66->justificacion_problema;
-                $proyecto->identificacion_problema  = $proyecto->proyectoFormulario8Linea66->identificacion_problema;
-                $proyecto->objetivo_general         = $proyecto->proyectoFormulario8Linea66->objetivo_general;
+        foreach ($proyecto_form_fields as $form_method => $fields) {
+            if ($proyecto->$form_method()->exists()) {
+                foreach ($fields as $field) {
+                    $proyecto->$field = $proyecto->$form_method->$field;
+                }
                 break;
-
-            case $proyecto->proyectoFormulario12Linea68()->exists():
-                $proyecto->objetivo_general                 = $proyecto->proyectoFormulario12Linea68->objetivo_general;
-                $proyecto->problema_central                 = $proyecto->proyectoFormulario12Linea68->problema_central;
-                $proyecto->pregunta_formulacion_problema    = $proyecto->proyectoFormulario12Linea68->pregunta_formulacion_problema;
-                $proyecto->identificacion_problema          = $proyecto->proyectoFormulario12Linea68->identificacion_problema;
-                $proyecto->justificacion_problema           = $proyecto->proyectoFormulario12Linea68->justificacion_problema;
-                break;
-
-            case $proyecto->proyectoFormulario5Linea69()->exists():
-                $proyecto->justificacion_problema   = $proyecto->proyectoFormulario5Linea69->justificacion_problema;
-                $proyecto->identificacion_problema  = $proyecto->proyectoFormulario5Linea69->identificacion_problema;
-                $proyecto->problema_central         = $proyecto->proyectoFormulario5Linea69->problema_central;
-                $proyecto->objetivo_general         = $proyecto->proyectoFormulario5Linea69->objetivo_general;
-                $proyecto->proyecto_base            = $proyecto->proyectoFormulario5Linea69->proyecto_base;
-                break;
-            case $proyecto->proyectoFormulario10Linea69()->exists():
-                $proyecto->justificacion_problema   = $proyecto->proyectoFormulario10Linea69->justificacion_problema;
-                $proyecto->identificacion_problema  = $proyecto->proyectoFormulario10Linea69->identificacion_problema;
-                $proyecto->problema_central         = $proyecto->proyectoFormulario10Linea69->problema_central;
-                $proyecto->objetivo_general         = $proyecto->proyectoFormulario10Linea69->objetivo_general;
-                $proyecto->proyecto_base            = $proyecto->proyectoFormulario10Linea69->proyecto_base;
-            break;
-
-            case $proyecto->proyectoFormulario4Linea70()->exists():
-                $proyecto->identificacion_problema  = $proyecto->proyectoFormulario4Linea70->identificacion_problema;
-                $proyecto->problema_central         = $proyecto->proyectoFormulario4Linea70->problema_central;
-                $proyecto->objetivo_general         = $proyecto->proyectoFormulario4Linea70->objetivo_general;
-                $proyecto->proyecto_base            = $proyecto->proyectoFormulario4Linea70->proyecto_base;
-                break;
-
-            case $proyecto->proyectoFormulario6Linea82()->exists():
-                $proyecto->problema_central         = $proyecto->proyectoFormulario6Linea82->problema_central;
-                $proyecto->justificacion_problema   = $proyecto->proyectoFormulario6Linea82->justificacion_problema;
-                $proyecto->identificacion_problema  = $proyecto->proyectoFormulario6Linea82->identificacion_problema;
-                $proyecto->objetivo_general         = $proyecto->proyectoFormulario6Linea82->objetivo_general;
-                break;
-            case $proyecto->proyectoFormulario11Linea83()->exists():
-                $proyecto->problema_central         = $proyecto->proyectoFormulario11Linea83->problema_central;
-                $proyecto->justificacion_problema   = $proyecto->proyectoFormulario11Linea83->justificacion_problema;
-                $proyecto->identificacion_problema  = $proyecto->proyectoFormulario11Linea83->identificacion_problema;
-                $proyecto->objetivo_general         = $proyecto->proyectoFormulario11Linea83->objetivo_general;
-                break;
-            default:
-                break;
+            }
         }
 
         return Inertia::render('Convocatorias/Proyectos/ArbolesProyecto/ArbolProblemas', [
             'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
-            'proyecto'          => $proyecto->only('id', 'tipo_formulario_convocatoria_id', 'precio_proyecto', 'identificacion_problema', 'problema_central', 'justificacion_problema', 'pregunta_formulacion_problema', 'objetivo_general', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto', 'proyecto_base'),
+            'proyecto'          => $proyecto->only('id', 'tipo_formulario_convocatoria_id', 'precio_proyecto', 'identificacion_problema', 'problema_central', 'justificacion_problema', 'pregunta_formulacion_problema', 'objetivo_general', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'all_files', 'allowed', 'tipo_proyecto', 'proyecto_base'),
             'evaluacion'        => Evaluacion::find(request()->evaluacion_id),
         ]);
     }
@@ -233,126 +185,61 @@ class ArbolProyectoController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        switch ($proyecto) {
-            case $proyecto->proyectoFormulario1Linea65()->exists():
-                $request->validate([
-                    'identificacion_problema'  => 'required|string|max:40000',
-                    'problema_central'         => 'required|string|max:40000',
-                    'justificacion_problema'   => 'required|string|max:40000',
-                    'objetivo_general'         => 'required|string|max:40000',
-                ]);
+        $forms_proyecto = [
+            'proyectoFormulario7Linea23' => [
+                'fields' => ['identificacion_problema', 'problema_central', 'justificacion_problema', 'objetivo_general'],
+            ],
+            'proyectoFormulario9Linea23' => [
+                'fields' => ['identificacion_problema', 'problema_central', 'justificacion_problema', 'objetivo_general'],
+            ],
+            'proyectoFormulario1Linea65' => [
+                'fields' => ['identificacion_problema', 'problema_central', 'justificacion_problema', 'objetivo_general'],
+            ],
+            'proyectoFormulario13Linea65' => [
+                'fields' => ['identificacion_problema', 'problema_central', 'justificacion_problema', 'objetivo_general'],
+            ],
+            'proyectoFormulario15Linea65' => [
+                'fields' => ['identificacion_problema', 'problema_central', 'justificacion_problema', 'objetivo_general'],
+            ],
+            'proyectoFormulario16Linea65' => [
+                'fields' => ['identificacion_problema', 'problema_central', 'justificacion_problema', 'objetivo_general'],
+            ],
+            'proyectoFormulario8Linea66' => [
+                'fields' => ['identificacion_problema', 'problema_central', 'justificacion_problema', 'objetivo_general'],
+            ],
+            'proyectoFormulario12Linea68' => [
+                'fields' => ['problema_central', 'objetivo_general', 'pregunta_formulacion_problema', 'identificacion_problema', 'justificacion_problema'],
+            ],
+            'proyectoFormulario5Linea69' => [
+                'fields' => ['identificacion_problema', 'problema_central', 'justificacion_problema', 'objetivo_general'],
+            ],
+            'proyectoFormulario10Linea69' => [
+                'fields' => ['identificacion_problema', 'problema_central', 'justificacion_problema', 'objetivo_general'],
+            ],
+            'proyectoFormulario17Linea69' => [
+                'fields' => ['identificacion_problema', 'problema_central', 'justificacion_problema', 'objetivo_general'],
+            ],
+            'proyectoFormulario4Linea70' => [
+                'fields' => ['problema_central', 'objetivo_general'],
+            ],
+            'proyectoFormulario11Linea83' => [
+                'fields' => ['problema_central', 'objetivo_general', 'identificacion_problema', 'justificacion_problema'],
+            ],
+        ];
 
-                $proyecto_linea_65 = $proyecto->proyectoFormulario1Linea65;
-                $proyecto_linea_65->identificacion_problema  = $request->identificacion_problema;
-                $proyecto_linea_65->problema_central         = $request->problema_central;
-                $proyecto_linea_65->justificacion_problema   = $request->justificacion_problema;
-                $proyecto_linea_65->objetivo_general         = $request->objetivo_general;
+        foreach ($forms_proyecto as $form_method => $form_fields) {
+            if ($proyecto->$form_method()->exists()) {
+                $request->validate(array_fill_keys($form_fields['fields'], 'required|string|max:40000'));
 
-                $proyecto_linea_65->save();
+                $form_proyecto = $proyecto->$form_method;
+                foreach ($form_fields['fields'] as $field) {
+                    $form_proyecto->$field = $request->$field;
+                }
+
+                $form_proyecto->save();
                 break;
-
-            case $proyecto->proyectoFormulario8Linea66()->exists():
-                $request->validate([
-                    'identificacion_problema'   => 'required|string|max:40000',
-                    'problema_central'          => 'required|string|max:40000',
-                    'justificacion_problema'    => 'required|string|max:40000',
-                    'objetivo_general'          => 'required|string|max:40000',
-                ]);
-
-                $proyecto_formulario_8_linea_66 = $proyecto->proyectoFormulario8Linea66;
-                $proyecto_formulario_8_linea_66->identificacion_problema   = $request->identificacion_problema;
-                $proyecto_formulario_8_linea_66->problema_central          = $request->problema_central;
-                $proyecto_formulario_8_linea_66->justificacion_problema    = $request->justificacion_problema;
-                $proyecto_formulario_8_linea_66->objetivo_general          = $request->objetivo_general;
-
-                $proyecto_formulario_8_linea_66->save();
-                break;
-
-            case $proyecto->proyectoFormulario12Linea68()->exists():
-                $request->validate([
-                    'problema_central'              => 'required|string|max:40000',
-                    'objetivo_general'              => 'required|string|max:40000',
-                    'pregunta_formulacion_problema' => 'required|string|max:40000',
-                    'identificacion_problema'       => 'required|string|max:40000',
-                    'justificacion_problema'        => 'required|string|max:40000',
-                ]);
-                $proyecto_linea_68                                  = $proyecto->proyectoFormulario12Linea68;
-                $proyecto_linea_68->problema_central                = $request->problema_central;
-                $proyecto_linea_68->objetivo_general                = $request->objetivo_general;
-                $proyecto_linea_68->pregunta_formulacion_problema   = $request->pregunta_formulacion_problema;
-                $proyecto_linea_68->identificacion_problema         = $request->identificacion_problema;
-                $proyecto_linea_68->justificacion_problema          = $request->justificacion_problema;
-
-                $proyecto_linea_68->save();
-                break;
-
-            case $proyecto->proyectoFormulario5Linea69()->exists():
-                $proyecto_linea_69 = $proyecto->proyectoFormulario5Linea69;
-                $request->validate([
-                    'identificacion_problema'   => 'required|string|max:40000',
-                    'problema_central'          => 'required|string|max:40000',
-                    'justificacion_problema'    => 'required|string|max:40000',
-                    'objetivo_general'          => 'required|string|max:40000',
-                ]);
-                $proyecto_linea_69->identificacion_problema    = $request->identificacion_problema;
-                $proyecto_linea_69->justificacion_problema     = $request->justificacion_problema;
-                $proyecto_linea_69->problema_central           = $request->problema_central;
-                $proyecto_linea_69->objetivo_general           = $request->objetivo_general;
-
-
-                $proyecto_linea_69->save();
-                break;
-
-            case $proyecto->proyectoFormulario10Linea69()->exists():
-                $proyecto_formulario_10_linea_69 = $proyecto->proyectoFormulario10Linea69;
-                $request->validate([
-                    'identificacion_problema'   => 'required|string|max:40000',
-                    'problema_central'          => 'required|string|max:40000',
-                    'justificacion_problema'    => 'required|string|max:40000',
-                    'objetivo_general'          => 'required|string|max:40000',
-                ]);
-                $proyecto_formulario_10_linea_69->identificacion_problema    = $request->identificacion_problema;
-                $proyecto_formulario_10_linea_69->justificacion_problema     = $request->justificacion_problema;
-                $proyecto_formulario_10_linea_69->problema_central           = $request->problema_central;
-                $proyecto_formulario_10_linea_69->objetivo_general           = $request->objetivo_general;
-
-
-                $proyecto_formulario_10_linea_69->save();
-                break;
-
-            case $proyecto->proyectoFormulario4Linea70()->exists():
-                $proyecto_linea_70 = $proyecto->proyectoFormulario4Linea70;
-
-                $request->validate([
-                    'problema_central' => 'required|string|max:40000',
-                    'objetivo_general' => 'required|string|max:40000',
-
-                ]);
-                $proyecto_linea_70->problema_central = $request->problema_central;
-                $proyecto_linea_70->objetivo_general = $request->objetivo_general;
-
-                $proyecto_linea_70->save();
-                break;
-
-            case $proyecto->proyectoFormulario11Linea83()->exists():
-                $request->validate([
-                    'problema_central'              => 'required|string|max:40000',
-                    'objetivo_general'              => 'required|string|max:40000',
-                    'identificacion_problema'       => 'required|string|max:40000',
-                    'justificacion_problema'        => 'required|string|max:40000',
-                ]);
-                $proyecto_linea_83                                  = $proyecto->proyectoFormulario11Linea83;
-                $proyecto_linea_83->problema_central                = $request->problema_central;
-                $proyecto_linea_83->objetivo_general                = $request->objetivo_general;
-                $proyecto_linea_83->identificacion_problema         = $request->identificacion_problema;
-                $proyecto_linea_83->justificacion_problema          = $request->justificacion_problema;
-
-                $proyecto_linea_83->save();
-                break;
-            default:
-                break;
+            }
         }
-
         return back()->with('success', 'El recurso se ha guardado correctamente.');
     }
 
@@ -968,16 +855,37 @@ class ArbolProyectoController extends Controller
                 $proyecto->proyectoFormulario5Linea69()->update($request->only($column));
                 break;
             case 6:
+                $proyecto->proyectoFormulario6Linea82()->update($request->only($column));
+                break;
             case 7:
+                $proyecto->proyectoFormulario7Linea23()->update($request->only($column));
+                break;
             case 8:
-            case 9:
                 $proyecto->proyectoFormulario8Linea66()->update($request->only($column));
+                break;
+            case 9:
+                $proyecto->proyectoFormulario9Linea23()->update($request->only($column));
+                break;
+            case 10:
+                $proyecto->proyectoFormulario10Linea69()->update($request->only($column));
                 break;
             case 11:
                 $proyecto->proyectoFormulario11Linea83()->update($request->only($column));
                 break;
             case 12:
                 $proyecto->proyectoFormulario12Linea68()->update($request->only($column));
+                break;
+            case 13:
+                $proyecto->proyectoFormulario13Linea65()->update($request->only($column));
+                break;
+            case 15:
+                $proyecto->proyectoFormulario15Linea65()->update($request->only($column));
+                break;
+            case 16:
+                $proyecto->proyectoFormulario16Linea65()->update($request->only($column));
+                break;
+            case 17:
+                $proyecto->proyectoFormulario17Linea69()->update($request->only($column));
                 break;
             default:
                 break;

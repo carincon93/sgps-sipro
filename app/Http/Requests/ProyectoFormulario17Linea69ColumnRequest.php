@@ -4,10 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProyectoFormulario10Linea69ColumnRequest extends FormRequest
+class ProyectoFormulario17Linea69ColumnRequest extends FormRequest
 {
     private $columnsRules = [
-        'hub_innovacion_id'                             => ['required', 'min:0', 'max:2147483647', 'exists:hubs_innovacion,id'],
+        'nodo_tecnoparque_id'                           => ['required', 'min:0', 'max:2147483647', 'exists:nodos_tecnoparque,id'],
         'fecha_inicio'                                  => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
         'fecha_finalizacion'                            => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
         'logros_vigencia_anterior'                      => ['nullable','string'],

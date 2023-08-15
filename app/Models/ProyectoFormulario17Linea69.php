@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use DateTimeInterface;
 use Illuminate\Support\Facades\Auth;
 
-class ProyectoFormulario10Linea69 extends Model
+class ProyectoFormulario17Linea69 extends Model
 {
     use HasFactory;
 
@@ -17,14 +17,14 @@ class ProyectoFormulario10Linea69 extends Model
      *
      * @var string
      */
-    protected $table = 'proyectos_formulario_10_linea_69';
+    protected $table = 'proyectos_formulario_17_linea_69';
 
     /**
      * appends
      *
      * @var array
      */
-    protected $appends = ['fecha_ejecucion'];
+    protected $appends = ['titulo', 'fecha_ejecucion'];
 
     /**
      * The attributes that are mass assignable.
@@ -94,7 +94,7 @@ class ProyectoFormulario10Linea69 extends Model
         'identificacion_problema',
         'justificacion_problema',
 
-        'hub_innovacion_id',
+        'nodo_tecnoparque_id',
         'proyecto_base',
     ];
 
@@ -138,13 +138,13 @@ class ProyectoFormulario10Linea69 extends Model
     }
 
     /**
-     * Relationship with HubInnovacion
+     * Relationship with NodoTecnoparque
      *
      * @return object
      */
-    public function hubInnovacion()
+    public function nodoTecnoparque()
     {
-        return $this->belongsTo(HubInnovacion::class)->orderBy('nombre');
+        return $this->belongsTo(NodoTecnoparque::class)->orderBy('nombre');
     }
 
     /**
@@ -154,7 +154,7 @@ class ProyectoFormulario10Linea69 extends Model
      * @param  mixed $filters
      * @return void
      */
-    public function scopeFilterProyectoFormulario10Linea69($query, array $filters)
+    public function scopeFilterProyectoFormulario17Linea69($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $search = str_replace('"', "", $search);
@@ -162,7 +162,7 @@ class ProyectoFormulario10Linea69 extends Model
             $search = str_replace(' ', '%%', $search);
             $query->where('resumen', 'ilike', '%' . $search . '%');
             if (is_numeric($search)) {
-                $query->orWhere('proyectos_formulario_10_linea_69.id', $search - 8000);
+                $query->orWhere('proyectos_formulario_17_linea_69.id', $search - 8000);
             }
         });
     }
@@ -175,6 +175,16 @@ class ProyectoFormulario10Linea69 extends Model
     public function getUpdatedAtAttribute($value)
     {
         return "Última modificación de este formulario: " . Carbon::parse($value, 'UTC')->timezone('America/Bogota')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY [a las] HH:mm:ss');
+    }
+
+    /**
+     * getTituloAttribute
+     *
+     * @return void
+     */
+    public function getTituloAttribute()
+    {
+        return "Red Tecnoparque Nodo " . ucfirst($this->nodoTecnoparque->nombre) . " Vigencia " . date('Y', strtotime($this->fecha_inicio));
     }
 
     /**
@@ -200,8 +210,8 @@ class ProyectoFormulario10Linea69 extends Model
         /** @var \App\Models\User */
         $auth_user = Auth::user();
 
-        $proyectos_formulario_10_linea_69 = ProyectoFormulario10Linea69::select('proyectos_formulario_10_linea_69.id', 'proyectos_formulario_10_linea_69.nodo_tecnoparque_id', 'proyectos_formulario_10_linea_69.fecha_inicio', 'proyectos_formulario_10_linea_69.fecha_finalizacion', 'proyectos_formulario_10_linea_69.proyecto_base')
-            ->join('proyectos', 'proyectos_formulario_10_linea_69.id', 'proyectos.id')
+        $proyectos_formulario_17_linea_69 = ProyectoFormulario17Linea69::select('proyectos_formulario_17_linea_69.id', 'proyectos_formulario_17_linea_69.nodo_tecnoparque_id', 'proyectos_formulario_17_linea_69.fecha_inicio', 'proyectos_formulario_17_linea_69.fecha_finalizacion', 'proyectos_formulario_17_linea_69.proyecto_base')
+            ->join('proyectos', 'proyectos_formulario_17_linea_69.id', 'proyectos.id')
             ->join('centros_formacion', 'proyectos.centro_formacion_id', 'centros_formacion.id')
             ->whereHas(
                 'proyecto.centroFormacion',
@@ -214,14 +224,14 @@ class ProyectoFormulario10Linea69 extends Model
                         $query->where('centros_formacion.id', $auth_user->centro_formacion_id);
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
 
-                        $query->join('proyectos', 'proyectos_formulario_10_linea_69.id', 'proyectos.id');
+                        $query->join('proyectos', 'proyectos_formulario_17_linea_69.id', 'proyectos.id');
                         $query->join('proyecto_participantes', 'proyectos.id', 'proyecto_participantes.proyecto_id');
                         $query->orWhere('proyecto_participantes.user_id', $auth_user->id);
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
                     } else if ($auth_user->hasRole([1, 17, 23])) {
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
                     } else {
-                        $query->join('proyectos', 'proyectos_formulario_10_linea_69.id', 'proyectos.id');
+                        $query->join('proyectos', 'proyectos_formulario_17_linea_69.id', 'proyectos.id');
                         $query->join('proyecto_participantes', 'proyectos.id', 'proyecto_participantes.proyecto_id');
                         $query->where('proyecto_participantes.user_id', $auth_user->id);
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
@@ -229,14 +239,14 @@ class ProyectoFormulario10Linea69 extends Model
                 }
             )
             ->distinct()
-            ->orderBy('proyectos_formulario_10_linea_69.id', 'ASC')
-            ->filterProyectoFormulario10Linea69(request()->only('search'))->paginate();
+            ->orderBy('proyectos_formulario_17_linea_69.id', 'ASC')
+            ->filterProyectoFormulario17Linea69(request()->only('search'))->paginate();
 
-        $proyectos_formulario_10_linea_69->load('proyecto');
-        $proyectos_formulario_10_linea_69->load('nodoTecnoparque');
-        $proyectos_formulario_10_linea_69->load('proyecto.evaluaciones');
+        $proyectos_formulario_17_linea_69->load('proyecto');
+        $proyectos_formulario_17_linea_69->load('nodoTecnoparque');
+        $proyectos_formulario_17_linea_69->load('proyecto.evaluaciones');
 
-        return $proyectos_formulario_10_linea_69;
+        return $proyectos_formulario_17_linea_69;
     }
 
     public function getProyectoBaseAttribute($value)

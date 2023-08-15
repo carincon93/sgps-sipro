@@ -16,32 +16,32 @@ import { router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 
-const Index = ({ auth, convocatoria, proyectos_formulario_10_linea_69, allowed_to_create }) => {
+const Index = ({ auth, convocatoria, proyectos_formulario_17_linea_69, allowed_to_create }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
-    const [proyecto_formulario_10_linea_69_to_destroy, setProyectoFormulario10Linea69ToDestroy] = useState(null)
+    const [proyecto_formulario_17_linea_69_to_destroy, setProyectoFormulario17Linea69ToDestroy] = useState(null)
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                     <Grid item md={12}>
-                        <TabsConvocatoria value="0" convocatoria={convocatoria} tipo_formulario_convocatoria_id="10" />
+                        <TabsConvocatoria value="0" convocatoria={convocatoria} tipo_formulario_convocatoria_id="17" />
                     </Grid>
                 )}
 
                 <Grid item md={12} className="!mt-20">
-                    <h1 className="text-3xl text-center">Formulario 10: Hubs de innovación - Línea 69</h1>
+                    <h1 className="text-3xl text-center">Formulario 17: Parques tecnológicos - Red tecnoparque Colombia - Línea 69</h1>
                 </Grid>
 
                 <Grid item md={12}>
                     <AlertMui className="mt-20">A continuación, se listan únicamente los proyectos que usted ha creado y también en los que está asociado.</AlertMui>
 
-                    <TableMui rows={['Hub Innovación', 'Fecha de ejecución', 'Estado (Evaluación)', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui rows={['Nodo Tecnoparque', 'Fecha de ejecución', 'Estado (Evaluación)', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         {allowed_to_create && (
                             <TableRow
-                                onClick={() => router.visit(route('convocatorias.proyectos-formulario-10-linea-69.create', [convocatoria.id]))}
+                                onClick={() => router.visit(route('convocatorias.proyectos-formulario-17-linea-69.create', [convocatoria.id]))}
                                 variant="raised"
                                 className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                                 <TableCell colSpan={4}>
@@ -51,7 +51,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_10_linea_69, allowed_t
                                 </TableCell>
                             </TableRow>
                         )}
-                        {proyectos_formulario_10_linea_69.data.map(({ id, proyecto, titulo, fecha_ejecucion }) => (
+                        {proyectos_formulario_17_linea_69.data.map(({ id, proyecto, titulo, fecha_ejecucion }) => (
                             <TableRow key={id}>
                                 <TableCell>
                                     <div>
@@ -75,12 +75,12 @@ const Index = ({ auth, convocatoria, proyectos_formulario_10_linea_69, allowed_t
                                     (convocatoria.fase == 5 && proyecto?.mostrar_recomendaciones) ? (
                                         <>
                                             <AlertMui>
-                                                {proyecto?.estado_evaluacion_proyecto_formulario_10_linea_69?.estado}
+                                                {proyecto?.estado_evaluacion_proyecto_formulario_17_linea_69?.estado}
                                                 <small>
-                                                    Número de recomendaciones: {proyecto?.estado_evaluacion_proyecto_formulario_10_linea_69?.numero_recomendaciones}
+                                                    Número de recomendaciones: {proyecto?.estado_evaluacion_proyecto_formulario_17_linea_69?.numero_recomendaciones}
                                                     <br />
-                                                    Evaluaciones: {proyecto?.estado_evaluacion_proyecto_formulario_10_linea_69?.evaluaciones_habilitadas} habilitada(s) /{' '}
-                                                    {proyecto?.estado_evaluacion_proyecto_formulario_10_linea_69?.evaluaciones_finalizadas} finalizada(s)
+                                                    Evaluaciones: {proyecto?.estado_evaluacion_proyecto_formulario_17_linea_69?.evaluaciones_habilitadas} habilitada(s) /{' '}
+                                                    {proyecto?.estado_evaluacion_proyecto_formulario_17_linea_69?.evaluaciones_finalizadas} finalizada(s)
                                                 </small>
                                             </AlertMui>
                                             {JSON.parse(proyecto.estado_cord_sennova)?.requiereSubsanar && proyecto.mostrar_recomendaciones == true && proyecto.mostrar_requiere_subsanacion == true ? (
@@ -103,9 +103,9 @@ const Index = ({ auth, convocatoria, proyectos_formulario_10_linea_69, allowed_t
 
                                     {is_super_admin || checkRole(auth_user, [18]) ? (
                                         <>
-                                            {proyecto?.estado_evaluacion_proyecto_formulario_10_linea_69?.alerta && (
+                                            {proyecto?.estado_evaluacion_proyecto_formulario_17_linea_69?.alerta && (
                                                 <AlertMui severity="error" className="mt-4">
-                                                    Importante: {proyecto?.estado_evaluacion_proyecto_formulario_10_linea_69?.alerta}
+                                                    Importante: {proyecto?.estado_evaluacion_proyecto_formulario_17_linea_69?.alerta}
                                                 </AlertMui>
                                             )}
                                         </>
@@ -114,10 +114,10 @@ const Index = ({ auth, convocatoria, proyectos_formulario_10_linea_69, allowed_t
 
                                 <TableCell>
                                     <MenuMui text={<MoreVertIcon />}>
-                                        {proyecto.id !== proyecto_formulario_10_linea_69_to_destroy ? (
+                                        {proyecto.id !== proyecto_formulario_17_linea_69_to_destroy ? (
                                             <div>
                                                 <MenuItem
-                                                    onClick={() => router.visit(route('convocatorias.proyectos-formulario-10-linea-69.edit', [convocatoria.id, id]))}
+                                                    onClick={() => router.visit(route('convocatorias.proyectos-formulario-17-linea-69.edit', [convocatoria.id, id]))}
                                                     disabled={!proyecto?.allowed?.to_view}
                                                     className={!proyecto?.allowed?.to_view ? 'hidden' : ''}>
                                                     Editar
@@ -126,14 +126,14 @@ const Index = ({ auth, convocatoria, proyectos_formulario_10_linea_69, allowed_t
                                                     <MenuItem
                                                         key={i}
                                                         onClick={() =>
-                                                            router.visit(route('convocatorias.proyectos-formulario-10-linea-69.edit', [convocatoria.id, id, { evaluacion_id: evaluacion?.id }]))
+                                                            router.visit(route('convocatorias.proyectos-formulario-17-linea-69.edit', [convocatoria.id, id, { evaluacion_id: evaluacion?.id }]))
                                                         }>
                                                         Evaluacion #{evaluacion.id}
                                                     </MenuItem>
                                                 ))}
                                                 <MenuItem
                                                     onClick={() => {
-                                                        setProyectoFormulario10Linea69ToDestroy(proyecto.id)
+                                                        setProyectoFormulario17Linea69ToDestroy(proyecto.id)
                                                     }}>
                                                     Eliminar
                                                 </MenuItem>
@@ -142,7 +142,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_10_linea_69, allowed_t
                                             <div>
                                                 <MenuItem
                                                     onClick={(e) => {
-                                                        setProyectoFormulario10Linea69ToDestroy(null)
+                                                        setProyectoFormulario17Linea69ToDestroy(null)
                                                     }}>
                                                     Cancelar
                                                 </MenuItem>
@@ -151,7 +151,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_10_linea_69, allowed_t
                                                     onClick={(e) => {
                                                         e.stopPropagation()
                                                         if (proyecto.allowed.to_update) {
-                                                            router.delete(route('convocatorias.proyectos-formulario-10-linea-69.destroy', [convocatoria.id, proyecto.id]), {
+                                                            router.delete(route('convocatorias.proyectos-formulario-17-linea-69.destroy', [convocatoria.id, proyecto.id]), {
                                                                 preserveScroll: true,
                                                             })
                                                         }
@@ -166,7 +166,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_10_linea_69, allowed_t
                         ))}
                     </TableMui>
 
-                    <PaginationMui links={proyectos_formulario_10_linea_69.links} className="mt-6" />
+                    <PaginationMui links={proyectos_formulario_17_linea_69.links} className="mt-6" />
                 </Grid>
             </Grid>
         </AuthenticatedLayout>

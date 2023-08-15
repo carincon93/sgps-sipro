@@ -11,7 +11,7 @@ import { checkRole } from '@/Utils'
 import { Chip, Grid, TableCell, TableRow } from '@mui/material'
 import { useState } from 'react'
 
-const Edit = ({ auth, convocatoria, proyecto_formulario_10_linea_69, evaluacion, hubs_innovacion, roles_sennova }) => {
+const Edit = ({ auth, convocatoria, proyecto_formulario_17_linea_69, evaluacion, nodos_tecnoparque, roles_sennova }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -19,14 +19,14 @@ const Edit = ({ auth, convocatoria, proyecto_formulario_10_linea_69, evaluacion,
     const [dialog_status, setDialogStatus] = useState(false)
 
     const comentarios_evaluaciones =
-        proyecto_formulario_10_linea_69?.proyecto?.evaluaciones?.length > 0
-            ? Object.keys(proyecto_formulario_10_linea_69?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_formulario10_linea69).filter((field) => field.endsWith('_comentario'))
+        proyecto_formulario_17_linea_69?.proyecto?.evaluaciones?.length > 0
+            ? Object.keys(proyecto_formulario_17_linea_69?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_formulario17_linea69).filter((field) => field.endsWith('_comentario'))
             : null
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyecto_formulario_10_linea_69.titulo}</h2>}>
+        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyecto_formulario_17_linea_69.titulo}</h2>}>
             <Grid item md={12} className="!mb-20">
-                <StepperMui convocatoria={convocatoria} proyecto={proyecto_formulario_10_linea_69?.proyecto} evaluacion={evaluacion} />
+                <StepperMui convocatoria={convocatoria} proyecto={proyecto_formulario_17_linea_69?.proyecto} evaluacion={evaluacion} />
             </Grid>
 
             {/* <Grid item md={4}>
@@ -43,7 +43,7 @@ const Edit = ({ auth, convocatoria, proyecto_formulario_10_linea_69, evaluacion,
                     open={dialog_status}
                     dialogContent={
                         <>
-                            {proyecto_formulario_10_linea_69?.proyecto.evaluaciones.map((evaluacion, i) => (
+                            {proyecto_formulario_17_linea_69?.proyecto.evaluaciones.map((evaluacion, i) => (
                                 <ButtonMui onClick={() => setEvaluacionIndex(i)} primary={evaluacion_index == i} key={i} className="!ml-2">
                                     Comentarios de la evaluación #{i + 1} <Chip className="ml-2 !text-white" label={evaluacion.id} size="small" />
                                 </ButtonMui>
@@ -57,7 +57,7 @@ const Edit = ({ auth, convocatoria, proyecto_formulario_10_linea_69, evaluacion,
                                                 <TableCell>
                                                     <p className="first-letter:uppercase">{field.replace(/_comentario/g, '').replace(/_/g, ' ')}</p>
                                                 </TableCell>
-                                                <TableCell>{proyecto_formulario_10_linea_69?.proyecto.evaluaciones[evaluacion_index]?.evaluacion_proyecto_formulario10_linea69[field] ?? 'Sin comentarios'}</TableCell>
+                                                <TableCell>{proyecto_formulario_17_linea_69?.proyecto.evaluaciones[evaluacion_index]?.evaluacion_proyecto_formulario17_linea69[field] ?? 'Sin comentarios'}</TableCell>
                                             </TableRow>
                                         ))}
                             </TableMui>
@@ -76,8 +76,8 @@ const Edit = ({ auth, convocatoria, proyecto_formulario_10_linea_69, evaluacion,
                     auth_user={auth_user}
                     method="PUT"
                     convocatoria={convocatoria}
-                    proyecto_formulario_10_linea_69={proyecto_formulario_10_linea_69}
-                    hubs_innovacion={hubs_innovacion}
+                    proyecto_formulario_17_linea_69={proyecto_formulario_17_linea_69}
+                    nodos_tecnoparque={nodos_tecnoparque}
                     roles_sennova={roles_sennova}
                 />
             </Grid>

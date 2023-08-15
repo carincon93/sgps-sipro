@@ -34,7 +34,7 @@ class UpdateUserRequest extends FormRequest
             'tipo_documento'                        => ['required', 'max:2'],
             'numero_documento'                      => ['required', 'min:0', 'min:0', 'max:2147483647', 'integer', 'unique:users,numero_documento,' . $this->route('user')->id . ',id'],
             'lugar_expedicion_id'                   => ['required', 'min:0', 'min:0', 'max:2147483647', 'integer', 'exists:municipios,id'],
-            'numero_celular'                        => ['required', 'min:0', 'min:0', 'max:2147483647', 'integer'],
+            'numero_celular'                        => ['required', 'min:0', 'min:0', 'max:3999999999', 'integer'],
             'fecha_nacimiento'                      => ['required', 'date'],
             'genero'                                => ['required', 'integer', 'min:0', 'max:99'],
             'tipo_vinculacion'                      => ['required', 'max:191'],

@@ -180,7 +180,7 @@ class ProyectoController extends Controller
                 $proyecto->propuesta_sostenibilidad = $proyecto->proyectoFormulario9Linea23->propuesta_sostenibilidad;
                 break;
             case 10:
-                $objetivo_general = $proyecto->proyectoFormulario10Linea69->objetivo_general;
+                $objetivo_general                   = $proyecto->proyectoFormulario10Linea69->objetivo_general;
                 $proyecto->propuesta_sostenibilidad = $proyecto->proyectoFormulario10Linea69->propuesta_sostenibilidad;
                 break;
             case 11:
@@ -206,6 +206,10 @@ class ProyectoController extends Controller
                 $objetivo_general                   = $proyecto->proyectoFormulario16Linea65->objetivo_general;
                 $proyecto->propuesta_sostenibilidad = $proyecto->proyectoFormulario16Linea65->propuesta_sostenibilidad;
                 $proyecto->tipo_proyecto            = $proyecto->proyectoFormulario16Linea65->tipo_proyecto;
+                break;
+            case 17:
+                $objetivo_general                   = $proyecto->proyectoFormulario17Linea69->objetivo_general;
+                $proyecto->propuesta_sostenibilidad = $proyecto->proyectoFormulario17Linea69->propuesta_sostenibilidad;
                 break;
             default:
                 break;
@@ -279,6 +283,9 @@ class ProyectoController extends Controller
                 break;
             case 16:
                 $proyecto->proyectoFormulario16Linea65()->update($request->only($column));
+                break;
+            case 17:
+                $proyecto->proyectoFormulario17Linea69()->update($request->only($column));
                 break;
             default:
                 break;
@@ -475,6 +482,15 @@ class ProyectoController extends Controller
 
                 $proyecto_formulario_16_linea_65->save();
                 break;
+            case 17:
+                $request->validate([
+                    'propuesta_sostenibilidad' => 'required|string|max:40000',
+                ]);
+                $proyecto_formulario_17_linea_69                           = $proyecto->proyectoFormulario17Linea69;
+                $proyecto_formulario_17_linea_69->propuesta_sostenibilidad = $request->propuesta_sostenibilidad;
+
+                $proyecto_formulario_17_linea_69->save();
+                break;
             default:
                 return back();
                 break;
@@ -525,6 +541,9 @@ class ProyectoController extends Controller
                 break;
             case 16:
                 return redirect()->route('convocatorias.proyectos-formulario-16-linea-65.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => request()->tipo_formulario_convocatoria_id]);
+                break;
+            case 17:
+                return redirect()->route('convocatorias.proyectos-formulario-17-linea-69.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => request()->tipo_formulario_convocatoria_id]);
                 break;
             default:
                 break;
@@ -579,6 +598,9 @@ class ProyectoController extends Controller
                 break;
             case 16:
                 return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-formulario-16-linea-65.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-formulario-16-linea-65.edit', [$convocatoria, $proyecto]);
+                break;
+            case 17:
+                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-formulario-17-linea-69.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-formulario-17-linea-69.edit', [$convocatoria, $proyecto]);
                 break;
             default:
                 break;

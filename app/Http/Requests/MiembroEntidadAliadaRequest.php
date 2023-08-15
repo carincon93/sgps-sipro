@@ -28,7 +28,7 @@ class MiembroEntidadAliadaRequest extends FormRequest
             'email'                 => ['required', 'max:255', 'email'],
             'tipo_documento'        => ['required', 'max:2'],
             'numero_documento'      => ['required', 'min:0', 'max:2147483647', 'integer'],
-            'numero_celular'        => ['required', 'min:0', 'max:2147483647', 'integer'],
+            'numero_celular'        => ['required', 'min:0', 'max:3999999999', 'integer'],
             'autorizacion_datos'    => ['required', 'boolean']
         ];
     }

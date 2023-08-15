@@ -34,7 +34,7 @@ class ArticulacionSennovaController extends Controller
         $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
         $proyecto->load('participantes.centroFormacion.regional');
 
-        if ($proyecto->tipo_formulario_convocatoria_id != 4 && $proyecto->tipo_formulario_convocatoria_id != 5 && $proyecto->tipo_formulario_convocatoria_id != 10 && $proyecto->tipo_formulario_convocatoria_id != 11) {
+        if ($proyecto->tipo_formulario_convocatoria_id != 4 && $proyecto->tipo_formulario_convocatoria_id != 5 && $proyecto->tipo_formulario_convocatoria_id != 10 && $proyecto->tipo_formulario_convocatoria_id != 11 && $proyecto->tipo_formulario_convocatoria_id != 17) {
             return back()->with('error', 'No puede acceder a este módulo.');
         }
 
@@ -44,8 +44,10 @@ class ArticulacionSennovaController extends Controller
         $proyecto->gruposInvestigacion;
         $proyecto->lineasInvestigacion;
         $proyecto->semillerosInvestigacion;
+
         $proyecto->proyectoFormulario5Linea69;
         $proyecto->proyectoFormulario10Linea69;
+        $proyecto->proyectoFormulario17Linea69;
         $proyecto->proyectoFormulario11Linea83;
 
         switch ($proyecto->tipo_formulario_convocatoria_id) {
@@ -209,6 +211,33 @@ class ArticulacionSennovaController extends Controller
         return back()->with('success', 'El recurso se ha guardado correctamente.');
     }
 
+    public function storeArticulacionSennovaProyectosTecnoparque(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        $request->merge([
+            'semilleros_investigacion'  => is_array($request->semilleros_investigacion) && count($request->semilleros_investigacion) == 0 ? null : $request->semilleros_investigacion,
+            'grupos_investigacion'      => is_array($request->grupos_investigacion) && count($request->grupos_investigacion) == 0 ? null : $request->grupos_investigacion
+        ]);
+
+        $proyecto->gruposInvestigacion()->sync($request->grupos_investigacion);
+        $proyecto->semillerosInvestigacion()->sync($request->semilleros_investigacion);
+
+        $proyecto->proyectoFormulario17Linea69->update([
+            'contribucion_formacion_centro_regional'                    => $request->contribucion_formacion_centro_regional,
+            'acciones_fortalecimiento_centro_regional'                  => $request->acciones_fortalecimiento_centro_regional,
+            'acciones_participacion_aprendices'                         => $request->acciones_participacion_aprendices,
+            'acciones_aportes_por_edt'                                  => $request->acciones_aportes_por_edt,
+            'acciones_fortalecimiento_programas_calificados'            => $request->acciones_fortalecimiento_programas_calificados,
+            'acciones_categorizacion_grupos_investigacion'              => $request->acciones_categorizacion_grupos_investigacion,
+            'oportunidades_fortalecimiento_proyectos_sennova'           => $request->oportunidades_fortalecimiento_proyectos_sennova,
+            'proyeccion_articulacion_linea_68'                          => $request->proyeccion_articulacion_linea_68,
+            'proyeccion_articulacion_linea_83'                          => $request->proyeccion_articulacion_linea_83,
+            'oportunidades_fortalecimiento_convocatorias_innovacion'    => $request->oportunidades_fortalecimiento_convocatorias_innovacion,
+            'proyeccion_articulacion_centros_empresariales'             => $request->proyeccion_articulacion_centros_empresariales,
+        ]);
+
+        return back()->with('success', 'El recurso se ha guardado correctamente.');
+    }
+
     public function storeArticulacionSennovaProyectosLinea83(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
     {
         $proyecto->proyectoFormulario11Linea83->update([
@@ -309,8 +338,34 @@ class ArticulacionSennovaController extends Controller
 
                 $proyecto->proyectoFormulario5Linea69()->update($request->only($column));
                 break;
+            case 10:
+                if ($column == 'grupos_investigacion') {
+                    $proyecto->gruposInvestigacion()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'semilleros_investigacion') {
+                    $proyecto->semillerosInvestigacion()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                $proyecto->proyectoFormulario10Linea69()->update($request->only($column));
+                break;
             case 11:
                 $proyecto->proyectoFormulario11Linea83()->update($request->only($column));
+                break;
+            case 17:
+                if ($column == 'grupos_investigacion') {
+                    $proyecto->gruposInvestigacion()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                if ($column == 'semilleros_investigacion') {
+                    $proyecto->semillerosInvestigacion()->sync($request->only($column)[$column]);
+                    break;
+                }
+
+                $proyecto->proyectoFormulario17Linea69()->update($request->only($column));
                 break;
             default:
                 break;

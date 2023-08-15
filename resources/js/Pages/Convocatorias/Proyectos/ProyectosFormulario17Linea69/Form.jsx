@@ -12,32 +12,32 @@ import { router, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useEffect } from 'react'
 
-const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_formulario_10_linea_69, hubs_innovacion, roles_sennova, evaluacion, ...props }) => {
+const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_formulario_17_linea_69, nodos_tecnoparque, roles_sennova, evaluacion, ...props }) => {
     const form = useForm({
-        centro_formacion_id: proyecto_formulario_10_linea_69?.proyecto.centro_formacion_id ?? '',
-        fecha_inicio: proyecto_formulario_10_linea_69?.fecha_inicio ?? '',
-        fecha_finalizacion: proyecto_formulario_10_linea_69?.fecha_finalizacion ?? '',
-        max_meses_ejecucion: proyecto_formulario_10_linea_69?.max_meses_ejecucion ?? '',
-        hub_innovacion_id: proyecto_formulario_10_linea_69?.hub_innovacion_id ?? '',
+        centro_formacion_id: proyecto_formulario_17_linea_69?.proyecto.centro_formacion_id ?? '',
+        fecha_inicio: proyecto_formulario_17_linea_69?.fecha_inicio ?? '',
+        fecha_finalizacion: proyecto_formulario_17_linea_69?.fecha_finalizacion ?? '',
+        max_meses_ejecucion: proyecto_formulario_17_linea_69?.max_meses_ejecucion ?? '',
+        nodo_tecnoparque_id: proyecto_formulario_17_linea_69?.nodo_tecnoparque_id ?? '',
 
-        resumen: proyecto_formulario_10_linea_69?.resumen ?? '',
-        resumen_regional: proyecto_formulario_10_linea_69?.resumen_regional ?? '',
-        antecedentes: proyecto_formulario_10_linea_69?.antecedentes ?? '',
-        antecedentes_regional: proyecto_formulario_10_linea_69?.antecedentes_regional ?? '',
-        logros_vigencia_anterior: proyecto_formulario_10_linea_69?.logros_vigencia_anterior ?? '',
-        contexto_general: proyecto_formulario_10_linea_69?.contexto_general ?? '',
-        retos_locales_regionales: proyecto_formulario_10_linea_69?.retos_locales_regionales ?? '',
-        estado_actual_departamento: proyecto_formulario_10_linea_69?.estado_actual_departamento ?? '',
-        contribucion_desarrollo_empresas: proyecto_formulario_10_linea_69?.contribucion_desarrollo_empresas ?? '',
-        contribucion_agenda_regional_competitividad: proyecto_formulario_10_linea_69?.contribucion_agenda_regional_competitividad ?? '',
-        aportes_conpes_4011: proyecto_formulario_10_linea_69?.aportes_conpes_4011 ?? '',
-        aportes_conpes_4080: proyecto_formulario_10_linea_69?.aportes_conpes_4080 ?? '',
-        situacion_actual_produccion_agricola: proyecto_formulario_10_linea_69?.situacion_actual_produccion_agricola ?? '',
-        aportes_alternativas_generacion_electrica: proyecto_formulario_10_linea_69?.aportes_alternativas_generacion_electrica ?? '',
-        aportes_impulso_economia_popular: proyecto_formulario_10_linea_69?.aportes_impulso_economia_popular ?? '',
-        justificacion_pertinencia: proyecto_formulario_10_linea_69?.justificacion_pertinencia ?? '',
-        acciones_estrategias_campesena: proyecto_formulario_10_linea_69?.acciones_estrategias_campesena ?? '',
-        bibliografia: proyecto_formulario_10_linea_69?.bibliografia ?? '',
+        resumen: proyecto_formulario_17_linea_69?.resumen ?? '',
+        resumen_regional: proyecto_formulario_17_linea_69?.resumen_regional ?? '',
+        antecedentes: proyecto_formulario_17_linea_69?.antecedentes ?? '',
+        antecedentes_regional: proyecto_formulario_17_linea_69?.antecedentes_regional ?? '',
+        logros_vigencia_anterior: proyecto_formulario_17_linea_69?.logros_vigencia_anterior ?? '',
+        contexto_general: proyecto_formulario_17_linea_69?.contexto_general ?? '',
+        retos_locales_regionales: proyecto_formulario_17_linea_69?.retos_locales_regionales ?? '',
+        estado_actual_departamento: proyecto_formulario_17_linea_69?.estado_actual_departamento ?? '',
+        contribucion_desarrollo_empresas: proyecto_formulario_17_linea_69?.contribucion_desarrollo_empresas ?? '',
+        contribucion_agenda_regional_competitividad: proyecto_formulario_17_linea_69?.contribucion_agenda_regional_competitividad ?? '',
+        aportes_conpes_4011: proyecto_formulario_17_linea_69?.aportes_conpes_4011 ?? '',
+        aportes_conpes_4080: proyecto_formulario_17_linea_69?.aportes_conpes_4080 ?? '',
+        situacion_actual_produccion_agricola: proyecto_formulario_17_linea_69?.situacion_actual_produccion_agricola ?? '',
+        aportes_alternativas_generacion_electrica: proyecto_formulario_17_linea_69?.aportes_alternativas_generacion_electrica ?? '',
+        aportes_impulso_economia_popular: proyecto_formulario_17_linea_69?.aportes_impulso_economia_popular ?? '',
+        justificacion_pertinencia: proyecto_formulario_17_linea_69?.justificacion_pertinencia ?? '',
+        acciones_estrategias_campesena: proyecto_formulario_17_linea_69?.acciones_estrategias_campesena ?? '',
+        bibliografia: proyecto_formulario_17_linea_69?.bibliografia ?? '',
 
         cantidad_meses: 0,
         cantidad_horas: 0,
@@ -47,11 +47,11 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
     const submit = (e) => {
         e.preventDefault()
         method == 'POST'
-            ? form.post(route('convocatorias.proyectos-formulario-10-linea-69.store', [convocatoria.id]), {
+            ? form.post(route('convocatorias.proyectos-formulario-17-linea-69.store', [convocatoria.id]), {
                   preserveScroll: true,
               })
-            : proyecto_formulario_10_linea_69.proyecto.allowed.to_update
-            ? form.put(route('convocatorias.proyectos-formulario-10-linea-69.update', [convocatoria.id, proyecto_formulario_10_linea_69.id]), {
+            : proyecto_formulario_17_linea_69.proyecto.allowed.to_update
+            ? form.put(route('convocatorias.proyectos-formulario-17-linea-69.update', [convocatoria.id, proyecto_formulario_17_linea_69.id]), {
                   preserveScroll: true,
               })
             : null
@@ -62,10 +62,10 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
     }, [form.data.fecha_inicio && form.data.fecha_finalizacion])
 
     const syncColumnLong = async (column, form, dasta) => {
-        if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update) {
+        if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update) {
             try {
                 await router.put(
-                    route('convocatorias.proyectos-formulario-10-linea-69.updateLongColumn', [convocatoria.id, proyecto_formulario_10_linea_69?.proyecto?.id, column]),
+                    route('convocatorias.proyectos-formulario-17-linea-69.updateLongColumn', [convocatoria.id, proyecto_formulario_17_linea_69?.proyecto?.id, column]),
                     { [column]: dasta ? dasta : form.data[column], is_array: Array.isArray(form.data[column]) },
                     {
                         onError: (resp) => console.log(resp),
@@ -90,32 +90,32 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                         <h1 className="text-2xl">
                             {method == 'PUT' ? (
                                 <>
-                                    <strong>{proyecto_formulario_10_linea_69.titulo}</strong>
+                                    <strong>{proyecto_formulario_17_linea_69.titulo}</strong>
                                     <br />
-                                    {proyecto_formulario_10_linea_69.proyecto.codigo}
+                                    {proyecto_formulario_17_linea_69.proyecto.codigo}
                                 </>
                             ) : (
-                                <>Hubs de innovación - Línea 69</>
+                                <>Parques tecnológicos - Red tecnoparque Colombia - Línea 69</>
                             )}
                         </h1>
                     </div>
                 </Grid>
 
-                {hubs_innovacion.length > 0 ? (
+                {nodos_tecnoparque.length > 0 ? (
                     <Grid container>
                         <Grid item md={6}>
-                            <Label required labelFor="hub_innovacion_id" value="Hub de innovación" />
+                            <Label required labelFor="nodo_tecnoparque_id" value="Nodo Tecnoparque" />
                         </Grid>
                         <Grid item md={6}>
                             <Autocomplete
-                                id="hub_innovacion_id"
-                                options={hubs_innovacion}
-                                selectedValue={form.data.hub_innovacion_id}
-                                onChange={(event, newValue) => form.setData('hub_innovacion_id', newValue.value)}
-                                error={form.errors.hub_innovacion_id}
+                                id="nodo_tecnoparque_id"
+                                options={nodos_tecnoparque}
+                                selectedValue={form.data.nodo_tecnoparque_id}
+                                onChange={(event, newValue) => form.setData('nodo_tecnoparque_id', newValue.value)}
+                                error={form.errors.nodo_tecnoparque_id}
                                 disabled={is_super_admin ? false : evaluacion || method === 'editar'}
                                 required
-                                onBlur={() => syncColumnLong('hub_innovacion_id', form)}
+                                onBlur={() => syncColumnLong('nodo_tecnoparque_id', form)}
                             />
                         </Grid>
                     </Grid>
@@ -131,7 +131,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                             <Label required disabled={evaluacion ? true : false} labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
                         </Grid>
                         <Grid item md={6}>
-                            Hubs de innovación
+                            Parques tecnológicos - Red tecnoparque Colombia
                         </Grid>
 
                         <Grid item md={6}>
@@ -141,7 +141,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                             </small>
                         </Grid>
                         <Grid item md={6}>
-                            <p className="first-letter:uppercase">{proyecto_formulario_10_linea_69?.proyecto.centro_formacion.nombre}</p>
+                            <p className="first-letter:uppercase">{proyecto_formulario_17_linea_69?.proyecto.centro_formacion.nombre}</p>
                         </Grid>
                     </>
                 )}
@@ -264,7 +264,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 value={form.data.resumen}
                                 onChange={(e) => form.setData('resumen', e.target.value)}
                                 required
-                                disabled={!checkRole(auth_user, [1, 17]) && !checkPermissionByUser(auth_user, [24]) && !proyecto_formulario_10_linea_69?.proyecto_base}
+                                disabled={!checkRole(auth_user, [1, 17]) && !checkPermissionByUser(auth_user, [24]) && !proyecto_formulario_17_linea_69?.proyecto_base}
                                 onBlur={() => syncColumnLong('resumen', form)}
                             />
                         </Grid>
@@ -295,7 +295,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 value={form.data.antecedentes}
                                 onChange={(e) => form.setData('antecedentes', e.target.value)}
                                 required
-                                disabled={!checkRole(auth_user, [1, 17]) && !checkPermissionByUser(auth_user, [24]) && !proyecto_formulario_10_linea_69?.proyecto_base}
+                                disabled={!checkRole(auth_user, [1, 17]) && !checkPermissionByUser(auth_user, [24]) && !proyecto_formulario_17_linea_69?.proyecto_base}
                                 onBlur={() => syncColumnLong('antecedentes', form)}
                             />
                         </Grid>
@@ -317,7 +317,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 required
                                 disabled={evaluacion ? true : false}
                                 labelFor="logros_vigencia_anterior"
-                                value={`Describa los principales logros del Hub de Innovación en el ${convocatoria.year - 1}`}
+                                value={`Describa los principales logros del Tecnoparque en el ${convocatoria.year - 1}`}
                             />
 
                             <Textarea
@@ -331,7 +331,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                             />
                         </Grid>
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="contexto_general" value="Contexto General del Hub de Innovación" />
+                            <Label required disabled={evaluacion ? true : false} labelFor="contexto_general" value="Contexto General de la Red Tecnoparques" />
 
                             <Textarea
                                 id="contexto_general"
@@ -351,7 +351,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 required
                                 disabled={evaluacion ? true : false}
                                 labelFor="retos_locales_regionales"
-                                value={`Descripción de retos y prioridades locales y regionales identificadas para ser atendidas por el  Hub de Innovación a corto (vigencia ${convocatoria.year}), mediano y largo plazo.`}
+                                value={`Descripción de retos y prioridades locales y regionales identificadas para ser atendidas por el Tecnoparque a corto (vigencia ${convocatoria.year}), mediano y largo plazo.`}
                             />
 
                             <Textarea
@@ -370,7 +370,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 disabled={evaluacion ? true : false}
                                 labelFor="estado_actual_departamento"
                                 value={`De acuerdo al IDIC (Indice Departamental de  Innovación para Colombia https://
-AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento y plantee acciones que puedan ser ejecutadas por el Hub de Innovación en la vigencia ${convocatoria.year} para contribuir con el mejoramiento del estado actual.`}
+AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento y plantee acciones que puedan ser ejecutadas por el Tecnoparque en la vigencia ${convocatoria.year} para contribuir con el mejoramiento del estado actual.`}
                             />
 
                             <Textarea
@@ -388,7 +388,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 required
                                 disabled={evaluacion ? true : false}
                                 labelFor="contribucion_desarrollo_empresas"
-                                value={`¿Cómo el Hub de Innovación, contribuirá en la vigencia ${convocatoria.year} al desarrollo y fortalecimiento de las capacidades tecnológicas de las empresas, cadenas productivas y clústeres de la región`}
+                                value={`¿Cómo el Tecnoparque, contribuirá en la vigencia ${convocatoria.year} al desarrollo y fortalecimiento de las capacidades tecnológicas de las empresas, cadenas productivas y clústeres de la región`}
                             />
 
                             <Textarea
@@ -408,7 +408,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 labelFor="contribucion_agenda_regional_competitividad"
                                 value={`¿Cómo se articuló en el año ${
                                     convocatoria.year - 1
-                                } y cual será la contribución del  Hub de Innovación con la Agenda de la Comisión Regional de Competitividad, en la vigencia ${convocatoria.year}?`}
+                                } y cual será la contribución del Tecnoparque con la Agenda de la Comisión Regional de Competitividad, en la vigencia ${convocatoria.year}?`}
                             />
 
                             <Textarea
@@ -429,7 +429,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 required
                                 disabled={evaluacion ? true : false}
                                 labelFor="aportes_conpes_4011"
-                                value={`¿Cuáles serán los aportes del Hub de Innovación en el ${convocatoria.year} a la Línea de acción 8 del Conpes 4011 'Facilitar intercambio de tecnología y la innovación en los emprendimientos CONPES, inlcuyendo acciones articuladas con Emprendimiento (Dirección de Empleo)?`}
+                                value={`¿Cuáles serán los aportes del Tecnoparque en el ${convocatoria.year} a la Línea de acción 8 del Conpes 4011 'Facilitar intercambio de tecnología y la innovación en los emprendimientos CONPES, inlcuyendo acciones articuladas con Emprendimiento (Dirección de Empleo)?`}
                             />
 
                             <Textarea
@@ -447,7 +447,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 required
                                 disabled={evaluacion ? true : false}
                                 labelFor="aportes_conpes_4080"
-                                value={`Cuáles serán los aportes del  Hub de Innovación en el ${convocatoria.year} a la Línea de acción 1 del Conpes 4080 'el SENA desde 2022 y hasta 2026, fomentará la participación de la mujer en sus programas de investigación, desarrollo tecnológico e innovación, buscando generar competitividad con enfoque de género'`}
+                                value={`Cuáles serán los aportes del Tecnoparque en el ${convocatoria.year} a la Línea de acción 1 del Conpes 4080 'el SENA desde 2022 y hasta 2026, fomentará la participación de la mujer en sus programas de investigación, desarrollo tecnológico e innovación, buscando generar competitividad con enfoque de género'`}
                             />
 
                             <Textarea
@@ -483,7 +483,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 required
                                 disabled={evaluacion ? true : false}
                                 labelFor="aportes_alternativas_generacion_electrica"
-                                value="Describa las oportunidades en el departamento y regiones de influencia del Hub de Innovación para contribuir con la fortalecer proyectos de I + D + i tendientes a aportar alternativas de generación eléctrica a partir de fuentes no convencionales de energía renovable."
+                                value="Describa las oportunidades en el departamento y regiones de influencia del Tecnoparque para contribuir con la fortalecer proyectos de I + D + i tendientes a aportar alternativas de generación eléctrica a partir de fuentes no convencionales de energía renovable."
                             />
 
                             <Textarea
@@ -501,7 +501,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 required
                                 disabled={evaluacion ? true : false}
                                 labelFor="aportes_impulso_economia_popular"
-                                value="Describa las oportunidades en el departamento y regiones de influencia del Hub de Innovación para contribuir con el impulso de la Economía Popular. Proyectos tendientes a aumentar los ingresos de los micronegocios de la economía popular."
+                                value="Describa las oportunidades en el departamento y regiones de influencia del Tecnoparque para contribuir con el impulso de la Economía Popular. Proyectos tendientes a aumentar los ingresos de los micronegocios de la economía popular."
                             />
 
                             <Textarea
@@ -519,7 +519,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 required
                                 disabled={evaluacion ? true : false}
                                 labelFor="justificacion_pertinencia"
-                                value="Justificación y pertinencia  de las acciones que desarrolla el Hub de Innovación en el territorio"
+                                value="Justificación y pertinencia  de las acciones que desarrolla el Tecnoparque en el territorio"
                             />
 
                             <Textarea
@@ -537,7 +537,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 required
                                 disabled={evaluacion ? true : false}
                                 labelFor="acciones_estrategias_campesena"
-                                value={`Describa las acciones realizadas en el ${convocatoria.year - 1}, integradas dentro de la Estrategia Campesena, en las que participó el Hub de Innovación`}
+                                value={`Describa las acciones realizadas en el ${convocatoria.year - 1}, integradas dentro de la Estrategia Campesena, en las que participó el Tecnoparque`}
                             />
 
                             <Textarea
@@ -571,7 +571,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                 )}
             </Grid>
 
-            {method == 'POST' || proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update ? (
+            {method == 'POST' || proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update ? (
                 <div className="flex items-center justify-between p-4">
                     <PrimaryButton type="submit" className="ml-auto" disabled={form.processing || !form.isDirty}>
                         Guardar

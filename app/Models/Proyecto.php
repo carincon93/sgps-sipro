@@ -198,6 +198,16 @@ class Proyecto extends Model
     }
 
     /**
+     * Relationship with ProyectoFormulario17Linea69
+     *
+     * @return object
+     */
+    public function proyectoFormulario17Linea69()
+    {
+        return $this->hasOne(ProyectoFormulario17Linea69::class, 'id');
+    }
+
+    /**
      * Relationship with ProyectoFormulario4Linea70
      *
      * @return object

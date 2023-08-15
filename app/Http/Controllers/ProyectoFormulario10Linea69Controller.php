@@ -49,7 +49,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario10Linea69/Create', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
-            'nodos_tecnoparque'     => SelectHelper::nodosTecnoparque(),
+            'hubs_innovacion'       => SelectHelper::hubsInnovacion(),
             'roles_sennova'         => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowed_to_create'     => Gate::inspect('formular-proyecto', [4, $convocatoria])->allowed()
         ]);
@@ -65,7 +65,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
     {
         $this->authorize('formular-proyecto', [4, $convocatoria]);
 
-        $nodo_tecnoparque = NodoTecnoparque::find($request->nodo_tecnoparque_id);
+        $nodo_tecnoparque = NodoTecnoparque::find($request->hub_innovacion_id);
 
         $proyecto = new Proyecto();
         $proyecto->arboles_completos = false;
@@ -85,7 +85,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
         );
 
         $proyecto->proyectoFormulario10Linea69()->create([
-            'nodo_tecnoparque_id'   => $request->nodo_tecnoparque_id,
+            'hub_innovacion_id'     => $request->hub_innovacion_id,
             'fecha_inicio'          => $request->fecha_inicio,
             'fecha_finalizacion'    => $request->fecha_finalizacion,
         ]);
@@ -93,7 +93,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
         $proyecto_a_replicar = ProyectoFormulario10Linea69::where('proyecto_base', true)->first();
 
         // $nuevo_proyecto_formulario_10_linea_69 = $this->replicateRow($request, $proyecto_a_replicar, $proyecto);
-        // $nuevo_proyecto_formulario_10_linea_69->nodoTecnoparque()->associate($request->nodo_tecnoparque_id);
+        // $nuevo_proyecto_formulario_10_linea_69->hubInnovacion()->associate($request->hub_innovacion_id);
         // $nuevo_proyecto_formulario_10_linea_69->proyecto()->update(['arboles_completos' => true]);
 
         // if ($nuevo_proyecto_formulario_10_linea_69) {
@@ -137,12 +137,6 @@ class ProyectoFormulario10Linea69Controller extends Controller
         $proyecto_formulario_10_linea_69->mostrar_recomendaciones        = $proyecto_formulario_10_linea_69->proyecto->mostrar_recomendaciones;
         $proyecto_formulario_10_linea_69->mostrar_requiere_subsanacion   = $proyecto_formulario_10_linea_69->proyecto->mostrar_requiere_subsanacion;
 
-          if ($auth_user->hasRole(16)) {
-            $nodos_tecnoparque = SelectHelper::nodosTecnoparque()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
-        } else {
-            $nodos_tecnoparque = SelectHelper::nodosTecnoparque();
-        }
-
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario10Linea69/Edit', [
             'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'year', 'descripcion'),
             'proyecto_formulario_10_linea_69'   => $proyecto_formulario_10_linea_69,
@@ -150,7 +144,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
             'regionales'                        => SelectHelper::regionales(),
             'nodos_tecnoparque'                 => SelectHelper::nodosTecnoparque()->where('centro_formacion_id', $proyecto_formulario_10_linea_69->proyecto->centroFormacion->id)->values()->all(),
             'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'nodos_tecnoparque'                 => $nodos_tecnoparque,
+            'hubs_innovacion'                   => SelectHelper::hubsInnovacion(),
         ]);
     }
 
@@ -185,7 +179,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
         $proyecto_formulario_10_linea_69->justificacion_pertinencia                       = $request->justificacion_pertinencia;
         $proyecto_formulario_10_linea_69->acciones_estrategias_campesena                  = $request->acciones_estrategias_campesena;
         $proyecto_formulario_10_linea_69->bibliografia                                    = $request->bibliografia;
-        $proyecto_formulario_10_linea_69->nodoTecnoparque()->associate($request->nodo_tecnoparque_id);
+        $proyecto_formulario_10_linea_69->hubInnovacion()->associate($request->hub_innovacion_id);
 
         $proyecto_formulario_10_linea_69->save();
 
@@ -263,7 +257,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
                 'fecha_inicio'          => $request->fecha_inicio,
                 'fecha_finalizacion'    => $request->fecha_finalizacion,
                 'max_meses_ejecucion'   => $request->max_meses_ejecucion,
-                'nodo_tecnoparque_id'   => $request->nodo_tecnoparque_id,
+                'hub_innovacion_id'     => $request->hub_innovacion_id,
                 'proyecto_base'         => false
             ]);
             $clone->push();

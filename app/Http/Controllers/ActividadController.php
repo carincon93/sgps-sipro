@@ -29,7 +29,7 @@ class ActividadController extends Controller
         $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
         $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
-        $objetivo_especifico                    = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
+        $objetivo_especifico = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
 
         $resultados = $proyecto->efectosDirectos()->whereHas('resultado', function ($query) {
                         $query->where('descripcion', '!=', null);
@@ -40,6 +40,7 @@ class ActividadController extends Controller
                     })->flatten();
 
         $proyecto->proyectoFormulario10Linea69;
+        $proyecto->proyectoFormulario17Linea69;
         $proyecto->proyectoFormulario11Linea83;
 
         switch ($proyecto) {
@@ -67,7 +68,6 @@ class ActividadController extends Controller
                 $proyecto->departamentos_atencion_talentos          = $proyecto->proyectoFormulario5Linea69->departamentos_atencion_talentos;
                 $proyecto->estrategia_atencion_talentos             = $proyecto->proyectoFormulario5Linea69->estrategia_atencion_talentos;
                 break;
-
             case $proyecto->proyectoFormulario12Linea68()->exists():
                 $proyecto->metodologia = $proyecto->proyectoFormulario12Linea68->metodologia;
                 break;
@@ -332,9 +332,34 @@ class ActividadController extends Controller
                 $proyecto_formulario_10_linea_69->save();
 
                 break;
+            case $proyecto->proyectoFormulario17Linea69()->exists():
+                $proyecto_formulario_17_linea_69                                                  = $proyecto->proyectoFormulario17Linea69;
+                $proyecto_formulario_17_linea_69->metodologia                                     = $request->metodologia;
+                $proyecto_formulario_17_linea_69->metodologia_local                               = $request->metodologia_local;
+                $proyecto_formulario_17_linea_69->areas_cualificacion_mnc                         = $request->areas_cualificacion_mnc;
+                $proyecto_formulario_17_linea_69->talentos_otros_departamentos                    = $request->talentos_otros_departamentos;
+                $proyecto_formulario_17_linea_69->estrategia_atencion_talentos                    = $request->estrategia_atencion_talentos;
+                $proyecto_formulario_17_linea_69->acciones_mejoramiento_idic                      = $request->acciones_mejoramiento_idic;
+                $proyecto_formulario_17_linea_69->municipios_beneficiados_vigencia_anterior       = $request->municipios_beneficiados_vigencia_anterior;
+                $proyecto_formulario_17_linea_69->beneficio_municipios_vigencia_anterior          = $request->beneficio_municipios_vigencia_anterior;
+                $proyecto_formulario_17_linea_69->municipios_beneficiados_vigencia_actual         = $request->municipios_beneficiados_vigencia_actual;
+                $proyecto_formulario_17_linea_69->estrategia_articulacion_pbts                    = $request->estrategia_articulacion_pbts;
+                $proyecto_formulario_17_linea_69->numero_empresas_atendidas                       = $request->numero_empresas_atendidas;
+                $proyecto_formulario_17_linea_69->analisis_impacto_sector_empresarial             = $request->analisis_impacto_sector_empresarial;
+                $proyecto_formulario_17_linea_69->numero_emprendedores_atendidos                  = $request->numero_emprendedores_atendidos;
+                $proyecto_formulario_17_linea_69->analisis_impacto_regional                       = $request->analisis_impacto_regional;
+                $proyecto_formulario_17_linea_69->gestion_alianzas_estrategicas                   = $request->gestion_alianzas_estrategicas;
+                $proyecto_formulario_17_linea_69->estrategias_visibilizacion                      = $request->estrategias_visibilizacion;
+                $proyecto_formulario_17_linea_69->integracion_plan_tecnologico                    = $request->integracion_plan_tecnologico;
+                $proyecto_formulario_17_linea_69->estrategias_productividad_agropecuaria          = $request->estrategias_productividad_agropecuaria;
+                $proyecto_formulario_17_linea_69->acciones_estrategia_campesena                   = $request->acciones_estrategia_campesena;
+                $proyecto_formulario_17_linea_69->estrategia_campesena_campesinos                 = $request->estrategia_campesena_campesinos;
+                $proyecto_formulario_17_linea_69->acciones_fortalecimiento_economia_popular       = $request->acciones_fortalecimiento_economia_popular;
+                $proyecto_formulario_17_linea_69->acciones_fortalecimiento_idi                    = $request->acciones_fortalecimiento_idi;
 
+                $proyecto_formulario_17_linea_69->save();
 
-
+                break;
             case $proyecto->proyectoFormulario1Linea65()->exists():
                 $proyecto_linea_65              = $proyecto->proyectoFormulario1Linea65;
                 $proyecto_linea_65->metodologia = $request->metodologia;
@@ -383,6 +408,39 @@ class ActividadController extends Controller
         $proyecto_formulario_10_linea_69->acciones_fortalecimiento_idi                    = $request->acciones_fortalecimiento_idi;
 
         $proyecto_formulario_10_linea_69->save();
+
+        return back()->with('success', 'El recurso se ha guardado correctamente.');
+    }
+
+    public function updateMetodologiaProyectoTecnoparque(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        $this->authorize('modificar-proyecto-autor', $proyecto);
+
+        $proyecto_formulario_17_linea_69                                                  = $proyecto->proyectoFormulario17Linea69;
+        $proyecto_formulario_17_linea_69->metodologia                                     = $request->metodologia;
+        $proyecto_formulario_17_linea_69->metodologia_local                               = $request->metodologia_local;
+        $proyecto_formulario_17_linea_69->areas_cualificacion_mnc                         = $request->areas_cualificacion_mnc;
+        $proyecto_formulario_17_linea_69->talentos_otros_departamentos                    = $request->talentos_otros_departamentos;
+        $proyecto_formulario_17_linea_69->estrategia_atencion_talentos                    = $request->estrategia_atencion_talentos;
+        $proyecto_formulario_17_linea_69->acciones_mejoramiento_idic                      = $request->acciones_mejoramiento_idic;
+        $proyecto_formulario_17_linea_69->municipios_beneficiados_vigencia_anterior       = $request->municipios_beneficiados_vigencia_anterior;
+        $proyecto_formulario_17_linea_69->beneficio_municipios_vigencia_anterior          = $request->beneficio_municipios_vigencia_anterior;
+        $proyecto_formulario_17_linea_69->municipios_beneficiados_vigencia_actual         = $request->municipios_beneficiados_vigencia_actual;
+        $proyecto_formulario_17_linea_69->estrategia_articulacion_pbts                    = $request->estrategia_articulacion_pbts;
+        $proyecto_formulario_17_linea_69->numero_empresas_atendidas                       = $request->numero_empresas_atendidas;
+        $proyecto_formulario_17_linea_69->analisis_impacto_sector_empresarial             = $request->analisis_impacto_sector_empresarial;
+        $proyecto_formulario_17_linea_69->numero_emprendedores_atendidos                  = $request->numero_emprendedores_atendidos;
+        $proyecto_formulario_17_linea_69->analisis_impacto_regional                       = $request->analisis_impacto_regional;
+        $proyecto_formulario_17_linea_69->gestion_alianzas_estrategicas                   = $request->gestion_alianzas_estrategicas;
+        $proyecto_formulario_17_linea_69->estrategias_visibilizacion                      = $request->estrategias_visibilizacion;
+        $proyecto_formulario_17_linea_69->integracion_plan_tecnologico                    = $request->integracion_plan_tecnologico;
+        $proyecto_formulario_17_linea_69->estrategias_productividad_agropecuaria          = $request->estrategias_productividad_agropecuaria;
+        $proyecto_formulario_17_linea_69->acciones_estrategia_campesena                   = $request->acciones_estrategia_campesena;
+        $proyecto_formulario_17_linea_69->estrategia_campesena_campesinos                 = $request->estrategia_campesena_campesinos;
+        $proyecto_formulario_17_linea_69->acciones_fortalecimiento_economia_popular       = $request->acciones_fortalecimiento_economia_popular;
+        $proyecto_formulario_17_linea_69->acciones_fortalecimiento_idi                    = $request->acciones_fortalecimiento_idi;
+
+        $proyecto_formulario_17_linea_69->save();
 
         return back()->with('success', 'El recurso se ha guardado correctamente.');
     }
@@ -516,16 +574,28 @@ class ActividadController extends Controller
                 $proyecto->proyectoFormulario5Linea69()->update($request->only($column));
                 break;
             case 6:
+                $proyecto->proyectoFormulario6Linea82()->update($request->only($column));
+                break;
             case 7:
+                $proyecto->proyectoFormulario7Linea23()->update($request->only($column));
+                break;
             case 8:
-            case 9:
                 $proyecto->proyectoFormulario8Linea66()->update($request->only($column));
+                break;
+            case 9:
+                $proyecto->proyectoFormulario9Linea23()->update($request->only($column));
+                break;
+            case 10:
+                $proyecto->proyectoFormulario10Linea69()->update($request->only($column));
                 break;
             case 11:
                 $proyecto->proyectoFormulario11Linea83()->update($request->only($column));
                 break;
             case 12:
                 $proyecto->proyectoFormulario12Linea68()->update($request->only($column));
+                break;
+            case 17:
+                $proyecto->proyectoFormulario17Linea69()->update($request->only($column));
                 break;
             default:
                 break;

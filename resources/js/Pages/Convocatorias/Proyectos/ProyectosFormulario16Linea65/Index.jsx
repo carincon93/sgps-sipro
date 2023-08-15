@@ -20,7 +20,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_16_linea_65, allowed_t
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
-    const [proyecto_linea_65_to_destroy, setProyectoFormulario1Linea65ToDestroy] = useState(null)
+    const [proyecto_linea_65_to_destroy, setProyectoFormulario16Linea65ToDestroy] = useState(null)
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
@@ -132,7 +132,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_16_linea_65, allowed_t
                                                 ))}
                                                 <MenuItem
                                                     onClick={() => {
-                                                        setProyectoFormulario1Linea65ToDestroy(proyecto.id)
+                                                        setProyectoFormulario16Linea65ToDestroy(proyecto.id)
                                                     }}>
                                                     Eliminar
                                                 </MenuItem>
@@ -141,7 +141,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_16_linea_65, allowed_t
                                             <div>
                                                 <MenuItem
                                                     onClick={(e) => {
-                                                        setProyectoFormulario1Linea65ToDestroy(null)
+                                                        setProyectoFormulario16Linea65ToDestroy(null)
                                                     }}>
                                                     Cancelar
                                                 </MenuItem>

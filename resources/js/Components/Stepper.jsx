@@ -193,6 +193,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
         route().current('convocatorias.proyectos-formulario-12-linea-68.edit') ||
         route().current('convocatorias.proyectos-formulario-5-linea-69.edit') ||
         route().current('convocatorias.proyectos-formulario-10-linea-69.edit') ||
+        route().current('convocatorias.proyectos-formulario-17-linea-69.edit') ||
         route().current('convocatorias.proyectos-formulario-4-linea-70.edit') ||
         route().current('convocatorias.proyectos-formulario-6-linea-82.edit') ||
         route().current('convocatorias.proyectos-formulario-11-linea-83.edit')
@@ -209,6 +210,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                 {proyecto?.tipo_formulario_convocatoria_id != 4 &&
                 proyecto?.tipo_formulario_convocatoria_id != 5 &&
                 proyecto?.tipo_formulario_convocatoria_id != 10 &&
+                proyecto?.tipo_formulario_convocatoria_id != 17 &&
                 proyecto?.tipo_formulario_convocatoria_id != 11 ? (
                     <Step active={route().current('convocatorias.proyectos.participantes')}>
                         <Link href={route('convocatorias.proyectos.participantes', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
