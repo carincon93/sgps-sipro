@@ -24,12 +24,11 @@ class TecnoacademiaRequest extends FormRequest
     public function rules()
     {
         return [
-            'centro_formacion_id'               => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
-            'linea_tecnologica_id*'             => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_tecnoacademia,id'],
-            'nombre'                            => ['required', 'max:255'],
-            'modalidad'                         => ['required', 'max:2'],
-            'foco'                              => ['required', 'string'],
-            'fecha_creacion'                    => ['required', 'date', 'date_format:Y-m-d'],
+            'centro_formacion_id'  => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
+            'nombre'               => ['required', 'max:255'],
+            'modalidad'            => ['required', 'max:2'],
+            'foco'                 => ['required', 'string'],
+            'fecha_creacion'       => ['required', 'date', 'date_format:Y-m-d'],
         ];
     }
 
@@ -40,16 +39,6 @@ class TecnoacademiaRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->centro_formacion_id)) {
-            $this->merge([
-                'centro_formacion_id' => $this->centro_formacion_id['value'],
-            ]);
-        }
-
-        if (is_array($this->modalidad)) {
-            $this->merge([
-                'modalidad' => $this->modalidad['value'],
-            ]);
-        }
+        //
     }
 }

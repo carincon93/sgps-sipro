@@ -45,13 +45,13 @@ class TipoBeneficiadoLinea70 extends Model
     ];
 
     /**
-     * Relationship with ProyectoProyectoFormulario8Linea66Tecnoacademia
+     * Relationship with ProyectoIdiTecnoacademia
      *
      * @return object
      */
-    public function proyectosProyectoFormulario8Linea66Tecnoacademia()
+    public function proyectosIdiTecnoacademia()
     {
-        return $this->belongsToMany(ProyectoProyectoFormulario8Linea66Tecnoacademia::class, 'proyecto_idi_tecnoacademia_beneficiados', 'beneficiado', 'proyecto_idi_tecnoacademia_id');
+        return $this->belongsToMany(ProyectoIdiTecnoacademia::class, 'proyecto_idi_tecnoacademia_beneficiados', 'beneficiado', 'proyecto_idi_tecnoacademia_id');
     }
 
     /**
@@ -61,7 +61,7 @@ class TipoBeneficiadoLinea70 extends Model
      * @param  mixed $filters
      * @return void
      */
-    public function scopeFilterProyectoProyectoFormulario8Linea66TecnoacademiaBeneficiado($query, array $filters)
+    public function scopeFilterProyectoIdiTecnoacademiaBeneficiado($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $query->where('nombre', 'ilike', '%' . $search . '%');

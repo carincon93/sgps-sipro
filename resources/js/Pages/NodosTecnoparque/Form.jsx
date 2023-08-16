@@ -55,7 +55,7 @@ const Form = ({ method = '', setDialogStatus, nodo_tecnoparque, centros_formacio
                                     selectedValue={form.data.centro_formacion_id}
                                     onChange={(event, newValue) => form.setData('centro_formacion_id', newValue.value)}
                                     error={form.errors.centro_formacion_id}
-                                    label="Regional"
+                                    label="Centro de formación"
                                     required
                                 />
                             </Grid>

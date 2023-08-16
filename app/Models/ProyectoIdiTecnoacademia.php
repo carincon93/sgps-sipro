@@ -135,7 +135,7 @@ class ProyectoIdiTecnoacademia extends Model
     }
 
     /**
-     * Relationship with ProyectoProyectoFormulario8Linea66TecnoacademiaBeneficiado
+     * Relationship with ProyectoIdiTecnoacademiaBeneficiado
      *
      * @return object
      */
@@ -145,7 +145,7 @@ class ProyectoIdiTecnoacademia extends Model
     }
 
     /**
-     * Relationship with ProyectoProyectoFormulario8Linea66TecnoacademiaLinea
+     * Relationship with ProyectoIdiTecnoacademiaLinea
      *
      * @return object
      */
@@ -155,7 +155,7 @@ class ProyectoIdiTecnoacademia extends Model
     }
 
     /**
-     * Relationship with ProyectoProyectoFormulario8Linea66TecnoacademiaParticipante
+     * Relationship with ProyectoIdiTecnoacademiaParticipante
      *
      * @return object
      */
@@ -165,13 +165,13 @@ class ProyectoIdiTecnoacademia extends Model
     }
 
     /**
-     * Relationship with ProyectoProyectoFormulario8Linea66TecnoacademiaProducto
+     * Relationship with ProyectoIdiTecnoacademiaProducto
      *
      * @return object
      */
     public function productos()
     {
-        return $this->hasMany(ProyectoProyectoFormulario8Linea66TecnoacademiaProducto::class);
+        return $this->hasMany(ProyectoIdiTecnoacademiaProducto::class);
     }
 
     /**
@@ -191,7 +191,7 @@ class ProyectoIdiTecnoacademia extends Model
      * @param  mixed $filters
      * @return void
      */
-    public function scopeFilterProyectoProyectoFormulario8Linea66Tecnoacademia($query, array $filters)
+    public function scopeFilterProyectoIdiTecnoacademia($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $query->where('titulo', 'ilike', '%' . $search . '%');
@@ -278,7 +278,7 @@ class ProyectoIdiTecnoacademia extends Model
             )
             ->distinct('proyectos_idi_tecnoacademia.id')
             ->orderBy('proyectos_idi_tecnoacademia.id', 'ASC')
-            ->filterProyectoProyectoFormulario8Linea66Tecnoacademia(request()->only('search'))->paginate();
+            ->filterProyectoIdiTecnoacademia(request()->only('search'))->paginate();
         return $proyectoIdiTecnoacademia;
     }
 
@@ -314,9 +314,9 @@ class ProyectoIdiTecnoacademia extends Model
     {
         if (str_contains(request()->route()->uri, 'proyectos-idi-tecnoacademia')) {
 
-            $allowedToView      = Gate::inspect('view', [ProyectoProyectoFormulario8Linea66Tecnoacademia::class, $this]);
-            $allowedToUpdate    = Gate::inspect('update', [ProyectoProyectoFormulario8Linea66Tecnoacademia::class, $this]);
-            $allowedToDestroy   = Gate::inspect('delete', [ProyectoProyectoFormulario8Linea66Tecnoacademia::class, $this]);
+            $allowedToView      = Gate::inspect('view', [ProyectoIdiTecnoacademia::class, $this]);
+            $allowedToUpdate    = Gate::inspect('update', [ProyectoIdiTecnoacademia::class, $this]);
+            $allowedToDestroy   = Gate::inspect('delete', [ProyectoIdiTecnoacademia::class, $this]);
 
             return collect(['to_view' => $allowedToView->allowed(), 'to_update' => $allowedToUpdate->allowed(), 'to_destroy' => $allowedToDestroy->allowed()]);
         }

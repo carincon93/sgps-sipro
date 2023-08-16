@@ -18,7 +18,7 @@ class TecnoacademiaPolicy
      */
     public function viewAny(User $user)
     {
-        if ($user->hasRole(5)) {
+        if ($user->hasRole([21, 18, 19, 5, 17])) {
             return true;
         }
 
@@ -34,7 +34,7 @@ class TecnoacademiaPolicy
      */
     public function view(User $user)
     {
-        if ($user->hasRole(5)) {
+        if ($user->hasRole([21, 18, 19, 5, 17])) {
             return true;
         }
 
@@ -49,7 +49,7 @@ class TecnoacademiaPolicy
      */
     public function create(User $user)
     {
-        if ($user->hasRole(5)) {
+        if ($user->hasRole([21, 18, 19, 5, 17])) {
             return true;
         }
 
@@ -64,7 +64,7 @@ class TecnoacademiaPolicy
      */
     public function update(User $user, Tecnoacademia $tecnoacademia)
     {
-        if ($user->hasRole(5)) {
+        if ($user->hasRole([21, 18, 19, 5, 17])) {
             return true;
         }
 

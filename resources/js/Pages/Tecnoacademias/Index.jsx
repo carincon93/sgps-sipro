@@ -18,7 +18,7 @@ import { route, checkRole } from '@/Utils'
 
 import Form from './Form'
 
-const Index = ({ auth, tecnoacademias }) => {
+const Index = ({ auth, tecnoacademias, modalidades, centros_formacion, lineas_tecnoacademia }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -32,8 +32,8 @@ const Index = ({ auth, tecnoacademias }) => {
             <Grid item md={12}>
                 <SearchBar />
 
-                <TableMui className="mt-20" rows={['TecnoAcademia', 'Acciones']} sxCellThead={{ width: '320px' }}>
-                    {is_super_admin ? (
+                <TableMui className="mt-20" rows={['Nombre', 'Modalidad', 'Centro de formación', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) ? (
                         <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setTecnoacademia(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={4}>
                                 <ButtonMui>
@@ -44,20 +44,25 @@ const Index = ({ auth, tecnoacademias }) => {
                     ) : null}
                     {tecnoacademias.data.map((tecnoacademia, i) => (
                         <TableRow key={i}>
-                            <TableCell>{tecnoacademia.nombre}</TableCell>
+                            <TableCell>
+                                <p className="capitalize">{tecnoacademia.nombre}</p>
+                            </TableCell>
+                            <TableCell>
+                                <p className="first-letter:uppercase">{modalidades.find((item) => item.value == tecnoacademia.modalidad).label}</p>
+                            </TableCell>
+                            <TableCell>{tecnoacademia.centro_formacion.nombre}</TableCell>
 
                             <TableCell>
                                 <MenuMui text={<MoreVertIcon />}>
                                     {tecnoacademia.id !== tecnoacademia_to_destroy ? (
                                         <div>
-                                            <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setTecnoacademia(tecnoacademia))} disabled={!is_super_admin}>
-                                                Editar
-                                            </MenuItem>
+                                            <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setTecnoacademia(tecnoacademia))}>Editar</MenuItem>
 
                                             <MenuItem
                                                 onClick={() => {
                                                     setTecnoacademiaToDestroy(tecnoacademia.id)
-                                                }}>
+                                                }}
+                                                disabled={!is_super_admin}>
                                                 Eliminar
                                             </MenuItem>
                                         </div>
@@ -96,7 +101,17 @@ const Index = ({ auth, tecnoacademias }) => {
                     fullWidth={true}
                     maxWidth="lg"
                     blurEnabled={true}
-                    dialogContent={<Form is_super_admin={is_super_admin} setDialogStatus={setDialogStatus} method={method} tecnoacademia={tecnoacademia} />}
+                    dialogContent={
+                        <Form
+                            is_super_admin={is_super_admin}
+                            setDialogStatus={setDialogStatus}
+                            method={method}
+                            tecnoacademia={tecnoacademia}
+                            modalidades={modalidades}
+                            centros_formacion={centros_formacion}
+                            lineas_tecnoacademia={lineas_tecnoacademia}
+                        />
+                    }
                 />
             </Grid>
         </AuthenticatedLayout>

@@ -18,7 +18,7 @@ class NodoTecnoparquePolicy
      */
     public function viewAny(User $user)
     {
-        if ($user->hasRole(17)) {
+        if ($user->hasRole([21, 18, 19, 5, 17])) {
             return true;
         }
 
@@ -34,7 +34,7 @@ class NodoTecnoparquePolicy
      */
     public function view(User $user)
     {
-        if ($user->hasRole(17)) {
+        if ($user->hasRole([21, 18, 19, 5, 17])) {
             return true;
         }
 
@@ -49,7 +49,7 @@ class NodoTecnoparquePolicy
      */
     public function create(User $user)
     {
-        if ($user->hasRole(17)) {
+        if ($user->hasRole([21, 18, 19, 5, 17])) {
             return true;
         }
 
@@ -64,7 +64,7 @@ class NodoTecnoparquePolicy
      */
     public function update(User $user, NodoTecnoparque $nodoTecnoparque)
     {
-        if ($user->hasRole(17)) {
+        if ($user->hasRole([21, 18, 19, 5, 17])) {
             return true;
         }
 

@@ -34,23 +34,12 @@ class ProyectoRolSennovaController extends Controller
             $proyecto->cantidad_psicopedagogos_planta   = $proyecto->proyectoFormulario4Linea70->cantidad_psicopedagogos_planta;
         }
 
-        if ($proyecto->codigo_linea_programatica == 68) {
-            $proyecto->max_meses_ejecucion = $proyecto->proyectoFormulario12Linea68->max_meses_ejecucion;
-        }
-
-        $lineas_tecnologicas = [];
-        if ($proyecto->codigo_linea_programatica == 70) {
-            $lineas_tecnologicas = LineaTecnoacademia::select('id', 'nombre')->get();
-        } else if ($proyecto->codigo_linea_programatica == 69) {
-            $lineas_tecnologicas = LineaTecnoparque::select('id', 'nombre')->get();
-        }
-
         $objetivos_especificos = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
 
         /**
          * Si el proyecto es de la línea programática 23 se prohibe el acceso. No requiere de roles SENNOVA
          */
-        if ($proyecto->codigo_linea_programatica == 23 || $proyecto->proyectoFormulario1Linea65()->exists() && $proyecto->proyectoFormulario1Linea65->tipo_proyecto == 2) {
+        if ($proyecto->tipo_formulario_convocatoria_id == 7 || $proyecto->tipo_formulario_convocatoria_id == 9 || $proyecto->tipo_formulario_convocatoria_id == 1) {
             return redirect()->route('convocatorias.proyectos.arbol-objetivos', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de roles SENNOVA');
         }
 
@@ -66,7 +55,6 @@ class ProyectoRolSennovaController extends Controller
                                                         return $objetivoEspecifico->id;
                                                     })
                                                 )->orderBy('actividades.descripcion')->with('objetivoEspecifico')->get(),
-            'lineas_tecnologicas'           => $lineas_tecnologicas ?? [],
             'niveles_academicos'            => json_decode(Storage::get('json/niveles-academicos.json'), true)
         ]);
     }

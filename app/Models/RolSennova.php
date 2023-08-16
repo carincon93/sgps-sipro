@@ -53,7 +53,7 @@ class RolSennova extends Model
      */
     public function lineaProgramatica()
     {
-        return $this->hasMany(LineaProgramatica::class);
+        return $this->belongsTo(LineaProgramatica::class);
     }
 
     /**

@@ -872,11 +872,16 @@ class ProyectoController extends Controller
         $proyecto->programasFormacion;
         $proyecto->semillerosInvestigacion;
 
-        if ($proyecto->codigo_linea_programatica == 70) {
+        if ($proyecto->tipo_formulario_convocatoria_id == 4) {
             return redirect()->route('convocatorias.proyectos-formulario-4-linea-70.edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
-        } else if ($proyecto->codigo_linea_programatica == 69) {
+        } else if ($proyecto->tipo_formulario_convocatoria_id == 5) {
+            return redirect()->route('convocatorias.proyectos-formulario-5-linea-69.edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
+        } else if ($proyecto->tipo_formulario_convocatoria_id == 10) {
             return redirect()->route('convocatorias.proyectos-formulario-10-linea-69.edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
+        } else if ($proyecto->tipo_formulario_convocatoria_id == 17) {
+            return redirect()->route('convocatorias.proyectos-formulario-17-linea-69.edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
         }
+
 
         $proyecto->load('participantes.centroFormacion.regional');
         $proyecto->load('semillerosInvestigacion.lineaInvestigacion.grupoInvestigacion');
@@ -1158,10 +1163,6 @@ class ProyectoController extends Controller
     public function showComentariosGeneralesForm(Convocatoria $convocatoria, Proyecto $proyecto)
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
-
-        if ($proyecto->codigo_linea_programatica == 65) {
-            $proyecto->tipo_proyecto = $proyecto->proyectoFormulario1Linea65->tipo_proyecto;
-        }
 
         $proyecto->evaluaciones->load('evaluacionCausalesRechazo');
 

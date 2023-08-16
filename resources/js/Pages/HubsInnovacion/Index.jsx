@@ -33,7 +33,7 @@ const Index = ({ auth, hubs_innovacion }) => {
                 <SearchBar />
 
                 <TableMui className="mt-20" rows={['Hub de innovación', 'Acciones']} sxCellThead={{ width: '320px' }}>
-                    {is_super_admin ? (
+                    {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) ? (
                         <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setHubInnovacion(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={4}>
                                 <ButtonMui>
@@ -50,14 +50,13 @@ const Index = ({ auth, hubs_innovacion }) => {
                                 <MenuMui text={<MoreVertIcon />}>
                                     {hub_innovacion.id !== hub_innovacion_to_destroy ? (
                                         <div>
-                                            <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setHubInnovacion(hub_innovacion))} disabled={!is_super_admin}>
-                                                Editar
-                                            </MenuItem>
+                                            <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setHubInnovacion(hub_innovacion))}>Editar</MenuItem>
 
                                             <MenuItem
                                                 onClick={() => {
                                                     setHubInnovacionToDestroy(hub_innovacion.id)
-                                                }}>
+                                                }}
+                                                disabled={!is_super_admin}>
                                                 Eliminar
                                             </MenuItem>
                                         </div>

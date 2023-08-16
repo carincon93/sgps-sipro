@@ -23,15 +23,13 @@ class TecnoacademiaController extends Controller
         $this->authorize('viewAny', [Tecnoacademia::class]);
 
         return Inertia::render('Tecnoacademias/Index', [
-            'tecnoacademias'    => Tecnoacademia::selectRaw("tecnoacademias.id, tecnoacademias.nombre, tecnoacademias.centro_formacion_id, CASE modalidad
-                                            WHEN '1' THEN 'itinerante'
-                                            WHEN '2' THEN 'itinerante - vehículo'
-                                            WHEN '3' THEN 'fija con extensión'
-                                            END as modalidad")
-                                        ->with('centroFormacion')
-                                        ->orderBy('nombre', 'ASC')
+            'tecnoacademias'        => Tecnoacademia::select('tecnoacademias.*')->with('centroFormacion', 'lineasTecnoacademia')
+                                        ->orderBy('tecnoacademias.nombre', 'ASC')
                                         ->filterTecnoacademia(request()->only('search'))->paginate()->appends(['search' => request()->search]),
-            'allowed_to_create'   => Gate::inspect('create', [Tecnoacademia::class])->allowed()
+            'lineas_tecnoacademia'  => LineaTecnoacademia::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'modalidades'           => json_decode(Storage::get('json/modalidades-tecnoacademia.json'), true),
+            'centros_formacion'     => SelectHelper::centrosFormacion(),
+            'allowed_to_create'     => Gate::inspect('create', [Tecnoacademia::class])->allowed()
         ]);
     }
 
@@ -44,12 +42,7 @@ class TecnoacademiaController extends Controller
     {
         $this->authorize('create', [Tecnoacademia::class]);
 
-        return Inertia::render('Tecnoacademias/Create', [
-            'lineasTecnoacademia'   => LineaTecnoacademia::orderBy('nombre', 'ASC')->get(),
-            'modalidades'           => json_decode(Storage::get('json/modalidades-tecnoacademia.json'), true),
-            'centrosFormacion'      => SelectHelper::centrosFormacion(),
-            'allowed_to_create'       => Gate::inspect('create', [Tecnoacademia::class])->allowed()
-        ]);
+        //
     }
 
     /**
@@ -62,18 +55,12 @@ class TecnoacademiaController extends Controller
     {
         $this->authorize('create', [Tecnoacademia::class]);
 
-        $tecnoacademia = new Tecnoacademia();
-        $tecnoacademia->nombre                          = $request->nombre;
-        $tecnoacademia->modalidad                       = $request->modalidad;
-        $tecnoacademia->fecha_creacion                  = $request->fecha_creacion;
-        $tecnoacademia->foco                            = $request->foco;
-
-        $tecnoacademia->centroFormacion()->associate($request->centro_formacion_id);
+        $tecnoacademia = Tecnoacademia::create($request->validated());
         $tecnoacademia->save();
 
         $tecnoacademia->lineasTecnoacademia()->attach($request->linea_tecnoacademia_id);
 
-        return redirect()->route('tecnoacademias.index')->with('success', 'El recurso se ha creado correctamente.');
+        return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
     /**
@@ -85,6 +72,8 @@ class TecnoacademiaController extends Controller
     public function show(Tecnoacademia $tecnoacademia)
     {
         $this->authorize('view', [Tecnoacademia::class, $tecnoacademia]);
+
+        //
     }
 
     /**
@@ -97,13 +86,7 @@ class TecnoacademiaController extends Controller
     {
         $this->authorize('update', [Tecnoacademia::class, $tecnoacademia]);
 
-        return Inertia::render('Tecnoacademias/Edit', [
-            'tecnoacademia'                     => $tecnoacademia,
-            'lineasTecnoacademia'               => LineaTecnoacademia::orderBy('nombre', 'ASC')->get(),
-            'lineasTecnoacademiaRelacionadas'   => $tecnoacademia->lineasTecnoacademia()->pluck('lineas_tecnoacademia.id'),
-            'modalidades'                       => json_decode(Storage::get('json/modalidades-tecnoacademia.json'), true),
-            'centrosFormacion'                  => SelectHelper::centrosFormacion()
-        ]);
+        //
     }
 
     /**
@@ -117,14 +100,9 @@ class TecnoacademiaController extends Controller
     {
         $this->authorize('update', [Tecnoacademia::class, $tecnoacademia]);
 
-        $tecnoacademia->nombre                          = $request->nombre;
-        $tecnoacademia->modalidad                       = $request->modalidad;
-        $tecnoacademia->fecha_creacion                  = $request->fecha_creacion;
-        $tecnoacademia->foco                            = $request->foco;
+        $tecnoacademia->update($request->validated());
 
-        $tecnoacademia->centroFormacion()->associate($request->centro_formacion_id);
         $tecnoacademia->lineasTecnoacademia()->sync($request->linea_tecnoacademia_id);
-        $tecnoacademia->save();
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
@@ -141,6 +119,6 @@ class TecnoacademiaController extends Controller
 
         $tecnoacademia->delete();
 
-        return redirect()->route('tecnoacademias.index')->with('success', 'El recurso se ha eliminado correctamente.');
+        return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 }

@@ -18,47 +18,49 @@ import { route, checkRole } from '@/Utils'
 
 import Form from './Form'
 
-const Index = ({ auth, nodos_tecnoparque, centros_formacion }) => {
+const Index = ({ auth, roles_sennova, lineas_programaticas }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
     const [dialog_status, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
-    const [nodo_tecnoparque, setNodoTecnoparque] = useState(null)
-    const [nodo_tecnoparque_to_destroy, setNodoTecnoparqueToDestroy] = useState(null)
+    const [rol_sennova, setRolSennova] = useState(null)
+    const [rol_sennova_to_destroy, setRolSennovaToDestroy] = useState(null)
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Nodos Tecnoparque</h2>}>
+        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Roles SENNOVA</h2>}>
             <Grid item md={12}>
                 <SearchBar />
 
-                <TableMui className="mt-20" rows={['Nodo', 'Centro de formación', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui className="mt-20" rows={['Nombre', 'Línea programática', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) ? (
-                        <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setNodoTecnoparque(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                        <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setRolSennova(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={4}>
                                 <ButtonMui>
-                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar Nodo Tecnoparque
+                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar rol SENNOVA
                                 </ButtonMui>
                             </TableCell>
                         </TableRow>
                     ) : null}
-                    {nodos_tecnoparque.data.map((nodo_tecnoparque, i) => (
+                    {roles_sennova.data.map((rol_sennova, i) => (
                         <TableRow key={i}>
                             <TableCell>
-                                <p className="first-letter:uppercase">{nodo_tecnoparque.nombre}</p>
+                                <p className="first-letter:uppercase">{rol_sennova.nombre}</p>
                             </TableCell>
 
-                            <TableCell>{nodo_tecnoparque?.centro_formacion?.nombre}</TableCell>
+                            <TableCell>
+                                <p className="first-letter:uppercase">{rol_sennova.linea_programatica?.nombre}</p>
+                            </TableCell>
 
                             <TableCell>
                                 <MenuMui text={<MoreVertIcon />}>
-                                    {nodo_tecnoparque.id !== nodo_tecnoparque_to_destroy ? (
+                                    {rol_sennova.id !== rol_sennova_to_destroy ? (
                                         <div>
-                                            <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setNodoTecnoparque(nodo_tecnoparque))}>Editar</MenuItem>
+                                            <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setRolSennova(rol_sennova))}>Editar</MenuItem>
 
                                             <MenuItem
                                                 onClick={() => {
-                                                    setNodoTecnoparqueToDestroy(nodo_tecnoparque.id)
+                                                    setRolSennovaToDestroy(rol_sennova.id)
                                                 }}
                                                 disabled={!is_super_admin}>
                                                 Eliminar
@@ -68,7 +70,7 @@ const Index = ({ auth, nodos_tecnoparque, centros_formacion }) => {
                                         <div>
                                             <MenuItem
                                                 onClick={(e) => {
-                                                    setNodoTecnoparqueToDestroy(null)
+                                                    setRolSennovaToDestroy(null)
                                                 }}>
                                                 Cancelar
                                             </MenuItem>
@@ -77,7 +79,7 @@ const Index = ({ auth, nodos_tecnoparque, centros_formacion }) => {
                                                 onClick={(e) => {
                                                     e.stopPropagation()
                                                     if (is_super_admin) {
-                                                        router.delete(route('nodos-tecnoparque.destroy', [nodo_tecnoparque.id]), {
+                                                        router.delete(route('roles-sennova.destroy', [rol_sennova.id]), {
                                                             preserveScroll: true,
                                                         })
                                                     }
@@ -92,14 +94,14 @@ const Index = ({ auth, nodos_tecnoparque, centros_formacion }) => {
                     ))}
                 </TableMui>
 
-                <PaginationMui links={nodos_tecnoparque.links} className="mt-8" />
+                <PaginationMui links={roles_sennova.links} className="mt-8" />
 
                 <DialogMui
                     open={dialog_status}
                     fullWidth={true}
                     maxWidth="lg"
                     blurEnabled={true}
-                    dialogContent={<Form is_super_admin={is_super_admin} setDialogStatus={setDialogStatus} method={method} nodo_tecnoparque={nodo_tecnoparque} centros_formacion={centros_formacion} />}
+                    dialogContent={<Form is_super_admin={is_super_admin} setDialogStatus={setDialogStatus} method={method} rol_sennova={rol_sennova} lineas_programaticas={lineas_programaticas} />}
                 />
             </Grid>
         </AuthenticatedLayout>

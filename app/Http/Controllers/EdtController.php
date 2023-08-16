@@ -30,7 +30,7 @@ class EdtController extends Controller
         /**
          * Si el proyecto es diferente de la línea programática 70 se prohibe el acceso. No requiere de edt
          */
-        if ($proyecto->codigo_linea_programatica != 70) {
+        if ($proyecto->tipo_formulario_convocatoria_id != 4) {
             return redirect()->route('convocatorias.proyectos.presupuesto.index', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de edt');
         }
 

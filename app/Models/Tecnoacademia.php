@@ -79,13 +79,13 @@ class Tecnoacademia extends Model
     }
 
     /**
-     * Relationship with ProyectoProyectoFormulario8Linea66Tecnoacademia
+     * Relationship with ProyectoIdiTecnoacademia
      *
      * @return void
      */
-    public function proyectosProyectoFormulario8Linea66Tecnoacademia()
+    public function proyectosIdiTecnoacademia()
     {
-        return $this->hasMany(ProyectoProyectoFormulario8Linea66Tecnoacademia::class);
+        return $this->hasMany(ProyectoIdiTecnoacademia::class);
     }
 
     /**
@@ -127,62 +127,6 @@ class Tecnoacademia extends Model
         return "Última modificación de este formulario: " . Carbon::parse($value, 'UTC')->timezone('America/Bogota')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY [a las] HH:mm:ss');
     }
 
-    public function getMetaAprendicesAttribute()
-    {
-        $valorEstandarizado = 0;
-        $modalidad = $this->modalidad;
-        if ($modalidad == 1) {
-            $valorEstandarizado = 460000;
-        } else if ($modalidad == 2) {
-            $valorEstandarizado = 490000;
-        } else if ($modalidad == 3) {
-            $valorEstandarizado = 520000;
-        }
-
-        $total = 0;
-        if ($valorEstandarizado > 0) {
-            if (request()->route('proyecto') != null) {
-                $total = request()->route('proyecto')->getPrecioProyectoAttribute() / $valorEstandarizado;
-            }
-        }
-
-        return round($total);
-    }
-
-    public function getMaxValorMaterialesFormacionAttribute($value)
-    {
-        $total = 0;
-        if ($value > 0) {
-            $total = $value;
-        } else {
-            $valorAprendiz = 0;
-            $modalidad = $this->modalidad;
-            if ($modalidad == 1) {
-                $valorAprendiz = 20000;
-            } else if ($modalidad == 2) {
-                $valorAprendiz = 35000;
-            } else if ($modalidad == 3) {
-                $valorAprendiz = 63000;
-            }
-
-            $total = round($this->getMetaAprendicesAttribute() * $valorAprendiz);
-        }
-
-        return $total;
-    }
-
-    public function getMaxValorBienestarAlumnosAttribute($value)
-    {
-        $total = 0;
-
-        if ($value > 0) {
-            $total = $value;
-        } else {
-            $total = round($this->getMetaAprendicesAttribute() * 10200);
-        }
-        return $total;
-    }
-
     public function getNombreCarpetaSharepointAttribute()
     {
         return trim(preg_replace('/[^A-Za-z0-9\-ÁÉÍÓÚáéíóúÑñ]/', ' ', mb_strtoupper($this->nombre)));
@@ -190,10 +134,10 @@ class Tecnoacademia extends Model
 
     public function getAllowedAttribute()
     {
-        $allowedToView      = Gate::inspect('view', [Tecnoacademia::class, $this]);
-        $allowedToUpdate    = Gate::inspect('update', [Tecnoacademia::class, $this]);
-        $allowedToDestroy   = Gate::inspect('delete', [Tecnoacademia::class, $this]);
+        $allowed_to_view      = Gate::inspect('view', [Tecnoacademia::class, $this]);
+        $allowed_to_update    = Gate::inspect('update', [Tecnoacademia::class, $this]);
+        $allowed_to_destroy   = Gate::inspect('delete', [Tecnoacademia::class, $this]);
 
-        return collect(['to_view' => $allowedToView->allowed(), 'to_update' => $allowedToUpdate->allowed(), 'to_destroy' => $allowedToDestroy->allowed()]);
+        return collect(['to_view' => $allowed_to_view->allowed(), 'to_update' => $allowed_to_update->allowed(), 'to_destroy' => $allowed_to_destroy->allowed()]);
     }
 }

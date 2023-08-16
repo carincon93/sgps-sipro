@@ -88,7 +88,12 @@ class LaboratorioServicioTecnologico extends Model
     public function scopeFilterLaboratorioServicioTecnologico($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
-            $query->where('tipologia', 'ilike', '%' . $search . '%');
+            $search = str_replace('"', "", $search);
+            $search = str_replace("'", "", $search);
+            $search = str_replace(' ', '%%', $search);
+            $query->join('centros_formacion', 'tipos_proyecto_linea_68.centro_formacion_id', 'centros_formacion.id');
+            $query->whereRaw("unaccent(centros_formacion.nombre) ilike unaccent('%" . $search . "%')");
+            $query->orWhereRaw("unaccent(centros_formacion.codigo) ilike unaccent('%" . $search . "%')");
         });
     }
 

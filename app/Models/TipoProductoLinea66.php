@@ -45,13 +45,13 @@ class TipoProductoLinea66 extends Model
     ];
 
     /**
-     * Relationship with ProyectoProyectoFormulario8Linea66TecnoacademiaProducto
+     * Relationship with ProyectoIdiTecnoacademiaProducto
      *
      * @return object
      */
-    public function proyectosProyectoFormulario8Linea66TecnoacademiaProducto()
+    public function proyectosIdiTecnoacademiaProducto()
     {
-        return $this->hasMany(ProyectoProyectoFormulario8Linea66TecnoacademiaProducto::class);
+        return $this->hasMany(ProyectoIdiTecnoacademiaProducto::class);
     }
 
     /**

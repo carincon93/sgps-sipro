@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\SelectHelper;
 use App\Models\LaboratorioServicioTecnologico;
+use App\Models\LineaTecnica;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class LaboratorioServicioTecnologicoController extends Controller
@@ -17,19 +20,12 @@ class LaboratorioServicioTecnologicoController extends Controller
         $this->authorize('viewAny', [LaboratorioServicioTecnologico::class]);
 
         return Inertia::render('LaboratoriosServiciosTecnologicos/Index', [
-            'laboratorios_servicios_tecnologicos'   =>  LaboratorioServicioTecnologico::selectRaw("tipos_proyecto_linea_68.id, CASE subclasificacion
-                                                                    WHEN '1' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), '∙ Automatización y TICs', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
-                                                                    WHEN '2' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), '∙ Calibración', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
-                                                                    WHEN '3' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), '∙ Consultoría técnica', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
-                                                                    WHEN '4' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), '∙ Ensayo', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
-                                                                    WHEN '5' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), '∙ Fabricación especial', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
-                                                                    WHEN '6' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), '∙ Seguridad y salud en el trabajo', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
-                                                                    WHEN '7' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), '∙ Servicios de salud', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
-                                                                END as laboratorio, regionales.nombre as regional_nombre")
-                                                            ->join('centros_formacion', 'tipos_proyecto_linea_68.centro_formacion_id', 'centros_formacion.id')
-                                                            ->join('regionales', 'centros_formacion.regional_id', 'regionales.id')
-                                                            ->join('lineas_tecnicas', 'tipos_proyecto_linea_68.linea_tecnica_id', 'lineas_tecnicas.id')
-                                                            ->filterLaboratorioServicioTecnologico(request()->only('search'))->orderBy('regionales.nombre')->paginate(),
+            'laboratorios_servicios_tecnologicos'   =>  LaboratorioServicioTecnologico::select('tipos_proyecto_linea_68.*')->with('centroFormacion.regional', 'lineaTecnica')
+                                                            ->filterLaboratorioServicioTecnologico(request()->only('search'))->paginate(),
+            'tipologias_st'                         =>  json_decode(Storage::get('json/tipologias-st.json'), true),
+            'subclasificaciones_st'                 =>  json_decode(Storage::get('json/subclasificaciones-st.json'), true),
+            'lineas_tecnicas'                       =>  LineaTecnica::select('id as value', 'nombre as label')->get(),
+            'centros_formacion'                     =>  SelectHelper::centrosFormacion(),
             'allowed_to_create'                     =>  Gate::inspect('create', [LaboratorioServicioTecnologico::class])->allowed()
         ]);
     }
@@ -47,7 +43,13 @@ class LaboratorioServicioTecnologicoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->authorize('create', [LaboratorioServicioTecnologico::class]);
+
+        $laboratorio_st = LaboratorioServicioTecnologico::create($request->all());
+
+        $laboratorio_st->save();
+
+        return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
     /**
@@ -71,7 +73,11 @@ class LaboratorioServicioTecnologicoController extends Controller
      */
     public function update(Request $request, LaboratorioServicioTecnologico $laboratorio_st)
     {
-        //
+        $this->authorize('update', [LaboratorioServicioTecnologico::class, $laboratorio_st]);
+
+        $laboratorio_st->update($request->all());
+
+        return back()->with('success', 'El recurso se ha modificado correctamente.');
     }
 
     /**
@@ -79,6 +85,10 @@ class LaboratorioServicioTecnologicoController extends Controller
      */
     public function destroy(LaboratorioServicioTecnologico $laboratorio_st)
     {
-        //
+        $this->authorize('delete', [LaboratorioServicioTecnologico::class, $laboratorio_st]);
+
+        $laboratorio_st->delete();
+
+        return redirect()->route('lineas-tecnicas.index')->with('success', 'El recurso se ha eliminado correctamente.');
     }
 }
