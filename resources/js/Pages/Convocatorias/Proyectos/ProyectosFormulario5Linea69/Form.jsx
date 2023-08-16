@@ -103,16 +103,20 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                             <Label required labelFor="nodo_tecnoparque_id" value="Nodo Tecnoparque" />
                         </Grid>
                         <Grid item md={6}>
-                            <Autocomplete
-                                id="nodo_tecnoparque_id"
-                                options={nodos_tecnoparque}
-                                selectedValue={form.data.nodo_tecnoparque_id}
-                                onChange={(event, newValue) => form.setData('nodo_tecnoparque_id', newValue.value)}
-                                error={form.errors.nodo_tecnoparque_id}
-                                placeholder="Seleccione un nodo Tecnoparque"
-                                disabled={is_super_admin ? false : evaluacion || method === 'editar'}
-                                required
-                            />
+                            {method == 'POST' ? (
+                                <Autocomplete
+                                    id="nodo_tecnoparque_id"
+                                    options={nodos_tecnoparque}
+                                    selectedValue={form.data.nodo_tecnoparque_id}
+                                    onChange={(event, newValue) => form.setData('nodo_tecnoparque_id', newValue.value)}
+                                    error={form.errors.nodo_tecnoparque_id}
+                                    disabled={is_super_admin ? false : evaluacion || method === 'editar'}
+                                    required
+                                    onBlur={() => syncColumnLong('nodo_tecnoparque_id', form)}
+                                />
+                            ) : (
+                                <>{proyecto_formulario_5_linea_69?.titulo}</>
+                            )}
                         </Grid>
                     </Grid>
                 ) : (

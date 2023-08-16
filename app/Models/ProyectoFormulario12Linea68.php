@@ -104,7 +104,7 @@ class ProyectoFormulario12Linea68 extends Model
      */
     public function tipoProyectoLinea68()
     {
-        return $this->belongsTo(LaboratorioServicioTecnologico::class);
+        return $this->belongsTo(LaboratorioServicioTecnologico::class, 'tipo_proyecto_linea_68_id');
     }
 
     /**

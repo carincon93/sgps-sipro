@@ -41,11 +41,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_6_linea_82, allowed_to
                     <TableMui rows={['Título', 'Fecha de ejecución', 'Estado (Evaluación)', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         {allowed_to_create && (
                             <TableRow
-                                onClick={() =>
-                                    router.visit(
-                                        route('convocatorias.proyectos-formulario-6-linea-82.create', [convocatoria.id, { linea_programatica_id: page_props.ziggy.query.linea_programatica_id }]),
-                                    )
-                                }
+                                onClick={() => router.visit(route('convocatorias.proyectos-formulario-6-linea-82.create', [convocatoria.id]))}
                                 variant="raised"
                                 className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                                 <TableCell colSpan={4}>

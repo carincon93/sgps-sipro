@@ -14,16 +14,19 @@ const Indicadores = ({ auth, convocatoria, proyecto, evaluacion, ...props }) => 
             proyecto.proyecto_formulario8_linea66?.productividad_beneficiaros ??
             proyecto.proyecto_formulario7_linea23?.productividad_beneficiaros ??
             proyecto.proyecto_formulario9_linea23?.productividad_beneficiaros ??
+            proyecto.proyecto_formulario6_linea82?.productividad_beneficiaros ??
             '',
         generacion_empleo_beneficiarios:
             proyecto.proyecto_formulario8_linea66?.generacion_empleo_beneficiarios ??
             proyecto.proyecto_formulario7_linea23?.generacion_empleo_beneficiarios ??
             proyecto.proyecto_formulario9_linea23?.generacion_empleo_beneficiarios ??
+            proyecto.proyecto_formulario6_linea82?.generacion_empleo_beneficiarios ??
             '',
         creacion_nuevos_desarrollos:
             proyecto.proyecto_formulario8_linea66?.creacion_nuevos_desarrollos ??
             proyecto.proyecto_formulario7_linea23?.creacion_nuevos_desarrollos ??
             proyecto.proyecto_formulario9_linea23?.creacion_nuevos_desarrollos ??
+            proyecto.proyecto_formulario6_linea82?.creacion_nuevos_desarrollos ??
             '',
         generacion_conocimientos_beneficiarios:
             proyecto.proyecto_formulario8_linea66?.generacion_conocimientos_beneficiarios ??
@@ -66,7 +69,9 @@ const Indicadores = ({ auth, convocatoria, proyecto, evaluacion, ...props }) => 
     const submit = (e) => {
         e.preventDefault()
         if (proyecto.allowed.to_update) {
-            form.post(route('convocatorias.proyectos.indicadores.store', [convocatoria.id, proyecto.id]))
+            form.post(route('convocatorias.proyectos.indicadores.store', [convocatoria.id, proyecto.id]), {
+                preserveScroll: true,
+            })
         }
     }
 

@@ -177,33 +177,7 @@ class ProyectoFormulario16Linea65Controller extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_16_linea_65->proyecto]);
 
-        $proyecto_formulario_16_linea_65->titulo                                    = $request->titulo;
-        $proyecto_formulario_16_linea_65->fecha_inicio                              = $request->fecha_inicio;
-        $proyecto_formulario_16_linea_65->fecha_finalizacion                        = $request->fecha_finalizacion;
-        $proyecto_formulario_16_linea_65->max_meses_ejecucion                       = $request->max_meses_ejecucion;
-
-        $proyecto_formulario_16_linea_65->numero_beneficiarios                      = $request->numero_beneficiarios;
-
-        $proyecto_formulario_16_linea_65->resumen                                   = $request->resumen;
-        $proyecto_formulario_16_linea_65->antecedentes                              = $request->antecedentes;
-        $proyecto_formulario_16_linea_65->marco_conceptual                          = $request->marco_conceptual;
-
-        $proyecto_formulario_16_linea_65->justificacion_politica_discapacidad       = $request->justificacion_politica_discapacidad;
-        $proyecto_formulario_16_linea_65->impacto_municipios                        = $request->impacto_municipios;
-        $proyecto_formulario_16_linea_65->impacto_centro_formacion                  = $request->impacto_centro_formacion;
-        $proyecto_formulario_16_linea_65->bibliografia                              = $request->bibliografia;
-        $proyecto_formulario_16_linea_65->atencion_pluralista_diferencial           = $request->atencion_pluralista_diferencial;
-
-        $proyecto_formulario_16_linea_65->relacionado_plan_tecnologico              = $request->relacionado_plan_tecnologico;
-        $proyecto_formulario_16_linea_65->relacionado_agendas_competitividad        = $request->relacionado_agendas_competitividad;
-        $proyecto_formulario_16_linea_65->relacionado_mesas_sectoriales             = $request->relacionado_mesas_sectoriales;
-
-        $proyecto_formulario_16_linea_65->eje_sennova                               = $request->eje_sennova;
-        $proyecto_formulario_16_linea_65->areas_cualificacion_mnc                   = $request->areas_cualificacion_mnc;
-        $proyecto_formulario_16_linea_65->aportacion_linea_transeversal_campesena   = $request->aportacion_linea_transeversal_campesena;
-        $proyecto_formulario_16_linea_65->lineas_estrategicas_sena                  = $request->lineas_estrategicas_sena;
-        $proyecto_formulario_16_linea_65->justificacion_aportes_lineas_estrategicas = $request->justificacion_aportes_lineas_estrategicas;
-        $proyecto_formulario_16_linea_65->lineas_programaticas_sennova              = $request->lineas_programaticas_sennova;
+        $proyecto_formulario_16_linea_65->update($request->validated());
 
         $proyecto_formulario_16_linea_65->save();
 
@@ -213,30 +187,6 @@ class ProyectoFormulario16Linea65Controller extends Controller
         $request->relacionado_mesas_sectoriales == 1 ? $proyecto_formulario_16_linea_65->proyecto->mesasSectoriales()->sync($request->mesa_sectorial_id) : $proyecto_formulario_16_linea_65->proyecto->mesasSectoriales()->detach();
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
-    }
-
-    public function updateLongColumn(ProyectoFormulario16Linea65ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario16Linea65 $proyecto_formulario_16_linea_65, $column)
-    {
-        $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_16_linea_65->proyecto]);
-
-        if ($column == 'programas_formacion' || $column == 'programas_formacion_articulados') {
-            $proyecto_formulario_16_linea_65->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
-            return back();
-        }
-
-        if ($column == 'municipios') {
-            $proyecto_formulario_16_linea_65->proyecto->municipios()->sync($request->only($column)[$column]);
-            return back();
-        }
-
-        if ($column == 'mesa_sectorial_id') {
-            $proyecto_formulario_16_linea_65->proyecto->mesasSectoriales()->sync($request->only($column)[$column]);
-            return back();
-        }
-
-        $proyecto_formulario_16_linea_65->update($request->only($column));
-
-        return back();
     }
 
     /**
@@ -298,5 +248,29 @@ class ProyectoFormulario16Linea65Controller extends Controller
         $evaluacion_proyecto_formulario_16_linea_65->save();
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
+    }
+
+    public function updateLongColumn(ProyectoFormulario16Linea65ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario16Linea65 $proyecto_formulario_16_linea_65, $column)
+    {
+        $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_16_linea_65->proyecto]);
+
+        if ($column == 'programas_formacion' || $column == 'programas_formacion_articulados') {
+            $proyecto_formulario_16_linea_65->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
+            return back();
+        }
+
+        if ($column == 'municipios') {
+            $proyecto_formulario_16_linea_65->proyecto->municipios()->sync($request->only($column)[$column]);
+            return back();
+        }
+
+        if ($column == 'mesa_sectorial_id') {
+            $proyecto_formulario_16_linea_65->proyecto->mesasSectoriales()->sync($request->only($column)[$column]);
+            return back();
+        }
+
+        $proyecto_formulario_16_linea_65->update($request->only($column));
+
+        return back();
     }
 }

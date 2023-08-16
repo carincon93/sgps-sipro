@@ -34,7 +34,7 @@ const Form = ({
     ...props
 }) => {
     const form = useForm({
-        tipo_proyecto_formulario_12_linea_68_id: proyecto_formulario_12_linea_68?.tipo_proyecto_formulario_12_linea_68_id ?? '',
+        tipo_proyecto_linea_68_id: proyecto_formulario_12_linea_68?.tipo_proyecto_linea_68_id ?? '',
         titulo: proyecto_formulario_12_linea_68?.titulo ?? '',
         fecha_inicio: proyecto_formulario_12_linea_68?.fecha_inicio ?? '',
         fecha_finalizacion: proyecto_formulario_12_linea_68?.fecha_finalizacion ?? '',
@@ -61,8 +61,6 @@ const Form = ({
         cantidad_horas: 0,
         rol_sennova: null,
     })
-
-    console.log(proyecto_formulario_12_linea_68)
 
     const submit = (e) => {
         e.preventDefault()
@@ -180,16 +178,16 @@ const Form = ({
                 </Grid>
 
                 <Grid item md={6}>
-                    <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="tipo_proyecto_formulario_12_linea_68_id" value="Tipo de proyecto ST" />
+                    <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="tipo_proyecto_linea_68_id" value="Tipo de proyecto ST" />
                 </Grid>
                 <Grid item md={6}>
                     {method == 'POST' ? (
                         <Autocomplete
-                            id="tipo_proyecto_formulario_12_linea_68_id"
+                            id="tipo_proyecto_linea_68_id"
                             options={tipos_proyecto_linea_68}
-                            selectedValue={form.data.tipo_proyecto_formulario_12_linea_68_id}
-                            onChange={(event, newValue) => form.setData('tipo_proyecto_formulario_12_linea_68_id', newValue.value)}
-                            error={form.errors.tipo_proyecto_formulario_12_linea_68_id}
+                            selectedValue={form.data.tipo_proyecto_linea_68_id}
+                            onChange={(event, newValue) => form.setData('tipo_proyecto_linea_68_id', newValue.value)}
+                            error={form.errors.tipo_proyecto_linea_68_id}
                             required
                             disabled={is_super_admin ? false : evaluacion || method === 'editar'}
                         />
@@ -215,7 +213,7 @@ const Form = ({
                     />
                 </Grid>
 
-                {form.data.tipo_proyecto_formulario_12_linea_68_id && (
+                {form.data.tipo_proyecto_linea_68_id && (
                     <>
                         <Grid item md={6}>
                             <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="estado_sistema_gestion_id" value="Estado del sistema de gestión" />

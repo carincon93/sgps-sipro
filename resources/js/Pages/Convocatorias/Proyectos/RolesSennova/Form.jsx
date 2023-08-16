@@ -129,34 +129,6 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                 />
                             </div>
 
-                            {proyecto.tipo_formulario_convocatoria_id == 5 && (
-                                <>
-                                    <h6 className="mt-20 mb-12 text-2xl">Líneas tecnológicas</h6>
-                                    <AlertMui className="ml-10 mb-6">Seleccione una o varias líneas</AlertMui>
-                                    <div className="bg-white rounded shadow overflow-hidden">
-                                        <div className="p-4">
-                                            <Label className="mb-4" labelFor="linea_tecnologica_id" value="Relacione alguna línea" />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <SelectMultiple
-                                                id="linea_tecnologica_id"
-                                                options={lineas_tecnologicas}
-                                                onChange={(event, newValue) => {
-                                                    const selectedValues = newValue.map((option) => option.value)
-                                                    form.setData((prevData) => ({
-                                                        ...prevData,
-                                                        linea_tecnologica_id: selectedValues,
-                                                    }))
-                                                }}
-                                                error={form.errors.linea_tecnologica_id}
-                                                required
-                                            />
-                                            {lineas_tecnologicas.length === 0 && <p className="p-4">Sin información registrada</p>}
-                                        </div>
-                                    </div>
-                                </>
-                            )}
-
                             <h6 className="mt-20 mb-6 text-2xl">Actividades</h6>
                             <div>
                                 <AlertMui className="mb-6">Seleccione las actividades que debe ejecutar el rol</AlertMui>
@@ -175,7 +147,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                     label="Relacione las respectivas actividades"
                                     required
                                 />
-                                {actividades.length === 0 && <p className="p-4">Sin información registrada</p>}
+                                {actividades.length === 0 && <p className="p-4">Importante: No ha creado actividades</p>}
                             </div>
                         </fieldset>
                         {proyecto_rol_sennova && <small className="flex items-center mt-4 text-app-700">{proyecto_rol_sennova.updated_at}</small>}

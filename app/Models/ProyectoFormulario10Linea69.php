@@ -200,7 +200,7 @@ class ProyectoFormulario10Linea69 extends Model
         /** @var \App\Models\User */
         $auth_user = Auth::user();
 
-        $proyectos_formulario_10_linea_69 = ProyectoFormulario10Linea69::select('proyectos_formulario_10_linea_69.id', 'proyectos_formulario_10_linea_69.nodo_tecnoparque_id', 'proyectos_formulario_10_linea_69.fecha_inicio', 'proyectos_formulario_10_linea_69.fecha_finalizacion', 'proyectos_formulario_10_linea_69.proyecto_base')
+        $proyectos_formulario_10_linea_69 = ProyectoFormulario10Linea69::select('proyectos_formulario_10_linea_69.id', 'proyectos_formulario_10_linea_69.hub_innovacion_id', 'proyectos_formulario_10_linea_69.fecha_inicio', 'proyectos_formulario_10_linea_69.fecha_finalizacion', 'proyectos_formulario_10_linea_69.proyecto_base')
             ->join('proyectos', 'proyectos_formulario_10_linea_69.id', 'proyectos.id')
             ->join('centros_formacion', 'proyectos.centro_formacion_id', 'centros_formacion.id')
             ->whereHas(
@@ -233,7 +233,7 @@ class ProyectoFormulario10Linea69 extends Model
             ->filterProyectoFormulario10Linea69(request()->only('search'))->paginate();
 
         $proyectos_formulario_10_linea_69->load('proyecto');
-        $proyectos_formulario_10_linea_69->load('nodoTecnoparque');
+        $proyectos_formulario_10_linea_69->load('hubInnovacion');
         $proyectos_formulario_10_linea_69->load('proyecto.evaluaciones');
 
         return $proyectos_formulario_10_linea_69;

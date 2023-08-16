@@ -1315,65 +1315,16 @@ class ProyectoController extends Controller
 
         switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 6:
-                $proyecto->proyectoFormulario6Linea82()->update($request->only(
-                    'productividad_beneficiaros',
-                    'generacion_empleo_beneficiarios',
-                    'creacion_nuevos_desarrollos',
-                    'generacion_conocimientos_beneficiarios',
-                    'generacion_valor_beneficiarios',
-                    'fortalecimiento_programas_formacion',
-                    'transferencia_tecnologias',
-                    'calidad_formacion',
-                    'impacto_ambiental_proyectos')
-                );
-
-                $proyecto->proyectoFormulario6Linea82->save();
-
+                $proyecto->proyectoFormulario6Linea82()->update($request->all());
                 break;
             case 7:
-                $proyecto->proyectoFormulario7Linea23()->update($request->only(
-                    'productividad_beneficiaros',
-                    'generacion_empleo_beneficiarios',
-                    'creacion_nuevos_desarrollos',
-                    'generacion_conocimientos_beneficiarios',
-                    'generacion_valor_beneficiarios',
-                    'fortalecimiento_programas_formacion',
-                    'transferencia_tecnologias',
-                    'calidad_formacion',
-                    'impacto_ambiental_proyectos')
-                );
-
-                $proyecto->proyectoFormulario7Linea23->save();
+                $proyecto->proyectoFormulario7Linea23()->update($request->all());
                 break;
             case 8:
-                $proyecto->proyectoFormulario8Linea66()->update($request->only(
-                    'productividad_beneficiaros',
-                    'generacion_empleo_beneficiarios',
-                    'creacion_nuevos_desarrollos',
-                    'generacion_conocimientos_beneficiarios',
-                    'generacion_valor_beneficiarios',
-                    'fortalecimiento_programas_formacion',
-                    'transferencia_tecnologias',
-                    'calidad_formacion',
-                    'impacto_ambiental_proyectos')
-                );
-
-                $proyecto->proyectoFormulario8Linea66->save();
+                $proyecto->proyectoFormulario8Linea66()->update($request->all());
                 break;
             case 9:
-                $proyecto->proyectoFormulario9Linea23()->update($request->only(
-                    'productividad_beneficiaros',
-                    'generacion_empleo_beneficiarios',
-                    'creacion_nuevos_desarrollos',
-                    'generacion_conocimientos_beneficiarios',
-                    'generacion_valor_beneficiarios',
-                    'fortalecimiento_programas_formacion',
-                    'transferencia_tecnologias',
-                    'calidad_formacion',
-                    'impacto_ambiental_proyectos')
-                );
-
-                $proyecto->proyectoFormulario9Linea23->save();
+                $proyecto->proyectoFormulario9Linea23()->update($request->all());
                 break;
             default:
                 break;

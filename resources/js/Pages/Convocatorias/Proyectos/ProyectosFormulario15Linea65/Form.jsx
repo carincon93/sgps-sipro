@@ -517,6 +517,7 @@ const Form = ({
                             )}
                         </Grid>
 
+
                         <Grid item md={6}>
                             <Label labelFor="justificacion_politica_discapacidad" value="¿El proyecto aporta a la Política Institucional para Atención de las Personas con discapacidad?" />
                         </Grid>

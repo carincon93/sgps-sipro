@@ -97,7 +97,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
         // $nuevo_proyecto_formulario_10_linea_69->proyecto()->update(['arboles_completos' => true]);
 
         // if ($nuevo_proyecto_formulario_10_linea_69) {
-            return redirect()->route('convocatorias.proyectos-formulario-10-linea-69.edit', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
+            return redirect()->route('convocatorias.proyectos-formulario-10-linea-69.edit', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente. Por favor continue diligenciando la información.');
         // } else {
         //     return back()->with('error', 'No hay un proyecto base generado. Por favor notifique al activador(a) de la línea.');
         // }
@@ -184,15 +184,6 @@ class ProyectoFormulario10Linea69Controller extends Controller
         $proyecto_formulario_10_linea_69->save();
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
-    }
-
-    public function updateLongColumn(ProyectoFormulario10Linea69ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario10Linea69 $proyecto_formulario_10_linea_69, $column)
-    {
-        $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_10_linea_69->proyecto]);
-
-        $proyecto_formulario_10_linea_69->update($request->only($column));
-
-        return back();
     }
 
     /**
@@ -371,4 +362,25 @@ class ProyectoFormulario10Linea69Controller extends Controller
 
         return SharepointHelper::downloadFile($sharepoint_path);
     }
+
+    public function updateMetodologiaProyectoFormulario10Linea69(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        $this->authorize('modificar-proyecto-autor', $proyecto);
+
+        $proyecto->proyectoFormulario10Linea69()->update($request->all());
+
+        $proyecto->save();
+
+        return back()->with('success', 'El recurso se ha guardado correctamente.');
+    }
+
+    public function updateLongColumn(ProyectoFormulario10Linea69ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario10Linea69 $proyecto_formulario_10_linea_69, $column)
+    {
+        $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_10_linea_69->proyecto]);
+
+        $proyecto_formulario_10_linea_69->update($request->only($column));
+
+        return back();
+    }
+
 }

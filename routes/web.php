@@ -354,8 +354,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion/column/{column}', [ArticulacionSennovaController::class, 'updateLongColumn'])->name('convocatorias.proyectos.articulacion-sennova.updateLongColumn');
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion', [ArticulacionSennovaController::class, 'showArticulacionSennova'])->name('convocatorias.proyectos.articulacion-sennova');
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion', [ArticulacionSennovaController::class, 'storeArticulacionSennova'])->name('convocatorias.proyectos.articulacion-sennova.store');
-    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion-proyectos-hub', [ArticulacionSennovaController::class, 'storeArticulacionSennovaProyectosHub'])->name('convocatorias.proyectos.articulacion-sennova-proyectos-hub.store');
-    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion-proyectos-tecnoparque', [ArticulacionSennovaController::class, 'storeArticulacionSennovaProyectosTecnoparque'])->name('convocatorias.proyectos.articulacion-sennova-proyectos-tecnoparque.store');
+    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion-proyectos-formulario-10-linea-69', [ArticulacionSennovaController::class, 'storeArticulacionSennovaProyectosHub'])->name('convocatorias.proyectos.articulacion-sennova-formulario-10-linea-69.store');
+    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion-proyectos-formulario-17-linea-69', [ArticulacionSennovaController::class, 'storeArticulacionSennovaProyectosTecnoparque'])->name('convocatorias.proyectos.articulacion-sennova-proyectos-formulario-17-linea-69.store');
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/articulacion-proyectos-formulario-11-linea-83', [ArticulacionSennovaController::class, 'storeArticulacionSennovaProyectosLinea83'])->name('convocatorias.proyectos.articulacion-sennova-proyectos-formulario-11-linea-83.store');
 
     /**
@@ -450,6 +450,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Línea programática 70 - Estrategia nacional
      *
      */
+    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/programas-formacion', [ProyectoController::class, 'storeProgramaFormacion'])->name('convocatorias.proyectos.programas-formacion.store');
+    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/discurriculares', [DisenoCurricularController::class, 'storeDisCurricular'])->name('convocatorias.proyectos.dis-curriculares.store');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/rol/sennova/ta', [ProyectoFormulario4Linea70Controller::class, 'updateCantidadRolesTa'])->name('convocatorias.proyectos.rol-sennova-ta.update');
     Route::get('convocatorias/{convocatoria}/proyectos-formulario-4-linea-70/{proyecto_formulario_4_linea_70}/download-pdf-sharepoint/{tipo_archivo}', [ProyectoFormulario4Linea70Controller::class, 'downloadPdfSharepoint'])->name('convocatorias.proyectos-formulario-4-linea-70.download-file-sharepoint');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/aulas-moviles/{aula_movil}/upload-archivo', function (Convocatoria $convocatoria, Proyecto $proyecto, AulaMovil $aula_movil) {
         $controller = app(ProyectoFormulario4Linea70Controller::class);
@@ -466,11 +469,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('convocatorias/{convocatoria}/proyectos-formulario-4-linea-70/{proyecto_formulario_4_linea_70}/aulas-moviles/{aula_movil}', [ProyectoFormulario4Linea70Controller::class, 'updateAulaMovil'])->name('convocatorias.proyectos-formulario-4-linea-70.aulas-moviles.update');
     Route::delete('convocatorias/{convocatoria}/proyectos-formulario-4-linea-70/{proyecto_formulario_4_linea_70}/aulas-moviles/{aula_movil}', [ProyectoFormulario4Linea70Controller::class, 'destroyAulaMovil'])->name('convocatorias.proyectos-formulario-4-linea-70.aulas-moviles.destroy');
 
-    Route::get('convocatorias/{convocatoria}/proyectos-formulario-4-linea-70/{proyecto_formulario_4_linea_70}/aulas-moviles/{aula_movil}/download-file-sharepoint/{tipo_archivo}', [ProyectoFormulario4Linea70Controller::class, 'downloadFileSharepoint'])->name('convocatorias.proyectos-formulario-4-linea-70.aulas-moviles.download-file-sharepoint');
-    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/programas-formacion', [ProyectoController::class, 'storeProgramaFormacion'])->name('convocatorias.proyectos.programas-formacion.store');
-    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/discurriculares', [DisenoCurricularController::class, 'storeDisCurricular'])->name('convocatorias.proyectos.dis-curriculares.store');
-    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/rol/sennova/ta', [ProyectoFormulario4Linea70Controller::class, 'updateCantidadRolesTa'])->name('convocatorias.proyectos.rol-sennova-ta.update');
     Route::put('convocatorias/{convocatoria}/proyectos-formulario-4-linea-70/{proyecto_formulario_4_linea_70}/column/{column}', [ProyectoFormulario4Linea70Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-formulario-4-linea-70.updateLongColumn');
+    Route::get('convocatorias/{convocatoria}/proyectos-formulario-4-linea-70/{proyecto_formulario_4_linea_70}/aulas-moviles/{aula_movil}/download-file-sharepoint/{tipo_archivo}', [ProyectoFormulario4Linea70Controller::class, 'downloadFileSharepoint'])->name('convocatorias.proyectos-formulario-4-linea-70.aulas-moviles.download-file-sharepoint');
 
     Route::resource('convocatorias.proyectos.presupuesto.edt', EdtController::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos' => 'proyecto', 'presupuesto' => 'presupuesto', 'edt' => 'edt'])->except(['show']);
     Route::resource('convocatorias.proyectos-formulario-4-linea-70', ProyectoFormulario4Linea70Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-formulario-4-linea-70' => 'proyecto-formulario-4-linea-70'])->except(['show']);
@@ -585,14 +585,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('convocatorias.proyectos.productos', ProductoController::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos' => 'proyecto', 'productos' => 'producto'])->except(['show']);
 
     /**
-     * Actividades
+     * Metodología y Actividades
      *
      */
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia/column/{column}', [ActividadController::class, 'updateLongColumn'])->name('convocatorias.proyectos.metodologia.updateLongColumn');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia', [ActividadController::class, 'updateMetodologia'])->name('convocatorias.proyectos.metodologia');
-    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia-proyecto-hub', [ActividadController::class, 'updateMetodologiaProyectoHub'])->name('convocatorias.proyectos.metodologia-proyecto-hub');
-    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia-proyecto-tecnoparque', [ActividadController::class, 'updateMetodologiaProyectoTecnoparque'])->name('convocatorias.proyectos.metodologia-proyecto-tecnoparque');
-    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia-proyecto-formulario-11-linea-83', [ActividadController::class, 'updateMetodologiaProyectoFormulario11Linea83'])->name('convocatorias.proyectos.metodologia-proyecto-formulario-11-linea-83');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia-proyecto-formulario-4-linea-70', [ProyectoFormulario4Linea70Controller::class, 'updateMetodologiaProyectoFormulario4Linea70'])->name('convocatorias.proyectos.metodologia-proyecto-formulario-4-linea-70');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia-proyecto-formulario-5-linea-69', [ProyectoFormulario5Linea69Controller::class, 'updateMetodologiaProyectoFormulario5Linea69'])->name('convocatorias.proyectos.metodologia-proyecto-formulario-5-linea-69');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia-proyecto-formulario-10-linea-69', [ProyectoFormulario10Linea69Controller::class, 'updateMetodologiaProyectoFormulario10Linea69'])->name('convocatorias.proyectos.metodologia-proyecto-formulario-10-linea-69');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia-proyecto-formulario-17-linea-69', [ProyectoFormulario17Linea69Controller::class, 'updateMetodologiaProyectoFormulario17Linea69'])->name('convocatorias.proyectos.metodologia-proyecto-formulario-17-linea-69');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia-proyecto-formulario-11-linea-83', [ProyectoFormulario11Linea83Controller::class, 'updateMetodologiaProyectoFormulario11Linea83'])->name('convocatorias.proyectos.metodologia-proyecto-formulario-11-linea-83');
     Route::resource('convocatorias.proyectos.actividades', ActividadController::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos' => 'proyecto', 'actividades' => 'actividad'])->except(['show']);
 
     /**

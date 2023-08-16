@@ -186,7 +186,7 @@ class ProyectoFormulario8Linea66Controller extends Controller
         // $proyecto_formulario_8_linea_66->proyecto->all_files;
 
         $proyecto_formulario_8_linea_66->disciplinaSubareaConocimiento->subareaConocimiento->areaConocimiento;
-        $proyecto_formulario_8_linea_66->mesasSectoriales;
+        $proyecto_formulario_8_linea_66->proyecto->mesasSectoriales;
         $proyecto_formulario_8_linea_66->areasTematicasEni;
         $proyecto_formulario_8_linea_66->lineasInvestigacionEni;
 
@@ -234,57 +234,7 @@ class ProyectoFormulario8Linea66Controller extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_8_linea_66->proyecto]);
 
-        $proyecto_formulario_8_linea_66->titulo                                          = $request->titulo;
-        $proyecto_formulario_8_linea_66->fecha_inicio                                    = $request->fecha_inicio;
-        $proyecto_formulario_8_linea_66->fecha_finalizacion                              = $request->fecha_finalizacion;
-        $proyecto_formulario_8_linea_66->max_meses_ejecucion                             = $request->max_meses_ejecucion;
-        $proyecto_formulario_8_linea_66->video                                           = $request->video;
-        $proyecto_formulario_8_linea_66->numero_aprendices                               = $request->numero_aprendices;
-
-        $proyecto_formulario_8_linea_66->resumen                                         = $request->resumen;
-        $proyecto_formulario_8_linea_66->antecedentes                                    = $request->antecedentes;
-        $proyecto_formulario_8_linea_66->marco_conceptual                                = $request->marco_conceptual;
-        $proyecto_formulario_8_linea_66->justificacion_industria_4                       = $request->justificacion_industria_4;
-        $proyecto_formulario_8_linea_66->justificacion_economia_naranja                  = $request->justificacion_economia_naranja;
-        $proyecto_formulario_8_linea_66->justificacion_politica_discapacidad             = $request->justificacion_politica_discapacidad;
-        $proyecto_formulario_8_linea_66->atencion_pluralista_diferencial                 = $request->atencion_pluralista_diferencial;
-        $proyecto_formulario_8_linea_66->impacto_sector_agricola                         = $request->impacto_sector_agricola;
-        $proyecto_formulario_8_linea_66->bibliografia                                    = $request->bibliografia;
-        $proyecto_formulario_8_linea_66->impacto_municipios                              = $request->impacto_municipios;
-        $proyecto_formulario_8_linea_66->impacto_centro_formacion                        = $request->impacto_centro_formacion;
-
-        $proyecto_formulario_8_linea_66->muestreo                                        = $request->muestreo;
-        $proyecto_formulario_8_linea_66->actividades_muestreo                            = $request->muestreo == 1 ? $request->actividades_muestreo : null;
-        $proyecto_formulario_8_linea_66->objetivo_muestreo                               = $request->muestreo == 1 ? $request->objetivo_muestreo  : null;
-        $proyecto_formulario_8_linea_66->recoleccion_especimenes                         = $request->recoleccion_especimenes;
-
-        $proyecto_formulario_8_linea_66->relacionado_plan_tecnologico                    = $request->relacionado_plan_tecnologico;
-        $proyecto_formulario_8_linea_66->relacionado_agendas_competitividad              = $request->relacionado_agendas_competitividad;
-        $proyecto_formulario_8_linea_66->relacionado_mesas_sectoriales                   = $request->relacionado_mesas_sectoriales;
-        $proyecto_formulario_8_linea_66->relacionado_tecnoacademia                       = $request->relacionado_tecnoacademia;
-        $proyecto_formulario_8_linea_66->proyecto_investigacion_pedagogica               = $request->proyecto_investigacion_pedagogica;
-        $proyecto_formulario_8_linea_66->articulacion_eni                                = $request->articulacion_eni;
-        $proyecto_formulario_8_linea_66->justificacion_proyecto_investigacion_pedagogica = $request->justificacion_proyecto_investigacion_pedagogica;
-
-        $proyecto_formulario_8_linea_66->aporta_a_campesena                              = $request->aporta_a_campesena;
-        $proyecto_formulario_8_linea_66->relacionado_estrategia_campesena                = $request->relacionado_estrategia_campesena;
-        $proyecto_formulario_8_linea_66->justificacion_relacion_campesena                = $request->justificacion_relacion_campesena;
-        $proyecto_formulario_8_linea_66->lineas_estrategicas_convocatoria                = $request->lineas_estrategicas_convocatoria;
-        $proyecto_formulario_8_linea_66->justificacion_lineas_estrategicas               = $request->justificacion_lineas_estrategicas;
-        $proyecto_formulario_8_linea_66->impacto_regional                                = $request->impacto_regional;
-        $proyecto_formulario_8_linea_66->justificacion_impacto_regional                  = $request->justificacion_impacto_regional;
-        $proyecto_formulario_8_linea_66->justificacion_mesas_sectoriales                 = $request->justificacion_mesas_sectoriales;
-        $proyecto_formulario_8_linea_66->areas_cualificacion_mnc                         = $request->areas_cualificacion_mnc;
-        $proyecto_formulario_8_linea_66->lineas_estrategicas_beneficiadas                = $request->lineas_estrategicas_beneficiadas;
-        $proyecto_formulario_8_linea_66->justificacion_lineas_estrategicas_beneficiadas  = $request->justificacion_lineas_estrategicas_beneficiadas;
-        $proyecto_formulario_8_linea_66->veredas_corregimientos                          = $request->veredas_corregimientos;
-
-        $proyecto_formulario_8_linea_66->lineaInvestigacion()->associate($request->linea_investigacion_id);
-        $proyecto_formulario_8_linea_66->disciplinaSubareaConocimiento()->associate($request->disciplina_subarea_conocimiento_id);
-        $proyecto_formulario_8_linea_66->tematicaEstrategica()->associate($request->tematica_estrategica_id);
-        $proyecto_formulario_8_linea_66->redConocimiento()->associate($request->red_conocimiento_id);
-        $proyecto_formulario_8_linea_66->actividadEconomica()->associate($request->actividad_economica_id);
-        $proyecto_formulario_8_linea_66->grupoInvestigacionEni()->associate($request->grupo_investigacion_eni_id);
+        $proyecto_formulario_8_linea_66->update($request->validated());
 
         $proyecto_formulario_8_linea_66->save();
 
@@ -293,7 +243,7 @@ class ProyectoFormulario8Linea66Controller extends Controller
         $proyecto_formulario_8_linea_66->lineasInvestigacionEni()->sync($request->linea_investigacion_eni_id);
         $proyecto_formulario_8_linea_66->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 
-        $request->relacionado_mesas_sectoriales == 1 ? $proyecto_formulario_8_linea_66->mesasSectoriales()->sync($request->mesa_sectorial_id) : $proyecto_formulario_8_linea_66->mesasSectoriales()->detach();
+        $request->relacionado_mesas_sectoriales == 1 ? $proyecto_formulario_8_linea_66->proyecto->mesasSectoriales()->sync($request->mesa_sectorial_id) : $proyecto_formulario_8_linea_66->mesasSectoriales()->detach();
         $request->relacionado_tecnoacademia == 1 ? $proyecto_formulario_8_linea_66->proyecto->tecnoacademiaLineasTecnoacademia()->sync($request->linea_tecnologica_id) : $proyecto_formulario_8_linea_66->proyecto->tecnoacademiaLineasTecnoacademia()->detach();
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
@@ -382,7 +332,7 @@ class ProyectoFormulario8Linea66Controller extends Controller
         }
 
         if ($column == 'mesa_sectorial_id') {
-            $proyecto_formulario_8_linea_66->mesasSectoriales()->sync($request->only($column)[$column]);
+            $proyecto_formulario_8_linea_66->proyecto->mesasSectoriales()->sync($request->only($column)[$column]);
             return back();
         }
 

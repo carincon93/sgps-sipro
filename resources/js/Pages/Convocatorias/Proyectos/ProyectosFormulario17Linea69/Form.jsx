@@ -14,7 +14,6 @@ import { useEffect } from 'react'
 
 const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_formulario_17_linea_69, nodos_tecnoparque, roles_sennova, evaluacion, ...props }) => {
     const form = useForm({
-        centro_formacion_id: proyecto_formulario_17_linea_69?.proyecto.centro_formacion_id ?? '',
         fecha_inicio: proyecto_formulario_17_linea_69?.fecha_inicio ?? '',
         fecha_finalizacion: proyecto_formulario_17_linea_69?.fecha_finalizacion ?? '',
         max_meses_ejecucion: proyecto_formulario_17_linea_69?.max_meses_ejecucion ?? '',
@@ -101,12 +100,12 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                     </div>
                 </Grid>
 
-                {nodos_tecnoparque.length > 0 ? (
-                    <Grid container>
-                        <Grid item md={6}>
-                            <Label required labelFor="nodo_tecnoparque_id" value="Nodo Tecnoparque" />
-                        </Grid>
-                        <Grid item md={6}>
+                <Grid container>
+                    <Grid item md={6}>
+                        <Label required labelFor="nodo_tecnoparque_id" value="Nodo Tecnoparque" />
+                    </Grid>
+                    <Grid item md={6}>
+                        {method == 'POST' ? (
                             <Autocomplete
                                 id="nodo_tecnoparque_id"
                                 options={nodos_tecnoparque}
@@ -117,13 +116,11 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 required
                                 onBlur={() => syncColumnLong('nodo_tecnoparque_id', form)}
                             />
-                        </Grid>
+                        ) : (
+                            <>{proyecto_formulario_17_linea_69?.titulo}</>
+                        )}
                     </Grid>
-                ) : (
-                    <div className="py-24">
-                        <AlertMui>Su regional no cuenta con nodos TecnoParque.</AlertMui>
-                    </div>
-                )}
+                </Grid>
 
                 {method == 'PUT' && (
                     <>

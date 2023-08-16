@@ -81,7 +81,7 @@ const Form = ({
 
         tecnoacademia_id: tecnoacademia?.id ?? '',
         linea_tecnologica_id: proyecto_formulario_8_linea_66?.proyecto.tecnoacademia_lineas_tecnoacademia?.map((item) => item.id) ?? null,
-        mesa_sectorial_id: proyecto_formulario_8_linea_66?.mesas_sectoriales?.map((item) => item.id),
+        mesa_sectorial_id: proyecto_formulario_8_linea_66?.proyecto.mesas_sectoriales?.map((item) => item.id),
 
         muestreo: proyecto_formulario_8_linea_66?.muestreo ?? '',
         actividades_muestreo: proyecto_formulario_8_linea_66?.actividades_muestreo ?? '',

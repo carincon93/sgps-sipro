@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class ProyectoFormulario6Linea82ColumnRequest extends FormRequest
 {
     private $columnsRules = [
-        'fecha_inicio'                                          => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
+       'fecha_inicio'                                          => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
         'fecha_finalizacion'                                    => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
 
         'resumen'                                               => ['required', 'string'],
@@ -22,6 +22,7 @@ class ProyectoFormulario6Linea82ColumnRequest extends FormRequest
         'impacto_municipios'                                    => ['required', 'string'],
         'impacto_centro_formacion'                              => ['required', 'string'],
 
+        'justificacion_proyecto_investigacion_pedagogica'       => ['nullable', 'string'],
         'centro_formacion_id'                                   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
         'linea_investigacion_id'                                => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_investigacion,id'],
         'disciplina_subarea_conocimiento_id'                    => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:disciplinas_subarea_conocimiento,id'],
@@ -44,7 +45,11 @@ class ProyectoFormulario6Linea82ColumnRequest extends FormRequest
         'relacionado_tecnoacademia'                             => ['required', 'min:0', 'max:3', 'integer'],
         'mesa_sectorial_id'                                     => ['required_if:relacionado_mesas_sectoriales,1'],
         'linea_tecnologica_id'                                  => ['required_if:relacionado_tecnoacademia,1'],
-
+        'proyecto_investigacion_pedagogica'                     => ['nullable', 'boolean'],
+        'articulacion_eni'                                      => ['nullable', 'boolean'],
+        'area_tematica_eni_id'                                  => ['nullable', 'array', 'exists:areas_tematicas_eni,id'],
+        'linea_investigacion_eni_id'                            => ['nullable', 'array', 'exists:lineas_investigacion,id'],
+        'grupo_investigacion_eni_id'                            => ['nullable', 'integer', 'exists:grupos_investigacion,id'],
         'aporta_a_campesena'                                    => ['nullable', 'boolean'],
         'relacionado_estrategia_campesena'                      => ['nullable', 'boolean'],
         'justificacion_relacion_campesena'                      => ['nullable', 'string'],
@@ -53,7 +58,7 @@ class ProyectoFormulario6Linea82ColumnRequest extends FormRequest
         'impacto_regional'                                      => ['nullable', 'boolean'],
         'justificacion_impacto_regional'                        => ['nullable', 'string'],
         'justificacion_mesas_sectoriales'                       => ['nullable', 'string'],
-        'areas_cualificacion_mnc*'                              => ['nullable', 'json'],
+        'areas_cualificacion_mnc'                               => ['nullable', 'json'],
         'lineas_estrategicas_beneficiadas'                      => ['nullable', 'json'],
         'justificacion_lineas_estrategicas_beneficiadas'        => ['nullable', 'string'],
         'veredas_corregimientos'                                => ['nullable', 'json'],

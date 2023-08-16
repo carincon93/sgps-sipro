@@ -25,10 +25,29 @@ class ProyectoFormulario17Linea69Request extends FormRequest
     {
         if ($this->isMethod('PUT')) {
             return [
-                'nodo_tecnoparque_id'                       => ['required', 'min:0', 'max:2147483647', 'exists:nodos_tecnoparque,id'],
-                'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
-                'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
-                'max_meses_ejecucion'                       => ['required', 'numeric', 'min:1', 'max:12'],
+                'nodo_tecnoparque_id'                           => ['required', 'min:0', 'max:2147483647', 'exists:nodos_tecnoparque,id'],
+                'fecha_inicio'                                  => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
+                'fecha_finalizacion'                            => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
+                'max_meses_ejecucion'                           => ['required', 'numeric', 'min:1', 'max:12'],
+
+                'resumen'                                       => ['nullable','string'],
+                'resumen_regional'                              => ['nullable','string'],
+                'antecedentes'                                  => ['nullable','string'],
+                'antecedentes_regional'                         => ['nullable','string'],
+                'logros_vigencia_anterior'                      => ['nullable','string'],
+                'contexto_general'                              => ['nullable','string'],
+                'retos_locales_regionales'                      => ['nullable','string'],
+                'estado_actual_departamento'                    => ['nullable','string'],
+                'contribucion_desarrollo_empresas'              => ['nullable','string'],
+                'contribucion_agenda_regional_competitividad'   => ['nullable','string'],
+                'aportes_conpes_4011'                           => ['nullable','string'],
+                'aportes_conpes_4080'                           => ['nullable','string'],
+                'situacion_actual_produccion_agricola'          => ['nullable','string'],
+                'aportes_alternativas_generacion_electrica'     => ['nullable','string'],
+                'aportes_impulso_economia_popular'              => ['nullable','string'],
+                'justificacion_pertinencia'                     => ['nullable','string'],
+                'acciones_estrategias_campesena'                => ['nullable','string'],
+                'bibliografia'                                  => ['nullable','string'],
             ];
         } else {
             return [

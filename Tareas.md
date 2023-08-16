@@ -12,7 +12,7 @@ Tareas
 10. Malformed utf-8 http://localhost:8000/convocatorias/14/proyectos/2351/participantes
 11. COMO SE SEPARARON NUEVOS FORMULARIOS HAY QUE REVISAR LOS PRESUPUESTO Y ROLES DE CONVOCATORIAS 2022 Y 2023. REASIGNAR A LOS PROYECTOS YA EXISTENTES.
 12. DIVIDIR EVALUACIONES EN NUEVAS TABLAS
-13. Revisar autoguardado en Definición del problema, metodologia, y cadeba de valor
+
 
 CREATE TABLE public.tipos_formulario_convocatoria ( id serial NOT NULL, nombre character varying(255), linea_programatica_id integer, created_at timestamp without time zone, updated_at timestamp without time zone, PRIMARY KEY (id), CONSTRAINT linea_programatica_id_fkey FOREIGN KEY (linea_programatica_id) REFERENCES public.lineas_programaticas (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID );
 

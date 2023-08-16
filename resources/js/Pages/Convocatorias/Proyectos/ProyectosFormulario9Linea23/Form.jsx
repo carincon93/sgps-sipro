@@ -75,14 +75,12 @@ const Form = ({
 
         tecnoacademia_id: tecnoacademia?.id ?? '',
         linea_tecnologica_id: proyecto_formulario_9_linea_23?.proyecto.tecnoacademia_lineas_tecnoacademia?.map((item) => item.id) ?? null,
-        mesa_sectorial_id: proyecto_formulario_9_linea_23?.mesas_sectoriales?.map((item) => item.id),
+        mesa_sectorial_id: proyecto_formulario_9_linea_23?.proyecto.mesas_sectoriales?.map((item) => item.id),
 
         relacionado_plan_tecnologico: proyecto_formulario_9_linea_23?.relacionado_plan_tecnologico ?? '',
         relacionado_agendas_competitividad: proyecto_formulario_9_linea_23?.relacionado_agendas_competitividad ?? '',
         relacionado_mesas_sectoriales: proyecto_formulario_9_linea_23?.relacionado_mesas_sectoriales ?? '',
         relacionado_tecnoacademia: proyecto_formulario_9_linea_23?.relacionado_tecnoacademia ?? '',
-        proyecto_investigacion_pedagogica: proyecto_formulario_9_linea_23?.proyecto_investigacion_pedagogica,
-        justificacion_proyecto_investigacion_pedagogica: proyecto_formulario_9_linea_23?.justificacion_proyecto_investigacion_pedagogica ?? '',
 
         resumen: proyecto_formulario_9_linea_23?.resumen ?? '',
         antecedentes: proyecto_formulario_9_linea_23?.antecedentes ?? '',

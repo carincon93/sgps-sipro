@@ -100,7 +100,7 @@ class ProyectoFormulario12Linea68Controller extends Controller
         $proyecto_formulario_12_linea_68->propuesta_sostenibilidad              = '';
         $proyecto_formulario_12_linea_68->bibliografia                          = '';
 
-        $proyecto_formulario_12_linea_68->tipoProyectoFormulario12Linea68()->associate($request->tipo_proyecto_formulario_12_linea_68_id);
+        $proyecto_formulario_12_linea_68->tipoProyectoLinea68()->associate($request->tipo_proyecto_linea_68_id);
         $proyecto_formulario_12_linea_68->estadoSistemaGestion()->associate($request->estado_sistema_gestion_id);
 
         $proyecto->proyectoFormulario12Linea68()->save($proyecto_formulario_12_linea_68);
@@ -184,27 +184,7 @@ class ProyectoFormulario12Linea68Controller extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_12_linea_68->proyecto]);
 
-        $tipo_proyecto_linea_68 = LaboratorioServicioTecnologico::find($request->tipo_proyecto_formulario_12_linea_68_id);
-
-        $proyecto_formulario_12_linea_68->titulo                      = $request->titulo;
-        $proyecto_formulario_12_linea_68->fecha_inicio                = $request->fecha_inicio;
-        $proyecto_formulario_12_linea_68->fecha_finalizacion          = $request->fecha_finalizacion;
-        $proyecto_formulario_12_linea_68->max_meses_ejecucion         = $request->max_meses_ejecucion;
-        $proyecto_formulario_12_linea_68->resumen                     = $request->resumen;
-        $proyecto_formulario_12_linea_68->antecedentes                = $request->antecedentes;
-        $proyecto_formulario_12_linea_68->bibliografia                = $request->bibliografia;
-        $proyecto_formulario_12_linea_68->municipios_influencia       = $request->municipios_influencia;
-        $proyecto_formulario_12_linea_68->otras_zonas_influencia      = $request->otras_zonas_influencia;
-
-        $proyecto_formulario_12_linea_68->nombre_area_tecnica         = $request->nombre_area_tecnica;
-        $proyecto_formulario_12_linea_68->continuidad                 = $request->continuidad;
-
-        $proyecto_formulario_12_linea_68->especificaciones_area       = $request->especificaciones_area;
-        $proyecto_formulario_12_linea_68->infraestructura_adecuada    = $request->infraestructura_adecuada;
-        $proyecto_formulario_12_linea_68->video                       = $request->video;
-
-        $proyecto_formulario_12_linea_68->proyecto->centroFormacion()->associate($tipo_proyecto_linea_68->centro_formacion_id);
-
+        $proyecto_formulario_12_linea_68->update($request->validated());
         $proyecto_formulario_12_linea_68->save();
 
         $proyecto_formulario_12_linea_68->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));

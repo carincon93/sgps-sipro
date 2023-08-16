@@ -27,10 +27,22 @@ class ProyectoFormulario12Linea68Request extends FormRequest
         if ($this->isMethod('PUT')) {
             return [
                 'titulo'                                    => ['required', 'string', new MaxWords(40)],
-                'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
-                'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
-                'max_meses_ejecucion'                       => ['required', 'numeric', 'min:1', 'max:12'],
-                'programas_formacion*'                      => ['required', 'array', 'exists:programas_formacion,id'],
+                'tipo_proyecto_linea_68_id'         => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tipos_proyecto_linea_68,id'],
+                'estado_sistema_gestion_id'         => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:estados_sistema_gestion,id'],
+                'fecha_inicio'                      => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
+                'fecha_finalizacion'                => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
+                'sector_productivo'                 => ['required', 'min:0', 'max:2147483647', 'integer'],
+                'nombre_area_tecnica'               => ['required', 'string', 'max:191'],
+                'resumen'                           => ['required', 'string'],
+                'antecedentes'                      => ['required', 'string'],
+                'bibliografia'                      => ['required', 'string'],
+                'programas_formacion'               => ['required', 'array'],
+                'continuidad'                       => ['nullable', 'string'],
+                'municipios_influencia'             => ['nullable', 'array'],
+                'otras_zonas_influencia'            => ['nullable', 'string'],
+                'video'                             => ['nullable', 'string'],
+                'infraestructura_adecuada'          => ['nullable', 'boolean'],
+                'especificaciones_area'             => ['nullable', 'string'],
             ];
         } else {
             return [

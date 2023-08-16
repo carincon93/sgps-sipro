@@ -184,15 +184,6 @@ class ProyectoFormulario5Linea69Controller extends Controller
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
-    public function updateLongColumn(ProyectoFormulario5Linea69ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario5Linea69 $proyecto_formulario_5_linea_69, $column)
-    {
-        $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_5_linea_69->proyecto]);
-
-        $proyecto_formulario_5_linea_69->update($request->only($column));
-
-        return back();
-    }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -369,5 +360,25 @@ class ProyectoFormulario5Linea69Controller extends Controller
         $sharepoint_path = $proyecto_formulario_5_linea_69[$tipo_archivo];
 
         return SharepointHelper::downloadFile($sharepoint_path);
+    }
+
+    public function updateMetodologiaProyectoFormulario5Linea69(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        $this->authorize('modificar-proyecto-autor', $proyecto);
+
+        $proyecto->proyectoFormulario5Linea69()->update($request->all());
+
+        $proyecto->save();
+
+        return back()->with('success', 'El recurso se ha guardado correctamente.');
+    }
+
+    public function updateLongColumn(ProyectoFormulario5Linea69ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario5Linea69 $proyecto_formulario_5_linea_69, $column)
+    {
+        $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_5_linea_69->proyecto]);
+
+        $proyecto_formulario_5_linea_69->update($request->only($column));
+
+        return back();
     }
 }

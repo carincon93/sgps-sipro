@@ -78,10 +78,7 @@ const Form = ({
         relacionado_plan_tecnologico: proyecto_formulario_13_linea_65?.relacionado_plan_tecnologico ?? '',
         relacionado_agendas_competitividad: proyecto_formulario_13_linea_65?.relacionado_agendas_competitividad ?? '',
         relacionado_mesas_sectoriales: proyecto_formulario_13_linea_65?.relacionado_mesas_sectoriales ?? '',
-        relacionado_tecnoacademia: proyecto_formulario_13_linea_65?.relacionado_tecnoacademia ?? '',
 
-        tecnoacademia_id: tecnoacademia?.id ?? '',
-        linea_tecnologica_id: proyecto_formulario_13_linea_65?.proyecto.tecnoacademia_lineas_tecnoacademia?.map((item) => item.id),
         mesa_sectorial_id: proyecto_formulario_13_linea_65?.proyecto.mesas_sectoriales?.map((item) => item.id),
 
         resumen: proyecto_formulario_13_linea_65?.resumen ?? '',
@@ -111,11 +108,6 @@ const Form = ({
         cantidad_horas: '',
         rol_sennova: null,
     })
-
-    useEffect(() => {
-        const filtered_lineas_tecnoacademia = lineas_tecnoacademia?.filter((obj) => obj.tecnoacademia_id === form.data.tecnoacademia_id)
-        setArrayLineasTecnoacademia(filtered_lineas_tecnoacademia)
-    }, [form.data.tecnoacademia_id])
 
     useEffect(() => {
         setArrayLineasInvestigacion(lineas_investigacion.filter((obj) => obj.centro_formacion_id === form.data.centro_formacion_id))

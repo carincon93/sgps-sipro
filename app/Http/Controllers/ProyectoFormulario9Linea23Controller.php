@@ -170,13 +170,8 @@ class ProyectoFormulario9Linea23Controller extends Controller
         $proyecto_formulario_9_linea_23->proyecto->municipios;
         $proyecto_formulario_9_linea_23->proyecto->tecnoacademiaLineasTecnoacademia;
 
-        // $proyecto_formulario_9_linea_23->proyecto->pdfVersiones;
-        // $proyecto_formulario_9_linea_23->proyecto->all_files;
-
         $proyecto_formulario_9_linea_23->disciplinaSubareaConocimiento->subareaConocimiento->areaConocimiento;
-        $proyecto_formulario_9_linea_23->mesasSectoriales;
-        $proyecto_formulario_9_linea_23->areasTematicasEni;
-        $proyecto_formulario_9_linea_23->lineasInvestigacionEni;
+        $proyecto_formulario_9_linea_23->proyecto->mesasSectoriales;
 
         $proyecto_formulario_9_linea_23->mostrar_recomendaciones = $proyecto_formulario_9_linea_23->proyecto->mostrar_recomendaciones;
         $proyecto_formulario_9_linea_23->mostrar_requiere_subsanacion = $proyecto_formulario_9_linea_23->proyecto->mostrar_requiere_subsanacion;
@@ -220,55 +215,14 @@ class ProyectoFormulario9Linea23Controller extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_9_linea_23->proyecto]);
 
-        $proyecto_formulario_9_linea_23->titulo                                          = $request->titulo;
-        $proyecto_formulario_9_linea_23->fecha_inicio                                    = $request->fecha_inicio;
-        $proyecto_formulario_9_linea_23->fecha_finalizacion                              = $request->fecha_finalizacion;
-        $proyecto_formulario_9_linea_23->max_meses_ejecucion                             = $request->max_meses_ejecucion;
-        $proyecto_formulario_9_linea_23->video                                           = $request->video;
-        $proyecto_formulario_9_linea_23->numero_aprendices                               = $request->numero_aprendices;
-
-        $proyecto_formulario_9_linea_23->resumen                                         = $request->resumen;
-        $proyecto_formulario_9_linea_23->antecedentes                                    = $request->antecedentes;
-        $proyecto_formulario_9_linea_23->marco_conceptual                                = $request->marco_conceptual;
-        $proyecto_formulario_9_linea_23->justificacion_industria_4                       = $request->justificacion_industria_4;
-        $proyecto_formulario_9_linea_23->justificacion_economia_naranja                  = $request->justificacion_economia_naranja;
-        $proyecto_formulario_9_linea_23->justificacion_politica_discapacidad             = $request->justificacion_politica_discapacidad;
-        $proyecto_formulario_9_linea_23->atencion_pluralista_diferencial                 = $request->atencion_pluralista_diferencial;
-        $proyecto_formulario_9_linea_23->impacto_sector_agricola                         = $request->impacto_sector_agricola;
-        $proyecto_formulario_9_linea_23->bibliografia                                    = $request->bibliografia;
-        $proyecto_formulario_9_linea_23->impacto_municipios                              = $request->impacto_municipios;
-        $proyecto_formulario_9_linea_23->impacto_centro_formacion                        = $request->impacto_centro_formacion;
-
-        $proyecto_formulario_9_linea_23->relacionado_plan_tecnologico                    = $request->relacionado_plan_tecnologico;
-        $proyecto_formulario_9_linea_23->relacionado_agendas_competitividad              = $request->relacionado_agendas_competitividad;
-        $proyecto_formulario_9_linea_23->relacionado_mesas_sectoriales                   = $request->relacionado_mesas_sectoriales;
-        $proyecto_formulario_9_linea_23->relacionado_tecnoacademia                       = $request->relacionado_tecnoacademia;
-
-        $proyecto_formulario_9_linea_23->aporta_a_campesena                              = $request->aporta_a_campesena;
-        $proyecto_formulario_9_linea_23->relacionado_estrategia_campesena                = $request->relacionado_estrategia_campesena;
-        $proyecto_formulario_9_linea_23->justificacion_relacion_campesena                = $request->justificacion_relacion_campesena;
-        $proyecto_formulario_9_linea_23->lineas_estrategicas_convocatoria                = $request->lineas_estrategicas_convocatoria;
-        $proyecto_formulario_9_linea_23->justificacion_lineas_estrategicas               = $request->justificacion_lineas_estrategicas;
-        $proyecto_formulario_9_linea_23->impacto_regional                                = $request->impacto_regional;
-        $proyecto_formulario_9_linea_23->justificacion_impacto_regional                  = $request->justificacion_impacto_regional;
-        $proyecto_formulario_9_linea_23->justificacion_mesas_sectoriales                 = $request->justificacion_mesas_sectoriales;
-        $proyecto_formulario_9_linea_23->areas_cualificacion_mnc                         = $request->areas_cualificacion_mnc;
-        $proyecto_formulario_9_linea_23->lineas_estrategicas_beneficiadas                = $request->lineas_estrategicas_beneficiadas;
-        $proyecto_formulario_9_linea_23->justificacion_lineas_estrategicas_beneficiadas  = $request->justificacion_lineas_estrategicas_beneficiadas;
-        $proyecto_formulario_9_linea_23->veredas_corregimientos                          = $request->veredas_corregimientos;
-
-        $proyecto_formulario_9_linea_23->lineaInvestigacion()->associate($request->linea_investigacion_id);
-        $proyecto_formulario_9_linea_23->disciplinaSubareaConocimiento()->associate($request->disciplina_subarea_conocimiento_id);
-        $proyecto_formulario_9_linea_23->tematicaEstrategica()->associate($request->tematica_estrategica_id);
-        $proyecto_formulario_9_linea_23->redConocimiento()->associate($request->red_conocimiento_id);
-        $proyecto_formulario_9_linea_23->actividadEconomica()->associate($request->actividad_economica_id);
+        $proyecto_formulario_9_linea_23->update($request->validated());
 
         $proyecto_formulario_9_linea_23->save();
 
         $proyecto_formulario_9_linea_23->proyecto->municipios()->sync($request->municipios);
         $proyecto_formulario_9_linea_23->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 
-        $request->relacionado_mesas_sectoriales == 1 ? $proyecto_formulario_9_linea_23->mesasSectoriales()->sync($request->mesa_sectorial_id) : $proyecto_formulario_9_linea_23->mesasSectoriales()->detach();
+        $request->relacionado_mesas_sectoriales == 1 ? $proyecto_formulario_9_linea_23->proyecto->mesasSectoriales()->sync($request->mesa_sectorial_id) : $proyecto_formulario_9_linea_23->mesasSectoriales()->detach();
         $request->relacionado_tecnoacademia == 1 ? $proyecto_formulario_9_linea_23->proyecto->tecnoacademiaLineasTecnoacademia()->sync($request->linea_tecnologica_id) : $proyecto_formulario_9_linea_23->proyecto->tecnoacademiaLineasTecnoacademia()->detach();
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
@@ -357,7 +311,7 @@ class ProyectoFormulario9Linea23Controller extends Controller
         }
 
         if ($column == 'mesa_sectorial_id') {
-            $proyecto_formulario_9_linea_23->mesasSectoriales()->sync($request->only($column)[$column]);
+            $proyecto_formulario_9_linea_23->proyecto->mesasSectoriales()->sync($request->only($column)[$column]);
             return back();
         }
 

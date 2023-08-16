@@ -97,7 +97,7 @@ class ProyectoFormulario17Linea69Controller extends Controller
         // $nuevo_proyecto_formulario_17_linea_69->proyecto()->update(['arboles_completos' => true]);
 
         // if ($nuevo_proyecto_formulario_17_linea_69) {
-            return redirect()->route('convocatorias.proyectos-formulario-17-linea-69.edit', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
+            return redirect()->route('convocatorias.proyectos-formulario-17-linea-69.edit', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente. Por favor continue diligenciando la información.');
         // } else {
         //     return back()->with('error', 'No hay un proyecto base generado. Por favor notifique al activador(a) de la línea.');
         // }
@@ -165,40 +165,12 @@ class ProyectoFormulario17Linea69Controller extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_17_linea_69->proyecto]);
 
-        $proyecto_formulario_17_linea_69->resumen                                         = $request->resumen;
-        $proyecto_formulario_17_linea_69->fecha_inicio                                    = $request->fecha_inicio;
-        $proyecto_formulario_17_linea_69->fecha_finalizacion                              = $request->fecha_finalizacion;
-        $proyecto_formulario_17_linea_69->resumen_regional                                = $request->resumen_regional;
-        $proyecto_formulario_17_linea_69->antecedentes                                    = $request->antecedentes;
-        $proyecto_formulario_17_linea_69->antecedentes_regional                           = $request->antecedentes_regional;
-        $proyecto_formulario_17_linea_69->logros_vigencia_anterior                        = $request->logros_vigencia_anterior;
-        $proyecto_formulario_17_linea_69->contexto_general                                = $request->contexto_general;
-        $proyecto_formulario_17_linea_69->retos_locales_regionales                        = $request->retos_locales_regionales;
-        $proyecto_formulario_17_linea_69->estado_actual_departamento                      = $request->estado_actual_departamento;
-        $proyecto_formulario_17_linea_69->contribucion_desarrollo_empresas                = $request->contribucion_desarrollo_empresas;
-        $proyecto_formulario_17_linea_69->contribucion_agenda_regional_competitividad     = $request->contribucion_agenda_regional_competitividad;
-        $proyecto_formulario_17_linea_69->aportes_conpes_4011                             = $request->aportes_conpes_4011;
-        $proyecto_formulario_17_linea_69->aportes_conpes_4080                             = $request->aportes_conpes_4080;
-        $proyecto_formulario_17_linea_69->situacion_actual_produccion_agricola            = $request->situacion_actual_produccion_agricola;
-        $proyecto_formulario_17_linea_69->aportes_alternativas_generacion_electrica       = $request->aportes_alternativas_generacion_electrica;
-        $proyecto_formulario_17_linea_69->aportes_impulso_economia_popular                = $request->aportes_impulso_economia_popular;
-        $proyecto_formulario_17_linea_69->justificacion_pertinencia                       = $request->justificacion_pertinencia;
-        $proyecto_formulario_17_linea_69->acciones_estrategias_campesena                  = $request->acciones_estrategias_campesena;
-        $proyecto_formulario_17_linea_69->bibliografia                                    = $request->bibliografia;
-        $proyecto_formulario_17_linea_69->nodoTecnoparque()->associate($request->nodo_tecnoparque_id);
+        $proyecto_formulario_17_linea_69->update($request->validated());
+
 
         $proyecto_formulario_17_linea_69->save();
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
-    }
-
-    public function updateLongColumn(ProyectoFormulario17Linea69ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario17Linea69 $proyecto_formulario_17_linea_69, $column)
-    {
-        $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_17_linea_69->proyecto]);
-
-        $proyecto_formulario_17_linea_69->update($request->only($column));
-
-        return back();
     }
 
     /**
@@ -377,4 +349,25 @@ class ProyectoFormulario17Linea69Controller extends Controller
 
         return SharepointHelper::downloadFile($sharepoint_path);
     }
+
+    public function updateMetodologiaProyectoFormulario17Linea69(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        $this->authorize('modificar-proyecto-autor', $proyecto);
+
+        $proyecto->proyectoFormulario17Linea69()->update($request->all());
+
+        $proyecto->save();
+
+        return back()->with('success', 'El recurso se ha guardado correctamente.');
+    }
+
+    public function updateLongColumn(ProyectoFormulario17Linea69ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario17Linea69 $proyecto_formulario_17_linea_69, $column)
+    {
+        $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_17_linea_69->proyecto]);
+
+        $proyecto_formulario_17_linea_69->update($request->only($column));
+
+        return back();
+    }
+
 }

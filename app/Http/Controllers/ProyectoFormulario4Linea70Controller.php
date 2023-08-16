@@ -97,16 +97,21 @@ class ProyectoFormulario4Linea70Controller extends Controller
             ]
         );
 
+        $proyecto->proyectoFormulario4Linea70()->create([
+            'fecha_inicio'          => $request->fecha_inicio,
+            'fecha_finalizacion'    => $request->fecha_finalizacion,
+        ]);
+
         $proyecto_a_replicar = ProyectoFormulario4Linea70::where('proyecto_base', true)->first();
 
 
-        $nuevo_proyecto_formulario_4_linea_70 = $this->replicateRow($request, $proyecto_a_replicar, $proyecto);
+        // $nuevo_proyecto_formulario_4_linea_70 = $this->replicateRow($request, $proyecto_a_replicar, $proyecto);
 
-        if ($nuevo_proyecto_formulario_4_linea_70) {
-            return redirect()->route('convocatorias.proyectos-formulario-4-linea-70.edit', [$convocatoria, $nuevo_proyecto_formulario_4_linea_70])->with('success', 'El recurso se ha creado correctamente.');
-        } else {
-            return back()->with('error', 'No hay un proyecto base generado. Por favor notifique al activador(a) de la línea.');
-        }
+        // if ($nuevo_proyecto_formulario_4_linea_70) {
+            return redirect()->route('convocatorias.proyectos-formulario-4-linea-70.edit', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
+        // } else {
+        //     return back()->with('error', 'No hay un proyecto base generado. Por favor notifique al activador(a) de la línea.');
+        // }
     }
 
     /**
@@ -506,5 +511,25 @@ class ProyectoFormulario4Linea70Controller extends Controller
         $sharepoint_path = $proyecto_formulario_4_linea_70[$tipo_archivo];
 
         return SharepointHelper::downloadFile($sharepoint_path);
+    }
+
+    public function updateMetodologiaProyectoFormulario4Linea70(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        $this->authorize('modificar-proyecto-autor', $proyecto);
+
+        $request->merge([
+            'proyeccion_nuevas_instituciones'   => $request->proyeccion_nuevas_instituciones,
+            'proyeccion_articulacion_media'     => $request->proyeccion_articulacion_media,
+            'nombre_instituciones'              => json_decode($request->nombre_instituciones)
+        ]);
+
+        $proyecto->proyectoFormulario4Linea70()->update($request->except('municipios', 'municipios_impactar', 'programas_formacion_articulados', 'diseno_curricular_id'));
+
+        $proyecto->municipios()->sync($request->municipios);
+        $proyecto->municipiosAImpactar()->sync($request->municipios_impactar);
+        $proyecto->programasFormacion()->sync($request->programas_formacion_articulados);
+        $proyecto->disenosCurriculares()->sync($request->diseno_curricular_id);
+
+        return back()->with('success', 'El recurso se ha guardado correctamente.');
     }
 }

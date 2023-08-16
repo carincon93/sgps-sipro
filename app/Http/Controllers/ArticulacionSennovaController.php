@@ -44,44 +44,17 @@ class ArticulacionSennovaController extends Controller
         $proyecto->gruposInvestigacion;
         $proyecto->lineasInvestigacion;
         $proyecto->semillerosInvestigacion;
+        $proyecto->redesConocimiento;
 
         $proyecto->proyectoFormulario5Linea69;
         $proyecto->proyectoFormulario10Linea69;
         $proyecto->proyectoFormulario17Linea69;
+        optional($proyecto->proyectoFormulario4Linea70)->disciplinasSubareaConocimiento;
+        optional($proyecto->proyectoFormulario4Linea70)->actividadesEconomicas;
+        optional($proyecto->proyectoFormulario4Linea70)->tematicasEstrategicas;
+        optional($proyecto->proyectoFormulario4Linea70)->proyectosIdiTecnoacademia;
         $proyecto->proyectoFormulario11Linea83;
 
-        switch ($proyecto->tipo_formulario_convocatoria_id) {
-            case 4:
-                $proyecto->proyectos_ejecucion                  = $proyecto->proyectoFormulario4Linea70->proyectos_ejecucion;
-                $proyecto->articulacion_semillero               = $proyecto->proyectoFormulario4Linea70->articulacion_semillero;
-                $proyecto->semilleros_en_formalizacion          = $proyecto->proyectoFormulario4Linea70->semilleros_en_formalizacion;
-                $proyecto->articulacion_centro_formacion        = $proyecto->proyectoFormulario4Linea70->articulacion_centro_formacion;
-                $proyecto->lineas_medulares_centro              = $proyecto->proyectoFormulario4Linea70->lineas_medulares_centro;
-                $proyecto->articulacion_programas_centro        = $proyecto->proyectoFormulario4Linea70->articulacion_programas_centro;
-                $proyecto->articulacion_bienestar_aprendiz      = $proyecto->proyectoFormulario4Linea70->articulacion_bienestar_aprendiz;
-                $proyecto->favorecimiento_ruta_formacion        = $proyecto->proyectoFormulario4Linea70->favorecimiento_ruta_formacion;
-
-                $proyecto->proyectoFormulario4Linea70->disciplinasSubareaConocimiento;
-                $proyecto->proyectoFormulario4Linea70->redesConocimiento;
-                $proyecto->proyectoFormulario4Linea70->tematicasEstrategicas;
-                $proyecto->proyectoFormulario4Linea70->actividadesEconomicas;
-                $proyecto->proyectoFormulario4Linea70->proyectosIdiTecnoacademia;
-
-                break;
-
-            case 5:
-                $proyecto->impacto_centro_formacion             = $proyecto->proyectoFormulario5Linea69->impacto_centro_formacion;
-                $proyecto->aportacion_semilleros_grupos         = $proyecto->proyectoFormulario5Linea69->aportacion_semilleros_grupos;
-                $proyecto->proyeccion_con_st                    = $proyecto->proyectoFormulario5Linea69->proyeccion_con_st;
-                $proyecto->proyeccion_extensionismo_tecnologico = $proyecto->proyectoFormulario5Linea69->proyeccion_extensionismo_tecnologico;
-                $proyecto->proyeccion_centros_desarrollo        = $proyecto->proyectoFormulario5Linea69->proyeccion_centros_desarrollo;
-                $proyecto->proyeccion_formacion_regional        = $proyecto->proyectoFormulario5Linea69->proyeccion_formacion_regional;
-
-                break;
-
-            default:
-                break;
-        }
 
         return Inertia::render('Convocatorias/Proyectos/ArticulacionSennova/Index', [
             'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
@@ -157,7 +130,7 @@ class ArticulacionSennovaController extends Controller
                 $proyecto->lineasInvestigacion()->sync($request->lineas_investigacion);
                 $proyecto->proyectoFormulario4Linea70->actividadesEconomicas()->sync($request->actividades_economicas);
                 $proyecto->proyectoFormulario4Linea70->disciplinasSubareaConocimiento()->sync($request->disciplinas_subarea_conocimiento);
-                $proyecto->proyectoFormulario4Linea70->redesConocimiento()->sync($request->redes_conocimiento);
+                $proyecto->redesConocimiento()->sync($request->redes_conocimiento);
                 $proyecto->proyectoFormulario4Linea70->tematicasEstrategicas()->sync($request->tematicas_estrategicas);
                 $proyecto->proyectoFormulario4Linea70->proyectosIdiTecnoacademia()->sync($request->proyecto_idi_tecnoacademia_id);
 
@@ -309,7 +282,7 @@ class ArticulacionSennovaController extends Controller
                 }
 
                 if ($column == 'redes_conocimiento') {
-                    $proyecto->proyectoFormulario4Linea70->redesConocimiento()->sync($request->only($column)[$column]);
+                    $proyecto->redesConocimiento()->sync($request->only($column)[$column]);
                     break;
                 }
 
