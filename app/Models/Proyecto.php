@@ -513,11 +513,11 @@ class Proyecto extends Model
         if ($this->proyectoFormulario11Linea83()->exists()) $fecha_finalizacion                 =  $this->proyectoFormulario11Linea83->fecha_finalizacion;
 
         $codigo = 'SGPS-' . ($this->id + 8000) . '-' . date('Y', strtotime($fecha_finalizacion));
-        if ($this->proyectoDemo()->exists()) {
-            $numero_consecutivo = sprintf("%05s", $this->proyectoDemo->id);
-            $codigo = 'DEMO-' . $numero_consecutivo . '-' . date('Y', strtotime($fecha_finalizacion));
-            $fecha_finalizacion =  $this->proyectoFormulario8Linea66->fecha_finalizacion;
-        }
+        // if ($this->proyectoDemo()->exists()) {
+        //     $numero_consecutivo = sprintf("%05s", $this->proyectoDemo->id);
+        //     $codigo = 'DEMO-' . $numero_consecutivo . '-' . date('Y', strtotime($fecha_finalizacion));
+        //     $fecha_finalizacion =  $this->proyectoFormulario8Linea66->fecha_finalizacion;
+        // }
 
         return $codigo;
     }

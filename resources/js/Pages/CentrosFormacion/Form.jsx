@@ -106,7 +106,6 @@ const Form = ({ method = '', setDialogStatus, centro_formacion, regionales, subd
                             </ButtonMui>
                         </div>
                     </form>
-                    3
                 </Paper>
             </Grid>
         </Grid>
