@@ -75,7 +75,7 @@ class ArticulacionSennovaController extends Controller
             'nuevo_participante'                => User::select('users.id', 'users.nombre', 'users.email', 'users.centro_formacion_id')->with('centroFormacion', 'centroFormacion.regional')->orderBy('users.nombre', 'ASC')->filterUser(request()->only('search'))->first(),
             'autor_principal'                   => $proyecto->participantes()->where('proyecto_participantes.es_formulador', true)->first(),
             'tecnoacademia_relacionada'         => $proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia : null,
-            'aulas_moviles'                     => AulaMovil::where('proeycto_linea70_id', $proyecto->id)->get(),
+            'aulas_moviles'                     => AulaMovil::where('proyecto_formulario4_linea70_id', $proyecto->id)->get(),
         ]);
     }
 
@@ -157,7 +157,7 @@ class ArticulacionSennovaController extends Controller
         return back()->with('success', 'El recurso se ha guardado correctamente.');
     }
 
-    public function storeArticulacionSennovaProyectosHub(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
+    public function storeArticulacionSennovaProyectosFormulario10Linea69(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
     {
         $request->merge([
             'semilleros_investigacion'  => is_array($request->semilleros_investigacion) && count($request->semilleros_investigacion) == 0 ? null : $request->semilleros_investigacion,
@@ -184,7 +184,7 @@ class ArticulacionSennovaController extends Controller
         return back()->with('success', 'El recurso se ha guardado correctamente.');
     }
 
-    public function storeArticulacionSennovaProyectosTecnoparque(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
+    public function storeArticulacionSennovaProyectosFormulario17Linea69(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
     {
         $request->merge([
             'semilleros_investigacion'  => is_array($request->semilleros_investigacion) && count($request->semilleros_investigacion) == 0 ? null : $request->semilleros_investigacion,

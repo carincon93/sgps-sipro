@@ -249,16 +249,6 @@ class ProyectoFormulario17Linea69 extends Model
         return $proyectos_formulario_17_linea_69;
     }
 
-    public function getProyectoBaseAttribute($value)
-    {
-        // Quemado - Ripoll
-        if (Auth::user()->id == 122) {
-            return true;
-        }
-
-        return $value;
-    }
-
     public function getAreasCualificacionMncAttribute($value)
     {
         return json_decode($value);

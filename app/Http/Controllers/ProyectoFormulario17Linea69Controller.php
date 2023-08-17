@@ -68,7 +68,7 @@ class ProyectoFormulario17Linea69Controller extends Controller
         $nodo_tecnoparque = NodoTecnoparque::find($request->nodo_tecnoparque_id);
 
         $proyecto = new Proyecto();
-        $proyecto->arboles_completos = false;
+        $proyecto->arboles_completos = true;
         $proyecto->centroFormacion()->associate($nodo_tecnoparque->centro_formacion_id);
         $proyecto->tipoFormularioConvocatoria()->associate(17);
         $proyecto->convocatoria()->associate($convocatoria);
@@ -84,23 +84,29 @@ class ProyectoFormulario17Linea69Controller extends Controller
             ]
         );
 
-        $proyecto->proyectoFormulario17Linea69()->create([
-            'nodo_tecnoparque_id'   => $request->nodo_tecnoparque_id,
-            'fecha_inicio'          => $request->fecha_inicio,
-            'fecha_finalizacion'    => $request->fecha_finalizacion,
-        ]);
+       if ($convocatoria->proyectos()->whereHas('proyectoFormulario17Linea69')->count() == 0) {
+            $proyecto->proyectoFormulario17Linea69()->create([
+                'nodo_tecnoparque_id'   => $request->nodo_tecnoparque_id,
+                'fecha_inicio'          => $request->fecha_inicio,
+                'fecha_finalizacion'    => $request->fecha_finalizacion,
+                'proyecto_base'         => true
+            ]);
+            return redirect()->route('convocatorias.proyectos-formulario-17-linea-69.edit', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente. Este es el proyecto base, por favor defina los campos con información precargada.');
+        }
 
-        $proyecto_a_replicar = ProyectoFormulario17Linea69::where('proyecto_base', true)->first();
+        $proyecto_a_replicar = $convocatoria->proyectos()
+                                ->whereHas('proyectoFormulario17Linea69', function ($query) {
+                                    $query->where('proyecto_base', true);
+                                })
+                                ->first();
 
-        // $nuevo_proyecto_formulario_17_linea_69 = $this->replicateRow($request, $proyecto_a_replicar, $proyecto);
-        // $nuevo_proyecto_formulario_17_linea_69->nodoTecnoparque()->associate($request->nodo_tecnoparque_id);
-        // $nuevo_proyecto_formulario_17_linea_69->proyecto()->update(['arboles_completos' => true]);
+        $nuevo_proyecto_formulario_17_linea_69 = $this->replicateRow($request, $proyecto_a_replicar->proyectoFormulario17Linea69, $proyecto);
 
-        // if ($nuevo_proyecto_formulario_17_linea_69) {
-            return redirect()->route('convocatorias.proyectos-formulario-17-linea-69.edit', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente. Por favor continue diligenciando la información.');
-        // } else {
-        //     return back()->with('error', 'No hay un proyecto base generado. Por favor notifique al activador(a) de la línea.');
-        // }
+        if ($nuevo_proyecto_formulario_17_linea_69) {
+            return redirect()->route('convocatorias.proyectos-formulario-17-linea-69.edit', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
+        } else {
+            return back()->with('error', 'No hay un proyecto base generado. Por favor notifique al activador(a) de la línea.');
+        }
     }
 
     /**
@@ -264,8 +270,8 @@ class ProyectoFormulario17Linea69Controller extends Controller
                         [
                             'actividad_id'                  => $nueva_actividad->id,
                             'objetivo_especifico_id'        => $nueva_actividad->objetivo_especifico_id,
-                            'resultado_antiguo'             => $causa_indirecta->actividad->resultado->descripcion,
-                            'objetivo_especifico_antiguo'   => $causa_indirecta->actividad->objetivoEspecifico->numero,
+                            'resultado_antiguo'             => optional($causa_indirecta->actividad->resultado)->descripcion,
+                            'objetivo_especifico_antiguo'   => optional($causa_indirecta->actividad->objetivoEspecifico)->numero,
                             'causa_indirecta_id'            => $nueva_actividad->causa_indirecta_id,
                             'descripcion_actividad'         => $nueva_actividad->descripcion
                         ]
@@ -288,7 +294,9 @@ class ProyectoFormulario17Linea69Controller extends Controller
                 foreach ($efecto_directo->resultado->productos as $producto) {
                     $nuevo_producto = $nuevo_resultado->productos()->create($producto->toArray());
 
-                    $nuevo_producto->productoHubLinea69()->create($producto->productoHubLinea69->toArray());
+                    if ($producto->productoMinciencias()->exists()) {
+                        $nuevo_producto->productoMinciencias()->create($producto->productoMinciencias->toArray());
+                    }
                 }
 
                 foreach ($efecto_directo->efectosIndirectos as $efecto_indirecto) {
@@ -309,19 +317,16 @@ class ProyectoFormulario17Linea69Controller extends Controller
             }
 
             //re-sync everything belongsToMany
-            foreach ($proyecto_formulario_17_linea_69->proyecto->municipios as $municipio => $values) {
-                $clone->proyecto->municipios()->sync($values);
-            }
+            $clone->proyecto->semillerosInvestigacion()->sync($proyecto_formulario_17_linea_69->proyecto->semillerosInvestigacion()->pluck('semilleros_investigacion.id'));
 
             //re-sync everything belongsToMany
-            foreach ($proyecto_formulario_17_linea_69->proyecto->municipiosAImpactar as $municipio => $values) {
-                $clone->proyecto->municipiosAImpactar()->sync($values);
-            }
+            $clone->proyecto->gruposInvestigacion()->sync($proyecto_formulario_17_linea_69->proyecto->gruposInvestigacion()->pluck('grupos_investigacion.id'));
 
             //re-sync everything belongsToMany
-            foreach ($proyecto_formulario_17_linea_69->proyecto->municipiosAImpactar as $municipio => $values) {
-                $clone->proyecto->municipiosAImpactar()->sync($values);
-            }
+            $clone->proyecto->municipios()->sync($proyecto_formulario_17_linea_69->proyecto->municipios()->pluck('municipios.id'));
+
+            //re-sync everything belongsToMany
+            $clone->proyecto->municipiosAImpactar()->sync($proyecto_formulario_17_linea_69->proyecto->municipiosAImpactar()->pluck('municipios.id'));
 
             $clone->save();
 
@@ -333,12 +338,12 @@ class ProyectoFormulario17Linea69Controller extends Controller
 
     public function saveFilesSharepoint($tmp_file, $modulo, $modelo, $campo_bd)
     {
-        $proyecto_formulario_17_linea_69              = $modelo;
-        $proyecto                           = Proyecto::find($proyecto_formulario_17_linea_69->proyecto->id);
+        $proyecto_formulario_17_linea_69                = $modelo;
+        $proyecto                                       = Proyecto::find($proyecto_formulario_17_linea_69->proyecto->id);
 
-        $sharepoint_proyecto_formulario_17_linea_69   = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->tipoFormularioConvocatoria->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/PDF Proyecto';
+        $sharepoint_proyecto_formulario_17_linea_69     = $proyecto->centroFormacion->nombre_carpeta_sharepoint . '/' . $proyecto->tipoFormularioConvocatoria->lineaProgramatica->codigo . '/' . $proyecto->codigo . '/PDF Proyecto';
 
-        $sharepoint_path                    = "$modulo/$sharepoint_proyecto_formulario_17_linea_69";
+        $sharepoint_path                                = "$modulo/$sharepoint_proyecto_formulario_17_linea_69";
 
         SharepointHelper::saveFilesSharepoint($tmp_file, $modelo, $sharepoint_path, $campo_bd);
     }

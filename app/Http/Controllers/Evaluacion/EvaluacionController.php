@@ -246,7 +246,7 @@ class EvaluacionController extends Controller
     {
         $this->authorize('modificar-evaluacion-autor', $evaluacion);
 
-        if ($request->has('comentario_evaluador')) {
+        if ($request->filled('comentario_evaluador')) {
             $evaluacion->update(
                 ['evaluacion_id' => $evaluacion->id, 'comentario_evaluador' => $request->comentario_evaluador],
             );

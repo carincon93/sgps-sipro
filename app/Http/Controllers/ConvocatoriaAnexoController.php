@@ -156,11 +156,11 @@ class ConvocatoriaAnexoController extends Controller
     {
         $this->authorize('update', [ConvocatoriaAnexo::class, $convocatoria_anexo]);
 
-        if ($request->has('habilitado')) {
+        if ($request->filled('habilitado')) {
             $convocatoria_anexo->update(['habilitado' => $request->habilitado]);
         }
 
-        if ($request->has('obligatorio')) {
+        if ($request->filled('obligatorio')) {
             $convocatoria_anexo->update(['obligatorio' => $request->obligatorio]);
         }
 

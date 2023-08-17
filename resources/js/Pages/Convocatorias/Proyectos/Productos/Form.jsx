@@ -14,6 +14,8 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 
 const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proyecto, producto, resultados, subtipologias_minciencias, tipos_producto, ...props }) => {
+    const [tipo_producto, setTipoProducto] = useState(null)
+
     const form = useForm({
         nombre: producto?.nombre,
 
@@ -26,8 +28,8 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
         formula_indicador: producto?.formula_indicador,
         unidad_indicador: producto?.unidad_indicador,
 
-        tipo: producto?.producto_minciencias?.tipo ?? '',
-        trl: producto?.producto_minciencias?.trl ?? '',
+        tipo: producto?.producto_minciencias?.tipo ?? null,
+        trl: producto?.producto_minciencias?.trl ?? null,
         subtipologia_minciencias_id: producto?.producto_minciencias?.subtipologia_minciencias_id ?? null,
 
         actividad_id: producto?.actividades.map((item) => item.id),
@@ -86,193 +88,207 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                     <form onSubmit={submit}>
                         <fieldset disabled={proyecto.allowed.to_update ? false : true}>
                             <Grid container rowSpacing={10}>
-                                <Grid item md={12}>
-                                    <AlertMui>
-                                        <p>
-                                            Los productos pueden corresponder a bienes o servicios. Un bien es un objeto tangible, almacenable o transportable, mientras que el servicio es una
-                                            prestación intangible.
-                                            <br />
-                                            <br />
-                                            <strong>El producto debe cumplir con la siguiente estructura:</strong>
-                                            <br />
-                                            Cuando el producto es un bien: nombre del bien + la condición deseada. Ejemplo: Vía construida.
-                                            <br />
-                                            Cuando el producto es un servicio: nombre del servicio + el complemento. Ejemplo: Servicio de asistencia técnica para el mejoramiento de hábitos
-                                            alimentarios
-                                        </p>
-                                    </AlertMui>
-                                </Grid>
+                                {method == 'POST' && (
+                                    <>
+                                        <Grid item md={3}>
+                                            <Label required labelFor="tipo_producto" value="Tipo de producto" />
+                                        </Grid>
+                                        <Grid item md={9}>
+                                            <Autocomplete
+                                                id="tipo_producto"
+                                                options={[
+                                                    { value: 1, label: 'Producto de indicador' },
+                                                    { value: 2, label: 'Producto Minciencias' },
+                                                ]}
+                                                selectedValue={tipo_producto}
+                                                onChange={(event, newValue) => setTipoProducto(newValue.value)}
+                                                label="Selecione el tipo de producto"
+                                                required
+                                            />
+                                        </Grid>
+                                    </>
+                                )}
+                                {(tipo_producto && method == 'POST') || method == 'PUT' ? (
+                                    <>
+                                        <Grid item md={12}>
+                                            <AlertMui>
+                                                <p>
+                                                    Los productos pueden corresponder a bienes o servicios. Un bien es un objeto tangible, almacenable o transportable, mientras que el servicio es una
+                                                    prestación intangible.
+                                                    <br />
+                                                    <br />
+                                                    <strong>El producto debe cumplir con la siguiente estructura:</strong>
+                                                    <br />
+                                                    Cuando el producto es un bien: nombre del bien + la condición deseada. Ejemplo: Vía construida.
+                                                    <br />
+                                                    Cuando el producto es un servicio: nombre del servicio + el complemento. Ejemplo: Servicio de asistencia técnica para el mejoramiento de hábitos
+                                                    alimentarios
+                                                </p>
+                                            </AlertMui>
+                                        </Grid>
 
-                                <Grid item md={3}>
-                                    <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
-                                </Grid>
-                                <Grid item md={9}>
-                                    <DatePicker
-                                        id="fecha_inicio"
-                                        className="block w-full p-4"
-                                        minDate={proyecto.fecha_inicio}
-                                        maxDate={proyecto.fecha_finalizacion}
-                                        value={form.data.fecha_inicio}
-                                        onChange={(e) => form.setData('fecha_inicio', e.target.value)}
-                                        error={form.errors.fecha_inicio}
-                                        required
-                                    />
-                                </Grid>
+                                        <Grid item md={3}>
+                                            <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
+                                        </Grid>
+                                        <Grid item md={9}>
+                                            <DatePicker
+                                                id="fecha_inicio"
+                                                className="block w-full p-4"
+                                                minDate={proyecto.fecha_inicio}
+                                                maxDate={proyecto.fecha_finalizacion}
+                                                value={form.data.fecha_inicio}
+                                                onChange={(e) => form.setData('fecha_inicio', e.target.value)}
+                                                error={form.errors.fecha_inicio}
+                                                required
+                                            />
+                                        </Grid>
 
-                                <Grid item md={3}>
-                                    <Label required labelFor="fecha_finalizacion" value="Fecha de finalización" />
-                                </Grid>
-                                <Grid item md={9}>
-                                    <DatePicker
-                                        id="fecha_finalizacion"
-                                        className="block w-full p-4"
-                                        minDate={proyecto.fecha_inicio}
-                                        maxDate={proyecto.fecha_finalizacion}
-                                        value={form.data.fecha_finalizacion}
-                                        onChange={(e) => form.setData('fecha_finalizacion', e.target.value)}
-                                        error={form.errors.fecha_finalizacion}
-                                        required
-                                    />
-                                </Grid>
+                                        <Grid item md={3}>
+                                            <Label required labelFor="fecha_finalizacion" value="Fecha de finalización" />
+                                        </Grid>
+                                        <Grid item md={9}>
+                                            <DatePicker
+                                                id="fecha_finalizacion"
+                                                className="block w-full p-4"
+                                                minDate={proyecto.fecha_inicio}
+                                                maxDate={proyecto.fecha_finalizacion}
+                                                value={form.data.fecha_finalizacion}
+                                                onChange={(e) => form.setData('fecha_finalizacion', e.target.value)}
+                                                error={form.errors.fecha_finalizacion}
+                                                required
+                                            />
+                                        </Grid>
 
-                                <Grid item md={3}>
-                                    <Label required labelFor="resultado_id" value="Resultado" />
-                                </Grid>
-                                <Grid item md={9}>
-                                    <Autocomplete
-                                        id="resultado_id"
-                                        options={resultados}
-                                        selectedValue={form.data.resultado_id}
-                                        onChange={(event, newValue) => form.setData('resultado_id', newValue.value)}
-                                        error={form.errors.resultado_id}
-                                        label="Selecione el resultado"
-                                        placeholder="Seleccione un resultado"
-                                        required
-                                    />
-                                </Grid>
+                                        <Grid item md={3}>
+                                            <Label required labelFor="resultado_id" value="Resultado" />
+                                        </Grid>
+                                        <Grid item md={9}>
+                                            <Autocomplete
+                                                id="resultado_id"
+                                                options={resultados}
+                                                selectedValue={form.data.resultado_id}
+                                                onChange={(event, newValue) => form.setData('resultado_id', newValue.value)}
+                                                error={form.errors.resultado_id}
+                                                label="Selecione el resultado"
+                                                placeholder="Seleccione un resultado"
+                                                required
+                                            />
+                                        </Grid>
 
-                                <Grid item md={12}>
-                                    <Textarea
-                                        label="Descripción del producto a obtener"
-                                        id="nombre"
-                                        error={form.errors.nombre}
-                                        value={form.data.nombre}
-                                        onChange={(e) => form.setData('nombre', e.target.value)}
-                                        required
-                                    />
-                                </Grid>
+                                        <Grid item md={12}>
+                                            <Textarea
+                                                label="Descripción del producto a obtener"
+                                                id="nombre"
+                                                error={form.errors.nombre}
+                                                value={form.data.nombre}
+                                                onChange={(e) => form.setData('nombre', e.target.value)}
+                                                required
+                                            />
+                                        </Grid>
 
-                                <Grid item md={12}>
-                                    <Textarea
-                                        label="Unidad del indicador"
-                                        id="unidad_indicador"
-                                        error={form.errors.unidad_indicador}
-                                        value={form.data.unidad_indicador}
-                                        onChange={(e) => form.setData('unidad_indicador', e.target.value)}
-                                        required
-                                    />
-                                    <AlertMui>
-                                        El indicador debe mantener una estructura coherente. Esta se compone de dos elementos: en primer lugar, debe ir el objeto a cuantificar, descrito por un sujeto
-                                        y posteriormente la condición deseada, definida a través de un verbo en participio. <strong>Por ejemplo:</strong> Kilómetros de red vial nacional construidos.
-                                    </AlertMui>
+                                        <Grid item md={12}>
+                                            <Textarea
+                                                label="Unidad del indicador"
+                                                id="unidad_indicador"
+                                                error={form.errors.unidad_indicador}
+                                                value={form.data.unidad_indicador}
+                                                onChange={(e) => form.setData('unidad_indicador', e.target.value)}
+                                                required
+                                            />
+                                            <AlertMui>
+                                                El indicador debe mantener una estructura coherente. Esta se compone de dos elementos: en primer lugar, debe ir el objeto a cuantificar, descrito por un
+                                                sujeto y posteriormente la condición deseada, definida a través de un verbo en participio. <strong>Por ejemplo:</strong> Kilómetros de red vial nacional
+                                                construidos.
+                                            </AlertMui>
 
-                                    <TextInput
-                                        id="meta_indicador"
-                                        type="number"
-                                        className="!mt-10"
-                                        error={form.errors.meta_indicador}
-                                        value={form.data.meta_indicador}
-                                        onChange={(e) => form.setData('meta_indicador', e.target.value)}
-                                        label="Meta del indicador"
-                                        required
-                                    />
-                                    <AlertMui>
-                                        ¿Cuál es la meta para la unidad: <strong>{form.data.unidad_indicador}</strong>? Debe indicar un número.
-                                    </AlertMui>
-                                </Grid>
+                                            <TextInput
+                                                id="meta_indicador"
+                                                type="number"
+                                                className="!mt-10"
+                                                error={form.errors.meta_indicador}
+                                                value={form.data.meta_indicador}
+                                                onChange={(e) => form.setData('meta_indicador', e.target.value)}
+                                                label="Meta del indicador"
+                                                required
+                                            />
+                                            <AlertMui>
+                                                ¿Cuál es la meta para la unidad: <strong>{form.data.unidad_indicador}</strong>? Debe indicar un número.
+                                            </AlertMui>
+                                        </Grid>
 
-                                <Grid item md={12}>
-                                    <Textarea
-                                        id="medio_verificacion"
-                                        error={form.errors.medio_verificacion}
-                                        value={form.data.medio_verificacion}
-                                        onChange={(e) => form.setData('medio_verificacion', e.target.value)}
-                                        label="Medio de verificación"
-                                        required
-                                    />
-                                </Grid>
+                                        <Grid item md={12}>
+                                            <Textarea
+                                                id="medio_verificacion"
+                                                error={form.errors.medio_verificacion}
+                                                value={form.data.medio_verificacion}
+                                                onChange={(e) => form.setData('medio_verificacion', e.target.value)}
+                                                label="Medio de verificación"
+                                                required
+                                            />
+                                        </Grid>
 
-                                <Grid item md={12}>
-                                    <Textarea
-                                        id="formula_indicador"
-                                        error={form.errors.formula_indicador}
-                                        value={form.data.formula_indicador}
-                                        onChange={(e) => form.setData('formula_indicador', e.target.value)}
-                                        label="Fórmula del indicador del producto"
-                                        required
-                                    />
-                                    <AlertMui>
-                                        El método de cálculo debe ser una expresión matemática definida de manera adecuada y de fácil comprensión, es decir, deben quedar claras cuáles son las
-                                        variables utilizadas. Los métodos de cálculo más comunes son el porcentaje, la tasa de variación, la razón y el número índice. Aunque éstos no son las únicas
-                                        expresiones para los indicadores, sí son las más frecuentes.
-                                    </AlertMui>
-                                </Grid>
+                                        <Grid item md={12}>
+                                            <Textarea
+                                                id="formula_indicador"
+                                                error={form.errors.formula_indicador}
+                                                value={form.data.formula_indicador}
+                                                onChange={(e) => form.setData('formula_indicador', e.target.value)}
+                                                label="Fórmula del indicador del producto"
+                                                required
+                                            />
+                                            <AlertMui>
+                                                El método de cálculo debe ser una expresión matemática definida de manera adecuada y de fácil comprensión, es decir, deben quedar claras cuáles son las
+                                                variables utilizadas. Los métodos de cálculo más comunes son el porcentaje, la tasa de variación, la razón y el número índice. Aunque éstos no son las
+                                                únicas expresiones para los indicadores, sí son las más frecuentes.
+                                            </AlertMui>
+                                        </Grid>
 
-                                {proyecto.tipo_formulario_convocatoria_id == 1 ||
-                                proyecto.tipo_formulario_convocatoria_id == 5 ||
-                                proyecto.tipo_formulario_convocatoria_id == 6 ||
-                                proyecto.tipo_formulario_convocatoria_id == 7 ||
-                                proyecto.tipo_formulario_convocatoria_id == 8 ||
-                                proyecto.tipo_formulario_convocatoria_id == 9 ? (
-                                    <Grid item md={12}>
-                                        <Autocomplete
-                                            id="subtipologia_minciencias_id"
-                                            options={subtipologias_minciencias}
-                                            selectedValue={form.data.subtipologia_minciencias_id}
-                                            onChange={(event, newValue) => form.setData('subtipologia_minciencias_id', newValue.value)}
-                                            error={form.errors.subtipologia_minciencias_id}
-                                            label="Subtipología Minciencias"
-                                            required
-                                        />
+                                        {(form.data.subtipologia_minciencias_id && form.data.trl && form.data.tipo) || (method == 'POST' && tipo_producto == 2) ? (
+                                            <Grid item md={12}>
+                                                <Autocomplete
+                                                    id="subtipologia_minciencias_id"
+                                                    options={subtipologias_minciencias}
+                                                    selectedValue={form.data.subtipologia_minciencias_id}
+                                                    onChange={(event, newValue) => form.setData('subtipologia_minciencias_id', newValue.value)}
+                                                    error={form.errors.subtipologia_minciencias_id}
+                                                    label="Subtipología Minciencias"
+                                                    required
+                                                />
 
-                                        <Autocomplete
-                                            className="mt-8"
-                                            id="tipo"
-                                            options={tipos_producto}
-                                            selectedValue={form.data.tipo}
-                                            onChange={(event, newValue) => form.setData('tipo', newValue.value)}
-                                            error={form.errors.tipo}
-                                            label="Seleccione un tipo"
-                                            required
-                                        />
+                                                <Autocomplete
+                                                    className="mt-8"
+                                                    id="tipo"
+                                                    options={tipos_producto}
+                                                    selectedValue={form.data.tipo}
+                                                    onChange={(event, newValue) => form.setData('tipo', newValue.value)}
+                                                    error={form.errors.tipo}
+                                                    label="Seleccione un tipo"
+                                                    required
+                                                />
 
-                                        <TextInput
-                                            className="!mt-8"
-                                            id="trl"
-                                            type="number"
-                                            label="Diligencie el TRL para este producto (1 a 9)"
-                                            value={form.data.trl}
-                                            inputProps={{ min: 0, max: 9, step: 1 }}
-                                            onChange={(e) => form.setData('trl', e.target.value)}
-                                            error={form.errors.trl}
-                                            required
-                                        />
-                                    </Grid>
-                                ) : null}
+                                                <TextInput
+                                                    className="!mt-8"
+                                                    id="trl"
+                                                    type="number"
+                                                    label="Diligencie el TRL para este producto (1 a 9)"
+                                                    value={form.data.trl}
+                                                    inputProps={{ min: 0, max: 9, step: 1 }}
+                                                    onChange={(e) => form.setData('trl', e.target.value)}
+                                                    error={form.errors.trl}
+                                                    required
+                                                />
+                                            </Grid>
+                                        ) : null}
 
-                                <Grid item md={12}>
-                                    <h6 className="mt-20 mb-12 text-2xl">Actividades a desarrollar</h6>
-                                    <div className="bg-white rounded shadow overflow-hidden">
-                                        <div className="p-4">
-                                            <Label required className="mb-4" labelFor="actividad_id" value="Relacione las actividades respectivas" />
-                                        </div>
-                                        <div>
+                                        <Grid item md={12}>
+                                            <h6 className="mt-20 mb-12 text-2xl">Actividades a desarrollar</h6>
                                             {actividades?.length > 0 ? (
                                                 <SelectMultiple
                                                     id="actividad_id"
                                                     bdValues={form.data.actividad_id}
                                                     options={actividades}
                                                     error={form.errors.actividad_id}
+                                                    label="Seleccione las actividades a desarrollar"
                                                     onChange={(event, newValue) => {
                                                         const selectedValues = newValue.map((option) => option.value)
                                                         form.setData((prevData) => ({
@@ -289,9 +305,9 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                                     Ver detalles. En el formulario que visualiza deberá completar el resto de información.
                                                 </AlertMui>
                                             )}
-                                        </div>
-                                    </div>
-                                </Grid>
+                                        </Grid>
+                                    </>
+                                ) : null}
                             </Grid>
                         </fieldset>
 

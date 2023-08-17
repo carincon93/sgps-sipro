@@ -24,7 +24,7 @@ class ProyectoFormulario10Linea69 extends Model
      *
      * @var array
      */
-    protected $appends = ['fecha_ejecucion'];
+    protected $appends = ['titulo', 'fecha_ejecucion'];
 
     /**
      * The attributes that are mass assignable.
@@ -239,14 +239,14 @@ class ProyectoFormulario10Linea69 extends Model
         return $proyectos_formulario_10_linea_69;
     }
 
-    public function getProyectoBaseAttribute($value)
+    /**
+     * getTituloAttribute
+     *
+     * @return void
+     */
+    public function getTituloAttribute()
     {
-        // Quemado - Ripoll
-        if (Auth::user()->id == 122) {
-            return true;
-        }
-
-        return $value;
+        return ucfirst($this->hubInnovacion->nombre) . " Vigencia " . date('Y', strtotime($this->fecha_inicio));
     }
 
     public function getAreasCualificacionMncAttribute($value)

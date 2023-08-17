@@ -1088,7 +1088,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                         </TooltipMui>
                                                     </div>
 
-                                                    {proyecto.tipo_formulario_convocatoria_id == 5 || proyecto.tipo_formulario_convocatoria_id == 4 ? (
+                                                    {/* {proyecto.tipo_formulario_convocatoria_id == 5 || proyecto.tipo_formulario_convocatoria_id == 4 ? (
                                                         <div>
                                                             <Label required labelFor="resultado_id" value="Resultado" />
                                                             <Autocomplete
@@ -1097,12 +1097,12 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                                 option={resultados_filtrados}
                                                                 selectedValue={form_actividad.data.resultado_id}
                                                                 onChange={(event, newValue) => form_actividad.setData('resultado_id', newValue.value)}
-                                                                error={errors.resultado_id}
+                                                                error={form_actividad.errors.resultado_id}
                                                                 placeholder="Seleccione un resultado"
                                                                 required
                                                             />
                                                         </div>
-                                                    ) : null}
+                                                    ) : null} */}
 
                                                     <div className="ml-2 mt-4">
                                                         <div className={`mt-4 flex ${form_actividad.errors.fecha_inicio ? '' : 'items-center'}`}>
@@ -1185,7 +1185,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                     {efectos_directos.map((efectoDirecto, i) => (
                         <React.Fragment key={i}>
                             <Grid item md={6} className="!my-20 shadow p-2" style={{ backgroundColor: '#e0dddd30' }}>
-                                <small className="inline-block ml-2">Efecto directo</small>
+                                <small className="inline-block ml-2">Efecto directo #{i + 1}</small>
                                 {efecto_directo_id !== efectoDirecto.id && (
                                     <div
                                         className="bg-white relative p-4 rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] my-4 pr-14"
@@ -1454,12 +1454,12 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                                 error={form_resultado.errors.descripcion}
                                                                 value={form_resultado.data.descripcion}
                                                                 onChange={(e) => form_resultado.setData('descripcion', e.target.value)}
+                                                                placeholder="Descripción del resultado"
                                                                 required
                                                             />
                                                         </TooltipMui>
                                                     </div>
                                                     <div className="mt-10">
-                                                        <AlertMui className="relative">Por seleccione un objetivo específico.</AlertMui>
                                                         <Autocomplete
                                                             id="objetivo-especifico"
                                                             inputBackground="#fff"
@@ -1468,7 +1468,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                             onChange={(event, newValue) => form_resultado.setData('objetivo_especifico_id', newValue.value)}
                                                             error={form_resultado.errors.objetivo_especifico_id}
                                                             autoComplete={false}
-                                                            placeholder="Seleccione un objetivo específico"
+                                                            label="Seleccione un objetivo específico"
                                                             required
                                                         />
                                                     </div>

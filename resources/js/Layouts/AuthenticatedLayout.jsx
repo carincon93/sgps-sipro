@@ -12,7 +12,7 @@ export default function Authenticated({ header, children }) {
     return (
         <>
             <MiniDrawer user={auth.user}>
-                <Grid container={true} maxWidth="lg" spacing={2} justifyContent="center" alignItems="center" className="!m-auto py-4">
+                <Grid container={true} maxWidth="lg" spacing={2} justifyContent="center" alignItems="center" className="!m-auto pt-4 pb-40">
                     {children}
                     <HelpDesk />
                 </Grid>

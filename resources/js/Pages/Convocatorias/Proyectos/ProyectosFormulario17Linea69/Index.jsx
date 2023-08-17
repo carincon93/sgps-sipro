@@ -51,7 +51,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_17_linea_69, allowed_t
                                 </TableCell>
                             </TableRow>
                         )}
-                        {proyectos_formulario_17_linea_69.data.map(({ id, proyecto, titulo, fecha_ejecucion }) => (
+                        {proyectos_formulario_17_linea_69.data.map(({ id, proyecto, titulo, fecha_ejecucion, proyecto_base }) => (
                             <TableRow key={id}>
                                 <TableCell>
                                     <div>
@@ -59,9 +59,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_17_linea_69, allowed_t
 
                                         <p className="first-letter:uppercase my-4 line-clamp-3">{titulo}</p>
 
-                                        {proyecto.proyecto_base && (
-                                            <small className="bg-red-100 inline-block mt-2 p-2 rounded text-red-400"> Proyecto base (Solo pueden acceder administradores) </small>
-                                        )}
+                                        {proyecto_base && <small className="bg-red-100 inline-block mt-2 p-2 rounded text-red-400"> Proyecto base (Solo pueden acceder administradores) </small>}
                                     </div>
                                 </TableCell>
                                 <TableCell>

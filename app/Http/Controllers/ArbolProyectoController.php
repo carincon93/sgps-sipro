@@ -697,6 +697,8 @@ class ArbolProyectoController extends Controller
 
         $resultado->fill($request->validated());
 
+        // $resultado->objetivoEspecifico->actividades()->update(['resultado_id' => $resultado->id]);
+
         if ($resultado->save()) {
             return back()->with('success', 'El recurso se ha guardado correctamente.');
         }

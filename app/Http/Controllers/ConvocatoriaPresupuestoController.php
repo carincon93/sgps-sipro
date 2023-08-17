@@ -129,17 +129,17 @@ class ConvocatoriaPresupuestoController extends Controller
     {
         $this->authorize('update', [ConvocatoriaPresupuesto::class, $convocatoria_rubro_presupuestal]);
 
-        if ($request->has('habilitado')) {
+        if ($request->filled('habilitado')) {
             $convocatoria_rubro_presupuestal->update(['habilitado' => $request->habilitado]);
 
             !$request->habilitado ? $convocatoria_rubro_presupuestal->update(['sumar_al_presupuesto' => false]) : $convocatoria_rubro_presupuestal->update(['sumar_al_presupuesto' => true]);
         }
 
-        if ($request->has('sumar_al_presupuesto')) {
+        if ($request->filled('sumar_al_presupuesto')) {
             $convocatoria_rubro_presupuestal->update(['sumar_al_presupuesto' => $request->sumar_al_presupuesto]);
         }
 
-        if ($request->has('requiere_estudio_mercado')) {
+        if ($request->filled('requiere_estudio_mercado')) {
             $convocatoria_rubro_presupuestal->update(['requiere_estudio_mercado' => $request->requiere_estudio_mercado]);
         }
 

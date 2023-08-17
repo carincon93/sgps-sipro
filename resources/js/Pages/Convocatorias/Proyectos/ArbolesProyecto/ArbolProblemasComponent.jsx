@@ -105,8 +105,12 @@ const ArbolProblemasComponent = ({ auth, convocatoria, proyecto, fase_evaluacion
                                         value={form_problema_central.data.identificacion_problema}
                                         error={form_problema_central.errors.identificacion_problema}
                                         onChange={(e) => form_problema_central.setData('identificacion_problema', e.target.value)}
-                                        disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                         onBlur={() => syncColumnLong('identificacion_problema', form_problema_central)}
+                                        disabled={
+                                            (!checkRole(auth_user, [1, 5]) && proyecto.tipo_formulario_convocatoria_id == 4) ||
+                                            (!checkRole(auth_user, [1, 17]) && proyecto.tipo_formulario_convocatoria_id == 17) ||
+                                            (!checkRole(auth_user, [1, 17]) && proyecto.tipo_formulario_convocatoria_id == 10)
+                                        }
                                         required
                                     />
                                 </div>
@@ -149,12 +153,16 @@ const ArbolProblemasComponent = ({ auth, convocatoria, proyecto, fase_evaluacion
                                     </AlertMui>
 
                                     <Textarea
-                                        disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                         id="justificacion_problema"
                                         error={form_problema_central.errors.justificacion_problema}
                                         value={form_problema_central.data.justificacion_problema}
                                         onChange={(e) => form_problema_central.setData('justificacion_problema', e.target.value)}
                                         onBlur={() => syncColumnLong('justificacion_problema', form_problema_central)}
+                                        disabled={
+                                            (!checkRole(auth_user, [1, 5]) && proyecto.tipo_formulario_convocatoria_id == 4) ||
+                                            (!checkRole(auth_user, [1, 17]) && proyecto.tipo_formulario_convocatoria_id == 17) ||
+                                            (!checkRole(auth_user, [1, 17]) && proyecto.tipo_formulario_convocatoria_id == 10)
+                                        }
                                         required
                                     />
                                 </div>
@@ -168,12 +176,16 @@ const ArbolProblemasComponent = ({ auth, convocatoria, proyecto, fase_evaluacion
                                     claridad; el problema se debe formular mediante una oración clara y sin ambigüedades.
                                 </AlertMui>
                                 <Textarea
-                                    disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                     id="problema_central"
                                     error={form_problema_central.errors.problema_central}
                                     value={form_problema_central.data.problema_central}
                                     onChange={(e) => form_problema_central.setData('problema_central', e.target.value)}
                                     onBlur={() => syncColumnLong('problema_central', form_problema_central)}
+                                    disabled={
+                                        (!checkRole(auth_user, [1, 5]) && proyecto.tipo_formulario_convocatoria_id == 4) ||
+                                        (!checkRole(auth_user, [1, 17]) && proyecto.tipo_formulario_convocatoria_id == 17) ||
+                                        (!checkRole(auth_user, [1, 17]) && proyecto.tipo_formulario_convocatoria_id == 10)
+                                    }
                                     required
                                 />
                             </div>
@@ -201,12 +213,16 @@ const ArbolProblemasComponent = ({ auth, convocatoria, proyecto, fase_evaluacion
                                     </AlertMui>
                                 )}
                                 <Textarea
-                                    disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                     id="objetivo-general"
                                     error={form_problema_central.errors.objetivo_general}
                                     value={form_problema_central.data.objetivo_general}
                                     onChange={(e) => form_problema_central.setData('objetivo_general', e.target.value)}
                                     onBlur={() => syncColumnLong('objetivo_general', form_problema_central)}
+                                    disabled={
+                                        (!checkRole(auth_user, [1, 5]) && proyecto.tipo_formulario_convocatoria_id == 4) ||
+                                        (!checkRole(auth_user, [1, 17]) && proyecto.tipo_formulario_convocatoria_id == 17) ||
+                                        (!checkRole(auth_user, [1, 17]) && proyecto.tipo_formulario_convocatoria_id == 10)
+                                    }
                                     required
                                 />
                             </div>

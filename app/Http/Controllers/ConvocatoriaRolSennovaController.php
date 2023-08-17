@@ -134,13 +134,13 @@ class ConvocatoriaRolSennovaController extends Controller
     {
         $this->authorize('update', [ConvocatoriaRolSennova::class, $convocatoria_rol_sennova]);
 
-        if ($request->has('habilitado')) {
+        if ($request->filled('habilitado')) {
             $convocatoria_rol_sennova->update(['habilitado' => $request->habilitado]);
 
             !$request->habilitado ? $convocatoria_rol_sennova->update(['sumar_al_presupuesto' => false]) : $convocatoria_rol_sennova->update(['sumar_al_presupuesto' => true]);
         }
 
-        if ($request->has('sumar_al_presupuesto')) {
+        if ($request->filled('sumar_al_presupuesto')) {
             $convocatoria_rol_sennova->update(['sumar_al_presupuesto' => $request->sumar_al_presupuesto]);
         }
 

@@ -238,16 +238,6 @@ class ProyectoFormulario5Linea69 extends Model
         return $proyectos_formulario_5_linea_69;
     }
 
-    public function getProyectoBaseAttribute($value)
-    {
-        // Quemado - Ripoll
-        if (Auth::user()->id == 122) {
-            return true;
-        }
-
-        return $value;
-    }
-
     public function getFilenameAttribute()
     {
         $fileInfo = pathinfo($this->pdf_proyecto_general);

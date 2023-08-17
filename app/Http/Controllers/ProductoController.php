@@ -38,7 +38,7 @@ class ProductoController extends Controller
                                                     $resultado->map(function ($resultado) {
                                                         return $resultado->id;
                                                     })
-                                                )->with('actividades', 'resultado.objetivoEspecifico', 'productoMinciencias')->orderBy('resultado_id', 'ASC')->get(),
+                                                )->with('actividades', 'resultado.objetivoEspecifico', 'productoMinciencias')->orderBy('id', 'ASC')->get(),
 
             'resultados'                =>  Resultado::select('resultados.id as value', 'resultados.descripcion as label', 'resultados.id as id')->whereHas('efectoDirecto', function ($query) use ($proyecto) {
                                                  $query->where('efectos_directos.proyecto_id', $proyecto->id);
@@ -75,7 +75,7 @@ class ProductoController extends Controller
 
         $producto->actividades()->attach($request->actividad_id);
 
-        if ($request->has('tipo') && $request->has('trl') && $request->has('subtipologia_minciencias_id')) {
+        if ($request->filled('tipo') && $request->filled('trl') && $request->filled('subtipologia_minciencias_id')) {
 
             $request->validate([
                 'tipo'                          => 'required|between:1,4',
@@ -133,7 +133,7 @@ class ProductoController extends Controller
 
         $producto->actividades()->sync($request->actividad_id);
 
-        if ($request->has('tipo') && $request->has('trl') && $request->has('subtipologia_minciencias_id')) {
+        if ($request->filled('tipo') && $request->filled('trl') && $request->filled('subtipologia_minciencias_id')) {
             $request->validate([
                 'tipo'                          => 'required|between:1,4',
                 'trl'                           => 'required|min:1|max:9',

@@ -263,7 +263,7 @@ class ConvocatoriaController extends Controller
     {
         return Inertia::render('Convocatorias/TiposFormularioConvocatoria', [
             'convocatoria'                  => $convocatoria,
-            'tipos_formulario_convocatoria' => $convocatoria->tiposFormularioConvocatoria()->with('lineaProgramatica')->get()
+            'tipos_formulario_convocatoria' => $convocatoria->tiposFormularioConvocatoria()->with('lineaProgramatica')->orderBy('tipos_formulario_convocatoria.id')->get()
         ]);
     }
 

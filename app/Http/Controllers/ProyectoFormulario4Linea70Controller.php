@@ -97,21 +97,28 @@ class ProyectoFormulario4Linea70Controller extends Controller
             ]
         );
 
-        $proyecto->proyectoFormulario4Linea70()->create([
-            'fecha_inicio'          => $request->fecha_inicio,
-            'fecha_finalizacion'    => $request->fecha_finalizacion,
-        ]);
+        if ($convocatoria->proyectos()->whereHas('proyectoFormulario4Linea70')->count() == 0) {
+            $proyecto->proyectoFormulario4Linea70()->create([
+                'fecha_inicio'          => $request->fecha_inicio,
+                'fecha_finalizacion'    => $request->fecha_finalizacion,
+                'proyecto_base'         => true
+            ]);
+            return redirect()->route('convocatorias.proyectos-formulario-4-linea-70.edit', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente. Este es el proyecto base, por favor defina los campos con información precargada.');
+        }
 
-        $proyecto_a_replicar = ProyectoFormulario4Linea70::where('proyecto_base', true)->first();
+        $proyecto_a_replicar = $convocatoria->proyectos()
+                                ->whereHas('proyectoFormulario4Linea70', function ($query) {
+                                    $query->where('proyecto_base', true);
+                                })
+                                ->first();
 
+        $nuevo_proyecto_formulario_4_linea_70 = $this->replicateRow($request, $proyecto_a_replicar->proyectoFormulario4Linea70, $proyecto);
 
-        // $nuevo_proyecto_formulario_4_linea_70 = $this->replicateRow($request, $proyecto_a_replicar, $proyecto);
-
-        // if ($nuevo_proyecto_formulario_4_linea_70) {
+        if ($nuevo_proyecto_formulario_4_linea_70) {
             return redirect()->route('convocatorias.proyectos-formulario-4-linea-70.edit', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
-        // } else {
-        //     return back()->with('error', 'No hay un proyecto base generado. Por favor notifique al activador(a) de la línea.');
-        // }
+        } else {
+            return back()->with('error', 'No hay un proyecto base generado. Por favor notifique al activador(a) de la línea.');
+        }
     }
 
     /**
@@ -370,14 +377,13 @@ class ProyectoFormulario4Linea70Controller extends Controller
             $proyecto_formulario_4_linea_70->load(
                 'tematicasEstrategicas',
                 'disciplinasSubareaConocimiento',
-                'redesConocimiento',
                 'actividadesEconomicas'
             );
 
             //re-sync everything hasMany
-            foreach ($proyecto_formulario_4_linea_70->edt as $edt) {
-                $clone->edt()->create($edt->toArray());
-            }
+            // foreach ($proyecto_formulario_4_linea_70->edt as $edt) {
+            //     $clone->edt()->create($edt->toArray());
+            // }
 
             //re-sync everything hasMany
             $objetivos_especificos = collect([]);
@@ -403,8 +409,8 @@ class ProyectoFormulario4Linea70Controller extends Controller
                         [
                             'actividad_id'                  => $nueva_actividad->id,
                             'objetivo_especifico_id'        => $nueva_actividad->objetivo_especifico_id,
-                            'resultado_antiguo'             => $causa_indirecta->actividad->resultado->descripcion,
-                            'objetivo_especifico_antiguo'   => $causa_indirecta->actividad->objetivoEspecifico->numero,
+                            'resultado_antiguo'             => optional($causa_indirecta->actividad->resultado)->descripcion,
+                            'objetivo_especifico_antiguo'   => optional($causa_indirecta->actividad->objetivoEspecifico)->numero,
                             'causa_indirecta_id'            => $nueva_actividad->causa_indirecta_id,
                             'descripcion_actividad'         => $nueva_actividad->descripcion
                         ]
@@ -425,7 +431,9 @@ class ProyectoFormulario4Linea70Controller extends Controller
                 foreach ($efecto_directo->resultado->productos as $producto) {
                     $nuevo_producto = $nuevo_resultado->productos()->create($producto->toArray());
 
-                    $nuevo_producto->productoLinea70()->create($producto->productoLinea70->toArray());
+                    if ($producto->productoMinciencias()->exists()) {
+                        $nuevo_producto->productoMinciencias()->create($producto->productoMinciencias->toArray());
+                    }
                 }
 
                 foreach ($efecto_directo->efectosIndirectos as $efecto_indirecto) {
@@ -451,31 +459,23 @@ class ProyectoFormulario4Linea70Controller extends Controller
                     $clone->{$relation_name}()->sync($values);
                 }
             }
+            //re-sync everything belongsToMany
+            $clone->proyecto->semillerosInvestigacion()->sync($proyecto_formulario_4_linea_70->proyecto->semillerosInvestigacion()->pluck('semilleros_investigacion.id'));
 
             //re-sync everything belongsToMany
-            foreach ($proyecto_formulario_4_linea_70->proyecto->municipios as $municipio => $values) {
-                $clone->proyecto->municipios()->sync($values);
-            }
+            $clone->proyecto->gruposInvestigacion()->sync($proyecto_formulario_4_linea_70->proyecto->gruposInvestigacion()->pluck('grupos_investigacion.id'));
 
             //re-sync everything belongsToMany
-            foreach ($proyecto_formulario_4_linea_70->proyecto->municipiosAImpactar as $municipio => $values) {
-                $clone->proyecto->municipiosAImpactar()->sync($values);
-            }
+            $clone->proyecto->municipios()->sync($proyecto_formulario_4_linea_70->proyecto->municipios()->pluck('municipios.id'));
 
             //re-sync everything belongsToMany
-            foreach ($proyecto_formulario_4_linea_70->proyecto->municipiosAImpactar as $municipio => $values) {
-                $clone->proyecto->municipiosAImpactar()->sync($values);
-            }
+            $clone->proyecto->municipiosAImpactar()->sync($proyecto_formulario_4_linea_70->proyecto->municipiosAImpactar()->pluck('municipios.id'));
 
             //re-sync everything belongsToMany
-            foreach ($proyecto_formulario_4_linea_70->proyecto->disenosCurriculares as $diseno_curricular => $values) {
-                $clone->proyecto->disenosCurriculares()->sync($values);
-            }
+            $clone->proyecto->disenosCurriculares()->sync($proyecto_formulario_4_linea_70->proyecto->disenosCurriculares()->pluck('disenos_curriculares.id'));
 
             //re-sync everything belongsToMany
-            foreach ($proyecto_formulario_4_linea_70->proyecto->programasFormacionLinea70 as $programa_formacion => $values) {
-                $clone->proyecto->programasFormacionLinea70()->sync($values);
-            }
+            $clone->proyecto->programasFormacion()->sync($proyecto_formulario_4_linea_70->proyecto->programasFormacion()->pluck('programas_formacion.id'));
 
             $clone->save();
 
