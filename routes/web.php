@@ -207,7 +207,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         }
     })->name('grupos-investigacion.upload-formato');
 
-    Route::resource('grupos-investigacion', GrupoInvestigacionController::class)->parameters(['grupos-investigacion' => 'grupo-investigacion'])->except(['show']);
+    Route::resource('grupos-investigacion', GrupoInvestigacionController::class)->parameters(['grupos-investigacion' => 'grupo-investigacion']);
 
     /**
      * Líneas de investigación

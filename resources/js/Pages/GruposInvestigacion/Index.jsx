@@ -11,8 +11,9 @@ import SearchBar from '@/Components/SearchBar'
 import TableMui from '@/Components/Table'
 
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
+import AutorenewIcon from '@mui/icons-material/Autorenew'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
+import { Divider, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
 import { router, useForm } from '@inertiajs/react'
@@ -48,7 +49,7 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
     }
 
     const tabs = checkRole(auth_user, [1, 21, 18, 19, 5, 17])
-        ? [{ label: 'Grupos de investigación' }, { label: 'Grupos de investigación: ' + centros_formacion.find((item) => item.value == auth_user.centro_formacion_id).label }]
+        ? [{ label: 'Grupos de investigación - Nivel Nacional' }, { label: 'Grupos de investigación: ' + centros_formacion.find((item) => item.value == auth_user.centro_formacion_id).label }]
         : [{ label: 'Grupos de investigación del ' + centros_formacion.find((item) => item.value == auth_user.centro_formacion_id).label }]
 
     return (
@@ -93,7 +94,8 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
                                     />
                                     <ButtonMui
                                         onClick={() => (setDialogFormatoStatus(true), setGrupoInvestigacion(grupo_investigacion), setTipoArchivo('formato_gic_f_020'))}
-                                        className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                        className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                        <AutorenewIcon className="mr-2" />
                                         {grupo_investigacion?.filename.formato_gic_f_020_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 020
                                     </ButtonMui>
 
@@ -112,7 +114,8 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
                                     />
                                     <ButtonMui
                                         onClick={() => (setDialogFormatoStatus(true), setGrupoInvestigacion(grupo_investigacion), setTipoArchivo('formato_gic_f_032'))}
-                                        className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                        className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                        <AutorenewIcon className="mr-2" />
                                         {grupo_investigacion?.filename.formato_gic_f_032_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 032
                                     </ButtonMui>
                                 </TableCell>
@@ -124,12 +127,14 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
                                                 <MenuItem
                                                     onClick={(e) => {
                                                         e.stopPropagation()
-                                                        router.visit(route('grupos-investigacion.lineas-investigacion.index', [grupo_investigacion.id]), {
+                                                        router.visit(route('grupos-investigacion.show', [grupo_investigacion.id]), {
                                                             preserveScroll: true,
                                                         })
                                                     }}>
-                                                    Líneas de investigación
+                                                    Ver detalles
                                                 </MenuItem>
+
+                                                <Divider />
 
                                                 <MenuItem
                                                     onClick={() => (setDialogStatus(true), setMethod('PUT'), setGrupoInvestigacion(grupo_investigacion))}
@@ -216,7 +221,8 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
                                     />
                                     <ButtonMui
                                         onClick={() => (setDialogFormatoStatus(true), setGrupoInvestigacion(grupo_investigacion), setTipoArchivo('formato_gic_f_032'))}
-                                        className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                        className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                        <AutorenewIcon className="mr-2" />
                                         {grupo_investigacion?.filename.formato_gic_f_032_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 032
                                     </ButtonMui>
 
@@ -235,7 +241,8 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
                                     />
                                     <ButtonMui
                                         onClick={() => (setDialogFormatoStatus(true), setGrupoInvestigacion(grupo_investigacion), setTipoArchivo('formato_gic_f_020'))}
-                                        className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                        className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                        <AutorenewIcon className="mr-2" />
                                         {grupo_investigacion?.filename.formato_gic_f_020_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 020
                                     </ButtonMui>
                                 </TableCell>
@@ -247,12 +254,14 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
                                                 <MenuItem
                                                     onClick={(e) => {
                                                         e.stopPropagation()
-                                                        router.visit(route('grupos-investigacion.lineas-investigacion.index', [grupo_investigacion.id]), {
+                                                        router.visit(route('grupos-investigacion.show', [grupo_investigacion.id]), {
                                                             preserveScroll: true,
                                                         })
                                                     }}>
-                                                    Líneas de investigación
+                                                    Ver detalles
                                                 </MenuItem>
+
+                                                <Divider />
 
                                                 <MenuItem
                                                     onClick={() => (setDialogStatus(true), setMethod('PUT'), setGrupoInvestigacion(grupo_investigacion))}

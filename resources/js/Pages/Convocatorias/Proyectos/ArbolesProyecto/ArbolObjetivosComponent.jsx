@@ -83,7 +83,6 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                         form_efecto_indirecto.setData('efecto_directo_id', null)
                         form_efecto_indirecto.setData('descripcion', '')
                         setEfectoIndirectoId(null)
-                        setEfectoDirectoId(null)
                     },
                     preserveScroll: true,
                 },
@@ -296,7 +295,6 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                         setShowNuevaCausaIndirectaForm(false)
                         form_causa_indirecta.reset()
                         setCausaIndirectaId(null)
-                        setCausaDirectaId(null)
                     },
                     preserveScroll: true,
                 },

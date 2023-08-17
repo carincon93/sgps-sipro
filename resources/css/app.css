@@ -146,7 +146,7 @@ select {
 
 #nprogress .spinner {
     top: 22px !important;
-    right: 170px !important;
+    right: 50px !important;
 }
 
 .MuiGrid-root.MuiGrid-item {

@@ -1,11 +1,12 @@
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import FileTypeIcon from '@/Components/FileTypeIcon'
 
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 import { Button } from '@mui/material'
 
 const DownloadFile = ({ downloadRoute = '', filename = '', extension = '', onDelete, className, label = '', ...props }) => {
     return (
-        <div className={`flex items-center justify-center border p-4 hover:bg-gray-50 rounded shadow-lg mb-2 relative ${className}`}>
+        <div className={`flex items-center justify-center border p-4 rounded shadow-lg relative ${className} ${!downloadRoute ? 'text-red-500 bg-red-100' : ''}`}>
             {downloadRoute ? (
                 <a href={downloadRoute} target="_blank" className="flex items-center">
                     <FileTypeIcon fileType={extension.split('?')[0]} className="!w-6 mr-4" />
@@ -13,7 +14,9 @@ const DownloadFile = ({ downloadRoute = '', filename = '', extension = '', onDel
                     {filename.slice(0, 20) + '.' + extension.split('?')[0]}
                 </a>
             ) : (
-                <>Debe cargar: {label}</>
+                <>
+                    <ErrorOutlineIcon className="mr-2" /> Debe cargar: {label}
+                </>
             )}
             {onDelete && (
                 <Button className="!absolute right-1 !bg-white shadow !pl-4 !text-xs" onClick={() => onDelete()} type="button">

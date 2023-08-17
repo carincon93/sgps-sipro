@@ -1,9 +1,13 @@
 import ButtonMui from '@/Components/Button'
 import DialogMui from '@/Components/Dialog'
+import DownloadFile from '@/Components/DownloadFile'
+import FileInput from '@/Components/FileInput'
 import MenuMui from '@/Components/Menu'
+import PrimaryButton from '@/Components/PrimaryButton'
 import TableMui from '@/Components/Table'
 
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
+import AutorenewIcon from '@mui/icons-material/Autorenew'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { MenuItem, TableCell, TableRow } from '@mui/material'
 
@@ -12,9 +16,6 @@ import { useState } from 'react'
 import { checkRole } from '@/Utils'
 
 import Form from './Form'
-import DownloadFile from '@/Components/DownloadFile'
-import PrimaryButton from '@/Components/PrimaryButton'
-import FileInput from '@/Components/FileInput'
 
 const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) => {
     const auth_user = auth.user
@@ -48,7 +49,7 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) =>
 
             <TableMui className="mt-20 mb-8" rows={['Placa / Modelo', 'Archivos', 'Acciones']} sxCellThead={{ width: '320px' }}>
                 {proyecto.allowed.to_update ? (
-                    <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setAulaMovil(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                    <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setAulaMovil(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer w-full">
                         <TableCell colSpan={3}>
                             <ButtonMui>
                                 <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar aula móvil
@@ -78,7 +79,8 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) =>
                             />
                             <ButtonMui
                                 onClick={() => (setDialogArchivoStatus(true), setAulaMovil(aula_movil), setTipoArchivo('soat'))}
-                                className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                <AutorenewIcon className="mr-2" />
                                 {aula_movil.filename.soat_filename ? 'Reemplazar' : 'Cargar'} SOAT
                             </ButtonMui>
 
@@ -98,6 +100,7 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) =>
                             <ButtonMui
                                 onClick={() => (setDialogArchivoStatus(true), setAulaMovil(aula_movil), setTipoArchivo('tecnicomecanica'))}
                                 className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                <AutorenewIcon className="mr-2" />
                                 {aula_movil?.filename.tecnicomecanica_filename ? 'Reemplazar' : 'Cargar'} tecnicomecánica
                             </ButtonMui>
                         </TableCell>

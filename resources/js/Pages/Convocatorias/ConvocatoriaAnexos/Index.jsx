@@ -37,7 +37,7 @@ const ConvocatoriaAnexos = ({ auth, convocatoria, convocatoria_anexos, anexos })
                 )}
 
                 <Grid item md={12}>
-                    <TableMui className="mt-20" rows={['Nombre', 'Líneas programáticas', 'Habilitado?', '¿Obligatorio?', 'Acciones']}>
+                    <TableMui className="mt-20" rows={['Nombre', 'Líneas programáticas', '¿Habilitado?', '¿Obligatorio?', 'Acciones']}>
                         <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setConvocatoriaAnexo(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={5}>
                                 <ButtonMui>

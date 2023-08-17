@@ -11,8 +11,9 @@ import SearchBar from '@/Components/SearchBar'
 import TableMui from '@/Components/Table'
 
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
+import AutorenewIcon from '@mui/icons-material/Autorenew'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { Breadcrumbs, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
+import { Breadcrumbs, Grid, MenuItem, Tab, TableCell, TableRow, Tabs } from '@mui/material'
 
 import { useState } from 'react'
 import { Link, router, useForm } from '@inertiajs/react'
@@ -51,23 +52,26 @@ const Index = ({ auth, grupo_investigacion, linea_investigacion, lineas_investig
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Semilleros de investigación</h2>}>
             <Grid item md={12} className="!mb-20">
-                <Breadcrumbs aria-label="breadcrumb">
-                    <Link underline="hover" color="inherit" href={route('grupos-investigacion.index')}>
-                        Grupos de investigación
-                    </Link>
-                    <Link underline="hover" color="inherit" href="#">
-                        {grupo_investigacion.nombre}
-                    </Link>
-                    <Link underline="hover" href={route('grupos-investigacion.lineas-investigacion.index', [grupo_investigacion.id])}>
-                        Líneas de investigación
-                    </Link>
-                    <Link underline="hover" color="inherit" href="#">
-                        {linea_investigacion.nombre}
-                    </Link>
-                    <Link underline="hover" color="text.primary" href="#" aria-current="page">
-                        Semilleros de investigación
-                    </Link>
-                </Breadcrumbs>
+                <Tabs value="2" centered={true}>
+                    <Tab
+                        component="a"
+                        onClick={() => {
+                            router.visit(route('grupos-investigacion.show', [grupo_investigacion.id]))
+                        }}
+                        label={grupo_investigacion.nombre}
+                        value="0"
+                    />
+                    <Tab
+                        component="a"
+                        onClick={() => {
+                            router.visit(route('grupos-investigacion.lineas-investigacion.index', [grupo_investigacion.id]))
+                        }}
+                        label="Líneas de investigación"
+                        value="1"
+                    />
+
+                    <Tab component="a" label="Semilleros de investigación" value="2" />
+                </Tabs>
             </Grid>
             <Grid item md={12}>
                 <SearchBar routeParams={[grupo_investigacion.id]} />
@@ -111,7 +115,8 @@ const Index = ({ auth, grupo_investigacion, linea_investigacion, lineas_investig
                                 />
                                 <ButtonMui
                                     onClick={() => (setDialogFormatoStatus(true), setSemilleroInvestigacion(semillero_investigacion), setTipoArchivo('formato_gic_f_021'))}
-                                    className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                    className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white !text-[12px] hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                    <AutorenewIcon className="mr-2" />
                                     {semillero_investigacion?.filename.formato_gic_f_021_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 021
                                 </ButtonMui>
 
@@ -135,7 +140,8 @@ const Index = ({ auth, grupo_investigacion, linea_investigacion, lineas_investig
                                 />
                                 <ButtonMui
                                     onClick={() => (setDialogFormatoStatus(true), setSemilleroInvestigacion(semillero_investigacion), setTipoArchivo('formato_gic_f_032'))}
-                                    className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                    className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white !text-[12px] hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                    <AutorenewIcon className="mr-2" />
                                     {semillero_investigacion?.filename.formato_gic_f_032_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 032
                                 </ButtonMui>
 
@@ -159,7 +165,8 @@ const Index = ({ auth, grupo_investigacion, linea_investigacion, lineas_investig
                                 />
                                 <ButtonMui
                                     onClick={() => (setDialogFormatoStatus(true), setSemilleroInvestigacion(semillero_investigacion), setTipoArchivo('formato_aval_semillero'))}
-                                    className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                    className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white !text-[12px] hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                    <AutorenewIcon className="mr-2" />
                                     {semillero_investigacion?.filename.formato_aval_semillero_filename ? 'Reemplazar' : 'Cargar'} aval del semillero
                                 </ButtonMui>
                             </TableCell>

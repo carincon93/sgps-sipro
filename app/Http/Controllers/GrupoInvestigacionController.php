@@ -29,7 +29,7 @@ class GrupoInvestigacionController extends Controller
 
         return Inertia::render('GruposInvestigacion/Index', [
             'filters'                               => request()->all('search'),
-            'grupos_investigacion'                  => GrupoInvestigacion::select('grupos_investigacion.*')->with('centroFormacion.regional')->filterGrupoInvestigacion(request()->only('search', 'grupoInvestigacion'))->orderBy('grupos_investigacion.nombre', 'ASC')->paginate(),
+            'grupos_investigacion'                  => GrupoInvestigacion::select('grupos_investigacion.*')->with('centroFormacion.regional', 'redesConocimiento')->filterGrupoInvestigacion(request()->only('search', 'grupoInvestigacion'))->orderBy('grupos_investigacion.nombre', 'ASC')->paginate(),
             'grupos_investigacion_centro_formacion' => GrupoInvestigacion::select('grupos_investigacion.*')->where('grupos_investigacion.centro_formacion_id', $auth_user->centro_formacion_id)->with('centroFormacion.regional', 'redesConocimiento')->get(),
             'categorias_minciencias'                => json_decode(Storage::get('json/categorias-minciencias.json'), true),
             'redes_conocimiento'                    => SelectHelper::redesConocimiento(),
@@ -75,6 +75,12 @@ class GrupoInvestigacionController extends Controller
     public function show(GrupoInvestigacion $grupo_investigacion)
     {
         $this->authorize('view', [GrupoInvestigacion::class, $grupo_investigacion]);
+
+        $grupo_investigacion->redesConocimiento;
+
+        return Inertia::render('GruposInvestigacion/Show', [
+            'grupo_investigacion' => $grupo_investigacion
+        ]);
     }
 
     /**

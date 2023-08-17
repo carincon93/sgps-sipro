@@ -10,6 +10,7 @@ import { router, useForm } from '@inertiajs/react'
 import { useState } from 'react'
 
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
+import AutorenewIcon from '@mui/icons-material/Autorenew'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { MenuItem, TableCell, TableRow } from '@mui/material'
 
@@ -72,7 +73,8 @@ const FormacionesAcademicasSena = ({ usuario, formaciones_academicas_sena, modal
                             />
                             <ButtonMui
                                 onClick={() => (setDialogCertificadoStatus(true), setFormacionAcademicaSena(formacion_academica_sena))}
-                                className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                <AutorenewIcon className="mr-2" />
                                 {formacion_academica_sena?.filename ? 'Reemplazar' : 'Cargar'} soporte
                             </ButtonMui>
                         </TableCell>

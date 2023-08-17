@@ -102,7 +102,7 @@ export default function MiniDrawer({ user, children }) {
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
             <AppBar position="fixed" open={open} sx={{ boxShadow: 'none', backgroundColor: 'white' }}>
-                <Toolbar sx={{ display: 'flex', justifyContent: 'end' }}>
+                <Toolbar sx={{ display: 'flex', justifyContent: 'end' }} className="!mr-24">
                     {open && (
                         <IconButton onClick={handleDrawerClose} className="!absolute left-[-20px] !bg-white !rounded-full">
                             {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}

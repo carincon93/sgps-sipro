@@ -12,6 +12,7 @@ import { checkRole } from '@/Utils'
 import { Link, router, useForm } from '@inertiajs/react'
 
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
+import AutorenewIcon from '@mui/icons-material/Autorenew'
 import GroupAddIcon from '@mui/icons-material/GroupAdd'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
@@ -124,7 +125,7 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
             </Grid>
 
             <Grid item md={12}>
-                <TableMui className="mt-20 mb-8" rows={['Nombre', 'Soportes', 'Miembros', 'Acciones']}>
+                <TableMui className="mt-20 mb-8" rows={['Nombre', 'Soportes', 'Miembros', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {proyecto.allowed.to_update ? (
                         <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setEntidadAliada(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={5}>
@@ -139,8 +140,7 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                         <TableRow key={i}>
                             <TableCell>
                                 {entidad_aliada.nombre}
-                                <br />
-                                <Chip label={tipos_entidad_aliada.find((item) => item.value == entidad_aliada.tipo).label} />
+                                <Chip className="mx-2" label={tipos_entidad_aliada.find((item) => item.value == entidad_aliada.tipo).label} />
                             </TableCell>
                             <TableCell>
                                 {entidad_aliada?.entidad_aliada_linea66 && (
@@ -160,7 +160,8 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                                         />
                                         <ButtonMui
                                             onClick={() => (setDialogFormatoStatus(true), setEntidadAliada(entidad_aliada), setTipoArchivo('carta_intencion'))}
-                                            className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                            className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                            <AutorenewIcon className="mr-2" />
                                             {entidad_aliada?.entidad_aliada_linea66.filename.carta_intencion_filename ? 'Reemplazar' : 'Cargar'} carta de intención
                                         </ButtonMui>
 
@@ -184,7 +185,8 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                                         />
                                         <ButtonMui
                                             onClick={() => (setDialogFormatoStatus(true), setEntidadAliada(entidad_aliada), setTipoArchivo('carta_propiedad_intelectual'))}
-                                            className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                            className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                            <AutorenewIcon className="mr-2" />
                                             {entidad_aliada?.entidad_aliada_linea66.filename.carta_propiedad_intelectual_filename ? 'Reemplazar' : 'Cargar'} carta de propiedad intelectual
                                         </ButtonMui>
                                     </>
@@ -207,7 +209,7 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                                         />
                                         <ButtonMui
                                             onClick={() => (setDialogFormatoStatus(true), setEntidadAliada(entidad_aliada), setTipoArchivo('soporte_convenio'))}
-                                            className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                            className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
                                             {entidad_aliada?.entidad_aliada_linea69.filename ? 'Reemplazar' : 'Cargar'} convenio
                                         </ButtonMui>
                                     </>
@@ -230,7 +232,8 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                                         />
                                         <ButtonMui
                                             onClick={() => (setDialogFormatoStatus(true), setEntidadAliada(entidad_aliada), setTipoArchivo('soporte_convenio'))}
-                                            className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                            className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                            <AutorenewIcon className="mr-2" />
                                             {entidad_aliada?.entidad_aliada_linea70.filename ? 'Reemplazar' : 'Cargar'} convenio
                                         </ButtonMui>
                                     </>
@@ -253,7 +256,8 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                                         />
                                         <ButtonMui
                                             onClick={() => (setDialogFormatoStatus(true), setEntidadAliada(entidad_aliada), setTipoArchivo('soporte_convenio'))}
-                                            className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                            className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                            <AutorenewIcon className="mr-2" />
                                             {entidad_aliada?.entidad_aliada_linea83.filename ? 'Reemplazar' : 'Cargar'} convenio
                                         </ButtonMui>
                                     </>

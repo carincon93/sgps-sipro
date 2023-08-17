@@ -46,8 +46,7 @@ const Index = ({ auth, centros_formacion, regionales, subdirectores, dinamizador
                         <TableRow key={i}>
                             <TableCell>
                                 {centro_formacion.nombre}
-                                <br />
-                                <Chip label={centro_formacion.codigo} />
+                                <Chip className="mx-2" label={centro_formacion.codigo} />
                             </TableCell>
 
                             <TableCell>{centro_formacion?.regional?.nombre}</TableCell>

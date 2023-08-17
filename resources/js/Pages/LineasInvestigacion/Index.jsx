@@ -8,8 +8,9 @@ import SearchBar from '@/Components/SearchBar'
 import TableMui from '@/Components/Table'
 
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { Breadcrumbs, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
+import { Breadcrumbs, Divider, Grid, MenuItem, Tab, TableCell, TableRow, Tabs } from '@mui/material'
 
 import { useState } from 'react'
 import { Link, router } from '@inertiajs/react'
@@ -23,6 +24,7 @@ const Index = ({ auth, grupo_investigacion, lineas_investigacion, allowed_to_cre
     const is_super_admin = checkRole(auth_user, [1])
 
     const [dialog_status, setDialogStatus] = useState(false)
+    const [dialog_semilleros_investigacion_status, setDialogSemillerosInvestigacionStatus] = useState(false)
     const [method, setMethod] = useState('')
     const [linea_investigacion, setLineaInvestigacion] = useState(null)
     const [linea_investigacion_to_destroy, setLineaInvestigacionToDestroy] = useState(null)
@@ -30,17 +32,26 @@ const Index = ({ auth, grupo_investigacion, lineas_investigacion, allowed_to_cre
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas de investigación</h2>}>
             <Grid item md={12} className="!mb-20">
-                <Breadcrumbs aria-label="breadcrumb">
-                    <Link underline="hover" color="inherit" href={route('grupos-investigacion.index')}>
-                        Grupos de investigación
-                    </Link>
-                    <Link underline="hover" color="inherit" href="#">
-                        {grupo_investigacion.nombre}
-                    </Link>
-                    <Link underline="hover" color="text.primary" href="#" aria-current="page">
-                        Líneas de investigación
-                    </Link>
-                </Breadcrumbs>
+                <Tabs value="1" centered={true}>
+                    <Tab
+                        component="a"
+                        onClick={() => {
+                            router.visit(route('grupos-investigacion.show', [grupo_investigacion.id]))
+                        }}
+                        label={grupo_investigacion.nombre}
+                        value="0"
+                    />
+                    <Tab component="a" label="Líneas de investigación" value="1" />
+
+                    <Tab
+                        component="button"
+                        onClick={() => {
+                            setDialogSemillerosInvestigacionStatus(true)
+                        }}
+                        label="Semilleros de investigación"
+                        value="2"
+                    />
+                </Tabs>
             </Grid>
             <Grid item md={12}>
                 <SearchBar routeParams={[grupo_investigacion.id]} />
@@ -65,7 +76,7 @@ const Index = ({ auth, grupo_investigacion, lineas_investigacion, allowed_to_cre
                                 <MenuMui text={<MoreVertIcon />}>
                                     {linea_investigacion.id !== linea_investigacion_to_destroy ? (
                                         <div>
-                                            <MenuItem
+                                            {/* <MenuItem
                                                 onClick={(e) => {
                                                     e.stopPropagation()
                                                     router.visit(route('grupos-investigacion.lineas-investigacion.semilleros-investigacion.index', [grupo_investigacion.id, linea_investigacion.id]), {
@@ -74,6 +85,8 @@ const Index = ({ auth, grupo_investigacion, lineas_investigacion, allowed_to_cre
                                                 }}>
                                                 Semilleros de investigación
                                             </MenuItem>
+
+                                            <Divider /> */}
 
                                             <MenuItem
                                                 onClick={() => (setDialogStatus(true), setMethod('PUT'), setLineaInvestigacion(linea_investigacion))}
@@ -132,6 +145,35 @@ const Index = ({ auth, grupo_investigacion, lineas_investigacion, allowed_to_cre
                             grupo_investigacion={grupo_investigacion}
                             linea_investigacion={linea_investigacion}
                         />
+                    }
+                />
+
+                <DialogMui
+                    open={dialog_semilleros_investigacion_status}
+                    fullWidth={true}
+                    maxWidth="lg"
+                    blurEnabled={true}
+                    dialogContent={
+                        <>
+                            <p className="mb-6">Seleccione una línea de investigación:</p>
+                            <ul>
+                                {lineas_investigacion.data.map((linea_investigacion, i) => (
+                                    <li key={i}>
+                                        <Link
+                                            href={route('grupos-investigacion.lineas-investigacion.semilleros-investigacion.index', [grupo_investigacion.id, linea_investigacion.id])}
+                                            className="bg-white hover:bg-white/50 shadow p-2 rounded my-2 inline-block">
+                                            <ArrowForwardIcon className="mr-2" />
+                                            Semilleros de investigación de la línea {linea_investigacion.nombre}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </>
+                    }
+                    dialogActions={
+                        <ButtonMui type="button" onClick={() => setDialogSemillerosInvestigacionStatus(false)} className="!ml-2">
+                            Cancelar
+                        </ButtonMui>
                     }
                 />
             </Grid>

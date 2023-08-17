@@ -41,7 +41,7 @@ class EntidadAliadaController extends Controller
             'proyecto'                      =>  $proyecto->only('id', 'tipo_formulario_convocatoria_id', 'precio_proyecto', 'modificable', 'evaluaciones', 'mostrar_recomendaciones', 'all_files', 'allowed'),
             'evaluacion'                    =>  Evaluacion::find(request()->evaluacion_id),
             'entidades_aliadas'             =>  EntidadAliada::where('proyecto_id', $proyecto->id)->orderBy('nombre', 'ASC')
-                                                    ->filterEntidadAliada(request()->only('search'))->with('actividades', 'actividades.objetivoEspecifico', 'miembrosEntidadAliada', 'entidadAliadaLinea66', 'entidadAliadaLinea69', 'entidadAliadaLinea70')->paginate(),
+                                                    ->filterEntidadAliada(request()->only('search'))->with('actividades', 'actividades.objetivoEspecifico', 'miembrosEntidadAliada', 'entidadAliadaLinea66', 'entidadAliadaLinea69', 'entidadAliadaLinea70', 'entidadAliadaLinea83')->paginate(),
             'actividades'                   =>  Actividad::select('id as value', 'descripcion as label')->whereIn(
                                                     'objetivo_especifico_id',
                                                     $objetivo_especificos->map(function ($objetivo_especifico) {
@@ -88,54 +88,56 @@ class EntidadAliadaController extends Controller
         $entidad_aliada->save();
         $request->merge(['entidad_aliada_id' => $entidad_aliada->id]);
 
-        if ($proyecto->proyectoFormulario8Linea66()->exists()) {
-            $request->validate([
-                'descripcion_convenio'                      => 'nullable|string',
-                'grupo_investigacion'                       => 'nullable|max:191',
-                'codigo_gruplac'                            => 'nullable|max:191',
-                'enlace_gruplac'                            => 'nullable|url|string',
-                'actividades_transferencia_conocimiento'    => 'required|max:10000',
-                'recursos_especie'                          => 'required|numeric',
-                'descripcion_recursos_especie'              => 'required|string',
-                'recursos_dinero'                           => 'required|numeric',
-                'descripcion_recursos_dinero'               => 'required|string',
-                'actividad_id*'                             => 'required|min:0|max:2147483647|integer|exists:actividades,id',
-            ]);
+        switch ($proyecto->tipo_formulario_convocatoria_id) {
+            case 4:
+                 $request->validate([
+                    'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
+                    'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
+                ]);
 
-            $entidad_aliada_linea_66 = $entidad_aliada->EntidadAliadaLinea66()->create($request->only('descripcion_convenio', 'grupo_investigacion', 'codigo_gruplac', 'enlace_gruplac', 'actividades_transferencia_conocimiento', 'recursos_especie', 'descripcion_recursos_especie', 'recursos_dinero', 'descripcion_recursos_dinero'));
+                $entidad_aliada_linea_70 = $entidad_aliada->entidadAliadaLinea70()->create($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
+                return back()->with('success', 'El recurso se ha creado correctamente.');
+                break;
+            case 5:
+                $request->validate([
+                    'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
+                    'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
+                ]);
 
-            $entidad_aliada->actividades()->attach($request->actividad_id);
+                $entidad_aliada_linea_69 = $entidad_aliada->EntidadAliadaLinea69()->create($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
+                return back()->with('success', 'El recurso se ha creado correctamente.');
+                break;
+            case 8:
+                $request->validate([
+                    'descripcion_convenio'                      => 'nullable|string',
+                    'grupo_investigacion'                       => 'nullable|max:191',
+                    'codigo_gruplac'                            => 'nullable|max:191',
+                    'enlace_gruplac'                            => 'nullable|url|string',
+                    'actividades_transferencia_conocimiento'    => 'required|max:10000',
+                    'recursos_especie'                          => 'required|numeric',
+                    'descripcion_recursos_especie'              => 'required|string',
+                    'recursos_dinero'                           => 'required|numeric',
+                    'descripcion_recursos_dinero'               => 'required|string',
+                    'actividad_id*'                             => 'required|min:0|max:2147483647|integer|exists:actividades,id',
+                ]);
 
-            return redirect()->route('convocatorias.proyectos.entidades-aliadas.edit', [$convocatoria, $proyecto, $entidad_aliada])->with('success', 'El recurso se ha creado correctamente.');
+                $entidad_aliada_linea_66 = $entidad_aliada->EntidadAliadaLinea66()->create($request->only('descripcion_convenio', 'grupo_investigacion', 'codigo_gruplac', 'enlace_gruplac', 'actividades_transferencia_conocimiento', 'recursos_especie', 'descripcion_recursos_especie', 'recursos_dinero', 'descripcion_recursos_dinero'));
 
-        } elseif ($proyecto->proyectoFormulario5Linea69()->exists()) {
-            $request->validate([
-                'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
-                'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
-            ]);
+                $entidad_aliada->actividades()->attach($request->actividad_id);
 
-            $entidad_aliada_linea_69 = $entidad_aliada->EntidadAliadaLinea69()->create($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
+                return back()->with('success', 'El recurso se ha creado correctamente.');
+                break;
+            case 11:
+                $request->validate([
+                    'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
+                    'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
+                ]);
 
-            return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
-
-        } elseif ($proyecto->proyectoFormulario4Linea70()->exists()) {
-            $request->validate([
-                'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
-                'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
-            ]);
-
-            $entidad_aliada_linea_70 = $entidad_aliada->entidadAliadaLinea70()->create($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
-
-            return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
-        } elseif ($proyecto->proyectoFormulario11Linea83()->exists()) {
-            $request->validate([
-                'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
-                'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
-            ]);
-
-            $entidad_aliada_linea_83 = $entidad_aliada->entidadAliadaLinea83()->create($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
-
-            return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
+                $entidad_aliada_linea_83 = $entidad_aliada->entidadAliadaLinea83()->create($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
+                return back()->with('success', 'El recurso se ha creado correctamente.');
+                break;
+            default:
+                break;
         }
     }
 
@@ -182,60 +184,56 @@ class EntidadAliadaController extends Controller
 
         $entidad_aliada->save();
 
-        if ($proyecto->proyectoFormulario8Linea66()->exists()) {
-            $request->validate([
-                'descripcion_convenio'                      => 'nullable|string',
-                'grupo_investigacion'                       => 'nullable|max:191',
-                'codigo_gruplac'                            => 'nullable|max:191',
-                'enlace_gruplac'                            => 'nullable|url|string',
-                'actividades_transferencia_conocimiento'    => 'required|max:10000',
-                'recursos_especie'                          => 'required|numeric',
-                'descripcion_recursos_especie'              => 'required|string',
-                'recursos_dinero'                           => 'required|numeric',
-                'descripcion_recursos_dinero'               => 'required|string',
-                'actividad_id*'                             => 'required|min:0|max:2147483647|integer|exists:actividades,id',
-            ]);
+        switch ($proyecto->tipo_formulario_convocatoria_id) {
+            case 4:
+                 $request->validate([
+                    'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
+                    'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
+                ]);
 
-            $entidad_aliada_linea_66 = $entidad_aliada->entidadAliadaLinea66;
+                $entidad_aliada_linea_70 = $entidad_aliada->entidadAliadaLinea70()->update($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
+                return back()->with('success', 'El recurso se ha creado correctamente.');
+                break;
+            case 5:
+                $request->validate([
+                    'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
+                    'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
+                ]);
 
-            $entidad_aliada_linea_66->update($request->only('descripcion_convenio', 'grupo_investigacion', 'codigo_gruplac', 'enlace_gruplac', 'actividades_transferencia_conocimiento', 'recursos_especie', 'descripcion_recursos_especie', 'recursos_dinero', 'descripcion_recursos_dinero'));
+                $entidad_aliada_linea_69 = $entidad_aliada->EntidadAliadaLinea69()->update($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
+                return back()->with('success', 'El recurso se ha creado correctamente.');
+                break;
+            case 8:
+                $request->validate([
+                    'descripcion_convenio'                      => 'nullable|string',
+                    'grupo_investigacion'                       => 'nullable|max:191',
+                    'codigo_gruplac'                            => 'nullable|max:191',
+                    'enlace_gruplac'                            => 'nullable|url|string',
+                    'actividades_transferencia_conocimiento'    => 'required|max:10000',
+                    'recursos_especie'                          => 'required|numeric',
+                    'descripcion_recursos_especie'              => 'required|string',
+                    'recursos_dinero'                           => 'required|numeric',
+                    'descripcion_recursos_dinero'               => 'required|string',
+                    'actividad_id*'                             => 'required|min:0|max:2147483647|integer|exists:actividades,id',
+                ]);
 
-            $entidad_aliada->actividades()->attach($request->actividad_id);
+                $entidad_aliada_linea_66 = $entidad_aliada->EntidadAliadaLinea66()->update($request->only('descripcion_convenio', 'grupo_investigacion', 'codigo_gruplac', 'enlace_gruplac', 'actividades_transferencia_conocimiento', 'recursos_especie', 'descripcion_recursos_especie', 'recursos_dinero', 'descripcion_recursos_dinero'));
 
-            return redirect()->route('convocatorias.proyectos.entidades-aliadas.edit', [$convocatoria, $proyecto, $entidad_aliada])->with('success', 'El recurso se ha creado correctamente.');
-        } elseif ($proyecto->proyectoFormulario5Linea69()->exists()) {
-            $request->validate([
-                'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
-                'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
-            ]);
+                $entidad_aliada->actividades()->attach($request->actividad_id);
 
-            $entidad_aliada_linea_69 = $entidad_aliada->entidadAliadaLinea69;
+                return back()->with('success', 'El recurso se ha creado correctamente.');
+                break;
+            case 11:
+                $request->validate([
+                    'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
+                    'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
+                ]);
 
-            $entidad_aliada_linea_69->update($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
-
-            return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
-        } elseif ($proyecto->proyectoFormulario4Linea70()->exists()) {
-            $request->validate([
-                'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
-                'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
-            ]);
-
-            $entidad_aliada_linea_70 = $entidad_aliada->entidadAliadaLinea70;
-
-            $entidad_aliada_linea_70->update($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
-
-            return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
-        } elseif ($proyecto->proyectoFormulario11Linea83()->exists()) {
-            $request->validate([
-                'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
-                'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
-            ]);
-
-            $entidad_aliada_linea_83 = $entidad_aliada->entidadAliadaLinea83;
-
-            $entidad_aliada_linea_83->update($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
-
-            return redirect()->route('convocatorias.proyectos.entidades-aliadas.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
+                $entidad_aliada_linea_83 = $entidad_aliada->entidadAliadaLinea83()->update($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
+                return back()->with('success', 'El recurso se ha creado correctamente.');
+                break;
+            default:
+                break;
         }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
@@ -355,9 +353,11 @@ class EntidadAliadaController extends Controller
             $sharepoint_path = $entidad_aliada->entidadAliadaLinea69[$tipo_archivo];
         } else if ($entidad_aliada->entidadAliadaLinea70()->exists()) {
             $sharepoint_path = $entidad_aliada->entidadAliadaLinea70[$tipo_archivo];
+        } else if ($entidad_aliada->entidadAliadaLinea83()->exists()) {
+            $sharepoint_path = $entidad_aliada->entidadAliadaLinea83[$tipo_archivo];
         }
 
-        SharepointHelper::downloadFile($sharepoint_path);
+        return SharepointHelper::downloadFile($sharepoint_path);
     }
 
     /**
