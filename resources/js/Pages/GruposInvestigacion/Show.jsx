@@ -4,7 +4,7 @@ import { checkRole } from '@/Utils'
 import { router } from '@inertiajs/react'
 import { Grid, Paper, Tab, Tabs } from '@mui/material'
 
-const Show = ({ auth, grupo_investigacion }) => {
+const Show = ({ auth, grupo_investigacion, categorias_minciencias }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -70,7 +70,7 @@ const Show = ({ auth, grupo_investigacion }) => {
                                 <p className="text-gray-400">Categoría Minciencias</p>
                             </Grid>
                             <Grid item md={8}>
-                                {grupo_investigacion?.categoria_minciencias}
+                                {categorias_minciencias.find((item) => item.value == grupo_investigacion?.categoria_minciencias).label}
                             </Grid>
                             <Grid item md={4}>
                                 <p className="text-gray-400">Fecha de creación del grupo</p>
@@ -143,8 +143,8 @@ const Show = ({ auth, grupo_investigacion }) => {
                             </Grid>
                             <Grid item md={8}>
                                 <ul className="list-disc ml-6">
-                                    {grupo_investigacion?.redes_conocimiento.map((item) => (
-                                        <li>{item.nombre}</li>
+                                    {grupo_investigacion?.redes_conocimiento.map((item, i) => (
+                                        <li key={i}>{item.nombre}</li>
                                     ))}
                                 </ul>
                             </Grid>

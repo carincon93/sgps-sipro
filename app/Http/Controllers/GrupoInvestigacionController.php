@@ -79,7 +79,8 @@ class GrupoInvestigacionController extends Controller
         $grupo_investigacion->redesConocimiento;
 
         return Inertia::render('GruposInvestigacion/Show', [
-            'grupo_investigacion' => $grupo_investigacion
+            'grupo_investigacion'       => $grupo_investigacion,
+            'categorias_minciencias'    => json_decode(Storage::get('json/categorias-minciencias.json'), true),
         ]);
     }
 
