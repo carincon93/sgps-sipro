@@ -19,6 +19,7 @@ import { router, useForm } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 import Form from './Form'
+import TabsMui from '@/Components/TabsMui'
 
 const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formacion, centros_formacion, categorias_minciencias, redes_conocimiento, allowed_to_create }) => {
     const auth_user = auth.user
@@ -46,176 +47,303 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
         })
     }
 
+    const tabs = checkRole(auth_user, [1, 21, 18, 19, 5, 17])
+        ? [{ label: 'Grupos de investigación' }, { label: 'Grupos de investigación: ' + centros_formacion.find((item) => item.value == auth_user.centro_formacion_id).label }]
+        : [{ label: 'Grupos de investigación del ' + centros_formacion.find((item) => item.value == auth_user.centro_formacion_id).label }]
+
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Grupos de investigación de mi centro de formación</h2>}>
-            <Grid item md={12}>
-                <h1 className="text-2xl text-center my-20">{centros_formacion.find((item) => (item.value = auth_user.centro_formacion_id)).label}</h1>
-                <SearchBar />
+            <TabsMui tabs={tabs}>
+                <div>
+                    <SearchBar className="mt-20" />
 
-                <TableMui className="mt-20" rows={['Nombre', 'Centro de formación', 'Regional', 'Formatos', 'Acciones']} sxCellThead={{ width: '320px' }}>
-                    {allowed_to_create ? (
-                        <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setGrupoInvestigacion(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
-                            <TableCell colSpan={5}>
-                                <ButtonMui>
-                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar grupo de investigación
-                                </ButtonMui>
-                            </TableCell>
-                        </TableRow>
-                    ) : null}
-                    {grupos_investigacion_centro_formacion.map((grupo_investigacion, i) => (
-                        <TableRow key={i}>
-                            <TableCell>{grupo_investigacion.nombre}</TableCell>
+                    <TableMui className="mt-20" rows={['Nombre', 'Centro de formación', 'Regional', 'Formatos', 'Acciones']}>
+                        {allowed_to_create && (
+                            <TableRow
+                                onClick={() => (setDialogStatus(true), setMethod('POST'), setGrupoInvestigacion(null))}
+                                variant="raised"
+                                className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                                <TableCell colSpan={5}>
+                                    <ButtonMui>
+                                        <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar grupo de investigación
+                                    </ButtonMui>
+                                </TableCell>
+                            </TableRow>
+                        )}
+                        {grupos_investigacion.data.map((grupo_investigacion, i) => (
+                            <TableRow key={i}>
+                                <TableCell>{grupo_investigacion.nombre}</TableCell>
 
-                            <TableCell> {grupo_investigacion.centro_formacion?.nombre}</TableCell>
-                            <TableCell>{grupo_investigacion.centro_formacion?.regional?.nombre}</TableCell>
+                                <TableCell> {grupo_investigacion.centro_formacion?.nombre}</TableCell>
+                                <TableCell>{grupo_investigacion.centro_formacion?.regional?.nombre}</TableCell>
 
-                            <TableCell>
-                                <DownloadFile
-                                    label="formato GIC F 032"
-                                    className="!p-2"
-                                    filename={grupo_investigacion?.filename.formato_gic_f_032_filename}
-                                    extension={grupo_investigacion?.extension.formato_gic_f_032_extension}
-                                    downloadRoute={
-                                        grupo_investigacion?.filename.formato_gic_f_032_filename
-                                            ? grupo_investigacion?.filename.formato_gic_f_032_filename.includes('http') == true ||
-                                              grupo_investigacion?.filename.formato_gic_f_032_filename.includes('http') == undefined
-                                                ? grupo_investigacion?.filename.formato_gic_f_032_filename
-                                                : route('grupos-investigacion.download-file-sharepoint', [grupo_investigacion.id, 'formato_gic_f_032'])
-                                            : null
-                                    }
-                                />
-                                <ButtonMui
-                                    onClick={() => (setDialogFormatoStatus(true), setGrupoInvestigacion(grupo_investigacion), setTipoArchivo('formato_gic_f_032'))}
-                                    className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
-                                    {grupo_investigacion?.filename.formato_gic_f_032_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 032
-                                </ButtonMui>
+                                <TableCell>
+                                    <DownloadFile
+                                        label="formato GIC F 020"
+                                        className="!p-2"
+                                        filename={grupo_investigacion?.filename.formato_gic_f_020_filename}
+                                        extension={grupo_investigacion?.extension.formato_gic_f_020_extension}
+                                        downloadRoute={
+                                            grupo_investigacion?.formato_gic_f_020
+                                                ? grupo_investigacion?.formato_gic_f_020.includes('http') == true || grupo_investigacion?.formato_gic_f_020.includes('http') == undefined
+                                                    ? grupo_investigacion?.formato_gic_f_020
+                                                    : route('grupos-investigacion.download-file-sharepoint', [grupo_investigacion.id, 'formato_gic_f_020'])
+                                                : null
+                                        }
+                                    />
+                                    <ButtonMui
+                                        onClick={() => (setDialogFormatoStatus(true), setGrupoInvestigacion(grupo_investigacion), setTipoArchivo('formato_gic_f_020'))}
+                                        className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                        {grupo_investigacion?.filename.formato_gic_f_020_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 020
+                                    </ButtonMui>
 
-                                <DownloadFile
-                                    label="formato GIC F 032"
-                                    className="mt-10 !p-2"
-                                    filename={grupo_investigacion?.filename.formato_gic_f_020_filename}
-                                    extension={grupo_investigacion?.extension.formato_gic_f_020_extension}
-                                    downloadRoute={
-                                        grupo_investigacion?.filename.formato_gic_f_020_filename
-                                            ? grupo_investigacion?.filename.formato_gic_f_020_filename.includes('http') == true ||
-                                              grupo_investigacion?.filename.formato_gic_f_020_filename.includes('http') == undefined
-                                                ? grupo_investigacion?.filename.formato_gic_f_020_filename
-                                                : route('grupos-investigacion.download-file-sharepoint', [grupo_investigacion.id, 'formato_gic_f_020'])
-                                            : null
-                                    }
-                                />
-                                <ButtonMui
-                                    onClick={() => (setDialogFormatoStatus(true), setGrupoInvestigacion(grupo_investigacion), setTipoArchivo('formato_gic_f_020'))}
-                                    className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
-                                    {grupo_investigacion?.filename.formato_gic_f_020_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 020
-                                </ButtonMui>
-                            </TableCell>
+                                    <DownloadFile
+                                        label="formato GIC F 032"
+                                        className="mt-10 !p-2"
+                                        filename={grupo_investigacion?.filename.formato_gic_f_032_filename}
+                                        extension={grupo_investigacion?.extension.formato_gic_f_032_extension}
+                                        downloadRoute={
+                                            grupo_investigacion?.formato_gic_f_032
+                                                ? grupo_investigacion?.formato_gic_f_032.includes('http') == true || grupo_investigacion?.formato_gic_f_032.includes('http') == undefined
+                                                    ? grupo_investigacion?.formato_gic_f_032
+                                                    : route('grupos-investigacion.download-file-sharepoint', [grupo_investigacion.id, 'formato_gic_f_032'])
+                                                : null
+                                        }
+                                    />
+                                    <ButtonMui
+                                        onClick={() => (setDialogFormatoStatus(true), setGrupoInvestigacion(grupo_investigacion), setTipoArchivo('formato_gic_f_032'))}
+                                        className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                        {grupo_investigacion?.filename.formato_gic_f_032_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 032
+                                    </ButtonMui>
+                                </TableCell>
 
-                            <TableCell>
-                                <MenuMui text={<MoreVertIcon />}>
-                                    {grupo_investigacion.id !== grupo_investigacion_to_destroy ? (
-                                        <div>
-                                            <MenuItem
-                                                onClick={(e) => {
-                                                    e.stopPropagation()
-                                                    router.visit(route('grupos-investigacion.lineas-investigacion.index', [grupo_investigacion.id]), {
-                                                        preserveScroll: true,
-                                                    })
-                                                }}>
-                                                Líneas de investigación
-                                            </MenuItem>
-
-                                            <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('PUT'), setGrupoInvestigacion(grupo_investigacion))}
-                                                disabled={!grupo_investigacion?.allowed?.to_view}>
-                                                Editar
-                                            </MenuItem>
-
-                                            {is_super_admin && (
+                                <TableCell>
+                                    <MenuMui text={<MoreVertIcon />}>
+                                        {grupo_investigacion.id !== grupo_investigacion_to_destroy ? (
+                                            <div>
                                                 <MenuItem
-                                                    onClick={() => {
-                                                        setGrupoInvestigacionToDestroy(grupo_investigacion.id)
-                                                    }}>
-                                                    Eliminar
-                                                </MenuItem>
-                                            )}
-                                        </div>
-                                    ) : (
-                                        <div>
-                                            <MenuItem
-                                                onClick={(e) => {
-                                                    setGrupoInvestigacionToDestroy(null)
-                                                }}>
-                                                Cancelar
-                                            </MenuItem>
-                                            <MenuItem
-                                                sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
-                                                onClick={(e) => {
-                                                    e.stopPropagation()
-                                                    if (grupo_investigacion.allowed.to_update) {
-                                                        router.delete(route('grupos-investigacion.destroy', [grupo_investigacion.id]), {
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        router.visit(route('grupos-investigacion.lineas-investigacion.index', [grupo_investigacion.id]), {
                                                             preserveScroll: true,
                                                         })
-                                                    }
-                                                }}>
-                                                Confirmar
-                                            </MenuItem>
-                                        </div>
-                                    )}
-                                </MenuMui>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableMui>
+                                                    }}>
+                                                    Líneas de investigación
+                                                </MenuItem>
 
-                <PaginationMui links={grupos_investigacion_centro_formacion.links} className="mt-8" />
+                                                <MenuItem
+                                                    onClick={() => (setDialogStatus(true), setMethod('PUT'), setGrupoInvestigacion(grupo_investigacion))}
+                                                    disabled={!grupo_investigacion?.allowed?.to_view}>
+                                                    Editar
+                                                </MenuItem>
 
-                <DialogMui
-                    open={dialog_status}
-                    fullWidth={true}
-                    maxWidth="lg"
-                    blurEnabled={true}
-                    dialogContent={
-                        <Form
-                            is_super_admin={is_super_admin}
-                            setDialogStatus={setDialogStatus}
-                            allowed_to_create={allowed_to_create}
-                            method={method}
-                            grupo_investigacion={grupo_investigacion}
-                            centros_formacion={centros_formacion}
-                            categorias_minciencias={categorias_minciencias}
-                            redes_conocimiento={redes_conocimiento}
+                                                {is_super_admin && (
+                                                    <MenuItem
+                                                        onClick={() => {
+                                                            setGrupoInvestigacionToDestroy(grupo_investigacion.id)
+                                                        }}>
+                                                        Eliminar
+                                                    </MenuItem>
+                                                )}
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <MenuItem
+                                                    onClick={(e) => {
+                                                        setGrupoInvestigacionToDestroy(null)
+                                                    }}>
+                                                    Cancelar
+                                                </MenuItem>
+                                                <MenuItem
+                                                    sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        if (grupo_investigacion.allowed.to_update) {
+                                                            router.delete(route('grupos-investigacion.destroy', [grupo_investigacion.id]), {
+                                                                preserveScroll: true,
+                                                            })
+                                                        }
+                                                    }}>
+                                                    Confirmar
+                                                </MenuItem>
+                                            </div>
+                                        )}
+                                    </MenuMui>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableMui>
+
+                    <PaginationMui links={grupos_investigacion.links} className="mt-8" />
+                </div>
+                <div>
+                    <h1 className="text-2xl text-center my-20">{centros_formacion.find((item) => item.value == auth_user.centro_formacion_id).label}</h1>
+                    <SearchBar />
+
+                    <TableMui className="mt-20" rows={['Nombre', 'Centro de formación', 'Regional', 'Formatos', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                        {allowed_to_create && (
+                            <TableRow
+                                onClick={() => (setDialogStatus(true), setMethod('POST'), setGrupoInvestigacion(null))}
+                                variant="raised"
+                                className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                                <TableCell colSpan={5}>
+                                    <ButtonMui>
+                                        <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar grupo de investigación
+                                    </ButtonMui>
+                                </TableCell>
+                            </TableRow>
+                        )}
+                        {grupos_investigacion_centro_formacion.map((grupo_investigacion, i) => (
+                            <TableRow key={i}>
+                                <TableCell>{grupo_investigacion.nombre}</TableCell>
+
+                                <TableCell> {grupo_investigacion.centro_formacion?.nombre}</TableCell>
+                                <TableCell>{grupo_investigacion.centro_formacion?.regional?.nombre}</TableCell>
+
+                                <TableCell>
+                                    <DownloadFile
+                                        label="formato GIC F 032"
+                                        className="!p-2"
+                                        filename={grupo_investigacion?.filename.formato_gic_f_032_filename}
+                                        extension={grupo_investigacion?.extension.formato_gic_f_032_extension}
+                                        downloadRoute={
+                                            grupo_investigacion?.formato_gic_f_032
+                                                ? grupo_investigacion?.formato_gic_f_032.includes('http') == true || grupo_investigacion?.formato_gic_f_032.includes('http') == undefined
+                                                    ? grupo_investigacion?.formato_gic_f_032
+                                                    : route('grupos-investigacion.download-file-sharepoint', [grupo_investigacion.id, 'formato_gic_f_032'])
+                                                : null
+                                        }
+                                    />
+                                    <ButtonMui
+                                        onClick={() => (setDialogFormatoStatus(true), setGrupoInvestigacion(grupo_investigacion), setTipoArchivo('formato_gic_f_032'))}
+                                        className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                        {grupo_investigacion?.filename.formato_gic_f_032_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 032
+                                    </ButtonMui>
+
+                                    <DownloadFile
+                                        label="formato GIC F 032"
+                                        className="mt-10 !p-2"
+                                        filename={grupo_investigacion?.filename.formato_gic_f_020_filename}
+                                        extension={grupo_investigacion?.extension.formato_gic_f_020_extension}
+                                        downloadRoute={
+                                            grupo_investigacion?.formato_gic_f_020
+                                                ? grupo_investigacion?.formato_gic_f_020.includes('http') == true || grupo_investigacion?.formato_gic_f_020.includes('http') == undefined
+                                                    ? grupo_investigacion?.formato_gic_f_020
+                                                    : route('grupos-investigacion.download-file-sharepoint', [grupo_investigacion.id, 'formato_gic_f_020'])
+                                                : null
+                                        }
+                                    />
+                                    <ButtonMui
+                                        onClick={() => (setDialogFormatoStatus(true), setGrupoInvestigacion(grupo_investigacion), setTipoArchivo('formato_gic_f_020'))}
+                                        className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                        {grupo_investigacion?.filename.formato_gic_f_020_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 020
+                                    </ButtonMui>
+                                </TableCell>
+
+                                <TableCell>
+                                    <MenuMui text={<MoreVertIcon />}>
+                                        {grupo_investigacion.id !== grupo_investigacion_to_destroy ? (
+                                            <div>
+                                                <MenuItem
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        router.visit(route('grupos-investigacion.lineas-investigacion.index', [grupo_investigacion.id]), {
+                                                            preserveScroll: true,
+                                                        })
+                                                    }}>
+                                                    Líneas de investigación
+                                                </MenuItem>
+
+                                                <MenuItem
+                                                    onClick={() => (setDialogStatus(true), setMethod('PUT'), setGrupoInvestigacion(grupo_investigacion))}
+                                                    disabled={!grupo_investigacion?.allowed?.to_view}>
+                                                    Editar
+                                                </MenuItem>
+
+                                                {is_super_admin && (
+                                                    <MenuItem
+                                                        onClick={() => {
+                                                            setGrupoInvestigacionToDestroy(grupo_investigacion.id)
+                                                        }}>
+                                                        Eliminar
+                                                    </MenuItem>
+                                                )}
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <MenuItem
+                                                    onClick={(e) => {
+                                                        setGrupoInvestigacionToDestroy(null)
+                                                    }}>
+                                                    Cancelar
+                                                </MenuItem>
+                                                <MenuItem
+                                                    sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        if (grupo_investigacion.allowed.to_update) {
+                                                            router.delete(route('grupos-investigacion.destroy', [grupo_investigacion.id]), {
+                                                                preserveScroll: true,
+                                                            })
+                                                        }
+                                                    }}>
+                                                    Confirmar
+                                                </MenuItem>
+                                            </div>
+                                        )}
+                                    </MenuMui>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableMui>
+                </div>
+            </TabsMui>
+
+            <DialogMui
+                open={dialog_status}
+                fullWidth={true}
+                maxWidth="lg"
+                blurEnabled={true}
+                dialogContent={
+                    <Form
+                        is_super_admin={is_super_admin}
+                        setDialogStatus={setDialogStatus}
+                        allowed_to_create={allowed_to_create}
+                        method={method}
+                        grupo_investigacion={grupo_investigacion}
+                        centros_formacion={centros_formacion}
+                        categorias_minciencias={categorias_minciencias}
+                        redes_conocimiento={redes_conocimiento}
+                    />
+                }
+            />
+
+            <DialogMui
+                open={dialog_formato_status}
+                fullWidth={true}
+                maxWidth="lg"
+                blurEnabled={true}
+                dialogContent={
+                    <form onSubmit={submit}>
+                        <FileInput
+                            id={tipo_archivo}
+                            value={form.data[tipo_archivo]}
+                            label={`Seleccione el ${tipo_archivo} `}
+                            accept="application/pdf"
+                            onChange={(e) => form.setData(tipo_archivo, e.target.files[0])}
+                            error={form.errors[tipo_archivo]}
                         />
-                    }
-                />
-
-                <DialogMui
-                    open={dialog_formato_status}
-                    fullWidth={true}
-                    maxWidth="lg"
-                    blurEnabled={true}
-                    dialogContent={
-                        <form onSubmit={submit}>
-                            <FileInput
-                                id={tipo_archivo}
-                                value={form.data[tipo_archivo]}
-                                label={`Seleccione el ${tipo_archivo} `}
-                                accept="application/pdf"
-                                onChange={(e) => form.setData(tipo_archivo, e.target.files[0])}
-                                error={form.errors[tipo_archivo]}
-                            />
-                            <div className="flex items-center justify-between mt-14 py-4">
-                                <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
-                                    Cargar formato
-                                </PrimaryButton>
-                                <ButtonMui type="button" primary={false} onClick={() => setDialogFormatoStatus(false)} className="!ml-2 !bg-transparent">
-                                    Cancelar
-                                </ButtonMui>
-                            </div>
-                        </form>
-                    }
-                />
-            </Grid>
+                        <div className="flex items-center justify-between mt-14 py-4">
+                            <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
+                                Cargar formato
+                            </PrimaryButton>
+                            <ButtonMui type="button" primary={false} onClick={() => setDialogFormatoStatus(false)} className="!ml-2 !bg-transparent">
+                                Cancelar
+                            </ButtonMui>
+                        </div>
+                    </form>
+                }
+            />
         </AuthenticatedLayout>
     )
 }

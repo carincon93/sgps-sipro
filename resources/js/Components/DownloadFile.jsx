@@ -8,9 +8,9 @@ const DownloadFile = ({ downloadRoute = '', filename = '', extension = '', onDel
         <div className={`flex items-center justify-center border p-4 hover:bg-gray-50 rounded shadow-lg mb-2 relative ${className}`}>
             {downloadRoute ? (
                 <a href={downloadRoute} target="_blank" className="flex items-center">
-                    <FileTypeIcon fileType={extension} className="!w-6 mr-4" />
+                    <FileTypeIcon fileType={extension.split('?')[0]} className="!w-6 mr-4" />
                     <FileDownloadIcon className="mr-2" />
-                    {filename + '.' + extension}
+                    {filename.slice(0, 20) + '.' + extension.split('?')[0]}
                 </a>
             ) : (
                 <>Debe cargar: {label}</>

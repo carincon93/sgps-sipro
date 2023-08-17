@@ -69,9 +69,9 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) =>
                                 filename={aula_movil?.filename.soat_filename}
                                 extension={aula_movil?.extension.soat_extension}
                                 downloadRoute={
-                                    aula_movil?.filename.soat_filename
-                                        ? aula_movil?.filename.soat_filename?.includes('http') == true || aula_movil?.filename.soat_filename?.includes('http') == undefined
-                                            ? aula_movil?.filename.soat_filename
+                                    aula_movil?.soat
+                                        ? aula_movil?.soat?.includes('http') == true || aula_movil?.soat?.includes('http') == undefined
+                                            ? aula_movil?.soat
                                             : route('convocatorias.proyectos-formulario-4-linea-70.aulas-moviles.download-file-sharepoint', [convocatoria.id, proyecto.id, aula_movil.id, 'soat'])
                                         : null
                                 }
@@ -88,9 +88,9 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) =>
                                 filename={aula_movil?.filename.tecnicomecanica_filename}
                                 extension={aula_movil?.extension.tecnicomecanica_extension}
                                 downloadRoute={
-                                    aula_movil?.filename.tecnicomecanica_filename
-                                        ? aula_movil?.filename.tecnicomecanica_filename?.includes('http') || aula_movil?.filename.tecnicomecanica_filename?.includes('http') == undefined
-                                            ? aula_movil?.filename.tecnicomecanica_filename
+                                    aula_movil?.tecnicomecanica
+                                        ? aula_movil?.tecnicomecanica?.includes('http') || aula_movil?.tecnicomecanica?.includes('http') == undefined
+                                            ? aula_movil?.tecnicomecanica
                                             : route('convocatorias.proyectos-formulario-4-linea-70.aulas-moviles.download-file-sharepoint', [convocatoria, proyecto, aula_movil.id, 'tecnicomecanica'])
                                         : null
                                 }

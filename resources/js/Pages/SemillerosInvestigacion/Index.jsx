@@ -97,10 +97,9 @@ const Index = ({ auth, grupo_investigacion, linea_investigacion, lineas_investig
                                     filename={semillero_investigacion?.filename.formato_gic_f_021_filename}
                                     extension={semillero_investigacion?.extension.formato_gic_f_021_extension}
                                     downloadRoute={
-                                        semillero_investigacion?.filename.formato_gic_f_021_filename
-                                            ? semillero_investigacion?.filename.formato_gic_f_021_filename.includes('http') == true ||
-                                              semillero_investigacion?.filename.formato_gic_f_021_filename.includes('http') == undefined
-                                                ? semillero_investigacion?.filename.formato_gic_f_021_filename
+                                        semillero_investigacion?.formato_gic_f_021
+                                            ? semillero_investigacion?.formato_gic_f_021.includes('http') == true || semillero_investigacion?.formato_gic_f_021.includes('http') == undefined
+                                                ? semillero_investigacion?.formato_gic_f_021
                                                 : route('grupos-investigacion.lineas-investigacion.semilleros-investigacion.download-file-sharepoint', [
                                                       grupo_investigacion.id,
                                                       linea_investigacion.id,
@@ -122,10 +121,9 @@ const Index = ({ auth, grupo_investigacion, linea_investigacion, lineas_investig
                                     filename={semillero_investigacion?.filename.formato_gic_f_032_filename}
                                     extension={semillero_investigacion?.extension.formato_gic_f_032_extension}
                                     downloadRoute={
-                                        semillero_investigacion?.filename.formato_gic_f_032_filename
-                                            ? semillero_investigacion?.filename.formato_gic_f_032_filename.includes('http') == true ||
-                                              semillero_investigacion?.filename.formato_gic_f_032_filename.includes('http') == undefined
-                                                ? semillero_investigacion?.filename.formato_gic_f_032_filename
+                                        semillero_investigacion?.formato_gic_f_032
+                                            ? semillero_investigacion?.formato_gic_f_032.includes('http') == true || semillero_investigacion?.formato_gic_f_032.includes('http') == undefined
+                                                ? semillero_investigacion?.formato_gic_f_032
                                                 : route('grupos-investigacion.lineas-investigacion.semilleros-investigacion.download-file-sharepoint', [
                                                       grupo_investigacion.id,
                                                       linea_investigacion.id,
@@ -147,10 +145,9 @@ const Index = ({ auth, grupo_investigacion, linea_investigacion, lineas_investig
                                     filename={semillero_investigacion?.filename.formato_aval_semillero_filename}
                                     extension={semillero_investigacion?.extension.formato_aval_semillero_extension}
                                     downloadRoute={
-                                        semillero_investigacion?.filename.formato_aval_semillero_filename
-                                            ? semillero_investigacion?.filename.formato_aval_semillero_filename.includes('http') == true ||
-                                              semillero_investigacion?.filename.formato_aval_semillero_filename.includes('http') == undefined
-                                                ? semillero_investigacion?.filename.formato_aval_semillero_filename
+                                        semillero_investigacion?.formato_aval_semillero
+                                            ? semillero_investigacion?.formato_aval_semillero.includes('http') == true || semillero_investigacion?.formato_aval_semillero.includes('http') == undefined
+                                                ? semillero_investigacion?.formato_aval_semillero
                                                 : route('grupos-investigacion.lineas-investigacion.semilleros-investigacion.download-file-sharepoint', [
                                                       grupo_investigacion.id,
                                                       linea_investigacion.id,

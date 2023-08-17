@@ -151,9 +151,9 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                                             filename={entidad_aliada?.entidad_aliada_linea66.filename.carta_intencion_filename}
                                             extension={entidad_aliada?.entidad_aliada_linea66.extension.carta_intencion_extension}
                                             downloadRoute={
-                                                entidad_aliada?.entidad_aliada_linea66.filename.carta_intencion_filename
-                                                    ? entidad_aliada?.entidad_aliada_linea66.filename.carta_intencion_filename?.includes('http')
-                                                        ? entidad_aliada?.entidad_aliada_linea66.filename.carta_intencion_filename
+                                                entidad_aliada?.entidad_aliada_linea66.carta_intencion
+                                                    ? entidad_aliada?.entidad_aliada_linea66.carta_intencion?.includes('http')
+                                                        ? entidad_aliada?.entidad_aliada_linea66.carta_intencion
                                                         : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidad_aliada.id, 'carta_intencion'])
                                                     : null
                                             }
@@ -170,9 +170,9 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                                             filename={entidad_aliada?.entidad_aliada_linea66.filename.carta_propiedad_intelectual_filename}
                                             extension={entidad_aliada?.entidad_aliada_linea66.extension.carta_propiedad_intelectual_extension}
                                             downloadRoute={
-                                                entidad_aliada?.entidad_aliada_linea66.filename.carta_propiedad_intelectual_filename
-                                                    ? entidad_aliada?.entidad_aliada_linea66.filename.carta_propiedad_intelectual_filename?.includes('http')
-                                                        ? entidad_aliada?.entidad_aliada_linea66.filename.carta_propiedad_intelectual_filename
+                                                entidad_aliada?.entidad_aliada_linea66.carta_propiedad_intelectual
+                                                    ? entidad_aliada?.entidad_aliada_linea66.carta_propiedad_intelectual?.includes('http')
+                                                        ? entidad_aliada?.entidad_aliada_linea66.carta_propiedad_intelectual
                                                         : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [
                                                               convocatoria,
                                                               proyecto,
@@ -198,9 +198,9 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                                             filename={entidad_aliada?.entidad_aliada_linea69.filename}
                                             extension={entidad_aliada?.entidad_aliada_linea69.extension}
                                             downloadRoute={
-                                                entidad_aliada?.entidad_aliada_linea69.filename
-                                                    ? entidad_aliada?.entidad_aliada_linea69.filename?.includes('http')
-                                                        ? entidad_aliada?.entidad_aliada_linea69.filename
+                                                entidad_aliada?.entidad_aliada_linea69.soporte_convenio
+                                                    ? entidad_aliada?.entidad_aliada_linea69.soporte_convenio?.includes('http')
+                                                        ? entidad_aliada?.entidad_aliada_linea69.soporte_convenio
                                                         : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidad_aliada.id, 'soporte_convenio'])
                                                     : null
                                             }
@@ -221,9 +221,9 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                                             filename={entidad_aliada?.entidad_aliada_linea70.filename}
                                             extension={entidad_aliada?.entidad_aliada_linea70.extension}
                                             downloadRoute={
-                                                entidad_aliada?.entidad_aliada_linea70.filename
-                                                    ? entidad_aliada?.entidad_aliada_linea70.filename?.includes('http')
-                                                        ? entidad_aliada?.entidad_aliada_linea70.filename
+                                                entidad_aliada?.entidad_aliada_linea70.soporte_convenio
+                                                    ? entidad_aliada?.entidad_aliada_linea70.soporte_convenio?.includes('http')
+                                                        ? entidad_aliada?.entidad_aliada_linea70.soporte_convenio
                                                         : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidad_aliada.id, 'soporte_convenio'])
                                                     : null
                                             }
@@ -244,9 +244,9 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                                             filename={entidad_aliada?.entidad_aliada_linea83.filename}
                                             extension={entidad_aliada?.entidad_aliada_linea83.extension}
                                             downloadRoute={
-                                                entidad_aliada?.entidad_aliada_linea83.filename
-                                                    ? entidad_aliada?.entidad_aliada_linea83.filename?.includes('http')
-                                                        ? entidad_aliada?.entidad_aliada_linea83.filename
+                                                entidad_aliada?.entidad_aliada_linea83.soporte_convenio
+                                                    ? entidad_aliada?.entidad_aliada_linea83.soporte_convenio?.includes('http')
+                                                        ? entidad_aliada?.entidad_aliada_linea83.soporte_convenio
                                                         : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidad_aliada.id, 'soporte_convenio'])
                                                     : null
                                             }
