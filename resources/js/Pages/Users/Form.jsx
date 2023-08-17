@@ -17,9 +17,11 @@ import { useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import { checkRole } from '@/Utils'
 
 const Form = ({
     method = '',
+    auth_user,
     usuario,
     tipos_documento,
     tipos_vinculacion,

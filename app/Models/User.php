@@ -376,59 +376,25 @@ class User extends Authenticatable
     public static function getUsersByRol()
     {
         /** @var \App\Models\User */
-        $user = Auth::user();
+        $auth_user = Auth::user();
 
-        if ($user->hasRole(1)) {
-            $users = User::select('users.id', 'users.nombre', 'users.email', 'centro_formacion_id')->with('roles', 'centroFormacion')->orderBy('nombre', 'ASC')
+        $users = [];
+        if ($auth_user->hasRole([1, 21, 17, 18, 20, 19, 5])) {
+            $users = User::select('users.id', 'users.nombre', 'users.email', 'centro_formacion_id')->with('roles', 'centroFormacion.regional')->orderBy('nombre', 'ASC')
                 ->filterUser(request()->only('search', 'roles'))->paginate();
-        } else if ($user->hasRole([4, 21])) {
-            if ($user->dinamizadorCentroFormacion()->exists()) {
-                $centroFormacionId = $user->dinamizadorCentroFormacion->id;
+        } else if ($auth_user->hasRole([4, 21])) {
+            if ($auth_user->dinamizadorCentroFormacion()->exists()) {
+                $centro_formacion_id = $auth_user->dinamizadorCentroFormacion->id;
             } else {
-                $centroFormacionId = $user->centroFormacion->id;
+                $centro_formacion_id = $auth_user->centroFormacion->id;
             }
-            $users = User::select('users.id', 'users.nombre', 'users.email', 'centro_formacion_id')->with('roles', 'centroFormacion')->where('centro_formacion_id', $centroFormacionId)->orderBy('nombre', 'ASC')
+            $users = User::select('users.id', 'users.nombre', 'users.email', 'centro_formacion_id')->with('roles', 'centroFormacion.regional')->where('centro_formacion_id', $centro_formacion_id)->orderBy('nombre', 'ASC')
                 ->filterUser(request()->only('search', 'roles'))->paginate();
         }
 
-        if ($user->whereHas('roles', function (Builder $query) use ($user) {
-            return $query->where('name', 'ilike', '%activador i+d+i%')->where('users.id', $user->id);
-        })->first()) {
-            $users = User::select('users.id', 'users.nombre', 'users.email', 'centro_formacion_id')->with('roles', 'centroFormacion')->whereHas('roles', function (Builder $query) {
-                return $query->where('name', 'ilike', '%proponente i+d+i%');
-            })->filterUser(request()->only('search', 'roles'))->paginate();
-        }
-
-        if ($user->whereHas('roles', function (Builder $query) use ($user) {
-            return $query->where('name', 'ilike', '%activador cultura de la innovación%')->where('users.id', $user->id);
-        })->first()) {
-            $users = User::select('users.id', 'users.nombre', 'users.email', 'centro_formacion_id')->with('roles', 'centroFormacion')->whereHas('roles', function (Builder $query) {
-                return $query->where('name', 'ilike', '%proponente cultura de la innovación%');
-            })->filterUser(request()->only('search', 'roles'))->paginate();
-        }
-
-        if ($user->whereHas('roles', function (Builder $query) use ($user) {
-            return $query->where('name', 'ilike', '%activador tecnoacademia%')->where('users.id', $user->id);
-        })->first()) {
-            $users = User::select('users.id', 'users.nombre', 'users.email', 'centro_formacion_id')->with('roles', 'centroFormacion')->whereHas('roles', function (Builder $query) {
-                return $query->where('name', 'ilike', '%proponente tecnoacademia%');
-            })->filterUser(request()->only('search', 'roles'))->paginate();
-        }
-
-        if ($user->whereHas('roles', function (Builder $query) use ($user) {
-            return $query->where('name', 'ilike', '%activador tecnoparque%')->where('users.id', $user->id);
-        })->first()) {
-            $users = User::select('users.id', 'users.nombre', 'users.email', 'centro_formacion_id')->with('roles', 'centroFormacion')->whereHas('roles', function (Builder $query) {
-                return $query->where('name', 'ilike', '%proponente tecnoparque%');
-            })->filterUser(request()->only('search', 'roles'))->paginate();
-        }
-
-        if ($user->whereHas('roles', function (Builder $query) use ($user) {
-            return $query->where('name', 'ilike', '%activador servicios tecnológicos%')->where('users.id', $user->id);
-        })->first()) {
-            $users = User::select('users.id', 'users.nombre', 'users.email', 'centro_formacion_id')->with('roles', 'centroFormacion')->whereHas('roles', function (Builder $query) {
-                return $query->where('name', 'ilike', '%proponente servicios tecnológicos%');
-            })->filterUser(request()->only('search', 'roles'))->paginate();
+        // Director regional
+        if ($auth_user->hasRole([2])) {
+            $users = User::select('users.id', 'users.nombre', 'users.email', 'users.centro_formacion_id')->join('centros_formacion', 'users.centro_formacion_id', 'centros_formacion.id')->where('centros_formacion.regional_id', $auth_user->centroFormacion->regional_id)->with('roles', 'centroFormacion')->filterUser(request()->only('search', 'roles'))->paginate();
         }
 
         return $users;
@@ -438,11 +404,11 @@ class User extends Authenticatable
     {
         if (str_contains(request()->route()->uri, 'users')) {
 
-            $allowedToView      = Gate::inspect('view', [User::class, $this]);
-            $allowedToUpdate    = Gate::inspect('update', [User::class, $this]);
-            $allowedToDestroy   = Gate::inspect('delete', [User::class, $this]);
+            $allowed_to_view      = Gate::inspect('view', [User::class, $this]);
+            $allowed_to_update    = Gate::inspect('update', [User::class, $this]);
+            $allowed_to_destroy   = Gate::inspect('delete', [User::class, $this]);
 
-            return collect(['to_view' => $allowedToView->allowed(), 'to_update' => $allowedToUpdate->allowed(), 'to_destroy' => $allowedToDestroy->allowed()]);
+            return collect(['to_view' => $allowed_to_view->allowed(), 'to_update' => $allowed_to_update->allowed(), 'to_destroy' => $allowed_to_destroy->allowed()]);
         }
     }
 

@@ -16,9 +16,9 @@ class UserPolicy
      * @param  \App\Models\User  $user
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
-        if ($user->hasRole([4, 21, 17, 18, 20, 19, 5])) {
+        if ($user->hasRole([2, 4, 21, 17, 18, 20, 19, 5])) {
             return true;
         }
 
@@ -32,9 +32,9 @@ class UserPolicy
      * @param  \App\Models\User  $model
      * @return mixed
      */
-    public function view(User $user)
+    public function view(User $user): bool
     {
-        if ($user->hasRole([4, 21, 17, 18, 20, 19, 5])) {
+        if ($user->hasRole([2, 4, 21, 17, 18, 20, 19, 5])) {
             return true;
         }
 
@@ -47,9 +47,9 @@ class UserPolicy
      * @param  \App\Models\User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
-        if ($user->hasRole([4, 21, 17, 18, 20, 19, 5])) {
+        if ($user->hasRole([2, 4, 21, 17, 18, 20, 19, 5])) {
             return true;
         }
 
@@ -63,8 +63,12 @@ class UserPolicy
      * @param  \App\Models\User  $model
      * @return mixed
      */
-    public function update(User $user, $usuario_a_editar)
+    public function update(User $user, $usuario_a_editar): bool
     {
+        if ($user->hasRole([2])) {
+            return true;
+        }
+
         if ($user->id == $usuario_a_editar->id) {
             return true;
         }
@@ -87,7 +91,7 @@ class UserPolicy
      * @param  \App\Models\User  $model
      * @return mixed
      */
-    public function delete(User $user)
+    public function delete(User $user): bool
     {
         return false;
     }
@@ -99,7 +103,7 @@ class UserPolicy
      * @param  \App\Models\User  $model
      * @return mixed
      */
-    public function restore(User $user)
+    public function restore(User $user): bool
     {
         //
     }
@@ -111,12 +115,12 @@ class UserPolicy
      * @param  \App\Models\User  $model
      * @return mixed
      */
-    public function forceDelete(User $user)
+    public function forceDelete(User $user): bool
     {
         //
     }
 
-    public function checkRole($user, $rol)
+    public function checkRole($user, $rol): bool
     {
         $userRole = $user->whereHas('roles', function (Builder $query) use ($user, $rol) {
             return $query->where('id', $rol)->where('users.id', $user->id);

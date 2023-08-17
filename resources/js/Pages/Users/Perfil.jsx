@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import EditComponent from './EditComponent'
 
 const Perfil = ({
+    auth,
     usuario,
     tipos_documento,
     tipos_vinculacion,
@@ -28,9 +29,11 @@ const Perfil = ({
     participaciones_proyectos_sennova,
     roles_sistema,
 }) => {
+    const auth_user = auth.user
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Perfil</h2>}>
             <EditComponent
+                auth_user={auth_user}
                 usuario={usuario}
                 tipos_documento={tipos_documento}
                 tipos_vinculacion={tipos_vinculacion}

@@ -71,8 +71,8 @@ export default function Dashboard({ auth, roles_sistema }) {
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
-                            href={route('hubs-innovacion.index')}>
-                            Hubs de innovación
+                            href={route('laboratorios-servicios-tecnologicos.index')}>
+                            Laboratorios de Servicios Tecnológicos
                         </Link>
                     </Grid>
                 )}
@@ -81,8 +81,8 @@ export default function Dashboard({ auth, roles_sistema }) {
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
-                            href={route('laboratorios-servicios-tecnologicos.index')}>
-                            Laboratorios de Servicios Tecnológicos
+                            href={route('nodos-tecnoparque.index')}>
+                            Nodos Tecnoparque
                         </Link>
                     </Grid>
                 )}

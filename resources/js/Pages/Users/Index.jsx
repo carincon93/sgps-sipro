@@ -33,10 +33,10 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, allowed_to_create }) => 
                 <Grid item md={12}>
                     <SearchBar className="mt-20" />
 
-                    <TableMui className="mt-20" rows={['Nombre', 'Correo electrónico', 'Centro de formación', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui className="mt-20" rows={['Nombre', 'Correo electrónico', 'Centro de formación', 'Regional', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         {allowed_to_create ? (
                             <TableRow onClick={() => router.visit(route('users.create'))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
-                                <TableCell colSpan={4}>
+                                <TableCell colSpan={5}>
                                     <ButtonMui>
                                         <AddCircleOutlineOutlinedIcon className="mr-1" /> Crear usuario
                                     </ButtonMui>
@@ -48,6 +48,7 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, allowed_to_create }) => 
                                 <TableCell>{usuario.nombre}</TableCell>
                                 <TableCell>{usuario.email}</TableCell>
                                 <TableCell>{usuario.centro_formacion?.nombre}</TableCell>
+                                <TableCell>{usuario.centro_formacion?.regional.nombre}</TableCell>
 
                                 <TableCell>
                                     <MenuMui text={<MoreVertIcon />}>
