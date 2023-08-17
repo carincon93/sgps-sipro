@@ -25,8 +25,8 @@ class ConvocatoriaAnexoRequest extends FormRequest
     {
         return [
             'anexo_id'                  => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:anexos,id'],
-            'obligatorio'               => ['required', 'boolean'],
-            'habilitado'                => ['required', 'boolean'],
+            'obligatorio'               => ['nullable', 'boolean'],
+            'habilitado'                => ['nullable', 'boolean'],
         ];
     }
 
