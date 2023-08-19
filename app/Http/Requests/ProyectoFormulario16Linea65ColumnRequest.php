@@ -17,6 +17,7 @@ class ProyectoFormulario16Linea65ColumnRequest extends FormRequest
         'impacto_municipios'                            => ['required', 'string'],
         'impacto_centro_formacion'                      => ['required', 'string'],
         'bibliografia'                                  => ['required', 'string'],
+        'justificacion_politica_discapacidad'           => ['required', 'string'],
         'atencion_pluralista_diferencial'               => ['nullable', 'string'],
         'centro_formacion_id'                           => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
 
