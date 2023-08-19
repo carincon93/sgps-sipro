@@ -69,13 +69,13 @@ class Tecnoacademia extends Model
     }
 
     /**
-     * Relationship with LineaTecnoacademia
+     * Relationship with ProyectoFormulario4Linea70
      *
-     * @return object
+     * @return void
      */
-    public function lineasTecnoacademia()
+    public function proyectosFormulario4Linea70()
     {
-        return $this->belongsToMany(LineaTecnoacademia::class, 'tecnoacademia_linea_tecnoacademia', 'tecnoacademia_id', 'linea_tecnoacademia_id');
+        return $this->hasMany(ProyectoFormulario4Linea70::class);
     }
 
     /**
@@ -96,6 +96,16 @@ class Tecnoacademia extends Model
     public function municipios()
     {
         return $this->belongsToMany(Municipio::class, 'proyecto_idi_tecnoacademia_municipio', 'proyecto_idi_tecnoacademia_linea_id', 'municipio_id')->orderBy('municipios.nombre', 'ASC');
+    }
+
+    /**
+     * Relationship with LineaTecnoacademia
+     *
+     * @return object
+     */
+    public function lineasTecnoacademia()
+    {
+        return $this->belongsToMany(LineaTecnoacademia::class, 'tecnoacademia_linea_tecnoacademia', 'tecnoacademia_id', 'linea_tecnoacademia_id');
     }
 
     /**

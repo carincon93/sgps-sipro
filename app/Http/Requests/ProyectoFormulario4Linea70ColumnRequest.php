@@ -8,6 +8,7 @@ class ProyectoFormulario4Linea70ColumnRequest extends FormRequest
 {
 
     private $columnsRules = [
+        'tecnoacademia_id'                          => ['required', 'min:0', 'max:2147483647', 'exists:tecnoacademias,id'],
         'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
         'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
         'logros_vigencia_anterior'                  => ['nullable', 'string'],

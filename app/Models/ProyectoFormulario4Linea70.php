@@ -83,7 +83,8 @@ class ProyectoFormulario4Linea70 extends Model
         'favorecimiento_ruta_formacion',
         'implementacion_modelo_pedagogico',
         'pdf_proyecto_general',
-        'proyecto_base'
+        'proyecto_base',
+        'tecnoacademia_id'
     ];
 
     /**
@@ -123,6 +124,16 @@ class ProyectoFormulario4Linea70 extends Model
     public function proyecto()
     {
         return $this->belongsTo(Proyecto::class, 'id');
+    }
+
+    /**
+     * Relationship with Tecnoacademia
+     *
+     * @return object
+     */
+    public function tecnoacademia()
+    {
+        return $this->belongsTo(Tecnoacademia::class);
     }
 
     /**
@@ -238,7 +249,7 @@ class ProyectoFormulario4Linea70 extends Model
         /** @var \App\Models\User */
         $auth_user = Auth::user();
 
-        $proyectos_linea_70 = ProyectoFormulario4Linea70::select('proyectos_formulario_4_linea_70.id', 'proyectos_formulario_4_linea_70.fecha_inicio', 'proyectos_formulario_4_linea_70.fecha_finalizacion', 'proyectos_formulario_4_linea_70.proyecto_base')
+        $proyectos_linea_70 = ProyectoFormulario4Linea70::select('proyectos_formulario_4_linea_70.id', 'proyectos_formulario_4_linea_70.fecha_inicio', 'proyectos_formulario_4_linea_70.fecha_finalizacion', 'proyectos_formulario_4_linea_70.proyecto_base', 'proyectos_formulario_4_linea_70.tecnoacademia_id')
             ->join('proyectos', 'proyectos_formulario_4_linea_70.id', 'proyectos.id')
             ->join('centros_formacion', 'proyectos.centro_formacion_id', 'centros_formacion.id')
             ->whereHas(
@@ -265,7 +276,7 @@ class ProyectoFormulario4Linea70 extends Model
             ->filterProyectoFormulario4Linea70(request()->only('search'))->paginate();
 
 
-        $proyectos_linea_70->load('proyecto.tecnoacademiaLineasTecnoacademia.tecnoacademia');
+        // $proyectos_linea_70->load('proyecto.tecnoacademiaLineasTecnoacademia.tecnoacademia');
         $proyectos_linea_70->load('proyecto.evaluaciones');
 
         return $proyectos_linea_70;
@@ -278,11 +289,7 @@ class ProyectoFormulario4Linea70 extends Model
      */
     public function getTituloAttribute()
     {
-        return DB::table('proyectos')->select('tecnoacademias.nombre')->join('proyecto_linea_tecnoacademia', 'proyectos.id', 'proyecto_linea_tecnoacademia.proyecto_id')
-            ->join('tecnoacademia_linea_tecnoacademia', 'proyecto_linea_tecnoacademia.tecnoacademia_linea_tecnoacademia_id', 'tecnoacademia_linea_tecnoacademia.id')
-            ->join('tecnoacademias', 'tecnoacademia_linea_tecnoacademia.tecnoacademia_id', 'tecnoacademias.id')->where('proyectos.id', $this->id)->first() ? DB::table('proyectos')->select('tecnoacademias.nombre')->join('proyecto_linea_tecnoacademia', 'proyectos.id', 'proyecto_linea_tecnoacademia.proyecto_id')
-            ->join('tecnoacademia_linea_tecnoacademia', 'proyecto_linea_tecnoacademia.tecnoacademia_linea_tecnoacademia_id', 'tecnoacademia_linea_tecnoacademia.id')
-            ->join('tecnoacademias', 'tecnoacademia_linea_tecnoacademia.tecnoacademia_id', 'tecnoacademias.id')->where('proyectos.id', $this->id)->first()->nombre : '';
+        return ucfirst(optional($this->tecnoacademia)->nombre) . " Vigencia " . date('Y', strtotime($this->fecha_inicio));
     }
 
     public function getFilenameAttribute()

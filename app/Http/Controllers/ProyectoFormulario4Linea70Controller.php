@@ -99,6 +99,7 @@ class ProyectoFormulario4Linea70Controller extends Controller
 
         if ($convocatoria->proyectos()->whereHas('proyectoFormulario4Linea70')->count() == 0) {
             $proyecto->proyectoFormulario4Linea70()->create([
+                'tecnoacademia_id'      => $request->tecnoacademia_id,
                 'fecha_inicio'          => $request->fecha_inicio,
                 'fecha_finalizacion'    => $request->fecha_finalizacion,
                 'proyecto_base'         => true
@@ -176,6 +177,7 @@ class ProyectoFormulario4Linea70Controller extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_4_linea_70->proyecto]);
 
+        $proyecto_formulario_4_linea_70->tecnoacademia()->associate($request->tecnoacademia_id);
         $proyecto_formulario_4_linea_70->fecha_inicio                           = $request->fecha_inicio;
         $proyecto_formulario_4_linea_70->fecha_finalizacion                     = $request->fecha_finalizacion;
         $proyecto_formulario_4_linea_70->max_meses_ejecucion                    = $request->max_meses_ejecucion;
@@ -369,6 +371,7 @@ class ProyectoFormulario4Linea70Controller extends Controller
                 'fecha_inicio'          => $request->fecha_inicio,
                 'fecha_finalizacion'    => $request->fecha_finalizacion,
                 'max_meses_ejecucion'   => $request->max_meses_ejecucion,
+                'tecnoacademia_id'      => $request->tecnoacademia_id,
                 'proyecto_base'         => false
             ]);
             $clone->push();

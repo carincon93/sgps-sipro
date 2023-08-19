@@ -25,6 +25,7 @@ class ProyectoFormulario4Linea70Request extends FormRequest
     {
         if ($this->isMethod('PUT')) {
             return [
+                'tecnoacademia_id'                          => ['required', 'min:0', 'max:2147483647', 'exists:tecnoacademias,id'],
                 'tecnoacademia_linea_tecnoacademia_id*'     => ['required', 'min:0', 'max:2147483647', 'exists:tecnoacademia_linea_tecnoacademia,id'],
                 'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
                 'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
@@ -32,6 +33,7 @@ class ProyectoFormulario4Linea70Request extends FormRequest
             ];
         } else {
             return [
+                'tecnoacademia_id'                          => ['required', 'min:0', 'max:2147483647', 'exists:tecnoacademias,id'],
                 'tecnoacademia_linea_tecnoacademia_id*'     => ['required', 'min:0', 'max:2147483647', 'exists:tecnoacademia_linea_tecnoacademia,id'],
                 'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
                 'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
