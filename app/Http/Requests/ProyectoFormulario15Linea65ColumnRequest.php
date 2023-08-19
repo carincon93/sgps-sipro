@@ -16,6 +16,7 @@ class ProyectoFormulario15Linea65ColumnRequest extends FormRequest
         'marco_conceptual'                              => ['required', 'string'],
         'impacto_municipios'                            => ['required', 'string'],
         'impacto_centro_formacion'                      => ['required', 'string'],
+        'justificacion_politica_discapacidad'           => ['required', 'string'],
         'bibliografia'                                  => ['required', 'string'],
         'atencion_pluralista_diferencial'               => ['nullable', 'string'],
         'centro_formacion_id'                           => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
