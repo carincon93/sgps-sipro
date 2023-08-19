@@ -58,12 +58,14 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, allowed_to_create }) => 
                                                     Editar
                                                 </MenuItem>
 
-                                                <MenuItem
-                                                    onClick={() => {
-                                                        setUserToDestroy(usuario.id)
-                                                    }}>
-                                                    Eliminar
-                                                </MenuItem>
+                                                {is_super_admin && (
+                                                    <MenuItem
+                                                        onClick={() => {
+                                                            setUserToDestroy(usuario.id)
+                                                        }}>
+                                                        Eliminar
+                                                    </MenuItem>
+                                                )}
                                             </div>
                                         ) : (
                                             <div>

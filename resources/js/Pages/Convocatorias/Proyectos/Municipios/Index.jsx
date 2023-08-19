@@ -25,7 +25,7 @@ const Municipios = ({
     proyecto,
     evaluacion,
     presupuesto,
-    ta_tp_viaticos_municipios,
+    viaticos_municipio,
     municipios,
     proyecto_roles_sennova,
     distancias_municipios,
@@ -67,7 +67,7 @@ const Municipios = ({
                         </TableRow>
                     ) : null}
 
-                    {ta_tp_viaticos_municipios.map((municipio_a_visitar, i) => (
+                    {viaticos_municipio.map((municipio_a_visitar, i) => (
                         <TableRow key={i}>
                             <TableCell>
                                 {municipios
@@ -192,7 +192,7 @@ const Municipios = ({
                     }
                 />
             </Grid>
-            <PaginationMui links={ta_tp_viaticos_municipios.links} />
+            <PaginationMui links={viaticos_municipio.links} />
         </AuthenticatedLayout>
     )
 }

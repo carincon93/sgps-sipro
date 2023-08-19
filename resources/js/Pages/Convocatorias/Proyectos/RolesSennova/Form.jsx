@@ -69,7 +69,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                 ) : (
                                     <AlertMui severity="error">
                                         Aún no se ha completado la información de los roles, por favor revise los canales de ayuda e informe al respectivo activador(a) para que actualice la
-                                        información.{' '}
+                                        información.
                                     </AlertMui>
                                 )}
                             </div>
@@ -129,9 +129,8 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                 />
                             </div>
 
-                            <h6 className="mt-20 mb-6 text-2xl">Actividades</h6>
+                            <h6 className="mt-20 mb-6 text-2xl">Actividades que debe ejecutar el rol</h6>
                             <div>
-                                <AlertMui className="mb-6">Seleccione las actividades que debe ejecutar el rol</AlertMui>
                                 <SelectMultiple
                                     id="actividad_id"
                                     bdValues={form.data.actividad_id}
@@ -147,10 +146,10 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                     label="Relacione las respectivas actividades"
                                     required
                                 />
-                                {actividades.length === 0 && <p className="p-4">Importante: No ha creado actividades</p>}
+                                {actividades.length === 0 && <AlertMui error={true}>Importante: No ha creado actividades</AlertMui>}
                             </div>
                         </fieldset>
-                        {proyecto_rol_sennova && <small className="flex items-center mt-4 text-app-700">{proyecto_rol_sennova.updated_at}</small>}
+                        {proyecto_rol_sennova && <small className="flex items-center my-10 text-app-700">{proyecto_rol_sennova.updated_at}</small>}
                         <div className="flex items-center justify-between mt-14 py-4">
                             {proyecto?.allowed?.to_update ? (
                                 <>

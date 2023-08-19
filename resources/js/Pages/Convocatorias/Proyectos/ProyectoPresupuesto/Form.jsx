@@ -57,26 +57,32 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
 
     useEffect(() => {
         if (form.data.convocatoria_presupuesto_id) {
-            setSameValuesRequiereEstudioMercado(
-                array_usos_presupuestales
-                    .filter((item) => form.data.convocatoria_presupuesto_id?.includes(item.value))
-                    .every(
-                        (item) =>
-                            item.requiere_estudio_mercado ===
-                            array_usos_presupuestales.find((item) => item.value == form.data.convocatoria_presupuesto_id[form.data.convocatoria_presupuesto_id.length - 1])?.requiere_estudio_mercado,
-                    ),
-            )
+            if (form.data.convocatoria_presupuesto_id.length > 1) {
+                setSameValuesRequiereEstudioMercado(
+                    array_usos_presupuestales
+                        .filter((item) => form.data.convocatoria_presupuesto_id?.includes(item.value))
+                        .every(
+                            (item) =>
+                                item.requiere_estudio_mercado ===
+                                array_usos_presupuestales.find((item) => item.value == form.data.convocatoria_presupuesto_id[form.data.convocatoria_presupuesto_id.length - 1])
+                                    ?.requiere_estudio_mercado,
+                        ),
+                )
 
-            if (
-                same_values_requiere_estudio_mercado &&
-                array_usos_presupuestales.find((item) => item.value == form.data.convocatoria_presupuesto_id[form.data.convocatoria_presupuesto_id.length - 1])?.requiere_estudio_mercado
-            ) {
-                setRequiereEstudioMercado(true)
-            } else if (
-                same_values_requiere_estudio_mercado &&
-                array_usos_presupuestales.find((item) => item.value == form.data.convocatoria_presupuesto_id[form.data.convocatoria_presupuesto_id.length - 1])?.requiere_estudio_mercado == false
-            ) {
-                setRequiereEstudioMercado(false)
+                if (
+                    same_values_requiere_estudio_mercado &&
+                    array_usos_presupuestales.find((item) => item.value == form.data.convocatoria_presupuesto_id[form.data.convocatoria_presupuesto_id.length - 1])?.requiere_estudio_mercado
+                ) {
+                    setRequiereEstudioMercado(true)
+                } else if (
+                    same_values_requiere_estudio_mercado &&
+                    array_usos_presupuestales.find((item) => item.value == form.data.convocatoria_presupuesto_id[form.data.convocatoria_presupuesto_id.length - 1])?.requiere_estudio_mercado == false
+                ) {
+                    setRequiereEstudioMercado(false)
+                }
+            } else if (form.data.convocatoria_presupuesto_id.length == 1) {
+                setSameValuesRequiereEstudioMercado(true)
+                setRequiereEstudioMercado(array_usos_presupuestales.find((item) => item.value == form.data.convocatoria_presupuesto_id)?.requiere_estudio_mercado)
             }
         }
     }, [form.data.convocatoria_presupuesto_id])
@@ -259,7 +265,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                             {method == 'POST' ? 'Agregar' : 'Modificar'} rubro presupuestal
                                         </PrimaryButton>
                                     ) : (
-                                        method == 'PUT' && (
+                                        form.data.convocatoria_presupuesto_id?.length > 0 && (
                                             <AlertMui severity="error" className="r-10">
                                                 Hay algunos usos presupuestales que requieren de estudios de mercado y otros no, por favor seleccione primero los que si requieren. Aquellos usos
                                                 presupuestales que no requieren estudios debe agruparlos en otro formulario.

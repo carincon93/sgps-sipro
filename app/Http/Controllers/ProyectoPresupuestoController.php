@@ -177,15 +177,17 @@ class ProyectoPresupuestoController extends Controller
     public function storeEstudioMercado(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto)
     {
         $request->validate([
-            'valor_total'             => 'nullable|min:0|numeric',
-            'formato_estudio_mercado' => 'nullable|file|max:10000000|mimetypes:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'valor_total' => 'nullable|min:0|numeric',
         ]);
 
+        $presupuesto->update(['valor_total' => $request->valor_total]);
+
         if ($request->hasFile('formato_estudio_mercado')) {
+            $request->validate([
+                'formato_estudio_mercado' => 'nullable|file|max:10000000|mimetypes:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            ]);
             return $this->saveFilesSharepoint($request->formato_estudio_mercado, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $presupuesto, 'formato_estudio_mercado');
         }
-
-        $presupuesto->update(['valor_total' => $request->valor_total]);
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
@@ -266,7 +268,7 @@ class ProyectoPresupuestoController extends Controller
             'distancias_municipios'         =>  json_decode(Storage::get('json/distancia-municipios.json'), true),
             'frecuencias_semanales'         =>  json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true),
             'municipios'                    =>  SelectHelper::municipios(),
-            'ta_tp_viaticos_municipios'     =>  $presupuesto->taTpViaticosMunicipios()->exists() ? $presupuesto->taTpViaticosMunicipios()->get() : collect([]),
+            'viaticos_municipio'            =>  $presupuesto->viaticosMunicipio()->exists() ? $presupuesto->viaticosMunicipio()->get() : collect([]),
             'conceptos_viaticos'            =>  json_decode(Storage::get('json/conceptos-viaticos.json'), true),
             'proyecto_roles_sennova'        =>  $proyecto->proyectoRolesSennova()->selectRaw("proyecto_rol_sennova.id as value, convocatoria_rol_sennova.perfil, convocatoria_rol_sennova.mensaje,
                                                 CASE nivel_academico
@@ -295,22 +297,21 @@ class ProyectoPresupuestoController extends Controller
 
     public function storeMunicipiosAVisitar(ViaticoMunicipioRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto)
     {
-        $request->merge(['proyecto_presupuesto_id' => $presupuesto->id]);
-        $ta_tp_viaticos_municipio = ViaticoMunicipio::create($request->validated());
+        $viatico_municipio = ViaticoMunicipio::create($request->all());
 
         return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
-    public function updateMunicipiosAVisitar(ViaticoMunicipioRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto, ViaticoMunicipio $ta_tp_viaticos_municipio)
+    public function updateMunicipiosAVisitar(ViaticoMunicipioRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto, ViaticoMunicipio $viatico_municipio)
     {
-        $ta_tp_viaticos_municipio->update($request->validated());
+        $viatico_municipio->update($request->all());
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
-    public function destroyMunicipioAVisitar(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto, ViaticoMunicipio $ta_tp_viaticos_municipio)
+    public function destroyMunicipioAVisitar(Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto, ViaticoMunicipio $viatico_municipio)
     {
-        $ta_tp_viaticos_municipio->delete();
+        $viatico_municipio->delete();
 
         return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }

@@ -504,13 +504,61 @@ class Proyecto extends Model
     public function getCodigoAttribute()
     {
         $fecha_finalizacion = null;
-        if ($this->proyectoFormulario1Linea65()->exists()) $fecha_finalizacion                 =  $this->proyectoFormulario1Linea65->fecha_finalizacion;
-        if ($this->proyectoFormulario8Linea66()->exists()) $fecha_finalizacion                 =  $this->proyectoFormulario8Linea66->fecha_finalizacion;
-        if ($this->proyectoFormulario12Linea68()->exists()) $fecha_finalizacion     =  $this->proyectoFormulario12Linea68->fecha_finalizacion;
-        if ($this->proyectoFormulario5Linea69()->exists()) $fecha_finalizacion                 =  $this->proyectoFormulario5Linea69->fecha_finalizacion;
-        if ($this->proyectoFormulario10Linea69()->exists()) $fecha_finalizacion              =  $this->proyectoFormulario10Linea69->fecha_finalizacion;
-        if ($this->proyectoFormulario4Linea70()->exists()) $fecha_finalizacion      =  $this->proyectoFormulario4Linea70->fecha_finalizacion;
-        if ($this->proyectoFormulario11Linea83()->exists()) $fecha_finalizacion                 =  $this->proyectoFormulario11Linea83->fecha_finalizacion;
+        if ($this->proyectoFormulario1Linea65()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario1Linea65->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario4Linea70()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario4Linea70->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario5Linea69()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario5Linea69->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario6Linea82()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario6Linea82->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario7Linea23()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario7Linea23->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario8Linea66()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario8Linea66->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario9Linea23()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario9Linea23->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario10Linea69()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario10Linea69->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario11Linea83()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario11Linea83->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario12Linea68()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario12Linea68->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario13Linea65()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario13Linea65->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario15Linea65()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario15Linea65->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario16Linea65()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario16Linea65->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario17Linea69()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario17Linea69->fecha_finalizacion;
+        }
 
         $codigo = 'SGPS-' . ($this->id + 8000) . '-' . date('Y', strtotime($fecha_finalizacion));
         // if ($this->proyectoDemo()->exists()) {
@@ -525,20 +573,61 @@ class Proyecto extends Model
     public function getFechaInicioAttribute()
     {
         $fecha_inicio = null;
+
         if ($this->proyectoFormulario1Linea65()->exists()) {
             $fecha_inicio = $this->proyectoFormulario1Linea65->fecha_inicio;
-        } else if ($this->proyectoFormulario8Linea66()->exists()) {
-            $fecha_inicio = $this->proyectoFormulario8Linea66->fecha_inicio;
-        } else if ($this->proyectoFormulario12Linea68()->exists()) {
-            $fecha_inicio = $this->proyectoFormulario12Linea68->fecha_inicio;
-        } else if ($this->proyectoFormulario5Linea69()->exists()) {
-            $fecha_inicio = $this->proyectoFormulario5Linea69->fecha_inicio;
-        } else if ($this->proyectoFormulario10Linea69()->exists()) {
-            $fecha_inicio = $this->proyectoFormulario10Linea69->fecha_inicio;
-        } else if ($this->proyectoFormulario4Linea70()->exists()) {
+        }
+
+        if ($this->proyectoFormulario4Linea70()->exists()) {
             $fecha_inicio = $this->proyectoFormulario4Linea70->fecha_inicio;
-        } else if ($this->proyectoFormulario11Linea83()->exists()) {
+        }
+
+        if ($this->proyectoFormulario5Linea69()->exists()) {
+            $fecha_inicio = $this->proyectoFormulario5Linea69->fecha_inicio;
+        }
+
+        if ($this->proyectoFormulario6Linea82()->exists()) {
+            $fecha_inicio = $this->proyectoFormulario6Linea82->fecha_inicio;
+        }
+
+        if ($this->proyectoFormulario7Linea23()->exists()) {
+            $fecha_inicio = $this->proyectoFormulario7Linea23->fecha_inicio;
+        }
+
+        if ($this->proyectoFormulario8Linea66()->exists()) {
+            $fecha_inicio = $this->proyectoFormulario8Linea66->fecha_inicio;
+        }
+
+        if ($this->proyectoFormulario9Linea23()->exists()) {
+            $fecha_inicio = $this->proyectoFormulario9Linea23->fecha_inicio;
+        }
+
+        if ($this->proyectoFormulario10Linea69()->exists()) {
+            $fecha_inicio = $this->proyectoFormulario10Linea69->fecha_inicio;
+        }
+
+        if ($this->proyectoFormulario11Linea83()->exists()) {
             $fecha_inicio = $this->proyectoFormulario11Linea83->fecha_inicio;
+        }
+
+        if ($this->proyectoFormulario12Linea68()->exists()) {
+            $fecha_inicio = $this->proyectoFormulario12Linea68->fecha_inicio;
+        }
+
+        if ($this->proyectoFormulario13Linea65()->exists()) {
+            $fecha_inicio = $this->proyectoFormulario13Linea65->fecha_inicio;
+        }
+
+        if ($this->proyectoFormulario15Linea65()->exists()) {
+            $fecha_inicio = $this->proyectoFormulario15Linea65->fecha_inicio;
+        }
+
+        if ($this->proyectoFormulario16Linea65()->exists()) {
+            $fecha_inicio = $this->proyectoFormulario16Linea65->fecha_inicio;
+        }
+
+        if ($this->proyectoFormulario17Linea69()->exists()) {
+            $fecha_inicio = $this->proyectoFormulario17Linea69->fecha_inicio;
         }
 
         return $fecha_inicio;
@@ -547,20 +636,61 @@ class Proyecto extends Model
     public function getFechaFinalizacionAttribute()
     {
         $fecha_finalizacion = null;
+
         if ($this->proyectoFormulario1Linea65()->exists()) {
             $fecha_finalizacion = $this->proyectoFormulario1Linea65->fecha_finalizacion;
-        } else if ($this->proyectoFormulario8Linea66()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario8Linea66->fecha_finalizacion;
-        } else if ($this->proyectoFormulario12Linea68()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario12Linea68->fecha_finalizacion;
-        } else if ($this->proyectoFormulario5Linea69()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario5Linea69->fecha_finalizacion;
-        } else if ($this->proyectoFormulario10Linea69()->exists()) {
-            $fecha_finalizacion = $this->proyectoFormulario10Linea69->fecha_finalizacion;
-        } else if ($this->proyectoFormulario4Linea70()->exists()) {
+        }
+
+        if ($this->proyectoFormulario4Linea70()->exists()) {
             $fecha_finalizacion = $this->proyectoFormulario4Linea70->fecha_finalizacion;
-        } else if ($this->proyectoFormulario11Linea83()->exists()) {
+        }
+
+        if ($this->proyectoFormulario5Linea69()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario5Linea69->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario6Linea82()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario6Linea82->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario7Linea23()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario7Linea23->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario8Linea66()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario8Linea66->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario9Linea23()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario9Linea23->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario10Linea69()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario10Linea69->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario11Linea83()->exists()) {
             $fecha_finalizacion = $this->proyectoFormulario11Linea83->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario12Linea68()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario12Linea68->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario13Linea65()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario13Linea65->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario15Linea65()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario15Linea65->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario16Linea65()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario16Linea65->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario17Linea69()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario17Linea69->fecha_finalizacion;
         }
 
         return $fecha_finalizacion;
@@ -579,28 +709,56 @@ class Proyecto extends Model
             $cantidad_meses_ejecucion = $this->proyectoFormulario1Linea65->max_meses_ejecucion;
         }
 
-        if ($this->proyectoFormulario8Linea66()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoFormulario8Linea66->max_meses_ejecucion;
-        }
-
-        if ($this->proyectoFormulario12Linea68()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoFormulario12Linea68->max_meses_ejecucion;
+        if ($this->proyectoFormulario4Linea70()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoFormulario4Linea70->max_meses_ejecucion;
         }
 
         if ($this->proyectoFormulario5Linea69()->exists()) {
             $cantidad_meses_ejecucion = $this->proyectoFormulario5Linea69->max_meses_ejecucion;
         }
 
+        if ($this->proyectoFormulario6Linea82()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoFormulario6Linea82->max_meses_ejecucion;
+        }
+
+        if ($this->proyectoFormulario7Linea23()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoFormulario7Linea23->max_meses_ejecucion;
+        }
+
+        if ($this->proyectoFormulario8Linea66()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoFormulario8Linea66->max_meses_ejecucion;
+        }
+
+        if ($this->proyectoFormulario9Linea23()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoFormulario9Linea23->max_meses_ejecucion;
+        }
+
         if ($this->proyectoFormulario10Linea69()->exists()) {
             $cantidad_meses_ejecucion = $this->proyectoFormulario10Linea69->max_meses_ejecucion;
         }
 
-        if ($this->proyectoFormulario4Linea70()->exists()) {
-            $cantidad_meses_ejecucion = $this->proyectoFormulario4Linea70->max_meses_ejecucion;
-        }
-
         if ($this->proyectoFormulario11Linea83()->exists()) {
             $cantidad_meses_ejecucion = $this->proyectoFormulario11Linea83->max_meses_ejecucion;
+        }
+
+        if ($this->proyectoFormulario12Linea68()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoFormulario12Linea68->max_meses_ejecucion;
+        }
+
+        if ($this->proyectoFormulario13Linea65()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoFormulario13Linea65->max_meses_ejecucion;
+        }
+
+        if ($this->proyectoFormulario15Linea65()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoFormulario15Linea65->max_meses_ejecucion;
+        }
+
+        if ($this->proyectoFormulario16Linea65()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoFormulario16Linea65->max_meses_ejecucion;
+        }
+
+        if ($this->proyectoFormulario17Linea69()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoFormulario17Linea69->max_meses_ejecucion;
         }
 
         return $cantidad_meses_ejecucion;

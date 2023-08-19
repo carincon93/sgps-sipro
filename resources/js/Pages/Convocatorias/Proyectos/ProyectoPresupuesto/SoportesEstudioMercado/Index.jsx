@@ -79,12 +79,13 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                         <form className="mb-20" onSubmit={submitEstudioMercado}>
                             <AlertMui>
                                 <span className="text-5xl font-black">1.</span>
+                                <br />
                                 <a href="/storage/documentos-descarga/Formato%20_guia_4_Estudio_de_mercado.xlsx" className="my-4 inline-block underline" target="_blank">
                                     <DownloadIcon />
                                     <strong>Descargue el Estudio de mercado - Convocatoria Sennova {convocatoria.year} haciendo clic aquí</strong>
                                 </a>
                                 <br />
-                                <div className="ml-14">
+                                <div>
                                     A continuación, diligencie el <strong>Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>. Debe incluir ítems que pertenezcan a los usos
                                     presupuestales:
                                     <ul className="list-disc ml-4">
@@ -94,17 +95,41 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                             </li>
                                         ))}
                                     </ul>
-                                    Luego debe subirlo al sistema desde el siguiente campo:
                                 </div>
+
+                                <br />
+
+                                <span className="text-5xl font-black">2.</span>
+                                <p className="mt-4">
+                                    Copie el valor total que arrojó el <strong>Excel de Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>
+                                </p>
+                                <figure className="mt-2">
+                                    <img src="/images/estudio-mercado.jpg" alt="" className="shadow" />
+                                </figure>
                             </AlertMui>
 
-                            <div className="mt-14">
+                            <div className="mt-20">
+                                <TextInput
+                                    className="!mb-10"
+                                    label="Indique el valor total que arrojó el Excel"
+                                    id="valor_total"
+                                    isCurrency={true}
+                                    inputProps={{
+                                        min: 0,
+                                        prefix: '$',
+                                    }}
+                                    value={form.data.valor_total}
+                                    error={form.errors.valor_total}
+                                    onChange={(e) => form.setData('valor_total', e.target.value)}
+                                    required
+                                />
+
                                 <FileInput
                                     id="formato_estudio_mercado"
                                     value={form.data.formato_estudio_mercado}
                                     filename={proyecto_presupuesto?.filename}
                                     extension={proyecto_presupuesto?.extension}
-                                    label={`Seleccione el Estudio de mercado - Convocatoria Sennova ` + convocatoria.year}
+                                    label={`Estudio de mercado - Convocatoria Sennova ` + convocatoria.year}
                                     accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                                     downloadRoute={
                                         proyecto_presupuesto?.formato_estudio_mercado
@@ -115,33 +140,6 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                     }
                                     onChange={(e) => form.setData('formato_estudio_mercado', e.target.files[0])}
                                     error={form.errors.formato_estudio_mercado}
-                                />
-
-                                <AlertMui className="mt-10">
-                                    <span className="text-5xl font-black">2.</span>
-                                    <p className="mt-4">
-                                        A continuación, indique el valor total que arrojó el <strong>Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong> en la casilla{' '}
-                                        <strong>TOTAL</strong>.
-                                    </p>
-                                    <figure className="mt-2">
-                                        <img src="/images/estudio-mercado.jpg" alt="" className="shadow" />
-                                    </figure>
-                                    <br />
-                                    Ahora ingrese el valor total en el siguiente campo:
-                                </AlertMui>
-                                <TextInput
-                                    label="Valor total"
-                                    id="valor_total"
-                                    isCurrency={true}
-                                    inputProps={{
-                                        min: 0,
-                                        prefix: '$',
-                                    }}
-                                    className="!mt-4"
-                                    value={form.data.valor_total}
-                                    error={form.errors.valor_total}
-                                    onChange={(e) => form.setData('valor_total', e.target.value)}
-                                    required
                                 />
                             </div>
 

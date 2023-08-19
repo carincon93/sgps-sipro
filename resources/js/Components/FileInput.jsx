@@ -30,7 +30,14 @@ const FileInput = ({ onChange, value = '', error = '', id = '', label = 'Selecci
             <input accept={accept} className={classes.input} id={id} multiple={false} type="file" onChange={onChange} />
             <label htmlFor={id} className="p-4 block bg-gray-100 hover:bg-gray-50 text-center hover:cursor-pointer">
                 <FileUploadImage className="w-28 mx-auto mb-4" />
-                <strong>{value == null ? label : <Chip className="!bg-green-100 shadow !text-green-600" label="Pendiente de ser cargado" />}</strong>
+                {value == null ? (
+                    <>
+                        <span className="bg-app-900 rounded shadow text-white pl-4 pr-3 pt-2 pb-3 mr-2 inline-block mb-2">Seleccione el archivo: </span>
+                        {label}
+                    </>
+                ) : (
+                    <Chip className="!bg-green-100 shadow !text-green-600" label="Pendiente de ser cargado" />
+                )}
             </label>
             {value && (
                 <div className="flex items-center justify-center border-t-2 p-4 bg-gray-100 hover:bg-gray-50">

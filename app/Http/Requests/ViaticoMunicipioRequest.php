@@ -41,7 +41,8 @@ class ViaticoMunicipioRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'municipios' => json_encode($this->municipios)
+            'municipios'                => json_encode($this->municipios),
+            'proyecto_presupuesto_id'   => $this->route('presupuesto')->id
         ]);
     }
 }
