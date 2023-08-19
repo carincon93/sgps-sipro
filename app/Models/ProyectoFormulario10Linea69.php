@@ -246,7 +246,7 @@ class ProyectoFormulario10Linea69 extends Model
      */
     public function getTituloAttribute()
     {
-        return ucfirst($this->hubInnovacion->nombre) . " Vigencia " . date('Y', strtotime($this->fecha_inicio));
+        return ucfirst(optional($this->hubInnovacion)->nombre) . " Vigencia " . date('Y', strtotime($this->fecha_inicio));
     }
 
     public function getAreasCualificacionMncAttribute($value)
