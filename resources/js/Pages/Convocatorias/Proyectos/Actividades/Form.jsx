@@ -49,6 +49,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
         }
     }, [actividad])
 
+    console.log(proyecto.tipo_formulario_convocatoria_id)
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
@@ -75,11 +76,9 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                         required
                                     />
                                 </Grid>
-
                                 <Grid item md={6}>
                                     <Label required labelFor="fecha_finalizacion" value="Fecha de finalización" />
                                 </Grid>
-
                                 <Grid item md={6}>
                                     <DatePicker
                                         id="fecha_finalizacion"
@@ -92,7 +91,6 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                         required
                                     />
                                 </Grid>
-
                                 {resultados_filtrados.length > 0 && resultados_nulos == true ? (
                                     <>
                                         <Grid item md={6}>
@@ -115,7 +113,6 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                         Por favor complete la información de los resultados en el paso de <strong>Objetivos, resultados, impactos y actividades</strong>
                                     </AlertMui>
                                 )}
-
                                 <Grid item md={12}>
                                     <Textarea
                                         disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
@@ -127,7 +124,6 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                         required
                                     />
                                 </Grid>
-
                                 <Grid item md={12}>
                                     <h6 className="my-14 text-2xl">Rubros presupuestales</h6>
 
@@ -177,8 +173,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                         )}
                                     </AlertMui>
                                 </Grid>
-
-                                {proyecto.tipo_formulario_convocatoria_id != 7 || proyecto.tipo_formulario_convocatoria_id != 9 ? (
+                                {proyecto.tipo_formulario_convocatoria_id != 7 && proyecto.tipo_formulario_convocatoria_id != 9 && proyecto?.tipo_formulario_convocatoria_id != 1 ? (
                                     <Grid item md={12}>
                                         <h6 className="my-10 text-2xl">Roles responsables</h6>
                                         <SelectMultiple
