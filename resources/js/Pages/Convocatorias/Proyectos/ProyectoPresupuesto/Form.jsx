@@ -28,11 +28,13 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
         concepto_viaticos: rubro_presupuestal?.concepto_viaticos ?? '',
     })
 
+    // concepto interno SENA
     useEffect(() => {
         if (form.data.segundo_grupo_presupuestal_id) {
             setRequiereEstudioMercado(true)
             setArrayTecerGrupoPresupuestal([])
             setArrayUsosPresupuestales([])
+            form.reset('tercer_grupo_presupuestal_id', 'convocatoria_presupuesto_id')
 
             setTimeout(() => {
                 const filtered_tecer_grupo_presupuestal = tercer_grupo_presupuestal.filter((item) => item.segundo_grupo_presupuestal_id == form.data.segundo_grupo_presupuestal_id)
@@ -41,7 +43,11 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
         }
     }, [form.data.segundo_grupo_presupuestal_id])
 
+    // Rubro concepto ministerio de hacienda
     useEffect(() => {
+        setArrayUsosPresupuestales([])
+        form.reset('convocatoria_presupuesto_id')
+
         if (form.data.tercer_grupo_presupuestal_id) {
             setRequiereEstudioMercado(true)
 
@@ -55,6 +61,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
         }
     }, [form.data.tercer_grupo_presupuestal_id])
 
+    // Uso presupuestal
     useEffect(() => {
         if (form.data.convocatoria_presupuesto_id) {
             if (form.data.convocatoria_presupuesto_id.length > 1) {

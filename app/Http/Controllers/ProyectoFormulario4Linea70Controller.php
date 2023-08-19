@@ -224,7 +224,7 @@ class ProyectoFormulario4Linea70Controller extends Controller
 
         $proyecto_formulario_4_linea_70->proyecto()->delete();
 
-        return redirect()->route('convocatorias.proyectos-formulario-4-linea-70.index', [$convocatoria])->with('success', 'El recurso se ha eliminado correctamente.');
+        return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
     public function updateEvaluacion(EvaluacionProyectoFormulario4Linea70Request $request, Convocatoria $convocatoria, EvaluacionProyectoFormulario4Linea70 $evaluacion_proyecto_formulario_4_linea_70)

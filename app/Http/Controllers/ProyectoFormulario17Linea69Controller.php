@@ -201,7 +201,7 @@ class ProyectoFormulario17Linea69Controller extends Controller
 
         $proyecto_formulario_17_linea_69->proyecto()->delete();
 
-        return redirect()->route('convocatorias.proyectos-formulario-17-linea-69.index', [$convocatoria])->with('success', 'El recurso se ha eliminado correctamente.');
+        return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
     public function updateEvaluacion(EvaluacionProyectoFormulario17Linea69Request $request, Convocatoria $convocatoria, EvaluacionProyectoFormulario17Linea69 $evaluacion_proyecto_formulario_17_linea_69)

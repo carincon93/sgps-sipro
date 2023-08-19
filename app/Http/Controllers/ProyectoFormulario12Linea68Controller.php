@@ -209,7 +209,7 @@ class ProyectoFormulario12Linea68Controller extends Controller
 
         $proyecto_formulario_12_linea_68->proyecto()->delete();
 
-        return redirect()->route('convocatorias.proyectos-formulario-12-linea-68.index', [$convocatoria])->with('success', 'El recurso se ha eliminado correctamente.');
+        return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
     public function updateEvaluacion(EvaluacionProyectoFormulario12Linea68Request $request, Convocatoria $convocatoria, EvaluacionProyectoFormulario12Linea68 $evaluacion_proyecto_formulario_12_linea_68)
