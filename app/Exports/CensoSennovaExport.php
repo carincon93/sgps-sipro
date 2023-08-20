@@ -15,6 +15,10 @@ use Maatwebsite\Excel\Concerns\WithTitle;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithProperties;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Style;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Style\Border;
 
 class CensoSennovaExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithProperties, WithColumnFormatting, WithTitle, ShouldAutoSize
 {
@@ -30,9 +34,14 @@ class CensoSennovaExport implements FromCollection, WithHeadings, WithMapping, W
      */
     public function collection()
     {
-        return User::whereIn('centro_formacion_id', $this->centro_formacion_id)->with('estudiosAcademicos', 'formacionesAcademicasSena', 'participacionesGruposInvestigacionSena', 'participacionesProyectoSennova')
-            ->orderBy('centro_formacion_id')
-            ->get();
+        $query = User::with('estudiosAcademicos', 'formacionesAcademicasSena', 'participacionesGruposInvestigacionSena', 'participacionesProyectoSennova')
+            ->orderBy('centro_formacion_id');
+
+        if ($this->centro_formacion_id) {
+            $query->whereIn('centro_formacion_id', $this->centro_formacion_id);
+        }
+
+        return $query->get();
     }
 
     /**
@@ -159,7 +168,7 @@ class CensoSennovaExport implements FromCollection, WithHeadings, WithMapping, W
             'Grupos de investigación',
             'Semilleros de investigación',
             '¿Autoriza el tratamiento de datos?',
-            '¿El censo ha sido completado?',
+            '¿Ha completado el CENSO?',
             '¿Está habilitado?',
         ];
     }
@@ -186,8 +195,25 @@ class CensoSennovaExport implements FromCollection, WithHeadings, WithMapping, W
 
     public function styles(Worksheet $sheet)
     {
-        return [
-            1 => ['font' => ['bold' => true]],
-        ];
+        $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => '000000'],
+            ],
+            'fill' => [
+                'fillType'   => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => 'edfdf3'],
+            ],
+
+        ]);
+
+        $sheet->getStyle('A1:Z' . ($sheet->getHighestRow()))->applyFromArray([
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                    'color' => ['rgb' => '000000'],
+                ],
+            ],
+        ]);
     }
 }

@@ -57,7 +57,7 @@ class ReporteController extends Controller
 
         $this->authorize('descargar-reportes', [User::class]);
 
-        return Excel::download(new CensoSennovaExport($request->centro_formacion_id), 'censo-sennova-' . time() . '.xlsx');
+        return Excel::download(new CensoSennovaExport($request->reporte_completo ? null : $request->centro_formacion_id), 'censo-sennova-' . time() . '.xlsx');
     }
 
     /**
