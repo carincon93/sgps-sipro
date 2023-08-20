@@ -73,7 +73,7 @@ export default function Reportes({ auth, centros_formacion }) {
                                     <h1>Censo SENNOVA</h1>
                                 </Grid>
                                 <Grid item md={8}>
-                                    {checkRole(auth_user, [1, 4, 5, 17, 18, 19, 21]) && (
+                                    {checkRole(auth_user, [1, 5, 17, 18, 19, 21]) && (
                                         <Checkbox
                                             className="mb-4"
                                             name="reporte_completo"
