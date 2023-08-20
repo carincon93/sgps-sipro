@@ -139,7 +139,7 @@ class CensoSennovaExport implements FromCollection, WithHeadings, WithMapping, W
             'Asignación mensual',
             'cvLAC',
             'Enlace SIGEP II',
-            'Grupo éttnico',
+            'Grupo étnico',
             'Discapacidad',
             'Subarea de experiencia laboral',
             'Tiempo de experiencia laboral en el SENA',
