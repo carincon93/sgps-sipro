@@ -805,6 +805,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Reportes
      *
      */
+    Route::post('reportes/censo-sennova', [ReporteController::class, 'censoSennova'])->name('reportes.censo-sennova');
+
     Route::get('reportes', [ReporteController::class, 'index'])->name('reportes.index');
     Route::get('reportes/convocatoria/{convocatoria}/resumen', [ReporteController::class, 'resumenProyectos'])->name('reportes.resumen-proyectos');
     Route::get('reportes/convocatoria/{convocatoria}/presupuestos-roles', [ReporteController::class, 'resumenPresupuestos'])->name('reportes.resumePresupuestos');

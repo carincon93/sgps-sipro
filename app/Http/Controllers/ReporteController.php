@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CensoSennovaExport;
 use App\Exports\ComentariosEvaluacionesExport;
 use App\Exports\PresupuestoRolesSennovaExport;
 use App\Exports\EvaluacionesExport;
@@ -37,10 +38,26 @@ class ReporteController extends Controller
         $this->authorize('descargar-reportes', [User::class]);
 
         return Inertia::render('Reportes/Index', [
-            'filters'       => request()->all('search'),
-            'convocatorias' => SelectHelper::convocatorias(),
-            'proyectosId'   => Proyecto::selectRaw("id + 8000 as codigo_only")->orderBy('id', 'ASC')->get()->pluck('codigo_only')->flatten('codigo_only')
+            'convocatorias'      => SelectHelper::convocatorias(),
+            'centros_formacion'  => SelectHelper::centrosFormacion()
+            // 'proyectosId'   => Proyecto::selectRaw("id + 8000 as codigo_only")->orderBy('id', 'ASC')->get()->pluck('codigo_only')->flatten('codigo_only')
         ]);
+    }
+
+    /**
+     * censoSennova
+     *
+     * @param  mixed
+     * @return void
+     */
+    public function censoSennova(Request $request)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', -1);
+
+        $this->authorize('descargar-reportes', [User::class]);
+
+        return Excel::download(new CensoSennovaExport($request->centro_formacion_id), 'censo-sennova-' . time() . '.xlsx');
     }
 
     /**

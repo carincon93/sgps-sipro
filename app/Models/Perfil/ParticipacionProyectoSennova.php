@@ -68,26 +68,25 @@ class ParticipacionProyectoSennova extends Model
         return $this->belongsTo(User::class);
     }
 
-
     public function getTipoProyectoTextAttribute()
     {
-        $filePath   = "json/tipos-proyectos.json";
+        $file_path  = 'json/tipos-proyectos.json';
         $id         = $this->tipo_proyecto;
-        $key        = "label";
+        $key        = 'label';
 
-        return $this->tipo_proyecto ? $this->getJsonItem($filePath, $id, $key) : null;
+        return $this->tipo_proyecto ? $this->getJsonItem($file_path, $id, $key) : null;
     }
 
-    private function getJsonItem($filePath, $id, $key)
+    private function getJsonItem($file_path, $id, $key)
     {
-        $data   = json_decode(Storage::get($filePath), true);
+        $data   = json_decode(Storage::get($file_path), true);
 
         $where = function ($item) use ($id) {
             return $item['value'] == $id;
         };
 
-        $filteredData = array_filter($data, $where);
+        $filtered_data = array_filter($data, $where);
 
-        return reset($filteredData)[$key];
+        return reset($filtered_data)[$key];
     }
 }

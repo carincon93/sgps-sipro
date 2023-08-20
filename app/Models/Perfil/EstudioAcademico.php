@@ -16,7 +16,7 @@ class EstudioAcademico extends Model
      *
      * @var array
      */
-    protected $appends = ['filename', 'extension'];
+    protected $appends = ['filename', 'extension', 'estudio_academico_text'];
 
     /**
      * table
@@ -67,15 +67,42 @@ class EstudioAcademico extends Model
 
     public function getFilenameAttribute()
     {
-        $fileInfo = pathinfo($this->soporte_titulo_obtenido);
+        $file_info = pathinfo($this->soporte_titulo_obtenido);
 
-        return $fileInfo['filename'] ?? '';
+        return $file_info['filename'] ?? '';
     }
 
     public function getExtensionAttribute()
     {
-        $fileInfo = pathinfo($this->soporte_titulo_obtenido);
+        $file_info = pathinfo($this->soporte_titulo_obtenido);
 
-        return $fileInfo['extension'] ?? '';
+        return $file_info['extension'] ?? '';
+    }
+
+    public function getTituloObtenidoTextAttribute()
+    {
+        $file_path  = 'json/niveles-academicos.json';
+        $id         = $this->grado_formacion;
+        $key        = 'label';
+
+        return $this->grado_formacion ? $this->getJsonItem($file_path, $id, $key) : null;
+    }
+
+    private function getJsonItem($file_path, $id, $key)
+    {
+        $data   = json_decode(Storage::get($file_path), true);
+
+        $where = function ($item) use ($id) {
+            return $item['value'] == $id;
+        };
+
+        $filtered_data = array_filter($data, $where);
+
+        return reset($filtered_data)[$key];
+    }
+
+    public function getEstudioAcademicoTextAttribute()
+    {
+        return '(' . $this->grado_formacion_text . ') ' . $this->titulo_obtenido;
     }
 }

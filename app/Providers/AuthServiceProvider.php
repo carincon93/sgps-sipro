@@ -19,20 +19,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        'App\Models\ConvocatoriaRolSennova'                 => 'App\Policies\ConvocatoriaRolSennovaPolicy',
-        'App\Models\ConvocatoriaPresupuesto'                => 'App\Policies\ConvocatoriaPresupuestoPolicy',
-        'App\Models\ConvocatoriaAnexo'                      => 'App\Policies\ConvocatoriaAnexoPolicy',
-        'App\Models\User'                                   => 'App\Policies\UserPolicy',
-        'App\Models\Tecnoacademia'                          => 'App\Policies\TecnoacademiaPolicy',
-        'App\Models\SemilleroInvestigacion'                 => 'App\Policies\SemilleroInvestigacionPolicy',
-        'App\Models\LineaInvestigacion'                     => 'App\Policies\LineaInvestigacionPolicy',
-        'App\Models\AmbienteModernizacion'                  => 'App\Policies\AmbienteModernizacionPolicy',
-        'App\Models\ProgramaFormacion'                      => 'App\Policies\ProgramaFormacionPolicy',
-        'App\Models\Evaluacion\Evaluacion'                  => 'App\Policies\EvaluacionPolicy',
-        'App\Models\Evaluacion\ProyectoCapacidadInstalada'  => 'App\Policies\ProyectoCapacidadInstaladaPolicy',
-        'App\Models\Evaluacion\ProyectoIdiTecnoacademia'    => 'App\Policies\ProyectoIdiTecnoacademiaPolicy',
-        'App\Models\LineaTecnica'                           => 'App\Policies\LineaTecnicaPolicy',
-        'App\Models\NodoTecnoparque'                        => 'App\Policies\NodoTecnoparquePolicy',
+        //
     ];
 
     /**
@@ -135,7 +122,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('descargar-reportes', function (User $user) {
-            return $user->hasRole([20, 18, 19, 5, 17]);
+            return $user->hasRole([2, 4, 20, 18, 19, 5, 17]);
         });
     }
 

@@ -14,7 +14,7 @@ export default function Dashboard({ auth, roles_sistema }) {
     const auth_user = auth.user
 
     const is_super_admin = checkRole(auth_user, [1])
-    const [dialol_status, setDialogStatus] = useState(true)
+    const [dialog_status, setDialogStatus] = useState(true)
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}>
@@ -87,6 +87,16 @@ export default function Dashboard({ auth, roles_sistema }) {
                     </Grid>
                 )}
 
+                {checkRole(auth_user, [1, 4, 5, 17, 18, 19, 21]) && (
+                    <Grid item md={4}>
+                        <Link
+                            className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
+                            href={route('reportes.index')}>
+                            Reportes
+                        </Link>
+                    </Grid>
+                )}
+
                 {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) && (
                     <Grid item md={4}>
                         <Link
@@ -134,7 +144,7 @@ export default function Dashboard({ auth, roles_sistema }) {
                 </Grid>
 
                 <DialogMui
-                    open={dialol_status}
+                    open={dialog_status}
                     dialogContent={
                         <>
                             <small>Junio 8</small>

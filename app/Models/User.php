@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Models\Perfil\EstudioAcademico;
 use App\Models\Perfil\FormacionAcademicaSena;
+use App\Models\Perfil\ParticipacionGrupoInvestigacionSena;
+use App\Models\Perfil\ParticipacionProyectoSennova;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -27,7 +29,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $appends = ['can', 'can_by_user', 'allowed', 'nombre_carpeta_sharepoint', 'check_soportes_titulo_obtenido', 'check_certificados_formacion'];
+    protected $appends = ['can', 'can_by_user', 'allowed', 'nombre_carpeta_sharepoint', 'check_soportes_titulo_obtenido', 'check_certificados_formacion', 'tipo_documento_text', 'tipo_vinculacion_text', 'genero_text', 'nivel_ingles_text', 'discapacidad_text', 'roles_fuera_sennova_text', 'tiempo_por_rol_text', 'subarea_experiencia_laboral_text'];
 
     /**
      * The attributes that are mass assignable.
@@ -148,6 +150,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Relationship with RolSennova
+     *
+     * @return object
+     */
+    public function rolSennova()
+    {
+        return $this->belongsTo(RolSennova::class);
+    }
+
+    /**
      * Relationship with CentroFormacion
      *
      * @return object
@@ -175,16 +187,6 @@ class User extends Authenticatable
     public function directorRegional()
     {
         return $this->hasOne(Regional::class, 'director_regional_id');
-    }
-
-    /**
-     * Relationship with RolSennova
-     *
-     * @return object
-     */
-    public function rolSennova()
-    {
-        return $this->hasOne(RolSennova::class);
     }
 
     /**
@@ -324,26 +326,80 @@ class User extends Authenticatable
         return bcrypt("sena$numeroDocumento*");
     }
 
-    /**
-     * getTipoVinculacionTextAttribute
-     *
-     * @return void
-     */
     public function getTipoVinculacionTextAttribute()
     {
-        $tipos_vinculacion = collect(json_decode(Storage::get('json/tipos-vinculacion.json'), true));
-        return ($tipos_vinculacion->where('value', $this->tipo_vinculacion)->first()) ? $tipos_vinculacion->where('value', $this->tipo_vinculacion)->first()['label'] : 'Sin información registrada';
+        $file_path  = 'json/tipos-vinculacion.json';
+        $id         = $this->tipo_vinculacion;
+        $key        = 'label';
+
+        return $this->tipo_vinculacion ? $this->getJsonItem($file_path, $id, $key) : null;
     }
 
-    /**
-     * getTipoDocumentoTextAttribute
-     *
-     * @return void
-     */
     public function getTipoDocumentoTextAttribute()
     {
-        $tipos_documentos = collect(json_decode(Storage::get('json/tipos-documento.json'), true));
-        return ($tipos_documentos->where('value', $this->tipo_documento)->first()) ? $tipos_documentos->where('value', $this->tipo_documento)->first()['label'] : 'Sin información registrada';
+        $file_path  = 'json/tipos-documento.json';
+        $id         = $this->tipo_documento;
+        $key        = 'label';
+
+        return $this->tipo_documento ? $this->getJsonItem($file_path, $id, $key) : null;
+    }
+
+    public function getNivelInglesTextAttribute()
+    {
+        $file_path  = 'json/niveles-ingles.json';
+        $id         = $this->nivel_ingles;
+        $key        = 'label';
+
+        return $this->nivel_ingles ? $this->getJsonItem($file_path, $id, $key) : null;
+    }
+
+    public function getGeneroTextAttribute()
+    {
+        $file_path  = 'json/generos.json';
+        $id         = $this->genero;
+        $key        = 'label';
+
+        return $this->genero ? $this->getJsonItem($file_path, $id, $key) : null;
+    }
+
+    public function getGrupoEtnicoTextAttribute()
+    {
+        $file_path  = 'json/grupos-etnicos.json';
+        $id         = $this->grupo_etnico;
+        $key        = 'label';
+
+        return $this->grupo_etnico ? $this->getJsonItem($file_path, $id, $key) : null;
+    }
+
+    public function getDiscapacidadTextAttribute()
+    {
+        $file_path  = 'json/tipos-discapacidad.json';
+        $id         = $this->discapacidad;
+        $key        = 'label';
+
+        return $this->discapacidad ? $this->getJsonItem($file_path, $id, $key) : null;
+    }
+
+    public function getSubareaExperienciaLaboralTextAttribute()
+    {
+        $file_path  = 'json/subareas-experiencia.json';
+        $id         = $this->subarea_experiencia_laboral;
+        $key        = 'label';
+
+        return $this->subarea_experiencia_laboral ? $this->getJsonItem($file_path, $id, $key) : null;
+    }
+
+    private function getJsonItem($file_path, $id, $key)
+    {
+        $data   = json_decode(Storage::get($file_path), true);
+
+        $where = function ($item) use ($id) {
+            return $item['value'] == $id;
+        };
+
+        $filtered_data = array_filter($data, $where);
+
+        return $filtered_data ? reset($filtered_data)[$key] : null;
     }
 
     /**
@@ -437,9 +493,19 @@ class User extends Authenticatable
         return json_decode($value);
     }
 
+    public function getRolesFueraSennovaTextAttribute()
+    {
+        return is_array($this->roles_fuera_sennova) ? implode(',' , array_column($this->roles_fuera_sennova, 'value')) : null;
+    }
+
     public function getTiempoPorRolAttribute($value)
     {
         return json_decode($value);
+    }
+
+    public function getTiempoPorRolTextAttribute()
+    {
+        return is_array($this->tiempo_por_rol) ? implode(',' , array_column($this->tiempo_por_rol, 'value')) : null;
     }
 
     public function getCursosDeEvaluacionRealizadosAttribute($value)

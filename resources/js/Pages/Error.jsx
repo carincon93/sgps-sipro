@@ -4,7 +4,7 @@ import { router } from '@inertiajs/react'
 
 const Error = ({ status, message }) => {
     return (
-        <div className="{status >= 500 || status == 403 || status == 405 ? 'bg-red-500' : 'bg-app-700'} flex flex-col items-center justify-center min-h-screen text-white">
+        <div className={`${status >= 500 || status == 403 || status == 405 ? 'bg-red-500' : 'bg-app-700'} flex flex-col items-center justify-center min-h-screen text-white`}>
             <figure>
                 {status >= 500 || status == 403 || status == 405 ? (
                     <img src="/images/error.png" alt="Error" className="w-2/3 m-auto mb-10" />
