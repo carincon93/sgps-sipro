@@ -50,6 +50,8 @@ class CensoSennovaExport implements FromCollection, WithHeadings, WithMapping, W
     public function map($user): array
     {
         return [
+            $user->informacion_completa ? 'SI' : 'NO',
+            $user->habilitado ? 'SI' : 'NO',
             optional($user->centroFormacion)->nombre,
             optional($user->centroFormacion->regional)->nombre,
             $user->nombre,
@@ -108,8 +110,6 @@ class CensoSennovaExport implements FromCollection, WithHeadings, WithMapping, W
                 })
                 ->implode(', '),
             $user->autorizacion_datos ? 'SI' : 'NO',
-            $user->informacion_completa ? 'SI' : 'NO',
-            $user->habilitado ? 'SI' : 'NO',
         ];
     }
 
@@ -118,6 +118,8 @@ class CensoSennovaExport implements FromCollection, WithHeadings, WithMapping, W
     public function headings(): array
     {
         return [
+            '¿Ha completado el CENSO?',
+            '¿Está habilitado?',
             'Centro de formación',
             'Regional',
             'Nombre',
@@ -168,8 +170,6 @@ class CensoSennovaExport implements FromCollection, WithHeadings, WithMapping, W
             'Grupos de investigación',
             'Semilleros de investigación',
             '¿Autoriza el tratamiento de datos?',
-            '¿Ha completado el CENSO?',
-            '¿Está habilitado?',
         ];
     }
 
