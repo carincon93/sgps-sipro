@@ -35,7 +35,7 @@ const Index = ({ auth, programas_formacion, modalidades, niveles_formacion }) =>
                 <TableMui className="mt-20" rows={['Nombre', 'Modalidad', '¿Cuenta con registro calificado?', 'Nivel de formación', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {is_super_admin ? (
                         <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setProgramaFormacion(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
-                            <TableCell colSpan={4}>
+                            <TableCell colSpan={5}>
                                 <ButtonMui>
                                     <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar programa de formación
                                 </ButtonMui>
