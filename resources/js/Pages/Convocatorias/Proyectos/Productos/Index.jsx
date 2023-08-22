@@ -147,6 +147,16 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                 <AlertMui className="text-justify my-10">
                     Los productos se entienden como los bienes o servicios que se generan y entregan en un proceso productivo. Los productos materializan los objetivos específicos de los proyectos. De
                     esta forma, los productos de un proyecto deben agotar los objetivos específicos del mismo y deben cumplir a cabalidad con el objetivo general del proyecto.
+                    {proyecto.tipo_formulario_convocatoria_id ==
+                        12(
+                            <>
+                                <br />
+                                Tener en cuenta, de acuerdo con la tipología de portafolio, por ejemplo y sin limitarse a: Variedades vegetales; poblaciones mejoradas de razas pecuarias; Esquemas de
+                                circuito integrado; conceptos técnicos; conceptos técnicos (Procesos de Apropiación social del conocimiento para el fortalecimiento de cadenas productivas; procesos de
+                                apropiación social del conocimiento resultado del trabajo conjunto entre un Centro de Ciencia y un grupo de investigación; eventos científicos con componente de
+                                apropiación; consultorías científico-tecnológicas; publicaciones editoriales no especializadas).{' '}
+                            </>,
+                        )}
                 </AlertMui>
             </Grid>
 

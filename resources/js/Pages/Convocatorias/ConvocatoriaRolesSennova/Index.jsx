@@ -51,7 +51,7 @@ const ConvocatoriaRolesSennova = ({ auth, convocatoria, convocatoria_roles_senno
                         formuladores de las modificaciones realizadas.
                         <br />
                     </AlertMui>
-                    <TableMui rows={['Nombre', 'Asignación mensual', '¿Habilitado?', '¿Suma al presupuesto?', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui rows={['Nombre', 'Asignación mensual ' + convocatoria.year, '¿Habilitado?', '¿Suma al presupuesto?', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         <TableRow
                             onClick={() => (setDialogStatus(true), setMethod('POST'), setConvocatoriaRolSennova(null))}
                             variant="raised"

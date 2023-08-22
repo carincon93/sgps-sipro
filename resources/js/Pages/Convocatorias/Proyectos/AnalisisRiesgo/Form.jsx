@@ -137,7 +137,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisis_r
 
                             <div className="mt-8">
                                 <Textarea
-                                    label="Medidas de mitigación"
+                                    label={convocatoria.tipo_formulario_convocatoria_id == 12 ? 'Controles a implementar para la gestión del riesgo' : 'Medidas de mitigación'}
                                     id="medidas_mitigacion"
                                     error={form.errors.medidas_mitigacion}
                                     onChange={(e) => form.setData('medidas_mitigacion', e.target.value)}

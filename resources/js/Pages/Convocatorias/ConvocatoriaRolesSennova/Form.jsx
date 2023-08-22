@@ -75,7 +75,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, convocatoria_rol_sen
                                 <TextInput
                                     id="asignacion_mensual"
                                     name="asignacion_mensual"
-                                    label="Asignación mensual"
+                                    label={`Asignación mensual ${convocatoria.year}`}
                                     isCurrency={true}
                                     inputProps={{
                                         min: 0,

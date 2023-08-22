@@ -119,10 +119,14 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                                     <br />
                                                     <strong>El producto debe cumplir con la siguiente estructura:</strong>
                                                     <br />
-                                                    Cuando el producto es un bien: nombre del bien + la condición deseada. Ejemplo: Vía construida.
+                                                    Cuando el producto es un bien: nombre del bien + la condición deseada. Ejemplo: - Vía construida.
                                                     <br />
-                                                    Cuando el producto es un servicio: nombre del servicio + el complemento. Ejemplo: Servicio de asistencia técnica para el mejoramiento de hábitos
+                                                    - Piezas mecanizadas, PCB´s construidos.
+                                                    <br />
+                                                    Cuando el producto es un servicio: nombre del servicio + el complemento. Ejemplo: - Servicio de asistencia técnica para el mejoramiento de hábitos
                                                     alimentarios
+                                                    <br />
+                                                    Servicio de asistencia técnica para el análisis de datos, servicios de toma de muestras para análisis de pesticidas.
                                                 </p>
                                             </AlertMui>
                                         </Grid>

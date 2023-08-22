@@ -178,7 +178,7 @@ const Form = ({
                 </Grid>
 
                 <Grid item md={6}>
-                    <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="tipo_proyecto_linea_68_id" value="Tipo de proyecto ST" />
+                    <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="tipo_proyecto_linea_68_id" value="Centro de formación y Línea Técnica" />
                 </Grid>
                 <Grid item md={6}>
                     {method == 'POST' ? (

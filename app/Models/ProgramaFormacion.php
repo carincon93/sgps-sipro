@@ -38,7 +38,6 @@ class ProgramaFormacion extends Model
         'modalidad',
         'nivel_formacion',
         'registro_calificado',
-        'tipo'
     ];
 
     /**
@@ -132,10 +131,8 @@ class ProgramaFormacion extends Model
             $search = str_replace('"', "", $search);
             $search = str_replace("'", "", $search);
             $search = str_replace(' ', '%%', $search);
-            $query->join('centros_formacion', 'programas_formacion.centro_formacion_id', 'centros_formacion.id');
             $query->whereRaw("unaccent(programas_formacion.nombre) ilike unaccent('%" . $search . "%')");
             $query->orWhere('programas_formacion.codigo', 'ilike', '%' . $search . '%');
-            $query->orWhereRaw("unaccent(centros_formacion.nombre) ilike unaccent('%" . $search . "%')");
         });
     }
 
@@ -159,38 +156,38 @@ class ProgramaFormacion extends Model
         /** @var \App\Models\User */
         $user = Auth::user();
 
-        if ($user->hasRole([1, 20, 18, 19, 5, 17])) {
-            $lineasInvestigacion = ProgramaFormacion::select('programas_formacion.id', 'programas_formacion.nombre', 'programas_formacion.codigo', 'programas_formacion.centro_formacion_id')->with('centroFormacion')->filterProgramaFormacion(request()->only('search'))->orderBy('programas_formacion.nombre', 'ASC')->paginate();
-        } else if ($user->hasRole([4, 21])) {
-            $centroFormacionId = null;
-            if ($user->dinamizadorCentroFormacion()->exists()) {
-                $centroFormacionId = $user->dinamizadorCentroFormacion->id;
-            } else if ($user->hasRole(21)) {
-                $centroFormacionId = $user->centroFormacion->id;
-            }
+        // if ($user->hasRole([1, 20, 18, 19, 5, 17])) {
+            $programas_formacion = ProgramaFormacion::filterProgramaFormacion(request()->only('search'))->orderBy('programas_formacion.nombre', 'ASC')->orderBy('programas_formacion.nivel_formacion', 'ASC')->paginate(100);
+        // } else if ($user->hasRole([4, 21])) {
+        //     $centroFormacionId = null;
+        //     if ($user->dinamizadorCentroFormacion()->exists()) {
+        //         $centroFormacionId = $user->dinamizadorCentroFormacion->id;
+        //     } else if ($user->hasRole(21)) {
+        //         $centroFormacionId = $user->centroFormacion->id;
+        //     }
 
-            $lineasInvestigacion = ProgramaFormacion::select('programas_formacion.id', 'programas_formacion.nombre', 'programas_formacion.codigo', 'programas_formacion.centro_formacion_id')->with('centroFormacion')
-                ->whereHas(
-                    'centroFormacion',
-                    function ($query) use ($centroFormacionId) {
-                        $query->where('id', $centroFormacionId);
-                    }
-                )
-                ->filterProgramaFormacion(request()->only('search'))->paginate();
-        }
+            // $programas_formacion = ProgramaFormacion::select('programas_formacion.id', 'programas_formacion.nombre', 'programas_formacion.codigo', 'programas_formacion.centro_formacion_id')->with('centroFormacion')
+            //     ->whereHas(
+            //         'centroFormacion',
+            //         function ($query) use ($centroFormacionId) {
+            //             $query->where('id', $centroFormacionId);
+            //         }
+            //     )
+            //     ->filterProgramaFormacion(request()->only('search'))->paginate();
+        // }
 
-        return $lineasInvestigacion;
+        return $programas_formacion;
     }
 
     public function getAllowedAttribute()
     {
         if (str_contains(request()->route()->uri, 'programas-formacion')) {
 
-            $allowedToView      = Gate::inspect('view', [ProgramaFormacion::class, $this]);
-            $allowedToUpdate    = Gate::inspect('update', [ProgramaFormacion::class, $this]);
-            $allowedToDestroy   = Gate::inspect('delete', [ProgramaFormacion::class, $this]);
+            $allowed_to_view      = Gate::inspect('view', [ProgramaFormacion::class, $this]);
+            $allowed_to_update    = Gate::inspect('update', [ProgramaFormacion::class, $this]);
+            $allowed_to_destroy   = Gate::inspect('delete', [ProgramaFormacion::class, $this]);
 
-            return collect(['to_view' => $allowedToView->allowed(), 'to_update' => $allowedToUpdate->allowed(), 'to_destroy' => $allowedToDestroy->allowed()]);
+            return collect(['to_view' => $allowed_to_view->allowed(), 'to_update' => $allowed_to_update->allowed(), 'to_destroy' => $allowed_to_destroy->allowed()]);
         }
     }
 }

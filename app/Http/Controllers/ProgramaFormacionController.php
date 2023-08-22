@@ -22,9 +22,10 @@ class ProgramaFormacionController extends Controller
         $this->authorize('viewAny', [ProgramaFormacion::class]);
 
         return Inertia::render('ProgramasFormacion/Index', [
-            'filters'               => request()->all('search'),
-            'programasFormacion'    => ProgramaFormacion::getProgramasFormacionByRol()->appends(['search' => request()->search]),
-            'allowed_to_create'       => Gate::inspect('create', [ProgramaFormacion::class])->allowed()
+            'programas_formacion'   => ProgramaFormacion::getProgramasFormacionByRol()->appends(['search' => request()->search]),
+            'modalidades'           => json_decode(Storage::get('json/modalidades-estudio.json'), true),
+            'niveles_formacion'     => json_decode(Storage::get('json/nivel-formacion.json'), true),
+            'allowed_to_create'     => Gate::inspect('create', [ProgramaFormacion::class])->allowed()
         ]);
     }
 
@@ -37,12 +38,7 @@ class ProgramaFormacionController extends Controller
     {
         $this->authorize('create', [ProgramaFormacion::class]);
 
-        return Inertia::render('ProgramasFormacion/Create', [
-            'centrosFormacion'      => CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo, chr(10), \'∙ Regional: \', regionales.nombre) as label')->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->orderBy('centros_formacion.nombre', 'ASC')->get(),
-            'modalidades'           => json_decode(Storage::get('json/modalidades-estudio.json'), true),
-            'nivelesFormacion'      => json_decode(Storage::get('json/nivel-formacion.json'), true),
-            'allowed_to_create'       => Gate::inspect('create', [ProgramaFormacion::class])->allowed()
-        ]);
+        //
     }
 
     /**
@@ -55,67 +51,47 @@ class ProgramaFormacionController extends Controller
     {
         $this->authorize('create', [ProgramaFormacion::class]);
 
-        $programaFormacion = new ProgramaFormacion();
-        $programaFormacion->nombre              = $request->nombre;
-        $programaFormacion->codigo              = $request->codigo;
-        $programaFormacion->modalidad           = $request->modalidad;
-        $programaFormacion->nivel_formacion     = $request->nivel_formacion;
-        $programaFormacion->registro_calificado = $request->registro_calificado;
-        $programaFormacion->centroFormacion()->associate($request->centro_formacion_id);
+        $programa_formacion = ProgramaFormacion::create($request->validated());
 
-        $programaFormacion->save();
-
-        return redirect()->route('programas-formacion.index')->with('success', 'El recurso se ha creado correctamente.');
+        return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ProgramaFormacion  $programaFormacion
+     * @param  \App\Models\ProgramaFormacion  $programa_formacion
      * @return \Illuminate\Http\Response
      */
-    public function show(ProgramaFormacion $programaFormacion)
+    public function show(ProgramaFormacion $programa_formacion)
     {
-        $this->authorize('view', [ProgramaFormacion::class, $programaFormacion]);
+        $this->authorize('view', [ProgramaFormacion::class, $programa_formacion]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ProgramaFormacion  $programaFormacion
+     * @param  \App\Models\ProgramaFormacion  $programa_formacion
      * @return \Illuminate\Http\Response
      */
-    public function edit(ProgramaFormacion $programaFormacion)
+    public function edit(ProgramaFormacion $programa_formacion)
     {
-        $this->authorize('update', [ProgramaFormacion::class, $programaFormacion]);
+        $this->authorize('update', [ProgramaFormacion::class, $programa_formacion]);
 
-        return Inertia::render('ProgramasFormacion/Edit', [
-            'programaFormacion'     => $programaFormacion,
-            'centrosFormacion'      => CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo, chr(10), \'∙ Regional: \', regionales.nombre) as label')->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->orderBy('centros_formacion.nombre', 'ASC')->get(),
-            'modalidades'           => json_decode(Storage::get('json/modalidades-estudio.json'), true),
-            'nivelesFormacion'      => json_decode(Storage::get('json/nivel-formacion.json'), true)
-        ]);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ProgramaFormacion  $programaFormacion
+     * @param  \App\Models\ProgramaFormacion  $programa_formacion
      * @return \Illuminate\Http\Response
      */
-    public function update(ProgramaFormacionRequest $request, ProgramaFormacion $programaFormacion)
+    public function update(ProgramaFormacionRequest $request, ProgramaFormacion $programa_formacion)
     {
-        $this->authorize('update', [ProgramaFormacion::class, $programaFormacion]);
+        $this->authorize('update', [ProgramaFormacion::class, $programa_formacion]);
 
-        $programaFormacion->nombre              = $request->nombre;
-        $programaFormacion->codigo              = $request->codigo;
-        $programaFormacion->modalidad           = $request->modalidad;
-        $programaFormacion->nivel_formacion     = $request->nivel_formacion;
-        $programaFormacion->registro_calificado = $request->registro_calificado;
-        $programaFormacion->centroFormacion()->associate($request->centro_formacion_id);
-
-        $programaFormacion->save();
+        $programa_formacion->update($request->validated());
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
@@ -123,15 +99,15 @@ class ProgramaFormacionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ProgramaFormacion  $programaFormacion
+     * @param  \App\Models\ProgramaFormacion  $programa_formacion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProgramaFormacion $programaFormacion)
+    public function destroy(ProgramaFormacion $programa_formacion)
     {
-        $this->authorize('delete', [ProgramaFormacion::class, $programaFormacion]);
+        $this->authorize('delete', [ProgramaFormacion::class, $programa_formacion]);
 
-        $programaFormacion->delete();
+        $programa_formacion->delete();
 
-        return redirect()->route('programas-formacion.index')->with('success', 'El recurso se ha eliminado correctamente.');
+        return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 }
