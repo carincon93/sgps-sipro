@@ -72,7 +72,7 @@ class UpdateUserRequest extends FormRequest
             'tiempo_por_rol'                        => ['nullable', 'json'],
             'roles_fuera_sennova'                   => ['nullable', 'json'],
             'disciplinas_subarea_conocimiento'      => ['nullable', 'json'],
-            'subarea_experiencia_laboral'           => ['nullable', 'integer', 'min:0', 'max:99'],
+            'subarea_experiencia_id'                => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:subareas_experiencia,id'],
             'otros_roles_sennova'                   => ['nullable', 'json'],
             'rol_sennova_id'                        => ['nullable', 'min:0', 'max:2147483647', 'integer', 'exists:roles_sennova,id'],
         ];

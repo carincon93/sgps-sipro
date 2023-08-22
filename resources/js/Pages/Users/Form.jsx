@@ -66,7 +66,7 @@ const Form = ({
         link_sigep_ii: usuario?.link_sigep_ii,
         grupo_etnico: usuario?.grupo_etnico,
         discapacidad: usuario?.discapacidad,
-        subarea_experiencia_laboral: usuario?.subarea_experiencia_laboral,
+        subarea_experiencia_id: usuario?.subarea_experiencia_id,
 
         red_conocimiento_id: usuario?.red_conocimiento_id,
         disciplinas_subarea_conocimiento: usuario?.disciplinas_subarea_conocimiento,
@@ -213,11 +213,11 @@ const Form = ({
 
                 <Grid item md={12}>
                     <Autocomplete
-                        id="subarea_experiencia_laboral"
+                        id="subarea_experiencia_id"
                         options={subareas_experiencia}
-                        selectedValue={form.data.subarea_experiencia_laboral}
-                        onChange={(event, newValue) => form.setData('subarea_experiencia_laboral', newValue.value)}
-                        error={form.errors.subarea_experiencia_laboral}
+                        selectedValue={form.data.subarea_experiencia_id}
+                        onChange={(event, newValue) => form.setData('subarea_experiencia_id', newValue.value)}
+                        error={form.errors.subarea_experiencia_id}
                         label="Subárea de experiencia profesional"
                         required
                     />

@@ -60,7 +60,7 @@ class SubareaExperiencia extends Model
      */
     public function areaExperiencia()
     {
-        return $this->hasMany(AreaExperiencia::class);
+        return $this->belongsTo(AreaExperiencia::class);
     }
 
     /**

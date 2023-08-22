@@ -75,7 +75,6 @@ class CensoSennovaExport implements FromCollection, WithHeadings, WithMapping, W
             $user->link_sigep_ii,
             $user->grupo_etnico_text,
             $user->discapacidad_text,
-            $user->subarea_experiencia_laboral_text,
             $user->experiencia_laboral_sena,
             $user->cursos_evaluacion_proyectos ? 'SI' : 'NO',
             $user->cursos_de_evaluacion_realizados,
@@ -95,7 +94,19 @@ class CensoSennovaExport implements FromCollection, WithHeadings, WithMapping, W
             $user->tiempo_por_rol_text,
             optional($user->redConocimiento)->nombre,
             optional($user->rolSennova)->nombre,
+            $user->subareaExperiencia ? $user->subareaExperiencia->areaExperiencia->nombre : null,
+            $user->subareaExperiencia ? $user->subareaExperiencia->nombre : null,
             $user->otros_roles_sennova ? RolSennova::whereIn('id', $user->otros_roles_sennova)->get()->pluck('nombre')->implode(', ') : null,
+            $user->disciplinas_subarea_conocimiento ? DisciplinaSubareaConocimiento::whereIn('id', $user->disciplinas_subarea_conocimiento)
+                ->with('subareaConocimiento.areaConocimiento')
+                ->get()
+                ->pluck('subareaConocimiento.areaConocimiento.nombre')
+                ->implode(', ') : null,
+            $user->disciplinas_subarea_conocimiento ? DisciplinaSubareaConocimiento::whereIn('id', $user->disciplinas_subarea_conocimiento)
+                ->with('subareaConocimiento.areaConocimiento')
+                ->get()
+                ->pluck('subareaConocimiento.nombre')
+                ->implode(', ') : null,
             $user->disciplinas_subarea_conocimiento ? DisciplinaSubareaConocimiento::whereIn('id', $user->disciplinas_subarea_conocimiento)->get()->pluck('nombre')->implode(', ') : null,
             $user->estudiosAcademicos->pluck('estudio_academico_text')->implode(', '),
             $user->formacionesAcademicasSena->pluck('formacion_academica_sena_text')->implode(', '),
@@ -143,7 +154,6 @@ class CensoSennovaExport implements FromCollection, WithHeadings, WithMapping, W
             'Enlace SIGEP II',
             'Grupo étnico',
             'Discapacidad',
-            'Subarea de experiencia laboral',
             'Tiempo de experiencia laboral en el SENA',
             '¿Ha realizado cursos complementarios relacionados con evaluación de proyectos?',
             'Nombres de los cursos',
@@ -164,6 +174,10 @@ class CensoSennovaExport implements FromCollection, WithHeadings, WithMapping, W
             'Red de conocimiento',
             'Rol SENNOVA',
             'Roles SENNOVA en los cuales ha sido contratado/vinculado',
+            'Área de experiencia laboral',
+            'Subarea de experiencia laboral',
+            'Áreas de conocimiento',
+            'Subareas de conocimiento',
             'Disciplinas de conocimiento',
             'Estudios académicos',
             'Formaciones académicas SENA',

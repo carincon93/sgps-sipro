@@ -29,7 +29,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $appends = ['can', 'can_by_user', 'allowed', 'nombre_carpeta_sharepoint', 'check_soportes_titulo_obtenido', 'check_certificados_formacion', 'tipo_documento_text', 'tipo_vinculacion_text', 'genero_text', 'nivel_ingles_text', 'discapacidad_text', 'roles_fuera_sennova_text', 'tiempo_por_rol_text', 'subarea_experiencia_laboral_text'];
+    protected $appends = ['can', 'can_by_user', 'allowed', 'nombre_carpeta_sharepoint', 'check_soportes_titulo_obtenido', 'check_certificados_formacion', 'tipo_documento_text', 'tipo_vinculacion_text', 'genero_text', 'nivel_ingles_text', 'discapacidad_text', 'roles_fuera_sennova_text', 'tiempo_por_rol_text'];
 
     /**
      * The attributes that are mass assignable.
@@ -62,7 +62,7 @@ class User extends Authenticatable
         'link_sigep_ii',
         'grupo_etnico',
         'discapacidad',
-        'subarea_experiencia_laboral',
+        'subarea_experiencia_id',
 
         'experiencia_laboral_sena',
         'cursos_evaluacion_proyectos',
@@ -157,6 +157,16 @@ class User extends Authenticatable
     public function rolSennova()
     {
         return $this->belongsTo(RolSennova::class);
+    }
+
+    /**
+     * Relationship with SubareaExperiencia
+     *
+     * @return object
+     */
+    public function subareaExperiencia()
+    {
+        return $this->belongsTo(SubareaExperiencia::class);
     }
 
     /**
@@ -378,15 +388,6 @@ class User extends Authenticatable
         $key        = 'label';
 
         return $this->discapacidad ? $this->getJsonItem($file_path, $id, $key) : null;
-    }
-
-    public function getSubareaExperienciaLaboralTextAttribute()
-    {
-        $file_path  = 'json/subareas-experiencia.json';
-        $id         = $this->subarea_experiencia_laboral;
-        $key        = 'label';
-
-        return $this->subarea_experiencia_laboral ? $this->getJsonItem($file_path, $id, $key) : null;
     }
 
     private function getJsonItem($file_path, $id, $key)
