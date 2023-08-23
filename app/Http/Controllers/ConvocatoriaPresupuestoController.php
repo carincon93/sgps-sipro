@@ -69,6 +69,28 @@ class ConvocatoriaPresupuestoController extends Controller
         return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
+    public function storeRubrosCompletos(Request $request, Convocatoria $convocatoria)
+    {
+        $this->authorize('create', [ConvocatoriaPresupuesto::class]);
+
+        if ($request->rubros_completos) {
+            foreach (RubroPresupuestal::whereNotIn('id', $convocatoria->convocatoriaPresupuestos()->where('tipo_formulario_convocatoria_id', $request->tipo_formulario_convocatoria_id)->get()->pluck('rubro_presupuestal_id')->toArray())->get()->pluck('id')->toArray() as $value) {
+                $data = [
+                    'convocatoria_id'                   => $convocatoria->id,
+                    'rubro_presupuestal_id'             => $value,
+                    'tipo_formulario_convocatoria_id'   => $request->tipo_formulario_convocatoria_id,
+                    'sumar_al_presupuesto'              => true,
+                    'requiere_estudio_mercado'          => true,
+                    'habilitado'                        => true,
+                ];
+
+                ConvocatoriaPresupuesto::create($data);
+            }
+        }
+
+        return back()->with('success', 'El recurso se ha creado correctamente.');
+    }
+
     /**
      * Display the specified resource.
      *

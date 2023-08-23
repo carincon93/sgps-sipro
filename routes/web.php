@@ -656,6 +656,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Presupuesto de convocatoria
      *
      */
+    Route::post('convocatorias/{convocatoria}/convocatoria-rubros-presupuestales/rubros-completos',  [ConvocatoriaPresupuestoController::class, 'storeRubrosCompletos'])->name('convocatorias.convocatoria-rubros-presupuestales.store-rubros-completos');
     Route::put('convocatorias/{convocatoria}/convocatoria-rubros-presupuestales/{convocatoria_rubro_presupuestal}/cambiar-estados',  [ConvocatoriaPresupuestoController::class, 'cambiarEstados'])->name('convocatorias.convocatoria-rubros-presupuestales.cambiar-estados');
     Route::resource('convocatorias.convocatoria-rubros-presupuestales',  ConvocatoriaPresupuestoController::class)->parameters(['convocatorias' => 'convocatoria', 'convocatoria-rubros-presupuestales' => 'convocatoria-rubro-presupuestal'])->except(['show']);
 
