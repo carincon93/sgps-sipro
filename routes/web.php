@@ -7,6 +7,7 @@ use App\Http\Controllers\API\ApiController;
 use App\Http\Controllers\ActividadController;
 use App\Http\Controllers\AmbienteModernizacionController;
 use App\Http\Controllers\AnalisisRiesgoController;
+use App\Http\Controllers\AnexoController;
 use App\Http\Controllers\ArbolProyectoController;
 use App\Http\Controllers\ArticulacionSennovaController;
 use App\Http\Controllers\CentroFormacionController;
@@ -668,6 +669,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('anexos/{anexo}/download/{formato}', [ConvocatoriaAnexoController::class, 'downloadServerFile'])->name('anexos.download');
     Route::put('convocatorias/{convocatoria}/convocatoria-anexos/{convocatoria_anexo}/cambiar-estados',  [ConvocatoriaAnexoController::class, 'cambiarEstados'])->name('convocatorias.convocatoria-anexos.cambiar-estados');
     Route::resource('convocatorias.convocatoria-anexos', ConvocatoriaAnexoController::class)->parameters(['convocatorias' => 'convocatoria', 'convocatoria-anexos' => 'convocatoria-anexo'])->except(['show']);
+    Route::resource('anexos',  AnexoController::class)->parameters(['anexos' => 'anexo'])->except(['show', 'create', 'edit']);
 
     /**
      * Primer grupo presupuestal

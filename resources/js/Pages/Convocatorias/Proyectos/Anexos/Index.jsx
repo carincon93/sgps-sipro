@@ -150,6 +150,11 @@ const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, conv
                                 <p className="px-6 py-4 focus:text-app-500">
                                     {convocatoria_anexo.anexo.nombre}
                                     <br />
+                                    <br />
+                                    <strong>Descripción:</strong>
+                                    <br />
+                                    {convocatoria_anexo.anexo.descripcion}
+                                    <br />
                                     {convocatoria_anexo.obligatorio && <span className="text-red-500">* El anexo es obligatorio</span>}
                                     {convocatoria_anexo.archivo && (
                                         <a target="_blank" className="text-app-400 underline mt-4 mb-4 flex" download href={convocatoria_anexo.archivo}>

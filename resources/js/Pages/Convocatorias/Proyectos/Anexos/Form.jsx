@@ -1,6 +1,8 @@
 import FileInput from '@/Components/FileInput'
 import PrimaryButton from '@/Components/PrimaryButton'
 
+import AutorenewIcon from '@mui/icons-material/Autorenew'
+
 import { useForm } from '@inertiajs/react'
 import { useEffect, useState } from 'react'
 
@@ -61,6 +63,7 @@ const Form = ({ convocatoria, proyecto, convocatoria_anexo, proyecto_anexo, ...p
                 </div>
                 <div>
                     <PrimaryButton disabled={form.processing} className="w-full mt-4" type="submit">
+                        <AutorenewIcon className="mr-2" />
                         Cargar {convocatoria_anexo?.anexo.nombre}
                     </PrimaryButton>
                 </div>
