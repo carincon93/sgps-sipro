@@ -16,18 +16,33 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
+const MAX_FILE_SIZE_MB = 10
+
 const FileInput = ({ onChange, value = '', error = '', id = '', label = 'Seleccione un archivo', downloadRoute = '', accept = '', filename = '', extension = '', onDelete, ...props }) => {
     const classes = useStyles()
 
     const [fileType, setFileType] = useState('')
+    const [fileSizeError, setFileSizeError] = useState(false)
 
     useEffect(() => {
         setFileType(value?.type)
     }, [value])
 
+    const handleFileChange = (event) => {
+        const selectedFile = event.target.files[0]
+
+        if (selectedFile && selectedFile.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+            setFileSizeError(true)
+            onChange(null)
+        } else {
+            setFileSizeError(false)
+            onChange(selectedFile)
+        }
+    }
+
     return (
         <div>
-            <input accept={accept} className={classes.input} id={id} multiple={false} type="file" onChange={onChange} />
+            <input accept={accept} className={classes.input} id={id} multiple={false} type="file" onChange={(e) => (onChange(e), handleFileChange(e))} />
             <label htmlFor={id} className="p-4 block bg-gray-100 hover:bg-gray-50 text-center hover:cursor-pointer">
                 <FileUploadImage className="w-28 mx-auto mb-4" />
                 {value == null ? (
@@ -39,6 +54,7 @@ const FileInput = ({ onChange, value = '', error = '', id = '', label = 'Selecci
                     <Chip className="!bg-green-100 shadow !text-green-600" label="Pendiente de ser cargado" />
                 )}
             </label>
+
             {value && (
                 <div className="flex items-center justify-center border-t-2 p-4 bg-gray-100 hover:bg-gray-50">
                     <FileTypeIcon fileType={fileType} id={id} className="!w-10" />
@@ -47,9 +63,16 @@ const FileInput = ({ onChange, value = '', error = '', id = '', label = 'Selecci
                     </p>
                 </div>
             )}
+
             {error && (
                 <FormHelperText id={`component-error-${id}`} className="!text-red-600">
                     {error}
+                </FormHelperText>
+            )}
+
+            {fileSizeError && (
+                <FormHelperText id={`file-size-error-${id}`} className="!text-red-600 bg-red-200 p-2">
+                    El archivo debe tener un tamaño menor a {MAX_FILE_SIZE_MB} MB.
                 </FormHelperText>
             )}
 

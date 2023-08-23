@@ -200,6 +200,12 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
 
     return (
         <>
+            <div className="flex items-center justify-center mb-10">
+                <small className=" bg-app-500 text-white py-1 px-3 rounded-full w-max text-center mx-auto">
+                    Precio del proyecto:
+                    <AttachMoneyOutlinedIcon />{new Intl.NumberFormat('de-DE').format(!isNaN(proyecto?.precio_proyecto) ? proyecto?.precio_proyecto : 0)} COP
+                </small>
+            </div>
             <Stepper alternativeLabel connector={<ColorlibConnector />}>
                 <Step active={isActive}>
                     <Link href={route('convocatorias.proyectos.edit', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
@@ -363,11 +369,6 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                     </Link>
                 </Step>
             </Stepper>
-            <div className="flex items-center justify-center mt-10">
-                <small className=" bg-app-500 text-white py-1 pr-3 pl-1 rounded-full w-max text-center mx-auto">
-                    <AttachMoneyOutlinedIcon /> {new Intl.NumberFormat('de-DE').format(!isNaN(proyecto?.precio_proyecto) ? proyecto?.precio_proyecto : 0)} COP
-                </small>
-            </div>
         </>
     )
 }

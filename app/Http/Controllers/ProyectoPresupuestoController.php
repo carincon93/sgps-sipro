@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Evaluacion\Evaluacion;
 use App\Models\Evaluacion\ProyectoPresupuestoEvaluacion;
 use App\Models\NodoEditorialInfo;
+use App\Models\RubroPresupuestalProyectoLinea68;
 use App\Models\ViaticoMunicipio;
 use Inertia\Inertia;
 
@@ -75,6 +76,12 @@ class ProyectoPresupuestoController extends Controller
         $presupuesto = ProyectoPresupuesto::create($request->all());
 
         $presupuesto->convocatoriaProyectoRubrosPresupuestales()->sync($request->convocatoria_presupuesto_id);
+
+        if ($request->equipo_para_modernizar) {
+            $presupuesto->rubroPresupuestalProyectoLinea68()->create([
+                'equipo_para_modernizar' => $request->equipo_para_modernizar
+            ]);
+        }
 
         return back()->with('success', 'El recurso se ha creado correctamente.');
     }

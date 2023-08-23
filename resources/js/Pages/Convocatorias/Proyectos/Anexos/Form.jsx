@@ -44,7 +44,7 @@ const Form = ({ convocatoria, proyecto, convocatoria_anexo, proyecto_anexo, ...p
                         value={form.data.archivo}
                         filename={archivo?.filename}
                         extension={archivo?.extension}
-                        label="Seleccione un archivo"
+                        label={convocatoria_anexo?.anexo.nombre}
                         downloadRoute={
                             archivo
                                 ? archivo?.archivo.includes('http') == true || archivo?.archivo.includes('http') == undefined
@@ -52,7 +52,7 @@ const Form = ({ convocatoria, proyecto, convocatoria_anexo, proyecto_anexo, ...p
                                     : route('convocatorias.proyectos.proyecto-anexos.download-file-sharepoint', [convocatoria.id, proyecto.id, archivo.id, 'archivo'])
                                 : null
                         }
-                        onChange={(e) => form.setData('archivo', e.target.files[0])}
+                        onChange={(e) => form.setData('archivo', e)}
                         error={form.errors.archivo}
                     />
 

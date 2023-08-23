@@ -31,7 +31,7 @@ class SoporteEstudioMercado extends Model
      */
     protected $fillable = [
         'proyecto_presupuesto_id',
-        'empresa',
+        'concepto',
         'soporte'
     ];
 

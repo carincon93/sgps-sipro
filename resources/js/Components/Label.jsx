@@ -1,7 +1,7 @@
-const Label = ({ labelFor, value, required, ...props }) => {
+const Label = ({ labelFor, value, required, className, ...props }) => {
     if (value) {
         return (
-            <label htmlFor={labelFor} className={`block text-sm text-gray-700 ${props.className || ''}`} {...props}>
+            <label htmlFor={labelFor} className={`block text-sm text-gray-700 ${className}`} {...props}>
                 {value}
                 <small>{!required ? ' (Opcional)' : ' *'}</small>
             </label>

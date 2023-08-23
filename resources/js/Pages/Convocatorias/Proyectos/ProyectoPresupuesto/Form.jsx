@@ -4,6 +4,7 @@ import ButtonMui from '@/Components/Button'
 import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
 import SelectMultiple from '@/Components/SelectMultiple'
+import SwitchMui from '@/Components/Switch'
 import TextInput from '@/Components/TextInput'
 import Textarea from '@/Components/Textarea'
 
@@ -17,6 +18,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
     const [requiere_estudio_mercado, setRequiereEstudioMercado] = useState(true)
     const [same_values_requiere_estudio_mercado, setSameValuesRequiereEstudioMercado] = useState(false)
     const [modificar_usos_presupuestales, setModificarUsosPresupuestales] = useState(false)
+    const [equipo_requiere_actualizacion, setEquipoRequiereActualizacion] = useState(false)
 
     const form = useForm({
         segundo_grupo_presupuestal_id: null,
@@ -25,16 +27,24 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
         descripcion: rubro_presupuestal?.descripcion ?? '',
         justificacion: rubro_presupuestal?.justificacion ?? '',
         valor_total: rubro_presupuestal?.valor_total ?? '',
-        concepto_viaticos: rubro_presupuestal?.concepto_viaticos ?? '',
+        equipo_para_modernizar: false,
     })
 
-    // concepto interno SENA
+    // Concepto interno SENA
     useEffect(() => {
         if (form.data.segundo_grupo_presupuestal_id) {
+            setEquipoRequiereActualizacion(false)
             setRequiereEstudioMercado(true)
             setArrayTecerGrupoPresupuestal([])
             setArrayUsosPresupuestales([])
             form.reset('tercer_grupo_presupuestal_id', 'convocatoria_presupuesto_id')
+
+            if (
+                segundo_grupo_presupuestal.find((item) => item.value == form.data.segundo_grupo_presupuestal_id)?.codigo == '2040115' ||
+                segundo_grupo_presupuestal.find((item) => item.value == form.data.segundo_grupo_presupuestal_id)?.codigo == '2040125'
+            ) {
+                setEquipoRequiereActualizacion(true)
+            }
 
             setTimeout(() => {
                 const filtered_tecer_grupo_presupuestal = tercer_grupo_presupuestal.filter((item) => item.segundo_grupo_presupuestal_id == form.data.segundo_grupo_presupuestal_id)
@@ -154,76 +164,111 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
 
                     <form onSubmit={submit} id="form-proyecto-presupuesto">
                         <fieldset disabled={proyecto.allowed.to_update ? false : true}>
-                            {!modificar_usos_presupuestales && (
-                                <>
-                                    <div className={`${array_tecer_grupo_presupuestal.length == 0 ? 'mb-[13.8rem]' : 'mb-0'}`}>
-                                        <Autocomplete
-                                            id="segundo_grupo_presupuestal_id"
-                                            options={segundo_grupo_presupuestal}
-                                            selectedValue={form.data.segundo_grupo_presupuestal_id}
-                                            onChange={(e, newValue) => form.setData('segundo_grupo_presupuestal_id', newValue.value)}
-                                            error={form.errors.segundo_grupo_presupuestal_id}
-                                            label="Rubro concepto interno SENA"
-                                            required
-                                        />
-                                    </div>
-
-                                    {array_tecer_grupo_presupuestal.length > 0 && (
-                                        <div className={`mt-8 ${array_usos_presupuestales.length == 0 ? 'mb-[7rem]' : 'mb-0'}`}>
+                            <Grid container rowSpacing={8}>
+                                {!modificar_usos_presupuestales && (
+                                    <>
+                                        <Grid item md={12} className={`${array_tecer_grupo_presupuestal.length == 0 ? 'mb-[13.8rem]' : 'mb-0'}`}>
                                             <Autocomplete
-                                                id="tercer_grupo_presupuestal_id"
-                                                options={array_tecer_grupo_presupuestal}
-                                                selectedValue={form.data.tercer_grupo_presupuestal_id}
-                                                onChange={(e, newValue) => form.setData('tercer_grupo_presupuestal_id', newValue.value)}
-                                                error={form.errors.tercer_grupo_presupuestal_id}
-                                                label="Rubro concepto ministerio de hacienda"
+                                                id="segundo_grupo_presupuestal_id"
+                                                options={segundo_grupo_presupuestal}
+                                                selectedValue={form.data.segundo_grupo_presupuestal_id}
+                                                onChange={(e, newValue) => form.setData('segundo_grupo_presupuestal_id', newValue.value)}
+                                                error={form.errors.segundo_grupo_presupuestal_id}
+                                                label="Rubro concepto interno SENA"
                                                 required
                                             />
-                                        </div>
-                                    )}
+                                        </Grid>
 
-                                    {array_usos_presupuestales.length > 0 && (
-                                        <div className="mt-8">
-                                            <SelectMultiple
-                                                id="convocatoria_presupuesto_id"
-                                                options={array_usos_presupuestales}
-                                                bdValues={form.data.convocatoria_presupuesto_id}
-                                                onChange={(event, newValue) => {
-                                                    const selected_values = newValue.map((option) => option.value)
+                                        {array_tecer_grupo_presupuestal.length > 0 && (
+                                            <Grid item md={12} className={`mt-8 ${array_usos_presupuestales.length == 0 ? 'mb-[7rem]' : 'mb-0'}`}>
+                                                <Autocomplete
+                                                    id="tercer_grupo_presupuestal_id"
+                                                    options={array_tecer_grupo_presupuestal}
+                                                    selectedValue={form.data.tercer_grupo_presupuestal_id}
+                                                    onChange={(e, newValue) => form.setData('tercer_grupo_presupuestal_id', newValue.value)}
+                                                    error={form.errors.tercer_grupo_presupuestal_id}
+                                                    label="Rubro concepto ministerio de hacienda"
+                                                    required
+                                                />
+                                            </Grid>
+                                        )}
 
-                                                    form.setData((prevData) => ({
-                                                        ...prevData,
-                                                        convocatoria_presupuesto_id: selected_values,
-                                                    }))
-                                                }}
-                                                error={form.errors.convocatoria_presupuesto_id}
-                                                label="Usos presupuestales"
-                                                required
-                                            />
-                                        </div>
-                                    )}
-                                </>
-                            )}
+                                        {array_usos_presupuestales.length > 0 && (
+                                            <Grid item md={12}>
+                                                <SelectMultiple
+                                                    id="convocatoria_presupuesto_id"
+                                                    options={array_usos_presupuestales}
+                                                    bdValues={form.data.convocatoria_presupuesto_id}
+                                                    onChange={(event, newValue) => {
+                                                        const selected_values = newValue.map((option) => option.value)
 
-                            {method === 'PUT' && (
-                                <ButtonMui
-                                    onClick={() => {
-                                        setModificarUsosPresupuestales(!modificar_usos_presupuestales)
-                                        form.setData((prevData) => ({
-                                            ...prevData,
-                                            segundo_grupo_presupuestal_id: [],
-                                            tercer_grupo_presupuestal_id: [],
-                                            convocatoria_presupuesto_id: [],
-                                        }))
-                                    }}
-                                    className="!my-6">
-                                    {modificar_usos_presupuestales ? 'Modificar usos presupuestales' : 'Cancelar'}
-                                </ButtonMui>
-                            )}
+                                                        form.setData((prevData) => ({
+                                                            ...prevData,
+                                                            convocatoria_presupuesto_id: selected_values,
+                                                        }))
+                                                    }}
+                                                    error={form.errors.convocatoria_presupuesto_id}
+                                                    label="Usos presupuestales"
+                                                    required
+                                                />
+                                            </Grid>
+                                        )}
+                                    </>
+                                )}
 
-                            {requiere_estudio_mercado == false && (
-                                <>
-                                    <div className="mt-10">
+                                {method === 'PUT' && (
+                                    <Grid item md={12}>
+                                        <ButtonMui
+                                            onClick={() => {
+                                                setModificarUsosPresupuestales(!modificar_usos_presupuestales)
+                                                form.setData((prevData) => ({
+                                                    ...prevData,
+                                                    segundo_grupo_presupuestal_id: [],
+                                                    tercer_grupo_presupuestal_id: [],
+                                                    convocatoria_presupuesto_id: [],
+                                                }))
+                                            }}
+                                            className="!my-6">
+                                            {modificar_usos_presupuestales ? 'Modificar usos presupuestales' : 'Cancelar'}
+                                        </ButtonMui>
+                                    </Grid>
+                                )}
+
+                                <Grid item md={12}>
+                                    <Textarea
+                                        label="Describa los bienes o servicios a adquirir. Sea específico"
+                                        id="descripcion"
+                                        error={form.errors.descripcion}
+                                        value={form.data.descripcion}
+                                        onChange={(e) => form.setData('descripcion', e.target.value)}
+                                        required
+                                    />
+                                </Grid>
+
+                                {equipo_requiere_actualizacion && (
+                                    <Grid item md={12}>
+                                        <Label required labelFor="equipo_para_modernizar" value="¿El equipo se requiere para modernizar uno ya existente en el área técnica?" />
+                                        <SwitchMui
+                                            id="equipo_para_modernizar"
+                                            checked={form.data.equipo_para_modernizar}
+                                            onChange={(e) => form.setData('equipo_para_modernizar', e.target.checked)}
+                                            error={form.errors.equipo_para_modernizar}
+                                        />
+                                    </Grid>
+                                )}
+
+                                <Grid item md={12}>
+                                    <Textarea
+                                        label="Justificación de la necesidad: ¿por qué se requiere este producto o servicio?"
+                                        id="justificacion"
+                                        error={form.errors.justificacion}
+                                        value={form.data.justificacion}
+                                        onChange={(e) => form.setData('justificacion', e.target.value)}
+                                        required
+                                    />
+                                </Grid>
+                                {requiere_estudio_mercado == false && (
+                                    <Grid item md={12}>
                                         <TextInput
                                             label="Valor total"
                                             id="valor_total"
@@ -237,29 +282,9 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                         <AlertMui>
                                             <strong>Importante:</strong> El uso presupuestal seleccionado no requiere de estudio de mercado. Por favor diligencie el VALOR TOTAL.
                                         </AlertMui>
-                                    </div>
-                                </>
-                            )}
-                            <div className="mt-8">
-                                <Textarea
-                                    label="Describa los bienes o servicios a adquirir. Sea específico"
-                                    id="descripcion"
-                                    error={form.errors.descripcion}
-                                    value={form.data.descripcion}
-                                    onChange={(e) => form.setData('descripcion', e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className="mt-8">
-                                <Textarea
-                                    label="Justificación de la necesidad: ¿por qué se requiere este producto o servicio?"
-                                    id="justificacion"
-                                    error={form.errors.justificacion}
-                                    value={form.data.justificacion}
-                                    onChange={(e) => form.setData('justificacion', e.target.value)}
-                                    required
-                                />
-                            </div>
+                                    </Grid>
+                                )}
+                            </Grid>
                         </fieldset>
 
                         {rubro_presupuestal && <small className="flex items-center mt-14 text-app-700">{rubro_presupuestal.updated_at}</small>}

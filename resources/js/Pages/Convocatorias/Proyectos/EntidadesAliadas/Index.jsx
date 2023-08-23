@@ -351,7 +351,7 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                                 value={form.data[tipo_archivo]}
                                 label={`Seleccione: ${tipo_archivo} `}
                                 accept="application/pdf"
-                                onChange={(e) => form.setData(tipo_archivo, e.target.files[0])}
+                                onChange={(e) => form.setData(tipo_archivo, e)}
                                 error={form.errors[tipo_archivo]}
                             />
                             <div className="flex items-center justify-between mt-14 py-4">

@@ -146,7 +146,7 @@ const FormacionesAcademicasSena = ({ usuario, formaciones_academicas_sena, modal
                             value={form.data.certificado_formacion}
                             label="Seleccione el certificado del título obtenido"
                             accept="application/pdf"
-                            onChange={(e) => form.setData('certificado_formacion', e.target.files[0])}
+                            onChange={(e) => form.setData('certificado_formacion', e)}
                             error={form.errors.certificado_formacion}
                         />
                         <div className="flex items-center justify-between mt-14 py-4">

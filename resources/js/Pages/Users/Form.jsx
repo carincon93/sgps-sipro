@@ -135,7 +135,7 @@ const Form = ({
                     />
                 </Grid>
 
-                <Grid item md={5}>
+                <Grid item md={4}>
                     <Autocomplete
                         id="tipo_documento"
                         options={tipos_documento}
@@ -146,7 +146,7 @@ const Form = ({
                         required
                     />
                 </Grid>
-                <Grid item md={3}>
+                <Grid item md={4}>
                     <TextInput
                         label="Número de documento"
                         id="numero_documento"

@@ -99,6 +99,16 @@ class ProyectoPresupuesto extends Model
     }
 
     /**
+     * Relationship with RubroPresupuestalProyectoLinea68
+     *
+     * @return object
+     */
+    public function rubroPresupuestalProyectoLinea68()
+    {
+        return $this->hasOne(RubroPresupuestalProyectoLinea68::class);
+    }
+
+    /**
      * Relationship with NodoEditorialInfo
      *
      * @return object

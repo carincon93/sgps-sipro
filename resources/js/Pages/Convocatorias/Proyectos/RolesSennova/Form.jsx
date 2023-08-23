@@ -52,8 +52,8 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
             <Grid item md={8}>
                 <Paper className="p-8">
                     <form onSubmit={submit}>
-                        <fieldset disabled={proyecto?.allowed?.to_update ? false : true}>
-                            <div>
+                        <Grid container rowSpacing={8}>
+                            <Grid item md={12}>
                                 {!roles_sennova_incompletos ? (
                                     <Autocomplete
                                         id="convocatoria_rol_sennova_id"
@@ -72,22 +72,77 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                         información.
                                     </AlertMui>
                                 )}
-                            </div>
+                            </Grid>
 
-                            <div className="mt-8">
-                                <Textarea
-                                    id="descripcion"
-                                    error={form.errors.descripcion}
-                                    label="Descripción del perfil requerido"
-                                    value={form.data.descripcion}
-                                    onChange={(e) => {
-                                        form.setData('descripcion', e.target.value)
-                                    }}
-                                    required
-                                />
-                            </div>
+                            {proyecto.tipo_formulario_convocatoria_id != 12 ? (
+                                <Grid item md={12}>
+                                    <Textarea
+                                        id="descripcion"
+                                        error={form.errors.descripcion}
+                                        label="Descripción del perfil requerido"
+                                        value={form.data.descripcion}
+                                        onChange={(e) => {
+                                            form.setData('descripcion', e.target.value)
+                                        }}
+                                        required
+                                    />
+                                </Grid>
+                            ) : (
+                                proyecto.tipo_formulario_convocatoria_id == 12 && (
+                                    <>
+                                        <Grid item md={12}>
+                                            <Textarea
+                                                id="educacion"
+                                                error={form.errors.educacion}
+                                                label="Educación"
+                                                value={form.data.educacion}
+                                                onChange={(e) => {
+                                                    form.setData('educacion', e.target.value)
+                                                }}
+                                                required
+                                            />
+                                            <AlertMui>
+                                                Relacione la información correspondiente con el título profesional del rol solicitado de acuerdo con las orientaciones para la contratación de roles
+                                                SENNOVA conforme con la línea técnica a la que pertenece el proyecto.
+                                            </AlertMui>
+                                        </Grid>
+                                        <Grid item md={12}>
+                                            <Textarea
+                                                id="formacion"
+                                                error={form.errors.formacion}
+                                                label="Formación"
+                                                value={form.data.formacion}
+                                                onChange={(e) => {
+                                                    form.setData('formacion', e.target.value)
+                                                }}
+                                                required
+                                            />
+                                            <AlertMui>
+                                                Relacione la información correspondiente con la formación específica del rol solicitado de acuerdo con las orientaciones para la contratación de roles
+                                                SENNOVA conforme con la línea técnica a la que pertenece el proyecto.
+                                            </AlertMui>
+                                        </Grid>
+                                        <Grid item md={12}>
+                                            <Textarea
+                                                id="experiencia"
+                                                error={form.errors.experiencia}
+                                                label="Experiencia"
+                                                value={form.data.experiencia}
+                                                onChange={(e) => {
+                                                    form.setData('experiencia', e.target.value)
+                                                }}
+                                                required
+                                            />
+                                            <AlertMui>
+                                                Relacione la información correspondiente con la experiencia del rol solicitado en número de meses de acuerdo con las orientaciones para la contratación
+                                                de roles SENNOVA conforme con la línea técnica a la que pertenece el proyecto.
+                                            </AlertMui>
+                                        </Grid>
+                                    </>
+                                )
+                            )}
 
-                            <div className="mt-8">
+                            <Grid item md={12}>
                                 <TextInput
                                     label="Número de meses que requiere el apoyo"
                                     id="numero_meses"
@@ -109,9 +164,9 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                 <AlertMui>
                                     El proyecto se ejecutará entre {proyecto.fecha_inicio} y {proyecto.fecha_finalizacion}, por lo tanto el número de meses máximo es: {proyecto.diff_meses}
                                 </AlertMui>
-                            </div>
+                            </Grid>
 
-                            <div className="mt-8">
+                            <Grid item md={12}>
                                 <TextInput
                                     label="Número de personas requeridas"
                                     id="numero_roles"
@@ -127,10 +182,10 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                     }}
                                     required
                                 />
-                            </div>
+                            </Grid>
 
-                            <h6 className="mt-20 mb-6 text-2xl">Actividades que debe ejecutar el rol</h6>
-                            <div>
+                            <Grid item md={12}>
+                                <h6 className="mt-20 mb-6 text-2xl">Actividades que deberá ejecutar el rol</h6>
                                 <SelectMultiple
                                     id="actividad_id"
                                     bdValues={form.data.actividad_id}
@@ -146,14 +201,18 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                     label="Relacione las respectivas actividades"
                                     required
                                 />
-                                {actividades.length === 0 && <AlertMui error={true}>Importante: No ha creado actividades</AlertMui>}
-                            </div>
-                        </fieldset>
+                                {actividades.length === 0 && (
+                                    <AlertMui error={true}>
+                                        <strong>Importante:</strong> Debe completar la información de Objetivos, resultados, impactos y actividades
+                                    </AlertMui>
+                                )}
+                            </Grid>
+                        </Grid>
                         {proyecto_rol_sennova && <small className="flex items-center my-10 text-app-700">{proyecto_rol_sennova.updated_at}</small>}
                         <div className="flex items-center justify-between mt-14 py-4">
                             {proyecto?.allowed?.to_update ? (
                                 <>
-                                    <PrimaryButton disabled={form.processing || roles_sennova_incompletos || !form.isDirty} className="mr-2 ml-auto" type="submit">
+                                    <PrimaryButton disabled={form.processing || roles_sennova_incompletos || !form.isDirty || actividades.length === 0} className="mr-2 ml-auto" type="submit">
                                         {method == 'POST' ? 'Agregar' : 'Modificar'} rol SENNOVA
                                     </PrimaryButton>
                                     <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>

@@ -131,11 +131,11 @@ const EstudiosAcademicos = ({ usuario, estudios_academicos, niveles_academicos }
                             value={form.data.soporte_titulo_obtenido}
                             label="Seleccione el soporte del título obtenido"
                             accept="application/pdf"
-                            onChange={(e) => form.setData('soporte_titulo_obtenido', e.target.files[0])}
+                            onChange={(e) => form.setData('soporte_titulo_obtenido', e)}
                             error={form.errors.soporte_titulo_obtenido}
                         />
                         <div className="flex items-center justify-between mt-14 py-4">
-                            <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
+                            <PrimaryButton disabled={form.processing || !form.isDirty} className="ml-auto" type="submit">
                                 Cargar soporte
                             </PrimaryButton>
                             <ButtonMui type="button" primary={false} onClick={() => setDialogSoporteStatus(false)} className="!ml-2 !bg-transparent">

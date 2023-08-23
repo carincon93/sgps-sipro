@@ -644,6 +644,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
      */
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/soportes/{soporte}/download-file-sharepoint/{tipo_archivo}', [SoporteEstudioMercadoController::class, 'downloadFileSharepoint'])->name('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint');
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/soportes/{soporte}/download/{formato}', [SoporteEstudioMercadoController::class, 'downloadServerFile'])->name('convocatorias.proyectos.presupuesto.soportes.download');
+    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/soporte-proyecto-linea-68', [SoporteEstudioMercadoController::class, 'soporteEstudioMercadoProyectoLinea68'])->name('convocatorias.proyectos.presupuesto.soportes-proyecto-linea-68.store');
     Route::resource('convocatorias.proyectos.presupuesto.soportes', SoporteEstudioMercadoController::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos' => 'proyecto', 'presupuesto' => 'presupuesto', 'soportes' => 'soporte'])->except(['show']);
 
     /**

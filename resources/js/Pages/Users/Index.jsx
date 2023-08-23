@@ -1,4 +1,4 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
+ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import ButtonMui from '@/Components/Button'
 import MenuMui from '@/Components/Menu'

@@ -527,7 +527,7 @@ const Form = ({
                                 required
                             />
                             <ToolTipMui
-                                className="py-4 hover:cursor-pointer text-cyan-600"
+                                className="py-4 hover:cursor-pointer text-cyan-800"
                                 title={
                                     <>
                                         <strong>Características técnico del video del área técnica:</strong>
@@ -572,14 +572,18 @@ const Form = ({
                                     </>
                                 }>
                                 <InfoOutlinedIcon className="mr-2" />
-                                Por favor lea las siguientes indicaciones
+                                Clic aquí para leer las indicaciones sobre el video
                             </ToolTipMui>
                         </Grid>
 
                         <Grid item md={12}>
                             <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="bibliografia" value="Bibliografía" />
                             <AlertMui>
-                                Lista de las referencias utilizadas en cada apartado del proyecto. Utilizar normas APA- Última edición (http://biblioteca.sena.edu.co/images/PDF/InstructivoAPA.pdf).
+                                Lista de las referencias utilizadas en cada apartado del proyecto. Utilizar normas APA- Última edición (
+                                <a href="http://biblioteca.sena.edu.co/images/PDF/InstructivoAPA.pdf" target="_blank" className="underline">
+                                    http://biblioteca.sena.edu.co/images/PDF/InstructivoAPA.pdf
+                                </a>
+                                ).
                             </AlertMui>
                             <Textarea
                                 id="bibliografia"
