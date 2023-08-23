@@ -45,8 +45,8 @@ const Index = ({ auth, centros_formacion, regionales, subdirectores, dinamizador
                     {centros_formacion.data.map((centro_formacion, i) => (
                         <TableRow key={i}>
                             <TableCell>
+                                <Chip className="mb-2" size="small" label={centro_formacion.codigo} />
                                 {centro_formacion.nombre}
-                                <Chip className="mx-2" label={centro_formacion.codigo} />
                             </TableCell>
 
                             <TableCell>{centro_formacion?.regional?.nombre}</TableCell>
