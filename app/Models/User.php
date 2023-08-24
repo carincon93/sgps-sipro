@@ -29,7 +29,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $appends = ['can', 'can_by_user', 'allowed', 'nombre_carpeta_sharepoint', 'check_soportes_titulo_obtenido', 'check_certificados_formacion', 'tipo_documento_text', 'tipo_vinculacion_text', 'genero_text', 'nivel_ingles_text', 'discapacidad_text', 'roles_fuera_sennova_text', 'tiempo_por_rol_text', 'cursos_de_evaluacion_realizados_text'];
+    protected $appends = ['can', 'can_by_user', 'allowed', 'nombre_carpeta_sharepoint', 'check_soportes_titulo_obtenido', 'check_certificados_formacion', 'tipo_documento_text', 'tipo_vinculacion_text', 'genero_text', 'nivel_ingles_text', 'discapacidad_text', 'roles_fuera_sennova_text', 'tiempo_por_rol_text'];
 
     /**
      * The attributes that are mass assignable.
