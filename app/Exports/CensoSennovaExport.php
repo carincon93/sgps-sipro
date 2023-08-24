@@ -77,7 +77,7 @@ class CensoSennovaExport implements FromCollection, WithHeadings, WithMapping, W
             $user->discapacidad_text,
             $user->experiencia_laboral_sena,
             $user->cursos_evaluacion_proyectos ? 'SI' : 'NO',
-            $user->cursos_de_evaluacion_realizados,
+            $user->cursos_de_evaluacion_realizados_text,
             $user->experiencia_como_evaluador ? 'SI' : 'NO',
             $user->numero_proyectos_evaluados,
             $user->participacion_como_evaluador_sennova ? 'SI' : 'NO',

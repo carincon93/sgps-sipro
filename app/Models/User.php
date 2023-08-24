@@ -29,7 +29,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $appends = ['can', 'can_by_user', 'allowed', 'nombre_carpeta_sharepoint', 'check_soportes_titulo_obtenido', 'check_certificados_formacion', 'tipo_documento_text', 'tipo_vinculacion_text', 'genero_text', 'nivel_ingles_text', 'discapacidad_text', 'roles_fuera_sennova_text', 'tiempo_por_rol_text'];
+    protected $appends = ['can', 'can_by_user', 'allowed', 'nombre_carpeta_sharepoint', 'check_soportes_titulo_obtenido', 'check_certificados_formacion', 'tipo_documento_text', 'tipo_vinculacion_text', 'genero_text', 'nivel_ingles_text', 'discapacidad_text', 'roles_fuera_sennova_text', 'tiempo_por_rol_text', 'cursos_de_evaluacion_realizados_text'];
 
     /**
      * The attributes that are mass assignable.
@@ -499,14 +499,14 @@ class User extends Authenticatable
         return json_decode($value);
     }
 
-    // public function getCursosDeEvaluacionRealizadosTextAttribute()
-    // {
-    //     return is_array($this->cursos_de_evaluacion_realizados) ? implode(',' , array_column($this->cursos_de_evaluacion_realizados, 'value')) : null;
-    // }
+    public function getCursosDeEvaluacionRealizadosTextAttribute()
+    {
+        return is_array(json_decode($this->cursos_de_evaluacion_realizados)) ? implode(',' , array_column(json_decode($this->cursos_de_evaluacion_realizados), 'value')) : null;
+    }
 
     public function getRolesFueraSennovaTextAttribute()
     {
-        return is_array($this->roles_fuera_sennova) ? implode(',' , array_column($this->roles_fuera_sennova, 'value')) : null;
+        return is_array(json_decode($this->roles_fuera_sennova)) ? implode(',' , array_column(json_decode($this->roles_fuera_sennova), 'value')) : null;
     }
 
     public function getTiempoPorRolAttribute($value)
