@@ -22,6 +22,7 @@ class ProyectoFormulario12Linea68ColumnRequest extends FormRequest
         'bibliografia'                      => ['required', 'string'],
 
         'programas_formacion'               => ['required', 'array'],
+        'programas_formacion_relacionados'  => ['required', 'array'],
         'continuidad'                       => ['nullable', 'string'],
         'municipios_influencia'             => ['nullable', 'array'],
         'otras_zonas_influencia'            => ['nullable', 'string'],

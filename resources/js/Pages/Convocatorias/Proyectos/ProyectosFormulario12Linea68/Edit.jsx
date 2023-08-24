@@ -25,6 +25,7 @@ const Edit = ({
     programas_formacion_con_registro_calificado,
     municipios,
     roles_sennova,
+    campos_convocatoria,
 }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
@@ -99,6 +100,7 @@ const Edit = ({
                     programas_formacion_con_registro_calificado={programas_formacion_con_registro_calificado}
                     municipios={municipios}
                     roles_sennova={roles_sennova}
+                    campos_convocatoria={campos_convocatoria}
                 />
             </Grid>
         </AuthenticatedLayout>

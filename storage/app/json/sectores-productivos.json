@@ -2,5 +2,11 @@
     { "value": 1, "label": "Agroindustria" },
     { "value": 2, "label": "Transversales" },
     { "value": 3, "label": "Servicios" },
-    { "value": 4, "label": "Manufactura" }
+    { "value": 4, "label": "Manufactura" },
+    { "value": 5, "label": "Campesena" },
+    { "value": 6, "label": "Medio Ambiente y Sostenibilidad" },
+    { "value": 7, "label": "Economía popular" },
+    { "value": 8, "label": "Bioeconomía" },
+    { "value": 9, "label": "Transición Energética" },
+    { "value": 10, "label": "Economía Circular" }
 ]

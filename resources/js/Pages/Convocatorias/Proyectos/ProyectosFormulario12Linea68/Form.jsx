@@ -16,6 +16,7 @@ import { router, useForm } from '@inertiajs/react'
 
 import { Grid } from '@mui/material'
 import { useEffect } from 'react'
+import { useState } from 'react'
 
 const Form = ({
     is_super_admin,
@@ -31,6 +32,7 @@ const Form = ({
     municipios,
     roles_sennova,
     evaluacion,
+    campos_convocatoria,
     ...props
 }) => {
     const form = useForm({
@@ -41,6 +43,10 @@ const Form = ({
         max_meses_ejecucion: proyecto_formulario_12_linea_68?.max_meses_ejecucion ?? '',
 
         programas_formacion: proyecto_formulario_12_linea_68?.proyecto.programas_formacion.map((item) => item.id) ?? null,
+        programas_formacion_relacionados:
+            programas_formacion_sin_registro_calificado
+                .filter((item) => proyecto_formulario_12_linea_68?.proyecto.programas_formacion.some((secondItem) => secondItem.id === item.value))
+                .map((item) => item.value) ?? null,
 
         estado_sistema_gestion_id: proyecto_formulario_12_linea_68?.estado_sistema_gestion_id ?? '',
         sector_productivo: proyecto_formulario_12_linea_68?.sector_productivo ?? '',
@@ -84,15 +90,19 @@ const Form = ({
         }
     }, [form.data.fecha_inicio, form.data.fecha_finalizacion])
 
+    const [running_sync, setRunningSync] = useState(false)
     const syncColumnLong = async (column, form, data) => {
         if (typeof column !== 'undefined' && typeof form !== 'undefined' && proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update) {
+            setRunningSync(true)
             try {
                 await router.put(
                     route('convocatorias.proyectos-formulario-12-linea-68.updateLongColumn', [convocatoria.id, proyecto_formulario_12_linea_68?.proyecto?.id, column]),
                     { [column]: data ? data : form.data[column], is_array: Array.isArray(form.data[column]) },
                     {
                         onError: (resp) => console.log(resp),
-                        onFinish: () => console.log('Request finished'),
+                        onFinish: () => {
+                            console.log('Request finished'), setRunningSync(false)
+                        },
                         preserveScroll: true,
                     },
                 )
@@ -234,7 +244,7 @@ const Form = ({
                 )}
 
                 <Grid item md={6}>
-                    <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="sector_productivo" value="Sector priorizado de Colombia Productiva" />
+                    <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="sector_productivo" value="Estrategia SENA priorizada" />
                 </Grid>
                 <Grid item md={6}>
                     <Autocomplete
@@ -407,6 +417,34 @@ const Form = ({
                                 required
                                 disabled={evaluacion ? true : false}
                                 className="mb-4"
+                                labelFor="programas_formacion_relacionados"
+                                value="Nombre de los programas de formación con los que se relaciona el proyecto"
+                            />
+                        </Grid>
+                        <Grid item md={6}>
+                            <SelectMultiple
+                                id="programas_formacion_relacionados"
+                                bdValues={form.data.programas_formacion_relacionados}
+                                options={programas_formacion_sin_registro_calificado}
+                                onChange={(event, newValue) => {
+                                    const selected_values = newValue.map((option) => option.value)
+                                    form.setData((prevData) => ({
+                                        ...prevData,
+                                        programas_formacion_relacionados: selected_values,
+                                    }))
+                                }}
+                                error={form.errors.programas_formacion_relacionados}
+                                required
+                                disabled={running_sync}
+                                onBlur={() => syncColumnLong('programas_formacion_relacionados', form)}
+                            />
+                        </Grid>
+
+                        <Grid item md={6}>
+                            <Label
+                                required
+                                disabled={evaluacion ? true : false}
+                                className="mb-4"
                                 labelFor="programas_formacion"
                                 value="Nombre de los programas de formación con registro calificado con los que se relaciona el proyecto"
                             />
@@ -425,7 +463,7 @@ const Form = ({
                                 }}
                                 error={form.errors.programas_formacion}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={running_sync}
                                 onBlur={() => syncColumnLong('programas_formacion', form)}
                             />
                         </Grid>
@@ -490,23 +528,25 @@ const Form = ({
                             />
                         </Grid>
 
-                        <Grid item md={12}>
-                            <Label
-                                required
-                                labelFor="especificaciones_area"
-                                value="Relacione las especificaciones del área donde se desarrollan las actividades de servicios tecnológicos en el centro de formación"
-                                className="inline-block mb-4"
-                            />
-                            <Textarea
-                                label="Especificaciones del área"
-                                id="especificaciones_area"
-                                error={form.errors.especificaciones_area}
-                                value={form.data.especificaciones_area}
-                                onChange={(e) => form.setData('especificaciones_area', e.target.value)}
-                                onBlur={() => syncColumnLong('especificaciones_area', form)}
-                                required
-                            />
-                        </Grid>
+                        {campos_convocatoria.filter((item) => item.campo == 'especificaciones_area').find((item) => item.convocatoria_id == convocatoria.id) && (
+                            <Grid item md={12}>
+                                <Label
+                                    required
+                                    labelFor="especificaciones_area"
+                                    value="Relacione las especificaciones del área donde se desarrollan las actividades de servicios tecnológicos en el centro de formación"
+                                    className="inline-block mb-4"
+                                />
+                                <Textarea
+                                    label="Especificaciones del área"
+                                    id="especificaciones_area"
+                                    error={form.errors.especificaciones_area}
+                                    value={form.data.especificaciones_area}
+                                    onChange={(e) => form.setData('especificaciones_area', e.target.value)}
+                                    onBlur={() => syncColumnLong('especificaciones_area', form)}
+                                    required
+                                />
+                            </Grid>
+                        )}
 
                         <Grid item md={6}>
                             <Label

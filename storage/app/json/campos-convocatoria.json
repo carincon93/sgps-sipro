@@ -1,5 +1,7 @@
 [
-    { "convocatoriaId": 3, "campo": "justificacion_economia_naranja" },
-    { "convocatoriaId": 3, "campo": "justificacion_proyecto_investigacion_pedagogica" },
-    { "convocatoriaId": 3, "campo": "nodo_editorial" }
+    { "convocatoria_id": 3, "campo": "justificacion_economia_naranja" },
+    { "convocatoria_id": 3, "campo": "justificacion_proyecto_investigacion_pedagogica" },
+    { "convocatoria_id": 3, "campo": "nodo_editorial" },
+    { "convocatoria_id": 3, "campo": "especificaciones_area" },
+    { "convocatoria_id": 14, "campo": "especificaciones_area" }
 ]

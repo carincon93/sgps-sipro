@@ -167,6 +167,7 @@ class ProyectoFormulario12Linea68Controller extends Controller
             'programas_formacion_sin_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),
             'programas_formacion_con_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $proyecto_formulario_12_linea_68->proyecto->centro_formacion_id)->values()->all(),
             'sectores_productivos'                          => collect(json_decode(Storage::get('json/sectores-productivos.json'), true)),
+            'campos_convocatoria'                           => collect(json_decode(Storage::get('json/campos-convocatoria.json'), true)),
             'municipios'                                    => SelectHelper::municipios(),
             'tipos_proyecto_formulario_12_linea_68'         => $tipo_proyecto_formulario_12_linea_68,
             'roles_sennova'                                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
@@ -187,7 +188,7 @@ class ProyectoFormulario12Linea68Controller extends Controller
         $proyecto_formulario_12_linea_68->update($request->validated());
         $proyecto_formulario_12_linea_68->save();
 
-        $proyecto_formulario_12_linea_68->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
+        $proyecto_formulario_12_linea_68->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_relacionados ? $request->programas_formacion_relacionados : []));
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
@@ -254,8 +255,17 @@ class ProyectoFormulario12Linea68Controller extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_12_linea_68->proyecto]);
 
-        if ($column == 'programas_formacion' || $column == 'programas_formacion_articulados') {
-            $proyecto_formulario_12_linea_68->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
+        $array_programas_formacion = [];
+        if ($column == 'programas_formacion_relacionados') {
+            $array_programas_formacion = array_merge($proyecto_formulario_12_linea_68->proyecto->programasFormacion()->where('registro_calificado', true)->get()->pluck('id')->toArray(), $request->programas_formacion_relacionados);
+        } else if ($column == 'programas_formacion') {
+            $array_programas_formacion = array_merge($proyecto_formulario_12_linea_68->proyecto->programasFormacion()->where('registro_calificado', false)->get()->pluck('id')->toArray(), $request->programas_formacion);
+        }
+
+        // dd($array_programas_formacion);
+
+        if ($column == 'programas_formacion' || $column == 'programas_formacion_relacionados') {
+            $proyecto_formulario_12_linea_68->proyecto->programasFormacion()->sync($array_programas_formacion);
 
             return back();
         }
