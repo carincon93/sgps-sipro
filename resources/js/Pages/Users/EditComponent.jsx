@@ -63,8 +63,8 @@ const EditComponent = ({
         <TabsMui
             tabs={[
                 { label: 'Datos personales' },
-                { label: 'Estudios académicos' },
                 { label: 'Formación académica SENA' },
+                { label: 'Estudios académicos' },
                 { label: 'Participaciones en grupo de investigación SENA' },
                 { label: 'Participaciones en proyectos SENNOVA' },
             ]}>
@@ -221,18 +221,18 @@ const EditComponent = ({
 
             <div>
                 <Paper elevation={0}>
-                    <EstudiosAcademicos usuario={usuario} estudios_academicos={estudios_academicos} niveles_academicos={niveles_academicos} />
-                </Paper>
-            </div>
-
-            <div>
-                <Paper elevation={0}>
                     <FormacionesAcademicasSena
                         usuario={usuario}
                         formaciones_academicas_sena={formaciones_academicas_sena}
                         modalidades_estudio={modalidades_estudio}
                         niveles_formacion={niveles_formacion}
                     />
+                </Paper>
+            </div>
+
+            <div>
+                <Paper elevation={0}>
+                    <EstudiosAcademicos usuario={usuario} estudios_academicos={estudios_academicos} niveles_academicos={niveles_academicos} />
                 </Paper>
             </div>
 

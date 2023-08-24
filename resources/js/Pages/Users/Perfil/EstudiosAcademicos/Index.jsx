@@ -66,7 +66,7 @@ const EstudiosAcademicos = ({ usuario, estudios_academicos, niveles_academicos }
                                 }
                             />
                             <ButtonMui
-                                onClick={() => (setDialogSoporteStatus(true), setEstudioAcademico(estudio_academico))}
+                                onClick={() => (setDialogSoporteStatus(true), setEstudioAcademico(estudio_academico), form.reset())}
                                 className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
                                 <AutorenewIcon className="mr-2" />
                                 {estudio_academico?.filename ? 'Reemplazar' : 'Cargar'} soporte

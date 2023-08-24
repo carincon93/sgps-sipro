@@ -43,7 +43,7 @@ const ParticipacionesProyectosSENNOVA = ({ usuario, participaciones_proyectos_se
                                 </TableCell>
 
                                 <TableCell>
-                                    <p className="px-6 py-4">{participacion_proyecto_sennova.titulo}</p>
+                                    <p className="px-6 py-4 line-clamp-3">{participacion_proyecto_sennova.titulo}</p>
                                 </TableCell>
 
                                 <TableCell>

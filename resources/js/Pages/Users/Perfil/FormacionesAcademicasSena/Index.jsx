@@ -53,7 +53,7 @@ const FormacionesAcademicasSena = ({ usuario, formaciones_academicas_sena, modal
                             <p className="first-letter:uppercase">{modalidades_estudio.find((item) => item.value == formacion_academica_sena.modalidad_sena).label}</p>
                         </TableCell>
                         <TableCell>
-                            <p className="first-letter:uppercase">{niveles_formacion.find((item) => item.value == formacion_academica_sena.modalidad_sena).label}</p>
+                            <p className="first-letter:uppercase">{niveles_formacion.find((item) => item.value == formacion_academica_sena.nivel_sena).label}</p>
                         </TableCell>
                         <TableCell>
                             <p className="first-letter:uppercase">{formacion_academica_sena.titulo_obtenido}</p>
@@ -72,7 +72,7 @@ const FormacionesAcademicasSena = ({ usuario, formaciones_academicas_sena, modal
                                 }
                             />
                             <ButtonMui
-                                onClick={() => (setDialogCertificadoStatus(true), setFormacionAcademicaSena(formacion_academica_sena))}
+                                onClick={() => (setDialogCertificadoStatus(true), setFormacionAcademicaSena(formacion_academica_sena), form.reset())}
                                 className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
                                 <AutorenewIcon className="mr-2" />
                                 {formacion_academica_sena?.filename ? 'Reemplazar' : 'Cargar'} soporte
