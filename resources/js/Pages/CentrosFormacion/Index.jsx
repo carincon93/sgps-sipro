@@ -45,7 +45,8 @@ const Index = ({ auth, centros_formacion, regionales, subdirectores, dinamizador
                     {centros_formacion.data.map((centro_formacion, i) => (
                         <TableRow key={i}>
                             <TableCell>
-                                <Chip className="mb-2" size="small" label={centro_formacion.codigo} />
+                                <Chip className="mb-2" size="small" label={'Código: ' + centro_formacion.codigo} />
+                                <br />
                                 {centro_formacion.nombre}
                             </TableCell>
 

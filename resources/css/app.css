@@ -214,3 +214,12 @@ tags.tagify.tagify--focus {
 .MuiSnackbar-root {
     right: 24px !important;
 }
+
+.MuiAutocomplete-option:before {
+    content: '•';
+    margin-right: 5px;
+}
+
+.MuiAutocomplete-root .MuiInputBase-input {
+    text-transform: uppercase;
+}

@@ -13,9 +13,13 @@ const useStyles = makeStyles((theme) => ({
         '&.MuiAutocomplete-popper': {
             whiteSpace: 'pre-line',
         },
+        '& .MuiAutocomplete-option': {
+            fontSize: '12px',
+            textTransform: 'uppercase',
+        },
     },
     root: {
-        '& .MuiFormLabel-root': {
+        '&.MuiFormLabel-root': {
             background: (props) => props.background,
             padding: '0 5px',
             borderRadius: '8px',
@@ -82,9 +86,9 @@ export default function Autocomplete({
                 isOptionEqualToValue={(option, value) => option.value === value.value}
                 renderOption={(props, option) => {
                     return (
-                        <React.Fragment key={option.value}>
+                        <React.Fragment key={option.value} className="odd:bg-white even:bg-slate-50">
                             {option.tooltip ? (
-                                <ToolTipMui title={option.tooltip} className="!block">
+                                <ToolTipMui title={option.tooltip} className="!block ">
                                     <li {...props}>{option.label}</li>
                                 </ToolTipMui>
                             ) : (

@@ -608,7 +608,7 @@ const Form = ({
                                     required
                                     className="mb-4"
                                     labelFor="cursos_de_evaluacion_realizados"
-                                    label="Si su respuesta en la pregunta anterior es 'SI' indique los cursos que ha realizado separados por (,)"
+                                    label="Si su respuesta en la pregunta anterior es 'SI' indique los cursos que ha realizado separados por coma (,)"
                                 />
                                 <Tags
                                     id="cursos_de_evaluacion_realizados"
@@ -617,7 +617,7 @@ const Form = ({
                                     value={form.data.cursos_de_evaluacion_realizados}
                                     tags={form.data.cursos_de_evaluacion_realizados}
                                     onChange={(e) => form.setData('cursos_de_evaluacion_realizados', e.target.value)}
-                                    placeholder="Nombres de los cursos"
+                                    placeholder="Nombres de los cursos (Separados por coma)"
                                     error={form.errors.cursos_de_evaluacion_realizados}
                                 />
                             </Grid>

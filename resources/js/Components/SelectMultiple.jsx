@@ -11,6 +11,10 @@ const useStyles = makeStyles((theme) => ({
         '&.MuiAutocomplete-popper': {
             whiteSpace: 'pre-line',
         },
+        '& .MuiAutocomplete-option': {
+            fontSize: '12px',
+            textTransform: 'uppercase',
+        },
     },
     root: {
         '& .MuiFormLabel-root': {

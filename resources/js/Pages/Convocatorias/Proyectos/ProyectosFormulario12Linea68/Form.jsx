@@ -45,7 +45,7 @@ const Form = ({
         programas_formacion: proyecto_formulario_12_linea_68?.proyecto.programas_formacion.map((item) => item.id) ?? null,
         programas_formacion_relacionados:
             programas_formacion_sin_registro_calificado
-                .filter((item) => proyecto_formulario_12_linea_68?.proyecto.programas_formacion.some((secondItem) => secondItem.id === item.value))
+                ?.filter((item) => proyecto_formulario_12_linea_68?.proyecto.programas_formacion.some((secondItem) => secondItem.id === item.value))
                 .map((item) => item.value) ?? null,
 
         estado_sistema_gestion_id: proyecto_formulario_12_linea_68?.estado_sistema_gestion_id ?? '',

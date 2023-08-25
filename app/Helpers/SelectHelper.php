@@ -55,7 +55,7 @@ class SelectHelper
      */
     public static function centrosFormacion()
     {
-        return CentroFormacion::selectRaw("centros_formacion.id as value, CONCAT(centros_formacion.nombre, chr(10), '∙ Código: ', centros_formacion.codigo) as label, CONCAT('∙ Regional: ', INITCAP(regionales.nombre)) as tooltip, regionales.id as regional_id")->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->orderBy('centros_formacion.nombre', 'ASC')->get();
+        return CentroFormacion::selectRaw("centros_formacion.id as value, CONCAT(centros_formacion.nombre, chr(10), ' Código: ', centros_formacion.codigo) as label, CONCAT(' Regional: ', INITCAP(regionales.nombre)) as tooltip, regionales.id as regional_id")->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->orderBy('centros_formacion.nombre', 'ASC')->get();
     }
 
     /**
@@ -156,7 +156,7 @@ class SelectHelper
      */
     public static function lineasProgramaticas()
     {
-        return LineaProgramatica::selectRaw('lineas_programaticas.id as value, CONCAT(lineas_programaticas.nombre, chr(10), \'∙ Código: \', lineas_programaticas.codigo) as label, lineas_programaticas.categoria_proyecto as categoria_proyecto')->get();
+        return LineaProgramatica::selectRaw('lineas_programaticas.id as value, CONCAT(lineas_programaticas.nombre, chr(10), \' Código: \', lineas_programaticas.codigo) as label, lineas_programaticas.categoria_proyecto as categoria_proyecto')->get();
     }
 
     /**
@@ -190,13 +190,13 @@ class SelectHelper
     public static function laboratoriosServiciosTecnologicos()
     {
         return LaboratorioServicioTecnologico::selectRaw("tipos_proyecto_linea_68.id as value, CASE subclasificacion
-                    WHEN '1' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), '∙ Automatización y TICs', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
-                    WHEN '2' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), '∙ Calibración', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
-                    WHEN '3' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), '∙ Consultoría técnica', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
-                    WHEN '4' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), '∙ Ensayo', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
-                    WHEN '5' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), '∙ Fabricación especial', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
-                    WHEN '6' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), '∙ Seguridad y salud en el trabajo', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
-                    WHEN '7' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), '∙ Servicios de salud', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
+                    WHEN '1' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), ' Automatización y TICs', chr(10), ' Línea técnica: ', lineas_tecnicas.nombre)
+                    WHEN '2' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), ' Calibración', chr(10), ' Línea técnica: ', lineas_tecnicas.nombre)
+                    WHEN '3' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), ' Consultoría técnica', chr(10), ' Línea técnica: ', lineas_tecnicas.nombre)
+                    WHEN '4' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), ' Ensayo', chr(10), ' Línea técnica: ', lineas_tecnicas.nombre)
+                    WHEN '5' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), ' Fabricación especial', chr(10), ' Línea técnica: ', lineas_tecnicas.nombre)
+                    WHEN '6' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), ' Seguridad y salud en el trabajo', chr(10), ' Línea técnica: ', lineas_tecnicas.nombre)
+                    WHEN '7' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), ' Servicios de salud', chr(10), ' Línea técnica: ', lineas_tecnicas.nombre)
                 END as label, centros_formacion.regional_id as regional_id")
             ->join('centros_formacion', 'tipos_proyecto_linea_68.centro_formacion_id', 'centros_formacion.id')
             ->join('lineas_tecnicas', 'tipos_proyecto_linea_68.linea_tecnica_id', 'lineas_tecnicas.id')->get();
@@ -209,7 +209,7 @@ class SelectHelper
      */
     public static function programasFormacion()
     {
-        return ProgramaFormacion::selectRaw('programas_formacion.id as value, CONCAT(programas_formacion.nombre, chr(10), \'∙ Código: \', programas_formacion.codigo, chr(10), \'∙ SNIES: \', programas_formacion.snies) as label, programas_formacion.registro_calificado, programas_formacion.centro_formacion_id')->orderBy('programas_formacion.nombre', 'ASC')->get();
+        return ProgramaFormacion::selectRaw('programas_formacion.id as value, CONCAT(programas_formacion.nombre) as label, programas_formacion.registro_calificado, programas_formacion.centro_formacion_id')->orderBy('programas_formacion.nombre', 'ASC')->get();
     }
 
     /**
@@ -221,8 +221,8 @@ class SelectHelper
     public static function estadosSistemaGestion()
     {
         return EstadoSistemaGestion::selectRaw("id as value, CASE tipo_proyecto
-            WHEN '1' THEN   CONCAT(estados_sistema_gestion.estado, chr(10), '∙ Categoría A')
-            WHEN '2' THEN   CONCAT(estados_sistema_gestion.estado, chr(10), '∙ Categoría B')
+            WHEN '1' THEN   CONCAT(estados_sistema_gestion.estado, chr(10), ' Categoría A')
+            WHEN '2' THEN   CONCAT(estados_sistema_gestion.estado, chr(10), ' Categoría B')
         END as label")->orderBy('id', 'ASC')->get();
     }
 
@@ -254,7 +254,7 @@ class SelectHelper
      */
     public static function gruposInvestigacion()
     {
-        return GrupoInvestigacion::selectRaw('grupos_investigacion.id as value, CONCAT(grupos_investigacion.nombre, chr(10), \'∙ Acrónimo: \', grupos_investigacion.acronimo, chr(10), \'∙ Centro de formación: \', centros_formacion.nombre, chr(10), \'∙ Regional: \', regionales.nombre) as label, centros_formacion.id as centro_formacion_id, regionales.id as regional_id')->join('centros_formacion', 'grupos_investigacion.centro_formacion_id', 'centros_formacion.id')->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->get();
+        return GrupoInvestigacion::selectRaw('grupos_investigacion.id as value, CONCAT(grupos_investigacion.nombre, chr(10), \' Acrónimo: \', grupos_investigacion.acronimo, chr(10), \' Centro de formación: \', centros_formacion.nombre, chr(10), \' Regional: \', regionales.nombre) as label, centros_formacion.id as centro_formacion_id, regionales.id as regional_id')->join('centros_formacion', 'grupos_investigacion.centro_formacion_id', 'centros_formacion.id')->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->get();
     }
 
     /**
@@ -264,7 +264,7 @@ class SelectHelper
      */
     public static function lineasInvestigacion()
     {
-        return LineaInvestigacion::selectRaw('lineas_investigacion.id as value, CONCAT(lineas_investigacion.nombre, chr(10), \'∙ Grupo de investigación: \', grupos_investigacion.nombre, chr(10)) as label, centros_formacion.id as centro_formacion_id, lineas_investigacion.grupo_investigacion_id')->join('grupos_investigacion', 'lineas_investigacion.grupo_investigacion_id', 'grupos_investigacion.id')->join('centros_formacion', 'grupos_investigacion.centro_formacion_id', 'centros_formacion.id')->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->get();
+        return LineaInvestigacion::selectRaw('lineas_investigacion.id as value, CONCAT(lineas_investigacion.nombre, chr(10), \' Grupo de investigación: \', grupos_investigacion.nombre, chr(10)) as label, centros_formacion.id as centro_formacion_id, lineas_investigacion.grupo_investigacion_id')->join('grupos_investigacion', 'lineas_investigacion.grupo_investigacion_id', 'grupos_investigacion.id')->join('centros_formacion', 'grupos_investigacion.centro_formacion_id', 'centros_formacion.id')->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->get();
     }
 
     /**
@@ -295,9 +295,9 @@ class SelectHelper
     public static function tecnoacademias()
     {
         return Tecnoacademia::selectRaw("tecnoacademias.id as value, CASE modalidad
-                WHEN '1' THEN	CONCAT(tecnoacademias.nombre, chr(10), '∙ Modalidad: itinerante', chr(10), '∙ Centro de formación: ', centros_formacion.codigo, ' - ', centros_formacion.nombre)
-                WHEN '2' THEN	CONCAT(tecnoacademias.nombre, chr(10), '∙ Modalidad: itinerante - vehículo', chr(10), '∙ Centro de formación: ', centros_formacion.codigo, ' - ', centros_formacion.nombre)
-                WHEN '3' THEN	CONCAT(tecnoacademias.nombre, chr(10), '∙ Modalidad: fija con extensión', chr(10), '∙ Centro de formación: ', centros_formacion.codigo, ' - ', centros_formacion.nombre)
+                WHEN '1' THEN	CONCAT(tecnoacademias.nombre, chr(10), ' Modalidad: itinerante', chr(10), ' Centro de formación: ', centros_formacion.codigo, ' - ', centros_formacion.nombre)
+                WHEN '2' THEN	CONCAT(tecnoacademias.nombre, chr(10), ' Modalidad: itinerante - vehículo', chr(10), ' Centro de formación: ', centros_formacion.codigo, ' - ', centros_formacion.nombre)
+                WHEN '3' THEN	CONCAT(tecnoacademias.nombre, chr(10), ' Modalidad: fija con extensión', chr(10), ' Centro de formación: ', centros_formacion.codigo, ' - ', centros_formacion.nombre)
             END as label, centros_formacion.id as centro_formacion_id, centros_formacion.regional_id as regional_id")
             ->join('centros_formacion', 'tecnoacademias.centro_formacion_id', 'centros_formacion.id')
             ->get();
@@ -320,7 +320,7 @@ class SelectHelper
      */
     public static function proyectosIdiTecnoacademia()
     {
-        return ProyectoIdiTecnoacademia::selectRaw('proyectos_idi_tecnoacademia.id as value, CONCAT(\'IDITA-\', proyectos_idi_tecnoacademia.id, \' ∙ \', proyectos_idi_tecnoacademia.titulo) as label, proyectos_idi_tecnoacademia.tecnoacademia_id as tecnoacademia_id')->get();
+        return ProyectoIdiTecnoacademia::selectRaw('proyectos_idi_tecnoacademia.id as value, CONCAT(\'IDITA-\', proyectos_idi_tecnoacademia.id, \'  \', proyectos_idi_tecnoacademia.titulo) as label, proyectos_idi_tecnoacademia.tecnoacademia_id as tecnoacademia_id')->get();
     }
 
     /**
@@ -340,7 +340,7 @@ class SelectHelper
      */
     public static function líneasProgramaticas()
     {
-        return LineaProgramatica::selectRaw('id as value, CONCAT(nombre, \' ∙ \', codigo) as label, codigo')->orderBy('nombre', 'ASC')->get();
+        return LineaProgramatica::selectRaw('id as value, CONCAT(nombre, \'  \', codigo) as label, codigo')->orderBy('nombre', 'ASC')->get();
     }
 
     /**
@@ -430,7 +430,7 @@ class SelectHelper
      */
     public static function semillerosInvestigacion()
     {
-        return SemilleroInvestigacion::selectRaw('semilleros_investigacion.id as value, CONCAT(semilleros_investigacion.nombre, chr(10), \'∙ Grupo de investigación: \', grupos_investigacion.nombre, chr(10)) as label, grupos_investigacion.centro_formacion_id as centro_formacion_id, lineas_investigacion.id as linea_investigacion_id')
+        return SemilleroInvestigacion::selectRaw('semilleros_investigacion.id as value, CONCAT(semilleros_investigacion.nombre, chr(10), \' Grupo de investigación: \', grupos_investigacion.nombre, chr(10)) as label, grupos_investigacion.centro_formacion_id as centro_formacion_id, lineas_investigacion.id as linea_investigacion_id')
             ->join('lineas_investigacion', 'semilleros_investigacion.linea_investigacion_id', 'lineas_investigacion.id')
             ->join('grupos_investigacion', 'lineas_investigacion.grupo_investigacion_id', 'grupos_investigacion.id')
             ->orderBy('semilleros_investigacion.nombre', 'ASC')->get();
@@ -463,7 +463,7 @@ class SelectHelper
      */
     public static function disenoCurriculares()
     {
-        return DisenoCurricular::selectRaw('id as value, CONCAT(nombre, \' ∙ Código: \', codigo) as label, habilitado_convocatoria')->get();
+        return DisenoCurricular::selectRaw('id as value, CONCAT(nombre, \'  Código: \', codigo) as label, habilitado_convocatoria')->get();
     }
 
     /**
@@ -496,7 +496,7 @@ class SelectHelper
      */
     public static function subtipologiasMinciencias()
     {
-        return SubtipologiaMinciencias::selectRaw('subtipologias_minciencias.id as value, CONCAT(subtipologias_minciencias.nombre, chr(10), \'∙ Tipología Minciencias: \', tipologias_minciencias.nombre) as label')->join('tipologias_minciencias', 'subtipologias_minciencias.tipologia_minciencias_id', 'tipologias_minciencias.id')->orderBy('subtipologias_minciencias.nombre')->get();
+        return SubtipologiaMinciencias::selectRaw('subtipologias_minciencias.id as value, CONCAT(subtipologias_minciencias.nombre, chr(10), \' Tipología Minciencias: \', tipologias_minciencias.nombre) as label')->join('tipologias_minciencias', 'subtipologias_minciencias.tipologia_minciencias_id', 'tipologias_minciencias.id')->orderBy('subtipologias_minciencias.nombre')->get();
     }
 
     /**
