@@ -57,12 +57,8 @@ class LineaInvestigacionPolicy
      */
     public function update(User $user, LineaInvestigacion $linea_investigacion)
     {
-        if ($user->hasRole([20, 18, 19, 5, 17])) {
-            return true;
-        }
-
         if ($linea_investigacion->grupoInvestigacion) {
-            if ($user->dinamizadorCentroFormacion && $user->hasRole(4) && $user->dinamizadorCentroFormacion->id == 5 || $user->hasRole([21, 27]) && $user->centro_formacion_id == 5) {
+            if ($user->hasRole([20, 18, 19, 5, 17]) || $user->hasRole(4) && $user->dinamizadorCentroFormacion->id == $linea_investigacion->grupoInvestigacion->centroFormacion->id || $user->hasRole(21) && $user->centroFormacion->id == $linea_investigacion->grupoInvestigacion->centroFormacion->id || $user->hasRole(27) && $user->centro_formacion_id == $linea_investigacion->grupoInvestigacion->centroFormacion->id) {
                 return true;
             }
         }

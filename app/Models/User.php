@@ -439,7 +439,7 @@ class User extends Authenticatable
         if ($auth_user->hasRole([1, 21, 17, 18, 20, 19, 5])) {
             $users = User::select('users.id', 'users.nombre', 'users.email', 'centro_formacion_id')->with('roles', 'centroFormacion.regional')->orderBy('nombre', 'ASC')
                 ->filterUser(request()->only('search', 'roles'))->paginate();
-        } else if ($auth_user->hasRole([4, 21])) {
+        } else if ($auth_user->hasRole([3, 4, 21])) {
             if ($auth_user->dinamizadorCentroFormacion()->exists()) {
                 $centro_formacion_id = $auth_user->dinamizadorCentroFormacion->id;
             } else {

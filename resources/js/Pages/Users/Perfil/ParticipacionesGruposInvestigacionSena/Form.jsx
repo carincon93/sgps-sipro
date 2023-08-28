@@ -49,6 +49,7 @@ const Form = ({ method = '', setDialogStatus, user_id, participacion_grupo_inves
                                 error={form.errors.pertenece_grupo_investigacion_centro}
                                 label="¿Actualmente pertenece al grupo de investigación de su centro?"
                                 onChange={(event, newValue) => form.setData('pertenece_grupo_investigacion_centro', newValue.value)}
+                                disabled={!usuario?.allowed?.to_update}
                                 required
                             />
 
@@ -60,6 +61,7 @@ const Form = ({ method = '', setDialogStatus, user_id, participacion_grupo_inves
                                     error={form.errors.grupo_investigacion_id}
                                     label="Grupo de investigación al que pertenece actualmente"
                                     onChange={(event, newValue) => form.setData('grupo_investigacion_id', newValue.value)}
+                                    disabled={!usuario?.allowed?.to_update}
                                     required
                                 />
                             )}
@@ -74,6 +76,7 @@ const Form = ({ method = '', setDialogStatus, user_id, participacion_grupo_inves
                                 error={form.errors.pertenece_semillero_investigacion_centro}
                                 label="¿Actualmente pertenece al semillero de investigación de su centro?"
                                 onChange={(event, newValue) => form.setData('pertenece_semillero_investigacion_centro', newValue.value)}
+                                disabled={!usuario?.allowed?.to_update}
                                 required
                             />
 
@@ -85,6 +88,7 @@ const Form = ({ method = '', setDialogStatus, user_id, participacion_grupo_inves
                                     error={form.errors.semillero_investigacion_id}
                                     label="Semillero de investigación al que pertenece actualmente"
                                     onChange={(event, newValue) => form.setData('semillero_investigacion_id', newValue.value)}
+                                    disabled={!usuario?.allowed?.to_update}
                                     required
                                 />
                             )}

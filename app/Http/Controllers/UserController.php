@@ -120,7 +120,7 @@ class UserController extends Controller
      */
     public function edit(Request $request, User $user)
     {
-        $this->authorize('update', [User::class, $user]);
+        $this->authorize('view', [User::class, $user]);
 
         $proyectos = $user->proyectos->load('proyectoFormulario1Linea65', 'proyectoFormulario8Linea66', 'proyectoFormulario12Linea68', 'proyectoFormulario5Linea69.nodoTecnoparque', 'tecnoacademiaLineasTecnoacademia.tecnoacademia', );
 

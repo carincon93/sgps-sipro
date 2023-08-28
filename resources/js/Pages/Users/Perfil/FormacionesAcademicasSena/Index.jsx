@@ -40,13 +40,15 @@ const FormacionesAcademicasSena = ({ usuario, formaciones_academicas_sena, modal
     return (
         <>
             <TableMui rows={['Modalidad', 'Nivel académico', 'Título obtenido', 'Certificado', 'Acciones']} sxCellThead={{ width: '320px' }} className="mt-10">
-                <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setFormacionAcademicaSena(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
-                    <TableCell colSpan={5}>
-                        <ButtonMui>
-                            <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar formacion académica SENA
-                        </ButtonMui>
-                    </TableCell>
-                </TableRow>
+                {usuario?.allowed?.to_update && (
+                    <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setFormacionAcademicaSena(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                        <TableCell colSpan={5}>
+                            <ButtonMui>
+                                <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar formacion académica SENA
+                            </ButtonMui>
+                        </TableCell>
+                    </TableRow>
+                )}
                 {formaciones_academicas_sena.map((formacion_academica_sena, i) => (
                     <TableRow key={i}>
                         <TableCell>
@@ -73,7 +75,8 @@ const FormacionesAcademicasSena = ({ usuario, formaciones_academicas_sena, modal
                             />
                             <ButtonMui
                                 onClick={() => (setDialogCertificadoStatus(true), setFormacionAcademicaSena(formacion_academica_sena), form.reset())}
-                                className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full"
+                                disabled={!usuario?.allowed?.to_update}>
                                 <AutorenewIcon className="mr-2" />
                                 {formacion_academica_sena?.filename ? 'Reemplazar' : 'Cargar'} soporte
                             </ButtonMui>
@@ -82,12 +85,15 @@ const FormacionesAcademicasSena = ({ usuario, formaciones_academicas_sena, modal
                             <MenuMui text={<MoreVertIcon />}>
                                 {formacion_academica_sena.id !== formacion_academica_sena_to_destroy ? (
                                     <div>
-                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setFormacionAcademicaSena(formacion_academica_sena))}>Editar</MenuItem>
+                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setFormacionAcademicaSena(formacion_academica_sena))} disabled={!usuario?.allowed?.to_view}>
+                                            {usuario?.allowed?.to_view && !usuario?.allowed?.to_update ? 'Ver información' : 'Editar'}
+                                        </MenuItem>
 
                                         <MenuItem
                                             onClick={() => {
                                                 setFormacionAcademicaSenaToDestroy(formacion_academica_sena.id)
-                                            }}>
+                                            }}
+                                            disabled={!usuario?.allowed?.to_update}>
                                             Eliminar
                                         </MenuItem>
                                     </div>

@@ -187,7 +187,7 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1, 4, 21, 18, 19, 5, 17]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',
@@ -206,7 +206,7 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 4, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1, 3, 4, 21, 18, 19, 5, 17]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',
@@ -301,7 +301,7 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 2, 4, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1, 3, 4, 21, 18, 19, 5, 17]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',
@@ -358,7 +358,7 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 2, 4, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1, 3, 4, 21, 18, 19, 5, 17]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',

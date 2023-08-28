@@ -139,7 +139,7 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
 
                                                     <MenuItem
                                                         onClick={() => (setDialogStatus(true), setMethod('PUT'), setGrupoInvestigacion(grupo_investigacion))}
-                                                        disabled={!grupo_investigacion?.allowed?.to_view}>
+                                                        disabled={!grupo_investigacion?.allowed?.to_update}>
                                                         Editar
                                                     </MenuItem>
 
@@ -223,7 +223,8 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
                                     />
                                     <ButtonMui
                                         onClick={() => (setDialogFormatoStatus(true), setGrupoInvestigacion(grupo_investigacion), setTipoArchivo('formato_gic_f_032'))}
-                                        className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                        className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full"
+                                        disabled={!grupo_investigacion?.allowed?.to_update}>
                                         <AutorenewIcon className="mr-2" />
                                         {grupo_investigacion?.filename.formato_gic_f_032_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 032
                                     </ButtonMui>
@@ -243,7 +244,8 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
                                     />
                                     <ButtonMui
                                         onClick={() => (setDialogFormatoStatus(true), setGrupoInvestigacion(grupo_investigacion), setTipoArchivo('formato_gic_f_020'))}
-                                        className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                        className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full"
+                                        disabled={!grupo_investigacion?.allowed?.to_update}>
                                         <AutorenewIcon className="mr-2" />
                                         {grupo_investigacion?.filename.formato_gic_f_020_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 020
                                     </ButtonMui>
@@ -267,7 +269,7 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
 
                                                 <MenuItem
                                                     onClick={() => (setDialogStatus(true), setMethod('PUT'), setGrupoInvestigacion(grupo_investigacion))}
-                                                    disabled={!grupo_investigacion?.allowed?.to_view}>
+                                                    disabled={!grupo_investigacion?.allowed?.to_update}>
                                                     Editar
                                                 </MenuItem>
 

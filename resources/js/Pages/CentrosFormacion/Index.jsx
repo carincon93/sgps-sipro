@@ -51,22 +51,28 @@ const Index = ({ auth, centros_formacion, regionales, subdirectores, dinamizador
                             </TableCell>
 
                             <TableCell>{centro_formacion?.regional?.nombre}</TableCell>
-                            <TableCell> {centro_formacion.dinamizador_sennova?.nombre}</TableCell>
+                            <TableCell>
+                                {centro_formacion.dinamizador_sennova?.nombre}
+                                <br />
+                                {centro_formacion.dinamizador_sennova?.email}
+                            </TableCell>
 
                             <TableCell>
                                 <MenuMui text={<MoreVertIcon />}>
                                     {centro_formacion.id !== centro_formacion_to_destroy ? (
                                         <div>
-                                            <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setCentroFormacion(centro_formacion))} disabled={!is_super_admin}>
-                                                Editar
+                                            <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setCentroFormacion(centro_formacion))} disabled={!centro_formacion?.allowed?.to_update}>
+                                                {centro_formacion?.allowed?.to_view && !centro_formacion?.allowed?.to_update ? 'Ver información' : 'Editar'}
                                             </MenuItem>
 
-                                            <MenuItem
-                                                onClick={() => {
-                                                    setCentroFormacionToDestroy(centro_formacion.id)
-                                                }}>
-                                                Eliminar
-                                            </MenuItem>
+                                            {is_super_admin && (
+                                                <MenuItem
+                                                    onClick={() => {
+                                                        setCentroFormacionToDestroy(centro_formacion.id)
+                                                    }}>
+                                                    Eliminar
+                                                </MenuItem>
+                                            )}
                                         </div>
                                     ) : (
                                         <div>

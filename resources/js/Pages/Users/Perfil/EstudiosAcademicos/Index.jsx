@@ -39,13 +39,15 @@ const EstudiosAcademicos = ({ usuario, estudios_academicos, niveles_academicos }
     return (
         <>
             <TableMui rows={['Grado de formación', 'Título obtenido', 'Soporte', 'Acciones']} sxCellThead={{ width: '320px' }} className="mt-10">
-                <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setEstudioAcademico(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
-                    <TableCell colSpan={4}>
-                        <ButtonMui>
-                            <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar estudio académico
-                        </ButtonMui>
-                    </TableCell>
-                </TableRow>
+                {usuario?.allowed?.to_update && (
+                    <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setEstudioAcademico(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                        <TableCell colSpan={4}>
+                            <ButtonMui>
+                                <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar estudio académico
+                            </ButtonMui>
+                        </TableCell>
+                    </TableRow>
+                )}
                 {estudios_academicos.map((estudio_academico, i) => (
                     <TableRow key={i}>
                         <TableCell>
@@ -67,7 +69,8 @@ const EstudiosAcademicos = ({ usuario, estudios_academicos, niveles_academicos }
                             />
                             <ButtonMui
                                 onClick={() => (setDialogSoporteStatus(true), setEstudioAcademico(estudio_academico), form.reset())}
-                                className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full"
+                                disabled={!usuario?.allowed?.to_update}>
                                 <AutorenewIcon className="mr-2" />
                                 {estudio_academico?.filename ? 'Reemplazar' : 'Cargar'} soporte
                             </ButtonMui>
@@ -76,12 +79,15 @@ const EstudiosAcademicos = ({ usuario, estudios_academicos, niveles_academicos }
                             <MenuMui text={<MoreVertIcon />}>
                                 {estudio_academico.id !== estudio_academico_to_destroy ? (
                                     <div>
-                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setEstudioAcademico(estudio_academico))}>Editar</MenuItem>
+                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setEstudioAcademico(estudio_academico))} disabled={!usuario?.allowed?.to_view}>
+                                            {usuario?.allowed?.to_view && !usuario?.allowed?.to_update ? 'Ver información' : 'Editar'}
+                                        </MenuItem>
 
                                         <MenuItem
                                             onClick={() => {
                                                 setEstudioAcademicoToDestroy(estudio_academico.id)
-                                            }}>
+                                            }}
+                                            disabled={!usuario?.allowed?.to_update}>
                                             Eliminar
                                         </MenuItem>
                                     </div>

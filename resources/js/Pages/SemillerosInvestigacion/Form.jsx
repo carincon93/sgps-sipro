@@ -63,6 +63,7 @@ const Form = ({ method = '', setDialogStatus, semillero_investigacion, grupo_inv
                                     ]}
                                     selectedValue={form.data.es_semillero_tecnoacademia}
                                     onChange={(event, newValue) => form.setData('es_semillero_tecnoacademia', newValue.value)}
+                                    disabled={!semillero_investigacion?.allowed?.to_update}
                                     error={form.errors.es_semillero_tecnoacademia}
                                     label="¿Es semillero de TecnoAcademia?"
                                     required
@@ -86,6 +87,7 @@ const Form = ({ method = '', setDialogStatus, semillero_investigacion, grupo_inv
                                     options={lineas_investigacion}
                                     selectedValue={form.data.linea_investigacion_id}
                                     onChange={(event, newValue) => form.setData('linea_investigacion_id', newValue.value)}
+                                    disabled={!semillero_investigacion?.allowed?.to_update}
                                     error={form.errors.linea_investigacion_id}
                                     label="Línea de investigación principal"
                                     required
@@ -104,6 +106,7 @@ const Form = ({ method = '', setDialogStatus, semillero_investigacion, grupo_inv
                                             lineas_investigacion: selected_values,
                                         }))
                                     }}
+                                    disabled={!semillero_investigacion?.allowed?.to_update}
                                     label="Articulación con líneas de investigación"
                                     error={form.errors.lineas_investigacion}
                                     required
@@ -118,6 +121,7 @@ const Form = ({ method = '', setDialogStatus, semillero_investigacion, grupo_inv
                                     error={form.errors.nombre}
                                     label="Nombre del semillero de investigación"
                                     onChange={(e) => form.setData('nombre', e.target.value)}
+                                    disabled={!semillero_investigacion?.allowed?.to_update}
                                     required
                                 />
                             </Grid>
@@ -129,6 +133,7 @@ const Form = ({ method = '', setDialogStatus, semillero_investigacion, grupo_inv
                                     className="block w-full p-4"
                                     value={form.data.fecha_creacion_semillero}
                                     onChange={(e) => form.setData('fecha_creacion_semillero', e.target.value)}
+                                    disabled={!semillero_investigacion?.allowed?.to_update}
                                     error={form.errors.fecha_creacion_semillero}
                                     required
                                 />
@@ -139,6 +144,7 @@ const Form = ({ method = '', setDialogStatus, semillero_investigacion, grupo_inv
                                     type="text"
                                     value={form.data.nombre_lider_semillero}
                                     onChange={(e) => form.setData('nombre_lider_semillero', e.target.value)}
+                                    disabled={!semillero_investigacion?.allowed?.to_update}
                                     error={form.errors.nombre_lider_semillero}
                                     label="Nombre del líder del semillero"
                                     required
@@ -152,6 +158,7 @@ const Form = ({ method = '', setDialogStatus, semillero_investigacion, grupo_inv
                                     error={form.errors.email_contacto}
                                     label="Email de contacto"
                                     onChange={(e) => form.setData('email_contacto', e.target.value)}
+                                    disabled={!semillero_investigacion?.allowed?.to_update}
                                     required
                                 />
                             </Grid>
@@ -161,15 +168,32 @@ const Form = ({ method = '', setDialogStatus, semillero_investigacion, grupo_inv
                                     label="Reconocimientos del semillero de investigación"
                                     value={form.data.reconocimientos_semillero_investigacion}
                                     onChange={(e) => form.setData('reconocimientos_semillero_investigacion', e.target.value)}
+                                    disabled={!semillero_investigacion?.allowed?.to_update}
                                     error={form.errors.reconocimientos_semillero_investigacion}
                                     required
                                 />
                             </Grid>
                             <Grid item md={12}>
-                                <Textarea id="vision" value={form.data.vision} error={form.errors.vision} label="Visión" onChange={(e) => form.setData('vision', e.target.value)} required />
+                                <Textarea
+                                    id="vision"
+                                    value={form.data.vision}
+                                    error={form.errors.vision}
+                                    label="Visión"
+                                    onChange={(e) => form.setData('vision', e.target.value)}
+                                    disabled={!semillero_investigacion?.allowed?.to_update}
+                                    required
+                                />
                             </Grid>
                             <Grid item md={12}>
-                                <Textarea id="mision" value={form.data.mision} error={form.errors.mision} label="Misión" onChange={(e) => form.setData('mision', e.target.value)} required />
+                                <Textarea
+                                    id="mision"
+                                    value={form.data.mision}
+                                    error={form.errors.mision}
+                                    label="Misión"
+                                    onChange={(e) => form.setData('mision', e.target.value)}
+                                    disabled={!semillero_investigacion?.allowed?.to_update}
+                                    required
+                                />
                             </Grid>
                             <Grid item md={12}>
                                 <Textarea
@@ -178,6 +202,7 @@ const Form = ({ method = '', setDialogStatus, semillero_investigacion, grupo_inv
                                     error={form.errors.objetivo_general}
                                     label="Objetivo general"
                                     onChange={(e) => form.setData('objetivo_general', e.target.value)}
+                                    disabled={!semillero_investigacion?.allowed?.to_update}
                                     required
                                 />
                             </Grid>
@@ -188,6 +213,7 @@ const Form = ({ method = '', setDialogStatus, semillero_investigacion, grupo_inv
                                     error={form.errors.objetivos_especificos}
                                     label="Objetivos específicos"
                                     onChange={(e) => form.setData('objetivos_especificos', e.target.value)}
+                                    disabled={!semillero_investigacion?.allowed?.to_update}
                                     required
                                 />
                             </Grid>
@@ -197,6 +223,7 @@ const Form = ({ method = '', setDialogStatus, semillero_investigacion, grupo_inv
                                     type="url"
                                     value={form.data.link_semillero}
                                     onChange={(e) => form.setData('link_semillero', e.target.value)}
+                                    disabled={!semillero_investigacion?.allowed?.to_update}
                                     error={form.errors.link_semillero}
                                     label="Link del semillero"
                                     required
@@ -215,6 +242,7 @@ const Form = ({ method = '', setDialogStatus, semillero_investigacion, grupo_inv
                                             redes_conocimiento: selected_values,
                                         }))
                                     }}
+                                    disabled={!semillero_investigacion?.allowed?.to_update}
                                     label="Redes de conocimiento afines al Semillero de Investigación"
                                     error={form.errors.redes_conocimiento}
                                     required

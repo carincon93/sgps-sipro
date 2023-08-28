@@ -67,7 +67,7 @@ export default function Dashboard({ auth, roles_sistema }) {
                     </Grid>
                 )}
 
-                {checkRole(auth_user, [1, 4, 21, 18, 19, 5, 17]) && (
+                {checkRole(auth_user, [1, 3, 4, 21, 18, 19, 5, 17]) && (
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
@@ -107,7 +107,7 @@ export default function Dashboard({ auth, roles_sistema }) {
                     </Grid>
                 )}
 
-                {checkRole(auth_user, [1, 4, 5, 17, 18, 19, 21]) && (
+                {checkRole(auth_user, [1, 3, 4, 5, 17, 18, 19, 21]) && (
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
@@ -147,7 +147,7 @@ export default function Dashboard({ auth, roles_sistema }) {
                     </Grid>
                 )}
 
-                {checkRole(auth_user, [1, 4, 5, 17, 18, 19, 21]) && (
+                {checkRole(auth_user, [1, 3, 4, 5, 17, 18, 19, 21]) && (
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"

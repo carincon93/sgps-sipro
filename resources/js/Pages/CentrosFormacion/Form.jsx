@@ -6,7 +6,7 @@ import TextInput from '@/Components/TextInput'
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', setDialogStatus, centro_formacion, regionales, subdirectores, dinamizadores_sennova, ...props }) => {
+const Form = ({ method = '', is_super_admin, setDialogStatus, centro_formacion, regionales, subdirectores, dinamizadores_sennova, ...props }) => {
     const form = useForm({
         _method: method,
         nombre: centro_formacion?.nombre,
@@ -91,6 +91,7 @@ const Form = ({ method = '', setDialogStatus, centro_formacion, regionales, subd
                                     options={dinamizadores_sennova}
                                     selectedValue={form.data.dinamizador_sennova_id}
                                     onChange={(event, newValue) => form.setData('dinamizador_sennova_id', newValue.value)}
+                                    disabled={!is_super_admin}
                                     error={form.errors.dinamizador_sennova_id}
                                     label="Dinamizador/a SENNOVA"
                                     required

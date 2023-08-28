@@ -21,16 +21,18 @@ const ParticipacionesGrupoInvestigacionSENA = ({ usuario, participaciones_grupos
     return (
         <>
             <TableMui rows={['Grupo de investigación', 'Semillero de investigación', 'Acciones']} sxCellThead={{ width: '320px' }} className="mt-10">
-                <TableRow
-                    onClick={() => (setDialogStatus(true), setMethod('POST'), setParticipacionGrupoInvestigacionSena(null))}
-                    variant="raised"
-                    className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
-                    <TableCell colSpan={3}>
-                        <ButtonMui>
-                            <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar participación
-                        </ButtonMui>
-                    </TableCell>
-                </TableRow>
+                {usuario?.allowed?.to_update && (
+                    <TableRow
+                        onClick={() => (setDialogStatus(true), setMethod('POST'), setParticipacionGrupoInvestigacionSena(null))}
+                        variant="raised"
+                        className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                        <TableCell colSpan={3}>
+                            <ButtonMui>
+                                <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar participación
+                            </ButtonMui>
+                        </TableCell>
+                    </TableRow>
+                )}
                 {participaciones_grupos_investigacion_sena.map((participacion_grupo_investigacion_sena, i) => (
                     <TableRow key={i}>
                         <TableCell>
@@ -52,14 +54,17 @@ const ParticipacionesGrupoInvestigacionSENA = ({ usuario, participaciones_grupos
                             <MenuMui text={<MoreVertIcon />}>
                                 {participacion_grupo_investigacion_sena.id !== participacion_grupo_investigacion_sena_to_destroy ? (
                                     <div>
-                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setParticipacionGrupoInvestigacionSena(participacion_grupo_investigacion_sena))}>
-                                            Editar
+                                        <MenuItem
+                                            onClick={() => (setDialogStatus(true), setMethod('PUT'), setParticipacionGrupoInvestigacionSena(participacion_grupo_investigacion_sena))}
+                                            disabled={!usuario?.allowed?.to_view}>
+                                            {usuario?.allowed?.to_view && !usuario?.allowed?.to_update ? 'Ver información' : 'Editar'}
                                         </MenuItem>
 
                                         <MenuItem
                                             onClick={() => {
                                                 setParticipacionGrupoInvestigacionSenaToDestroy(participacion_grupo_investigacion_sena.id)
-                                            }}>
+                                            }}
+                                            disabled={!usuario?.allowed?.to_update}>
                                             Eliminar
                                         </MenuItem>
                                     </div>

@@ -42,11 +42,12 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, linea_investi
                                     error={form.errors.nombre}
                                     label="Nombre de la línea de investigación"
                                     onChange={(e) => form.setData('nombre', e.target.value)}
+                                    disabled={!linea_investigacion?.allowed?.to_update}
                                     required
                                 />
                             </Grid>
                         </Grid>
-                        <div className="py-4 flex items-center justify-end">
+                        <div className="py-4 flex items-center justify-end px-4">
                             <PrimaryButton disabled={form.processing || !form.isDirty} type="submit">
                                 Guardar cambios
                             </PrimaryButton>

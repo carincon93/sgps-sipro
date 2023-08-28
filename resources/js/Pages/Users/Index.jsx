@@ -55,7 +55,7 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, subdirectores_centro, al
                                         {usuario.id !== user_to_destroy ? (
                                             <div>
                                                 <MenuItem onClick={() => router.visit(route('users.edit', [usuario.id]))} disabled={!usuario?.allowed?.to_view}>
-                                                    Editar
+                                                    {usuario?.allowed?.to_view && !usuario?.allowed?.to_update ? 'Ver información' : 'Editar'}
                                                 </MenuItem>
 
                                                 {is_super_admin && (

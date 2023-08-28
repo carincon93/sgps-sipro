@@ -53,6 +53,7 @@ const Form = ({ method = '', setDialogStatus, user_id, formacion_academica_sena,
                                 error={form.errors.egresado_sena}
                                 label="¿Es egresado SENA?"
                                 onChange={(event, newValue) => form.setData('egresado_sena', newValue.value)}
+                                disabled={!usuario?.allowed?.to_update}
                                 required
                             />
 
@@ -63,6 +64,7 @@ const Form = ({ method = '', setDialogStatus, user_id, formacion_academica_sena,
                                 error={form.errors.modalidad_sena}
                                 label="Modalidad SENA"
                                 onChange={(event, newValue) => form.setData('modalidad_sena', newValue.value)}
+                                disabled={!usuario?.allowed?.to_update}
                                 required
                             />
 
@@ -73,6 +75,7 @@ const Form = ({ method = '', setDialogStatus, user_id, formacion_academica_sena,
                                 error={form.errors.nivel_sena}
                                 label="Nivel SENA"
                                 onChange={(event, newValue) => form.setData('nivel_sena', newValue.value)}
+                                disabled={!usuario?.allowed?.to_update}
                                 required
                             />
 
@@ -82,6 +85,7 @@ const Form = ({ method = '', setDialogStatus, user_id, formacion_academica_sena,
                                 type="text"
                                 value={form.data.titulo_obtenido}
                                 onChange={(e) => form.setData('titulo_obtenido', e.target.value)}
+                                disabled={!usuario?.allowed?.to_update}
                                 error={form.errors.titulo_obtenido}
                                 required
                             />
@@ -93,6 +97,7 @@ const Form = ({ method = '', setDialogStatus, user_id, formacion_academica_sena,
                                 value={form.data.fecha_inicio_formacion}
                                 className="p-4 w-full"
                                 onChange={(e) => form.setData('fecha_inicio_formacion', e.target.value)}
+                                disabled={!usuario?.allowed?.to_update}
                                 error={form.errors.fecha_inicio_formacion}
                                 label="Fecha de inicio de la formación"
                                 required
@@ -105,6 +110,7 @@ const Form = ({ method = '', setDialogStatus, user_id, formacion_academica_sena,
                                 value={form.data.fecha_finalizacion_formacion}
                                 className="p-4 w-full"
                                 onChange={(e) => form.setData('fecha_finalizacion_formacion', e.target.value)}
+                                disabled={!usuario?.allowed?.to_update}
                                 error={form.errors.fecha_finalizacion_formacion}
                                 label="Fecha de finalización de la formación"
                                 required

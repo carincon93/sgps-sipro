@@ -21,16 +21,18 @@ const ParticipacionesProyectosSENNOVA = ({ usuario, participaciones_proyectos_se
     return (
         <>
             <TableMui rows={['Tipo de proyecto', 'Código', 'Título', 'Fecha de inicio', 'Acciones']} sxCellThead={{ width: '320px' }} className="mt-10">
-                <TableRow
-                    onClick={() => (setDialogStatus(true), setMethod('POST'), setParticipacionProyectoSennova(null))}
-                    variant="raised"
-                    className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
-                    <TableCell colSpan={5}>
-                        <ButtonMui>
-                            <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar participación
-                        </ButtonMui>
-                    </TableCell>
-                </TableRow>
+                {usuario?.allowed?.to_update && (
+                    <TableRow
+                        onClick={() => (setDialogStatus(true), setMethod('POST'), setParticipacionProyectoSennova(null))}
+                        variant="raised"
+                        className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                        <TableCell colSpan={5}>
+                            <ButtonMui>
+                                <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar participación
+                            </ButtonMui>
+                        </TableCell>
+                    </TableRow>
+                )}
                 {participaciones_proyectos_sennova.map((participacion_proyecto_sennova, i) => (
                     <TableRow key={i}>
                         {participacion_proyecto_sennova.ha_formulado_proyectos_sennova ? (
@@ -60,12 +62,17 @@ const ParticipacionesProyectosSENNOVA = ({ usuario, participaciones_proyectos_se
                             <MenuMui text={<MoreVertIcon />}>
                                 {participacion_proyecto_sennova.id !== participacion_proyecto_sennova_to_destroy ? (
                                     <div>
-                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setParticipacionProyectoSennova(participacion_proyecto_sennova))}>Editar</MenuItem>
+                                        <MenuItem
+                                            onClick={() => (setDialogStatus(true), setMethod('PUT'), setParticipacionProyectoSennova(participacion_proyecto_sennova))}
+                                            disabled={!usuario?.allowed?.to_view}>
+                                            {usuario?.allowed?.to_view && !usuario?.allowed?.to_update ? 'Ver información' : 'Editar'}
+                                        </MenuItem>
 
                                         <MenuItem
                                             onClick={() => {
                                                 setParticipacionProyectoSennovaToDestroy(participacion_proyecto_sennova.id)
-                                            }}>
+                                            }}
+                                            disabled={!usuario?.allowed?.to_update}>
                                             Eliminar
                                         </MenuItem>
                                     </div>

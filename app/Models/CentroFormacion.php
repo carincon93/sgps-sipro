@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Gate;
 
 class CentroFormacion extends Model
 {
@@ -22,7 +23,7 @@ class CentroFormacion extends Model
      *
      * @var array
      */
-    protected $appends = ['nombre_carpeta_sharepoint'];
+    protected $appends = ['nombre_carpeta_sharepoint', 'allowed'];
 
     /**
      * The attributes that are mass assignable.
@@ -208,5 +209,16 @@ class CentroFormacion extends Model
     public function getNombreCarpetaSharepointAttribute()
     {
         return trim(preg_replace('/[^A-Za-z0-9\-ÁÉÍÓÚáéíóúÑñ]/', ' ', mb_strtoupper($this->regional ? $this->regional->nombre : '') . ' - ' . $this->codigo . ' ' . mb_strtoupper($this->nombre)));
+    }
+
+    public function getAllowedAttribute()
+    {
+        if (str_contains(request()->route()->uri, 'centros-formacion')) {
+            $allowed_to_view      = Gate::inspect('view', [CentroFormacion::class, $this]);
+            $allowed_to_update    = Gate::inspect('update', [CentroFormacion::class, $this]);
+            $allowed_to_destroy   = Gate::inspect('delete', [CentroFormacion::class, $this]);
+
+            return collect(['to_view' => $allowed_to_view->allowed(), 'to_update' => $allowed_to_update->allowed(), 'to_destroy' => $allowed_to_destroy->allowed()]);
+        }
     }
 }

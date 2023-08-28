@@ -7,7 +7,11 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 
 export default function TableMui({ children, rows, sxCellThead = {}, className = '', ...props }) {
-    console.log(children)
+    const filtered_data =
+        children.filter((item) => typeof item === 'object' && item !== null && item.hasOwnProperty('$$typeof') && item.$$typeof === Symbol.for('react.element')).length > 0
+            ? children.filter((item) => typeof item === 'object' && item !== null && item.hasOwnProperty('$$typeof') && item.$$typeof === Symbol.for('react.element'))
+            : children.filter((item) => Array.isArray(item) && item.length > 0 && item.some((obj) => typeof obj === 'object'))
+
     return (
         <TableContainer component={Paper} elevation={0} className={`drop-shadow-lg ` + className} {...props}>
             <Table sx={{ minWidth: 650 }}>
@@ -21,7 +25,7 @@ export default function TableMui({ children, rows, sxCellThead = {}, className =
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {children[0] != false ? (
+                    {filtered_data.length > 0 ? (
                         <>{children}</>
                     ) : (
                         <TableRow>

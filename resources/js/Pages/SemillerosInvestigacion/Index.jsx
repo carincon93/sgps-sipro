@@ -115,7 +115,8 @@ const Index = ({ auth, grupo_investigacion, linea_investigacion, lineas_investig
                                 />
                                 <ButtonMui
                                     onClick={() => (setDialogFormatoStatus(true), setSemilleroInvestigacion(semillero_investigacion), setTipoArchivo('formato_gic_f_021'))}
-                                    className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white !text-[12px] hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                    className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white !text-[12px] hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full"
+                                    disabled={!semillero_investigacion?.allowed?.to_update}>
                                     <AutorenewIcon className="mr-2" />
                                     {semillero_investigacion?.filename.formato_gic_f_021_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 021
                                 </ButtonMui>
@@ -140,7 +141,8 @@ const Index = ({ auth, grupo_investigacion, linea_investigacion, lineas_investig
                                 />
                                 <ButtonMui
                                     onClick={() => (setDialogFormatoStatus(true), setSemilleroInvestigacion(semillero_investigacion), setTipoArchivo('formato_gic_f_032'))}
-                                    className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white !text-[12px] hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                    className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white !text-[12px] hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full"
+                                    disabled={!semillero_investigacion?.allowed?.to_update}>
                                     <AutorenewIcon className="mr-2" />
                                     {semillero_investigacion?.filename.formato_gic_f_032_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 032
                                 </ButtonMui>
@@ -165,7 +167,8 @@ const Index = ({ auth, grupo_investigacion, linea_investigacion, lineas_investig
                                 />
                                 <ButtonMui
                                     onClick={() => (setDialogFormatoStatus(true), setSemilleroInvestigacion(semillero_investigacion), setTipoArchivo('formato_aval_semillero'))}
-                                    className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white !text-[12px] hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                    className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white !text-[12px] hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full"
+                                    disabled={!semillero_investigacion?.allowed?.to_update}>
                                     <AutorenewIcon className="mr-2" />
                                     {semillero_investigacion?.filename.formato_aval_semillero_filename ? 'Reemplazar' : 'Cargar'} aval del semillero
                                 </ButtonMui>
@@ -178,13 +181,14 @@ const Index = ({ auth, grupo_investigacion, linea_investigacion, lineas_investig
                                             <MenuItem
                                                 onClick={() => (setDialogStatus(true), setMethod('PUT'), setSemilleroInvestigacion(semillero_investigacion))}
                                                 disabled={!semillero_investigacion?.allowed?.to_view}>
-                                                Editar
+                                                {semillero_investigacion?.allowed?.to_view && !semillero_investigacion?.allowed?.to_update ? 'Ver información' : 'Editar'}
                                             </MenuItem>
 
                                             <MenuItem
                                                 onClick={() => {
                                                     setSemilleroInvestigacionToDestroy(semillero_investigacion.id)
-                                                }}>
+                                                }}
+                                                disabled={!semillero_investigacion?.allowed?.to_update}>
                                                 Eliminar
                                             </MenuItem>
                                         </div>

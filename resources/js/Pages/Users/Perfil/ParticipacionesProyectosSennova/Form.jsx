@@ -52,6 +52,7 @@ const Form = ({ method = '', setDialogStatus, user_id, participacion_proyecto_se
                                 error={form.errors.ha_formulado_proyectos_sennova}
                                 label="¿Ha formulado proyectos SENNOVA?"
                                 onChange={(event, newValue) => form.setData('ha_formulado_proyectos_sennova', newValue.value)}
+                                disabled={!usuario?.allowed?.to_update}
                                 required
                             />
 
@@ -64,6 +65,7 @@ const Form = ({ method = '', setDialogStatus, user_id, participacion_proyecto_se
                                         error={form.errors.tipo_proyecto}
                                         label="Tipo de proyecto"
                                         onChange={(event, newValue) => form.setData('tipo_proyecto', newValue.value)}
+                                        disabled={!usuario?.allowed?.to_update}
                                         required
                                     />
 
@@ -73,6 +75,7 @@ const Form = ({ method = '', setDialogStatus, user_id, participacion_proyecto_se
                                         type="text"
                                         value={form.data.codigo_proyecto}
                                         onChange={(e) => form.setData('codigo_proyecto', e.target.value)}
+                                        disabled={!usuario?.allowed?.to_update}
                                         error={form.errors.codigo_proyecto}
                                         required
                                     />
@@ -83,6 +86,7 @@ const Form = ({ method = '', setDialogStatus, user_id, participacion_proyecto_se
                                         type="text"
                                         value={form.data.titulo}
                                         onChange={(e) => form.setData('titulo', e.target.value)}
+                                        disabled={!usuario?.allowed?.to_update}
                                         error={form.errors.titulo}
                                         required
                                     />
@@ -94,6 +98,7 @@ const Form = ({ method = '', setDialogStatus, user_id, participacion_proyecto_se
                                         value={form.data.fecha_inicio_proyecto}
                                         className="p-4 w-full"
                                         onChange={(e) => form.setData('fecha_inicio_proyecto', e.target.value)}
+                                        disabled={!usuario?.allowed?.to_update}
                                         error={form.errors.fecha_inicio_proyecto}
                                         label="Fecha de inicio del proyecto"
                                         required
@@ -106,6 +111,7 @@ const Form = ({ method = '', setDialogStatus, user_id, participacion_proyecto_se
                                         value={form.data.fecha_finalizacion_proyecto}
                                         className="p-4 w-full"
                                         onChange={(e) => form.setData('fecha_finalizacion_proyecto', e.target.value)}
+                                        disabled={!usuario?.allowed?.to_update}
                                         error={form.errors.fecha_finalizacion_proyecto}
                                         label="Fecha de finalización del proyecto"
                                         required

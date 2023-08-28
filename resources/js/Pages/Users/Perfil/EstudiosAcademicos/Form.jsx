@@ -45,6 +45,7 @@ const Form = ({ method = '', setDialogStatus, user_id, estudio_academico, nivele
                                 error={form.errors.grado_formacion}
                                 label="Nivel académico"
                                 onChange={(event, newValue) => form.setData('grado_formacion', newValue.value)}
+                                disabled={!usuario?.allowed?.to_update}
                                 required
                             />
 
@@ -54,6 +55,7 @@ const Form = ({ method = '', setDialogStatus, user_id, estudio_academico, nivele
                                 type="text"
                                 value={form.data.titulo_obtenido}
                                 onChange={(e) => form.setData('titulo_obtenido', e.target.value)}
+                                disabled={!usuario?.allowed?.to_update}
                                 error={form.errors.titulo_obtenido}
                                 required
                             />

@@ -18,7 +18,7 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        if ($user->hasRole([2, 4, 21, 17, 18, 20, 19, 5])) {
+        if ($user->hasRole([3, 4, 21, 17, 18, 20, 19, 5])) {
             return true;
         }
 
@@ -32,9 +32,23 @@ class UserPolicy
      * @param  \App\Models\User  $model
      * @return mixed
      */
-    public function view(User $user): bool
+    public function view(User $user, $usuario_a_editar): bool
     {
-        if ($user->hasRole([2, 4, 21, 17, 18, 20, 19, 5])) {
+        if ($user->id == $usuario_a_editar->id) {
+            return true;
+        }
+
+        if ($this->checkRole($user, 18) && $this->checkRole($usuario_a_editar, 6) || $this->checkRole($user, 20) && $this->checkRole($usuario_a_editar, 15) || $this->checkRole($user, 5) && $this->checkRole($usuario_a_editar, 12) || $this->checkRole($user, 17) && $this->checkRole($usuario_a_editar, 16) || $this->checkRole($user, 19) && $this->checkRole($usuario_a_editar, 13)) {
+            return true;
+        }
+
+        if ($usuario_a_editar->centroFormacion) {
+            if ($user->dinamizadorCentroFormacion && $user->dinamizadorCentroFormacion->id == $usuario_a_editar->centroFormacion->id) {
+                return true;
+            }
+        }
+
+        if ($user->subdirectorCentroFormacion && $user->subdirectorCentroFormacion->id == $usuario_a_editar->centroFormacion->id) {
             return true;
         }
 
@@ -49,7 +63,7 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        if ($user->hasRole([2, 4, 21, 17, 18, 20, 19, 5])) {
+        if ($user->hasRole([4, 21, 17, 18, 20, 19, 5])) {
             return true;
         }
 
@@ -65,10 +79,6 @@ class UserPolicy
      */
     public function update(User $user, $usuario_a_editar): bool
     {
-        if ($user->hasRole([2])) {
-            return true;
-        }
-
         if ($user->id == $usuario_a_editar->id) {
             return true;
         }
@@ -77,8 +87,10 @@ class UserPolicy
             return true;
         }
 
-        if ($user->dinamizadorCentroFormacion && $user->dinamizadorCentroFormacion->id == $usuario_a_editar->centroFormacion->id || $user->hasRole(21) && $user->centroFormacion->id == $usuario_a_editar->centroFormacion->id) {
-            return true;
+        if ($usuario_a_editar->centroFormacion) {
+            if ($user->dinamizadorCentroFormacion && $user->dinamizadorCentroFormacion->id == $usuario_a_editar->centroFormacion->id) {
+                return true;
+            }
         }
 
         return false;

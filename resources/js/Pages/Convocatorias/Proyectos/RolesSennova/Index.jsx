@@ -174,7 +174,7 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
                                 )}
                             </TableCell>
                             <TableCell>
-                                {is_super_admin || proyecto.mostrar_recomendaciones ? (
+                                {/* {is_super_admin || proyecto.mostrar_recomendaciones ? (
                                     <>
                                         {proyecto_rol_sennova.proyecto_roles_evaluaciones.map((evaluacion, i) =>
                                             is_super_admin || (evaluacion.finalizado && evaluacion.habilitado) ? (
@@ -192,7 +192,7 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
                                         )}
                                         {proyecto_rol_sennova.proyecto_roles_evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El ítem no ha sido evaluado aún.</p> : null}
                                     </>
-                                ) : null}
+                                ) : null} */}
                             </TableCell>
                             <TableCell>
                                 <MenuMui text={<MoreVertIcon />}>

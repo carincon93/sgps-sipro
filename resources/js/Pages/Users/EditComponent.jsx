@@ -79,7 +79,7 @@ const EditComponent = ({
                             </strong>
                         </AlertMui>
 
-                        {checkRole(auth_user, [1, 3, 4, 5, 17, 18, 19, 20, 21, 22, 24, 27]) && (
+                        {checkRole(auth_user, [1, 4, 5, 17, 18, 19, 20, 21, 22, 24, 27]) && (
                             <AlertMui className="mt-10">
                                 ¿Desea habilitar este usuario?
                                 <Checkbox
@@ -103,27 +103,29 @@ const EditComponent = ({
                             </AlertMui>
                         )}
 
-                        <AlertMui severity="error" className="mt-10">
-                            Una vez haya finalizado de diligenciar active la siguiente casilla:
-                            <Checkbox
-                                name="default_password"
-                                className="mt-3"
-                                checked={usuario?.informacion_completa}
-                                onChange={(e) =>
-                                    router.put(
-                                        route('users.informacion-completa'),
-                                        {
-                                            user_id: usuario?.id,
-                                            informacion_completa: e.target.checked,
-                                        },
-                                        {
-                                            preserveScroll: true,
-                                        },
-                                    )
-                                }
-                                label="Confirmo que la información ha sido diligenciada completamente"
-                            />
-                        </AlertMui>
+                        {usuario?.allowed?.to_update && (
+                            <AlertMui severity="error" className="mt-10">
+                                Una vez haya finalizado de diligenciar active la siguiente casilla:
+                                <Checkbox
+                                    name="default_password"
+                                    className="mt-3"
+                                    checked={usuario?.informacion_completa}
+                                    onChange={(e) =>
+                                        router.put(
+                                            route('users.informacion-completa'),
+                                            {
+                                                user_id: usuario?.id,
+                                                informacion_completa: e.target.checked,
+                                            },
+                                            {
+                                                preserveScroll: true,
+                                            },
+                                        )
+                                    }
+                                    label="Confirmo que la información ha sido diligenciada completamente"
+                                />
+                            </AlertMui>
+                        )}
                     </Grid>
                     <Grid item md={8} className="drop-shadow-lg">
                         <Paper elevation={0} sx={{ padding: 2 }}>
@@ -163,59 +165,63 @@ const EditComponent = ({
                         </Paper>
                     </Grid>
 
-                    <Grid item md={4}>
-                        <strong>Cambiar contraseña</strong>
-                    </Grid>
-                    <Grid item md={8} className="drop-shadow-lg">
-                        <Paper elevation={0} sx={{ padding: 6 }}>
-                            <form onSubmit={submitCambioPassword}>
-                                <fieldset className="space-y-10">
-                                    <AlertMui>
-                                        Si desea utilizar la contraseña por defecto: <strong>sena{usuario?.numero_documento}*</strong> por favor habilite la siguiente casilla, de lo contrario
-                                        diligencie una nueva constraseña:
-                                        <Checkbox
-                                            name="default_password"
-                                            checked={form_cambio_password.data.default_password}
-                                            onChange={(e) => form_cambio_password.setData('default_password', e.target.checked)}
-                                            error={form_cambio_password.errors.default_password}
-                                            label="Habilitar contraseña por defecto"
-                                        />
-                                    </AlertMui>
+                    {usuario?.allowed?.to_update && (
+                        <>
+                            <Grid item md={4}>
+                                <strong>Cambiar contraseña</strong>
+                            </Grid>
+                            <Grid item md={8} className="drop-shadow-lg">
+                                <Paper elevation={0} sx={{ padding: 6 }}>
+                                    <form onSubmit={submitCambioPassword}>
+                                        <fieldset className="space-y-10">
+                                            <AlertMui>
+                                                Si desea utilizar la contraseña por defecto: <strong>sena{usuario?.numero_documento}*</strong> por favor habilite la siguiente casilla, de lo contrario
+                                                diligencie una nueva constraseña:
+                                                <Checkbox
+                                                    name="default_password"
+                                                    checked={form_cambio_password.data.default_password}
+                                                    onChange={(e) => form_cambio_password.setData('default_password', e.target.checked)}
+                                                    error={form_cambio_password.errors.default_password}
+                                                    label="Habilitar contraseña por defecto"
+                                                />
+                                            </AlertMui>
 
-                                    {!form_cambio_password.data.default_password && (
-                                        <>
-                                            <PasswordInput
-                                                label="Nueva contraseña"
-                                                id="password"
-                                                type="password"
-                                                value={form_cambio_password.data.password}
-                                                onChange={(e) => form_cambio_password.setData('password', e.target.value)}
-                                                error={form_cambio_password.errors.password}
-                                                required
-                                                autoComplete="new-password"
-                                            />
+                                            {!form_cambio_password.data.default_password && (
+                                                <>
+                                                    <PasswordInput
+                                                        label="Nueva contraseña"
+                                                        id="password"
+                                                        type="password"
+                                                        value={form_cambio_password.data.password}
+                                                        onChange={(e) => form_cambio_password.setData('password', e.target.value)}
+                                                        error={form_cambio_password.errors.password}
+                                                        required
+                                                        autoComplete="new-password"
+                                                    />
 
-                                            <PasswordInput
-                                                label="Vuelva a escribir la nueva contraseña"
-                                                id="password_confirmation"
-                                                type="password"
-                                                value={form_cambio_password.data.password_confirmation}
-                                                onChange={(e) => form_cambio_password.setData('password_confirmation', e.target.value)}
-                                                error={form_cambio_password.errors.password_confirmation}
-                                                required
-                                                autoComplete="new-password"
-                                            />
-                                        </>
-                                    )}
-                                </fieldset>
-                                <div className="flex items-center justify-end">
-                                    <PrimaryButton disabled={form_cambio_password.processing || !form_cambio_password.isDirty} type="submit" className="mt-4">
-                                        Cambiar contraseña
-                                    </PrimaryButton>
-                                </div>
-                            </form>
-                        </Paper>
-                    </Grid>
+                                                    <PasswordInput
+                                                        label="Vuelva a escribir la nueva contraseña"
+                                                        id="password_confirmation"
+                                                        type="password"
+                                                        value={form_cambio_password.data.password_confirmation}
+                                                        onChange={(e) => form_cambio_password.setData('password_confirmation', e.target.value)}
+                                                        error={form_cambio_password.errors.password_confirmation}
+                                                        required
+                                                        autoComplete="new-password"
+                                                    />
+                                                </>
+                                            )}
+                                        </fieldset>
+                                        <div className="flex items-center justify-end">
+                                            <PrimaryButton disabled={form_cambio_password.processing || !form_cambio_password.isDirty} type="submit" className="mt-4">
+                                                Cambiar contraseña
+                                            </PrimaryButton>
+                                        </div>
+                                    </form>
+                                </Paper>
+                            </Grid>
+                        </>
+                    )}
                 </Grid>
             </div>
 

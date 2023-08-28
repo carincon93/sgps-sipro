@@ -91,13 +91,14 @@ const Index = ({ auth, grupo_investigacion, lineas_investigacion, allowed_to_cre
                                             <MenuItem
                                                 onClick={() => (setDialogStatus(true), setMethod('PUT'), setLineaInvestigacion(linea_investigacion))}
                                                 disabled={!linea_investigacion?.allowed?.to_view}>
-                                                Editar
+                                                {linea_investigacion?.allowed?.to_view && !linea_investigacion?.allowed?.to_update ? 'Ver información' : 'Editar'}
                                             </MenuItem>
 
                                             <MenuItem
                                                 onClick={() => {
                                                     setLineaInvestigacionToDestroy(linea_investigacion.id)
-                                                }}>
+                                                }}
+                                                disabled={!linea_investigacion?.allowed?.to_update}>
                                                 Eliminar
                                             </MenuItem>
                                         </div>
