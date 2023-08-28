@@ -7,6 +7,7 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 
 export default function TableMui({ children, rows, sxCellThead = {}, className = '', ...props }) {
+    console.log(children)
     return (
         <TableContainer component={Paper} elevation={0} className={`drop-shadow-lg ` + className} {...props}>
             <Table sx={{ minWidth: 650 }}>
@@ -20,7 +21,7 @@ export default function TableMui({ children, rows, sxCellThead = {}, className =
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {children?.length > 0 ? (
+                    {children[0] != false ? (
                         <>{children}</>
                     ) : (
                         <TableRow>

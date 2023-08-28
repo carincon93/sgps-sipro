@@ -12,7 +12,7 @@ import { router, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useEffect } from 'react'
 
-const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_formulario_10_linea_69, hubs_innovacion, roles_sennova, evaluacion, ...props }) => {
+const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_linea_69, hubs_innovacion, roles_sennova, evaluacion, ...props }) => {
     const form = useForm({
         centro_formacion_id: proyecto_formulario_10_linea_69?.proyecto.centro_formacion_id ?? '',
         fecha_inicio: proyecto_formulario_10_linea_69?.fecha_inicio ?? '',
@@ -113,7 +113,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 selectedValue={form.data.hub_innovacion_id}
                                 onChange={(event, newValue) => form.setData('hub_innovacion_id', newValue.value)}
                                 error={form.errors.hub_innovacion_id}
-                                disabled={is_super_admin ? false : evaluacion || method === 'editar'}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 required
                                 onBlur={() => syncColumnLong('hub_innovacion_id', form)}
                             />
@@ -128,14 +128,14 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                 {method == 'PUT' && (
                     <>
                         <Grid item md={6}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
+                            <Label required labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
                         </Grid>
                         <Grid item md={6}>
                             Hubs de innovación
                         </Grid>
 
                         <Grid item md={6}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="centro_formacion_id" value="Centro de formación" />
+                            <Label required labelFor="centro_formacion_id" value="Centro de formación" />
                             <small>
                                 <strong>Nota:</strong> El Centro de Formación relacionado es el ejecutor del proyecto
                             </small>
@@ -252,7 +252,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                 {method == 'PUT' && (
                     <>
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="resumen" value="Resumen del proyecto" />
+                            <Label required labelFor="resumen" value="Resumen del proyecto" />
                             <AlertMui>
                                 Información necesaria para darle al lector una idea precisa de la pertinencia y calidad del proyecto. Explique en qué consiste el problema o necesidad, cómo cree que lo
                                 resolverá, cuáles son las razones que justifican su ejecución y las herramientas que se utilizarán en el desarrollo del proyecto.
@@ -269,7 +269,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                             />
                         </Grid>
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="resumen_regional" value="Complemento - Resumen ejecutivo regional" />
+                            <Label required labelFor="resumen_regional" value="Complemento - Resumen ejecutivo regional" />
 
                             <Textarea
                                 id="resumen_regional"
@@ -277,12 +277,12 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 value={form.data.resumen_regional}
                                 onChange={(e) => form.setData('resumen_regional', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('resumen_regional', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="antecedentes" value="Antecedentes" />
+                            <Label required labelFor="antecedentes" value="Antecedentes" />
                             <AlertMui>
                                 Presenta las investigaciones, innovaciones o desarrollos tecnológicos que se han realizado a nivel internacional, nacional, departamental o municipal en el marco de la
                                 temática de la propuesta del proyecto; que muestran la pertinencia del proyecto, citar toda la información consignada utilizando normas APA última edición. De igual
@@ -300,7 +300,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                             />
                         </Grid>
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="antecedentes_regional" value="Complemento - Antecedentes regional" />
+                            <Label required labelFor="antecedentes_regional" value="Complemento - Antecedentes regional" />
 
                             <Textarea
                                 id="antecedentes_regional"
@@ -308,14 +308,14 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 value={form.data.antecedentes_regional}
                                 onChange={(e) => form.setData('antecedentes_regional', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('antecedentes_regional', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="logros_vigencia_anterior"
                                 value={`Describa los principales logros del Hub de Innovación en el ${convocatoria.year - 1}`}
                             />
@@ -326,12 +326,12 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 value={form.data.logros_vigencia_anterior}
                                 onChange={(e) => form.setData('logros_vigencia_anterior', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('logros_vigencia_anterior', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="contexto_general" value="Contexto General del Hub de Innovación" />
+                            <Label required labelFor="contexto_general" value="Contexto General del Hub de Innovación" />
 
                             <Textarea
                                 id="contexto_general"
@@ -339,7 +339,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 value={form.data.contexto_general}
                                 onChange={(e) => form.setData('contexto_general', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('contexto_general', form)}
                             />
                         </Grid>
@@ -349,7 +349,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="retos_locales_regionales"
                                 value={`Descripción de retos y prioridades locales y regionales identificadas para ser atendidas por el  Hub de Innovación a corto (vigencia ${convocatoria.year}), mediano y largo plazo.`}
                             />
@@ -360,14 +360,14 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 value={form.data.retos_locales_regionales}
                                 onChange={(e) => form.setData('retos_locales_regionales', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('retos_locales_regionales', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="estado_actual_departamento"
                                 value={`De acuerdo al IDIC (Indice Departamental de  Innovación para Colombia https://
 AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento y plantee acciones que puedan ser ejecutadas por el Hub de Innovación en la vigencia ${convocatoria.year} para contribuir con el mejoramiento del estado actual.`}
@@ -379,14 +379,14 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 value={form.data.estado_actual_departamento}
                                 onChange={(e) => form.setData('estado_actual_departamento', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('estado_actual_departamento', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="contribucion_desarrollo_empresas"
                                 value={`¿Cómo el Hub de Innovación, contribuirá en la vigencia ${convocatoria.year} al desarrollo y fortalecimiento de las capacidades tecnológicas de las empresas, cadenas productivas y clústeres de la región`}
                             />
@@ -397,14 +397,14 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 value={form.data.contribucion_desarrollo_empresas}
                                 onChange={(e) => form.setData('contribucion_desarrollo_empresas', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('contribucion_desarrollo_empresas', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="contribucion_agenda_regional_competitividad"
                                 value={`¿Cómo se articuló en el año ${
                                     convocatoria.year - 1
@@ -417,7 +417,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 value={form.data.contribucion_agenda_regional_competitividad}
                                 onChange={(e) => form.setData('contribucion_agenda_regional_competitividad', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('contribucion_agenda_regional_competitividad', form)}
                             />
                         </Grid>
@@ -427,7 +427,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="aportes_conpes_4011"
                                 value={`¿Cuáles serán los aportes del Hub de Innovación en el ${convocatoria.year} a la Línea de acción 8 del Conpes 4011 'Facilitar intercambio de tecnología y la innovación en los emprendimientos CONPES, inlcuyendo acciones articuladas con Emprendimiento (Dirección de Empleo)?`}
                             />
@@ -438,14 +438,14 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 value={form.data.aportes_conpes_4011}
                                 onChange={(e) => form.setData('aportes_conpes_4011', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('aportes_conpes_4011', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="aportes_conpes_4080"
                                 value={`Cuáles serán los aportes del  Hub de Innovación en el ${convocatoria.year} a la Línea de acción 1 del Conpes 4080 'el SENA desde 2022 y hasta 2026, fomentará la participación de la mujer en sus programas de investigación, desarrollo tecnológico e innovación, buscando generar competitividad con enfoque de género'`}
                             />
@@ -456,14 +456,14 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 value={form.data.aportes_conpes_4080}
                                 onChange={(e) => form.setData('aportes_conpes_4080', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('aportes_conpes_4080', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="situacion_actual_produccion_agricola"
                                 value="Describa la situación actual del Departamento relacionada con la producción en cadenas agrícolas que han sido priorizadas en la Transformación Derecho Humano a la Alimentación y oportunidades para contribuir con el fortalecimiento de proyectos asociados a este objetivo."
                             />
@@ -474,14 +474,14 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 value={form.data.situacion_actual_produccion_agricola}
                                 onChange={(e) => form.setData('situacion_actual_produccion_agricola', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('situacion_actual_produccion_agricola', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="aportes_alternativas_generacion_electrica"
                                 value="Describa las oportunidades en el departamento y regiones de influencia del Hub de Innovación para contribuir con la fortalecer proyectos de I + D + i tendientes a aportar alternativas de generación eléctrica a partir de fuentes no convencionales de energía renovable."
                             />
@@ -492,14 +492,14 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 value={form.data.aportes_alternativas_generacion_electrica}
                                 onChange={(e) => form.setData('aportes_alternativas_generacion_electrica', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('aportes_alternativas_generacion_electrica', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="aportes_impulso_economia_popular"
                                 value="Describa las oportunidades en el departamento y regiones de influencia del Hub de Innovación para contribuir con el impulso de la Economía Popular. Proyectos tendientes a aumentar los ingresos de los micronegocios de la economía popular."
                             />
@@ -510,14 +510,14 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 value={form.data.aportes_impulso_economia_popular}
                                 onChange={(e) => form.setData('aportes_impulso_economia_popular', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('aportes_impulso_economia_popular', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="justificacion_pertinencia"
                                 value="Justificación y pertinencia  de las acciones que desarrolla el Hub de Innovación en el territorio"
                             />
@@ -528,14 +528,14 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 value={form.data.justificacion_pertinencia}
                                 onChange={(e) => form.setData('justificacion_pertinencia', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('justificacion_pertinencia', form)}
                             />
                         </Grid>
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="acciones_estrategias_campesena"
                                 value={`Describa las acciones realizadas en el ${convocatoria.year - 1}, integradas dentro de la Estrategia Campesena, en las que participó el Hub de Innovación`}
                             />
@@ -546,13 +546,13 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 value={form.data.acciones_estrategias_campesena}
                                 onChange={(e) => form.setData('acciones_estrategias_campesena', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('acciones_estrategias_campesena', form)}
                             />
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="bibliografia" value="Bibliografía" />
+                            <Label required labelFor="bibliografia" value="Bibliografía" />
                             <AlertMui>
                                 Lista de las referencias utilizadas en cada apartado del proyecto. Utilizar normas APA- Última edición (http://biblioteca.sena.edu.co/images/PDF/InstructivoAPA.pdf).
                             </AlertMui>
@@ -563,7 +563,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 value={form.data.bibliografia}
                                 onChange={(e) => form.setData('bibliografia', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('bibliografia', form)}
                             />
                         </Grid>

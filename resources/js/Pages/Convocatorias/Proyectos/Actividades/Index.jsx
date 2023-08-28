@@ -290,6 +290,7 @@ const Actividades = ({
                                         error={form_metodologia_proyecto_formularios_lineas_restantes.errors.metodologia}
                                         value={form_metodologia_proyecto_formularios_lineas_restantes.data.metodologia}
                                         onChange={(e) => form_metodologia_proyecto_formularios_lineas_restantes.setData('metodologia', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         onBlur={() => syncColumnLong('metodologia', form_metodologia_proyecto_formularios_lineas_restantes)}
                                         required
                                     />
@@ -334,16 +335,14 @@ const Actividades = ({
                                         <MenuMui text={<MoreVertIcon />}>
                                             {actividad.id !== actividad_to_destroy ? (
                                                 <div>
-                                                    <MenuItem
-                                                        onClick={() => (setDialogStatus(true), setMethod('PUT'), setActividad(actividad))}
-                                                        disabled={!proyecto.allowed.to_update}
-                                                        className={!proyecto.allowed.to_update ? 'hidden' : ''}>
+                                                    <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setActividad(actividad))} disabled={!proyecto?.allowed?.to_view}>
                                                         Editar
                                                     </MenuItem>
                                                     <MenuItem
                                                         onClick={() => {
                                                             setActividadToDestroy(actividad.id)
-                                                        }}>
+                                                        }}
+                                                        disabled={!proyecto?.allowed?.to_update}>
                                                         Eliminar
                                                     </MenuItem>
                                                 </div>

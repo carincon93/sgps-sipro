@@ -19,7 +19,7 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 
 const Form = ({
-    is_super_admin,
+    auth_user,
     method = '',
     convocatoria,
     proyecto_formulario_12_linea_68,
@@ -147,7 +147,7 @@ const Form = ({
                         value={form.data.titulo}
                         onChange={(e) => form.setData('titulo', e.target.value)}
                         required
-                        disabled={evaluacion ? true : false}
+                        disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('titulo', form)}
                     />
                 </Grid>
@@ -188,7 +188,7 @@ const Form = ({
                 </Grid>
 
                 <Grid item md={6}>
-                    <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="tipo_proyecto_linea_68_id" value="Centro de formación y Línea Técnica" />
+                    <Label required className="mb-4" labelFor="tipo_proyecto_linea_68_id" value="Centro de formación y Línea Técnica" />
                 </Grid>
                 <Grid item md={6}>
                     {method == 'POST' ? (
@@ -199,7 +199,7 @@ const Form = ({
                             onChange={(event, newValue) => form.setData('tipo_proyecto_linea_68_id', newValue.value)}
                             error={form.errors.tipo_proyecto_linea_68_id}
                             required
-                            disabled={is_super_admin ? false : evaluacion || method === 'editar'}
+                            disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
                         />
                     ) : (
                         <>{proyecto_formulario_12_linea_68.proyecto.centro_formacion.nombre}</>
@@ -207,7 +207,7 @@ const Form = ({
                 </Grid>
 
                 <Grid item md={6}>
-                    <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="nombre_area_tecnica" value="Nombre del área técnica" />
+                    <Label required className="mb-4" labelFor="nombre_area_tecnica" value="Nombre del área técnica" />
                 </Grid>
                 <Grid item md={6}>
                     <TextInput
@@ -218,7 +218,7 @@ const Form = ({
                         value={form.data.nombre_area_tecnica}
                         onChange={(e) => form.setData('nombre_area_tecnica', e.target.value)}
                         required
-                        disabled={evaluacion ? true : false}
+                        disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('nombre_area_tecnica', form)}
                     />
                 </Grid>
@@ -226,7 +226,7 @@ const Form = ({
                 {form.data.tipo_proyecto_linea_68_id && (
                     <>
                         <Grid item md={6}>
-                            <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="estado_sistema_gestion_id" value="Estado del sistema de gestión" />
+                            <Label required className="mb-4" labelFor="estado_sistema_gestion_id" value="Estado del sistema de gestión" />
                         </Grid>
                         <Grid item md={6}>
                             <Autocomplete
@@ -236,7 +236,7 @@ const Form = ({
                                 onChange={(event, newValue) => form.setData('estado_sistema_gestion_id', newValue.value)}
                                 error={form.errors.estado_sistema_gestion_id}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('estado_sistema_gestion_id', form)}
                             />
                         </Grid>
@@ -244,7 +244,7 @@ const Form = ({
                 )}
 
                 <Grid item md={6}>
-                    <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="sector_productivo" value="Estrategia SENA priorizada" />
+                    <Label required className="mb-4" labelFor="sector_productivo" value="Estrategia SENA priorizada" />
                 </Grid>
                 <Grid item md={6}>
                     <Autocomplete
@@ -254,7 +254,7 @@ const Form = ({
                         onChange={(event, newValue) => form.setData('sector_productivo', newValue.value)}
                         error={form.errors.sector_productivo}
                         required
-                        disabled={evaluacion ? true : false}
+                        disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('sector_productivo', form)}
                     />
                 </Grid>
@@ -331,7 +331,7 @@ const Form = ({
                 {method == 'PUT' && (
                     <>
                         <Grid item md={6}>
-                            <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
+                            <Label required className="mb-4" labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
                         </Grid>
                         <Grid item md={6}>
                             Fortalecimiento de la oferta de servicios tecnológicos para las empresas
@@ -344,7 +344,7 @@ const Form = ({
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="resumen" value="Resumen ejecutivo" />
+                            <Label required className="mb-4" labelFor="resumen" value="Resumen ejecutivo" />
                             <AlertMui className="my-2">
                                 <p>
                                     Información necesaria para darle al lector una idea precisa de la pertinencia y calidad del proyecto. Explique en qué consiste el problema o necesidad, cómo cree
@@ -361,13 +361,13 @@ const Form = ({
                                 value={form.data.resumen}
                                 onChange={(e) => form.setData('resumen', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('resumen', form)}
                             />
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="antecedentes" value="Antecedentes" />
+                            <Label required className="mb-4" labelFor="antecedentes" value="Antecedentes" />
                             <AlertMui className="my-2">
                                 <p>
                                     Se debe evidenciar la identificación y caracterización del mercado potencial/objetivo, nicho de mercado al cual se busca atender o la necesidad que se busca
@@ -387,7 +387,7 @@ const Form = ({
                                 value={form.data.antecedentes}
                                 onChange={(e) => form.setData('antecedentes', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('antecedentes', form)}
                             />
                         </Grid>
@@ -395,7 +395,7 @@ const Form = ({
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
                                 className="mb-4"
                                 labelFor="antecedentes"
                                 value={`Relacione el último proyecto con el que fue financiada la operación del área técnica en la cual se desarrollará el proyecto en ${convocatoria.year}`}
@@ -407,7 +407,7 @@ const Form = ({
                                 value={form.data.continuidad}
                                 onChange={(e) => form.setData('continuidad', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('continuidad', form)}
                             />
                         </Grid>
@@ -415,7 +415,7 @@ const Form = ({
                         <Grid item md={6}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
                                 className="mb-4"
                                 labelFor="programas_formacion_relacionados"
                                 value="Nombre de los programas de formación con los que se relaciona el proyecto"
@@ -443,7 +443,7 @@ const Form = ({
                         <Grid item md={6}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
                                 className="mb-4"
                                 labelFor="programas_formacion"
                                 value="Nombre de los programas de formación con registro calificado con los que se relaciona el proyecto"
@@ -469,7 +469,7 @@ const Form = ({
                         </Grid>
 
                         <Grid item md={6}>
-                            <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="municipios_influencia" value="Zonas de influencia" />
+                            <Label required className="mb-4" labelFor="municipios_influencia" value="Zonas de influencia" />
                         </Grid>
                         <Grid item md={6}>
                             <SelectMultiple
@@ -487,13 +487,13 @@ const Form = ({
                                 }}
                                 error={form.errors.municipios_influencia}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('municipios_influencia', form)}
                             />
                         </Grid>
 
                         <Grid item md={6}>
-                            <Label disabled={evaluacion ? true : false} className="mb-4" labelFor="otras_zonas_influencia" value="Otras zonas de influencia (Veredas, corregimientos)" />
+                            <Label className="mb-4" labelFor="otras_zonas_influencia" value="Otras zonas de influencia (Veredas, corregimientos)" />
                         </Grid>
                         <Grid item md={6}>
                             <TextInput
@@ -503,7 +503,7 @@ const Form = ({
                                 error={form.errors.otras_zonas_influencia}
                                 value={form.data.otras_zonas_influencia}
                                 onChange={(e) => form.setData('otras_zonas_influencia', e.target.value)}
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('otras_zonas_influencia', form)}
                             />
                         </Grid>
@@ -617,7 +617,7 @@ const Form = ({
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="bibliografia" value="Bibliografía" />
+                            <Label required className="mb-4" labelFor="bibliografia" value="Bibliografía" />
                             <AlertMui>
                                 Lista de las referencias utilizadas en cada apartado del proyecto. Utilizar normas APA- Última edición (
                                 <a href="http://biblioteca.sena.edu.co/images/PDF/InstructivoAPA.pdf" target="_blank" className="underline">
@@ -631,7 +631,7 @@ const Form = ({
                                 value={form.data.bibliografia}
                                 onChange={(e) => form.setData('bibliografia', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('bibliografia', form)}
                             />
                         </Grid>

@@ -1,19 +1,18 @@
 import AlertMui from '@/Components/Alert'
 import Autocomplete from '@/Components/Autocomplete'
 import DatePicker from '@/Components/DatePicker'
-import FileInput from '@/Components/FileInput'
 import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
 import TextInput from '@/Components/TextInput'
 import Textarea from '@/Components/Textarea'
 
-import { checkPermissionByUser, monthDiff } from '@/Utils'
+import { monthDiff } from '@/Utils'
 
 import { router, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useEffect } from 'react'
 
-const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_formulario_5_linea_69, nodos_tecnoparque, lineas_programaticas, roles_sennova, evaluacion, ...props }) => {
+const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_linea_69, nodos_tecnoparque, lineas_programaticas, roles_sennova, evaluacion, ...props }) => {
     const form = useForm({
         _method: method,
         centro_formacion_id: proyecto_formulario_5_linea_69?.proyecto.centro_formacion_id ?? '',
@@ -110,7 +109,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                     selectedValue={form.data.nodo_tecnoparque_id}
                                     onChange={(event, newValue) => form.setData('nodo_tecnoparque_id', newValue.value)}
                                     error={form.errors.nodo_tecnoparque_id}
-                                    disabled={is_super_admin ? false : evaluacion || method === 'editar'}
+                                    disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
                                     required
                                     onBlur={() => syncColumnLong('nodo_tecnoparque_id', form)}
                                 />
@@ -128,14 +127,14 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                 {method == 'PUT' && (
                     <>
                         <Grid item md={6}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
+                            <Label required labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
                         </Grid>
                         <Grid item md={6}>
                             Parques tecnológicos - Red tecnoparque Colombia
                         </Grid>
 
                         <Grid item md={6}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="centro_formacion_id" value="Centro de formación" />
+                            <Label required labelFor="centro_formacion_id" value="Centro de formación" />
                             <small>
                                 <strong>Nota:</strong> El Centro de Formación relacionado es el ejecutor del proyecto
                             </small>
@@ -255,7 +254,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                 {method == 'PUT' && (
                     <>
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="resumen" value="Resumen del proyecto" />
+                            <Label required labelFor="resumen" value="Resumen del proyecto" />
                             <AlertMui>
                                 Información necesaria para darle al lector una idea precisa de la pertinencia y calidad del proyecto. Explique en qué consiste el problema o necesidad, cómo cree que lo
                                 resolverá, cuáles son las razones que justifican su ejecución y las herramientas que se utilizarán en el desarrollo del proyecto.
@@ -267,7 +266,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 value={form.data.resumen}
                                 onChange={(e) => form.setData('resumen', e.target.value)}
                                 required
-                                disabled={!is_super_admin && !checkPermissionByUser(auth_user, [24]) && !proyecto_formulario_5_linea_69?.proyecto_base}
+                                disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('resumen', form)}
                             />
                         </Grid>
@@ -280,13 +279,13 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 value={form.data.resumen_regional}
                                 onChange={(e) => form.setData('resumen_regional', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('resumen_regional', form)}
                             />
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="antecedentes" value="Antecedentes" />
+                            <Label required labelFor="antecedentes" value="Antecedentes" />
                             <AlertMui>
                                 Presenta las investigaciones, innovaciones o desarrollos tecnológicos que se han realizado a nivel internacional, nacional, departamental o municipal en el marco de la
                                 temática de la propuesta del proyecto; que muestran la pertinencia del proyecto, citar toda la información consignada utilizando normas APA última edición. De igual
@@ -299,7 +298,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 value={form.data.antecedentes}
                                 onChange={(e) => form.setData('antecedentes', e.target.value)}
                                 required
-                                disabled={!is_super_admin && !checkPermissionByUser(auth_user, [24]) && !proyecto_formulario_5_linea_69?.proyecto_base}
+                                disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => {
                                     syncColumnLong('antecedentes', form)
                                 }}
@@ -314,7 +313,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 value={form.data.antecedentes_regional}
                                 onChange={(e) => form.setData('antecedentes_regional', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('antecedentes_regional', form)}
                             />
                         </Grid>
@@ -327,7 +326,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 value={form.data.retos_oportunidades}
                                 onChange={(e) => form.setData('retos_oportunidades', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('retos_oportunidades', form)}
                             />
                         </Grid>
@@ -340,7 +339,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 value={form.data.articulacion_agenda_competitividad}
                                 onChange={(e) => form.setData('articulacion_agenda_competitividad', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('articulacion_agenda_competitividad', form)}
                             />
                         </Grid>
@@ -353,7 +352,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 value={form.data.aportes_linea_ocho_conpes}
                                 onChange={(e) => form.setData('aportes_linea_ocho_conpes', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('aportes_linea_ocho_conpes', form)}
                             />
                         </Grid>
@@ -366,7 +365,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 value={form.data.estado_ecosistema_ctel}
                                 onChange={(e) => form.setData('estado_ecosistema_ctel', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('estado_ecosistema_ctel', form)}
                             />
                         </Grid>
@@ -379,7 +378,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 value={form.data.logros_vigencia_anterior}
                                 onChange={(e) => form.setData('logros_vigencia_anterior', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('logros_vigencia_anterior', form)}
                             />
                         </Grid>
@@ -392,13 +391,13 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 value={form.data.pertinencia_territorio}
                                 onChange={(e) => form.setData('pertinencia_territorio', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('pertinencia_territorio', form)}
                             />
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="marco_conceptual" value="Marco conceptual" />
+                            <Label required labelFor="marco_conceptual" value="Marco conceptual" />
                             <AlertMui>Descripción de los aspectos conceptuales y/o teóricos relacionados con el problema. Se hace la claridad que no es un listado de definiciones.</AlertMui>
 
                             <Textarea
@@ -407,13 +406,13 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 value={form.data.marco_conceptual}
                                 onChange={(e) => form.setData('marco_conceptual', e.target.value)}
                                 required
-                                disabled={!is_super_admin && !checkPermissionByUser(auth_user, [24]) && !proyecto_formulario_5_linea_69?.proyecto_base}
+                                disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('marco_conceptual', form)}
                             />
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="bibliografia" value="Bibliografía" />
+                            <Label required labelFor="bibliografia" value="Bibliografía" />
                             <AlertMui>
                                 Lista de las referencias utilizadas en cada apartado del proyecto. Utilizar normas APA- Última edición (http://biblioteca.sena.edu.co/images/PDF/InstructivoAPA.pdf).
                             </AlertMui>
@@ -424,7 +423,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 value={form.data.bibliografia}
                                 onChange={(e) => form.setData('bibliografia', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('bibliografia', form)}
                             />
                         </Grid>

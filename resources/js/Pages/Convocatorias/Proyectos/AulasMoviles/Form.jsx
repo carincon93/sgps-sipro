@@ -47,13 +47,14 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
             <Grid item md={8}>
                 <Paper className="p-8">
                     <form onSubmit={submit} id="form-proyecto-presupuesto">
-                        <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+                        <fieldset>
                             <Grid container rowSpacing={8}>
                                 <Grid item md={12}>
                                     <TextInput
                                         id="placa"
                                         type="text"
                                         onChange={(e) => form.setData('placa', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={form.errors.placa}
                                         value={form.data.placa}
                                         label="Placa del vehículo"
@@ -66,6 +67,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
                                         id="modelo"
                                         type="number"
                                         onChange={(e) => form.setData('modelo', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={form.errors.modelo}
                                         inputProps={{ min: 0 }}
                                         value={form.data.modelo}
@@ -78,6 +80,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
                                     <Textarea
                                         id="logros_vigencia"
                                         onChange={(e) => form.setData('logros_vigencia', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={form.errors.logros_vigencia}
                                         value={form.data.logros_vigencia}
                                         label="Acciones desarrolladas y logros en la vigencia actual con el Aula Móvil"
@@ -90,6 +93,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
                                         id="numero_municipios_visitados"
                                         type="number"
                                         onChange={(e) => form.setData('numero_municipios_visitados', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={form.errors.numero_municipios_visitados}
                                         inputProps={{ min: 0 }}
                                         value={form.data.numero_municipios_visitados}
@@ -103,6 +107,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
                                         id="numero_aprendices_beneficiados"
                                         type="number"
                                         onChange={(e) => form.setData('numero_aprendices_beneficiados', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={form.errors.numero_aprendices_beneficiados}
                                         inputProps={{ min: 0 }}
                                         value={form.data.numero_aprendices_beneficiados}
@@ -116,6 +121,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
                                         id="estado"
                                         type="text"
                                         onChange={(e) => form.setData('estado', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={form.errors.estado}
                                         value={form.data.estado}
                                         label="Estado actual (mecánico) del Aula Móvil"
@@ -127,6 +133,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
                                     <Textarea
                                         id="modulos_interactivos"
                                         onChange={(e) => form.setData('modulos_interactivos', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={form.errors.modulos_interactivos}
                                         value={form.data.modulos_interactivos}
                                         label="Módulos interactivos en el Aula Móvil"
@@ -138,6 +145,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
                                     <Textarea
                                         id="acciones_a_desarrollar"
                                         onChange={(e) => form.setData('acciones_a_desarrollar', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={form.errors.acciones_a_desarrollar}
                                         value={form.data.acciones_a_desarrollar}
                                         label={`Acciones que espera desarrollar con el Aula Móvole en la vigencia ${convocatoria.year}`}
@@ -150,6 +158,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
                                         id="numero_aprendices_a_beneficiar"
                                         type="number"
                                         onChange={(e) => form.setData('numero_aprendices_a_beneficiar', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={form.errors.numero_aprendices_a_beneficiar}
                                         inputProps={{ min: 0 }}
                                         value={form.data.numero_aprendices_a_beneficiar}
@@ -162,6 +171,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
                                     <Textarea
                                         id="recursos_mantenimiento"
                                         onChange={(e) => form.setData('recursos_mantenimiento', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={form.errors.recursos_mantenimiento}
                                         value={form.data.recursos_mantenimiento}
                                         label={`Requerimientos de recursos de Mantenimiento para la vigencia ${convocatoria.year}`}
@@ -175,17 +185,15 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
 
                         <div className="flex items-center justify-between mt-14 py-4">
                             {proyecto.allowed.to_update ? (
-                                <>
-                                    <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                        {method == 'POST' ? 'Agregar' : 'Modificar'} aula móvil
-                                    </PrimaryButton>
-                                    <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
-                                        Cancelar
-                                    </ButtonMui>
-                                </>
+                                <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
+                                    {method == 'POST' ? 'Agregar' : 'Modificar'} aula móvil
+                                </PrimaryButton>
                             ) : (
                                 <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
                             )}
+                            <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
+                                Cancelar
+                            </ButtonMui>
                         </div>
                     </form>
                 </Paper>

@@ -42,13 +42,14 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisis_r
             <Grid item md={8}>
                 <Paper className="p-8">
                     <form onSubmit={submit}>
-                        <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+                        <fieldset>
                             <div className="mt-8">
                                 <Autocomplete
                                     id="nivel"
                                     options={niveles_riesgo}
                                     selectedValue={form.data.nivel}
                                     onChange={(event, newValue) => form.setData('nivel', newValue.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     error={form.errors.nivel}
                                     label="Nivel de riesgo"
                                     placeholder="Seleccione el nivel del riesgo"
@@ -62,6 +63,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisis_r
                                     options={tipos_riesgo}
                                     selectedValue={form.data.tipo}
                                     onChange={(event, newValue) => form.setData('tipo', newValue.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     error={form.errors.tipo}
                                     label="Tipo de riesgo"
                                     placeholder="Seleccione el tipo de riesgo"
@@ -101,6 +103,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisis_r
                                     error={form.errors.descripcion}
                                     value={form.data.descripcion}
                                     onChange={(e) => form.setData('descripcion', e.target.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     required
                                 />
                             </div>
@@ -112,6 +115,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisis_r
                                     selectedValue={form.data.probabilidad}
                                     error={form.errors.probabilidad}
                                     onChange={(evente, newValue) => form.setData('probabilidad', newValue.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     label="Probabilidad"
                                     placeholder="Seleccione la probabilidad"
                                     required
@@ -125,6 +129,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisis_r
                                     selectedValue={form.data.impacto}
                                     error={form.errors.impacto}
                                     onChange={(event, newValue) => form.setData('impacto', newValue.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     label="Impacto"
                                     placeholder="Seleccione la probabilidad"
                                     required
@@ -132,7 +137,15 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisis_r
                             </div>
 
                             <div className="mt-8">
-                                <Textarea label="Efectos" id="efectos" error={form.errors.efectos} value={form.data.efectos} onChange={(e) => form.setData('efectos', e.target.value)} required />
+                                <Textarea
+                                    label="Efectos"
+                                    id="efectos"
+                                    error={form.errors.efectos}
+                                    value={form.data.efectos}
+                                    onChange={(e) => form.setData('efectos', e.target.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
+                                    required
+                                />
                             </div>
 
                             <div className="mt-8">
@@ -141,6 +154,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisis_r
                                     id="medidas_mitigacion"
                                     error={form.errors.medidas_mitigacion}
                                     onChange={(e) => form.setData('medidas_mitigacion', e.target.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     value={form.data.medidas_mitigacion}
                                     required
                                 />
@@ -149,17 +163,15 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, analisis_r
                         {analisis_riesgo && <small className="my-10 inline-block">{analisis_riesgo.updated_at}</small>}
                         <div className="flex items-center justify-between py-4 ">
                             {proyecto.allowed.to_update ? (
-                                <>
-                                    <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                        {method == 'POST' ? 'Agregar' : 'Modificar'} análisis de riesgo
-                                    </PrimaryButton>
-                                    <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
-                                        Cancelar
-                                    </ButtonMui>
-                                </>
+                                <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
+                                    {method == 'POST' ? 'Agregar' : 'Modificar'} análisis de riesgo
+                                </PrimaryButton>
                             ) : (
                                 <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
                             )}
+                            <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
+                                Cancelar
+                            </ButtonMui>
                         </div>
                     </form>
                 </Paper>

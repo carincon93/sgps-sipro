@@ -106,7 +106,7 @@ const Indicadores = ({ auth, convocatoria, proyecto, evaluacion, ...props }) => 
                 </p>
 
                 <form onSubmit={submit}>
-                    <fieldset className="p-8 divide-y" disabled={proyecto.allowed.to_update ? false : true}>
+                    <fieldset className="p-8 divide-y">
                         <div className="py-24 grid grid-cols-2">
                             <div>
                                 <Label className="mb-4" labelFor="productividad_beneficiaros" value="a) Productividad y competitividad del (los) beneficiario(s) final(es) del proyecto" />
@@ -117,6 +117,7 @@ const Indicadores = ({ auth, convocatoria, proyecto, evaluacion, ...props }) => 
                                     error={form.errors.productividad_beneficiaros}
                                     value={form.data.productividad_beneficiaros}
                                     onChange={(e) => form.setData('productividad_beneficiaros', e.target.value)}
+                                    disabled={!proyecto.allowed.to_update}
                                     onBlur={() => syncColumnLong('productividad_beneficiaros', form)}
                                 />
                             </div>
@@ -132,6 +133,7 @@ const Indicadores = ({ auth, convocatoria, proyecto, evaluacion, ...props }) => 
                                     error={form.errors.generacion_empleo_beneficiarios}
                                     value={form.data.generacion_empleo_beneficiarios}
                                     onChange={(e) => form.setData('generacion_empleo_beneficiarios', e.target.value)}
+                                    disabled={!proyecto.allowed.to_update}
                                     onBlur={() => syncColumnLong('generacion_empleo_beneficiarios', form)}
                                 />
                             </div>
@@ -151,6 +153,7 @@ const Indicadores = ({ auth, convocatoria, proyecto, evaluacion, ...props }) => 
                                     error={form.errors.creacion_nuevos_desarrollos}
                                     value={form.data.creacion_nuevos_desarrollos}
                                     onChange={(e) => form.setData('creacion_nuevos_desarrollos', e.target.value)}
+                                    disabled={!proyecto.allowed.to_update}
                                     onBlur={() => syncColumnLong('creacion_nuevos_desarrollos', form)}
                                 />
                             </div>
@@ -170,6 +173,7 @@ const Indicadores = ({ auth, convocatoria, proyecto, evaluacion, ...props }) => 
                                     error={form.errors.generacion_conocimientos_beneficiarios}
                                     value={form.data.generacion_conocimientos_beneficiarios}
                                     onChange={(e) => form.setData('generacion_conocimientos_beneficiarios', e.target.value)}
+                                    disabled={!proyecto.allowed.to_update}
                                     onBlur={() => syncColumnLong('generacion_conocimientos_beneficiarios', form)}
                                 />
                             </div>
@@ -185,6 +189,7 @@ const Indicadores = ({ auth, convocatoria, proyecto, evaluacion, ...props }) => 
                                     error={form.errors.generacion_valor_beneficiarios}
                                     value={form.data.generacion_valor_beneficiarios}
                                     onChange={(e) => form.setData('generacion_valor_beneficiarios', e.target.value)}
+                                    disabled={!proyecto.allowed.to_update}
                                     onBlur={() => syncColumnLong('generacion_valor_beneficiarios', form)}
                                 />
                             </div>
@@ -200,6 +205,7 @@ const Indicadores = ({ auth, convocatoria, proyecto, evaluacion, ...props }) => 
                                     error={form.errors.fortalecimiento_programas_formacion}
                                     value={form.data.fortalecimiento_programas_formacion}
                                     onChange={(e) => form.setData('fortalecimiento_programas_formacion', e.target.value)}
+                                    disabled={!proyecto.allowed.to_update}
                                     onBlur={() => syncColumnLong('fortalecimiento_programas_formacion', form)}
                                 />
                             </div>
@@ -215,6 +221,7 @@ const Indicadores = ({ auth, convocatoria, proyecto, evaluacion, ...props }) => 
                                     error={form.errors.transferencia_tecnologias}
                                     value={form.data.transferencia_tecnologias}
                                     onChange={(e) => form.setData('transferencia_tecnologias', e.target.value)}
+                                    disabled={!proyecto.allowed.to_update}
                                     onBlur={() => syncColumnLong('transferencia_tecnologias', form)}
                                 />
                             </div>
@@ -230,6 +237,7 @@ const Indicadores = ({ auth, convocatoria, proyecto, evaluacion, ...props }) => 
                                     error={form.errors.calidad_formacion}
                                     value={form.data.calidad_formacion}
                                     onChange={(e) => form.setData('calidad_formacion', e.target.value)}
+                                    disabled={!proyecto.allowed.to_update}
                                     onBlur={() => syncColumnLong('calidad_formacion', form)}
                                 />
                             </div>
@@ -245,6 +253,7 @@ const Indicadores = ({ auth, convocatoria, proyecto, evaluacion, ...props }) => 
                                     error={form.errors.impacto_ambiental_proyectos}
                                     value={form.data.impacto_ambiental_proyectos}
                                     onChange={(e) => form.setData('impacto_ambiental_proyectos', e.target.value)}
+                                    disabled={!proyecto.allowed.to_update}
                                     onBlur={() => syncColumnLong('impacto_ambiental_proyectos', form)}
                                 />
                             </div>

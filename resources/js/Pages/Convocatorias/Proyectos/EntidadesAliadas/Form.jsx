@@ -73,7 +73,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
             <Grid item md={8}>
                 <Paper className="p-8">
                     <form onSubmit={submit}>
-                        <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+                        <fieldset>
                             <Grid container rowSpacing={8}>
                                 <Grid item md={12}>
                                     <Autocomplete
@@ -81,6 +81,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                         options={tipos_entidad_aliada}
                                         selectedValue={form.data.tipo}
                                         onChange={(event, newValue) => form.setData('tipo', newValue.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={form.errors.tipo}
                                         label="Tipo de entidad aliada"
                                         required
@@ -94,6 +95,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                         error={form.errors.nombre}
                                         value={form.data.nombre}
                                         onChange={(e) => form.setData('nombre', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         required
                                     />
                                 </Grid>
@@ -104,6 +106,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                         options={naturaleza_entidad_aliada}
                                         selectedValue={form.data.naturaleza}
                                         onChange={(event, newValue) => form.setData('naturaleza', newValue.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={form.errors.naturaleza}
                                         label="Naturaleza de la entidad"
                                         required
@@ -116,6 +119,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                         options={tipos_empresa}
                                         selectedValue={form.data.tipo_empresa}
                                         onChange={(event, newValue) => form.setData('tipo_empresa', newValue.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={form.errors.tipo_empresa}
                                         label="Tipo de empresa"
                                         required
@@ -140,6 +144,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                                     error={form.errors.descripcion_convenio}
                                                     value={form.data.descripcion_convenio}
                                                     onChange={(e) => form.setData('descripcion_convenio', e.target.value)}
+                                                    disabled={!proyecto?.allowed?.to_update}
                                                     required
                                                 />
                                             </Grid>
@@ -158,6 +163,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                                         error={form.errors.grupo_investigacion}
                                                         value={form.data.grupo_investigacion}
                                                         onChange={(e) => form.setData('grupo_investigacion', e.target.value)}
+                                                        disabled={!proyecto?.allowed?.to_update}
                                                         required
                                                     />
                                                 </Grid>
@@ -171,6 +177,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                                         placeholder="Ejemplo: COL0000000"
                                                         value={form.data.codigo_gruplac}
                                                         onChange={(e) => form.setData('codigo_gruplac', e.target.value)}
+                                                        disabled={!proyecto?.allowed?.to_update}
                                                         required={!form.tiene_grupo_investigacion ? undefined : 'required'}
                                                     />
                                                 </Grid>
@@ -184,6 +191,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                                         placeholder="Ejemplo: https://scienti.minciencias.gov.co/gruplac/jsp/Medicion/graficas/verPerfiles.jsp?id_convocatoria=0nroIdGrupo=0000000"
                                                         value={form.data.enlace_gruplac}
                                                         onChange={(e) => form.setData('enlace_gruplac', e.target.value)}
+                                                        disabled={!proyecto?.allowed?.to_update}
                                                         required={!form.tiene_grupo_investigacion ? undefined : 'required'}
                                                     />
                                                 </Grid>
@@ -200,6 +208,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                                 placeholder="COP"
                                                 value={form.data.recursos_especie}
                                                 onChange={(e) => form.setData('recursos_especie', e.target.value)}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 required
                                             />
                                         </Grid>
@@ -211,6 +220,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                                 error={form.errors.descripcion_recursos_especie}
                                                 value={form.data.descripcion_recursos_especie}
                                                 onChange={(e) => form.setData('descripcion_recursos_especie', e.target.value)}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 required
                                             />
                                         </Grid>
@@ -225,6 +235,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                                 placeholder="COP"
                                                 value={form.data.recursos_dinero}
                                                 onChange={(e) => form.setData('recursos_dinero', e.target.value)}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 required
                                             />
                                         </Grid>
@@ -236,6 +247,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                                 error={form.errors.descripcion_recursos_dinero}
                                                 value={form.data.descripcion_recursos_dinero}
                                                 onChange={(e) => form.setData('descripcion_recursos_dinero', e.target.value)}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 required
                                             />
                                         </Grid>
@@ -247,6 +259,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                                 error={form.errors.actividades_transferencia_conocimiento}
                                                 value={form.data.actividades_transferencia_conocimiento}
                                                 onChange={(e) => form.setData('actividades_transferencia_conocimiento', e.target.value)}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 required
                                             />
                                         </Grid>
@@ -263,6 +276,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                                         className="mt-1 block w-full p-4"
                                                         value={form.data.fecha_inicio_convenio}
                                                         onChange={(e) => form.setData('fecha_inicio_convenio', e.target.value)}
+                                                        disabled={!proyecto?.allowed?.to_update}
                                                         error={form.errors.fecha_inicio_convenio}
                                                         required
                                                     />
@@ -274,6 +288,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                                         className="mt-1 block w-full p-4"
                                                         value={form.data.fecha_fin_convenio}
                                                         onChange={(e) => form.setData('fecha_fin_convenio', e.target.value)}
+                                                        disabled={!proyecto?.allowed?.to_update}
                                                         error={form.errors.fecha_fin_convenio}
                                                         required
                                                     />
@@ -305,6 +320,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                                         actividad_id: selectedValues,
                                                     }))
                                                 }}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 required
                                             />
                                         </div>
@@ -317,17 +333,15 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
 
                         <div className="flex items-center justify-between py-4">
                             {proyecto.allowed.to_update ? (
-                                <>
-                                    <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                        {method == 'POST' ? 'Agregar' : 'Modificar'} entidad aliada
-                                    </PrimaryButton>
-                                    <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
-                                        Cancelar
-                                    </ButtonMui>
-                                </>
+                                <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
+                                    {method == 'POST' ? 'Agregar' : 'Modificar'} entidad aliada
+                                </PrimaryButton>
                             ) : (
                                 <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
                             )}
+                            <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
+                                Cancelar
+                            </ButtonMui>
                         </div>
                     </form>
                 </Paper>

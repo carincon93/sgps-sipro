@@ -7,7 +7,9 @@ import { Grid } from '@mui/material'
 import Participantes from './Participantes'
 import SemillerosInvestigacion from './SemillerosInvestigacion'
 
-const Index = ({ convocatoria, proyecto, evaluacion, nuevo_participante, nuevo_semillero_investigacion, roles_sennova, autorPrincipal }) => {
+const Index = ({ auth, convocatoria, proyecto, evaluacion, nuevo_participante, nuevo_semillero_investigacion, roles_sennova, autor_principal }) => {
+    const auth_user = auth.user
+
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
             <Grid item md={12} className="!mb-20">
@@ -15,7 +17,14 @@ const Index = ({ convocatoria, proyecto, evaluacion, nuevo_participante, nuevo_s
             </Grid>
 
             <Grid item md={12} className="!mb-20">
-                <Participantes autorPrincipal={autorPrincipal} convocatoria={convocatoria} roles_sennova={roles_sennova} proyecto={proyecto} nuevo_participante={nuevo_participante} />
+                <Participantes
+                    auth_user={auth_user}
+                    autor_principal={autor_principal}
+                    convocatoria={convocatoria}
+                    roles_sennova={roles_sennova}
+                    proyecto={proyecto}
+                    nuevo_participante={nuevo_participante}
+                />
 
                 {proyecto.tipo_formulario_convocatoria_id == 8 ||
                 proyecto.tipo_formulario_convocatoria_id == 6 ||

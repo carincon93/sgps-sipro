@@ -163,7 +163,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                     )}
 
                     <form onSubmit={submit} id="form-proyecto-presupuesto">
-                        <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+                        <fieldset>
                             <Grid container rowSpacing={8}>
                                 {!modificar_usos_presupuestales && (
                                     <>
@@ -173,6 +173,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                                 options={segundo_grupo_presupuestal}
                                                 selectedValue={form.data.segundo_grupo_presupuestal_id}
                                                 onChange={(e, newValue) => form.setData('segundo_grupo_presupuestal_id', newValue.value)}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 error={form.errors.segundo_grupo_presupuestal_id}
                                                 label="Rubro concepto interno SENA"
                                                 required
@@ -186,6 +187,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                                     options={array_tecer_grupo_presupuestal}
                                                     selectedValue={form.data.tercer_grupo_presupuestal_id}
                                                     onChange={(e, newValue) => form.setData('tercer_grupo_presupuestal_id', newValue.value)}
+                                                    disabled={!proyecto?.allowed?.to_update}
                                                     error={form.errors.tercer_grupo_presupuestal_id}
                                                     label="Rubro concepto ministerio de hacienda"
                                                     required
@@ -207,6 +209,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                                             convocatoria_presupuesto_id: selected_values,
                                                         }))
                                                     }}
+                                                    disabled={!proyecto?.allowed?.to_update}
                                                     error={form.errors.convocatoria_presupuesto_id}
                                                     label="Usos presupuestales"
                                                     required
@@ -241,6 +244,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                         error={form.errors.descripcion}
                                         value={form.data.descripcion}
                                         onChange={(e) => form.setData('descripcion', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         required
                                     />
                                 </Grid>
@@ -252,6 +256,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                             id="equipo_para_modernizar"
                                             checked={form.data.equipo_para_modernizar}
                                             onChange={(e) => form.setData('equipo_para_modernizar', e.target.checked)}
+                                            disabled={!proyecto?.allowed?.to_update}
                                             error={form.errors.equipo_para_modernizar}
                                         />
                                     </Grid>
@@ -264,6 +269,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                         error={form.errors.justificacion}
                                         value={form.data.justificacion}
                                         onChange={(e) => form.setData('justificacion', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         required
                                     />
                                 </Grid>
@@ -276,6 +282,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                             inputProps={{ min: 0, prefix: '$' }}
                                             value={form.data.valor_total}
                                             onChange={(e) => form.setData('valor_total', e.target.value)}
+                                            disabled={!proyecto?.allowed?.to_update}
                                             error={form.errors.valor_total}
                                             required
                                         />
@@ -304,14 +311,13 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                             </AlertMui>
                                         )
                                     )}
-
-                                    <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)} className={!same_values_requiere_estudio_mercado ? '!ml-2 w-full' : ''}>
-                                        Cancelar
-                                    </ButtonMui>
                                 </>
                             ) : (
                                 <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
                             )}
+                            <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)} className={!same_values_requiere_estudio_mercado ? '!ml-2 w-full' : ''}>
+                                Cancelar
+                            </ButtonMui>
                         </div>
                     </form>
                 </Paper>

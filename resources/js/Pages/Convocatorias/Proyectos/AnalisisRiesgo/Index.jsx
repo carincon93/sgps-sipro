@@ -161,16 +161,14 @@ const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisis_riesgos, nivel
                                 <MenuMui text={<MoreVertIcon />}>
                                     {analisis_riesgo.id !== analisis_riesgo_to_destroy ? (
                                         <div>
-                                            <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('PUT'), setAnalisisRiesgo(analisis_riesgo))}
-                                                disabled={!proyecto.allowed.to_update}
-                                                className={!proyecto.allowed.to_update ? 'hidden' : ''}>
-                                                Editar
+                                            <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setAnalisisRiesgo(analisis_riesgo))} disabled={!proyecto?.allowed?.to_view}>
+                                                {proyecto?.allowed?.to_view && !proyecto?.allowed?.to_update ? 'Ver información' : 'Editar'}
                                             </MenuItem>
                                             <MenuItem
                                                 onClick={() => {
                                                     setAnalisisRiesgoToDestroy(analisis_riesgo.id)
-                                                }}>
+                                                }}
+                                                disabled={!proyecto?.allowed?.to_update}>
                                                 Eliminar
                                             </MenuItem>
                                         </div>

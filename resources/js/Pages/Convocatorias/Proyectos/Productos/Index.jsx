@@ -193,16 +193,14 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                                 <MenuMui text={<MoreVertIcon />}>
                                     {producto.id !== producto_to_destroy ? (
                                         <div>
-                                            <MenuItem
-                                                onClick={() => (setDialogProductoMincienciasStatus(true), setMethod('PUT'), setProducto(producto))}
-                                                disabled={!proyecto.allowed.to_update}
-                                                className={!proyecto.allowed.to_update ? 'hidden' : ''}>
-                                                Editar
+                                            <MenuItem onClick={() => (setDialogProductoMincienciasStatus(true), setMethod('PUT'), setProducto(producto))} disabled={!proyecto?.allowed?.to_view}>
+                                                {proyecto?.allowed?.to_view && !proyecto?.allowed?.to_update ? 'Ver información' : 'Editar'}
                                             </MenuItem>
                                             <MenuItem
                                                 onClick={() => {
                                                     setProductoToDestroy(producto.id)
-                                                }}>
+                                                }}
+                                                disabled={!proyecto?.allowed?.to_update}>
                                                 Eliminar
                                             </MenuItem>
                                         </div>

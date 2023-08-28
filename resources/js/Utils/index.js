@@ -2,43 +2,39 @@ import moment from 'moment'
 
 export const route = window.route
 
-export function checkPermission(authUser, permissionsId) {
-    let findPermissions = []
-    findPermissions = permissionsId.map((permissionId) => {
-        return authUser.can.find((element) => element == permissionId) == permissionId
+export function checkPermission(auth_user, permissions_id) {
+    const find_permissions = permissions_id.map((permission_id) => {
+        return auth_user?.can.find((element) => element == permission_id) == permission_id
     })
 
-    return findPermissions.find((element) => element == true) == true
+    return find_permissions.find((element) => element == true) == true
 }
 
-export function checkPermissionByUser(authUser, permissionsId) {
-    let findPermissions = []
-    findPermissions = permissionsId.map((permissionId) => {
-        return authUser?.can_by_user.find((element) => element == permissionId) == permissionId
+export function checkPermissionByUser(auth_user, permissions_id) {
+    const find_permissions = permissions_id.map((permission_id) => {
+        return auth_user?.can_by_user.find((element) => element == permission_id) == permission_id
     })
 
-    return findPermissions?.find((element) => element == true) == true
+    return find_permissions?.find((element) => element == true) == true
 }
 
-export function checkRole(authUser, rolesId) {
-    let findRoles = []
-
-    findRoles = rolesId?.map((roleId) => {
+export function checkRole(auth_user, roles_id) {
+    const find_roles = roles_id?.map((role_id) => {
         return (
-            authUser?.roles.filter(function (role) {
-                return role.id == roleId
+            auth_user?.roles.filter(function (role) {
+                return role.id == role_id
             }).length > 0
         )
     })
 
-    return findRoles?.find((element) => element == true) == true
+    return find_roles?.find((element) => element == true) == true
 }
 
 export function monthDiff(d1, d2) {
-    let monthDifference = 0
-    monthDifference = moment(new Date(d2)).diff(new Date(d1), 'months', true)
+    let month_difference = 0
+    month_difference = moment(new Date(d2)).diff(new Date(d1), 'months', true)
 
-    return monthDifference.toFixed(1)
+    return month_difference.toFixed(1)
 }
 
 export function back() {

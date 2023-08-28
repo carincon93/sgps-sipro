@@ -70,6 +70,7 @@ const ArticulacionFormulario17Linea69 = ({ convocatoria, proyecto, semilleros_in
                         error={form_articulacion_proyecto_formulario_17_linea_69.errors.contribucion_formacion_centro_regional}
                         value={form_articulacion_proyecto_formulario_17_linea_69.data.contribucion_formacion_centro_regional}
                         onChange={(e) => form_articulacion_proyecto_formulario_17_linea_69.setData('contribucion_formacion_centro_regional', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('contribucion_formacion_centro_regional', form_articulacion_proyecto_formulario_17_linea_69)}
                         required
                     />
@@ -87,6 +88,7 @@ const ArticulacionFormulario17Linea69 = ({ convocatoria, proyecto, semilleros_in
                         error={form_articulacion_proyecto_formulario_17_linea_69.errors.acciones_fortalecimiento_centro_regional}
                         value={form_articulacion_proyecto_formulario_17_linea_69.data.acciones_fortalecimiento_centro_regional}
                         onChange={(e) => form_articulacion_proyecto_formulario_17_linea_69.setData('acciones_fortalecimiento_centro_regional', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('acciones_fortalecimiento_centro_regional', form_articulacion_proyecto_formulario_17_linea_69)}
                         required
                     />
@@ -104,6 +106,7 @@ const ArticulacionFormulario17Linea69 = ({ convocatoria, proyecto, semilleros_in
                         error={form_articulacion_proyecto_formulario_17_linea_69.errors.acciones_participacion_aprendices}
                         value={form_articulacion_proyecto_formulario_17_linea_69.data.acciones_participacion_aprendices}
                         onChange={(e) => form_articulacion_proyecto_formulario_17_linea_69.setData('acciones_participacion_aprendices', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('acciones_participacion_aprendices', form_articulacion_proyecto_formulario_17_linea_69)}
                         required
                     />
@@ -125,6 +128,7 @@ const ArticulacionFormulario17Linea69 = ({ convocatoria, proyecto, semilleros_in
                         error={form_articulacion_proyecto_formulario_17_linea_69.errors.acciones_aportes_por_edt}
                         value={form_articulacion_proyecto_formulario_17_linea_69.data.acciones_aportes_por_edt}
                         onChange={(e) => form_articulacion_proyecto_formulario_17_linea_69.setData('acciones_aportes_por_edt', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('acciones_aportes_por_edt', form_articulacion_proyecto_formulario_17_linea_69)}
                         required
                     />
@@ -146,6 +150,7 @@ const ArticulacionFormulario17Linea69 = ({ convocatoria, proyecto, semilleros_in
                         error={form_articulacion_proyecto_formulario_17_linea_69.errors.acciones_fortalecimiento_programas_calificados}
                         value={form_articulacion_proyecto_formulario_17_linea_69.data.acciones_fortalecimiento_programas_calificados}
                         onChange={(e) => form_articulacion_proyecto_formulario_17_linea_69.setData('acciones_fortalecimiento_programas_calificados', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('acciones_fortalecimiento_programas_calificados', form_articulacion_proyecto_formulario_17_linea_69)}
                         required
                     />
@@ -171,6 +176,7 @@ const ArticulacionFormulario17Linea69 = ({ convocatoria, proyecto, semilleros_in
                         error={form_articulacion_proyecto_formulario_17_linea_69.errors.acciones_categorizacion_grupos_investigacion}
                         value={form_articulacion_proyecto_formulario_17_linea_69.data.acciones_categorizacion_grupos_investigacion}
                         onChange={(e) => form_articulacion_proyecto_formulario_17_linea_69.setData('acciones_categorizacion_grupos_investigacion', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('acciones_categorizacion_grupos_investigacion', form_articulacion_proyecto_formulario_17_linea_69)}
                         required
                     />
@@ -190,6 +196,7 @@ const ArticulacionFormulario17Linea69 = ({ convocatoria, proyecto, semilleros_in
                         error={form_articulacion_proyecto_formulario_17_linea_69.errors.oportunidades_fortalecimiento_proyectos_sennova}
                         value={form_articulacion_proyecto_formulario_17_linea_69.data.oportunidades_fortalecimiento_proyectos_sennova}
                         onChange={(e) => form_articulacion_proyecto_formulario_17_linea_69.setData('oportunidades_fortalecimiento_proyectos_sennova', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('oportunidades_fortalecimiento_proyectos_sennova', form_articulacion_proyecto_formulario_17_linea_69)}
                         required
                     />
@@ -209,6 +216,7 @@ const ArticulacionFormulario17Linea69 = ({ convocatoria, proyecto, semilleros_in
                                 semilleros_investigacion: selected_values,
                             }))
                         }}
+                        disabled={!proyecto?.allowed?.to_update}
                         error={form_articulacion_proyecto_formulario_17_linea_69.errors.semilleros_investigacion}
                         onBlur={() => syncColumnLong('semilleros_investigacion', form_articulacion_proyecto_formulario_17_linea_69)}
                         required
@@ -230,6 +238,7 @@ const ArticulacionFormulario17Linea69 = ({ convocatoria, proyecto, semilleros_in
                                 grupos_investigacion: selected_values,
                             }))
                         }}
+                        disabled={!proyecto?.allowed?.to_update}
                         error={form_articulacion_proyecto_formulario_17_linea_69.errors.grupos_investigacion}
                         onBlur={() => syncColumnLong('grupos_investigacion', form_articulacion_proyecto_formulario_17_linea_69)}
                         required
@@ -253,6 +262,7 @@ const ArticulacionFormulario17Linea69 = ({ convocatoria, proyecto, semilleros_in
                         error={form_articulacion_proyecto_formulario_17_linea_69.errors.proyeccion_articulacion_linea_68}
                         value={form_articulacion_proyecto_formulario_17_linea_69.data.proyeccion_articulacion_linea_68}
                         onChange={(e) => form_articulacion_proyecto_formulario_17_linea_69.setData('proyeccion_articulacion_linea_68', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('proyeccion_articulacion_linea_68', form_articulacion_proyecto_formulario_17_linea_69)}
                         required
                     />
@@ -272,6 +282,7 @@ const ArticulacionFormulario17Linea69 = ({ convocatoria, proyecto, semilleros_in
                         error={form_articulacion_proyecto_formulario_17_linea_69.errors.proyeccion_articulacion_linea_83}
                         value={form_articulacion_proyecto_formulario_17_linea_69.data.proyeccion_articulacion_linea_83}
                         onChange={(e) => form_articulacion_proyecto_formulario_17_linea_69.setData('proyeccion_articulacion_linea_83', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('proyeccion_articulacion_linea_83', form_articulacion_proyecto_formulario_17_linea_69)}
                         required
                     />
@@ -289,6 +300,7 @@ const ArticulacionFormulario17Linea69 = ({ convocatoria, proyecto, semilleros_in
                         error={form_articulacion_proyecto_formulario_17_linea_69.errors.oportunidades_fortalecimiento_convocatorias_innovacion}
                         value={form_articulacion_proyecto_formulario_17_linea_69.data.oportunidades_fortalecimiento_convocatorias_innovacion}
                         onChange={(e) => form_articulacion_proyecto_formulario_17_linea_69.setData('oportunidades_fortalecimiento_convocatorias_innovacion', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('oportunidades_fortalecimiento_convocatorias_innovacion', form_articulacion_proyecto_formulario_17_linea_69)}
                         required
                     />
@@ -306,6 +318,7 @@ const ArticulacionFormulario17Linea69 = ({ convocatoria, proyecto, semilleros_in
                         error={form_articulacion_proyecto_formulario_17_linea_69.errors.proyeccion_articulacion_centros_empresariales}
                         value={form_articulacion_proyecto_formulario_17_linea_69.data.proyeccion_articulacion_centros_empresariales}
                         onChange={(e) => form_articulacion_proyecto_formulario_17_linea_69.setData('proyeccion_articulacion_centros_empresariales', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('proyeccion_articulacion_centros_empresariales', form_articulacion_proyecto_formulario_17_linea_69)}
                         required
                     />

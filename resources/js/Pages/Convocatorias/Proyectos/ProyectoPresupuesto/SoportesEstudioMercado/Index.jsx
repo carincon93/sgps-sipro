@@ -178,6 +178,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                     value={form.data.valor_total}
                                     error={form.errors.valor_total}
                                     onChange={(e) => form.setData('valor_total', e.target.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     required
                                 />
 
@@ -196,6 +197,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                             : null
                                     }
                                     onChange={(e) => form.setData('formato_estudio_mercado', e)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     error={form.errors.formato_estudio_mercado}
                                 />
                             </div>
@@ -229,7 +231,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                         </AlertMui>
 
                         <form onSubmit={submitSoporte}>
-                            <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+                            <fieldset>
                                 <TextInput
                                     id="nombre_primer_empresa"
                                     label="Nombre de la primer empresa"
@@ -264,6 +266,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                     }
                                     onDelete={() => destroySoporte(soportes_estudio_mercado[0]?.id)}
                                     onChange={(e) => formSoporte.setData('soporte_primer_empresa', e)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     error={formSoporte.errors.soporte_primer_empresa}
                                 />
                             </fieldset>
@@ -283,7 +286,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                         <h1 className="mt-24 mb-8 text-center text-3xl">Soporte / Cotización de la segunda empresa</h1>
 
                         <form onSubmit={submitSoporte}>
-                            <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+                            <fieldset>
                                 <TextInput
                                     id="nombre_segunda_empresa"
                                     label="Nombre de la segunda empresa"
@@ -291,6 +294,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                     className="!my-14"
                                     value={formSoporte.data.nombre_segunda_empresa}
                                     onChange={(e) => formSoporte.setData('nombre_segunda_empresa', e.target.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     error={formSoporte.errors.nombre_segunda_empresa}
                                     required
                                 />
@@ -318,6 +322,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                     }
                                     onDelete={() => destroySoporte(soportes_estudio_mercado[1]?.id)}
                                     onChange={(e) => formSoporte.setData('soporte_segunda_empresa', e)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     error={formSoporte.errors.soporte_segunda_empresa}
                                 />
                             </fieldset>
@@ -337,7 +342,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                         <h1 className="mt-24 mb-8 text-center text-3xl">Soporte / Cotización de la tercer empresa</h1>
 
                         <form onSubmit={submitSoporte}>
-                            <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+                            <fieldset>
                                 <TextInput
                                     id="nombre_tercer_empresa"
                                     label="Nombre de la tercer empresa"
@@ -345,6 +350,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                     className="!my-14"
                                     value={formSoporte.data.nombre_tercer_empresa}
                                     onChange={(e) => formSoporte.setData('nombre_tercer_empresa', e.target.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     error={formSoporte.errors.nombre_tercer_empresa}
                                 />
 
@@ -371,6 +377,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                     }
                                     onDelete={() => destroySoporte(soportes_estudio_mercado[2]?.id)}
                                     onChange={(e) => formSoporte.setData('soporte_tercer_empresa', e)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     error={formSoporte.errors.soporte_tercer_empresa}
                                 />
                             </fieldset>
@@ -391,7 +398,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                             <h1 className="mt-24 mb-8 text-center text-3xl">Soporte - Equipo a actualizar</h1>
 
                             <form onSubmit={submitSoporteProyectoLinea68}>
-                                <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+                                <fieldset>
                                     <TextInput
                                         label="Conceptos técnicos"
                                         id="conceptos_tecnicos"
@@ -399,6 +406,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                         className="!my-14"
                                         value={formProyectoLinea68.data.conceptos_tecnicos}
                                         onChange={(e) => formProyectoLinea68.setData('conceptos_tecnicos', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={formProyectoLinea68.errors.conceptos_tecnicos}
                                         required
                                     />
@@ -426,6 +434,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                         }
                                         onDelete={() => destroySoporte(soportes_estudio_mercado[3]?.id)}
                                         onChange={(e) => formProyectoLinea68.setData('soporte', e)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={formProyectoLinea68.errors.soporte}
                                     />
                                 </fieldset>
@@ -447,7 +456,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                             <h1 className="mt-24 mb-8 text-center text-3xl">Soporte - Adecuaciones y construcciones</h1>
 
                             <form onSubmit={submitSoporteProyectoLinea68}>
-                                <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+                                <fieldset>
                                     <TextInput
                                         id="conceptos_tecnicos"
                                         label="Conceptos técnicos"
@@ -455,6 +464,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                         className="!my-14"
                                         value={formProyectoLinea68.data.conceptos_tecnicos}
                                         onChange={(e) => formProyectoLinea68.setData('conceptos_tecnicos', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={formProyectoLinea68.errors.conceptos_tecnicos}
                                         required
                                     />
@@ -481,6 +491,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                         }
                                         onDelete={() => destroySoporte(soportes_estudio_mercado[3]?.id)}
                                         onChange={(e) => formProyectoLinea68.setData('soporte', e)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={formProyectoLinea68.errors.soporte}
                                     />
                                 </fieldset>

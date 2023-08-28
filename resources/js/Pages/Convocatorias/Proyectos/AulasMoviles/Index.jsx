@@ -37,10 +37,12 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) =>
     const submit = (e) => {
         e.preventDefault()
 
-        form.post(route('convocatorias.proyectos-formulario-4-linea-70.aulas-moviles.upload-archivo', [convocatoria.id, proyecto.id, aula_movil.id]), {
-            onSuccess: () => setDialogArchivoStatus(false),
-            preserveScroll: true,
-        })
+        if (proyecto?.allowed?.to_update) {
+            form.post(route('convocatorias.proyectos-formulario-4-linea-70.aulas-moviles.upload-archivo', [convocatoria.id, proyecto.id, aula_movil.id]), {
+                onSuccess: () => setDialogArchivoStatus(false),
+                preserveScroll: true,
+            })
+        }
     }
 
     return (
@@ -109,10 +111,7 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) =>
                             <MenuMui text={<MoreVertIcon />}>
                                 {aula_movil.id !== aula_movil_to_destroy ? (
                                     <div>
-                                        <MenuItem
-                                            onClick={() => (setDialogStatus(true), setMethod('PUT'), setAulaMovil(aula_movil))}
-                                            disabled={!proyecto.allowed.to_update}
-                                            className={!proyecto.allowed.to_update ? 'hidden' : ''}>
+                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setAulaMovil(aula_movil))} disabled={!proyecto?.allowed?.to_update}>
                                             Editar
                                         </MenuItem>
                                         <MenuItem

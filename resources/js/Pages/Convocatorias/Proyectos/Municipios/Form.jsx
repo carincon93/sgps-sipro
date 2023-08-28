@@ -55,7 +55,7 @@ const Form = ({
             <Grid item md={8}>
                 <Paper className="p-8">
                     <form onSubmit={submit}>
-                        <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+                        <fieldset>
                             <Grid container rowSpacing={8}>
                                 <Grid item md={12}>
                                     {proyecto_roles_sennova.length > 0 ? (
@@ -64,6 +64,7 @@ const Form = ({
                                             options={proyecto_roles_sennova}
                                             selectedValue={form.data.proyecto_rol_sennova_id}
                                             onChange={(event, newValue) => form.setData('proyecto_rol_sennova_id', newValue.value)}
+                                            disabled={!proyecto?.allowed?.to_update}
                                             error={form.errors.proyecto_rol_sennova_id}
                                             label="Rol"
                                             required
@@ -79,6 +80,7 @@ const Form = ({
                                         error={form.errors.actividad_a_realizar}
                                         value={form.data.actividad_a_realizar}
                                         onChange={(e) => form.setData('actividad_a_realizar', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         label="Actividades a realizar"
                                         required
                                     />
@@ -98,6 +100,7 @@ const Form = ({
                                                 municipios: selected_values,
                                             }))
                                         }}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={form.errors.municipios}
                                         label="Municipios a visitar"
                                         required
@@ -110,6 +113,7 @@ const Form = ({
                                         options={distancias_municipios}
                                         selectedValue={form.data.distancia_municipio}
                                         onChange={(event, newValue) => form.setData('distancia_municipio', newValue.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={form.errors.distancia_municipio}
                                         label="Distancia municipio"
                                         required
@@ -122,6 +126,7 @@ const Form = ({
                                         options={frecuencias_semanales}
                                         selectedValue={form.data.frecuencia_semanal}
                                         onChange={(event, newValue) => form.setData('frecuencia_semanal', newValue.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={form.errors.frecuencia_semanal}
                                         label="Frecuencia semanal de visita"
                                         required
@@ -136,6 +141,7 @@ const Form = ({
                                         error={form.errors.numero_visitas}
                                         value={form.data.numero_visitas}
                                         onChange={(e) => form.setData('numero_visitas', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         label="Número de visitas"
                                         required
                                     />
@@ -147,17 +153,15 @@ const Form = ({
 
                         <div className="flex items-center justify-between mt-14 py-4 ">
                             {proyecto.allowed.to_update ? (
-                                <>
-                                    <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                        {method == 'POST' ? 'Agregar' : 'Modificar'} municipio
-                                    </PrimaryButton>
-                                    <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
-                                        Cancelar
-                                    </ButtonMui>
-                                </>
+                                <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
+                                    {method == 'POST' ? 'Agregar' : 'Modificar'} municipio
+                                </PrimaryButton>
                             ) : (
                                 <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
                             )}
+                            <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
+                                Cancelar
+                            </ButtonMui>
                         </div>
                     </form>
                 </Paper>

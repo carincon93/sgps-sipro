@@ -86,7 +86,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
             <Grid item md={8}>
                 <Paper className="p-8">
                     <form onSubmit={submit}>
-                        <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+                        <fieldset>
                             <Grid container rowSpacing={10}>
                                 {method == 'POST' && (
                                     <>
@@ -102,6 +102,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                                 ]}
                                                 selectedValue={tipo_producto}
                                                 onChange={(event, newValue) => setTipoProducto(newValue.value)}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 label="Selecione el tipo de producto"
                                                 required
                                             />
@@ -142,6 +143,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                                 maxDate={proyecto.fecha_finalizacion}
                                                 value={form.data.fecha_inicio}
                                                 onChange={(e) => form.setData('fecha_inicio', e.target.value)}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 error={form.errors.fecha_inicio}
                                                 required
                                             />
@@ -158,6 +160,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                                 maxDate={proyecto.fecha_finalizacion}
                                                 value={form.data.fecha_finalizacion}
                                                 onChange={(e) => form.setData('fecha_finalizacion', e.target.value)}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 error={form.errors.fecha_finalizacion}
                                                 required
                                             />
@@ -172,6 +175,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                                 options={resultados}
                                                 selectedValue={form.data.resultado_id}
                                                 onChange={(event, newValue) => form.setData('resultado_id', newValue.value)}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 error={form.errors.resultado_id}
                                                 label="Selecione el resultado"
                                                 placeholder="Seleccione un resultado"
@@ -186,6 +190,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                                 error={form.errors.nombre}
                                                 value={form.data.nombre}
                                                 onChange={(e) => form.setData('nombre', e.target.value)}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 required
                                             />
                                         </Grid>
@@ -197,6 +202,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                                 error={form.errors.unidad_indicador}
                                                 value={form.data.unidad_indicador}
                                                 onChange={(e) => form.setData('unidad_indicador', e.target.value)}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 required
                                             />
                                             <AlertMui>
@@ -212,6 +218,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                                 error={form.errors.meta_indicador}
                                                 value={form.data.meta_indicador}
                                                 onChange={(e) => form.setData('meta_indicador', e.target.value)}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 label="Meta del indicador"
                                                 required
                                             />
@@ -226,6 +233,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                                 error={form.errors.medio_verificacion}
                                                 value={form.data.medio_verificacion}
                                                 onChange={(e) => form.setData('medio_verificacion', e.target.value)}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 label="Medio de verificación"
                                                 required
                                             />
@@ -237,6 +245,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                                 error={form.errors.formula_indicador}
                                                 value={form.data.formula_indicador}
                                                 onChange={(e) => form.setData('formula_indicador', e.target.value)}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 label="Fórmula del indicador del producto"
                                                 required
                                             />
@@ -254,6 +263,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                                     options={subtipologias_minciencias}
                                                     selectedValue={form.data.subtipologia_minciencias_id}
                                                     onChange={(event, newValue) => form.setData('subtipologia_minciencias_id', newValue.value)}
+                                                    disabled={!proyecto?.allowed?.to_update}
                                                     error={form.errors.subtipologia_minciencias_id}
                                                     label="Subtipología Minciencias"
                                                     required
@@ -265,6 +275,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                                     options={tipos_producto}
                                                     selectedValue={form.data.tipo}
                                                     onChange={(event, newValue) => form.setData('tipo', newValue.value)}
+                                                    disabled={!proyecto?.allowed?.to_update}
                                                     error={form.errors.tipo}
                                                     label="Seleccione un tipo"
                                                     required
@@ -278,6 +289,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                                     value={form.data.trl}
                                                     inputProps={{ min: 0, max: 9, step: 1 }}
                                                     onChange={(e) => form.setData('trl', e.target.value)}
+                                                    disabled={!proyecto?.allowed?.to_update}
                                                     error={form.errors.trl}
                                                     required
                                                 />
@@ -300,6 +312,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                                             actividad_id: selectedValues,
                                                         }))
                                                     }}
+                                                    disabled={!proyecto?.allowed?.to_update}
                                                     required
                                                 />
                                             ) : (
@@ -319,20 +332,18 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
 
                         <div className="flex items-center justify-between py-4">
                             {proyecto.allowed.to_update ? (
-                                <>
-                                    <PrimaryButton
-                                        disabled={actividades?.length == 0 || (actividades?.length > 0 && form.processing) || (actividades?.length > 0 && !form.isDirty)}
-                                        className="mr-2 ml-auto"
-                                        type="submit">
-                                        {method == 'POST' ? 'Agregar' : 'Modificar'} producto
-                                    </PrimaryButton>
-                                    <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
-                                        Cancelar
-                                    </ButtonMui>
-                                </>
+                                <PrimaryButton
+                                    disabled={actividades?.length == 0 || (actividades?.length > 0 && form.processing) || (actividades?.length > 0 && !form.isDirty)}
+                                    className="mr-2 ml-auto"
+                                    type="submit">
+                                    {method == 'POST' ? 'Agregar' : 'Modificar'} producto
+                                </PrimaryButton>
                             ) : (
                                 <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
                             )}
+                            <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
+                                Cancelar
+                            </ButtonMui>
                         </div>
                     </form>
                 </Paper>

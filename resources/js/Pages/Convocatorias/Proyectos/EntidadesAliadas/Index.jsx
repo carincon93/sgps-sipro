@@ -275,16 +275,14 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                                 <MenuMui text={<MoreVertIcon />}>
                                     {entidad_aliada.id !== entidad_aliada_to_destroy ? (
                                         <div>
-                                            <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('PUT'), setEntidadAliada(entidad_aliada))}
-                                                disabled={!proyecto.allowed.to_update}
-                                                className={!proyecto.allowed.to_update ? 'hidden' : ''}>
-                                                Editar
+                                            <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setEntidadAliada(entidad_aliada))} disabled={!proyecto?.allowed?.to_view}>
+                                                {proyecto?.allowed?.to_view && !proyecto?.allowed?.to_update ? 'Ver información' : 'Editar'}
                                             </MenuItem>
                                             <MenuItem
                                                 onClick={() => {
                                                     setEntidadAliadaToDestroy(entidad_aliada.id)
-                                                }}>
+                                                }}
+                                                disabled={!proyecto?.allowed?.to_update}>
                                                 Eliminar
                                             </MenuItem>
                                         </div>

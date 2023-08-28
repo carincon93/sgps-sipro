@@ -267,7 +267,7 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
                     )}
 
                     <form onSubmit={submit}>
-                        <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+                        <fieldset>
                             {proyecto.tipo_formulario_convocatoria_id != 4 ? (
                                 <div>
                                     {proyecto.tipo_formulario_convocatoria_id == 12 ? (
@@ -290,6 +290,7 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
                                         error={form.errors.propuesta_sostenibilidad}
                                         value={form.data.propuesta_sostenibilidad}
                                         onChange={(e) => form.setData('propuesta_sostenibilidad', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         onBlur={() => syncColumnLong('propuesta_sostenibilidad', form)}
                                         required
                                     />
@@ -304,6 +305,7 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
                                                 error={form.errors.propuesta_sostenibilidad_social}
                                                 value={form.data.propuesta_sostenibilidad_social}
                                                 onChange={(e) => form.setData('propuesta_sostenibilidad_social', e.target.value)}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 onBlur={() => syncColumnLong('propuesta_sostenibilidad_social', form)}
                                                 required
                                             />
@@ -315,6 +317,7 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
                                                 error={form.errors.propuesta_sostenibilidad_ambiental}
                                                 value={form.data.propuesta_sostenibilidad_ambiental}
                                                 onChange={(e) => form.setData('propuesta_sostenibilidad_ambiental', e.target.value)}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 onBlur={() => syncColumnLong('propuesta_sostenibilidad_ambiental', form)}
                                                 required
                                             />
@@ -326,6 +329,7 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
                                                 error={form.errors.propuesta_sostenibilidad_financiera}
                                                 value={form.data.propuesta_sostenibilidad_financiera}
                                                 onChange={(e) => form.setData('propuesta_sostenibilidad_financiera', e.target.value)}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 onBlur={() => syncColumnLong('propuesta_sostenibilidad_financiera', form)}
                                                 required
                                             />
@@ -341,7 +345,7 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
                                     Guardar propuesta de sostenibilidad
                                 </PrimaryButton>
                             ) : (
-                                <span className="inline-block ml-1.5"> El proyecto no se puede modificar </span>
+                                <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
                             )}
                         </div>
                     </form>

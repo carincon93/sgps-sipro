@@ -55,6 +55,7 @@ const MetodologiaFormulario11Linea83 = ({ convocatoria, proyecto, regionales }) 
                         error={form_metdologia_proyecto_formulario_11_linea_83.errors.metodologia}
                         value={form_metdologia_proyecto_formulario_11_linea_83.data.metodologia}
                         onChange={(e) => form_metdologia_proyecto_formulario_11_linea_83.setData('metodologia', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('metodologia', form_metdologia_proyecto_formulario_11_linea_83)}
                         required
                     />
@@ -75,6 +76,7 @@ const MetodologiaFormulario11Linea83 = ({ convocatoria, proyecto, regionales }) 
                                 departamentos_a_impactar: selected_values,
                             }))
                         }}
+                        disabled={!proyecto?.allowed?.to_update}
                         error={form_metdologia_proyecto_formulario_11_linea_83.errors.departamentos_a_impactar}
                         label="Seleccione una o varias opciones"
                         required
@@ -89,6 +91,7 @@ const MetodologiaFormulario11Linea83 = ({ convocatoria, proyecto, regionales }) 
                         error={form_metdologia_proyecto_formulario_11_linea_83.errors.estrategias_atencion_empresas_municipios}
                         value={form_metdologia_proyecto_formulario_11_linea_83.data.estrategias_atencion_empresas_municipios}
                         onChange={(e) => form_metdologia_proyecto_formulario_11_linea_83.setData('estrategias_atencion_empresas_municipios', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('estrategias_atencion_empresas_municipios', form_metdologia_proyecto_formulario_11_linea_83)}
                         required
                     />
@@ -106,6 +109,7 @@ const MetodologiaFormulario11Linea83 = ({ convocatoria, proyecto, regionales }) 
                         error={form_metdologia_proyecto_formulario_11_linea_83.errors.estrategias_promover_logros}
                         value={form_metdologia_proyecto_formulario_11_linea_83.data.estrategias_promover_logros}
                         onChange={(e) => form_metdologia_proyecto_formulario_11_linea_83.setData('estrategias_promover_logros', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('estrategias_promover_logros', form_metdologia_proyecto_formulario_11_linea_83)}
                         required
                     />
@@ -123,6 +127,7 @@ const MetodologiaFormulario11Linea83 = ({ convocatoria, proyecto, regionales }) 
                         error={form_metdologia_proyecto_formulario_11_linea_83.errors.estrategias_visibilizacion}
                         value={form_metdologia_proyecto_formulario_11_linea_83.data.estrategias_visibilizacion}
                         onChange={(e) => form_metdologia_proyecto_formulario_11_linea_83.setData('estrategias_visibilizacion', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('estrategias_visibilizacion', form_metdologia_proyecto_formulario_11_linea_83)}
                         required
                     />
@@ -140,6 +145,7 @@ const MetodologiaFormulario11Linea83 = ({ convocatoria, proyecto, regionales }) 
                         error={form_metdologia_proyecto_formulario_11_linea_83.errors.estrategias_productividad_agropecuaria_agroindustrial}
                         value={form_metdologia_proyecto_formulario_11_linea_83.data.estrategias_productividad_agropecuaria_agroindustrial}
                         onChange={(e) => form_metdologia_proyecto_formulario_11_linea_83.setData('estrategias_productividad_agropecuaria_agroindustrial', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('estrategias_productividad_agropecuaria_agroindustrial', form_metdologia_proyecto_formulario_11_linea_83)}
                         required
                     />

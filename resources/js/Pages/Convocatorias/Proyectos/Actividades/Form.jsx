@@ -59,7 +59,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
             <Grid item md={8}>
                 <Paper className="p-8">
                     <form onSubmit={submit}>
-                        <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+                        <fieldset>
                             <Grid container rowSpacing={10}>
                                 <Grid item md={6}>
                                     <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
@@ -72,6 +72,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                         maxDate={proyecto.fecha_finalizacion}
                                         value={form.data.fecha_inicio}
                                         onChange={(e) => form.setData('fecha_inicio', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={form.errors.fecha_inicio}
                                         required
                                     />
@@ -87,6 +88,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                         maxDate={proyecto.fecha_finalizacion}
                                         value={form.data.fecha_finalizacion}
                                         onChange={(e) => form.setData('fecha_finalizacion', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         error={form.errors.fecha_finalizacion}
                                         required
                                     />
@@ -103,6 +105,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                                 selectedValue={form.data.resultado_id}
                                                 error={form.errors.resultado_id}
                                                 onChange={(event, newValue) => form.setData('resultado_id', newValue.value)}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 placeholder="Seleccione un resultado"
                                                 required
                                             />
@@ -115,12 +118,12 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                 )}
                                 <Grid item md={12}>
                                     <Textarea
-                                        disabled={is_super_admin ? false : proyecto.tipo_formulario_convocatoria_id == 4 ? true : false}
                                         label="Descripción"
                                         id="descripcion"
                                         error={form.errors.descripcion}
                                         value={form.data.descripcion}
                                         onChange={(e) => form.setData('descripcion', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         required
                                     />
                                 </Grid>
@@ -148,6 +151,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                                 inputBackground="#fff"
                                                 error={form.errors.requiere_rubros}
                                                 onChange={(event, newValue) => form.setData('requiere_rubros', newValue.value)}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 placeholder="Seleccione una opción"
                                                 required
                                             />
@@ -168,6 +172,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                                         proyecto_presupuesto_id: selected_values,
                                                     }))
                                                 }}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 required
                                             />
                                         )}
@@ -189,6 +194,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                                     proyecto_rol_sennova_id: selected_values,
                                                 }))
                                             }}
+                                            disabled={!proyecto?.allowed?.to_update}
                                         />
                                         <AlertMui>Si la actividad tiene un responsable por favor seleccione su rol de la siguiente lista</AlertMui>
                                     </Grid>
@@ -200,17 +206,15 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
 
                         <div className="flex items-center justify-between py-4">
                             {proyecto.allowed.to_update ? (
-                                <>
-                                    <PrimaryButton disabled={form.processing || !form.isDirty} className="mr-2 ml-auto" type="submit">
-                                        {method == 'POST' ? 'Agregar' : 'Modificar'} actividad
-                                    </PrimaryButton>
-                                    <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
-                                        Cancelar
-                                    </ButtonMui>
-                                </>
+                                <PrimaryButton disabled={form.processing || !form.isDirty} className="mr-2 ml-auto" type="submit">
+                                    {method == 'POST' ? 'Agregar' : 'Modificar'} actividad
+                                </PrimaryButton>
                             ) : (
                                 <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
                             )}
+                            <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
+                                Cancelar
+                            </ButtonMui>
                         </div>
                     </form>
                 </Paper>

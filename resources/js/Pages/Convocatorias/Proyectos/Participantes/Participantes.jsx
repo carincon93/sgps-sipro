@@ -168,11 +168,10 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                                                 preserveScroll: true,
                                             })
                                         }
-                                        disabled={!proyecto.allowed.to_update}
-                                        className={!proyecto.allowed.to_update ? 'hidden' : ''}>
+                                        disabled={!proyecto.allowed.to_update}>
                                         Convertir en autor principal
                                     </MenuItem>
-                                    <Divider className={!proyecto.allowed.to_update ? 'hidden' : ''} />
+                                    <Divider />
                                     <MenuItem
                                         onClick={() => {
                                             form_participante.reset()
@@ -184,8 +183,7 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                                             })
                                             setParticipanteAModificarId(participante.id)
                                         }}
-                                        disabled={!proyecto.allowed.to_update}
-                                        className={!proyecto.allowed.to_update ? 'hidden' : ''}>
+                                        disabled={!proyecto.allowed.to_update}>
                                         Editar
                                     </MenuItem>
                                     <MenuItem
@@ -199,8 +197,7 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                                                 { preserveScroll: true },
                                             )
                                         }
-                                        disabled={(!proyecto.allowed.to_update && auth_user.id != participante.id) || (!proyecto.allowed.to_update && !participante.formulador)}
-                                        className={(!proyecto.allowed.to_update && auth_user.id != participante.id) || (!proyecto.allowed.to_update && !participante.formulador) ? 'hidden' : ''}>
+                                        disabled={(!proyecto.allowed.to_update && auth_user.id != participante.id) || (!proyecto.allowed.to_update && !participante.formulador)}>
                                         Quitar
                                     </MenuItem>
                                 </MenuMui>
@@ -296,7 +293,7 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                                         onClick={() => {
                                             form_nuevo_participante.setData('user_id', nuevo_participante.id)
                                         }}
-                                        disabled={form_nuevo_participante.processing}>
+                                        disabled={form_nuevo_participante.processing || !proyecto.allowed.to_update}>
                                         Vincular
                                     </PrimaryButton>
                                 </TableCell>

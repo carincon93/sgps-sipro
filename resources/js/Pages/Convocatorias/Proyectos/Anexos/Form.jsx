@@ -53,6 +53,7 @@ const Form = ({ convocatoria, proyecto, convocatoria_anexo, proyecto_anexo, ...p
                                 : null
                         }
                         onChange={(e) => form.setData('archivo', e)}
+                        disabled={!proyecto.allowed.to_update}
                         error={form.errors.archivo}
                     />
 
@@ -62,7 +63,7 @@ const Form = ({ convocatoria, proyecto, convocatoria_anexo, proyecto_anexo, ...p
                     </div>
                 </div>
                 <div>
-                    <PrimaryButton disabled={form.processing} className="w-full mt-4" type="submit">
+                    <PrimaryButton disabled={form.processing || !proyecto.allowed.to_update} className="w-full mt-4" type="submit">
                         <AutorenewIcon className="mr-2" />
                         Cargar {convocatoria_anexo?.anexo.nombre}
                     </PrimaryButton>

@@ -16,7 +16,7 @@ const SemillerosInvestigacion = ({ auth_user, convocatoria, proyecto, nuevo_semi
             <h1 className="mt-24 mb-8 text-center text-3xl">Semilleros de investigación vinculados</h1>
 
             <TableMui className="mt-20" rows={['Nombre', 'Línea de investigación', 'Grupo de investigación', 'Acciones']} sxCellThead={{ width: '320px' }}>
-                {proyecto.semillerosInvestigacion.map((semilleroInvestigacion, i) => (
+                {proyecto.semillerosInvestigacion?.map((semilleroInvestigacion, i) => (
                     <TableRow key={i}>
                         <TableCell>{semilleroInvestigacion.nombre}</TableCell>
                         <TableCell>{semilleroInvestigacion.linea_investigacion.nombre}</TableCell>
@@ -36,8 +36,7 @@ const SemillerosInvestigacion = ({ auth_user, convocatoria, proyecto, nuevo_semi
                                             { preserveScroll: true },
                                         )
                                     }
-                                    disabled={!proyecto.allowed.to_update}
-                                    className={!proyecto.allowed.to_update ? 'hidden' : ''}>
+                                    disabled={!proyecto.allowed.to_update}>
                                     Quitar
                                 </MenuItem>
                             </MenuMui>
@@ -64,7 +63,8 @@ const SemillerosInvestigacion = ({ auth_user, convocatoria, proyecto, nuevo_semi
                                         }),
                                         { preserveScroll: true },
                                     )
-                                }}>
+                                }}
+                                disabled={!proyecto.allowed.to_update}>
                                 Vincular
                             </PrimaryButton>
                         </TableCell>

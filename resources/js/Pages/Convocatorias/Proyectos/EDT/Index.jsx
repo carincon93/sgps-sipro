@@ -80,16 +80,14 @@ const EDT = ({ auth, convocatoria, proyecto, evaluacion, presupuesto, eventos, t
                                 <MenuMui text={<MoreVertIcon />}>
                                     {evento.id !== eventoToDestroy ? (
                                         <div>
-                                            <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('PUT'), setEdt(evento))}
-                                                disabled={!proyecto.allowed.to_update}
-                                                className={!proyecto.allowed.to_update ? 'hidden' : ''}>
-                                                Editar
+                                            <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setEdt(evento))} disabled={!proyecto?.allowed?.to_view}>
+                                                {proyecto?.allowed?.to_view && !proyecto?.allowed?.to_update ? 'Ver información' : 'Editar'}
                                             </MenuItem>
                                             <MenuItem
                                                 onClick={() => {
                                                     setEdtToDestroy(evento.id)
-                                                }}>
+                                                }}
+                                                disabled={!proyecto?.allowed?.to_update}>
                                                 Eliminar
                                             </MenuItem>
                                         </div>

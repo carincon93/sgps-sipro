@@ -42,7 +42,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
             <Grid item md={8}>
                 <Paper className="p-8">
                     <form onSubmit={submit}>
-                        <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+                        <fieldset>
                             <div className="mt-8">
                                 <TextInput
                                     label="Nombre completo"
@@ -50,6 +50,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                     type="text"
                                     value={form.data.nombre}
                                     onChange={(e) => form.setData('nombre', e.target.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     error={form.errors.nombre}
                                     required
                                 />
@@ -62,6 +63,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                     type="email"
                                     value={form.data.email}
                                     onChange={(e) => form.setData('email', e.target.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     error={form.errors.email}
                                     required
                                 />
@@ -73,6 +75,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                     options={tipos_documento}
                                     selectedValue={form.data.tipo_documento}
                                     onChange={(evente, newValue) => form.setData('tipo_documento', newValue.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     error={form.errors.tipo_documento}
                                     label="Tipo de documento"
                                     required
@@ -86,6 +89,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                     type="number"
                                     value={form.data.numero_documento}
                                     onChange={(e) => form.setData('numero_documento', e.target.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     error={form.errors.numero_documento}
                                     required
                                 />
@@ -98,6 +102,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                     type="number"
                                     value={form.data.numero_celular}
                                     onChange={(e) => form.setData('numero_celular', e.target.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     error={form.errors.numero_celular}
                                     required
                                 />
@@ -119,6 +124,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                         name="autorizacion_datos"
                                         checked={form.data.autorizacion_datos}
                                         onChange={(e) => form.setData('autorizacion_datos', e.target.checked)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         label="¿La persona autoriza el tratamiento de datos personales?"
                                     />
                                 </div>
@@ -129,17 +135,15 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
 
                         <div className="flex items-center justify-between mt-14 py-4">
                             {proyecto.allowed.to_update ? (
-                                <>
-                                    <PrimaryButton disabled={form.processing || !form.isDirty || (!form.data.autorizacion_datos && method == 'POST')} className="mr-2 ml-auto" type="submit">
-                                        {method == 'POST' ? 'Agregar' : 'Modificar'} miembro
-                                    </PrimaryButton>
-                                    <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
-                                        Cancelar
-                                    </ButtonMui>
-                                </>
+                                <PrimaryButton disabled={form.processing || !form.isDirty || (!form.data.autorizacion_datos && method == 'POST')} className="mr-2 ml-auto" type="submit">
+                                    {method == 'POST' ? 'Agregar' : 'Modificar'} miembro
+                                </PrimaryButton>
                             ) : (
                                 <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
                             )}
+                            <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
+                                Cancelar
+                            </ButtonMui>
                         </div>
                     </form>
                 </Paper>

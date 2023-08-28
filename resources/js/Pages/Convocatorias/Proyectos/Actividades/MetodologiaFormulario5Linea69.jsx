@@ -44,7 +44,7 @@ const MetodologiaFormulario5Linea69 = ({ convocatoria, proyecto }) => {
 
     return (
         <form onSubmit={submitMetodologiaProyectoFormulario5Linea69} className="!mt-20">
-            <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+            <fieldset>
                 <Grid container rowSpacing={20}>
                     <Grid item md={12}>
                         <Label required className="mb-4" labelFor="metodologia" value="Metodología" />
@@ -54,6 +54,7 @@ const MetodologiaFormulario5Linea69 = ({ convocatoria, proyecto }) => {
                             name="metodologia"
                             value={form_metodologia_proyecto_formulario_5_linea_69.data.metodologia}
                             onChange={(e) => form_metodologia_proyecto_formulario_5_linea_69.setData('metodologia', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('metodologia', form_metodologia_proyecto_formulario_5_linea_69)}
                             required
                         />
@@ -75,6 +76,7 @@ const MetodologiaFormulario5Linea69 = ({ convocatoria, proyecto }) => {
                             name="metodologia_local"
                             value={form_metodologia_proyecto_formulario_5_linea_69.data.metodologia_local}
                             onChange={(e) => form_metodologia_proyecto_formulario_5_linea_69.setData('metodologia_local', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('metodologia_local', form_metodologia_proyecto_formulario_5_linea_69)}
                             required
                         />

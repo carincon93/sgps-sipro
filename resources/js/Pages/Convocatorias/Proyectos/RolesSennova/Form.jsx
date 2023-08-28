@@ -64,6 +64,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                         onChange={(event, newValue) => {
                                             form.setData('convocatoria_rol_sennova_id', newValue.value)
                                         }}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         required
                                     />
                                 ) : (
@@ -84,6 +85,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                         onChange={(e) => {
                                             form.setData('descripcion', e.target.value)
                                         }}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         required
                                     />
                                 </Grid>
@@ -99,6 +101,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                                 onChange={(e) => {
                                                     form.setData('educacion', e.target.value)
                                                 }}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 required
                                             />
                                             <AlertMui>
@@ -115,6 +118,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                                 onChange={(e) => {
                                                     form.setData('formacion', e.target.value)
                                                 }}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 required
                                             />
                                             <AlertMui>
@@ -131,6 +135,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                                 onChange={(e) => {
                                                     form.setData('experiencia', e.target.value)
                                                 }}
+                                                disabled={!proyecto?.allowed?.to_update}
                                                 required
                                             />
                                             <AlertMui>
@@ -152,12 +157,12 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                         min: 1,
                                         max: proyecto.diff_meses,
                                     }}
-                                    className="mt-1"
                                     error={form.errors.numero_meses}
                                     value={form.data.numero_meses}
                                     onChange={(e) => {
                                         form.setData('numero_meses', e.target.value)
                                     }}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     required
                                 />
 
@@ -174,12 +179,12 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                     inputProps={{
                                         min: 1,
                                     }}
-                                    className="mt-1"
                                     error={form.errors.numero_roles}
                                     value={form.data.numero_roles}
                                     onChange={(e) => {
                                         form.setData('numero_roles', e.target.value)
                                     }}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     required
                                 />
                             </Grid>
@@ -197,6 +202,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                             actividad_id: selectedValues,
                                         }))
                                     }}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     error={form.errors.actividad_id}
                                     label="Relacione las respectivas actividades"
                                     required
@@ -211,17 +217,15 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                         {proyecto_rol_sennova && <small className="flex items-center my-10 text-app-700">{proyecto_rol_sennova.updated_at}</small>}
                         <div className="flex items-center justify-between mt-14 py-4">
                             {proyecto?.allowed?.to_update ? (
-                                <>
-                                    <PrimaryButton disabled={form.processing || roles_sennova_incompletos || !form.isDirty || actividades.length === 0} className="mr-2 ml-auto" type="submit">
-                                        {method == 'POST' ? 'Agregar' : 'Modificar'} rol SENNOVA
-                                    </PrimaryButton>
-                                    <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
-                                        Cancelar
-                                    </ButtonMui>
-                                </>
+                                <PrimaryButton disabled={form.processing || roles_sennova_incompletos || !form.isDirty || actividades.length === 0} className="mr-2 ml-auto" type="submit">
+                                    {method == 'POST' ? 'Agregar' : 'Modificar'} rol SENNOVA
+                                </PrimaryButton>
                             ) : (
                                 <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
                             )}
+                            <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
+                                Cancelar
+                            </ButtonMui>
                         </div>
                     </form>
                 </Paper>

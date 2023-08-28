@@ -72,7 +72,7 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
                     <>
                         <AlertMui>Ingrese el número de instructores de planta, dinamizadores de planta y psicopedagógos de planta que requiere el proyecto.</AlertMui>
                         <form onSubmit={submit} className="mb-40">
-                            <fieldset disabled={proyecto.allowed.to_update ? undefined : true}>
+                            <fieldset>
                                 <div className="mt-8">
                                     <TextInput
                                         label="Número de instructores de planta"
@@ -83,6 +83,7 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
                                         error={form.errors.cantidad_instructores_planta}
                                         value={form.data.cantidad_instructores_planta}
                                         onChange={(e) => form.setData('cantidad_instructores_planta', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         required
                                     />
                                 </div>
@@ -97,6 +98,7 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
                                         error={form.errors.cantidad_dinamizadores_planta}
                                         value={form.data.cantidad_dinamizadores_planta}
                                         onChange={(e) => form.setData('cantidad_dinamizadores_planta', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         required
                                     />
                                 </div>
@@ -111,13 +113,14 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
                                         error={form.errors.cantidad_psicopedagogos_planta}
                                         value={form.data.cantidad_psicopedagogos_planta}
                                         onChange={(e) => form.setData('cantidad_psicopedagogos_planta', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         required
                                     />
                                 </div>
                             </fieldset>
                             <div className="flex items-center justify-between mt-14 px-8 py-4">
                                 {proyecto.allowed.to_update && (
-                                    <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
+                                    <PrimaryButton disabled={form.processing || proyecto?.allowed?.to_update} className="ml-auto" type="submit">
                                         Guardar
                                     </PrimaryButton>
                                 )}
@@ -195,18 +198,16 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
                                 <MenuMui text={<MoreVertIcon />}>
                                     {proyecto_rol_sennova.id !== proyecto_rol_sennova_id_to_destroy ? (
                                         <div>
-                                            <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('PUT'), setProyectoRolSennova(proyecto_rol_sennova))}
-                                                disabled={!proyecto.allowed.to_update}
-                                                className={!proyecto.allowed.to_update ? 'hidden' : ''}>
-                                                Editar
+                                            <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setProyectoRolSennova(proyecto_rol_sennova))} disabled={!proyecto?.allowed?.to_view}>
+                                                {proyecto?.allowed?.to_view && !proyecto?.allowed?.to_update ? 'Ver información' : 'Editar'}
                                             </MenuItem>
                                             {evaluacion && <MenuItem onClick={() => (setRolAEvaluar(proyecto_rol_sennova), setEvaluacionDialogStatus(true))}>Evaluar</MenuItem>}
 
                                             <MenuItem
                                                 onClick={() => {
                                                     setProyectoRolSennovaIdToDestroy(proyecto_rol_sennova.id)
-                                                }}>
+                                                }}
+                                                disabled={!proyecto?.allowed?.to_update}>
                                                 Eliminar
                                             </MenuItem>
                                         </div>

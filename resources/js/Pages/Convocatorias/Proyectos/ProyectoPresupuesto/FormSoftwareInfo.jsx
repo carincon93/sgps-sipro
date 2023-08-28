@@ -35,7 +35,7 @@ const FormSoftwareInfo = ({ is_super_admin, method = '', setDialogStatus, convoc
             <Grid item md={8}>
                 <Paper className="p-8">
                     <form onSubmit={submit} id="form-proyecto-presupuesto">
-                        <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+                        <fieldset>
                             <div className="mt-8">
                                 <Autocomplete
                                     id="tipo_licencia"
@@ -43,6 +43,7 @@ const FormSoftwareInfo = ({ is_super_admin, method = '', setDialogStatus, convoc
                                     label="Tipo de licencia"
                                     selectedValue={form.data.tipo_licencia}
                                     onChange={(e, newValue) => form.setData('tipo_licencia', newValue.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     error={form.errors.tipo_licencia}
                                     placeholder="Seleccione una opción"
                                     required
@@ -56,6 +57,7 @@ const FormSoftwareInfo = ({ is_super_admin, method = '', setDialogStatus, convoc
                                     label="Tipo de software"
                                     selectedValue={form.data.tipo_software}
                                     onChange={(e, newValue) => form.setData('tipo_software', newValue.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     error={form.errors.tipo_software}
                                     placeholder="Seleccione una opción"
                                     required
@@ -74,6 +76,7 @@ const FormSoftwareInfo = ({ is_super_admin, method = '', setDialogStatus, convoc
                                         value={form.data.fecha_inicio}
                                         error={form.errors.fecha_inicio}
                                         onChange={(e) => form.setData('fecha_inicio', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         required
                                     />
                                 </div>
@@ -87,6 +90,7 @@ const FormSoftwareInfo = ({ is_super_admin, method = '', setDialogStatus, convoc
                                         value={form.data.fecha_finalizacion}
                                         error={form.errors.fecha_finalizacion}
                                         onChange={(e) => form.setData('fecha_finalizacion', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                     />
                                 </div>
                             </div>
@@ -96,18 +100,15 @@ const FormSoftwareInfo = ({ is_super_admin, method = '', setDialogStatus, convoc
 
                         <div className="flex items-center justify-between mt-14 py-4">
                             {proyecto.allowed.to_update ? (
-                                <>
-                                    <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                        {method == 'POST' ? 'Agregar' : 'Modificar'} información del software
-                                    </PrimaryButton>
-
-                                    <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
-                                        Cancelar
-                                    </ButtonMui>
-                                </>
+                                <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
+                                    {method == 'POST' ? 'Agregar' : 'Modificar'} información del software
+                                </PrimaryButton>
                             ) : (
                                 <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
                             )}
+                            <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
+                                Cancelar
+                            </ButtonMui>
                         </div>
                     </form>
                 </Paper>

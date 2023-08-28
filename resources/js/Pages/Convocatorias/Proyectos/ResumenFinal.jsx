@@ -128,7 +128,7 @@ const ResumenFinal = ({
                         </ul>
                     </AlertMui>
                 )}
-                {list_item_count == 0 && (
+                {list_item_count == 0 && proyecto?.allowed?.to_update && (
                     <>
                         <AlertMui className="mt-10">
                             {proyecto?.finalizado

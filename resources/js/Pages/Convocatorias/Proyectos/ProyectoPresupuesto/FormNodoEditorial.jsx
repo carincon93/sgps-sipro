@@ -30,7 +30,7 @@ const FormServiciosEdicionInfo = ({ is_super_admin, method = '', setDialogStatus
             <Grid item md={8}>
                 <Paper className="p-8">
                     <form onSubmit={submit} id="form-proyecto-presupuesto">
-                        <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+                        <fieldset>
                             <div className="mt-8">
                                 <Autocomplete
                                     id="info"
@@ -38,6 +38,7 @@ const FormServiciosEdicionInfo = ({ is_super_admin, method = '', setDialogStatus
                                     selectedValue={form.data.info}
                                     error={form.errors.info}
                                     onChange={(e, newValue) => form.setData('info', newValue.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     label="Seleccione el nodo editorial"
                                     required
                                 />
@@ -48,18 +49,15 @@ const FormServiciosEdicionInfo = ({ is_super_admin, method = '', setDialogStatus
 
                         <div className="flex items-center justify-between mt-14 py-4">
                             {proyecto.allowed.to_update ? (
-                                <>
-                                    <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                        {method == 'POST' ? 'Agregar' : 'Modificar'} información del nodo editorial
-                                    </PrimaryButton>
-
-                                    <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
-                                        Cancelar
-                                    </ButtonMui>
-                                </>
+                                <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
+                                    {method == 'POST' ? 'Agregar' : 'Modificar'} información del nodo editorial
+                                </PrimaryButton>
                             ) : (
                                 <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
                             )}
+                            <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
+                                Cancelar
+                            </ButtonMui>
                         </div>
                     </form>
                 </Paper>

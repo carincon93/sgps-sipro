@@ -3,22 +3,21 @@ import Autocomplete from '@/Components/Autocomplete'
 import DatePicker from '@/Components/DatePicker'
 import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
-import RadioMui from '@/Components/Radio'
 import Tags from '@/Components/Tags'
 import Textarea from '@/Components/Textarea'
 import TextInput from '@/Components/TextInput'
 import SelectMultiple from '@/Components/SelectMultiple'
 import SwitchMui from '@/Components/Switch'
 
-import { Grid, RadioGroup } from '@mui/material'
+import { Grid } from '@mui/material'
 
-import { router, useForm, usePage } from '@inertiajs/react'
+import { router, useForm } from '@inertiajs/react'
 import { useEffect, useState } from 'react'
 
 import { monthDiff } from '@/Utils'
 
 const Form = ({
-    is_super_admin,
+    auth_user,
     method = 'POST',
     convocatoria,
     proyecto_formulario_9_linea_23,
@@ -44,8 +43,6 @@ const Form = ({
     roles_sennova,
     ...props
 }) => {
-    const { props: page_props } = usePage()
-
     const [array_lineas_tecnoacademia, setArrayLineasTecnoacademia] = useState([])
 
     const [tiene_video, setTieneVideo] = useState(proyecto_formulario_9_linea_23?.video !== null)
@@ -195,7 +192,7 @@ const Form = ({
                         className={`bg-transparent block border-0 mt-1 outline-none text-4xl text-center w-full`}
                         value={form.data.titulo}
                         onChange={(e) => form.setData('titulo', e.target.value)}
-                        disabled={evaluacion ? true : false}
+                        disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                         required
                         onBlur={() => syncColumnLong('titulo', form)}
                     />
@@ -215,7 +212,7 @@ const Form = ({
                         error={form.errors.fecha_inicio}
                         className="p-4 w-full"
                         onChange={(e) => (form.setData('fecha_inicio', e.target.value), syncColumnLong('fecha_inicio', form, e.target.value))}
-                        disabled={evaluacion ? true : false}
+                        disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                         required
                     />
                 </Grid>
@@ -234,7 +231,7 @@ const Form = ({
                         error={form.errors.fecha_finalizacion}
                         className="p-4 w-full"
                         onChange={(e) => (form.setData('fecha_finalizacion', e.target.value), syncColumnLong('fecha_finalizacion', form, e.target.value))}
-                        disabled={evaluacion ? true : false}
+                        disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                         required
                     />
                 </Grid>
@@ -254,7 +251,7 @@ const Form = ({
                                 centros_formacion ?? [{ value: proyecto_formulario_9_linea_23.proyecto.centro_formacion.id, label: proyecto_formulario_9_linea_23.proyecto.centro_formacion.nombre }]
                             }
                             error={form.errors.centro_formacion_id}
-                            disabled={evaluacion ? true : false}
+                            disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('centro_formacion_id', form)}
                             required
                         />
@@ -275,7 +272,7 @@ const Form = ({
                                 onChange={(event, newValue) => form.setData('linea_investigacion_id', newValue.value)}
                                 options={array_lineas_investigacion}
                                 error={form.errors.linea_investigacion_id}
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('linea_investigacion_id', form)}
                                 required
                             />
@@ -301,7 +298,7 @@ const Form = ({
                         error={form.errors.areas_cualificacion_mnc}
                         label="Seleccione una o varias opciones"
                         required
-                        disabled={evaluacion ? true : false}
+                        disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('areas_cualificacion_mnc', form)}
                     />
                 </Grid>
@@ -316,7 +313,7 @@ const Form = ({
                         onChange={(event, newValue) => form.setData('red_conocimiento_id', newValue.value)}
                         options={redes_conocimiento}
                         error={form.errors.red_conocimiento_id}
-                        disabled={evaluacion ? true : false}
+                        disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('red_conocimiento_id', form)}
                         required
                     />
@@ -332,7 +329,7 @@ const Form = ({
                         onChange={(event, newValue) => form.setData('disciplina_subarea_conocimiento_id', newValue.value)}
                         options={disciplinas_subarea_conocimiento}
                         error={form.errors.disciplina_subarea_conocimiento_id}
-                        disabled={evaluacion ? true : false}
+                        disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('disciplina_subarea_conocimiento_id', form)}
                         required
                     />
@@ -348,7 +345,7 @@ const Form = ({
                         onChange={(event, newValue) => form.setData('actividad_economica_id', newValue.value)}
                         options={actividades_economicas}
                         error={form.errors.actividad_economica_id}
-                        disabled={evaluacion ? true : false}
+                        disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('actividad_economica_id', form)}
                         required
                     />
@@ -364,7 +361,7 @@ const Form = ({
                         onChange={(event, newValue) => form.setData('tematica_estrategica_id', newValue.value)}
                         options={tematicas_estrategicas}
                         error={form.errors.tematica_estrategica_id}
-                        disabled={evaluacion ? true : false}
+                        disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('tematica_estrategica_id', form)}
                         required
                     />
@@ -386,7 +383,7 @@ const Form = ({
                                 onChange={(event, newValue) => form.setData('rol_sennova', newValue.value)}
                                 options={roles_sennova}
                                 label="Seleccione un rol SENNOVA"
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 required
                             />
                         </Grid>
@@ -408,7 +405,7 @@ const Form = ({
                                         value={form.data.cantidad_meses}
                                         onChange={(e) => form.setData('cantidad_meses', e.target.value)}
                                         placeholder="Número de meses de vinculación"
-                                        disabled={evaluacion ? true : false}
+                                        disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                         required
                                     />
                                     {monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion) && (
@@ -435,7 +432,7 @@ const Form = ({
                                 value={form.data.cantidad_horas}
                                 onChange={(e) => form.setData('cantidad_horas', e.target.value)}
                                 placeholder="Número de horas semanales dedicadas"
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 required
                             />
                         </Grid>
@@ -451,7 +448,7 @@ const Form = ({
                             <SwitchMui
                                 checked={form.data.aporta_a_campesena}
                                 onChange={(e) => form.setData('aporta_a_campesena', e.target.checked)}
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('aporta_a_campesena', form)}
                             />
                         </Grid>
@@ -463,7 +460,7 @@ const Form = ({
                             </AlertMui>
                         </Grid>
                         <Grid item md={6}>
-                            <SwitchMui className="!mb-4" checked={tiene_video} onChange={() => setTieneVideo(!tiene_video)} disabled={evaluacion ? true : false} />
+                            <SwitchMui className="!mb-4" checked={tiene_video} onChange={() => setTieneVideo(!tiene_video)} disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update} />
                             {tiene_video && (
                                 <>
                                     <TextInput
@@ -474,7 +471,7 @@ const Form = ({
                                         placeholder="Link del video del proyecto https://www.youtube.com/watch?v=gmc4tk"
                                         value={form.data.video}
                                         onChange={(e) => form.setData('video', e.target.value)}
-                                        disabled={evaluacion ? true : false}
+                                        disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                         onBlur={() => syncColumnLong('video', form)}
                                         required
                                     />
@@ -489,7 +486,7 @@ const Form = ({
                                 className="!mb-4"
                                 checked={form.data.relacionado_estrategia_campesena}
                                 onChange={(e) => form.setData('relacionado_estrategia_campesena', e.target.checked)}
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('relacionado_estrategia_campesena', form)}
                             />
 
@@ -500,7 +497,7 @@ const Form = ({
                                     onChange={(e) => form.setData('justificacion_relacion_campesena', e.target.value)}
                                     error={form.errors.justificacion_relacion_campesena}
                                     value={form.data.justificacion_relacion_campesena}
-                                    disabled={evaluacion ? true : false}
+                                    disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                     onBlur={() => syncColumnLong('justificacion_relacion_campesena', form)}
                                     required
                                 />
@@ -523,7 +520,7 @@ const Form = ({
                                 }}
                                 error={form.errors.lineas_estrategicas_convocatoria}
                                 label="Seleccione las líneas estrategicas"
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('lineas_estrategicas_convocatoria', form)}
                             />
 
@@ -535,7 +532,7 @@ const Form = ({
                                     onChange={(e) => form.setData('justificacion_lineas_estrategicas', e.target.value)}
                                     error={form.errors.justificacion_lineas_estrategicas}
                                     value={form.data.justificacion_lineas_estrategicas}
-                                    disabled={evaluacion ? true : false}
+                                    disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                     required
                                     onBlur={() => syncColumnLong('justificacion_lineas_estrategicas', form)}
                                 />
@@ -549,7 +546,7 @@ const Form = ({
                                 className="!mb-4"
                                 checked={form.data.impacto_regional}
                                 onChange={(e) => form.setData('impacto_regional', e.target.checked)}
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('impacto_regional', form)}
                             />
 
@@ -560,7 +557,7 @@ const Form = ({
                                     onChange={(e) => form.setData('justificacion_impacto_regional', e.target.value)}
                                     error={form.errors.justificacion_impacto_regional}
                                     value={form.data.justificacion_impacto_regional}
-                                    disabled={evaluacion ? true : false}
+                                    disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                     onBlur={() => syncColumnLong('justificacion_impacto_regional', form)}
                                     required
                                 />
@@ -574,7 +571,7 @@ const Form = ({
                                 className="!mb-4"
                                 checked={requiere_justificacion_industria4}
                                 onChange={() => setRequiereJustificacionIndustria4(!requiere_justificacion_industria4)}
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                             />
                             {requiere_justificacion_industria4 && (
                                 <>
@@ -584,7 +581,7 @@ const Form = ({
                                         onChange={(e) => form.setData('justificacion_industria_4', e.target.value)}
                                         error={form.errors.justificacion_industria_4}
                                         value={form.data.justificacion_industria_4}
-                                        disabled={evaluacion ? true : false}
+                                        disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                         onBlur={() => syncColumnLong('justificacion_industria_4', form)}
                                         required
                                     />
@@ -600,7 +597,7 @@ const Form = ({
                                 className="!mb-4"
                                 checked={requiere_justificacion_economia_naranja}
                                 onChange={() => setRequiereJustificacionEconomiaNaranja(!requiere_justificacion_economia_naranja)}
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                             />
                             {requiere_justificacion_economia_naranja && (
                                 <>
@@ -610,7 +607,7 @@ const Form = ({
                                         onChange={(e) => form.setData('justificacion_economia_naranja', e.target.value)}
                                         error={form.errors.justificacion_economia_naranja}
                                         value={form.data.justificacion_economia_naranja}
-                                        disabled={evaluacion ? true : false}
+                                        disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                         onBlur={() => syncColumnLong('justificacion_economia_naranja', form)}
                                         required
                                     />
@@ -628,7 +625,7 @@ const Form = ({
                                 className="!mb-4"
                                 checked={requiere_justificacion_sector_agricola}
                                 onChange={() => setRequiereJustificacionSectorAgricola(!requiere_justificacion_sector_agricola)}
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                             />
 
                             {requiere_justificacion_sector_agricola && (
@@ -638,7 +635,7 @@ const Form = ({
                                     onChange={(e) => form.setData('impacto_sector_agricola', e.target.value)}
                                     error={form.errors.impacto_sector_agricola}
                                     value={form.data.impacto_sector_agricola}
-                                    disabled={evaluacion ? true : false}
+                                    disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                     onBlur={() => syncColumnLong('impacto_sector_agricola', form)}
                                     required
                                 />
@@ -652,7 +649,7 @@ const Form = ({
                                 className="!mb-4"
                                 checked={requiere_justificacion_politica_discapacidad}
                                 onChange={() => setRequiereJustificacionPoliticaDiscapacidad(!requiere_justificacion_politica_discapacidad)}
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                             />
 
                             {requiere_justificacion_politica_discapacidad && (
@@ -663,7 +660,7 @@ const Form = ({
                                         onChange={(e) => form.setData('justificacion_politica_discapacidad', e.target.value)}
                                         error={form.errors.justificacion_politica_discapacidad}
                                         value={form.data.justificacion_politica_discapacidad}
-                                        disabled={evaluacion ? true : false}
+                                        disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                         onBlur={() => syncColumnLong('justificacion_politica_discapacidad', form)}
                                         required
                                     />
@@ -685,7 +682,7 @@ const Form = ({
                                 className="!mb-4"
                                 checked={requiere_justificacion_atencion_pluralista}
                                 onChange={() => setRequiereJustificacionAntencionPluralista(!requiere_justificacion_atencion_pluralista)}
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                             />
 
                             {requiere_justificacion_atencion_pluralista && (
@@ -695,7 +692,7 @@ const Form = ({
                                     error={form.errors.atencion_pluralista_diferencial}
                                     value={form.data.atencion_pluralista_diferencial}
                                     onChange={(e) => form.setData('atencion_pluralista_diferencial', e.target.value)}
-                                    disabled={evaluacion ? true : false}
+                                    disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                     onBlur={() => syncColumnLong('atencion_pluralista_diferencial', form)}
                                     required
                                 />
@@ -719,7 +716,7 @@ const Form = ({
                                 }}
                                 label="Seleccione una opción"
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('relacionado_plan_tecnologico', form)}
                             />
                         </Grid>
@@ -745,7 +742,7 @@ const Form = ({
                                 }}
                                 label="Seleccione una opción"
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('relacionado_agendas_competitividad', form)}
                             />
                         </Grid>
@@ -766,11 +763,11 @@ const Form = ({
                                 }}
                                 label="Seleccione una opción"
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('relacionado_mesas_sectoriales', form)}
                             />
                         </Grid>
-                        {form.data.relacionado_mesas_sectoriales == 1 && (is_super_admin || proyecto_formulario_9_linea_23?.proyecto.allowed.to_update) && (
+                        {form.data.relacionado_mesas_sectoriales == 1 && (
                             <>
                                 <Grid item md={6}>
                                     <p className="text-app-600">Por favor seleccione la o las mesas sectoriales con la cual o las cuales se alinea el proyecto</p>
@@ -791,7 +788,7 @@ const Form = ({
                                         error={form.errors.mesa_sectorial_id}
                                         label="Seleccione las mesas sectoriales"
                                         required
-                                        disabled={evaluacion ? true : false}
+                                        disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                         onBlur={() => syncColumnLong('mesa_sectorial_id', form)}
                                     />
 
@@ -802,7 +799,7 @@ const Form = ({
                                         value={form.data.justificacion_mesas_sectoriales}
                                         onChange={(e) => form.setData('justificacion_mesas_sectoriales', e.target.value)}
                                         required
-                                        disabled={evaluacion ? true : false}
+                                        disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                         onBlur={() => syncColumnLong('justificacion_mesas_sectoriales', form)}
                                     />
                                 </Grid>
@@ -825,11 +822,11 @@ const Form = ({
                                 }}
                                 label="Seleccione una opción"
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('relacionado_tecnoacademia', form)}
                             />
                         </Grid>
-                        {form.data.relacionado_tecnoacademia == 1 && (is_super_admin || proyecto_formulario_9_linea_23?.proyecto.allowed.to_update) && (
+                        {form.data.relacionado_tecnoacademia == 1 && (
                             <>
                                 <Grid item md={6}>
                                     <p className="text-app-600">Por favor seleccione la Tecnoacademia con la cual articuló el proyecto</p>
@@ -844,7 +841,7 @@ const Form = ({
                                             form.setData('tecnoacademia_id', newValue.value)
                                         }}
                                         required
-                                        disabled={evaluacion ? true : false}
+                                        disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                     />
                                     <SelectMultiple
                                         className="mt-8"
@@ -861,7 +858,7 @@ const Form = ({
                                         error={form.errors.linea_tecnologica_id}
                                         label="Seleccione las líneas tecnológicas"
                                         required
-                                        disabled={evaluacion ? true : false}
+                                        disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                         onBlur={() => syncColumnLong('linea_tecnologica_id', form)}
                                     />
                                 </Grid>
@@ -891,7 +888,7 @@ const Form = ({
                                 error={form.errors.lineas_estrategicas_beneficiadas}
                                 label="Seleccione las líneas estrategicas"
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('lineas_estrategicas_beneficiadas', form)}
                             />
 
@@ -901,7 +898,7 @@ const Form = ({
                                 value={form.data.justificacion_lineas_estrategicas_beneficiadas}
                                 onChange={(e) => form.setData('justificacion_lineas_estrategicas_beneficiadas', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('justificacion_lineas_estrategicas_beneficiadas', form)}
                             />
                         </Grid>
@@ -917,7 +914,7 @@ const Form = ({
                                 value={form.data.resumen}
                                 onChange={(e) => form.setData('resumen', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('resumen', form)}
                             />
                         </Grid>
@@ -933,7 +930,7 @@ const Form = ({
                                 value={form.data.antecedentes}
                                 onChange={(e) => form.setData('antecedentes', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('antecedentes', form)}
                             />
                         </Grid>
@@ -946,7 +943,7 @@ const Form = ({
                                 value={form.data.marco_conceptual}
                                 onChange={(e) => form.setData('marco_conceptual', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('marco_conceptual', form)}
                             />
                         </Grid>
@@ -967,12 +964,12 @@ const Form = ({
                                 value={form.data.numero_aprendices}
                                 onChange={(e) => form.setData('numero_aprendices', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('numero_aprendices', form)}
                             />
                         </Grid>
                         <Grid item md={6}>
-                            <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="municipios" value="Nombre de los municipios beneficiados" />
+                            <Label required className="mb-4" labelFor="municipios" value="Nombre de los municipios beneficiados" />
                         </Grid>
                         <Grid item md={6}>
                             <SelectMultiple
@@ -991,7 +988,7 @@ const Form = ({
                                 error={form.errors.municipios}
                                 label="Seleccionar municipios"
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('municipios', form)}
                             />
 
@@ -1016,7 +1013,7 @@ const Form = ({
                                 value={form.data.impacto_municipios}
                                 onChange={(e) => form.setData('impacto_municipios', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('impacto_municipios', form)}
                             />
                         </Grid>
@@ -1039,7 +1036,7 @@ const Form = ({
                                 error={form.errors.programas_formacion}
                                 label="Seleccione los programas de formación"
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('programas_formacion', form)}
                             />
                         </Grid>
@@ -1053,7 +1050,7 @@ const Form = ({
                                 value={form.data.impacto_centro_formacion}
                                 onChange={(e) => form.setData('impacto_centro_formacion', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('impacto_centro_formacion', form)}
                             />
                         </Grid>
@@ -1069,7 +1066,7 @@ const Form = ({
                                 value={form.data.bibliografia}
                                 onChange={(e) => form.setData('bibliografia', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('bibliografia', form)}
                             />
                         </Grid>

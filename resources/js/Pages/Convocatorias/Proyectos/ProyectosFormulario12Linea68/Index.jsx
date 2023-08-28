@@ -116,23 +116,24 @@ const Index = ({ auth, convocatoria, proyectos_formulario_12_linea_68, allowed_t
                                             <div>
                                                 <MenuItem
                                                     onClick={() => router.visit(route('convocatorias.proyectos-formulario-12-linea-68.edit', [convocatoria.id, id]))}
-                                                    disabled={!proyecto?.allowed?.to_view}
-                                                    className={!proyecto?.allowed?.to_view ? 'hidden' : ''}>
-                                                    Editar
+                                                    disabled={!proyecto?.allowed?.to_view}>
+                                                    {proyecto?.allowed?.to_view && !proyecto?.allowed?.to_update ? 'Ver información' : 'Editar'}
                                                 </MenuItem>
                                                 {proyecto.evaluaciones.map((evaluacion, i) => (
                                                     <MenuItem
                                                         key={i}
                                                         onClick={() =>
                                                             router.visit(route('convocatorias.proyectos-formulario-12-linea-68.edit', [convocatoria.id, id, { evaluacion_id: evaluacion?.id }]))
-                                                        }>
+                                                        }
+                                                        isabled={!is_super_admin}>
                                                         Evaluacion #{evaluacion.id}
                                                     </MenuItem>
                                                 ))}
                                                 <MenuItem
                                                     onClick={() => {
                                                         setProyectoFormulario12Linea68ToDestroy(proyecto.id)
-                                                    }}>
+                                                    }}
+                                                    disabled={!proyecto?.allowed?.to_update}>
                                                     Eliminar
                                                 </MenuItem>
                                             </div>

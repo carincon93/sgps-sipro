@@ -72,7 +72,7 @@ const ArticulacionFormulario4Linea70 = ({
     }
     return (
         <form onSubmit={submit}>
-            <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+            <fieldset>
                 <Grid container rowSpacing={20}>
                     <Grid item md={6}>
                         <Label
@@ -94,6 +94,7 @@ const ArticulacionFormulario4Linea70 = ({
                                     lineas_investigacion: selected_values,
                                 }))
                             }}
+                            disabled={!proyecto?.allowed?.to_update}
                             error={form.errors.lineas_investigacion}
                             onBlur={() => syncColumnLong('lineas_investigacion', form)}
                             required
@@ -115,6 +116,7 @@ const ArticulacionFormulario4Linea70 = ({
                                     grupos_investigacion: selected_values,
                                 }))
                             }}
+                            disabled={!proyecto?.allowed?.to_update}
                             error={form.errors.grupos_investigacion}
                             onBlur={() => syncColumnLong('grupos_investigacion', form)}
                             required
@@ -134,6 +136,7 @@ const ArticulacionFormulario4Linea70 = ({
                             selectedValue={form.data.articulacion_semillero}
                             error={form.errors.articulacion_semillero}
                             onChange={(event, newValue) => form.setData('articulacion_semillero', newValue.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('articulacion_semillero', form)}
                             required
                         />
@@ -157,6 +160,7 @@ const ArticulacionFormulario4Linea70 = ({
                                             semilleros_investigacion: selected_values,
                                         }))
                                     }}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     error={form.errors.semilleros_investigacion}
                                     onBlur={() => syncColumnLong('semilleros_investigacion', form)}
                                     required
@@ -180,6 +184,7 @@ const ArticulacionFormulario4Linea70 = ({
                                     proyecto_idi_tecnoacademia_id: selected_values,
                                 }))
                             }}
+                            disabled={!proyecto?.allowed?.to_update}
                             error={form.errors.proyecto_idi_tecnoacademia_id}
                             onBlur={() => syncColumnLong('proyecto_idi_tecnoacademia_id', form)}
                             required
@@ -195,6 +200,7 @@ const ArticulacionFormulario4Linea70 = ({
                             error={form.errors.proyectos_ejecucion}
                             value={form.data.proyectos_ejecucion}
                             onChange={(e) => form.setData('proyectos_ejecucion', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('proyectos_ejecucion', form)}
                         />
                     </Grid>
@@ -210,6 +216,7 @@ const ArticulacionFormulario4Linea70 = ({
                             tags={form.data.semilleros_en_formalizacion}
                             value={form.data.semilleros_en_formalizacion}
                             onChange={(e) => (form.setData('semilleros_en_formalizacion', e.target.value), syncColumnLong('semilleros_en_formalizacion', form, e.target.value))}
+                            disabled={!proyecto?.allowed?.to_update}
                             placeholder="Nombres de los semilleros"
                             error={form.errors.semilleros_en_formalizacion}
                         />
@@ -230,6 +237,7 @@ const ArticulacionFormulario4Linea70 = ({
                                     disciplinas_subarea_conocimiento: selected_values,
                                 }))
                             }}
+                            disabled={!proyecto?.allowed?.to_update}
                             error={form.errors.disciplinas_subarea_conocimiento}
                             onBlur={() => syncColumnLong('disciplinas_subarea_conocimiento', form)}
                             required
@@ -251,6 +259,7 @@ const ArticulacionFormulario4Linea70 = ({
                                     redes_conocimiento: selected_values,
                                 }))
                             }}
+                            disabled={!proyecto?.allowed?.to_update}
                             error={form.errors.redes_conocimiento}
                             onBlur={() => syncColumnLong('redes_conocimiento', form)}
                             required
@@ -272,6 +281,7 @@ const ArticulacionFormulario4Linea70 = ({
                                     actividades_economicas: selected_values,
                                 }))
                             }}
+                            disabled={!proyecto?.allowed?.to_update}
                             error={form.errors.actividades_economicas}
                             onBlur={() => syncColumnLong('actividades_economicas', form)}
                             required
@@ -293,6 +303,7 @@ const ArticulacionFormulario4Linea70 = ({
                                     tematicas_estrategicas: selected_values,
                                 }))
                             }}
+                            disabled={!proyecto?.allowed?.to_update}
                             error={form.errors.tematicas_estrategicas}
                             onBlur={() => syncColumnLong('tematicas_estrategicas', form)}
                             required
@@ -309,6 +320,7 @@ const ArticulacionFormulario4Linea70 = ({
                             error={form.errors.articulacion_centro_formacion}
                             value={form.data.articulacion_centro_formacion}
                             onChange={(e) => form.setData('articulacion_centro_formacion', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             label="Articulación con el centro de formación"
                             onBlur={() => syncColumnLong('articulacion_centro_formacion', form)}
                             required
@@ -323,6 +335,7 @@ const ArticulacionFormulario4Linea70 = ({
                             error={form.errors.articulacion_programas_centro}
                             value={form.data.articulacion_programas_centro}
                             onChange={(e) => form.setData('articulacion_programas_centro', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             label="¿Articulación de la TecnoAcademia en los programas de formación del Centro?"
                             onBlur={() => syncColumnLong('articulacion_programas_centro', form)}
                             required
@@ -335,6 +348,7 @@ const ArticulacionFormulario4Linea70 = ({
                             error={form.errors.articulacion_bienestar_aprendiz}
                             value={form.data.articulacion_bienestar_aprendiz}
                             onChange={(e) => form.setData('articulacion_bienestar_aprendiz', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             label="¿Articulación de la TecnoAcademia en las acciones de Bienestar al aprendiz del Centro?"
                             onBlur={() => syncColumnLong('articulacion_bienestar_aprendiz', form)}
                             required
@@ -347,6 +361,7 @@ const ArticulacionFormulario4Linea70 = ({
                             error={form.errors.favorecimiento_ruta_formacion}
                             value={form.data.favorecimiento_ruta_formacion}
                             onChange={(e) => form.setData('favorecimiento_ruta_formacion', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             label="¿Acciones conjuntas definidas con el equipo de Articulación con la Media del Centro para favorecer la ruta de formación desde la TecnoAcademia?"
                             onBlur={() => syncColumnLong('favorecimiento_ruta_formacion', form)}
                             required
@@ -359,6 +374,7 @@ const ArticulacionFormulario4Linea70 = ({
                             error={form.errors.lineas_medulares_centro}
                             value={form.data.lineas_medulares_centro}
                             onChange={(e) => form.setData('lineas_medulares_centro', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             label="Líneas medulares del Centro con las que se articula la TecnoAcademia"
                             onBlur={() => syncColumnLong('lineas_medulares_centro', form)}
                             required

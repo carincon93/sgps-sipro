@@ -45,6 +45,12 @@ class UserController extends Controller
                                         })
                                         ->orderBy('centro_formacion_id')
                                         ->get(),
+            'subdirectores_centro'  => User::with('roles', 'centroFormacion', 'subdirectorCentroFormacion')
+                                        ->whereHas('roles', function ($query)  {
+                                            $query->where('id', 3);
+                                        })
+                                        ->orderBy('centro_formacion_id')
+                                        ->get(),
             'roles'                 => Role::orderBy('name', 'ASC')->get(),
             'allowed_to_create'     => Gate::inspect('create', [User::class])->allowed()
         ]);

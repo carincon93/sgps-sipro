@@ -126,7 +126,7 @@ class ProyectoFormulario11Linea83Controller extends Controller
 
         $proyecto_formulario_11_linea_83->proyecto->precio_proyecto               = $proyecto_formulario_11_linea_83->proyecto->precioProyecto;
         $proyecto_formulario_11_linea_83->proyecto->centroFormacion;
-        $proyecto_formulario_11_linea_83->proyecto->allowed;
+        $proyecto_formulario_11_linea_83->proyecto->participantes;
 
         $proyecto_formulario_11_linea_83->mostrar_recomendaciones                 = $proyecto_formulario_11_linea_83->proyecto->mostrar_recomendaciones;
         $proyecto_formulario_11_linea_83->mostrar_requiere_subsanacion            = $proyecto_formulario_11_linea_83->proyecto->mostrar_requiere_subsanacion;

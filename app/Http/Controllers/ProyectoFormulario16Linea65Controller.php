@@ -144,6 +144,7 @@ class ProyectoFormulario16Linea65Controller extends Controller
         $proyecto_formulario_16_linea_65->proyecto->centroFormacion;
         $proyecto_formulario_16_linea_65->proyecto->municipios;
         $proyecto_formulario_16_linea_65->proyecto->programasFormacion;
+        $proyecto_formulario_16_linea_65->proyecto->participantes;
         $proyecto_formulario_16_linea_65->proyecto->mesasSectoriales;
         $proyecto_formulario_16_linea_65->proyecto->tipoFormularioConvocatoria->lineaProgramatica;
 

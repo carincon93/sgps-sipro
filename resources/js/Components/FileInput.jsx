@@ -18,7 +18,20 @@ const useStyles = makeStyles((theme) => ({
 
 const MAX_FILE_SIZE_MB = 10
 
-const FileInput = ({ onChange, value = '', error = '', id = '', label = 'Seleccione un archivo', downloadRoute = '', accept = '', filename = '', extension = '', onDelete, ...props }) => {
+const FileInput = ({
+    onChange,
+    value = '',
+    error = '',
+    id = '',
+    label = 'Seleccione un archivo',
+    downloadRoute = '',
+    accept = '',
+    filename = '',
+    extension = '',
+    onDelete,
+    disabled = false,
+    ...props
+}) => {
     const classes = useStyles()
 
     const [fileType, setFileType] = useState('')
@@ -45,13 +58,16 @@ const FileInput = ({ onChange, value = '', error = '', id = '', label = 'Selecci
             <input accept={accept} className={classes.input} id={id} multiple={false} type="file" onChange={(e) => (onChange(e), handleFileChange(e))} />
             <label htmlFor={id} className="p-4 block bg-gray-100 hover:bg-gray-50 text-center hover:cursor-pointer">
                 <FileUploadImage className="w-28 mx-auto mb-4" />
-                {value == null ? (
+                {value == null && !disabled ? (
                     <>
                         <span className="bg-app-900 rounded shadow text-white pl-4 pr-3 pt-2 pb-3 mr-2 inline-block mb-2">Seleccione el archivo: </span>
                         {label}
                     </>
                 ) : (
-                    <Chip className="!bg-green-100 shadow !text-green-600" label="Pendiente de ser cargado" />
+                    <Chip
+                        className={disabled ? '!bg-red-100 shadow !text-red-600' : '!bg-green-100 shadow !text-green-600'}
+                        label={disabled ? 'No se puede cargar el anexo' : 'Pendiente de ser cargado'}
+                    />
                 )}
             </label>
 

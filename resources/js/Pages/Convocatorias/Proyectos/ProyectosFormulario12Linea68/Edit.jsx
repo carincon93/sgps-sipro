@@ -28,7 +28,6 @@ const Edit = ({
     campos_convocatoria,
 }) => {
     const auth_user = auth.user
-    const is_super_admin = checkRole(auth_user, [1])
 
     const [evaluacion_index, setEvaluacionIndex] = useState(0)
     const [dialog_status, setDialogStatus] = useState(false)
@@ -87,7 +86,7 @@ const Edit = ({
             </Grid> */}
             <Grid item md={12}>
                 <Form
-                    is_super_admin={is_super_admin}
+                    auth_user={auth_user}
                     method="PUT"
                     convocatoria={convocatoria}
                     proyecto_formulario_12_linea_68={proyecto_formulario_12_linea_68}

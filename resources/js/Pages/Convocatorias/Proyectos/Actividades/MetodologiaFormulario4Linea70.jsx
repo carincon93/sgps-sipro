@@ -103,7 +103,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
 
     return (
         <form onSubmit={submitMetodologiaProyectoFormulario4Linea70} className="!mt-20">
-            <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+            <fieldset>
                 <Grid container rowSpacing={20}>
                     <Grid item md={12}>
                         <Label required className="mb-4" labelFor="metodologia" value="Metodología" />
@@ -113,6 +113,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                             name="metodologia"
                             value={form_metodologia_proyecto_formulario_4_linea_70.data.metodologia}
                             onChange={(e) => form_metodologia_proyecto_formulario_4_linea_70.setData('metodologia', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('metodologia', form_metodologia_proyecto_formulario_4_linea_70)}
                             required
                         />
@@ -126,6 +127,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                             name="metodologia_local"
                             value={form_metodologia_proyecto_formulario_4_linea_70.data.metodologia_local}
                             onChange={(e) => form_metodologia_proyecto_formulario_4_linea_70.setData('metodologia_local', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('metodologia_local', form_metodologia_proyecto_formulario_4_linea_70)}
                             required
                         />
@@ -145,6 +147,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                             name="implementacion_modelo_pedagogico"
                             value={form_metodologia_proyecto_formulario_4_linea_70.data.implementacion_modelo_pedagogico}
                             onChange={(e) => form_metodologia_proyecto_formulario_4_linea_70.setData('implementacion_modelo_pedagogico', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('implementacion_modelo_pedagogico', form_metodologia_proyecto_formulario_4_linea_70)}
                             required
                         />
@@ -169,6 +172,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                                     municipios: selected_values,
                                 }))
                             }}
+                            disabled={!proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('municipios', form_metodologia_proyecto_formulario_4_linea_70)}
                         />
                     </Grid>
@@ -192,6 +196,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                                     municipios_impactar: selected_values,
                                 }))
                             }}
+                            disabled={!proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('municipios_impactar', form_metodologia_proyecto_formulario_4_linea_70)}
                         />
                     </Grid>
@@ -205,6 +210,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                             name="impacto_municipios"
                             value={form_metodologia_proyecto_formulario_4_linea_70.data.impacto_municipios}
                             onChange={(e) => form_metodologia_proyecto_formulario_4_linea_70.setData('impacto_municipios', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('impacto_municipios', form_metodologia_proyecto_formulario_4_linea_70)}
                             required
                         />
@@ -251,6 +257,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                             onChange={(event, newValue) => {
                                 getInstitucionesEducationArticular(newValue.value)
                             }}
+                            disabled={!proyecto?.allowed?.to_update}
                             options={regionales}
                         />
 
@@ -264,6 +271,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                                 form_metodologia_proyecto_formulario_4_linea_70.setData('nombre_instituciones_programas', e.target.value),
                                 syncColumnLong('nombre_instituciones_programas', form, e.target.value)
                             )}
+                            disabled={!proyecto?.allowed?.to_update}
                             placeholder="Nombre(s) de la(s) IE"
                             error={
                                 whitelist_instituciones_educativas_articular.length == 0
@@ -279,6 +287,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                                 error={form_metodologia_proyecto_formulario_4_linea_70.errors.otras_nombre_instituciones_programas}
                                 value={form_metodologia_proyecto_formulario_4_linea_70.data.otras_nombre_instituciones_programas}
                                 onChange={(e) => form_metodologia_proyecto_formulario_4_linea_70.setData('otras_nombre_instituciones_programas', e.target.value)}
+                                disabled={!proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('otras_nombre_instituciones_programas', form_metodologia_proyecto_formulario_4_linea_70)}
                             />
                         </div>
@@ -297,6 +306,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                             selectedValue={form_metodologia_proyecto_formulario_4_linea_70.data.proyeccion_nuevas_instituciones}
                             error={form_metodologia_proyecto_formulario_4_linea_70.errors.proyeccion_nuevas_instituciones}
                             onChange={(event, newValue) => form_metodologia_proyecto_formulario_4_linea_70.setData('proyeccion_nuevas_instituciones', newValue.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('proyeccion_nuevas_instituciones', form_metodologia_proyecto_formulario_4_linea_70)}
                             required
                         />
@@ -319,6 +329,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                                     onChange={(event, newValue) => {
                                         getInstitucionesEducationEjecutar(newValue.value)
                                     }}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     options={regionales}
                                 />
 
@@ -331,6 +342,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                                     onChange={(e) => (
                                         form_metodologia_proyecto_formulario_4_linea_70.setData('nuevas_instituciones', e.target.value), syncColumnLong('nuevas_instituciones', form, e.target.value)
                                     )}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     placeholder="Nombre(s) de la(s) IE"
                                     error={
                                         whitelist_instituciones_educativas_ejecutar.length == 0
@@ -346,6 +358,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                                         error={form_metodologia_proyecto_formulario_4_linea_70.errors.otras_nuevas_instituciones}
                                         value={form_metodologia_proyecto_formulario_4_linea_70.data.otras_nuevas_instituciones}
                                         onChange={(e) => form_metodologia_proyecto_formulario_4_linea_70.setData('otras_nuevas_instituciones', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         onBlur={() => syncColumnLong('otras_nuevas_instituciones', form_metodologia_proyecto_formulario_4_linea_70)}
                                     />
                                 </div>
@@ -365,6 +378,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                             id="proyeccion_articulacion_media"
                             selectedValue={form_metodologia_proyecto_formulario_4_linea_70.data.proyeccion_articulacion_media}
                             onChange={(event, newValue) => form_metodologia_proyecto_formulario_4_linea_70.setData('proyeccion_articulacion_media', newValue.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             error={form_metodologia_proyecto_formulario_4_linea_70.errors.proyeccion_articulacion_media}
                             onBlur={() => syncColumnLong('proyeccion_articulacion_media', form_metodologia_proyecto_formulario_4_linea_70)}
                             required
@@ -388,6 +402,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                                     onChange={(event, newValue) => {
                                         getInstitucionesEducationEjecutar(newValue.value)
                                     }}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     options={regionales}
                                 />
 
@@ -400,6 +415,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                                     onChange={(e) => (
                                         form_metodologia_proyecto_formulario_4_linea_70.setData('nombre_instituciones', e.target.value), syncColumnLong('nombre_instituciones', form, e.target.value)
                                     )}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     placeholder="Nombre(s) de la(s) IE"
                                     error={
                                         whitelist_instituciones_educativas_ejecutar.length == 0
@@ -416,6 +432,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                                         error={form_metodologia_proyecto_formulario_4_linea_70.errors.otras_nombre_instituciones}
                                         value={form_metodologia_proyecto_formulario_4_linea_70.data.otras_nombre_instituciones}
                                         onChange={(e) => form_metodologia_proyecto_formulario_4_linea_70.setData('otras_nombre_instituciones', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         onBlur={() => syncColumnLong('otras_nombre_instituciones', form_metodologia_proyecto_formulario_4_linea_70)}
                                     />
                                 </div>
@@ -489,6 +506,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                                     diseno_curricular_id: selected_values,
                                 }))
                             }}
+                            disabled={!proyecto?.allowed?.to_update}
                             error={form_metodologia_proyecto_formulario_4_linea_70.errors.diseno_curricular_id}
                             required
                             onBlur={() => syncColumnLong('diseno_curricular_id', form_metodologia_proyecto_formulario_4_linea_70)}
@@ -508,6 +526,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                             error={form_metodologia_proyecto_formulario_4_linea_70.errors.proyectos_macro}
                             value={form_metodologia_proyecto_formulario_4_linea_70.data.proyectos_macro}
                             onChange={(e) => form_metodologia_proyecto_formulario_4_linea_70.setData('proyectos_macro', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('proyectos_macro', form_metodologia_proyecto_formulario_4_linea_70)}
                             required
                         />
@@ -554,6 +573,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                             error={form_metodologia_proyecto_formulario_4_linea_70.errors.articulacion_plan_educacion}
                             value={form_metodologia_proyecto_formulario_4_linea_70.data.articulacion_plan_educacion}
                             onChange={(e) => form_metodologia_proyecto_formulario_4_linea_70.setData('articulacion_plan_educacion', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('articulacion_plan_educacion', form_metodologia_proyecto_formulario_4_linea_70)}
                             required
                         />
@@ -572,6 +592,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                             error={form_metodologia_proyecto_formulario_4_linea_70.errors.articulacion_territorios_stem}
                             value={form_metodologia_proyecto_formulario_4_linea_70.data.articulacion_territorios_stem}
                             onChange={(e) => form_metodologia_proyecto_formulario_4_linea_70.setData('articulacion_territorios_stem', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('articulacion_territorios_stem', form_metodologia_proyecto_formulario_4_linea_70)}
                             required
                         />

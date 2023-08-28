@@ -48,7 +48,7 @@ const ArticulacionFormulario5Linea69 = ({ convocatoria, proyecto, semilleros_inv
     }
     return (
         <form onSubmit={submit}>
-            <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+            <fieldset>
                 <Grid container rowSpacing={20}>
                     <Grid item md={12}>
                         <Label required className="mb-4" labelFor="impacto_centro_formacion" value="Impacto en el centro de formación" />
@@ -58,6 +58,7 @@ const ArticulacionFormulario5Linea69 = ({ convocatoria, proyecto, semilleros_inv
                             error={form.errors.impacto_centro_formacion}
                             value={form.data.impacto_centro_formacion}
                             onChange={(e) => form.setData('impacto_centro_formacion', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('impacto_centro_formacion', form)}
                             required
                         />
@@ -76,6 +77,7 @@ const ArticulacionFormulario5Linea69 = ({ convocatoria, proyecto, semilleros_inv
                             error={form.errors.aportacion_semilleros_grupos}
                             value={form.data.aportacion_semilleros_grupos}
                             onChange={(e) => form.setData('aportacion_semilleros_grupos', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('aportacion_semilleros_grupos', form)}
                             required
                         />
@@ -94,6 +96,7 @@ const ArticulacionFormulario5Linea69 = ({ convocatoria, proyecto, semilleros_inv
                             error={form.errors.proyeccion_con_st}
                             value={form.data.proyeccion_con_st}
                             onChange={(e) => form.setData('proyeccion_con_st', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('proyeccion_con_st', form)}
                             required
                         />
@@ -112,6 +115,7 @@ const ArticulacionFormulario5Linea69 = ({ convocatoria, proyecto, semilleros_inv
                             error={form.errors.proyeccion_extensionismo_tecnologico}
                             value={form.data.proyeccion_extensionismo_tecnologico}
                             onChange={(e) => form.setData('proyeccion_extensionismo_tecnologico', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('proyeccion_extensionismo_tecnologico', form)}
                             required
                         />
@@ -130,6 +134,7 @@ const ArticulacionFormulario5Linea69 = ({ convocatoria, proyecto, semilleros_inv
                             error={form.errors.proyeccion_centros_desarrollo}
                             value={form.data.proyeccion_centros_desarrollo}
                             onChange={(e) => form.setData('proyeccion_centros_desarrollo', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('proyeccion_centros_desarrollo', form)}
                             required
                         />
@@ -148,6 +153,7 @@ const ArticulacionFormulario5Linea69 = ({ convocatoria, proyecto, semilleros_inv
                             error={form.errors.proyeccion_formacion_regional}
                             value={form.data.proyeccion_formacion_regional}
                             onChange={(e) => form.setData('proyeccion_formacion_regional', e.target.value)}
+                            disabled={!proyecto?.allowed?.to_update}
                             onBlur={() => syncColumnLong('proyeccion_formacion_regional', form)}
                             required
                         />
@@ -172,6 +178,7 @@ const ArticulacionFormulario5Linea69 = ({ convocatoria, proyecto, semilleros_inv
                                     semilleros_investigacion: selected_values,
                                 }))
                             }}
+                            disabled={!proyecto?.allowed?.to_update}
                             error={form.errors.semilleros_investigacion}
                             onBlur={() => syncColumnLong('semilleros_investigacion', form)}
                             required
@@ -193,6 +200,7 @@ const ArticulacionFormulario5Linea69 = ({ convocatoria, proyecto, semilleros_inv
                                     grupos_investigacion: selected_values,
                                 }))
                             }}
+                            disabled={!proyecto?.allowed?.to_update}
                             error={form.errors.grupos_investigacion}
                             onBlur={() => syncColumnLong('grupos_investigacion', form)}
                             required

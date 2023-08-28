@@ -105,12 +105,8 @@ const ArbolProblemasComponent = ({ auth, convocatoria, proyecto, fase_evaluacion
                                         value={form_problema_central.data.identificacion_problema}
                                         error={form_problema_central.errors.identificacion_problema}
                                         onChange={(e) => form_problema_central.setData('identificacion_problema', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         onBlur={() => syncColumnLong('identificacion_problema', form_problema_central)}
-                                        disabled={
-                                            (!checkRole(auth_user, [1, 5]) && proyecto.tipo_formulario_convocatoria_id == 4) ||
-                                            (!checkRole(auth_user, [1, 17]) && proyecto.tipo_formulario_convocatoria_id == 17) ||
-                                            (!checkRole(auth_user, [1, 17]) && proyecto.tipo_formulario_convocatoria_id == 10)
-                                        }
                                         required
                                     />
                                 </div>
@@ -138,6 +134,7 @@ const ArbolProblemasComponent = ({ auth, convocatoria, proyecto, fase_evaluacion
                                         error={form_problema_central.errors.pregunta_formulacion_problema}
                                         value={form_problema_central.data.pregunta_formulacion_problema}
                                         onChange={(e) => form_problema_central.setData('pregunta_formulacion_problema', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
                                         onBlur={() => syncColumnLong('pregunta_formulacion_problema', form_problema_central)}
                                         required
                                     />
@@ -158,11 +155,7 @@ const ArbolProblemasComponent = ({ auth, convocatoria, proyecto, fase_evaluacion
                                         value={form_problema_central.data.justificacion_problema}
                                         onChange={(e) => form_problema_central.setData('justificacion_problema', e.target.value)}
                                         onBlur={() => syncColumnLong('justificacion_problema', form_problema_central)}
-                                        disabled={
-                                            (!checkRole(auth_user, [1, 5]) && proyecto.tipo_formulario_convocatoria_id == 4) ||
-                                            (!checkRole(auth_user, [1, 17]) && proyecto.tipo_formulario_convocatoria_id == 17) ||
-                                            (!checkRole(auth_user, [1, 17]) && proyecto.tipo_formulario_convocatoria_id == 10)
-                                        }
+                                        disabled={!proyecto?.allowed?.to_update}
                                         required
                                     />
                                 </div>
@@ -180,12 +173,8 @@ const ArbolProblemasComponent = ({ auth, convocatoria, proyecto, fase_evaluacion
                                     error={form_problema_central.errors.problema_central}
                                     value={form_problema_central.data.problema_central}
                                     onChange={(e) => form_problema_central.setData('problema_central', e.target.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     onBlur={() => syncColumnLong('problema_central', form_problema_central)}
-                                    disabled={
-                                        (!checkRole(auth_user, [1, 5]) && proyecto.tipo_formulario_convocatoria_id == 4) ||
-                                        (!checkRole(auth_user, [1, 17]) && proyecto.tipo_formulario_convocatoria_id == 17) ||
-                                        (!checkRole(auth_user, [1, 17]) && proyecto.tipo_formulario_convocatoria_id == 10)
-                                    }
                                     required
                                 />
                             </div>
@@ -217,21 +206,19 @@ const ArbolProblemasComponent = ({ auth, convocatoria, proyecto, fase_evaluacion
                                     error={form_problema_central.errors.objetivo_general}
                                     value={form_problema_central.data.objetivo_general}
                                     onChange={(e) => form_problema_central.setData('objetivo_general', e.target.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     onBlur={() => syncColumnLong('objetivo_general', form_problema_central)}
-                                    disabled={
-                                        (!checkRole(auth_user, [1, 5]) && proyecto.tipo_formulario_convocatoria_id == 4) ||
-                                        (!checkRole(auth_user, [1, 17]) && proyecto.tipo_formulario_convocatoria_id == 17) ||
-                                        (!checkRole(auth_user, [1, 17]) && proyecto.tipo_formulario_convocatoria_id == 10)
-                                    }
                                     required
                                 />
                             </div>
                         </fieldset>
 
                         {proyecto.allowed.to_update && (
-                            <PrimaryButton disabled={form_problema_central.processing} className="my-10" type="submit" form="problema-central">
-                                Guardar información sobre el problema central
-                            </PrimaryButton>
+                            <div className="flex items-center justify-end py-4">
+                                <PrimaryButton disabled={form_problema_central.processing} className="my-10" type="submit" form="problema-central">
+                                    Guardar información sobre la identificación del problema
+                                </PrimaryButton>
+                            </div>
                         )}
                     </form>
                 </div>

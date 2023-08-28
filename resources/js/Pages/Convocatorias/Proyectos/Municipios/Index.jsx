@@ -89,16 +89,14 @@ const Municipios = ({
                                 <MenuMui text={<MoreVertIcon />}>
                                     {municipio_a_visitar.id !== municipio_to_destroy ? (
                                         <div>
-                                            <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('PUT'), setMunicipio(municipio_a_visitar))}
-                                                disabled={!proyecto.allowed.to_update}
-                                                className={!proyecto.allowed.to_update ? 'hidden' : ''}>
-                                                Editar
+                                            <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setMunicipio(municipio_a_visitar))} disabled={!proyecto?.allowed?.to_view}>
+                                                {proyecto?.allowed?.to_view && !proyecto?.allowed?.to_update ? 'Ver información' : 'Editar'}
                                             </MenuItem>
                                             <MenuItem
                                                 onClick={() => {
                                                     setMunicipioToDestroy(municipio_a_visitar.id)
-                                                }}>
+                                                }}
+                                                disabled={!proyecto?.allowed?.to_update}>
                                                 Eliminar
                                             </MenuItem>
                                         </div>
@@ -178,7 +176,7 @@ const Municipios = ({
                                     )
                                 )}
                                 label="¿Cuál es el concepto de los viáticos?"
-                                disabled={proyecto.allowed.to_update ? false : true}
+                                disabled={!proyecto.allowed.to_update}
                                 className="my-10"
                                 required
                             />

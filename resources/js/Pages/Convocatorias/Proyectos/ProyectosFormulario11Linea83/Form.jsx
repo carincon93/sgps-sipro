@@ -12,7 +12,7 @@ import { router, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useEffect } from 'react'
 
-const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_formulario_11_linea_83, centros_formacion, roles_sennova, evaluacion, ...props }) => {
+const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_linea_83, centros_formacion, roles_sennova, evaluacion, ...props }) => {
     const form = useForm({
         centro_formacion_id: proyecto_formulario_11_linea_83?.proyecto.centro_formacion_id ?? '',
         fecha_inicio: proyecto_formulario_11_linea_83?.fecha_inicio ?? '',
@@ -109,7 +109,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                         className={`bg-transparent block border-0 mt-1 outline-none text-4xl text-center w-full`}
                         value={form.data.titulo}
                         onChange={(e) => form.setData('titulo', e.target.value)}
-                        disabled={evaluacion ? true : false}
+                        disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
                         required
                         onBlur={() => syncColumnLong('titulo', form)}
                     />
@@ -118,14 +118,14 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                 {method == 'PUT' && (
                     <>
                         <Grid item md={6}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
+                            <Label required labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
                         </Grid>
                         <Grid item md={6}>
                             Asistencia técnica o extensionismo tecnológico
                         </Grid>
 
                         <Grid item md={6}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="centro_formacion_id" value="Centro de formación" />
+                            <Label required labelFor="centro_formacion_id" value="Centro de formación" />
                             <small>
                                 <strong>Nota:</strong> El Centro de Formación relacionado es el ejecutor del proyecto
                             </small>
@@ -267,7 +267,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                 {method == 'PUT' && (
                     <>
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="resumen" value="Resumen del proyecto" />
+                            <Label required labelFor="resumen" value="Resumen del proyecto" />
                             <AlertMui>
                                 Información necesaria para darle al lector una idea precisa de la pertinencia y calidad del proyecto. Explique en qué consiste el problema o necesidad, cómo cree que lo
                                 resolverá, cuáles son las razones que justifican su ejecución y las herramientas que se utilizarán en el desarrollo del proyecto.
@@ -283,7 +283,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                             />
                         </Grid>
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="antecedentes" value="Antecedentes" />
+                            <Label required labelFor="antecedentes" value="Antecedentes" />
                             <AlertMui>
                                 Presenta las investigaciones, innovaciones o desarrollos tecnológicos que se han realizado a nivel internacional, nacional, departamental o municipal en el marco de la
                                 temática de la propuesta del proyecto; que muestran la pertinencia del proyecto, citar toda la información consignada utilizando normas APA última edición. De igual
@@ -302,7 +302,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
                                 labelFor="retos_prioridades"
                                 value="Descripción de retos y prioridades locales y regionales en los cuales ET tiene impacto"
                             />
@@ -319,7 +319,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
                                 labelFor="contribucion_agenda_regional_competitividad"
                                 value="Articulación y contribución de las acciones planteadas por ET en las  Agendas de la Comisión Regional de Competitividad de los Departamentoss impactados"
                             />
@@ -336,7 +336,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
                                 labelFor="aportes_conpes"
                                 value="Aportes de ET a los Conpes en los cuales tiene compromisos y acciones a desarrollar"
                             />
@@ -353,7 +353,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
                                 labelFor="estado_actual_ecosistema_ctel"
                                 value="Describir el estado actual del Ecosistema Territorial de CTeI en el Departamento y las oportunidades que se ofrecen desde ET  para su fortalecimiento."
                             />
@@ -370,7 +370,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
                                 labelFor="logros_implementacion_ctel"
                                 value={`Describa los principales logros de la implementación de la línea ET en el ${convocatoria.year - 1}`}
                             />
@@ -387,7 +387,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
                                 labelFor="justificacion_pertinencia_territorio"
                                 value="Justificación y pertinencia en el territorio y en el sistema de productividad regional"
                             />
@@ -402,7 +402,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                             />
                         </Grid>
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="marco_conceptual" value="Marco conceptual y metodológico de la Lïnea de Extensionismo Tecnológico" />
+                            <Label required labelFor="marco_conceptual" value="Marco conceptual y metodológico de la Lïnea de Extensionismo Tecnológico" />
 
                             <Textarea
                                 id="marco_conceptual"
@@ -419,7 +419,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
                                 labelFor="aporta_fortalecimiento_cadenas_agricolas"
                                 value="¿El proyecto aporta al fortaleciminto de  Proyectos de I + D + i tendientes a aumentar la producción en cadenas agrícolas priorizadas para el Derecho Humano a la Alimentación?"
                             />
@@ -436,7 +436,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
                                 labelFor="estrategias_generacion_electrica"
                                 value="Plantee como las estrategias de la Línea de Extensionismo Tecnológico contribuyen al fortalecimiento de Proyectos de I + D + i tendientes generación eléctrica a partir de fuentes no convencionales de energía renovable."
                             />
@@ -453,7 +453,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
                                 labelFor="estrategias_fortalecimiento_micronegocios"
                                 value="Plantee como las estrategias de la Línea de Extensionismo Tecnológico contribuyen al fortalecimiento de Proyectos tendientes a aumentar los ingresos de los micronegocios de la economía popular"
                             />
@@ -470,7 +470,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
                                 labelFor="estrategias_articulacion_campesinos"
                                 value="Plantee como las estrategias de la Línea de Extensionismo Tecnológico contribuyen al fortalecimiento de Proyectos de I + D + i tendientes a generar y articular mecanismos de atención diferencial, integral e incluyente, para los campesinos, de acuerdo con sus particularidades sociales, culturales, económicas y territoriales, que faciliten el acceso a los programas de formación y demás servicios de la Entidad."
                             />
@@ -485,7 +485,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                             />
                         </Grid>
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} labelFor="bibliografia" value="Bibliografía" />
+                            <Label required labelFor="bibliografia" value="Bibliografía" />
                             <AlertMui>
                                 Lista de las referencias utilizadas en cada apartado del proyecto. Utilizar normas APA- Última edición (http://biblioteca.sena.edu.co/images/PDF/InstructivoAPA.pdf).
                             </AlertMui>
@@ -497,7 +497,7 @@ const Form = ({ is_super_admin, auth_user, method = '', convocatoria, proyecto_f
                                 onChange={(e) => form.setData('bibliografia', e.target.value)}
                                 required
                                 onBlur={() => syncColumnLong('bibliografia', form)}
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
                             />
                         </Grid>
                     </>

@@ -1,4 +1,4 @@
- import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import ButtonMui from '@/Components/Button'
 import MenuMui from '@/Components/Menu'
@@ -16,13 +16,13 @@ import { router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 
-const Index = ({ auth, usuarios, dinamizadores_sennova, allowed_to_create }) => {
+const Index = ({ auth, usuarios, dinamizadores_sennova, subdirectores_centro, allowed_to_create }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
     const [user_to_destroy, setUserToDestroy] = useState(null)
 
-    const tabs = checkRole(auth_user, [1, 20]) ? [{ label: 'Usuarios' }, { label: 'Dinamizadores SENNOVA' }] : [{ label: 'Usuarios' }]
+    const tabs = checkRole(auth_user, [1, 20]) ? [{ label: 'Usuarios' }, { label: 'Dinamizadores SENNOVA' }, { label: 'Subdirectores de centro' }] : [{ label: 'Usuarios' }]
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Usuarios</h2>}>
             <Grid item md={12}>
@@ -144,6 +144,67 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, allowed_to_create }) => 
                                                         e.stopPropagation()
                                                         if (checkRole(auth_user, [1, 20, 18, 19, 5, 17])) {
                                                             router.delete(route('users.destroy', [dinamizador_sennova.id]), {
+                                                                preserveScroll: true,
+                                                            })
+                                                        }
+                                                    }}>
+                                                    Confirmar
+                                                </MenuItem>
+                                            </div>
+                                        )}
+                                    </MenuMui>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableMui>
+                </Grid>
+
+                <Grid item md={12}>
+                    <TableMui className="mt-20" rows={['Nombre', 'Centro de formación al que pertenece', 'Subdirector/a del centro de formación:', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                        {subdirectores_centro.map((subdirector_centro, i) => (
+                            <TableRow key={i}>
+                                <TableCell>{subdirector_centro.nombre}</TableCell>
+                                <TableCell>
+                                    {subdirector_centro.centro_formacion?.nombre} - Código: {subdirector_centro.centro_formacion?.codigo}
+                                </TableCell>
+                                <TableCell>
+                                    {subdirector_centro.subdirector_centro_formacion ? (
+                                        subdirector_centro.subdirector_centro_formacion?.nombre + ' - Código: ' + subdirector_centro.subdirector_centro_formacion?.codigo
+                                    ) : (
+                                        <span className="text-red-500 bg-red-100 p-2 block">Tiene rol Subdirector/a de Centro de Formación pero no tiene ningún Centro relacionado</span>
+                                    )}
+                                </TableCell>
+
+                                <TableCell>
+                                    <MenuMui text={<MoreVertIcon />}>
+                                        {subdirector_centro.id !== user_to_destroy ? (
+                                            <div>
+                                                <MenuItem onClick={() => router.visit(route('users.edit', [subdirector_centro.id]))} disabled={!checkRole(auth_user, [1, 20])}>
+                                                    Editar
+                                                </MenuItem>
+
+                                                <MenuItem
+                                                    onClick={() => {
+                                                        setUserToDestroy(subdirector_centro.id)
+                                                    }}
+                                                    disabled={!checkRole(auth_user, [1, 20, 18, 19, 5, 17])}>
+                                                    Eliminar
+                                                </MenuItem>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <MenuItem
+                                                    onClick={(e) => {
+                                                        setUserToDestroy(null)
+                                                    }}>
+                                                    Cancelar
+                                                </MenuItem>
+                                                <MenuItem
+                                                    sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        if (checkRole(auth_user, [1, 20, 18, 19, 5, 17])) {
+                                                            router.delete(route('users.destroy', [subdirector_centro.id]), {
                                                                 preserveScroll: true,
                                                             })
                                                         }

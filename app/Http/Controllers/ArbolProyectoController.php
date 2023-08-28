@@ -94,25 +94,27 @@ class ArbolProyectoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
-
         $this->generarArboles($proyecto);
 
+        $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
+
+        $proyecto->participantes;
+
         $proyecto_form_fields = [
-            'proyectoFormulario7Linea23' => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general'],
-            'proyectoFormulario9Linea23' => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general'],
-            'proyectoFormulario1Linea65' => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general', 'tipo_proyecto'],
-            'proyectoFormulario13Linea65' => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general', 'tipo_proyecto'],
-            'proyectoFormulario15Linea65' => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general', 'tipo_proyecto'],
-            'proyectoFormulario16Linea65' => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general', 'tipo_proyecto'],
-            'proyectoFormulario8Linea66' => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general'],
-            'proyectoFormulario12Linea68' => ['objetivo_general', 'problema_central', 'pregunta_formulacion_problema', 'identificacion_problema', 'justificacion_problema'],
-            'proyectoFormulario5Linea69' => ['justificacion_problema', 'identificacion_problema', 'problema_central', 'objetivo_general', 'proyecto_base'],
-            'proyectoFormulario10Linea69' => ['justificacion_problema', 'identificacion_problema', 'problema_central', 'objetivo_general', 'proyecto_base'],
-            'proyectoFormulario17Linea69' => ['justificacion_problema', 'identificacion_problema', 'problema_central', 'objetivo_general', 'proyecto_base'],
-            'proyectoFormulario4Linea70' => ['identificacion_problema', 'problema_central', 'objetivo_general', 'proyecto_base'],
-            'proyectoFormulario6Linea82' => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general'],
-            'proyectoFormulario11Linea83' => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general'],
+            'proyectoFormulario7Linea23'    => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general'],
+            'proyectoFormulario9Linea23'    => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general'],
+            'proyectoFormulario1Linea65'    => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general', 'tipo_proyecto'],
+            'proyectoFormulario13Linea65'   => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general', 'tipo_proyecto'],
+            'proyectoFormulario15Linea65'   => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general', 'tipo_proyecto'],
+            'proyectoFormulario16Linea65'   => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general', 'tipo_proyecto'],
+            'proyectoFormulario8Linea66'    => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general'],
+            'proyectoFormulario12Linea68'   => ['objetivo_general', 'problema_central', 'pregunta_formulacion_problema', 'identificacion_problema', 'justificacion_problema'],
+            'proyectoFormulario5Linea69'    => ['justificacion_problema', 'identificacion_problema', 'problema_central', 'objetivo_general', 'proyecto_base'],
+            'proyectoFormulario10Linea69'   => ['justificacion_problema', 'identificacion_problema', 'problema_central', 'objetivo_general', 'proyecto_base'],
+            'proyectoFormulario17Linea69'   => ['justificacion_problema', 'identificacion_problema', 'problema_central', 'objetivo_general', 'proyecto_base'],
+            'proyectoFormulario4Linea70'    => ['identificacion_problema', 'problema_central', 'objetivo_general', 'proyecto_base'],
+            'proyectoFormulario6Linea82'    => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general'],
+            'proyectoFormulario11Linea83'   => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general'],
         ];
 
         foreach ($proyecto_form_fields as $form_method => $fields) {
@@ -126,7 +128,7 @@ class ArbolProyectoController extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/ArbolesProyecto/ArbolProblemas', [
             'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
-            'proyecto'          => $proyecto->only('id', 'tipo_formulario_convocatoria_id', 'precio_proyecto', 'identificacion_problema', 'problema_central', 'justificacion_problema', 'pregunta_formulacion_problema', 'objetivo_general', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'all_files', 'allowed', 'tipo_proyecto', 'proyecto_base'),
+            'proyecto'          => $proyecto,
             'evaluacion'        => Evaluacion::find(request()->evaluacion_id),
         ]);
     }
@@ -521,6 +523,8 @@ class ArbolProyectoController extends Controller
 
         $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
 
+        $proyecto->participantes;
+
         $tipos_impacto          = json_decode(Storage::get('json/tipos-impacto.json'), true);
 
         $efectos_directos       = $proyecto->efectosDirectos()->with('efectosIndirectos.impacto', 'resultado.objetivoEspecifico')->get();
@@ -528,7 +532,7 @@ class ArbolProyectoController extends Controller
         $causas_directas        = $proyecto->causasDirectas()->with('causasIndirectas.actividad', 'objetivoEspecifico')->get();
         $objetivo_especifico    = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
 
-        $objetivos_especificos = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
+        $objetivos_especificos  = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
 
         $arr_objetivos_especificos = collect([]);
         $objetivos_especificos->map(function ($objetivo_especifico) use ($arr_objetivos_especificos) {
@@ -537,7 +541,7 @@ class ArbolProyectoController extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/ArbolesProyecto/ArbolObjetivos', [
             'convocatoria'          =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
-            'proyecto'              =>  $proyecto->only('id', 'tipo_formulario_convocatoria_id', 'precio_proyecto', 'fecha_inicio', 'fecha_finalizacion', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'resultados', 'tipo_proyecto', 'proyecto_base'),
+            'proyecto'              =>  $proyecto,
             'evaluacion'            =>  Evaluacion::find(request()->evaluacion_id),
             'efectos_directos'      =>  $efectos_directos,
             'causas_directas'       =>  $causas_directas,

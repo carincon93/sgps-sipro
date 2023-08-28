@@ -127,7 +127,7 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
                                                 : proyecto.tipo_formulario_convocatoria_id == 8 || proyecto.tipo_formulario_convocatoria_id == 6
                                                 ? '0 a 9'
                                                 : ''}
-                                        </strong>{' '}
+                                        </strong>
                                         El presupuesto esta sobre o subdimensionado y / o no está directamente relacionado con el desarrollo de las actividades para el logro de los objetivos
                                         propuestos. Los soportes que evidencian el costo del bien a adquirir no son pertinentes y tampoco confiables
                                     </li>
@@ -138,7 +138,7 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
                                                 : proyecto.tipo_formulario_convocatoria_id == 8 || proyecto.tipo_formulario_convocatoria_id == 6
                                                 ? '10 a 18'
                                                 : ''}
-                                        </strong>{' '}
+                                        </strong>
                                         El presupuesto es adecuado, pero es susceptible de ajustes frente a las las actividades a desarrollar que darán cumplimiento a los objetivos propuestos. Los
                                         soportes que evidencian el costo del bien a adquirir son pertinentes y confiables.
                                     </li>
@@ -149,7 +149,7 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
                                                 : proyecto.tipo_formulario_convocatoria_id == 8 || proyecto.tipo_formulario_convocatoria_id == 6
                                                 ? '19 a 20'
                                                 : ''}
-                                        </strong>{' '}
+                                        </strong>
                                         El presupuesto está bien definido y se relaciona directamente con el desarrollo de las actividades y los entregables del proyecto. Los soportes que evidencian
                                         el costo del bien a adquirir son pertinentes y confiables.
                                     </li>

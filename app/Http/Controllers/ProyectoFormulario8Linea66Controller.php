@@ -178,7 +178,7 @@ class ProyectoFormulario8Linea66Controller extends Controller
 
         $proyecto_formulario_8_linea_66->proyecto->centroFormacion;
         $proyecto_formulario_8_linea_66->proyecto->programasFormacion;
-        $proyecto_formulario_8_linea_66->proyecto->programasFormacion;
+        $proyecto_formulario_8_linea_66->proyecto->participantes;
         $proyecto_formulario_8_linea_66->proyecto->municipios;
         $proyecto_formulario_8_linea_66->proyecto->tecnoacademiaLineasTecnoacademia;
 

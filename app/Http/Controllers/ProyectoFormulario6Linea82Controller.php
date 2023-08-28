@@ -170,7 +170,7 @@ class ProyectoFormulario6Linea82Controller extends Controller
 
         $proyecto_formulario_6_linea_82->proyecto->centroFormacion;
         $proyecto_formulario_6_linea_82->proyecto->programasFormacion;
-        $proyecto_formulario_6_linea_82->proyecto->programasFormacion;
+        $proyecto_formulario_6_linea_82->proyecto->participantes;
         $proyecto_formulario_6_linea_82->proyecto->municipios;
         $proyecto_formulario_6_linea_82->proyecto->tecnoacademiaLineasTecnoacademia;
 

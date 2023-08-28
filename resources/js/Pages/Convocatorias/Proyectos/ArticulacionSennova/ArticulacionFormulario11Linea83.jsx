@@ -60,6 +60,7 @@ const ArticulacionFormulario11Linea83 = ({ convocatoria, proyecto, grupos_invest
                         error={form_articulacion_proyectos_linea_83.errors.impacto_centros_formacion}
                         value={form_articulacion_proyectos_linea_83.data.impacto_centros_formacion}
                         onChange={(e) => form_articulacion_proyectos_linea_83.setData('impacto_centros_formacion', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('impacto_centros_formacion', form_articulacion_proyectos_linea_83)}
                         required
                     />
@@ -77,6 +78,7 @@ const ArticulacionFormulario11Linea83 = ({ convocatoria, proyecto, grupos_invest
                         error={form_articulacion_proyectos_linea_83.errors.articulacion_semilleros_grupos_investigacion}
                         value={form_articulacion_proyectos_linea_83.data.articulacion_semilleros_grupos_investigacion}
                         onChange={(e) => form_articulacion_proyectos_linea_83.setData('articulacion_semilleros_grupos_investigacion', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('articulacion_semilleros_grupos_investigacion', form_articulacion_proyectos_linea_83)}
                         required
                     />
@@ -94,6 +96,7 @@ const ArticulacionFormulario11Linea83 = ({ convocatoria, proyecto, grupos_invest
                         error={form_articulacion_proyectos_linea_83.errors.articulacion_linea_68}
                         value={form_articulacion_proyectos_linea_83.data.articulacion_linea_68}
                         onChange={(e) => form_articulacion_proyectos_linea_83.setData('articulacion_linea_68', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('articulacion_linea_68', form_articulacion_proyectos_linea_83)}
                         required
                     />
@@ -111,6 +114,7 @@ const ArticulacionFormulario11Linea83 = ({ convocatoria, proyecto, grupos_invest
                         error={form_articulacion_proyectos_linea_83.errors.articulacion_linea_69_y_hubs}
                         value={form_articulacion_proyectos_linea_83.data.articulacion_linea_69_y_hubs}
                         onChange={(e) => form_articulacion_proyectos_linea_83.setData('articulacion_linea_69_y_hubs', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('articulacion_linea_69_y_hubs', form_articulacion_proyectos_linea_83)}
                         required
                     />
@@ -128,6 +132,7 @@ const ArticulacionFormulario11Linea83 = ({ convocatoria, proyecto, grupos_invest
                         error={form_articulacion_proyectos_linea_83.errors.articulacion_centros_desarrollo_empresarial}
                         value={form_articulacion_proyectos_linea_83.data.articulacion_centros_desarrollo_empresarial}
                         onChange={(e) => form_articulacion_proyectos_linea_83.setData('articulacion_centros_desarrollo_empresarial', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('articulacion_centros_desarrollo_empresarial', form_articulacion_proyectos_linea_83)}
                         required
                     />
@@ -145,6 +150,7 @@ const ArticulacionFormulario11Linea83 = ({ convocatoria, proyecto, grupos_invest
                         error={form_articulacion_proyectos_linea_83.errors.contribucion_formacion_regional_nacional}
                         value={form_articulacion_proyectos_linea_83.data.contribucion_formacion_regional_nacional}
                         onChange={(e) => form_articulacion_proyectos_linea_83.setData('contribucion_formacion_regional_nacional', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('contribucion_formacion_regional_nacional', form_articulacion_proyectos_linea_83)}
                         required
                     />
@@ -162,6 +168,7 @@ const ArticulacionFormulario11Linea83 = ({ convocatoria, proyecto, grupos_invest
                         error={form_articulacion_proyectos_linea_83.errors.proyeccion_capacidades_tecnologicas_empresas}
                         value={form_articulacion_proyectos_linea_83.data.proyeccion_capacidades_tecnologicas_empresas}
                         onChange={(e) => form_articulacion_proyectos_linea_83.setData('proyeccion_capacidades_tecnologicas_empresas', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('proyeccion_capacidades_tecnologicas_empresas', form_articulacion_proyectos_linea_83)}
                         required
                     />

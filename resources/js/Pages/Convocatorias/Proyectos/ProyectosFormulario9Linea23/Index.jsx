@@ -119,21 +119,23 @@ const Index = ({ auth, convocatoria, proyectos_formulario_9_linea_23, allowed_to
                                                 <MenuItem
                                                     onClick={() => router.visit(route('convocatorias.proyectos-formulario-9-linea-23.edit', [convocatoria.id, id]))}
                                                     disabled={!proyecto?.allowed?.to_view}>
-                                                    Editar
+                                                    {proyecto?.allowed?.to_view && !proyecto?.allowed?.to_update ? 'Ver información' : 'Editar'}
                                                 </MenuItem>
                                                 {proyecto.evaluaciones.map((evaluacion, i) => (
                                                     <MenuItem
                                                         key={i}
                                                         onClick={() =>
                                                             router.visit(route('convocatorias.proyectos-formulario-9-linea-23.edit', [convocatoria.id, id, { evaluacion_id: evaluacion?.id }]))
-                                                        }>
+                                                        }
+                                                        isabled={!is_super_admin}>
                                                         Evaluacion #{evaluacion.id}
                                                     </MenuItem>
                                                 ))}
                                                 <MenuItem
                                                     onClick={() => {
                                                         setProyectoFormulario9Linea23ToDestroy(proyecto.id)
-                                                    }}>
+                                                    }}
+                                                    disabled={!proyecto?.allowed?.to_update}>
                                                     Eliminar
                                                 </MenuItem>
                                             </div>

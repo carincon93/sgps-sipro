@@ -218,17 +218,15 @@ const RubrosPresupuestales = ({
                                 <MenuMui text={<MoreVertIcon />}>
                                     {presupuesto.id !== rubro_presupuestal_to_destroy ? (
                                         <div>
-                                            <MenuItem
-                                                onClick={() => (setDialogStatus(true), setMethod('PUT'), setRubroPresupuestal(presupuesto))}
-                                                disabled={!proyecto.allowed.to_update}
-                                                className={!proyecto.allowed.to_update ? 'hidden' : ''}>
-                                                Editar
+                                            <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setRubroPresupuestal(presupuesto))} disabled={!proyecto?.allowed?.to_view}>
+                                                {proyecto?.allowed?.to_view && !proyecto?.allowed?.to_update ? 'Ver información' : 'Editar'}
                                             </MenuItem>
                                             {evaluacion && <MenuItem onClick={() => (setPresupuestoAEvaluar(presupuesto), setEvaluacionDialogStatus(true))}>Evaluar</MenuItem>}
                                             <MenuItem
                                                 onClick={() => {
                                                     setRubroPresupuestalToDestroy(presupuesto.id)
-                                                }}>
+                                                }}
+                                                disabled={!proyecto?.allowed?.to_update}>
                                                 Eliminar
                                             </MenuItem>
                                         </div>

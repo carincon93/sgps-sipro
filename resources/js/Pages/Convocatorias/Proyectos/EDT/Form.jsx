@@ -46,7 +46,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
             <Grid item md={8}>
                 <Paper className="p-8">
                     <form onSubmit={submit}>
-                        <fieldset disabled={proyecto.allowed.to_update ? false : true}>
+                        <fieldset>
                             <div>
                                 <TextInput
                                     id="nombre_evento"
@@ -54,6 +54,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
                                     error={form.errors.nombre_evento}
                                     value={form.data.nombre_evento}
                                     onChange={(e) => form.setData('nombre_evento', e.target.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     label="Nombre del evento"
                                     required
                                 />
@@ -66,6 +67,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
                                     error={form.errors.organizador}
                                     value={form.data.organizador}
                                     onChange={(e) => form.setData('organizador', e.target.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     label="Organizador"
                                     required
                                 />
@@ -79,6 +81,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
                                     className="w-full"
                                     value={form.data.fecha_evento}
                                     onChange={(e) => form.setData('fecha_evento', e.target.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     error={form.errors.fecha_evento}
                                     required
                                 />
@@ -90,6 +93,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
                                     options={tiposEvento}
                                     selectedValue={form.data.tipo_evento}
                                     onChange={(event, newValue) => form.setData('tipo_evento', newValue.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     error={form.errors.tipo_evento}
                                     label="Tipo de evento"
                                     required
@@ -102,6 +106,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
                                     error={form.errors.descripcion_evento}
                                     value={form.data.descripcion_evento}
                                     onChange={(e) => form.setData('descripcion_evento', e.target.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     label="Descripción del evento"
                                     required
                                 />
@@ -113,6 +118,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
                                     error={form.errors.descripcion_participacion_entidad}
                                     value={form.data.descripcion_participacion_entidad}
                                     onChange={(e) => form.setData('descripcion_participacion_entidad', e.target.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     label="Descripción de participación de la entidad"
                                     required
                                 />
@@ -125,6 +131,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
                                     error={form.errors.publico_objetivo}
                                     value={form.data.publico_objetivo}
                                     onChange={(e) => form.setData('publico_objetivo', e.target.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     label="Público objetivo"
                                     required
                                 />
@@ -138,6 +145,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
                                     error={form.errors.numero_asistentes}
                                     value={form.data.numero_asistentes}
                                     onChange={(e) => form.setData('numero_asistentes', e.target.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     label="Número de asistentes"
                                     required
                                 />
@@ -150,6 +158,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
                                     error={form.errors.estrategia_comunicacion}
                                     value={form.data.estrategia_comunicacion}
                                     onChange={(e) => form.setData('estrategia_comunicacion', e.target.value)}
+                                    disabled={!proyecto?.allowed?.to_update}
                                     label="Estrategia de comunicación"
                                     required
                                 />
@@ -160,17 +169,15 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
 
                         <div className="flex items-center justify-between mt-14 py-4 ">
                             {proyecto.allowed.to_update ? (
-                                <>
-                                    <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
-                                        {method == 'POST' ? 'Agregar' : 'Modificar'} EDT
-                                    </PrimaryButton>
-                                    <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
-                                        Cancelar
-                                    </ButtonMui>
-                                </>
+                                <PrimaryButton disabled={form.processing} className="mr-2 ml-auto" type="submit">
+                                    {method == 'POST' ? 'Agregar' : 'Modificar'} EDT
+                                </PrimaryButton>
                             ) : (
                                 <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
                             )}
+                            <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
+                                Cancelar
+                            </ButtonMui>
                         </div>
                     </form>
                 </Paper>

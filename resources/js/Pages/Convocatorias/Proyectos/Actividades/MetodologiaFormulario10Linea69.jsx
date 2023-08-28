@@ -71,6 +71,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.metodologia}
                         value={form_metodologia_proyecto_formulario_10_linea_69.data.metodologia}
                         onChange={(e) => form_metodologia_proyecto_formulario_10_linea_69.setData('metodologia', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('metodologia', form_metodologia_proyecto_formulario_10_linea_69)}
                         required
                     />
@@ -88,6 +89,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.metodologia_local}
                         value={form_metodologia_proyecto_formulario_10_linea_69.data.metodologia_local}
                         onChange={(e) => form_metodologia_proyecto_formulario_10_linea_69.setData('metodologia_local', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('metodologia_local', form_metodologia_proyecto_formulario_10_linea_69)}
                         required
                     />
@@ -107,6 +109,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                                 areas_cualificacion_mnc: selected_values,
                             }))
                         }}
+                        disabled={!proyecto?.allowed?.to_update}
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.areas_cualificacion_mnc}
                         label="Seleccione una o varias opciones"
                         required
@@ -133,6 +136,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                                 talentos_otros_departamentos: selected_values,
                             }))
                         }}
+                        disabled={!proyecto?.allowed?.to_update}
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.talentos_otros_departamentos}
                         label="Seleccione una o varias opciones"
                         required
@@ -147,6 +151,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.estrategia_atencion_talentos}
                         value={form_metodologia_proyecto_formulario_10_linea_69.data.estrategia_atencion_talentos}
                         onChange={(e) => form_metodologia_proyecto_formulario_10_linea_69.setData('estrategia_atencion_talentos', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('estrategia_atencion_talentos', form_metodologia_proyecto_formulario_10_linea_69)}
                         required
                     />
@@ -164,6 +169,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.acciones_mejoramiento_idic}
                         value={form_metodologia_proyecto_formulario_10_linea_69.data.acciones_mejoramiento_idic}
                         onChange={(e) => form_metodologia_proyecto_formulario_10_linea_69.setData('acciones_mejoramiento_idic', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('acciones_mejoramiento_idic', form_metodologia_proyecto_formulario_10_linea_69)}
                         required
                     />
@@ -190,6 +196,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                                 municipios_beneficiados_vigencia_anterior: selected_values,
                             }))
                         }}
+                        disabled={!proyecto?.allowed?.to_update}
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.municipios_beneficiados_vigencia_anterior}
                         label="Seleccione una o varias opciones"
                         required
@@ -209,6 +216,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.beneficio_municipios_vigencia_anterior}
                         value={form_metodologia_proyecto_formulario_10_linea_69.data.beneficio_municipios_vigencia_anterior}
                         onChange={(e) => form_metodologia_proyecto_formulario_10_linea_69.setData('beneficio_municipios_vigencia_anterior', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('beneficio_municipios_vigencia_anterior', form_metodologia_proyecto_formulario_10_linea_69)}
                         required
                     />
@@ -231,6 +239,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                                 municipios_beneficiados_vigencia_actual: selected_values,
                             }))
                         }}
+                        disabled={!proyecto?.allowed?.to_update}
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.municipios_beneficiados_vigencia_actual}
                         label="Seleccione una o varias opciones"
                         required
@@ -250,6 +259,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.estrategia_articulacion_pbts}
                         value={form_metodologia_proyecto_formulario_10_linea_69.data.estrategia_articulacion_pbts}
                         onChange={(e) => form_metodologia_proyecto_formulario_10_linea_69.setData('estrategia_articulacion_pbts', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('estrategia_articulacion_pbts', form_metodologia_proyecto_formulario_10_linea_69)}
                         required
                     />
@@ -265,6 +275,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.numero_empresas_atendidas}
                         value={form_metodologia_proyecto_formulario_10_linea_69.data.numero_empresas_atendidas}
                         onChange={(e) => form_metodologia_proyecto_formulario_10_linea_69.setData('numero_empresas_atendidas', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('numero_empresas_atendidas', form_metodologia_proyecto_formulario_10_linea_69)}
                     />
                 </Grid>
@@ -284,6 +295,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.analisis_impacto_sector_empresarial}
                         value={form_metodologia_proyecto_formulario_10_linea_69.data.analisis_impacto_sector_empresarial}
                         onChange={(e) => form_metodologia_proyecto_formulario_10_linea_69.setData('analisis_impacto_sector_empresarial', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('analisis_impacto_sector_empresarial', form_metodologia_proyecto_formulario_10_linea_69)}
                         required
                     />
@@ -299,6 +311,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.numero_emprendedores_atendidos}
                         value={form_metodologia_proyecto_formulario_10_linea_69.data.numero_emprendedores_atendidos}
                         onChange={(e) => form_metodologia_proyecto_formulario_10_linea_69.setData('numero_emprendedores_atendidos', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('numero_emprendedores_atendidos', form_metodologia_proyecto_formulario_10_linea_69)}
                     />
                 </Grid>
@@ -318,6 +331,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.analisis_impacto_regional}
                         value={form_metodologia_proyecto_formulario_10_linea_69.data.analisis_impacto_regional}
                         onChange={(e) => form_metodologia_proyecto_formulario_10_linea_69.setData('analisis_impacto_regional', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('analisis_impacto_regional', form_metodologia_proyecto_formulario_10_linea_69)}
                         required
                     />
@@ -336,6 +350,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.gestion_alianzas_estrategicas}
                         value={form_metodologia_proyecto_formulario_10_linea_69.data.gestion_alianzas_estrategicas}
                         onChange={(e) => form_metodologia_proyecto_formulario_10_linea_69.setData('gestion_alianzas_estrategicas', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('gestion_alianzas_estrategicas', form_metodologia_proyecto_formulario_10_linea_69)}
                         required
                     />
@@ -354,6 +369,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.estrategias_visibilizacion}
                         value={form_metodologia_proyecto_formulario_10_linea_69.data.estrategias_visibilizacion}
                         onChange={(e) => form_metodologia_proyecto_formulario_10_linea_69.setData('estrategias_visibilizacion', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('estrategias_visibilizacion', form_metodologia_proyecto_formulario_10_linea_69)}
                         required
                     />
@@ -367,6 +383,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.integracion_plan_tecnologico}
                         value={form_metodologia_proyecto_formulario_10_linea_69.data.integracion_plan_tecnologico}
                         onChange={(e) => form_metodologia_proyecto_formulario_10_linea_69.setData('integracion_plan_tecnologico', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('integracion_plan_tecnologico', form_metodologia_proyecto_formulario_10_linea_69)}
                         required
                     />
@@ -393,6 +410,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.estrategias_productividad_agropecuaria}
                         value={form_metodologia_proyecto_formulario_10_linea_69.data.estrategias_productividad_agropecuaria}
                         onChange={(e) => form_metodologia_proyecto_formulario_10_linea_69.setData('estrategias_productividad_agropecuaria', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('estrategias_productividad_agropecuaria', form_metodologia_proyecto_formulario_10_linea_69)}
                         required
                     />
@@ -411,6 +429,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.acciones_estrategia_campesena}
                         value={form_metodologia_proyecto_formulario_10_linea_69.data.acciones_estrategia_campesena}
                         onChange={(e) => form_metodologia_proyecto_formulario_10_linea_69.setData('acciones_estrategia_campesena', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('acciones_estrategia_campesena', form_metodologia_proyecto_formulario_10_linea_69)}
                         required
                     />
@@ -429,6 +448,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.estrategia_campesena_campesinos}
                         value={form_metodologia_proyecto_formulario_10_linea_69.data.estrategia_campesena_campesinos}
                         onChange={(e) => form_metodologia_proyecto_formulario_10_linea_69.setData('estrategia_campesena_campesinos', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('estrategia_campesena_campesinos', form_metodologia_proyecto_formulario_10_linea_69)}
                         required
                     />
@@ -447,6 +467,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.acciones_fortalecimiento_economia_popular}
                         value={form_metodologia_proyecto_formulario_10_linea_69.data.acciones_fortalecimiento_economia_popular}
                         onChange={(e) => form_metodologia_proyecto_formulario_10_linea_69.setData('acciones_fortalecimiento_economia_popular', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('acciones_fortalecimiento_economia_popular', form_metodologia_proyecto_formulario_10_linea_69)}
                         required
                     />
@@ -465,6 +486,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                         error={form_metodologia_proyecto_formulario_10_linea_69.errors.acciones_fortalecimiento_idi}
                         value={form_metodologia_proyecto_formulario_10_linea_69.data.acciones_fortalecimiento_idi}
                         onChange={(e) => form_metodologia_proyecto_formulario_10_linea_69.setData('acciones_fortalecimiento_idi', e.target.value)}
+                        disabled={!proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('acciones_fortalecimiento_idi', form_metodologia_proyecto_formulario_10_linea_69)}
                         required
                     />

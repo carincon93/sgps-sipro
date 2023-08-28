@@ -16,7 +16,7 @@ import { monthDiff } from '@/Utils'
 import PrimaryButton from '@/Components/PrimaryButton'
 
 const Form = ({
-    is_super_admin,
+    auth_user,
     proyecto_formulario_13_linea_65,
     convocatoria,
     evaluacion,
@@ -315,7 +315,7 @@ const Form = ({
                         error={form.errors.areas_cualificacion_mnc}
                         label="Seleccione una o varias opciones"
                         required
-                        disabled={evaluacion ? true : false}
+                        disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                         onBlur={() => syncColumnLong('areas_cualificacion_mnc', form)}
                     />
                 </Grid>
@@ -515,7 +515,7 @@ const Form = ({
                                         error={form.errors.lineas_estrategicas_sena}
                                         label="Seleccione una o varias opciones"
                                         required
-                                        disabled={evaluacion ? true : false}
+                                        disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                         onBlur={() => syncColumnLong('lineas_estrategicas_sena', form)}
                                     />
 
@@ -635,7 +635,7 @@ const Form = ({
                         <Grid item md={6}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 className="mb-4"
                                 labelFor="relacionado_plan_tecnologico"
                                 value="¿El proyecto se alinea con el plan tecnológico desarrollado por el centro de formación?"
@@ -656,7 +656,7 @@ const Form = ({
                                 }}
                                 placeholder="Seleccione una opción"
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('relacionado_plan_tecnologico', form)}
                             />
                         </Grid>
@@ -664,7 +664,7 @@ const Form = ({
                         <Grid item md={6}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 className="mb-4"
                                 labelFor="relacionado_agendas_competitividad"
                                 value="¿El proyecto se alinea con las Agendas Departamentales de Competitividad e Innovación?"
@@ -684,13 +684,13 @@ const Form = ({
                                 }}
                                 placeholder="Seleccione una opción"
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('relacionado_agendas_competitividad', form)}
                             />
                         </Grid>
 
                         <Grid item md={6}>
-                            <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="relacionado_mesas_sectoriales" value="¿El proyecto se alinea con las Mesas Sectoriales?" />
+                            <Label required className="mb-4" labelFor="relacionado_mesas_sectoriales" value="¿El proyecto se alinea con las Mesas Sectoriales?" />
                         </Grid>
 
                         <Grid item md={6}>
@@ -707,12 +707,12 @@ const Form = ({
                                 }}
                                 placeholder="Seleccione una opción"
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('relacionado_mesas_sectoriales', form)}
                             />
                         </Grid>
 
-                        {form.data.relacionado_mesas_sectoriales == 1 && (is_super_admin || proyecto_formulario_13_linea_65?.proyecto.allowed.to_update) && (
+                        {form.data.relacionado_mesas_sectoriales == 1 && (
                             <>
                                 <Grid item md={6}>
                                     <p className="text-app-600">Por favor seleccione la o las mesas sectoriales con la cual o las cuales se alinea el proyecto</p>
@@ -732,7 +732,7 @@ const Form = ({
                                         error={form.errors.mesa_sectorial_id}
                                         placeholder="Seleccione las mesas sectoriales"
                                         required
-                                        disabled={evaluacion ? true : false}
+                                        disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                         onBlur={() => syncColumnLong('mesa_sectorial_id', form)}
                                     />
                                 </Grid>
@@ -760,7 +760,7 @@ const Form = ({
                                     error={form.errors.lineas_programaticas_sennova}
                                     placeholder="Seleccione las mesas sectoriales"
                                     required
-                                    disabled={evaluacion ? true : false}
+                                    disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                     onBlur={() => syncColumnLong('lineas_programaticas_sennova', form)}
                                 />
                             )}
@@ -783,7 +783,7 @@ const Form = ({
                                 }}
                                 error={form.errors.tecnoparques_relacionados}
                                 label="Seleccione una o varias opciones"
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('tecnoparques_relacionados', form)}
                             />
                         </Grid>
@@ -805,7 +805,7 @@ const Form = ({
                                 }}
                                 error={form.errors.tecnoacademias_relacionadas}
                                 label="Seleccione una o varias opciones"
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('tecnoacademias_relacionadas', form)}
                             />
                         </Grid>
@@ -827,7 +827,7 @@ const Form = ({
                                 }}
                                 error={form.errors.hubs_innovacion_relacionados}
                                 label="Seleccione una o varias opciones"
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('hubs_innovacion_relacionados', form)}
                             />
                         </Grid>
@@ -849,13 +849,13 @@ const Form = ({
                                 }}
                                 error={form.errors.laboratorios_st_relacionados}
                                 label="Seleccione una o varias opciones"
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('laboratorios_st_relacionados', form)}
                             />
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="resumen" value="Resumen del proyecto" />
+                            <Label required className="mb-4" labelFor="resumen" value="Resumen del proyecto" />
                             <AlertMui>
                                 Información necesaria para darle al lector una idea precisa de la pertinencia y calidad del proyecto. Explique en qué consiste el problema o necesidad, cómo cree que lo
                                 resolverá, cuáles son las razones que justifican su ejecución y las herramientas que se utilizarán en el desarrollo del proyecto.
@@ -866,13 +866,13 @@ const Form = ({
                                 value={form.data.resumen}
                                 onChange={(e) => form.setData('resumen', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('resumen', form)}
                             />
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="antecedentes" value="Antecedentes" />
+                            <Label required className="mb-4" labelFor="antecedentes" value="Antecedentes" />
                             <AlertMui>
                                 Presenta las investigaciones, innovaciones o desarrollos tecnológicos que se han realizado a nivel internacional, nacional, departamental o municipal en el marco de la
                                 temática de la propuesta del proyecto; que muestran la pertinencia del proyecto, citar toda la información consignada utilizando normas APA última edición.
@@ -884,13 +884,13 @@ const Form = ({
                                 value={form.data.antecedentes}
                                 onChange={(e) => form.setData('antecedentes', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('antecedentes', form)}
                             />
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="marco_conceptual" value="Marco conceptual" />
+                            <Label required className="mb-4" labelFor="marco_conceptual" value="Marco conceptual" />
                             <AlertMui>Descripción de los aspectos conceptuales y/o teóricos relacionados con el problema. Se hace la claridad que no es un listado de definiciones.</AlertMui>
 
                             <Textarea
@@ -899,7 +899,7 @@ const Form = ({
                                 value={form.data.marco_conceptual}
                                 onChange={(e) => form.setData('marco_conceptual', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('marco_conceptual', form)}
                             />
                         </Grid>
@@ -907,7 +907,7 @@ const Form = ({
                         <Grid item md={6}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 className="mb-4"
                                 labelFor="numero_aprendices"
                                 value="Número de los aprendices que se beneficiarán en la ejecución del proyecto"
@@ -929,13 +929,13 @@ const Form = ({
                                 value={form.data.numero_aprendices}
                                 onChange={(e) => form.setData('numero_aprendices', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('numero_aprendices', form)}
                             />
                         </Grid>
 
                         <Grid item md={6}>
-                            <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="municipios" value="Nombre de los municipios beneficiados" />
+                            <Label required className="mb-4" labelFor="municipios" value="Nombre de los municipios beneficiados" />
                         </Grid>
                         <Grid item md={6}>
                             <SelectMultiple
@@ -954,7 +954,7 @@ const Form = ({
                                 error={form.errors.municipios}
                                 placeholder="Seleccionar municipios"
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('municipios', form)}
                             />
                         </Grid>
@@ -962,7 +962,7 @@ const Form = ({
                         <Grid item md={6}>
                             <Label
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 className="mb-4"
                                 labelFor="programas_formacion"
                                 value="Nombre de los programas de formación con registro calificado a impactar"
@@ -984,13 +984,13 @@ const Form = ({
                                 error={form.errors.programas_formacion}
                                 placeholder="Seleccione los programas de formación"
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('programas_formacion', form)}
                             />
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="impacto_municipios" value="Descripción del beneficio en los municipios" />
+                            <Label required className="mb-4" labelFor="impacto_municipios" value="Descripción del beneficio en los municipios" />
 
                             <Textarea
                                 id="impacto_municipios"
@@ -998,13 +998,13 @@ const Form = ({
                                 value={form.data.impacto_municipios}
                                 onChange={(e) => form.setData('impacto_municipios', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('impacto_municipios', form)}
                             />
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="impacto_centro_formacion" value="Impacto en el centro de formación" />
+                            <Label required className="mb-4" labelFor="impacto_centro_formacion" value="Impacto en el centro de formación" />
 
                             <Textarea
                                 id="impacto_centro_formacion"
@@ -1012,13 +1012,13 @@ const Form = ({
                                 value={form.data.impacto_centro_formacion}
                                 onChange={(e) => form.setData('impacto_centro_formacion', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('impacto_centro_formacion', form)}
                             />
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label required disabled={evaluacion ? true : false} className="mb-4" labelFor="bibliografia" value="Bibliografía" />
+                            <Label required className="mb-4" labelFor="bibliografia" value="Bibliografía" />
                             <AlertMui>
                                 Lista de las referencias utilizadas en cada apartado del proyecto. Utilizar normas APA- Última edición (http://biblioteca.sena.edu.co/images/PDF/InstructivoAPA.pdf).
                             </AlertMui>
@@ -1029,7 +1029,7 @@ const Form = ({
                                 value={form.data.bibliografia}
                                 onChange={(e) => form.setData('bibliografia', e.target.value)}
                                 required
-                                disabled={evaluacion ? true : false}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('bibliografia', form)}
                             />
                         </Grid>

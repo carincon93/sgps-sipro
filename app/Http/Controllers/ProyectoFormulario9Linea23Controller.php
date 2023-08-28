@@ -166,7 +166,7 @@ class ProyectoFormulario9Linea23Controller extends Controller
 
         $proyecto_formulario_9_linea_23->proyecto->centroFormacion;
         $proyecto_formulario_9_linea_23->proyecto->programasFormacion;
-        $proyecto_formulario_9_linea_23->proyecto->programasFormacion;
+        $proyecto_formulario_9_linea_23->proyecto->participantes;
         $proyecto_formulario_9_linea_23->proyecto->municipios;
         $proyecto_formulario_9_linea_23->proyecto->tecnoacademiaLineasTecnoacademia;
 
