@@ -131,6 +131,16 @@ export default function Dashboard({ auth, roles_sistema }) {
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
+                            href={route('semilleros-investigacion.nivel-nacional')}>
+                            Semillero de investigación
+                        </Link>
+                    </Grid>
+                )}
+
+                {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) && (
+                    <Grid item md={4}>
+                        <Link
+                            className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
                             href={route('tecnoacademias.index')}>
                             TecnoAcademias
                         </Link>

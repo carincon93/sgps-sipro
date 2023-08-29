@@ -222,6 +222,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
      */
     Route::get('grupos-investigacion/{grupo_investigacion}/lineas-investigacion/{linea_investigacion}/semilleros-investigacion/{semillero_investigacion}/download-file-sharepoint/{tipo_archivo}', [SemilleroInvestigacionController::class, 'downloadFileSharepoint'])->name('grupos-investigacion.lineas-investigacion.semilleros-investigacion.download-file-sharepoint');
     Route::get('grupos-investigacion/{grupo_investigacion}/lineas-investigacion/{linea_investigacion}/semilleros-investigacion/{semillero_investigacion}/download/{formato}', [SemilleroInvestigacionController::class, 'downloadServerFile'])->name('grupos-investigacion.semilleros-investigacion.download');
+    Route::get('semilleros-investigacion', [SemilleroInvestigacionController::class, 'semillerosInvestigacionNivelNacional'])->name('semilleros-investigacion.nivel-nacional');
     Route::put('grupos-investigacion/{grupo_investigacion}/lineas-investigacion/{linea_investigacion}/semilleros-investigacion/{semillero_investigacion}/upload-formato', function (GrupoInvestigacion $grupo_investigacion, LineaInvestigacion $linea_investigacion, SemilleroInvestigacion $semillero_investigacion) {
         $controller = app(SemilleroInvestigacionController::class);
 

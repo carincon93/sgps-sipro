@@ -130,6 +130,18 @@ class SemilleroInvestigacionController extends Controller
         return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
+    public function semillerosInvestigacionNivelNacional()
+    {
+        $this->authorize('viewAny', [SemilleroInvestigacion::class]);
+
+        return Inertia::render('SemillerosInvestigacion/SemillerosNivelNacional', [
+            'semilleros_investigacion'  =>  SemilleroInvestigacion::with('redesConocimiento', 'lineaInvestigacion.grupoInvestigacion.lineasInvestigacion', 'lineasInvestigacionArticulados')
+                                                ->filterSemilleroInvestigacion(request()->only('search'))
+                                                ->orderBy('semilleros_investigacion.nombre', 'ASC')->paginate(),
+            'redes_conocimiento'        =>  SelectHelper::redesConocimiento(),
+        ]);
+    }
+
     public function uploadFormatoGicF021(Request $request, SemilleroInvestigacion $semillero_investigacion)
     {
         if ($request->hasFile('formato_gic_f_021')) {

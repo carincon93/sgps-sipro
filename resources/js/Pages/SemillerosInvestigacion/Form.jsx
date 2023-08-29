@@ -55,6 +55,19 @@ const Form = ({ method = '', setDialogStatus, semillero_investigacion, grupo_inv
                     <form onSubmit={submit}>
                         <Grid container rowSpacing={8}>
                             <Grid item md={12}>
+                                <TextInput
+                                    id="nombre"
+                                    type="text"
+                                    value={form.data.nombre}
+                                    error={form.errors.nombre}
+                                    label="Nombre del semillero de investigación"
+                                    onChange={(e) => form.setData('nombre', e.target.value)}
+                                    disabled={!semillero_investigacion?.allowed?.to_update}
+                                    required
+                                />
+                            </Grid>
+
+                            <Grid item md={12}>
                                 <Autocomplete
                                     id="es_semillero_tecnoacademia"
                                     options={[
@@ -109,19 +122,6 @@ const Form = ({ method = '', setDialogStatus, semillero_investigacion, grupo_inv
                                     disabled={!semillero_investigacion?.allowed?.to_update}
                                     label="Articulación con líneas de investigación"
                                     error={form.errors.lineas_investigacion}
-                                    required
-                                />
-                            </Grid>
-
-                            <Grid item md={12}>
-                                <TextInput
-                                    id="nombre"
-                                    type="text"
-                                    value={form.data.nombre}
-                                    error={form.errors.nombre}
-                                    label="Nombre del semillero de investigación"
-                                    onChange={(e) => form.setData('nombre', e.target.value)}
-                                    disabled={!semillero_investigacion?.allowed?.to_update}
                                     required
                                 />
                             </Grid>
