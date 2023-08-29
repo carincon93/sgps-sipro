@@ -132,7 +132,7 @@ const FormacionesAcademicasSena = ({ usuario, formaciones_academicas_sena, modal
                     <Form
                         method={method}
                         setDialogStatus={setDialogStatus}
-                        user_id={usuario.id}
+                        usuario={usuario}
                         formacion_academica_sena={formacion_academica_sena}
                         modalidades_estudio={modalidades_estudio}
                         niveles_formacion={niveles_formacion}

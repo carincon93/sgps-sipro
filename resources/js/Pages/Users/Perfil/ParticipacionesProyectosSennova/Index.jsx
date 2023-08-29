@@ -108,7 +108,7 @@ const ParticipacionesProyectosSENNOVA = ({ usuario, participaciones_proyectos_se
                 maxWidth="lg"
                 blurEnabled={true}
                 dialogContent={
-                    <Form method={method} setDialogStatus={setDialogStatus} user_id={usuario.id} participacion_proyecto_sennova={participacion_proyecto_sennova} tipos_proyectos={tipos_proyectos} />
+                    <Form method={method} setDialogStatus={setDialogStatus} usuario={usuario} participacion_proyecto_sennova={participacion_proyecto_sennova} tipos_proyectos={tipos_proyectos} />
                 }
             />
         </>

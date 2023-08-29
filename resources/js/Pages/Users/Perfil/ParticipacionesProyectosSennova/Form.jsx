@@ -7,9 +7,9 @@ import TextInput from '@/Components/TextInput'
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', setDialogStatus, user_id, participacion_proyecto_sennova, tipos_proyectos }) => {
+const Form = ({ method = '', setDialogStatus, usuario, participacion_proyecto_sennova, tipos_proyectos }) => {
     const form = useForm({
-        user_id: user_id,
+        user_id: usuario.id,
         ha_formulado_proyectos_sennova: participacion_proyecto_sennova?.ha_formulado_proyectos_sennova == false ? '2' : '1',
         tipo_proyecto: participacion_proyecto_sennova?.tipo_proyecto,
         codigo_proyecto: participacion_proyecto_sennova?.codigo_proyecto,

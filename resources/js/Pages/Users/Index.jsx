@@ -45,7 +45,9 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, subdirectores_centro, al
                         ) : null}
                         {usuarios.data.map((usuario, i) => (
                             <TableRow key={i}>
-                                <TableCell>{usuario.nombre}</TableCell>
+                                <TableCell>
+                                    <p className="first-letter:uppercase">{usuario.nombre}</p>
+                                </TableCell>
                                 <TableCell>{usuario.email}</TableCell>
                                 <TableCell>{usuario.centro_formacion?.nombre}</TableCell>
                                 <TableCell>{usuario.centro_formacion?.regional.nombre}</TableCell>
@@ -102,7 +104,9 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, subdirectores_centro, al
                     <TableMui className="mt-20" rows={['Nombre', 'Centro de formación al que pertenece', 'Dinamizador/a del centro de formación:', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         {dinamizadores_sennova.map((dinamizador_sennova, i) => (
                             <TableRow key={i}>
-                                <TableCell>{dinamizador_sennova.nombre}</TableCell>
+                                <TableCell>
+                                    <p className="first-letter:uppercase">{dinamizador_sennova.nombre}</p>
+                                </TableCell>
                                 <TableCell>
                                     {dinamizador_sennova.centro_formacion?.nombre} - Código: {dinamizador_sennova.centro_formacion?.codigo}
                                 </TableCell>
@@ -163,7 +167,9 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, subdirectores_centro, al
                     <TableMui className="mt-20" rows={['Nombre', 'Centro de formación al que pertenece', 'Subdirector/a del centro de formación:', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         {subdirectores_centro.map((subdirector_centro, i) => (
                             <TableRow key={i}>
-                                <TableCell>{subdirector_centro.nombre}</TableCell>
+                                <TableCell>
+                                    <p className="first-letter:uppercase">{subdirector_centro.nombre}</p>
+                                </TableCell>
                                 <TableCell>
                                     {subdirector_centro.centro_formacion?.nombre} - Código: {subdirector_centro.centro_formacion?.codigo}
                                 </TableCell>

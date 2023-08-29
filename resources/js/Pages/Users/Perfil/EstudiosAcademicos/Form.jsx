@@ -6,10 +6,10 @@ import TextInput from '@/Components/TextInput'
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', setDialogStatus, user_id, estudio_academico, niveles_academicos }) => {
+const Form = ({ method = '', setDialogStatus, usuario, estudio_academico, niveles_academicos }) => {
     const form = useForm({
         _method: method,
-        user_id: user_id,
+        user_id: usuario.id,
         grado_formacion: estudio_academico?.grado_formacion ?? null,
         titulo_obtenido: estudio_academico?.titulo_obtenido ?? '',
     })

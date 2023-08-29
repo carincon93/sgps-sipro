@@ -122,7 +122,7 @@ const EstudiosAcademicos = ({ usuario, estudios_academicos, niveles_academicos }
                 fullWidth={true}
                 maxWidth="lg"
                 blurEnabled={true}
-                dialogContent={<Form method={method} setDialogStatus={setDialogStatus} user_id={usuario.id} estudio_academico={estudio_academico} niveles_academicos={niveles_academicos} />}
+                dialogContent={<Form method={method} setDialogStatus={setDialogStatus} usuario={usuario} estudio_academico={estudio_academico} niveles_academicos={niveles_academicos} />}
             />
 
             <DialogMui

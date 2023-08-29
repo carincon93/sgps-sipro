@@ -103,7 +103,7 @@ const ParticipacionesGrupoInvestigacionSENA = ({ usuario, participaciones_grupos
                     <Form
                         method={method}
                         setDialogStatus={setDialogStatus}
-                        user_id={usuario.id}
+                        usuario={usuario}
                         participacion_grupo_investigacion_sena={participacion_grupo_investigacion_sena}
                         grupos_investigacion={grupos_investigacion}
                         semilleros_investigacion={semilleros_investigacion}

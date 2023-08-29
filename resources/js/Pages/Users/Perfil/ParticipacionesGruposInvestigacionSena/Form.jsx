@@ -5,9 +5,9 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', setDialogStatus, user_id, participacion_grupo_investigacion_sena, grupos_investigacion, semilleros_investigacion }) => {
+const Form = ({ method = '', setDialogStatus, usuario, participacion_grupo_investigacion_sena, grupos_investigacion, semilleros_investigacion }) => {
     const form = useForm({
-        user_id: user_id,
+        user_id: usuario.id,
         pertenece_grupo_investigacion_centro: participacion_grupo_investigacion_sena?.pertenece_grupo_investigacion_centro == false ? '2' : '1',
         pertenece_semillero_investigacion_centro: participacion_grupo_investigacion_sena?.pertenece_semillero_investigacion_centro == false ? '2' : '1',
         grupo_investigacion_id: participacion_grupo_investigacion_sena?.grupo_investigacion_id,
