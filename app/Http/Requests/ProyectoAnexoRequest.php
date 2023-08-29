@@ -24,8 +24,8 @@ class ProyectoAnexoRequest extends FormRequest
     public function rules()
     {
         return [
-            'anexo_id'  => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:anexos,id'],
-            'archivo'   => ['required', 'file', 'max:10240'],
+            'convocatoria_anexo_id' => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:convocatoria_anexos,id'],
+            'archivo'               => ['required', 'file', 'max:10240'],
         ];
     }
 }

@@ -34,7 +34,7 @@ class ProyectoAnexoController extends Controller
             'convocatoria'          =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
             'proyecto'              =>  $proyecto->only('id', 'tipo_formulario_convocatoria_id', 'precio_proyecto', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
             'evaluacion'            =>  Evaluacion::find(request()->evaluacion_id),
-            'proyecto_anexo'        =>  $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('anexos', 'proyecto_anexo.anexo_id', 'anexos.id')->get(),
+            'proyecto_anexo'        =>  $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('convocatoria_anexos', 'proyecto_anexo.convocatoria_anexo_id', 'convocatoria_anexos.id')->join('anexos', 'convocatoria_anexos.anexo_id', 'anexos.id')->get(),
             'convocatoria_anexos'   =>  ConvocatoriaAnexo::where('convocatoria_id', $convocatoria->id)
                                         ->where('tipo_formulario_convocatoria_id', $proyecto->tipo_formulario_convocatoria_id)
                                         ->where('habilitado', true)
@@ -65,10 +65,8 @@ class ProyectoAnexoController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $anexo = Anexo::select('id', 'nombre')->where('id', $request->anexo_id)->first();
-
         $proyecto_anexo = ProyectoAnexo::updateOrCreate(
-            ['proyecto_id'  => $proyecto->id, 'anexo_id' => $anexo->id],
+            ['proyecto_id'  => $proyecto->id, 'convocatoria_anexo_id' => $request->convocatoria_anexo_id],
         );
 
         if ($request->hasFile('archivo')) {

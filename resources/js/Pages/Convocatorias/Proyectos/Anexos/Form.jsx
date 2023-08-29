@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react'
 const Form = ({ convocatoria, proyecto, convocatoria_anexo, proyecto_anexo, ...props }) => {
     const form = useForm({
         archivo: null,
-        anexo_id: convocatoria_anexo?.anexo.id,
+        convocatoria_anexo_id: convocatoria_anexo?.id,
     })
 
     const submit = (e) => {
@@ -25,7 +25,8 @@ const Form = ({ convocatoria, proyecto, convocatoria_anexo, proyecto_anexo, ...p
 
     useEffect(() => {
         if (proyecto_anexo) {
-            const proyecto_anexo_info = proyecto_anexo.find((item) => item.anexo_id === convocatoria_anexo?.anexo.id)
+            const proyecto_anexo_info = proyecto_anexo.find((item) => item.convocatoria_anexo_id === convocatoria_anexo?.id)
+            console.log(proyecto_anexo_info)
 
             if (proyecto_anexo_info) {
                 setArchivo(proyecto_anexo_info)
