@@ -44,6 +44,7 @@ const ResumenFinal = ({
             setListItemCount(li_elements.length)
         }
     }, [])
+
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
@@ -52,9 +53,13 @@ const ResumenFinal = ({
 
             <Grid item md={12}>
                 {proyecto.finalizado == false && (
-                    <AlertMui severity="error">
+                    <AlertMui severity={list_item_count > 0 ? 'error' : 'info'}>
                         <p>
-                            <strong>La información del proyecto está incompleta. Para poder finalizar el proyecto debe completar los siguientes ítems:</strong>
+                            <strong>
+                                {list_item_count > 0
+                                    ? 'La información del proyecto está incompleta. Para poder finalizar el proyecto debe completar los siguientes ítems:'
+                                    : 'El proyecto ha sido diligenciado correctamente.'}
+                            </strong>
                         </p>
                         <ul className="list-disc p-4" ref={ul_ref}>
                             {!generalidades && <li>Generalidades</li>}

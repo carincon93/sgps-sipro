@@ -397,14 +397,19 @@ trait ProyectoValidationTrait
     {
         $convocatoria_anexos = ConvocatoriaAnexo::where('convocatoria_id', $proyecto->convocatoria_id)
                     ->where('tipo_formulario_convocatoria_id', $proyecto->tipo_formulario_convocatoria_id)
+                    ->where('obligatorio', true)
+                    ->where('habilitado', true)
                     ->with('anexo')
                     ->get();
 
         $count = 0;
         foreach ($convocatoria_anexos as $convocatoria_anexo) {
-            if ($proyecto->proyectoAnexo()->where('proyecto_anexo.anexo_id', $convocatoria_anexo->id)->first() && $proyecto->proyectoAnexo()->where('proyecto_anexo.anexo_id', $convocatoria_anexo->id)->first()->exists()) {
-                $count++;
+            if ($convocatoria_anexo->habilitado && $convocatoria_anexo->obligatorio) {
+                if ($proyecto->proyectoAnexo()->where('proyecto_anexo.convocatoria_anexo_id', $convocatoria_anexo->id)->first() && $proyecto->proyectoAnexo()->where('proyecto_anexo.convocatoria_anexo_id', $convocatoria_anexo->id)->first()->exists()) {
+                    $count++;
+                }
             }
+
         }
 
         return $count == count($convocatoria_anexos) ? true : false;

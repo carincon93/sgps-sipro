@@ -155,7 +155,7 @@ const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, conv
                                     <br />
                                     {convocatoria_anexo.anexo.descripcion}
                                     <br />
-                                    {convocatoria_anexo.obligatorio && <span className="text-red-500">* El anexo es obligatorio</span>}
+                                    {convocatoria_anexo.obligatorio && <span className="text-red-500 mt-4 inline-block">* El anexo es obligatorio</span>}
                                     {convocatoria_anexo.archivo && (
                                         <a target="_blank" className="text-app-400 underline mt-4 mb-4 flex" download href={convocatoria_anexo.archivo}>
                                             <DownloadIcon /> Descargar formato para diligenciar dando clic en este enlace.

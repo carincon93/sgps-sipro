@@ -26,7 +26,6 @@ const Form = ({ convocatoria, proyecto, convocatoria_anexo, proyecto_anexo, ...p
     useEffect(() => {
         if (proyecto_anexo) {
             const proyecto_anexo_info = proyecto_anexo.find((item) => item.convocatoria_anexo_id === convocatoria_anexo?.id)
-            console.log(proyecto_anexo_info)
 
             if (proyecto_anexo_info) {
                 setArchivo(proyecto_anexo_info)
@@ -38,10 +37,10 @@ const Form = ({ convocatoria, proyecto, convocatoria_anexo, proyecto_anexo, ...p
 
     return (
         <form onSubmit={submit} className="mt-4 p-4">
-            <fieldset disabled={proyecto?.allowed?.to_update && convocatoria_anexo?.habilitado == true ? false : true}>
+            <fieldset>
                 <div className="mt-20">
                     <FileInput
-                        id="archivo"
+                        id={convocatoria_anexo?.id}
                         value={form.data.archivo}
                         filename={archivo?.filename}
                         extension={archivo?.extension}
@@ -54,7 +53,7 @@ const Form = ({ convocatoria, proyecto, convocatoria_anexo, proyecto_anexo, ...p
                                 : null
                         }
                         onChange={(e) => form.setData('archivo', e)}
-                        disabled={!proyecto.allowed.to_update}
+                        disabled={proyecto?.allowed?.to_update && convocatoria_anexo?.habilitado == true ? false : true}
                         error={form.errors.archivo}
                     />
 

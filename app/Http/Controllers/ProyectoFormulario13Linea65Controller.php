@@ -31,7 +31,7 @@ class ProyectoFormulario13Linea65Controller extends Controller
     {
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario13Linea65/Index', [
             'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
-            'proyectos_formulario_13_linea_65'  => ProyectoFormulario13Linea65::getProyectosPorRol($convocatoria)->appends(['search' => request()->search, 'estructuracion_proyectos' => request()->estructuracion_proyectos]),
+            'proyectos_formulario_13_linea_65'  => ProyectoFormulario13Linea65::getProyectosPorRol($convocatoria)->appends(['search' => request()->search]),
             'allowed_to_create'                 => Gate::inspect('formular-proyecto', [9, $convocatoria])->allowed()
         ]);
     }
