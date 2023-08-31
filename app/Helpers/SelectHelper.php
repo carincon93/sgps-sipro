@@ -55,7 +55,7 @@ class SelectHelper
      */
     public static function centrosFormacion()
     {
-        return CentroFormacion::selectRaw("centros_formacion.id as value, CONCAT(centros_formacion.nombre, chr(10), ' Código: ', centros_formacion.codigo) as label, CONCAT(' Regional: ', INITCAP(regionales.nombre)) as tooltip, regionales.id as regional_id")->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->orderBy('centros_formacion.nombre', 'ASC')->get();
+        return CentroFormacion::selectRaw("centros_formacion.id as value, CONCAT(centros_formacion.nombre, chr(10), ' Código: ', centros_formacion.codigo, chr(10), ' Regional: ', INITCAP(regionales.nombre)) as label, regionales.id as regional_id")->join('regionales', 'centros_formacion.regional_id', 'regionales.id')->orderBy('centros_formacion.nombre', 'ASC')->get();
     }
 
     /**
