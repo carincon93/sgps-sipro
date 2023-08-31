@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EntidadAliadaLinea66 extends Model
+class EntidadAliadaLinea66_82 extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,7 @@ class EntidadAliadaLinea66 extends Model
      *
      * @var string
      */
-    protected $table = 'entidades_aliadas_linea_66';
+    protected $table = 'entidades_aliadas_linea_66_82';
 
     /**
      * appends

@@ -341,7 +341,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                             />
                         </Grid>
                         <Grid item md={12}>
-                            <h1>PRIORIZACIÓN DE ESTRATEGIAS DEL TECNOPARQUE/HUB DE INNOVACIÓN DESDE LOS OBJETIVOS MISIONALES</h1>
+                            <h1>PRIORIZACIÓN DE ESTRATEGIAS DEL TECNOPARQUE DE INNOVACIÓN DESDE LOS OBJETIVOS MISIONALES</h1>
                         </Grid>
                         <Grid item md={12}>
                             <Label
@@ -366,8 +366,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                                 required
                                 disabled={!proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="estado_actual_departamento"
-                                value={`De acuerdo al IDIC (Indice Departamental de  Innovación para Colombia https://
-AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento y plantee acciones que puedan ser ejecutadas por el Tecnoparque en la vigencia ${convocatoria.year} para contribuir con el mejoramiento del estado actual.`}
+                                value={`De acuerdo al IDIC (Indice Departamental de  Innovación para Colombia https://AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento y plantee acciones que puedan ser ejecutadas por el Tecnoparque en la vigencia ${convocatoria.year} para contribuir con el mejoramiento del estado actual.`}
                             />
 
                             <Textarea

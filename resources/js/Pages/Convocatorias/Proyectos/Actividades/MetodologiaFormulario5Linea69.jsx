@@ -11,8 +11,8 @@ import axios from 'axios'
 
 const MetodologiaFormulario5Linea69 = ({ convocatoria, proyecto }) => {
     const form_metodologia_proyecto_formulario_5_linea_69 = useForm({
-        metodologia: proyecto.proyecto.proyecto_formulario5_linea69?.metodologia,
-        metodologia_local: proyecto.proyecto.proyecto_formulario5_linea69?.metodologia_local,
+        metodologia: proyecto.proyecto_formulario5_linea69?.metodologia,
+        metodologia_local: proyecto.proyecto_formulario5_linea69?.metodologia_local,
     })
 
     const submitMetodologiaProyectoFormulario5Linea69 = (e) => {

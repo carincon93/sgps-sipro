@@ -43,6 +43,7 @@ class ActividadController extends Controller
         $proyecto->municipiosAImpactar;
         $proyecto->programasFormacion;
         $proyecto->disenosCurriculares;
+        $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
 
         $proyecto->proyectoFormulario1Linea65;
         $proyecto->proyectoFormulario4Linea70;

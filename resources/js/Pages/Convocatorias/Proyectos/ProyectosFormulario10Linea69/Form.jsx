@@ -369,8 +369,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_lin
                                 required
                                 disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="estado_actual_departamento"
-                                value={`De acuerdo al IDIC (Indice Departamental de  Innovación para Colombia https://
-AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento y plantee acciones que puedan ser ejecutadas por el Hub de Innovación en la vigencia ${convocatoria.year} para contribuir con el mejoramiento del estado actual.`}
+                                value={`De acuerdo al IDIC (Indice Departamental de  Innovación para Colombia https://AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento y plantee acciones que puedan ser ejecutadas por el Hub de Innovación en la vigencia ${convocatoria.year} para contribuir con el mejoramiento del estado actual.`}
                             />
 
                             <Textarea
@@ -388,7 +387,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 required
                                 disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="contribucion_desarrollo_empresas"
-                                value={`¿Cómo el Hub de Innovación, contribuirá en la vigencia ${convocatoria.year} al desarrollo y fortalecimiento de las capacidades tecnológicas de las empresas, cadenas productivas y clústeres de la región`}
+                                value={`¿Cómo el Hub de Innovación, contribuirá en la vigencia ${convocatoria.year} al desarrollo y fortalecimiento de las capacidades tecnológicas de las empresas, cadenas productivas y clústeres de la región?`}
                             />
 
                             <Textarea
@@ -447,7 +446,7 @@ AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento 
                                 required
                                 disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="aportes_conpes_4080"
-                                value={`Cuáles serán los aportes del  Hub de Innovación en el ${convocatoria.year} a la Línea de acción 1 del Conpes 4080 'el SENA desde 2022 y hasta 2026, fomentará la participación de la mujer en sus programas de investigación, desarrollo tecnológico e innovación, buscando generar competitividad con enfoque de género'`}
+                                value={`¿Cuáles serán los aportes del  Hub de Innovación en el ${convocatoria.year} a la Línea de acción 1 del Conpes 4080 'el SENA desde 2022 y hasta 2026, fomentará la participación de la mujer en sus programas de investigación, desarrollo tecnológico e innovación, buscando generar competitividad con enfoque de género?`}
                             />
 
                             <Textarea

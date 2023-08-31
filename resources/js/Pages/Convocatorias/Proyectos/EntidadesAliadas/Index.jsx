@@ -139,21 +139,22 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                     {entidades_aliadas.data.map((entidad_aliada, i) => (
                         <TableRow key={i}>
                             <TableCell>
+                                <Chip className="mb-2" label={tipos_entidad_aliada.find((item) => item.value == entidad_aliada.tipo).label} />
+                                <br />
                                 {entidad_aliada.nombre}
-                                <Chip className="mx-2" label={tipos_entidad_aliada.find((item) => item.value == entidad_aliada.tipo).label} />
                             </TableCell>
                             <TableCell>
-                                {entidad_aliada?.entidad_aliada_linea66 && (
+                                {entidad_aliada?.entidad_aliada_linea66_82 && (
                                     <>
                                         <DownloadFile
                                             label="carta de intención"
                                             className="!p-2"
-                                            filename={entidad_aliada?.entidad_aliada_linea66.filename.carta_intencion_filename}
-                                            extension={entidad_aliada?.entidad_aliada_linea66.extension.carta_intencion_extension}
+                                            filename={entidad_aliada?.entidad_aliada_linea66_82.filename.carta_intencion_filename}
+                                            extension={entidad_aliada?.entidad_aliada_linea66_82.extension.carta_intencion_extension}
                                             downloadRoute={
-                                                entidad_aliada?.entidad_aliada_linea66.carta_intencion
-                                                    ? entidad_aliada?.entidad_aliada_linea66.carta_intencion?.includes('http')
-                                                        ? entidad_aliada?.entidad_aliada_linea66.carta_intencion
+                                                entidad_aliada?.entidad_aliada_linea66_82.carta_intencion
+                                                    ? entidad_aliada?.entidad_aliada_linea66_82.carta_intencion?.includes('http')
+                                                        ? entidad_aliada?.entidad_aliada_linea66_82.carta_intencion
                                                         : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [convocatoria, proyecto, entidad_aliada.id, 'carta_intencion'])
                                                     : null
                                             }
@@ -162,18 +163,18 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                                             onClick={() => (setDialogFormatoStatus(true), setEntidadAliada(entidad_aliada), setTipoArchivo('carta_intencion'))}
                                             className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
                                             <AutorenewIcon className="mr-2" />
-                                            {entidad_aliada?.entidad_aliada_linea66.filename.carta_intencion_filename ? 'Reemplazar' : 'Cargar'} carta de intención
+                                            {entidad_aliada?.entidad_aliada_linea66_82.filename.carta_intencion_filename ? 'Reemplazar' : 'Cargar'} carta de intención
                                         </ButtonMui>
 
                                         <DownloadFile
                                             label="carta de propiedad intelectual"
                                             className="mt-10 !p-2"
-                                            filename={entidad_aliada?.entidad_aliada_linea66.filename.carta_propiedad_intelectual_filename}
-                                            extension={entidad_aliada?.entidad_aliada_linea66.extension.carta_propiedad_intelectual_extension}
+                                            filename={entidad_aliada?.entidad_aliada_linea66_82.filename.carta_propiedad_intelectual_filename}
+                                            extension={entidad_aliada?.entidad_aliada_linea66_82.extension.carta_propiedad_intelectual_extension}
                                             downloadRoute={
-                                                entidad_aliada?.entidad_aliada_linea66.carta_propiedad_intelectual
-                                                    ? entidad_aliada?.entidad_aliada_linea66.carta_propiedad_intelectual?.includes('http')
-                                                        ? entidad_aliada?.entidad_aliada_linea66.carta_propiedad_intelectual
+                                                entidad_aliada?.entidad_aliada_linea66_82.carta_propiedad_intelectual
+                                                    ? entidad_aliada?.entidad_aliada_linea66_82.carta_propiedad_intelectual?.includes('http')
+                                                        ? entidad_aliada?.entidad_aliada_linea66_82.carta_propiedad_intelectual
                                                         : route('convocatorias.proyectos.entidades-aliadas.download-file-sharepoint', [
                                                               convocatoria,
                                                               proyecto,
@@ -187,7 +188,7 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                                             onClick={() => (setDialogFormatoStatus(true), setEntidadAliada(entidad_aliada), setTipoArchivo('carta_propiedad_intelectual'))}
                                             className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
                                             <AutorenewIcon className="mr-2" />
-                                            {entidad_aliada?.entidad_aliada_linea66.filename.carta_propiedad_intelectual_filename ? 'Reemplazar' : 'Cargar'} carta de propiedad intelectual
+                                            {entidad_aliada?.entidad_aliada_linea66_82.filename.carta_propiedad_intelectual_filename ? 'Reemplazar' : 'Cargar'} carta de propiedad intelectual
                                         </ButtonMui>
                                     </>
                                 )}

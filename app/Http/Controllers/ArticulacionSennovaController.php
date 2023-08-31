@@ -31,7 +31,7 @@ class ArticulacionSennovaController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', [$proyecto]);
 
-        $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
+        // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
         $proyecto->load('participantes.centroFormacion.regional');
 
         if ($proyecto->tipo_formulario_convocatoria_id != 4 && $proyecto->tipo_formulario_convocatoria_id != 5 && $proyecto->tipo_formulario_convocatoria_id != 10 && $proyecto->tipo_formulario_convocatoria_id != 11 && $proyecto->tipo_formulario_convocatoria_id != 17) {
@@ -40,7 +40,7 @@ class ArticulacionSennovaController extends Controller
 
         $proyecto->precio_proyecto = $proyecto->precioProyecto;
         $proyecto->participantes;
-
+        $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
         $proyecto->gruposInvestigacion;
         $proyecto->lineasInvestigacion;
         $proyecto->semillerosInvestigacion;

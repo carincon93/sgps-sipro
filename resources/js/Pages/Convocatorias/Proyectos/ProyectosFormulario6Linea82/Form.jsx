@@ -535,7 +535,7 @@ const Form = ({
 
                             {form.data.lineas_estrategicas_convocatoria == 4 && (
                                 <Textarea
-                                    className="mt-4"
+                                    className="!mt-4"
                                     label="Justificación"
                                     id="justificacion_lineas_estrategicas"
                                     onChange={(e) => form.setData('justificacion_lineas_estrategicas', e.target.value)}

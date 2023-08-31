@@ -69,7 +69,7 @@ const ArticulacionFormulario5Linea69 = ({ convocatoria, proyecto, semilleros_inv
                             required
                             className="mb-4"
                             labelFor="aportacion_semilleros_grupos"
-                            value={`Comente la articulación y aporte del TecnoParque proyectada para el ${convocatoria.year} a los semilleros y grupos de investigación.`}
+                            value={`Comente la articulación y aporte del TecnoParque proyectada para el ${convocatoria.year} a los semilleros y grupos de investigación`}
                         />
 
                         <Textarea

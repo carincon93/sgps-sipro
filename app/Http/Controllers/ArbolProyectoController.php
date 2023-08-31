@@ -96,8 +96,9 @@ class ArbolProyectoController extends Controller
 
         $this->generarArboles($proyecto);
 
-        $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
+        // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
 
+        $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
         $proyecto->participantes;
 
         $proyecto_form_fields = [
@@ -521,8 +522,9 @@ class ArbolProyectoController extends Controller
 
         $this->generarArboles($proyecto);
 
-        $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
+        // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
 
+        $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
         $proyecto->participantes;
 
         $tipos_impacto          = json_decode(Storage::get('json/tipos-impacto.json'), true);

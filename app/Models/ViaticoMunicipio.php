@@ -66,7 +66,7 @@ class ViaticoMunicipio extends Model
      */
     public function proyectoRolSennova()
     {
-        return $this->hasOne(ProyectoRolSennova::class);
+        return $this->belongsTo(ProyectoRolSennova::class);
     }
 
     /**
@@ -82,5 +82,10 @@ class ViaticoMunicipio extends Model
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $query->where('Nombre columna', 'ilike', '%' . $search . '%');
         });
+    }
+
+    public function getMunicipiosAttribute($value)
+    {
+        return json_decode($value);
     }
 }

@@ -22,12 +22,14 @@ class AnalisisRiesgoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
-        $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
+        // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
+        // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
+
+        $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
 
         return Inertia::render('Convocatorias/Proyectos/AnalisisRiesgo/Index', [
             'convocatoria'           => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
-            'proyecto'               => $proyecto->only('id', 'tipo_formulario_convocatoria_id', 'precio_proyecto', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
+            'proyecto'               => $proyecto,
             'evaluacion'             => Evaluacion::find(request()->evaluacion_id),
             'analisis_riesgos'       => AnalisisRiesgo::where('proyecto_id', $proyecto->id)->orderBy('descripcion', 'ASC')
                                             ->filterAnalisisRiesgo(request()->only('search'))->paginate()->appends(['search' => request()->search]),

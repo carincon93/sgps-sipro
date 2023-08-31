@@ -61,9 +61,9 @@ const ArtituclacionFormulario10Linea69 = ({ convocatoria, proyecto, semilleros_i
                         required
                         className="mb-4"
                         labelFor="contribucion_formacion_centro_regional"
-                        value={`Cuales fueron las principales acciones ejecutadas por el Hub de innovación en la vigencia ${
+                        value={`¿Cuales fueron las principales acciones ejecutadas por el Hub de innovación en la vigencia ${
                             convocatoria.year - 1
-                        } para contribuir a la formación en el Centro y en la Regional`}
+                        } para contribuir a la formación en el Centro y en la Regional?`}
                     />
 
                     <Textarea

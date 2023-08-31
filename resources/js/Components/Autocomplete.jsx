@@ -86,7 +86,7 @@ export default function Autocomplete({
                 isOptionEqualToValue={(option, value) => option.value === value.value}
                 renderOption={(props, option) => {
                     return (
-                        <React.Fragment key={option.value} className="odd:bg-white even:bg-slate-50">
+                        <React.Fragment key={option.value}>
                             {option.tooltip ? (
                                 <ToolTipMui title={option.tooltip} className="!block ">
                                     <li {...props}>{option.label}</li>

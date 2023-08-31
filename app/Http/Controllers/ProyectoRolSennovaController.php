@@ -34,6 +34,8 @@ class ProyectoRolSennovaController extends Controller
             $proyecto->cantidad_psicopedagogos_planta   = $proyecto->proyectoFormulario4Linea70->cantidad_psicopedagogos_planta;
         }
 
+        $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
+
         $objetivos_especificos = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
 
         /**
@@ -45,7 +47,7 @@ class ProyectoRolSennovaController extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/RolesSennova/Index', [
             'convocatoria'                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
-            'proyecto'                      => $proyecto->only('id','tipo_formulario_convocatoria_id', 'precio_proyecto', 'modificable', 'total_roles_sennova', 'cantidad_instructores_planta', 'cantidad_dinamizadores_planta', 'cantidad_psicopedagogos_planta', 'en_subsanacion', 'mostrar_recomendaciones', 'all_files', 'allowed', 'diff_meses', 'max_meses_ejecucion', 'fecha_inicio', 'fecha_finalizacion'),
+            'proyecto'                      => $proyecto,
             'evaluacion'                    => Evaluacion::find(request()->evaluacion_id),
             'proyecto_roles_sennova'        => ProyectoRolSennova::where('proyecto_id', $proyecto->id)->filterProyectoRolSennova(request()->only('search'))->with('convocatoriaRolSennova.rolSennova', 'proyectoRolesEvaluaciones.evaluacion', 'actividades', 'lineasTecnoacademia', 'lineasTecnoparque')->orderBy('proyecto_rol_sennova.id')->paginate(),
             'convocatoria_roles_sennova'    => SelectHelper::convocatoriaRolesSennova($convocatoria->id, $proyecto->id, $proyecto->tipo_formulario_convocatoria_id),

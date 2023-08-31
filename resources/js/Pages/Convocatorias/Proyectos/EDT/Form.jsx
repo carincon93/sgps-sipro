@@ -165,7 +165,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
                             </div>
                         </fieldset>
 
-                        {edt && <small className="flex items-center text-app-700">{edt.updated_at}</small>}
+                        {edt && <small className="flex items-center mt-14 text-app-700">{edt.updated_at}</small>}
 
                         <div className="flex items-center justify-between mt-14 py-4 ">
                             {proyecto.allowed.to_update ? (

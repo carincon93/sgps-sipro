@@ -16,6 +16,7 @@ import VideoLabelIcon from '@mui/icons-material/VideoLabel'
 import { Link } from '@inertiajs/react'
 
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector'
+import FileTypeIcon from './FileTypeIcon'
 
 const useStyles = makeStyles({
     root: {
@@ -201,10 +202,26 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
     return (
         <>
             <div className="flex items-center justify-center mb-10">
-                <small className=" bg-app-500 text-white py-1 px-3 rounded-full w-max text-center mx-auto">
-                    Precio del proyecto:
-                    <AttachMoneyOutlinedIcon />{new Intl.NumberFormat('de-DE').format(!isNaN(proyecto?.precio_proyecto) ? proyecto?.precio_proyecto : 0)} COP
-                </small>
+                <div className="mr-6">
+                    <small className=" bg-app-500 text-white py-1 px-3 rounded-full w-max text-center mx-auto">
+                        Precio del proyecto:
+                        <AttachMoneyOutlinedIcon />
+                        {new Intl.NumberFormat('de-DE').format(!isNaN(proyecto?.precio_proyecto) ? proyecto?.precio_proyecto : 0)} COP
+                    </small>
+                </div>
+                |
+                <div className="ml-6">
+                    <a
+                        href={route(`convocatorias.proyectos.pdf-formulario${proyecto.tipo_formulario_convocatoria_id}-linea${proyecto.tipo_formulario_convocatoria.linea_programatica.codigo}`, [
+                            convocatoria.id,
+                            proyecto.id,
+                        ])}
+                        target="_blank"
+                        className="flex items-center">
+                        <FileTypeIcon fileType="pdf" className="w-6 mr-4" />
+                        <small>PDF del proyecto</small>
+                    </a>
+                </div>
             </div>
             <Stepper alternativeLabel connector={<ColorlibConnector />}>
                 <Step active={isActive}>

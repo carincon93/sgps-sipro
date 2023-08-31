@@ -149,6 +149,7 @@ class ProyectoFormulario12Linea68Controller extends Controller
         $proyecto_formulario_12_linea_68->proyecto->centroFormacion;
         $proyecto_formulario_12_linea_68->proyecto->programasFormacion;
         $proyecto_formulario_12_linea_68->proyecto->participantes;
+        $proyecto_formulario_12_linea_68->proyecto->tipoFormularioConvocatoria->lineaProgramatica;
 
         $proyecto_formulario_12_linea_68->mostrar_recomendaciones       = $proyecto_formulario_12_linea_68->proyecto->mostrar_recomendaciones;
         $proyecto_formulario_12_linea_68->mostrar_requiere_subsanacion  = $proyecto_formulario_12_linea_68->proyecto->mostrar_requiere_subsanacion;
@@ -168,10 +169,10 @@ class ProyectoFormulario12Linea68Controller extends Controller
             'programas_formacion_sin_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),
             'programas_formacion_con_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $proyecto_formulario_12_linea_68->proyecto->centro_formacion_id)->values()->all(),
             'sectores_productivos'                          => collect(json_decode(Storage::get('json/sectores-productivos.json'), true)),
-            'campos_convocatoria'                           => collect(json_decode(Storage::get('json/campos-convocatoria.json'), true)),
             'municipios'                                    => SelectHelper::municipios(),
             'tipos_proyecto_formulario_12_linea_68'         => $tipo_proyecto_formulario_12_linea_68,
             'roles_sennova'                                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'campos_convocatoria'                           => collect(json_decode(Storage::get('json/campos-convocatoria.json'), true)),
         ]);
     }
 

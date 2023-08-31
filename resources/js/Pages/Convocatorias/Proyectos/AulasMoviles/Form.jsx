@@ -83,7 +83,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
                                         disabled={!proyecto?.allowed?.to_update}
                                         error={form.errors.logros_vigencia}
                                         value={form.data.logros_vigencia}
-                                        label="Acciones desarrolladas y logros en la vigencia actual con el Aula Móvil"
+                                        label={`Acciones desarrolladas y logros en la vigencia ${convocatoria.year} con el Aula Móvil`}
                                         required
                                     />
                                 </Grid>
@@ -97,7 +97,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
                                         error={form.errors.numero_municipios_visitados}
                                         inputProps={{ min: 0 }}
                                         value={form.data.numero_municipios_visitados}
-                                        label="Número de municipios visitados en la vigencia actual"
+                                        label={`Número de municipios visitados en la vigencia ${convocatoria.year}`}
                                         required
                                     />
                                 </Grid>
@@ -148,7 +148,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, aula_movil
                                         disabled={!proyecto?.allowed?.to_update}
                                         error={form.errors.acciones_a_desarrollar}
                                         value={form.data.acciones_a_desarrollar}
-                                        label={`Acciones que espera desarrollar con el Aula Móvole en la vigencia ${convocatoria.year}`}
+                                        label={`Acciones que espera desarrollar con el Aula Móvil en la vigencia ${convocatoria.year}`}
                                         required
                                     />
                                 </Grid>

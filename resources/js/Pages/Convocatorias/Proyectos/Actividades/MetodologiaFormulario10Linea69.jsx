@@ -266,7 +266,7 @@ const MetodologiaFormulario10Linea69 = ({ convocatoria, proyecto, municipios, re
                 </Grid>
 
                 <Grid item md={6}>
-                    <Label required className="mb-4" labelFor="numero_empresas_atendidas" value={`Número de Empresas atendidas en el ${convocatoria.year - 1}, por el Hub?`} />
+                    <Label required className="mb-4" labelFor="numero_empresas_atendidas" value={`Número de Empresas atendidas en el ${convocatoria.year - 1}, por el Hub`} />
                 </Grid>
                 <Grid item md={6}>
                     <TextInput

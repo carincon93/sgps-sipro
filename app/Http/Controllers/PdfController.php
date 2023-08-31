@@ -2,73 +2,62 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\SelectHelper;
 use App\Helpers\SharepointHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Proyecto;
 use App\Models\Convocatoria;
-use App\Models\TipoProyectoLinea68;
+use App\Models\Municipio;
 use App\Models\ProyectoPdfVersion;
+use App\Models\RolSennova;
 use Spatie\Browsershot\Browsershot;
 use Illuminate\Support\Facades\Log;
 use PDF;
 
 class PdfController extends Controller
 {
-    /**
-     * generateResumenProyecto
-     *
-     * @param  mixed $convocatoria
-     * @param  mixed $proyecto
-     * @return void
-     */
-    static function generateResumenProyecto(Convocatoria $convocatoria, Proyecto $proyecto, $save = false)
+    static function generarPdfFormulario1Linea65(Convocatoria $convocatoria, Proyecto $proyecto)
     {
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', -1);
 
         $datos = null;
-        $tipoProyectoLinea68 = null;
-        if (!empty($proyecto->proyectoFormulario8Linea66)) {
-            $datos = $proyecto->proyectoFormulario8Linea66;
-            // $opcionesIDiDropdown = collect(json_decode(Storage::get('json/opciones-aplica-no-aplica.json'), true));
-            // $datos->relacionado_plan_tecnologico = $opcionesIDiDropdown->where('value', $datos->relacionado_plan_tecnologico)->first();
-            $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true));
-        } else if (!empty($proyecto->proyectoFormulario4Linea70)) {
-            $datos = $proyecto->proyectoFormulario4Linea70;
-            $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-ta.json'), true));
-        } else if (!empty($proyecto->proyectoFormulario5Linea69)) {
-            $proyecto->proyectoFormulario5Linea69->talentosOtrosDepartamentos;
-            $datos = $proyecto->proyectoFormulario5Linea69;
-            $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-tp.json'), true));
-        } else if (!empty($proyecto->proyectoFormulario1Linea65)) {
-            $datos = $proyecto->proyectoFormulario1Linea65;
-            $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true));
-        } else if (!empty($proyecto->proyectoFormulario12Linea68)) {
-            $datos = $proyecto->proyectoFormulario12Linea68;
-            $tipoProyectoLinea68 = TipoProyectoLinea68::selectRaw("tipos_proyecto_linea_68.id as value, CASE tipos_proyecto_linea_68.tipo_proyecto
-                        WHEN '1' THEN   concat(centros_formacion.nombre, chr(10), '∙ Tipo de proyecto: A', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
-                        WHEN '2' THEN   concat(centros_formacion.nombre, chr(10), '∙ Tipo de proyecto: B', chr(10), '∙ Línea técnica: ', lineas_tecnicas.nombre)
-                    END as label")->join('centros_formacion', 'tipos_proyecto_linea_68.centro_formacion_id', 'centros_formacion.id')->join('lineas_tecnicas', 'tipos_proyecto_linea_68.linea_tecnica_id', 'lineas_tecnicas.id')->get();
-            $rolesSennova = collect(json_decode(Storage::get('json/roles-sennova-st.json'), true));
-        }
+        $datos = $proyecto->proyectoFormulario1Linea65;
 
         $proyecto->load('efectosDirectos.resultado');
 
-        $pdf = PDF::loadView('Convocatorias.Proyectos.ResumenPdf', [
-            'convocatoria'              => $convocatoria,
-            'proyecto'                  => $proyecto,
-            'datos'                     => $datos,
-            'tipoProyectoLinea68'            => $tipoProyectoLinea68,
-            'proyectoAnexo'             => $proyecto->proyectoAnexo()->select('proyecto_anexo.id', 'proyecto_anexo.anexo_id', 'proyecto_anexo.archivo', 'anexos.nombre')->join('anexos', 'proyecto_anexo.anexo_id', 'anexos.id')->get(),
-            'rolesSennova'              => $rolesSennova,
-            'tiposImpacto'              => collect(json_decode(Storage::get('json/tipos-impacto.json'), true)),
-            'estadosInventarioEquipos'  => collect(json_decode(Storage::get('json/estados-inventario-equipos.json'), true)),
-            'tiposLicencia'             => collect(json_decode(Storage::get('json/tipos-licencia-software.json'), true)),
-            'opcionesServiciosEdicion'  => collect(json_decode(Storage::get('json/opciones-servicios-edicion.json'), true)),
-            'tiposSoftware'             => collect(json_decode(Storage::get('json/tipos-software.json'), true))
+        $pdf = PDF::setOption(['dpi' => 150, 'defaultFont' => 'Nunito'])->loadView('Convocatorias.Proyectos.PdfFormulario1Linea65', [
+            'convocatoria'                  => $convocatoria,
+            'proyecto'                      => $proyecto,
+            'datos'                         => $datos,
+            'municipios'                    => Municipio::all(),
+            'proyecto_anexo'                => $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('convocatoria_anexos', 'proyecto_anexo.convocatoria_anexo_id', 'convocatoria_anexos.id')->join('anexos', 'convocatoria_anexos.anexo_id', 'anexos.id')->get(),
+            'tipos_productos'               => collect(json_decode(Storage::get('json/tipos-producto.json'), true)),
+            'niveles_riesgo'                => collect(json_decode(Storage::get('json/niveles-riesgo.json'), true)),
+            'tipos_riesgo'                  => collect(json_decode(Storage::get('json/tipos-riesgo.json'), true)),
+            'probabilidades_riesgo'         => collect(json_decode(Storage::get('json/probabilidades-riesgo.json'), true)),
+            'impactos_riesgo'               => collect(json_decode(Storage::get('json/impactos-riesgo.json'), true)),
+            'roles_sennova'                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'tipos_impacto'                 => collect(json_decode(Storage::get('json/tipos-impacto.json'), true)),
+            'distancias_municipios'         => collect(json_decode(Storage::get('json/distancia-municipios.json'), true)),
+            'frecuencias_semanales'         => collect(json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true)),
+            'opciones_servicios_edicion'    => collect(json_decode(Storage::get('json/opciones-servicios-edicion.json'), true)),
+            'ejes_sennova'                  => collect(json_decode(Storage::get('json/ejes-sennova.json'), true)),
+            'areas_cualificacion_mnc'       => collect(json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true)),
+            'tipos_eventos'                 => collect(json_decode(Storage::get('json/tipos-eventos-linea-65.json'), true)),
+            'lineas_estrategicas_sena'      => collect(json_decode(Storage::get('json/lineas-estrategicas.json'), true)),
+            'lineas_programaticas'          => SelectHelper::lineasProgramaticas(),
+            'nodos_tecnoparques'            => SelectHelper::nodosTecnoparque(),
+            'tecnoacademias'                => SelectHelper::tecnoacademias(),
+            'hubs_innovacion'               => SelectHelper::hubsInnovacion(),
+            'laboratorios_st'               => SelectHelper::laboratoriosServiciosTecnologicos(),
+            'tipos_licencia'                => collect(json_decode(Storage::get('json/tipos-licencia-software.json'), true)),
+            'tipos_software'                => collect(json_decode(Storage::get('json/tipos-software.json'), true))
         ]);
+
+        return $pdf->stream();
 
         return $pdf->download($proyecto->codigo.'.pdf');
 
@@ -102,7 +91,1107 @@ class PdfController extends Controller
 
         $modulo = 'CONVOCATORIAS2023';
         $centroFormacionSharePoint  = $proyecto->centroFormacion->nombre_carpeta_sharepoint;
-        $sharepoint_path             = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
+        $sharepoint_path            = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
+
+        // $response = self::saveFilesSharepoint($request, 'CONVOCATORIA2023', $proyecto, $proyecto, 'pdf_proyecto');
+
+        $path = Storage::put($sharepoint_path . '/' . $proyecto->codigo . '.pdf', $fileContent);
+        // if (!empty($response['sharePointPath'])) {
+        //     ProyectoPdfVersion::create([
+        //         'proyecto_id'     => $proyecto->id,
+        //         'version'         => $response['nombreArchivo'],
+        //         'estado'          => 1
+        //     ]);
+
+        //     ProyectoPdfVersion::where('proyecto_id', $proyecto->id)->update(['estado' => 1]);
+        // }
+    }
+
+    static function generarPdfFormulario4Linea70(Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', -1);
+
+        $datos = null;
+        $datos = $proyecto->proyectoFormulario4Linea70;
+
+        $proyecto->load('efectosDirectos.resultado');
+
+        $pdf = PDF::setOption(['dpi' => 150, 'defaultFont' => 'Nunito'])->loadView('Convocatorias.Proyectos.PdfFormulario4Linea70', [
+            'convocatoria'                      => $convocatoria,
+            'proyecto'                          => $proyecto,
+            'datos'                             => $datos,
+            'municipios'                        => Municipio::all(),
+            'proyecto_anexo'                    => $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('convocatoria_anexos', 'proyecto_anexo.convocatoria_anexo_id', 'convocatoria_anexos.id')->join('anexos', 'convocatoria_anexos.anexo_id', 'anexos.id')->get(),
+            'tipos_productos'                   => collect(json_decode(Storage::get('json/tipos-producto.json'), true)),
+            'niveles_riesgo'                    => collect(json_decode(Storage::get('json/niveles-riesgo.json'), true)),
+            'tipos_riesgo'                      => collect(json_decode(Storage::get('json/tipos-riesgo.json'), true)),
+            'probabilidades_riesgo'             => collect(json_decode(Storage::get('json/probabilidades-riesgo.json'), true)),
+            'impactos_riesgo'                   => collect(json_decode(Storage::get('json/impactos-riesgo.json'), true)),
+            'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'tipos_impacto'                     => collect(json_decode(Storage::get('json/tipos-impacto.json'), true)),
+            'distancias_municipios'             => collect(json_decode(Storage::get('json/distancia-municipios.json'), true)),
+            'frecuencias_semanales'             => collect(json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true)),
+            'opciones_servicios_edicion'        => collect(json_decode(Storage::get('json/opciones-servicios-edicion.json'), true)),
+            'infraestructura_tecnoacademia'     => collect(json_decode(Storage::get('json/infraestructura-tecnoacademia.json'), true)),
+            'tipos_entidad_aliada'              => collect(json_decode(Storage::get('json/tipos-entidades-aliadas.json'), true)),
+            'naturaleza_entidad_aliada'         => collect(json_decode(Storage::get('json/naturaleza-empresa.json'), true)),
+            'tipos_empresa'                     => collect(json_decode(Storage::get('json/tipos-empresa.json'), true)),
+            'tipos_licencia'                    => collect(json_decode(Storage::get('json/tipos-licencia-software.json'), true)),
+            'tipos_software'                    => collect(json_decode(Storage::get('json/tipos-software.json'), true))
+        ]);
+
+        return $pdf->stream();
+
+        return $pdf->download($proyecto->codigo.'.pdf');
+
+        // Get the file content from the response
+        $fileContent = $pdf->setWarnings(false)->output();
+
+        // Set the filename
+        $filename = 'file.pdf';
+
+        // Create a temporary file
+        $tmp_file = tmpfile();
+
+        // Write the file content to the temporary file
+        fwrite($tmp_file, $fileContent);
+
+        // Create a new file object from the temporary file
+        $file = new \Illuminate\Http\UploadedFile(
+            stream_get_meta_data($tmp_file)['uri'],
+            $filename,
+            'application/pdf',
+            null,
+            true
+        );
+
+        $request = new Request();
+
+        // Set the file object in the request
+        $request->merge([
+            'pdf_proyecto' => $file,
+        ]);
+
+        $modulo = 'CONVOCATORIAS2023';
+        $centroFormacionSharePoint  = $proyecto->centroFormacion->nombre_carpeta_sharepoint;
+        $sharepoint_path            = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
+
+        // $response = self::saveFilesSharepoint($request, 'CONVOCATORIA2023', $proyecto, $proyecto, 'pdf_proyecto');
+
+        $path = Storage::put($sharepoint_path . '/' . $proyecto->codigo . '.pdf', $fileContent);
+        // if (!empty($response['sharePointPath'])) {
+        //     ProyectoPdfVersion::create([
+        //         'proyecto_id'     => $proyecto->id,
+        //         'version'         => $response['nombreArchivo'],
+        //         'estado'          => 1
+        //     ]);
+
+        //     ProyectoPdfVersion::where('proyecto_id', $proyecto->id)->update(['estado' => 1]);
+        // }
+    }
+
+    static function generarPdfFormulario5Linea69(Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', -1);
+
+        $datos = null;
+        $datos = $proyecto->proyectoFormulario5Linea69;
+
+        $proyecto->load('efectosDirectos.resultado');
+
+        $pdf = PDF::setOption(['dpi' => 150, 'defaultFont' => 'Nunito'])->loadView('Convocatorias.Proyectos.PdfFormulario5Linea69', [
+            'convocatoria'                      => $convocatoria,
+            'proyecto'                          => $proyecto,
+            'datos'                             => $datos,
+            'municipios'                        => Municipio::all(),
+            'proyecto_anexo'                    => $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('convocatoria_anexos', 'proyecto_anexo.convocatoria_anexo_id', 'convocatoria_anexos.id')->join('anexos', 'convocatoria_anexos.anexo_id', 'anexos.id')->get(),
+            'tipos_productos'                   => collect(json_decode(Storage::get('json/tipos-producto.json'), true)),
+            'niveles_riesgo'                    => collect(json_decode(Storage::get('json/niveles-riesgo.json'), true)),
+            'tipos_riesgo'                      => collect(json_decode(Storage::get('json/tipos-riesgo.json'), true)),
+            'probabilidades_riesgo'             => collect(json_decode(Storage::get('json/probabilidades-riesgo.json'), true)),
+            'impactos_riesgo'                   => collect(json_decode(Storage::get('json/impactos-riesgo.json'), true)),
+            'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'tipos_impacto'                     => collect(json_decode(Storage::get('json/tipos-impacto.json'), true)),
+            'distancias_municipios'             => collect(json_decode(Storage::get('json/distancia-municipios.json'), true)),
+            'frecuencias_semanales'             => collect(json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true)),
+            'opciones_servicios_edicion'        => collect(json_decode(Storage::get('json/opciones-servicios-edicion.json'), true)),
+            'tipos_entidad_aliada'              => collect(json_decode(Storage::get('json/tipos-entidades-aliadas.json'), true)),
+            'naturaleza_entidad_aliada'         => collect(json_decode(Storage::get('json/naturaleza-empresa.json'), true)),
+            'tipos_empresa'                     => collect(json_decode(Storage::get('json/tipos-empresa.json'), true)),
+            'tipos_licencia'                    => collect(json_decode(Storage::get('json/tipos-licencia-software.json'), true)),
+            'tipos_software'                    => collect(json_decode(Storage::get('json/tipos-software.json'), true))
+        ]);
+
+        return $pdf->stream();
+
+        return $pdf->download($proyecto->codigo.'.pdf');
+
+        // Get the file content from the response
+        $fileContent = $pdf->setWarnings(false)->output();
+
+        // Set the filename
+        $filename = 'file.pdf';
+
+        // Create a temporary file
+        $tmp_file = tmpfile();
+
+        // Write the file content to the temporary file
+        fwrite($tmp_file, $fileContent);
+
+        // Create a new file object from the temporary file
+        $file = new \Illuminate\Http\UploadedFile(
+            stream_get_meta_data($tmp_file)['uri'],
+            $filename,
+            'application/pdf',
+            null,
+            true
+        );
+
+        $request = new Request();
+
+        // Set the file object in the request
+        $request->merge([
+            'pdf_proyecto' => $file,
+        ]);
+
+        $modulo = 'CONVOCATORIAS2023';
+        $centroFormacionSharePoint  = $proyecto->centroFormacion->nombre_carpeta_sharepoint;
+        $sharepoint_path            = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
+
+        // $response = self::saveFilesSharepoint($request, 'CONVOCATORIA2023', $proyecto, $proyecto, 'pdf_proyecto');
+
+        $path = Storage::put($sharepoint_path . '/' . $proyecto->codigo . '.pdf', $fileContent);
+        // if (!empty($response['sharePointPath'])) {
+        //     ProyectoPdfVersion::create([
+        //         'proyecto_id'     => $proyecto->id,
+        //         'version'         => $response['nombreArchivo'],
+        //         'estado'          => 1
+        //     ]);
+
+        //     ProyectoPdfVersion::where('proyecto_id', $proyecto->id)->update(['estado' => 1]);
+        // }
+    }
+
+    static function generarPdfFormulario6Linea82(Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', -1);
+
+        $datos = null;
+        $datos = $proyecto->proyectoFormulario6Linea82;
+
+        $proyecto->load('efectosDirectos.resultado');
+
+        $pdf = PDF::setOption(['dpi' => 150, 'defaultFont' => 'Nunito'])->loadView('Convocatorias.Proyectos.PdfFormulario6Linea82', [
+            'convocatoria'                      => $convocatoria,
+            'proyecto'                          => $proyecto,
+            'datos'                             => $datos,
+            'municipios'                        => Municipio::all(),
+            'proyecto_anexo'                    => $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('convocatoria_anexos', 'proyecto_anexo.convocatoria_anexo_id', 'convocatoria_anexos.id')->join('anexos', 'convocatoria_anexos.anexo_id', 'anexos.id')->get(),
+            'tipos_productos'                   => collect(json_decode(Storage::get('json/tipos-producto.json'), true)),
+            'niveles_riesgo'                    => collect(json_decode(Storage::get('json/niveles-riesgo.json'), true)),
+            'tipos_riesgo'                      => collect(json_decode(Storage::get('json/tipos-riesgo.json'), true)),
+            'probabilidades_riesgo'             => collect(json_decode(Storage::get('json/probabilidades-riesgo.json'), true)),
+            'impactos_riesgo'                   => collect(json_decode(Storage::get('json/impactos-riesgo.json'), true)),
+            'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'tipos_impacto'                     => collect(json_decode(Storage::get('json/tipos-impacto.json'), true)),
+            'distancias_municipios'             => collect(json_decode(Storage::get('json/distancia-municipios.json'), true)),
+            'frecuencias_semanales'             => collect(json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true)),
+            'opciones_servicios_edicion'        => collect(json_decode(Storage::get('json/opciones-servicios-edicion.json'), true)),
+            'tipos_entidad_aliada'              => collect(json_decode(Storage::get('json/tipos-entidades-aliadas.json'), true)),
+            'naturaleza_entidad_aliada'         => collect(json_decode(Storage::get('json/naturaleza-empresa.json'), true)),
+            'tipos_empresa'                     => collect(json_decode(Storage::get('json/tipos-empresa.json'), true)),
+            'tipos_licencia'                    => collect(json_decode(Storage::get('json/tipos-licencia-software.json'), true)),
+            'tipos_software'                    => collect(json_decode(Storage::get('json/tipos-software.json'), true)),
+            'lineas_estrategicas'               => collect(json_decode(Storage::get('json/lineas-estrategicas.json'), true)),
+        ]);
+
+        return $pdf->stream();
+
+        return $pdf->download($proyecto->codigo.'.pdf');
+
+        // Get the file content from the response
+        $fileContent = $pdf->setWarnings(false)->output();
+
+        // Set the filename
+        $filename = 'file.pdf';
+
+        // Create a temporary file
+        $tmp_file = tmpfile();
+
+        // Write the file content to the temporary file
+        fwrite($tmp_file, $fileContent);
+
+        // Create a new file object from the temporary file
+        $file = new \Illuminate\Http\UploadedFile(
+            stream_get_meta_data($tmp_file)['uri'],
+            $filename,
+            'application/pdf',
+            null,
+            true
+        );
+
+        $request = new Request();
+
+        // Set the file object in the request
+        $request->merge([
+            'pdf_proyecto' => $file,
+        ]);
+
+        $modulo = 'CONVOCATORIAS2023';
+        $centroFormacionSharePoint  = $proyecto->centroFormacion->nombre_carpeta_sharepoint;
+        $sharepoint_path            = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
+
+        // $response = self::saveFilesSharepoint($request, 'CONVOCATORIA2023', $proyecto, $proyecto, 'pdf_proyecto');
+
+        $path = Storage::put($sharepoint_path . '/' . $proyecto->codigo . '.pdf', $fileContent);
+        // if (!empty($response['sharePointPath'])) {
+        //     ProyectoPdfVersion::create([
+        //         'proyecto_id'     => $proyecto->id,
+        //         'version'         => $response['nombreArchivo'],
+        //         'estado'          => 1
+        //     ]);
+
+        //     ProyectoPdfVersion::where('proyecto_id', $proyecto->id)->update(['estado' => 1]);
+        // }
+    }
+
+    static function generarPdfFormulario7Linea23(Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', -1);
+
+        $datos = null;
+        $datos = $proyecto->proyectoFormulario7Linea23;
+
+        $proyecto->load('efectosDirectos.resultado');
+
+        $pdf = PDF::setOption(['dpi' => 150, 'defaultFont' => 'Nunito'])->loadView('Convocatorias.Proyectos.PdfFormulario7Linea23', [
+            'convocatoria'                      => $convocatoria,
+            'proyecto'                          => $proyecto,
+            'datos'                             => $datos,
+            'municipios'                        => Municipio::all(),
+            'proyecto_anexo'                    => $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('convocatoria_anexos', 'proyecto_anexo.convocatoria_anexo_id', 'convocatoria_anexos.id')->join('anexos', 'convocatoria_anexos.anexo_id', 'anexos.id')->get(),
+            'tipos_productos'                   => collect(json_decode(Storage::get('json/tipos-producto.json'), true)),
+            'niveles_riesgo'                    => collect(json_decode(Storage::get('json/niveles-riesgo.json'), true)),
+            'tipos_riesgo'                      => collect(json_decode(Storage::get('json/tipos-riesgo.json'), true)),
+            'probabilidades_riesgo'             => collect(json_decode(Storage::get('json/probabilidades-riesgo.json'), true)),
+            'impactos_riesgo'                   => collect(json_decode(Storage::get('json/impactos-riesgo.json'), true)),
+            'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'tipos_impacto'                     => collect(json_decode(Storage::get('json/tipos-impacto.json'), true)),
+            'distancias_municipios'             => collect(json_decode(Storage::get('json/distancia-municipios.json'), true)),
+            'frecuencias_semanales'             => collect(json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true)),
+            'opciones_servicios_edicion'        => collect(json_decode(Storage::get('json/opciones-servicios-edicion.json'), true)),
+            'tipos_entidad_aliada'              => collect(json_decode(Storage::get('json/tipos-entidades-aliadas.json'), true)),
+            'naturaleza_entidad_aliada'         => collect(json_decode(Storage::get('json/naturaleza-empresa.json'), true)),
+            'tipos_empresa'                     => collect(json_decode(Storage::get('json/tipos-empresa.json'), true)),
+            'tipos_licencia'                    => collect(json_decode(Storage::get('json/tipos-licencia-software.json'), true)),
+            'tipos_software'                    => collect(json_decode(Storage::get('json/tipos-software.json'), true)),
+            'lineas_estrategicas'               => collect(json_decode(Storage::get('json/lineas-estrategicas.json'), true)),
+        ]);
+
+        return $pdf->stream();
+
+        return $pdf->download($proyecto->codigo.'.pdf');
+
+        // Get the file content from the response
+        $fileContent = $pdf->setWarnings(false)->output();
+
+        // Set the filename
+        $filename = 'file.pdf';
+
+        // Create a temporary file
+        $tmp_file = tmpfile();
+
+        // Write the file content to the temporary file
+        fwrite($tmp_file, $fileContent);
+
+        // Create a new file object from the temporary file
+        $file = new \Illuminate\Http\UploadedFile(
+            stream_get_meta_data($tmp_file)['uri'],
+            $filename,
+            'application/pdf',
+            null,
+            true
+        );
+
+        $request = new Request();
+
+        // Set the file object in the request
+        $request->merge([
+            'pdf_proyecto' => $file,
+        ]);
+
+        $modulo = 'CONVOCATORIAS2023';
+        $centroFormacionSharePoint  = $proyecto->centroFormacion->nombre_carpeta_sharepoint;
+        $sharepoint_path            = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
+
+        // $response = self::saveFilesSharepoint($request, 'CONVOCATORIA2023', $proyecto, $proyecto, 'pdf_proyecto');
+
+        $path = Storage::put($sharepoint_path . '/' . $proyecto->codigo . '.pdf', $fileContent);
+        // if (!empty($response['sharePointPath'])) {
+        //     ProyectoPdfVersion::create([
+        //         'proyecto_id'     => $proyecto->id,
+        //         'version'         => $response['nombreArchivo'],
+        //         'estado'          => 1
+        //     ]);
+
+        //     ProyectoPdfVersion::where('proyecto_id', $proyecto->id)->update(['estado' => 1]);
+        // }
+    }
+
+    static function generarPdfFormulario8Linea66(Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', -1);
+
+        $datos = null;
+        $datos = $proyecto->proyectoFormulario8Linea66;
+
+        $proyecto->load('efectosDirectos.resultado');
+
+        $pdf = PDF::setOption(['dpi' => 150, 'defaultFont' => 'Nunito'])->loadView('Convocatorias.Proyectos.PdfFormulario8Linea66', [
+            'convocatoria'                      => $convocatoria,
+            'proyecto'                          => $proyecto,
+            'datos'                             => $datos,
+            'municipios'                        => Municipio::all(),
+            'proyecto_anexo'                    => $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('convocatoria_anexos', 'proyecto_anexo.convocatoria_anexo_id', 'convocatoria_anexos.id')->join('anexos', 'convocatoria_anexos.anexo_id', 'anexos.id')->get(),
+            'tipos_productos'                   => collect(json_decode(Storage::get('json/tipos-producto.json'), true)),
+            'niveles_riesgo'                    => collect(json_decode(Storage::get('json/niveles-riesgo.json'), true)),
+            'tipos_riesgo'                      => collect(json_decode(Storage::get('json/tipos-riesgo.json'), true)),
+            'probabilidades_riesgo'             => collect(json_decode(Storage::get('json/probabilidades-riesgo.json'), true)),
+            'impactos_riesgo'                   => collect(json_decode(Storage::get('json/impactos-riesgo.json'), true)),
+            'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'tipos_impacto'                     => collect(json_decode(Storage::get('json/tipos-impacto.json'), true)),
+            'distancias_municipios'             => collect(json_decode(Storage::get('json/distancia-municipios.json'), true)),
+            'frecuencias_semanales'             => collect(json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true)),
+            'opciones_servicios_edicion'        => collect(json_decode(Storage::get('json/opciones-servicios-edicion.json'), true)),
+            'tipos_entidad_aliada'              => collect(json_decode(Storage::get('json/tipos-entidades-aliadas.json'), true)),
+            'naturaleza_entidad_aliada'         => collect(json_decode(Storage::get('json/naturaleza-empresa.json'), true)),
+            'tipos_empresa'                     => collect(json_decode(Storage::get('json/tipos-empresa.json'), true)),
+            'tipos_licencia'                    => collect(json_decode(Storage::get('json/tipos-licencia-software.json'), true)),
+            'tipos_software'                    => collect(json_decode(Storage::get('json/tipos-software.json'), true)),
+            'lineas_estrategicas'               => collect(json_decode(Storage::get('json/lineas-estrategicas.json'), true)),
+        ]);
+
+        return $pdf->stream();
+
+        return $pdf->download($proyecto->codigo.'.pdf');
+
+        // Get the file content from the response
+        $fileContent = $pdf->setWarnings(false)->output();
+
+        // Set the filename
+        $filename = 'file.pdf';
+
+        // Create a temporary file
+        $tmp_file = tmpfile();
+
+        // Write the file content to the temporary file
+        fwrite($tmp_file, $fileContent);
+
+        // Create a new file object from the temporary file
+        $file = new \Illuminate\Http\UploadedFile(
+            stream_get_meta_data($tmp_file)['uri'],
+            $filename,
+            'application/pdf',
+            null,
+            true
+        );
+
+        $request = new Request();
+
+        // Set the file object in the request
+        $request->merge([
+            'pdf_proyecto' => $file,
+        ]);
+
+        $modulo = 'CONVOCATORIAS2023';
+        $centroFormacionSharePoint  = $proyecto->centroFormacion->nombre_carpeta_sharepoint;
+        $sharepoint_path            = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
+
+        // $response = self::saveFilesSharepoint($request, 'CONVOCATORIA2023', $proyecto, $proyecto, 'pdf_proyecto');
+
+        $path = Storage::put($sharepoint_path . '/' . $proyecto->codigo . '.pdf', $fileContent);
+        // if (!empty($response['sharePointPath'])) {
+        //     ProyectoPdfVersion::create([
+        //         'proyecto_id'     => $proyecto->id,
+        //         'version'         => $response['nombreArchivo'],
+        //         'estado'          => 1
+        //     ]);
+
+        //     ProyectoPdfVersion::where('proyecto_id', $proyecto->id)->update(['estado' => 1]);
+        // }
+    }
+
+    static function generarPdfFormulario9Linea23(Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', -1);
+
+        $datos = null;
+        $datos = $proyecto->proyectoFormulario9Linea23;
+
+        $proyecto->load('efectosDirectos.resultado');
+
+        $pdf = PDF::setOption(['dpi' => 150, 'defaultFont' => 'Nunito'])->loadView('Convocatorias.Proyectos.PdfFormulario9Linea23', [
+            'convocatoria'                      => $convocatoria,
+            'proyecto'                          => $proyecto,
+            'datos'                             => $datos,
+            'municipios'                        => Municipio::all(),
+            'proyecto_anexo'                    => $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('convocatoria_anexos', 'proyecto_anexo.convocatoria_anexo_id', 'convocatoria_anexos.id')->join('anexos', 'convocatoria_anexos.anexo_id', 'anexos.id')->get(),
+            'tipos_productos'                   => collect(json_decode(Storage::get('json/tipos-producto.json'), true)),
+            'niveles_riesgo'                    => collect(json_decode(Storage::get('json/niveles-riesgo.json'), true)),
+            'tipos_riesgo'                      => collect(json_decode(Storage::get('json/tipos-riesgo.json'), true)),
+            'probabilidades_riesgo'             => collect(json_decode(Storage::get('json/probabilidades-riesgo.json'), true)),
+            'impactos_riesgo'                   => collect(json_decode(Storage::get('json/impactos-riesgo.json'), true)),
+            'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'tipos_impacto'                     => collect(json_decode(Storage::get('json/tipos-impacto.json'), true)),
+            'distancias_municipios'             => collect(json_decode(Storage::get('json/distancia-municipios.json'), true)),
+            'frecuencias_semanales'             => collect(json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true)),
+            'opciones_servicios_edicion'        => collect(json_decode(Storage::get('json/opciones-servicios-edicion.json'), true)),
+            'tipos_entidad_aliada'              => collect(json_decode(Storage::get('json/tipos-entidades-aliadas.json'), true)),
+            'naturaleza_entidad_aliada'         => collect(json_decode(Storage::get('json/naturaleza-empresa.json'), true)),
+            'tipos_empresa'                     => collect(json_decode(Storage::get('json/tipos-empresa.json'), true)),
+            'tipos_licencia'                    => collect(json_decode(Storage::get('json/tipos-licencia-software.json'), true)),
+            'tipos_software'                    => collect(json_decode(Storage::get('json/tipos-software.json'), true)),
+            'lineas_estrategicas'               => collect(json_decode(Storage::get('json/lineas-estrategicas.json'), true)),
+        ]);
+
+        return $pdf->stream();
+
+        return $pdf->download($proyecto->codigo.'.pdf');
+
+        // Get the file content from the response
+        $fileContent = $pdf->setWarnings(false)->output();
+
+        // Set the filename
+        $filename = 'file.pdf';
+
+        // Create a temporary file
+        $tmp_file = tmpfile();
+
+        // Write the file content to the temporary file
+        fwrite($tmp_file, $fileContent);
+
+        // Create a new file object from the temporary file
+        $file = new \Illuminate\Http\UploadedFile(
+            stream_get_meta_data($tmp_file)['uri'],
+            $filename,
+            'application/pdf',
+            null,
+            true
+        );
+
+        $request = new Request();
+
+        // Set the file object in the request
+        $request->merge([
+            'pdf_proyecto' => $file,
+        ]);
+
+        $modulo = 'CONVOCATORIAS2023';
+        $centroFormacionSharePoint  = $proyecto->centroFormacion->nombre_carpeta_sharepoint;
+        $sharepoint_path            = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
+
+        // $response = self::saveFilesSharepoint($request, 'CONVOCATORIA2023', $proyecto, $proyecto, 'pdf_proyecto');
+
+        $path = Storage::put($sharepoint_path . '/' . $proyecto->codigo . '.pdf', $fileContent);
+        // if (!empty($response['sharePointPath'])) {
+        //     ProyectoPdfVersion::create([
+        //         'proyecto_id'     => $proyecto->id,
+        //         'version'         => $response['nombreArchivo'],
+        //         'estado'          => 1
+        //     ]);
+
+        //     ProyectoPdfVersion::where('proyecto_id', $proyecto->id)->update(['estado' => 1]);
+        // }
+    }
+
+    static function generarPdfFormulario10Linea69(Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', -1);
+
+        $datos = null;
+        $datos = $proyecto->proyectoFormulario10Linea69;
+
+        $proyecto->load('efectosDirectos.resultado');
+
+        $pdf = PDF::setOption(['dpi' => 150, 'defaultFont' => 'Nunito'])->loadView('Convocatorias.Proyectos.PdfFormulario10Linea69', [
+            'convocatoria'                      => $convocatoria,
+            'proyecto'                          => $proyecto,
+            'datos'                             => $datos,
+            'municipios'                        => Municipio::all(),
+            'proyecto_anexo'                    => $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('convocatoria_anexos', 'proyecto_anexo.convocatoria_anexo_id', 'convocatoria_anexos.id')->join('anexos', 'convocatoria_anexos.anexo_id', 'anexos.id')->get(),
+            'tipos_productos'                   => collect(json_decode(Storage::get('json/tipos-producto.json'), true)),
+            'niveles_riesgo'                    => collect(json_decode(Storage::get('json/niveles-riesgo.json'), true)),
+            'tipos_riesgo'                      => collect(json_decode(Storage::get('json/tipos-riesgo.json'), true)),
+            'probabilidades_riesgo'             => collect(json_decode(Storage::get('json/probabilidades-riesgo.json'), true)),
+            'impactos_riesgo'                   => collect(json_decode(Storage::get('json/impactos-riesgo.json'), true)),
+            'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'tipos_impacto'                     => collect(json_decode(Storage::get('json/tipos-impacto.json'), true)),
+            'distancias_municipios'             => collect(json_decode(Storage::get('json/distancia-municipios.json'), true)),
+            'frecuencias_semanales'             => collect(json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true)),
+            'opciones_servicios_edicion'        => collect(json_decode(Storage::get('json/opciones-servicios-edicion.json'), true)),
+            'tipos_entidad_aliada'              => collect(json_decode(Storage::get('json/tipos-entidades-aliadas.json'), true)),
+            'naturaleza_entidad_aliada'         => collect(json_decode(Storage::get('json/naturaleza-empresa.json'), true)),
+            'tipos_empresa'                     => collect(json_decode(Storage::get('json/tipos-empresa.json'), true)),
+            'tipos_licencia'                    => collect(json_decode(Storage::get('json/tipos-licencia-software.json'), true)),
+            'tipos_software'                    => collect(json_decode(Storage::get('json/tipos-software.json'), true))
+        ]);
+
+        return $pdf->stream();
+
+        return $pdf->download($proyecto->codigo.'.pdf');
+
+        // Get the file content from the response
+        $fileContent = $pdf->setWarnings(false)->output();
+
+        // Set the filename
+        $filename = 'file.pdf';
+
+        // Create a temporary file
+        $tmp_file = tmpfile();
+
+        // Write the file content to the temporary file
+        fwrite($tmp_file, $fileContent);
+
+        // Create a new file object from the temporary file
+        $file = new \Illuminate\Http\UploadedFile(
+            stream_get_meta_data($tmp_file)['uri'],
+            $filename,
+            'application/pdf',
+            null,
+            true
+        );
+
+        $request = new Request();
+
+        // Set the file object in the request
+        $request->merge([
+            'pdf_proyecto' => $file,
+        ]);
+
+        $modulo = 'CONVOCATORIAS2023';
+        $centroFormacionSharePoint  = $proyecto->centroFormacion->nombre_carpeta_sharepoint;
+        $sharepoint_path            = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
+
+        // $response = self::saveFilesSharepoint($request, 'CONVOCATORIA2023', $proyecto, $proyecto, 'pdf_proyecto');
+
+        $path = Storage::put($sharepoint_path . '/' . $proyecto->codigo . '.pdf', $fileContent);
+        // if (!empty($response['sharePointPath'])) {
+        //     ProyectoPdfVersion::create([
+        //         'proyecto_id'     => $proyecto->id,
+        //         'version'         => $response['nombreArchivo'],
+        //         'estado'          => 1
+        //     ]);
+
+        //     ProyectoPdfVersion::where('proyecto_id', $proyecto->id)->update(['estado' => 1]);
+        // }
+    }
+
+    static function generarPdfFormulario11Linea83(Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', -1);
+
+        $datos = null;
+        $datos = $proyecto->proyectoFormulario11Linea83;
+
+        $proyecto->load('efectosDirectos.resultado');
+
+        $pdf = PDF::setOption(['dpi' => 150, 'defaultFont' => 'Nunito'])->loadView('Convocatorias.Proyectos.PdfFormulario11Linea83', [
+            'convocatoria'                      => $convocatoria,
+            'proyecto'                          => $proyecto,
+            'datos'                             => $datos,
+            'municipios'                        => Municipio::all(),
+            'proyecto_anexo'                    => $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('convocatoria_anexos', 'proyecto_anexo.convocatoria_anexo_id', 'convocatoria_anexos.id')->join('anexos', 'convocatoria_anexos.anexo_id', 'anexos.id')->get(),
+            'tipos_productos'                   => collect(json_decode(Storage::get('json/tipos-producto.json'), true)),
+            'niveles_riesgo'                    => collect(json_decode(Storage::get('json/niveles-riesgo.json'), true)),
+            'tipos_riesgo'                      => collect(json_decode(Storage::get('json/tipos-riesgo.json'), true)),
+            'probabilidades_riesgo'             => collect(json_decode(Storage::get('json/probabilidades-riesgo.json'), true)),
+            'impactos_riesgo'                   => collect(json_decode(Storage::get('json/impactos-riesgo.json'), true)),
+            'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'tipos_impacto'                     => collect(json_decode(Storage::get('json/tipos-impacto.json'), true)),
+            'distancias_municipios'             => collect(json_decode(Storage::get('json/distancia-municipios.json'), true)),
+            'frecuencias_semanales'             => collect(json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true)),
+            'opciones_servicios_edicion'        => collect(json_decode(Storage::get('json/opciones-servicios-edicion.json'), true)),
+            'tipos_entidad_aliada'              => collect(json_decode(Storage::get('json/tipos-entidades-aliadas.json'), true)),
+            'naturaleza_entidad_aliada'         => collect(json_decode(Storage::get('json/naturaleza-empresa.json'), true)),
+            'tipos_empresa'                     => collect(json_decode(Storage::get('json/tipos-empresa.json'), true)),
+            'tipos_licencia'                    => collect(json_decode(Storage::get('json/tipos-licencia-software.json'), true)),
+            'tipos_software'                    => collect(json_decode(Storage::get('json/tipos-software.json'), true))
+        ]);
+
+        return $pdf->stream();
+
+        return $pdf->download($proyecto->codigo.'.pdf');
+
+        // Get the file content from the response
+        $fileContent = $pdf->setWarnings(false)->output();
+
+        // Set the filename
+        $filename = 'file.pdf';
+
+        // Create a temporary file
+        $tmp_file = tmpfile();
+
+        // Write the file content to the temporary file
+        fwrite($tmp_file, $fileContent);
+
+        // Create a new file object from the temporary file
+        $file = new \Illuminate\Http\UploadedFile(
+            stream_get_meta_data($tmp_file)['uri'],
+            $filename,
+            'application/pdf',
+            null,
+            true
+        );
+
+        $request = new Request();
+
+        // Set the file object in the request
+        $request->merge([
+            'pdf_proyecto' => $file,
+        ]);
+
+        $modulo = 'CONVOCATORIAS2023';
+        $centroFormacionSharePoint  = $proyecto->centroFormacion->nombre_carpeta_sharepoint;
+        $sharepoint_path            = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
+
+        // $response = self::saveFilesSharepoint($request, 'CONVOCATORIA2023', $proyecto, $proyecto, 'pdf_proyecto');
+
+        $path = Storage::put($sharepoint_path . '/' . $proyecto->codigo . '.pdf', $fileContent);
+        // if (!empty($response['sharePointPath'])) {
+        //     ProyectoPdfVersion::create([
+        //         'proyecto_id'     => $proyecto->id,
+        //         'version'         => $response['nombreArchivo'],
+        //         'estado'          => 1
+        //     ]);
+
+        //     ProyectoPdfVersion::where('proyecto_id', $proyecto->id)->update(['estado' => 1]);
+        // }
+    }
+
+    static function generarPdfFormulario12Linea68(Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', -1);
+
+        $datos = null;
+        $tipo_proyecto_linea68 = SelectHelper::laboratoriosServiciosTecnologicos();
+        $datos = $proyecto->proyectoFormulario12Linea68;
+
+        $proyecto->load('efectosDirectos.resultado');
+
+        $pdf = PDF::setOption(['dpi' => 150, 'defaultFont' => 'Nunito'])->loadView('Convocatorias.Proyectos.PdfFormulario12Linea68', [
+            'convocatoria'                  => $convocatoria,
+            'proyecto'                      => $proyecto,
+            'datos'                         => $datos,
+            'tipo_proyecto_linea68'         => $tipo_proyecto_linea68,
+            'municipios'                    => Municipio::all(),
+            'proyecto_anexo'                => $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('convocatoria_anexos', 'proyecto_anexo.convocatoria_anexo_id', 'convocatoria_anexos.id')->join('anexos', 'convocatoria_anexos.anexo_id', 'anexos.id')->get(),
+            'tipos_productos'               => collect(json_decode(Storage::get('json/tipos-producto.json'), true)),
+            'niveles_riesgo'                => collect(json_decode(Storage::get('json/niveles-riesgo.json'), true)),
+            'tipos_riesgo'                  => collect(json_decode(Storage::get('json/tipos-riesgo.json'), true)),
+            'probabilidades_riesgo'         => collect(json_decode(Storage::get('json/probabilidades-riesgo.json'), true)),
+            'impactos_riesgo'               => collect(json_decode(Storage::get('json/impactos-riesgo.json'), true)),
+            'sectores_productivos'          => collect(json_decode(Storage::get('json/sectores-productivos.json'), true)),
+            'roles_sennova'                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'tipos_impacto'                 => collect(json_decode(Storage::get('json/tipos-impacto.json'), true)),
+            'distancias_municipios'         => collect(json_decode(Storage::get('json/distancia-municipios.json'), true)),
+            'frecuencias_semanales'         => collect(json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true)),
+            'opciones_servicios_edicion'    => collect(json_decode(Storage::get('json/opciones-servicios-edicion.json'), true)),
+        ]);
+
+        return $pdf->stream();
+
+        return $pdf->download($proyecto->codigo.'.pdf');
+
+        // Get the file content from the response
+        $fileContent = $pdf->setWarnings(false)->output();
+
+        // Set the filename
+        $filename = 'file.pdf';
+
+        // Create a temporary file
+        $tmp_file = tmpfile();
+
+        // Write the file content to the temporary file
+        fwrite($tmp_file, $fileContent);
+
+        // Create a new file object from the temporary file
+        $file = new \Illuminate\Http\UploadedFile(
+            stream_get_meta_data($tmp_file)['uri'],
+            $filename,
+            'application/pdf',
+            null,
+            true
+        );
+
+        $request = new Request();
+
+        // Set the file object in the request
+        $request->merge([
+            'pdf_proyecto' => $file,
+        ]);
+
+        $modulo = 'CONVOCATORIAS2023';
+        $centroFormacionSharePoint  = $proyecto->centroFormacion->nombre_carpeta_sharepoint;
+        $sharepoint_path            = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
+
+        // $response = self::saveFilesSharepoint($request, 'CONVOCATORIA2023', $proyecto, $proyecto, 'pdf_proyecto');
+
+        $path = Storage::put($sharepoint_path . '/' . $proyecto->codigo . '.pdf', $fileContent);
+        // if (!empty($response['sharePointPath'])) {
+        //     ProyectoPdfVersion::create([
+        //         'proyecto_id'     => $proyecto->id,
+        //         'version'         => $response['nombreArchivo'],
+        //         'estado'          => 1
+        //     ]);
+
+        //     ProyectoPdfVersion::where('proyecto_id', $proyecto->id)->update(['estado' => 1]);
+        // }
+    }
+
+    static function generarPdfFormulario13Linea65(Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', -1);
+
+        $datos = null;
+        $datos = $proyecto->proyectoFormulario13Linea65;
+
+        $proyecto->load('efectosDirectos.resultado');
+
+        $pdf = PDF::setOption(['dpi' => 150, 'defaultFont' => 'Nunito'])->loadView('Convocatorias.Proyectos.PdfFormulario13Linea65', [
+            'convocatoria'                  => $convocatoria,
+            'proyecto'                      => $proyecto,
+            'datos'                         => $datos,
+            'municipios'                    => Municipio::all(),
+            'proyecto_anexo'                => $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('convocatoria_anexos', 'proyecto_anexo.convocatoria_anexo_id', 'convocatoria_anexos.id')->join('anexos', 'convocatoria_anexos.anexo_id', 'anexos.id')->get(),
+            'tipos_productos'               => collect(json_decode(Storage::get('json/tipos-producto.json'), true)),
+            'niveles_riesgo'                => collect(json_decode(Storage::get('json/niveles-riesgo.json'), true)),
+            'tipos_riesgo'                  => collect(json_decode(Storage::get('json/tipos-riesgo.json'), true)),
+            'probabilidades_riesgo'         => collect(json_decode(Storage::get('json/probabilidades-riesgo.json'), true)),
+            'impactos_riesgo'               => collect(json_decode(Storage::get('json/impactos-riesgo.json'), true)),
+            'roles_sennova'                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'tipos_impacto'                 => collect(json_decode(Storage::get('json/tipos-impacto.json'), true)),
+            'distancias_municipios'         => collect(json_decode(Storage::get('json/distancia-municipios.json'), true)),
+            'frecuencias_semanales'         => collect(json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true)),
+            'opciones_servicios_edicion'    => collect(json_decode(Storage::get('json/opciones-servicios-edicion.json'), true)),
+            'ejes_sennova'                  => collect(json_decode(Storage::get('json/ejes-sennova.json'), true)),
+            'areas_cualificacion_mnc'       => collect(json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true)),
+            'tipos_eventos'                 => collect(json_decode(Storage::get('json/tipos-eventos-linea-65.json'), true)),
+            'lineas_estrategicas_sena'      => collect(json_decode(Storage::get('json/lineas-estrategicas.json'), true)),
+            'lineas_programaticas'          => SelectHelper::lineasProgramaticas(),
+            'nodos_tecnoparques'            => SelectHelper::nodosTecnoparque(),
+            'tecnoacademias'                => SelectHelper::tecnoacademias(),
+            'hubs_innovacion'               => SelectHelper::hubsInnovacion(),
+            'laboratorios_st'               => SelectHelper::laboratoriosServiciosTecnologicos(),
+            'tipos_licencia'                => collect(json_decode(Storage::get('json/tipos-licencia-software.json'), true)),
+            'tipos_software'                => collect(json_decode(Storage::get('json/tipos-software.json'), true))
+        ]);
+
+        return $pdf->stream();
+
+        return $pdf->download($proyecto->codigo.'.pdf');
+
+        // Get the file content from the response
+        $fileContent = $pdf->setWarnings(false)->output();
+
+        // Set the filename
+        $filename = 'file.pdf';
+
+        // Create a temporary file
+        $tmp_file = tmpfile();
+
+        // Write the file content to the temporary file
+        fwrite($tmp_file, $fileContent);
+
+        // Create a new file object from the temporary file
+        $file = new \Illuminate\Http\UploadedFile(
+            stream_get_meta_data($tmp_file)['uri'],
+            $filename,
+            'application/pdf',
+            null,
+            true
+        );
+
+        $request = new Request();
+
+        // Set the file object in the request
+        $request->merge([
+            'pdf_proyecto' => $file,
+        ]);
+
+        $modulo = 'CONVOCATORIAS2023';
+        $centroFormacionSharePoint  = $proyecto->centroFormacion->nombre_carpeta_sharepoint;
+        $sharepoint_path            = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
+
+        // $response = self::saveFilesSharepoint($request, 'CONVOCATORIA2023', $proyecto, $proyecto, 'pdf_proyecto');
+
+        $path = Storage::put($sharepoint_path . '/' . $proyecto->codigo . '.pdf', $fileContent);
+        // if (!empty($response['sharePointPath'])) {
+        //     ProyectoPdfVersion::create([
+        //         'proyecto_id'     => $proyecto->id,
+        //         'version'         => $response['nombreArchivo'],
+        //         'estado'          => 1
+        //     ]);
+
+        //     ProyectoPdfVersion::where('proyecto_id', $proyecto->id)->update(['estado' => 1]);
+        // }
+    }
+
+    static function generarPdfFormulario15Linea65(Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', -1);
+
+        $datos = null;
+        $datos = $proyecto->proyectoFormulario15Linea65;
+
+        $proyecto->load('efectosDirectos.resultado');
+
+        $pdf = PDF::setOption(['dpi' => 150, 'defaultFont' => 'Nunito'])->loadView('Convocatorias.Proyectos.PdfFormulario15Linea65', [
+            'convocatoria'                  => $convocatoria,
+            'proyecto'                      => $proyecto,
+            'datos'                         => $datos,
+            'municipios'                    => Municipio::all(),
+            'proyecto_anexo'                => $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('convocatoria_anexos', 'proyecto_anexo.convocatoria_anexo_id', 'convocatoria_anexos.id')->join('anexos', 'convocatoria_anexos.anexo_id', 'anexos.id')->get(),
+            'tipos_productos'               => collect(json_decode(Storage::get('json/tipos-producto.json'), true)),
+            'niveles_riesgo'                => collect(json_decode(Storage::get('json/niveles-riesgo.json'), true)),
+            'tipos_riesgo'                  => collect(json_decode(Storage::get('json/tipos-riesgo.json'), true)),
+            'probabilidades_riesgo'         => collect(json_decode(Storage::get('json/probabilidades-riesgo.json'), true)),
+            'impactos_riesgo'               => collect(json_decode(Storage::get('json/impactos-riesgo.json'), true)),
+            'roles_sennova'                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'tipos_impacto'                 => collect(json_decode(Storage::get('json/tipos-impacto.json'), true)),
+            'distancias_municipios'         => collect(json_decode(Storage::get('json/distancia-municipios.json'), true)),
+            'frecuencias_semanales'         => collect(json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true)),
+            'opciones_servicios_edicion'    => collect(json_decode(Storage::get('json/opciones-servicios-edicion.json'), true)),
+            'ejes_sennova'                  => collect(json_decode(Storage::get('json/ejes-sennova.json'), true)),
+            'areas_cualificacion_mnc'       => collect(json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true)),
+            'tipos_eventos'                 => collect(json_decode(Storage::get('json/tipos-eventos-linea-65.json'), true)),
+            'lineas_estrategicas_sena'      => collect(json_decode(Storage::get('json/lineas-estrategicas.json'), true)),
+            'lineas_programaticas'          => SelectHelper::lineasProgramaticas(),
+            'nodos_tecnoparques'            => SelectHelper::nodosTecnoparque(),
+            'tecnoacademias'                => SelectHelper::tecnoacademias(),
+            'hubs_innovacion'               => SelectHelper::hubsInnovacion(),
+            'laboratorios_st'               => SelectHelper::laboratoriosServiciosTecnologicos(),
+            'tipos_licencia'                => collect(json_decode(Storage::get('json/tipos-licencia-software.json'), true)),
+            'tipos_software'                => collect(json_decode(Storage::get('json/tipos-software.json'), true))
+        ]);
+
+        return $pdf->stream();
+
+        return $pdf->download($proyecto->codigo.'.pdf');
+
+        // Get the file content from the response
+        $fileContent = $pdf->setWarnings(false)->output();
+
+        // Set the filename
+        $filename = 'file.pdf';
+
+        // Create a temporary file
+        $tmp_file = tmpfile();
+
+        // Write the file content to the temporary file
+        fwrite($tmp_file, $fileContent);
+
+        // Create a new file object from the temporary file
+        $file = new \Illuminate\Http\UploadedFile(
+            stream_get_meta_data($tmp_file)['uri'],
+            $filename,
+            'application/pdf',
+            null,
+            true
+        );
+
+        $request = new Request();
+
+        // Set the file object in the request
+        $request->merge([
+            'pdf_proyecto' => $file,
+        ]);
+
+        $modulo = 'CONVOCATORIAS2023';
+        $centroFormacionSharePoint  = $proyecto->centroFormacion->nombre_carpeta_sharepoint;
+        $sharepoint_path            = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
+
+        // $response = self::saveFilesSharepoint($request, 'CONVOCATORIA2023', $proyecto, $proyecto, 'pdf_proyecto');
+
+        $path = Storage::put($sharepoint_path . '/' . $proyecto->codigo . '.pdf', $fileContent);
+        // if (!empty($response['sharePointPath'])) {
+        //     ProyectoPdfVersion::create([
+        //         'proyecto_id'     => $proyecto->id,
+        //         'version'         => $response['nombreArchivo'],
+        //         'estado'          => 1
+        //     ]);
+
+        //     ProyectoPdfVersion::where('proyecto_id', $proyecto->id)->update(['estado' => 1]);
+        // }
+    }
+
+    static function generarPdfFormulario16Linea65(Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', -1);
+
+        $datos = null;
+        $datos = $proyecto->proyectoFormulario16Linea65;
+
+        $proyecto->load('efectosDirectos.resultado');
+
+        $pdf = PDF::setOption(['dpi' => 150, 'defaultFont' => 'Nunito'])->loadView('Convocatorias.Proyectos.PdfFormulario16Linea65', [
+            'convocatoria'                  => $convocatoria,
+            'proyecto'                      => $proyecto,
+            'datos'                         => $datos,
+            'municipios'                    => Municipio::all(),
+            'proyecto_anexo'                => $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('convocatoria_anexos', 'proyecto_anexo.convocatoria_anexo_id', 'convocatoria_anexos.id')->join('anexos', 'convocatoria_anexos.anexo_id', 'anexos.id')->get(),
+            'tipos_productos'               => collect(json_decode(Storage::get('json/tipos-producto.json'), true)),
+            'niveles_riesgo'                => collect(json_decode(Storage::get('json/niveles-riesgo.json'), true)),
+            'tipos_riesgo'                  => collect(json_decode(Storage::get('json/tipos-riesgo.json'), true)),
+            'probabilidades_riesgo'         => collect(json_decode(Storage::get('json/probabilidades-riesgo.json'), true)),
+            'impactos_riesgo'               => collect(json_decode(Storage::get('json/impactos-riesgo.json'), true)),
+            'roles_sennova'                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'tipos_impacto'                 => collect(json_decode(Storage::get('json/tipos-impacto.json'), true)),
+            'distancias_municipios'         => collect(json_decode(Storage::get('json/distancia-municipios.json'), true)),
+            'frecuencias_semanales'         => collect(json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true)),
+            'opciones_servicios_edicion'    => collect(json_decode(Storage::get('json/opciones-servicios-edicion.json'), true)),
+            'ejes_sennova'                  => collect(json_decode(Storage::get('json/ejes-sennova.json'), true)),
+            'areas_cualificacion_mnc'       => collect(json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true)),
+            'tipos_eventos'                 => collect(json_decode(Storage::get('json/tipos-eventos-linea-65.json'), true)),
+            'lineas_estrategicas_sena'      => collect(json_decode(Storage::get('json/lineas-estrategicas.json'), true)),
+            'lineas_programaticas'          => SelectHelper::lineasProgramaticas(),
+            'nodos_tecnoparques'            => SelectHelper::nodosTecnoparque(),
+            'tecnoacademias'                => SelectHelper::tecnoacademias(),
+            'hubs_innovacion'               => SelectHelper::hubsInnovacion(),
+            'laboratorios_st'               => SelectHelper::laboratoriosServiciosTecnologicos(),
+            'tipos_licencia'                => collect(json_decode(Storage::get('json/tipos-licencia-software.json'), true)),
+            'tipos_software'                => collect(json_decode(Storage::get('json/tipos-software.json'), true))
+        ]);
+
+        return $pdf->stream();
+
+        return $pdf->download($proyecto->codigo.'.pdf');
+
+        // Get the file content from the response
+        $fileContent = $pdf->setWarnings(false)->output();
+
+        // Set the filename
+        $filename = 'file.pdf';
+
+        // Create a temporary file
+        $tmp_file = tmpfile();
+
+        // Write the file content to the temporary file
+        fwrite($tmp_file, $fileContent);
+
+        // Create a new file object from the temporary file
+        $file = new \Illuminate\Http\UploadedFile(
+            stream_get_meta_data($tmp_file)['uri'],
+            $filename,
+            'application/pdf',
+            null,
+            true
+        );
+
+        $request = new Request();
+
+        // Set the file object in the request
+        $request->merge([
+            'pdf_proyecto' => $file,
+        ]);
+
+        $modulo = 'CONVOCATORIAS2023';
+        $centroFormacionSharePoint  = $proyecto->centroFormacion->nombre_carpeta_sharepoint;
+        $sharepoint_path            = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
+
+        // $response = self::saveFilesSharepoint($request, 'CONVOCATORIA2023', $proyecto, $proyecto, 'pdf_proyecto');
+
+        $path = Storage::put($sharepoint_path . '/' . $proyecto->codigo . '.pdf', $fileContent);
+        // if (!empty($response['sharePointPath'])) {
+        //     ProyectoPdfVersion::create([
+        //         'proyecto_id'     => $proyecto->id,
+        //         'version'         => $response['nombreArchivo'],
+        //         'estado'          => 1
+        //     ]);
+
+        //     ProyectoPdfVersion::where('proyecto_id', $proyecto->id)->update(['estado' => 1]);
+        // }
+    }
+
+    static function generarPdfFormulario17Linea69(Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', -1);
+
+        $datos = null;
+        $datos = $proyecto->proyectoFormulario17Linea69;
+
+        $proyecto->load('efectosDirectos.resultado');
+
+        $pdf = PDF::setOption(['dpi' => 150, 'defaultFont' => 'Nunito'])->loadView('Convocatorias.Proyectos.PdfFormulario17Linea69', [
+            'convocatoria'                      => $convocatoria,
+            'proyecto'                          => $proyecto,
+            'datos'                             => $datos,
+            'municipios'                        => Municipio::all(),
+            'proyecto_anexo'                    => $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('convocatoria_anexos', 'proyecto_anexo.convocatoria_anexo_id', 'convocatoria_anexos.id')->join('anexos', 'convocatoria_anexos.anexo_id', 'anexos.id')->get(),
+            'tipos_productos'                   => collect(json_decode(Storage::get('json/tipos-producto.json'), true)),
+            'niveles_riesgo'                    => collect(json_decode(Storage::get('json/niveles-riesgo.json'), true)),
+            'tipos_riesgo'                      => collect(json_decode(Storage::get('json/tipos-riesgo.json'), true)),
+            'probabilidades_riesgo'             => collect(json_decode(Storage::get('json/probabilidades-riesgo.json'), true)),
+            'impactos_riesgo'                   => collect(json_decode(Storage::get('json/impactos-riesgo.json'), true)),
+            'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'tipos_impacto'                     => collect(json_decode(Storage::get('json/tipos-impacto.json'), true)),
+            'distancias_municipios'             => collect(json_decode(Storage::get('json/distancia-municipios.json'), true)),
+            'frecuencias_semanales'             => collect(json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true)),
+            'opciones_servicios_edicion'        => collect(json_decode(Storage::get('json/opciones-servicios-edicion.json'), true)),
+            'tipos_entidad_aliada'              => collect(json_decode(Storage::get('json/tipos-entidades-aliadas.json'), true)),
+            'naturaleza_entidad_aliada'         => collect(json_decode(Storage::get('json/naturaleza-empresa.json'), true)),
+            'tipos_empresa'                     => collect(json_decode(Storage::get('json/tipos-empresa.json'), true)),
+            'tipos_licencia'                    => collect(json_decode(Storage::get('json/tipos-licencia-software.json'), true)),
+            'tipos_software'                    => collect(json_decode(Storage::get('json/tipos-software.json'), true))
+        ]);
+
+        return $pdf->stream();
+
+        return $pdf->download($proyecto->codigo.'.pdf');
+
+        // Get the file content from the response
+        $fileContent = $pdf->setWarnings(false)->output();
+
+        // Set the filename
+        $filename = 'file.pdf';
+
+        // Create a temporary file
+        $tmp_file = tmpfile();
+
+        // Write the file content to the temporary file
+        fwrite($tmp_file, $fileContent);
+
+        // Create a new file object from the temporary file
+        $file = new \Illuminate\Http\UploadedFile(
+            stream_get_meta_data($tmp_file)['uri'],
+            $filename,
+            'application/pdf',
+            null,
+            true
+        );
+
+        $request = new Request();
+
+        // Set the file object in the request
+        $request->merge([
+            'pdf_proyecto' => $file,
+        ]);
+
+        $modulo = 'CONVOCATORIAS2023';
+        $centroFormacionSharePoint  = $proyecto->centroFormacion->nombre_carpeta_sharepoint;
+        $sharepoint_path            = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
 
         // $response = self::saveFilesSharepoint($request, 'CONVOCATORIA2023', $proyecto, $proyecto, 'pdf_proyecto');
 
@@ -127,6 +1216,7 @@ class PdfController extends Controller
 
         return $response;
     }
+
 
     static function takeScreenshot($route, $select = null)
     {

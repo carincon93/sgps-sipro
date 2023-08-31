@@ -334,7 +334,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                         <Grid item md={12}>
                             <Textarea
                                 id="articulacion_agenda_competitividad"
-                                label="Articulación y contribución del Tecnoparque con la Agenda de la Comisión Regional de Competitividad."
+                                label="Articulación y contribución del Tecnoparque con la Agenda de la Comisión Regional de Competitividad"
                                 error={form.errors.articulacion_agenda_competitividad}
                                 value={form.data.articulacion_agenda_competitividad}
                                 onChange={(e) => form.setData('articulacion_agenda_competitividad', e.target.value)}
@@ -347,7 +347,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                         <Grid item md={12}>
                             <Textarea
                                 id="aportes_linea_ocho_conpes"
-                                label={`Aportes del Tecnoparque en el ${convocatoria.year} a la Línea de acción 8 del Conpes 4011 'Facilitar intercambio de tecnología y la innovación en los emprendimientos  CONPES'`}
+                                label={`Aportes del Tecnoparque en el ${convocatoria.year} a la Línea de acción 8 del Conpes 4011 'Facilitar intercambio de tecnología y la innovación en los emprendimientos CONPES'`}
                                 error={form.errors.aportes_linea_ocho_conpes}
                                 value={form.data.aportes_linea_ocho_conpes}
                                 onChange={(e) => form.setData('aportes_linea_ocho_conpes', e.target.value)}
@@ -360,7 +360,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                         <Grid item md={12}>
                             <Textarea
                                 id="estado_ecosistema_ctel"
-                                label="Describir el estado actual del Ecosistema Territorial de CTeI en el Departamento y las oportunidades de articulación con el Tecnoparque."
+                                label="Describir el estado actual del Ecosistema Territorial de CTeI en el Departamento y las oportunidades de articulación con el Tecnoparque"
                                 error={form.errors.estado_ecosistema_ctel}
                                 value={form.data.estado_ecosistema_ctel}
                                 onChange={(e) => form.setData('estado_ecosistema_ctel', e.target.value)}

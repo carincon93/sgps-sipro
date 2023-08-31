@@ -26,13 +26,14 @@ class ProyectoAnexoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
-        $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
+        // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
+        // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');}
 
+        $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
 
         return Inertia::render('Convocatorias/Proyectos/Anexos/Index', [
             'convocatoria'          =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
-            'proyecto'              =>  $proyecto->only('id', 'tipo_formulario_convocatoria_id', 'precio_proyecto', 'modificable', 'en_subsanacion', 'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
+            'proyecto'              =>  $proyecto,
             'evaluacion'            =>  Evaluacion::find(request()->evaluacion_id),
             'proyecto_anexo'        =>  $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('convocatoria_anexos', 'proyecto_anexo.convocatoria_anexo_id', 'convocatoria_anexos.id')->join('anexos', 'convocatoria_anexos.anexo_id', 'anexos.id')->get(),
             'convocatoria_anexos'   =>  ConvocatoriaAnexo::where('convocatoria_id', $convocatoria->id)

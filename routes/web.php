@@ -578,7 +578,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/editar', [ProyectoController::class, 'edit'])->name('convocatorias.proyectos.edit');
 
     //Exporta resumen proyecto PDF
-    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf', [PdfController::class, 'generateResumenProyecto'])->name('convocatorias.proyectos.pdf');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario1-linea65', [PdfController::class, 'generarPdfFormulario1Linea65'])->name('convocatorias.proyectos.pdf-formulario1-linea65');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario4-linea70', [PdfController::class, 'generarPdfFormulario4Linea70'])->name('convocatorias.proyectos.pdf-formulario4-linea70');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario5-linea69', [PdfController::class, 'generarPdfFormulario5Linea69'])->name('convocatorias.proyectos.pdf-formulario5-linea69');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario6-linea82', [PdfController::class, 'generarPdfFormulario6Linea82'])->name('convocatorias.proyectos.pdf-formulario6-linea82');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario7-linea23', [PdfController::class, 'generarPdfFormulario7Linea23'])->name('convocatorias.proyectos.pdf-formulario7-linea23');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario8-linea66', [PdfController::class, 'generarPdfFormulario8Linea66'])->name('convocatorias.proyectos.pdf-formulario8-linea66');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario9-linea23', [PdfController::class, 'generarPdfFormulario9Linea23'])->name('convocatorias.proyectos.pdf-formulario9-linea23');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario10-linea69', [PdfController::class, 'generarPdfFormulario10Linea69'])->name('convocatorias.proyectos.pdf-formulario10-linea69');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario11-linea83', [PdfController::class, 'generarPdfFormulario11Linea83'])->name('convocatorias.proyectos.pdf-formulario11-linea83');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario12-linea68', [PdfController::class, 'generarPdfFormulario12Linea68'])->name('convocatorias.proyectos.pdf-formulario12-linea68');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario13-linea65', [PdfController::class, 'generarPdfFormulario13Linea65'])->name('convocatorias.proyectos.pdf-formulario13-linea65');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario15-linea65', [PdfController::class, 'generarPdfFormulario15Linea65'])->name('convocatorias.proyectos.pdf-formulario15-linea65');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario16-linea65', [PdfController::class, 'generarPdfFormulario16Linea65'])->name('convocatorias.proyectos.pdf-formulario16-linea65');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario17-linea69', [PdfController::class, 'generarPdfFormulario17Linea69'])->name('convocatorias.proyectos.pdf-formulario17-linea69');
 
     /**
      * Productos
@@ -634,8 +647,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/municipios', [ProyectoPresupuestoController::class, 'indexMunicipiosAVisitar'])->name('convocatorias.proyectos.presupuesto.municipios.index');
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/municipios', [ProyectoPresupuestoController::class, 'storeMunicipiosAVisitar'])->name('convocatorias.proyectos.presupuesto.municipios.store');
-    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/municipios/{taTpViaticosMunicipio}', [ProyectoPresupuestoController::class, 'updateMunicipiosAVisitar'])->name('convocatorias.proyectos.presupuesto.municipios.update');
-    Route::delete('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/municipios/{taTpViaticosMunicipio}', [ProyectoPresupuestoController::class, 'destroyMunicipioAVisitar'])->name('convocatorias.proyectos.presupuesto.municipios.destroy');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/municipios/{viatico_municipio}', [ProyectoPresupuestoController::class, 'updateMunicipiosAVisitar'])->name('convocatorias.proyectos.presupuesto.municipios.update');
+    Route::delete('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/municipios/{viatico_municipio}', [ProyectoPresupuestoController::class, 'destroyMunicipioAVisitar'])->name('convocatorias.proyectos.presupuesto.municipios.destroy');
 
     Route::resource('convocatorias.proyectos.presupuesto', ProyectoPresupuestoController::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos' => 'proyecto', 'presupuesto' => 'presupuesto'])->except(['show']);
 

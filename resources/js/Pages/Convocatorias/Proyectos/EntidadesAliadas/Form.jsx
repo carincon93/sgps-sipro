@@ -20,18 +20,18 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
         tipo_empresa: entidad_aliada?.tipo_empresa ?? '',
         nit: entidad_aliada?.nit ?? '',
 
-        tiene_convenio: entidad_aliada?.entidad_aliada_linea66?.descripcion_convenio != null,
+        tiene_convenio: entidad_aliada?.entidad_aliada_linea66_82?.descripcion_convenio != null,
 
-        tiene_grupo_investigacion: entidad_aliada?.entidad_aliada_linea66?.grupo_investigacion != null,
-        descripcion_convenio: entidad_aliada?.entidad_aliada_linea66?.descripcion_convenio ?? '',
-        grupo_investigacion: entidad_aliada?.entidad_aliada_linea66?.grupo_investigacion ?? '',
-        codigo_gruplac: entidad_aliada?.entidad_aliada_linea66?.codigo_gruplac ?? '',
-        enlace_gruplac: entidad_aliada?.entidad_aliada_linea66?.enlace_gruplac ?? '',
-        actividades_transferencia_conocimiento: entidad_aliada?.entidad_aliada_linea66?.actividades_transferencia_conocimiento ?? '',
-        recursos_especie: entidad_aliada?.entidad_aliada_linea66?.recursos_especie ?? '',
-        descripcion_recursos_especie: entidad_aliada?.entidad_aliada_linea66?.descripcion_recursos_especie ?? '',
-        recursos_dinero: entidad_aliada?.entidad_aliada_linea66?.recursos_dinero ?? '',
-        descripcion_recursos_dinero: entidad_aliada?.entidad_aliada_linea66?.descripcion_recursos_dinero ?? '',
+        tiene_grupo_investigacion: entidad_aliada?.entidad_aliada_linea66_82?.grupo_investigacion != null,
+        descripcion_convenio: entidad_aliada?.entidad_aliada_linea66_82?.descripcion_convenio ?? '',
+        grupo_investigacion: entidad_aliada?.entidad_aliada_linea66_82?.grupo_investigacion ?? '',
+        codigo_gruplac: entidad_aliada?.entidad_aliada_linea66_82?.codigo_gruplac ?? '',
+        enlace_gruplac: entidad_aliada?.entidad_aliada_linea66_82?.enlace_gruplac ?? '',
+        actividades_transferencia_conocimiento: entidad_aliada?.entidad_aliada_linea66_82?.actividades_transferencia_conocimiento ?? '',
+        recursos_especie: entidad_aliada?.entidad_aliada_linea66_82?.recursos_especie ?? '',
+        descripcion_recursos_especie: entidad_aliada?.entidad_aliada_linea66_82?.descripcion_recursos_especie ?? '',
+        recursos_dinero: entidad_aliada?.entidad_aliada_linea66_82?.recursos_dinero ?? '',
+        descripcion_recursos_dinero: entidad_aliada?.entidad_aliada_linea66_82?.descripcion_recursos_dinero ?? '',
 
         actividad_id: entidad_aliada?.actividades.map((item) => item.id),
 
@@ -46,6 +46,8 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
             entidad_aliada?.entidad_aliada_linea83?.fecha_fin_convenio ??
             '',
     })
+
+    console.log(entidad_aliada)
 
     const soporte_convenio_url = entidad_aliada?.entidad_aliada_linea69 ? entidad_aliada.entidad_aliada_linea69.soporte_convenio : entidad_aliada?.entidad_aliada_linea70?.soporte_convenio
 
@@ -202,8 +204,8 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                             <TextInput
                                                 label="Recursos en especie entidad aliada ($COP)"
                                                 id="recursos_especie"
-                                                type="number"
-                                                inputProps={{ min: 0 }}
+                                                isCurrency={true}
+                                                inputProps={{ min: 0, prefix: '$' }}
                                                 error={form.errors.recursos_especie}
                                                 placeholder="COP"
                                                 value={form.data.recursos_especie}
@@ -229,8 +231,8 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                             <TextInput
                                                 label="Recursos en dinero entidad aliada ($COP)"
                                                 id="recursos_dinero"
-                                                type="number"
-                                                inputProps={{ min: 0 }}
+                                                isCurrency={true}
+                                                inputProps={{ min: 0, prefix: '$' }}
                                                 error={form.errors.recursos_dinero}
                                                 placeholder="COP"
                                                 value={form.data.recursos_dinero}
@@ -298,34 +300,32 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                     </>
                                 ) : null}
 
-                                {proyecto.tipo_formulario_convocatoria_id == 8 || proyecto.tipo_formulario_convocatoria_id == 6 ? (
-                                    <Grid item md={12}>
-                                        <h6 className="mt-20 mb-12 text-2xl" id="actividades">
-                                            Actividades a desarrollar
-                                        </h6>
+                                <Grid item md={12}>
+                                    <h6 className="mt-20 mb-12 text-2xl" id="actividades">
+                                        Actividades a desarrollar
+                                    </h6>
 
-                                        <div className="py-4">
-                                            <Label required className="mb-4" labelFor="actividad_id" value="Relacione alguna actividad" />
-                                        </div>
-                                        <div>
-                                            <SelectMultiple
-                                                id="actividad_id"
-                                                bdValues={form.data.actividad_id}
-                                                options={actividades}
-                                                error={form.errors.actividad_id}
-                                                onChange={(event, newValue) => {
-                                                    const selectedValues = newValue.map((option) => option.value)
-                                                    form.setData((prevData) => ({
-                                                        ...prevData,
-                                                        actividad_id: selectedValues,
-                                                    }))
-                                                }}
-                                                disabled={!proyecto?.allowed?.to_update}
-                                                required
-                                            />
-                                        </div>
-                                    </Grid>
-                                ) : null}
+                                    <div className="py-4">
+                                        <Label required className="mb-4" labelFor="actividad_id" value="Relacione alguna actividad" />
+                                    </div>
+                                    <div>
+                                        <SelectMultiple
+                                            id="actividad_id"
+                                            bdValues={form.data.actividad_id}
+                                            options={actividades}
+                                            error={form.errors.actividad_id}
+                                            onChange={(event, newValue) => {
+                                                const selectedValues = newValue.map((option) => option.value)
+                                                form.setData((prevData) => ({
+                                                    ...prevData,
+                                                    actividad_id: selectedValues,
+                                                }))
+                                            }}
+                                            disabled={!proyecto?.allowed?.to_update}
+                                            required
+                                        />
+                                    </div>
+                                </Grid>
                             </Grid>
                         </fieldset>
 

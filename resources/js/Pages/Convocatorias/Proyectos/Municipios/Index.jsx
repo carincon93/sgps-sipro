@@ -71,7 +71,7 @@ const Municipios = ({
                         <TableRow key={i}>
                             <TableCell>
                                 {municipios
-                                    .filter((item) => JSON.parse(municipio_a_visitar.municipios).includes(item.value))
+                                    .filter((item) => municipio_a_visitar.municipios.includes(item.value))
                                     .map((item) => item.label)
                                     .join(', ')}
                             </TableCell>

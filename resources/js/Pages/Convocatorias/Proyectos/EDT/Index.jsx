@@ -72,7 +72,9 @@ const EDT = ({ auth, convocatoria, proyecto, evaluacion, presupuesto, eventos, t
 
                     {eventos.data.map((evento, i) => (
                         <TableRow key={i}>
-                            <TableCell>{evento.descripcion_evento}</TableCell>
+                            <TableCell>
+                                <p className='line-clamp-3'>{evento.descripcion_evento}</p>
+                            </TableCell>
                             <TableCell>{evento.numero_asistentes}</TableCell>
                             <TableCell>${new Intl.NumberFormat('de-DE').format(!isNaN(evento.proyecto_presupuesto.valor_total) ? evento.proyecto_presupuesto.valor_total : 0)}</TableCell>
 

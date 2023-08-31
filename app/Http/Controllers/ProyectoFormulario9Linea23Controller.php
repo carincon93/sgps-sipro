@@ -160,13 +160,14 @@ class ProyectoFormulario9Linea23Controller extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', [$proyecto_formulario_9_linea_23->proyecto]);
 
-        $proyecto_formulario_9_linea_23->load('proyecto.evaluaciones.evaluacionProyectoFormulario9Linea23');
+        // $proyecto_formulario_9_linea_23->load('proyecto.evaluaciones.evaluacionProyectoFormulario9Linea23');
 
         $proyecto_formulario_9_linea_23->proyecto->precio_proyecto = $proyecto_formulario_9_linea_23->proyecto->precioProyecto;
 
         $proyecto_formulario_9_linea_23->proyecto->centroFormacion;
         $proyecto_formulario_9_linea_23->proyecto->programasFormacion;
         $proyecto_formulario_9_linea_23->proyecto->participantes;
+        $proyecto_formulario_9_linea_23->proyecto->tipoFormularioConvocatoria->lineaProgramatica;
         $proyecto_formulario_9_linea_23->proyecto->municipios;
         $proyecto_formulario_9_linea_23->proyecto->tecnoacademiaLineasTecnoacademia;
 

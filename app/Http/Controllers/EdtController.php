@@ -25,7 +25,9 @@ class EdtController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
+        // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
+
+        $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
 
         /**
          * Si el proyecto es diferente de la línea programática 70 se prohibe el acceso. No requiere de edt
@@ -36,10 +38,10 @@ class EdtController extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/EDT/Index', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria'),
-            'proyecto'              => $proyecto->only('id', 'precio_proyecto', 'modificable',  'evaluaciones', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed'),
+            'proyecto'              => $proyecto,
             'evaluacion'            => Evaluacion::find(request()->evaluacion_id),
             'presupuesto'           => $presupuesto,
-            'eventos'               => Edt::with('proyectoPresupuesto')->orderBy('descripcion_evento', 'ASC')->where('proyecto_linea_70_id', $proyecto->id)
+            'eventos'               => Edt::with('proyectoPresupuesto')->orderBy('descripcion_evento', 'ASC')->where('proyecto_formulario4_linea70_id', $proyecto->id)
                                         ->filterEdt(request()->only('search'))->paginate(),
             'tiposEvento'           => json_decode(Storage::get('json/tipos-edt.json'), true),
         ]);

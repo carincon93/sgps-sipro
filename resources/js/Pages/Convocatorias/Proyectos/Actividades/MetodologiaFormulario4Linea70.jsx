@@ -154,7 +154,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                     </Grid>
 
                     <Grid item md={6}>
-                        <Label required className="mb-4" labelFor="municipios" value="Nombre los municipios impactados en la vigencia anterior por la TecnoAcademia" />
+                        <Label required className="mb-4" labelFor="municipios" value={`Nombre los municipios impactados en la vigencia ${convocatoria.year - 1} por la TecnoAcademia`} />
                     </Grid>
                     <Grid item md={6}>
                         <SelectMultiple
@@ -178,7 +178,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                     </Grid>
 
                     <Grid item md={6}>
-                        <Label required className="mb-4" labelFor="municipios_impactar" value="Defina los municipios a impactar en la vigencia el proyecto:" />
+                        <Label required className="mb-4" labelFor="municipios_impactar" value={`Defina los municipios a impactar en la vigencia ${convocatoria.year}:`} />
                     </Grid>
                     <Grid item md={6}>
                         <SelectMultiple
@@ -492,7 +492,7 @@ const MetodologiaFormulario4Linea70 = ({ convocatoria, proyecto, municipios, reg
                     </Grid> */}
 
                     <Grid item md={6}>
-                        <Label required className="mb-4" labelFor="diseno_curricular_id" value="Programas a ejecutar en la vigencia del proyecto:" />
+                        <Label required className="mb-4" labelFor="diseno_curricular_id" value={`Programas a ejecutar en la vigencia ${convocatoria.year}:`} />
                     </Grid>
                     <Grid item md={6}>
                         <SelectMultiple

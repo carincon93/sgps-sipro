@@ -80,7 +80,7 @@ const ArticulacionFormulario17Linea69 = ({ convocatoria, proyecto, semilleros_in
                         required
                         className="mb-4"
                         labelFor="acciones_fortalecimiento_centro_regional"
-                        value={`Para la vigencia ${convocatoria.year}, defina acciones a realizar desde el Tecnoparque,  que sean verificables,  y que contribuyan al fortalecimiento de la formación en el Centro y en la regional`}
+                        value={`Para la vigencia ${convocatoria.year}, defina acciones a realizar desde el Tecnoparque, que sean verificables, y que contribuyan al fortalecimiento de la formación en el Centro y en la regional`}
                     />
 
                     <Textarea
@@ -245,7 +245,7 @@ const ArticulacionFormulario17Linea69 = ({ convocatoria, proyecto, semilleros_in
                     />
                 </Grid>
                 <Grid item md={12}>
-                    <h1 className="text-center">El Tecnoparque de Innovación en el Eje de Servicios de I+D+i</h1>
+                    <h1 className="text-center">El Tecnoparque en el Eje de Servicios de I+D+i</h1>
                 </Grid>
                 <Grid item md={12}>
                     <Label

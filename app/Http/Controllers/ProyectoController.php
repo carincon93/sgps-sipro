@@ -37,7 +37,7 @@ class ProyectoController extends Controller
         return Inertia::render('Proyectos/Index', [
             'convocatorias' => SelectHelper::convocatorias(),
             'proyectos'     => Proyecto::with('PdfVersiones', 'convocatoria')->orderBy('id', 'ASC')->filterProyecto(request()->only('search'))->paginate()->appends(['search' => request()->search]),
-            'proyectosId'   => Proyecto::selectRaw("id + 8000 as codigo_only")->orderBy('id', 'ASC')->get()->pluck('codigo_only')->flatten('codigo_only')
+            'proyectos_id'  => Proyecto::selectRaw("id + 8000 as codigo_only")->orderBy('id', 'ASC')->get()->pluck('codigo_only')->flatten('codigo_only')
         ]);
     }
 
@@ -142,9 +142,10 @@ class ProyectoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
-        $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
+        // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
+        // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
+        $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
         $proyecto->proyectoFormulario10Linea69;
 
         switch ($proyecto->tipo_formulario_convocatoria_id) {
@@ -618,6 +619,7 @@ class ProyectoController extends Controller
         $this->authorize('visualizar-proyecto-autor', [$proyecto]);
 
         $proyecto->precio_proyecto = $proyecto->precioProyecto;
+        $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
 
         if ($proyecto->proyectoFormulario1Linea65()->exists()) {
             $proyecto->tipo_proyecto = $proyecto->proyectoFormulario1Linea65->tipo_proyecto;
@@ -625,7 +627,7 @@ class ProyectoController extends Controller
 
         return Inertia::render('Convocatorias/Proyectos/ResumenFinal', [
             'convocatoria'                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
-            'proyecto'                      => $proyecto->only('id', 'tipo_formulario_convocatoria_id', 'precio_proyecto', 'finalizado', 'modificable', 'habilitado_para_evaluar', 'mostrar_recomendaciones', 'PdfVersiones', 'all_files', 'allowed', 'tipo_proyecto'),
+            'proyecto'                      => $proyecto,
             'problemaCentral'               => ProyectoValidationTrait::problemaCentral($proyecto),
             'efectosDirectos'               => ProyectoValidationTrait::efectosDirectos($proyecto),
             'causasIndirectas'              => ProyectoValidationTrait::causasIndirectas($proyecto),
@@ -871,6 +873,7 @@ class ProyectoController extends Controller
         $proyecto->participantes;
         $proyecto->programasFormacion;
         $proyecto->semillerosInvestigacion;
+        $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
 
         if ($proyecto->tipo_formulario_convocatoria_id == 4) {
             return redirect()->route('convocatorias.proyectos-formulario-4-linea-70.edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
@@ -1295,6 +1298,7 @@ class ProyectoController extends Controller
         $this->authorize('visualizar-proyecto-autor', [$proyecto]);
 
         $proyecto->precio_proyecto = $proyecto->precioProyecto;
+        $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
         $proyecto->proyectoFormulario7Linea23;
         $proyecto->proyectoFormulario9Linea23;
         $proyecto->proyectoFormulario8Linea66;

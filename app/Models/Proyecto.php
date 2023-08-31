@@ -1432,9 +1432,9 @@ class Proyecto extends Model
         }
 
         foreach ($this->entidadesAliadas()->get() as $entidad_aliada) {
-            if ($entidad_aliada->entidadAliadaLinea66()->exists()) {
-                $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'carta_intencion', 'entidad_aliada' => $entidad_aliada->nombre, 'ruta_carta_intencion' => $entidad_aliada->entidadAliadaLinea66->carta_intencion]);
-                $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'carta_propiedad_intelectual', 'entidad_aliada' => $entidad_aliada->nombre, 'ruta_carta_propiedad_intelectual' => $entidad_aliada->entidadAliadaLinea66->carta_propiedad_intelectual]);
+            if ($entidad_aliada->entidadAliadaLinea66_82()->exists()) {
+                $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'carta_intencion', 'entidad_aliada' => $entidad_aliada->nombre, 'ruta_carta_intencion' => $entidad_aliada->entidadAliadaLinea66_82->carta_intencion]);
+                $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'carta_propiedad_intelectual', 'entidad_aliada' => $entidad_aliada->nombre, 'ruta_carta_propiedad_intelectual' => $entidad_aliada->entidadAliadaLinea66_82->carta_propiedad_intelectual]);
             } else if ($entidad_aliada->entidadAliadaLinea69()->exists()) {
                 $collect->push(['id' => $entidad_aliada->id, 'tipo_archivo' => 'soporte_convenio', 'entidad_aliada' => $entidad_aliada->nombre, 'ruta_soporte_convenio' => $entidad_aliada->entidadAliadaLinea69->soporte_convenio]);
             } else if ($entidad_aliada->entidadAliadaLinea70()->exists()) {
