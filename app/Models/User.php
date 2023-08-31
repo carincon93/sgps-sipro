@@ -338,7 +338,7 @@ class User extends Authenticatable
 
     public function getRegionalIdAttribute()
     {
-        return $this->centroFormacion->regional_id;
+        return optional($this->centroFormacion)->regional_id;
     }
 
     public function getTipoVinculacionTextAttribute()
