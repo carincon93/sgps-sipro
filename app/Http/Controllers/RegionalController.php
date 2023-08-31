@@ -20,7 +20,7 @@ class RegionalController extends Controller
         $this->authorize('viewAny', [Regional::class]);
 
         return Inertia::render('Regionales/Index', [
-            'regionales'            => Regional::orderBy('nombre', 'ASC')
+            'regionales'            => Regional::orderBy('nombre', 'ASC')->with('directorRegional')
                                         ->filterRegional(request()->only('search'))->paginate()->appends(['search' => request()->search]),
             'regiones'              => SelectHelper::regiones(),
             'directores_regionales' => SelectHelper::usuariosPorRol('director regional')

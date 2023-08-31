@@ -50,9 +50,9 @@ const Index = ({ auth, regionales, regiones, directores_regionales }) => {
                             </TableCell>
 
                             <TableCell>
-                                {regional.directorRegional?.nombre}
+                                {regional.director_regional?.nombre}
                                 <br />
-                                {regional.directorRegional?.email}
+                                {regional.director_regional?.email}
                             </TableCell>
 
                             <TableCell>
