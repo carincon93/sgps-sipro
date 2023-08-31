@@ -9,12 +9,8 @@ import { Link, usePage } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useState } from 'react'
 import FormRoles from './Users/FormRoles'
-import dayjs from 'dayjs'
-import 'dayjs/locale/es'
 
 export default function Dashboard({ auth, roles_sistema }) {
-    dayjs.locale('es')
-
     const { props: page_props } = usePage()
 
     const rol = page_props.ziggy.query.rol
@@ -195,8 +191,6 @@ export default function Dashboard({ auth, roles_sistema }) {
                     open={dialog_status}
                     dialogContent={
                         <>
-                            <small>{dayjs().format('DD [de] MMMM YYYY')}</small>
-
                             <hr className="mt-10 mb-10" />
                             <div>
                                 {auth_user.roles.length == 0 && rol != 'evaluador_externo' && (

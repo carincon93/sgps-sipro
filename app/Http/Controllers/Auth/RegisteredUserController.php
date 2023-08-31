@@ -60,7 +60,7 @@ class RegisteredUserController extends Controller
             'fecha_nacimiento'      => $request->fecha_nacimiento
         ]);
 
-        $user->syncRoles([11]);
+        $user->syncRoles([33]);
 
         event(new Registered($user));
 
