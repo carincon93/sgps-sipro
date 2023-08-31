@@ -47,16 +47,6 @@ class RegionalRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->region_id)) {
-            $this->merge([
-                'region_id' => $this->region_id['value'],
-            ]);
-        }
-
-        if (is_array($this->director_regional_id)) {
-            $this->merge([
-                'director_regional_id' => $this->director_regional_id['value'],
-            ]);
-        }
+        //
     }
 }

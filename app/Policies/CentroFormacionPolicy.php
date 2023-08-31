@@ -13,7 +13,7 @@ class CentroFormacionPolicy
      */
     public function viewAny(User $user): bool
     {
-        if ($user->hasRole([4, 21, 17, 18, 20, 19, 5])) {
+        if ($user->hasRole([2, 4, 21, 17, 18, 20, 19, 5])) {
             return true;
         }
 

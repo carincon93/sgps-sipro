@@ -187,7 +187,7 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 4, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1, 2, 4, 21, 18, 19, 5, 17]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',
@@ -206,7 +206,7 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 3, 4, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1, 2, 3, 4, 21, 18, 19, 5, 17]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',
@@ -301,7 +301,26 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 3, 4, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1, 21, 18, 19, 5, 17]) && (
+                            <ListItemButton
+                                sx={{
+                                    borderRadius: '20px',
+                                    minHeight: 48,
+                                    justifyContent: open ? 'initial' : 'center',
+                                    px: 2.5,
+                                }}
+                                onClick={() => router.visit(route('regionales.index'))}>
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: open ? 3 : 'auto',
+                                        justifyContent: 'center',
+                                    }}></ListItemIcon>
+                                <ListItemText primary="Regionales" sx={{ opacity: open ? 1 : 0 }} />
+                            </ListItemButton>
+                        )}
+
+                        {checkRole(user, [1, 2, 3, 4, 21, 18, 19, 5, 17]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',
@@ -377,7 +396,7 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 3, 4, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1, 2, 3, 4, 21, 18, 19, 5, 17]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',

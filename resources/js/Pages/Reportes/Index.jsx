@@ -49,6 +49,12 @@ export default function Reportes({ auth, centros_formacion }) {
             })
     }
 
+    const centros_formacion_filtrados = checkRole(auth_user, [3, 4])
+        ? [centros_formacion.find((item) => item.value == auth_user.centro_formacion_id)]
+        : checkRole(auth_user, [2])
+        ? [centros_formacion.filter((item) => item.regional_id == auth_user.regional_id)][0]
+        : centros_formacion
+
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}>
             <Grid container columnSpacing={2} rowSpacing={5}>
@@ -65,7 +71,7 @@ export default function Reportes({ auth, centros_formacion }) {
                     </div>
                 </Grid>
 
-                {checkRole(auth_user, [1, 3, 4, 5, 17, 18, 19, 21]) && (
+                {checkRole(auth_user, [1, 2, 3, 4, 5, 17, 18, 19, 21]) && (
                     <Grid item md={12}>
                         <form onSubmit={submit} className="bg-white overflow-hidden rounded-lg px-6 py-2 shadow-md">
                             <Grid container className="mt-10">
@@ -88,7 +94,7 @@ export default function Reportes({ auth, centros_formacion }) {
                                         className="w-full"
                                         id="centro_formacion_id"
                                         bdValues={form.data.centro_formacion_id}
-                                        options={checkRole(auth_user, [3, 4]) ? [centros_formacion.find((item) => item.value == auth_user.centro_formacion_id)] : centros_formacion}
+                                        options={centros_formacion_filtrados}
                                         onChange={(event, newValue) => {
                                             const selected_values = newValue.map((option) => option.value)
                                             form.setData((prevData) => ({

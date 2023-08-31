@@ -122,7 +122,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('descargar-reportes', function (User $user) {
-            return $user->hasRole([3, 4, 20, 18, 19, 5, 17]);
+            return $user->hasRole([2, 3, 4, 20, 18, 19, 5, 17]);
         });
     }
 

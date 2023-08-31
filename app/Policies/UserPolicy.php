@@ -18,7 +18,7 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        if ($user->hasRole([3, 4, 21, 17, 18, 20, 19, 5])) {
+        if ($user->hasRole([2, 3, 4, 21, 17, 18, 20, 19, 5])) {
             return true;
         }
 
@@ -49,6 +49,10 @@ class UserPolicy
         }
 
         if ($user->subdirectorCentroFormacion && $user->subdirectorCentroFormacion->id == $usuario_a_editar->centroFormacion->id) {
+            return true;
+        }
+
+        if ($user->directorRegional && $user->directorRegional->id == $usuario_a_editar->centroFormacion->regional->id) {
             return true;
         }
 

@@ -39,8 +39,8 @@ class ReporteController extends Controller
 
         return Inertia::render('Reportes/Index', [
             'convocatorias'      => SelectHelper::convocatorias(),
-            'centros_formacion'  => SelectHelper::centrosFormacion()
-            // 'proyectosId'   => Proyecto::selectRaw("id + 8000 as codigo_only")->orderBy('id', 'ASC')->get()->pluck('codigo_only')->flatten('codigo_only')
+            'centros_formacion'  => SelectHelper::centrosFormacion(),
+            // 'proyectos_id'       => Proyecto::selectRaw("id + 8000 as codigo_only")->orderBy('id', 'ASC')->get()->pluck('codigo_only')->flatten('codigo_only')
         ]);
     }
 

@@ -27,10 +27,17 @@ class GrupoInvestigacionController extends Controller
         /** @var \App\Models\User */
         $auth_user = Auth::user();
 
+        $grupos_investigacion_centro_formacion = [];
+
+        if ($auth_user->hasRole([2])) {
+            $centros_formacion_id = $auth_user->centroFormacion->regional->centrosFormacion()->pluck('id')->toArray();
+            $grupos_investigacion_centro_formacion = GrupoInvestigacion::select('grupos_investigacion.*')->whereIn('grupos_investigacion.centro_formacion_id', $centros_formacion_id)->with('centroFormacion.regional', 'redesConocimiento')->get();
+        } else {
+            $grupos_investigacion_centro_formacion = GrupoInvestigacion::select('grupos_investigacion.*')->where('grupos_investigacion.centro_formacion_id', $auth_user->centro_formacion_id)->with('centroFormacion.regional', 'redesConocimiento')->get();
+        }
         return Inertia::render('GruposInvestigacion/Index', [
-            'filters'                               => request()->all('search'),
             'grupos_investigacion'                  => GrupoInvestigacion::select('grupos_investigacion.*')->with('centroFormacion.regional', 'redesConocimiento')->filterGrupoInvestigacion(request()->only('search', 'grupoInvestigacion'))->orderBy('grupos_investigacion.nombre', 'ASC')->paginate(),
-            'grupos_investigacion_centro_formacion' => GrupoInvestigacion::select('grupos_investigacion.*')->where('grupos_investigacion.centro_formacion_id', $auth_user->centro_formacion_id)->with('centroFormacion.regional', 'redesConocimiento')->get(),
+            'grupos_investigacion_centro_formacion' => $grupos_investigacion_centro_formacion,
             'categorias_minciencias'                => json_decode(Storage::get('json/categorias-minciencias.json'), true),
             'redes_conocimiento'                    => SelectHelper::redesConocimiento(),
             'centros_formacion'                     => SelectHelper::centrosFormacion(),

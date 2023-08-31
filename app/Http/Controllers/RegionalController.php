@@ -20,9 +20,10 @@ class RegionalController extends Controller
         $this->authorize('viewAny', [Regional::class]);
 
         return Inertia::render('Regionales/Index', [
-            'filters'       => request()->all('search'),
-            'regionales'    => Regional::orderBy('nombre', 'ASC')
-                ->filterRegional(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+            'regionales'            => Regional::orderBy('nombre', 'ASC')
+                                        ->filterRegional(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+            'regiones'              => SelectHelper::regiones(),
+            'directores_regionales' => SelectHelper::usuariosPorRol('director regional')
         ]);
     }
 
@@ -35,10 +36,7 @@ class RegionalController extends Controller
     {
         $this->authorize('create', [Regional::class]);
 
-        return Inertia::render('Regionales/Create', [
-            'regiones'              => SelectHelper::regiones(),
-            'directoresRegionales'  => SelectHelper::usuariosPorRol('director regional')
-        ]);
+        //
     }
 
     /**
@@ -51,15 +49,9 @@ class RegionalController extends Controller
     {
         $this->authorize('create', [Regional::class]);
 
-        $regional = new Regional();
-        $regional->nombre = $request->nombre;
-        $regional->codigo = $request->codigo;
-        $regional->region()->associate($request->region_id);
-        $regional->directorRegional()->associate($request->director_regional_id);
+        $regional = Regional::create($request->validated());
 
-        $regional->save();
-
-        return redirect()->route('regionales.index')->with('success', 'El recurso se ha creado correctamente.');
+        return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
     /**
@@ -83,11 +75,7 @@ class RegionalController extends Controller
     {
         $this->authorize('update', [Regional::class, $regional]);
 
-        return Inertia::render('Regionales/Edit', [
-            'regional'              => $regional,
-            'regiones'              => SelectHelper::regiones(),
-            'directoresRegionales'  => SelectHelper::usuariosPorRol('director regional')
-        ]);
+        //
     }
 
     /**
@@ -101,12 +89,7 @@ class RegionalController extends Controller
     {
         $this->authorize('update', [Regional::class, $regional]);
 
-        $regional->nombre = $request->nombre;
-        $regional->codigo = $request->codigo;
-        $regional->region()->associate($request->region_id);
-        $regional->directorRegional()->associate($request->director_regional_id);
-
-        $regional->save();
+        $regional->update($request->validated());
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
