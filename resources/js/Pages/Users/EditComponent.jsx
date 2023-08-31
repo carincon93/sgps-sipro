@@ -4,7 +4,7 @@ import PasswordInput from '@/Components/PasswordInput'
 import PrimaryButton from '@/Components/PrimaryButton'
 import TabsMui from '@/Components/TabsMui'
 
-import { Grid, Paper } from '@mui/material'
+import { Chip, Grid, Paper } from '@mui/material'
 
 import Form from './Form'
 import FormRoles from './FormRoles'
@@ -159,7 +159,9 @@ const EditComponent = ({
                     <Grid item md={8} className="drop-shadow-lg">
                         <Paper elevation={0} sx={{ padding: 6 }}>
                             {usuario.roles.map((rol, i) => (
-                                <React.Fragment key={i}>{rol.name}</React.Fragment>
+                                <React.Fragment key={i}>
+                                    <Chip label={'Rol principal: ' + rol.name} size="small" className="bg-app-200 my-2 px-2" />
+                                </React.Fragment>
                             ))}
                             <FormRoles usuario={usuario} roles_sistema={roles_sistema} />
                         </Paper>

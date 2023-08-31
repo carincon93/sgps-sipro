@@ -5,12 +5,20 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import { route, checkRole, checkPermission } from '@/Utils'
 
-import { Link } from '@inertiajs/react'
+import { Link, usePage } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useState } from 'react'
 import FormRoles from './Users/FormRoles'
+import dayjs from 'dayjs'
+import 'dayjs/locale/es'
 
 export default function Dashboard({ auth, roles_sistema }) {
+    dayjs.locale('es')
+
+    const { props: page_props } = usePage()
+
+    const rol = page_props.ziggy.query.rol
+
     const auth_user = auth.user
 
     const is_super_admin = checkRole(auth_user, [1])
@@ -187,15 +195,21 @@ export default function Dashboard({ auth, roles_sistema }) {
                     open={dialog_status}
                     dialogContent={
                         <>
-                            <small>Junio 8</small>
+                            <small>{dayjs().format('DD [de] MMMM YYYY')}</small>
 
                             <hr className="mt-10 mb-10" />
                             <div>
-                                {auth_user.roles.length == 0 && (
+                                {auth_user.roles.length == 0 && rol != 'evaluador_externo' && (
                                     <AlertMui>
                                         Por favor seleccione los roles de formulación según la línea en la que desea presentar proyectos. Si requiere otro rol por favor comuníquese con el
                                         administrador del sistema.
                                         <FormRoles usuario={auth_user} roles_sistema={roles_sistema} />
+                                    </AlertMui>
+                                )}
+
+                                {rol == 'evaluador_externo' && (
+                                    <AlertMui>
+                                        ¡Bienvenido/a! {auth_user.nombre} 👋🏻. Se le ha asignado el rol de <strong>Evaluador/a externo</strong>.
                                     </AlertMui>
                                 )}
 
@@ -223,18 +237,18 @@ export default function Dashboard({ auth, roles_sistema }) {
                     }
                     dialogActions={
                         <>
-                            {auth_user.roles.length > 0 && (
+                            {auth_user.roles.length > 0 || rol == 'evaluador_externo' ? (
                                 <div className="p-4 flex">
                                     {auth_user.informacion_completa && auth_user.check_soportes_titulo_obtenido == 0 && auth_user.check_certificados_formacion == 0 && (
                                         <ButtonMui onClick={() => setDialogStatus(false)}>Ya he completado el CENSO</ButtonMui>
                                     )}
                                     <Link
                                         className="ml-2 overflow-hidden shadow-sm rounded px-6 py-2 bg-app-500 text-white flex justify-around items-center flex-col text-center"
-                                        href={route('users.perfil')}>
+                                        href={route('users.perfil', { rol: rol })}>
                                         Ir al CENSO SENNOVA 2023
                                     </Link>
                                 </div>
-                            )}
+                            ) : null}
                         </>
                     }
                 />

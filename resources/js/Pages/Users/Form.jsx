@@ -12,7 +12,7 @@ import TextInput from '@/Components/TextInput'
 import EditIcon from '@mui/icons-material/Edit'
 import UndoIcon from '@mui/icons-material/Undo'
 
-import { useForm } from '@inertiajs/react'
+import { useForm, usePage } from '@inertiajs/react'
 
 import { Grid } from '@mui/material'
 import { useState } from 'react'
@@ -36,6 +36,10 @@ const Form = ({
     subareas_experiencia,
     centros_formacion,
 }) => {
+    const { props: page_props } = usePage()
+
+    const rol = page_props.ziggy.query.rol
+
     const form = useForm({
         user_id: usuario?.id,
         nombre: usuario?.nombre,
@@ -283,57 +287,61 @@ const Form = ({
                     />
                 </Grid>
 
-                <Grid item md={6}>
-                    <Autocomplete
-                        id="nivel_ingles"
-                        options={niveles_ingles}
-                        selectedValue={form.data.nivel_ingles}
-                        onChange={(event, newValue) => form.setData('nivel_ingles', newValue.value)}
-                        disabled={!usuario?.allowed?.to_update}
-                        error={form.errors.nivel_ingles}
-                        label="Nivel de inglés"
-                        required
-                    />
-                    <small>Indique el nivel de inglés certificado (marco europeo)</small>
-                </Grid>
-                <Grid item md={6}>
-                    <Autocomplete
-                        id="grupo_etnico"
-                        options={grupos_etnicos}
-                        selectedValue={form.data.grupo_etnico}
-                        onChange={(event, newValue) => form.setData('grupo_etnico', newValue.value)}
-                        disabled={!usuario?.allowed?.to_update}
-                        error={form.errors.grupo_etnico}
-                        label="Preferencia étnica"
-                        required
-                    />
-                </Grid>
+                {rol != 'evaluador_externo' && (
+                    <>
+                        <Grid item md={6}>
+                            <Autocomplete
+                                id="nivel_ingles"
+                                options={niveles_ingles}
+                                selectedValue={form.data.nivel_ingles}
+                                onChange={(event, newValue) => form.setData('nivel_ingles', newValue.value)}
+                                disabled={!usuario?.allowed?.to_update}
+                                error={form.errors.nivel_ingles}
+                                label="Nivel de inglés"
+                                required
+                            />
+                            <small>Indique el nivel de inglés certificado (marco europeo)</small>
+                        </Grid>
+                        <Grid item md={6}>
+                            <Autocomplete
+                                id="grupo_etnico"
+                                options={grupos_etnicos}
+                                selectedValue={form.data.grupo_etnico}
+                                onChange={(event, newValue) => form.setData('grupo_etnico', newValue.value)}
+                                disabled={!usuario?.allowed?.to_update}
+                                error={form.errors.grupo_etnico}
+                                label="Preferencia étnica"
+                                required
+                            />
+                        </Grid>
 
-                <Grid item md={12}>
-                    <Autocomplete
-                        id="discapacidad"
-                        options={tipos_discapacidad}
-                        selectedValue={form.data.discapacidad}
-                        onChange={(event, newValue) => form.setData('discapacidad', newValue.value)}
-                        disabled={!usuario?.allowed?.to_update}
-                        error={form.errors.discapacidad}
-                        label="Si cuenta con algún tipo de discapacidad. Por favor seleccione cual discapacidad."
-                        required
-                    />
-                </Grid>
+                        <Grid item md={12}>
+                            <Autocomplete
+                                id="discapacidad"
+                                options={tipos_discapacidad}
+                                selectedValue={form.data.discapacidad}
+                                onChange={(event, newValue) => form.setData('discapacidad', newValue.value)}
+                                disabled={!usuario?.allowed?.to_update}
+                                error={form.errors.discapacidad}
+                                label="Si cuenta con algún tipo de discapacidad. Por favor seleccione cual discapacidad."
+                                required
+                            />
+                        </Grid>
 
-                <Grid item md={12}>
-                    <TextInput
-                        label="Enlace CvLac"
-                        id="cvlac"
-                        type="url"
-                        value={form.data.cvlac}
-                        onChange={(e) => form.setData('cvlac', e.target.value)}
-                        disabled={!usuario?.allowed?.to_update}
-                        error={form.errors.cvlac}
-                    />
-                    <small>Debe incluir el http:// o https://</small>
-                </Grid>
+                        <Grid item md={12}>
+                            <TextInput
+                                label="Enlace CvLac"
+                                id="cvlac"
+                                type="url"
+                                value={form.data.cvlac}
+                                onChange={(e) => form.setData('cvlac', e.target.value)}
+                                disabled={!usuario?.allowed?.to_update}
+                                error={form.errors.cvlac}
+                            />
+                            <small>Debe incluir el http:// o https://</small>
+                        </Grid>
+                    </>
+                )}
 
                 <Grid item md={12}>
                     <h1 className="text-2xl font-medium">INFORMACIÓN DEL TIPO DE VINCULACIÓN</h1>
@@ -352,7 +360,7 @@ const Form = ({
                     />
                 </Grid>
 
-                {form.data.tipo_vinculacion == 1 || form.data.tipo_vinculacion == 2 ? (
+                {(form.data.tipo_vinculacion == 1 && rol != 'evaluador_externo') || (form.data.tipo_vinculacion == 2 && rol != 'evaluador_externo') ? (
                     <>
                         <Grid item md={6}>
                             <DatePicker
@@ -401,20 +409,22 @@ const Form = ({
                     </>
                 ) : form.data.tipo_vinculacion == 3 ? (
                     <>
-                        <Grid item md={6}>
-                            <DatePicker
-                                variant="outlined"
-                                id="fecha_inicio_contrato"
-                                name="fecha_inicio_contrato"
-                                value={form.data.fecha_inicio_contrato}
-                                onChange={(e) => form.setData('fecha_inicio_contrato', e.target.value)}
-                                disabled={!usuario?.allowed?.to_update}
-                                className="p-4 w-full"
-                                error={form.errors.fecha_inicio_contrato}
-                                label="Fecha de inicio del contrato"
-                                required
-                            />
-                        </Grid>
+                        {rol != 'evaluador_externo' && (
+                            <Grid item md={6}>
+                                <DatePicker
+                                    variant="outlined"
+                                    id="fecha_inicio_contrato"
+                                    name="fecha_inicio_contrato"
+                                    value={form.data.fecha_inicio_contrato}
+                                    onChange={(e) => form.setData('fecha_inicio_contrato', e.target.value)}
+                                    disabled={!usuario?.allowed?.to_update}
+                                    className="p-4 w-full"
+                                    error={form.errors.fecha_inicio_contrato}
+                                    label="Fecha de inicio del contrato"
+                                    required
+                                />
+                            </Grid>
+                        )}
                         <Grid item md={6}>
                             <DatePicker
                                 variant="outlined"
@@ -430,169 +440,179 @@ const Form = ({
                             />
                         </Grid>
 
-                        <Grid item md={12}>
-                            <TextInput
-                                label="Enlace a SIGEP II"
-                                id="link_sigep_ii"
-                                type="url"
-                                value={form.data.link_sigep_ii}
-                                onChange={(e) => form.setData('link_sigep_ii', e.target.value)}
-                                disabled={!usuario?.allowed?.to_update}
-                                error={form.errors.link_sigep_ii}
-                            />
-                            <small>Debe incluir el http:// o https://</small>
-                        </Grid>
+                        {rol != 'evaluador_externo' && (
+                            <Grid item md={12}>
+                                <TextInput
+                                    label="Enlace a SIGEP II"
+                                    id="link_sigep_ii"
+                                    type="url"
+                                    value={form.data.link_sigep_ii}
+                                    onChange={(e) => form.setData('link_sigep_ii', e.target.value)}
+                                    disabled={!usuario?.allowed?.to_update}
+                                    error={form.errors.link_sigep_ii}
+                                />
+                                <small>Debe incluir el http:// o https://</small>
+                            </Grid>
+                        )}
                     </>
                 ) : null}
 
-                <Grid item md={4}>
-                    <TextInput
-                        label="Asignación mensual"
-                        id="asignacion_mensual"
-                        inputProps={{
-                            min: 0,
-                            prefix: '$',
-                        }}
-                        isCurrency={true}
-                        value={form.data.asignacion_mensual}
-                        onChange={(e) => form.setData('asignacion_mensual', e.target.value)}
-                        disabled={!usuario?.allowed?.to_update}
-                        error={form.errors.asignacion_mensual}
-                        required
-                    />
-                </Grid>
-                <Grid item md={8}>
-                    <TextInput
-                        label="Tiempo de experiencia laboral en el SENA"
-                        id="experiencia_laboral_sena"
-                        type="number"
-                        inputProps={{
-                            min: 0,
-                        }}
-                        value={form.data.experiencia_laboral_sena}
-                        onChange={(e) => form.setData('experiencia_laboral_sena', e.target.value)}
-                        disabled={!usuario?.allowed?.to_update}
-                        error={form.errors.experiencia_laboral_sena}
-                        required
-                    />
-                    <small>Importante: Tiempo en meses</small>
-                </Grid>
-
-                <Grid item md={12}>
-                    <TextInput
-                        label="Número de horas semanales de dedicación en actividades de CTeI"
-                        id="horas_dedicadas"
-                        type="number"
-                        inputProps={{
-                            min: 0,
-                        }}
-                        value={form.data.horas_dedicadas}
-                        onChange={(e) => form.setData('horas_dedicadas', e.target.value)}
-                        disabled={!usuario?.allowed?.to_update}
-                        error={form.errors.horas_dedicadas}
-                        required
-                    />
-                </Grid>
-                <Grid item md={12}>
-                    <TextInput
-                        label="Número de meses de dedicación en actividades de CTeI"
-                        id="meses_dedicados"
-                        type="number"
-                        inputProps={{
-                            min: 0,
-                        }}
-                        value={form.data.meses_dedicados}
-                        onChange={(e) => form.setData('meses_dedicados', e.target.value)}
-                        disabled={!usuario?.allowed?.to_update}
-                        error={form.errors.meses_dedicados}
-                        required
-                    />
-                </Grid>
-
-                <Grid item md={12}>
-                    <Autocomplete
-                        id="rol_sennova_id"
-                        options={roles_sennova}
-                        selectedValue={form.data.rol_sennova_id}
-                        onChange={(event, newValue) => form.setData('rol_sennova_id', newValue.value)}
-                        disabled={!usuario?.allowed?.to_update}
-                        error={form.errors.rol_sennova_id}
-                        label="Rol SENNOVA actual"
-                        required
-                    />
-                </Grid>
-
-                <Grid item md={12}>
-                    <Grid container>
-                        <Grid item md={10}>
-                            <SelectMultiple
-                                id="otros_roles_sennova"
-                                options={roles_sennova}
-                                bdValues={form.data.otros_roles_sennova}
-                                onChange={(event, newValue) => {
-                                    const selected_values = newValue.map((option) => option.value)
-                                    form.setData((prevData) => ({
-                                        ...prevData,
-                                        otros_roles_sennova: selected_values,
-                                    }))
+                {rol != 'evaluador_externo' && (
+                    <>
+                        <Grid item md={4}>
+                            <TextInput
+                                label="Asignación mensual"
+                                id="asignacion_mensual"
+                                inputProps={{
+                                    min: 0,
+                                    prefix: '$',
                                 }}
-                                disabled={!modificar_tiempos_roles && method == 'PUT'}
-                                error={form.errors.otros_roles_sennova}
-                                label="Roles SENNOVA en los cuales ha sido contratado/vinculado"
+                                isCurrency={true}
+                                value={form.data.asignacion_mensual}
+                                onChange={(e) => form.setData('asignacion_mensual', e.target.value)}
+                                disabled={!usuario?.allowed?.to_update}
+                                error={form.errors.asignacion_mensual}
+                                required
                             />
                         </Grid>
-                        <Grid item md={2}>
-                            {method == 'PUT' && usuario?.allowed?.to_update && (
-                                <ButtonMui primary={false} onClick={() => setModicarTiemposRoles(!modificar_tiempos_roles)} className="!mt-2 !normal-case  hover:!bg-gray-50 hover:!text-app-900">
-                                    {modificar_tiempos_roles ? (
-                                        <>
-                                            <UndoIcon className="!text-[16px] mr-1" /> Cancelar
-                                        </>
-                                    ) : (
-                                        <>
-                                            <EditIcon className="!text-[16px] mr-1" /> Modificar
-                                        </>
+                        <Grid item md={8}>
+                            <TextInput
+                                label="Tiempo de experiencia laboral en el SENA"
+                                id="experiencia_laboral_sena"
+                                type="number"
+                                inputProps={{
+                                    min: 0,
+                                }}
+                                value={form.data.experiencia_laboral_sena}
+                                onChange={(e) => form.setData('experiencia_laboral_sena', e.target.value)}
+                                disabled={!usuario?.allowed?.to_update}
+                                error={form.errors.experiencia_laboral_sena}
+                                required
+                            />
+                            <small>Importante: Tiempo en meses</small>
+                        </Grid>
+
+                        <Grid item md={12}>
+                            <TextInput
+                                label="Número de horas semanales de dedicación en actividades de CTeI"
+                                id="horas_dedicadas"
+                                type="number"
+                                inputProps={{
+                                    min: 0,
+                                }}
+                                value={form.data.horas_dedicadas}
+                                onChange={(e) => form.setData('horas_dedicadas', e.target.value)}
+                                disabled={!usuario?.allowed?.to_update}
+                                error={form.errors.horas_dedicadas}
+                                required
+                            />
+                        </Grid>
+                        <Grid item md={12}>
+                            <TextInput
+                                label="Número de meses de dedicación en actividades de CTeI"
+                                id="meses_dedicados"
+                                type="number"
+                                inputProps={{
+                                    min: 0,
+                                }}
+                                value={form.data.meses_dedicados}
+                                onChange={(e) => form.setData('meses_dedicados', e.target.value)}
+                                disabled={!usuario?.allowed?.to_update}
+                                error={form.errors.meses_dedicados}
+                                required
+                            />
+                        </Grid>
+
+                        <Grid item md={12}>
+                            <Autocomplete
+                                id="rol_sennova_id"
+                                options={roles_sennova}
+                                selectedValue={form.data.rol_sennova_id}
+                                onChange={(event, newValue) => form.setData('rol_sennova_id', newValue.value)}
+                                disabled={!usuario?.allowed?.to_update}
+                                error={form.errors.rol_sennova_id}
+                                label="Rol SENNOVA actual"
+                                required
+                            />
+                        </Grid>
+
+                        <Grid item md={12}>
+                            <Grid container>
+                                <Grid item md={10}>
+                                    <SelectMultiple
+                                        id="otros_roles_sennova"
+                                        options={roles_sennova}
+                                        bdValues={form.data.otros_roles_sennova}
+                                        onChange={(event, newValue) => {
+                                            const selected_values = newValue.map((option) => option.value)
+                                            form.setData((prevData) => ({
+                                                ...prevData,
+                                                otros_roles_sennova: selected_values,
+                                            }))
+                                        }}
+                                        disabled={!modificar_tiempos_roles && method == 'PUT'}
+                                        error={form.errors.otros_roles_sennova}
+                                        label="Roles SENNOVA en los cuales ha sido contratado/vinculado"
+                                    />
+                                </Grid>
+                                <Grid item md={2}>
+                                    {method == 'PUT' && usuario?.allowed?.to_update && (
+                                        <ButtonMui
+                                            primary={false}
+                                            onClick={() => setModicarTiemposRoles(!modificar_tiempos_roles)}
+                                            className="!mt-2 !normal-case  hover:!bg-gray-50 hover:!text-app-900">
+                                            {modificar_tiempos_roles ? (
+                                                <>
+                                                    <UndoIcon className="!text-[16px] mr-1" /> Cancelar
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <EditIcon className="!text-[16px] mr-1" /> Modificar
+                                                </>
+                                            )}
+                                        </ButtonMui>
                                     )}
-                                </ButtonMui>
+                                </Grid>
+                            </Grid>
+
+                            {form.data.otros_roles_sennova && (
+                                <>
+                                    <Tags
+                                        id="tiempo_por_rol"
+                                        className="mt-2 tagify__tag__disabledRemoveBtn"
+                                        enforceWhitelist={false}
+                                        value={form.data.tiempo_por_rol}
+                                        tags={form.data.tiempo_por_rol}
+                                        onChange={(e) => form.setData('tiempo_por_rol', e.target.value)}
+                                        disabled={!usuario?.allowed?.to_update}
+                                        placeholder="Indique el tiempo en meses al lado del nombre del rol"
+                                        error={form.errors.tiempo_por_rol}
+                                    />
+                                    <AlertMui>
+                                        <strong>¿Cómo se agrega el tiempo?:</strong> Debe dar doble clic sobre el recuadro gris que contiene cada cada rol y reemplazar el texto (ESCRIBA AQUÍ EL #
+                                        MESES).
+                                    </AlertMui>
+                                </>
                             )}
                         </Grid>
-                    </Grid>
 
-                    {form.data.otros_roles_sennova && (
-                        <>
+                        <Grid item md={12}>
+                            <Label labelFor="roles_fuera_sennova" value="Si ha estado en otros roles fuera de SENNOVA por favor indiquelos en el siguiente campo. Separados por coma (,)" />
+
                             <Tags
-                                id="tiempo_por_rol"
-                                className="mt-2 tagify__tag__disabledRemoveBtn"
+                                id="roles_fuera_sennova"
+                                className="mt-4"
                                 enforceWhitelist={false}
-                                value={form.data.tiempo_por_rol}
-                                tags={form.data.tiempo_por_rol}
-                                onChange={(e) => form.setData('tiempo_por_rol', e.target.value)}
+                                value={form.data.roles_fuera_sennova}
+                                tags={form.data.roles_fuera_sennova}
+                                onChange={(e) => form.setData('roles_fuera_sennova', e.target.value)}
                                 disabled={!usuario?.allowed?.to_update}
-                                placeholder="Indique el tiempo en meses al lado del nombre del rol"
-                                error={form.errors.tiempo_por_rol}
+                                placeholder="Escriba el rol separado por coma (,)"
+                                error={form.errors.roles_fuera_sennova}
                             />
-                            <AlertMui>
-                                <strong>¿Cómo se agrega el tiempo?:</strong> Debe dar doble clic sobre el recuadro gris que contiene cada cada rol y reemplazar el texto (ESCRIBA AQUÍ EL # MESES).
-                            </AlertMui>
-                        </>
-                    )}
-                </Grid>
-
-                <Grid item md={12}>
-                    <Label labelFor="roles_fuera_sennova" value="Si ha estado en otros roles fuera de SENNOVA por favor indiquelos en el siguiente campo. Separados por coma (,)" />
-
-                    <Tags
-                        id="roles_fuera_sennova"
-                        className="mt-4"
-                        enforceWhitelist={false}
-                        value={form.data.roles_fuera_sennova}
-                        tags={form.data.roles_fuera_sennova}
-                        onChange={(e) => form.setData('roles_fuera_sennova', e.target.value)}
-                        disabled={!usuario?.allowed?.to_update}
-                        placeholder="Escriba el rol separado por coma (,)"
-                        error={form.errors.roles_fuera_sennova}
-                    />
-                </Grid>
+                        </Grid>
+                    </>
+                )}
 
                 {method == 'PUT' && (
                     <>
@@ -688,164 +708,168 @@ const Form = ({
                             />
                         </Grid>
 
-                        <Grid item md={12}>
-                            <h1 className="text-2xl font-medium">CURSOS REALIZADOS</h1>
-                        </Grid>
+                        {rol != 'evaluador_externo' && (
+                            <>
+                                <Grid item md={12}>
+                                    <h1 className="text-2xl font-medium">CURSOS REALIZADOS</h1>
+                                </Grid>
 
-                        <Grid item md={12}>
-                            <Autocomplete
-                                id="conocimiento_iso_17025"
-                                options={[
-                                    { value: 1, label: 'Si' },
-                                    { value: 2, label: 'No' },
-                                ]}
-                                selectedValue={form.data.conocimiento_iso_17025}
-                                onChange={(event, newValue) => form.setData('conocimiento_iso_17025', newValue.value)}
-                                disabled={!usuario?.allowed?.to_update}
-                                error={form.errors.conocimiento_iso_17025}
-                                label="¿Ha realizado cursos o tiene conocimiento de las norma Norma ISO/IEC 17025:2017?"
-                                required
-                            />
-                        </Grid>
+                                <Grid item md={12}>
+                                    <Autocomplete
+                                        id="conocimiento_iso_17025"
+                                        options={[
+                                            { value: 1, label: 'Si' },
+                                            { value: 2, label: 'No' },
+                                        ]}
+                                        selectedValue={form.data.conocimiento_iso_17025}
+                                        onChange={(event, newValue) => form.setData('conocimiento_iso_17025', newValue.value)}
+                                        disabled={!usuario?.allowed?.to_update}
+                                        error={form.errors.conocimiento_iso_17025}
+                                        label="¿Ha realizado cursos o tiene conocimiento de las norma Norma ISO/IEC 17025:2017?"
+                                        required
+                                    />
+                                </Grid>
 
-                        <Grid item md={12}>
-                            <Autocomplete
-                                id="conocimiento_iso_19011"
-                                options={[
-                                    { value: 1, label: 'Si' },
-                                    { value: 2, label: 'No' },
-                                ]}
-                                selectedValue={form.data.conocimiento_iso_19011}
-                                onChange={(event, newValue) => form.setData('conocimiento_iso_19011', newValue.value)}
-                                disabled={!usuario?.allowed?.to_update}
-                                error={form.errors.conocimiento_iso_19011}
-                                label="¿Ha realizado cursos o tiene conocimiento de las norma Norma ISO 19011:2018?"
-                                required
-                            />
-                        </Grid>
+                                <Grid item md={12}>
+                                    <Autocomplete
+                                        id="conocimiento_iso_19011"
+                                        options={[
+                                            { value: 1, label: 'Si' },
+                                            { value: 2, label: 'No' },
+                                        ]}
+                                        selectedValue={form.data.conocimiento_iso_19011}
+                                        onChange={(event, newValue) => form.setData('conocimiento_iso_19011', newValue.value)}
+                                        disabled={!usuario?.allowed?.to_update}
+                                        error={form.errors.conocimiento_iso_19011}
+                                        label="¿Ha realizado cursos o tiene conocimiento de las norma Norma ISO 19011:2018?"
+                                        required
+                                    />
+                                </Grid>
 
-                        <Grid item md={12}>
-                            <Autocomplete
-                                id="conocimiento_iso_29119"
-                                options={[
-                                    { value: 1, label: 'Si' },
-                                    { value: 2, label: 'No' },
-                                ]}
-                                selectedValue={form.data.conocimiento_iso_29119}
-                                onChange={(event, newValue) => form.setData('conocimiento_iso_29119', newValue.value)}
-                                disabled={!usuario?.allowed?.to_update}
-                                error={form.errors.conocimiento_iso_29119}
-                                label="¿Ha realizado cursos o tiene conocimiento de las norma Norma ISO 29119 Vigente?"
-                                required
-                            />
-                        </Grid>
+                                <Grid item md={12}>
+                                    <Autocomplete
+                                        id="conocimiento_iso_29119"
+                                        options={[
+                                            { value: 1, label: 'Si' },
+                                            { value: 2, label: 'No' },
+                                        ]}
+                                        selectedValue={form.data.conocimiento_iso_29119}
+                                        onChange={(event, newValue) => form.setData('conocimiento_iso_29119', newValue.value)}
+                                        disabled={!usuario?.allowed?.to_update}
+                                        error={form.errors.conocimiento_iso_29119}
+                                        label="¿Ha realizado cursos o tiene conocimiento de las norma Norma ISO 29119 Vigente?"
+                                        required
+                                    />
+                                </Grid>
 
-                        <Grid item md={12}>
-                            <Autocomplete
-                                id="conocimiento_iso_9001"
-                                options={[
-                                    { value: 1, label: 'Si' },
-                                    { value: 2, label: 'No' },
-                                ]}
-                                selectedValue={form.data.conocimiento_iso_9001}
-                                onChange={(event, newValue) => form.setData('conocimiento_iso_9001', newValue.value)}
-                                disabled={!usuario?.allowed?.to_update}
-                                error={form.errors.conocimiento_iso_9001}
-                                label="¿Ha realizado cursos o tiene conocimiento de las norma Norma ISO 9001:2015?"
-                                required
-                            />
-                        </Grid>
+                                <Grid item md={12}>
+                                    <Autocomplete
+                                        id="conocimiento_iso_9001"
+                                        options={[
+                                            { value: 1, label: 'Si' },
+                                            { value: 2, label: 'No' },
+                                        ]}
+                                        selectedValue={form.data.conocimiento_iso_9001}
+                                        onChange={(event, newValue) => form.setData('conocimiento_iso_9001', newValue.value)}
+                                        disabled={!usuario?.allowed?.to_update}
+                                        error={form.errors.conocimiento_iso_9001}
+                                        label="¿Ha realizado cursos o tiene conocimiento de las norma Norma ISO 9001:2015?"
+                                        required
+                                    />
+                                </Grid>
 
-                        <Grid item md={12}>
-                            <Autocomplete
-                                id="experiencia_metodos_ensayo"
-                                options={[
-                                    { value: 1, label: 'Si' },
-                                    { value: 2, label: 'No' },
-                                ]}
-                                selectedValue={form.data.experiencia_metodos_ensayo}
-                                onChange={(event, newValue) => form.setData('experiencia_metodos_ensayo', newValue.value)}
-                                disabled={!usuario?.allowed?.to_update}
-                                error={form.errors.experiencia_metodos_ensayo}
-                                label="¿Tiene experiencia técnica en métodos de ensayo?"
-                                required
-                            />
-                        </Grid>
+                                <Grid item md={12}>
+                                    <Autocomplete
+                                        id="experiencia_metodos_ensayo"
+                                        options={[
+                                            { value: 1, label: 'Si' },
+                                            { value: 2, label: 'No' },
+                                        ]}
+                                        selectedValue={form.data.experiencia_metodos_ensayo}
+                                        onChange={(event, newValue) => form.setData('experiencia_metodos_ensayo', newValue.value)}
+                                        disabled={!usuario?.allowed?.to_update}
+                                        error={form.errors.experiencia_metodos_ensayo}
+                                        label="¿Tiene experiencia técnica en métodos de ensayo?"
+                                        required
+                                    />
+                                </Grid>
 
-                        {form.data.experiencia_metodos_ensayo == 1 && (
-                            <Grid item md={12}>
-                                <TextInput
-                                    id="meses_experiencia_metodos_ensayo"
-                                    type="number"
-                                    inputProps={{
-                                        min: 0,
-                                    }}
-                                    value={form.data.meses_experiencia_metodos_ensayo}
-                                    onChange={(e) => form.setData('meses_experiencia_metodos_ensayo', e.target.value)}
-                                    disabled={!usuario?.allowed?.to_update}
-                                    error={form.errors.meses_experiencia_metodos_ensayo}
-                                    label="Si su respuesta en la pregunta anterior es 'SI' indique el número de meses de experiencia"
-                                    required
-                                />
-                            </Grid>
+                                {form.data.experiencia_metodos_ensayo == 1 && (
+                                    <Grid item md={12}>
+                                        <TextInput
+                                            id="meses_experiencia_metodos_ensayo"
+                                            type="number"
+                                            inputProps={{
+                                                min: 0,
+                                            }}
+                                            value={form.data.meses_experiencia_metodos_ensayo}
+                                            onChange={(e) => form.setData('meses_experiencia_metodos_ensayo', e.target.value)}
+                                            disabled={!usuario?.allowed?.to_update}
+                                            error={form.errors.meses_experiencia_metodos_ensayo}
+                                            label="Si su respuesta en la pregunta anterior es 'SI' indique el número de meses de experiencia"
+                                            required
+                                        />
+                                    </Grid>
+                                )}
+
+                                <Grid item md={12}>
+                                    <Autocomplete
+                                        id="experiencia_metodos_calibracion"
+                                        options={[
+                                            { value: 1, label: 'Si' },
+                                            { value: 2, label: 'No' },
+                                        ]}
+                                        selectedValue={form.data.experiencia_metodos_calibracion}
+                                        onChange={(event, newValue) => form.setData('experiencia_metodos_calibracion', newValue.value)}
+                                        disabled={!usuario?.allowed?.to_update}
+                                        error={form.errors.experiencia_metodos_calibracion}
+                                        label="¿Tiene experiencia técnica con métodos de calibración?"
+                                        required
+                                    />
+                                </Grid>
+
+                                {form.data.experiencia_metodos_calibracion == 1 && (
+                                    <Grid item md={12}>
+                                        <TextInput
+                                            id="meses_experiencia_metodos_calibracion"
+                                            type="number"
+                                            inputProps={{
+                                                min: 0,
+                                            }}
+                                            value={form.data.meses_experiencia_metodos_calibracion}
+                                            onChange={(e) => form.setData('meses_experiencia_metodos_calibracion', e.target.value)}
+                                            disabled={!usuario?.allowed?.to_update}
+                                            error={form.errors.meses_experiencia_metodos_calibracion}
+                                            label="Si su respuesta en la pregunta anterior es 'SI' indique el número de meses de experiencia"
+                                            required
+                                        />
+                                    </Grid>
+                                )}
+
+                                <Grid item md={12}>
+                                    <Label
+                                        required
+                                        className="mb-4"
+                                        labelFor="experiencia_minima_metodos"
+                                        value="¿Cuenta con experiencia técnica mínimo de doce (12) meses relacionada por lo menos con dos (2) métodos de ensayo o dos (2) métodos de calibración o dos (2) productos de base tecnológica (TICs)?"
+                                    />
+                                    <Autocomplete
+                                        id="experiencia_minima_metodos"
+                                        options={[
+                                            { value: 1, label: 'Si' },
+                                            { value: 2, label: 'No' },
+                                        ]}
+                                        className="mt-4"
+                                        selectedValue={form.data.experiencia_minima_metodos}
+                                        onChange={(event, newValue) => form.setData('experiencia_minima_metodos', newValue.value)}
+                                        disabled={!usuario?.allowed?.to_update}
+                                        error={form.errors.experiencia_minima_metodos}
+                                        label="Seleccione una opción"
+                                        required
+                                    />
+                                </Grid>
+                            </>
                         )}
-
-                        <Grid item md={12}>
-                            <Autocomplete
-                                id="experiencia_metodos_calibracion"
-                                options={[
-                                    { value: 1, label: 'Si' },
-                                    { value: 2, label: 'No' },
-                                ]}
-                                selectedValue={form.data.experiencia_metodos_calibracion}
-                                onChange={(event, newValue) => form.setData('experiencia_metodos_calibracion', newValue.value)}
-                                disabled={!usuario?.allowed?.to_update}
-                                error={form.errors.experiencia_metodos_calibracion}
-                                label="¿Tiene experiencia técnica con métodos de calibración?"
-                                required
-                            />
-                        </Grid>
-
-                        {form.data.experiencia_metodos_calibracion == 1 && (
-                            <Grid item md={12}>
-                                <TextInput
-                                    id="meses_experiencia_metodos_calibracion"
-                                    type="number"
-                                    inputProps={{
-                                        min: 0,
-                                    }}
-                                    value={form.data.meses_experiencia_metodos_calibracion}
-                                    onChange={(e) => form.setData('meses_experiencia_metodos_calibracion', e.target.value)}
-                                    disabled={!usuario?.allowed?.to_update}
-                                    error={form.errors.meses_experiencia_metodos_calibracion}
-                                    label="Si su respuesta en la pregunta anterior es 'SI' indique el número de meses de experiencia"
-                                    required
-                                />
-                            </Grid>
-                        )}
-
-                        <Grid item md={12}>
-                            <Label
-                                required
-                                className="mb-4"
-                                labelFor="experiencia_minima_metodos"
-                                value="¿Cuenta con experiencia técnica mínimo de doce (12) meses relacionada por lo menos con dos (2) métodos de ensayo o dos (2) métodos de calibración o dos (2) productos de base tecnológica (TICs)?"
-                            />
-                            <Autocomplete
-                                id="experiencia_minima_metodos"
-                                options={[
-                                    { value: 1, label: 'Si' },
-                                    { value: 2, label: 'No' },
-                                ]}
-                                className="mt-4"
-                                selectedValue={form.data.experiencia_minima_metodos}
-                                onChange={(event, newValue) => form.setData('experiencia_minima_metodos', newValue.value)}
-                                disabled={!usuario?.allowed?.to_update}
-                                error={form.errors.experiencia_minima_metodos}
-                                label="Seleccione una opción"
-                                required
-                            />
-                        </Grid>
                     </>
                 )}
 

@@ -60,10 +60,18 @@ class RegisteredUserController extends Controller
             'fecha_nacimiento'      => $request->fecha_nacimiento
         ]);
 
+        $user->syncRoles([11]);
+
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        $route = RouteServiceProvider::HOME;
+
+        if ($request->filled('rol')) {
+            $route = RouteServiceProvider::HOME . '?rol='.$request->rol;
+        }
+
+        return redirect($route);
     }
 }

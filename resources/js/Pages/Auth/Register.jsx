@@ -11,6 +11,9 @@ import TextInput from '@/Components/TextInput'
 import { Head, Link, useForm, usePage } from '@inertiajs/react'
 export default function Login({ tipos_documento, tipos_vinculacion, roles, centros_formacion, municipios, opciones_genero, user, status, ...props }) {
     const { props: page_props } = usePage()
+
+    const rol = page_props.ziggy.query.rol
+
     const form = useForm({
         nombre: user?.nombre,
         email: user?.email,
@@ -25,6 +28,7 @@ export default function Login({ tipos_documento, tipos_vinculacion, roles, centr
         tipo_vinculacion: user?.tipo_vinculacion,
         centro_formacion_id: user?.centro_formacion_id,
         autorizacion_datos: user?.autorizacion_datos ?? false,
+        rol: rol,
     })
 
     const submit = (e) => {
