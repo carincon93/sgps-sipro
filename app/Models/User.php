@@ -302,7 +302,7 @@ class User extends Authenticatable
             $search = str_replace(' ', '%%', $search);
             $search = str_replace('"', "", $search);
             $search = str_replace("'", "", $search);
-            $query->select('users.id', 'users.nombre', 'users.email', 'users.centro_formacion_id');
+            $query->select('users.id', 'users.nombre', 'users.email',  'users.habilitado', 'users.informacion_completa', 'users.centro_formacion_id');
             $query->join('centros_formacion', 'users.centro_formacion_id', 'centros_formacion.id');
             $query->whereRaw("unaccent(users.nombre) ilike unaccent('%" . $search . "%')");
             $query->orWhere('users.email', 'ilike', '%' . $search . '%');
