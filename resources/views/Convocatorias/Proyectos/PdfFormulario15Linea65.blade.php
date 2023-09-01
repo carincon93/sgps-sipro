@@ -7,8 +7,8 @@
     <title>PDF {{ $proyecto->codigo }}</title>
 
     <style>
-        * {
-            font-family: Roboto, Arial;
+        body {
+            font-family: 'Nunito', sans-serif;
         }
 
         .page-break {
@@ -26,6 +26,10 @@
             white-space: pre-wrap;
         }
     </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@normal&display=swap" rel="stylesheet">
 </head>
 <body>
     <table width="100%" border="1" cellspacing="0" cellpadding="10" style="font-size: 12px;">
@@ -342,7 +346,7 @@
 
     <h1>Problema central</h1>
 
-    <div style="background-color: rgb(15, 169, 105); padding: 20px; color: rgba(255, 255, 255, 0.912); font-weight: bolder; text-align: center;">
+    <div style="background-color: rgb(190, 190, 190); padding: 20px; color: rgba(39, 39, 39, 0.912); font-weight: bolder; text-align: center;">
         <p style="white-space: pre-wrap">{{ $datos->problema_central }}</p>
     </div>
 
@@ -366,7 +370,7 @@
     @endif
 
     <h1>Objetivo general</h1>
-    <div style="background-color: rgb(15, 25, 169); padding: 20px; color: rgba(255, 255, 255, 0.912); font-weight: bolder; text-align: center;">
+    <div style="background-color: rgb(190, 190, 190); padding: 20px; color: rgba(39, 39, 39, 0.912); font-weight: bolder; text-align: center;">
         <p style="white-space: pre-wrap">{{ $datos->objetivo_general }}</p>
     </div>
 
@@ -423,13 +427,13 @@
                     <table width="100%" style="font-size: 12px;">
                         <tr>
                             <td width="50%">
-                                <div style="background-color: rgb(16, 137, 87); height: 4rem; padding: 20px; color: white;">
+                                <div style="background-color: rgb(29, 110, 156); height: 4rem; padding: 20px; color: white;">
                                     <p style="margin: 0px; font-size: 10px;">{{ ($j + 1) .'.'. ($k + 1) }} Causa indirecta</p>
                                     {{ $causa_indirecta->descripcion }}
                                 </div>
                             </td>
                             <td width="50%">
-                                <div style="background-color: rgb(15, 169, 105); height: 4rem; padding: 20px; color: white;" >
+                                <div style="background-color: rgb(43, 148, 209); height: 4rem; padding: 20px; color: white;" >
                                     <p style="margin: 0px; font-size: 10px;">{{ ($j + 1) .'.'. ($k + 1) }} Actividad</p>
                                     {{ $causa_indirecta->actividad->descripcion }}
                                 </div>
