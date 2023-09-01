@@ -25,7 +25,7 @@ class Proyecto extends Model
      *
      * @var array
      */
-    protected $appends = ['codigo', 'diff_meses', 'precio_proyecto', 'total_roles_sennova', 'fecha_inicio', 'fecha_finalizacion', 'estado_evaluacion_proyecto_formulario_8_linea_66', 'estado_evaluacion_proyecto_formulario_1_linea_65', 'estado_evaluacion_proyecto_formulario_4_linea_70', 'estado_evaluacion_proyecto_formulario_5_linea_69', 'estado_evaluacion_proyecto_formulario_12_linea_68', 'cantidad_objetivos', 'total_proyecto_presupuesto_aprobado', 'total_roles_sennova_aprobado', 'precio_proyecto_aprobado', 'all_files', 'allowed', 'resultados'];
+    protected $appends = ['codigo', 'diff_meses', 'precio_proyecto', 'total_roles_sennova', 'fecha_inicio', 'fecha_finalizacion', 'estado_evaluacion_proyecto_formulario_8_linea_66', 'estado_evaluacion_proyecto_formulario_1_linea_65', 'estado_evaluacion_proyecto_formulario_4_linea_70', 'estado_evaluacion_proyecto_formulario_5_linea_69', 'estado_evaluacion_proyecto_formulario_12_linea_68', 'cantidad_objetivos', 'total_proyecto_presupuesto_aprobado', 'total_roles_sennova_aprobado', 'precio_proyecto_aprobado', 'total_proyecto_presupuesto', 'all_files', 'allowed', 'resultados'];
 
     /**
      * The attributes that are mass assignable.
