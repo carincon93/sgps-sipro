@@ -450,13 +450,13 @@ class User extends Authenticatable
             } else {
                 $centro_formacion_id = $auth_user->centroFormacion->id;
             }
-            $users = User::select('users.id', 'users.nombre', 'users.email', 'centro_formacion_id')->with('roles', 'centroFormacion.regional')->where('centro_formacion_id', $centro_formacion_id)->orderBy('nombre', 'ASC')
+            $users = User::select('users.id', 'users.nombre', 'users.email', 'users.habilitado', 'users.informacion_completa', 'centro_formacion_id')->with('roles', 'centroFormacion.regional')->where('centro_formacion_id', $centro_formacion_id)->orderBy('nombre', 'ASC')
                 ->filterUser(request()->only('search', 'roles'))->paginate();
         }
 
         // Director regional
         if ($auth_user->hasRole([2])) {
-            $users = User::select('users.id', 'users.nombre', 'users.email', 'users.centro_formacion_id')->join('centros_formacion', 'users.centro_formacion_id', 'centros_formacion.id')->where('centros_formacion.regional_id', $auth_user->centroFormacion->regional_id)->with('roles', 'centroFormacion')->filterUser(request()->only('search', 'roles'))->paginate();
+            $users = User::select('users.id', 'users.nombre', 'users.email', 'users.habilitado', 'users.informacion_completa', 'users.centro_formacion_id')->join('centros_formacion', 'users.centro_formacion_id', 'centros_formacion.id')->where('centros_formacion.regional_id', $auth_user->centroFormacion->regional_id)->with('roles', 'centroFormacion')->filterUser(request()->only('search', 'roles'))->paginate();
         }
 
         return $users;
