@@ -119,6 +119,11 @@ const Index = ({ auth, convocatoria, proyectos_formulario_8_linea_66, allowed_to
                                                     disabled={!proyecto?.allowed?.to_view}>
                                                     {proyecto?.allowed?.to_view && !proyecto?.allowed?.to_update ? 'Ver información' : 'Editar'}
                                                 </MenuItem>
+                                                <MenuItem>
+                                                    <a href={route(`convocatorias.proyectos.pdf-formulario8-linea66`, [convocatoria.id, proyecto.id])} target="_blank" className="flex items-center">
+                                                        PDF del proyecto
+                                                    </a>
+                                                </MenuItem>
                                                 {proyecto.evaluaciones.map((evaluacion, i) => (
                                                     <MenuItem
                                                         key={i}

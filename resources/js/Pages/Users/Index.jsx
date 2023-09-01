@@ -8,8 +8,9 @@ import TableMui from '@/Components/Table'
 import TabsMui from '@/Components/TabsMui'
 
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
+import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
 import { router } from '@inertiajs/react'
@@ -33,10 +34,10 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, subdirectores_centro, al
                 <Grid item md={12}>
                     <SearchBar className="mt-20" />
 
-                    <TableMui className="mt-20" rows={['Nombre', 'Correo electrónico', 'Centro de formación', 'Regional', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui className="mt-20" rows={['Nombre', 'Correo electrónico', 'Centro de formación', 'Regional', 'Estado', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         {allowed_to_create ? (
                             <TableRow onClick={() => router.visit(route('users.create'))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
-                                <TableCell colSpan={5}>
+                                <TableCell colSpan={6}>
                                     <ButtonMui>
                                         <AddCircleOutlineOutlinedIcon className="mr-1" /> Crear usuario
                                     </ButtonMui>
@@ -51,6 +52,31 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, subdirectores_centro, al
                                 <TableCell>{usuario.email}</TableCell>
                                 <TableCell>{usuario.centro_formacion?.nombre}</TableCell>
                                 <TableCell>{usuario.centro_formacion?.regional.nombre}</TableCell>
+                                <TableCell>
+                                    <Chip
+                                        className={`${usuario.habilitado ? '!bg-blue-200 !text-blue-500' : '!bg-red-200 !text-red-500'}`}
+                                        size="small"
+                                        label={
+                                            <>
+                                                <div className="group-hover:hidden">{usuario.habilitado ? 'Habilitado/a' : 'Deshabilitado/a'}</div>
+                                            </>
+                                        }
+                                    />
+
+                                    {usuario.habilitado && usuario.informacion_completa == false && (
+                                        <>
+                                            <br />
+                                            <Chip
+                                                className="!bg-red-200 !text-red-500 mt-2 !py-6"
+                                                label={
+                                                    <div className="flex items-center">
+                                                        <InfoOutlinedIcon className="mr-1" /> El usuario no ha completado <br /> el CENSO SENNOVA
+                                                    </div>
+                                                }
+                                            />
+                                        </>
+                                    )}
+                                </TableCell>
 
                                 <TableCell>
                                     <MenuMui text={<MoreVertIcon />}>
@@ -58,6 +84,22 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, subdirectores_centro, al
                                             <div>
                                                 <MenuItem onClick={() => router.visit(route('users.edit', [usuario.id]))} disabled={!usuario?.allowed?.to_view}>
                                                     {usuario?.allowed?.to_view && !usuario?.allowed?.to_update ? 'Ver información' : 'Editar'}
+                                                </MenuItem>
+
+                                                <MenuItem
+                                                    onClick={(e) =>
+                                                        router.put(
+                                                            route('users.habilitar-usuario'),
+                                                            {
+                                                                user_id: usuario?.id,
+                                                                habilitado: !usuario.habilitado,
+                                                            },
+                                                            {
+                                                                preserveScroll: true,
+                                                            },
+                                                        )
+                                                    }>
+                                                    {usuario.habilitado ? 'Deshabilitar' : 'Habilitar'}
                                                 </MenuItem>
 
                                                 {is_super_admin && (

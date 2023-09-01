@@ -192,7 +192,7 @@
         </ul>
     @endif
 
-    @if ( count($datos->municipios_influencia) > 0 )
+    @if ( $datos->municipios_influencia && count($datos->municipios_influencia) > 0 )
         <h4>Zonas de influencia</h4>
         <ul>
             <li>
