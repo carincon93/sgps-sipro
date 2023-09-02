@@ -540,6 +540,7 @@ class SelectHelper
             ->join('model_has_roles', 'users.id', 'model_has_roles.model_id')
             ->join('roles', 'model_has_roles.role_id', 'roles.id')
             ->where('roles.name', 'ilike', '%' . $rol . '%')
+            ->where('users.centro_formacion_id', auth()->user()->centro_formacion_id)
             ->orderBy('users.nombre', 'ASC')->get();
     }
 

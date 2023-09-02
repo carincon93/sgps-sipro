@@ -17,6 +17,7 @@ import { router } from '@inertiajs/react'
 import { route, checkRole } from '@/Utils'
 
 import Form from './Form'
+import AlertMui from '@/Components/Alert'
 
 const Index = ({ auth, centros_formacion, regionales, subdirectores, dinamizadores_sennova }) => {
     const auth_user = auth.user
@@ -31,8 +32,9 @@ const Index = ({ auth, centros_formacion, regionales, subdirectores, dinamizador
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Centros de formación</h2>}>
             <Grid item md={12}>
                 <SearchBar />
+                <AlertMui>Busque por el código o nombre de su Centro de formación.</AlertMui>
 
-                <TableMui className="mt-20" rows={['Nombre', 'Regional', 'Dinamizador/a SENNOVA', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui className="mt-20" rows={['Nombre', 'Regional', 'Dinamizador/a SENNOVA', 'Subdirector/a', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {is_super_admin ? (
                         <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setCentroFormacion(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={4}>
@@ -54,7 +56,13 @@ const Index = ({ auth, centros_formacion, regionales, subdirectores, dinamizador
                             <TableCell>
                                 {centro_formacion.dinamizador_sennova?.nombre}
                                 <br />
-                                {centro_formacion.dinamizador_sennova?.email}
+                                <small>{centro_formacion.dinamizador_sennova?.email}</small>
+                            </TableCell>
+
+                            <TableCell>
+                                {centro_formacion.subdirector?.nombre}
+                                <br />
+                                <small>{centro_formacion.subdirector?.email}</small>
                             </TableCell>
 
                             <TableCell>

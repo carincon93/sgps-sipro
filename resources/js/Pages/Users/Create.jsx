@@ -3,7 +3,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { Grid, Paper } from '@mui/material'
 
 import { checkRole } from '@/Utils'
+
 import Form from './Form'
+import FormRoles from './FormRoles'
 
 const Crear = ({
     auth,
@@ -19,6 +21,7 @@ const Crear = ({
     roles_sennova,
     redes_conocimiento,
     disciplinas_conocimiento,
+    roles_sistema,
     allowed_to_create,
 }) => {
     const auth_user = auth.user
@@ -52,6 +55,15 @@ const Crear = ({
                             redes_conocimiento={redes_conocimiento}
                             disciplinas_conocimiento={disciplinas_conocimiento}
                         />
+                    </Paper>
+                </Grid>
+
+                <Grid item md={4}>
+                    <strong>Roles de sistema</strong>
+                </Grid>
+                <Grid item md={8} className="drop-shadow-lg">
+                    <Paper elevation={0} sx={{ padding: 6 }}>
+                        <FormRoles roles_sistema={roles_sistema} />
                     </Paper>
                 </Grid>
             </Grid>

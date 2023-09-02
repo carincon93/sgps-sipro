@@ -75,6 +75,7 @@ class UserController extends Controller
             'tipos_discapacidad'        =>  json_decode(Storage::get('json/tipos-discapacidad.json'), true),
             'subareas_experiencia'      =>  SubareaExperiencia::selectRaw("subareas_experiencia.id as value, CONCAT(subareas_experiencia.nombre,' - Área de experiencia: ', areas_experiencia.nombre) as label")->join('areas_experiencia', 'subareas_experiencia.area_experiencia_id', 'areas_experiencia.id')->orderBy('subareas_experiencia.nombre', 'ASC')->get(),
             'municipios'                =>  SelectHelper::municipios(),
+            'roles_sistema'             =>  Role::getRolesByRol(),
             'roles_sennova'             =>  RolSennova::selectRaw("roles_sennova.id as value, CASE
                                                 WHEN linea_programatica_id IS NOT NULL THEN CONCAT(roles_sennova.nombre,  chr(10), ' - Línea programática ', lineas_programaticas.codigo)
                                                 ELSE roles_sennova.nombre

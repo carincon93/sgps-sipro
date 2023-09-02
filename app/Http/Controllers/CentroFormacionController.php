@@ -25,7 +25,7 @@ class CentroFormacionController extends Controller
             'centros_formacion'     => CentroFormacion::select('centros_formacion.*')
                                         ->with(['regional'  => function ($query) {
                                             $query->orderBy('nombre', 'ASC');
-                                        }])->with('dinamizadorSennova')
+                                        }])->with('dinamizadorSennova', 'subdirector')
                                         ->filterCentroFormacion(request()->only('search'))->paginate()->appends(['search' => request()->search]),
             'regionales'            => SelectHelper::regionales(),
             'subdirectores'         => SelectHelper::usuariosPorRol('subdirector'),

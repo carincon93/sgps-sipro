@@ -14,7 +14,7 @@ import UndoIcon from '@mui/icons-material/Undo'
 
 import { useForm, usePage } from '@inertiajs/react'
 
-import { Grid } from '@mui/material'
+import { FormControlLabel, FormGroup, Grid } from '@mui/material'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { checkRole } from '@/Utils'
@@ -104,7 +104,6 @@ const Form = ({
 
         method == 'POST'
             ? form.post(route('users.store'), {
-                  onSuccess: () => setDialogStatus(false),
                   preserveScroll: true,
               })
             : form.put(route('users.update', [usuario.id]), {
@@ -361,262 +360,262 @@ const Form = ({
                     />
                 </Grid>
 
-                {(form.data.tipo_vinculacion == 1 && rol != 'evaluador_externo') || (form.data.tipo_vinculacion == 2 && rol != 'evaluador_externo') ? (
-                    <>
-                        <Grid item md={6}>
-                            <DatePicker
-                                variant="outlined"
-                                id="fecha_resolucion_nombramiento"
-                                name="fecha_resolucion_nombramiento"
-                                value={form.data.fecha_resolucion_nombramiento}
-                                onChange={(e) => form.setData('fecha_resolucion_nombramiento', e.target.value)}
-                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
-                                className="p-4 w-full"
-                                error={form.errors.fecha_resolucion_nombramiento}
-                                label="Fecha de resolución de nombramiento"
-                                required
-                            />
-                        </Grid>
-                        <Grid item md={6}>
-                            <DatePicker
-                                variant="outlined"
-                                id="fecha_acta_nombramiento"
-                                name="fecha_acta_nombramiento"
-                                value={form.data.fecha_acta_nombramiento}
-                                onChange={(e) => form.setData('fecha_acta_nombramiento', e.target.value)}
-                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
-                                className="p-4 w-full"
-                                error={form.errors.fecha_acta_nombramiento}
-                                label="Fecha del acta de nombramiento"
-                                required
-                            />
-                        </Grid>
-
-                        <Grid item md={12}>
-                            <TextInput
-                                label="Número del acta de nombramiento"
-                                id="nro_acta_nombramiento"
-                                type="number"
-                                inputProps={{
-                                    min: 0,
-                                }}
-                                value={form.data.nro_acta_nombramiento}
-                                onChange={(e) => form.setData('nro_acta_nombramiento', e.target.value)}
-                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
-                                error={form.errors.nro_acta_nombramiento}
-                                required
-                            />
-                        </Grid>
-                    </>
-                ) : form.data.tipo_vinculacion == 3 ? (
-                    <>
-                        {rol != 'evaluador_externo' && (
-                            <Grid item md={6}>
-                                <DatePicker
-                                    variant="outlined"
-                                    id="fecha_inicio_contrato"
-                                    name="fecha_inicio_contrato"
-                                    value={form.data.fecha_inicio_contrato}
-                                    onChange={(e) => form.setData('fecha_inicio_contrato', e.target.value)}
-                                    disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
-                                    className="p-4 w-full"
-                                    error={form.errors.fecha_inicio_contrato}
-                                    label="Fecha de inicio del contrato"
-                                    required
-                                />
-                            </Grid>
-                        )}
-                        <Grid item md={6}>
-                            <DatePicker
-                                variant="outlined"
-                                id="fecha_finalizacion_contrato"
-                                name="fecha_finalizacion_contrato"
-                                value={form.data.fecha_finalizacion_contrato}
-                                onChange={(e) => form.setData('fecha_finalizacion_contrato', e.target.value)}
-                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
-                                className="p-4 w-full"
-                                error={form.errors.fecha_finalizacion_contrato}
-                                label="Fecha de finalizacion del contrato"
-                                required
-                            />
-                        </Grid>
-
-                        {rol != 'evaluador_externo' && (
-                            <Grid item md={12}>
-                                <TextInput
-                                    label="Enlace a SIGEP II"
-                                    id="link_sigep_ii"
-                                    type="url"
-                                    value={form.data.link_sigep_ii}
-                                    onChange={(e) => form.setData('link_sigep_ii', e.target.value)}
-                                    disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
-                                    error={form.errors.link_sigep_ii}
-                                />
-                                <small>Debe incluir el http:// o https://</small>
-                            </Grid>
-                        )}
-                    </>
-                ) : null}
-
-                {rol != 'evaluador_externo' && (
-                    <>
-                        <Grid item md={4}>
-                            <TextInput
-                                label="Asignación mensual"
-                                id="asignacion_mensual"
-                                inputProps={{
-                                    min: 0,
-                                    prefix: '$',
-                                }}
-                                isCurrency={true}
-                                value={form.data.asignacion_mensual}
-                                onChange={(e) => form.setData('asignacion_mensual', e.target.value)}
-                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
-                                error={form.errors.asignacion_mensual}
-                                required
-                            />
-                        </Grid>
-                        <Grid item md={8}>
-                            <TextInput
-                                label="Tiempo de experiencia laboral en el SENA"
-                                id="experiencia_laboral_sena"
-                                type="number"
-                                inputProps={{
-                                    min: 0,
-                                }}
-                                value={form.data.experiencia_laboral_sena}
-                                onChange={(e) => form.setData('experiencia_laboral_sena', e.target.value)}
-                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
-                                error={form.errors.experiencia_laboral_sena}
-                                required
-                            />
-                            <small>Importante: Tiempo en meses</small>
-                        </Grid>
-
-                        <Grid item md={12}>
-                            <TextInput
-                                label="Número de horas semanales de dedicación en actividades de CTeI"
-                                id="horas_dedicadas"
-                                type="number"
-                                inputProps={{
-                                    min: 0,
-                                }}
-                                value={form.data.horas_dedicadas}
-                                onChange={(e) => form.setData('horas_dedicadas', e.target.value)}
-                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
-                                error={form.errors.horas_dedicadas}
-                                required
-                            />
-                        </Grid>
-                        <Grid item md={12}>
-                            <TextInput
-                                label="Número de meses de dedicación en actividades de CTeI"
-                                id="meses_dedicados"
-                                type="number"
-                                inputProps={{
-                                    min: 0,
-                                }}
-                                value={form.data.meses_dedicados}
-                                onChange={(e) => form.setData('meses_dedicados', e.target.value)}
-                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
-                                error={form.errors.meses_dedicados}
-                                required
-                            />
-                        </Grid>
-
-                        <Grid item md={12}>
-                            <Autocomplete
-                                id="rol_sennova_id"
-                                options={roles_sennova}
-                                selectedValue={form.data.rol_sennova_id}
-                                onChange={(event, newValue) => form.setData('rol_sennova_id', newValue.value)}
-                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
-                                error={form.errors.rol_sennova_id}
-                                label="Rol SENNOVA actual"
-                                required
-                            />
-                        </Grid>
-
-                        <Grid item md={12}>
-                            <Grid container>
-                                <Grid item md={10}>
-                                    <SelectMultiple
-                                        id="otros_roles_sennova"
-                                        options={roles_sennova}
-                                        bdValues={form.data.otros_roles_sennova}
-                                        onChange={(event, newValue) => {
-                                            const selected_values = newValue.map((option) => option.value)
-                                            form.setData((prevData) => ({
-                                                ...prevData,
-                                                otros_roles_sennova: selected_values,
-                                            }))
-                                        }}
-                                        disabled={!modificar_tiempos_roles && method == 'PUT'}
-                                        error={form.errors.otros_roles_sennova}
-                                        label="Roles SENNOVA en los cuales ha sido contratado/vinculado"
-                                    />
-                                </Grid>
-                                <Grid item md={2}>
-                                    {method == 'PUT' && usuario?.allowed?.to_update && (
-                                        <ButtonMui
-                                            primary={false}
-                                            onClick={() => setModicarTiemposRoles(!modificar_tiempos_roles)}
-                                            className="!mt-2 !normal-case  hover:!bg-gray-50 hover:!text-app-900">
-                                            {modificar_tiempos_roles ? (
-                                                <>
-                                                    <UndoIcon className="!text-[16px] mr-1" /> Cancelar
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <EditIcon className="!text-[16px] mr-1" /> Modificar
-                                                </>
-                                            )}
-                                        </ButtonMui>
-                                    )}
-                                </Grid>
-                            </Grid>
-
-                            {form.data.otros_roles_sennova && (
-                                <>
-                                    <Tags
-                                        id="tiempo_por_rol"
-                                        className="mt-2 tagify__tag__disabledRemoveBtn"
-                                        enforceWhitelist={false}
-                                        value={form.data.tiempo_por_rol}
-                                        tags={form.data.tiempo_por_rol}
-                                        onChange={(e) => form.setData('tiempo_por_rol', e.target.value)}
-                                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
-                                        placeholder="Indique el tiempo en meses al lado del nombre del rol"
-                                        error={form.errors.tiempo_por_rol}
-                                    />
-                                    <AlertMui>
-                                        <strong>¿Cómo se agrega el tiempo?:</strong> Debe dar doble clic sobre el recuadro gris que contiene cada cada rol y reemplazar el texto (ESCRIBA AQUÍ EL #
-                                        MESES).
-                                    </AlertMui>
-                                </>
-                            )}
-                        </Grid>
-
-                        <Grid item md={12}>
-                            <Label labelFor="roles_fuera_sennova" value="Si ha estado en otros roles fuera de SENNOVA por favor indiquelos en el siguiente campo. Separados por coma (,)" />
-
-                            <Tags
-                                id="roles_fuera_sennova"
-                                className="mt-4"
-                                enforceWhitelist={false}
-                                value={form.data.roles_fuera_sennova}
-                                tags={form.data.roles_fuera_sennova}
-                                onChange={(e) => form.setData('roles_fuera_sennova', e.target.value)}
-                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
-                                placeholder="Escriba el rol separado por coma (,)"
-                                error={form.errors.roles_fuera_sennova}
-                            />
-                        </Grid>
-                    </>
-                )}
-
                 {method == 'PUT' && (
                     <>
+                        {(form.data.tipo_vinculacion == 1 && rol != 'evaluador_externo') || (form.data.tipo_vinculacion == 2 && rol != 'evaluador_externo') ? (
+                            <>
+                                <Grid item md={6}>
+                                    <DatePicker
+                                        variant="outlined"
+                                        id="fecha_resolucion_nombramiento"
+                                        name="fecha_resolucion_nombramiento"
+                                        value={form.data.fecha_resolucion_nombramiento}
+                                        onChange={(e) => form.setData('fecha_resolucion_nombramiento', e.target.value)}
+                                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
+                                        className="p-4 w-full"
+                                        error={form.errors.fecha_resolucion_nombramiento}
+                                        label="Fecha de resolución de nombramiento"
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item md={6}>
+                                    <DatePicker
+                                        variant="outlined"
+                                        id="fecha_acta_nombramiento"
+                                        name="fecha_acta_nombramiento"
+                                        value={form.data.fecha_acta_nombramiento}
+                                        onChange={(e) => form.setData('fecha_acta_nombramiento', e.target.value)}
+                                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
+                                        className="p-4 w-full"
+                                        error={form.errors.fecha_acta_nombramiento}
+                                        label="Fecha del acta de nombramiento"
+                                        required
+                                    />
+                                </Grid>
+
+                                <Grid item md={12}>
+                                    <TextInput
+                                        label="Número del acta de nombramiento"
+                                        id="nro_acta_nombramiento"
+                                        type="number"
+                                        inputProps={{
+                                            min: 0,
+                                        }}
+                                        value={form.data.nro_acta_nombramiento}
+                                        onChange={(e) => form.setData('nro_acta_nombramiento', e.target.value)}
+                                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
+                                        error={form.errors.nro_acta_nombramiento}
+                                        required
+                                    />
+                                </Grid>
+                            </>
+                        ) : form.data.tipo_vinculacion == 3 ? (
+                            <>
+                                {rol != 'evaluador_externo' && (
+                                    <Grid item md={6}>
+                                        <DatePicker
+                                            variant="outlined"
+                                            id="fecha_inicio_contrato"
+                                            name="fecha_inicio_contrato"
+                                            value={form.data.fecha_inicio_contrato}
+                                            onChange={(e) => form.setData('fecha_inicio_contrato', e.target.value)}
+                                            disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
+                                            className="p-4 w-full"
+                                            error={form.errors.fecha_inicio_contrato}
+                                            label="Fecha de inicio del contrato"
+                                            required
+                                        />
+                                    </Grid>
+                                )}
+                                <Grid item md={6}>
+                                    <DatePicker
+                                        variant="outlined"
+                                        id="fecha_finalizacion_contrato"
+                                        name="fecha_finalizacion_contrato"
+                                        value={form.data.fecha_finalizacion_contrato}
+                                        onChange={(e) => form.setData('fecha_finalizacion_contrato', e.target.value)}
+                                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
+                                        className="p-4 w-full"
+                                        error={form.errors.fecha_finalizacion_contrato}
+                                        label="Fecha de finalizacion del contrato"
+                                        required
+                                    />
+                                </Grid>
+
+                                {rol != 'evaluador_externo' && (
+                                    <Grid item md={12}>
+                                        <TextInput
+                                            label="Enlace a SIGEP II"
+                                            id="link_sigep_ii"
+                                            type="url"
+                                            value={form.data.link_sigep_ii}
+                                            onChange={(e) => form.setData('link_sigep_ii', e.target.value)}
+                                            disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
+                                            error={form.errors.link_sigep_ii}
+                                        />
+                                        <small>Debe incluir el http:// o https://</small>
+                                    </Grid>
+                                )}
+                            </>
+                        ) : null}
+
+                        {rol != 'evaluador_externo' && (
+                            <>
+                                <Grid item md={4}>
+                                    <TextInput
+                                        label="Asignación mensual"
+                                        id="asignacion_mensual"
+                                        inputProps={{
+                                            min: 0,
+                                            prefix: '$',
+                                        }}
+                                        isCurrency={true}
+                                        value={form.data.asignacion_mensual}
+                                        onChange={(e) => form.setData('asignacion_mensual', e.target.value)}
+                                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
+                                        error={form.errors.asignacion_mensual}
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item md={8}>
+                                    <TextInput
+                                        label="Tiempo de experiencia laboral en el SENA"
+                                        id="experiencia_laboral_sena"
+                                        type="number"
+                                        inputProps={{
+                                            min: 0,
+                                        }}
+                                        value={form.data.experiencia_laboral_sena}
+                                        onChange={(e) => form.setData('experiencia_laboral_sena', e.target.value)}
+                                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
+                                        error={form.errors.experiencia_laboral_sena}
+                                        required
+                                    />
+                                    <small>Importante: Tiempo en meses</small>
+                                </Grid>
+
+                                <Grid item md={12}>
+                                    <TextInput
+                                        label="Número de horas semanales de dedicación en actividades de CTeI"
+                                        id="horas_dedicadas"
+                                        type="number"
+                                        inputProps={{
+                                            min: 0,
+                                        }}
+                                        value={form.data.horas_dedicadas}
+                                        onChange={(e) => form.setData('horas_dedicadas', e.target.value)}
+                                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
+                                        error={form.errors.horas_dedicadas}
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item md={12}>
+                                    <TextInput
+                                        label="Número de meses de dedicación en actividades de CTeI"
+                                        id="meses_dedicados"
+                                        type="number"
+                                        inputProps={{
+                                            min: 0,
+                                        }}
+                                        value={form.data.meses_dedicados}
+                                        onChange={(e) => form.setData('meses_dedicados', e.target.value)}
+                                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
+                                        error={form.errors.meses_dedicados}
+                                        required
+                                    />
+                                </Grid>
+
+                                <Grid item md={12}>
+                                    <Autocomplete
+                                        id="rol_sennova_id"
+                                        options={roles_sennova}
+                                        selectedValue={form.data.rol_sennova_id}
+                                        onChange={(event, newValue) => form.setData('rol_sennova_id', newValue.value)}
+                                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
+                                        error={form.errors.rol_sennova_id}
+                                        label="Rol SENNOVA actual"
+                                        required
+                                    />
+                                </Grid>
+
+                                <Grid item md={12}>
+                                    <Grid container>
+                                        <Grid item md={10}>
+                                            <SelectMultiple
+                                                id="otros_roles_sennova"
+                                                options={roles_sennova}
+                                                bdValues={form.data.otros_roles_sennova}
+                                                onChange={(event, newValue) => {
+                                                    const selected_values = newValue.map((option) => option.value)
+                                                    form.setData((prevData) => ({
+                                                        ...prevData,
+                                                        otros_roles_sennova: selected_values,
+                                                    }))
+                                                }}
+                                                disabled={!modificar_tiempos_roles && method == 'PUT'}
+                                                error={form.errors.otros_roles_sennova}
+                                                label="Roles SENNOVA en los cuales ha sido contratado/vinculado"
+                                            />
+                                        </Grid>
+                                        <Grid item md={2}>
+                                            {method == 'PUT' && usuario?.allowed?.to_update && (
+                                                <ButtonMui
+                                                    primary={false}
+                                                    onClick={() => setModicarTiemposRoles(!modificar_tiempos_roles)}
+                                                    className="!mt-2 !normal-case  hover:!bg-gray-50 hover:!text-app-900">
+                                                    {modificar_tiempos_roles ? (
+                                                        <>
+                                                            <UndoIcon className="!text-[16px] mr-1" /> Cancelar
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <EditIcon className="!text-[16px] mr-1" /> Modificar
+                                                        </>
+                                                    )}
+                                                </ButtonMui>
+                                            )}
+                                        </Grid>
+                                    </Grid>
+
+                                    {form.data.otros_roles_sennova && (
+                                        <>
+                                            <Tags
+                                                id="tiempo_por_rol"
+                                                className="mt-2 tagify__tag__disabledRemoveBtn"
+                                                enforceWhitelist={false}
+                                                value={form.data.tiempo_por_rol}
+                                                tags={form.data.tiempo_por_rol}
+                                                onChange={(e) => form.setData('tiempo_por_rol', e.target.value)}
+                                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
+                                                placeholder="Indique el tiempo en meses al lado del nombre del rol"
+                                                error={form.errors.tiempo_por_rol}
+                                            />
+                                            <AlertMui>
+                                                <strong>¿Cómo se agrega el tiempo?:</strong> Debe dar doble clic sobre el recuadro gris que contiene cada cada rol y reemplazar el texto (ESCRIBA AQUÍ
+                                                EL # MESES).
+                                            </AlertMui>
+                                        </>
+                                    )}
+                                </Grid>
+
+                                <Grid item md={12}>
+                                    <Label labelFor="roles_fuera_sennova" value="Si ha estado en otros roles fuera de SENNOVA por favor indiquelos en el siguiente campo. Separados por coma (,)" />
+
+                                    <Tags
+                                        id="roles_fuera_sennova"
+                                        className="mt-4"
+                                        enforceWhitelist={false}
+                                        value={form.data.roles_fuera_sennova}
+                                        tags={form.data.roles_fuera_sennova}
+                                        onChange={(e) => form.setData('roles_fuera_sennova', e.target.value)}
+                                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
+                                        placeholder="Escriba el rol separado por coma (,)"
+                                        error={form.errors.roles_fuera_sennova}
+                                    />
+                                </Grid>
+                            </>
+                        )}
+
                         <Grid item md={12}>
                             <h1 className="text-2xl font-medium">EXPERIENCIA COMO FORMULADOR Y EVALUADOR DE PROYECTOS</h1>
                         </Grid>
@@ -877,17 +876,16 @@ const Form = ({
                 <Grid item md={12}>
                     <AlertMui>
                         Los datos proporcionados serán tratados de acuerdo con la política de tratamiento de datos personales del SENA y a la ley 1581 de 2012 (Acuerdo No. 0009 del 2016)
+                        <Checkbox
+                            className="mt-8"
+                            name="autorizacion_datos"
+                            checked={form.data.autorizacion_datos}
+                            onChange={(e) => form.setData('autorizacion_datos', e.target.checked)}
+                            disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
+                            error={form.errors.autorizacion_datos}
+                            label="Autorizo el tratamiento de mis datos personales."
+                        />
                     </AlertMui>
-
-                    <Checkbox
-                        className="mt-8"
-                        name="autorizacion_datos"
-                        checked={form.data.autorizacion_datos}
-                        onChange={(e) => form.setData('autorizacion_datos', e.target.checked)}
-                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
-                        error={form.errors.autorizacion_datos}
-                        label="Autorizo el tratamiento de mis datos personales."
-                    />
                 </Grid>
             </Grid>
 

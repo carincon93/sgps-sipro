@@ -1,3 +1,4 @@
+import AlertMui from '@/Components/Alert'
 import Autocomplete from '@/Components/Autocomplete'
 import ButtonMui from '@/Components/Button'
 import PrimaryButton from '@/Components/PrimaryButton'
@@ -83,6 +84,13 @@ const Form = ({ method = '', is_super_admin, setDialogStatus, centro_formacion, 
                                     label="Subdirector"
                                     required
                                 />
+                                {subdirectores.length == 0 && (
+                                    <AlertMui severity="error">
+                                        No hay subdirectores relacionados con su centro de formación, por favor indíquele al subdirector/a que haga el registro en plataforma. También lo puede hacer
+                                        usted desde la opción <strong>Usuarios</strong>. Nota: Una vez el usuario ha sido creado, por favor, asígnele el rol de subdirector para que se pueda mostrar en
+                                        este formulario.
+                                    </AlertMui>
+                                )}
                             </Grid>
 
                             <Grid item md={12}>

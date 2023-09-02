@@ -88,7 +88,7 @@ const Edit = ({
                                     <br />
                                     Contraseña: <strong>sena{usuario?.numero_documento}*</strong>
                                 </li>
-                                <li>2. Por favor indíquele al usuario que complete el CENSO SENNOVA una vez ingrese al sistema.</li>
+                                <li>2. Por favor, indíquele al usuario que complete el CENSO SENNOVA una vez ingrese al sistema.</li>
                                 <li>3. Seleccione los respectivos roles de sistema de la siguiente lista:.</li>
                             </ul>
                         </AlertMui>
