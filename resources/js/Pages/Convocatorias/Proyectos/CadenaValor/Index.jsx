@@ -257,7 +257,7 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
 
             {proyecto.tipo_formulario_convocatoria_id != 10 && proyecto.tipo_formulario_convocatoria_id != 17 && (
                 <Grid item md={12}>
-                    <h1 className="text-3xl mt-24 text-center">Propuesta de sostenibilidad</h1>
+                    <h1 className="text-3xl mt-24 mb-8 text-center">Propuesta de sostenibilidad</h1>
 
                     {proyecto.tipo_formulario_convocatoria_id == 4 && (
                         <AlertMui className="text-center my-24">

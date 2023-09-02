@@ -610,6 +610,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia-proyecto-formulario-10-linea-69', [ProyectoFormulario10Linea69Controller::class, 'updateMetodologiaProyectoFormulario10Linea69'])->name('convocatorias.proyectos.metodologia-proyecto-formulario-10-linea-69');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia-proyecto-formulario-17-linea-69', [ProyectoFormulario17Linea69Controller::class, 'updateMetodologiaProyectoFormulario17Linea69'])->name('convocatorias.proyectos.metodologia-proyecto-formulario-17-linea-69');
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/metodologia-proyecto-formulario-11-linea-83', [ProyectoFormulario11Linea83Controller::class, 'updateMetodologiaProyectoFormulario11Linea83'])->name('convocatorias.proyectos.metodologia-proyecto-formulario-11-linea-83');
+    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/actividades/{actividad}/link-rubros-presupuestales', [ActividadController::class, 'linkRubrosPresupuestales'])->name('convocatorias.proyectos.actividades.link-rubros-presupuestales');
     Route::resource('convocatorias.proyectos.actividades', ActividadController::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos' => 'proyecto', 'actividades' => 'actividad'])->except(['show']);
 
     /**

@@ -203,6 +203,12 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                             <strong>
                                 Importante: Si ha cargado más de 3 empresas, debe generar las respectivas columnas de empresas en el Excel Formato de Estudio de Mercado - Convocatoria SENNOVA{' '}
                                 {convocatoria.year}. Recuerde que la información debe coincidir en el Excel y en la plataforma, tanto en la cantidad de empresas como en el valor total.
+                                <br />
+                                <br />
+                                En la siguiente sección deberá adjuntar todos los soportes dados por las empresas. Para ello se recomienda unir los soportes de <strong>cada empresa</strong> en un PDF
+                                o ZIP. Revise que los valores en los soportes sean iguales a los valores relacionados en el Excel. (Los soportes pueden ser precotizaciones, precios de catálogos de
+                                canales comerciales oficiales de proveedores o de almacenes de grandes superficies, o valores de acuerdos marco de precios de Colombia Compra. (Los valores del estudio
+                                deberán corresponder a proveedores ubicados en Colombia y tener una fecha no mayor a 4 meses).
                             </strong>
                         </AlertMui>
                         <TableMui className="mb-8" rows={['Concepto / Nombre de la empresa', 'Soporte(s)', 'Acciones']} sxCellThead={{ width: '320px' }}>

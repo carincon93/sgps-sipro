@@ -159,7 +159,6 @@ class ActividadController extends Controller
 
         $actividad->save();
 
-        $actividad->proyectoPresupuesto()->sync($request->proyecto_presupuesto_id);
         $actividad->proyectoRolesSennova()->sync($request->proyecto_rol_sennova_id);
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
@@ -177,6 +176,13 @@ class ActividadController extends Controller
         $actividad->delete();
 
         return redirect()->route('convocatorias.proyectos.actividades.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha eliminado correctamente.');
+    }
+
+    public function linkRubrosPresupuestales(Request $request,  Convocatoria $convocatoria, Proyecto $proyecto, Actividad $actividad)
+    {
+        $actividad->proyectoPresupuesto()->sync($request->proyecto_presupuesto_id);
+
+        return back()->with('success', 'Los rubros presupuestales se han asociado correctamente.');
     }
 
     /**

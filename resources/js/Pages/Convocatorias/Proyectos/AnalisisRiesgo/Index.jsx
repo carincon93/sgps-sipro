@@ -134,7 +134,7 @@ const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisis_riesgos, nivel
             ) : null} */}
 
             <Grid item md={12}>
-                <h1 className="text-3xl mb-8 text-center">Análisis de riesgos</h1>
+                <h1 className="text-3xl mt-24 mb-8 text-center">Análisis de riesgos</h1>
             </Grid>
 
             <Grid item md={12}>

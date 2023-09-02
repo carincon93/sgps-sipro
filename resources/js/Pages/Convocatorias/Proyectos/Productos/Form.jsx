@@ -52,7 +52,6 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
 
     const [actividades, setActividades] = useState([])
     useEffect(() => {
-        console.log(resultados)
         if (resultados.find((item) => item.value == producto?.resultado_id)?.actividades) {
             const tmp_options_filtered = resultados
                 .find((item) => item.value == producto?.resultado_id)
@@ -123,7 +122,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                                     <br />
                                                     Cuando el producto es un bien: nombre del bien + la condición deseada. Ejemplo: - Vía construida.
                                                     <br />
-                                                    - Piezas mecanizadas, PCB´s construidos.
+                                                    - Piezas mecanizadas, PCB's construidos.
                                                     <br />
                                                     Cuando el producto es un servicio: nombre del servicio + el complemento. Ejemplo: - Servicio de asistencia técnica para el mejoramiento de hábitos
                                                     alimentarios

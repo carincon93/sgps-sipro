@@ -129,18 +129,23 @@ const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, conv
                 </>
             ) : null} */}
 
-            <AlertMui className="mt-20">
-                <h1 className="mb-10 font-black">Importante:</h1>
-                <ul>
-                    <li>
-                        <strong>ANEXO 1A. Acta_Reunión Regional</strong> NO se adjunta en plataforma. Se envía junto al Anexo 1B a la Coordinación Sennova (Obligatorio)
-                    </li>
+            <Grid item md={12}>
+                <h1 className="text-3xl mt-24 mb-8 text-center">Anexos</h1>
 
-                    <li>
-                        <strong>ANEXO 1C. Carta C.I Director Regional</strong> NO se adjunta en plataforma. Se envía a la Coordinación Sennova, uno por regional, junto con el Anexo 1A (Obligatorio)
-                    </li>
-                </ul>
-            </AlertMui>
+                <AlertMui className="mt-14">
+                    <h1 className="mb-10 font-black">Importante:</h1>
+                    <ul>
+                        <li>
+                            <strong>ANEXO 1A. Acta_Reunión Regional</strong> NO se adjunta en plataforma. Se envía junto al Anexo 1B a la Coordinación Sennova (Obligatorio)
+                        </li>
+
+                        <li>
+                            <strong>ANEXO 1C. Carta C.I Director Regional</strong> NO se adjunta en plataforma. Se envía a la Coordinación Sennova, uno por regional, junto con el Anexo 1A
+                            (Obligatorio)
+                        </li>
+                    </ul>
+                </AlertMui>
+            </Grid>
 
             <Grid item md={12}>
                 <TableMui className="mt-20" rows={['Nombre', 'Archivo']} sxCellThead={{ width: '320px' }}>

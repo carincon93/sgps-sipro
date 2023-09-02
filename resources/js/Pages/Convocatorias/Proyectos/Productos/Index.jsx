@@ -144,6 +144,10 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                     </Grid> */}
 
             <Grid item md={12}>
+                <h1 className="text-3xl mt-24 mb-8  text-center">Productos</h1>
+            </Grid>
+
+            <Grid item md={12}>
                 <AlertMui className="text-justify my-10">
                     Los productos se entienden como los bienes o servicios que se generan y entregan en un proceso productivo. Los productos materializan los objetivos específicos de los proyectos. De
                     esta forma, los productos de un proyecto deben agotar los objetivos específicos del mismo y deben cumplir a cabalidad con el objetivo general del proyecto.
@@ -166,7 +170,7 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                 )}
             </Grid>
 
-            <Grid item md={12} className="!mt-20">
+            <Grid item md={12} className="!mt-10">
                 <TableMui className="mb-8" rows={['Descripción', 'Resultado', 'Unidad / Meta', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {(is_super_admin && actividades_sin_resultado == 0) ||
                     (checkRole(auth_user, [5, 17]) && actividades_sin_resultado == 0) ||

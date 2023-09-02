@@ -4,8 +4,8 @@ import ButtonMui from '@/Components/Button'
 import DatePicker from '@/Components/DatePicker'
 import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
-import SelectMultiple from '@/Components/SelectMultiple'
 import Textarea from '@/Components/Textarea'
+import SelectMultiple from '@/Components/SelectMultiple'
 
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
@@ -21,9 +21,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
         descripcion: actividad?.descripcion ?? '',
         fecha_inicio: actividad?.fecha_inicio ?? '',
         fecha_finalizacion: actividad?.fecha_finalizacion ?? null,
-        proyecto_presupuesto_id: actividad.proyecto_presupuesto.map((item) => item.id),
         proyecto_rol_sennova_id: actividad.proyecto_roles_sennova.map((item) => item.id),
-        requiere_rubros: actividad?.proyecto_presupuesto.length == 0 ? 2 : 1,
     })
 
     const submit = (e) => {
@@ -49,7 +47,6 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
         }
     }, [actividad])
 
-    console.log(proyecto.tipo_formulario_convocatoria_id)
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>
@@ -127,60 +124,10 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                         required
                                     />
                                 </Grid>
-                                <Grid item md={12}>
-                                    <h6 className="my-14 text-2xl">Rubros presupuestales</h6>
 
-                                    <AlertMui className="mb-6">
-                                        Si la actividad no requiere asociar un rubro presupuestal. (Ej: Actividad de PQRS) <br /> Por favor, cambie la siguiente opción a <strong>NO</strong>.
-                                        <br />
-                                        <div className="mt-4">
-                                            <strong>IMPORTANTE:</strong> Solo para actividades que no requieran asociar algún rubro presupuestal. Para el resto de actividades <strong>SI</strong> debe
-                                            asociar un rubro para poder completar la
-                                            <strong className="ml-1.5">Cadena de valor</strong>.
-                                        </div>
-                                        <div className="mt-4">
-                                            <span className="font-black mr-2">Opción seleccionada:</span>
-                                            <br />
-                                            <Autocomplete
-                                                options={[
-                                                    { value: 1, label: 'Si' },
-                                                    { value: 2, label: 'No' },
-                                                ]}
-                                                id="requiere_rubros"
-                                                selectedValue={form.data.requiere_rubros}
-                                                inputBackground="#fff"
-                                                error={form.errors.requiere_rubros}
-                                                onChange={(event, newValue) => form.setData('requiere_rubros', newValue.value)}
-                                                disabled={!proyecto?.allowed?.to_update}
-                                                placeholder="Seleccione una opción"
-                                                required
-                                            />
-                                        </div>
-                                        {form.data.requiere_rubros == 1 && (
-                                            <SelectMultiple
-                                                className="mt-4"
-                                                id="proyecto_presupuesto_id"
-                                                bdValues={form.data.proyecto_presupuesto_id}
-                                                options={proyecto_presupuesto}
-                                                inputBackground="#fff"
-                                                error={form.errors.proyecto_presupuesto_id}
-                                                label="Relacione los respectivos rubros"
-                                                onChange={(event, newValue) => {
-                                                    const selected_values = newValue.map((option) => option.value)
-                                                    form.setData((prevData) => ({
-                                                        ...prevData,
-                                                        proyecto_presupuesto_id: selected_values,
-                                                    }))
-                                                }}
-                                                disabled={!proyecto?.allowed?.to_update}
-                                                required
-                                            />
-                                        )}
-                                    </AlertMui>
-                                </Grid>
                                 {proyecto.tipo_formulario_convocatoria_id != 7 && proyecto.tipo_formulario_convocatoria_id != 9 && proyecto?.tipo_formulario_convocatoria_id != 1 ? (
                                     <Grid item md={12}>
-                                        <h6 className="my-10 text-2xl">Roles responsables</h6>
+                                        <h6 className="mb-10 text-2xl">Roles responsables</h6>
                                         <SelectMultiple
                                             id="proyecto_rol_sennova_id"
                                             bdValues={form.data.proyecto_rol_sennova_id}
@@ -196,7 +143,6 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                             }}
                                             disabled={!proyecto?.allowed?.to_update}
                                         />
-                                        <AlertMui>Si la actividad tiene un responsable por favor seleccione su rol de la siguiente lista</AlertMui>
                                     </Grid>
                                 ) : null}
                             </Grid>
