@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\SelectHelper;
 use App\Http\Requests\ProductoRequest;
+use App\Models\Actividad;
 use App\Models\Convocatoria;
 use App\Models\Evaluacion\Evaluacion;
 use App\Models\Proyecto;
@@ -31,6 +32,8 @@ class ProductoController extends Controller
 
         $resultado = $proyecto->efectosDirectos()->with('resultado')->get()->pluck('resultado')->flatten()->filter();
 
+        $objetivo_especifico = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
+
         return Inertia::render('Convocatorias/Proyectos/Productos/Index', [
             'convocatoria'              =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
             'proyecto'                  =>  $proyecto,
@@ -41,7 +44,12 @@ class ProductoController extends Controller
                                                         return $resultado->id;
                                                     })
                                                 )->with('actividades', 'resultado.objetivoEspecifico', 'productoMinciencias')->orderBy('id', 'ASC')->get(),
-
+            'actividades_sin_resultado' => Actividad::whereIn(
+                                            'objetivo_especifico_id',
+                                                $objetivo_especifico->map(function ($objetivo_especifico) {
+                                                    return $objetivo_especifico->id;
+                                                })
+                                            )->where('resultado_id', null)->count(),
             'resultados'                =>  Resultado::select('resultados.id as value', 'resultados.descripcion as label', 'resultados.id as id')->whereHas('efectoDirecto', function ($query) use ($proyecto) {
                                                  $query->where('efectos_directos.proyecto_id', $proyecto->id);
                                                 })->where('resultados.descripcion', '!=', null)->with('actividades')->get(),

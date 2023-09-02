@@ -11,6 +11,7 @@ import Textarea from '@/Components/Textarea'
 import StepperMui from '@/Components/Stepper'
 
 import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
+import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import Evaluacion from './Evaluacion'
@@ -233,7 +234,7 @@ const Actividades = ({
             <TabsMui tabs={tabs}>
                 <div>
                     <Grid item md={12}>
-                        <AlertMui>
+                        <AlertMui className="mt-32">
                             <h1 className="text-3xl text-center">Metodología</h1>
                             <p className="my-8">
                                 Se debe evidenciar que la metodología se presente de forma organizada y de manera secuencial, de acuerdo con el ciclo P-H-V-A “Planificar – Hacer – Verificar - Actuar”
@@ -309,27 +310,41 @@ const Actividades = ({
 
                 <div>
                     <Grid item md={12}>
-                        <AlertMui>
+                        <AlertMui className="mt-32">
                             <h1 className="text-3xl text-center">Actividades</h1>
                         </AlertMui>
-                        <TableMui className="mt-20 mb-8" rows={['Descripción', 'Fechas', 'Objetivo específico', 'Acciones']} sxCellThead={{ width: '320px' }}>
-                            {actividades.data.map((actividad, i) => (
+                        <TableMui className="mt-20 mb-8" rows={['Descripción', 'Objetivo específico', '', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                            {actividades.map((actividad, i) => (
                                 <TableRow key={i}>
                                     <TableCell>
+                                        {actividad.fecha_inicio ? (
+                                            <>
+                                                <Chip
+                                                    className="mb-2"
+                                                    label={
+                                                        <>
+                                                            <CalendarTodayOutlinedIcon fontSize="16px" /> Del {actividad.fecha_inicio} al {actividad.fecha_finalizacion}{' '}
+                                                        </>
+                                                    }
+                                                />
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Chip className="!bg-red-100 !text-red-400 !hover:bg-red-200 px-2 py-1 mb-2" label="Sin fechas definidas" />
+                                            </>
+                                        )}
                                         <p className="line-clamp-3">{actividad.descripcion}</p>
                                     </TableCell>
                                     <TableCell>
-                                        {actividad.fecha_inicio ? (
-                                            <p>
-                                                Del {actividad.fecha_inicio} al {actividad.fecha_finalizacion}
-                                            </p>
-                                        ) : (
-                                            <Chip className="!bg-red-100 !text-red-400 !hover:bg-red-200 px-2 py-1 my-2" label="Sin fechas definidas" />
+                                        <p className="line-clamp-3">{actividad.objetivo_especifico != null ? actividad.objetivo_especifico.descripcion : 'Aún no ha registrado la descripción'}</p>
+
+                                        {actividad.resultado_id == null && (
+                                            <AlertMui className="mt-2" severity="error">
+                                                La actividad no tiene un resultado asociado. Por favor, edítela y, complete la información.
+                                            </AlertMui>
                                         )}
                                     </TableCell>
-                                    <TableCell>
-                                        <p className="line-clamp-3">{actividad.objetivo_especifico != null ? actividad.objetivo_especifico.descripcion : 'Aún no ha registrado la descripción'}</p>
-                                    </TableCell>
+                                    <TableCell></TableCell>
 
                                     <TableCell>
                                         <MenuMui text={<MoreVertIcon />}>

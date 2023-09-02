@@ -9,7 +9,7 @@ import TabsConvocatoria from '@/Components/TabsConvocatoria'
 
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
+import { Chip, Divider, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
 import { router } from '@inertiajs/react'
@@ -124,6 +124,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_7_linea_23, allowed_to
                                                         PDF del proyecto
                                                     </a>
                                                 </MenuItem>
+                                                <Divider />
                                                 {proyecto.evaluaciones.map((evaluacion, i) => (
                                                     <MenuItem
                                                         key={i}

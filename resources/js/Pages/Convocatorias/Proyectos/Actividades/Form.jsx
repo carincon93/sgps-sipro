@@ -96,7 +96,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                 {resultados_filtrados.length > 0 && resultados_nulos == true ? (
                                     <>
                                         <Grid item md={6}>
-                                            <Label required labelFor="resultado_id" value="Resultado" />
+                                            <Label required labelFor="resultado_id" value="Resultado asociado" />
                                         </Grid>
                                         <Grid item md={6}>
                                             <Autocomplete

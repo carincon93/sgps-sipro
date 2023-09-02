@@ -52,6 +52,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
 
     const [actividades, setActividades] = useState([])
     useEffect(() => {
+        console.log(resultados)
         if (resultados.find((item) => item.value == producto?.resultado_id)?.actividades) {
             const tmp_options_filtered = resultados
                 .find((item) => item.value == producto?.resultado_id)
@@ -167,7 +168,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                         </Grid>
 
                                         <Grid item md={3}>
-                                            <Label required labelFor="resultado_id" value="Resultado" />
+                                            <Label required labelFor="resultado_id" value="Resultado asociado" />
                                         </Grid>
                                         <Grid item md={9}>
                                             <Autocomplete

@@ -23,7 +23,7 @@ import { checkRole } from '@/Utils'
 import { useState } from 'react'
 import { router } from '@inertiajs/react'
 
-const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, resultados, subtipologias_minciencias, tipos_producto }) => {
+const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, resultados, subtipologias_minciencias, tipos_producto, actividades_sin_resultado }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -157,11 +157,20 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                         </>
                     )}
                 </AlertMui>
+
+                {actividades_sin_resultado > 0 && (
+                    <AlertMui severity="error">
+                        Tiene actividades sin un resultado asociado. Por favor diríjase al paso de <strong>Metodología - Actividades</strong> y en la pestaña <strong>Actividades</strong>, complete la
+                        información solicitada.
+                    </AlertMui>
+                )}
             </Grid>
 
             <Grid item md={12} className="!mt-20">
                 <TableMui className="mb-8" rows={['Descripción', 'Resultado', 'Unidad / Meta', 'Acciones']} sxCellThead={{ width: '320px' }}>
-                    {is_super_admin || checkRole(auth_user, [5, 17]) || (proyecto.allowed.to_update && proyecto.tipo_formulario_convocatoria_id != 4) ? (
+                    {(is_super_admin && actividades_sin_resultado == 0) ||
+                    (checkRole(auth_user, [5, 17]) && actividades_sin_resultado == 0) ||
+                    (proyecto.allowed.to_update && proyecto.tipo_formulario_convocatoria_id != 4 && actividades_sin_resultado == 0) ? (
                         <TableRow
                             onClick={() => (setDialogProductoMincienciasStatus(true), setMethod('POST'), setProducto(null))}
                             variant="raised"

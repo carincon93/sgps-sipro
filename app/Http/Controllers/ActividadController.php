@@ -69,9 +69,9 @@ class ActividadController extends Controller
                                                 $objetivo_especifico->map(function ($objetivo_especifico) {
                                                     return $objetivo_especifico->id;
                                                 })
-                                            )->with('productos', 'proyectoPresupuesto', 'proyectoRolesSennova', 'objetivoEspecifico', 'objetivoEspecifico.resultados')->orderBy('objetivo_especifico_id', 'ASC')
-                                            ->filterActividad(request()->only('search'))->paginate()->appends(['search' => request()->search]),
-            'actividadesGantt'          => Actividad::whereIn(
+                                            )->with('productos', 'proyectoPresupuesto', 'proyectoRolesSennova', 'objetivoEspecifico', 'objetivoEspecifico.resultados')->orderBy('id', 'DESC')
+                                            ->filterActividad(request()->only('search'))->get(),
+            'actividades_gantt'         =>  Actividad::whereIn(
                                             'objetivo_especifico_id',
                                                 $objetivo_especifico->map(function ($objetivo_especifico) {
                                                     return $objetivo_especifico->id;
