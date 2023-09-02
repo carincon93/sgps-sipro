@@ -125,7 +125,11 @@ const RubrosPresupuestales = ({
                                         href={route('convocatorias.proyectos.presupuesto.soportes.index', [convocatoria.id, proyecto.id, presupuesto.id])}
                                         className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
                                         <FolderSharedIcon className=" !mr-2" />
-                                        Debe cargar los estudios de mercado
+                                        {presupuesto.soportes_estudio_mercado.length < 2 ? (
+                                            <>Debe cargar el estudio de mercado y los soportes (Mínimo 2 soportes)</>
+                                        ) : (
+                                            <>Revisar estudio de mercado y soportes</>
+                                        )}
                                     </Link>
                                 ) : (
                                     <Chip
@@ -143,7 +147,7 @@ const RubrosPresupuestales = ({
                                             <Link
                                                 href={route('convocatorias.proyectos.presupuesto.edt.index', [convocatoria.id, proyecto.id, presupuesto.id])}
                                                 className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
-                                                <CelebrationOutlinedIcon className="!mr-2" />
+                                                <strong>E D T : </strong>
                                                 Debe generar los respectivos EDTs
                                             </Link>
                                         )}

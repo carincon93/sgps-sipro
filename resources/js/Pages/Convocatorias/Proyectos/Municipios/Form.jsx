@@ -46,8 +46,6 @@ const Form = ({
         }
     }
 
-    console.log(municipio_a_visitar?.municipios)
-
     return (
         <Grid container spacing={2}>
             <Grid item md={4}>

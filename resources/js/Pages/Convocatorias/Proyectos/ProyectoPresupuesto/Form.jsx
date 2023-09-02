@@ -249,7 +249,7 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                     />
                                 </Grid>
 
-                                {equipo_requiere_actualizacion && (
+                                {equipo_requiere_actualizacion && proyecto.tipo_formulario_convocatoria_id == 12 && (
                                     <Grid item md={12}>
                                         <Label required labelFor="equipo_para_modernizar" value="¿El equipo se requiere para modernizar uno ya existente en el área técnica?" />
                                         <SwitchMui

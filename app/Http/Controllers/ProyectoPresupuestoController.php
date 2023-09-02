@@ -39,8 +39,8 @@ class ProyectoPresupuestoController extends Controller
             'rubros_presupuestales'             =>  ProyectoPresupuesto::select('proyecto_presupuesto.*')
                                                         ->where('proyecto_id', $proyecto->id)
                                                         ->filterProyectoPresupuesto(request()->only('search', 'presupuestos'))
-                                                        ->with('convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.usoPresupuestal', 'convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.segundoGrupoPresupuestal', 'proyectoPresupuestosEvaluaciones.evaluacion', 'softwareInfo', 'nodoEditorialInfo')
-                                                        ->orderBy('proyecto_presupuesto.id')
+                                                        ->with('soportesEstudioMercado', 'convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.usoPresupuestal', 'convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.segundoGrupoPresupuestal', 'proyectoPresupuestosEvaluaciones.evaluacion', 'softwareInfo', 'nodoEditorialInfo')
+                                                        ->orderBy('proyecto_presupuesto.id', 'DESC')
                                                         ->paginate()
                                                         ->appends(['search' => request()->search, 'presupuestos' => request()->presupuestos]),
             'segundo_grupo_presupuestal'        =>  SelectHelper::segundoGrupoPresupuestal($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id),

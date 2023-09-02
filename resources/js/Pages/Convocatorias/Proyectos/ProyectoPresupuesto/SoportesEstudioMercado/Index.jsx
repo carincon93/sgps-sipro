@@ -1,28 +1,40 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import AlertMui from '@/Components/Alert'
+import ButtonMui from '@/Components/Button'
+import DialogMui from '@/Components/Dialog'
+import DownloadFile from '@/Components/DownloadFile'
 import FileInput from '@/Components/FileInput'
-import Label from '@/Components/Label'
+import MenuMui from '@/Components/Menu'
 import PrimaryButton from '@/Components/PrimaryButton'
+import StepperMui from '@/Components/Stepper'
+import TableMui from '@/Components/Table'
 import TabsMui from '@/Components/TabsMui'
 import TextInput from '@/Components/TextInput'
-import StepperMui from '@/Components/Stepper'
 
 import { route, checkRole } from '@/Utils'
-
 import { router, useForm } from '@inertiajs/react'
 
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
+import AutorenewIcon from '@mui/icons-material/Autorenew'
 import DownloadIcon from '@mui/icons-material/Download'
-import { Grid } from '@mui/material'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
+
+import Form from './Form'
+
 import { useEffect } from 'react'
 import { useState } from 'react'
 
 const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proyecto_presupuesto, soportes_estudio_mercado }) => {
-    /**
-     * Validar si el usuario autenticado es SuperAdmin
-     */
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
+
+    const [soporte_to_destroy, setSoporteToDestroy] = useState(null)
+    const [soporte, setSoporte] = useState(null)
+    const [dialog_status, setDialogStatus] = useState(false)
+    const [dialog_archivo_status, setDialogSoporteStatus] = useState(false)
+    const [method, setMethod] = useState('')
 
     const form = useForm({
         formato_estudio_mercado: null,
@@ -39,29 +51,14 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
     }
 
     const formSoporte = useForm({
-        id_primer_empresa: soportes_estudio_mercado[0]?.id,
-        nombre_primer_empresa: soportes_estudio_mercado[0] ? soportes_estudio_mercado[0]?.concepto : '',
-        soporte_primer_empresa: null,
-        id_segunda_empresa: soportes_estudio_mercado[1]?.id,
-        nombre_segunda_empresa: soportes_estudio_mercado[1] ? soportes_estudio_mercado[1]?.concepto : '',
-        soporte_segunda_empresa: null,
-        id_tercer_empresa: soportes_estudio_mercado[2]?.id,
-        nombre_tercer_empresa: soportes_estudio_mercado[2] ? soportes_estudio_mercado[2]?.concepto : '',
-        soporte_tercer_empresa: null,
+        soporte: null,
     })
-
     const submitSoporte = (e) => {
         e.preventDefault()
-        if (proyecto.allowed.to_update) {
-            formSoporte.post(route('convocatorias.proyectos.presupuesto.soportes.store', [convocatoria.id, proyecto.id, proyecto_presupuesto]), {
-                preserveScroll: true,
-            })
-        }
-    }
 
-    const destroySoporte = (soporte_estudio_mercado_id) => {
-        if (proyecto.allowed.to_update) {
-            router.delete(route('convocatorias.proyectos.presupuesto.soportes.destroy', [convocatoria.id, proyecto.id, proyecto_presupuesto.id, soporte_estudio_mercado_id]), {
+        if (proyecto?.allowed?.to_update) {
+            formSoporte.post(route('convocatorias.proyectos.presupuesto.soportes.upload-soporte', [convocatoria.id, proyecto.id, proyecto_presupuesto.id, soporte.id]), {
+                onSuccess: () => setDialogSoporteStatus(false),
                 preserveScroll: true,
             })
         }
@@ -75,52 +72,20 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
     const [equipo_requiere_actualizacion, setEquipoRequiereActualizacion] = useState(false)
     const [requiere_adecuacion, setRequiereAdecuacion] = useState(false)
     useEffect(() => {
-        const codigo1 = 2040115
-        const codigo2 = 2040125
-        const codigo3 = 2045110
+        if (proyecto.tipo_formulario_convocatoria_id == 12) {
+            const codigo1 = 2040115
+            const codigo2 = 2040125
+            const codigo3 = 2045110
 
-        if (checkSegundoGrupoPresupuestalCodigo(codigo1) || checkSegundoGrupoPresupuestalCodigo(codigo2)) {
-            setEquipoRequiereActualizacion(true)
-        }
+            if (checkSegundoGrupoPresupuestalCodigo(codigo1) || checkSegundoGrupoPresupuestalCodigo(codigo2)) {
+                setEquipoRequiereActualizacion(true)
+            }
 
-        if (checkSegundoGrupoPresupuestalCodigo(codigo3)) {
-            setRequiereAdecuacion(true)
+            if (checkSegundoGrupoPresupuestalCodigo(codigo3)) {
+                setRequiereAdecuacion(true)
+            }
         }
     }, [proyecto_presupuesto])
-
-    const formProyectoLinea68 = useForm({
-        id_estudio_mercado: soportes_estudio_mercado[3]?.id,
-        conceptos_tecnicos: soportes_estudio_mercado[3] ? soportes_estudio_mercado[3]?.concepto : '',
-        soporte: null,
-    })
-
-    const submitSoporteProyectoLinea68 = (e) => {
-        e.preventDefault()
-        if (proyecto.allowed.to_update) {
-            formProyectoLinea68.post(route('convocatorias.proyectos.presupuesto.soportes-proyecto-linea-68.store', [convocatoria.id, proyecto.id, proyecto_presupuesto]), {
-                preserveScroll: true,
-            })
-        }
-    }
-
-    const tabs =
-        equipo_requiere_actualizacion && proyecto_presupuesto.rubro_presupuestal_proyecto_linea68?.equipo_para_modernizar
-            ? [
-                  { label: 'Estudio de mercado' },
-                  { label: 'Soporte - Primer empresa' },
-                  { label: 'Soporte - Segunda empresa' },
-                  { label: 'Soporte - Tercer empresa' },
-                  { label: 'Soporte - Equipo a actualizar' },
-              ]
-            : requiere_adecuacion
-            ? [
-                  { label: 'Estudio de mercado' },
-                  { label: 'Soporte - Primer empresa' },
-                  { label: 'Soporte - Segunda empresa' },
-                  { label: 'Soporte - Tercer empresa' },
-                  { label: 'Soporte - Adecuación y construcción' },
-              ]
-            : [{ label: 'Estudio de mercado' }, { label: 'Soporte - Primer empresa' }, { label: 'Soporte - Segunda empresa' }, { label: 'Soporte - Tercer empresa' }]
 
     return (
         <AuthenticatedLayout>
@@ -129,7 +94,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
             </Grid>
 
             <Grid item md={12}>
-                <TabsMui tabs={tabs}>
+                <TabsMui tabs={[{ label: 'Estudio de mercado' }, { label: 'Empresas / Soportes' }]}>
                     <div>
                         <h1 className="mt-24 mb-8 text-center text-3xl">Estudio de mercado</h1>
 
@@ -139,7 +104,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                 <br />
                                 <a href="/storage/documentos-descarga/Formato%20_guia_4_Estudio_de_mercado.xlsx" className="my-4 inline-block underline" target="_blank">
                                     <DownloadIcon />
-                                    <strong>Descargue el Estudio de mercado - Convocatoria Sennova {convocatoria.year} haciendo clic aquí</strong>
+                                    <strong>De clic aquí para descargar el Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>
                                 </a>
                                 <br />
                                 <div>
@@ -213,300 +178,166 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                             </div>
                         </form>
                     </div>
-                    <div>
-                        <h1 className="mt-24 mb-8 text-center text-3xl">Soporte / Cotización de la primer empresa</h1>
 
-                        <AlertMui className="mb-8">
-                            <span className="text-5xl font-black">3.</span>
+                    <div>
+                        {equipo_requiere_actualizacion && proyecto_presupuesto?.rubro_presupuestal_proyecto_linea68?.equipo_para_modernizar && (
+                            <AlertMui className="mt-20" severity="error">
+                                En la pregunta <strong>¿El equipo se requiere para modernizar uno ya existente en el área técnica?</strong> su respuesta ha sido <strong>SI</strong>. Debe cargar
+                                obligatoriamente el <strong>Soporte PDF firmados de 1) el servicio de mantenimiento y 2) el cuentadante del equipo a actualizar</strong> adicional a las cotizaciones de
+                                las empresas.
+                            </AlertMui>
+                        )}
+
+                        {requiere_adecuacion && (
+                            <AlertMui className="mt-20" severity="error">
+                                Este rubro pertenece al Concepto interno SENA:{' '}
+                                <strong>{proyecto_presupuesto.convocatoria_proyecto_rubros_presupuestales[0].rubro_presupuestal.segundo_grupo_presupuestal.nombre}</strong>. Debe cargar
+                                obligatoriamente el <strong>Soporte PDF firmado por el profesional del área de construcciones del Centro</strong> adicional a las cotizaciones de las empresas.
+                            </AlertMui>
+                        )}
+
+                        <AlertMui className="mt-20" severity="error">
+                            Debe cargar mínimo 2 empresas con sus respectivos soportes / cotizaciones en PDF o ZIP.
                             <br />
-                            Tenga en cuenta que en el Excel <strong>Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong> deberá relacionar mínimo 2 empresas (Máximo 3).
-                            <figure className="my-4">
-                                <img src="/images/soportes.jpg" alt="" className="shadow mx-auto" />
-                            </figure>
                             <br />
-                            En la siguiente sección deberá adjuntar todos los soportes dados por las empresas. Para ello se recomienda unir los soportes de <strong>cada empresa</strong> en un PDF o
-                            ZIP. Revise que los valores en los soportes sean iguales a los valores relacionados en el Excel. (Los soportes pueden ser precotizaciones, precios de catálogos de canales
-                            comerciales oficiales de proveedores o de almacenes de grandes superficies, o valores de acuerdos marco de precios de Colombia Compra. (Los valores del estudio deberán
-                            corresponder a proveedores ubicados en Colombia y tener una fecha no mayor a 4 meses).
+                            <strong>
+                                Importante: Si ha cargado más de 3 empresas, debe generar las respectivas columnas de empresas en el Excel Formato de Estudio de Mercado - Convocatoria SENNOVA{' '}
+                                {convocatoria.year}. Recuerde que la información debe coincidir en el Excel y en la plataforma, tanto en la cantidad de empresas como en el valor total.
+                            </strong>
                         </AlertMui>
+                        <TableMui className="mb-8" rows={['Concepto / Nombre de la empresa', 'Soporte(s)', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                            {proyecto.allowed.to_update ? (
+                                <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setSoporte(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                                    <TableCell colSpan={4}>
+                                        <ButtonMui>
+                                            <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar
+                                        </ButtonMui>
+                                    </TableCell>
+                                </TableRow>
+                            ) : null}
 
-                        <form onSubmit={submitSoporte}>
-                            <fieldset>
-                                <TextInput
-                                    id="nombre_primer_empresa"
-                                    label="Nombre de la primer empresa"
-                                    type="text"
-                                    className="!my-14"
-                                    value={formSoporte.data.nombre_primer_empresa}
-                                    onChange={(e) => formSoporte.setData('nombre_primer_empresa', e.target.value)}
-                                    error={formSoporte.errors.nombre_primer_empresa}
-                                    required
+                            {soportes_estudio_mercado.map((soporte, i) => (
+                                <TableRow key={i}>
+                                    <TableCell>{soporte.concepto}</TableCell>
+                                    <TableCell>
+                                        <DownloadFile
+                                            label="soporte / cotización"
+                                            className="!p-2"
+                                            filename={soporte?.filename}
+                                            extension={soporte?.extension}
+                                            downloadRoute={
+                                                soporte
+                                                    ? soporte?.soporte?.includes('http') == true || soporte?.soporte?.includes('http') == undefined
+                                                        ? soporte?.soporte
+                                                        : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [
+                                                              convocatoria,
+                                                              proyecto,
+                                                              proyecto_presupuesto,
+                                                              soporte?.id,
+                                                              'soporte',
+                                                          ])
+                                                    : null
+                                            }
+                                        />
+                                        <ButtonMui
+                                            onClick={() => (formSoporte.reset(), setDialogSoporteStatus(true), setSoporte(soporte))}
+                                            className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                            <AutorenewIcon className="mr-2" />
+                                            {soporte.filename ? 'Reemplazar' : 'Cargar'} soporte / cotización
+                                        </ButtonMui>
+                                    </TableCell>
+
+                                    <TableCell>
+                                        <MenuMui text={<MoreVertIcon />}>
+                                            {soporte.id !== soporte_to_destroy ? (
+                                                <div>
+                                                    <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setSoporte(soporte))} disabled={!proyecto?.allowed?.to_view}>
+                                                        {proyecto?.allowed?.to_view && !proyecto?.allowed?.to_update ? 'Ver información' : 'Editar'}
+                                                    </MenuItem>
+                                                    <MenuItem
+                                                        onClick={() => {
+                                                            setSoporteToDestroy(soporte.id)
+                                                        }}
+                                                        disabled={!proyecto?.allowed?.to_update}>
+                                                        Eliminar
+                                                    </MenuItem>
+                                                </div>
+                                            ) : (
+                                                <div>
+                                                    <MenuItem
+                                                        onClick={(e) => {
+                                                            setSoporteToDestroy(null)
+                                                        }}>
+                                                        Cancelar
+                                                    </MenuItem>
+                                                    <MenuItem
+                                                        sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation()
+                                                            if (proyecto.allowed.to_update) {
+                                                                router.delete(
+                                                                    route('convocatorias.proyectos.presupuesto.soportes.destroy', [convocatoria.id, proyecto.id, proyecto_presupuesto.id, soporte.id]),
+                                                                    {
+                                                                        preserveScroll: true,
+                                                                    },
+                                                                )
+                                                            }
+                                                        }}>
+                                                        Confirmar
+                                                    </MenuItem>
+                                                </div>
+                                            )}
+                                        </MenuMui>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableMui>
+
+                        <DialogMui
+                            open={dialog_status}
+                            fullWidth={true}
+                            maxWidth="lg"
+                            blurEnabled={true}
+                            dialogContent={
+                                <Form
+                                    is_super_admin={is_super_admin}
+                                    setDialogStatus={setDialogStatus}
+                                    method={method}
+                                    proyecto={proyecto}
+                                    convocatoria={convocatoria}
+                                    proyecto_presupuesto={proyecto_presupuesto}
+                                    soporte={soporte}
                                 />
+                            }
+                        />
 
-                                <Label required className="mb-4" labelFor="soporte_primer_empresa" value="Soporte PDF o ZIP de la primer empresa" />
-                                <FileInput
-                                    id="soporte_primer_empresa"
-                                    value={formSoporte.data.soporte_primer_empresa}
-                                    filename={soportes_estudio_mercado[0] ? soportes_estudio_mercado[0]?.filename : ''}
-                                    extension={soportes_estudio_mercado[0] ? soportes_estudio_mercado[0]?.extension : ''}
-                                    label="Soporte de la primer empresa"
-                                    accept=".zip,application/pdf"
-                                    downloadRoute={
-                                        soportes_estudio_mercado[0]?.soporte
-                                            ? soportes_estudio_mercado[0]?.soporte?.includes('http') == true || soportes_estudio_mercado[0]?.soporte?.includes('http') == undefined
-                                                ? soportes_estudio_mercado[0]?.soporte
-                                                : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [
-                                                      convocatoria,
-                                                      proyecto,
-                                                      proyecto_presupuesto,
-                                                      soportes_estudio_mercado[0]?.id,
-                                                      'soporte',
-                                                  ])
-                                            : null
-                                    }
-                                    onDelete={() => destroySoporte(soportes_estudio_mercado[0]?.id)}
-                                    onChange={(e) => formSoporte.setData('soporte_primer_empresa', e)}
-                                    disabled={!proyecto?.allowed?.to_update}
-                                    error={formSoporte.errors.soporte_primer_empresa}
-                                />
-                            </fieldset>
-                            <div className="flex items-center justify-between py-4">
-                                {proyecto.allowed.to_update ? (
-                                    <PrimaryButton disabled={formSoporte.processing || !formSoporte.isDirty} className="ml-auto" type="submit">
-                                        Cargar soporte
-                                    </PrimaryButton>
-                                ) : (
-                                    <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
-                                )}
-                            </div>
-                        </form>
-                    </div>
-
-                    <div>
-                        <h1 className="mt-24 mb-8 text-center text-3xl">Soporte / Cotización de la segunda empresa</h1>
-
-                        <form onSubmit={submitSoporte}>
-                            <fieldset>
-                                <TextInput
-                                    id="nombre_segunda_empresa"
-                                    label="Nombre de la segunda empresa"
-                                    type="text"
-                                    className="!my-14"
-                                    value={formSoporte.data.nombre_segunda_empresa}
-                                    onChange={(e) => formSoporte.setData('nombre_segunda_empresa', e.target.value)}
-                                    disabled={!proyecto?.allowed?.to_update}
-                                    error={formSoporte.errors.nombre_segunda_empresa}
-                                    required
-                                />
-
-                                <Label required className="mb-4" labelFor="soporte_segunda_empresa" value="Soporte PDF o ZIP de la segunda empresa" />
-                                <FileInput
-                                    id="soporte_segunda_empresa"
-                                    value={formSoporte.data.soporte_segunda_empresa}
-                                    filename={soportes_estudio_mercado[1] ? soportes_estudio_mercado[1]?.filename : ''}
-                                    extension={soportes_estudio_mercado[1] ? soportes_estudio_mercado[1]?.extension : ''}
-                                    label="Soporte de la segunda empresa"
-                                    accept=".zip,application/pdf"
-                                    downloadRoute={
-                                        soportes_estudio_mercado[1]?.soporte
-                                            ? soportes_estudio_mercado[1]?.soporte?.includes('http') == true || soportes_estudio_mercado[1]?.soporte?.includes('http') == undefined
-                                                ? soportes_estudio_mercado[1]?.soporte
-                                                : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [
-                                                      convocatoria,
-                                                      proyecto,
-                                                      proyecto_presupuesto,
-                                                      soportes_estudio_mercado[1]?.id,
-                                                      'soporte',
-                                                  ])
-                                            : null
-                                    }
-                                    onDelete={() => destroySoporte(soportes_estudio_mercado[1]?.id)}
-                                    onChange={(e) => formSoporte.setData('soporte_segunda_empresa', e)}
-                                    disabled={!proyecto?.allowed?.to_update}
-                                    error={formSoporte.errors.soporte_segunda_empresa}
-                                />
-                            </fieldset>
-                            <div className="flex items-center justify-between py-4">
-                                {proyecto.allowed.to_update ? (
-                                    <PrimaryButton disabled={formSoporte.processing || !formSoporte.isDirty} className="ml-auto" type="submit">
-                                        Cargar soporte
-                                    </PrimaryButton>
-                                ) : (
-                                    <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
-                                )}
-                            </div>
-                        </form>
-                    </div>
-
-                    <div>
-                        <h1 className="mt-24 mb-8 text-center text-3xl">Soporte / Cotización de la tercer empresa</h1>
-
-                        <form onSubmit={submitSoporte}>
-                            <fieldset>
-                                <TextInput
-                                    id="nombre_tercer_empresa"
-                                    label="Nombre de la tercer empresa"
-                                    type="text"
-                                    className="!my-14"
-                                    value={formSoporte.data.nombre_tercer_empresa}
-                                    onChange={(e) => formSoporte.setData('nombre_tercer_empresa', e.target.value)}
-                                    disabled={!proyecto?.allowed?.to_update}
-                                    error={formSoporte.errors.nombre_tercer_empresa}
-                                />
-
-                                <Label className="mb-4" labelFor="soporte_tercer_empresa" value="Soporte PDF o ZIP de la tercer empresa" />
-                                <FileInput
-                                    id="soporte_tercer_empresa"
-                                    value={formSoporte.data.soporte_tercer_empresa}
-                                    filename={soportes_estudio_mercado[2] ? soportes_estudio_mercado[2]?.filename : ''}
-                                    extension={soportes_estudio_mercado[2] ? soportes_estudio_mercado[2]?.extension : ''}
-                                    label="Soporte de la tercer empresa"
-                                    accept=".zip,application/pdf"
-                                    downloadRoute={
-                                        soportes_estudio_mercado[2]?.soporte
-                                            ? soportes_estudio_mercado[2]?.soporte?.includes('http') == true || soportes_estudio_mercado[2]?.soporte?.includes('http') == undefined
-                                                ? soportes_estudio_mercado[2]?.soporte
-                                                : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [
-                                                      convocatoria,
-                                                      proyecto,
-                                                      proyecto_presupuesto,
-                                                      soportes_estudio_mercado[2]?.id,
-                                                      'soporte',
-                                                  ])
-                                            : null
-                                    }
-                                    onDelete={() => destroySoporte(soportes_estudio_mercado[2]?.id)}
-                                    onChange={(e) => formSoporte.setData('soporte_tercer_empresa', e)}
-                                    disabled={!proyecto?.allowed?.to_update}
-                                    error={formSoporte.errors.soporte_tercer_empresa}
-                                />
-                            </fieldset>
-                            <div className="flex items-center justify-between py-4">
-                                {proyecto.allowed.to_update ? (
-                                    <PrimaryButton disabled={formSoporte.processing || !formSoporte.isDirty} className="ml-auto" type="submit">
-                                        Cargar soporte
-                                    </PrimaryButton>
-                                ) : (
-                                    <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
-                                )}
-                            </div>
-                        </form>
-                    </div>
-
-                    {equipo_requiere_actualizacion ? (
-                        <div>
-                            <h1 className="mt-24 mb-8 text-center text-3xl">Soporte - Equipo a actualizar</h1>
-
-                            <form onSubmit={submitSoporteProyectoLinea68}>
-                                <fieldset>
-                                    <TextInput
-                                        label="Conceptos técnicos"
-                                        id="conceptos_tecnicos"
-                                        type="text"
-                                        className="!my-14"
-                                        value={formProyectoLinea68.data.conceptos_tecnicos}
-                                        onChange={(e) => formProyectoLinea68.setData('conceptos_tecnicos', e.target.value)}
-                                        disabled={!proyecto?.allowed?.to_update}
-                                        error={formProyectoLinea68.errors.conceptos_tecnicos}
-                                        required
-                                    />
-
-                                    <Label required className="mb-4" labelFor="soporte" value="Soporte PDF firmados de 1) el servicio de mantenimiento y 2) el cuentadante del equipo a actualizar" />
+                        <DialogMui
+                            open={dialog_archivo_status}
+                            fullWidth={true}
+                            maxWidth="lg"
+                            blurEnabled={true}
+                            dialogContent={
+                                <form onSubmit={submitSoporte}>
                                     <FileInput
                                         id="soporte"
-                                        value={formProyectoLinea68.data.soporte}
-                                        filename={soportes_estudio_mercado[3] ? soportes_estudio_mercado[3]?.filename : ''}
-                                        extension={soportes_estudio_mercado[3] ? soportes_estudio_mercado[3]?.extension : ''}
-                                        label="Conceptos técnicos firmados"
+                                        value={formSoporte.data.soporte}
+                                        label="Soporte / Cotización"
                                         accept=".zip,application/pdf"
-                                        downloadRoute={
-                                            soportes_estudio_mercado[3]?.soporte
-                                                ? soportes_estudio_mercado[3]?.soporte?.includes('http') == true || soportes_estudio_mercado[3]?.soporte?.includes('http') == undefined
-                                                    ? soportes_estudio_mercado[3]?.soporte
-                                                    : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [
-                                                          convocatoria,
-                                                          proyecto,
-                                                          proyecto_presupuesto,
-                                                          soportes_estudio_mercado[3]?.id,
-                                                          'soporte',
-                                                      ])
-                                                : null
-                                        }
-                                        onDelete={() => destroySoporte(soportes_estudio_mercado[3]?.id)}
-                                        onChange={(e) => formProyectoLinea68.setData('soporte', e)}
-                                        disabled={!proyecto?.allowed?.to_update}
-                                        error={formProyectoLinea68.errors.soporte}
+                                        onChange={(e) => formSoporte.setData('soporte', e)}
+                                        error={formSoporte.errors.soporte}
                                     />
-                                </fieldset>
-                                <div className="flex items-center justify-between py-4">
-                                    {proyecto.allowed.to_update ? (
-                                        <PrimaryButton disabled={formProyectoLinea68.processing || !formProyectoLinea68.isDirty} className="ml-auto" type="submit">
+                                    <div className="flex items-center justify-between mt-14 py-4">
+                                        <PrimaryButton disabled={formSoporte.processing || !formSoporte.isDirty} className="ml-auto" type="submit">
                                             Cargar soporte
                                         </PrimaryButton>
-                                    ) : (
-                                        <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
-                                    )}
-                                </div>
-                            </form>
-                        </div>
-                    ) : null}
-
-                    {requiere_adecuacion ? (
-                        <div>
-                            <h1 className="mt-24 mb-8 text-center text-3xl">Soporte - Adecuaciones y construcciones</h1>
-
-                            <form onSubmit={submitSoporteProyectoLinea68}>
-                                <fieldset>
-                                    <TextInput
-                                        id="conceptos_tecnicos"
-                                        label="Conceptos técnicos"
-                                        type="text"
-                                        className="!my-14"
-                                        value={formProyectoLinea68.data.conceptos_tecnicos}
-                                        onChange={(e) => formProyectoLinea68.setData('conceptos_tecnicos', e.target.value)}
-                                        disabled={!proyecto?.allowed?.to_update}
-                                        error={formProyectoLinea68.errors.conceptos_tecnicos}
-                                        required
-                                    />
-                                    <Label required className="mb-4" labelFor="soporte" value="Soporte PDF firmado por el profesional del área de construcciones del Centro" />
-                                    <FileInput
-                                        id="soporte"
-                                        value={formProyectoLinea68.data.soporte}
-                                        filename={soportes_estudio_mercado[3] ? soportes_estudio_mercado[3]?.filename : ''}
-                                        extension={soportes_estudio_mercado[3] ? soportes_estudio_mercado[3]?.extension : ''}
-                                        label="Concepto técnico firmado"
-                                        accept=".zip,application/pdf"
-                                        downloadRoute={
-                                            soportes_estudio_mercado[3]?.soporte
-                                                ? soportes_estudio_mercado[3]?.soporte?.includes('http') == true || soportes_estudio_mercado[3]?.soporte?.includes('http') == undefined
-                                                    ? soportes_estudio_mercado[3]?.soporte
-                                                    : route('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint', [
-                                                          convocatoria,
-                                                          proyecto,
-                                                          proyecto_presupuesto,
-                                                          soportes_estudio_mercado[3]?.id,
-                                                          'soporte',
-                                                      ])
-                                                : null
-                                        }
-                                        onDelete={() => destroySoporte(soportes_estudio_mercado[3]?.id)}
-                                        onChange={(e) => formProyectoLinea68.setData('soporte', e)}
-                                        disabled={!proyecto?.allowed?.to_update}
-                                        error={formProyectoLinea68.errors.soporte}
-                                    />
-                                </fieldset>
-                                <div className="flex items-center justify-between py-4">
-                                    {proyecto.allowed.to_update ? (
-                                        <PrimaryButton disabled={formProyectoLinea68.processing || !formProyectoLinea68.isDirty} className="ml-auto" type="submit">
-                                            Cargar soporte
-                                        </PrimaryButton>
-                                    ) : (
-                                        <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
-                                    )}
-                                </div>
-                            </form>
-                        </div>
-                    ) : null}
+                                        <ButtonMui type="button" primary={false} onClick={() => setDialogSoporteStatus(false)} className="!ml-2 !bg-transparent">
+                                            Cancelar
+                                        </ButtonMui>
+                                    </div>
+                                </form>
+                            }
+                        />
+                    </div>
                 </TabsMui>
             </Grid>
         </AuthenticatedLayout>

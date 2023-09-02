@@ -75,32 +75,9 @@ class SoporteEstudioMercadoController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $soporte_primer_empresa = SoporteEstudioMercado::updateOrCreate(['id' => $request->id_primer_empresa], [
-            'concepto'                  => $request->nombre_primer_empresa,
-            'proyecto_presupuesto_id'   => $presupuesto->id
+        $empresa = $presupuesto->soportesEstudioMercado()->create([
+            'concepto' => $request->concepto,
         ]);
-
-        if ($request->hasFile('soporte_primer_empresa')) {
-            return $this->saveFilesSharepoint($request->soporte_primer_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soporte_primer_empresa, 'soporte');
-        }
-
-        $soporte_segunda_empresa = SoporteEstudioMercado::updateOrCreate(['id' => $request->id_segunda_empresa], [
-            'concepto'                  => $request->nombre_segunda_empresa,
-            'proyecto_presupuesto_id'   => $presupuesto->id
-        ]);
-        if ($request->hasFile('soporte_segunda_empresa')) {
-            return $this->saveFilesSharepoint($request->soporte_segunda_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soporte_segunda_empresa, 'soporte');
-        }
-
-        if ($request->hasFile('soporte_tercer_empresa')) {
-            $soporte_tercer_empresa = SoporteEstudioMercado::updateOrCreate(['id' => $request->id_tercer_empresa], [
-                'concepto'                  => $request->nombre_tercer_empresa,
-                'proyecto_presupuesto_id'   => $presupuesto->id
-            ]);
-            if ($request->hasFile('soporte_tercer_empresa')) {
-                return $this->saveFilesSharepoint($request->soporte_tercer_empresa, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soporte_tercer_empresa, 'soporte');
-            }
-        }
 
         return back()->with('success', 'El recurso se ha creado correctamente.');
     }
@@ -140,9 +117,9 @@ class SoporteEstudioMercadoController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $soporte->soporte = $request->soporte;
-        $soporte->empresa = $request->empresa;
-        $soporte->save();
+        $emrpesa = $soporte->update([
+            'concepto' => $request->concepto
+        ]);
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
@@ -161,6 +138,15 @@ class SoporteEstudioMercadoController extends Controller
         $soporte->delete();
 
         return redirect()->route('convocatorias.proyectos.presupuesto.soportes.index', [$convocatoria, $proyecto, $presupuesto])->with('success', 'El recurso se ha eliminado correctamente.');
+    }
+
+    public function uploadSoporte(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto, SoporteEstudioMercado $soporte)
+    {
+        if ($request->hasFile('soporte')) {
+            return $this->saveFilesSharepoint($request->soporte, mb_strtoupper($convocatoria->descripcion) . ' ' . $convocatoria->year, $soporte, 'soporte');
+        }
+
+        return back()->with('success', 'El soporte se ha cargado correctamente.');
     }
 
     public function soporteEstudioMercadoProyectoLinea68(SoporteEstudioMercadoRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto)

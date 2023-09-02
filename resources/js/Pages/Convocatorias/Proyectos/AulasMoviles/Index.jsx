@@ -167,13 +167,13 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) =>
                         <FileInput
                             id={tipo_archivo}
                             value={form.data[tipo_archivo]}
-                            label={`Seleccione: ${tipo_archivo}`}
+                            label={`${tipo_archivo}`}
                             accept="application/pdf"
                             onChange={(e) => form.setData(tipo_archivo, e)}
                             error={form.errors[tipo_archivo]}
                         />
                         <div className="flex items-center justify-between mt-14 py-4">
-                            <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
+                            <PrimaryButton disabled={form.processing || !form.isDirty} className="ml-auto" type="submit">
                                 Cargar archivo
                             </PrimaryButton>
                             <ButtonMui type="button" primary={false} onClick={() => setDialogArchivoStatus(false)} className="!ml-2 !bg-transparent">

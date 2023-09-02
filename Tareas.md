@@ -11,4 +11,3 @@ Tareas
 9. Revisar $proyecto->tipoFormularioConvocatoria->lineaProgramatica->codigo en Sharepoint para proyectos sin líneas programáticas
 10. Revisar roles sennova lineas tecnologicas línea 70
 11. El stepper de roles para proyecto?.tipo_formulario_convocatoria_id != 1 no se muestra en la conv2024 pero si se debe mostrar para la anteriores cons
-12. Aviso de que hay actividades sin resultado asociado
