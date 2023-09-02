@@ -79,30 +79,6 @@ const EditComponent = ({
                             </strong>
                         </AlertMui>
 
-                        {checkRole(auth_user, [1, 4, 5, 17, 18, 19, 20, 21, 22, 24, 27]) && (
-                            <AlertMui className="mt-10">
-                                ¿Desea habilitar este usuario?
-                                <Checkbox
-                                    name="default_password"
-                                    className="mt-3"
-                                    checked={usuario?.habilitado}
-                                    onChange={(e) =>
-                                        router.put(
-                                            route('users.habilitar-usuario'),
-                                            {
-                                                user_id: usuario?.id,
-                                                habilitado: e.target.checked,
-                                            },
-                                            {
-                                                preserveScroll: true,
-                                            },
-                                        )
-                                    }
-                                    label="Habilitado(a)"
-                                />
-                            </AlertMui>
-                        )}
-
                         {usuario?.allowed?.to_update && (
                             <AlertMui severity="error" className="mt-10">
                                 Una vez haya finalizado de diligenciar active la siguiente casilla:

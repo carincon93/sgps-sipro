@@ -536,12 +536,16 @@ class SelectHelper
      */
     public static function usuariosPorRol($rol)
     {
-        return User::select('users.id as value', 'users.nombre as label')
-            ->join('model_has_roles', 'users.id', 'model_has_roles.model_id')
-            ->join('roles', 'model_has_roles.role_id', 'roles.id')
-            ->where('roles.name', 'ilike', '%' . $rol . '%')
-            ->where('users.centro_formacion_id', auth()->user()->centro_formacion_id)
-            ->orderBy('users.nombre', 'ASC')->get();
+        $query = User::select('users.id as value', 'users.nombre as label');
+        $query->join('model_has_roles', 'users.id', 'model_has_roles.model_id');
+        $query->join('roles', 'model_has_roles.role_id', 'roles.id');
+        $query->where('roles.name', 'ilike', '%' . $rol . '%');
+        if (auth()->user()->hasRole([4])) {
+            $query->where('users.centro_formacion_id', auth()->user()->centro_formacion_id);
+        }
+        $query->orderBy('users.nombre', 'ASC');
+
+        return $query->get();
     }
 
     public static function convocatoriaRolesSennova($convocatoria_id, $proyecto_id, $tipo_formulario_convocatoria_id)

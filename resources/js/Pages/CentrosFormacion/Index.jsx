@@ -37,7 +37,7 @@ const Index = ({ auth, centros_formacion, regionales, subdirectores, dinamizador
                 <TableMui className="mt-20" rows={['Nombre', 'Regional', 'Dinamizador/a SENNOVA', 'Subdirector/a', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {is_super_admin ? (
                         <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setCentroFormacion(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
-                            <TableCell colSpan={4}>
+                            <TableCell colSpan={5}>
                                 <ButtonMui>
                                     <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar centro de formación
                                 </ButtonMui>
