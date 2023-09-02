@@ -22,6 +22,7 @@ import { checkRole } from '@/Utils'
 const Form = ({
     method = '',
     auth_user,
+    allowed_to_create,
     usuario,
     tipos_documento,
     tipos_vinculacion,
@@ -130,7 +131,7 @@ const Form = ({
                         type="text"
                         value={form.data.nombre}
                         onChange={(e) => form.setData('nombre', e.target.value)}
-                        disabled={!usuario?.allowed?.to_update}
+                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                         error={form.errors.nombre}
                         required
                     />
@@ -143,7 +144,7 @@ const Form = ({
                         type="email"
                         value={form.data.email}
                         onChange={(e) => form.setData('email', e.target.value)}
-                        disabled={!usuario?.allowed?.to_update}
+                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                         error={form.errors.email}
                         required
                     />
@@ -155,7 +156,7 @@ const Form = ({
                         options={tipos_documento}
                         selectedValue={form.data.tipo_documento}
                         onChange={(event, newValue) => form.setData('tipo_documento', newValue.value)}
-                        disabled={!usuario?.allowed?.to_update}
+                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                         error={form.errors.tipo_documento}
                         label="Tipo de documento"
                         required
@@ -168,7 +169,7 @@ const Form = ({
                         type="number"
                         value={form.data.numero_documento}
                         onChange={(e) => form.setData('numero_documento', e.target.value)}
-                        disabled={!usuario?.allowed?.to_update}
+                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                         error={form.errors.numero_documento}
                         required
                     />
@@ -181,7 +182,7 @@ const Form = ({
                         isGroupable={true}
                         groupBy={(option) => option.group}
                         onChange={(event, newValue) => form.setData('lugar_expedicion_id', newValue.value)}
-                        disabled={!usuario?.allowed?.to_update}
+                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                         error={form.errors.lugar_expedicion_id}
                         label="Lugar de expedición"
                         required
@@ -194,7 +195,7 @@ const Form = ({
                         options={opciones_genero}
                         selectedValue={form.data.genero}
                         onChange={(event, newValue) => form.setData('genero', newValue.value)}
-                        disabled={!usuario?.allowed?.to_update}
+                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                         error={form.errors.genero}
                         label="Género"
                         required
@@ -207,7 +208,7 @@ const Form = ({
                         name="fecha_nacimiento"
                         value={form.data.fecha_nacimiento}
                         onChange={(e) => form.setData('fecha_nacimiento', e.target.value)}
-                        disabled={!usuario?.allowed?.to_update}
+                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                         className="p-4 w-full"
                         error={form.errors.fecha_nacimiento}
                         label="Fecha de nacimiento"
@@ -221,7 +222,7 @@ const Form = ({
                         type="number"
                         value={form.data.numero_celular}
                         onChange={(e) => form.setData('numero_celular', e.target.value)}
-                        disabled={!usuario?.allowed?.to_update}
+                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                         error={form.errors.numero_celular}
                         required
                     />
@@ -237,7 +238,7 @@ const Form = ({
                         options={subareas_experiencia}
                         selectedValue={form.data.subarea_experiencia_id}
                         onChange={(event, newValue) => form.setData('subarea_experiencia_id', newValue.value)}
-                        disabled={!usuario?.allowed?.to_update}
+                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                         error={form.errors.subarea_experiencia_id}
                         label="Subárea de experiencia profesional"
                         required
@@ -254,7 +255,7 @@ const Form = ({
                                 disciplinas_subarea_conocimiento: selected_values,
                             }))
                         }}
-                        disabled={!usuario?.allowed?.to_update}
+                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                         options={disciplinas_conocimiento}
                         error={form.errors.disciplinas_subarea_conocimiento}
                         label="Disciplinas de conocimiento en la cuales se desempeña"
@@ -268,7 +269,7 @@ const Form = ({
                         options={redes_conocimiento}
                         selectedValue={form.data.red_conocimiento_id}
                         onChange={(event, newValue) => form.setData('red_conocimiento_id', newValue.value)}
-                        disabled={!usuario?.allowed?.to_update}
+                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                         error={form.errors.red_conocimiento_id}
                         label="Red de conocimiento sectorial en la cual se desempeña"
                         required
@@ -280,7 +281,7 @@ const Form = ({
                         options={centros_formacion}
                         selectedValue={form.data.centro_formacion_id}
                         onChange={(event, newValue) => form.setData('centro_formacion_id', newValue.value)}
-                        disabled={!usuario?.allowed?.to_update}
+                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                         error={form.errors.centro_formacion_id}
                         label="Centro de formación al cual está vinculado"
                         required
@@ -295,7 +296,7 @@ const Form = ({
                                 options={niveles_ingles}
                                 selectedValue={form.data.nivel_ingles}
                                 onChange={(event, newValue) => form.setData('nivel_ingles', newValue.value)}
-                                disabled={!usuario?.allowed?.to_update}
+                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                 error={form.errors.nivel_ingles}
                                 label="Nivel de inglés"
                                 required
@@ -308,7 +309,7 @@ const Form = ({
                                 options={grupos_etnicos}
                                 selectedValue={form.data.grupo_etnico}
                                 onChange={(event, newValue) => form.setData('grupo_etnico', newValue.value)}
-                                disabled={!usuario?.allowed?.to_update}
+                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                 error={form.errors.grupo_etnico}
                                 label="Preferencia étnica"
                                 required
@@ -321,7 +322,7 @@ const Form = ({
                                 options={tipos_discapacidad}
                                 selectedValue={form.data.discapacidad}
                                 onChange={(event, newValue) => form.setData('discapacidad', newValue.value)}
-                                disabled={!usuario?.allowed?.to_update}
+                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                 error={form.errors.discapacidad}
                                 label="Si cuenta con algún tipo de discapacidad. Por favor seleccione cual discapacidad."
                                 required
@@ -335,7 +336,7 @@ const Form = ({
                                 type="url"
                                 value={form.data.cvlac}
                                 onChange={(e) => form.setData('cvlac', e.target.value)}
-                                disabled={!usuario?.allowed?.to_update}
+                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                 error={form.errors.cvlac}
                             />
                             <small>Debe incluir el http:// o https://</small>
@@ -353,7 +354,7 @@ const Form = ({
                         options={tipos_vinculacion}
                         selectedValue={form.data.tipo_vinculacion}
                         onChange={(event, newValue) => form.setData('tipo_vinculacion', newValue.value)}
-                        disabled={!usuario?.allowed?.to_update}
+                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                         error={form.errors.tipo_vinculacion}
                         label="Tipo de vinculación"
                         required
@@ -369,7 +370,7 @@ const Form = ({
                                 name="fecha_resolucion_nombramiento"
                                 value={form.data.fecha_resolucion_nombramiento}
                                 onChange={(e) => form.setData('fecha_resolucion_nombramiento', e.target.value)}
-                                disabled={!usuario?.allowed?.to_update}
+                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                 className="p-4 w-full"
                                 error={form.errors.fecha_resolucion_nombramiento}
                                 label="Fecha de resolución de nombramiento"
@@ -383,7 +384,7 @@ const Form = ({
                                 name="fecha_acta_nombramiento"
                                 value={form.data.fecha_acta_nombramiento}
                                 onChange={(e) => form.setData('fecha_acta_nombramiento', e.target.value)}
-                                disabled={!usuario?.allowed?.to_update}
+                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                 className="p-4 w-full"
                                 error={form.errors.fecha_acta_nombramiento}
                                 label="Fecha del acta de nombramiento"
@@ -401,7 +402,7 @@ const Form = ({
                                 }}
                                 value={form.data.nro_acta_nombramiento}
                                 onChange={(e) => form.setData('nro_acta_nombramiento', e.target.value)}
-                                disabled={!usuario?.allowed?.to_update}
+                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                 error={form.errors.nro_acta_nombramiento}
                                 required
                             />
@@ -417,7 +418,7 @@ const Form = ({
                                     name="fecha_inicio_contrato"
                                     value={form.data.fecha_inicio_contrato}
                                     onChange={(e) => form.setData('fecha_inicio_contrato', e.target.value)}
-                                    disabled={!usuario?.allowed?.to_update}
+                                    disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                     className="p-4 w-full"
                                     error={form.errors.fecha_inicio_contrato}
                                     label="Fecha de inicio del contrato"
@@ -432,7 +433,7 @@ const Form = ({
                                 name="fecha_finalizacion_contrato"
                                 value={form.data.fecha_finalizacion_contrato}
                                 onChange={(e) => form.setData('fecha_finalizacion_contrato', e.target.value)}
-                                disabled={!usuario?.allowed?.to_update}
+                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                 className="p-4 w-full"
                                 error={form.errors.fecha_finalizacion_contrato}
                                 label="Fecha de finalizacion del contrato"
@@ -448,7 +449,7 @@ const Form = ({
                                     type="url"
                                     value={form.data.link_sigep_ii}
                                     onChange={(e) => form.setData('link_sigep_ii', e.target.value)}
-                                    disabled={!usuario?.allowed?.to_update}
+                                    disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                     error={form.errors.link_sigep_ii}
                                 />
                                 <small>Debe incluir el http:// o https://</small>
@@ -470,7 +471,7 @@ const Form = ({
                                 isCurrency={true}
                                 value={form.data.asignacion_mensual}
                                 onChange={(e) => form.setData('asignacion_mensual', e.target.value)}
-                                disabled={!usuario?.allowed?.to_update}
+                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                 error={form.errors.asignacion_mensual}
                                 required
                             />
@@ -485,7 +486,7 @@ const Form = ({
                                 }}
                                 value={form.data.experiencia_laboral_sena}
                                 onChange={(e) => form.setData('experiencia_laboral_sena', e.target.value)}
-                                disabled={!usuario?.allowed?.to_update}
+                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                 error={form.errors.experiencia_laboral_sena}
                                 required
                             />
@@ -502,7 +503,7 @@ const Form = ({
                                 }}
                                 value={form.data.horas_dedicadas}
                                 onChange={(e) => form.setData('horas_dedicadas', e.target.value)}
-                                disabled={!usuario?.allowed?.to_update}
+                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                 error={form.errors.horas_dedicadas}
                                 required
                             />
@@ -517,7 +518,7 @@ const Form = ({
                                 }}
                                 value={form.data.meses_dedicados}
                                 onChange={(e) => form.setData('meses_dedicados', e.target.value)}
-                                disabled={!usuario?.allowed?.to_update}
+                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                 error={form.errors.meses_dedicados}
                                 required
                             />
@@ -529,7 +530,7 @@ const Form = ({
                                 options={roles_sennova}
                                 selectedValue={form.data.rol_sennova_id}
                                 onChange={(event, newValue) => form.setData('rol_sennova_id', newValue.value)}
-                                disabled={!usuario?.allowed?.to_update}
+                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                 error={form.errors.rol_sennova_id}
                                 label="Rol SENNOVA actual"
                                 required
@@ -584,7 +585,7 @@ const Form = ({
                                         value={form.data.tiempo_por_rol}
                                         tags={form.data.tiempo_por_rol}
                                         onChange={(e) => form.setData('tiempo_por_rol', e.target.value)}
-                                        disabled={!usuario?.allowed?.to_update}
+                                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                         placeholder="Indique el tiempo en meses al lado del nombre del rol"
                                         error={form.errors.tiempo_por_rol}
                                     />
@@ -606,7 +607,7 @@ const Form = ({
                                 value={form.data.roles_fuera_sennova}
                                 tags={form.data.roles_fuera_sennova}
                                 onChange={(e) => form.setData('roles_fuera_sennova', e.target.value)}
-                                disabled={!usuario?.allowed?.to_update}
+                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                 placeholder="Escriba el rol separado por coma (,)"
                                 error={form.errors.roles_fuera_sennova}
                             />
@@ -629,7 +630,7 @@ const Form = ({
                                 ]}
                                 selectedValue={form.data.experiencia_como_evaluador}
                                 onChange={(event, newValue) => form.setData('experiencia_como_evaluador', newValue.value)}
-                                disabled={!usuario?.allowed?.to_update}
+                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                 error={form.errors.experiencia_como_evaluador}
                                 label="¿Tiene experiencia como evaluador?"
                                 required
@@ -646,7 +647,7 @@ const Form = ({
                                     }}
                                     value={form.data.numero_proyectos_evaluados}
                                     onChange={(e) => form.setData('numero_proyectos_evaluados', e.target.value)}
-                                    disabled={!usuario?.allowed?.to_update}
+                                    disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                     error={form.errors.numero_proyectos_evaluados}
                                     label="Si su respuesta en la pregunta anterior es 'SI' indique el número de proyectos que ha evaluado"
                                     required
@@ -663,7 +664,7 @@ const Form = ({
                                 ]}
                                 selectedValue={form.data.cursos_evaluacion_proyectos}
                                 onChange={(event, newValue) => form.setData('cursos_evaluacion_proyectos', newValue.value)}
-                                disabled={!usuario?.allowed?.to_update}
+                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                 error={form.errors.cursos_evaluacion_proyectos}
                                 label="¿Ha realizado cursos complementarios relacionados con evaluación de proyectos?"
                                 required
@@ -685,7 +686,7 @@ const Form = ({
                                     value={form.data.cursos_de_evaluacion_realizados}
                                     tags={form.data.cursos_de_evaluacion_realizados}
                                     onChange={(e) => form.setData('cursos_de_evaluacion_realizados', e.target.value)}
-                                    disabled={!usuario?.allowed?.to_update}
+                                    disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                     placeholder="Nombres de los cursos (Separados por coma)"
                                     error={form.errors.cursos_de_evaluacion_realizados}
                                 />
@@ -701,7 +702,7 @@ const Form = ({
                                 ]}
                                 selectedValue={form.data.participacion_como_evaluador_sennova}
                                 onChange={(event, newValue) => form.setData('participacion_como_evaluador_sennova', newValue.value)}
-                                disabled={!usuario?.allowed?.to_update}
+                                disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                 error={form.errors.participacion_como_evaluador_sennova}
                                 label="¿Ha participado como evaluador Sennova en vigencias anteriores?"
                                 required
@@ -723,7 +724,7 @@ const Form = ({
                                         ]}
                                         selectedValue={form.data.conocimiento_iso_17025}
                                         onChange={(event, newValue) => form.setData('conocimiento_iso_17025', newValue.value)}
-                                        disabled={!usuario?.allowed?.to_update}
+                                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                         error={form.errors.conocimiento_iso_17025}
                                         label="¿Ha realizado cursos o tiene conocimiento de las norma Norma ISO/IEC 17025:2017?"
                                         required
@@ -739,7 +740,7 @@ const Form = ({
                                         ]}
                                         selectedValue={form.data.conocimiento_iso_19011}
                                         onChange={(event, newValue) => form.setData('conocimiento_iso_19011', newValue.value)}
-                                        disabled={!usuario?.allowed?.to_update}
+                                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                         error={form.errors.conocimiento_iso_19011}
                                         label="¿Ha realizado cursos o tiene conocimiento de las norma Norma ISO 19011:2018?"
                                         required
@@ -755,7 +756,7 @@ const Form = ({
                                         ]}
                                         selectedValue={form.data.conocimiento_iso_29119}
                                         onChange={(event, newValue) => form.setData('conocimiento_iso_29119', newValue.value)}
-                                        disabled={!usuario?.allowed?.to_update}
+                                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                         error={form.errors.conocimiento_iso_29119}
                                         label="¿Ha realizado cursos o tiene conocimiento de las norma Norma ISO 29119 Vigente?"
                                         required
@@ -771,7 +772,7 @@ const Form = ({
                                         ]}
                                         selectedValue={form.data.conocimiento_iso_9001}
                                         onChange={(event, newValue) => form.setData('conocimiento_iso_9001', newValue.value)}
-                                        disabled={!usuario?.allowed?.to_update}
+                                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                         error={form.errors.conocimiento_iso_9001}
                                         label="¿Ha realizado cursos o tiene conocimiento de las norma Norma ISO 9001:2015?"
                                         required
@@ -787,7 +788,7 @@ const Form = ({
                                         ]}
                                         selectedValue={form.data.experiencia_metodos_ensayo}
                                         onChange={(event, newValue) => form.setData('experiencia_metodos_ensayo', newValue.value)}
-                                        disabled={!usuario?.allowed?.to_update}
+                                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                         error={form.errors.experiencia_metodos_ensayo}
                                         label="¿Tiene experiencia técnica en métodos de ensayo?"
                                         required
@@ -804,7 +805,7 @@ const Form = ({
                                             }}
                                             value={form.data.meses_experiencia_metodos_ensayo}
                                             onChange={(e) => form.setData('meses_experiencia_metodos_ensayo', e.target.value)}
-                                            disabled={!usuario?.allowed?.to_update}
+                                            disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                             error={form.errors.meses_experiencia_metodos_ensayo}
                                             label="Si su respuesta en la pregunta anterior es 'SI' indique el número de meses de experiencia"
                                             required
@@ -821,7 +822,7 @@ const Form = ({
                                         ]}
                                         selectedValue={form.data.experiencia_metodos_calibracion}
                                         onChange={(event, newValue) => form.setData('experiencia_metodos_calibracion', newValue.value)}
-                                        disabled={!usuario?.allowed?.to_update}
+                                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                         error={form.errors.experiencia_metodos_calibracion}
                                         label="¿Tiene experiencia técnica con métodos de calibración?"
                                         required
@@ -838,7 +839,7 @@ const Form = ({
                                             }}
                                             value={form.data.meses_experiencia_metodos_calibracion}
                                             onChange={(e) => form.setData('meses_experiencia_metodos_calibracion', e.target.value)}
-                                            disabled={!usuario?.allowed?.to_update}
+                                            disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                             error={form.errors.meses_experiencia_metodos_calibracion}
                                             label="Si su respuesta en la pregunta anterior es 'SI' indique el número de meses de experiencia"
                                             required
@@ -862,7 +863,7 @@ const Form = ({
                                         className="mt-4"
                                         selectedValue={form.data.experiencia_minima_metodos}
                                         onChange={(event, newValue) => form.setData('experiencia_minima_metodos', newValue.value)}
-                                        disabled={!usuario?.allowed?.to_update}
+                                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                                         error={form.errors.experiencia_minima_metodos}
                                         label="Seleccione una opción"
                                         required
@@ -883,7 +884,7 @@ const Form = ({
                         name="autorizacion_datos"
                         checked={form.data.autorizacion_datos}
                         onChange={(e) => form.setData('autorizacion_datos', e.target.checked)}
-                        disabled={!usuario?.allowed?.to_update}
+                        disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                         error={form.errors.autorizacion_datos}
                         label="Autorizo el tratamiento de mis datos personales."
                     />

@@ -38,6 +38,7 @@ const Crear = ({
                     <Paper elevation={0} sx={{ padding: 2 }}>
                         <Form
                             method="POST"
+                            allowed_to_create={allowed_to_create}
                             tipos_documento={tipos_documento}
                             tipos_vinculacion={tipos_vinculacion}
                             centros_formacion={centros_formacion}

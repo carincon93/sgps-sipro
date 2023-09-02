@@ -42,7 +42,7 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, linea_investi
                                     error={form.errors.nombre}
                                     label="Nombre de la línea de investigación"
                                     onChange={(e) => form.setData('nombre', e.target.value)}
-                                    disabled={!linea_investigacion?.allowed?.to_update}
+                                    disabled={(allowed_to_create == true && linea_investigacion?.allowed?.to_update == null) || linea_investigacion?.allowed?.to_update == true ? false : true}
                                     required
                                 />
                             </Grid>

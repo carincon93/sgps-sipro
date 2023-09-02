@@ -63,7 +63,7 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, subdirectores_centro, al
                                         }
                                     />
 
-                                    {usuario.habilitado && usuario.informacion_completa == false && (
+                                    {usuario.habilitado && !usuario.informacion_completa && (
                                         <>
                                             <br />
                                             <Chip

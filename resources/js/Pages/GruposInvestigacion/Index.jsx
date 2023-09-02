@@ -132,7 +132,7 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
                                                                 preserveScroll: true,
                                                             })
                                                         }}>
-                                                        Ver detalles
+                                                        Ver información
                                                     </MenuItem>
 
                                                     <Divider />

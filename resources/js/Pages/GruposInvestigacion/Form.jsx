@@ -63,6 +63,7 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                                     options={centros_formacion}
                                     selectedValue={form.data.centro_formacion_id}
                                     onChange={(event, newValue) => form.setData('centro_formacion_id', newValue.value)}
+                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
                                     error={form.errors.centro_formacion_id}
                                     label="Centro de formación"
                                     required
@@ -76,6 +77,7 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                                     error={form.errors.nombre}
                                     label="Nombre del grupo de investigación"
                                     onChange={(e) => form.setData('nombre', e.target.value)}
+                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
                                     required
                                 />
                             </Grid>
@@ -87,6 +89,7 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                                     error={form.errors.acronimo}
                                     label="Acrónimo"
                                     onChange={(e) => form.setData('acronimo', e.target.value)}
+                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
                                     required
                                 />
                             </Grid>
@@ -98,6 +101,7 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                                     error={form.errors.email}
                                     label="Correo electrónico"
                                     onChange={(e) => form.setData('email', e.target.value)}
+                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
                                     required
                                 />
                             </Grid>
@@ -109,6 +113,7 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                                     error={form.errors.enlace_gruplac}
                                     label="Enlace GrupLAC"
                                     onChange={(e) => form.setData('enlace_gruplac', e.target.value)}
+                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
                                     required
                                 />
                             </Grid>
@@ -120,6 +125,7 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                                     error={form.errors.codigo_minciencias}
                                     label="Código Minciencias"
                                     onChange={(e) => form.setData('codigo_minciencias', e.target.value)}
+                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
                                     required
                                 />
                             </Grid>
@@ -129,6 +135,7 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                                     options={categorias_minciencias}
                                     selectedValue={form.data.categoria_minciencias}
                                     onChange={(event, newValue) => form.setData('categoria_minciencias', newValue.value)}
+                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
                                     error={form.errors.categoria_minciencias}
                                     label="Clasificación MinCiencias 894 – 2021"
                                     required
@@ -141,6 +148,7 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                                     className="block w-full p-4"
                                     value={form.data.fecha_creacion_grupo}
                                     onChange={(e) => form.setData('fecha_creacion_grupo', e.target.value)}
+                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
                                     error={form.errors.fecha_creacion_grupo}
                                     required
                                 />
@@ -151,6 +159,7 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                                     type="text"
                                     value={form.data.nombre_lider_grupo}
                                     onChange={(e) => form.setData('nombre_lider_grupo', e.target.value)}
+                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
                                     error={form.errors.nombre_lider_grupo}
                                     label="Nombre del líder del grupo"
                                     required
@@ -164,6 +173,7 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                                     error={form.errors.email_contacto}
                                     label="Email de contacto"
                                     onChange={(e) => form.setData('email_contacto', e.target.value)}
+                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
                                     required
                                 />
                             </Grid>
@@ -173,15 +183,32 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                                     label="Reconocimientos del grupo de investigación"
                                     value={form.data.reconocimientos_grupo_investigacion}
                                     onChange={(e) => form.setData('reconocimientos_grupo_investigacion', e.target.value)}
+                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
                                     error={form.errors.reconocimientos_grupo_investigacion}
                                     required
                                 />
                             </Grid>
                             <Grid item md={12}>
-                                <Textarea id="vision" value={form.data.vision} error={form.errors.vision} label="Visión" onChange={(e) => form.setData('vision', e.target.value)} required />
+                                <Textarea
+                                    id="vision"
+                                    value={form.data.vision}
+                                    error={form.errors.vision}
+                                    label="Visión"
+                                    onChange={(e) => form.setData('vision', e.target.value)}
+                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
+                                    required
+                                />
                             </Grid>
                             <Grid item md={12}>
-                                <Textarea id="mision" value={form.data.mision} error={form.errors.mision} label="Misión" onChange={(e) => form.setData('mision', e.target.value)} required />
+                                <Textarea
+                                    id="mision"
+                                    value={form.data.mision}
+                                    error={form.errors.mision}
+                                    label="Misión"
+                                    onChange={(e) => form.setData('mision', e.target.value)}
+                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
+                                    required
+                                />
                             </Grid>
                             <Grid item md={12}>
                                 <Textarea
@@ -190,6 +217,7 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                                     error={form.errors.objetivo_general}
                                     label="Objetivo general"
                                     onChange={(e) => form.setData('objetivo_general', e.target.value)}
+                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
                                     required
                                 />
                             </Grid>
@@ -200,6 +228,7 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                                     error={form.errors.objetivos_especificos}
                                     label="Objetivos específicos"
                                     onChange={(e) => form.setData('objetivos_especificos', e.target.value)}
+                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
                                     required
                                 />
                             </Grid>
@@ -209,6 +238,7 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                                     type="text"
                                     value={form.data.programa_nal_ctei_principal}
                                     onChange={(e) => form.setData('programa_nal_ctei_principal', e.target.value)}
+                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
                                     error={form.errors.programa_nal_ctei_principal}
                                     label="Programa Nal. CTeI (Principal)"
                                     required
@@ -220,6 +250,7 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                                     type="text"
                                     value={form.data.programa_nal_ctei_secundaria}
                                     onChange={(e) => form.setData('programa_nal_ctei_secundaria', e.target.value)}
+                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
                                     error={form.errors.programa_nal_ctei_secundaria}
                                     label="Programa Nal. CTeI (Secundaria)"
                                     required
@@ -233,6 +264,7 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                                     error={form.errors.link_propio_grupo}
                                     label="Link propio del grupo"
                                     onChange={(e) => form.setData('link_propio_grupo', e.target.value)}
+                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
                                 />
                             </Grid>
                             <Grid item md={12}>
@@ -247,6 +279,7 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                                             redes_conocimiento: selected_values,
                                         }))
                                     }}
+                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
                                     label="Redes de conocimiento"
                                     error={form.errors.redes_conocimiento}
                                     required
