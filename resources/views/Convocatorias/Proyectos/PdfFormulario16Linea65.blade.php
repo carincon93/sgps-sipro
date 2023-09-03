@@ -508,7 +508,7 @@
                         @if ($producto->productoMinciencias()->exists())
                             <tr>
                                 <th align="left" width="15%">Tipo</th>
-                                <td>{{ $tipos_productos->firstWhere('value', $producto->productoMinciencias->tipo)['label'] }}</td>
+                                <td>{{ $tipos_productos->firstWhere('value', $producto->productoMinciencias->tipo) ? $tipos_productos->firstWhere('value', $producto->productoMinciencias->tipo)['label'] : 'Sin información registrada' }}</td>
                                 <th align="left" width="15%">Subtipología Minciencias</th>
                                 <td>{{ $producto->productoMinciencias->subtipologiaMinciencias->nombre }}</td>
                             </tr>
