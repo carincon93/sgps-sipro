@@ -533,27 +533,31 @@ const Form = ({
                             )}
                         </Grid>
 
-                        <Grid item md={6}>
-                            <Label id="justificacion_industria_4" value="¿El proyecto está relacionado con la industria 4.0?" />
-                        </Grid>
+                        {convocatoria.campos_convocatoria.filter((item) => item.campo == 'justificacion_industria_4').find((item) => item.convocatoria_id == convocatoria.id) && (
+                            <>
+                                <Grid item md={6}>
+                                    <Label id="justificacion_industria_4" value="¿El proyecto está relacionado con la industria 4.0?" />
+                                </Grid>
 
-                        <Grid item md={6}>
-                            <SwitchMui className="mb-4" checked={requiere_justificacion_industria4} onChange={() => setRequiereJustificacionIndustria4(!requiere_justificacion_industria4)} />
-                            {requiere_justificacion_industria4 && (
-                                <>
-                                    <Textarea
-                                        label="Justificación"
-                                        id="justificacion_industria_4"
-                                        onChange={(e) => form.setData('justificacion_industria_4', e.target.value)}
-                                        error={form.errors.justificacion_industria_4}
-                                        value={form.data.justificacion_industria_4}
-                                        required={requiere_justificacion_industria4 ? true : undefined}
-                                        onBlur={() => syncColumnLong('justificacion_industria_4', form)}
-                                    />
-                                    <AlertMui>Si el proyecto está relacionado con la industria 4.0 por favor realice la justificación.</AlertMui>
-                                </>
-                            )}
-                        </Grid>
+                                <Grid item md={6}>
+                                    <SwitchMui className="mb-4" checked={requiere_justificacion_industria4} onChange={() => setRequiereJustificacionIndustria4(!requiere_justificacion_industria4)} />
+                                    {requiere_justificacion_industria4 && (
+                                        <>
+                                            <Textarea
+                                                label="Justificación"
+                                                id="justificacion_industria_4"
+                                                onChange={(e) => form.setData('justificacion_industria_4', e.target.value)}
+                                                error={form.errors.justificacion_industria_4}
+                                                value={form.data.justificacion_industria_4}
+                                                required={requiere_justificacion_industria4 ? true : undefined}
+                                                onBlur={() => syncColumnLong('justificacion_industria_4', form)}
+                                            />
+                                            <AlertMui>Si el proyecto está relacionado con la industria 4.0 por favor realice la justificación.</AlertMui>
+                                        </>
+                                    )}
+                                </Grid>
+                            </>
+                        )}
 
                         <Grid item md={6}>
                             <Label labelFor="impacto_sector_agricola" value="¿El proyecto tendrá un impacto en el sector agrícola?" />

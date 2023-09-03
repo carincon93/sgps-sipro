@@ -145,7 +145,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
         $proyecto_formulario_10_linea_69->mostrar_requiere_subsanacion   = $proyecto_formulario_10_linea_69->proyecto->mostrar_requiere_subsanacion;
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario10Linea69/Edit', [
-            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'year', 'descripcion'),
+            'convocatoria'                      => $convocatoria,
             'proyecto_formulario_10_linea_69'   => $proyecto_formulario_10_linea_69,
             // 'evaluacion'            => EvaluacionProyectoFormulario10Linea69::find(request()->evaluacion_id),
             'regionales'                        => SelectHelper::regionales(),

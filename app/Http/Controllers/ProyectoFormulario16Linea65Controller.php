@@ -152,7 +152,7 @@ class ProyectoFormulario16Linea65Controller extends Controller
         $proyecto_formulario_16_linea_65->mostrar_requiere_subsanacion        = $proyecto_formulario_16_linea_65->proyecto->mostrar_requiere_subsanacion;
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario16Linea65/Edit', [
-            'convocatoria'                                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year', 'tipo_convocatoria', 'mostrar_recomendaciones', 'campos_convocatoria'),
+            'convocatoria'                                  => $convocatoria,
             'proyecto_formulario_16_linea_65'               => $proyecto_formulario_16_linea_65,
             'evaluacion'                                    => EvaluacionProyectoFormulario16Linea65::find(request()->evaluacion_id),
             'mesas_sectoriales'                             => MesaSectorial::select('id as value', 'nombre as label')->get('id'),

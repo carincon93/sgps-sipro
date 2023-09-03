@@ -155,7 +155,7 @@ class ProyectoFormulario4Linea70Controller extends Controller
         $proyecto_formulario_4_linea_70->mostrar_requiere_subsanacion   = $proyecto_formulario_4_linea_70->proyecto->mostrar_requiere_subsanacion;
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario4Linea70/Edit', [
-            'convocatoria'                          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year', 'tipo_convocatoria', 'year', 'mostrar_recomendaciones', 'descripcion'),
+            'convocatoria'                          => $convocatoria,
             'proyecto_formulario_4_linea_70'        => $proyecto_formulario_4_linea_70,
             'tecnoacademias'                        => SelectHelper::tecnoacademias(),
             'tecnoacademia'                         => $proyecto_formulario_4_linea_70->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_formulario_4_linea_70->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,

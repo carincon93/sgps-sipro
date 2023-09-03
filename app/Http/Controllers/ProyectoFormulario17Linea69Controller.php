@@ -150,7 +150,7 @@ class ProyectoFormulario17Linea69Controller extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario17Linea69/Edit', [
-            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'year', 'descripcion'),
+            'convocatoria'                      => $convocatoria,
             'proyecto_formulario_17_linea_69'   => $proyecto_formulario_17_linea_69,
             // 'evaluacion'            => EvaluacionProyectoFormulario17Linea69::find(request()->evaluacion_id),
             'regionales'                        => SelectHelper::regionales(),

@@ -565,60 +565,68 @@ const Form = ({
                                 />
                             ) : null}
                         </Grid>
-                        <Grid item md={6}>
-                            <Label id="justificacion_industria_4" value="¿El proyecto está relacionado con la industria 4.0?" />
-                        </Grid>
-                        <Grid item md={6}>
-                            <SwitchMui
-                                className="!mb-4"
-                                checked={requiere_justificacion_industria4}
-                                onChange={() => setRequiereJustificacionIndustria4(!requiere_justificacion_industria4)}
-                                disabled={!proyecto_formulario_7_linea_23?.proyecto?.allowed?.to_update}
-                            />
-                            {requiere_justificacion_industria4 && (
-                                <>
-                                    <Textarea
-                                        label="Justificación"
-                                        id="justificacion_industria_4"
-                                        onChange={(e) => form.setData('justificacion_industria_4', e.target.value)}
-                                        error={form.errors.justificacion_industria_4}
-                                        value={form.data.justificacion_industria_4}
+                        {convocatoria.campos_convocatoria.filter((item) => item.campo == 'justificacion_industria_4').find((item) => item.convocatoria_id == convocatoria.id) && (
+                            <>
+                                <Grid item md={6}>
+                                    <Label id="justificacion_industria_4" value="¿El proyecto está relacionado con la industria 4.0?" />
+                                </Grid>
+                                <Grid item md={6}>
+                                    <SwitchMui
+                                        className="!mb-4"
+                                        checked={requiere_justificacion_industria4}
+                                        onChange={() => setRequiereJustificacionIndustria4(!requiere_justificacion_industria4)}
                                         disabled={!proyecto_formulario_7_linea_23?.proyecto?.allowed?.to_update}
-                                        onBlur={() => syncColumnLong('justificacion_industria_4', form)}
-                                        required
                                     />
-                                    <AlertMui>Si el proyecto está relacionado con la industria 4.0 por favor realice la justificación.</AlertMui>
-                                </>
-                            )}
-                        </Grid>
-                        <Grid item md={6}>
-                            <Label labelFor="justificacion_economia_naranja" value="¿El proyecto está relacionado con la economía naranja?" />
-                        </Grid>
-                        <Grid item md={6}>
-                            <SwitchMui
-                                className="!mb-4"
-                                checked={requiere_justificacion_economia_naranja}
-                                onChange={() => setRequiereJustificacionEconomiaNaranja(!requiere_justificacion_economia_naranja)}
-                                disabled={!proyecto_formulario_7_linea_23?.proyecto?.allowed?.to_update}
-                            />
-                            {requiere_justificacion_economia_naranja && (
-                                <>
-                                    <Textarea
-                                        label="Justificación"
-                                        id="justificacion_economia_naranja"
-                                        onChange={(e) => form.setData('justificacion_economia_naranja', e.target.value)}
-                                        error={form.errors.justificacion_economia_naranja}
-                                        value={form.data.justificacion_economia_naranja}
+                                    {requiere_justificacion_industria4 && (
+                                        <>
+                                            <Textarea
+                                                label="Justificación"
+                                                id="justificacion_industria_4"
+                                                onChange={(e) => form.setData('justificacion_industria_4', e.target.value)}
+                                                error={form.errors.justificacion_industria_4}
+                                                value={form.data.justificacion_industria_4}
+                                                disabled={!proyecto_formulario_7_linea_23?.proyecto?.allowed?.to_update}
+                                                onBlur={() => syncColumnLong('justificacion_industria_4', form)}
+                                                required
+                                            />
+                                            <AlertMui>Si el proyecto está relacionado con la industria 4.0 por favor realice la justificación.</AlertMui>
+                                        </>
+                                    )}
+                                </Grid>
+                            </>
+                        )}
+                        {convocatoria.campos_convocatoria.filter((item) => item.campo == 'justificacion_economia_naranja').find((item) => item.convocatoria_id == convocatoria.id) && (
+                            <>
+                                <Grid item md={6}>
+                                    <Label labelFor="justificacion_economia_naranja" value="¿El proyecto está relacionado con la economía naranja?" />
+                                </Grid>
+                                <Grid item md={6}>
+                                    <SwitchMui
+                                        className="!mb-4"
+                                        checked={requiere_justificacion_economia_naranja}
+                                        onChange={() => setRequiereJustificacionEconomiaNaranja(!requiere_justificacion_economia_naranja)}
                                         disabled={!proyecto_formulario_7_linea_23?.proyecto?.allowed?.to_update}
-                                        onBlur={() => syncColumnLong('justificacion_economia_naranja', form)}
-                                        required
                                     />
-                                    <AlertMui>
-                                        Si el proyecto está relacionado con la economía naranja por favor realice la justificación. (Ver documento de apoyo: Guía Rápida SENA es NARANJA.)
-                                    </AlertMui>
-                                </>
-                            )}
-                        </Grid>
+                                    {requiere_justificacion_economia_naranja && (
+                                        <>
+                                            <Textarea
+                                                label="Justificación"
+                                                id="justificacion_economia_naranja"
+                                                onChange={(e) => form.setData('justificacion_economia_naranja', e.target.value)}
+                                                error={form.errors.justificacion_economia_naranja}
+                                                value={form.data.justificacion_economia_naranja}
+                                                disabled={!proyecto_formulario_7_linea_23?.proyecto?.allowed?.to_update}
+                                                onBlur={() => syncColumnLong('justificacion_economia_naranja', form)}
+                                                required
+                                            />
+                                            <AlertMui>
+                                                Si el proyecto está relacionado con la economía naranja por favor realice la justificación. (Ver documento de apoyo: Guía Rápida SENA es NARANJA.)
+                                            </AlertMui>
+                                        </>
+                                    )}
+                                </Grid>
+                            </>
+                        )}
                         <Grid item md={6}>
                             <Label labelFor="impacto_sector_agricola" value="¿El proyecto tendrá un impacto en el sector agrícola?" />
                         </Grid>

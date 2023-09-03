@@ -178,7 +178,7 @@ class ProyectoFormulario9Linea23Controller extends Controller
         $proyecto_formulario_9_linea_23->mostrar_requiere_subsanacion = $proyecto_formulario_9_linea_23->proyecto->mostrar_requiere_subsanacion;
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario9Linea23/Edit', [
-            'convocatoria'                                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'year'),
+            'convocatoria'                                      => $convocatoria,
             'proyecto_formulario_9_linea_23'                    => $proyecto_formulario_9_linea_23,
             'evaluacion'                                        => EvaluacionProyectoFormulario9Linea23::find(request()->evaluacion_id),
             'tecnoacademia'                                     => $proyecto_formulario_9_linea_23->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_formulario_9_linea_23->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,

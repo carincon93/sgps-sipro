@@ -184,7 +184,7 @@ class ProyectoFormulario6Linea82Controller extends Controller
         $proyecto_formulario_6_linea_82->mostrar_requiere_subsanacion = $proyecto_formulario_6_linea_82->proyecto->mostrar_requiere_subsanacion;
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario6Linea82/Edit', [
-            'convocatoria'                                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'year'),
+            'convocatoria'                                      => $convocatoria,
             'proyecto_formulario_6_linea_82'                    => $proyecto_formulario_6_linea_82,
             'evaluacion'                                        => EvaluacionProyectoFormulario6Linea82::find(request()->evaluacion_id),
             'tecnoacademia'                                     => $proyecto_formulario_6_linea_82->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_formulario_6_linea_82->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,

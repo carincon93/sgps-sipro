@@ -161,7 +161,7 @@ class ProyectoFormulario12Linea68Controller extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario12Linea68/Edit', [
-            'convocatoria'                                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year', 'mostrar_recomendaciones'),
+            'convocatoria'                                  => $convocatoria,
             'proyecto_formulario_12_linea_68'               => $proyecto_formulario_12_linea_68,
             'evaluacion'                                    => EvaluacionProyectoFormulario12Linea68::find(request()->evaluacion_id),
             'lineas_programaticas'                          => SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 3)->values()->all(),
@@ -172,7 +172,6 @@ class ProyectoFormulario12Linea68Controller extends Controller
             'municipios'                                    => SelectHelper::municipios(),
             'tipos_proyecto_formulario_12_linea_68'         => $tipo_proyecto_formulario_12_linea_68,
             'roles_sennova'                                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'campos_convocatoria'                           => collect(json_decode(Storage::get('json/campos-convocatoria.json'), true)),
         ]);
     }
 

@@ -151,7 +151,7 @@ class ProyectoFormulario5Linea69Controller extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario5Linea69/Edit', [
-            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'year', 'descripcion'),
+            'convocatoria'                      => $convocatoria,
             'proyecto_formulario_5_linea_69'    => $proyecto_formulario_5_linea_69,
             'evaluacion'                        => EvaluacionProyectoFormulario5Linea69::find(request()->evaluacion_id),
             'regionales'                        => SelectHelper::regionales(),

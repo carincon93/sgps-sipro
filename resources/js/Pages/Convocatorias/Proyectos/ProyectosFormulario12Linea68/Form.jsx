@@ -528,7 +528,7 @@ const Form = ({
                             />
                         </Grid>
 
-                        {campos_convocatoria.filter((item) => item.campo == 'especificaciones_area').find((item) => item.convocatoria_id == convocatoria.id) && (
+                        {convocatoria.campos_convocatoria.filter((item) => item.campo == 'especificaciones_area').find((item) => item.convocatoria_id == convocatoria.id) && (
                             <Grid item md={12}>
                                 <Label
                                     required
