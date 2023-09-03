@@ -765,13 +765,6 @@
                     </tr>
 
                     <tr>
-                        <th align="left" width="30%">Naturaleza de la entidad</th>
-                        <td>
-                            {{ $naturaleza_entidad_aliada->firstWhere('value', $entidad->naturaleza)['label'] }}
-                        </td>
-                    </tr>
-
-                    <tr>
                         <th align="left" width="30%">Descipción del convenio</th>
                         <td>
                             {{ $entidad->entidadAliadaLinea66_82->descripcion_convenio }}
