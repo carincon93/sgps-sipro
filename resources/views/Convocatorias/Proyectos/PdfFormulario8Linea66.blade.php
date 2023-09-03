@@ -764,6 +764,71 @@
                         </td>
                     </tr>
 
+                            <tr>
+                        <th align="left" width="30%">Descipción del convenio</th>
+                        <td>
+                            {{ $entidad->entidadAliadaLinea66_82->descripcion_convenio }}
+                        </td>
+                    </tr>
+
+                    @if ($entidad->entidadAliadaLinea66_82->grupo_investigacion)
+                        <tr>
+                            <th align="left" width="30%">Grupo de investigación</th>
+                            <td>
+                                {{ $entidad->entidadAliadaLinea66_82->grupo_investigacion }}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th align="left" width="30%">Código del GrupLAC</th>
+                            <td>
+                                {{ $entidad->entidadAliadaLinea66_82->codigo_gruplac }}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th align="left" width="30%">Enlace del GrupLAC</th>
+                            <td>
+                                {{ $entidad->entidadAliadaLinea66_82->enlace_gruplac }}
+                            </td>
+                        </tr>
+                    @endif
+
+                    <tr>
+                        <th align="left" width="30%">Recursos en especie entidad aliada ($COP)</th>
+                        <td>
+                            {{ $entidad->entidadAliadaLinea66_82->recursos_especie }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th align="left" width="30%">Descripción de los recursos en especie aportados</th>
+                        <td>
+                            {{ $entidad->entidadAliadaLinea66_82->descripcion_recursos_especie }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th align="left" width="30%">Recursos en dinero entidad aliada ($COP)</th>
+                        <td>
+                            {{ $entidad->entidadAliadaLinea66_82->recursos_dinero }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th align="left" width="30%">Descripción de la destinación del dinero aportado</th>
+                        <td>
+                            {{ $entidad->entidadAliadaLinea66_82->descripcion_recursos_dinero }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th align="left" width="30%">Metodología o actividades de transferencia al centro de formación</th>
+                        <td>
+                            {{ $entidad->entidadAliadaLinea66_82->actividades_transferencia_conocimiento }}
+                        </td>
+                    </tr>
+
                      <tr>
                         <th align="left" width="30%">Actividades</th>
                         <td>
