@@ -24,7 +24,7 @@ class ProgramaFormacionController extends Controller
         return Inertia::render('ProgramasFormacion/Index', [
             'programas_formacion'   => ProgramaFormacion::getProgramasFormacionByRol()->appends(['search' => request()->search]),
             'modalidades'           => json_decode(Storage::get('json/modalidades-estudio.json'), true),
-            'niveles_formacion'     => json_decode(Storage::get('json/nivel-formacion.json'), true),
+            'niveles_formacion'     => json_decode(Storage::get('json/niveles-formacion.json'), true),
             'allowed_to_create'     => Gate::inspect('create', [ProgramaFormacion::class])->allowed()
         ]);
     }
