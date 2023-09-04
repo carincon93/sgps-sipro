@@ -5,5 +5,7 @@
     { "value": 4, "label": "Técnico" },
     { "value": 5, "label": "Auxiliar" },
     { "value": 6, "label": "Operario" },
-    { "value": 7, "label": "Profundización técnica" }
+    { "value": 7, "label": "Profundización técnica" },
+    { "value": 8, "label": "Complementaria virtual" },
+    { "value": 9, "label": "Curso especial" }
 ]
