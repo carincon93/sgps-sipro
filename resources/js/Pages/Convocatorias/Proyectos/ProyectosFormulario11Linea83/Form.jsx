@@ -488,9 +488,9 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                                 error={form.errors.bibliografia}
                                 value={form.data.bibliografia}
                                 onChange={(e) => form.setData('bibliografia', e.target.value)}
+                                disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 required
                                 onBlur={() => syncColumnLong('bibliografia', form)}
-                                disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                             />
                         </Grid>
                     </>

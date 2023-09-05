@@ -649,6 +649,7 @@ const Form = ({
                                 className="mb-4"
                                 checked={requiere_justificacion_atencion_pluralista}
                                 onChange={() => setRequiereJustificacionAntencionPluralista(!requiere_justificacion_atencion_pluralista)}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                             />
 
                             {requiere_justificacion_atencion_pluralista && (
@@ -788,9 +789,9 @@ const Form = ({
                                             lineas_programaticas_sennova: selected_values,
                                         }))
                                     }}
+                                    disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                     error={form.errors.lineas_programaticas_sennova}
                                     placeholder="Seleccione las mesas sectoriales"
-                                    disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                     required
                                     onBlur={() => syncColumnLong('lineas_programaticas_sennova', form)}
                                 />
@@ -878,9 +879,9 @@ const Form = ({
                                         laboratorios_st_relacionados: selected_values,
                                     }))
                                 }}
+                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 error={form.errors.laboratorios_st_relacionados}
                                 label="Seleccione una o varias opciones"
-                                disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('laboratorios_st_relacionados', form)}
                             />
                         </Grid>
@@ -896,8 +897,8 @@ const Form = ({
                                 id="resumen"
                                 value={form.data.resumen}
                                 onChange={(e) => form.setData('resumen', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('resumen', form)}
                             />
                         </Grid>
@@ -914,8 +915,8 @@ const Form = ({
                                 error={form.errors.antecedentes}
                                 value={form.data.antecedentes}
                                 onChange={(e) => form.setData('antecedentes', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('antecedentes', form)}
                             />
                         </Grid>
@@ -929,8 +930,8 @@ const Form = ({
                                 error={form.errors.marco_conceptual}
                                 value={form.data.marco_conceptual}
                                 onChange={(e) => form.setData('marco_conceptual', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_13_linea_65?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('marco_conceptual', form)}
                             />
                         </Grid>

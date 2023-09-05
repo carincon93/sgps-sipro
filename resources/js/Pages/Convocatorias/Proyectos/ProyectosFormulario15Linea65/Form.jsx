@@ -517,10 +517,10 @@ const Form = ({
                                                 lineas_estrategicas_sena: selected_values,
                                             }))
                                         }}
+                                        disabled={!proyecto_formulario_15_linea_65?.proyecto?.allowed?.to_update}
                                         error={form.errors.lineas_estrategicas_sena}
                                         label="Seleccione una o varias opciones"
                                         required
-                                        disabled={!proyecto_formulario_15_linea_65?.proyecto?.allowed?.to_update}
                                         onBlur={() => syncColumnLong('lineas_estrategicas_sena', form)}
                                     />
 
