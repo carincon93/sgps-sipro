@@ -5,6 +5,7 @@ namespace App\Exports;
 use App\Models\Convocatoria;
 use App\Models\GrupoInvestigacion;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
@@ -13,8 +14,12 @@ use Maatwebsite\Excel\Concerns\WithTitle;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithProperties;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Style;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Style\Border;
 
-class GruposInvestigacionExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithProperties, WithColumnFormatting, WithTitle
+class GruposInvestigacionExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithProperties, WithColumnFormatting, WithTitle, ShouldAutoSize
 {
     protected $convocatoria;
 
@@ -44,10 +49,12 @@ class GruposInvestigacionExport implements FromCollection, WithHeadings, WithMap
             $grupoInvestigacion->nombre_centro,
             $grupoInvestigacion->nombre,
             $grupoInvestigacion->acronimo,
+            $grupoInvestigacion->centroFormacion->dinamizadorSennova->nombre,
+            $grupoInvestigacion->centroFormacion->dinamizadorSennova->email,
             $grupoInvestigacion->email,
             $grupoInvestigacion->enlace_gruplac,
             $grupoInvestigacion->codigo_minciencias,
-            $grupoInvestigacion->categoria_minciencias_formateado,
+            $grupoInvestigacion->categoria_minciencias_text,
             $grupoInvestigacion->mision,
             $grupoInvestigacion->vision,
             $grupoInvestigacion->fecha_creacion_grupo,
@@ -71,6 +78,8 @@ class GruposInvestigacionExport implements FromCollection, WithHeadings, WithMap
             'Centro de formación',
             'Nombre del grupo de investigación',
             'Acrónimo',
+            'Dinamizador/a SENNOVA',
+            'Correo del Dinamizador/a SENNOVA',
             'Correo electrónico',
             'Enlace GrupLAC',
             'Codigo Minciencias',
@@ -113,9 +122,25 @@ class GruposInvestigacionExport implements FromCollection, WithHeadings, WithMap
 
     public function styles(Worksheet $sheet)
     {
-        return [
-            // Style the first row as bold text.
-            1    => ['font' => ['bold' => true]],
-        ];
+        $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => '000000'],
+            ],
+            'fill' => [
+                'fillType'   => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => 'edfdf3'],
+            ],
+
+        ]);
+
+        $sheet->getStyle('A1:Z' . ($sheet->getHighestRow()))->applyFromArray([
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                    'color' => ['rgb' => '000000'],
+                ],
+            ],
+        ]);
     }
 }

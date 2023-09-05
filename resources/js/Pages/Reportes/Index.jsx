@@ -1,4 +1,5 @@
 import Checkbox from '@/Components/Checkbox'
+import FileTypeIcon from '@/Components/FileTypeIcon'
 import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
 import SelectMultiple from '@/Components/SelectMultiple'
@@ -6,7 +7,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import { route, checkRole } from '@/Utils'
 
-import { useForm } from '@inertiajs/react'
+import { Link, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import axios from 'axios'
 import { useState } from 'react'
@@ -57,9 +58,9 @@ export default function Reportes({ auth, centros_formacion }) {
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}>
-            <Grid container columnSpacing={2} rowSpacing={5}>
-                <Grid item md={12}>
-                    <div className="flex items-center justify-between rounded-xl p-8 text-green-800 bg-green-100/50">
+            <Grid container rowSpacing={8}>
+                <Grid item md={12} className="bg-green-100/50 rounded-xl">
+                    <div className="flex items-center justify-between  p-8 text-green-800">
                         <div className="max-w-2xl">
                             <h1 className="text-2xl font-bold">Reportes</h1>
                         </div>
@@ -72,8 +73,8 @@ export default function Reportes({ auth, centros_formacion }) {
                 </Grid>
 
                 {checkRole(auth_user, [1, 2, 3, 4, 5, 17, 18, 19, 21]) && (
-                    <Grid item md={12}>
-                        <form onSubmit={submit} className="bg-white overflow-hidden rounded-lg px-6 py-2 shadow-md">
+                    <Grid item md={12} className="bg-white overflow-hidden !my-10 rounded-lg px-6 py-2 shadow-md">
+                        <form onSubmit={submit}>
                             <Grid container className="mt-10">
                                 <Grid item md={4}>
                                     <h1>Censo SENNOVA</h1>
@@ -120,6 +121,20 @@ export default function Reportes({ auth, centros_formacion }) {
                         </form>
                     </Grid>
                 )}
+
+                <Grid item md={12} className="bg-white overflow-hidden !my-10 rounded-lg px-6 pb-12 shadow-md">
+                    <Grid container alignItems="center">
+                        <Grid item md={4}>
+                            <h1>Directorio: Grupos de investigación</h1>
+                        </Grid>
+                        <Grid item md={8}>
+                            <a target="_blank" href={route('reportes.grupos-investigacion')} className="flex items-center underline">
+                                <FileTypeIcon fileType="xlsx" className="w-6 mr-4" />
+                                Descargar reporte
+                            </a>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </Grid>
         </AuthenticatedLayout>
     )

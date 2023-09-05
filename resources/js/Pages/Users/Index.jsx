@@ -10,7 +10,7 @@ import TabsMui from '@/Components/TabsMui'
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
+import { Chip, Divider, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
 import { router } from '@inertiajs/react'
@@ -103,12 +103,15 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, subdirectores_centro, al
                                                 </MenuItem>
 
                                                 {is_super_admin && (
-                                                    <MenuItem
-                                                        onClick={() => {
-                                                            setUserToDestroy(usuario.id)
-                                                        }}>
-                                                        Eliminar
-                                                    </MenuItem>
+                                                    <>
+                                                        <Divider />
+                                                        <MenuItem
+                                                            onClick={() => {
+                                                                setUserToDestroy(usuario.id)
+                                                            }}>
+                                                            Eliminar
+                                                        </MenuItem>
+                                                    </>
                                                 )}
                                             </div>
                                         ) : (

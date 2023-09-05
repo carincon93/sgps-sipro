@@ -7,6 +7,7 @@ use App\Exports\ComentariosEvaluacionesExport;
 use App\Exports\PresupuestoRolesSennovaExport;
 use App\Exports\EvaluacionesExport;
 use App\Exports\EvaluacionesProyectosPresupuestoExport;
+use App\Exports\GruposInvestigacionExport;
 use App\Exports\InfoGruposLineasSemillerosExport;
 use App\Exports\InfoProyectosCapacidadInstaladaExport;
 use App\Exports\InfoProyectosExport;
@@ -61,6 +62,22 @@ class ReporteController extends Controller
     }
 
     /**
+     * gruposInvestigacion
+     *
+     * @param  mixed
+     * @return void
+     */
+    public function gruposInvestigacion(Request $request)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', -1);
+
+        $this->authorize('descargar-reportes', [User::class]);
+
+        return Excel::download(new GruposInvestigacionExport(), 'directorio-grupos-de-investigación-' . time() . '.xlsx');
+    }
+
+    /**
      * resumenProyectos
      *
      * @param  mixed $convocatoria
@@ -78,7 +95,7 @@ class ReporteController extends Controller
      *
      * @return void
      */
-    public function EvaluacionesExcel(Convocatoria $convocatoria)
+    public function evaluacionesExcel(Convocatoria $convocatoria)
     {
         $this->authorize('descargar-reportes', [User::class]);
 

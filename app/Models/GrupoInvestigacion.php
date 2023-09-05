@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class GrupoInvestigacion extends Model
 {
@@ -24,7 +25,7 @@ class GrupoInvestigacion extends Model
      *
      * @var array
      */
-    protected $appends = ['filename', 'extension', 'nombre_carpeta_sharepoint', 'ruta_final_sharepoint', 'allowed'];
+    protected $appends = ['filename', 'extension', 'nombre_carpeta_sharepoint', 'ruta_final_sharepoint', 'categoria_minciencias_text',  'allowed'];
 
     /**
      * The attributes that are mass assignable.
@@ -203,5 +204,27 @@ class GrupoInvestigacion extends Model
         $array_file_info = collect(['formato_gic_f_020_extension' => $formato_gic_f_020_file_info['extension'] ?? '', 'formato_gic_f_032_extension' => $formato_gic_f_032_file_info['extension'] ?? '']);
 
         return $array_file_info ?? '';
+    }
+
+    public function getCategoriaMincienciasTextAttribute()
+    {
+        $file_path  = 'json/categorias-minciencias.json';
+        $id         = $this->categoria_minciencias;
+        $key        = 'label';
+
+        return $this->categoria_minciencias ? $this->getJsonItem($file_path, $id, $key) : null;
+    }
+
+    private function getJsonItem($file_path, $id, $key)
+    {
+        $data   = json_decode(Storage::get($file_path), true);
+
+        $where = function ($item) use ($id) {
+            return $item['value'] == $id;
+        };
+
+        $filtered_data = array_filter($data, $where);
+
+        return $filtered_data ? reset($filtered_data)[$key] : null;
     }
 }

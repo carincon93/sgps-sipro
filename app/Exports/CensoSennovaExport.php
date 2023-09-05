@@ -124,8 +124,6 @@ class CensoSennovaExport implements FromCollection, WithHeadings, WithMapping, W
         ];
     }
 
-// participacionesProyectoSennova
-
     public function headings(): array
     {
         return [
