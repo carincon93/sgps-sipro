@@ -168,12 +168,6 @@ const Form = ({
         }
     }
 
-    const centros_formacion_filtrados = checkRole(auth_user, [3, 4])
-        ? [centros_formacion.find((item) => item.value == auth_user.centro_formacion_id)]
-        : checkRole(auth_user, [2])
-        ? [centros_formacion.filter((item) => item.regional_id == auth_user.regional_id)][0]
-        : centros_formacion
-
     return (
         <form onSubmit={submit}>
             <Grid container rowSpacing={20}>
@@ -262,7 +256,7 @@ const Form = ({
                             selectedValue={form.data.centro_formacion_id}
                             onChange={(event, newValue) => form.setData('centro_formacion_id', newValue.value)}
                             options={
-                                centros_formacion_filtrados ?? [
+                                centros_formacion ?? [
                                     {
                                         value: proyecto_formulario_1_linea_65?.proyecto.centro_formacion.id,
                                         label: proyecto_formulario_1_linea_65?.proyecto.centro_formacion.nombre,

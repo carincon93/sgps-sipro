@@ -24,9 +24,8 @@ class ProgramaFormacionRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'centro_formacion_id'   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
             'nombre'                => ['required', 'max:191'],
-            'codigo'                => ['required', 'min:0', 'max:2147483647', 'integer'],
+            'codigo'                => ['nullable', 'min:0', 'max:2147483647', 'integer'],
             'modalidad'             => ['required', 'integer', 'min:0', 'max:10'],
             'nivel_formacion'       => ['required', 'integer', 'min:0', 'max:10'],
             'registro_calificado'   => ['nullable', 'boolean'],
