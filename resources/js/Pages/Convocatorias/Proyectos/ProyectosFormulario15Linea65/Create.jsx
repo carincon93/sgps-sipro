@@ -20,6 +20,7 @@ const Create = ({
     areas_cualificacion_mnc,
     ejes_sennova,
     roles_sennova,
+    allowed_to_create,
     ...props
 }) => {
     const auth_user = auth.user
@@ -43,6 +44,7 @@ const Create = ({
                 ejes_sennova={ejes_sennova}
                 areas_cualificacion_mnc={areas_cualificacion_mnc}
                 roles_sennova={roles_sennova}
+                allowed_to_create={allowed_to_create}
             />
         </AuthenticatedLayout>
     )

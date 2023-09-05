@@ -12,7 +12,7 @@ import { router, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useEffect } from 'react'
 
-const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_linea_69, hubs_innovacion, roles_sennova, evaluacion, ...props }) => {
+const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_linea_69, hubs_innovacion, roles_sennova, evaluacion, allowed_to_create, ...props }) => {
     const form = useForm({
         centro_formacion_id: proyecto_formulario_10_linea_69?.proyecto.centro_formacion_id ?? '',
         fecha_inicio: proyecto_formulario_10_linea_69?.fecha_inicio ?? '',
@@ -113,7 +113,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_lin
                                 selectedValue={form.data.hub_innovacion_id}
                                 onChange={(event, newValue) => form.setData('hub_innovacion_id', newValue.value)}
                                 error={form.errors.hub_innovacion_id}
-                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
+                                disabled={!(proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 required
                                 onBlur={() => syncColumnLong('hub_innovacion_id', form)}
                             />
@@ -147,7 +147,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_lin
                 )}
 
                 <Grid item md={6}>
-                    <Label required labelFor="fecha_inicio" error={form.errors.fecha_inicio} value="Fecha de inicio" />
+                    <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
                 </Grid>
                 <Grid item md={6}>
                     <DatePicker
@@ -160,11 +160,12 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_lin
                         error={form.errors.fecha_inicio}
                         className="p-4 w-full"
                         onChange={(e) => (form.setData('fecha_inicio', e.target.value), syncColumnLong('fecha_inicio', form, e.target.value))}
+                        disabled={!(proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
                         required
                     />
                 </Grid>
                 <Grid item md={6}>
-                    <Label required labelFor="fecha_finalizacion" error={form.errors.fecha_finalizacion} value="Fecha de finalización" />
+                    <Label required labelFor="fecha_finalizacion" value="Fecha de finalización" />
                 </Grid>
                 <Grid item md={6}>
                     <DatePicker
@@ -177,6 +178,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_lin
                         error={form.errors.fecha_finalizacion}
                         className="p-4 w-full"
                         onChange={(e) => (form.setData('fecha_finalizacion', e.target.value), syncColumnLong('fecha_finalizacion', form, e.target.value))}
+                        disabled={!(proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
                         required
                     />
                 </Grid>
@@ -195,6 +197,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_lin
                                 id="rol_sennova"
                                 selectedValue={form.data.rol_sennova}
                                 onChange={(event, newValue) => form.setData('rol_sennova', newValue.value)}
+                                disabled={!(proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 options={roles_sennova}
                                 placeholder="Seleccione un rol SENNOVA"
                                 required
@@ -217,6 +220,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_lin
                                         }}
                                         value={form.data.cantidad_meses}
                                         onChange={(e) => form.setData('cantidad_meses', e.target.value)}
+                                        disabled={!(proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
                                         placeholder="Número de meses de vinculación"
                                         required
                                     />
@@ -243,6 +247,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_lin
                                 }}
                                 value={form.data.cantidad_horas}
                                 onChange={(e) => form.setData('cantidad_horas', e.target.value)}
+                                disabled={!(proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 placeholder="Número de horas semanales dedicadas"
                                 required
                             />

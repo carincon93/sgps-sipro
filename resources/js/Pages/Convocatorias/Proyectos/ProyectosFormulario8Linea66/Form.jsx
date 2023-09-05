@@ -44,6 +44,7 @@ const Form = ({
     areas_cualificacion_mnc,
     lineas_estrategicas,
     roles_sennova,
+    allowed_to_create,
     ...props
 }) => {
     const [array_lineas_tecnoacademia, setArrayLineasTecnoacademia] = useState([])
@@ -183,7 +184,7 @@ const Form = ({
 
     return (
         <form onSubmit={submit}>
-            <fieldset disabled={true}>
+            <fieldset>
                 <Grid container rowSpacing={20}>
                     <Grid item md={12}>
                         <div className="flex justify-around items-center bg-indigo-50 shadow rounded p-10">
@@ -217,12 +218,12 @@ const Form = ({
                             onChange={(e) => form.setData('titulo', e.target.value)}
                             required
                             onBlur={() => syncColumnLong('titulo', form)}
-                            disabled={!proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update}
+                            disabled={!(proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update || allowed_to_create)}
                         />
                     </Grid>
 
                     <Grid item md={6}>
-                        <Label required labelFor="fecha_inicio" error={form.errors.fecha_inicio} value="Fecha de inicio" />
+                        <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
                     </Grid>
                     <Grid item md={6}>
                         <DatePicker
@@ -235,13 +236,13 @@ const Form = ({
                             error={form.errors.fecha_inicio}
                             className="p-4 w-full"
                             onChange={(e) => (form.setData('fecha_inicio', e.target.value), syncColumnLong('fecha_inicio', form, e.target.value))}
-                            disabled={!proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update}
+                            disabled={!(proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update || allowed_to_create)}
                             required
                         />
                     </Grid>
 
                     <Grid item md={6}>
-                        <Label required labelFor="fecha_finalizacion" error={form.errors.fecha_finalizacion} value="Fecha de finalización" />
+                        <Label required labelFor="fecha_finalizacion" value="Fecha de finalización" />
                     </Grid>
                     <Grid item md={6}>
                         <DatePicker
@@ -254,7 +255,7 @@ const Form = ({
                             error={form.errors.fecha_finalizacion}
                             className="p-4 w-full"
                             onChange={(e) => (form.setData('fecha_finalizacion', e.target.value), syncColumnLong('fecha_finalizacion', form, e.target.value))}
-                            disabled={!proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update}
+                            disabled={!(proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update || allowed_to_create)}
                             required
                         />
                     </Grid>
@@ -276,7 +277,7 @@ const Form = ({
                                     ]
                                 }
                                 error={form.errors.centro_formacion_id}
-                                disabled={!proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update}
+                                disabled={!(proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 onBlur={() => syncColumnLong('centro_formacion_id', form)}
                                 required
                             />
@@ -297,7 +298,7 @@ const Form = ({
                                     onChange={(event, newValue) => form.setData('linea_investigacion_id', newValue.value)}
                                     options={array_lineas_investigacion}
                                     error={form.errors.linea_investigacion_id}
-                                    disabled={!proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update}
+                                    disabled={!(proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update || allowed_to_create)}
                                     onBlur={() => syncColumnLong('linea_investigacion_id', form)}
                                     required
                                 />
@@ -323,7 +324,7 @@ const Form = ({
                             error={form.errors.areas_cualificacion_mnc}
                             label="Seleccione una o varias opciones"
                             required
-                            disabled={!proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update}
+                            disabled={!(proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update || allowed_to_create)}
                             onBlur={() => syncColumnLong('areas_cualificacion_mnc', form)}
                         />
                     </Grid>
@@ -338,7 +339,7 @@ const Form = ({
                             onChange={(event, newValue) => form.setData('red_conocimiento_id', newValue.value)}
                             options={redes_conocimiento}
                             error={form.errors.red_conocimiento_id}
-                            disabled={!proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update}
+                            disabled={!(proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update || allowed_to_create)}
                             onBlur={() => syncColumnLong('red_conocimiento_id', form)}
                             required
                         />
@@ -354,7 +355,7 @@ const Form = ({
                             onChange={(event, newValue) => form.setData('disciplina_subarea_conocimiento_id', newValue.value)}
                             options={disciplinas_subarea_conocimiento}
                             error={form.errors.disciplina_subarea_conocimiento_id}
-                            disabled={!proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update}
+                            disabled={!(proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update || allowed_to_create)}
                             onBlur={() => syncColumnLong('disciplina_subarea_conocimiento_id', form)}
                             required
                         />
@@ -370,7 +371,7 @@ const Form = ({
                             onChange={(event, newValue) => form.setData('actividad_economica_id', newValue.value)}
                             options={actividades_economicas}
                             error={form.errors.actividad_economica_id}
-                            disabled={!proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update}
+                            disabled={!(proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update || allowed_to_create)}
                             onBlur={() => syncColumnLong('actividad_economica_id', form)}
                             required
                         />
@@ -386,7 +387,7 @@ const Form = ({
                             onChange={(event, newValue) => form.setData('tematica_estrategica_id', newValue.value)}
                             options={tematicas_estrategicas}
                             error={form.errors.tematica_estrategica_id}
-                            disabled={!proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update}
+                            disabled={!(proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update || allowed_to_create)}
                             onBlur={() => syncColumnLong('tematica_estrategica_id', form)}
                             required
                         />
@@ -408,7 +409,7 @@ const Form = ({
                                     onChange={(event, newValue) => form.setData('rol_sennova', newValue.value)}
                                     options={roles_sennova}
                                     label="Seleccione un rol SENNOVA"
-                                    disabled={!proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update}
+                                    disabled={!(proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update || allowed_to_create)}
                                     required
                                 />
                             </Grid>
@@ -430,7 +431,7 @@ const Form = ({
                                             value={form.data.cantidad_meses}
                                             onChange={(e) => form.setData('cantidad_meses', e.target.value)}
                                             placeholder="Número de meses de vinculación"
-                                            disabled={!proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update}
+                                            disabled={!(proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update || allowed_to_create)}
                                             required
                                         />
                                         {monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion) && (
@@ -457,7 +458,7 @@ const Form = ({
                                     value={form.data.cantidad_horas}
                                     onChange={(e) => form.setData('cantidad_horas', e.target.value)}
                                     placeholder="Número de horas semanales dedicadas"
-                                    disabled={!proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update}
+                                    disabled={!(proyecto_formulario_8_linea_66?.proyecto?.allowed?.to_update || allowed_to_create)}
                                     required
                                 />
                             </Grid>

@@ -259,7 +259,12 @@ class ProyectoFormulario4Linea70 extends Model
                         $query->where('centros_formacion.regional_id', $auth_user->centroFormacion->regional->id);
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
                     } else if ($auth_user->hasRole([3, 4, 21, 22, 27]) && !$auth_user->hasRole([1])) {
+                        $query->join('proyectos', 'proyectos_formulario_4_linea_70.id', 'proyectos.id');
+                        $query->join('proyecto_participantes', 'proyectos.id', 'proyecto_participantes.proyecto_id');
+
                         $query->where('centros_formacion.id', $auth_user->centro_formacion_id);
+                        $query->where('proyectos.convocatoria_id', $convocatoria->id);
+                        $query->orWhere('proyecto_participantes.user_id', $auth_user->id);
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
                     } else if ($auth_user->hasRole([1, 5, 23])) {
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);

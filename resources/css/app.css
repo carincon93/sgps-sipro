@@ -223,6 +223,6 @@ tags.tagify.tagify--focus {
 .MuiAutocomplete-root .MuiInputBase-input {
     text-transform: uppercase;
 }
-.MuiAlert-standardInfo svg {
+.MuiAlert-standardSuccess.MuiAlert-standardInfo svg {
     display: none;
 }

@@ -33,6 +33,7 @@ const Form = ({
     roles_sennova,
     evaluacion,
     campos_convocatoria,
+    allowed_to_create,
     ...props
 }) => {
     const form = useForm({
@@ -147,13 +148,13 @@ const Form = ({
                         value={form.data.titulo}
                         onChange={(e) => form.setData('titulo', e.target.value)}
                         required
-                        disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
+                        disabled={!(proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update || allowed_to_create)}
                         onBlur={() => syncColumnLong('titulo', form)}
                     />
                 </Grid>
 
                 <Grid item md={6}>
-                    <Label required labelFor="fecha_inicio" error={form.errors.fecha_inicio} value="Fecha de inicio" />
+                    <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
                 </Grid>
                 <Grid item md={6}>
                     <DatePicker
@@ -166,11 +167,12 @@ const Form = ({
                         error={form.errors.fecha_inicio}
                         className="p-4 w-full"
                         onChange={(e) => (form.setData('fecha_inicio', e.target.value), syncColumnLong('fecha_inicio', form, e.target.value))}
+                        disabled={!(proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update || allowed_to_create)}
                         required
                     />
                 </Grid>
                 <Grid item md={6}>
-                    <Label required labelFor="fecha_finalizacion" error={form.errors.fecha_finalizacion} value="Fecha de finalización" />
+                    <Label required labelFor="fecha_finalizacion" value="Fecha de finalización" />
                 </Grid>
                 <Grid item md={6}>
                     <DatePicker
@@ -183,6 +185,7 @@ const Form = ({
                         error={form.errors.fecha_finalizacion}
                         className="p-4 w-full"
                         onChange={(e) => (form.setData('fecha_finalizacion', e.target.value), syncColumnLong('fecha_finalizacion', form, e.target.value))}
+                        disabled={!(proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update || allowed_to_create)}
                         required
                     />
                 </Grid>
@@ -199,7 +202,7 @@ const Form = ({
                             onChange={(event, newValue) => form.setData('tipo_proyecto_linea_68_id', newValue.value)}
                             error={form.errors.tipo_proyecto_linea_68_id}
                             required
-                            disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
+                            disabled={!(proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update || allowed_to_create)}
                         />
                     ) : (
                         <>{proyecto_formulario_12_linea_68.proyecto.centro_formacion.nombre}</>
@@ -218,7 +221,7 @@ const Form = ({
                         value={form.data.nombre_area_tecnica}
                         onChange={(e) => form.setData('nombre_area_tecnica', e.target.value)}
                         required
-                        disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
+                        disabled={!(proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update || allowed_to_create)}
                         onBlur={() => syncColumnLong('nombre_area_tecnica', form)}
                     />
                 </Grid>
@@ -236,7 +239,7 @@ const Form = ({
                                 onChange={(event, newValue) => form.setData('estado_sistema_gestion_id', newValue.value)}
                                 error={form.errors.estado_sistema_gestion_id}
                                 required
-                                disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
+                                disabled={!(proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 onBlur={() => syncColumnLong('estado_sistema_gestion_id', form)}
                             />
                         </Grid>
@@ -254,7 +257,7 @@ const Form = ({
                         onChange={(event, newValue) => form.setData('sector_productivo', newValue.value)}
                         error={form.errors.sector_productivo}
                         required
-                        disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
+                        disabled={!(proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update || allowed_to_create)}
                         onBlur={() => syncColumnLong('sector_productivo', form)}
                     />
                 </Grid>
@@ -273,6 +276,7 @@ const Form = ({
                                 id="rol_sennova"
                                 selectedValue={form.data.rol_sennova}
                                 onChange={(event, newValue) => form.setData('rol_sennova', newValue.value)}
+                                disabled={!(proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 options={roles_sennova}
                                 placeholder="Seleccione un rol SENNOVA"
                                 required
@@ -295,6 +299,7 @@ const Form = ({
                                         }}
                                         value={form.data.cantidad_meses}
                                         onChange={(e) => form.setData('cantidad_meses', e.target.value)}
+                                        disabled={!(proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update || allowed_to_create)}
                                         placeholder="Número de meses de vinculación"
                                         required
                                     />
@@ -321,6 +326,7 @@ const Form = ({
                                 }}
                                 value={form.data.cantidad_horas}
                                 onChange={(e) => form.setData('cantidad_horas', e.target.value)}
+                                disabled={!(proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 placeholder="Número de horas semanales dedicadas"
                                 required
                             />
@@ -524,6 +530,7 @@ const Form = ({
                             <SwitchMui
                                 checked={form.data.infraestructura_adecuada}
                                 onChange={(e) => form.setData('infraestructura_adecuada', e.target.checked)}
+                                disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('infraestructura_adecuada', form)}
                             />
                         </Grid>
@@ -542,6 +549,7 @@ const Form = ({
                                     error={form.errors.especificaciones_area}
                                     value={form.data.especificaciones_area}
                                     onChange={(e) => form.setData('especificaciones_area', e.target.value)}
+                                    disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
                                     onBlur={() => syncColumnLong('especificaciones_area', form)}
                                     required
                                 />
@@ -563,6 +571,7 @@ const Form = ({
                                 value={form.data.video}
                                 error={form.errors.video}
                                 onChange={(e) => form.setData('video', e.target.value)}
+                                disabled={!proyecto_formulario_12_linea_68?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('video', form)}
                                 required
                             />

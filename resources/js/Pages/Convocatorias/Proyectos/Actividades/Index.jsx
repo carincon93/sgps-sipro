@@ -250,7 +250,7 @@ const Actividades = ({
             ) : null} */}
 
             <Grid item md={12}>
-                <AlertMui severity="success" className="my-20 MuiAlert-standardInfo">
+                <AlertMui severity="success" className="my-20 MuiAlert-standardInfo MuiAlert-standardSuccess">
                     <h1 className="text-3xl mt-10 text-center">¿Cómo diligenciar la metodología y las actividades?</h1>
 
                     <div className="my-10">

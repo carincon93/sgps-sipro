@@ -18,6 +18,7 @@ const Create = ({
     grupos_investigacion,
     areas_cualificacion_mnc,
     roles_sennova,
+    allowed_to_create,
 }) => {
     const [auth_user, setAuthUser] = useState(auth.user)
 
@@ -36,6 +37,7 @@ const Create = ({
                 grupos_investigacion={grupos_investigacion}
                 areas_cualificacion_mnc={areas_cualificacion_mnc}
                 roles_sennova={roles_sennova}
+                allowed_to_create={allowed_to_create}
             />
         </AuthenticatedLayout>
     )

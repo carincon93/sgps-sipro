@@ -209,7 +209,7 @@ class SelectHelper
      */
     public static function programasFormacion()
     {
-        return ProgramaFormacion::selectRaw('programas_formacion.id as value, CONCAT(programas_formacion.nombre) as label, programas_formacion.registro_calificado, programas_formacion.centro_formacion_id')->orderBy('programas_formacion.nombre', 'ASC')->get();
+        return ProgramaFormacion::selectRaw('programas_formacion.id as value, CONCAT(programas_formacion.nombre) as label, programas_formacion.registro_calificado')->orderBy('programas_formacion.nombre', 'ASC')->get();
     }
 
     /**

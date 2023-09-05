@@ -166,13 +166,7 @@ class ProgramaFormacion extends Model
         //         $centroFormacionId = $user->centroFormacion->id;
         //     }
 
-            // $programas_formacion = ProgramaFormacion::select('programas_formacion.id', 'programas_formacion.nombre', 'programas_formacion.codigo', 'programas_formacion.centro_formacion_id')->with('centroFormacion')
-            //     ->whereHas(
-            //         'centroFormacion',
-            //         function ($query) use ($centroFormacionId) {
-            //             $query->where('id', $centroFormacionId);
-            //         }
-            //     )
+            // $programas_formacion = ProgramaFormacion::select('programas_formacion.id', 'programas_formacion.nombre', 'programas_formacion.codigo')
             //     ->filterProgramaFormacion(request()->only('search'))->paginate();
         // }
 

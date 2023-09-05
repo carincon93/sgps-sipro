@@ -12,7 +12,7 @@ import { router, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useEffect } from 'react'
 
-const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_linea_83, centros_formacion, roles_sennova, evaluacion, ...props }) => {
+const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_linea_83, centros_formacion, roles_sennova, evaluacion, allowed_to_create, ...props }) => {
     const form = useForm({
         centro_formacion_id: proyecto_formulario_11_linea_83?.proyecto.centro_formacion_id ?? '',
         fecha_inicio: proyecto_formulario_11_linea_83?.fecha_inicio ?? '',
@@ -109,7 +109,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                         className={`bg-transparent block border-0 mt-1 outline-none text-4xl text-center w-full`}
                         value={form.data.titulo}
                         onChange={(e) => form.setData('titulo', e.target.value)}
-                        disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
+                        disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                         required
                         onBlur={() => syncColumnLong('titulo', form)}
                     />
@@ -148,6 +148,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                                 id="centro_formacion_id"
                                 selectedValue={form.data.centro_formacion_id}
                                 onChange={(event, newValue) => form.setData('centro_formacion_id', newValue.value)}
+                                disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 options={
                                     centros_formacion ?? [
                                         { value: proyecto_formulario_11_linea_83.proyecto.centro_formacion.id, label: proyecto_formulario_11_linea_83.proyecto.centro_formacion.nombre },
@@ -162,7 +163,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                 )}
 
                 <Grid item md={6}>
-                    <Label required labelFor="fecha_inicio" error={form.errors.fecha_inicio} value="Fecha de inicio" />
+                    <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
                 </Grid>
                 <Grid item md={6}>
                     <DatePicker
@@ -175,11 +176,12 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                         error={form.errors.fecha_inicio}
                         className="p-4 w-full"
                         onChange={(e) => (form.setData('fecha_inicio', e.target.value), syncColumnLong('fecha_inicio', form, e.target.value))}
+                        disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                         required
                     />
                 </Grid>
                 <Grid item md={6}>
-                    <Label required labelFor="fecha_finalizacion" error={form.errors.fecha_finalizacion} value="Fecha de finalización" />
+                    <Label required labelFor="fecha_finalizacion" value="Fecha de finalización" />
                 </Grid>
                 <Grid item md={6}>
                     <DatePicker
@@ -192,6 +194,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                         error={form.errors.fecha_finalizacion}
                         className="p-4 w-full"
                         onChange={(e) => (form.setData('fecha_finalizacion', e.target.value), syncColumnLong('fecha_finalizacion', form, e.target.value))}
+                        disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                         required
                     />
                 </Grid>
@@ -210,6 +213,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                                 id="rol_sennova"
                                 selectedValue={form.data.rol_sennova}
                                 onChange={(event, newValue) => form.setData('rol_sennova', newValue.value)}
+                                disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 options={roles_sennova}
                                 required
                             />
@@ -231,6 +235,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                                         }}
                                         value={form.data.cantidad_meses}
                                         onChange={(e) => form.setData('cantidad_meses', e.target.value)}
+                                        disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                                         placeholder="Número de meses de vinculación"
                                         required
                                     />
@@ -257,6 +262,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                                 }}
                                 value={form.data.cantidad_horas}
                                 onChange={(e) => form.setData('cantidad_horas', e.target.value)}
+                                disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 placeholder="Número de horas semanales dedicadas"
                                 required
                             />
@@ -278,6 +284,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                                 error={form.errors.resumen}
                                 value={form.data.resumen}
                                 onChange={(e) => form.setData('resumen', e.target.value)}
+                                disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 onBlur={() => syncColumnLong('resumen', form)}
                                 required
                             />
@@ -295,23 +302,20 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                                 error={form.errors.antecedentes}
                                 value={form.data.antecedentes}
                                 onChange={(e) => form.setData('antecedentes', e.target.value)}
+                                disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 onBlur={() => syncColumnLong('antecedentes', form)}
                                 required
                             />
                         </Grid>
                         <Grid item md={12}>
-                            <Label
-                                required
-                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
-                                labelFor="retos_prioridades"
-                                value="Descripción de retos y prioridades locales y regionales en los cuales ET tiene impacto"
-                            />
+                            <Label required labelFor="retos_prioridades" value="Descripción de retos y prioridades locales y regionales en los cuales ET tiene impacto" />
 
                             <Textarea
                                 id="retos_prioridades"
                                 error={form.errors.retos_prioridades}
                                 value={form.data.retos_prioridades}
                                 onChange={(e) => form.setData('retos_prioridades', e.target.value)}
+                                disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 onBlur={() => syncColumnLong('retos_prioridades', form)}
                                 required
                             />
@@ -319,7 +323,6 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
                                 labelFor="contribucion_agenda_regional_competitividad"
                                 value="Articulación y contribución de las acciones planteadas por ET en las  Agendas de la Comisión Regional de Competitividad de los Departamentoss impactados"
                             />
@@ -329,23 +332,20 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                                 error={form.errors.contribucion_agenda_regional_competitividad}
                                 value={form.data.contribucion_agenda_regional_competitividad}
                                 onChange={(e) => form.setData('contribucion_agenda_regional_competitividad', e.target.value)}
+                                disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 onBlur={() => syncColumnLong('contribucion_agenda_regional_competitividad', form)}
                                 required
                             />
                         </Grid>
                         <Grid item md={12}>
-                            <Label
-                                required
-                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
-                                labelFor="aportes_conpes"
-                                value="Aportes de ET a los Conpes en los cuales tiene compromisos y acciones a desarrollar"
-                            />
+                            <Label required labelFor="aportes_conpes" value="Aportes de ET a los Conpes en los cuales tiene compromisos y acciones a desarrollar" />
 
                             <Textarea
                                 id="aportes_conpes"
                                 error={form.errors.aportes_conpes}
                                 value={form.data.aportes_conpes}
                                 onChange={(e) => form.setData('aportes_conpes', e.target.value)}
+                                disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 onBlur={() => syncColumnLong('aportes_conpes', form)}
                                 required
                             />
@@ -353,7 +353,6 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
                                 labelFor="estado_actual_ecosistema_ctel"
                                 value="Describir el estado actual del Ecosistema Territorial de CTeI en el Departamento y las oportunidades que se ofrecen desde ET  para su fortalecimiento."
                             />
@@ -363,40 +362,33 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                                 error={form.errors.estado_actual_ecosistema_ctel}
                                 value={form.data.estado_actual_ecosistema_ctel}
                                 onChange={(e) => form.setData('estado_actual_ecosistema_ctel', e.target.value)}
+                                disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 onBlur={() => syncColumnLong('estado_actual_ecosistema_ctel', form)}
                                 required
                             />
                         </Grid>
                         <Grid item md={12}>
-                            <Label
-                                required
-                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
-                                labelFor="logros_implementacion_ctel"
-                                value={`Describa los principales logros de la implementación de la línea ET en el ${convocatoria.year - 1}`}
-                            />
+                            <Label required labelFor="logros_implementacion_ctel" value={`Describa los principales logros de la implementación de la línea ET en el ${convocatoria.year - 1}`} />
 
                             <Textarea
                                 id="logros_implementacion_ctel"
                                 error={form.errors.logros_implementacion_ctel}
                                 value={form.data.logros_implementacion_ctel}
                                 onChange={(e) => form.setData('logros_implementacion_ctel', e.target.value)}
+                                disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 onBlur={() => syncColumnLong('logros_implementacion_ctel', form)}
                                 required
                             />
                         </Grid>
                         <Grid item md={12}>
-                            <Label
-                                required
-                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
-                                labelFor="justificacion_pertinencia_territorio"
-                                value="Justificación y pertinencia en el territorio y en el sistema de productividad regional"
-                            />
+                            <Label required labelFor="justificacion_pertinencia_territorio" value="Justificación y pertinencia en el territorio y en el sistema de productividad regional" />
 
                             <Textarea
                                 id="justificacion_pertinencia_territorio"
                                 error={form.errors.justificacion_pertinencia_territorio}
                                 value={form.data.justificacion_pertinencia_territorio}
                                 onChange={(e) => form.setData('justificacion_pertinencia_territorio', e.target.value)}
+                                disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 onBlur={() => syncColumnLong('justificacion_pertinencia_territorio', form)}
                                 required
                             />
@@ -409,6 +401,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                                 error={form.errors.marco_conceptual}
                                 value={form.data.marco_conceptual}
                                 onChange={(e) => form.setData('marco_conceptual', e.target.value)}
+                                disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 onBlur={() => syncColumnLong('marco_conceptual', form)}
                                 required
                             />
@@ -419,7 +412,6 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
                                 labelFor="aporta_fortalecimiento_cadenas_agricolas"
                                 value="¿El proyecto aporta al fortaleciminto de  Proyectos de I + D + i tendientes a aumentar la producción en cadenas agrícolas priorizadas para el Derecho Humano a la Alimentación?"
                             />
@@ -429,6 +421,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                                 error={form.errors.aporta_fortalecimiento_cadenas_agricolas}
                                 value={form.data.aporta_fortalecimiento_cadenas_agricolas}
                                 onChange={(e) => form.setData('aporta_fortalecimiento_cadenas_agricolas', e.target.value)}
+                                disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 onBlur={() => syncColumnLong('aporta_fortalecimiento_cadenas_agricolas', form)}
                                 required
                             />
@@ -436,7 +429,6 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
                                 labelFor="estrategias_generacion_electrica"
                                 value="Plantee como las estrategias de la Línea de Extensionismo Tecnológico contribuyen al fortalecimiento de Proyectos de I + D + i tendientes generación eléctrica a partir de fuentes no convencionales de energía renovable."
                             />
@@ -446,6 +438,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                                 error={form.errors.estrategias_generacion_electrica}
                                 value={form.data.estrategias_generacion_electrica}
                                 onChange={(e) => form.setData('estrategias_generacion_electrica', e.target.value)}
+                                disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 onBlur={() => syncColumnLong('estrategias_generacion_electrica', form)}
                                 required
                             />
@@ -453,7 +446,6 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
                                 labelFor="estrategias_fortalecimiento_micronegocios"
                                 value="Plantee como las estrategias de la Línea de Extensionismo Tecnológico contribuyen al fortalecimiento de Proyectos tendientes a aumentar los ingresos de los micronegocios de la economía popular"
                             />
@@ -463,6 +455,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                                 error={form.errors.estrategias_fortalecimiento_micronegocios}
                                 value={form.data.estrategias_fortalecimiento_micronegocios}
                                 onChange={(e) => form.setData('estrategias_fortalecimiento_micronegocios', e.target.value)}
+                                disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 onBlur={() => syncColumnLong('estrategias_fortalecimiento_micronegocios', form)}
                                 required
                             />
@@ -470,7 +463,6 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
                                 labelFor="estrategias_articulacion_campesinos"
                                 value="Plantee como las estrategias de la Línea de Extensionismo Tecnológico contribuyen al fortalecimiento de Proyectos de I + D + i tendientes a generar y articular mecanismos de atención diferencial, integral e incluyente, para los campesinos, de acuerdo con sus particularidades sociales, culturales, económicas y territoriales, que faciliten el acceso a los programas de formación y demás servicios de la Entidad."
                             />
@@ -480,6 +472,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                                 error={form.errors.estrategias_articulacion_campesinos}
                                 value={form.data.estrategias_articulacion_campesinos}
                                 onChange={(e) => form.setData('estrategias_articulacion_campesinos', e.target.value)}
+                                disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 onBlur={() => syncColumnLong('estrategias_articulacion_campesinos', form)}
                                 required
                             />
@@ -497,7 +490,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                                 onChange={(e) => form.setData('bibliografia', e.target.value)}
                                 required
                                 onBlur={() => syncColumnLong('bibliografia', form)}
-                                disabled={!proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update}
+                                disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
                             />
                         </Grid>
                     </>

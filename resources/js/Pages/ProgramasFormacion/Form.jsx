@@ -53,15 +53,7 @@ const Form = ({ method = '', setDialogStatus, programa_formacion, modalidades, n
                                 />
                             </Grid>
                             <Grid item md={12}>
-                                <TextInput
-                                    id="codigo"
-                                    type="number"
-                                    value={form.data.codigo}
-                                    error={form.errors.codigo}
-                                    label="Código"
-                                    onChange={(e) => form.setData('codigo', e.target.value)}
-                                    required
-                                />
+                                <TextInput id="codigo" type="number" value={form.data.codigo} error={form.errors.codigo} label="Código" onChange={(e) => form.setData('codigo', e.target.value)} />
                             </Grid>
                             <Grid item md={12}>
                                 <Autocomplete

@@ -12,7 +12,7 @@ import { router, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useEffect } from 'react'
 
-const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_linea_69, nodos_tecnoparque, lineas_programaticas, roles_sennova, evaluacion, ...props }) => {
+const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_linea_69, nodos_tecnoparque, lineas_programaticas, roles_sennova, evaluacion, allowed_to_create, ...props }) => {
     const form = useForm({
         _method: method,
         centro_formacion_id: proyecto_formulario_5_linea_69?.proyecto.centro_formacion_id ?? '',
@@ -108,8 +108,8 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                                     options={nodos_tecnoparque}
                                     selectedValue={form.data.nodo_tecnoparque_id}
                                     onChange={(event, newValue) => form.setData('nodo_tecnoparque_id', newValue.value)}
+                                    disabled={!(proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
                                     error={form.errors.nodo_tecnoparque_id}
-                                    disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
                                     required
                                     onBlur={() => syncColumnLong('nodo_tecnoparque_id', form)}
                                 />
@@ -146,7 +146,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                 )}
 
                 <Grid item md={6}>
-                    <Label required labelFor="fecha_inicio" error={form.errors.fecha_inicio} value="Fecha de inicio" />
+                    <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
                 </Grid>
                 <Grid item md={6}>
                     <DatePicker
@@ -159,11 +159,12 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                         error={form.errors.fecha_inicio}
                         className="p-4 w-full"
                         onChange={(e) => (form.setData('fecha_inicio', e.target.value), syncColumnLong('fecha_inicio', form, e.target.value))}
+                        disabled={!(proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
                         required
                     />
                 </Grid>
                 <Grid item md={6}>
-                    <Label required labelFor="fecha_finalizacion" error={form.errors.fecha_finalizacion} value="Fecha de finalización" />
+                    <Label required labelFor="fecha_finalizacion" value="Fecha de finalización" />
                 </Grid>
                 <Grid item md={6}>
                     <DatePicker
@@ -176,6 +177,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                         error={form.errors.fecha_finalizacion}
                         className="p-4 w-full"
                         onChange={(e) => (form.setData('fecha_finalizacion', e.target.value), syncColumnLong('fecha_finalizacion', form, e.target.value))}
+                        disabled={!(proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
                         required
                     />
                 </Grid>
@@ -195,6 +197,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                                 selectedValue={form.data.rol_sennova}
                                 error={form.errors.rol_sennova}
                                 onChange={(event, newValue) => form.setData('rol_sennova', newValue.value)}
+                                disabled={!(proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 options={roles_sennova}
                                 placeholder="Seleccione un rol SENNOVA"
                                 required
@@ -218,6 +221,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                                         value={form.data.cantidad_meses}
                                         error={form.errors.cantidad_meses}
                                         onChange={(e) => form.setData('cantidad_meses', e.target.value)}
+                                        disabled={!(proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
                                         placeholder="Número de meses de vinculación"
                                         required
                                     />
@@ -245,6 +249,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                                 value={form.data.cantidad_horas}
                                 error={form.errors.cantidad_horas}
                                 onChange={(e) => form.setData('cantidad_horas', e.target.value)}
+                                disabled={!(proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 placeholder="Número de horas semanales dedicadas"
                                 required
                             />
@@ -265,8 +270,8 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                                 error={form.errors.resumen}
                                 value={form.data.resumen}
                                 onChange={(e) => form.setData('resumen', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('resumen', form)}
                             />
                         </Grid>
@@ -278,8 +283,8 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                                 error={form.errors.resumen_regional}
                                 value={form.data.resumen_regional}
                                 onChange={(e) => form.setData('resumen_regional', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('resumen_regional', form)}
                             />
                         </Grid>
@@ -297,8 +302,8 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                                 error={form.errors.antecedentes}
                                 value={form.data.antecedentes}
                                 onChange={(e) => form.setData('antecedentes', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => {
                                     syncColumnLong('antecedentes', form)
                                 }}
@@ -312,8 +317,8 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                                 error={form.errors.antecedentes_regional}
                                 value={form.data.antecedentes_regional}
                                 onChange={(e) => form.setData('antecedentes_regional', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('antecedentes_regional', form)}
                             />
                         </Grid>
@@ -325,8 +330,8 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                                 error={form.errors.retos_oportunidades}
                                 value={form.data.retos_oportunidades}
                                 onChange={(e) => form.setData('retos_oportunidades', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('retos_oportunidades', form)}
                             />
                         </Grid>
@@ -338,8 +343,8 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                                 error={form.errors.articulacion_agenda_competitividad}
                                 value={form.data.articulacion_agenda_competitividad}
                                 onChange={(e) => form.setData('articulacion_agenda_competitividad', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('articulacion_agenda_competitividad', form)}
                             />
                         </Grid>
@@ -351,8 +356,8 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                                 error={form.errors.aportes_linea_ocho_conpes}
                                 value={form.data.aportes_linea_ocho_conpes}
                                 onChange={(e) => form.setData('aportes_linea_ocho_conpes', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('aportes_linea_ocho_conpes', form)}
                             />
                         </Grid>
@@ -364,8 +369,8 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                                 error={form.errors.estado_ecosistema_ctel}
                                 value={form.data.estado_ecosistema_ctel}
                                 onChange={(e) => form.setData('estado_ecosistema_ctel', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('estado_ecosistema_ctel', form)}
                             />
                         </Grid>
@@ -377,8 +382,8 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                                 error={form.errors.logros_vigencia_anterior}
                                 value={form.data.logros_vigencia_anterior}
                                 onChange={(e) => form.setData('logros_vigencia_anterior', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('logros_vigencia_anterior', form)}
                             />
                         </Grid>
@@ -390,8 +395,8 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                                 error={form.errors.pertinencia_territorio}
                                 value={form.data.pertinencia_territorio}
                                 onChange={(e) => form.setData('pertinencia_territorio', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('pertinencia_territorio', form)}
                             />
                         </Grid>
@@ -405,8 +410,8 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                                 error={form.errors.marco_conceptual}
                                 value={form.data.marco_conceptual}
                                 onChange={(e) => form.setData('marco_conceptual', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('marco_conceptual', form)}
                             />
                         </Grid>
@@ -422,8 +427,8 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_5_line
                                 error={form.errors.bibliografia}
                                 value={form.data.bibliografia}
                                 onChange={(e) => form.setData('bibliografia', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_5_linea_69?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('bibliografia', form)}
                             />
                         </Grid>

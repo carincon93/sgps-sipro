@@ -26,6 +26,7 @@ const Form = ({
     infraestructura_tecnoacademia,
     roles_sennova,
     evaluacion,
+    allowed_to_create,
     ...props
 }) => {
     const [array_lineas_tecnoacademia, setArrayLineasTecnoacademia] = useState([])
@@ -120,7 +121,7 @@ const Form = ({
                 </Grid>
 
                 <Grid item md={6}>
-                    <Label required labelFor="fecha_inicio" error={form.errors.fecha_inicio} value="Fecha de inicio" />
+                    <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
                 </Grid>
                 <Grid item md={6}>
                     <DatePicker
@@ -133,12 +134,13 @@ const Form = ({
                         error={form.errors.fecha_inicio}
                         className="p-4 w-full"
                         onChange={(e) => (form.setData('fecha_inicio', e.target.value), syncColumnLong('fecha_inicio', form, e.target.value))}
+                        disabled={!(proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update || allowed_to_create)}
                         required
                     />
                 </Grid>
 
                 <Grid item md={6}>
-                    <Label required labelFor="fecha_finalizacion" error={form.errors.fecha_finalizacion} value="Fecha de finalización" />
+                    <Label required labelFor="fecha_finalizacion" value="Fecha de finalización" />
                 </Grid>
                 <Grid item md={6}>
                     <DatePicker
@@ -151,6 +153,7 @@ const Form = ({
                         error={form.errors.fecha_finalizacion}
                         className="p-4 w-full"
                         onChange={(e) => (form.setData('fecha_finalizacion', e.target.value), syncColumnLong('fecha_finalizacion', form, e.target.value))}
+                        disabled={!(proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update || allowed_to_create)}
                         required
                     />
                 </Grid>
@@ -165,6 +168,7 @@ const Form = ({
                                 id="tecnoacademia_id"
                                 selectedValue={form.data.tecnoacademia_id}
                                 onChange={(event, newValue) => form.setData('tecnoacademia_id', newValue.value)}
+                                disabled={!(proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 options={tecnoacademias}
                                 placeholder="Seleccione una TecnoAcademia"
                                 required
@@ -190,10 +194,10 @@ const Form = ({
                                         tecnoacademia_linea_tecnoacademia_id: selected_values,
                                     }))
                                 }}
+                                disabled={!(proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 error={form.errors.tecnoacademia_linea_tecnoacademia_id}
                                 label="Seleccione una o varias opciones"
                                 required
-                                disabled={!proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update}
                                 onBlur={() => syncColumnLong('tecnoacademia_linea_tecnoacademia_id', form)}
                             />
                         </Grid>
@@ -213,6 +217,7 @@ const Form = ({
                                 id="rol_sennova"
                                 selectedValue={form.data.rol_sennova}
                                 onChange={(event, newValue) => form.setData('rol_sennova', newValue.value)}
+                                disabled={!(proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 options={roles_sennova}
                                 placeholder="Seleccione un rol SENNOVA"
                                 required
@@ -234,6 +239,7 @@ const Form = ({
                                         }}
                                         value={form.data.cantidad_meses}
                                         onChange={(e) => form.setData('cantidad_meses', e.target.value)}
+                                        disabled={!(proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update || allowed_to_create)}
                                         placeholder="Número de meses de vinculación"
                                         required
                                     />
@@ -259,6 +265,7 @@ const Form = ({
                                 }}
                                 value={form.data.cantidad_horas}
                                 onChange={(e) => form.setData('cantidad_horas', e.target.value)}
+                                disabled={!(proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 placeholder="Número de horas semanales dedicadas"
                                 required
                             />
@@ -300,6 +307,7 @@ const Form = ({
                                 inputBackground="#fff"
                                 selectedValue={form.data.infraestructura_tecnoacademia}
                                 onChange={(event, newValue) => form.setData('infraestructura_tecnoacademia', newValue.value)}
+                                disabled={!proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update}
                                 error={form.errors.infraestructura_tecnoacademia}
                                 onBlur={() => syncColumnLong('infraestructura_tecnoacademia', form)}
                                 required
@@ -318,8 +326,8 @@ const Form = ({
                                 error={form.errors.resumen}
                                 value={form.data.resumen}
                                 onChange={(e) => form.setData('resumen', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('resumen', form)}
                             />
                         </Grid>
@@ -332,8 +340,8 @@ const Form = ({
                                 error={form.errors.resumen_regional}
                                 value={form.data.resumen_regional}
                                 onChange={(e) => form.setData('resumen_regional', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('resumen_regional', form)}
                             />
                         </Grid>
@@ -351,8 +359,8 @@ const Form = ({
                                 error={form.errors.antecedentes}
                                 value={form.data.antecedentes}
                                 onChange={(e) => form.setData('antecedentes', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('antecedentes', form)}
                             />
                         </Grid>
@@ -365,8 +373,8 @@ const Form = ({
                                 error={form.errors.antecedentes_tecnoacademia}
                                 value={form.data.antecedentes_tecnoacademia}
                                 onChange={(e) => form.setData('antecedentes_tecnoacademia', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('antecedentes_tecnoacademia', form)}
                             />
                         </Grid>
@@ -379,8 +387,8 @@ const Form = ({
                                 error={form.errors.justificacion_problema}
                                 value={form.data.justificacion_problema}
                                 onChange={(e) => form.setData('justificacion_problema', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('justificacion_problema', form)}
                             />
                         </Grid>
@@ -388,7 +396,6 @@ const Form = ({
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={!proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update}
                                 className="mb-4"
                                 labelFor="logros_vigencia_anterior"
                                 value={`Logros de la vigencia ${convocatoria.year - 1} en la implementación del programa de TecnoAcademia`}
@@ -399,8 +406,8 @@ const Form = ({
                                 error={form.errors.logros_vigencia_anterior}
                                 value={form.data.logros_vigencia_anterior}
                                 onChange={(e) => form.setData('logros_vigencia_anterior', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('logros_vigencia_anterior', form)}
                             />
                         </Grid>
@@ -408,7 +415,6 @@ const Form = ({
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={!proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update}
                                 className="mb-4"
                                 labelFor="retos_oportunidades"
                                 value="Descripción de retos y prioridades locales y regionales en los cuales la Tecnoacademia tiene impacto"
@@ -419,8 +425,8 @@ const Form = ({
                                 error={form.errors.retos_oportunidades}
                                 value={form.data.retos_oportunidades}
                                 onChange={(e) => form.setData('retos_oportunidades', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('retos_oportunidades', form)}
                             />
                         </Grid>
@@ -433,8 +439,8 @@ const Form = ({
                                 error={form.errors.pertinencia_territorio}
                                 value={form.data.pertinencia_territorio}
                                 onChange={(e) => form.setData('pertinencia_territorio', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('pertinencia_territorio', form)}
                             />
                         </Grid>
@@ -448,28 +454,22 @@ const Form = ({
                                 error={form.errors.marco_conceptual}
                                 value={form.data.marco_conceptual}
                                 onChange={(e) => form.setData('marco_conceptual', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('marco_conceptual', form)}
                             />
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label
-                                required
-                                disabled={!proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update}
-                                className="mb-4"
-                                labelFor="lineas_tecnologicas_centro"
-                                value="Líneas tecnológicas del Centro con las que se articula la TecnoAcademia"
-                            />
+                            <Label required className="mb-4" labelFor="lineas_tecnologicas_centro" value="Líneas tecnológicas del Centro con las que se articula la TecnoAcademia" />
 
                             <Textarea
                                 id="lineas_tecnologicas_centro"
                                 error={form.errors.lineas_tecnologicas_centro}
                                 value={form.data.lineas_tecnologicas_centro}
                                 onChange={(e) => form.setData('lineas_tecnologicas_centro', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('lineas_tecnologicas_centro', form)}
                             />
                         </Grid>
@@ -485,8 +485,8 @@ const Form = ({
                                 error={form.errors.bibliografia}
                                 value={form.data.bibliografia}
                                 onChange={(e) => form.setData('bibliografia', e.target.value)}
-                                required
                                 disabled={!proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update}
+                                required
                                 onBlur={() => syncColumnLong('bibliografia', form)}
                             />
                         </Grid>

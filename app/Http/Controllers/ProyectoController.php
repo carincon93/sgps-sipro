@@ -1032,7 +1032,7 @@ class ProyectoController extends Controller
     public function filterProgramasFormacion(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
     {
         if (!empty($request->search_programa_formacion)) {
-            $query = ProgramaFormacion::select('programas_formacion.id', 'programas_formacion.nombre', 'programas_formacion.codigo', 'programas_formacion.modalidad', 'programas_formacion.centro_formacion_id')->orderBy('programas_formacion.nombre', 'ASC')
+            $query = ProgramaFormacion::select('programas_formacion.id', 'programas_formacion.nombre', 'programas_formacion.codigo', 'programas_formacion.modalidad')->orderBy('programas_formacion.nombre', 'ASC')
                 ->filterProgramaFormacion(['search' => $request->search_programa_formacion])
                 ->with('centroFormacion.regional');
 

@@ -6,7 +6,7 @@ import Form from './Form'
 
 import { checkRole } from '@/Utils'
 
-const Create = ({ auth, convocatoria, centros_formacion, tecnoacademias, lineas_programaticas, lineas_tecnoacademia, roles_sennova }) => {
+const Create = ({ auth, convocatoria, centros_formacion, tecnoacademias, lineas_programaticas, lineas_tecnoacademia, roles_sennova, allowed_to_create }) => {
     const auth_user = auth.user
 
     return (
@@ -20,6 +20,7 @@ const Create = ({ auth, convocatoria, centros_formacion, tecnoacademias, lineas_
                 lineas_tecnoacademia={lineas_tecnoacademia}
                 lineas_programaticas={lineas_programaticas}
                 roles_sennova={roles_sennova}
+                allowed_to_create={allowed_to_create}
             />
         </AuthenticatedLayout>
     )

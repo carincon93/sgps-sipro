@@ -12,7 +12,7 @@ import { router, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useEffect } from 'react'
 
-const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_linea_69, nodos_tecnoparque, roles_sennova, evaluacion, ...props }) => {
+const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_linea_69, nodos_tecnoparque, roles_sennova, evaluacion, allowed_to_create, ...props }) => {
     const form = useForm({
         fecha_inicio: proyecto_formulario_17_linea_69?.fecha_inicio ?? '',
         fecha_finalizacion: proyecto_formulario_17_linea_69?.fecha_finalizacion ?? '',
@@ -112,7 +112,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                                 selectedValue={form.data.nodo_tecnoparque_id}
                                 onChange={(event, newValue) => form.setData('nodo_tecnoparque_id', newValue.value)}
                                 error={form.errors.nodo_tecnoparque_id}
-                                disabled={!proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update}
+                                disabled={!(proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 required
                                 onBlur={() => syncColumnLong('nodo_tecnoparque_id', form)}
                             />
@@ -144,7 +144,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                 )}
 
                 <Grid item md={6}>
-                    <Label required labelFor="fecha_inicio" error={form.errors.fecha_inicio} value="Fecha de inicio" />
+                    <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
                 </Grid>
                 <Grid item md={6}>
                     <DatePicker
@@ -157,11 +157,12 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                         error={form.errors.fecha_inicio}
                         className="p-4 w-full"
                         onChange={(e) => (form.setData('fecha_inicio', e.target.value), syncColumnLong('fecha_inicio', form, e.target.value))}
+                        disabled={!(proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
                         required
                     />
                 </Grid>
                 <Grid item md={6}>
-                    <Label required labelFor="fecha_finalizacion" error={form.errors.fecha_finalizacion} value="Fecha de finalización" />
+                    <Label required labelFor="fecha_finalizacion" value="Fecha de finalización" />
                 </Grid>
                 <Grid item md={6}>
                     <DatePicker
@@ -174,6 +175,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                         error={form.errors.fecha_finalizacion}
                         className="p-4 w-full"
                         onChange={(e) => (form.setData('fecha_finalizacion', e.target.value), syncColumnLong('fecha_finalizacion', form, e.target.value))}
+                        disabled={!(proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
                         required
                     />
                 </Grid>
@@ -192,6 +194,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                                 id="rol_sennova"
                                 selectedValue={form.data.rol_sennova}
                                 onChange={(event, newValue) => form.setData('rol_sennova', newValue.value)}
+                                disabled={!(proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 options={roles_sennova}
                                 placeholder="Seleccione un rol SENNOVA"
                                 required
@@ -214,6 +217,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                                         }}
                                         value={form.data.cantidad_meses}
                                         onChange={(e) => form.setData('cantidad_meses', e.target.value)}
+                                        disabled={!(proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
                                         placeholder="Número de meses de vinculación"
                                         required
                                     />
@@ -240,6 +244,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                                 }}
                                 value={form.data.cantidad_horas}
                                 onChange={(e) => form.setData('cantidad_horas', e.target.value)}
+                                disabled={!(proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 placeholder="Número de horas semanales dedicadas"
                                 required
                             />
@@ -310,12 +315,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                             />
                         </Grid>
                         <Grid item md={12}>
-                            <Label
-                                required
-                                disabled={!proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update}
-                                labelFor="logros_vigencia_anterior"
-                                value={`Describa los principales logros del Tecnoparque en el ${convocatoria.year - 1}`}
-                            />
+                            <Label required labelFor="logros_vigencia_anterior" value={`Describa los principales logros del Tecnoparque en el ${convocatoria.year - 1}`} />
 
                             <Textarea
                                 id="logros_vigencia_anterior"
@@ -346,7 +346,6 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={!proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="retos_locales_regionales"
                                 value={`Descripción de retos y prioridades locales y regionales identificadas para ser atendidas por el Tecnoparque a corto (vigencia ${convocatoria.year}), mediano y largo plazo.`}
                             />
@@ -364,7 +363,6 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={!proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="estado_actual_departamento"
                                 value={`De acuerdo al IDIC (Indice Departamental de  Innovación para Colombia https://AplicativoIDIC2020.ocyt.org.co/), identifique el estado actual del Departamento y plantee acciones que puedan ser ejecutadas por el Tecnoparque en la vigencia ${convocatoria.year} para contribuir con el mejoramiento del estado actual.`}
                             />
@@ -382,7 +380,6 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={!proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="contribucion_desarrollo_empresas"
                                 value={`¿Cómo el Tecnoparque, contribuirá en la vigencia ${convocatoria.year} al desarrollo y fortalecimiento de las capacidades tecnológicas de las empresas, cadenas productivas y clústeres de la región`}
                             />
@@ -400,7 +397,6 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={!proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="contribucion_agenda_regional_competitividad"
                                 value={`¿Cómo se articuló en el año ${
                                     convocatoria.year - 1
@@ -423,7 +419,6 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={!proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="aportes_conpes_4011"
                                 value={`¿Cuáles serán los aportes del Tecnoparque en el ${convocatoria.year} a la Línea de acción 8 del Conpes 4011 'Facilitar intercambio de tecnología y la innovación en los emprendimientos CONPES, inlcuyendo acciones articuladas con Emprendimiento (Dirección de Empleo)?`}
                             />
@@ -441,7 +436,6 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={!proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="aportes_conpes_4080"
                                 value={`Cuáles serán los aportes del Tecnoparque en el ${convocatoria.year} a la Línea de acción 1 del Conpes 4080 'el SENA desde 2022 y hasta 2026, fomentará la participación de la mujer en sus programas de investigación, desarrollo tecnológico e innovación, buscando generar competitividad con enfoque de género'`}
                             />
@@ -459,7 +453,6 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={!proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="situacion_actual_produccion_agricola"
                                 value="Describa la situación actual del Departamento relacionada con la producción en cadenas agrícolas que han sido priorizadas en la Transformación Derecho Humano a la Alimentación y oportunidades para contribuir con el fortalecimiento de proyectos asociados a este objetivo."
                             />
@@ -477,7 +470,6 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={!proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="aportes_alternativas_generacion_electrica"
                                 value="Describa las oportunidades en el departamento y regiones de influencia del Tecnoparque para contribuir con la fortalecer proyectos de I + D + i tendientes a aportar alternativas de generación eléctrica a partir de fuentes no convencionales de energía renovable."
                             />
@@ -495,7 +487,6 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={!proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="aportes_impulso_economia_popular"
                                 value="Describa las oportunidades en el departamento y regiones de influencia del Tecnoparque para contribuir con el impulso de la Economía Popular. Proyectos tendientes a aumentar los ingresos de los micronegocios de la economía popular."
                             />
@@ -531,7 +522,6 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                         <Grid item md={12}>
                             <Label
                                 required
-                                disabled={!proyecto_formulario_17_linea_69?.proyecto?.allowed?.to_update}
                                 labelFor="acciones_estrategias_campesena"
                                 value={`Describa las acciones realizadas en el ${convocatoria.year - 1}, integradas dentro de la Estrategia Campesena, en las que participó el Tecnoparque`}
                             />

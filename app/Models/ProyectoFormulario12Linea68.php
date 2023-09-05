@@ -168,26 +168,31 @@ class ProyectoFormulario12Linea68 extends Model
     public static function getProyectosPorRol($convocatoria)
     {
         /** @var \App\Models\User */
-        $authUser = Auth::user();
+        $auth_user = Auth::user();
 
         $proyectos_formulario_12_linea_68 = ProyectoFormulario12Linea68::select('proyectos_formulario_12_linea_68.id', 'proyectos_formulario_12_linea_68.titulo', 'proyectos_formulario_12_linea_68.fecha_inicio', 'proyectos_formulario_12_linea_68.fecha_finalizacion')
             ->join('proyectos', 'proyectos_formulario_12_linea_68.id', 'proyectos.id')
             ->where('proyectos.convocatoria_id', $convocatoria->id)
             ->whereHas(
                 'proyecto.centroFormacion',
-                function ($query) use ($convocatoria, $authUser) {
-                    if ($authUser->hasRole([2]) && !$authUser->hasRole([1])) {
-                        $query->where('centros_formacion.regional_id', $authUser->centroFormacion->regional->id);
+                function ($query) use ($convocatoria, $auth_user) {
+                    if ($auth_user->hasRole([2]) && !$auth_user->hasRole([1])) {
+                        $query->where('centros_formacion.regional_id', $auth_user->centroFormacion->regional->id);
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
-                    } else if ($authUser->hasRole([3, 4, 21, 27]) && !$authUser->hasRole([1])) {
-                        $query->where('centros_formacion.id', $authUser->centro_formacion_id);
+                    } else if ($auth_user->hasRole([3, 4, 21, 27]) && !$auth_user->hasRole([1])) {
+                        $query->join('proyectos', 'proyectos_formulario_12_linea_68.id', 'proyectos.id');
+                        $query->join('proyecto_participantes', 'proyectos.id', 'proyecto_participantes.proyecto_id');
+
+                        $query->where('centros_formacion.id', $auth_user->centro_formacion_id);
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
-                    } else if ($authUser->hasRole([1, 19, 23])) {
+                        $query->orWhere('proyecto_participantes.user_id', $auth_user->id);
+                        $query->where('proyectos.convocatoria_id', $convocatoria->id);
+                    } else if ($auth_user->hasRole([1, 19, 23])) {
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
                     } else {
                         $query->join('proyectos', 'proyectos_formulario_12_linea_68.id', 'proyectos.id');
                         $query->join('proyecto_participantes', 'proyectos.id', 'proyecto_participantes.proyecto_id');
-                        $query->where('proyecto_participantes.user_id', $authUser->id);
+                        $query->where('proyecto_participantes.user_id', $auth_user->id);
                         $query->where('proyectos.convocatoria_id', $convocatoria->id);
                     }
                 }
