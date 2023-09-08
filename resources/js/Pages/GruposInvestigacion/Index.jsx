@@ -9,18 +9,19 @@ import PaginationMui from '@/Components/Pagination'
 import PrimaryButton from '@/Components/PrimaryButton'
 import SearchBar from '@/Components/SearchBar'
 import TableMui from '@/Components/Table'
+import TabsMui from '@/Components/TabsMui'
 
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { Divider, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
+import { Divider, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
 import { router, useForm } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
+
 import Form from './Form'
-import TabsMui from '@/Components/TabsMui'
 
 const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formacion, centros_formacion, categorias_minciencias, redes_conocimiento, allowed_to_create }) => {
     const auth_user = auth.user
@@ -60,7 +61,7 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
                         <SearchBar className="mt-20" />
 
                         <TableMui className="mt-20" rows={['Nombre', 'Centro de formación', 'Regional', 'Formatos', 'Acciones']}>
-                            {allowed_to_create && (
+                            {is_super_admin && (
                                 <TableRow
                                     onClick={() => (setDialogStatus(true), setMethod('POST'), setGrupoInvestigacion(null))}
                                     variant="raised"
@@ -135,13 +136,13 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
                                                         Ver información
                                                     </MenuItem>
 
-                                                    <Divider />
-
                                                     <MenuItem
                                                         onClick={() => (setDialogStatus(true), setMethod('PUT'), setGrupoInvestigacion(grupo_investigacion))}
                                                         disabled={!grupo_investigacion?.allowed?.to_update}>
                                                         Editar
                                                     </MenuItem>
+
+                                                    <Divider />
 
                                                     {is_super_admin && (
                                                         <MenuItem

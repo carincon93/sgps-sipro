@@ -94,13 +94,19 @@ const Index = ({ auth, grupo_investigacion, lineas_investigacion, allowed_to_cre
                                                 {linea_investigacion?.allowed?.to_view && !linea_investigacion?.allowed?.to_update ? 'Ver información' : 'Editar'}
                                             </MenuItem>
 
-                                            <MenuItem
-                                                onClick={() => {
-                                                    setLineaInvestigacionToDestroy(linea_investigacion.id)
-                                                }}
-                                                disabled={!linea_investigacion?.allowed?.to_update}>
-                                                Eliminar
-                                            </MenuItem>
+                                            {is_super_admin && (
+                                                <>
+                                                    <Divider />
+
+                                                    <MenuItem
+                                                        onClick={() => {
+                                                            setLineaInvestigacionToDestroy(linea_investigacion.id)
+                                                        }}
+                                                        disabled={!linea_investigacion?.allowed?.to_update}>
+                                                        Eliminar
+                                                    </MenuItem>
+                                                </>
+                                            )}
                                         </div>
                                     ) : (
                                         <div>

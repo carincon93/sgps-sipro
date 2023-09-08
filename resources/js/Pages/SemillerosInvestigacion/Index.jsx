@@ -13,7 +13,7 @@ import TableMui from '@/Components/Table'
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { Breadcrumbs, Grid, MenuItem, Tab, TableCell, TableRow, Tabs } from '@mui/material'
+import { Breadcrumbs, Divider, Grid, MenuItem, Tab, TableCell, TableRow, Tabs } from '@mui/material'
 
 import { useState } from 'react'
 import { Link, router, useForm } from '@inertiajs/react'
@@ -183,6 +183,8 @@ const Index = ({ auth, grupo_investigacion, linea_investigacion, lineas_investig
                                                 disabled={!semillero_investigacion?.allowed?.to_view}>
                                                 {semillero_investigacion?.allowed?.to_view && !semillero_investigacion?.allowed?.to_update ? 'Ver información' : 'Editar'}
                                             </MenuItem>
+
+                                            <Divider />
 
                                             <MenuItem
                                                 onClick={() => {

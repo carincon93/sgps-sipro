@@ -10,7 +10,7 @@ import Textarea from '@/Components/Textarea'
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_formacion, categorias_minciencias, redes_conocimiento, allowed_to_create, ...props }) => {
+const Form = ({ method = '', setDialogStatus, is_super_admin, grupo_investigacion, centros_formacion, categorias_minciencias, redes_conocimiento, allowed_to_create, ...props }) => {
     const form = useForm({
         _method: method,
         nombre: grupo_investigacion?.nombre,
@@ -63,7 +63,7 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                                     options={centros_formacion}
                                     selectedValue={form.data.centro_formacion_id}
                                     onChange={(event, newValue) => form.setData('centro_formacion_id', newValue.value)}
-                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
+                                    disabled={!is_super_admin}
                                     error={form.errors.centro_formacion_id}
                                     label="Centro de formación"
                                     required
@@ -77,7 +77,7 @@ const Form = ({ method = '', setDialogStatus, grupo_investigacion, centros_forma
                                     error={form.errors.nombre}
                                     label="Nombre del grupo de investigación"
                                     onChange={(e) => form.setData('nombre', e.target.value)}
-                                    disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
+                                    disabled={!is_super_admin}
                                     required
                                 />
                             </Grid>

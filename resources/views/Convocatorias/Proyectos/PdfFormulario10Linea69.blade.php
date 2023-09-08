@@ -75,23 +75,6 @@
 
         <tr>
             <td align="left">
-                <p style="font-weight: bold;">Areas de Cualificación - Marco Nacional de Cualificaciones</p>
-            </td>
-            <td align="left">
-               <ul>
-                    @if ($datos->areas_cualificacion_mnc)
-                        @foreach ($datos->areas_cualificacion_mnc as $area_cualificacion)
-                            <li>{{ $areas_cualificacion_mnc->firstWhere('value', $area_cualificacion)['label'] }}</li>
-                        @endforeach
-                    @else
-                        <li>Sin información registrada</li>
-                    @endif
-               </ul>
-            </td>
-        </tr>
-
-        <tr>
-            <td align="left">
                 <p style="font-weight: bold;">Código dependencia presupuestal (SIIF)</p>
             </td>
             <td align="left">

@@ -50,14 +50,13 @@ const Index = ({ auth, anexos }) => {
                                 <MenuMui text={<MoreVertIcon />}>
                                     {anexo.id !== anexo_to_destroy ? (
                                         <div>
-                                            <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setAnexo(anexo))} disabled={!is_super_admin}>
-                                                Editar
-                                            </MenuItem>
+                                            <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setAnexo(anexo))}>Editar</MenuItem>
 
                                             <MenuItem
                                                 onClick={() => {
                                                     setAnexoToDestroy(anexo.id)
-                                                }}>
+                                                }}
+                                                disabled={!is_super_admin}>
                                                 Eliminar
                                             </MenuItem>
                                         </div>

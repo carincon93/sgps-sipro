@@ -301,7 +301,7 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',
