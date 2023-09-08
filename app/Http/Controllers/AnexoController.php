@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\SharepointHelper;
 use App\Http\Requests\AnexoRequest;
 use App\Models\Anexo;
 use Illuminate\Http\Request;
@@ -79,5 +80,29 @@ class AnexoController extends Controller
         $anexo->delete();
 
         return back()->with('success', 'El recurso se ha eliminado correctamente.');
+    }
+
+    public function uploadArchivo(Request $request, Anexo $anexo)
+    {
+        if ($request->hasFile('archivo')) {
+            $request->validate([
+                'archivo' => 'nullable|file|max:10240',
+            ]);
+            return $this->saveFilesSharepoint($request->archivo, 'ANEXOS', $anexo, 'archivo');
+        }
+    }
+
+    public function saveFilesSharepoint($tmp_file, $modulo, $modelo, $campo_bd)
+    {
+        $sharepoint_path = "$modulo";
+
+        SharepointHelper::saveFilesSharepoint($tmp_file, $modelo, $sharepoint_path, $campo_bd);
+    }
+
+    public function downloadFileSharepoint(Anexo $anexo)
+    {
+        $sharepoint_path = $anexo->archivo;
+
+        return SharepointHelper::downloadFile($sharepoint_path);
     }
 }

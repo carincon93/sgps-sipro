@@ -154,6 +154,7 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
                     {proyecto.tipo_formulario_convocatoria_id == 12 && (
                         <>
                             <br />
+                            <br />
                             Tener en cuenta, de acuerdo con la tipología de portafolio, por ejemplo y sin limitarse a: Variedades vegetales; poblaciones mejoradas de razas pecuarias; Esquemas de
                             circuito integrado; conceptos técnicos; conceptos técnicos (Procesos de Apropiación social del conocimiento para el fortalecimiento de cadenas productivas; procesos de
                             apropiación social del conocimiento resultado del trabajo conjunto entre un Centro de Ciencia y un grupo de investigación; eventos científicos con componente de

@@ -682,10 +682,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Anexos
      *
      */
-    Route::get('anexos/{anexo}/download-file-sharepoint/{tipo_archivo}', [ConvocatoriaAnexoController::class, 'downloadFileSharepoint'])->name('anexos.download-file-sharepoint');
-    Route::get('anexos/{anexo}/download/{formato}', [ConvocatoriaAnexoController::class, 'downloadServerFile'])->name('anexos.download');
     Route::put('convocatorias/{convocatoria}/convocatoria-anexos/{convocatoria_anexo}/cambiar-estados',  [ConvocatoriaAnexoController::class, 'cambiarEstados'])->name('convocatorias.convocatoria-anexos.cambiar-estados');
     Route::resource('convocatorias.convocatoria-anexos', ConvocatoriaAnexoController::class)->parameters(['convocatorias' => 'convocatoria', 'convocatoria-anexos' => 'convocatoria-anexo'])->except(['show']);
+
+    Route::get('anexos/{anexo}/download-file-sharepoint/archivo', [AnexoController::class, 'downloadFileSharepoint'])->name('anexos.download-file-sharepoint');
+    Route::post('anexos/{anexo}/upload-archivo',  [AnexoController::class, 'uploadArchivo'])->name('anexos.upload-archivo');
     Route::resource('anexos',  AnexoController::class)->parameters(['anexos' => 'anexo'])->except(['show', 'create', 'edit']);
 
     /**

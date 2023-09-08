@@ -22,7 +22,7 @@ class Anexo extends Model
      *
      * @var array
      */
-    protected $appends = ['nombre_carpeta_sharepoint', 'ruta_final_sharepoint'];
+    protected $appends = ['nombre_carpeta_sharepoint', 'ruta_final_sharepoint', 'filename', 'extension'];
 
     /**
      * The attributes that are mass assignable.
@@ -100,5 +100,19 @@ class Anexo extends Model
         $ruta = trim($this->nombre_carpeta_sharepoint);
 
         return $ruta;
+    }
+
+    public function getFilenameAttribute()
+    {
+        $file_info = pathinfo($this->archivo);
+
+        return $file_info['filename'] ?? '';
+    }
+
+    public function getExtensionAttribute()
+    {
+        $file_info = pathinfo($this->archivo);
+
+        return $file_info['extension'] ?? '';
     }
 }
