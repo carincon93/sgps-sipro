@@ -13,11 +13,11 @@ import Form from './Form'
 import { checkRole } from '@/Utils'
 
 import DownloadIcon from '@mui/icons-material/Download'
-import { Grid, TableCell, TableRow } from '@mui/material'
+import { Chip, Grid, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
 
-const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, convocatoria_anexos, ...props }) => {
+const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, convocatoria_anexos, mime_types, ...props }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
     const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
@@ -152,7 +152,7 @@ const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, conv
                     {convocatoria_anexos.map((convocatoria_anexo, i) => (
                         <TableRow key={i}>
                             <TableCell>
-                                <p className="px-6 py-4 focus:text-app-500">
+                                <div className="px-6 py-4 focus:text-app-500">
                                     {convocatoria_anexo.anexo.nombre}
                                     <br />
                                     <br />
@@ -162,11 +162,24 @@ const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, conv
                                     <br />
                                     {convocatoria_anexo.obligatorio && <span className="text-red-500 mt-4 inline-block">* El anexo es obligatorio</span>}
                                     {convocatoria_anexo.anexo.archivo && (
-                                        <a target="_blank" download href={route('anexos.download-file-sharepoint', [convocatoria_anexo.anexo.id])} className="text-app-400 underline mt-4 mb-4 flex">
-                                            <DownloadIcon /> Descargar el formato para diligenciar. (De clic en este enlace).
-                                        </a>
+                                        <>
+                                            <a
+                                                target="_blank"
+                                                download
+                                                href={route('anexos.download-file-sharepoint', [convocatoria_anexo.anexo.id])}
+                                                className="text-app-400 underline mt-4 mb-4 flex">
+                                                <DownloadIcon /> Descargar el formato para diligenciar. (De clic en este enlace).
+                                            </a>
+
+                                            <span>Extensiones de anexos permitidas:</span>
+                                            <br />
+                                            {convocatoria_anexo.anexo.mime_type &&
+                                                convocatoria_anexo.anexo.mime_type.map((anexo_mime_type, i) => (
+                                                    <Chip key={i} label={mime_types.find((item) => item.value == anexo_mime_type)?.label} className="mt-2 mr-2" />
+                                                ))}
+                                        </>
                                     )}
-                                </p>
+                                </div>
                             </TableCell>
                             <TableCell>
                                 <Form convocatoria={convocatoria} proyecto={proyecto} convocatoria_anexo={convocatoria_anexo} proyecto_anexo={proyecto_anexo} />

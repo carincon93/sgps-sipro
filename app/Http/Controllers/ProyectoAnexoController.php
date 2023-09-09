@@ -13,6 +13,7 @@ use App\Models\Evaluacion\Evaluacion;
 use App\Models\ProyectoAnexo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ProyectoAnexoController extends Controller
@@ -40,7 +41,8 @@ class ProyectoAnexoController extends Controller
                                         ->where('tipo_formulario_convocatoria_id', $proyecto->tipo_formulario_convocatoria_id)
                                         ->where('habilitado', true)
                                         ->with('anexo')
-                                        ->get()
+                                        ->get(),
+            'mime_types'            => json_decode(Storage::get('json/mime-types.json'), true),
         ]);
     }
 

@@ -146,14 +146,7 @@ const Index = ({ auth, anexos, mime_types }) => {
                     blurEnabled={true}
                     dialogContent={
                         <form onSubmit={submit}>
-                            <FileInput
-                                id="archivo"
-                                value={form.data.archivo}
-                                label={`Seleccione el archivo`}
-                                onChange={(e) => form.setData('archivo', e)}
-                                accept="application/vnd.ms-excel.sheet.macroEnabled.12"
-                                error={form.errors.archivo}
-                            />
+                            <FileInput id="archivo" value={form.data.archivo} label={`Seleccione el archivo`} onChange={(e) => form.setData('archivo', e)} error={form.errors.archivo} />
                             <div className="flex items-center justify-between mt-14 py-4">
                                 <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
                                     Cargar archivo

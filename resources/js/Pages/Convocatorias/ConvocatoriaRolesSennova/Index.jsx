@@ -51,12 +51,12 @@ const ConvocatoriaRolesSennova = ({ auth, convocatoria, convocatoria_roles_senno
                         formuladores de las modificaciones realizadas.
                         <br />
                     </AlertMui>
-                    <TableMui rows={['Nombre', 'Asignación mensual ' + convocatoria.year, '¿Habilitado?', '¿Suma al presupuesto?', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui rows={['Nombre', 'Nivel académico', 'Asignación mensual ' + convocatoria.year, '¿Habilitado?', '¿Suma al presupuesto?', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         <TableRow
                             onClick={() => (setDialogStatus(true), setMethod('POST'), setConvocatoriaRolSennova(null))}
                             variant="raised"
                             className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
-                            <TableCell colSpan={5}>
+                            <TableCell colSpan={6}>
                                 <ButtonMui>
                                     <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar rol SENNOVA
                                 </ButtonMui>
@@ -64,20 +64,13 @@ const ConvocatoriaRolesSennova = ({ auth, convocatoria, convocatoria_roles_senno
                         </TableRow>
                         {convocatoria_roles_sennova.data.map((convocatoria_rol_sennova, i) => (
                             <TableRow key={i}>
+                                <TableCell>{convocatoria_rol_sennova.rol_sennova.nombre}</TableCell>
                                 <TableCell>
-                                    {convocatoria_rol_sennova.rol_sennova.nombre}
-                                    <br />
-                                    <Chip
-                                        className={`${
-                                            convocatoria_rol_sennova?.nivel_academico ? '!bg-blue-200 hover:!bg-blue-50 !text-blue-500' : '!bg-red-200 hover:!bg-red-50 !text-red-500'
-                                        }  mt-1`}
-                                        size="small"
-                                        label={`Nivel académico: ${
-                                            convocatoria_rol_sennova.nivel_academico
-                                                ? niveles_academicos.find((item) => item.value == convocatoria_rol_sennova?.nivel_academico).label
-                                                : 'Sin información registrada'
-                                        }`}
-                                    />
+                                    <p className="first-letter:uppercase">
+                                        {convocatoria_rol_sennova.nivel_academico
+                                            ? niveles_academicos.find((item) => item.value == convocatoria_rol_sennova?.nivel_academico).label
+                                            : 'Sin información registrada'}
+                                    </p>
                                 </TableCell>
                                 <TableCell>
                                     <div>${new Intl.NumberFormat('de-DE').format(convocatoria_rol_sennova.asignacion_mensual)} COP</div>
