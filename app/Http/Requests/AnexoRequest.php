@@ -22,8 +22,21 @@ class AnexoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre'      => ['required', 'string'],
-            'descripcion' => ['required', 'string'],
+            'nombre'        => ['required', 'string'],
+            'descripcion'   => ['required', 'string'],
+            'mime_type'     => ['required', 'json'],
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'mime_type'  => json_encode($this->mime_type),
+        ]);
     }
 }

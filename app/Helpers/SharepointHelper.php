@@ -116,7 +116,7 @@ class SharepointHelper
     {
         $carpetas_formateadas = self::getFolders($sharepoint_path)['carpetasFormateadas'];
 
-        $urlFormat = str_replace(' ', '%20', self::$root_folder) . $carpetas_formateadas;
+        $url_format = str_replace(' ', '%20', self::$root_folder) . $carpetas_formateadas;
 
         $curl = curl_init();
 
@@ -124,7 +124,7 @@ class SharepointHelper
             $file_handler = fopen($upload_file, 'r');
             $file_data = fread($file_handler, filesize($upload_file));
 
-            $url = self::$api_url . '/_api/web/GetFolderByServerRelativeUrl(\'' . $urlFormat . '\')/Files/add(url=\'' . $nombre_archivo . '\',overwrite=true)';
+            $url = self::$api_url . '/_api/web/GetFolderByServerRelativeUrl(\'' . $url_format . '\')/Files/add(url=\'' . $nombre_archivo . '\',overwrite=true)';
 
             curl_setopt_array($curl, array(
                 CURLOPT_URL => $url,

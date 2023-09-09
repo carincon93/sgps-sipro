@@ -33,6 +33,7 @@ class Anexo extends Model
         'nombre',
         'descripcion',
         'archivo',
+        'mime_type'
     ];
 
     /**
@@ -114,5 +115,10 @@ class Anexo extends Model
         $file_info = pathinfo($this->archivo);
 
         return $file_info['extension'] ?? '';
+    }
+
+    public function getMimeTypeAttribute($value)
+    {
+        return json_decode($value);
     }
 }

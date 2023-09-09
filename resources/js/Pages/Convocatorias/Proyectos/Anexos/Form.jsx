@@ -52,21 +52,22 @@ const Form = ({ convocatoria, proyecto, convocatoria_anexo, proyecto_anexo, ...p
                                     : route('convocatorias.proyectos.proyecto-anexos.download-file-sharepoint', [convocatoria.id, proyecto.id, archivo.id, 'archivo'])
                                 : null
                         }
+                        accept={convocatoria_anexo.anexo.mime_type}
                         onChange={(e) => form.setData('archivo', e)}
                         disabled={proyecto?.allowed?.to_update && convocatoria_anexo?.habilitado == true ? false : true}
                         error={form.errors.archivo}
                     />
-
-                    <div className="mt-4">
-                        <strong>Fecha de carga del archivo: </strong>
-                        {archivo ? archivo.updated_at : 'Aún no se ha cargado el anexo'}.
-                    </div>
                 </div>
                 <div>
                     <PrimaryButton disabled={form.processing || !proyecto.allowed.to_update} className="w-full mt-4" type="submit">
                         <AutorenewIcon className="mr-2" />
                         Cargar {convocatoria_anexo?.anexo.nombre}
                     </PrimaryButton>
+                </div>
+
+                <div className="mt-4">
+                    <strong>Fecha de carga del archivo: </strong>
+                    {archivo ? archivo.updated_at : 'Aún no se ha cargado el anexo'}.
                 </div>
             </fieldset>
         </form>

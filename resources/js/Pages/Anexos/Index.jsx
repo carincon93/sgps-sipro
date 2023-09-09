@@ -22,7 +22,7 @@ import DownloadFile from '@/Components/DownloadFile'
 import PrimaryButton from '@/Components/PrimaryButton'
 import FileInput from '@/Components/FileInput'
 
-const Index = ({ auth, anexos }) => {
+const Index = ({ auth, anexos, mime_types }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -80,7 +80,7 @@ const Index = ({ auth, anexos }) => {
                                     required={false}
                                 />
                                 <ButtonMui
-                                    onClick={() => (setDialogFormatoStatus(true), setAnexo(anexo))}
+                                    onClick={() => (form.reset(), setDialogFormatoStatus(true), setAnexo(anexo))}
                                     className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
                                     <AutorenewIcon className="mr-2" />
                                     {anexo?.filename ? 'Reemplazar' : 'Cargar'} anexo
@@ -136,7 +136,7 @@ const Index = ({ auth, anexos }) => {
                     fullWidth={true}
                     maxWidth="lg"
                     blurEnabled={true}
-                    dialogContent={<Form is_super_admin={is_super_admin} setDialogStatus={setDialogStatus} method={method} anexo={anexo} />}
+                    dialogContent={<Form is_super_admin={is_super_admin} setDialogStatus={setDialogStatus} method={method} anexo={anexo} mime_types={mime_types} />}
                 />
 
                 <DialogMui
@@ -146,7 +146,14 @@ const Index = ({ auth, anexos }) => {
                     blurEnabled={true}
                     dialogContent={
                         <form onSubmit={submit}>
-                            <FileInput id="archivo" value={form.data.archivo} label={`Seleccione el archivo`} onChange={(e) => form.setData('archivo', e)} error={form.errors.archivo} />
+                            <FileInput
+                                id="archivo"
+                                value={form.data.archivo}
+                                label={`Seleccione el archivo`}
+                                onChange={(e) => form.setData('archivo', e)}
+                                accept="application/vnd.ms-excel.sheet.macroEnabled.12"
+                                error={form.errors.archivo}
+                            />
                             <div className="flex items-center justify-between mt-14 py-4">
                                 <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
                                     Cargar archivo

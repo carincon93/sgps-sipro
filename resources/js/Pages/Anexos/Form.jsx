@@ -1,16 +1,18 @@
 import ButtonMui from '@/Components/Button'
 import PrimaryButton from '@/Components/PrimaryButton'
+import SelectMultiple from '@/Components/SelectMultiple'
 import TextInput from '@/Components/TextInput'
 import Textarea from '@/Components/Textarea'
 
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', setDialogStatus, anexo, ...props }) => {
+const Form = ({ method = '', setDialogStatus, anexo, mime_types, ...props }) => {
     const form = useForm({
         _method: method,
         nombre: anexo?.nombre,
         descripcion: anexo?.descripcion,
+        mime_type: anexo?.mime_type,
     })
 
     const submit = (e) => {
@@ -47,7 +49,6 @@ const Form = ({ method = '', setDialogStatus, anexo, ...props }) => {
                                     required
                                 />
                             </Grid>
-
                             <Grid item md={12}>
                                 <Textarea
                                     id="descripcion"
@@ -55,6 +56,23 @@ const Form = ({ method = '', setDialogStatus, anexo, ...props }) => {
                                     error={form.errors.descripcion}
                                     label="Descripción"
                                     onChange={(e) => form.setData('descripcion', e.target.value)}
+                                    required
+                                />
+                            </Grid>
+                            <Grid item md={12}>
+                                <SelectMultiple
+                                    id="mime_type"
+                                    bdValues={form.data.mime_type}
+                                    options={mime_types}
+                                    onChange={(event, newValue) => {
+                                        const selected_values = newValue.map((option) => option.value)
+                                        form.setData((prevData) => ({
+                                            ...prevData,
+                                            mime_type: selected_values,
+                                        }))
+                                    }}
+                                    error={form.errors.mime_type}
+                                    label="Seleccione una o varios tipos de archivos"
                                     required
                                 />
                             </Grid>

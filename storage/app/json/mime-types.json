@@ -1,0 +1,28 @@
+[
+    {
+        "value": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "label": "xlsx",
+        "extension": "xlsx",
+        "content-type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    },
+    {
+        "value": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "label": "docx",
+        "extension": "docx",
+        "content-type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    },
+    {
+        "value": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+        "label": "pptx",
+        "extension": "pptx",
+        "content-type": "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    },
+    { "value": "application/pdf", "label": "pdf", "extension": "pdf", "content-type": "application/pdf" },
+    { "value": "image/jpeg", "label": "jpg", "extension": "jpg", "content-type": "image/jpeg" },
+    { "value": "image/png", "label": "png", "extension": "png", "content-type": "image/png" },
+    { "value": "image/gif", "label": "gif", "extension": "gif", "content-type": "image/gif" },
+    { "value": "text/plain", "label": "txt", "extension": "txt", "content-type": "text/plain" },
+    { "value": "text/html", "label": "html", "extension": "html", "content-type": "text/html" },
+    { "value": "application/zip", "label": "zip", "extension": "zip", "content-type": "application/zip" },
+    { "value": "application/x-rar-compressed", "label": "rar", "extension": "rar", "content-type": "application/x-rar-compressed" }
+]

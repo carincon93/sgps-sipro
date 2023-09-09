@@ -6,6 +6,7 @@ use App\Helpers\SharepointHelper;
 use App\Http\Requests\AnexoRequest;
 use App\Models\Anexo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class AnexoController extends Controller
@@ -18,7 +19,8 @@ class AnexoController extends Controller
         $this->authorize('viewAny', [Anexo::class]);
 
         return Inertia::render('Anexos/Index', [
-            'anexos' => Anexo::orderBy('nombre', 'ASC')->filterAnexo(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+            'anexos'        => Anexo::orderBy('nombre', 'ASC')->filterAnexo(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+            'mime_types'    => json_decode(Storage::get('json/mime-types.json'), true),
         ]);
     }
 
