@@ -143,7 +143,11 @@ class ProyectoFormulario4Linea70Controller extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', [$proyecto_formulario_4_linea_70->proyecto]);
 
-        $proyecto_formulario_4_linea_70->load('proyecto.evaluaciones.evaluacionProyectoFormulario4Linea70');
+        if ($proyecto_formulario_4_linea_70->proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
+
+        // $proyecto_formulario_4_linea_70->load('proyecto.evaluaciones.evaluacionProyectoFormulario4Linea70');
 
         $proyecto_formulario_4_linea_70->proyecto->precio_proyecto           = $proyecto_formulario_4_linea_70->proyecto->precioProyecto;
         $proyecto_formulario_4_linea_70->proyecto->centroFormacion;
@@ -283,7 +287,7 @@ class ProyectoFormulario4Linea70Controller extends Controller
      */
     public function updateCantidadRolesTa(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
     {
-        $this->authorize('modificar-proyecto-autor', [$proyecto]);
+        $this->authorize('modificar-proyecto-autor', $proyecto);
 
         $request->validate([
             'cantidad_instructores_planta'    => 'required|integer|min:0|max:32767',

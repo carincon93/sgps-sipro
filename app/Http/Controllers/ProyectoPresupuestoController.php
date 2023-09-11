@@ -30,6 +30,10 @@ class ProyectoPresupuestoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
+        if ($proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
+
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
 
         return Inertia::render('Convocatorias/Proyectos/ProyectoPresupuesto/Index', [

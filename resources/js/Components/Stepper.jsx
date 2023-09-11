@@ -225,7 +225,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
             </div>
             <Stepper alternativeLabel connector={<ColorlibConnector />}>
                 <Step active={isActive}>
-                    <Link href={route('convocatorias.proyectos.edit', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
+                    <Link href={route('convocatorias.proyectos.edit', [proyecto?.convocatoria_id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                         <StepLabel classes={{ root: classes.root }}>Generalidades</StepLabel>
                     </Link>
                 </Step>
@@ -236,26 +236,26 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                 proyecto?.tipo_formulario_convocatoria_id != 17 &&
                 proyecto?.tipo_formulario_convocatoria_id != 11 ? (
                     <Step active={route().current('convocatorias.proyectos.participantes')}>
-                        <Link href={route('convocatorias.proyectos.participantes', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
+                        <Link href={route('convocatorias.proyectos.participantes', [proyecto?.convocatoria_id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                             <StepLabel classes={{ root: classes.root }}>{proyecto?.tipo_formulario_convocatoria_id == 12 ? 'Formulador del proyecto' : 'Participantes'}</StepLabel>
                         </Link>
                     </Step>
                 ) : (
                     <Step active={route().current('convocatorias.proyectos.articulacion-sennova')}>
-                        <Link href={route('convocatorias.proyectos.articulacion-sennova', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
+                        <Link href={route('convocatorias.proyectos.articulacion-sennova', [proyecto?.convocatoria_id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                             <StepLabel classes={{ root: classes.root }}>Articulación</StepLabel>
                         </Link>
                     </Step>
                 )}
 
                 <Step active={route().current('convocatorias.proyectos.arbol-problemas')}>
-                    <Link href={route('convocatorias.proyectos.arbol-problemas', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
+                    <Link href={route('convocatorias.proyectos.arbol-problemas', [proyecto?.convocatoria_id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                         <StepLabel classes={{ root: classes.root }}>Definición del problema</StepLabel>
                     </Link>
                 </Step>
 
                 <Step active={route().current('convocatorias.proyectos.arbol-objetivos')}>
-                    <Link href={route('convocatorias.proyectos.arbol-objetivos', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
+                    <Link href={route('convocatorias.proyectos.arbol-objetivos', [proyecto?.convocatoria_id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                         <StepLabel classes={{ root: classes.root }}>
                             <p className="line-clamp-2">Objetivos, resultados, impactos y actividades</p>
                         </StepLabel>
@@ -264,7 +264,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
 
                 {proyecto?.tipo_formulario_convocatoria_id != 7 && proyecto?.tipo_formulario_convocatoria_id != 9 && proyecto?.tipo_formulario_convocatoria_id != 1 && (
                     <Step active={route().current('convocatorias.proyectos.proyecto-rol-sennova.index')}>
-                        <Link href={route('convocatorias.proyectos.proyecto-rol-sennova.index', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
+                        <Link href={route('convocatorias.proyectos.proyecto-rol-sennova.index', [proyecto?.convocatoria_id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                             <StepLabel classes={{ root: classes.root }}>Roles</StepLabel>
                         </Link>
                     </Step>
@@ -274,7 +274,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                     active={
                         route().current('convocatorias.proyectos.presupuesto.index') ? true : props.label == 'Estudios de mercado' ? true : props.label == 'EDT' ? true : props.label == 'Municipios'
                     }>
-                    <Link href={route('convocatorias.proyectos.presupuesto.index', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
+                    <Link href={route('convocatorias.proyectos.presupuesto.index', [proyecto?.convocatoria_id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                         <StepLabel classes={{ root: classes.root }}>
                             Rubros presupuestales
                             {props.label == 'Estudios de mercado' ? (
@@ -300,19 +300,19 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                 </Step>
 
                 <Step active={route().current('convocatorias.proyectos.actividades.index')}>
-                    <Link href={route('convocatorias.proyectos.actividades.index', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
+                    <Link href={route('convocatorias.proyectos.actividades.index', [proyecto?.convocatoria_id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                         <StepLabel classes={{ root: classes.root }}>Metodología Actividades</StepLabel>
                     </Link>
                 </Step>
 
                 <Step active={route().current('convocatorias.proyectos.productos.index')}>
-                    <Link href={route('convocatorias.proyectos.productos.index', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
+                    <Link href={route('convocatorias.proyectos.productos.index', [proyecto?.convocatoria_id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                         <StepLabel classes={{ root: classes.root }}>Productos</StepLabel>
                     </Link>
                 </Step>
 
                 <Step active={route().current('convocatorias.proyectos.analisis-riesgos.index')}>
-                    <Link href={route('convocatorias.proyectos.analisis-riesgos.index', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
+                    <Link href={route('convocatorias.proyectos.analisis-riesgos.index', [proyecto?.convocatoria_id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                         <StepLabel classes={{ root: classes.root }}>
                             Análisis de <br /> riesgos
                         </StepLabel>
@@ -325,7 +325,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                 proyecto?.tipo_formulario_convocatoria_id == 8 ||
                 proyecto?.tipo_formulario_convocatoria_id == 11 ? (
                     <Step active={route().current('convocatorias.proyectos.entidades-aliadas.index') ? true : props.label == 'Miembros entidad aliada' ? true : false}>
-                        <Link href={route('convocatorias.proyectos.entidades-aliadas.index', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
+                        <Link href={route('convocatorias.proyectos.entidades-aliadas.index', [proyecto?.convocatoria_id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                             <StepLabel classes={{ root: classes.root }}>
                                 Entidades aliadas
                                 {props.label == 'Miembros entidad aliada' && (
@@ -344,35 +344,35 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                 proyecto?.tipo_formulario_convocatoria_id == 8 ||
                 proyecto?.tipo_formulario_convocatoria_id == 9 ? (
                     <Step active={route().current('convocatorias.proyectos.indicadores')}>
-                        <Link href={route('convocatorias.proyectos.indicadores', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
+                        <Link href={route('convocatorias.proyectos.indicadores', [proyecto?.convocatoria_id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                             <StepLabel classes={{ root: classes.root }}>Indicadores</StepLabel>
                         </Link>
                     </Step>
                 ) : null}
 
                 <Step active={route().current('convocatorias.proyectos.proyecto-anexos.index')}>
-                    <Link href={route('convocatorias.proyectos.proyecto-anexos.index', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
+                    <Link href={route('convocatorias.proyectos.proyecto-anexos.index', [proyecto?.convocatoria_id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                         <StepLabel classes={{ root: classes.root }}>Anexos</StepLabel>
                     </Link>
                 </Step>
 
                 {/* {proyecto?.tipo_formulario_convocatoria_id == 12 && (
                 <Step active={route().current('convocatorias.proyectos.inventario-equipos.index')}>
-                    <Link href={route('convocatorias.proyectos.inventario-equipos.index', [convocatoria?.id, proyecto?.id])}>
+                    <Link href={route('convocatorias.proyectos.inventario-equipos.index', [proyecto?.convocatoria_id, proyecto?.id])}>
                         <StepLabel classes={{ root: classes.root }}>Inventario de equipos</StepLabel>
                     </Link>
                 </Step>
             )} */}
 
                 <Step active={route().current('convocatorias.proyectos.cadena-valor')}>
-                    <Link href={route('convocatorias.proyectos.cadena-valor', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
+                    <Link href={route('convocatorias.proyectos.cadena-valor', [proyecto?.convocatoria_id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                         <StepLabel classes={{ root: classes.root }}>Cadena de valor</StepLabel>
                     </Link>
                 </Step>
 
                 {/* {(isSuperAdmin && convocatoria?.tipo_convocatoria == 1) || (proyecto?.mostrar_recomendaciones && convocatoria?.tipo_convocatoria == 1) ? (
                 <Step active={route().current('convocatorias.proyectos.comentarios-generales-form')}>
-                    <Link href={route('convocatorias.proyectos.comentarios-generales-form', [convocatoria?.id, proyecto?.id])}>
+                    <Link href={route('convocatorias.proyectos.comentarios-generales-form', [proyecto?.convocatoria_id, proyecto?.id])}>
                         <StepLabel classes={{ root: classes.root }}>Comentarios generales</StepLabel>
                     </Link>
                 </Step>
@@ -381,7 +381,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
             )} */}
 
                 <Step active={route().current('convocatorias.proyectos.resumen-final')}>
-                    <Link href={route('convocatorias.proyectos.resumen-final', [convocatoria?.id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
+                    <Link href={route('convocatorias.proyectos.resumen-final', [proyecto?.convocatoria_id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
                         <StepLabel classes={{ root: classes.root }}>Finalizar proyecto</StepLabel>
                     </Link>
                 </Step>

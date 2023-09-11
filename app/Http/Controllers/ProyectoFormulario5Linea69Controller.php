@@ -131,6 +131,10 @@ class ProyectoFormulario5Linea69Controller extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', [$proyecto_formulario_5_linea_69->proyecto]);
 
+        if ($proyecto_formulario_5_linea_69->proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
+
         /** @var \App\Models\User */
         $auth_user = Auth::user();
 

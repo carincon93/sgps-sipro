@@ -139,11 +139,11 @@ class ProyectoFormulario12Linea68Controller extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', [$proyecto_formulario_12_linea_68->proyecto]);
 
+        if ($proyecto_formulario_12_linea_68->proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
 
-        /** @var \App\Models\User */
-        $auth_user = Auth::user();
-
-        $proyecto_formulario_12_linea_68->load('proyecto.evaluaciones.evaluacionProyectoFormulario12Linea68');
+        // $proyecto_formulario_12_linea_68->load('proyecto.evaluaciones.evaluacionProyectoFormulario12Linea68');
 
         $proyecto_formulario_12_linea_68->proyecto->precio_proyecto = $proyecto_formulario_12_linea_68->proyecto->precioProyecto;
         $proyecto_formulario_12_linea_68->proyecto->centroFormacion;
@@ -153,6 +153,9 @@ class ProyectoFormulario12Linea68Controller extends Controller
 
         $proyecto_formulario_12_linea_68->mostrar_recomendaciones       = $proyecto_formulario_12_linea_68->proyecto->mostrar_recomendaciones;
         $proyecto_formulario_12_linea_68->mostrar_requiere_subsanacion  = $proyecto_formulario_12_linea_68->proyecto->mostrar_requiere_subsanacion;
+
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
 
         if ($auth_user->hasRole(13)) {
             $tipo_proyecto_formulario_12_linea_68 = SelectHelper::laboratoriosServiciosTecnologicos()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();

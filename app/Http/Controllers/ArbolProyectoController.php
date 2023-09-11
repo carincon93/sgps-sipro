@@ -94,6 +94,10 @@ class ArbolProyectoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
+        if ($proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
+
         $this->generarArboles($proyecto);
 
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
@@ -520,6 +524,10 @@ class ArbolProyectoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
+        if ($proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
+
         $this->generarArboles($proyecto);
 
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
@@ -850,7 +858,7 @@ class ArbolProyectoController extends Controller
 
     public function updateLongColumn(ArbolesColumnRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, $column)
     {
-        $this->authorize('modificar-proyecto-autor', [$proyecto]);
+        $this->authorize('modificar-proyecto-autor', $proyecto);
 
         switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 1:

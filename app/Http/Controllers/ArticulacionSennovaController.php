@@ -29,10 +29,14 @@ class ArticulacionSennovaController extends Controller
      */
     public function showArticulacionSennova(Convocatoria $convocatoria, Proyecto $proyecto)
     {
-        $this->authorize('visualizar-proyecto-autor', [$proyecto]);
+        $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
+        if ($proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
+
         $proyecto->load('participantes.centroFormacion.regional');
+        // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
         if ($proyecto->tipo_formulario_convocatoria_id != 4 && $proyecto->tipo_formulario_convocatoria_id != 5 && $proyecto->tipo_formulario_convocatoria_id != 10 && $proyecto->tipo_formulario_convocatoria_id != 11 && $proyecto->tipo_formulario_convocatoria_id != 17) {
             return back()->with('error', 'No puede acceder a este módulo.');
@@ -257,7 +261,7 @@ class ArticulacionSennovaController extends Controller
 
     public function updateLongColumn(ArticulacionSennovaColumnRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, $column)
     {
-        $this->authorize('modificar-proyecto-autor', [$proyecto]);
+        $this->authorize('modificar-proyecto-autor', $proyecto);
 
         switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 4:

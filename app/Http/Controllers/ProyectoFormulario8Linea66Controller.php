@@ -172,6 +172,10 @@ class ProyectoFormulario8Linea66Controller extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', [$proyecto_formulario_8_linea_66->proyecto]);
 
+        if ($proyecto_formulario_8_linea_66->proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
+
         // $proyecto_formulario_8_linea_66->load('proyecto.evaluaciones.evaluacionProyectoFormulario8Linea66');
 
         $proyecto_formulario_8_linea_66->proyecto->precio_proyecto = $proyecto_formulario_8_linea_66->proyecto->precioProyecto;

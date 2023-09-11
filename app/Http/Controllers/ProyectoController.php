@@ -142,6 +142,10 @@ class ProyectoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
+        if ($proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
+
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
@@ -243,7 +247,7 @@ class ProyectoController extends Controller
 
     public function updateCadenaValorLongColumn(CadenaValorColumnRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, $column)
     {
-        $this->authorize('modificar-proyecto-autor', [$proyecto]);
+        $this->authorize('modificar-proyecto-autor', $proyecto);
 
         switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 1:
@@ -560,6 +564,10 @@ class ProyectoController extends Controller
      */
     public function edit(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
     {
+        if ($proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
+
         switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 1:
                 return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-formulario-1-linea-65.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-formulario-1-linea-65.edit', [$convocatoria, $proyecto]);
@@ -616,7 +624,11 @@ class ProyectoController extends Controller
      */
     public function resumenFinal(Convocatoria $convocatoria, Proyecto $proyecto)
     {
-        $this->authorize('visualizar-proyecto-autor', [$proyecto]);
+        $this->authorize('visualizar-proyecto-autor', $proyecto);
+
+        if ($proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
 
         $proyecto->precio_proyecto = $proyecto->precioProyecto;
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
@@ -803,7 +815,7 @@ class ProyectoController extends Controller
      */
     public function finalizarProyecto(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
     {
-        $this->authorize('visualizar-proyecto-autor', [$proyecto]);
+        $this->authorize('visualizar-proyecto-autor', $proyecto);
 
         /** @var \App\Models\User */
         $auth_user = Auth::user();
@@ -870,6 +882,10 @@ class ProyectoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
+        if ($proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
+
         $proyecto->participantes;
         $proyecto->programasFormacion;
         $proyecto->semillerosInvestigacion;
@@ -910,7 +926,7 @@ class ProyectoController extends Controller
      */
     public function linkParticipante(ProponenteRequest $request, Convocatoria $convocatoria, Proyecto $proyecto)
     {
-        $this->authorize('modificar-proyecto-autor', [$proyecto]);
+        $this->authorize('modificar-proyecto-autor', $proyecto);
 
         $data = $request->only('cantidad_horas', 'cantidad_meses', 'rol_sennova');
 
@@ -932,7 +948,7 @@ class ProyectoController extends Controller
      */
     public function unlinkParticipante( Convocatoria $convocatoria, Proyecto $proyecto, User $user)
     {
-        $this->authorize('modificar-proyecto-autor', [$proyecto]);
+        $this->authorize('modificar-proyecto-autor', $proyecto);
 
         try {
             if ($proyecto->participantes()->where('user_id', $user->id)->exists()) {
@@ -956,7 +972,7 @@ class ProyectoController extends Controller
      */
     public function updateParticipante(ProponenteRequest $request, Convocatoria $convocatoria, Proyecto $proyecto)
     {
-        $this->authorize('modificar-proyecto-autor', [$proyecto]);
+        $this->authorize('modificar-proyecto-autor', $proyecto);
 
         try {
             $participante = $proyecto->participantes()->where('users.id', $request->user_id)->first();
@@ -983,7 +999,7 @@ class ProyectoController extends Controller
      */
     public function linkSemilleroInvestigacion(Convocatoria $convocatoria, Proyecto $proyecto, SemilleroInvestigacion $semilleroInvestigacion)
     {
-        $this->authorize('modificar-proyecto-autor', [$proyecto]);
+        $this->authorize('modificar-proyecto-autor', $proyecto);
 
         try {
             if ($proyecto->semillerosInvestigacion()->where('semilleros_investigacion.id', $semilleroInvestigacion->id)->exists()) {
@@ -1007,7 +1023,7 @@ class ProyectoController extends Controller
      */
     public function unlinkSemilleroInvestigacion(Convocatoria $convocatoria, Proyecto $proyecto, SemilleroInvestigacion $semilleroInvestigacion)
     {
-        $this->authorize('modificar-proyecto-autor', [$proyecto]);
+        $this->authorize('modificar-proyecto-autor', $proyecto);
 
         try {
             if ($proyecto->semillerosInvestigacion()->where('semilleros_investigacion.id', $semilleroInvestigacion->id)->exists()) {
@@ -1058,7 +1074,7 @@ class ProyectoController extends Controller
      */
     public function linkProgramaFormacion(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
     {
-        $this->authorize('modificar-proyecto-autor', [$proyecto]);
+        $this->authorize('modificar-proyecto-autor', $proyecto);
 
         $request->validate(['programa_formacion_id' => 'required']);
 
@@ -1085,7 +1101,7 @@ class ProyectoController extends Controller
      */
     public function unlinkProgramaFormacion(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
     {
-        $this->authorize('modificar-proyecto-autor', [$proyecto]);
+        $this->authorize('modificar-proyecto-autor', $proyecto);
 
         $request->validate(['programa_formacion_id' => 'required']);
 
@@ -1124,7 +1140,7 @@ class ProyectoController extends Controller
      */
     public function storeProgramaFormacion(ProgramaFormacionRequest $request, Convocatoria $convocatoria, Proyecto $proyecto)
     {
-        $this->authorize('modificar-proyecto-autor', [$proyecto]);
+        $this->authorize('modificar-proyecto-autor', $proyecto);
 
         $programaFormacion = new ProgramaFormacion();
         $programaFormacion->nombre              = $request->nombre;
@@ -1165,6 +1181,10 @@ class ProyectoController extends Controller
     public function showComentariosGeneralesForm(Convocatoria $convocatoria, Proyecto $proyecto)
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
+
+        if ($proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
 
         $proyecto->evaluaciones->load('evaluacionCausalesRechazo');
 
@@ -1293,9 +1313,13 @@ class ProyectoController extends Controller
         return back()->with('success', 'Se han actualizado los estados de los proyectos correctamente.');
     }
 
-      public function showIndicadores(Convocatoria $convocatoria, Proyecto $proyecto)
+    public function showIndicadores(Convocatoria $convocatoria, Proyecto $proyecto)
     {
-        $this->authorize('visualizar-proyecto-autor', [$proyecto]);
+        $this->authorize('visualizar-proyecto-autor', $proyecto);
+
+        if ($proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
 
         $proyecto->precio_proyecto = $proyecto->precioProyecto;
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
@@ -1315,7 +1339,7 @@ class ProyectoController extends Controller
 
     public function storeIndicadores(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
     {
-        $this->authorize('modificar-proyecto-autor', [$proyecto]);
+        $this->authorize('modificar-proyecto-autor', $proyecto);
 
         switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 6:
@@ -1339,7 +1363,7 @@ class ProyectoController extends Controller
 
     public function updateIndicadoresLongColumn(IndicadorColumnRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, $column)
     {
-        $this->authorize('modificar-proyecto-autor', [$proyecto]);
+        $this->authorize('modificar-proyecto-autor', $proyecto);
 
         switch ($proyecto->tipo_formulario_convocatoria_id) {
 

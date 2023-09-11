@@ -26,6 +26,10 @@ class ProductoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
+        if ($proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
+
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
 
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;

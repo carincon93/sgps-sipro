@@ -130,8 +130,9 @@ class ProyectoFormulario17Linea69Controller extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', [$proyecto_formulario_17_linea_69->proyecto]);
 
-        /** @var \App\Models\User */
-        $auth_user = Auth::user();
+        if ($proyecto_formulario_17_linea_69->proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
 
         // $proyecto_formulario_17_linea_69->load('proyecto.evaluaciones.evaluacionProyectoFormulario17Linea69');
 
@@ -143,7 +144,10 @@ class ProyectoFormulario17Linea69Controller extends Controller
         $proyecto_formulario_17_linea_69->mostrar_recomendaciones        = $proyecto_formulario_17_linea_69->proyecto->mostrar_recomendaciones;
         $proyecto_formulario_17_linea_69->mostrar_requiere_subsanacion   = $proyecto_formulario_17_linea_69->proyecto->mostrar_requiere_subsanacion;
 
-          if ($auth_user->hasRole(16)) {
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
+        if ($auth_user->hasRole(16)) {
             $nodos_tecnoparque = SelectHelper::nodosTecnoparque()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
         } else {
             $nodos_tecnoparque = SelectHelper::nodosTecnoparque();

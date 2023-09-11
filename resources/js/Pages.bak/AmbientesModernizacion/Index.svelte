@@ -160,25 +160,4 @@
             </div>
         </div>
     </Dialog>
-
-    <Dialog bind:open={dialogEliminar}>
-        <div slot="title">
-            <div class="text-center">Eliminar recurso</div>
-            <div class="relative bg-app-100 text-app-600 p-5 h-44 w-1/3 m-auto my-10" style="border-radius: 41% 59% 70% 30% / 32% 40% 60% 68% ;">
-                <figure>
-                    <img src="/images/eliminar.png" alt="" class="h-44 m-auto" />
-                </figure>
-            </div>
-            <div class="text-center">
-                ¿Está seguro (a) que desea eliminar este elemento?<br />Una vez eliminado todos sus recursos y datos se eliminarán de forma permanente.
-            </div>
-        </div>
-        <div slot="content" />
-        <div slot="actions">
-            <div class="p-4">
-                <Button on:click={() => (dialogEliminar = false)} variant={null}>Cancelar</Button>
-                <Button variant="raised" type="button" on:click={() => destroy()}>Confirmar</Button>
-            </div>
-        </div>
-    </Dialog>
 </AuthenticatedLayout>

@@ -26,8 +26,12 @@ class ActividadController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
-        $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
+        if ($proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
+
+        // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
+        // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
         $objetivo_especifico = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
 
@@ -303,7 +307,7 @@ class ActividadController extends Controller
 
     public function updateLongColumn(MetodologiaColumnRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, $column)
     {
-        $this->authorize('modificar-proyecto-autor', [$proyecto]);
+        $this->authorize('modificar-proyecto-autor', $proyecto);
 
         switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 1:

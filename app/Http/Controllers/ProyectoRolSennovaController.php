@@ -28,6 +28,10 @@ class ProyectoRolSennovaController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
+        if ($proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
+
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
 
         $objetivos_especificos = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
@@ -92,22 +96,6 @@ class ProyectoRolSennovaController extends Controller
         $proyecto_rol_sennova = ProyectoRolSennova::create($request->all());
         $proyecto_rol_sennova->actividades()->sync($request->actividad_id);
 
-        // if ($proyecto->lineaProgramatica->codigo == 70) {
-        //     $request->validate(
-        //         [
-        //             'linea_tecnologica_id*' => 'nullable|min:0|max:2147483647|exists:lineas_tecnoacademia,id'
-        //         ]
-        //     );
-        //     $proyecto_rol_sennova->lineasTecnoacademia()->sync($request->linea_tecnologica_id);
-        // } else if ($proyecto->lineaProgramatica->codigo == 69) {
-        //     $request->validate(
-        //         [
-        //             'linea_tecnologica_id*' => 'nullable|min:0|max:2147483647|exists:lineas_tecnoparque,id'
-        //         ]
-        //     );
-        //     $proyecto_rol_sennova->lineasTecnoparque()->sync($request->linea_tecnologica_id);
-        // }
-
         return redirect()->route('convocatorias.proyectos.proyecto-rol-sennova.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
     }
 
@@ -161,22 +149,6 @@ class ProyectoRolSennovaController extends Controller
 
         $proyecto_rol_sennova->update($request->validated());
         $proyecto_rol_sennova->actividades()->sync($request->actividad_id);
-
-        // if ($proyecto->lineaProgramatica->codigo == 70) {
-        //     $request->validate(
-        //         [
-        //             'linea_tecnologica_id*' => 'nullable|min:0|max:2147483647|exists:lineas_tecnoacademia,id'
-        //         ]
-        //     );
-        //     $proyecto_rol_sennova->lineasTecnoacademia()->sync($request->linea_tecnologica_id);
-        // } else if ($proyecto->lineaProgramatica->codigo == 69) {
-        //     $request->validate(
-        //         [
-        //             'linea_tecnologica_id*' => 'nullable|min:0|max:2147483647|exists:lineas_tecnoparque,id'
-        //         ]
-        //     );
-        //     $proyecto_rol_sennova->lineasTecnoparque()->sync($request->linea_tecnologica_id);
-        // }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }

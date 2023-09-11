@@ -20,6 +20,10 @@ class PdfController extends Controller
 {
     static function generarPdfFormulario1Linea65(Convocatoria $convocatoria, Proyecto $proyecto)
     {
+        if ($proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
+
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', -1);
 

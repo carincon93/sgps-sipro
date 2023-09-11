@@ -160,6 +160,10 @@ class ProyectoFormulario7Linea23Controller extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', [$proyecto_formulario_7_linea_23->proyecto]);
 
+        if ($proyecto_formulario_7_linea_23->proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
+
         // $proyecto_formulario_7_linea_23->load('proyecto.evaluaciones.evaluacionProyectoFormulario7Linea23');
 
         $proyecto_formulario_7_linea_23->proyecto->precio_proyecto = $proyecto_formulario_7_linea_23->proyecto->precioProyecto;
