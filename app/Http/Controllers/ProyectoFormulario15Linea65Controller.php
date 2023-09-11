@@ -170,7 +170,7 @@ class ProyectoFormulario15Linea65Controller extends Controller
             'tematicas_estrategicas'                        => SelectHelper::tematicasEstrategicas(),
             'municipios'                                    => SelectHelper::municipios(),
             'lineas_tecnoacademia'                          => SelectHelper::lineasTecnoacademia(),
-            'programas_formacion_con_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $proyecto_formulario_15_linea_65->proyecto->centro_formacion_id)->values()->all(),
+            'programas_formacion_con_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->values()->all(),
             'programas_formacion_sin_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),
             'roles_sennova'                                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
         ]);

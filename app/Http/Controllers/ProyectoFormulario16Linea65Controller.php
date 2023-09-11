@@ -161,7 +161,7 @@ class ProyectoFormulario16Linea65Controller extends Controller
             'lineas_estrategicas_sena'                      => json_decode(Storage::get('json/lineas-estrategicas.json'), true),
             'ejes_sennova'                                  => json_decode(Storage::get('json/ejes-sennova.json'), true),
             'municipios'                                    => SelectHelper::municipios(),
-            'programas_formacion_con_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $proyecto_formulario_16_linea_65->proyecto->centro_formacion_id)->values()->all(),
+            'programas_formacion_con_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->values()->all(),
             'programas_formacion_sin_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),
             'roles_sennova'                                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
         ]);

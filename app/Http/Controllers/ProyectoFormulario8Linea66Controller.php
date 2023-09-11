@@ -214,7 +214,7 @@ class ProyectoFormulario8Linea66Controller extends Controller
             'grupos_investigacion'                              => SelectHelper::gruposInvestigacion()->where('value', 126)->values()->all(),
             'areas_tematicas_eni'                               => SelectHelper::areasTematicasEni(),
             'lineas_investigacion_eni'                          => SelectHelper::lineasInvestigacion()->where('grupo_investigacion_id', 126)->values()->all(),
-            'programas_formacion_con_registro_calificado'       => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $proyecto_formulario_8_linea_66->proyecto->centro_formacion_id)->values()->all(),
+            'programas_formacion_con_registro_calificado'       => SelectHelper::programasFormacion()->where('registro_calificado', true)->values()->all(),
             'programas_formacion_sin_registro_calificado'       => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),
 
             'areas_cualificacion_mnc'                           => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),

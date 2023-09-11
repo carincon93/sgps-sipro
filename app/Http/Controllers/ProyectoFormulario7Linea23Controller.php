@@ -174,7 +174,7 @@ class ProyectoFormulario7Linea23Controller extends Controller
         $proyecto_formulario_7_linea_23->disciplinaSubareaConocimiento->subareaConocimiento->areaConocimiento;
         $proyecto_formulario_7_linea_23->proyecto->mesasSectoriales;
 
-        $proyecto_formulario_7_linea_23->mostrar_recomendaciones = $proyecto_formulario_7_linea_23->proyecto->mostrar_recomendaciones;
+        $proyecto_formulario_7_linea_23->mostrar_recomendaciones      = $proyecto_formulario_7_linea_23->proyecto->mostrar_recomendaciones;
         $proyecto_formulario_7_linea_23->mostrar_requiere_subsanacion = $proyecto_formulario_7_linea_23->proyecto->mostrar_requiere_subsanacion;
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario7Linea23/Edit', [
@@ -195,7 +195,7 @@ class ProyectoFormulario7Linea23Controller extends Controller
             'tecnoacademias'                                    => SelectHelper::tecnoacademias(),
             'municipios'                                        => SelectHelper::municipios(),
             'grupos_investigacion'                              => SelectHelper::gruposInvestigacion()->where('value', 126)->values()->all(),
-            'programas_formacion_con_registro_calificado'       => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $proyecto_formulario_7_linea_23->proyecto->centro_formacion_id)->values()->all(),
+            'programas_formacion_con_registro_calificado'       => SelectHelper::programasFormacion()->where('registro_calificado', true)->values()->all(),
             'programas_formacion_sin_registro_calificado'       => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),
             'areas_cualificacion_mnc'                           => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),
             'lineas_estrategicas'                               => json_decode(Storage::get('json/lineas-estrategicas.json'), true),

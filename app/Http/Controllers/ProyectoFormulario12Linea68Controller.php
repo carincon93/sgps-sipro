@@ -167,7 +167,7 @@ class ProyectoFormulario12Linea68Controller extends Controller
             'lineas_programaticas'                          => SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 3)->values()->all(),
             'estados_sistema_gestion'                       => SelectHelper::estadosSistemaGestion(),
             'programas_formacion_sin_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),
-            'programas_formacion_con_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->where('centro_formacion_id', $proyecto_formulario_12_linea_68->proyecto->centro_formacion_id)->values()->all(),
+            'programas_formacion_con_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', true)->values()->all(),
             'sectores_productivos'                          => collect(json_decode(Storage::get('json/sectores-productivos.json'), true)),
             'municipios'                                    => SelectHelper::municipios(),
             'tipos_proyecto_formulario_12_linea_68'         => $tipo_proyecto_formulario_12_linea_68,
