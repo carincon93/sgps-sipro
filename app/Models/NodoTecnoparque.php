@@ -84,6 +84,16 @@ class NodoTecnoparque extends Model
     }
 
     /**
+     * Relationship with TopeRolSennovaTecnoparque
+     *
+     * @return object
+     */
+    public function topesRolesSennovaTecnoparque()
+    {
+        return $this->hasMany(TopeRolSennovaTecnoparque::class, 'id');
+    }
+
+    /**
      * Filtrar registros
      *
      * @param  mixed $query
@@ -113,6 +123,11 @@ class NodoTecnoparque extends Model
     public function getNombreCarpetaSharepointAttribute()
     {
         return trim(preg_replace('/[^A-Za-z0-9\-ÁÉÍÓÚáéíóúÑñ]/', ' ', mb_strtoupper($this->nombre)));
+    }
+
+    public function getNombreAttribute($value)
+    {
+        return ucfirst($value);
     }
 
     public function getAllowedAttribute()

@@ -38,6 +38,17 @@ const TabsConvocatoria = ({ convocatoria, tipo_formulario_convocatoria_id, value
                 label="Anexos"
                 value="3"
             />
+
+            {tipo_formulario_convocatoria_id == 17 && (
+                <Tab
+                    component="a"
+                    onClick={() => {
+                        router.visit(route('convocatorias.topes-roles-sennova-tecnoparques.index', [convocatoria.id, { tipo_formulario_convocatoria_id: tipo_formulario_convocatoria_id }]))
+                    }}
+                    label="Topes - Roles SENNOVA"
+                    value="4"
+                />
+            )}
         </Tabs>
     )
 }

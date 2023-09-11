@@ -12,6 +12,7 @@ use App\Models\LineaProgramatica;
 use App\Models\RolSennova;
 use App\Models\RubroPresupuestal;
 use App\Models\TipoFormularioConvocatoria;
+use App\Models\TopeRolSennovaTecnoparque;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;

@@ -74,6 +74,7 @@ use App\Http\Controllers\ProyectoFormulario17Linea69Controller;
 use App\Http\Controllers\ProyectoFormulario6Linea82Controller;
 use App\Http\Controllers\ProyectoFormulario7Linea23Controller;
 use App\Http\Controllers\ProyectoFormulario9Linea23Controller;
+use App\Http\Controllers\TopeRolSennovaTecnoparqueController;
 use App\Models\AulaMovil;
 use App\Models\Convocatoria;
 use App\Models\EntidadAliada;
@@ -502,6 +503,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('convocatorias/{convocatoria}/tipos-formulario-convocatoria/{tipo_formulario_convocatoria}', [ConvocatoriaController::class, 'proyectosPorTipoFormulario'])->name('convocatorias.tipos-formulario-convocatoria.proyectos');
     Route::get('convocatorias/{convocatoria}/tipos-formulario-convocatoria', [ConvocatoriaController::class, 'tiposFormularioConvocatoria'])->name('convocatorias.tipos-formulario-convocatoria');
 
+    Route::resource('convocatorias.topes-roles-sennova-tecnoparques', TopeRolSennovaTecnoparqueController::class)->parameters(['convocatorias' => 'convocatoria', 'topes-roles-sennova-tecnoparques' => 'tope-rol-sennova-tecnoparque'])->except(['show']);
     Route::resource('convocatorias', ConvocatoriaController::class)->parameters(['convocatorias' => 'convocatoria'])->except(['show']);
 
     /**

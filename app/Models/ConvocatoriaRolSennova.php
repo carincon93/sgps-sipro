@@ -101,6 +101,16 @@ class ConvocatoriaRolSennova extends Model
     }
 
     /**
+     * Relationship with TopeRolSennovaTecnoparque
+     *
+     * @return object
+     */
+    public function topesRolesSennovaTecnoparque()
+    {
+        return $this->hasMany(TopeRolSennovaTecnoparque::class, 'id');
+    }
+
+    /**
      * Filtrar registros
      *
      * @param  mixed $query

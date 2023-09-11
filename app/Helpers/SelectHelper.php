@@ -548,7 +548,7 @@ class SelectHelper
         return $query->get();
     }
 
-    public static function convocatoriaRolesSennova($convocatoria_id, $proyecto_id, $tipo_formulario_convocatoria_id)
+    public static function convocatoriaRolesSennova($convocatoria_id, $tipo_formulario_convocatoria_id)
     {
        return ConvocatoriaRolSennova::selectRaw("convocatoria_rol_sennova.id as value,
                 CASE nivel_academico
