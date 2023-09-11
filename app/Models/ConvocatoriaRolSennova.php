@@ -107,7 +107,7 @@ class ConvocatoriaRolSennova extends Model
      */
     public function topesRolesSennovaTecnoparque()
     {
-        return $this->hasMany(TopeRolSennovaTecnoparque::class, 'id');
+        return $this->hasMany(TopeRolSennovaTecnoparque::class);
     }
 
     /**

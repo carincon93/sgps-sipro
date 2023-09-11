@@ -10,7 +10,7 @@ import Textarea from '@/Components/Textarea'
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_rol_sennova, convocatoria_roles_sennova, lineas_tecnologicas, actividades }) => {
+const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_rol_sennova, convocatoria_roles_sennova, niveles_academicos, actividades }) => {
     const form = useForm({
         proyecto_id: proyecto.id,
         numero_meses: proyecto_rol_sennova?.numero_meses,
@@ -52,21 +52,39 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
             <Grid item md={8}>
                 <Paper className="p-8">
                     <form onSubmit={submit}>
-                        <Grid container rowSpacing={8}>
+                        <Grid container rowSpacing={6}>
                             <Grid item md={12}>
                                 {!roles_sennova_incompletos ? (
-                                    <Autocomplete
-                                        id="convocatoria_rol_sennova_id"
-                                        label="Rol SENNOVA"
-                                        options={convocatoria_roles_sennova}
-                                        selectedValue={form.data.convocatoria_rol_sennova_id}
-                                        error={form.errors.convocatoria_rol_sennova_id}
-                                        onChange={(event, newValue) => {
-                                            form.setData('convocatoria_rol_sennova_id', newValue.value)
-                                        }}
-                                        disabled={!proyecto?.allowed?.to_update}
-                                        required
-                                    />
+                                    <>
+                                        {method == 'POST' ? (
+                                            <Autocomplete
+                                                id="convocatoria_rol_sennova_id"
+                                                label="Rol SENNOVA"
+                                                options={convocatoria_roles_sennova}
+                                                selectedValue={form.data.convocatoria_rol_sennova_id}
+                                                error={form.errors.convocatoria_rol_sennova_id}
+                                                onChange={(event, newValue) => {
+                                                    form.setData('convocatoria_rol_sennova_id', newValue.value)
+                                                }}
+                                                disabled={!proyecto?.allowed?.to_update}
+                                                required
+                                            />
+                                        ) : (
+                                            <>
+                                                <p>{proyecto_rol_sennova.convocatoria_rol_sennova.rol_sennova.nombre}</p>
+
+                                                <p className="first-letter:uppercase text-gray-00 my-4">
+                                                    {niveles_academicos.find((item) => item.value == proyecto_rol_sennova?.convocatoria_rol_sennova?.nivel_academico).label}
+                                                </p>
+
+                                                <p className="text-gray-600 my-4 whitespace-pre-wrap">
+                                                    Experiencia / Perfil
+                                                    <br />
+                                                    {proyecto_rol_sennova.convocatoria_rol_sennova.experiencia}
+                                                </p>
+                                            </>
+                                        )}
+                                    </>
                                 ) : (
                                     <AlertMui severity="error">
                                         Aún no se ha completado la información de los roles, por favor revise los canales de ayuda e informe al respectivo activador(a) para que actualice la
@@ -190,7 +208,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                             </Grid>
 
                             <Grid item md={12}>
-                                <h6 className="mt-20 mb-6 text-2xl">Actividades que deberá ejecutar el rol</h6>
+                                <h6 className="text-2xl mb-4">Actividades que deberá ejecutar el rol</h6>
                                 <SelectMultiple
                                     id="actividad_id"
                                     bdValues={form.data.actividad_id}
@@ -215,7 +233,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                             </Grid>
                         </Grid>
                         {proyecto_rol_sennova && <small className="flex items-center my-10 text-app-700">{proyecto_rol_sennova.updated_at}</small>}
-                        <div className="flex items-center justify-between mt-14 py-4">
+                        <div className="flex items-center justify-between mt-8 py-4">
                             {proyecto?.allowed?.to_update ? (
                                 <PrimaryButton disabled={form.processing || roles_sennova_incompletos || !form.isDirty || actividades.length === 0} className="mr-2 ml-auto" type="submit">
                                     {method == 'POST' ? 'Agregar' : 'Modificar'} rol SENNOVA

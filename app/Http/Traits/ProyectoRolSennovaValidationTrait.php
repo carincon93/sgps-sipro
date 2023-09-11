@@ -6,25 +6,25 @@ use App\Models\ConvocatoriaRolSennova;
 
 trait ProyectoRolSennovaValidationTrait
 {
-    public static function monitoriaValidation($convocatoriaRolSennova, $proyecto, $proyectoRolSennova, $numeroMeses, $numeroRoles)
+    public static function monitoriaValidation($convocatoria_rol_sennova, $proyecto, $proyecto_rol_sennova, $numero_meses, $numero_roles)
     {
-        $convocatoriaRolSennova = ConvocatoriaRolSennova::find($convocatoriaRolSennova);
-        if (stripos($convocatoriaRolSennova->rolSennova->nombre, 'monitor') !== false) {
+        $convocatoria_rol_sennova = ConvocatoriaRolSennova::find($convocatoria_rol_sennova);
+        if (stripos($convocatoria_rol_sennova->rolSennova->nombre, 'monitor') !== false) {
             // Trae la suma del número de monitorías requeridos
-            $numeroRolesSaved = $proyecto->proyectoRolesSennova()->selectRaw('sum(proyecto_rol_sennova.numero_roles) as qty')
+            $numero_roles_bd = $proyecto->proyectoRolesSennova()->selectRaw('sum(proyecto_rol_sennova.numero_roles) as qty')
                 ->join('convocatoria_rol_sennova', 'proyecto_rol_sennova.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')
                 ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
                 ->where('roles_sennova.nombre', 'ilike', '%monitor%')->first()->qty;
 
             // Si se va a actualizar, se trae la suma del número de monitorías requeridos del recurso a actualizar y se resta al número total de todos los monitorías para no afectar la suma de lo que viene en el form
-            if ($proyectoRolSennova) {
-                $numeroRolesSaved -= $proyecto->proyectoRolesSennova()->selectRaw('sum(proyecto_rol_sennova.numero_roles) as qty')
+            if ($proyecto_rol_sennova) {
+                $numero_roles_bd -= $proyecto->proyectoRolesSennova()->selectRaw('sum(proyecto_rol_sennova.numero_roles) as qty')
                     ->join('convocatoria_rol_sennova', 'proyecto_rol_sennova.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')
                     ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
-                    ->where('roles_sennova.nombre', 'ilike', '%monitor%')->where('proyecto_rol_sennova.id', $proyectoRolSennova->id)->first()->qty;
+                    ->where('roles_sennova.nombre', 'ilike', '%monitor%')->where('proyecto_rol_sennova.id', $proyecto_rol_sennova->id)->first()->qty;
             }
 
-            if ($numeroRoles + $numeroRolesSaved <= 4) {
+            if ($numero_roles + $numero_roles_bd <= 4) {
                 return false;
             } else {
                 return true;
@@ -34,34 +34,34 @@ trait ProyectoRolSennovaValidationTrait
         return false;
     }
 
-    public static function contratoAprendizajeValidation($convocatoriaRolSennova, $proyecto, $proyectoRolSennova, $numeroMeses, $numeroRoles)
+    public static function contratoAprendizajeValidation($convocatoria_rol_sennova, $proyecto, $proyecto_rol_sennova, $numero_meses, $numero_roles)
     {
-        $convocatoriaRolSennova = ConvocatoriaRolSennova::find($convocatoriaRolSennova);
-        if (stripos($convocatoriaRolSennova->rolSennova->nombre, 'Aprendiz sennova (contrato aprendizaje)') !== false) {
+        $convocatoria_rol_sennova = ConvocatoriaRolSennova::find($convocatoria_rol_sennova);
+        if (stripos($convocatoria_rol_sennova->rolSennova->nombre, 'Aprendiz sennova (contrato aprendizaje)') !== false) {
             // Trae la suma del número de monitorías requeridos
-            $numeroRolesSaved = $proyecto->proyectoRolesSennova()->select('roles_sennova.*')
+            $numero_roles_bd = $proyecto->proyectoRolesSennova()->select('roles_sennova.*')
                 ->join('convocatoria_rol_sennova', 'proyecto_rol_sennova.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')
                 ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
                 ->where('roles_sennova.nombre', 'ilike', '%Aprendiz sennova (contrato aprendizaje)%')
                 ->count();
 
             // Si se va a actualizar, se trae la suma del número de monitorías requeridos del recurso a actualizar y se resta al número total de todos los monitorías para no afectar la suma de lo que viene en el form
-            if ($proyectoRolSennova) {
-                $numeroRolesSaved -= $proyecto->proyectoRolesSennova()->selectRaw('sum(proyecto_rol_sennova.numero_roles) as qty')
+            if ($proyecto_rol_sennova) {
+                $numero_roles_bd -= $proyecto->proyectoRolesSennova()->selectRaw('sum(proyecto_rol_sennova.numero_roles) as qty')
                     ->join('convocatoria_rol_sennova', 'proyecto_rol_sennova.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')
                     ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
                     ->where('roles_sennova.nombre', 'ilike', '%Aprendiz sennova (contrato aprendizaje)%')
-                    ->where('proyecto_rol_sennova.id', $proyectoRolSennova->id)->first()->qty;
+                    ->where('proyecto_rol_sennova.id', $proyecto_rol_sennova->id)->first()->qty;
             }
 
             if (
                 $proyecto->proyectoRolesSennova()->where('roles_sennova.nombre', 'like', '%Aprendiz sennova (contrato aprendizaje)%')->join('convocatoria_rol_sennova', 'proyecto_rol_sennova.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')
-                ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')->count() > 1 ||  ($numeroRolesSaved + $numeroRoles) > 1
+                ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')->count() > 1 ||  ($numero_roles_bd + $numero_roles) > 1
             ) {
                 return true;
             }
 
-            if ($numeroMeses == 6 && $numeroRoles <= 1) {
+            if ($numero_meses == 6 && $numero_roles <= 1) {
                 return false;
             } else {
                 return true;
@@ -69,6 +69,21 @@ trait ProyectoRolSennovaValidationTrait
         }
 
         return false;
+    }
+
+    public static function topesRolesSennovaTecnoparqueValidation($convocatoria, $proyecto)
+    {
+        $nodo_tecnoparque = $proyecto->proyectoFormulario17Linea69->nodoTecnoparque()->first();
+
+        foreach ($proyecto->proyectoRolesSennova as $proyecto_rol_sennova) {
+            if ($proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaTecnoparque()->exists()) {
+                if ($proyecto_rol_sennova->numero_roles > $proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaTecnoparque()->where('nodo_tecnoparque_id', $nodo_tecnoparque->id)->first()->cantidad_maxima) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -80,12 +95,12 @@ trait ProyectoRolSennovaValidationTrait
      * @param  mixed $codigo
      * @return int
      */
-    public static function totalRolesSennova($proyecto, $rolSennovaId)
+    public static function totalRolesSennova($proyecto, $rol_sennova_id)
     {
         $total = 0;
 
-        foreach ($proyecto->proyectoRolesSennova as $rolSennova) {
-            if ($rolSennova->convocatoriaRolSennova->rolSennova->id == $rolSennovaId) {
+        foreach ($proyecto->proyectoRolesSennova as $rol_sennova) {
+            if ($rol_sennova->convocatoriaRolSennova->rolSennova->id == $rol_sennova_id) {
                 $total++;
             }
         }

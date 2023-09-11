@@ -32,6 +32,7 @@ const ResumenFinal = ({
     articulacionSennova,
     soportesEstudioMercado,
     estudiosMercadoArchivo,
+    topes_roles_sennova_tecnoparque,
     edt,
 }) => {
     const ul_ref = useRef(null)
@@ -130,6 +131,9 @@ const ResumenFinal = ({
                             {!anexos && <li>No se han cargado todos los anexos obligatorios</li>}
                             {!soportesEstudioMercado && <li>Hay estudios de mercado con menos de dos soportes</li>}
                             {!estudiosMercadoArchivo && <li>Hay rubros presupuestales que no tienen el estudio de mercado cargado</li>}
+                            {!topes_roles_sennova_tecnoparque && (
+                                <li>Ha superado el número máximo de uno o varios roles que ha asociado al proyecto. Por favor revise en los lineamientos los roles máximos para su nodo.</li>
+                            )}
                         </ul>
                     </AlertMui>
                 )}

@@ -34,21 +34,6 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
     const [proyecto_rol_sennova, setProyectoRolSennova] = useState(null)
     const [proyecto_rol_sennova_id_to_destroy, setProyectoRolSennovaIdToDestroy] = useState(null)
 
-    const form = useForm({
-        cantidad_instructores_planta: proyecto.cantidad_instructores_planta,
-        cantidad_dinamizadores_planta: proyecto.cantidad_dinamizadores_planta,
-        cantidad_psicopedagogos_planta: proyecto.cantidad_psicopedagogos_planta,
-    })
-
-    const submit = (e) => {
-        e.preventDefault()
-        if (proyecto.allowed.to_update) {
-            form.put(route('convocatorias.proyectos.rol-sennova-ta.update', [convocatoria.id, proyecto.id]), {
-                preserveScroll: true,
-            })
-        }
-    }
-
     return (
         <AuthenticatedLayout>
             <Grid item md={12} className="!mb-20">
@@ -65,69 +50,6 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
                         <strong>Aprendiz SENNOVA (contrato aprendizaje)</strong> no suma al total del presupuesto del proyecto.
                     </p>
                 </AlertMui>
-            </Grid>
-
-            <Grid item md={12}>
-                {proyecto.tipo_formulario_convocatoria_id == 4 && (
-                    <>
-                        <AlertMui>Ingrese el número de instructores de planta, dinamizadores de planta y psicopedagógos de planta que requiere el proyecto.</AlertMui>
-                        <form onSubmit={submit} className="mb-40">
-                            <fieldset>
-                                <div className="mt-8">
-                                    <TextInput
-                                        label="Número de instructores de planta"
-                                        id="cantidad_instructores_planta"
-                                        type="number"
-                                        inputProps={{ min: 0, max: 32767 }}
-                                        className="mt-1"
-                                        error={form.errors.cantidad_instructores_planta}
-                                        value={form.data.cantidad_instructores_planta}
-                                        onChange={(e) => form.setData('cantidad_instructores_planta', e.target.value)}
-                                        disabled={!proyecto?.allowed?.to_update}
-                                        required
-                                    />
-                                </div>
-
-                                <div className="mt-8">
-                                    <TextInput
-                                        label="Número de dinamizadores de planta"
-                                        id="cantidad_dinamizadores_planta"
-                                        type="number"
-                                        inputProps={{ min: 0, max: 32767 }}
-                                        className="mt-1"
-                                        error={form.errors.cantidad_dinamizadores_planta}
-                                        value={form.data.cantidad_dinamizadores_planta}
-                                        onChange={(e) => form.setData('cantidad_dinamizadores_planta', e.target.value)}
-                                        disabled={!proyecto?.allowed?.to_update}
-                                        required
-                                    />
-                                </div>
-
-                                <div className="mt-8">
-                                    <TextInput
-                                        label="Número de psicopedagógos de planta"
-                                        id="cantidad_psicopedagogos_planta"
-                                        type="number"
-                                        inputProps={{ min: 0, max: 32767 }}
-                                        className="mt-1"
-                                        error={form.errors.cantidad_psicopedagogos_planta}
-                                        value={form.data.cantidad_psicopedagogos_planta}
-                                        onChange={(e) => form.setData('cantidad_psicopedagogos_planta', e.target.value)}
-                                        disabled={!proyecto?.allowed?.to_update}
-                                        required
-                                    />
-                                </div>
-                            </fieldset>
-                            <div className="flex items-center justify-between mt-14 px-8 py-4">
-                                {proyecto.allowed.to_update && (
-                                    <PrimaryButton disabled={form.processing || proyecto?.allowed?.to_update} className="ml-auto" type="submit">
-                                        Guardar
-                                    </PrimaryButton>
-                                )}
-                            </div>
-                        </form>
-                    </>
-                )}
             </Grid>
 
             <Grid item md={12}>
@@ -272,7 +194,7 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
                             proyecto_rol_sennova={proyecto_rol_sennova}
                             convocatoria_roles_sennova={convocatoria_roles_sennova}
                             actividades={actividades}
-                            lineas_tecnologicas={lineas_tecnologicas}
+                            niveles_academicos={niveles_academicos}
                         />
                     }
                 />

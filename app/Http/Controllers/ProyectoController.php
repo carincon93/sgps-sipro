@@ -7,6 +7,7 @@ use App\Http\Requests\CadenaValorColumnRequest;
 use App\Http\Requests\IndicadorColumnRequest;
 use App\Http\Requests\ProgramaFormacionRequest;
 use App\Http\Requests\ProponenteRequest;
+use App\Http\Traits\ProyectoRolSennovaValidationTrait;
 use App\Http\Traits\ProyectoValidationTrait;
 use App\Models\Convocatoria;
 use App\Models\Evaluacion\Evaluacion;
@@ -14,7 +15,6 @@ use App\Models\User;
 use App\Models\ProgramaFormacion;
 use App\Models\Proyecto;
 use App\Models\SemilleroInvestigacion;
-use App\Models\ProyectoPdfVersion;
 use App\Models\RolSennova;
 use App\Notifications\ComentarioProyecto;
 use App\Notifications\EvaluacionFinalizada;
@@ -626,33 +626,33 @@ class ProyectoController extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/ResumenFinal', [
-            'convocatoria'                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
-            'proyecto'                      => $proyecto,
-            'problemaCentral'               => ProyectoValidationTrait::problemaCentral($proyecto),
-            'efectosDirectos'               => ProyectoValidationTrait::efectosDirectos($proyecto),
-            'causasIndirectas'              => ProyectoValidationTrait::causasIndirectas($proyecto),
-            'causasDirectas'                => ProyectoValidationTrait::causasDirectas($proyecto),
-            'efectosIndirectos'             => ProyectoValidationTrait::efectosIndirectos($proyecto),
-            'objetivoGeneral'               => ProyectoValidationTrait::objetivoGeneral($proyecto),
-            'resultados'                    => ProyectoValidationTrait::resultados($proyecto),
-            'objetivosEspecificos'          => ProyectoValidationTrait::objetivosEspecificos($proyecto),
-            'actividades'                   => ProyectoValidationTrait::actividades($proyecto),
-            'impactos'                      => ProyectoValidationTrait::impactos($proyecto),
-            'edt'                           => ProyectoValidationTrait::edt($proyecto),
+            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
+            'proyecto'                          => $proyecto,
+            'problemaCentral'                   => ProyectoValidationTrait::problemaCentral($proyecto),
+            'efectosDirectos'                   => ProyectoValidationTrait::efectosDirectos($proyecto),
+            'causasIndirectas'                  => ProyectoValidationTrait::causasIndirectas($proyecto),
+            'causasDirectas'                    => ProyectoValidationTrait::causasDirectas($proyecto),
+            'efectosIndirectos'                 => ProyectoValidationTrait::efectosIndirectos($proyecto),
+            'objetivoGeneral'                   => ProyectoValidationTrait::objetivoGeneral($proyecto),
+            'resultados'                        => ProyectoValidationTrait::resultados($proyecto),
+            'objetivosEspecificos'              => ProyectoValidationTrait::objetivosEspecificos($proyecto),
+            'actividades'                       => ProyectoValidationTrait::actividades($proyecto),
+            'impactos'                          => ProyectoValidationTrait::impactos($proyecto),
+            'edt'                               => ProyectoValidationTrait::edt($proyecto),
+            'topes_roles_sennova_tecnoparque'   => $proyecto->proyectoFormulario17Linea69()->exists() ? ProyectoRolSennovaValidationTrait::topesRolesSennovaTecnoparqueValidation($convocatoria, $proyecto) : null,
             // 'actividadesPresupuesto'    => ProyectoValidationTrait::actividadesPresupuesto($proyecto),
-            'resultadoProducto'             => ProyectoValidationTrait::resultadoProducto($proyecto),
-            'analisisRiesgo'                => ProyectoValidationTrait::analisisRiesgo($proyecto),
-            'anexos'                        => ProyectoValidationTrait::anexos($proyecto),
-            'generalidades'                 => ProyectoValidationTrait::generalidades($proyecto),
-            'metodologia'                   => ProyectoValidationTrait::metodologia($proyecto),
-            'propuestaSostenibilidad'       => ProyectoValidationTrait::propuestaSostenibilidad($proyecto),
-            'productosActividades'          => ProyectoValidationTrait::productosActividades($proyecto),
-            'articulacionSennova'           => ProyectoValidationTrait::articulacionSennova($proyecto),
-            'soportesEstudioMercado'        => ProyectoValidationTrait::soportesEstudioMercado($proyecto),
-            'estudiosMercadoArchivo'        => ProyectoValidationTrait::estudiosMercadoArchivo($proyecto),
-            'minInstructoresInvestigadores' => ProyectoValidationTrait::minInstructoresInvestigadores($proyecto),
-            'minAprendicesEnSemilleros'     => ProyectoValidationTrait::minAprendicesEnSemilleros($proyecto),
-            'versiones'                     => $proyecto->PdfVersiones,
+            'resultadoProducto'                 => ProyectoValidationTrait::resultadoProducto($proyecto),
+            'analisisRiesgo'                    => ProyectoValidationTrait::analisisRiesgo($proyecto),
+            'anexos'                            => ProyectoValidationTrait::anexos($proyecto),
+            'generalidades'                     => ProyectoValidationTrait::generalidades($proyecto),
+            'metodologia'                       => ProyectoValidationTrait::metodologia($proyecto),
+            'propuestaSostenibilidad'           => ProyectoValidationTrait::propuestaSostenibilidad($proyecto),
+            'productosActividades'              => ProyectoValidationTrait::productosActividades($proyecto),
+            'articulacionSennova'               => ProyectoValidationTrait::articulacionSennova($proyecto),
+            'soportesEstudioMercado'            => ProyectoValidationTrait::soportesEstudioMercado($proyecto),
+            'estudiosMercadoArchivo'            => ProyectoValidationTrait::estudiosMercadoArchivo($proyecto),
+            'minInstructoresInvestigadores'     => ProyectoValidationTrait::minInstructoresInvestigadores($proyecto),
+            'minAprendicesEnSemilleros'         => ProyectoValidationTrait::minAprendicesEnSemilleros($proyecto),
         ]);
     }
 

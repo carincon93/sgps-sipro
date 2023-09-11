@@ -78,7 +78,6 @@ class ProyectoRolSennova extends Model
         return $this->belongsTo(ConvocatoriaRolSennova::class);
     }
 
-
     /**
      * Relationship with Actividad
      *

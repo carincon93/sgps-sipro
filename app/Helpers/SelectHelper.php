@@ -548,23 +548,33 @@ class SelectHelper
         return $query->get();
     }
 
-    public static function convocatoriaRolesSennova($convocatoria_id, $tipo_formulario_convocatoria_id)
+    public static function convocatoriaRolesSennova($convocatoria_id, $tipo_formulario_convocatoria_id, $proyecto = null)
     {
-       return ConvocatoriaRolSennova::selectRaw("convocatoria_rol_sennova.id as value,
-                CASE nivel_academico
-                    WHEN '7' THEN   CONCAT(roles_sennova.nombre, chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                    WHEN '1' THEN   CONCAT(roles_sennova.nombre, ' (Técnico)', chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                    WHEN '2' THEN   CONCAT(roles_sennova.nombre, ' (Tecnólogo)', chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                    WHEN '3' THEN   CONCAT(roles_sennova.nombre, ' (Pregrado)', chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                    WHEN '4' THEN   CONCAT(roles_sennova.nombre, ' (Especalización)', chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                    WHEN '5' THEN   CONCAT(roles_sennova.nombre, ' (Maestría)', chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                    WHEN '6' THEN   CONCAT(roles_sennova.nombre, ' (Doctorado)', chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                    WHEN '8' THEN   CONCAT(roles_sennova.nombre, ' (Técnico con especialización)', chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                    WHEN '9' THEN   CONCAT(roles_sennova.nombre, ' (Tecnólogo con especialización)', chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
-                END as label")
-            ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
-            ->where('convocatoria_rol_sennova.tipo_formulario_convocatoria_id', $tipo_formulario_convocatoria_id)
-            ->where('convocatoria_rol_sennova.convocatoria_id', $convocatoria_id)
-            ->orderBy('roles_sennova.nombre')->get();
+        $query =    ConvocatoriaRolSennova::selectRaw("convocatoria_rol_sennova.id as value,
+                        CASE nivel_academico
+                            WHEN '7' THEN   CONCAT(roles_sennova.nombre, chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
+                            WHEN '1' THEN   CONCAT(roles_sennova.nombre, ' (Técnico)', chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
+                            WHEN '2' THEN   CONCAT(roles_sennova.nombre, ' (Tecnólogo)', chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
+                            WHEN '3' THEN   CONCAT(roles_sennova.nombre, ' (Pregrado)', chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
+                            WHEN '4' THEN   CONCAT(roles_sennova.nombre, ' (Especalización)', chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
+                            WHEN '5' THEN   CONCAT(roles_sennova.nombre, ' (Maestría)', chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
+                            WHEN '6' THEN   CONCAT(roles_sennova.nombre, ' (Doctorado)', chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
+                            WHEN '8' THEN   CONCAT(roles_sennova.nombre, ' (Técnico con especialización)', chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
+                            WHEN '9' THEN   CONCAT(roles_sennova.nombre, ' (Tecnólogo con especialización)', chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
+                        END as label");
+
+                    if ($tipo_formulario_convocatoria_id == 17 && $proyecto) {
+                        $nodo_tecnoparque = $proyecto->proyectoFormulario17Linea69->nodoTecnoparque()->first();
+
+                        $query->join('topes_roles_nodos_tecnoparque', 'convocatoria_rol_sennova.id', 'topes_roles_nodos_tecnoparque.convocatoria_rol_sennova_id');
+                        $query->where('topes_roles_nodos_tecnoparque.nodo_tecnoparque_id', $nodo_tecnoparque->id);
+                    }
+
+                    $query->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id');
+                    $query->whereNotIn('convocatoria_rol_sennova.id', $proyecto->proyectoRolesSennova()->pluck('convocatoria_rol_sennova_id')->toArray());
+                    $query->where('convocatoria_rol_sennova.tipo_formulario_convocatoria_id', $tipo_formulario_convocatoria_id);
+                    $query->where('convocatoria_rol_sennova.convocatoria_id', $convocatoria_id);
+
+       return $query->orderBy('roles_sennova.nombre')->get();
     }
 }
