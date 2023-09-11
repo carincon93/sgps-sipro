@@ -16,7 +16,7 @@ import { useState } from 'react'
 
 import Form from './Form'
 
-const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_roles_sennova, nodos_tecnoparque, roles_sennova }) => {
+const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_roles_sennova, nodos_tecnoparque, roles_sennova, niveles_academicos }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -35,7 +35,7 @@ const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_ro
                 )}
 
                 <Grid item md={12}>
-                    <TableMui className="mt-20" rows={['Nombre', 'Rol SENNOVA', 'Cantidad máxima', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui className="mt-20" rows={['Nombre', 'Rol SENNOVA', 'Nivel académico', 'Cantidad máxima', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         <TableRow
                             onClick={() => (setDialogStatus(true), setMethod('POST'), setTopeRolSennovaTecnoparque(null))}
                             variant="raised"
@@ -52,6 +52,11 @@ const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_ro
                                     <p className="first-letter:uppercase">Red Tecnoparque Nodo {tope_rol_sennova_tecnoparque.nodo_tecnoparque.nombre}</p>
                                 </TableCell>
                                 <TableCell>{tope_rol_sennova_tecnoparque.convocatoria_rol_sennova.rol_sennova.nombre}</TableCell>
+                                <TableCell>
+                                    <p className="first-letter:uppercase">
+                                        {niveles_academicos.find((item) => item.value == tope_rol_sennova_tecnoparque.convocatoria_rol_sennova.nivel_academico)?.label}
+                                    </p>
+                                </TableCell>
                                 <TableCell>{tope_rol_sennova_tecnoparque.cantidad_maxima}</TableCell>
 
                                 <TableCell>

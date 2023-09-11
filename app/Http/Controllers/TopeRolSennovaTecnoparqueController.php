@@ -6,6 +6,7 @@ use App\Helpers\SelectHelper;
 use App\Models\Convocatoria;
 use App\Models\TopeRolSennovaTecnoparque;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class TopeRolSennovaTecnoparqueController extends Controller
@@ -19,9 +20,10 @@ class TopeRolSennovaTecnoparqueController extends Controller
 
         return Inertia::render('Convocatorias/TopesRolesSennovaTecnoparque/Index', [
             'convocatoria'          => $convocatoria,
-            'topes_roles_sennova'   => TopeRolSennovaTecnoparque::select('topes_roles_nodos_tecnoparque.*')->with('nodoTecnoparque', 'convocatoriaRolSennova.rolSennova')->join('convocatoria_rol_sennova', 'topes_roles_nodos_tecnoparque.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')->where('convocatoria_rol_sennova.convocatoria_id', $convocatoria->id)->get(),
+            'topes_roles_sennova'   => TopeRolSennovaTecnoparque::select('topes_roles_nodos_tecnoparque.*')->with('nodoTecnoparque', 'convocatoriaRolSennova.rolSennova')->join('convocatoria_rol_sennova', 'topes_roles_nodos_tecnoparque.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')->where('convocatoria_rol_sennova.convocatoria_id', $convocatoria->id)->orderBy('topes_roles_nodos_tecnoparque.nodo_tecnoparque_id')->get(),
             'nodos_tecnoparque'     => SelectHelper::nodosTecnoparque(),
-            'roles_sennova'         => SelectHelper::convocatoriaRolesSennova($convocatoria->id, 17)
+            'roles_sennova'         => SelectHelper::convocatoriaRolesSennova($convocatoria->id, 17),
+            'niveles_academicos'    => json_decode(Storage::get('json/niveles-academicos.json'), true),
         ]);
     }
 
