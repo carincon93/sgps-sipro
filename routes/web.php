@@ -764,8 +764,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('ambientes-modernizacion/{ambiente_modernizacion}/download', [AmbienteModernizacionController::class, 'download'])->name('ambientes-modernizacion.download');
     Route::get('ambientes-modernizacion/{ambiente_modernizacion}/download-file-sharepoint/{tipo_archivo}', [AmbienteModernizacionController::class, 'downloadFileSharepoint'])->name('ambientes-modernizacion.download-file-sharepoint');
 
-    Route::get('ambientes-modernizacion/{ambiente_modernizacion}/equipos-ambiente-modernizacion', [AmbienteModernizacionController::class, 'listaEquipos'])->name('equipos-ambiente-modernizacion.index');
-    Route::post('ambientes-modernizacion/{ambiente_modernizacion}/equipos-ambiente-modernizacion/store', [AmbienteModernizacionController::class, 'updateCreateEquipo'])->name('equipos-ambiente-modernizacion.update-create-equipo');
+    Route::get('seguimientos-ambiente-modernizacion/{seguimiento}/equipos-ambiente-modernizacion', [AmbienteModernizacionController::class, 'listaEquipos'])->name('equipos-ambiente-modernizacion.index');
+    Route::post('seguimientos-ambiente-modernizacion/{seguimiento}/equipos-ambiente-modernizacion/store', [AmbienteModernizacionController::class, 'updateCreateEquipo'])->name('equipos-ambiente-modernizacion.update-create-equipo');
+    Route::post('seguimientos-ambiente-modernizacion/{seguimiento}/replicate', [AmbienteModernizacionController::class, 'replicateRow'])->name('seguimientos-ambiente-modernizacion.replicate');
     Route::delete('ambientes-modernizacion/equipos-ambiente-modernizacion/{equipo_ambiente_modernizacion}/destroy', [AmbienteModernizacionController::class, 'destroyEquipo'])->name('equipos-ambiente-modernizacion.destroy');
     Route::resource('ambientes-modernizacion', AmbienteModernizacionController::class)->parameters(['ambientes-modernizacion' => 'ambiente-modernizacion'])->except(['show']);
 

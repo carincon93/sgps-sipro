@@ -268,21 +268,21 @@ class AmbienteModernizacionController extends Controller
         return response()->download(storage_path("app/$path"));
     }
 
-    public function listaEquipos(AmbienteModernizacion $ambiente_modernizacion)
+    public function listaEquipos(SeguimientoAmbienteModernizacion $seguimiento)
     {
         $this->authorize('viewAny', [AmbienteModernizacion::class]);
 
-        $ambiente_modernizacion->seguimientoAmbienteModernizacion->codigoProyectoSgps;
+        $seguimiento->codigoProyectoSgps;
 
         return Inertia::render('AmbientesModernizacion/Equipos/Index', [
-            'ambiente_modernizacion'            => $ambiente_modernizacion,
-            'equipos_ambiente_modernizacion'    => $ambiente_modernizacion->equiposAmbienteModernizacion,
-            'equipos_ambiente_modernizacion'    => EquipoAmbienteModernizacion::where('ambiente_modernizacion_id', $ambiente_modernizacion->id)->get(),
+            'seguimiento'                       => $seguimiento,
+            'equipos_ambiente_modernizacion'    => $seguimiento->equiposAmbienteModernizacion,
+            'equipos_ambiente_modernizacion'    => EquipoAmbienteModernizacion::where('seguimiento_ambiente_modernizacion_id', $seguimiento->id)->get(),
             'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
         ]);
     }
 
-    public function updateCreateEquipo(EquipoAmbienteModernizacionRequest $request, AmbienteModernizacion $ambiente_modernizacion)
+    public function updateCreateEquipo(EquipoAmbienteModernizacionRequest $request, SeguimientoAmbienteModernizacion $seguimiento)
     {
         $message = '';
 
@@ -300,20 +300,19 @@ class AmbienteModernizacionController extends Controller
         return back()->with('success', $message);
     }
 
-    public function destroyEquipo(EquipoAmbienteModernizacion $equipoAmbienteModernizacion)
+    public function destroyEquipo(EquipoAmbienteModernizacion $equipo_ambiente_modernizacion)
     {
-        $this->authorize('delete', [EquipoAmbienteModernizacion::class, $equipoAmbienteModernizacion]);
+        $this->authorize('delete', [EquipoAmbienteModernizacion::class, $equipo_ambiente_modernizacion]);
 
-        $equipoAmbienteModernizacion->delete();
+        $equipo_ambiente_modernizacion->delete();
 
         return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
-    /**
-     *
-     */
-    public function replicateRow($ambiente_modernizacion)
+    public function replicateRow($seguimiento)
     {
+        $ambiente_modernizacion = AmbienteModernizacion::where('seguimiento_ambiente_modernizacion_id', $seguimiento)->latest()->first();
+
         $clone = $ambiente_modernizacion->replicate();
         $clone->push();
 
@@ -338,7 +337,7 @@ class AmbienteModernizacionController extends Controller
 
         $clone->save();
 
-        return $clone;
+        return redirect()->route('ambientes-modernizacion.edit', [$clone->id]);
     }
 
     /**

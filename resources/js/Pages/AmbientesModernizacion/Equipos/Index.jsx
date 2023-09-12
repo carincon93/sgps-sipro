@@ -17,7 +17,7 @@ import { route, checkRole } from '@/Utils'
 import Form from './Form'
 import AlertMui from '@/Components/Alert'
 
-const Index = ({ auth, ambiente_modernizacion, equipos_ambiente_modernizacion, roles_sennova }) => {
+const Index = ({ auth, seguimiento, equipos_ambiente_modernizacion, roles_sennova }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -31,9 +31,7 @@ const Index = ({ auth, ambiente_modernizacion, equipos_ambiente_modernizacion, r
             <Grid item md={12}>
                 <h1 className="text-center text-2xl mb-32">
                     Equipos del proyecto SGPS-
-                    {ambiente_modernizacion?.seguimiento_ambiente_modernizacion.codigo_proyecto_sgps.codigo_sgps +
-                        ' | ' +
-                        ambiente_modernizacion?.seguimiento_ambiente_modernizacion.codigo_proyecto_sgps.titulo}
+                    {seguimiento.codigo_proyecto_sgps.codigo_sgps + ' | ' + seguimiento.codigo_proyecto_sgps.titulo}
                 </h1>
 
                 <AlertMui>Relacione únicamente los equipos y maquinaría adquirida con la ejecución del proyecto de modernización SENNOVA</AlertMui>
@@ -129,13 +127,7 @@ const Index = ({ auth, ambiente_modernizacion, equipos_ambiente_modernizacion, r
                     maxWidth="lg"
                     blurEnabled={true}
                     dialogContent={
-                        <Form
-                            setDialogStatus={setDialogStatus}
-                            method={method}
-                            ambiente_modernizacion={ambiente_modernizacion}
-                            roles_sennova={roles_sennova}
-                            equipo_ambiente_modernizacion={equipo_ambiente_modernizacion}
-                        />
+                        <Form setDialogStatus={setDialogStatus} method={method} seguimiento={seguimiento} roles_sennova={roles_sennova} equipo_ambiente_modernizacion={equipo_ambiente_modernizacion} />
                     }
                 />
             </Grid>

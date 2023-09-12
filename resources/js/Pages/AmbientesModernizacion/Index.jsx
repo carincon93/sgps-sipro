@@ -18,6 +18,8 @@ import { Link, router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 
+import dayjs from 'dayjs'
+
 const Index = ({ auth, ambientes_modernizacion, codigos_sgps_faltantes }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
@@ -26,6 +28,8 @@ const Index = ({ auth, ambientes_modernizacion, codigos_sgps_faltantes }) => {
     const [method, setMethod] = useState('')
     const [ambiente_modernizacion, setAmbienteModernizacion] = useState(null)
     const [ambiente_modernizacion_to_destroy, setAmbienteModernizacionToDestroy] = useState(null)
+
+    const current_year = dayjs().year()
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Seguimiento post cierre - Ambientes de modernización SENNOVA</h2>}>
@@ -81,7 +85,7 @@ const Index = ({ auth, ambientes_modernizacion, codigos_sgps_faltantes }) => {
 
                             <TableCell>
                                 <Link
-                                    href={route('equipos-ambiente-modernizacion.index', [ambiente_modernizacion.id])}
+                                    href={route('equipos-ambiente-modernizacion.index', [ambiente_modernizacion.seguimiento_ambiente_modernizacion.id])}
                                     className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
                                     <PrecisionManufacturingIcon className="mr-2" />
                                     Debe relacionar los equipos del ambiente
@@ -143,15 +147,24 @@ const Index = ({ auth, ambientes_modernizacion, codigos_sgps_faltantes }) => {
                             <p className="mb-6">Seleccione una fecha de seguimiento:</p>
 
                             {ambiente_modernizacion && (
-                                <ul>
-                                    {ambiente_modernizacion.seguimiento_ambiente_modernizacion.ambientes_modernizacion.map((seguimiento, i) => (
-                                        <li key={i}>
-                                            <Link className="bg-white hover:bg-white/50 shadow p-2 rounded my-2 block" href={route('ambientes-modernizacion.edit', seguimiento.id)}>
-                                                Seguimiento: {seguimiento.fecha_seguimiento}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
+                                <>
+                                    {ambiente_modernizacion?.seguimiento_ambiente_modernizacion.ambientes_modernizacion.some((item) => item.year_modernizacion == current_year) ? (
+                                        <AlertMui severity="error">No puede agregar otro registro debido a que ya ha generado el respectivo seguimiento para el año {current_year}.</AlertMui>
+                                    ) : (
+                                        <ButtonMui onClick={() => router.post(route('seguimientos-ambiente-modernizacion.replicate', [ambiente_modernizacion?.seguimiento_ambiente_modernizacion.id]))}>
+                                            Agregar seguimiento
+                                        </ButtonMui>
+                                    )}
+                                    <ul>
+                                        {ambiente_modernizacion.seguimiento_ambiente_modernizacion.ambientes_modernizacion.map((seguimiento, i) => (
+                                            <li key={i}>
+                                                <Link className="bg-white hover:bg-white/50 shadow p-2 rounded my-2 block" href={route('ambientes-modernizacion.edit', seguimiento.id)}>
+                                                    Seguimiento: {seguimiento.fecha_seguimiento}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </>
                             )}
                         </>
                     }

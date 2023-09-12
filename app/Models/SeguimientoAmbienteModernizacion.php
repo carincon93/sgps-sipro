@@ -83,6 +83,16 @@ class SeguimientoAmbienteModernizacion extends Model
     }
 
     /**
+     * Relationship with EquipoAmbienteModernizacion
+     *
+     * @return object
+     */
+    public function equiposAmbienteModernizacion()
+    {
+        return $this->hasMany(EquipoAmbienteModernizacion::class);
+    }
+
+    /**
      * Filtrar registros
      *
      * @param  mixed $query

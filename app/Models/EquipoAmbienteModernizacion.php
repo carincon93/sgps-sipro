@@ -30,7 +30,7 @@ class EquipoAmbienteModernizacion extends Model
      * @var array
      */
     protected $fillable = [
-        'ambiente_modernizacion_id',
+        'seguimiento_ambiente_modernizacion_id',
         'nombre_equipo',
         'numero_inventario_equipo',
         'descripcion_tecnica_equipo',
@@ -65,13 +65,13 @@ class EquipoAmbienteModernizacion extends Model
     ];
 
     /**
-     * Relationship with AmbienteModernizacion
+     * Relationship with SeguimientoAmbienteModernizacion
      *
      * @return object
      */
-    public function ambienteModernizacion()
+    public function seguimientoAmbienteModernizacion()
     {
-        return $this->belongsTo(AmbienteModernizacion::class);
+        return $this->belongsTo(SeguimientoAmbienteModernizacion::class);
     }
 
     /**

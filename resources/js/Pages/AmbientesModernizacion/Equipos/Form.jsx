@@ -7,10 +7,10 @@ import Textarea from '@/Components/Textarea'
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', setDialogStatus, ambiente_modernizacion, equipo_ambiente_modernizacion, roles_sennova, ...props }) => {
+const Form = ({ method = '', setDialogStatus, seguimiento, equipo_ambiente_modernizacion, roles_sennova, ...props }) => {
     const form = useForm({
         id: equipo_ambiente_modernizacion?.id,
-        ambiente_modernizacion_id: ambiente_modernizacion?.id,
+        seguimiento_ambiente_modernizacion_id: seguimiento?.id,
         numero_inventario_equipo: equipo_ambiente_modernizacion?.numero_inventario_equipo,
         nombre_equipo: equipo_ambiente_modernizacion?.nombre_equipo,
         descripcion_tecnica_equipo: equipo_ambiente_modernizacion?.descripcion_tecnica_equipo,
@@ -43,7 +43,7 @@ const Form = ({ method = '', setDialogStatus, ambiente_modernizacion, equipo_amb
 
     const submit = (e) => {
         e.preventDefault()
-        form.post(route('equipos-ambiente-modernizacion.update-create-equipo', [ambiente_modernizacion.id]), {
+        form.post(route('equipos-ambiente-modernizacion.update-create-equipo', [seguimiento.id]), {
             onSuccess: () => setDialogStatus(false),
             preserveScroll: true,
         })

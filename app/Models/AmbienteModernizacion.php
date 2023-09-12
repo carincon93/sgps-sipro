@@ -176,16 +176,6 @@ class AmbienteModernizacion extends Model
     }
 
     /**
-     * Relationship with EquipoAmbienteModernizacion
-     *
-     * @return object
-     */
-    public function equiposAmbienteModernizacion()
-    {
-        return $this->hasMany(EquipoAmbienteModernizacion::class);
-    }
-
-    /**
      * Relationship with MesaSectorial
      *
      * @return object
