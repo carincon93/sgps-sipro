@@ -70,6 +70,7 @@ class AmbienteModernizacion extends Model
         'valor_agregado_entidades',
         'fortalecimiento_programas_formacion',
         'transferencia_tecnologias',
+        'cod_proyectos_beneficiados',
         'cobertura_perntinencia_formacion',
         'dinamizador_sennova_id',
         'finalizado',
@@ -287,11 +288,11 @@ class AmbienteModernizacion extends Model
     {
         if (str_contains(request()->route()->uri, 'ambientes-modernizacion')) {
 
-            $allowedToView      = Gate::inspect('view', [AmbienteModernizacion::class, $this]);
-            $allowedToUpdate    = Gate::inspect('update', [AmbienteModernizacion::class, $this]);
-            $allowedToDestroy   = Gate::inspect('delete', [AmbienteModernizacion::class, $this]);
+            $allowed_to_view      = Gate::inspect('view', [AmbienteModernizacion::class, $this]);
+            $allowed_to_update    = Gate::inspect('update', [AmbienteModernizacion::class, $this]);
+            $allowed_to_destroy   = Gate::inspect('delete', [AmbienteModernizacion::class, $this]);
 
-            return collect(['to_view' => $allowedToView->allowed(), 'to_update' => $allowedToUpdate->allowed(), 'to_destroy' => $allowedToDestroy->allowed()]);
+            return collect(['to_view' => $allowed_to_view->allowed(), 'to_update' => $allowed_to_update->allowed(), 'to_destroy' => $allowed_to_destroy->allowed()]);
         }
     }
 }

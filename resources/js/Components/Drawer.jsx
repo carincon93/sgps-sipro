@@ -176,6 +176,25 @@ export default function MiniDrawer({ user, children }) {
                                     justifyContent: open ? 'initial' : 'center',
                                     px: 2.5,
                                 }}
+                                onClick={() => router.visit(route('ambientes-modernizacion.index'))}>
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: open ? 3 : 'auto',
+                                        justifyContent: 'center',
+                                    }}></ListItemIcon>
+                                <ListItemText primary="Ambientes de modernización" sx={{ opacity: open ? 1 : 0 }} />
+                            </ListItemButton>
+                        )}
+
+                        {checkRole(user, [1, 21, 18, 19, 5, 17]) && (
+                            <ListItemButton
+                                sx={{
+                                    borderRadius: '20px',
+                                    minHeight: 48,
+                                    justifyContent: open ? 'initial' : 'center',
+                                    px: 2.5,
+                                }}
                                 onClick={() => router.visit(route('anexos.index'))}>
                                 <ListItemIcon
                                     sx={{

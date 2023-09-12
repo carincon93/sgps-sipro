@@ -131,7 +131,7 @@ const ResumenFinal = ({
                             {!anexos && <li>No se han cargado todos los anexos obligatorios</li>}
                             {!soportesEstudioMercado && <li>Hay estudios de mercado con menos de dos soportes</li>}
                             {!estudiosMercadoArchivo && <li>Hay rubros presupuestales que no tienen el estudio de mercado cargado</li>}
-                            {!topes_roles_sennova_tecnoparque && (
+                            {!topes_roles_sennova_tecnoparque && proyecto.tipo_formulario_convocatoria_id == 17 && (
                                 <li>Ha superado el número máximo de uno o varios roles que ha asociado al proyecto. Por favor revise en los lineamientos los roles máximos para su nodo.</li>
                             )}
                         </ul>

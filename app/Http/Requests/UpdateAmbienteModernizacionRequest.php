@@ -65,6 +65,8 @@ class UpdateAmbienteModernizacionRequest extends FormRequest
             'fortalecimiento_programas_formacion'   => ['nullable', 'string'],
             'transferencia_tecnologias'             => ['nullable', 'string'],
             'cobertura_perntinencia_formacion'      => ['nullable', 'string'],
+            'pertinencia_sector_productivo'         => ['nullable', 'string'],
+            'impacto_procesos_formacion'            => ['nullable', 'string'],
         ];
     }
 
@@ -76,90 +78,11 @@ class UpdateAmbienteModernizacionRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'financiado_anteriormente' => $this->financiado_anteriormente == '1' ? 1 : 0,
-        ]);
-
-        $this->merge([
-            'alineado_mesas_sectoriales' => $this->alineado_mesas_sectoriales == '1' ? 1 : 0,
-        ]);
-
-        $this->merge([
+            'financiado_anteriormente'          => $this->financiado_anteriormente == '1' ? 1 : 0,
+            'alineado_mesas_sectoriales'        => $this->alineado_mesas_sectoriales == '1' ? 1 : 0,
             'ambiente_formacion_complementaria' => $this->ambiente_formacion_complementaria == '1' ? 1 : 0,
+            'ambiente_activo_procesos_idi'      => $this->ambiente_activo_procesos_idi == '1' ? 1 : 0,
+            'ambiente_activo'                   => $this->ambiente_activo == '1' ? 1 : 0,
         ]);
-
-        $this->merge([
-            'ambiente_activo_procesos_idi' => $this->ambiente_activo_procesos_idi == '1' ? 1 : 0,
-        ]);
-
-        $this->merge([
-            'ambiente_activo' => $this->ambiente_activo == '1' ? 1 : 0,
-        ]);
-
-        if (is_array($this->codigos_proyectos_id)) {
-            if (isset($this->codigos_proyectos_id['value']) && is_numeric($this->codigos_proyectos_id['value'])) {
-                $this->merge([
-                    'codigos_proyectos_id' => $this->codigos_proyectos_id['value'],
-                ]);
-            } else {
-                $codigos_proyectos_id = [];
-                foreach ($this->codigos_proyectos_id as $codigo) {
-                    if (is_array($codigo)) {
-                        array_push($codigos_proyectos_id, $codigo['value']);
-                    }
-                }
-                $this->merge(['codigos_proyectos_id' => $codigos_proyectos_id]);
-            }
-        }
-
-        if (is_array($this->semilleros_investigacion_id)) {
-            if (isset($this->semilleros_investigacion_id['value']) && is_numeric($this->semilleros_investigacion_id['value'])) {
-                $this->merge([
-                    'semilleros_investigacion_id' => $this->semilleros_investigacion_id['value'],
-                ]);
-            } else {
-                $semillerosInvestigacion = [];
-                foreach ($this->semilleros_investigacion_id as $semilleroInvestigacion) {
-                    if (is_array($semilleroInvestigacion)) {
-                        array_push($semillerosInvestigacion, $semilleroInvestigacion['value']);
-                    }
-                }
-                $this->merge(['semilleros_investigacion_id' => $semillerosInvestigacion]);
-            }
-        }
-        if (is_array($this->programas_formacion_calificados)) {
-            if (isset($this->programas_formacion_calificados['value']) && is_numeric($this->programas_formacion_calificados['value'])) {
-                $this->merge([
-                    'programas_formacion_calificados' => $this->programas_formacion_calificados['value'],
-                ]);
-            } else {
-                $programas_formacion_calificados = [];
-                foreach ($this->programas_formacion_calificados as $programaFormacionCalificado) {
-                    if (is_array($programaFormacionCalificado)) {
-                        array_push($programas_formacion_calificados, $programaFormacionCalificado['value']);
-                    }
-                }
-                $this->merge(['programas_formacion_calificados' => $programas_formacion_calificados]);
-            }
-        }
-
-        if (is_array($this->programas_formacion)) {
-            if (isset($this->programas_formacion['value']) && is_numeric($this->programas_formacion['value'])) {
-                $this->merge([
-                    'programas_formacion' => $this->programas_formacion['value'],
-                ]);
-            } else {
-                $programas_formacion = [];
-                foreach ($this->programas_formacion as $programaFormacionNoCalificado) {
-                    if (is_array($programaFormacionNoCalificado)) {
-                        array_push($programas_formacion, $programaFormacionNoCalificado['value']);
-                    }
-                }
-                $this->merge(['programas_formacion' => $programas_formacion]);
-            }
-        } else {
-            $this->merge([
-                'programas_formacion' => [],
-            ]);
-        }
     }
 }
