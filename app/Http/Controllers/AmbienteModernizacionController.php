@@ -12,6 +12,7 @@ use App\Http\Requests\UpdateAmbienteModernizacionRequest;
 use App\Models\CodigoProyectoSgps;
 use App\Models\EquipoAmbienteModernizacion;
 use App\Models\MesaSectorial;
+use App\Models\RolSennova;
 use App\Models\SeguimientoAmbienteModernizacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,30 +39,30 @@ class AmbienteModernizacionController extends Controller
         $auth_user = Auth::user();
 
         return Inertia::render('AmbientesModernizacion/Index', [
-            'ambientes_modernizacion'           => AmbienteModernizacion::select('ambientes_modernizacion.*')->distinct('ambientes_modernizacion.seguimiento_ambiente_modernizacion_id')
-                                                    ->with('seguimientoAmbienteModernizacion.ambientesModernizacion', 'seguimientoAmbienteModernizacion.centroFormacion.regional', 'seguimientoAmbienteModernizacion.codigoProyectoSgps')
-                                                    ->join('seguimientos_ambiente_modernizacion', 'ambientes_modernizacion.seguimiento_ambiente_modernizacion_id', 'seguimientos_ambiente_modernizacion.id')
-                                                    ->join('centros_formacion', 'seguimientos_ambiente_modernizacion.centro_formacion_id', 'centros_formacion.id')
-                                                    ->whereHas(
-                                                        'seguimientoAmbienteModernizacion.centroFormacion',
-                                                        function ($query) use ($auth_user) {
-                                                            if ($auth_user->directorRegional) {
-                                                                $query->where('centros_formacion.regional_id', $auth_user->directorRegional->id);
-                                                            }
+            'ambientes_modernizacion'   => AmbienteModernizacion::select('ambientes_modernizacion.*')
+                                            ->with('seguimientoAmbienteModernizacion.ambientesModernizacion', 'seguimientoAmbienteModernizacion.centroFormacion.regional', 'seguimientoAmbienteModernizacion.codigoProyectoSgps')
+                                            ->join('seguimientos_ambiente_modernizacion', 'ambientes_modernizacion.seguimiento_ambiente_modernizacion_id', '=', 'seguimientos_ambiente_modernizacion.id')
+                                            ->join('centros_formacion', 'seguimientos_ambiente_modernizacion.centro_formacion_id', '=', 'centros_formacion.id')
+                                            ->whereHas('seguimientoAmbienteModernizacion.centroFormacion', function ($query) use ($auth_user) {
+                                                if ($auth_user->directorRegional) {
+                                                    $query->where('centros_formacion.regional_id', $auth_user->directorRegional->id);
+                                                }
 
-                                                            if ($auth_user->hasRole([3, 4, 21, 27])) {
-                                                                $centro_formacion_id = $auth_user->centro_formacion_id;
-                                                                $query->where('centros_formacion.id', $centro_formacion_id);
-                                                            }
-                                                        }
-                                                    )
-                                                    ->orderBy('seguimiento_ambiente_modernizacion_id', 'ASC')
-                                                    ->filterAmbienteModernizacion(request()->only('search'))->paginate(),
-            'codigos_sgps_faltantes'            => SelectHelper::codigoProyectoSgps()
-                                                    ->where('codigo', 23)
-                                                    ->where('centro_formacion_id', $auth_user->centro_formacion_id)
-                                                    ->where('codigo_proyecto_sgps_id', NULL)->values()->all(),
-            'allowed_to_create'                 => Gate::inspect('create', [AmbienteModernizacion::class])->allowed()
+                                                if ($auth_user->hasRole([3, 4, 21, 27])) {
+                                                    $centro_formacion_id = $auth_user->centro_formacion_id;
+                                                    $query->where('centros_formacion.id', $centro_formacion_id);
+                                                }
+                                            })
+                                            ->groupBy('ambientes_modernizacion.seguimiento_ambiente_modernizacion_id', 'ambientes_modernizacion.id')
+                                            ->select('ambientes_modernizacion.*')
+                                            ->selectRaw('MAX(ambientes_modernizacion.id) AS max_id')
+                                            ->orderByDesc('max_id')
+                                            ->filterAmbienteModernizacion(request()->only('search'))->paginate(),
+            'codigos_sgps_faltantes'    => SelectHelper::codigoProyectoSgps()
+                                            ->where('codigo', 23)
+                                            ->where('centro_formacion_id', $auth_user->centro_formacion_id)
+                                            ->where('codigo_proyecto_sgps_id', NULL)->values()->all(),
+            'allowed_to_create'         => Gate::inspect('create', [AmbienteModernizacion::class])->allowed()
         ]);
     }
 
@@ -209,8 +210,6 @@ class AmbienteModernizacionController extends Controller
             'semilleros_investigacion'                      =>  SelectHelper::semillerosInvestigacion(),
             'programas_formacion_con_registro'              =>  SelectHelper::programasFormacion()->where('registro_calificado', true)->values()->all(),
             'programas_formacion_sin_registro'              =>  SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),
-            'equipos_ambiente_modernizacion'                =>  EquipoAmbienteModernizacion::where('ambiente_modernizacion_id', $ambiente_modernizacion->id)->get(),
-            'roles'                                         =>  collect(json_decode(Storage::get('json/roles-sennova-idi.json'), true)),
         ]);
     }
 
@@ -269,47 +268,31 @@ class AmbienteModernizacionController extends Controller
         return response()->download(storage_path("app/$path"));
     }
 
-    public function equiposStore(EquipoAmbienteModernizacionRequest $request, AmbienteModernizacion $ambiente_modernizacion)
+    public function listaEquipos(AmbienteModernizacion $ambiente_modernizacion)
+    {
+        $this->authorize('viewAny', [AmbienteModernizacion::class]);
+
+        $ambiente_modernizacion->seguimientoAmbienteModernizacion->codigoProyectoSgps;
+
+        return Inertia::render('AmbientesModernizacion/Equipos/Index', [
+            'ambiente_modernizacion'            => $ambiente_modernizacion,
+            'equipos_ambiente_modernizacion'    => $ambiente_modernizacion->equiposAmbienteModernizacion,
+            'equipos_ambiente_modernizacion'    => EquipoAmbienteModernizacion::where('ambiente_modernizacion_id', $ambiente_modernizacion->id)->get(),
+            'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+        ]);
+    }
+
+    public function updateCreateEquipo(EquipoAmbienteModernizacionRequest $request, AmbienteModernizacion $ambiente_modernizacion)
     {
         $message = '';
 
-        if ($request->id) {
+        if ($request->filled('id')) {
             $equipoAmbienteModernizacion = EquipoAmbienteModernizacion::find($request->id);
-            $equipoAmbienteModernizacion->numero_inventario_equipo      = $request->numero_inventario_equipo;
-            $equipoAmbienteModernizacion->nombre_equipo                 = $request->nombre_equipo;
-            $equipoAmbienteModernizacion->descripcion_tecnica_equipo    = $request->descripcion_tecnica_equipo;
-            $equipoAmbienteModernizacion->estado_equipo                 = $request->estado_equipo;
-            $equipoAmbienteModernizacion->equipo_en_funcionamiento      = $request->equipo_en_funcionamiento;
-            $equipoAmbienteModernizacion->observaciones_generales       = $request->observaciones_generales;
-            $equipoAmbienteModernizacion->marca                         = $request->marca;
-            $equipoAmbienteModernizacion->horas_promedio_uso            = $request->horas_promedio_uso;
-            $equipoAmbienteModernizacion->frecuencia_mantenimiento      = $request->frecuencia_mantenimiento;
-            $equipoAmbienteModernizacion->year_adquisicion              = $request->year_adquisicion;
-            $equipoAmbienteModernizacion->nombre_cuentadante            = $request->nombre_cuentadante;
-            $equipoAmbienteModernizacion->cedula_cuentadante            = $request->cedula_cuentadante;
-            $equipoAmbienteModernizacion->rol_cuentadante               = $request->rol_cuentadante;
-
-            $equipoAmbienteModernizacion->save();
+            $equipoAmbienteModernizacion->update($request->validated());
 
             $message = 'El recurso se ha modificado correctamente.';
         } else {
-            $equipoAmbienteModernizacion = new EquipoAmbienteModernizacion();
-            $equipoAmbienteModernizacion->numero_inventario_equipo      = $request->numero_inventario_equipo;
-            $equipoAmbienteModernizacion->nombre_equipo                 = $request->nombre_equipo;
-            $equipoAmbienteModernizacion->descripcion_tecnica_equipo    = $request->descripcion_tecnica_equipo;
-            $equipoAmbienteModernizacion->estado_equipo                 = $request->estado_equipo;
-            $equipoAmbienteModernizacion->equipo_en_funcionamiento      = $request->equipo_en_funcionamiento;
-            $equipoAmbienteModernizacion->observaciones_generales       = $request->observaciones_generales;
-            $equipoAmbienteModernizacion->marca                         = $request->marca;
-            $equipoAmbienteModernizacion->horas_promedio_uso            = $request->horas_promedio_uso;
-            $equipoAmbienteModernizacion->frecuencia_mantenimiento      = $request->frecuencia_mantenimiento;
-            $equipoAmbienteModernizacion->year_adquisicion              = $request->year_adquisicion;
-            $equipoAmbienteModernizacion->nombre_cuentadante            = $request->nombre_cuentadante;
-            $equipoAmbienteModernizacion->cedula_cuentadante            = $request->cedula_cuentadante;
-            $equipoAmbienteModernizacion->rol_cuentadante               = $request->rol_cuentadante;
-            $equipoAmbienteModernizacion->ambienteModernizacion()->associate($ambiente_modernizacion);
-
-            $equipoAmbienteModernizacion->save();
+            $equipoAmbienteModernizacion = EquipoAmbienteModernizacion::create($request->validated());
 
             $message = 'El recurso se ha creado correctamente.';
         }

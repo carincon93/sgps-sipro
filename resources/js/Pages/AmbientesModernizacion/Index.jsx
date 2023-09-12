@@ -10,6 +10,7 @@ import TableMui from '@/Components/Table'
 
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
+import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing'
 import { Divider, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
@@ -25,14 +26,6 @@ const Index = ({ auth, ambientes_modernizacion, codigos_sgps_faltantes }) => {
     const [method, setMethod] = useState('')
     const [ambiente_modernizacion, setAmbienteModernizacion] = useState(null)
     const [ambiente_modernizacion_to_destroy, setAmbienteModernizacionToDestroy] = useState(null)
-
-    let seguimientos = []
-    let seguimientoId
-    function configurarDialogoSeguimiento(ambiente_modernizacion) {
-        seguimientos = ambiente_modernizacion.seguimiento_ambiente_modernizacion.ambientes_modernizacion
-        seguimientoId = ambiente_modernizacion.seguimiento_ambiente_modernizacion.id
-        dialogSeguimientos = true
-    }
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Seguimiento post cierre - Ambientes de modernización SENNOVA</h2>}>
@@ -61,7 +54,7 @@ const Index = ({ auth, ambientes_modernizacion, codigos_sgps_faltantes }) => {
 
                 <SearchBar />
 
-                <TableMui className="mt-20" rows={['Código', 'Regional', 'Código del proyecto', 'Nombre', 'Estado', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui className="mt-20" rows={['Nombre', 'Regional', 'Código del proyecto', 'Estado', 'Equipos', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) ? (
                         <TableRow onClick={() => router.visit(route('ambientes-modernizacion.create'))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={6}>
@@ -73,7 +66,9 @@ const Index = ({ auth, ambientes_modernizacion, codigos_sgps_faltantes }) => {
                     ) : null}
                     {ambientes_modernizacion.data.map((ambiente_modernizacion, i) => (
                         <TableRow key={i}>
-                            <TableCell>{ambiente_modernizacion.seguimiento_ambiente_modernizacion.codigo}</TableCell>
+                            <TableCell>
+                                <p className="line-clamp-4">{ambiente_modernizacion.nombre_ambiente}</p>
+                            </TableCell>
                             <TableCell>{ambiente_modernizacion.seguimiento_ambiente_modernizacion.centro_formacion.regional.nombre}</TableCell>
                             <TableCell>
                                 SGPS-
@@ -81,10 +76,17 @@ const Index = ({ auth, ambientes_modernizacion, codigos_sgps_faltantes }) => {
                                     '-' +
                                     ambiente_modernizacion.seguimiento_ambiente_modernizacion.codigo_proyecto_sgps.year_ejecucion}
                             </TableCell>
-                            <TableCell>
-                                <p className="line-clamp-4">{ambiente_modernizacion.nombre_ambiente}</p>
-                            </TableCell>
+
                             <TableCell>{ambiente_modernizacion.estado}</TableCell>
+
+                            <TableCell>
+                                <Link
+                                    href={route('equipos-ambiente-modernizacion.index', [ambiente_modernizacion.id])}
+                                    className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                    <PrecisionManufacturingIcon className="mr-2" />
+                                    Debe relacionar los equipos del ambiente
+                                </Link>
+                            </TableCell>
 
                             <TableCell>
                                 <MenuMui text={<MoreVertIcon />}>

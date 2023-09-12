@@ -24,6 +24,7 @@ class EquipoAmbienteModernizacionRequest extends FormRequest
     public function rules()
     {
         return [
+            'ambiente_modernizacion_id'     => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:ambientes_modernizacion,id'],
             'numero_inventario_equipo'      => ['required', 'string', 'max:100'],
             'descripcion_tecnica_equipo'    => ['required', 'string'],
             'estado_equipo'                 => ['required', 'string', 'max:50'],
@@ -36,7 +37,7 @@ class EquipoAmbienteModernizacionRequest extends FormRequest
             'year_adquisicion'              => ['required', 'integer', 'min:0', 'max:3099'],
             'nombre_cuentadante'            => ['required', 'string', 'max:100'],
             'cedula_cuentadante'            => ['required', 'integer', 'min:0', 'max:2147483647'],
-            'rol_cuentadante'               => ['required', 'string', 'max:50'],
+            'rol_cuentadante'               => ['required', 'integer'],
         ];
     }
 
@@ -47,34 +48,6 @@ class EquipoAmbienteModernizacionRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (is_array($this->estado_equipo)) {
-            $this->merge([
-                'estado_equipo' => $this->estado_equipo['value'],
-            ]);
-        }
-
-        if (is_array($this->frecuencia_mantenimiento)) {
-            $this->merge([
-                'frecuencia_mantenimiento' => $this->frecuencia_mantenimiento['value'],
-            ]);
-        }
-
-        if (is_array($this->equipo_en_funcionamiento)) {
-            $this->merge([
-                'equipo_en_funcionamiento' => $this->equipo_en_funcionamiento['value'],
-            ]);
-        }
-
-        if (is_array($this->year_adquisicion)) {
-            $this->merge([
-                'year_adquisicion' => $this->year_adquisicion['value'],
-            ]);
-        }
-
-        if (is_array($this->rol_cuentadante)) {
-            $this->merge([
-                'rol_cuentadante' => $this->rol_cuentadante['label'],
-            ]);
-        }
+        //
     }
 }
