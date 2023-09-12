@@ -58,7 +58,7 @@ const Index = ({ auth, ambientes_modernizacion, codigos_sgps_faltantes }) => {
 
                 <SearchBar />
 
-                <TableMui className="mt-20" rows={['Nombre', 'Regional', 'Código del proyecto', 'Estado', 'Equipos', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui className="mt-20" rows={['Nombre', 'Regional', 'Código SGPS del proyecto', 'Estado', 'Equipos', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) ? (
                         <TableRow onClick={() => router.visit(route('ambientes-modernizacion.create'))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={6}>
@@ -152,7 +152,7 @@ const Index = ({ auth, ambientes_modernizacion, codigos_sgps_faltantes }) => {
                                         <AlertMui severity="error">No puede agregar otro registro debido a que ya ha generado el respectivo seguimiento para el año {current_year}.</AlertMui>
                                     ) : (
                                         <ButtonMui onClick={() => router.post(route('seguimientos-ambiente-modernizacion.replicate', [ambiente_modernizacion?.seguimiento_ambiente_modernizacion.id]))}>
-                                            Agregar seguimiento
+                                            Agregar seguimiento para el año {current_year}
                                         </ButtonMui>
                                     )}
                                     <ul>
