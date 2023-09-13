@@ -111,6 +111,16 @@ class Convocatoria extends Model
     }
 
     /**
+     * Relationship with TopePresupuestalNodoTecnoparque
+     *
+     * @return object
+     */
+    public function topesPresupuestalesNodosTecnoparque()
+    {
+        return $this->hasMany(TopePresupuestalNodoTecnoparque::class);
+    }
+
+    /**
      * Relationship with TipoFormularioConvocatoria
      *
      * @return object

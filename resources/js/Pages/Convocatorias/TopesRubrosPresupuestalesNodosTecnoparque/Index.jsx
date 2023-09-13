@@ -16,28 +16,28 @@ import { useState } from 'react'
 
 import Form from './Form'
 
-const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_roles_sennova, nodos_tecnoparque, roles_sennova, niveles_academicos }) => {
+const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_presupuestales_nodos_tecnoparque, nodos_tecnoparque, segundo_grupo_presupuestal }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
     const [dialog_status, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
-    const [tope_rol_sennova_tecnoparque_to_destroy, setTopeRolSennovaTecnoparqueToDestroy] = useState(null)
-    const [tope_rol_sennova_tecnoparque, setTopeRolSennovaTecnoparque] = useState(null)
+    const [tope_presupuestal_tecnoparque_to_destroy, setTopePresupuestalTecnoparqueToDestroy] = useState(null)
+    const [tope_presupuestal_tecnoparque, setTopePresupuestalTecnoparque] = useState(null)
 
     return (
         <AuthenticatedLayout>
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                     <Grid item md={12}>
-                        <TabsConvocatoria value="4" convocatoria={convocatoria} tipo_formulario_convocatoria_id={17} />
+                        <TabsConvocatoria value="5" convocatoria={convocatoria} tipo_formulario_convocatoria_id={17} />
                     </Grid>
                 )}
 
                 <Grid item md={12}>
-                    <TableMui className="mt-20" rows={['Nombre del nodo', 'Rol SENNOVA', 'Nivel académico', 'Cantidad máxima', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui className="mt-20" rows={['Nombre del nodo', 'Concepto interno SENA', 'Valor', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         <TableRow
-                            onClick={() => (setDialogStatus(true), setMethod('POST'), setTopeRolSennovaTecnoparque(null))}
+                            onClick={() => (setDialogStatus(true), setMethod('POST'), setTopePresupuestalTecnoparque(null))}
                             variant="raised"
                             className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={5}>
@@ -46,28 +46,30 @@ const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_ro
                                 </ButtonMui>
                             </TableCell>
                         </TableRow>
-                        {topes_roles_sennova.map((tope_rol_sennova_tecnoparque, i) => (
+                        {topes_presupuestales_nodos_tecnoparque.map((tope_presupuestal_tecnoparque, i) => (
                             <TableRow key={i}>
                                 <TableCell>
-                                    <p className="first-letter:uppercase">Red Tecnoparque Nodo {tope_rol_sennova_tecnoparque.nodo_tecnoparque.nombre}</p>
+                                    <p className="first-letter:uppercase">Red Tecnoparque Nodo {tope_presupuestal_tecnoparque.nodo_tecnoparque.nombre}</p>
                                 </TableCell>
-                                <TableCell>{tope_rol_sennova_tecnoparque.convocatoria_rol_sennova.rol_sennova.nombre}</TableCell>
                                 <TableCell>
-                                    <p className="first-letter:uppercase">
-                                        {niveles_academicos.find((item) => item.value == tope_rol_sennova_tecnoparque.convocatoria_rol_sennova.nivel_academico)?.label}
-                                    </p>
+                                    <ul>
+                                        {tope_presupuestal_tecnoparque.segundo_grupo_presupuestal.map((concepto_interno_sena, i) => (
+                                            <li key={i}>{concepto_interno_sena.nombre}</li>
+                                        ))}
+                                    </ul>
                                 </TableCell>
-                                <TableCell>{tope_rol_sennova_tecnoparque.cantidad_maxima}</TableCell>
+
+                                <TableCell>${new Intl.NumberFormat('de-DE').format(tope_presupuestal_tecnoparque.valor)} COP</TableCell>
 
                                 <TableCell>
                                     <MenuMui text={<MoreVertIcon />}>
-                                        {tope_rol_sennova_tecnoparque.id !== tope_rol_sennova_tecnoparque_to_destroy ? (
+                                        {tope_presupuestal_tecnoparque.id !== tope_presupuestal_tecnoparque_to_destroy ? (
                                             <div>
-                                                <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setTopeRolSennovaTecnoparque(tope_rol_sennova_tecnoparque))}>Editar</MenuItem>
+                                                <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setTopePresupuestalTecnoparque(tope_presupuestal_tecnoparque))}>Editar</MenuItem>
 
                                                 <MenuItem
                                                     onClick={() => {
-                                                        setTopeRolSennovaTecnoparqueToDestroy(tope_rol_sennova_tecnoparque.id)
+                                                        setTopePresupuestalTecnoparqueToDestroy(tope_presupuestal_tecnoparque.id)
                                                     }}>
                                                     Eliminar
                                                 </MenuItem>
@@ -76,7 +78,7 @@ const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_ro
                                             <div>
                                                 <MenuItem
                                                     onClick={(e) => {
-                                                        setTopeRolSennovaTecnoparqueToDestroy(null)
+                                                        setTopePresupuestalTecnoparqueToDestroy(null)
                                                     }}>
                                                     Cancelar
                                                 </MenuItem>
@@ -84,7 +86,7 @@ const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_ro
                                                     sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
                                                     onClick={(e) => {
                                                         e.stopPropagation()
-                                                        router.delete(route('convocatorias.topes-roles-sennova-tecnoparques.destroy', [convocatoria.id, tope_rol_sennova_tecnoparque.id]), {
+                                                        router.delete(route('convocatorias.topes-presupuestales-tecnoparque.destroy', [convocatoria.id, tope_presupuestal_tecnoparque.id]), {
                                                             preserveScroll: true,
                                                         })
                                                     }}>
@@ -109,9 +111,9 @@ const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_ro
                                 setDialogStatus={setDialogStatus}
                                 method={method}
                                 convocatoria={convocatoria}
-                                tope_rol_sennova_tecnoparque={tope_rol_sennova_tecnoparque}
+                                tope_presupuestal_tecnoparque={tope_presupuestal_tecnoparque}
                                 nodos_tecnoparque={nodos_tecnoparque}
-                                roles_sennova={roles_sennova}
+                                segundo_grupo_presupuestal={segundo_grupo_presupuestal}
                             />
                         }
                     />

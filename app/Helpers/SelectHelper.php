@@ -571,7 +571,11 @@ class SelectHelper
                     }
 
                     $query->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id');
-                    $query->whereNotIn('convocatoria_rol_sennova.id', $proyecto->proyectoRolesSennova()->pluck('convocatoria_rol_sennova_id')->toArray());
+
+                    if ($proyecto) {
+                        $query->whereNotIn('convocatoria_rol_sennova.id', $proyecto->proyectoRolesSennova()->pluck('convocatoria_rol_sennova_id')->toArray());
+                    }
+
                     $query->where('convocatoria_rol_sennova.tipo_formulario_convocatoria_id', $tipo_formulario_convocatoria_id);
                     $query->where('convocatoria_rol_sennova.convocatoria_id', $convocatoria_id);
 

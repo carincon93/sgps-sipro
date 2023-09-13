@@ -56,6 +56,16 @@ class SegundoGrupoPresupuestal extends Model
     }
 
     /**
+     * Relationship with TopePresupuestalNodoTecnoparque
+     *
+     * @return object
+     */
+    public function topesPresupuestalesNodosTecnoparque()
+    {
+        return $this->belongsToMany(TopePresupuestalNodoTecnoparque::class, 'topes_presupuestales_tecnoparque_conceptos_sena', 'segundo_grupo_presupuestal_id', 'tope_presupuestal_nodo_tecnoparque_id');
+    }
+
+    /**
      * Filtrar registros
      *
      * @param  mixed $query

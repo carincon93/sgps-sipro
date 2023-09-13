@@ -94,6 +94,16 @@ class NodoTecnoparque extends Model
     }
 
     /**
+     * Relationship with TopePresupuestalNodoTecnoparque
+     *
+     * @return object
+     */
+    public function topesPresupuestalesNodosTecnoparque()
+    {
+        return $this->hasMany(TopePresupuestalNodoTecnoparque::class);
+    }
+
+    /**
      * Filtrar registros
      *
      * @param  mixed $query
