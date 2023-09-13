@@ -184,7 +184,7 @@ class ProyectoFormulario17Linea69 extends Model
      */
     public function getTituloAttribute()
     {
-        return "Red Tecnoparque Nodo " . ucfirst($this->nodoTecnoparque->nombre) . " Vigencia " . date('Y', strtotime($this->fecha_inicio));
+        return "Red " . ucfirst($this->nodoTecnoparque->nombre) . " Vigencia " . date('Y', strtotime($this->fecha_inicio));
     }
 
     /**

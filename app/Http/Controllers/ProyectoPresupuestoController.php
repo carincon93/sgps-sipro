@@ -47,7 +47,7 @@ class ProyectoPresupuestoController extends Controller
                                                         ->orderBy('proyecto_presupuesto.id', 'DESC')
                                                         ->paginate()
                                                         ->appends(['search' => request()->search, 'presupuestos' => request()->presupuestos]),
-            'segundo_grupo_presupuestal'        =>  SelectHelper::segundoGrupoPresupuestal($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id),
+            'segundo_grupo_presupuestal'        =>  SelectHelper::segundoGrupoPresupuestal($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id, $proyecto->proyectoFormulario17Linea69()->exists() ? $proyecto->proyectoFormulario17Linea69->nodo_tecnoparque_id : null),
             'tercer_grupo_presupuestal'         =>  SelectHelper::tercerGrupoPresupuestal($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id),
             'usos_presupuestales'               =>  SelectHelper::usosPresupuestales($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id),
             'tipos_licencia'                    =>  json_decode(Storage::get('json/tipos-licencia-software.json'), true),

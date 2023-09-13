@@ -54,7 +54,7 @@ const TabsConvocatoria = ({ convocatoria, tipo_formulario_convocatoria_id, value
                 <Tab
                     component="a"
                     onClick={() => {
-                        router.visit(route('convocatorias.topes-presupuestales-nodos-tecnoparque.index', [convocatoria.id, { tipo_formulario_convocatoria_id: tipo_formulario_convocatoria_id }]))
+                        router.visit(route('convocatorias.topes-presupuestales-tecnoparque.index', [convocatoria.id, { tipo_formulario_convocatoria_id: tipo_formulario_convocatoria_id }]))
                     }}
                     label="Topes presupuestales"
                     value="5"

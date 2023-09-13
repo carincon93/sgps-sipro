@@ -205,7 +205,7 @@ class ProyectoFormulario6Linea82Controller extends Controller
             'tecnoacademias'                                    => SelectHelper::tecnoacademias(),
             'municipios'                                        => SelectHelper::municipios(),
             'grupos_investigacion'                              => SelectHelper::gruposInvestigacion()->where('value', 126)->values()->all(),
-            'programas_formacion_con_registro_calificado'       => SelectHelper::programasFormacion()->where('registro_calificado', true)->all(),
+            'programas_formacion_con_registro_calificado'       => SelectHelper::programasFormacion()->where('registro_calificado', true)->values()->all(),
             'programas_formacion_sin_registro_calificado'       => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),
             'areas_cualificacion_mnc'                           => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),
             'lineas_estrategicas'                               => json_decode(Storage::get('json/lineas-estrategicas.json'), true),

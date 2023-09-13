@@ -49,12 +49,14 @@ const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_pr
                         {topes_presupuestales_nodos_tecnoparque.map((tope_presupuestal_tecnoparque, i) => (
                             <TableRow key={i}>
                                 <TableCell>
-                                    <p className="first-letter:uppercase">Red Tecnoparque Nodo {tope_presupuestal_tecnoparque.nodo_tecnoparque.nombre}</p>
+                                    <p className="first-letter:uppercase">Red {tope_presupuestal_tecnoparque.nodo_tecnoparque.nombre}</p>
                                 </TableCell>
                                 <TableCell>
-                                    <ul>
+                                    <ul className="list-disc">
                                         {tope_presupuestal_tecnoparque.segundo_grupo_presupuestal.map((concepto_interno_sena, i) => (
-                                            <li key={i}>{concepto_interno_sena.nombre}</li>
+                                            <li key={i}>
+                                                <p className="first-letter:uppercase">{concepto_interno_sena.nombre}</p>
+                                            </li>
                                         ))}
                                     </ul>
                                 </TableCell>

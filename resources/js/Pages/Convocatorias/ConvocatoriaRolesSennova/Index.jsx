@@ -51,7 +51,7 @@ const ConvocatoriaRolesSennova = ({ auth, convocatoria, convocatoria_roles_senno
                         formuladores de las modificaciones realizadas.
                         <br />
                     </AlertMui>
-                    <TableMui rows={['Nombre', 'Nivel académico', 'Asignación mensual ' + convocatoria.year, '¿Habilitado?', '¿Suma al presupuesto?', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui rows={['Nombre', 'Nivel académico', 'Asignación mensual ' + convocatoria.year, 'Estado', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         <TableRow
                             onClick={() => (setDialogStatus(true), setMethod('POST'), setConvocatoriaRolSennova(null))}
                             variant="raised"
@@ -92,7 +92,7 @@ const ConvocatoriaRolesSennova = ({ auth, convocatoria, convocatoria_roles_senno
                                             convocatoria_rol_sennova.habilitado
                                                 ? '!bg-blue-200 !text-blue-500 hover:!bg-red-200 hover:!text-red-500'
                                                 : '!bg-red-200 !text-red-500 hover:!bg-blue-200 hover:!text-blue-500'
-                                        } mt-1 group`}
+                                        } mt-1 group w-[220px] !mb-3`}
                                         label={
                                             <>
                                                 <div className="group-hover:hidden">{convocatoria_rol_sennova.habilitado ? 'Habilitado' : 'Deshabilitado'}</div>
@@ -100,8 +100,6 @@ const ConvocatoriaRolesSennova = ({ auth, convocatoria, convocatoria_roles_senno
                                             </>
                                         }
                                     />
-                                </TableCell>
-                                <TableCell>
                                     <Chip
                                         onClick={() =>
                                             router.put(
@@ -118,7 +116,7 @@ const ConvocatoriaRolesSennova = ({ auth, convocatoria, convocatoria_roles_senno
                                             convocatoria_rol_sennova.sumar_al_presupuesto
                                                 ? '!bg-blue-200 !text-blue-500 hover:!bg-red-200 hover:!text-red-500'
                                                 : '!bg-red-200 !text-red-500 hover:!bg-blue-200 hover:!text-blue-500'
-                                        } mt-1 group`}
+                                        } mt-1 group w-[220px] !mb-3`}
                                         label={
                                             <>
                                                 <div className="group-hover:hidden">{convocatoria_rol_sennova.sumar_al_presupuesto ? 'Suma al presupuesto' : 'No suma al presupuesto'}</div>

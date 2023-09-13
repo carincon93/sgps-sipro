@@ -142,10 +142,10 @@ class NodoTecnoparque extends Model
 
     public function getAllowedAttribute()
     {
-        $allowedToView      = Gate::inspect('view', [NodoTecnoparque::class, $this]);
-        $allowedToUpdate    = Gate::inspect('update', [NodoTecnoparque::class, $this]);
-        $allowedToDestroy   = Gate::inspect('delete', [NodoTecnoparque::class, $this]);
+        $allowed_to_view      = Gate::inspect('view', [NodoTecnoparque::class, $this]);
+        $allowed_to_update    = Gate::inspect('update', [NodoTecnoparque::class, $this]);
+        $allowed_to_destroy   = Gate::inspect('delete', [NodoTecnoparque::class, $this]);
 
-        return collect(['to_view' => $allowedToView->allowed(), 'to_update' => $allowedToUpdate->allowed(), 'to_destroy' => $allowedToDestroy->allowed()]);
+        return collect(['to_view' => $allowed_to_view->allowed(), 'to_update' => $allowed_to_update->allowed(), 'to_destroy' => $allowed_to_destroy->allowed()]);
     }
 }

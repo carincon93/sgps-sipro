@@ -37,7 +37,7 @@ const ConvocatoriaAnexos = ({ auth, convocatoria, convocatoria_anexos, anexos })
                 )}
 
                 <Grid item md={12}>
-                    <TableMui className="mt-20" rows={['Nombre', 'Líneas programáticas', '¿Habilitado?', '¿Obligatorio?', 'Acciones']}>
+                    <TableMui className="mt-20" rows={['Nombre', 'Líneas programáticas', 'Estado', 'Acciones']}>
                         <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setConvocatoriaAnexo(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={5}>
                                 <ButtonMui>
@@ -72,7 +72,7 @@ const ConvocatoriaAnexos = ({ auth, convocatoria, convocatoria_anexos, anexos })
                                             convocatoria_anexo.habilitado
                                                 ? '!bg-blue-200 !text-blue-500 hover:!bg-red-200 hover:!text-red-500'
                                                 : '!bg-red-200 !text-red-500 hover:!bg-blue-200 hover:!text-blue-500'
-                                        } mt-1 group`}
+                                        } mt-1 group w-[220px] !mb-3`}
                                         label={
                                             <>
                                                 <div className="group-hover:hidden">{convocatoria_anexo.habilitado ? 'Habilitado' : 'Deshabilitado'}</div>
@@ -80,8 +80,7 @@ const ConvocatoriaAnexos = ({ auth, convocatoria, convocatoria_anexos, anexos })
                                             </>
                                         }
                                     />
-                                </TableCell>
-                                <TableCell>
+
                                     <Chip
                                         onClick={() =>
                                             router.put(
@@ -98,7 +97,7 @@ const ConvocatoriaAnexos = ({ auth, convocatoria, convocatoria_anexos, anexos })
                                             convocatoria_anexo.obligatorio
                                                 ? '!bg-blue-200 !text-blue-500 hover:!bg-red-200 hover:!text-red-500'
                                                 : '!bg-red-200 !text-red-500 hover:!bg-blue-200 hover:!text-blue-500'
-                                        } mt-1 group`}
+                                        } mt-1 group w-[220px] !mb-3`}
                                         label={
                                             <>
                                                 <div className="group-hover:hidden">{convocatoria_anexo.obligatorio ? 'Obligatorio' : 'No es obligatorio'}</div>

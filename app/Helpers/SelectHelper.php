@@ -45,6 +45,7 @@ use App\Models\TipoProyectoCapacidadInstalada;
 use App\Models\LaboratorioServicioTecnologico;
 use App\Models\User;
 use App\Models\UsoPresupuestal;
+use Illuminate\Support\Facades\DB;
 
 class SelectHelper
 {
@@ -105,15 +106,27 @@ class SelectHelper
      *
      * Trae los conceptos internos SENA
      */
-    public static function segundoGrupoPresupuestal($convocatoria, $tipo_formulario_convocatoria_id)
+    public static function segundoGrupoPresupuestal($convocatoria_id, $tipo_formulario_convocatoria_id, $nodo_tecnoparque_id = null)
     {
-        return SegundoGrupoPresupuestal::selectRaw('DISTINCT(segundo_grupo_presupuestal.id) as value, segundo_grupo_presupuestal.nombre as label, segundo_grupo_presupuestal.codigo as codigo')
-            ->join('rubros_presupuestales', 'segundo_grupo_presupuestal.id', 'rubros_presupuestales.segundo_grupo_presupuestal_id')
-            ->join('convocatoria_presupuesto', 'rubros_presupuestales.id', 'convocatoria_presupuesto.rubro_presupuestal_id')
-            ->where('convocatoria_presupuesto.convocatoria_id', $convocatoria)
-            ->where('convocatoria_presupuesto.tipo_formulario_convocatoria_id', $tipo_formulario_convocatoria_id)
-            ->orderBy('segundo_grupo_presupuestal.nombre', 'ASC')
-            ->get();
+        $query = SegundoGrupoPresupuestal::selectRaw('DISTINCT(segundo_grupo_presupuestal.id) as value, segundo_grupo_presupuestal.nombre as label, segundo_grupo_presupuestal.codigo as codigo');
+        $query->join('rubros_presupuestales', 'segundo_grupo_presupuestal.id', 'rubros_presupuestales.segundo_grupo_presupuestal_id');
+        $query->join('convocatoria_presupuesto', 'rubros_presupuestales.id', 'convocatoria_presupuesto.rubro_presupuestal_id');
+        $query->where('convocatoria_presupuesto.convocatoria_id', $convocatoria_id);
+        $query->where('convocatoria_presupuesto.tipo_formulario_convocatoria_id', $tipo_formulario_convocatoria_id);
+
+        if ($tipo_formulario_convocatoria_id == 17) {
+            $ids = DB::table('topes_presupuestales_tecnoparque_conceptos_sena')->select('topes_presupuestales_tecnoparque_conceptos_sena.segundo_grupo_presupuestal_id')
+                    ->join('topes_presupuestales_nodos_tecnoparque', 'topes_presupuestales_tecnoparque_conceptos_sena.tope_presupuestal_nodo_tecnoparque_id', 'topes_presupuestales_nodos_tecnoparque.id')
+                    ->where('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id', $nodo_tecnoparque_id)
+                    ->where('topes_presupuestales_nodos_tecnoparque.convocatoria_id', $convocatoria_id)
+                    ->get()->pluck('segundo_grupo_presupuestal_id');
+
+            $query->whereIn('segundo_grupo_presupuestal.id', $ids);
+        }
+
+        $query->orderBy('segundo_grupo_presupuestal.nombre', 'ASC');
+
+        return $query->get();
     }
 
     /**

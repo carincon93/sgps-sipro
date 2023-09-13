@@ -47,9 +47,7 @@ const ConvocatoriaRubroPresupuestales = ({ auth, convocatoria, convocatoria_rubr
                         las modificaciones realizadas.
                         <br />
                     </AlertMui>
-                    <TableMui
-                        rows={['Concepto interno SENA', 'Concepto ministerio de hacienda', 'Uso presupuestal', '¿Habilitado?', '¿Suma al presupuesto?', '¿Requiere estudio de mercado?', 'Acciones']}
-                        sxCellThead={{ width: '320px' }}>
+                    <TableMui rows={['Concepto interno SENA', 'Concepto ministerio de hacienda', 'Uso presupuestal', 'Estado', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         <TableRow
                             onClick={() => (setDialogStatus(true), setMethod('POST'), setConvocatoriaRubroPresupuestal(null))}
                             variant="raised"
@@ -62,12 +60,15 @@ const ConvocatoriaRubroPresupuestales = ({ auth, convocatoria, convocatoria_rubr
                         </TableRow>
                         {convocatoria_rubros_presupuestales.data.map((convocatoria_rubro_presupuestal, i) => (
                             <TableRow key={i}>
-                                <TableCell>{convocatoria_rubro_presupuestal.rubro_presupuestal.segundo_grupo_presupuestal.nombre}</TableCell>
-                                <TableCell>{convocatoria_rubro_presupuestal.rubro_presupuestal.tercer_grupo_presupuestal.nombre}</TableCell>
                                 <TableCell>
-                                    <small>{convocatoria_rubro_presupuestal.rubro_presupuestal.uso_presupuestal.codigo}</small>
-                                    <br />
-                                    {convocatoria_rubro_presupuestal.rubro_presupuestal.uso_presupuestal.descripcion}
+                                    <p className="first-letter:uppercase">{convocatoria_rubro_presupuestal.rubro_presupuestal.segundo_grupo_presupuestal.nombre}</p>
+                                </TableCell>
+                                <TableCell>
+                                    <p className="first-letter:uppercase">{convocatoria_rubro_presupuestal.rubro_presupuestal.tercer_grupo_presupuestal.nombre}</p>
+                                </TableCell>
+                                <TableCell>
+                                    <small>{convocatoria_rubro_presupuestal.rubro_presupuestal.uso_presupuestal.codigo}:</small>
+                                    <p className="first-letter:uppercase">{convocatoria_rubro_presupuestal.rubro_presupuestal.uso_presupuestal.descripcion}</p>
                                 </TableCell>
                                 <TableCell>
                                     <Chip
@@ -86,7 +87,7 @@ const ConvocatoriaRubroPresupuestales = ({ auth, convocatoria, convocatoria_rubr
                                             convocatoria_rubro_presupuestal.habilitado
                                                 ? '!bg-blue-200 !text-blue-500 hover:!bg-red-200 hover:!text-red-500'
                                                 : '!bg-red-200 !text-red-500 hover:!bg-blue-200 hover:!text-blue-500'
-                                        } mt-1 group`}
+                                        } mt-1 group w-[220px] !mb-3`}
                                         label={
                                             <>
                                                 <div className="group-hover:hidden">{convocatoria_rubro_presupuestal.habilitado ? 'Habilitado' : 'Deshabilitado'}</div>
@@ -94,9 +95,7 @@ const ConvocatoriaRubroPresupuestales = ({ auth, convocatoria, convocatoria_rubr
                                             </>
                                         }
                                     />
-                                </TableCell>
 
-                                <TableCell>
                                     <Chip
                                         onClick={() =>
                                             router.put(
@@ -113,7 +112,7 @@ const ConvocatoriaRubroPresupuestales = ({ auth, convocatoria, convocatoria_rubr
                                             convocatoria_rubro_presupuestal.sumar_al_presupuesto
                                                 ? '!bg-blue-200 !text-blue-500 hover:!bg-red-200 hover:!text-red-500'
                                                 : '!bg-red-200 !text-red-500 hover:!bg-blue-200 hover:!text-blue-500'
-                                        } mt-1 group`}
+                                        } mt-1 group w-[220px] !mb-3`}
                                         label={
                                             <>
                                                 <div className="group-hover:hidden">{convocatoria_rubro_presupuestal.sumar_al_presupuesto ? 'Suma al presupuesto' : 'No suma al presupuesto'}</div>
@@ -123,9 +122,7 @@ const ConvocatoriaRubroPresupuestales = ({ auth, convocatoria, convocatoria_rubr
                                             </>
                                         }
                                     />
-                                </TableCell>
 
-                                <TableCell>
                                     <Chip
                                         onClick={() =>
                                             router.put(
@@ -142,7 +139,7 @@ const ConvocatoriaRubroPresupuestales = ({ auth, convocatoria, convocatoria_rubr
                                             convocatoria_rubro_presupuestal.requiere_estudio_mercado
                                                 ? '!bg-blue-200 !text-blue-500 hover:!bg-red-200 hover:!text-red-500'
                                                 : '!bg-red-200 !text-red-500 hover:!bg-blue-200 hover:!text-blue-500'
-                                        } mt-1 group`}
+                                        } mt-1 group w-[220px] !mb-3`}
                                         label={
                                             <>
                                                 <div className="group-hover:hidden">

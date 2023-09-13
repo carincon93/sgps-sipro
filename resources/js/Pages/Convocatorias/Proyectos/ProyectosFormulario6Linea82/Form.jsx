@@ -419,10 +419,10 @@ const Form = ({
                                         required
                                     />
                                     {monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion) && (
-                                        <small>
+                                        <AlertMui>
                                             El proyecto se ejecutará entre {form.data.fecha_inicio} y el {form.data.fecha_finalizacion}, por lo tanto el número de meses máximo es:{' '}
                                             {monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion)}
-                                        </small>
+                                        </AlertMui>
                                     )}
                                 </Grid>
                             </>
