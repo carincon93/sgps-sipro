@@ -43,6 +43,7 @@ const RubrosPresupuestales = ({
     tipos_licencia,
     tipos_software,
     opciones_servicios_edicion,
+    valor_total_por_concepto_interno_sena,
 }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
@@ -71,6 +72,19 @@ const RubrosPresupuestales = ({
                 <AlertMui className="mt-20">
                     <strong>Actualmente el total del costo de los productos o servicios requeridos es de:</strong> $
                     {new Intl.NumberFormat('de-DE').format(!isNaN(proyecto.total_proyecto_presupuesto) ? proyecto.total_proyecto_presupuesto : 0)} COP
+                    <br />
+                    <br />
+                    <p className="mb-4">A continuación, los valores totales por CONCEPTO INTERNO SENA:</p>
+                    <ul className="list-disc">
+                        {valor_total_por_concepto_interno_sena.map((valor, i) => (
+                            <li key={i}>
+                                {i + 1}.
+                                <p className="first-letter:uppercase inline-block ml-2">
+                                    {valor.nombre} - <strong>${new Intl.NumberFormat('de-DE').format(valor.total_valor)} COP</strong> <small className="inline-block">({valor.codigo})</small>
+                                </p>
+                            </li>
+                        ))}
+                    </ul>
                 </AlertMui>
                 <TableMui
                     className="mb-8"

@@ -637,6 +637,10 @@ class ProyectoController extends Controller
             $proyecto->tipo_proyecto = $proyecto->proyectoFormulario1Linea65->tipo_proyecto;
         }
 
+        if ($proyecto->proyectoFormulario17Linea69()->exists()) {
+            $proyecto->proyectoFormulario17Linea69->nodoTecnoparque->topesPresupuestalesNodosTecnoparque->load('segundoGrupoPresupuestal');
+        }
+
         return Inertia::render('Convocatorias/Proyectos/ResumenFinal', [
             'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
             'proyecto'                          => $proyecto,
@@ -652,6 +656,7 @@ class ProyectoController extends Controller
             'impactos'                          => ProyectoValidationTrait::impactos($proyecto),
             'edt'                               => ProyectoValidationTrait::edt($proyecto),
             'topes_roles_sennova_tecnoparque'   => $proyecto->proyectoFormulario17Linea69()->exists() ? ProyectoRolSennovaValidationTrait::topesRolesSennovaTecnoparqueValidation($convocatoria, $proyecto) : null,
+            'topes_presupuestales_tecnoparque'  => $proyecto->proyectoFormulario17Linea69()->exists() ? ProyectoValidationTrait::topesPresupuestales($proyecto) : null,
             // 'actividadesPresupuesto'    => ProyectoValidationTrait::actividadesPresupuesto($proyecto),
             'resultadoProducto'                 => ProyectoValidationTrait::resultadoProducto($proyecto),
             'analisisRiesgo'                    => ProyectoValidationTrait::analisisRiesgo($proyecto),

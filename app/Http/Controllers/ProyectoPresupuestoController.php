@@ -10,13 +10,17 @@ use App\Models\Convocatoria;
 use App\Models\Proyecto;
 use App\Models\ProyectoPresupuesto;
 use App\Models\SoftwareInfo;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+
 use App\Models\Evaluacion\Evaluacion;
 use App\Models\Evaluacion\ProyectoPresupuestoEvaluacion;
 use App\Models\NodoEditorialInfo;
 use App\Models\RubroPresupuestalProyectoLinea68;
 use App\Models\ViaticoMunicipio;
+
+use App\Http\Traits\ProyectoValidationTrait;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ProyectoPresupuestoController extends Controller
@@ -37,22 +41,23 @@ class ProyectoPresupuestoController extends Controller
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
 
         return Inertia::render('Convocatorias/Proyectos/ProyectoPresupuesto/Index', [
-            'convocatoria'                      =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'campos_convocatoria'),
-            'proyecto'                          =>  $proyecto,
-            'evaluacion'                        =>  Evaluacion::find(request()->evaluacion_id),
-            'rubros_presupuestales'             =>  ProyectoPresupuesto::select('proyecto_presupuesto.*')
+            'convocatoria'                          =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones', 'campos_convocatoria'),
+            'proyecto'                              =>  $proyecto,
+            'evaluacion'                            =>  Evaluacion::find(request()->evaluacion_id),
+            'rubros_presupuestales'                 =>  ProyectoPresupuesto::select('proyecto_presupuesto.*')
                                                         ->where('proyecto_id', $proyecto->id)
                                                         ->filterProyectoPresupuesto(request()->only('search', 'presupuestos'))
                                                         ->with('soportesEstudioMercado', 'convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.usoPresupuestal', 'convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.segundoGrupoPresupuestal', 'proyectoPresupuestosEvaluaciones.evaluacion', 'softwareInfo', 'nodoEditorialInfo')
                                                         ->orderBy('proyecto_presupuesto.id', 'DESC')
                                                         ->paginate()
                                                         ->appends(['search' => request()->search, 'presupuestos' => request()->presupuestos]),
-            'segundo_grupo_presupuestal'        =>  SelectHelper::segundoGrupoPresupuestal($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id, $proyecto->proyectoFormulario17Linea69()->exists() ? $proyecto->proyectoFormulario17Linea69->nodo_tecnoparque_id : null),
-            'tercer_grupo_presupuestal'         =>  SelectHelper::tercerGrupoPresupuestal($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id),
-            'usos_presupuestales'               =>  SelectHelper::usosPresupuestales($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id),
-            'tipos_licencia'                    =>  json_decode(Storage::get('json/tipos-licencia-software.json'), true),
-            'opciones_servicios_edicion'        =>  json_decode(Storage::get('json/opciones-servicios-edicion.json'), true),
-            'tipos_software'                    =>  json_decode(Storage::get('json/tipos-software.json'), true),
+            'segundo_grupo_presupuestal'            =>  SelectHelper::segundoGrupoPresupuestal($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id, $proyecto->proyectoFormulario17Linea69()->exists() ? $proyecto->proyectoFormulario17Linea69->nodo_tecnoparque_id : null),
+            'tercer_grupo_presupuestal'             =>  SelectHelper::tercerGrupoPresupuestal($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id),
+            'usos_presupuestales'                   =>  SelectHelper::usosPresupuestales($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id),
+            'tipos_licencia'                        =>  json_decode(Storage::get('json/tipos-licencia-software.json'), true),
+            'opciones_servicios_edicion'            =>  json_decode(Storage::get('json/opciones-servicios-edicion.json'), true),
+            'tipos_software'                        =>  json_decode(Storage::get('json/tipos-software.json'), true),
+            'valor_total_por_concepto_interno_sena' =>  ProyectoValidationTrait::valorTotalPorConceptoInternoSena($proyecto),
         ]);
     }
 

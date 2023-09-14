@@ -33,6 +33,7 @@ const ResumenFinal = ({
     soportesEstudioMercado,
     estudiosMercadoArchivo,
     topes_roles_sennova_tecnoparque,
+    topes_presupuestales_tecnoparque,
     edt,
 }) => {
     const ul_ref = useRef(null)
@@ -58,7 +59,7 @@ const ResumenFinal = ({
                         <p>
                             <strong>
                                 {list_item_count > 0
-                                    ? 'La información del proyecto está incompleta. Para poder finalizar el proyecto debe completar los siguientes ítems:'
+                                    ? 'La información del proyecto está incompleta. Para poder finalizar el proyecto debe completar / corregir los siguientes ítems:'
                                     : 'El proyecto ha sido diligenciado correctamente.'}
                             </strong>
                         </p>
@@ -133,6 +134,25 @@ const ResumenFinal = ({
                             {!estudiosMercadoArchivo && <li>Hay rubros presupuestales que no tienen el estudio de mercado cargado</li>}
                             {!topes_roles_sennova_tecnoparque && proyecto.tipo_formulario_convocatoria_id == 17 && (
                                 <li>Ha superado el número máximo de uno o varios roles que ha asociado al proyecto. Por favor revise en los lineamientos los roles máximos para su nodo.</li>
+                            )}
+                            {!topes_presupuestales_tecnoparque && proyecto.tipo_formulario_convocatoria_id == 17 && (
+                                <li>
+                                    Ha superado los valores máximos de algún tope presupuestal asignado a su nodo. Por favor revise los siguientes valores:
+                                    <br />
+                                    <ul className="ml-4 mt-2 list-disc">
+                                        {proyecto.proyecto_formulario17_linea69.nodo_tecnoparque.topes_presupuestales_nodos_tecnoparque.map((tope_presupuestal, i) => (
+                                            <>
+                                                {tope_presupuestal.segundo_grupo_presupuestal.map((concepto_interno_sena, j) => (
+                                                    <li key={j}>
+                                                        <p className="first-letter:uppercase">
+                                                            {concepto_interno_sena.nombre} - <strong>${new Intl.NumberFormat('de-DE').format(tope_presupuestal.valor)} COP</strong>
+                                                        </p>
+                                                    </li>
+                                                ))}
+                                            </>
+                                        ))}
+                                    </ul>
+                                </li>
                             )}
                         </ul>
                     </AlertMui>

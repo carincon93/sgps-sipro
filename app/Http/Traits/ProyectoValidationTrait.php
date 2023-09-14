@@ -4,6 +4,9 @@ namespace App\Http\Traits;
 
 use App\Models\ConvocatoriaAnexo;
 use App\Models\Proyecto;
+use App\Models\SegundoGrupoPresupuestal;
+use App\Models\TopePresupuestalNodoTecnoparque;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\ErrorHandler\Debug;
 
@@ -622,5 +625,38 @@ trait ProyectoValidationTrait
         }
 
         return $count_edt > 0 ? false : true;
+    }
+
+    public static function valorTotalPorConceptoInternoSena($proyecto)
+    {
+        return DB::table('convocatoria_proyecto_rubro_presupuestal')->selectRaw('segundo_grupo_presupuestal.nombre, segundo_grupo_presupuestal.codigo, SUM(proyecto_presupuesto.valor_total) AS total_valor')
+                                    ->join('proyecto_presupuesto', 'convocatoria_proyecto_rubro_presupuestal.proyecto_presupuesto_id', 'proyecto_presupuesto.id')
+                                    ->join('convocatoria_presupuesto', 'convocatoria_proyecto_rubro_presupuestal.convocatoria_presupuesto_id', 'convocatoria_presupuesto.id')
+                                    ->join('rubros_presupuestales', 'convocatoria_presupuesto.rubro_presupuestal_id', 'rubros_presupuestales.id')
+                                    ->join('segundo_grupo_presupuestal', 'rubros_presupuestales.segundo_grupo_presupuestal_id', 'segundo_grupo_presupuestal.id')
+                                    ->where('proyecto_presupuesto.proyecto_id',  $proyecto->id)
+                                    ->groupBy('segundo_grupo_presupuestal.nombre', 'segundo_grupo_presupuestal.codigo')
+                                    ->get();
+    }
+
+    public static function topesPresupuestales($proyecto)
+    {
+        $proyecto_presupuesto = self::valorTotalPorConceptoInternoSena($proyecto);
+
+        foreach($proyecto_presupuesto as $rubro_presupuestal) {
+            $tope_presupuestal = TopePresupuestalNodoTecnoparque::select('valor')
+                                    ->join('topes_presupuestales_tecnoparque_conceptos_sena', 'topes_presupuestales_nodos_tecnoparque.id', 'topes_presupuestales_tecnoparque_conceptos_sena.tope_presupuestal_nodo_tecnoparque_id')
+                                    ->join('segundo_grupo_presupuestal', 'topes_presupuestales_tecnoparque_conceptos_sena.segundo_grupo_presupuestal_id', 'segundo_grupo_presupuestal.id')
+                                    ->where('nodo_tecnoparque_id', $proyecto->proyectoFormulario17Linea69->nodo_tecnoparque_id)
+                                    ->where('convocatoria_id', $proyecto->convocatoria_id)
+                                    ->where('segundo_grupo_presupuestal.codigo', $rubro_presupuestal->codigo)
+                                    ->first();
+
+            if ($rubro_presupuestal->total_valor > $tope_presupuestal->valor) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
