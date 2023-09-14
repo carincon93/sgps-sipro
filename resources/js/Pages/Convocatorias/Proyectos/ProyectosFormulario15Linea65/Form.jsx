@@ -154,7 +154,7 @@ const Form = ({
                                     {proyecto_formulario_15_linea_65.proyecto.codigo}
                                 </>
                             ) : (
-                                <>Formulario 13: Gestión Editorial de Publicaciones Seriadas - Apropiación de la ciencia y la tecnología y cultura de la innovación y la competitividad - Línea 65</>
+                                <>Formulario 15: Sello editorial SENA - Apropiación de la ciencia y la tecnología y cultura de la innovación y la competitividad - Línea 65</>
                             )}
                         </h1>
                     </div>

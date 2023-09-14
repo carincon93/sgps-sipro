@@ -159,6 +159,11 @@ class ProyectoController extends Controller
                 $proyecto->propuesta_sostenibilidad = $proyecto->proyectoFormulario1Linea65->propuesta_sostenibilidad;
                 $proyecto->tipo_proyecto            = $proyecto->proyectoFormulario1Linea65->tipo_proyecto;
                 break;
+            case 3:
+                $objetivo_general                   = $proyecto->proyectoFormulario3Linea61->objetivo_general;
+                $proyecto->propuesta_sostenibilidad = $proyecto->proyectoFormulario3Linea61->propuesta_sostenibilidad;
+                $proyecto->tipo_proyecto            = $proyecto->proyectoFormulario3Linea61->tipo_proyecto;
+                break;
             case 4:
                 $objetivo_general = $proyecto->proyectoFormulario4Linea70->objetivo_general;
                 $proyecto->propuesta_sostenibilidad_social      = $proyecto->proyectoFormulario4Linea70->propuesta_sostenibilidad_social;
@@ -253,6 +258,9 @@ class ProyectoController extends Controller
         switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 1:
                 $proyecto->proyectoFormulario1Linea65()->update($request->only($column));
+                break;
+            case 3:
+                $proyecto->proyectoFormulario3Linea61()->update($request->only($column));
                 break;
             case 4:
                 $proyecto->proyectoFormulario4Linea70()->update($request->only($column));
@@ -374,6 +382,15 @@ class ProyectoController extends Controller
                 $proyecto_formulario_1_linea_65->propuesta_sostenibilidad    = $request->propuesta_sostenibilidad;
 
                 $proyecto_formulario_1_linea_65->save();
+                break;
+            case 3:
+                $request->validate([
+                    'propuesta_sostenibilidad' => 'required|string|max:40000',
+                ]);
+                $proyecto_formulario_3_linea_61                              = $proyecto->proyectoFormulario3Linea61;
+                $proyecto_formulario_3_linea_61->propuesta_sostenibilidad    = $request->propuesta_sostenibilidad;
+
+                $proyecto_formulario_3_linea_61->save();
                 break;
             case 4:
                 $request->validate([
@@ -512,6 +529,9 @@ class ProyectoController extends Controller
             case 1:
                 return redirect()->route('convocatorias.proyectos-formulario-1-linea-65.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => request()->tipo_formulario_convocatoria_id]);
                 break;
+            case 3:
+                return redirect()->route('convocatorias.proyectos-formulario-3-linea-61.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => request()->tipo_formulario_convocatoria_id]);
+                break;
             case 4:
                 return redirect()->route('convocatorias.proyectos-formulario-4-linea-70.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => request()->tipo_formulario_convocatoria_id]);
                 break;
@@ -572,6 +592,9 @@ class ProyectoController extends Controller
         switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 1:
                 return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-formulario-1-linea-65.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-formulario-1-linea-65.edit', [$convocatoria, $proyecto]);
+                break;
+            case 3:
+                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-formulario-3-linea-61.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-formulario-3-linea-61.edit', [$convocatoria, $proyecto]);
                 break;
             case 4:
                 return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-formulario-4-linea-70.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-formulario-4-linea-70.edit', [$convocatoria, $proyecto]);

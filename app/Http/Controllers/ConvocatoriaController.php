@@ -279,6 +279,9 @@ class ConvocatoriaController extends Controller
             case 1:
                 return redirect()->route('convocatorias.proyectos-formulario-1-linea-65.index', [$convocatoria]);
                 break;
+            case 3:
+                return redirect()->route('convocatorias.proyectos-formulario-3-linea-61.index', [$convocatoria]);
+                break;
             case 4:
                 return redirect()->route('convocatorias.proyectos-formulario-4-linea-70.index', [$convocatoria]);
                 break;

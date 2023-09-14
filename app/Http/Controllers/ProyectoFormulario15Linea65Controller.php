@@ -191,7 +191,6 @@ class ProyectoFormulario15Linea65Controller extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_15_linea_65->proyecto]);
 
-
         $proyecto_formulario_15_linea_65->update($request->validated());
 
         $proyecto_formulario_15_linea_65->save();

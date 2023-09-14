@@ -864,6 +864,9 @@ class ArbolProyectoController extends Controller
             case 1:
                 $proyecto->proyectoFormulario1Linea65()->update($request->only($column));
                 break;
+            case 3:
+                $proyecto->proyectoFormulario3Linea61()->update($request->only($column));
+                break;
             case 4:
                 $proyecto->proyectoFormulario4Linea70()->update($request->only($column));
                 break;

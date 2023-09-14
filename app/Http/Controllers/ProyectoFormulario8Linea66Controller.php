@@ -41,7 +41,7 @@ class ProyectoFormulario8Linea66Controller extends Controller
      */
     public function create(Convocatoria $convocatoria)
     {
-        $this->authorize('formular-proyecto', [3, $convocatoria]);
+        $this->authorize('formular-proyecto', [1, $convocatoria]);
 
         /** @var \App\Models\User */
         $auth_user = Auth::user();

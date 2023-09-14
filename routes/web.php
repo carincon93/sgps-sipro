@@ -71,6 +71,7 @@ use App\Http\Controllers\ProyectoFormulario13Linea65Controller;
 use App\Http\Controllers\ProyectoFormulario15Linea65Controller;
 use App\Http\Controllers\ProyectoFormulario16Linea65Controller;
 use App\Http\Controllers\ProyectoFormulario17Linea69Controller;
+use App\Http\Controllers\ProyectoFormulario3Linea61Controller;
 use App\Http\Controllers\ProyectoFormulario6Linea82Controller;
 use App\Http\Controllers\ProyectoFormulario7Linea23Controller;
 use App\Http\Controllers\ProyectoFormulario9Linea23Controller;
@@ -413,6 +414,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('convocatorias.proyectos-formulario-16-linea-65', ProyectoFormulario16Linea65Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-formulario-16-linea-65' => 'proyecto-formulario-16-linea-65'])->except(['show']);
 
     /**
+     * Línea programática 65 - Estrategia nacional
+     *
+     */
+    Route::put('convocatorias/{convocatoria}/proyectos-formulario-3-linea-61/{proyecto_formulario_3_linea_61}/column/{column}', [ProyectoFormulario3Linea61Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-formulario-3-linea-61.updateLongColumn');
+    Route::resource('convocatorias.proyectos-formulario-3-linea-61', ProyectoFormulario3Linea61Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-formulario-3-linea-61' => 'proyecto-formulario-3-linea-61'])->except(['show']);
+
+    /**
      * Línea programática 66 - Estrategia regional
      *
      */
@@ -583,6 +591,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Exporta resumen proyecto PDF
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario1-linea65', [PdfController::class, 'generarPdfFormulario1Linea65'])->name('convocatorias.proyectos.pdf-formulario1-linea65');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario3-linea70', [PdfController::class, 'generarPdfFormulario3Linea61'])->name('convocatorias.proyectos.pdf-formulario3-linea61');
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario4-linea70', [PdfController::class, 'generarPdfFormulario4Linea70'])->name('convocatorias.proyectos.pdf-formulario4-linea70');
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario5-linea69', [PdfController::class, 'generarPdfFormulario5Linea69'])->name('convocatorias.proyectos.pdf-formulario5-linea69');
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario6-linea82', [PdfController::class, 'generarPdfFormulario6Linea82'])->name('convocatorias.proyectos.pdf-formulario6-linea82');
