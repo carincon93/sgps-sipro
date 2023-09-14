@@ -598,10 +598,12 @@
                         </td>
                     </tr>
 
-                    <tr>
-                        <th align="left" width="30%">Fechas de vigencia Convenio/Acuerdos</th>
-                        <td>Inicio: {{ $entidad->entidadAliadaLinea69->fecha_inicio_convenio }} Fin: {{ $entidad->entidadAliadaLinea69->fecha_fin_convenio }}</td>
-                    </tr>
+                    @if ($entidad->entidadAliadaLinea69()->exists())
+                        <tr>
+                            <th align="left" width="30%">Fechas de vigencia Convenio/Acuerdos</th>
+                            <td>Inicio: {{ $entidad->entidadAliadaLinea69->fecha_inicio_convenio }} Fin: {{ $entidad->entidadAliadaLinea69->fecha_fin_convenio }}</td>
+                        </tr>
+                    @endif
 
                      <tr>
                         <th align="left" width="30%">Actividades</th>

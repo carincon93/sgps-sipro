@@ -685,10 +685,12 @@
                         </td>
                     </tr>
 
-                    <tr>
-                        <th align="left" width="30%">Fechas de vigencia Convenio/Acuerdos</th>
-                        <td>Inicio: {{ $entidad->entidadAliadaLinea70->fecha_inicio_convenio }} Fin: {{ $entidad->entidadAliadaLinea70->fecha_fin_convenio }}</td>
-                    </tr>
+                    @if ($entidad->entidadAliadaLinea70()->exists())
+                        <tr>
+                            <th align="left" width="30%">Fechas de vigencia Convenio/Acuerdos</th>
+                            <td>Inicio: {{ $entidad->entidadAliadaLinea70->fecha_inicio_convenio }} Fin: {{ $entidad->entidadAliadaLinea70->fecha_fin_convenio }}</td>
+                        </tr>
+                    @endif
 
                      <tr>
                         <th align="left" width="30%">Actividades</th>
