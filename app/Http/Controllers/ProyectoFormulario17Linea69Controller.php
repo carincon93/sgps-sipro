@@ -252,7 +252,7 @@ class ProyectoFormulario17Linea69Controller extends Controller
 
             //re-sync everything hasMany
             $objetivos_especificos = collect([]);
-            $nuevas_actividades = [];
+            $nuevas_actividades = collect([]);
             foreach ($proyecto_formulario_17_linea_69->proyecto->causasDirectas as $causa_directa) {
                 $nueva_causa_directa = $clone->proyecto->causasDirectas()->create($causa_directa->toArray());
                 $nuevo_objetivo_especifico = $nueva_causa_directa->objetivoEspecifico()->create($causa_directa->objetivoEspecifico->toArray());
@@ -269,22 +269,21 @@ class ProyectoFormulario17Linea69Controller extends Controller
                         'descripcion'               => $causa_indirecta->actividad->descripcion,
                     ]);
 
-                    array_push(
-                        $nuevas_actividades,
-                        [
-                            'actividad_id'                  => $nueva_actividad->id,
-                            'objetivo_especifico_id'        => $nueva_actividad->objetivo_especifico_id,
-                            'resultado_antiguo'             => optional($causa_indirecta->actividad->resultado)->descripcion,
-                            'objetivo_especifico_antiguo'   => optional($causa_indirecta->actividad->objetivoEspecifico)->numero,
-                            'causa_indirecta_id'            => $nueva_actividad->causa_indirecta_id,
-                            'descripcion_actividad'         => $nueva_actividad->descripcion
-                        ]
-                    );
+                    $nuevas_actividades->push([
+                        'actividad_id'                  => $nueva_actividad->id,
+                        'objetivo_especifico_id'        => $nueva_actividad->objetivo_especifico_id,
+                        'resultado_antiguo'             => optional($causa_indirecta->actividad->resultado)->descripcion,
+                        'objetivo_especifico_antiguo'   => optional($causa_indirecta->actividad->objetivoEspecifico)->numero,
+                        'causa_indirecta_id'            => $nueva_actividad->causa_indirecta_id,
+                        'descripcion_actividad'         => $nueva_actividad->descripcion
+                    ]);
                 }
             }
 
             //re-sync everything hasMany
             $resultados = collect([]);
+            $productos = collect([]);
+            $nuevos_productos = collect([]);
             foreach ($proyecto_formulario_17_linea_69->proyecto->efectosDirectos as $key => $efecto_directo) {
                 $nuevo_efecto_directo = $clone->proyecto->efectosDirectos()->create($efecto_directo->toArray());
                 if ($objetivos_especificos->where('numero', $efecto_directo->resultado->objetivoEspecifico->numero)->where('descripcion', $efecto_directo->resultado->objetivoEspecifico->descripcion)->first()) {
@@ -296,7 +295,9 @@ class ProyectoFormulario17Linea69Controller extends Controller
                 }
 
                 foreach ($efecto_directo->resultado->productos as $producto) {
+                    $productos->push($producto->load('actividades'));
                     $nuevo_producto = $nuevo_resultado->productos()->create($producto->toArray());
+                    $nuevos_productos->push($nuevo_producto);
 
                     if ($producto->productoMinciencias()->exists()) {
                         $nuevo_producto->productoMinciencias()->create($producto->productoMinciencias->toArray());
@@ -318,6 +319,13 @@ class ProyectoFormulario17Linea69Controller extends Controller
             //re-sync everything hasMany
             foreach ($proyecto_formulario_17_linea_69->proyecto->analisisRiesgos as $analisis_riesgo) {
                 $clone->proyecto->analisisRiesgos()->create($analisis_riesgo->toArray());
+            }
+
+            // re-sync productos->actividades
+            foreach ($nuevos_productos as $nuevo_producto) {
+                if ( $nuevas_actividades->whereIn('descripcion_actividad', $productos->where('nombre', $nuevo_producto->nombre)->first()) ) {
+                    $nuevo_producto->actividades()->sync($nuevas_actividades->whereIn('descripcion_actividad', $productos->where('nombre', $nuevo_producto->nombre)->first()->actividades->pluck('descripcion')->toArray())->pluck('actividad_id')->toArray());
+                }
             }
 
             //re-sync everything belongsToMany

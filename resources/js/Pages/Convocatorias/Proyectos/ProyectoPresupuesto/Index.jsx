@@ -80,10 +80,12 @@ const RubrosPresupuestales = ({
                             <li key={i}>
                                 {i + 1}.
                                 <p className="first-letter:uppercase inline-block ml-2">
-                                    {valor.nombre} - <strong>${new Intl.NumberFormat('de-DE').format(valor.total_valor)} COP</strong> <small className="inline-block">({valor.codigo})</small>
+                                    {valor.nombre} - <strong>${new Intl.NumberFormat('de-DE').format(valor.total_valor)} COP</strong> <small className="inline-block">(Código: {valor.codigo})</small>
                                 </p>
                             </li>
                         ))}
+
+                        {valor_total_por_concepto_interno_sena.length == 0 && <li>Sin información registrada.</li>}
                     </ul>
                 </AlertMui>
                 <TableMui

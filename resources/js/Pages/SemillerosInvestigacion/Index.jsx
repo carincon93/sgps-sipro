@@ -76,7 +76,7 @@ const Index = ({ auth, grupo_investigacion, linea_investigacion, lineas_investig
             <Grid item md={12}>
                 <SearchBar routeParams={[grupo_investigacion.id]} />
 
-                <TableMui className="mt-20" rows={['Nombre', 'Línea de investigación principal', 'Centro Código', 'Formatos', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui className="mt-20" rows={['Nombre', 'Línea de investigación principal', 'Código', 'Formatos', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {allowed_to_create ? (
                         <TableRow
                             onClick={() => (setDialogStatus(true), setMethod('POST'), setSemilleroInvestigacion(null))}
