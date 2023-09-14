@@ -591,7 +591,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Exporta resumen proyecto PDF
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario1-linea65', [PdfController::class, 'generarPdfFormulario1Linea65'])->name('convocatorias.proyectos.pdf-formulario1-linea65');
-    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario3-linea70', [PdfController::class, 'generarPdfFormulario3Linea61'])->name('convocatorias.proyectos.pdf-formulario3-linea61');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario3-linea61', [PdfController::class, 'generarPdfFormulario3Linea61'])->name('convocatorias.proyectos.pdf-formulario3-linea61');
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario4-linea70', [PdfController::class, 'generarPdfFormulario4Linea70'])->name('convocatorias.proyectos.pdf-formulario4-linea70');
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario5-linea69', [PdfController::class, 'generarPdfFormulario5Linea69'])->name('convocatorias.proyectos.pdf-formulario5-linea69');
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario6-linea82', [PdfController::class, 'generarPdfFormulario6Linea82'])->name('convocatorias.proyectos.pdf-formulario6-linea82');
