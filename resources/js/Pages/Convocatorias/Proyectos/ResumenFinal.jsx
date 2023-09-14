@@ -7,6 +7,7 @@ import StepperMui from '@/Components/Stepper'
 import { Grid } from '@mui/material'
 import { useEffect, useState, useRef } from 'react'
 import { router } from '@inertiajs/react'
+import React from 'react'
 
 const ResumenFinal = ({
     convocatoria,
@@ -34,6 +35,7 @@ const ResumenFinal = ({
     estudiosMercadoArchivo,
     topes_roles_sennova_tecnoparque,
     topes_presupuestales_tecnoparque,
+    topes_por_nodo,
     edt,
 }) => {
     const ul_ref = useRef(null)
@@ -63,7 +65,7 @@ const ResumenFinal = ({
                                     : 'El proyecto ha sido diligenciado correctamente.'}
                             </strong>
                         </p>
-                        <ul className="list-disc p-4" ref={ul_ref}>
+                        <ul className="list-decimal p-4" ref={ul_ref}>
                             {!generalidades && <li>Generalidades</li>}
                             {!articulacionSennova && proyecto.tipo_formulario_convocatoria_id == 4 && <li>Articulación SENNOVA</li>}
                             {!problemaCentral && <li>Problema central</li>}
@@ -137,19 +139,22 @@ const ResumenFinal = ({
                             )}
                             {!topes_presupuestales_tecnoparque && proyecto.tipo_formulario_convocatoria_id == 17 && (
                                 <li>
-                                    Ha superado los valores máximos de algún tope presupuestal asignado a su nodo. Por favor revise los siguientes valores:
+                                    Ha superado los valores máximos de algún tope presupuestal asignado a su nodo. Se recomienda revisar los lineamientos. A continuación, se listan los valores
+                                    asignados:
                                     <br />
                                     <ul className="ml-4 mt-2 list-disc">
-                                        {proyecto.proyecto_formulario17_linea69.nodo_tecnoparque.topes_presupuestales_nodos_tecnoparque.map((tope_presupuestal, i) => (
-                                            <>
+                                        {topes_por_nodo.map((tope_presupuestal, i) => (
+                                            <React.Fragment key={i}>
                                                 {tope_presupuestal.segundo_grupo_presupuestal.map((concepto_interno_sena, j) => (
                                                     <li key={j}>
-                                                        <p className="first-letter:uppercase">
-                                                            {concepto_interno_sena.nombre} - <strong>${new Intl.NumberFormat('de-DE').format(tope_presupuestal.valor)} COP</strong>
-                                                        </p>
+                                                        <p className="first-letter:uppercase">{concepto_interno_sena.nombre}</p>
                                                     </li>
                                                 ))}
-                                            </>
+
+                                                <li className="list-none mb-4">
+                                                    <strong>${new Intl.NumberFormat('de-DE').format(tope_presupuestal.valor)} COP</strong>
+                                                </li>
+                                            </React.Fragment>
                                         ))}
                                     </ul>
                                 </li>

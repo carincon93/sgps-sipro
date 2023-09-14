@@ -16,6 +16,7 @@ use App\Models\ProgramaFormacion;
 use App\Models\Proyecto;
 use App\Models\SemilleroInvestigacion;
 use App\Models\RolSennova;
+use App\Models\TopePresupuestalNodoTecnoparque;
 use App\Notifications\ComentarioProyecto;
 use App\Notifications\EvaluacionFinalizada;
 use App\Notifications\ProyectoConfirmado;
@@ -655,6 +656,7 @@ class ProyectoController extends Controller
             'actividades'                       => ProyectoValidationTrait::actividades($proyecto),
             'impactos'                          => ProyectoValidationTrait::impactos($proyecto),
             'edt'                               => ProyectoValidationTrait::edt($proyecto),
+            'topes_por_nodo'                    => $proyecto->proyectoFormulario17Linea69()->exists() ? TopePresupuestalNodoTecnoparque::select('topes_presupuestales_nodos_tecnoparque.*')->with('nodoTecnoparque', 'segundoGrupoPresupuestal')->where('topes_presupuestales_nodos_tecnoparque.convocatoria_id', $convocatoria->id)->where('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id', $proyecto->proyectoFormulario17Linea69->nodo_tecnoparque_id)->orderBy('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id')->get() : null,
             'topes_roles_sennova_tecnoparque'   => $proyecto->proyectoFormulario17Linea69()->exists() ? ProyectoRolSennovaValidationTrait::topesRolesSennovaTecnoparqueValidation($convocatoria, $proyecto) : null,
             'topes_presupuestales_tecnoparque'  => $proyecto->proyectoFormulario17Linea69()->exists() ? ProyectoValidationTrait::topesPresupuestales($proyecto) : null,
             // 'actividadesPresupuesto'    => ProyectoValidationTrait::actividadesPresupuesto($proyecto),

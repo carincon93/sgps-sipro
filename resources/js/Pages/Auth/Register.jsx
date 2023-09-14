@@ -45,8 +45,8 @@ export default function Login({ tipos_documento, tipos_vinculacion, roles, centr
 
             {user ? (
                 <AlertMui>
-                    El usuario con número de documento <strong>{user.numero_documento}</strong> ya está registrado en el sistema. Por favor inicie sesión haciendo. Si no recuerda la contraseña la
-                    puede recuperar en la opcion: Recuperar contraseña.
+                    El usuario con número de documento <strong>{user.numero_documento}</strong> ya está registrado en el sistema. Por favor inicie sesión desde el formulario inicial. Si no recuerda la
+                    contraseña la puede recuperar en la opcion: Recuperar contraseña.
                 </AlertMui>
             ) : (
                 <AlertMui>

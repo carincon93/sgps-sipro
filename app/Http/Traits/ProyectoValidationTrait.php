@@ -643,7 +643,37 @@ trait ProyectoValidationTrait
     {
         $proyecto_presupuesto = self::valorTotalPorConceptoInternoSena($proyecto);
 
+        $codes = DB::table('nodos_tecnoparque')
+            ->select(
+                'nodos_tecnoparque.id',
+                'nodos_tecnoparque.nombre',
+                'topes_presupuestales_tecnoparque_conceptos_sena.id',
+                'topes_presupuestales_tecnoparque_conceptos_sena.tope_presupuestal_nodo_tecnoparque_id',
+                'segundo_grupo_presupuestal.codigo',
+                'segundo_grupo_presupuestal.nombre as concepto',
+                'topes_presupuestales_nodos_tecnoparque.valor'
+            )
+            ->join('topes_presupuestales_nodos_tecnoparque', 'nodos_tecnoparque.id', '=', 'topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id')
+            ->join('topes_presupuestales_tecnoparque_conceptos_sena', 'topes_presupuestales_nodos_tecnoparque.id', '=', 'topes_presupuestales_tecnoparque_conceptos_sena.tope_presupuestal_nodo_tecnoparque_id')
+            ->join('segundo_grupo_presupuestal', 'topes_presupuestales_tecnoparque_conceptos_sena.segundo_grupo_presupuestal_id', '=', 'segundo_grupo_presupuestal.id')
+            ->whereIn('topes_presupuestales_tecnoparque_conceptos_sena.tope_presupuestal_nodo_tecnoparque_id', function ($query) {
+                $query->select('topes_presupuestales_tecnoparque_conceptos_sena.tope_presupuestal_nodo_tecnoparque_id')
+                    ->from('topes_presupuestales_tecnoparque_conceptos_sena')
+                    ->groupBy('topes_presupuestales_tecnoparque_conceptos_sena.tope_presupuestal_nodo_tecnoparque_id')
+                    ->havingRaw('COUNT(*) > 1');
+            })
+            ->where('nodos_tecnoparque.id', 9)
+            ->where('topes_presupuestales_nodos_tecnoparque.convocatoria_id', 24)
+            ->orderBy('topes_presupuestales_tecnoparque_conceptos_sena.tope_presupuestal_nodo_tecnoparque_id')
+            ->get();
+
         foreach($proyecto_presupuesto as $rubro_presupuestal) {
+            if (count($codes->where('codigo', $rubro_presupuestal->codigo)) > 0) {
+                $rubro_presupuestal->total_sum = $proyecto_presupuesto->whereIn('codigo', $codes->where('tope_presupuestal_nodo_tecnoparque_id', $codes->where('codigo', $rubro_presupuestal->codigo)->first()->tope_presupuestal_nodo_tecnoparque_id)->pluck('codigo'))->sum('total_valor');
+            } else {
+                $rubro_presupuestal->total_sum = (int) $rubro_presupuestal->total_valor;
+            }
+
             $tope_presupuestal = TopePresupuestalNodoTecnoparque::select('valor')
                                     ->join('topes_presupuestales_tecnoparque_conceptos_sena', 'topes_presupuestales_nodos_tecnoparque.id', 'topes_presupuestales_tecnoparque_conceptos_sena.tope_presupuestal_nodo_tecnoparque_id')
                                     ->join('segundo_grupo_presupuestal', 'topes_presupuestales_tecnoparque_conceptos_sena.segundo_grupo_presupuestal_id', 'segundo_grupo_presupuestal.id')
@@ -652,7 +682,7 @@ trait ProyectoValidationTrait
                                     ->where('segundo_grupo_presupuestal.codigo', $rubro_presupuestal->codigo)
                                     ->first();
 
-            if ($rubro_presupuestal->total_valor > $tope_presupuestal->valor) {
+            if ($rubro_presupuestal->total_sum > $tope_presupuestal->valor) {
                 return false;
             }
         }
