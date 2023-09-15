@@ -75,9 +75,11 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
                             )}
                             {grupos_investigacion.data.map((grupo_investigacion, i) => (
                                 <TableRow key={i}>
-                                    <TableCell>{grupo_investigacion.nombre}</TableCell>
+                                    <TableCell>
+                                        <p className="uppercase">{grupo_investigacion.nombre}</p>
+                                    </TableCell>
 
-                                    <TableCell> {grupo_investigacion.centro_formacion?.nombre}</TableCell>
+                                    <TableCell>{grupo_investigacion.centro_formacion?.nombre}</TableCell>
                                     <TableCell>{grupo_investigacion.centro_formacion?.regional?.nombre}</TableCell>
 
                                     <TableCell>
