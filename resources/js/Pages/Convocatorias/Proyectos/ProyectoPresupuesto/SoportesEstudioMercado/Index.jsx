@@ -19,12 +19,13 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import DownloadIcon from '@mui/icons-material/Download'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
+import { Grid, MenuItem, Paper, TableCell, TableRow } from '@mui/material'
 
 import Form from './Form'
 
 import { useEffect } from 'react'
 import { useState } from 'react'
+import Label from '@/Components/Label'
 
 const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proyecto_presupuesto, soportes_estudio_mercado }) => {
     const auth_user = auth.user
@@ -33,6 +34,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
     const [soporte_to_destroy, setSoporteToDestroy] = useState(null)
     const [soporte, setSoporte] = useState(null)
     const [dialog_status, setDialogStatus] = useState(false)
+    const [dialog_status_l68, setDialogSoportel68Status] = useState(true)
     const [dialog_archivo_status, setDialogSoporteStatus] = useState(false)
     const [method, setMethod] = useState('')
 
@@ -59,6 +61,21 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
         if (proyecto?.allowed?.to_update) {
             formSoporte.post(route('convocatorias.proyectos.presupuesto.soportes.upload-soporte', [convocatoria.id, proyecto.id, proyecto_presupuesto.id, soporte.id]), {
                 onSuccess: () => setDialogSoporteStatus(false),
+                preserveScroll: true,
+            })
+        }
+    }
+
+    const form_soporte_l68 = useForm({
+        concepto: '',
+        soporte: null,
+    })
+    const submitSoporteL68 = (e) => {
+        e.preventDefault()
+
+        if (proyecto?.allowed?.to_update) {
+            form_soporte_l68.post(route('convocatorias.proyectos.presupuesto.soportes.upload-soporte-l68', [convocatoria.id, proyecto.id, proyecto_presupuesto.id]), {
+                onSuccess: () => setDialogSoportel68Status(false),
                 preserveScroll: true,
             })
         }
@@ -96,105 +113,195 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
             <Grid item md={12}>
                 <TabsMui tabs={[{ label: 'Estudio de mercado' }, { label: 'Empresas / Soportes' }]}>
                     <div>
-                        <h1 className="mt-24 mb-8 text-center text-3xl">Estudio de mercado</h1>
+                        <AlertMui className="mt-24">
+                            <h1 className="text-3xl my-10 text-center">¿Cómo se diligencia?</h1>
 
-                        <form className="mb-20" onSubmit={submitEstudioMercado}>
-                            <AlertMui>
-                                <span className="text-5xl font-black">1.</span>
-                                <br />
-                                <a href="/storage/documentos-descarga/Formato%20_guia_4_Estudio_de_mercado.xlsx" className="my-4 inline-block underline" target="_blank">
-                                    <DownloadIcon />
-                                    <strong>De clic aquí para descargar el Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>
-                                </a>
-                                <br />
-                                <div>
-                                    A continuación, diligencie el <strong>Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>. Debe incluir ítems que pertenezcan a los usos
-                                    presupuestales:
-                                    <ul className="list-disc ml-4">
-                                        {proyecto_presupuesto.convocatoria_proyecto_rubros_presupuestales.map((convocatoria_rubro_presupuestal, i) => (
-                                            <li key={i}>
-                                                <p className="first-letter:uppercase mb-2 font-black">{convocatoria_rubro_presupuestal.rubro_presupuestal.uso_presupuestal.descripcion}</p>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
+                            <Grid container className="mt-10" rowSpacing={5}>
+                                <Grid item md={1}>
+                                    <span className="text-3xl font-black">1.</span>
+                                </Grid>
 
-                                <br />
+                                <Grid item md={11}>
+                                    <a href="/storage/documentos-descarga/Formato%20_guia_4_Estudio_de_mercado.xlsx" className="my-4 inline-block underline" target="_blank">
+                                        <DownloadIcon />
+                                        <strong>De clic aquí para descargar el Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>
+                                    </a>
+                                    <br />
+                                    <div>
+                                        A continuación, diligencie el <strong>Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>. Debe incluir ítems que pertenezcan a los usos
+                                        presupuestales:
+                                        <ul className="list-disc ml-4">
+                                            {proyecto_presupuesto.convocatoria_proyecto_rubros_presupuestales.map((convocatoria_rubro_presupuestal, i) => (
+                                                <li key={i}>
+                                                    <p className="first-letter:uppercase mb-2 font-black">{convocatoria_rubro_presupuestal.rubro_presupuestal.uso_presupuestal.descripcion}</p>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </Grid>
 
-                                <span className="text-5xl font-black">2.</span>
-                                <p className="mt-4">
-                                    Copie el valor total que arrojó el <strong>Excel de Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>
-                                </p>
-                                <figure className="mt-2">
-                                    <img src="/images/estudio-mercado.jpg" alt="" className="shadow" />
-                                </figure>
-                            </AlertMui>
+                                <Grid item md={1}>
+                                    <span className="text-3xl font-black">2.</span>
+                                </Grid>
 
-                            <div className="mt-20">
-                                <TextInput
-                                    className="!mb-10"
-                                    label="Indique el valor total que arrojó el Excel"
-                                    id="valor_total"
-                                    isCurrency={true}
-                                    inputProps={{
-                                        min: 0,
-                                        prefix: '$',
-                                    }}
-                                    value={form.data.valor_total}
-                                    error={form.errors.valor_total}
-                                    onChange={(e) => form.setData('valor_total', e.target.value)}
-                                    disabled={!proyecto?.allowed?.to_update}
-                                    required
-                                />
+                                <Grid item md={11}>
+                                    <p>
+                                        Copie el valor total que arrojó el <strong>Excel de Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>
+                                    </p>
+                                    <figure className="mt-2">
+                                        <img src="/images/estudio-mercado.jpg" alt="" className="shadow" />
+                                    </figure>
+                                </Grid>
 
-                                <FileInput
-                                    id="formato_estudio_mercado"
-                                    value={form.data.formato_estudio_mercado}
-                                    filename={proyecto_presupuesto?.filename}
-                                    extension={proyecto_presupuesto?.extension}
-                                    label={`Estudio de mercado - Convocatoria Sennova ` + convocatoria.year}
-                                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                                    downloadRoute={
-                                        proyecto_presupuesto?.formato_estudio_mercado
-                                            ? proyecto_presupuesto?.formato_estudio_mercado?.includes('http')
-                                                ? proyecto_presupuesto?.formato_estudio_mercado
-                                                : route('convocatorias.proyectos.presupuesto.download-file-sharepoint', [convocatoria, proyecto, proyecto_presupuesto, 'formato_estudio_mercado'])
-                                            : null
-                                    }
-                                    onChange={(e) => form.setData('formato_estudio_mercado', e)}
-                                    disabled={!proyecto?.allowed?.to_update}
-                                    error={form.errors.formato_estudio_mercado}
-                                />
-                            </div>
+                                <Grid item md={1}>
+                                    <span className="text-3xl font-black">3.</span>
+                                </Grid>
 
-                            <div className="flex items-center justify-between mt-14 py-4">
-                                {proyecto.allowed.to_update ? (
-                                    <PrimaryButton className="ml-auto" disabled={form.processing || !form.isDirty} type="submit">
-                                        Guardar estudio de mercado y valor total
-                                    </PrimaryButton>
-                                ) : (
-                                    <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
-                                )}
-                            </div>
+                                <Grid item md={11}>
+                                    <p>
+                                        Diríjase a la pestaña <strong>Empresas / Soportes</strong> y cargue la información correspondiente.
+                                    </p>
+                                </Grid>
+                            </Grid>
+                        </AlertMui>
+
+                        <form className="mt-32" onSubmit={submitEstudioMercado}>
+                            <Grid container>
+                                <Grid item md={4}>
+                                    <Label labelFor="valor_total" value="Indique el valor total que arrojó el Excel" required />
+                                </Grid>
+                                <Grid item md={8}>
+                                    <TextInput
+                                        className="!mb-10"
+                                        label="Valor total"
+                                        id="valor_total"
+                                        isCurrency={true}
+                                        inputProps={{
+                                            min: 0,
+                                            prefix: '$',
+                                        }}
+                                        value={form.data.valor_total}
+                                        error={form.errors.valor_total}
+                                        onChange={(e) => form.setData('valor_total', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
+                                        required
+                                    />
+                                </Grid>
+
+                                <Grid item md={4}>
+                                    <Label labelFor="formato_estudio_mercado" value={`Estudio de mercado - Convocatoria Sennova ` + convocatoria.year} required />
+                                </Grid>
+                                <Grid item md={8}>
+                                    <FileInput
+                                        id="formato_estudio_mercado"
+                                        value={form.data.formato_estudio_mercado}
+                                        filename={proyecto_presupuesto?.filename}
+                                        extension={proyecto_presupuesto?.extension}
+                                        label={`Estudio de mercado - Convocatoria Sennova ` + convocatoria.year}
+                                        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                        downloadRoute={
+                                            proyecto_presupuesto?.formato_estudio_mercado
+                                                ? proyecto_presupuesto?.formato_estudio_mercado?.includes('http')
+                                                    ? proyecto_presupuesto?.formato_estudio_mercado
+                                                    : route('convocatorias.proyectos.presupuesto.download-file-sharepoint', [convocatoria, proyecto, proyecto_presupuesto, 'formato_estudio_mercado'])
+                                                : null
+                                        }
+                                        onChange={(e) => form.setData('formato_estudio_mercado', e)}
+                                        disabled={!proyecto?.allowed?.to_update}
+                                        error={form.errors.formato_estudio_mercado}
+                                    />
+                                </Grid>
+
+                                <Grid item md={12}>
+                                    <div className="flex items-center justify-between mt-14 py-4">
+                                        {proyecto.allowed.to_update ? (
+                                            <PrimaryButton className="ml-auto" disabled={form.processing || !form.isDirty} type="submit">
+                                                Guardar estudio de mercado y valor total
+                                            </PrimaryButton>
+                                        ) : (
+                                            <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
+                                        )}
+                                    </div>
+                                </Grid>
+                            </Grid>
                         </form>
                     </div>
 
                     <div>
-                        {equipo_requiere_actualizacion && proyecto_presupuesto?.rubro_presupuestal_proyecto_linea68?.equipo_para_modernizar && (
-                            <AlertMui className="mt-20" severity="error">
-                                En la pregunta <strong>¿El equipo se requiere para modernizar uno ya existente en el área técnica?</strong> su respuesta ha sido <strong>SI</strong>. Debe cargar
-                                obligatoriamente el <strong>Soporte PDF firmados de 1) el servicio de mantenimiento y 2) el cuentadante del equipo a actualizar</strong> adicional a las cotizaciones de
-                                las empresas.
-                            </AlertMui>
-                        )}
+                        {(equipo_requiere_actualizacion && proyecto_presupuesto?.rubro_presupuestal_proyecto_linea68?.equipo_para_modernizar) || requiere_adecuacion ? (
+                            <DialogMui
+                                open={dialog_status_l68}
+                                fullWidth={true}
+                                maxWidth="lg"
+                                blurEnabled={true}
+                                dialogContentText={
+                                    <>
+                                        {equipo_requiere_actualizacion && (
+                                            <>
+                                                En la pregunta <strong>¿El equipo se requiere para modernizar uno ya existente en el área técnica?</strong> su respuesta ha sido <strong>SI</strong>.
+                                                Debe cargar obligatoriamente el <strong>Soporte PDF firmados de 1) el servicio de mantenimiento y 2) el cuentadante del equipo a actualizar</strong>{' '}
+                                                adicional a las cotizaciones de las empresas.
+                                            </>
+                                        )}
 
-                        {requiere_adecuacion && (
-                            <AlertMui className="mt-20" severity="error">
-                                Este rubro pertenece al Concepto interno SENA:{' '}
-                                <strong>{proyecto_presupuesto.convocatoria_proyecto_rubros_presupuestales[0].rubro_presupuestal.segundo_grupo_presupuestal.nombre}</strong>. Debe cargar
-                                obligatoriamente el <strong>Soporte PDF firmado por el profesional del área de construcciones del Centro</strong> adicional a las cotizaciones de las empresas.
-                            </AlertMui>
-                        )}
+                                        {requiere_adecuacion && (
+                                            <>
+                                                Este rubro pertenece al Concepto interno SENA:{' '}
+                                                <strong className="uppercase">
+                                                    {proyecto_presupuesto.convocatoria_proyecto_rubros_presupuestales[0].rubro_presupuestal.segundo_grupo_presupuestal.nombre}
+                                                </strong>
+                                                . Debe cargar obligatoriamente el <strong>Soporte PDF firmado por el profesional del área de construcciones del Centro</strong> adicional a las
+                                                cotizaciones de las empresas.
+                                            </>
+                                        )}
+                                    </>
+                                }
+                                dialogContent={
+                                    <div className="mt-10">
+                                        <Grid container className="pl-2 mt-10">
+                                            <Grid item md={4}></Grid>
+                                            <Grid item md={8}>
+                                                <Paper className="p-8">
+                                                    <form onSubmit={submitSoporteL68}>
+                                                        <fieldset>
+                                                            <TextInput
+                                                                id="concepto"
+                                                                className="!mb-10"
+                                                                label="Concepto técnico"
+                                                                type="text"
+                                                                value={form_soporte_l68.data.concepto}
+                                                                onChange={(e) => form_soporte_l68.setData('concepto', e.target.value)}
+                                                                error={form_soporte_l68.errors.concepto}
+                                                                required
+                                                            />
+
+                                                            <FileInput
+                                                                id="soporte"
+                                                                value={form_soporte_l68.data.soporte}
+                                                                label="Conceptos técnicos firmados"
+                                                                accept=".zip,application/pdf"
+                                                                onChange={(e) => form_soporte_l68.setData('soporte', e)}
+                                                                error={form_soporte_l68.errors.soporte}
+                                                            />
+                                                        </fieldset>
+                                                        <div className="flex items-center justify-between mt-6 py-4">
+                                                            <PrimaryButton disabled={form_soporte_l68.processing || !form_soporte_l68.isDirty} className="ml-auto" type="submit">
+                                                                Cargar archivo
+                                                            </PrimaryButton>
+                                                        </div>
+                                                    </form>
+                                                </Paper>
+                                            </Grid>
+                                        </Grid>
+                                    </div>
+                                }
+                                dialogActions={
+                                    <ButtonMui type="button" primary={false} onClick={() => setDialogSoportel68Status(false)} className="!mr-8 !my-4">
+                                        Si, ya cargó la información. Por favor, omita esta ventana.
+                                    </ButtonMui>
+                                }
+                            />
+                        ) : null}
 
                         <AlertMui className="mt-20" severity="error">
                             Debe cargar mínimo 2 empresas con sus respectivos soportes / cotizaciones en PDF o ZIP.

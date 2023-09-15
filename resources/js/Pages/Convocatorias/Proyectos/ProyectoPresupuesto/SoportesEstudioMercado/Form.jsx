@@ -36,7 +36,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, proyecto_p
                         <fieldset>
                             <TextInput
                                 id="concepto"
-                                label="Concepto / Nombre de la empresa"
+                                label="Nombre de la empresa / Concepto"
                                 type="text"
                                 value={form.data.concepto}
                                 onChange={(e) => form.setData('concepto', e.target.value)}

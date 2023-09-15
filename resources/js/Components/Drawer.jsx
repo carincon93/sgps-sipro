@@ -143,7 +143,7 @@ export default function MiniDrawer({ user, children }) {
                     </Dropdown>
                 </Toolbar>
             </AppBar>
-            <Drawer variant="permanent" open={open}>
+            <Drawer variant="permanent" open={open} className="drawer-parent">
                 <DrawerHeader>
                     <Link href="/">
                         <ApplicationLogo />

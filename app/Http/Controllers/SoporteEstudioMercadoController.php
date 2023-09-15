@@ -153,12 +153,12 @@ class SoporteEstudioMercadoController extends Controller
         return back()->with('success', 'El soporte se ha cargado correctamente.');
     }
 
-    public function soporteEstudioMercadoProyectoLinea68(SoporteEstudioMercadoRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto)
+    public function uploadSoporteL68(SoporteEstudioMercadoRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto)
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $soporte = SoporteEstudioMercado::updateOrCreate(['id' => $request->id_estudio_mercado], [
-            'concepto'                  => $request->conceptos_tecnicos,
+        $soporte = SoporteEstudioMercado::create([
+            'concepto'                  => $request->concepto,
             'proyecto_presupuesto_id'   => $presupuesto->id
         ]);
 

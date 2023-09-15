@@ -226,3 +226,7 @@ tags.tagify.tagify--focus {
 .MuiAlert-standardSuccess.MuiAlert-standardInfo svg {
     display: none;
 }
+
+.drawer-parent .MuiListItemText-primary {
+    font-size: 0.85rem;
+}
