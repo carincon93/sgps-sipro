@@ -864,7 +864,6 @@ class ArbolProyectoController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        dd($proyecto->tipo_formulario_convocatoria_id);
         switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 1:
                 $proyecto->proyectoFormulario1Linea65()->update($request->only($column));
