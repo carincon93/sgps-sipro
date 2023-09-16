@@ -61,6 +61,7 @@ const Actividades = ({
         proyecto.tipo_formulario_convocatoria_id == 9 ||
         proyecto.tipo_formulario_convocatoria_id == 8 ||
         proyecto.tipo_formulario_convocatoria_id == 1 ||
+        proyecto.tipo_formulario_convocatoria_id == 3 ||
         proyecto.tipo_formulario_convocatoria_id == 13 ||
         proyecto.tipo_formulario_convocatoria_id == 15 ||
         proyecto.tipo_formulario_convocatoria_id == 16 ||
@@ -84,6 +85,7 @@ const Actividades = ({
             proyecto?.proyecto_formulario12_linea68?.metodologia ??
             proyecto?.proyecto_formulario13_linea65?.metodologia ??
             proyecto?.proyecto_formulario15_linea65?.metodologia ??
+            proyecto?.proyecto_formulario3_linea61?.metodologia ??
             proyecto?.proyecto_formulario16_linea65?.metodologia ??
             '',
     })
@@ -314,6 +316,7 @@ const Actividades = ({
                         {proyecto.tipo_formulario_convocatoria_id == 11 && <MetodologiaFormulario11Linea83 convocatoria={convocatoria} proyecto={proyecto} regionales={regionales} />}
                         {proyecto.tipo_formulario_convocatoria_id == 7 ||
                         proyecto.tipo_formulario_convocatoria_id == 1 ||
+                        proyecto.tipo_formulario_convocatoria_id == 3 ||
                         proyecto.tipo_formulario_convocatoria_id == 6 ||
                         proyecto.tipo_formulario_convocatoria_id == 8 ||
                         proyecto.tipo_formulario_convocatoria_id == 9 ||
