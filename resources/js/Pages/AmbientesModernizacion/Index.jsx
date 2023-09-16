@@ -88,7 +88,7 @@ const Index = ({ auth, ambientes_modernizacion, codigos_sgps_faltantes }) => {
                                     href={route('equipos-ambiente-modernizacion.index', [ambiente_modernizacion.seguimiento_ambiente_modernizacion.id])}
                                     className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
                                     <PrecisionManufacturingIcon className="mr-2" />
-                                    Debe relacionar los equipos del ambiente
+                                    Relacionar los equipos del ambiente
                                 </Link>
                             </TableCell>
 

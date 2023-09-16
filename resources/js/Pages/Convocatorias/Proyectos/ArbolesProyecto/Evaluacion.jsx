@@ -522,7 +522,7 @@ const Evaluacion = ({ auth_user, proyecto, evaluacion }) => {
                                         redacción deberá iniciar con un verbo en modo infinitivo, es decir, con una palabra terminada en ""ar"", ""er"" o ""ir"". La estructura del objetivo debe
                                         contener al menos tres componentes: (1) la acción que se espera realizar, (2) el objeto sobre el cual recae la acción y (3) elementos adicionales de contexto o
                                         descriptivos. El objetivo general debe expresar el fin concreto del proyecto en correspondencia directa con el título del proyecto y la pregunta de la
-                                        formulación del problema, el cual debe ser claro, medible, alcanzable y consistente con el proyecto que está formulando. Debe responde al ¿Qué?, ¿Cómo? y el
+                                        formulación del problema, el cual debe ser claro, medible, alcanzable y consistente con el proyecto que está formulando. Debe responder al ¿Qué?, ¿Cómo? y el
                                         ¿Para qué? Nota: A continuación, se describen algunos errores comunes al momento de estructurar el objetivo general: - Incluir en el objetivo general del
                                         proyecto las alternativas de solución (por ejemplo: mediante, por intermedio de, a través de, entre otros). - Incluir en el objetivo general los fines o efectos
                                         del proyecto (por ejemplo: “… para mejorar la calidad de vida”)

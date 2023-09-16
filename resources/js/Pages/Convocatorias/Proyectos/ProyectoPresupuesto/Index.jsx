@@ -142,7 +142,7 @@ const RubrosPresupuestales = ({
                                         className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
                                         <FolderSharedIcon className=" !mr-2" />
                                         {presupuesto.soportes_estudio_mercado.length < 2 ? (
-                                            <>Debe cargar el estudio de mercado y los soportes (Mínimo 2 soportes)</>
+                                            <>Cargar el estudio de mercado y los soportes (Mínimo 2 soportes)</>
                                         ) : (
                                             <>Revisar estudio de mercado y soportes</>
                                         )}
@@ -164,7 +164,7 @@ const RubrosPresupuestales = ({
                                                 href={route('convocatorias.proyectos.presupuesto.edt.index', [convocatoria.id, proyecto.id, presupuesto.id])}
                                                 className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
                                                 <strong>E D T : </strong>
-                                                Debe generar los respectivos EDTs
+                                                Generar los respectivos EDTs
                                             </Link>
                                         )}
                                     </>
@@ -179,7 +179,7 @@ const RubrosPresupuestales = ({
                                         href={route('convocatorias.proyectos.presupuesto.municipios.index', [convocatoria.id, proyecto.id, presupuesto.id])}
                                         className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
                                         <AirplaneTicketIcon className="mr-2" />
-                                        Debe relacionar los municipios a visitar
+                                        Relacionar los municipios a visitar
                                     </Link>
                                 )}
                                 {presupuesto.convocatoria_proyecto_rubros_presupuestales.some(
