@@ -40,17 +40,17 @@ class UserController extends Controller
         return Inertia::render('Users/Index', [
             'usuarios'              => User::getUsersByRol()->appends(['search' => request()->search, 'roles' => request()->roles]),
             'dinamizadores_sennova' => User::with('roles', 'centroFormacion', 'dinamizadorCentroFormacion')
-                                        ->whereHas('roles', function ($query)  {
-                                            $query->where('id', 4);
-                                        })
-                                        ->orderBy('users.nombre')
-                                        ->get(),
+                ->whereHas('roles', function ($query) {
+                    $query->where('id', 4);
+                })
+                ->orderBy('users.nombre')
+                ->get(),
             'subdirectores_centro'  => User::with('roles', 'centroFormacion', 'subdirectorCentroFormacion')
-                                        ->whereHas('roles', function ($query)  {
-                                            $query->where('id', 3);
-                                        })
-                                        ->orderBy('users.nombre')
-                                        ->get(),
+                ->whereHas('roles', function ($query) {
+                    $query->where('id', 3);
+                })
+                ->orderBy('users.nombre')
+                ->get(),
             'roles'                 => Role::orderBy('name', 'ASC')->get(),
             'allowed_to_create'     => Gate::inspect('create', [User::class])->allowed()
         ]);
@@ -123,7 +123,7 @@ class UserController extends Controller
     {
         $this->authorize('view', [User::class, $user]);
 
-        $proyectos = $user->proyectos->load('proyectoFormulario1Linea65', 'proyectoFormulario8Linea66', 'proyectoFormulario12Linea68', 'proyectoFormulario5Linea69.nodoTecnoparque', 'tecnoacademiaLineasTecnoacademia.tecnoacademia', );
+        $proyectos = $user->proyectos->load('proyectoFormulario1Linea65', 'proyectoFormulario8Linea66', 'proyectoFormulario12Linea68', 'proyectoFormulario5Linea69.nodoTecnoparque', 'tecnoacademiaLineasTecnoacademia.tecnoacademia',);
 
         if ($user->hasRole([2, 3, 4, 21])) {
             $proyectos->where('centro_formacion_id', $user->centro_formacion_id);
@@ -261,7 +261,6 @@ class UserController extends Controller
 
             $auth_user->password = Hash::make($request->get('password'));
             $auth_user->save();
-
         } else if ($request->default_password) {
             $user = User::find($request->user_id);
             $user->update(['password' => User::makePassword($user->numero_documento)]);

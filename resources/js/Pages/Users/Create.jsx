@@ -27,6 +27,12 @@ const Crear = ({
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
+    const centros_formacion_filtrados = checkRole(auth_user, [4])
+        ? [centros_formacion.find((item) => item.value == auth_user.centro_formacion_id)]
+        : checkRole(auth_user, [2])
+        ? [centros_formacion.filter((item) => item.regional_id == auth_user.regional_id)][0]
+        : centros_formacion
+
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Perfil</h2>}>
             <Grid container rowSpacing={10}>
@@ -44,7 +50,7 @@ const Crear = ({
                             allowed_to_create={allowed_to_create}
                             tipos_documento={tipos_documento}
                             tipos_vinculacion={tipos_vinculacion}
-                            centros_formacion={centros_formacion}
+                            centros_formacion={centros_formacion_filtrados}
                             niveles_ingles={niveles_ingles}
                             opciones_genero={opciones_genero}
                             grupos_etnicos={grupos_etnicos}
