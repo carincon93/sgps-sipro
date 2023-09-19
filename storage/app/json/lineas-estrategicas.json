@@ -1,6 +1,5 @@
 [
     { "value": 1, "label": "Producción para la vida" },
     { "value": 2, "label": "Transición energética" },
-    { "value": 3, "label": "Impulso de la economía popular" },
-    { "value": 4, "label": "No aplica" }
+    { "value": 3, "label": "Impulso de la economía popular" }
 ]

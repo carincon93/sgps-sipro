@@ -703,58 +703,66 @@ const Form = ({
                             </>
                         )}
 
-                        <Grid item md={6}>
-                            <Label labelFor="impacto_sector_agricola" value="¿El proyecto tendrá un impacto en el sector agrícola?" />
-                        </Grid>
-                        <Grid item md={6}>
-                            <SwitchMui
-                                className="mb-4"
-                                checked={requiere_justificacion_sector_agricola}
-                                disabled={!proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update}
-                                onChange={() => setRequiereJustificacionSectorAgricola(!requiere_justificacion_sector_agricola)}
-                            />
-                            {requiere_justificacion_sector_agricola && (
-                                <Textarea
-                                    label="Justificación"
-                                    id="impacto_sector_agricola"
-                                    onChange={(e) => form.setData('impacto_sector_agricola', e.target.value)}
-                                    disabled={!proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update}
-                                    error={form.errors.impacto_sector_agricola}
-                                    value={form.data.impacto_sector_agricola}
-                                    onBlur={() => syncColumnLong('impacto_sector_agricola', form)}
-                                />
-                            )}
-                        </Grid>
-
-                        <Grid item md={6}>
-                            <Label labelFor="justificacion_politica_discapacidad" value="¿El proyecto aporta a la Política Institucional para Atención de las Personas con discapacidad?" />
-                        </Grid>
-                        <Grid item md={6}>
-                            <SwitchMui
-                                className="mb-4"
-                                checked={requiere_justificacion_politica_discapacidad}
-                                onChange={() => setRequiereJustificacionPoliticaDiscapacidad(!requiere_justificacion_politica_discapacidad)}
-                                disabled={!proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update}
-                            />
-
-                            {requiere_justificacion_politica_discapacidad && (
-                                <>
-                                    <Textarea
-                                        label="Justificación"
-                                        id="justificacion_politica_discapacidad"
-                                        onChange={(e) => form.setData('justificacion_politica_discapacidad', e.target.value)}
+                        {convocatoria.campos_convocatoria.filter((item) => item.campo == 'impacto_sector_agricola').find((item) => item.convocatoria_id == convocatoria.id) && (
+                            <>
+                                <Grid item md={6}>
+                                    <Label labelFor="impacto_sector_agricola" value="¿El proyecto tendrá un impacto en el sector agrícola?" />
+                                </Grid>
+                                <Grid item md={6}>
+                                    <SwitchMui
+                                        className="mb-4"
+                                        checked={requiere_justificacion_sector_agricola}
                                         disabled={!proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update}
-                                        error={form.errors.justificacion_politica_discapacidad}
-                                        value={form.data.justificacion_politica_discapacidad}
-                                        onBlur={() => syncColumnLong('justificacion_politica_discapacidad', form)}
+                                        onChange={() => setRequiereJustificacionSectorAgricola(!requiere_justificacion_sector_agricola)}
                                     />
-                                    <AlertMui>
-                                        Si el proyecto aporta a la Política Institucional para Atención de las Personas con discapacidad por favor realice la justificación. RESOLUCIÓN 01726 DE 2014 -
-                                        Por la cual se adopta la Política Institucional para Atención de las Personas con discapacidad.
-                                    </AlertMui>
-                                </>
-                            )}
-                        </Grid>
+                                    {requiere_justificacion_sector_agricola && (
+                                        <Textarea
+                                            label="Justificación"
+                                            id="impacto_sector_agricola"
+                                            onChange={(e) => form.setData('impacto_sector_agricola', e.target.value)}
+                                            disabled={!proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update}
+                                            error={form.errors.impacto_sector_agricola}
+                                            value={form.data.impacto_sector_agricola}
+                                            onBlur={() => syncColumnLong('impacto_sector_agricola', form)}
+                                        />
+                                    )}
+                                </Grid>
+                            </>
+                        )}
+
+                        {convocatoria.campos_convocatoria.filter((item) => item.campo == 'justificacion_politica_discapacidad').find((item) => item.convocatoria_id == convocatoria.id) && (
+                            <>
+                                <Grid item md={6}>
+                                    <Label labelFor="justificacion_politica_discapacidad" value="¿El proyecto aporta a la Política Institucional para Atención de las Personas con discapacidad?" />
+                                </Grid>
+                                <Grid item md={6}>
+                                    <SwitchMui
+                                        className="mb-4"
+                                        checked={requiere_justificacion_politica_discapacidad}
+                                        onChange={() => setRequiereJustificacionPoliticaDiscapacidad(!requiere_justificacion_politica_discapacidad)}
+                                        disabled={!proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update}
+                                    />
+
+                                    {requiere_justificacion_politica_discapacidad && (
+                                        <>
+                                            <Textarea
+                                                label="Justificación"
+                                                id="justificacion_politica_discapacidad"
+                                                onChange={(e) => form.setData('justificacion_politica_discapacidad', e.target.value)}
+                                                disabled={!proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update}
+                                                error={form.errors.justificacion_politica_discapacidad}
+                                                value={form.data.justificacion_politica_discapacidad}
+                                                onBlur={() => syncColumnLong('justificacion_politica_discapacidad', form)}
+                                            />
+                                            <AlertMui>
+                                                Si el proyecto aporta a la Política Institucional para Atención de las Personas con discapacidad por favor realice la justificación. RESOLUCIÓN 01726 DE
+                                                2014 - Por la cual se adopta la Política Institucional para Atención de las Personas con discapacidad.
+                                            </AlertMui>
+                                        </>
+                                    )}
+                                </Grid>
+                            </>
+                        )}
 
                         <Grid item md={6}>
                             <Label

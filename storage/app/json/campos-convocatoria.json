@@ -5,9 +5,13 @@
     { "convocatoria_id": 3, "campo": "nodo_editorial" },
     { "convocatoria_id": 3, "campo": "especificaciones_area" },
     { "convocatoria_id": 3, "campo": "area_conocimiento_id" },
+    { "convocatoria_id": 3, "campo": "impacto_sector_agricola" },
+    { "convocatoria_id": 3, "campo": "justificacion_politica_discapacidad" },
     { "convocatoria_id": 14, "campo": "especificaciones_area" },
     { "convocatoria_id": 14, "campo": "justificacion_economia_naranja" },
     { "convocatoria_id": 14, "campo": "justificacion_industria_4" },
     { "convocatoria_id": 14, "campo": "justificacion_proyecto_investigacion_pedagogica" },
-    { "convocatoria_id": 14, "campo": "area_conocimiento_id" }
+    { "convocatoria_id": 14, "campo": "area_conocimiento_id" },
+    { "convocatoria_id": 14, "campo": "impacto_sector_agricola" },
+    { "convocatoria_id": 14, "campo": "justificacion_politica_discapacidad" }
 ]
