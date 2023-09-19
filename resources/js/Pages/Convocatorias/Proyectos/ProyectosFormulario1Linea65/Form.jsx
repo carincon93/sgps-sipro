@@ -24,6 +24,7 @@ const Form = ({
     centros_formacion,
     mesas_sectoriales,
     areas_conocimiento,
+    disciplinas_subarea_conocimiento,
     lineas_investigacion,
     lineas_programaticas,
     ejes_sennova,
@@ -32,6 +33,7 @@ const Form = ({
     lineas_tecnoacademia,
     actividades_economicas,
     tematicas_estrategicas,
+    redes_conocimiento,
     tecnoacademia,
     tecnoacademias,
     nodos_tecnoparques,
@@ -86,7 +88,10 @@ const Form = ({
         tecnoacademia_id: tecnoacademia?.id ?? '',
         linea_tecnologica_id: proyecto_formulario_1_linea_65?.proyecto.tecnoacademia_lineas_tecnoacademia?.map((item) => item.id),
         mesa_sectorial_id: proyecto_formulario_1_linea_65?.proyecto.mesas_sectoriales?.map((item) => item.id),
+        red_conocimiento_id: proyecto_formulario_1_linea_65?.proyecto.redes_conocimiento?.map((item) => item.id),
+        disciplina_subarea_conocimiento_id: proyecto_formulario_1_linea_65?.disciplina_subarea_conocimiento_id,
 
+        justificacion_mesas_sectoriales: proyecto_formulario_1_linea_65?.justificacion_mesas_sectoriales ?? '',
         resumen: proyecto_formulario_1_linea_65?.resumen ?? '',
         antecedentes: proyecto_formulario_1_linea_65?.antecedentes ?? '',
         marco_conceptual: proyecto_formulario_1_linea_65?.marco_conceptual ?? '',
@@ -342,6 +347,22 @@ const Form = ({
                 </Grid>
 
                 <Grid item md={6}>
+                    <Label required labelFor="red_conocimiento_id" className="mb-4" value="Red de conocimiento sectorial" />
+                </Grid>
+                <Grid item md={6}>
+                    <Autocomplete
+                        id="red_conocimiento_id"
+                        selectedValue={form.data.red_conocimiento_id}
+                        onChange={(event, newValue) => form.setData('red_conocimiento_id', newValue.value)}
+                        disabled={!(proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update || allowed_to_create)}
+                        options={redes_conocimiento}
+                        error={form.errors.red_conocimiento_id}
+                        onBlur={() => syncColumnLong('red_conocimiento_id', form)}
+                        required
+                    />
+                </Grid>
+
+                <Grid item md={6}>
                     <Label required className="mb-4" labelFor="tipo_evento" value="Tipo de evento" />
                 </Grid>
                 <Grid item md={6}>
@@ -405,19 +426,39 @@ const Form = ({
                     </>
                 )}
 
+                {convocatoria.campos_convocatoria.filter((item) => item.campo == 'area_conocimiento_id').find((item) => item.convocatoria_id == convocatoria.id) && (
+                    <>
+                        <Grid item md={6}>
+                            <Label required labelFor="area_conocimiento_id" className="mb-4" value="Área de conocimiento" />
+                        </Grid>
+                        <Grid item md={6}>
+                            <Autocomplete
+                                id="area_conocimiento_id"
+                                selectedValue={form.data.area_conocimiento_id}
+                                onChange={(event, newValue) => form.setData('area_conocimiento_id', newValue.value)}
+                                disabled={!(proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update || allowed_to_create)}
+                                options={areas_conocimiento}
+                                error={form.errors.area_conocimiento_id}
+                                required
+                                onBlur={() => syncColumnLong('area_conocimiento_id', form)}
+                            />
+                        </Grid>
+                    </>
+                )}
+
                 <Grid item md={6}>
-                    <Label required labelFor="area_conocimiento_id" className="mb-4" value="Área de conocimiento" />
+                    <Label required labelFor="disciplina_subarea_conocimiento_id" className="mb-4" value="Disciplina de conocimiento" />
                 </Grid>
                 <Grid item md={6}>
                     <Autocomplete
-                        id="area_conocimiento_id"
-                        selectedValue={form.data.area_conocimiento_id}
-                        onChange={(event, newValue) => form.setData('area_conocimiento_id', newValue.value)}
+                        id="disciplina_subarea_conocimiento_id"
+                        selectedValue={form.data.disciplina_subarea_conocimiento_id}
+                        onChange={(event, newValue) => form.setData('disciplina_subarea_conocimiento_id', newValue.value)}
                         disabled={!(proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update || allowed_to_create)}
-                        options={areas_conocimiento}
-                        error={form.errors.area_conocimiento_id}
+                        options={disciplinas_subarea_conocimiento}
+                        error={form.errors.disciplina_subarea_conocimiento_id}
                         required
-                        onBlur={() => syncColumnLong('area_conocimiento_id', form)}
+                        onBlur={() => syncColumnLong('disciplina_subarea_conocimiento_id', form)}
                     />
                 </Grid>
 
@@ -833,9 +874,21 @@ const Form = ({
                                         }}
                                         disabled={!proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update}
                                         error={form.errors.mesa_sectorial_id}
-                                        placeholder="Seleccione las mesas sectoriales"
+                                        label="Seleccione las mesas sectoriales"
                                         required
                                         onBlur={() => syncColumnLong('mesa_sectorial_id', form)}
+                                    />
+
+                                    <Textarea
+                                        label="Justificación"
+                                        className="!mt-10"
+                                        id="justificacion_mesas_sectoriales"
+                                        error={form.errors.justificacion_mesas_sectoriales}
+                                        value={form.data.justificacion_mesas_sectoriales}
+                                        onChange={(e) => form.setData('justificacion_mesas_sectoriales', e.target.value)}
+                                        disabled={!proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update}
+                                        required
+                                        onBlur={() => syncColumnLong('justificacion_mesas_sectoriales', form)}
                                     />
                                 </Grid>
                             </>

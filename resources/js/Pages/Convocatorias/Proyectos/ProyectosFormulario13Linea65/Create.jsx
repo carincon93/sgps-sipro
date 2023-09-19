@@ -10,10 +10,12 @@ const Create = ({
     centros_formacion,
     mesas_sectoriales,
     areas_conocimiento,
+    disciplinas_subarea_conocimiento,
     lineas_investigacion,
     lineas_programaticas,
     actividades_economicas,
     tematicas_estrategicas,
+    redes_conocimiento,
     tecnoacademias,
     programas_formacion_con_registro_calificado,
     programas_formacion_sin_registro_calificado,
@@ -35,10 +37,12 @@ const Create = ({
                 centros_formacion={centros_formacion}
                 mesas_sectoriales={mesas_sectoriales}
                 areas_conocimiento={areas_conocimiento}
+                disciplinas_subarea_conocimiento={disciplinas_subarea_conocimiento}
                 lineas_investigacion={lineas_investigacion}
                 lineas_programaticas={lineas_programaticas}
                 actividades_economicas={actividades_economicas}
                 tematicas_estrategicas={tematicas_estrategicas}
+                redes_conocimiento={redes_conocimiento}
                 tecnoacademias={tecnoacademias}
                 programas_formacion_con_registro_calificado={programas_formacion_con_registro_calificado}
                 programas_formacion_sin_registro_calificado={programas_formacion_sin_registro_calificado}

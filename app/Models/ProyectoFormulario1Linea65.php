@@ -74,7 +74,10 @@ class ProyectoFormulario1Linea65 extends Model
         'laboratorios_st_relacionados',
 
         'alcance_evento',
-        'centros_formacion'
+        'centros_formacion',
+
+        'justificacion_mesas_sectoriales',
+        'disciplina_subarea_conocimiento_id',
     ];
 
     /**
@@ -164,6 +167,16 @@ class ProyectoFormulario1Linea65 extends Model
     public function lineaTecnica()
     {
         return $this->belongsTo(LineaTecnica::class);
+    }
+
+    /**
+     * Relationship with DisciplinaSubareaConocimiento
+     *
+     * @return object
+     */
+    public function disciplinaSubareaConocimiento()
+    {
+        return $this->belongsTo(DisciplinaSubareaConocimiento::class);
     }
 
     /**

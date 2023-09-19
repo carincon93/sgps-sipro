@@ -20,11 +20,13 @@ const Edit = ({
     evaluacion,
     mesas_sectoriales,
     areas_conocimiento,
+    disciplinas_subarea_conocimiento,
     lineas_investigacion,
     lineas_programaticas,
     ejes_sennova,
     areas_cualificacion_mnc,
     lineas_estrategicas_sena,
+    redes_conocimiento,
     lineas_tecnoacademia,
     tecnoacademia,
     actividades_economicas,
@@ -105,6 +107,7 @@ const Edit = ({
                     proyecto_formulario_13_linea_65={proyecto_formulario_13_linea_65}
                     mesas_sectoriales={mesas_sectoriales}
                     areas_conocimiento={areas_conocimiento}
+                    disciplinas_subarea_conocimiento={disciplinas_subarea_conocimiento}
                     lineas_investigacion={lineas_investigacion}
                     lineas_programaticas={lineas_programaticas}
                     ejes_sennova={ejes_sennova}
@@ -114,6 +117,7 @@ const Edit = ({
                     lineas_tecnoacademia={lineas_tecnoacademia}
                     actividades_economicas={actividades_economicas}
                     tematicas_estrategicas={tematicas_estrategicas}
+                    redes_conocimiento={redes_conocimiento}
                     tecnoacademias={tecnoacademias}
                     nodos_tecnoparques={nodos_tecnoparques}
                     hubs_innovacion={hubs_innovacion}

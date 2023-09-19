@@ -21,6 +21,7 @@ const Edit = ({
     centros_formacion,
     mesas_sectoriales,
     areas_conocimiento,
+    disciplinas_subarea_conocimiento,
     lineas_investigacion,
     lineas_programaticas,
     ejes_sennova,
@@ -29,6 +30,7 @@ const Edit = ({
     lineas_tecnoacademia,
     actividades_economicas,
     tematicas_estrategicas,
+    redes_conocimiento,
     tecnoacademia,
     tecnoacademias,
     nodos_tecnoparques,
@@ -108,6 +110,7 @@ const Edit = ({
                     centros_formacion={centros_formacion}
                     mesas_sectoriales={mesas_sectoriales}
                     areas_conocimiento={areas_conocimiento}
+                    disciplinas_subarea_conocimiento={disciplinas_subarea_conocimiento}
                     lineas_investigacion={lineas_investigacion}
                     lineas_programaticas={lineas_programaticas}
                     ejes_sennova={ejes_sennova}
@@ -116,6 +119,7 @@ const Edit = ({
                     lineas_tecnoacademia={lineas_tecnoacademia}
                     actividades_economicas={actividades_economicas}
                     tematicas_estrategicas={tematicas_estrategicas}
+                    redes_conocimiento={redes_conocimiento}
                     tecnoacademia={tecnoacademia}
                     tecnoacademias={tecnoacademias}
                     nodos_tecnoparques={nodos_tecnoparques}
