@@ -44,7 +44,7 @@ class ProyectoFormulario13Linea65Request extends FormRequest
                 'relacionado_agendas_competitividad'            => ['required', 'min:0', 'max:3', 'integer'],
                 'relacionado_mesas_sectoriales'                 => ['required', 'min:0', 'max:3', 'integer'],
                 'mesa_sectorial_id*'                            => ['required_if:relacionado_mesas_sectoriales,1', 'min:0', 'max:2147483647', 'exists:mesas_sectoriales,id'],
-                'justificacion_mesas_sectoriales'               => ['required', 'string'],
+                'justificacion_mesas_sectoriales'               => ['nullable', 'string'],
                 'resumen'                                       => ['required', 'max:40000', 'string'],
                 'antecedentes'                                  => ['required', 'max:40000', 'string'],
                 'marco_conceptual'                              => ['required', 'string'],

@@ -33,6 +33,7 @@ class ProyectoFormulario15Linea65ColumnRequest extends FormRequest
         'relacionado_agendas_competitividad'            => ['required', 'min:0', 'max:3', 'integer'],
         'relacionado_mesas_sectoriales'                 => ['required', 'min:0', 'max:3', 'integer'],
         'mesa_sectorial_id'                             => ['required_if:relacionado_mesas_sectoriales,1', 'array'],
+        'justificacion_mesas_sectoriales'               => ['nullable', 'string'],
         'eje_sennova'                                   => ['nullable', 'integer'],
         'areas_cualificacion_mnc'                       => ['nullable', 'json'],
         'aportacion_linea_transeversal_campesena'       => ['nullable', 'string'],

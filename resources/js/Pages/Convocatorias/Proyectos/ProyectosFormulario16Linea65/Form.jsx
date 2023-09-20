@@ -65,6 +65,8 @@ const Form = ({
 
         mesa_sectorial_id: proyecto_formulario_16_linea_65?.proyecto.mesas_sectoriales?.map((item) => item.id),
 
+        justificacion_mesas_sectoriales: proyecto_formulario_16_linea_65?.justificacion_mesas_sectoriales ?? '',
+
         resumen: proyecto_formulario_16_linea_65?.resumen ?? '',
         antecedentes: proyecto_formulario_16_linea_65?.antecedentes ?? '',
         marco_conceptual: proyecto_formulario_16_linea_65?.marco_conceptual ?? '',
@@ -615,6 +617,18 @@ const Form = ({
                                         placeholder="Seleccione las mesas sectoriales"
                                         required
                                         onBlur={() => syncColumnLong('mesa_sectorial_id', form)}
+                                    />
+
+                                    <Textarea
+                                        label="Justificación"
+                                        className="!mt-10"
+                                        id="justificacion_mesas_sectoriales"
+                                        error={form.errors.justificacion_mesas_sectoriales}
+                                        value={form.data.justificacion_mesas_sectoriales}
+                                        onChange={(e) => form.setData('justificacion_mesas_sectoriales', e.target.value)}
+                                        disabled={!proyecto_formulario_16_linea_65?.proyecto?.allowed?.to_update}
+                                        required
+                                        onBlur={() => syncColumnLong('justificacion_mesas_sectoriales', form)}
                                     />
                                 </Grid>
                             </>

@@ -40,7 +40,7 @@ class ProyectoFormulario1Linea65ColumnRequest extends FormRequest
         'relacionado_mesas_sectoriales'                 => ['required', 'min:0', 'max:3', 'integer'],
         'relacionado_tecnoacademia'                     => ['required', 'min:0', 'max:3', 'integer'],
         'mesa_sectorial_id'                             => ['required_if:relacionado_mesas_sectoriales,1', 'array'],
-        'justificacion_mesas_sectoriales'               => ['required', 'string'],
+        'justificacion_mesas_sectoriales'               => ['nullable', 'string'],
         'linea_tecnologica_id'                          => ['required_if:relacionado_tecnoacademia,1', 'array'],
         'eje_sennova'                                   => ['nullable', 'integer'],
         'areas_cualificacion_mnc'                       => ['nullable', 'json'],

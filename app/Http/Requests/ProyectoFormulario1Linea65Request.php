@@ -48,7 +48,7 @@ class ProyectoFormulario1Linea65Request extends FormRequest
                 'relacionado_tecnoacademia'                     => ['required', 'min:0', 'max:3', 'integer'],
                 'linea_tecnologica_id*'                         => ['required_if:relacionado_tecnoacademia,1', 'min:0', 'max:2147483647', 'exists:lineas_tecnoacademia,id'],
                 'mesa_sectorial_id*'                            => ['required_if:relacionado_mesas_sectoriales,1', 'min:0', 'max:2147483647', 'exists:mesas_sectoriales,id'],
-                'justificacion_mesas_sectoriales'               => ['required', 'string'],
+                'justificacion_mesas_sectoriales'               => ['nullable', 'string'],
                 'resumen'                                       => ['required', 'max:40000', 'string'],
                 'antecedentes'                                  => ['required', 'max:40000', 'string'],
                 'marco_conceptual'                              => ['required', 'string'],
