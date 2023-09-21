@@ -32,7 +32,7 @@ const ConvocatoriaRolesSennova = ({ auth, convocatoria, convocatoria_roles_senno
 
     return (
         <AuthenticatedLayout>
-            <Head title="Roles SENNOVA" />
+            <Head title={`Convocatoria ${convocatoria.year} - Roles SENNOVA`} />
 
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (

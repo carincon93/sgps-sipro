@@ -120,7 +120,7 @@ const Edit = ({
                         <span className="pointer-events-none place-items-center gap-2 flex py-2" href="/">
                             SENNOVA | <SenaLogo className="w-10" />
                         </span>
-                        <h1 className="text-center text-3xl mt-6 mb-10">PROYECTO {proyecto_formulario_15_linea_65?.proyecto.codigo}</h1>
+                        <h1 className="text-center text-3xl mt-6 mb-10">PROYECTO {proyecto_formulario_16_linea_65?.proyecto.codigo}</h1>
 
                         <figure>
                             <img src="/images/proyecto-sgps.png" alt="" className="mx-auto" />

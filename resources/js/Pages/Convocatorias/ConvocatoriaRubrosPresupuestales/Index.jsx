@@ -32,7 +32,7 @@ const ConvocatoriaRubroPresupuestales = ({ auth, convocatoria, convocatoria_rubr
 
     return (
         <AuthenticatedLayout>
-            <Head title="Rubros presupuestales" />
+            <Head title={`Convocatoria ${convocatoria.year} - Rubros presupuestales`} />
 
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (

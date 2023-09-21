@@ -11,7 +11,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 import { checkRole } from '@/Utils'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 import { useState } from 'react'
 
 import Form from './Form'
@@ -27,6 +27,8 @@ const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_ro
 
     return (
         <AuthenticatedLayout>
+            <Head title={`Convocatoria ${convocatoria.year} - Topes Roles SENNOVA`} />
+
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                     <Grid item md={12}>

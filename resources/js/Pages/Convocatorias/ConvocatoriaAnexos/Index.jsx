@@ -11,7 +11,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 import { checkRole } from '@/Utils'
-import { router, usePage } from '@inertiajs/react'
+import { Head, router, usePage } from '@inertiajs/react'
 import { useState } from 'react'
 
 import Form from './Form'
@@ -29,6 +29,8 @@ const ConvocatoriaAnexos = ({ auth, convocatoria, convocatoria_anexos, anexos })
 
     return (
         <AuthenticatedLayout>
+            <Head title={`Convocatoria ${convocatoria.year} - Anexos`} />
+
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                     <Grid item md={12}>

@@ -27,6 +27,8 @@ const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_pr
 
     return (
         <AuthenticatedLayout>
+            <Head title={`Convocatoria ${convocatoria.year} - Topes Rubros Presupuestales`} />
+
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                     <Grid item md={12}>
