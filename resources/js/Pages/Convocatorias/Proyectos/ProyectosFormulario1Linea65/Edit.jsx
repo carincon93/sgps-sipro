@@ -12,6 +12,7 @@ import { checkRole } from '@/Utils'
 import { Chip, Grid, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
+import SenaLogo from '@/Components/SenaLogo'
 
 const Edit = ({
     auth,
@@ -46,7 +47,7 @@ const Edit = ({
     const auth_user = auth.user
 
     const [evaluacion_index, setEvaluacionIndex] = useState(0)
-    const [dialog_status, setDialogStatus] = useState(false)
+    const [dialog_status, setDialogStatus] = useState(true)
 
     const comentarios_evaluaciones =
         proyecto_formulario_1_linea_65?.proyecto?.evaluaciones?.length > 0
@@ -132,6 +133,50 @@ const Edit = ({
                     roles_sennova={roles_sennova}
                 />
             </Grid>
+
+            <DialogMui
+                fullWidth={true}
+                maxWidth="md"
+                blurEnabled={true}
+                open={dialog_status}
+                enableGradient={true}
+                dialogContent={
+                    <div className="text-white">
+                        <span className="pointer-events-none place-items-center gap-2 flex py-2" href="/">
+                            SENNOVA | <SenaLogo className="w-10" />
+                        </span>
+                        <h1 className="text-center text-3xl mt-6 mb-10">PROYECTO {proyecto_formulario_1_linea_65?.proyecto.codigo}</h1>
+
+                        <figure>
+                            <img src="/images/proyecto-sgps.png" alt="" className="mx-auto" />
+                        </figure>
+
+                        <p className="mt-10">
+                            Por favor, termine de diligenciar la información del formulario <strong>1. Generalidades</strong>. Luego continúe con el resto del flujo de formulación.
+                        </p>
+
+                        <figure className="mt-4">
+                            <img src="/images/flujo-formulacion.png" alt="" className="mx-auto rounded" />
+                        </figure>
+
+                        <p className="mt-10">No olvide darle un vistazp al instructivo de formulación.</p>
+
+                        <a
+                            href="/storage/documentos-descarga/Instructivo_formulacion_sgps_sipro.pdf"
+                            className="bg-white text-black text-center p-2 rounded block mt-6 hover:opacity-90"
+                            target="_blank">
+                            Descargar el instructivo de formulación
+                        </a>
+                    </div>
+                }
+                dialogActions={
+                    <>
+                        <ButtonMui onClick={() => setDialogStatus(false)} className="!mr-4">
+                            Cerrar
+                        </ButtonMui>
+                    </>
+                }
+            />
         </AuthenticatedLayout>
     )
 }

@@ -230,3 +230,13 @@ tags.tagify.tagify--focus {
 .drawer-parent .MuiListItemText-primary {
     font-size: 0.85rem;
 }
+
+.MuiTab-root.Mui-selected {
+    background: #f4f4f4 !important;
+    opacity: 1 !important;
+}
+
+.MuiTab-root {
+    background: #f4f4f4 !important;
+    opacity: 0.3 !important;
+}

@@ -1,14 +1,19 @@
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
+
 import AlertMui from '@/Components/Alert'
 import ButtonMui from '@/Components/Button'
 import DialogMui from '@/Components/Dialog'
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
+import SenaLogo from '@/Components/SenaLogo'
 
 import { route, checkRole, checkPermission } from '@/Utils'
 
 import { Link, usePage } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useState } from 'react'
+
 import FormRoles from './Users/FormRoles'
+
+import dayjs from 'dayjs'
 
 export default function Dashboard({ auth, roles_sistema }) {
     const { props: page_props } = usePage()
@@ -19,6 +24,8 @@ export default function Dashboard({ auth, roles_sistema }) {
 
     const is_super_admin = checkRole(auth_user, [1])
     const [dialog_status, setDialogStatus] = useState(true)
+
+    const current_year = dayjs().year()
 
     return (
         <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}>
@@ -199,10 +206,16 @@ export default function Dashboard({ auth, roles_sistema }) {
 
                 <DialogMui
                     open={dialog_status}
+                    enableGradient={true}
+                    fullWidth={true}
+                    blurEnabled={true}
+                    maxWidth="md"
                     dialogContent={
                         <>
-                            <hr className="mt-10 mb-10" />
-                            <div>
+                            <div className="text-white">
+                                <span className="text-white pointer-events-none place-items-center gap-2 flex py-2" href="/">
+                                    SENNOVA | <SenaLogo className="w-10" />
+                                </span>
                                 {auth_user.roles.length == 0 && rol != 'evaluador_externo' && (
                                     <AlertMui>
                                         Por favor seleccione los roles de formulación según la línea en la que desea presentar proyectos. Si requiere otro rol por favor comuníquese con el
@@ -220,13 +233,8 @@ export default function Dashboard({ auth, roles_sistema }) {
                                 {auth_user.roles.length > 0 && auth_user.check_soportes_titulo_obtenido === 0 && auth_user.check_certificados_formacion === 0 ? (
                                     <>
                                         <p className="mt-10">
-                                            A continuación, diríjase al CENSO SENNOVA 2023. Por favor haga clic en <strong>'Ir al CENSO SENNOVA 2023'</strong> para diligenciarlo.
+                                            El CENSO SENNOVA {current_year} está disponible. Por favor haga clic en <strong>'Ir al CENSO SENNOVA 2023'</strong> para diligenciarlo.
                                         </p>
-                                        {auth_user.informacion_completa && (
-                                            <AlertMui className="mt-4">
-                                                Si ya diligenció el CENSO por favor de clic en <strong>'Ya he completado el CENSO'</strong>
-                                            </AlertMui>
-                                        )}
                                     </>
                                 ) : (
                                     auth_user.roles.length > 0 && (
@@ -244,10 +252,12 @@ export default function Dashboard({ auth, roles_sistema }) {
                             {auth_user.roles.length > 0 || rol == 'evaluador_externo' ? (
                                 <div className="p-4 flex">
                                     {auth_user.informacion_completa && auth_user.check_soportes_titulo_obtenido == 0 && auth_user.check_certificados_formacion == 0 && (
-                                        <ButtonMui onClick={() => setDialogStatus(false)}>Ya he completado el CENSO</ButtonMui>
+                                        <ButtonMui primary={false} onClick={() => setDialogStatus(false)}>
+                                            {auth_user.informacion_completa && <>De clic en este botón, si ya completo el CENSO</>}
+                                        </ButtonMui>
                                     )}
                                     <Link
-                                        className="ml-2 overflow-hidden shadow-sm rounded px-6 py-2 bg-app-500 text-white flex justify-around items-center flex-col text-center"
+                                        className="ml-2 overflow-hidden shadow-sm rounded px-6 py-2 bg-app-800 text-white flex justify-around items-center flex-col text-center"
                                         href={route('users.perfil', { rol: rol })}>
                                         Ir al CENSO SENNOVA 2023
                                     </Link>
