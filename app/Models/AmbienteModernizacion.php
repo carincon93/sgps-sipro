@@ -262,7 +262,7 @@ class AmbienteModernizacion extends Model
 
     public function getNombreCarpetaSharepointAttribute()
     {
-        $cleaned = SharepointHelper::cleanWordsFromSpecialCharcters($this->seguimientoAmbienteModernizacion->codigo);
+        $cleaned = SharepointHelper::cleanWordsFromSpecialCharacters($this->seguimientoAmbienteModernizacion->codigo);
 
         // Convert to uppercase
         return strtoupper($cleaned);

@@ -298,7 +298,7 @@ class ProyectoIdiTecnoacademia extends Model
 
     public function getNombreCarpetaSharepointAttribute()
     {
-        $cleaned = SharepointHelper::cleanWordsFromSpecialCharcters($this->codigo);
+        $cleaned = SharepointHelper::cleanWordsFromSpecialCharacters($this->codigo);
 
         // Convert to uppercase
         return strtoupper($cleaned);

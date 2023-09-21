@@ -316,7 +316,7 @@ class SharepointHelper
         return str_replace(array("\r", "\n"), '', str_replace(array("\r", "\n"), '', "{$nuevo_nombre_archivo}cod{$random}." . $upload_file->extension()));
     }
 
-    public static function cleanWordsFromSpecialCharcters($value)
+    public static function cleanWordsFromSpecialCharacters($value)
     {
         // Remove diacritics
         $without_diacritics = iconv('UTF-8', 'ASCII//TRANSLIT', $value);

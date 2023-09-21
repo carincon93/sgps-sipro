@@ -140,7 +140,7 @@ class Tecnoacademia extends Model
 
     public function getNombreCarpetaSharepointAttribute()
     {
-        $cleaned = SharepointHelper::cleanWordsFromSpecialCharcters($this->nombre);
+        $cleaned = SharepointHelper::cleanWordsFromSpecialCharacters($this->nombre);
 
         // Convert to uppercase
         return strtoupper($cleaned);
