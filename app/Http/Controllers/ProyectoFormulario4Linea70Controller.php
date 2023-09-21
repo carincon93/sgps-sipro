@@ -108,10 +108,10 @@ class ProyectoFormulario4Linea70Controller extends Controller
         }
 
         $proyecto_a_replicar = $convocatoria->proyectos()
-                                ->whereHas('proyectoFormulario4Linea70', function ($query) {
-                                    $query->where('proyecto_base', true);
-                                })
-                                ->first();
+            ->whereHas('proyectoFormulario4Linea70', function ($query) {
+                $query->where('proyecto_base', true);
+            })
+            ->first();
 
         $nuevo_proyecto_formulario_4_linea_70 = $this->replicateRow($request, $proyecto_a_replicar->proyectoFormulario4Linea70, $proyecto);
 
@@ -464,7 +464,7 @@ class ProyectoFormulario4Linea70Controller extends Controller
 
             // re-sync productos->actividades
             foreach ($nuevos_productos as $nuevo_producto) {
-                if ( $nuevas_actividades->whereIn('descripcion_actividad', $productos->where('nombre', $nuevo_producto->nombre)->first()) ) {
+                if ($nuevas_actividades->whereIn('descripcion_actividad', $productos->where('nombre', $nuevo_producto->nombre)->first())) {
                     $nuevo_producto->actividades()->sync($nuevas_actividades->whereIn('descripcion_actividad', $productos->where('nombre', $nuevo_producto->nombre)->first()->actividades->pluck('descripcion')->toArray())->pluck('actividad_id')->toArray());
                 }
             }

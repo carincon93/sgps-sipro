@@ -46,7 +46,7 @@ const Edit = ({
 
     return (
         <AuthenticatedLayout>
-            <Head title="Perfil" />
+            <Head title={usuario.nombre} />
 
             <EditComponent
                 auth_user={auth_user}

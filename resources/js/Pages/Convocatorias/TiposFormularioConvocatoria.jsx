@@ -97,6 +97,13 @@ const ConvocatoriaTiposFormulario = ({ auth, convocatoria, tipos_formulario_conv
                                 (Línea 70)
                             </li>
                             <li>
+                                Giselle Marcela Daza Sarmiento -{' '}
+                                <a href="mailto:gmdaza@sena.edu.co" target="_blank" className="underline">
+                                    gmdaza@sena.edu.co
+                                </a>{' '}
+                                ()
+                            </li>
+                            <li>
                                 Liz Catherine Caicedo Cortés -{' '}
                                 <a href="mailto:lccaicedo@sena.edu.co" target="_blank" className="underline">
                                     lccaicedo@sena.edu.co
@@ -108,7 +115,7 @@ const ConvocatoriaTiposFormulario = ({ auth, convocatoria, tipos_formulario_conv
                                 <a href="mailto:rcgonzalez@sena.edu.co" target="_blank" className="underline">
                                     rcgonzalez@sena.edu.co
                                 </a>{' '}
-                                (Línea 65)
+                                (Líneas 61 - 65 - 69)
                             </li>
                             <li>
                                 Cristian Camilo Buitrago Escamilla -{' '}

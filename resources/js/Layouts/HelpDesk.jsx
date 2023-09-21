@@ -67,11 +67,11 @@ const HelpDesk = () => {
                             </li>
                             <li className="flex items-center justify-between">
                                 <span>
-                                    Diana Marina Sarmiento Parra <br />
+                                    Giselle Marcela Daza Sarmiento <br />
                                     <MailOutlineOutlinedIcon className="mr-2 text-gray-400" />
-                                    <a href="mailto:dmsarmiento@sena.edu.co">dmsarmiento@sena.edu.co</a>
+                                    <a href="mailto:gmdaza@sena.edu.co">gmdaza@sena.edu.co</a>
                                 </span>
-                                <span>(Línea 69 - 83)</span>
+                                <span>()</span>
                             </li>
                             <li className="flex items-center justify-between">
                                 <span>
@@ -87,7 +87,7 @@ const HelpDesk = () => {
                                     <MailOutlineOutlinedIcon className="mr-2 text-gray-400" />
                                     <a href="mailto:rcgonzalez@sena.edu.co">rcgonzalez@sena.edu.co</a>
                                 </span>
-                                <span>(Línea 65)</span>
+                                <span>(Líneas 61 - 65 - 69)</span>
                             </li>
                             <li className="flex items-center justify-between">
                                 <span>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\SharepointHelper;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -161,14 +162,17 @@ class GrupoInvestigacion extends Model
 
     public function getNombreCarpetaSharepointAttribute()
     {
-        return trim(preg_replace('/[^A-Za-z0-9\-ÁÉÍÓÚáéíóúÑñ]/', ' ', mb_strtoupper($this->nombre)));
+        $cleaned = SharepointHelper::cleanWordsFromSpecialCharcters($this->nombre);
+
+        // Convert to uppercase
+        return strtoupper($cleaned);
     }
 
     public function getRutaFinalSharepointAttribute()
     {
         $ruta = '';
         if ($this->centroFormacion) {
-            $ruta = trim('GRUPOS LÍNEAS Y SEMILLEROS/'.$this->centroFormacion->nombre_carpeta_sharepoint . '/' . $this->nombre_carpeta_sharepoint);
+            $ruta = trim('GRUPOS LÍNEAS Y SEMILLEROS/' . $this->centroFormacion->nombre_carpeta_sharepoint . '/' . $this->nombre_carpeta_sharepoint);
         }
 
         return $ruta;

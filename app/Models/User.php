@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\SharepointHelper;
 use App\Models\Perfil\EstudioAcademico;
 use App\Models\Perfil\FormacionAcademicaSena;
 use App\Models\Perfil\ParticipacionGrupoInvestigacionSena;
@@ -476,7 +477,10 @@ class User extends Authenticatable
 
     public function getNombreCarpetaSharepointAttribute()
     {
-        return trim(preg_replace('/[^A-Za-z0-9\-ÁÉÍÓÚáéíóúÑñ]/', ' ', mb_strtoupper($this->nombre)));
+        $cleaned = SharepointHelper::cleanWordsFromSpecialCharcters($this->nombre);
+
+        // Convert to uppercase
+        return strtoupper($cleaned);
     }
 
     public function getNombreAttribute($value)
@@ -506,12 +510,12 @@ class User extends Authenticatable
 
     public function getCursosDeEvaluacionRealizadosTextAttribute()
     {
-        return is_array(json_decode($this->cursos_de_evaluacion_realizados)) ? implode(',' , array_column(json_decode($this->cursos_de_evaluacion_realizados), 'value')) : null;
+        return is_array(json_decode($this->cursos_de_evaluacion_realizados)) ? implode(',', array_column(json_decode($this->cursos_de_evaluacion_realizados), 'value')) : null;
     }
 
     public function getRolesFueraSennovaTextAttribute()
     {
-        return is_array(json_decode($this->roles_fuera_sennova)) ? implode(',' , array_column(json_decode($this->roles_fuera_sennova), 'value')) : null;
+        return is_array(json_decode($this->roles_fuera_sennova)) ? implode(',', array_column(json_decode($this->roles_fuera_sennova), 'value')) : null;
     }
 
     public function getTiempoPorRolAttribute($value)
@@ -521,7 +525,7 @@ class User extends Authenticatable
 
     public function getTiempoPorRolTextAttribute()
     {
-        return is_array($this->tiempo_por_rol) ? implode(',' , array_column($this->tiempo_por_rol, 'value')) : null;
+        return is_array($this->tiempo_por_rol) ? implode(',', array_column($this->tiempo_por_rol, 'value')) : null;
     }
 
     public function getCheckSoportesTituloObtenidoAttribute()
