@@ -365,7 +365,7 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
                 </AlertMui>
 
                 {productos.length == 0 && (
-                    <AlertMui>
+                    <AlertMui severity="error">
                         No ha generado productos por lo tanto tiene la cadena de valor incompleta.
                         <br />
                         Por favor realice los siguientes pasos:

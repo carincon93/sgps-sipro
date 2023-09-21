@@ -9,7 +9,7 @@ import { Head } from '@inertiajs/react'
 const ArbolProblemas = ({ auth, convocatoria, proyecto, evaluacion }) => {
     return (
         <AuthenticatedLayout>
-            <Head title="Definicón del problema" />
+            <Head title="Definición del problema" />
 
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />

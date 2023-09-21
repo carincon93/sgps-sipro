@@ -40,7 +40,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_4_linea_70, allowed_to
                 <Grid item md={12}>
                     <AlertMui className="mt-20">A continuación, se listan únicamente los proyectos que usted ha creado y también en los que está asociado.</AlertMui>
 
-                    <TableMui rows={['TecnoAcademia', 'Fecha de ejecución', 'Estado (Evaluación)', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui rows={['Tecnoacademia', 'Fecha de ejecución', 'Estado (Evaluación)', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         {allowed_to_create && (
                             <TableRow
                                 onClick={() => router.visit(route('convocatorias.proyectos-formulario-4-linea-70.create', [convocatoria.id]))}
