@@ -30,7 +30,6 @@ class ProyectoFormulario3Linea61ColumnRequest extends FormRequest
         'tipo_evento'                                   => ['nullable', 'min:1', 'max:3', 'integer'],
         'aportacion_produccion_agricola'                => ['nullable', 'string'],
         'aportacion_transicion_energetica'              => ['nullable', 'string'],
-        'numero_beneficiarios'                          => ['required', 'min:0', 'max:2147483647', 'integer'],
         'municipios'                                    => ['required', 'array'],
         'programas_formacion'                           => ['required', 'array'],
         'relacionado_plan_tecnologico'                  => ['required', 'min:0', 'max:3', 'integer'],
