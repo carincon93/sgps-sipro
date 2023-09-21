@@ -11,6 +11,7 @@ import Form from './Form'
 import { checkRole } from '@/Utils'
 import { Chip, Grid, TableCell, TableRow } from '@mui/material'
 import { useState } from 'react'
+import { Head } from '@inertiajs/react'
 
 const Edit = ({ auth, convocatoria, proyecto_formulario_10_linea_69, evaluacion, hubs_innovacion, roles_sennova }) => {
     const auth_user = auth.user
@@ -24,7 +25,9 @@ const Edit = ({ auth, convocatoria, proyecto_formulario_10_linea_69, evaluacion,
             : null
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyecto_formulario_10_linea_69.titulo}</h2>}>
+        <AuthenticatedLayout>
+            <Head title={proyecto_formulario_10_linea_69.titulo} />
+
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto_formulario_10_linea_69?.proyecto} evaluacion={evaluacion} />
             </Grid>

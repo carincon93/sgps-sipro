@@ -16,7 +16,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Breadcrumbs, Grid, MenuItem, Tab, TableCell, TableRow, Tabs } from '@mui/material'
 
 import { useState } from 'react'
-import { Link, router, useForm } from '@inertiajs/react'
+import { Head, Link, router, useForm } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 
@@ -69,7 +69,9 @@ const Index = ({ auth, semilleros_investigacion, redes_conocimiento, allowed_to_
     }
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Semilleros de investigación</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Semilleros de investigación" />
+
             <Grid item md={12}>
                 <SearchBar />
 

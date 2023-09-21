@@ -3,12 +3,12 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import AlertMui from '@/Components/Alert'
 import ButtonMui from '@/Components/Button'
 import DialogMui from '@/Components/Dialog'
+import SenaLogo from '@/Components/SenaLogo'
 
 import { route, checkRole } from '@/Utils'
-import { Link, router } from '@inertiajs/react'
+import { Head, Link, router } from '@inertiajs/react'
 import { Divider, Grid } from '@mui/material'
 import { useState } from 'react'
-import SenaLogo from '@/Components/SenaLogo'
 
 const ConvocatoriaTiposFormulario = ({ auth, convocatoria, tipos_formulario_convocatoria }) => {
     const auth_user = auth.user
@@ -17,7 +17,9 @@ const ConvocatoriaTiposFormulario = ({ auth, convocatoria, tipos_formulario_conv
     const [dialog_status, setDialogStatus] = useState(convocatoria.year == 2024)
 
     return (
-        <AuthenticatedLayout user={auth_user} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
+        <AuthenticatedLayout user={auth_user}>
+            <Head title="Líneas programáticas" />
+
             <Grid item md={12}>
                 <h1 className="text-4xl text-center mb-8">A continuación, se listan las líneas programáticas de la vigencia {convocatoria.year} en las que puede formular proyectos.</h1>
             </Grid>

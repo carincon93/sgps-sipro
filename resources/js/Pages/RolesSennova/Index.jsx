@@ -12,7 +12,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 
@@ -28,7 +28,9 @@ const Index = ({ auth, roles_sennova, lineas_programaticas }) => {
     const [rol_sennova_to_destroy, setRolSennovaToDestroy] = useState(null)
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Roles SENNOVA</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Roles SENNOVA" />
+
             <Grid item md={12}>
                 <SearchBar />
 

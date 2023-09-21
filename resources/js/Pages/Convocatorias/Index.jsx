@@ -5,7 +5,7 @@ import ButtonMui from '@/Components/Button'
 import MenuMui from '@/Components/Menu'
 
 import { checkPermission, checkRole } from '@/Utils'
-import { Link, router } from '@inertiajs/react'
+import { Head, Link, router } from '@inertiajs/react'
 
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined'
 import { Divider, Grid, MenuItem } from '@mui/material'
@@ -18,7 +18,9 @@ export default function Dashboard({ auth, convocatorias }) {
     const [convocatoria_to_destroy, setConvocatoriaToDestroy] = useState(null)
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Lista de convocatorias</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Lista de convocatorias" />
+
             <Grid item md={6}>
                 <h1 className="font-bold text-5xl">Lista de convocatorias</h1>
             </Grid>

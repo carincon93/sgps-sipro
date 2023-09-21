@@ -13,7 +13,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
-import { router, useForm } from '@inertiajs/react'
+import { Head, router, useForm } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 
@@ -46,7 +46,9 @@ const Index = ({ auth, anexos, mime_types }) => {
     }
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Anexos</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Anexos" />
+
             <Grid item md={12}>
                 <SearchBar />
 

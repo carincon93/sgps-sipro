@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
-import { useForm } from '@inertiajs/react'
+import { Head, useForm } from '@inertiajs/react'
 import { route, checkRole } from '@/Utils'
 import { Grid, Paper } from '@mui/material'
 
@@ -11,7 +11,9 @@ const CreateConvocatoria = ({ auth, convocatorias, tipos_formulario_convocatoria
     const is_super_admin = checkRole(auth_user, [1])
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Lista de convocatorias</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Lista de convocatorias" />
+
             <Grid container>
                 <Grid item md={4}>
                     <h1 className="font-black text-2xl">Nueva convocatoria</h1>

@@ -5,7 +5,7 @@ import ButtonMui from '@/Components/Button'
 import DialogMui from '@/Components/Dialog'
 
 import { useState } from 'react'
-import { usePage } from '@inertiajs/react'
+import { Head, usePage } from '@inertiajs/react'
 import { checkRole } from '@/Utils'
 
 import FormRoles from './FormRoles'
@@ -45,7 +45,9 @@ const Edit = ({
     const [nuevo_usuario_dialog_status, setNuevoUsuarioDialogStatus] = useState(page_props.ziggy.query.nuevo_usuario == 1)
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Perfil</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Perfil" />
+
             <EditComponent
                 auth_user={auth_user}
                 usuario={usuario}

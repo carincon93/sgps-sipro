@@ -13,7 +13,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Chip, Divider, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 
@@ -25,7 +25,9 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, subdirectores_centro, al
 
     const tabs = checkRole(auth_user, [1, 20]) ? [{ label: 'Usuarios' }, { label: 'Dinamizadores SENNOVA' }, { label: 'Subdirectores de centro' }] : [{ label: 'Usuarios' }]
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Usuarios</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Usuarios" />
+
             <Grid item md={12}>
                 <div></div>
             </Grid>

@@ -17,7 +17,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Divider, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
-import { router, useForm } from '@inertiajs/react'
+import { Head, router, useForm } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 
@@ -54,7 +54,9 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
         : [{ label: 'Grupos de investigación del ' + centros_formacion.find((item) => item.value == auth_user.centro_formacion_id).label }]
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Grupos de investigación de mi centro de formación</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Grupos de investigación" />
+
             <TabsMui tabs={tabs}>
                 {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) ? (
                     <div>

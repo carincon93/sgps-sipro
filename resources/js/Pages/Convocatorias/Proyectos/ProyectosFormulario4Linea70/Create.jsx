@@ -5,12 +5,15 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import Form from './Form'
 
 import { checkRole } from '@/Utils'
+import { Head } from '@inertiajs/react'
 
 const Create = ({ auth, convocatoria, centros_formacion, tecnoacademias, lineas_programaticas, lineas_tecnoacademia, roles_sennova, allowed_to_create }) => {
     const auth_user = auth.user
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Formular proyecto</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Formular proyecto" />
+
             <Form
                 auth_user={auth_user}
                 method="POST"

@@ -12,7 +12,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Chip, Divider, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 
@@ -23,7 +23,9 @@ const Index = ({ auth, convocatoria, proyectos_formulario_15_linea_65, allowed_t
     const [proyecto_linea_65_to_destroy, setProyectoFormulario15Linea65ToDestroy] = useState(null)
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Lista de proyectos - Formulario 15 Línea 65" />
+
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                     <Grid item md={12}>

@@ -9,6 +9,7 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import TextInput from '@/Components/TextInput'
 
 import { Head, Link, useForm, usePage } from '@inertiajs/react'
+
 export default function Login({ tipos_documento, tipos_vinculacion, roles, centros_formacion, municipios, opciones_genero, user, status, ...props }) {
     const { props: page_props } = usePage()
 

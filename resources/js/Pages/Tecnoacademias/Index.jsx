@@ -12,7 +12,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 
@@ -28,7 +28,9 @@ const Index = ({ auth, tecnoacademias, modalidades, centros_formacion, lineas_te
     const [tecnoacademia_to_destroy, setTecnoacademiaToDestroy] = useState(null)
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">TecnoAcademias</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Tecnoacademias" />
+
             <Grid item md={12}>
                 <SearchBar />
 

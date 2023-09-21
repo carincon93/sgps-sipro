@@ -10,7 +10,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Divider, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 
@@ -27,7 +27,9 @@ const Index = ({ auth, seguimiento, equipos_ambiente_modernizacion, roles_sennov
     const [equipo_ambiente_modernizacion_to_destroy, setEquipoToDestroy] = useState(null)
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Equipos del ambiente de modernización SENNOVA</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Equipos del ambiente de modernización SENNOVA" />
+
             <Grid item md={12}>
                 <h1 className="text-center text-2xl mb-32">
                     Equipos del proyecto SGPS-

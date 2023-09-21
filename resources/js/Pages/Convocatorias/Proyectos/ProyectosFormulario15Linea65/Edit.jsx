@@ -13,6 +13,7 @@ import { checkRole } from '@/Utils'
 import { Chip, Grid, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
+import { Head } from '@inertiajs/react'
 
 const Edit = ({
     auth,
@@ -45,7 +46,9 @@ const Edit = ({
             : null
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{proyecto_formulario_15_linea_65.titulo}</h2>}>
+        <AuthenticatedLayout>
+            <Head title={proyecto_formulario_15_linea_65.titulo} />
+
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto_formulario_15_linea_65?.proyecto} evaluacion={evaluacion} />
             </Grid>

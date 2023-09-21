@@ -1,8 +1,8 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import { Grid, Paper } from '@mui/material'
-
 import { checkRole } from '@/Utils'
+import { Head } from '@inertiajs/react'
 
 import Form from './Form'
 import FormRoles from './FormRoles'
@@ -34,7 +34,9 @@ const Crear = ({
         : centros_formacion
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Perfil</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Crear usuario" />
+
             <Grid container rowSpacing={10}>
                 <Grid item md={4}>
                     Por favor diligencie la siguiente información

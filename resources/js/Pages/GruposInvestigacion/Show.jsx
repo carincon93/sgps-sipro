@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import { checkRole } from '@/Utils'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 import { Grid, Paper, Tab, Tabs } from '@mui/material'
 
 const Show = ({ auth, grupo_investigacion, categorias_minciencias }) => {
@@ -9,7 +9,9 @@ const Show = ({ auth, grupo_investigacion, categorias_minciencias }) => {
     const is_super_admin = checkRole(auth_user, [1])
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">{grupo_investigacion.nombre}</h2>}>
+        <AuthenticatedLayout>
+            <Head title={grupo_investigacion.nombre} />
+
             <Grid container>
                 <Grid item md={12} className="!mb-32">
                     <Tabs value="0" centered={true}>

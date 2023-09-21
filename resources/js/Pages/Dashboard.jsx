@@ -7,7 +7,7 @@ import SenaLogo from '@/Components/SenaLogo'
 
 import { route, checkRole, checkPermission } from '@/Utils'
 
-import { Link, usePage } from '@inertiajs/react'
+import { Head, Link, usePage } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useState } from 'react'
 
@@ -28,7 +28,9 @@ export default function Dashboard({ auth, roles_sistema }) {
     const current_year = dayjs().year()
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Panel principal" />
+
             <Grid container columnSpacing={2} rowSpacing={5}>
                 <Grid item md={12}>
                     <div className="flex items-center justify-between rounded-xl px-10 py-20 text-app-800 bg-app-300/50">

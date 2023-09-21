@@ -14,7 +14,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { checkRole } from '@/Utils'
-import { router, usePage } from '@inertiajs/react'
+import { Head, router, usePage } from '@inertiajs/react'
 import { useState } from 'react'
 
 import Form from './Form'
@@ -31,7 +31,9 @@ const ConvocatoriaRolesSennova = ({ auth, convocatoria, convocatoria_roles_senno
     const [convocatoria_rol_sennova, setConvocatoriaRolSennova] = useState(null)
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Roles SENNOVA</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Roles SENNOVA" />
+
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                     <Grid item md={12}>

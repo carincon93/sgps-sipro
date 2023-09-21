@@ -7,9 +7,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import { route, checkRole } from '@/Utils'
 
-import { Link, useForm } from '@inertiajs/react'
-import { Grid } from '@mui/material'
 import axios from 'axios'
+import { Head, Link, useForm } from '@inertiajs/react'
+import { Grid } from '@mui/material'
 import { useState } from 'react'
 
 export default function Reportes({ auth, centros_formacion }) {
@@ -57,7 +57,9 @@ export default function Reportes({ auth, centros_formacion }) {
         : centros_formacion
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Reportes" />
+
             <Grid container rowSpacing={8}>
                 <Grid item md={12} className="bg-green-100/50 rounded-xl">
                     <div className="flex items-center justify-between  p-8 text-green-800">
