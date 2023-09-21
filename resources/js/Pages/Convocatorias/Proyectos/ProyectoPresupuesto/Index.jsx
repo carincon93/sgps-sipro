@@ -19,7 +19,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import TerminalOutlinedIcon from '@mui/icons-material/TerminalOutlined'
 import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
-import { Link, router } from '@inertiajs/react'
+import { Head, Link, router } from '@inertiajs/react'
 import { useState } from 'react'
 
 import { route, checkRole } from '@/Utils'
@@ -60,6 +60,8 @@ const RubrosPresupuestales = ({
 
     return (
         <AuthenticatedLayout>
+            <Head title="Rubros presupuestales" />
+
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>

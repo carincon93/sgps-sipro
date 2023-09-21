@@ -16,7 +16,7 @@ import ScrollBooster from 'scrollbooster'
 
 import { checkRole } from '@/Utils'
 import { useEffect, useState } from 'react'
-import { router, useForm } from '@inertiajs/react'
+import { Head, router, useForm } from '@inertiajs/react'
 
 import { Grid } from '@mui/material'
 
@@ -148,6 +148,8 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
 
     return (
         <AuthenticatedLayout>
+            <Head title="Cadena de valor" />
+
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>

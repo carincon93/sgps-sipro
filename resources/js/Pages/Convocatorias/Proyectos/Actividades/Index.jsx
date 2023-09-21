@@ -23,7 +23,7 @@ import Form from './Form'
 import { route, checkRole } from '@/Utils'
 
 import { useState } from 'react'
-import { router, useForm } from '@inertiajs/react'
+import { Head, router, useForm } from '@inertiajs/react'
 
 import MetodologiaFormulario10Linea69 from './MetodologiaFormulario10Linea69'
 import MetodologiaFormulario11Linea83 from './MetodologiaFormulario11Linea83'
@@ -133,6 +133,8 @@ const Actividades = ({
 
     return (
         <AuthenticatedLayout>
+            <Head title="Metodologia - Actividades" />
+
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>

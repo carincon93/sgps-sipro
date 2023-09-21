@@ -12,7 +12,7 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 
 import { checkRole } from '@/Utils'
 import { useState } from 'react'
@@ -30,6 +30,8 @@ const MiembrosEntidadAliada = ({ auth, convocatoria, proyecto, evaluacion, entid
 
     return (
         <AuthenticatedLayout>
+            <Head title="Miembros de la entidad aliada" />
+
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} label="Miembros entidad aliada" />
             </Grid>

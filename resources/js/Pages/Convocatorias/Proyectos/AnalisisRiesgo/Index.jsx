@@ -18,7 +18,7 @@ import Form from './Form'
 import Evaluacion from './Evaluacion'
 
 import { useState } from 'react'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 
 const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisis_riesgos, niveles_riesgo, tipos_riesgo, probabilidades_riesgo, impactos_riesgo, evaluacion, ...props }) => {
     const auth_user = auth.user
@@ -32,6 +32,8 @@ const AnalisisRiesgos = ({ auth, convocatoria, proyecto, analisis_riesgos, nivel
 
     return (
         <AuthenticatedLayout>
+            <Head title="Análisis de riesgos" />
+
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>

@@ -16,7 +16,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
-import { router, useForm } from '@inertiajs/react'
+import { Head, router, useForm } from '@inertiajs/react'
 
 import { checkRole } from '@/Utils'
 
@@ -36,6 +36,8 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
 
     return (
         <AuthenticatedLayout>
+            <Head title="Roles SENNOVA" />
+
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>

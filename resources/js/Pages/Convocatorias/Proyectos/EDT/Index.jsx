@@ -13,7 +13,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { checkRole } from '@/Utils'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 import { useState } from 'react'
 
 import Form from './Form'
@@ -29,6 +29,8 @@ const EDT = ({ auth, convocatoria, proyecto, evaluacion, presupuesto, eventos, t
 
     return (
         <AuthenticatedLayout>
+            <Head title="EDT" />
+
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} label="EDT" />
             </Grid>
@@ -73,7 +75,7 @@ const EDT = ({ auth, convocatoria, proyecto, evaluacion, presupuesto, eventos, t
                     {eventos.data.map((evento, i) => (
                         <TableRow key={i}>
                             <TableCell>
-                                <p className='line-clamp-3'>{evento.descripcion_evento}</p>
+                                <p className="line-clamp-3">{evento.descripcion_evento}</p>
                             </TableCell>
                             <TableCell>{evento.numero_asistentes}</TableCell>
                             <TableCell>${new Intl.NumberFormat('de-DE').format(!isNaN(evento.proyecto_presupuesto.valor_total) ? evento.proyecto_presupuesto.valor_total : 0)}</TableCell>

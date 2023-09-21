@@ -6,7 +6,7 @@ import StepperMui from '@/Components/Stepper'
 
 import { Grid } from '@mui/material'
 import { useEffect, useState, useRef } from 'react'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 import React from 'react'
 
 const ResumenFinal = ({
@@ -51,6 +51,8 @@ const ResumenFinal = ({
 
     return (
         <AuthenticatedLayout>
+            <Head title="Resumen final" />
+
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>

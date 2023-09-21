@@ -16,6 +16,7 @@ import DownloadIcon from '@mui/icons-material/Download'
 import { Chip, Grid, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
+import { Head } from '@inertiajs/react'
 
 const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, convocatoria_anexos, mime_types, ...props }) => {
     const auth_user = auth.user
@@ -24,6 +25,8 @@ const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, conv
 
     return (
         <AuthenticatedLayout>
+            <Head title="Anexos" />
+
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>

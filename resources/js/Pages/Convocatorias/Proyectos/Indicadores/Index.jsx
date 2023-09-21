@@ -5,7 +5,7 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import Textarea from '@/Components/Textarea'
 import StepperMui from '@/Components/Stepper'
 
-import { router, useForm } from '@inertiajs/react'
+import { Head, router, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 
 const Indicadores = ({ auth, convocatoria, proyecto, evaluacion, ...props }) => {
@@ -95,6 +95,8 @@ const Indicadores = ({ auth, convocatoria, proyecto, evaluacion, ...props }) => 
 
     return (
         <AuthenticatedLayout>
+            <Head title="Indicadores" />
+
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>

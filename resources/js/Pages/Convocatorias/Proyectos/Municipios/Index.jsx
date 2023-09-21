@@ -1,9 +1,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
+import Autocomplete from '@/Components/Autocomplete'
 import ButtonMui from '@/Components/Button'
 import DialogMui from '@/Components/Dialog'
 import MenuMui from '@/Components/Menu'
 import PaginationMui from '@/Components/Pagination'
+import PrimaryButton from '@/Components/PrimaryButton'
 import TableMui from '@/Components/Table'
 import StepperMui from '@/Components/Stepper'
 
@@ -12,12 +14,10 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { checkRole } from '@/Utils'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 import { useState } from 'react'
 
 import Form from './Form'
-import Autocomplete from '@/Components/Autocomplete'
-import PrimaryButton from '@/Components/PrimaryButton'
 
 const Municipios = ({
     auth,
@@ -48,6 +48,8 @@ const Municipios = ({
 
     return (
         <AuthenticatedLayout>
+            <Head title="Municipios" />
+
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} label="Municipios" />
             </Grid>

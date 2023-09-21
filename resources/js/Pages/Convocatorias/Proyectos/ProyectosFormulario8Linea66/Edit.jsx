@@ -198,7 +198,7 @@ const Edit = ({
                             <img src="/images/flujo-formulacion.png" alt="" className="mx-auto rounded" />
                         </figure>
 
-                        <p className="mt-10">No olvide darle un vistazp al instructivo de formulación.</p>
+                        <p className="mt-10">No olvide darle un vistazo al instructivo de formulación.</p>
 
                         <a
                             href="/storage/documentos-descarga/Instructivo_formulacion_sgps_sipro.pdf"

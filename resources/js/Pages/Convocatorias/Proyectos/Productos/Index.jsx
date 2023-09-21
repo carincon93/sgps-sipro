@@ -21,7 +21,7 @@ import React from 'react'
 import { checkRole } from '@/Utils'
 
 import { useState } from 'react'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 
 const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, resultados, subtipologias_minciencias, tipos_producto, actividades_sin_resultado }) => {
     const auth_user = auth.user
@@ -43,6 +43,8 @@ const Productos = ({ auth, convocatoria, proyecto, evaluacion, productos, result
 
     return (
         <AuthenticatedLayout>
+            <Head title="Productos" />
+
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>

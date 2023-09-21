@@ -5,6 +5,7 @@ import ButtonMui from '@/Components/Button'
 import DialogMui from '@/Components/Dialog'
 import DownloadFile from '@/Components/DownloadFile'
 import FileInput from '@/Components/FileInput'
+import Label from '@/Components/Label'
 import MenuMui from '@/Components/Menu'
 import PrimaryButton from '@/Components/PrimaryButton'
 import StepperMui from '@/Components/Stepper'
@@ -13,7 +14,7 @@ import TabsMui from '@/Components/TabsMui'
 import TextInput from '@/Components/TextInput'
 
 import { route, checkRole } from '@/Utils'
-import { router, useForm } from '@inertiajs/react'
+import { Head, router, useForm } from '@inertiajs/react'
 
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
@@ -25,7 +26,6 @@ import Form from './Form'
 
 import { useEffect } from 'react'
 import { useState } from 'react'
-import Label from '@/Components/Label'
 
 const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proyecto_presupuesto, soportes_estudio_mercado }) => {
     const auth_user = auth.user
@@ -106,6 +106,8 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
 
     return (
         <AuthenticatedLayout>
+            <Head title="Estudio de mercado / Soportes" />
+
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} label="Estudios de mercado" />
             </Grid>
