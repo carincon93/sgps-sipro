@@ -228,7 +228,7 @@ class ProyectoFormulario6Linea82Controller extends Controller
 
         $proyecto_formulario_6_linea_82->save();
 
-        $proyecto_formulario_6_linea_82->proyecto->update($request->centro_formacion_id);
+        $proyecto_formulario_6_linea_82->proyecto->centroFormacion()->associate($request->centro_formacion_id);
         $proyecto_formulario_6_linea_82->proyecto->municipios()->sync($request->municipios);
         $proyecto_formulario_6_linea_82->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 

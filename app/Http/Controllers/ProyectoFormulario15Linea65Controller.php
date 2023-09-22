@@ -195,7 +195,7 @@ class ProyectoFormulario15Linea65Controller extends Controller
 
         $proyecto_formulario_15_linea_65->save();
 
-        $proyecto_formulario_15_linea_65->proyecto->update($request->centro_formacion_id);
+        $proyecto_formulario_15_linea_65->proyecto->centroFormacion()->associate($request->centro_formacion_id);
         $proyecto_formulario_15_linea_65->proyecto->municipios()->sync($request->municipios);
         $proyecto_formulario_15_linea_65->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 

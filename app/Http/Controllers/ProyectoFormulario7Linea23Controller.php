@@ -222,7 +222,7 @@ class ProyectoFormulario7Linea23Controller extends Controller
 
         $proyecto_formulario_7_linea_23->save();
 
-        $proyecto_formulario_7_linea_23->proyecto->update($request->centro_formacion_id);
+        $proyecto_formulario_7_linea_23->proyecto->centroFormacion()->associate($request->centro_formacion_id);
         $proyecto_formulario_7_linea_23->proyecto->municipios()->sync($request->municipios);
         $proyecto_formulario_7_linea_23->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 

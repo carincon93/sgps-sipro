@@ -243,7 +243,7 @@ class ProyectoFormulario8Linea66Controller extends Controller
 
         $proyecto_formulario_8_linea_66->save();
 
-        $proyecto_formulario_8_linea_66->proyecto->update($request->centro_formacion_id);
+        $proyecto_formulario_8_linea_66->proyecto->centroFormacion()->associate($request->centro_formacion_id);
         $proyecto_formulario_8_linea_66->proyecto->municipios()->sync($request->municipios);
         $proyecto_formulario_8_linea_66->areasTematicasEni()->sync($request->area_tematica_eni_id);
         $proyecto_formulario_8_linea_66->lineasInvestigacionEni()->sync($request->linea_investigacion_eni_id);
