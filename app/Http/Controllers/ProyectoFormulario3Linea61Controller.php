@@ -192,9 +192,9 @@ class ProyectoFormulario3Linea61Controller extends Controller
 
         $proyecto_formulario_3_linea_61->update($request->validated());
 
+        $proyecto_formulario_3_linea_61->proyecto->centroFormacion()->asociate($request->centro_formacion_id);
         $proyecto_formulario_3_linea_61->save();
 
-        $proyecto_formulario_3_linea_61->proyecto->update($request->centro_formacion_id);
         $proyecto_formulario_3_linea_61->proyecto->municipios()->sync($request->municipios);
         $proyecto_formulario_3_linea_61->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 

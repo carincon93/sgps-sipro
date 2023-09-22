@@ -71,7 +71,7 @@ const HelpDesk = () => {
                                     <MailOutlineOutlinedIcon className="mr-2 text-gray-400" />
                                     <a href="mailto:gmdaza@sena.edu.co">gmdaza@sena.edu.co</a>
                                 </span>
-                                <span>()</span>
+                                <span>(Línea 66)</span>
                             </li>
                             <li className="flex items-center justify-between">
                                 <span>

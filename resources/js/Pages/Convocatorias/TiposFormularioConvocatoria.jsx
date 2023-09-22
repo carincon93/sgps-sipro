@@ -101,7 +101,7 @@ const ConvocatoriaTiposFormulario = ({ auth, convocatoria, tipos_formulario_conv
                                 <a href="mailto:gmdaza@sena.edu.co" target="_blank" className="underline">
                                     gmdaza@sena.edu.co
                                 </a>{' '}
-                                ()
+                                (Línea 66)
                             </li>
                             <li>
                                 Liz Catherine Caicedo Cortés -{' '}
