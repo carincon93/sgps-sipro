@@ -1,6 +1,7 @@
 import AlertMui from '@/Components/Alert'
 import Checkbox from '@/Components/Checkbox'
 import PrimaryButton from '@/Components/PrimaryButton'
+
 import { useForm } from '@inertiajs/react'
 
 import { FormControlLabel, FormGroup } from '@mui/material'

@@ -16,6 +16,8 @@ const ConvocatoriaTiposFormulario = ({ auth, convocatoria, tipos_formulario_conv
 
     const [dialog_status, setDialogStatus] = useState(convocatoria.year == 2024)
 
+    console.log(tipos_formulario_convocatoria)
+
     return (
         <AuthenticatedLayout user={auth_user}>
             <Head title="Líneas programáticas" />
@@ -36,14 +38,18 @@ const ConvocatoriaTiposFormulario = ({ auth, convocatoria, tipos_formulario_conv
             )}
 
             {tipos_formulario_convocatoria.map((tipo_formulario_convocatoria) => (
-                <Grid item md={3} key={tipo_formulario_convocatoria.id}>
-                    <ButtonMui
-                        primary={false}
-                        onClick={() => router.visit(route('convocatorias.tipos-formulario-convocatoria.proyectos', [convocatoria.id, tipo_formulario_convocatoria.id]))}
-                        className="overflow-hidden z-[2] relative text-center !shadow-md rounded-lg px-6 py-2 flex justify-around items-center flex-col m-auto w-full h-96">
-                        {tipo_formulario_convocatoria.nombre + ' - Línea: ' + tipo_formulario_convocatoria.linea_programatica.codigo}
-                    </ButtonMui>
-                </Grid>
+                <>
+                    {tipo_formulario_convocatoria.pivot.visible || checkRole(auth_user, [1, 20, 18, 19, 5, 17]) ? (
+                        <Grid item md={3} key={tipo_formulario_convocatoria.id}>
+                            <ButtonMui
+                                primary={false}
+                                onClick={() => router.visit(route('convocatorias.tipos-formulario-convocatoria.proyectos', [convocatoria.id, tipo_formulario_convocatoria.id]))}
+                                className="overflow-hidden z-[2] relative text-center !shadow-md rounded-lg px-6 py-2 flex justify-around items-center flex-col m-auto w-full h-96">
+                                {tipo_formulario_convocatoria.nombre + ' - Línea: ' + tipo_formulario_convocatoria.linea_programatica.codigo}
+                            </ButtonMui>
+                        </Grid>
+                    ) : null}
+                </>
             ))}
 
             <DialogMui
