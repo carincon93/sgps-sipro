@@ -186,6 +186,7 @@ class ProyectoFormulario16Linea65Controller extends Controller
 
         $proyecto_formulario_16_linea_65->save();
 
+        $proyecto_formulario_16_linea_65->proyecto->update($request->centro_formacion_id);
         $proyecto_formulario_16_linea_65->proyecto->municipios()->sync($request->municipios);
         $proyecto_formulario_16_linea_65->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 
@@ -258,6 +259,11 @@ class ProyectoFormulario16Linea65Controller extends Controller
     public function updateLongColumn(ProyectoFormulario16Linea65ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario16Linea65 $proyecto_formulario_16_linea_65, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_16_linea_65->proyecto]);
+
+        if ($column == 'centro_formacion_id') {
+            $proyecto_formulario_16_linea_65->proyecto->update($request->only($column));
+            return back();
+        }
 
         if ($column == 'programas_formacion' || $column == 'programas_formacion_articulados') {
             $proyecto_formulario_16_linea_65->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));

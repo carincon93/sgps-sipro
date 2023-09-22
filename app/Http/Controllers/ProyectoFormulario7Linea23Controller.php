@@ -222,6 +222,7 @@ class ProyectoFormulario7Linea23Controller extends Controller
 
         $proyecto_formulario_7_linea_23->save();
 
+        $proyecto_formulario_7_linea_23->proyecto->update($request->centro_formacion_id);
         $proyecto_formulario_7_linea_23->proyecto->municipios()->sync($request->municipios);
         $proyecto_formulario_7_linea_23->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 
@@ -292,6 +293,11 @@ class ProyectoFormulario7Linea23Controller extends Controller
     public function updateLongColumn(ProyectoFormulario7Linea23ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario7Linea23 $proyecto_formulario_7_linea_23, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_7_linea_23->proyecto]);
+
+        if ($column == 'centro_formacion_id') {
+            $proyecto_formulario_7_linea_23->proyecto->update($request->only($column));
+            return back();
+        }
 
         if ($column == 'programas_formacion' || $column == 'programas_formacion_articulados') {
             $proyecto_formulario_7_linea_23->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));

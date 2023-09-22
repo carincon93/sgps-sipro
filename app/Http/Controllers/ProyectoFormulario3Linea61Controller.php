@@ -194,7 +194,7 @@ class ProyectoFormulario3Linea61Controller extends Controller
 
         $proyecto_formulario_3_linea_61->save();
 
-        $proyecto_formulario_3_linea_61->proyecto->centroFormacion()->associate($request->centro_formacion_id);
+        $proyecto_formulario_3_linea_61->proyecto->update($request->centro_formacion_id);
         $proyecto_formulario_3_linea_61->proyecto->municipios()->sync($request->municipios);
         $proyecto_formulario_3_linea_61->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 
@@ -269,7 +269,7 @@ class ProyectoFormulario3Linea61Controller extends Controller
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_3_linea_61->proyecto]);
 
         if ($column == 'centro_formacion_id') {
-            $proyecto_formulario_3_linea_61->proyecto->centroFormacion()->associate($request->only($column));
+            $proyecto_formulario_3_linea_61->proyecto->update($request->only($column));
             return back();
         }
 

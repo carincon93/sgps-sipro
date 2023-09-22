@@ -96,10 +96,10 @@ class ProyectoFormulario5Linea69Controller extends Controller
         }
 
         $proyecto_a_replicar = $convocatoria->proyectos()
-                                ->whereHas('proyectoFormulario5Linea69', function ($query) {
-                                    $query->where('proyecto_base', true);
-                                })
-                                ->first();
+            ->whereHas('proyectoFormulario5Linea69', function ($query) {
+                $query->where('proyecto_base', true);
+            })
+            ->first();
 
         $nuevo_proyecto_formulario_5_linea_69 = $this->replicateRow($request, $proyecto_a_replicar->proyectoFormulario5Linea69, $proyecto);
 
@@ -148,7 +148,7 @@ class ProyectoFormulario5Linea69Controller extends Controller
         $proyecto_formulario_5_linea_69->mostrar_recomendaciones        = $proyecto_formulario_5_linea_69->proyecto->mostrar_recomendaciones;
         $proyecto_formulario_5_linea_69->mostrar_requiere_subsanacion   = $proyecto_formulario_5_linea_69->proyecto->mostrar_requiere_subsanacion;
 
-          if ($auth_user->hasRole(16)) {
+        if ($auth_user->hasRole(16)) {
             $nodos_tecnoparque = SelectHelper::nodosTecnoparque()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
         } else {
             $nodos_tecnoparque = SelectHelper::nodosTecnoparque();
@@ -342,7 +342,7 @@ class ProyectoFormulario5Linea69Controller extends Controller
 
             // re-sync productos->actividades
             foreach ($nuevos_productos as $nuevo_producto) {
-                if ( $nuevas_actividades->whereIn('descripcion_actividad', $productos->where('nombre', $nuevo_producto->nombre)->first()) ) {
+                if ($nuevas_actividades->whereIn('descripcion_actividad', $productos->where('nombre', $nuevo_producto->nombre)->first())) {
                     $nuevo_producto->actividades()->sync($nuevas_actividades->whereIn('descripcion_actividad', $productos->where('nombre', $nuevo_producto->nombre)->first()->actividades->pluck('descripcion')->toArray())->pluck('actividad_id')->toArray());
                 }
             }

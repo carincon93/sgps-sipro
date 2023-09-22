@@ -262,24 +262,26 @@ const Form = ({
                     )}
                 </Grid>
 
-                <Grid item md={6}>
-                    <Label required labelFor="linea_investigacion_id" className="mb-4" value="Línea de investigación" />
-                </Grid>
+                {array_lineas_investigacion.length > 0 && (
+                    <>
+                        <Grid item md={6}>
+                            <Label required labelFor="linea_investigacion_id" className="mb-4" value="Línea de investigación" />
+                        </Grid>
 
-                <Grid item md={6}>
-                    <Autocomplete
-                        id="linea_investigacion_id"
-                        selectedValue={form.data.linea_investigacion_id}
-                        onChange={(event, newValue) => form.setData('linea_investigacion_id', newValue.value)}
-                        disabled={
-                            !((proyecto_formulario_3_linea_61?.proyecto?.allowed?.to_update && array_lineas_investigacion.length > 0) || (allowed_to_create && array_lineas_investigacion.length > 0))
-                        }
-                        options={array_lineas_investigacion}
-                        error={form.errors.linea_investigacion_id}
-                        required
-                        onBlur={() => syncColumnLong('linea_investigacion_id', form)}
-                    />
-                </Grid>
+                        <Grid item md={6}>
+                            <Autocomplete
+                                id="linea_investigacion_id"
+                                selectedValue={form.data.linea_investigacion_id}
+                                onChange={(event, newValue) => form.setData('linea_investigacion_id', newValue.value)}
+                                disabled={!(proyecto_formulario_3_linea_61?.proyecto?.allowed?.to_update || allowed_to_create)}
+                                options={array_lineas_investigacion}
+                                error={form.errors.linea_investigacion_id}
+                                required
+                                onBlur={() => syncColumnLong('linea_investigacion_id', form)}
+                            />
+                        </Grid>
+                    </>
+                )}
 
                 <Grid item md={6}>
                     <Label required labelFor="linea_programatica_id" className="mb-4" value="Código dependencia presupuestal (SIIF)" />

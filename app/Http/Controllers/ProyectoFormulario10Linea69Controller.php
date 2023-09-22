@@ -85,29 +85,14 @@ class ProyectoFormulario10Linea69Controller extends Controller
             ]
         );
 
-        if ($convocatoria->proyectos()->whereHas('proyectoFormulario10Linea69')->count() == 0) {
-            $proyecto->proyectoFormulario10Linea69()->create([
-                'hub_innovacion_id'     => $request->hub_innovacion_id,
-                'fecha_inicio'          => $request->fecha_inicio,
-                'fecha_finalizacion'    => $request->fecha_finalizacion,
-                'proyecto_base'         => true
-            ]);
-            return redirect()->route('convocatorias.proyectos-formulario-10-linea-69.edit', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente. Este es el proyecto base, por favor defina los campos con información precargada.');
-        }
+        $proyecto->proyectoFormulario10Linea69()->create([
+            'hub_innovacion_id'     => $request->hub_innovacion_id,
+            'fecha_inicio'          => $request->fecha_inicio,
+            'fecha_finalizacion'    => $request->fecha_finalizacion,
+            'proyecto_base'         => true
+        ]);
 
-        $proyecto_a_replicar = $convocatoria->proyectos()
-                                ->whereHas('proyectoFormulario10Linea69', function ($query) {
-                                    $query->where('proyecto_base', true);
-                                })
-                                ->first();
-
-        $nuevo_proyecto_formulario_10_linea_69 = $this->replicateRow($request, $proyecto_a_replicar->proyectoFormulario10Linea69, $proyecto);
-
-        if ($nuevo_proyecto_formulario_10_linea_69) {
-            return redirect()->route('convocatorias.proyectos-formulario-10-linea-69.edit', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
-        } else {
-            return back()->with('error', 'No hay un proyecto base generado. Por favor notifique al activador(a) de la línea.');
-        }
+        return redirect()->route('convocatorias.proyectos-formulario-10-linea-69.edit', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente. Por favor continue diligenciando la información.');
     }
 
     /**
@@ -284,7 +269,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
                     ]);
 
 
-                    $nuevas_actividades->push( [
+                    $nuevas_actividades->push([
                         'actividad_id'                  => $nueva_actividad->id,
                         'objetivo_especifico_id'        => $nueva_actividad->objetivo_especifico_id,
                         'resultado_antiguo'             => optional($causa_indirecta->actividad->resultado)->descripcion,
@@ -338,7 +323,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
 
             // re-sync productos->actividades
             foreach ($nuevos_productos as $nuevo_producto) {
-                if ( $nuevas_actividades->whereIn('descripcion_actividad', $productos->where('nombre', $nuevo_producto->nombre)->first()) ) {
+                if ($nuevas_actividades->whereIn('descripcion_actividad', $productos->where('nombre', $nuevo_producto->nombre)->first())) {
                     $nuevo_producto->actividades()->sync($nuevas_actividades->whereIn('descripcion_actividad', $productos->where('nombre', $nuevo_producto->nombre)->first()->actividades->pluck('descripcion')->toArray())->pluck('actividad_id')->toArray());
                 }
             }
@@ -401,5 +386,4 @@ class ProyectoFormulario10Linea69Controller extends Controller
 
         return back();
     }
-
 }

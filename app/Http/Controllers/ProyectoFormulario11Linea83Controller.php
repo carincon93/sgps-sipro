@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+
 class ProyectoFormulario11Linea83Controller extends Controller
 {
     /**
@@ -95,7 +96,6 @@ class ProyectoFormulario11Linea83Controller extends Controller
         ]);
 
         return redirect()->route('convocatorias.proyectos-formulario-11-linea-83.edit', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
-
     }
 
     /**
@@ -136,7 +136,7 @@ class ProyectoFormulario11Linea83Controller extends Controller
         $proyecto_formulario_11_linea_83->mostrar_recomendaciones                 = $proyecto_formulario_11_linea_83->proyecto->mostrar_recomendaciones;
         $proyecto_formulario_11_linea_83->mostrar_requiere_subsanacion            = $proyecto_formulario_11_linea_83->proyecto->mostrar_requiere_subsanacion;
 
-          if ($auth_user->hasRole(16)) {
+        if ($auth_user->hasRole(16)) {
             $nodos_tecnoparque = SelectHelper::nodosTecnoparque()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
         } else {
             $nodos_tecnoparque = SelectHelper::nodosTecnoparque();
@@ -272,6 +272,11 @@ class ProyectoFormulario11Linea83Controller extends Controller
     public function updateLongColumn(ProyectoFormulario11Linea83ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario11Linea83 $proyecto_formulario_11_linea_83, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_11_linea_83->proyecto]);
+
+        if ($column == 'centro_formacion_id') {
+            $proyecto_formulario_11_linea_83->proyecto->update($request->only($column));
+            return back();
+        }
 
         $proyecto_formulario_11_linea_83->update($request->only($column));
 
