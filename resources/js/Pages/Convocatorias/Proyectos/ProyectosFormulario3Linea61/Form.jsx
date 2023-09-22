@@ -39,6 +39,8 @@ const Form = ({
     allowed_to_create,
     ...props
 }) => {
+    const is_super_admin = checkRole(auth_user, [1])
+
     const [array_lineas_tecnoacademia, setArrayLineasTecnoacademia] = useState([])
 
     const [tiene_video, setTieneVideo] = useState(proyecto_formulario_3_linea_61?.video !== null)
@@ -108,7 +110,11 @@ const Form = ({
     }, [form.data.tecnoacademia_id])
 
     useEffect(() => {
-        setArrayLineasInvestigacion(lineas_investigacion.filter((obj) => obj.centro_formacion_id === form.data.centro_formacion_id))
+        setArrayLineasInvestigacion([])
+
+        setTimeout(() => {
+            setArrayLineasInvestigacion(lineas_investigacion.filter((obj) => obj.centro_formacion_id === form.data.centro_formacion_id))
+        }, 500)
     }, [form.data.centro_formacion_id])
 
     useEffect(() => {
@@ -233,7 +239,7 @@ const Form = ({
                     <small> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </small>
                 </Grid>
                 <Grid item md={6}>
-                    {method == 'POST' ? (
+                    {method == 'POST' || is_super_admin ? (
                         <Autocomplete
                             id="centro_formacion_id"
                             selectedValue={form.data.centro_formacion_id}
@@ -265,7 +271,9 @@ const Form = ({
                         id="linea_investigacion_id"
                         selectedValue={form.data.linea_investigacion_id}
                         onChange={(event, newValue) => form.setData('linea_investigacion_id', newValue.value)}
-                        disabled={!(proyecto_formulario_3_linea_61?.proyecto?.allowed?.to_update || allowed_to_create)}
+                        disabled={
+                            !((proyecto_formulario_3_linea_61?.proyecto?.allowed?.to_update && array_lineas_investigacion.length > 0) || (allowed_to_create && array_lineas_investigacion.length > 0))
+                        }
                         options={array_lineas_investigacion}
                         error={form.errors.linea_investigacion_id}
                         required

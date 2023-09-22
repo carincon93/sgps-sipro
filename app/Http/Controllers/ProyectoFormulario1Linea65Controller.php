@@ -177,7 +177,7 @@ class ProyectoFormulario1Linea65Controller extends Controller
             'centros_formacion'                             => SelectHelper::centrosFormacion(),
             'tecnoacademia'                                 => $proyecto_formulario_1_linea_65->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_formulario_1_linea_65->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
             'mesas_sectoriales'                             => MesaSectorial::select('id as value', 'nombre as label')->get('id'),
-            'lineas_investigacion'                          => SelectHelper::lineasInvestigacion()->where('centro_formacion_id', $proyecto_formulario_1_linea_65->proyecto->centro_formacion_id)->values()->all(),
+            'lineas_investigacion'                          => SelectHelper::lineasInvestigacion(),
             'areas_conocimiento'                            => SelectHelper::areasConocimiento(),
             'disciplinas_subarea_conocimiento'              => SelectHelper::disciplinasSubareaConocimiento(),
             'areas_cualificacion_mnc'                       => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),

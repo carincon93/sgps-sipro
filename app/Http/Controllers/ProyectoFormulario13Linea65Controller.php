@@ -174,7 +174,7 @@ class ProyectoFormulario13Linea65Controller extends Controller
             'evaluacion'                                    => EvaluacionProyectoFormulario13Linea65::find(request()->evaluacion_id),
             'tecnoacademia'                                 => $proyecto_formulario_13_linea_65->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_formulario_13_linea_65->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
             'mesas_sectoriales'                             => MesaSectorial::select('id as value', 'nombre as label')->get('id'),
-            'lineas_investigacion'                          => SelectHelper::lineasInvestigacion()->where('centro_formacion_id', $proyecto_formulario_13_linea_65->proyecto->centro_formacion_id)->values()->all(),
+            'lineas_investigacion'                          => SelectHelper::lineasInvestigacion(),
             'areas_conocimiento'                            => SelectHelper::areasConocimiento(),
             'disciplinas_subarea_conocimiento'              => SelectHelper::disciplinasSubareaConocimiento(),
             'lineas_programaticas'                          => SelectHelper::lineasProgramaticas(),

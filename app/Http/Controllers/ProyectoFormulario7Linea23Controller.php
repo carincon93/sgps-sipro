@@ -195,7 +195,7 @@ class ProyectoFormulario7Linea23Controller extends Controller
             'tematicas_estrategicas'                            => SelectHelper::tematicasEstrategicas(),
             'redes_conocimiento'                                => SelectHelper::redesConocimiento(),
             'lineas_tecnoacademia'                              => SelectHelper::lineasTecnoacademia(),
-            'lineas_investigacion'                              => SelectHelper::lineasInvestigacion()->where('centro_formacion_id', $proyecto_formulario_7_linea_23->proyecto->centro_formacion_id)->values()->all(),
+            'lineas_investigacion'                              => SelectHelper::lineasInvestigacion(),
             'tecnoacademias'                                    => SelectHelper::tecnoacademias(),
             'municipios'                                        => SelectHelper::municipios(),
             'grupos_investigacion'                              => SelectHelper::gruposInvestigacion()->where('value', 126)->values()->all(),

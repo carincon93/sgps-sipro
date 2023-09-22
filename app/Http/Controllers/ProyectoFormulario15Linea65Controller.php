@@ -164,7 +164,7 @@ class ProyectoFormulario15Linea65Controller extends Controller
             'proyecto_formulario_15_linea_65'               => $proyecto_formulario_15_linea_65,
             'evaluacion'                                    => EvaluacionProyectoFormulario15Linea65::find(request()->evaluacion_id),
             'mesas_sectoriales'                             => MesaSectorial::select('id as value', 'nombre as label')->get('id'),
-            'lineas_investigacion'                          => SelectHelper::lineasInvestigacion()->where('centro_formacion_id', $proyecto_formulario_15_linea_65->proyecto->centro_formacion_id)->values()->all(),
+            'lineas_investigacion'                          => SelectHelper::lineasInvestigacion(),
             'areas_conocimiento'                            => SelectHelper::areasConocimiento(),
             'lineas_programaticas'                          => SelectHelper::lineasProgramaticas(),
             'areas_cualificacion_mnc'                       => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),
@@ -287,5 +287,4 @@ class ProyectoFormulario15Linea65Controller extends Controller
 
         return back();
     }
-
 }

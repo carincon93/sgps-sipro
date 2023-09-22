@@ -165,7 +165,7 @@ class ProyectoFormulario3Linea61Controller extends Controller
             'centros_formacion'                             => SelectHelper::centrosFormacion(),
             'tecnoacademia'                                 => $proyecto_formulario_3_linea_61->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_formulario_3_linea_61->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
             'mesas_sectoriales'                             => MesaSectorial::select('id as value', 'nombre as label')->get('id'),
-            'lineas_investigacion'                          => SelectHelper::lineasInvestigacion()->where('centro_formacion_id', $proyecto_formulario_3_linea_61->proyecto->centro_formacion_id)->values()->all(),
+            'lineas_investigacion'                          => SelectHelper::lineasInvestigacion(),
             'areas_conocimiento'                            => SelectHelper::areasConocimiento(),
             'actividades_economicas'                        => SelectHelper::actividadesEconomicas(),
             'tematicas_estrategicas'                        => SelectHelper::tematicasEstrategicas(),
@@ -194,6 +194,7 @@ class ProyectoFormulario3Linea61Controller extends Controller
 
         $proyecto_formulario_3_linea_61->save();
 
+        $proyecto_formulario_3_linea_61->proyecto->centroFormacion()->associate($request->centro_formacion_id);
         $proyecto_formulario_3_linea_61->proyecto->municipios()->sync($request->municipios);
         $proyecto_formulario_3_linea_61->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 
@@ -266,6 +267,11 @@ class ProyectoFormulario3Linea61Controller extends Controller
     public function updateLongColumn(ProyectoFormulario3Linea61ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario3Linea61 $proyecto_formulario_3_linea_61, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_3_linea_61->proyecto]);
+
+        if ($column == 'centro_formacion_id') {
+            $proyecto_formulario_3_linea_61->proyecto->centroFormacion()->associate($request->only($column));
+            return back();
+        }
 
         if ($column == 'programas_formacion' || $column == 'programas_formacion_articulados') {
             $proyecto_formulario_3_linea_61->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));

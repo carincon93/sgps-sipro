@@ -518,6 +518,10 @@ class Proyecto extends Model
             $fecha_finalizacion = $this->proyectoFormulario1Linea65->fecha_finalizacion;
         }
 
+        if ($this->proyectoFormulario3Linea61()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario3Linea61->fecha_finalizacion;
+        }
+
         if ($this->proyectoFormulario4Linea70()->exists()) {
             $fecha_finalizacion = $this->proyectoFormulario4Linea70->fecha_finalizacion;
         }
@@ -588,6 +592,10 @@ class Proyecto extends Model
             $fecha_inicio = $this->proyectoFormulario1Linea65->fecha_inicio;
         }
 
+        if ($this->proyectoFormulario3Linea61()->exists()) {
+            $fecha_inicio = $this->proyectoFormulario3Linea61->fecha_inicio;
+        }
+
         if ($this->proyectoFormulario4Linea70()->exists()) {
             $fecha_inicio = $this->proyectoFormulario4Linea70->fecha_inicio;
         }
@@ -649,6 +657,10 @@ class Proyecto extends Model
 
         if ($this->proyectoFormulario1Linea65()->exists()) {
             $fecha_finalizacion = $this->proyectoFormulario1Linea65->fecha_finalizacion;
+        }
+
+        if ($this->proyectoFormulario3Linea61()->exists()) {
+            $fecha_finalizacion = $this->proyectoFormulario3Linea61->fecha_finalizacion;
         }
 
         if ($this->proyectoFormulario4Linea70()->exists()) {
@@ -717,6 +729,10 @@ class Proyecto extends Model
 
         if ($this->proyectoFormulario1Linea65()->exists()) {
             $cantidad_meses_ejecucion = $this->proyectoFormulario1Linea65->max_meses_ejecucion;
+        }
+
+        if ($this->proyectoFormulario3Linea61()->exists()) {
+            $cantidad_meses_ejecucion = $this->proyectoFormulario3Linea61->max_meses_ejecucion;
         }
 
         if ($this->proyectoFormulario4Linea70()->exists()) {
