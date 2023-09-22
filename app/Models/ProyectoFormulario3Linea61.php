@@ -35,7 +35,6 @@ class ProyectoFormulario3Linea61 extends Model
         'linea_investigacion_id',
         'area_conocimiento_id',
         'tematica_estrategica_id',
-        'actividad_economica_id',
         'titulo',
         'fecha_inicio',
         'fecha_finalizacion',
@@ -63,7 +62,8 @@ class ProyectoFormulario3Linea61 extends Model
         'video',
         'tipo_evento',
         'aportacion_produccion_agricola',
-        'aportacion_transicion_energetica'
+        'aportacion_transicion_energetica',
+        'disciplinas_conocimiento'
     ];
 
     /**
@@ -113,16 +113,6 @@ class ProyectoFormulario3Linea61 extends Model
     public function lineaInvestigacion()
     {
         return $this->belongsTo(LineaInvestigacion::class);
-    }
-
-    /**
-     * Relationship with AreaConocimiento
-     *
-     * @return object
-     */
-    public function areaConocimiento()
-    {
-        return $this->belongsTo(AreaConocimiento::class);
     }
 
     /**
@@ -259,5 +249,4 @@ class ProyectoFormulario3Linea61 extends Model
     {
         return json_decode($value);
     }
-
 }

@@ -83,8 +83,6 @@ class ProyectoFormulario16Linea65Request extends FormRequest
             'areas_cualificacion_mnc'       => json_encode($this->areas_cualificacion_mnc),
             'lineas_estrategicas_sena'      => json_encode($this->lineas_estrategicas_sena),
             'lineas_programaticas_sennova'  => json_encode($this->lineas_programaticas_sennova),
-            'disciplinas_conocimiento'      => json_encode($this->disciplinas_conocimiento),
-            'actividades_economicas'        => json_encode($this->actividades_economicas),
         ]);
     }
 }

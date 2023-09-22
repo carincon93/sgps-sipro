@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\CentroFormacion;
+use App\Models\DisciplinaSubareaConocimiento;
 use App\Models\Evaluacion\EvaluacionProyectoFormulario3Linea61;
 use App\Models\RolSennova;
 use Illuminate\Support\Facades\Gate;
@@ -100,9 +101,10 @@ class ProyectoFormulario3Linea61Controller extends Controller
         $proyecto_formulario_3_linea_61->relacionado_tecnoacademia           = 2;
 
         $proyecto_formulario_3_linea_61->lineaInvestigacion()->associate($request->linea_investigacion_id);
-        $proyecto_formulario_3_linea_61->areaConocimiento()->associate($request->area_conocimiento_id);
         $proyecto_formulario_3_linea_61->tematicaEstrategica()->associate($request->tematica_estrategica_id);
         $proyecto_formulario_3_linea_61->actividadEconomica()->associate($request->actividad_economica_id);
+
+        $proyecto_formulario_3_linea_61->disciplinas_conocimiento            = DisciplinaSubareaConocimiento::select('id')->get()->pluck('id')->toJson();
 
         $proyecto->proyectoFormulario3Linea61()->save($proyecto_formulario_3_linea_61);
 

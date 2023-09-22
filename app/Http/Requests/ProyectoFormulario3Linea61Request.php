@@ -31,7 +31,6 @@ class ProyectoFormulario3Linea61Request extends FormRequest
                 'fecha_finalizacion'                            => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
                 'max_meses_ejecucion'                           => ['required', 'numeric', 'min:1', 'max:12'],
                 'centro_formacion_id'                           => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
-                'area_conocimiento_id'                          => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:areas_conocimiento,id'],
                 'tematica_estrategica_id'                       => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tematicas_estrategicas,id'],
                 'actividad_economica_id'                        => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:actividades_economicas,id'],
                 'video'                                         => ['nullable', 'string', 'url'],

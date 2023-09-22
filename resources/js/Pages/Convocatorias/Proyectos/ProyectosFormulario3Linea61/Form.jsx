@@ -63,7 +63,6 @@ const Form = ({
         centro_formacion_id: proyecto_formulario_3_linea_61?.proyecto?.centro_formacion_id ?? null,
         linea_investigacion_id: proyecto_formulario_3_linea_61?.linea_investigacion_id ?? null,
 
-        area_conocimiento_id: proyecto_formulario_3_linea_61?.area_conocimiento_id ?? null,
         tematica_estrategica_id: proyecto_formulario_3_linea_61?.tematica_estrategica_id ?? null,
         actividad_economica_id: proyecto_formulario_3_linea_61?.actividad_economica_id ?? null,
         tipo_evento: proyecto_formulario_3_linea_61?.tipo_evento ?? null,
@@ -290,7 +289,7 @@ const Form = ({
                     Gestión del conocimiento
                 </Grid>
 
-                <Grid item md={6}>
+                {/* <Grid item md={6}>
                     <Label required className="mb-4" labelFor="tipo_evento" value="Tipo de evento" />
                 </Grid>
                 <Grid item md={6}>
@@ -305,22 +304,13 @@ const Form = ({
                         required
                         onBlur={() => syncColumnLong('tipo_evento', form)}
                     />
-                </Grid>
+                </Grid> */}
 
                 <Grid item md={6}>
-                    <Label required labelFor="area_conocimiento_id" className="mb-4" value="Área de conocimiento" />
+                    <Label required labelFor="disciplinas_conocimiento" className="mb-4" value="Disciplinas de conocimiento" />
                 </Grid>
                 <Grid item md={6}>
-                    <Autocomplete
-                        id="area_conocimiento_id"
-                        selectedValue={form.data.area_conocimiento_id}
-                        onChange={(event, newValue) => form.setData('area_conocimiento_id', newValue.value)}
-                        disabled={!(proyecto_formulario_3_linea_61?.proyecto?.allowed?.to_update || allowed_to_create)}
-                        options={areas_conocimiento}
-                        error={form.errors.area_conocimiento_id}
-                        required
-                        onBlur={() => syncColumnLong('area_conocimiento_id', form)}
-                    />
+                    Aplica para todas las disciplinas de conocimiento
                 </Grid>
 
                 <Grid item md={6}>

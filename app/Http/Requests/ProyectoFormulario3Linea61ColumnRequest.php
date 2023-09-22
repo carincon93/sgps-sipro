@@ -21,7 +21,6 @@ class ProyectoFormulario3Linea61ColumnRequest extends FormRequest
         'atencion_pluralista_diferencial'               => ['nullable', 'string'],
         'centro_formacion_id'                           => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
         'linea_investigacion_id'                        => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_investigacion,id'],
-        'area_conocimiento_id'                          => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:areas_conocimiento,id'],
         'tematica_estrategica_id'                       => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tematicas_estrategicas,id'],
         'actividad_economica_id'                        => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:actividades_economicas,id'],
 
