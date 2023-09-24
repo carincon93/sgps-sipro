@@ -45,7 +45,9 @@ const ConvocatoriaTiposFormulario = ({ auth, convocatoria, tipos_formulario_conv
                                 primary={false}
                                 onClick={() => router.visit(route('convocatorias.tipos-formulario-convocatoria.proyectos', [convocatoria.id, tipo_formulario_convocatoria.id]))}
                                 className={`${
-                                    tipo_formulario_convocatoria.pivot.visible ? '!bg-green-300 hover:!bg-green-400 hover:!text-black ' : ' '
+                                    tipo_formulario_convocatoria.pivot.visible
+                                        ? '!bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-cyan-800 via-neutral-300 to-white '
+                                        : ' !bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-slate-800 via-neutral-300 to-white'
                                 }overflow-hidden z-[2] relative text-center !shadow-md rounded-lg px-6 py-2 flex justify-around items-center flex-col m-auto w-full h-96`}>
                                 {tipo_formulario_convocatoria.nombre + ' - Línea: ' + tipo_formulario_convocatoria.linea_programatica.codigo}
                             </ButtonMui>
