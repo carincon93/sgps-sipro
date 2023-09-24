@@ -93,6 +93,7 @@ class ProyectoFormulario11Linea83Controller extends Controller
             'titulo'                => $request->titulo,
             'fecha_inicio'          => $request->fecha_inicio,
             'fecha_finalizacion'    => $request->fecha_finalizacion,
+            'max_meses_ejecucion'   => $request->max_meses_ejecucion,
         ]);
 
         return redirect()->route('convocatorias.proyectos-formulario-11-linea-83.edit', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');

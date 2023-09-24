@@ -116,10 +116,10 @@ class SelectHelper
 
         if ($tipo_formulario_convocatoria_id == 17) {
             $ids = DB::table('topes_presupuestales_tecnoparque_conceptos_sena')->select('topes_presupuestales_tecnoparque_conceptos_sena.segundo_grupo_presupuestal_id')
-                    ->join('topes_presupuestales_nodos_tecnoparque', 'topes_presupuestales_tecnoparque_conceptos_sena.tope_presupuestal_nodo_tecnoparque_id', 'topes_presupuestales_nodos_tecnoparque.id')
-                    ->where('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id', $nodo_tecnoparque_id)
-                    ->where('topes_presupuestales_nodos_tecnoparque.convocatoria_id', $convocatoria_id)
-                    ->get()->pluck('segundo_grupo_presupuestal_id');
+                ->join('topes_presupuestales_nodos_tecnoparque', 'topes_presupuestales_tecnoparque_conceptos_sena.tope_presupuestal_nodo_tecnoparque_id', 'topes_presupuestales_nodos_tecnoparque.id')
+                ->where('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id', $nodo_tecnoparque_id)
+                ->where('topes_presupuestales_nodos_tecnoparque.convocatoria_id', $convocatoria_id)
+                ->get()->pluck('segundo_grupo_presupuestal_id');
 
             $query->whereIn('segundo_grupo_presupuestal.id', $ids);
         }
@@ -576,22 +576,29 @@ class SelectHelper
                             WHEN '9' THEN   CONCAT(roles_sennova.nombre, ' (Tecnólogo con especialización)', chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
                         END as label");
 
-                    if ($tipo_formulario_convocatoria_id == 17 && $proyecto) {
-                        $nodo_tecnoparque = $proyecto->proyectoFormulario17Linea69->nodoTecnoparque()->first();
+        if ($tipo_formulario_convocatoria_id == 17 && $proyecto) {
+            $nodo_tecnoparque = $proyecto->proyectoFormulario17Linea69->nodoTecnoparque()->first();
 
-                        $query->join('topes_roles_nodos_tecnoparque', 'convocatoria_rol_sennova.id', 'topes_roles_nodos_tecnoparque.convocatoria_rol_sennova_id');
-                        $query->where('topes_roles_nodos_tecnoparque.nodo_tecnoparque_id', $nodo_tecnoparque->id);
-                    }
+            $query->join('topes_roles_nodos_tecnoparque', 'convocatoria_rol_sennova.id', 'topes_roles_nodos_tecnoparque.convocatoria_rol_sennova_id');
+            $query->where('topes_roles_nodos_tecnoparque.nodo_tecnoparque_id', $nodo_tecnoparque->id);
+        }
 
-                    $query->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id');
+        if ($tipo_formulario_convocatoria_id == 10 && $proyecto) {
+            $hub_innovacion = $proyecto->proyectoFormulario10Linea69->hubInnovacion()->first();
 
-                    if ($proyecto) {
-                        $query->whereNotIn('convocatoria_rol_sennova.id', $proyecto->proyectoRolesSennova()->pluck('convocatoria_rol_sennova_id')->toArray());
-                    }
+            $query->join('topes_roles_hubs_innovacion', 'convocatoria_rol_sennova.id', 'topes_roles_hubs_innovacion.convocatoria_rol_sennova_id');
+            $query->where('topes_roles_hubs_innovacion.hub_innovacion_id', $hub_innovacion->id);
+        }
 
-                    $query->where('convocatoria_rol_sennova.tipo_formulario_convocatoria_id', $tipo_formulario_convocatoria_id);
-                    $query->where('convocatoria_rol_sennova.convocatoria_id', $convocatoria_id);
+        $query->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id');
 
-       return $query->orderBy('roles_sennova.nombre')->get();
+        if ($proyecto) {
+            $query->whereNotIn('convocatoria_rol_sennova.id', $proyecto->proyectoRolesSennova()->pluck('convocatoria_rol_sennova_id')->toArray());
+        }
+
+        $query->where('convocatoria_rol_sennova.tipo_formulario_convocatoria_id', $tipo_formulario_convocatoria_id);
+        $query->where('convocatoria_rol_sennova.convocatoria_id', $convocatoria_id);
+
+        return $query->orderBy('roles_sennova.nombre')->get();
     }
 }

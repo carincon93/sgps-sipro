@@ -86,6 +86,23 @@ trait ProyectoRolSennovaValidationTrait
         return true;
     }
 
+    public static function topesRolesSennovaHubInnovacionValidation($convocatoria, $proyecto)
+    {
+        $hub_innovacion = $proyecto->proyectoFormulario10Linea69->hubInnovacion()->first();
+
+
+        foreach ($proyecto->proyectoRolesSennova as $proyecto_rol_sennova) {
+            if ($proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaHubInnovacion()->exists()) {
+
+                if ($proyecto_rol_sennova->numero_roles > $proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaHubInnovacion()->where('hub_innovacion_id', $hub_innovacion->id)->first()->cantidad_maxima) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     /**
      * totalRolesSennova
      *

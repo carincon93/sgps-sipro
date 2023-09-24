@@ -96,7 +96,7 @@ class ProyectoController extends Controller
         $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 ?? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
 
         if ($request->subsanacion == true) {
-            $request->merge(['subsanacion' => $request->subsanacion ? 'true' : 'false']) ;
+            $request->merge(['subsanacion' => $request->subsanacion ? 'true' : 'false']);
             $proyecto->update(['estado' => $proyecto->estado]);
             sleep(2);
             $proyecto->update(
@@ -107,7 +107,7 @@ class ProyectoController extends Controller
         }
 
         if ($request->estado_cord_sennova) {
-            $request->merge(['subsanacion' => $request->subsanacion ? 'true' : 'false']) ;
+            $request->merge(['subsanacion' => $request->subsanacion ? 'true' : 'false']);
             $proyecto->update(['estado_cord_sennova' => $proyecto->estado]);
             sleep(2);
             $proyecto->update(
@@ -666,35 +666,36 @@ class ProyectoController extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/ResumenFinal', [
-            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
-            'proyecto'                          => $proyecto,
-            'problemaCentral'                   => ProyectoValidationTrait::problemaCentral($proyecto),
-            'efectosDirectos'                   => ProyectoValidationTrait::efectosDirectos($proyecto),
-            'causasIndirectas'                  => ProyectoValidationTrait::causasIndirectas($proyecto),
-            'causasDirectas'                    => ProyectoValidationTrait::causasDirectas($proyecto),
-            'efectosIndirectos'                 => ProyectoValidationTrait::efectosIndirectos($proyecto),
-            'objetivoGeneral'                   => ProyectoValidationTrait::objetivoGeneral($proyecto),
-            'resultados'                        => ProyectoValidationTrait::resultados($proyecto),
-            'objetivosEspecificos'              => ProyectoValidationTrait::objetivosEspecificos($proyecto),
-            'actividades'                       => ProyectoValidationTrait::actividades($proyecto),
-            'impactos'                          => ProyectoValidationTrait::impactos($proyecto),
-            'edt'                               => ProyectoValidationTrait::edt($proyecto),
-            'topes_por_nodo'                    => $proyecto->proyectoFormulario17Linea69()->exists() ? TopePresupuestalNodoTecnoparque::select('topes_presupuestales_nodos_tecnoparque.*')->with('nodoTecnoparque', 'segundoGrupoPresupuestal')->where('topes_presupuestales_nodos_tecnoparque.convocatoria_id', $convocatoria->id)->where('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id', $proyecto->proyectoFormulario17Linea69->nodo_tecnoparque_id)->orderBy('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id')->get() : null,
-            'topes_roles_sennova_tecnoparque'   => $proyecto->proyectoFormulario17Linea69()->exists() ? ProyectoRolSennovaValidationTrait::topesRolesSennovaTecnoparqueValidation($convocatoria, $proyecto) : null,
-            'topes_presupuestales_tecnoparque'  => $proyecto->proyectoFormulario17Linea69()->exists() ? ProyectoValidationTrait::topesPresupuestales($proyecto) : null,
+            'convocatoria'                          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
+            'proyecto'                              => $proyecto,
+            'problemaCentral'                       => ProyectoValidationTrait::problemaCentral($proyecto),
+            'efectosDirectos'                       => ProyectoValidationTrait::efectosDirectos($proyecto),
+            'causasIndirectas'                      => ProyectoValidationTrait::causasIndirectas($proyecto),
+            'causasDirectas'                        => ProyectoValidationTrait::causasDirectas($proyecto),
+            'efectosIndirectos'                     => ProyectoValidationTrait::efectosIndirectos($proyecto),
+            'objetivoGeneral'                       => ProyectoValidationTrait::objetivoGeneral($proyecto),
+            'resultados'                            => ProyectoValidationTrait::resultados($proyecto),
+            'objetivosEspecificos'                  => ProyectoValidationTrait::objetivosEspecificos($proyecto),
+            'actividades'                           => ProyectoValidationTrait::actividades($proyecto),
+            'impactos'                              => ProyectoValidationTrait::impactos($proyecto),
+            'edt'                                   => ProyectoValidationTrait::edt($proyecto),
+            'topes_roles_sennova_hub_innovacion'    => $proyecto->proyectoFormulario10Linea69()->exists() ? ProyectoRolSennovaValidationTrait::topesRolesSennovaHubInnovacionValidation($convocatoria, $proyecto) : null,
+            'topes_por_nodo'                        => $proyecto->proyectoFormulario17Linea69()->exists() ? TopePresupuestalNodoTecnoparque::select('topes_presupuestales_nodos_tecnoparque.*')->with('nodoTecnoparque', 'segundoGrupoPresupuestal')->where('topes_presupuestales_nodos_tecnoparque.convocatoria_id', $convocatoria->id)->where('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id', $proyecto->proyectoFormulario17Linea69->nodo_tecnoparque_id)->orderBy('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id')->get() : null,
+            'topes_roles_sennova_tecnoparque'       => $proyecto->proyectoFormulario17Linea69()->exists() ? ProyectoRolSennovaValidationTrait::topesRolesSennovaTecnoparqueValidation($convocatoria, $proyecto) : null,
+            'topes_presupuestales_tecnoparque'      => $proyecto->proyectoFormulario17Linea69()->exists() ? ProyectoValidationTrait::topesPresupuestales($proyecto) : null,
+            'resultadoProducto'                     => ProyectoValidationTrait::resultadoProducto($proyecto),
+            'analisisRiesgo'                        => ProyectoValidationTrait::analisisRiesgo($proyecto),
+            'anexos'                                => ProyectoValidationTrait::anexos($proyecto),
+            'generalidades'                         => ProyectoValidationTrait::generalidades($proyecto),
+            'metodologia'                           => ProyectoValidationTrait::metodologia($proyecto),
+            'propuestaSostenibilidad'               => ProyectoValidationTrait::propuestaSostenibilidad($proyecto),
+            'productosActividades'                  => ProyectoValidationTrait::productosActividades($proyecto),
+            'articulacionSennova'                   => ProyectoValidationTrait::articulacionSennova($proyecto),
+            'soportesEstudioMercado'                => ProyectoValidationTrait::soportesEstudioMercado($proyecto),
+            'estudiosMercadoArchivo'                => ProyectoValidationTrait::estudiosMercadoArchivo($proyecto),
+            'minInstructoresInvestigadores'         => ProyectoValidationTrait::minInstructoresInvestigadores($proyecto),
+            'minAprendicesEnSemilleros'             => ProyectoValidationTrait::minAprendicesEnSemilleros($proyecto),
             // 'actividadesPresupuesto'    => ProyectoValidationTrait::actividadesPresupuesto($proyecto),
-            'resultadoProducto'                 => ProyectoValidationTrait::resultadoProducto($proyecto),
-            'analisisRiesgo'                    => ProyectoValidationTrait::analisisRiesgo($proyecto),
-            'anexos'                            => ProyectoValidationTrait::anexos($proyecto),
-            'generalidades'                     => ProyectoValidationTrait::generalidades($proyecto),
-            'metodologia'                       => ProyectoValidationTrait::metodologia($proyecto),
-            'propuestaSostenibilidad'           => ProyectoValidationTrait::propuestaSostenibilidad($proyecto),
-            'productosActividades'              => ProyectoValidationTrait::productosActividades($proyecto),
-            'articulacionSennova'               => ProyectoValidationTrait::articulacionSennova($proyecto),
-            'soportesEstudioMercado'            => ProyectoValidationTrait::soportesEstudioMercado($proyecto),
-            'estudiosMercadoArchivo'            => ProyectoValidationTrait::estudiosMercadoArchivo($proyecto),
-            'minInstructoresInvestigadores'     => ProyectoValidationTrait::minInstructoresInvestigadores($proyecto),
-            'minAprendicesEnSemilleros'         => ProyectoValidationTrait::minAprendicesEnSemilleros($proyecto),
         ]);
     }
 
@@ -976,7 +977,7 @@ class ProyectoController extends Controller
      * @param  mixed $proyecto
      * @return void
      */
-    public function unlinkParticipante( Convocatoria $convocatoria, Proyecto $proyecto, User $user)
+    public function unlinkParticipante(Convocatoria $convocatoria, Proyecto $proyecto, User $user)
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 

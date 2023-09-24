@@ -87,6 +87,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
 
         $proyecto->proyectoFormulario10Linea69()->create([
             'hub_innovacion_id'     => $request->hub_innovacion_id,
+            'max_meses_ejecucion'   => $request->max_meses_ejecucion,
             'fecha_inicio'          => $request->fecha_inicio,
             'fecha_finalizacion'    => $request->fecha_finalizacion,
             'proyecto_base'         => false

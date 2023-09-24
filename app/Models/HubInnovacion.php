@@ -54,6 +54,16 @@ class HubInnovacion extends Model
     }
 
     /**
+     * Relationship with TopeRolSennovaHubInnovacion
+     *
+     * @return object
+     */
+    public function topesRolesSennovaHubInnovacion()
+    {
+        return $this->hasMany(TopeRolSennovaHubInnovacion::class);
+    }
+
+    /**
      * Filtrar registros
      *
      * @param  mixed $query
