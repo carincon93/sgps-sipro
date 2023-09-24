@@ -69,7 +69,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
         $nodo_tecnoparque = NodoTecnoparque::find($request->hub_innovacion_id);
 
         $proyecto = new Proyecto();
-        $proyecto->arboles_completos = true;
+        $proyecto->arboles_completos = false;
         $proyecto->centroFormacion()->associate($nodo_tecnoparque->centro_formacion_id);
         $proyecto->tipoFormularioConvocatoria()->associate(10);
         $proyecto->convocatoria()->associate($convocatoria);
@@ -89,7 +89,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
             'hub_innovacion_id'     => $request->hub_innovacion_id,
             'fecha_inicio'          => $request->fecha_inicio,
             'fecha_finalizacion'    => $request->fecha_finalizacion,
-            'proyecto_base'         => true
+            'proyecto_base'         => false
         ]);
 
         return redirect()->route('convocatorias.proyectos-formulario-10-linea-69.edit', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente. Por favor continue diligenciando la información.');
