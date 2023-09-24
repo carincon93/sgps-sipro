@@ -55,10 +55,10 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
             </Grid>
 
             <Grid item md={12}>
-                <TableMui className="mb-8" rows={['Nombre', 'Asignación mensual', 'Evaluación', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui className="mb-8" rows={['Nombre', 'Nivel académico', 'Asignación mensual', 'Evaluación', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {proyecto.allowed.to_update && (
                         <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setProyectoRolSennova(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
-                            <TableCell colSpan={4}>
+                            <TableCell colSpan={5}>
                                 <ButtonMui>
                                     <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar Rol SENNOVA
                                 </ButtonMui>
@@ -68,21 +68,9 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
 
                     {proyecto_roles_sennova.data.map((proyecto_rol_sennova, i) => (
                         <TableRow key={i}>
+                            <TableCell>{proyecto_rol_sennova?.convocatoria_rol_sennova?.rol_sennova?.nombre}</TableCell>
                             <TableCell>
-                                {proyecto_rol_sennova?.convocatoria_rol_sennova?.rol_sennova?.nombre}
-                                <br />
-
-                                <Chip
-                                    className="!bg-blue-200 hover:!bg-blue-50 !text-blue-500 mt-1"
-                                    label={
-                                        <span className="flex">
-                                            Nivel académico:
-                                            <p className="first-letter:uppercase">
-                                                {niveles_academicos.find((item) => item.value == proyecto_rol_sennova?.convocatoria_rol_sennova?.nivel_academico).label}
-                                            </p>
-                                        </span>
-                                    }
-                                />
+                                <p className="first-letter:uppercase">{niveles_academicos.find((item) => item.value == proyecto_rol_sennova?.convocatoria_rol_sennova?.nivel_academico).label}</p>
                             </TableCell>
                             <TableCell>
                                 $

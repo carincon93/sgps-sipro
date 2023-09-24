@@ -254,18 +254,24 @@ const Actividades = ({
             ) : null} */}
 
             <Grid item md={12}>
-                <AlertMui severity="success" className="my-20 MuiAlert-standardInfo MuiAlert-standardSuccess">
+                <AlertMui className="my-20">
                     <h1 className="text-3xl mt-10 text-center">¿Cómo diligenciar la metodología y las actividades?</h1>
 
                     <div className="my-10">
-                        <p>
-                            1. Diligencie toda la información de la pestaña <strong>METODOLOGÍA</strong>.
-                        </p>
+                        <p>1. Ubique las pestañas de METODOLOGÍA - ACTIVIDADES.</p>
+
+                        <figure className="my-10">
+                            <img src="/images/metodologia-actividades.png" alt="" className="shadow" />
+                        </figure>
 
                         <p>
-                            2. Diríjase a la pestaña <strong>ACTIVIDADES</strong>, luego de clic en el menú de acciones y <strong>Editar</strong>. A continuación, complete la información sobre el
-                            resultado y roles SENNOVA asociados a cada actividad. Posteriormente, asigne los rubros presupuestales correspondientes desde el botón{' '}
-                            <strong>'Asociar rubros presupuestales'</strong>.
+                            2. Diligencie toda la información de la pestaña <strong>METODOLOGÍA</strong>.
+                        </p>
+777777777
+                        <p>
+                            3. Una vez la información de la METODOLOGÍA este completa, diríjase a la pestaña <strong>ACTIVIDADES</strong>, luego de clic en el menú de acciones y{' '}
+                            <strong>Editar</strong>. A continuación, complete la información sobre el resultado y roles SENNOVA asociados a cada actividad. Posteriormente, asigne los rubros
+                            presupuestales correspondientes desde el botón <strong>'Asociar rubros presupuestales'</strong>.
                         </p>
                     </div>
                 </AlertMui>
