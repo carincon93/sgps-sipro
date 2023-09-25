@@ -209,10 +209,7 @@ class CentroFormacion extends Model
 
     public function getNombreCarpetaSharepointAttribute()
     {
-        $cleaned = SharepointHelper::cleanWordsFromSpecialCharacters($this->regional ? $this->regional->nombre . ' - ' . $this->codigo . ' ' . $this->nombre : '');
-
-        // Convert to uppercase
-        return strtoupper($cleaned);
+        return trim(preg_replace('/[^A-Za-z0-9\-ÁÉÍÓÚáéíóúÑñ]/', ' ', mb_strtoupper($this->regional ? $this->regional->nombre : '') . ' - ' . $this->codigo . ' ' . mb_strtoupper($this->nombre)));
     }
 
     public function getAllowedAttribute()
