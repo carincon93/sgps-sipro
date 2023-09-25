@@ -25,6 +25,7 @@ class ProyectoFormulario10Linea69Request extends FormRequest
     {
         if ($this->isMethod('PUT')) {
             return [
+                'centro_formacion_id'                       => ['required', 'min:0', 'max:2147483647', 'exists:centros_formacion,id'],
                 'hub_innovacion_id'                         => ['required', 'min:0', 'max:2147483647', 'exists:hubs_innovacion,id'],
                 'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
                 'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
@@ -32,6 +33,7 @@ class ProyectoFormulario10Linea69Request extends FormRequest
             ];
         } else {
             return [
+                'centro_formacion_id'                       => ['required', 'min:0', 'max:2147483647', 'exists:centros_formacion,id'],
                 'hub_innovacion_id'                         => ['required', 'min:0', 'max:2147483647', 'exists:hubs_innovacion,id'],
                 'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
                 'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],

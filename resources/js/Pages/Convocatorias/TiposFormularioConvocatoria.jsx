@@ -8,15 +8,13 @@ import SenaLogo from '@/Components/SenaLogo'
 import { route, checkRole } from '@/Utils'
 import { Head, Link, router } from '@inertiajs/react'
 import { Divider, Grid } from '@mui/material'
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 const ConvocatoriaTiposFormulario = ({ auth, convocatoria, tipos_formulario_convocatoria }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
     const [dialog_status, setDialogStatus] = useState(convocatoria.year == 2024)
-
-    console.log(tipos_formulario_convocatoria)
 
     return (
         <AuthenticatedLayout user={auth_user}>
@@ -37,8 +35,8 @@ const ConvocatoriaTiposFormulario = ({ auth, convocatoria, tipos_formulario_conv
                 </Grid>
             )}
 
-            {tipos_formulario_convocatoria.map((tipo_formulario_convocatoria) => (
-                <>
+            {tipos_formulario_convocatoria.map((tipo_formulario_convocatoria, i) => (
+                <React.Fragment key={i}>
                     {tipo_formulario_convocatoria.pivot.visible || checkRole(auth_user, [1, 20, 18, 19, 5, 17]) ? (
                         <Grid item md={3} key={tipo_formulario_convocatoria.id}>
                             <ButtonMui
@@ -53,7 +51,7 @@ const ConvocatoriaTiposFormulario = ({ auth, convocatoria, tipos_formulario_conv
                             </ButtonMui>
                         </Grid>
                     ) : null}
-                </>
+                </React.Fragment>
             ))}
 
             <DialogMui
@@ -125,7 +123,7 @@ const ConvocatoriaTiposFormulario = ({ auth, convocatoria, tipos_formulario_conv
                                 <a href="mailto:rcgonzalez@sena.edu.co" target="_blank" className="underline">
                                     rcgonzalez@sena.edu.co
                                 </a>{' '}
-                                (Líneas 61 - 65 - 69)
+                                (Líneas 61 - 65 - Hubs de innovación)
                             </li>
                             <li>
                                 Cristian Camilo Buitrago Escamilla -{' '}

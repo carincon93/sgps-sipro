@@ -13,7 +13,7 @@ import { Chip, Grid, TableCell, TableRow } from '@mui/material'
 import { useState } from 'react'
 import { Head } from '@inertiajs/react'
 
-const Edit = ({ auth, convocatoria, proyecto_formulario_10_linea_69, evaluacion, hubs_innovacion, roles_sennova }) => {
+const Edit = ({ auth, convocatoria, proyecto_formulario_10_linea_69, evaluacion, hubs_innovacion, centros_formacion, roles_sennova }) => {
     const auth_user = auth.user
 
     const [evaluacion_index, setEvaluacionIndex] = useState(0)
@@ -80,6 +80,7 @@ const Edit = ({ auth, convocatoria, proyecto_formulario_10_linea_69, evaluacion,
                     convocatoria={convocatoria}
                     proyecto_formulario_10_linea_69={proyecto_formulario_10_linea_69}
                     hubs_innovacion={hubs_innovacion}
+                    centros_formacion={centros_formacion}
                     roles_sennova={roles_sennova}
                 />
             </Grid>

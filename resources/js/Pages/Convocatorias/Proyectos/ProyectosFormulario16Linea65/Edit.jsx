@@ -19,6 +19,7 @@ const Edit = ({
     auth,
     convocatoria,
     proyecto_formulario_16_linea_65,
+    centros_formacion,
     evaluacion,
     mesas_sectoriales,
     lineas_programaticas,
@@ -97,6 +98,7 @@ const Edit = ({
                     method="PUT"
                     convocatoria={convocatoria}
                     proyecto_formulario_16_linea_65={proyecto_formulario_16_linea_65}
+                    centros_formacion={centros_formacion}
                     mesas_sectoriales={mesas_sectoriales}
                     lineas_programaticas={lineas_programaticas}
                     ejes_sennova={ejes_sennova}

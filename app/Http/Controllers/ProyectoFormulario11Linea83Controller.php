@@ -146,6 +146,7 @@ class ProyectoFormulario11Linea83Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario11Linea83/Edit', [
             'convocatoria'                      => $convocatoria,
             'proyecto_formulario_11_linea_83'   => $proyecto_formulario_11_linea_83,
+            'centros_formacion'                 => SelectHelper::centrosFormacion(),
             // 'evaluacion'            => EvaluacionProyectoFormulario11Linea83::find(request()->evaluacion_id),
             'regionales'                        => SelectHelper::regionales(),
             'lineas_programaticas'              => LineaProgramatica::selectRaw('id as value, concat(nombre, \' ∙ \', codigo) as label, codigo')->where('lineas_programaticas.categoria_proyecto', 1)->get(),

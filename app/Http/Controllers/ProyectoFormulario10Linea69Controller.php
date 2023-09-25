@@ -48,9 +48,19 @@ class ProyectoFormulario10Linea69Controller extends Controller
     {
         $this->authorize('formular-proyecto', [4, $convocatoria]);
 
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
+        if ($auth_user->hasRole(6)) {
+            $centros_formacion = SelectHelper::centrosFormacion()->where('regional_id', $auth_user->centroFormacion->regional->id)->values()->all();
+        } else {
+            $centros_formacion = SelectHelper::centrosFormacion();
+        }
+
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario10Linea69/Create', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'hubs_innovacion'       => SelectHelper::hubsInnovacion(),
+            'centros_formacion'     => $centros_formacion,
             'roles_sennova'         => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowed_to_create'     => Gate::inspect('formular-proyecto', [4, $convocatoria])->allowed()
         ]);
@@ -66,11 +76,9 @@ class ProyectoFormulario10Linea69Controller extends Controller
     {
         $this->authorize('formular-proyecto', [4, $convocatoria]);
 
-        $nodo_tecnoparque = NodoTecnoparque::find($request->hub_innovacion_id);
-
         $proyecto = new Proyecto();
         $proyecto->arboles_completos = false;
-        $proyecto->centroFormacion()->associate($nodo_tecnoparque->centro_formacion_id);
+        $proyecto->centroFormacion()->associate($request->centro_formacion_id);
         $proyecto->tipoFormularioConvocatoria()->associate(10);
         $proyecto->convocatoria()->associate($convocatoria);
         $proyecto->save();
@@ -137,6 +145,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario10Linea69/Edit', [
             'convocatoria'                      => $convocatoria,
             'proyecto_formulario_10_linea_69'   => $proyecto_formulario_10_linea_69,
+            'centros_formacion'                 => $centros_formacion = SelectHelper::centrosFormacion(),
             // 'evaluacion'            => EvaluacionProyectoFormulario10Linea69::find(request()->evaluacion_id),
             'regionales'                        => SelectHelper::regionales(),
             'nodos_tecnoparque'                 => SelectHelper::nodosTecnoparque()->where('centro_formacion_id', $proyecto_formulario_10_linea_69->proyecto->centroFormacion->id)->values()->all(),
@@ -177,6 +186,8 @@ class ProyectoFormulario10Linea69Controller extends Controller
         $proyecto_formulario_10_linea_69->acciones_estrategias_campesena                  = $request->acciones_estrategias_campesena;
         $proyecto_formulario_10_linea_69->bibliografia                                    = $request->bibliografia;
         $proyecto_formulario_10_linea_69->hubInnovacion()->associate($request->hub_innovacion_id);
+        $proyecto_formulario_10_linea_69->proyecto->centroFormacion()->associate($request->centro_formacion_id);
+
 
         $proyecto_formulario_10_linea_69->save();
 
@@ -382,6 +393,11 @@ class ProyectoFormulario10Linea69Controller extends Controller
     public function updateLongColumn(ProyectoFormulario10Linea69ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario10Linea69 $proyecto_formulario_10_linea_69, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_10_linea_69->proyecto]);
+
+        if ($column == 'centro_formacion_id') {
+            $proyecto_formulario_10_linea_69->proyecto->update($request->only($column));
+            return back();
+        }
 
         $proyecto_formulario_10_linea_69->update($request->only($column));
 

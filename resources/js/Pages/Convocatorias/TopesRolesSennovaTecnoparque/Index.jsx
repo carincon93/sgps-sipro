@@ -37,7 +37,10 @@ const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_ro
                 )}
 
                 <Grid item md={12}>
-                    <TableMui className="mt-20" rows={['Nombre del nodo', 'Rol SENNOVA', 'Nivel académico', 'Cantidad máxima', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui
+                        className="mt-20"
+                        rows={['Nombre del nodo', 'Rol SENNOVA', 'Nivel académico', 'Cantidad máxima / Honorarios ' + convocatoria.year, 'Acciones']}
+                        sxCellThead={{ width: '320px' }}>
                         <TableRow
                             onClick={() => (setDialogStatus(true), setMethod('POST'), setTopeRolSennovaTecnoparque(null))}
                             variant="raised"
@@ -59,7 +62,10 @@ const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_ro
                                         {niveles_academicos.find((item) => item.value == tope_rol_sennova_tecnoparque.convocatoria_rol_sennova.nivel_academico)?.label}
                                     </p>
                                 </TableCell>
-                                <TableCell>{tope_rol_sennova_tecnoparque.cantidad_maxima}</TableCell>
+                                <TableCell>
+                                    {tope_rol_sennova_tecnoparque.cantidad_maxima} / ${new Intl.NumberFormat('de-DE').format(tope_rol_sennova_tecnoparque.convocatoria_rol_sennova.asignacion_mensual)}{' '}
+                                    COP
+                                </TableCell>
 
                                 <TableCell>
                                     <MenuMui text={<MoreVertIcon />}>

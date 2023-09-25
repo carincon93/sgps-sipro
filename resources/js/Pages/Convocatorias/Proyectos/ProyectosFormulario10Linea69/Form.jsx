@@ -12,7 +12,9 @@ import { router, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useEffect } from 'react'
 
-const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_linea_69, hubs_innovacion, roles_sennova, evaluacion, allowed_to_create, ...props }) => {
+const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_linea_69, hubs_innovacion, centros_formacion, roles_sennova, evaluacion, allowed_to_create, ...props }) => {
+    const is_super_admin = checkRole(auth_user, [1])
+
     const form = useForm({
         centro_formacion_id: proyecto_formulario_10_linea_69?.proyecto.centro_formacion_id ?? '',
         fecha_inicio: proyecto_formulario_10_linea_69?.fecha_inicio ?? '',
@@ -183,6 +185,30 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_lin
                     />
                 </Grid>
 
+                <Grid item md={6}>
+                    <Label required labelFor="centro_formacion_id" className="mb-4" value="Centro de formación" />
+                    <br />
+                    <small> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </small>
+                </Grid>
+                <Grid item md={6}>
+                    {method == 'POST' || is_super_admin ? (
+                        <Autocomplete
+                            id="centro_formacion_id"
+                            selectedValue={form.data.centro_formacion_id}
+                            onChange={(event, newValue) => form.setData('centro_formacion_id', newValue.value)}
+                            disabled={!(proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
+                            options={
+                                centros_formacion ?? [{ value: proyecto_formulario_10_linea_69.proyecto.centro_formacion.id, label: proyecto_formulario_10_linea_69.proyecto.centro_formacion.nombre }]
+                            }
+                            error={form.errors.centro_formacion_id}
+                            onBlur={() => syncColumnLong('centro_formacion_id', form)}
+                            required
+                        />
+                    ) : (
+                        <>{proyecto_formulario_10_linea_69.proyecto.centro_formacion.nombre}</>
+                    )}
+                </Grid>
+
                 {method == 'POST' && (
                     <>
                         <Grid item md={12}>
@@ -344,7 +370,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_lin
                             />
                         </Grid>
                         <Grid item md={12}>
-                            <h1>PRIORIZACIÓN DE ESTRATEGIAS DEL TECNOPARQUE/HUB DE INNOVACIÓN DESDE LOS OBJETIVOS MISIONALES</h1>
+                            <h1 className="text-center">PRIORIZACIÓN DE ESTRATEGIAS DEL TECNOPARQUE/HUB DE INNOVACIÓN DESDE LOS OBJETIVOS MISIONALES</h1>
                         </Grid>
                         <Grid item md={12}>
                             <Label
@@ -417,7 +443,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_lin
                             />
                         </Grid>
                         <Grid item md={12}>
-                            <h1>ASPECTOS REGIONALES ASOCIADOS A LOS DOCUMENTOS NACIONALES Y AL PLAN DE DESARROLLO NACIONAL 2022-2026</h1>
+                            <h1 className="text-center">ASPECTOS REGIONALES ASOCIADOS A LOS DOCUMENTOS NACIONALES Y AL PLAN DE DESARROLLO NACIONAL 2022-2026</h1>
                         </Grid>
                         <Grid item md={12}>
                             <Label

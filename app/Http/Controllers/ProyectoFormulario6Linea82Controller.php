@@ -190,6 +190,7 @@ class ProyectoFormulario6Linea82Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario6Linea82/Edit', [
             'convocatoria'                                      => $convocatoria,
             'proyecto_formulario_6_linea_82'                    => $proyecto_formulario_6_linea_82,
+            'centros_formacion'                                 => SelectHelper::centrosFormacion(),
             'evaluacion'                                        => EvaluacionProyectoFormulario6Linea82::find(request()->evaluacion_id),
             'tecnoacademia'                                     => $proyecto_formulario_6_linea_82->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_formulario_6_linea_82->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
             'mesas_sectoriales'                                 => SelectHelper::mesasSectoriales(),

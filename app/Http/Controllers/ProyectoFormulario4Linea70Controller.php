@@ -161,9 +161,10 @@ class ProyectoFormulario4Linea70Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario4Linea70/Edit', [
             'convocatoria'                          => $convocatoria,
             'proyecto_formulario_4_linea_70'        => $proyecto_formulario_4_linea_70,
+            'centros_formacion'                     => SelectHelper::centrosFormacion(),
+            'evaluacion'                            => EvaluacionProyectoFormulario4Linea70::find(request()->evaluacion_id),
             'tecnoacademias'                        => SelectHelper::tecnoacademias(),
             'tecnoacademia'                         => $proyecto_formulario_4_linea_70->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_formulario_4_linea_70->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
-            'evaluacion'                            => EvaluacionProyectoFormulario4Linea70::find(request()->evaluacion_id),
             'lineas_programaticas'                  => SelectHelper::lineasProgramaticas(),
             'lineas_tecnoacademia'                  => SelectHelper::lineasTecnoacademia(),
             'roles_sennova'                         => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),

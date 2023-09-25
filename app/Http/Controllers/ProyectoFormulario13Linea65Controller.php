@@ -45,11 +45,9 @@ class ProyectoFormulario13Linea65Controller extends Controller
     {
         $this->authorize('formular-proyecto', [9, $convocatoria]);
 
-        $centros_formacion = CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo) as label')->orderBy('centros_formacion.nombre', 'ASC')->get();
-
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario13Linea65/Create', [
             'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year', 'campos_convocatoria'),
-            'centros_formacion'                 => $centros_formacion,
+            'centros_formacion'                 => SelectHelper::centrosFormacion(),
             'lineas_investigacion'              => SelectHelper::lineasInvestigacion(),
             'areas_cualificacion_mnc'           => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),
             'ejes_sennova'                      => json_decode(Storage::get('json/ejes-sennova.json'), true),
@@ -171,6 +169,7 @@ class ProyectoFormulario13Linea65Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario13Linea65/Edit', [
             'convocatoria'                                  => $convocatoria,
             'proyecto_formulario_13_linea_65'               => $proyecto_formulario_13_linea_65,
+            'centros_formacion'                             => SelectHelper::centrosFormacion(),
             'evaluacion'                                    => EvaluacionProyectoFormulario13Linea65::find(request()->evaluacion_id),
             'tecnoacademia'                                 => $proyecto_formulario_13_linea_65->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_formulario_13_linea_65->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
             'mesas_sectoriales'                             => MesaSectorial::select('id as value', 'nombre as label')->get('id'),

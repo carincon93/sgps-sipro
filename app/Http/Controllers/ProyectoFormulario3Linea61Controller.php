@@ -163,8 +163,8 @@ class ProyectoFormulario3Linea61Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario3Linea61/Edit', [
             'convocatoria'                                  => $convocatoria,
             'proyecto_formulario_3_linea_61'                => $proyecto_formulario_3_linea_61,
-            // 'evaluacion'                                    => EvaluacionProyectoFormulario3Linea61::find(request()->evaluacion_id),
             'centros_formacion'                             => SelectHelper::centrosFormacion(),
+            // 'evaluacion'                                    => EvaluacionProyectoFormulario3Linea61::find(request()->evaluacion_id),
             'tecnoacademia'                                 => $proyecto_formulario_3_linea_61->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_formulario_3_linea_61->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
             'mesas_sectoriales'                             => MesaSectorial::select('id as value', 'nombre as label')->get('id'),
             'lineas_investigacion'                          => SelectHelper::lineasInvestigacion(),
