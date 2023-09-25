@@ -140,8 +140,6 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                     <>
                         <Grid item md={6}>
                             <Label required labelFor="centro_formacion_id" className="mb-4" value="Centro de formación" />
-                            <br />
-                            <small> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </small>
                         </Grid>
                         <Grid item md={6}>
                             <Autocomplete
@@ -158,6 +156,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                                 required
                                 onBlur={() => syncColumnLong('centro_formacion_id', form)}
                             />
+                            <AlertMui> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </AlertMui>
                         </Grid>
                     </>
                 )}

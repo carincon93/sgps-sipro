@@ -135,18 +135,31 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_lin
                         <Grid item md={6}>
                             Hubs de innovación
                         </Grid>
-
-                        <Grid item md={6}>
-                            <Label required labelFor="centro_formacion_id" value="Centro de formación" />
-                            <small>
-                                <strong>Nota:</strong> El Centro de Formación relacionado es el ejecutor del proyecto
-                            </small>
-                        </Grid>
-                        <Grid item md={6}>
-                            <p className="first-letter:uppercase">{proyecto_formulario_10_linea_69?.proyecto.centro_formacion.nombre}</p>
-                        </Grid>
                     </>
                 )}
+
+                <Grid item md={6}>
+                    <Label required labelFor="centro_formacion_id" className="mb-4" value="Centro de formación" />
+                </Grid>
+                <Grid item md={6}>
+                    {method == 'POST' || is_super_admin ? (
+                        <Autocomplete
+                            id="centro_formacion_id"
+                            selectedValue={form.data.centro_formacion_id}
+                            onChange={(event, newValue) => form.setData('centro_formacion_id', newValue.value)}
+                            disabled={!(proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
+                            options={
+                                centros_formacion ?? [{ value: proyecto_formulario_10_linea_69.proyecto.centro_formacion.id, label: proyecto_formulario_10_linea_69.proyecto.centro_formacion.nombre }]
+                            }
+                            error={form.errors.centro_formacion_id}
+                            onBlur={() => syncColumnLong('centro_formacion_id', form)}
+                            required
+                        />
+                    ) : (
+                        <>{proyecto_formulario_10_linea_69.proyecto.centro_formacion.nombre}</>
+                    )}
+                    <AlertMui> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </AlertMui>
+                </Grid>
 
                 <Grid item md={6}>
                     <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
@@ -183,30 +196,6 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_lin
                         disabled={!(proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
                         required
                     />
-                </Grid>
-
-                <Grid item md={6}>
-                    <Label required labelFor="centro_formacion_id" className="mb-4" value="Centro de formación" />
-                    <br />
-                    <small> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </small>
-                </Grid>
-                <Grid item md={6}>
-                    {method == 'POST' || is_super_admin ? (
-                        <Autocomplete
-                            id="centro_formacion_id"
-                            selectedValue={form.data.centro_formacion_id}
-                            onChange={(event, newValue) => form.setData('centro_formacion_id', newValue.value)}
-                            disabled={!(proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update || allowed_to_create)}
-                            options={
-                                centros_formacion ?? [{ value: proyecto_formulario_10_linea_69.proyecto.centro_formacion.id, label: proyecto_formulario_10_linea_69.proyecto.centro_formacion.nombre }]
-                            }
-                            error={form.errors.centro_formacion_id}
-                            onBlur={() => syncColumnLong('centro_formacion_id', form)}
-                            required
-                        />
-                    ) : (
-                        <>{proyecto_formulario_10_linea_69.proyecto.centro_formacion.nombre}</>
-                    )}
                 </Grid>
 
                 {method == 'POST' && (
@@ -294,7 +283,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_lin
                                 error={form.errors.resumen}
                                 value={form.data.resumen}
                                 onChange={(e) => form.setData('resumen', e.target.value)}
-                                disabled={!checkRole(auth_user, [1, 17]) && !checkPermissionByUser(auth_user, [24]) && !proyecto_formulario_10_linea_69?.proyecto_base}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 required
                                 onBlur={() => syncColumnLong('resumen', form)}
                             />
@@ -325,7 +314,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_lin
                                 error={form.errors.antecedentes}
                                 value={form.data.antecedentes}
                                 onChange={(e) => form.setData('antecedentes', e.target.value)}
-                                disabled={!checkRole(auth_user, [1, 17]) && !checkPermissionByUser(auth_user, [24]) && !proyecto_formulario_10_linea_69?.proyecto_base}
+                                disabled={!proyecto_formulario_10_linea_69?.proyecto?.allowed?.to_update}
                                 required
                                 onBlur={() => syncColumnLong('antecedentes', form)}
                             />

@@ -284,10 +284,10 @@ const Form = ({
 
                         <Grid item md={6}>
                             <Label required className="mb-4" labelFor="centro_formacion_id" value="Centro de formación" />
-                            <small> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </small>
                         </Grid>
                         <Grid item md={6}>
                             <p className="first-letter:uppercase">{proyecto_formulario_4_linea_70.proyecto.centro_formacion.nombre}</p>
+                            <AlertMui> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </AlertMui>
                         </Grid>
 
                         <Grid item md={6}>

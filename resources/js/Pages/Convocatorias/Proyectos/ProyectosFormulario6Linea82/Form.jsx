@@ -252,8 +252,6 @@ const Form = ({
 
                 <Grid item md={6}>
                     <Label required labelFor="centro_formacion_id" className="mb-4" value="Centro de formación" />
-                    <br />
-                    <small> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </small>
                 </Grid>
                 <Grid item md={6}>
                     {method == 'POST' || is_super_admin ? (
@@ -272,6 +270,7 @@ const Form = ({
                     ) : (
                         <>{proyecto_formulario_6_linea_82.proyecto.centro_formacion.nombre}</>
                     )}
+                    <AlertMui> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </AlertMui>
                 </Grid>
 
                 {array_lineas_investigacion.length > 0 && (
