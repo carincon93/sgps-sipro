@@ -159,6 +159,16 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_10_lin
                         <>{proyecto_formulario_10_linea_69.proyecto.centro_formacion.nombre}</>
                     )}
                     <AlertMui> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </AlertMui>
+                    {is_super_admin && (
+                        <AlertMui className="mt-10" severity="error">
+                            <strong className="mb-4 block">Importante:</strong>
+                            Recuerde que si cambia el centro de formación y el formulador ya ha cargado soportes / anexos debe cambiar la ruta tanto en el sharepoint como en la base datos. Esta debe
+                            ser la ruta asociada al proyecto:
+                            <strong className=" mt-4 uppercase block">
+                                /Convocatoria {convocatoria.year}/{proyecto_formulario_10_linea_69.proyecto.centro_formacion.nombre_carpeta_sharepoint}
+                            </strong>
+                        </AlertMui>
+                    )}
                 </Grid>
 
                 <Grid item md={6}>
