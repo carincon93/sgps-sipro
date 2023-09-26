@@ -563,7 +563,7 @@ class SelectHelper
 
     public static function convocatoriaRolesSennova($convocatoria_id, $tipo_formulario_convocatoria_id, $proyecto = null)
     {
-        $query =    ConvocatoriaRolSennova::selectRaw("convocatoria_rol_sennova.id as value,
+        $query =    ConvocatoriaRolSennova::selectRaw("convocatoria_rol_sennova.meses_maximos, convocatoria_rol_sennova.id as value,
                         CASE nivel_academico
                             WHEN '7' THEN   CONCAT(roles_sennova.nombre, chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
                             WHEN '1' THEN   CONCAT(roles_sennova.nombre, ' (Técnico)', chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)

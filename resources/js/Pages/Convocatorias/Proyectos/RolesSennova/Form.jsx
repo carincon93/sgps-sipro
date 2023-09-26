@@ -8,8 +8,12 @@ import Textarea from '@/Components/Textarea'
 
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
+import { useEffect, useState } from 'react'
 
 const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_rol_sennova, convocatoria_roles_sennova, niveles_academicos, actividades }) => {
+    const roles_sennova_incompletos = convocatoria_roles_sennova.some((item) => item.label === null)
+    const [meses_maximos, setMesesMaximo] = useState(proyecto.diff_meses)
+
     const form = useForm({
         proyecto_id: proyecto.id,
         numero_meses: proyecto_rol_sennova?.numero_meses,
@@ -40,7 +44,17 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
         }
     }
 
-    const roles_sennova_incompletos = convocatoria_roles_sennova.some((item) => item.label === null)
+    useEffect(() => {
+        setMesesMaximo(proyecto.diff_meses)
+
+        if (form.data.convocatoria_rol_sennova_id) {
+            setTimeout(() => {
+                const { meses_maximos } = convocatoria_roles_sennova.find((item) => item.value == form.data.convocatoria_rol_sennova_id)
+
+                setMesesMaximo(meses_maximos)
+            }, 500)
+        }
+    }, [form.data.convocatoria_rol_sennova_id])
 
     return (
         <Grid container spacing={2}>
@@ -172,7 +186,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                     inputProps={{
                                         step: 0.1,
                                         min: 1,
-                                        max: proyecto.diff_meses,
+                                        max: meses_maximos,
                                     }}
                                     error={form.errors.numero_meses}
                                     value={form.data.numero_meses}
@@ -183,9 +197,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                     required
                                 />
 
-                                <AlertMui>
-                                    El proyecto se ejecutará entre {proyecto.fecha_inicio} y {proyecto.fecha_finalizacion}, por lo tanto el número de meses máximo es: {proyecto.diff_meses}
-                                </AlertMui>
+                                <AlertMui>El rol seleccionado no puede superar los {meses_maximos} meses de vinculación</AlertMui>
                             </Grid>
 
                             <Grid item md={12}>
