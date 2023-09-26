@@ -110,7 +110,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, convocatoria_rol_sen
                                     }}
                                     value={form.data.meses_maximos}
                                     onChange={(e) => form.setData('meses_maximos', e.target.value)}
-                                    placeholder="Número máximo de meses de vinculación"
+                                    label="Número máximo de meses de vinculación"
                                     required
                                 />
                             </div>
