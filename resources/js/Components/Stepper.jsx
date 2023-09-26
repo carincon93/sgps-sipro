@@ -323,6 +323,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                 {proyecto?.tipo_formulario_convocatoria_id == 4 ||
                 proyecto?.tipo_formulario_convocatoria_id == 5 ||
                 proyecto?.tipo_formulario_convocatoria_id == 6 ||
+                proyecto?.tipo_formulario_convocatoria_id == 7 ||
                 proyecto?.tipo_formulario_convocatoria_id == 8 ||
                 proyecto?.tipo_formulario_convocatoria_id == 11 ? (
                     <Step active={route().current('convocatorias.proyectos.entidades-aliadas.index') ? true : props.label == 'Miembros entidad aliada' ? true : false}>

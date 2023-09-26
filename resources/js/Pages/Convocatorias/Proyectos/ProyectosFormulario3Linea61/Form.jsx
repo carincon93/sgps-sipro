@@ -265,7 +265,7 @@ const Form = ({
                             Recuerde que si cambia el centro de formación y el formulador ya ha cargado soportes / anexos debe cambiar la ruta tanto en el sharepoint como en la base datos. Esta debe
                             ser la ruta asociada al proyecto:
                             <strong className=" mt-4 uppercase block">
-                                /Convocatoria {convocatoria.year}/{proyecto_formulario_3_linea_61.proyecto.centro_formacion.nombre_carpeta_sharepoint}
+                                /Convocatoria {convocatoria.year}/{proyecto_formulario_3_linea_61?.proyecto.centro_formacion.nombre_carpeta_sharepoint}
                             </strong>
                         </AlertMui>
                     )}

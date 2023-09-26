@@ -437,7 +437,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_17_lin
                             <Label
                                 required
                                 labelFor="aportes_conpes_4080"
-                                value={`Cuáles serán los aportes del Tecnoparque en el ${convocatoria.year} a la Línea de acción 1 del Conpes 4080 'el SENA desde 2022 y hasta 2026, fomentará la participación de la mujer en sus programas de investigación, desarrollo tecnológico e innovación, buscando generar competitividad con enfoque de género'`}
+                                value={`¿Cuáles serán los aportes del Tecnoparque en el ${convocatoria.year} a la Línea de acción 1 del Conpes 4080 'el SENA desde 2022 y hasta 2026, fomentará la participación de la mujer en sus programas de investigación, desarrollo tecnológico e innovación, buscando generar competitividad con enfoque de género'`}
                             />
 
                             <Textarea

@@ -46,7 +46,6 @@ export default function Login({ status }) {
                         error={form.errors.email}
                         className="block w-full"
                         autoComplete="email"
-                        focused={true}
                         onChange={(e) => form.setData('email', e.target.value)}
                     />
                 </div>

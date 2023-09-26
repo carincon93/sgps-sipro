@@ -99,7 +99,7 @@ const Edit = ({ auth, convocatoria, proyecto_formulario_10_linea_69, evaluacion,
                         <h1 className="text-center text-3xl mt-6 mb-10">PROYECTO {proyecto_formulario_10_linea_69?.proyecto.codigo}</h1>
 
                         <figure>
-                            <img src="/images/proyecto-sgps.png" alt="" className="mx-auto" />
+                            <img src="/images/proyecto-sgps.png" alt="" className="mx-auto w-44" />
                         </figure>
 
                         <p className="mt-10">

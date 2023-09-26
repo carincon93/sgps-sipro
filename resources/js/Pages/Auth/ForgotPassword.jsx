@@ -49,7 +49,6 @@ export default function ForgotPassword({ status, ...props }) {
                         error={form.errors.email}
                         className="mt-1 block w-full"
                         autoComplete="email"
-                        focused={true}
                         onChange={(e) => form.setData('email', e.target.value)}
                     />
                 </div>
