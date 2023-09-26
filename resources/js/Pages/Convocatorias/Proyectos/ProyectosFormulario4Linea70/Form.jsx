@@ -204,6 +204,23 @@ const Form = ({
                     </>
                 )}
 
+                <Grid item md={6}>
+                    <Label required className="mb-4" labelFor="tecnoacademia_id" value="La infraestructura donde opera la Tecnoacademia es:" />
+                </Grid>
+                <Grid item md={6}>
+                    <Autocomplete
+                        id="infraestructura_tecnoacademia"
+                        options={infraestructura_tecnoacademia}
+                        inputBackground="#fff"
+                        selectedValue={form.data.infraestructura_tecnoacademia}
+                        onChange={(event, newValue) => form.setData('infraestructura_tecnoacademia', newValue.value)}
+                        disabled={!proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update}
+                        error={form.errors.infraestructura_tecnoacademia}
+                        onBlur={() => syncColumnLong('infraestructura_tecnoacademia', form)}
+                        required
+                    />
+                </Grid>
+
                 {method == 'POST' && (
                     <>
                         <Grid item md={12}>
@@ -295,23 +312,6 @@ const Form = ({
                         </Grid>
                         <Grid item md={6}>
                             <div>{proyecto_formulario_4_linea_70.titulo}</div>
-                        </Grid>
-
-                        <Grid item md={6}>
-                            <Label required className="mb-4" labelFor="tecnoacademia_id" value="La infraestructura donde opera la Tecnoacademia es:" />
-                        </Grid>
-                        <Grid item md={6}>
-                            <Autocomplete
-                                id="infraestructura_tecnoacademia"
-                                options={infraestructura_tecnoacademia}
-                                inputBackground="#fff"
-                                selectedValue={form.data.infraestructura_tecnoacademia}
-                                onChange={(event, newValue) => form.setData('infraestructura_tecnoacademia', newValue.value)}
-                                disabled={!proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update}
-                                error={form.errors.infraestructura_tecnoacademia}
-                                onBlur={() => syncColumnLong('infraestructura_tecnoacademia', form)}
-                                required
-                            />
                         </Grid>
 
                         <Grid item md={12}>

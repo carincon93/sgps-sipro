@@ -174,7 +174,7 @@ const ResumenFinal = ({
                     <>
                         <AlertMui className="mt-10">
                             {proyecto?.finalizado
-                                ? 'Si desea seguir modificando el proyecto de clic en la casilla Modificar'
+                                ? 'Si desea seguir modificando el proyecto de clic en la casilla "Modificar"'
                                 : 'Por favor habilite la casilla para confirmar que ha finalizado el proyecto'}
                             <br />
                             <Checkbox

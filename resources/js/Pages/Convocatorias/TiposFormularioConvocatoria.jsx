@@ -73,7 +73,21 @@ const ConvocatoriaTiposFormulario = ({ auth, convocatoria, tipos_formulario_conv
                         <span className="text-white pointer-events-none place-items-center gap-2 flex py-2" href="/">
                             SENNOVA | <SenaLogo className="w-10" />
                         </span>
-                        <h1 className="text-center text-3xl text-white mt-6 mb-10">CONVOCATORIA {convocatoria.year}</h1>
+                        <h1 className="text-center text-3xl text-white mt-2 mb-10">CONVOCATORIA {convocatoria.year}</h1>
+
+                        <a href="/storage/documentos-descarga/Lineamientos_CONVOCATORIA_IDI_2024.pdf" className="bg-white text-center p-2 rounded block mt-6 hover:opacity-90" target="_blank">
+                            Descargar lineamientos y términos de referencia PROYECTOS I+D+I 2024
+                        </a>
+
+                        <a
+                            href="/storage/documentos-descarga/Lineamientos_CONVOCATORIA_Proyectos_Continuidad_2024.pdf"
+                            className="bg-white text-center p-2 rounded block mt-6 hover:opacity-90"
+                            target="_blank">
+                            Descargar lineamientos y términos de referencia PROYECTOS DE CONTINUIDAD 2024
+                        </a>
+
+                        <Divider className="text-white bg-white !my-6" />
+
                         <h6 className="text-white mt-10">Soporte técnico plataforma SGPS SIPRO</h6>
                         <ul className="text-white list-disc ml-4">
                             <li>
@@ -110,7 +124,7 @@ const ConvocatoriaTiposFormulario = ({ auth, convocatoria, tipos_formulario_conv
                                 <a href="mailto:ifhernandez@sena.edu.co" target="_blank" className="underline">
                                     ifhernandez@sena.edu.co
                                 </a>{' '}
-                                (Línea 70)
+                                (Líneas - 69 - 70)
                             </li>
                             <li>
                                 Giselle Marcela Daza Sarmiento -{' '}
@@ -141,12 +155,6 @@ const ConvocatoriaTiposFormulario = ({ auth, convocatoria, tipos_formulario_conv
                                 (Línea 68)
                             </li>
                         </ul>
-
-                        <a href="/storage/documentos-descarga/Lineamientos_CONVOCATORIA_2024.pdf" className="bg-white text-center p-2 rounded block mt-6 hover:opacity-90" target="_blank">
-                            Descargar Lineamientos y Términos de Referencia CONVOCATORIA 2024
-                        </a>
-
-                        <Divider className="text-white bg-white !my-6" />
                     </>
                 }
                 dialogActions={

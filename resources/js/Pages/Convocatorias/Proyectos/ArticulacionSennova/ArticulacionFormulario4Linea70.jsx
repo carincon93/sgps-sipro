@@ -223,7 +223,7 @@ const ArticulacionFormulario4Linea70 = ({
                     </Grid>
 
                     <Grid item md={6}>
-                        <Label required className="mb-4" labelFor="disciplina_subarea_conocimiento_id" value="Disciplina de conocimiento" />
+                        <Label required className="mb-4" labelFor="disciplina_subarea_conocimiento_id" value="Disciplinas de conocimiento" />
                     </Grid>
                     <Grid item md={6}>
                         <SelectMultiple
@@ -245,7 +245,7 @@ const ArticulacionFormulario4Linea70 = ({
                     </Grid>
 
                     <Grid item md={6}>
-                        <Label required className="mb-4" labelFor="redes_conocimiento" value="Red de conocimiento sectorial" />
+                        <Label required className="mb-4" labelFor="redes_conocimiento" value="Redes de conocimiento sectorial" />
                     </Grid>
                     <Grid item md={6}>
                         <SelectMultiple

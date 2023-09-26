@@ -63,7 +63,7 @@ const HelpDesk = () => {
                                     <MailOutlineOutlinedIcon className="mr-2 text-gray-400" />
                                     <a href="mailto:ifhernandez@sena.edu.co">ifhernandez@sena.edu.co</a>
                                 </span>
-                                <span>(Línea 70)</span>
+                                <span>(Líneas - 69 - 70)</span>
                             </li>
                             <li className="flex items-center justify-between">
                                 <span>
