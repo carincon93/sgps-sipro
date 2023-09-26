@@ -25,15 +25,15 @@ class ConvocatoriaRolSennovaController extends Controller
             'filters'                       => request()->all('search'),
             'convocatoria'                  => $convocatoria,
             'convocatoria_roles_sennova'    => $convocatoria->convocatoriaRolesSennova()
-                                                ->select('convocatoria_rol_sennova.*')
-                                                ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
-                                                ->where('convocatoria_rol_sennova.tipo_formulario_convocatoria_id', request()->tipo_formulario_convocatoria_id)
-                                                ->orderBy('roles_sennova.nombre', 'ASC')
-                                                ->orderBy('convocatoria_rol_sennova.id', 'ASC')
-                                                ->with('rolSennova')
-                                                ->filterConvocatoriaRolSennova(request()->only('search'))
-                                                ->paginate(50)
-                                                ->appends(['search' => request()->search]),
+                ->select('convocatoria_rol_sennova.*')
+                ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
+                ->where('convocatoria_rol_sennova.tipo_formulario_convocatoria_id', request()->tipo_formulario_convocatoria_id)
+                ->orderBy('roles_sennova.nombre', 'ASC')
+                ->orderBy('convocatoria_rol_sennova.id', 'ASC')
+                ->with('rolSennova')
+                ->filterConvocatoriaRolSennova(request()->only('search'))
+                ->paginate(50)
+                ->appends(['search' => request()->search]),
             'niveles_academicos'            => json_decode(Storage::get('json/niveles-academicos.json'), true),
             'roles_sennova'                 => SelectHelper::rolesSennova(),
         ]);
@@ -105,9 +105,9 @@ class ConvocatoriaRolSennovaController extends Controller
     {
         $this->authorize('update', [ConvocatoriaRolSennova::class, $convocatoria_rol_sennova]);
 
-        if ($convocatoria_rol_sennova->nivel_academico != $request->nivel_academico && $convocatoria->convocatoriaRolesSennova()->where('rol_sennova_id', $request->rol_sennova_id)->where('nivel_academico', $request->nivel_academico)->where('tipo_formulario_convocatoria_id', $request->tipo_formulario_convocatoria_id)->count() > 0) {
-            return back()->with('success', 'Error: Ya ha agregado un rol con el mismo nivel académico. Por favor seleccione un rol o nivel académico diferente.');
-        }
+        // if ($convocatoria_rol_sennova->nivel_academico != $request->nivel_academico && $convocatoria->convocatoriaRolesSennova()->where('rol_sennova_id', $request->rol_sennova_id)->where('nivel_academico', $request->nivel_academico)->where('tipo_formulario_convocatoria_id', $request->tipo_formulario_convocatoria_id)->count() > 0) {
+        //     return back()->with('success', 'Error: Ya ha agregado un rol con el mismo nivel académico. Por favor seleccione un rol o nivel académico diferente.');
+        // }
 
         $convocatoria_rol_sennova->update($request->validated());
         $convocatoria_rol_sennova->save();

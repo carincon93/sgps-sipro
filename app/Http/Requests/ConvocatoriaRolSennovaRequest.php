@@ -31,6 +31,7 @@ class ConvocatoriaRolSennovaRequest extends FormRequest
             'experiencia'                       => ['nullable', 'string'],
             'sumar_al_presupuesto'              => ['nullable', 'boolean'],
             'habilitado'                        => ['nullable', 'boolean'],
+            'meses_maximos'                     => ['nullable', 'numeric', 'min:1', 'max:12']
         ];
     }
 

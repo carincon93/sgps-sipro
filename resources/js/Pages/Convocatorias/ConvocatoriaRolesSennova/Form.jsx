@@ -18,6 +18,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, convocatoria_rol_sen
         asignacion_mensual: convocatoria_rol_sennova?.asignacion_mensual,
         experiencia: convocatoria_rol_sennova?.experiencia,
         nivel_academico: convocatoria_rol_sennova?.nivel_academico,
+        meses_maximos: convocatoria_rol_sennova?.meses_maximos,
     })
 
     const submit = (e) => {
@@ -95,6 +96,22 @@ const Form = ({ method = '', setDialogStatus, convocatoria, convocatoria_rol_sen
                                     value={form.data.experiencia}
                                     onChange={(e) => form.setData('experiencia', e.target.value)}
                                     error={form.errors.experiencia}
+                                />
+                            </div>
+
+                            <div className="mt-8">
+                                <TextInput
+                                    type="number"
+                                    id="meses_maximos"
+                                    inputProps={{
+                                        step: 0.1,
+                                        min: 1,
+                                        max: 12,
+                                    }}
+                                    value={form.data.meses_maximos}
+                                    onChange={(e) => form.setData('meses_maximos', e.target.value)}
+                                    placeholder="Número máximo de meses de vinculación"
+                                    required
                                 />
                             </div>
 

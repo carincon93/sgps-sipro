@@ -39,7 +39,8 @@ class ConvocatoriaRolSennova extends Model
         'sumar_al_presupuesto',
         'perfil',
         'mensaje',
-        'habilitado'
+        'habilitado',
+        'meses_maximos'
     ];
 
     /**
