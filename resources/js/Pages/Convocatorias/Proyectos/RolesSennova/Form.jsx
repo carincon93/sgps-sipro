@@ -238,7 +238,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                 />
                                 {actividades.length === 0 && (
                                     <AlertMui error={true}>
-                                        <strong>Importante:</strong> Debe completar la información de Objetivos, resultados, impactos y actividades
+                                        <strong>Importante:</strong> Debe completar la información de Objetivos, resultados, impactos y actividades. De lo contrario, no puede relacionar las actividades.
                                     </AlertMui>
                                 )}
                             </Grid>

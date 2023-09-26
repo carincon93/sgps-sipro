@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\CentroFormacion;
 use App\Models\Evaluacion\EvaluacionProyectoFormulario13Linea65;
 use App\Models\RolSennova;
+use App\Models\TopeRolSennovaFormulario13;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
@@ -45,9 +46,11 @@ class ProyectoFormulario13Linea65Controller extends Controller
     {
         $this->authorize('formular-proyecto', [9, $convocatoria]);
 
+        $centros_formacion_ids = TopeRolSennovaFormulario13::select('topes_roles_formulario_13.centro_formacion_id')->join('convocatoria_rol_sennova', 'topes_roles_formulario_13.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')->where('convocatoria_rol_sennova.convocatoria_id', $convocatoria->id)->get()->pluck('centro_formacion_id')->flatten();
+
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario13Linea65/Create', [
             'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year', 'campos_convocatoria'),
-            'centros_formacion'                 => SelectHelper::centrosFormacion(),
+            'centros_formacion'                 => SelectHelper::centrosFormacion()->whereIn('value', $centros_formacion_ids)->values()->all(),
             'lineas_investigacion'              => SelectHelper::lineasInvestigacion(),
             'areas_cualificacion_mnc'           => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),
             'ejes_sennova'                      => json_decode(Storage::get('json/ejes-sennova.json'), true),
