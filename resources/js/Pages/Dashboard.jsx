@@ -255,7 +255,7 @@ export default function Dashboard({ auth, roles_sistema }) {
                                 <div className="p-4 flex">
                                     {auth_user.informacion_completa && auth_user.check_soportes_titulo_obtenido == 0 && auth_user.check_certificados_formacion == 0 && (
                                         <ButtonMui primary={false} onClick={() => setDialogStatus(false)}>
-                                            {auth_user.informacion_completa && <>De clic en este botón, si ya completo el CENSO</>}
+                                            {auth_user.informacion_completa && <>Haga clic en este botón, si ya completo el CENSO</>}
                                         </ButtonMui>
                                     )}
                                     <Link
