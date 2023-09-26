@@ -35,11 +35,13 @@ const ConvocatoriaTiposFormulario = ({ auth, convocatoria, tipos_formulario_conv
                 </Grid>
             )}
 
-            <Grid item md={12}>
-                <AlertMui severity="error">
-                    <strong>Importante:</strong> Estamos trabajando para habilitar los formularios y líneas faltantes. Se habilitarán pronto.
-                </AlertMui>
-            </Grid>
+            {convocatoria.year == 2024 && (
+                <Grid item md={12}>
+                    <AlertMui severity="error">
+                        <strong>Importante:</strong> Estamos trabajando para habilitar los formularios y líneas faltantes. Se habilitarán pronto.
+                    </AlertMui>
+                </Grid>
+            )}
 
             {tipos_formulario_convocatoria.map((tipo_formulario_convocatoria, i) => (
                 <React.Fragment key={i}>
