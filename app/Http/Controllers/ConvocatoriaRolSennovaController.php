@@ -61,9 +61,9 @@ class ConvocatoriaRolSennovaController extends Controller
     {
         $this->authorize('create', [ConvocatoriaRolSennova::class]);
 
-        if ($convocatoria->convocatoriaRolesSennova()->where('rol_sennova_id', $request->rol_sennova_id)->where('nivel_academico', $request->nivel_academico)->where('tipo_formulario_convocatoria_id', $request->tipo_formulario_convocatoria_id)->count() > 0) {
-            return back()->with('success', 'Error: Ya ha agregado un rol con el mismo nivel académico. Por favor seleccione un rol o nivel académico diferente.');
-        }
+        // if ($convocatoria->convocatoriaRolesSennova()->where('rol_sennova_id', $request->rol_sennova_id)->where('nivel_academico', $request->nivel_academico)->where('tipo_formulario_convocatoria_id', $request->tipo_formulario_convocatoria_id)->count() > 0) {
+        //     return back()->with('success', 'Error: Ya ha agregado un rol con el mismo nivel académico. Por favor seleccione un rol o nivel académico diferente.');
+        // }
 
         $convocatoria_rol_sennova = $convocatoria->convocatoriaRolesSennova()->create($request->validated());
 
