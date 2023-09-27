@@ -51,10 +51,10 @@ class ProyectoFormulario10Linea69Controller extends Controller
         /** @var \App\Models\User */
         $auth_user = Auth::user();
 
-        if ($auth_user->hasRole(6)) {
-            $centros_formacion = SelectHelper::centrosFormacion()->where('regional_id', $auth_user->centroFormacion->regional->id)->values()->all();
-        } else {
+        if ($auth_user->hasRole([1, 5, 17, 18, 19, 20])) {
             $centros_formacion = SelectHelper::centrosFormacion();
+        } else {
+            $centros_formacion = SelectHelper::centrosFormacion()->where('regional_id', $auth_user->centroFormacion->regional->id)->values()->all();
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario10Linea69/Create', [

@@ -44,9 +44,18 @@ class ProyectoFormulario1Linea65Controller extends Controller
     {
         $this->authorize('formular-proyecto', [9, $convocatoria]);
 
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
+        if ($auth_user->hasRole([1, 5, 17, 18, 19, 20])) {
+            $centros_formacion = SelectHelper::centrosFormacion()->values()->all();
+        } else {
+            $centros_formacion = SelectHelper::centrosFormacion()->where('regional_id', $auth_user->centroFormacion->regional->id)->values()->all();
+        }
+
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario1Linea65/Create', [
             'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year', 'campos_convocatoria'),
-            'centros_formacion'                 => SelectHelper::centrosFormacion(),
+            'centros_formacion'                 => $centros_formacion,
             'lineas_investigacion'              => SelectHelper::lineasInvestigacion(),
             'areas_conocimiento'                => SelectHelper::areasConocimiento(),
             'disciplinas_subarea_conocimiento'  => SelectHelper::disciplinasSubareaConocimiento(),

@@ -48,10 +48,10 @@ class ProyectoFormulario12Linea68Controller extends Controller
         /** @var \App\Models\User */
         $auth_user = Auth::user();
 
-        if ($auth_user->hasRole(13)) {
-            $tipo_proyecto_linea_68 = SelectHelper::laboratoriosServiciosTecnologicos()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
-        } else {
+        if ($auth_user->hasRole([1, 5, 17, 18, 19, 20])) {
             $tipo_proyecto_linea_68 = SelectHelper::laboratoriosServiciosTecnologicos();
+        } else {
+            $tipo_proyecto_linea_68 = SelectHelper::laboratoriosServiciosTecnologicos()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario12Linea68/Create', [

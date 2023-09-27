@@ -46,11 +46,18 @@ class ProyectoFormulario3Linea61Controller extends Controller
     {
         $this->authorize('formular-proyecto', [9, $convocatoria]);
 
-        $centros_formacion = CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo) as label')->orderBy('centros_formacion.nombre', 'ASC')->get();
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
+        if ($auth_user->hasRole([1, 5, 17, 18, 19, 20])) {
+            $centros_formacion = SelectHelper::centrosFormacion()->values()->all();
+        } else {
+            $centros_formacion = SelectHelper::centrosFormacion()->where('regional_id', $auth_user->centroFormacion->regional->id)->values()->all();
+        }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario3Linea61/Create', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year'),
-            'centros_formacion'         => SelectHelper::centrosFormacion(),
+            'centros_formacion'         => $centros_formacion,
             'lineas_investigacion'      => SelectHelper::lineasInvestigacion(),
             'areas_conocimiento'        => SelectHelper::areasConocimiento(),
             'ejes_sennova'              => json_decode(Storage::get('json/ejes-sennova.json'), true),

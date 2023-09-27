@@ -48,9 +48,18 @@ class ProyectoFormulario15Linea65Controller extends Controller
 
         $centros_formacion_ids = TopeRolSennovaFormulario15::select('topes_roles_formulario_15.centro_formacion_id')->join('convocatoria_rol_sennova', 'topes_roles_formulario_15.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')->where('convocatoria_rol_sennova.convocatoria_id', $convocatoria->id)->get()->pluck('centro_formacion_id')->flatten();
 
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
+        if ($auth_user->hasRole([1, 5, 17, 18, 19, 20])) {
+            $centros_formacion = SelectHelper::centrosFormacion()->whereIn('value', $centros_formacion_ids)->values()->all();
+        } else {
+            $centros_formacion = SelectHelper::centrosFormacion()->where('regional_id', $auth_user->centroFormacion->regional->id)->whereIn('value', $centros_formacion_ids)->values()->all();
+        }
+
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario15Linea65/Create', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year'),
-            'centros_formacion'         => SelectHelper::centrosFormacion()->whereIn('value', $centros_formacion_ids)->values()->all(),
+            'centros_formacion'         => $centros_formacion,
             'lineas_investigacion'      => SelectHelper::lineasInvestigacion(),
             'areas_cualificacion_mnc'   => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),
             'ejes_sennova'              => json_decode(Storage::get('json/ejes-sennova.json'), true),
