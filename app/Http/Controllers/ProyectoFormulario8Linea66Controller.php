@@ -53,7 +53,7 @@ class ProyectoFormulario8Linea66Controller extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario8Linea66/Create', [
-            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
+            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year', 'campos_convocatoria'),
             'centros_formacion'                 => $centros_formacion,
             'areas_conocimiento'                => SelectHelper::areasConocimiento(),
             'subareas_conocimiento'             => SelectHelper::subareasConocimiento(),
@@ -66,7 +66,7 @@ class ProyectoFormulario8Linea66Controller extends Controller
             'areas_tematicas_eni'               => SelectHelper::areasTematicasEni(),
             'lineas_investigacion_eni'          => SelectHelper::lineasInvestigacion()->where('grupo_investigacion_id', 126)->values()->all(),
             'areas_cualificacion_mnc'           => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),
-
+            'lineas_estrategicas'               => json_decode(Storage::get('json/lineas-estrategicas.json'), true),
             'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowed_to_create'                 => Gate::inspect('formular-proyecto', [3, $convocatoria])->allowed()
         ]);
@@ -100,6 +100,8 @@ class ProyectoFormulario8Linea66Controller extends Controller
         $proyecto_formulario_8_linea_66->proyecto_investigacion_pedagogica                 = $request->proyecto_investigacion_pedagogica;
         $proyecto_formulario_8_linea_66->articulacion_eni                                  = $request->articulacion_eni;
         $proyecto_formulario_8_linea_66->areas_cualificacion_mnc                           = $request->areas_cualificacion_mnc;
+        $proyecto_formulario_8_linea_66->lineas_estrategicas_convocatoria                  = $request->lineas_estrategicas_convocatoria;
+        $proyecto_formulario_8_linea_66->justificacion_lineas_estrategicas                 = $request->justificacion_lineas_estrategicas;
 
         $proyecto_formulario_8_linea_66->video                                             = null;
         $proyecto_formulario_8_linea_66->justificacion_industria_4                         = null;

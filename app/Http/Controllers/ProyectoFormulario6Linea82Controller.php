@@ -53,7 +53,7 @@ class ProyectoFormulario6Linea82Controller extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario6Linea82/Create', [
-            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
+            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year', 'campos_convocatoria'),
             'centros_formacion'                 => $centros_formacion,
             'areas_conocimiento'                => SelectHelper::areasConocimiento(),
             'subareas_conocimiento'             => SelectHelper::subareasConocimiento(),
@@ -64,7 +64,7 @@ class ProyectoFormulario6Linea82Controller extends Controller
             'redes_conocimiento'                => SelectHelper::redesConocimiento(),
             'grupos_investigacion'              => SelectHelper::gruposInvestigacion()->where('value', 126)->values()->all(),
             'areas_cualificacion_mnc'           => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),
-
+            'lineas_estrategicas'               => json_decode(Storage::get('json/lineas-estrategicas.json'), true),
             'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowed_to_create'                 => Gate::inspect('formular-proyecto', [1, $convocatoria])->allowed()
         ]);
@@ -93,6 +93,8 @@ class ProyectoFormulario6Linea82Controller extends Controller
         $proyecto_formulario_6_linea_82->fecha_finalizacion                                = $request->fecha_finalizacion;
         $proyecto_formulario_6_linea_82->max_meses_ejecucion                               = $request->max_meses_ejecucion;
         $proyecto_formulario_6_linea_82->areas_cualificacion_mnc                           = $request->areas_cualificacion_mnc;
+        $proyecto_formulario_6_linea_82->lineas_estrategicas_convocatoria                  = $request->lineas_estrategicas_convocatoria;
+        $proyecto_formulario_6_linea_82->justificacion_lineas_estrategicas                 = $request->justificacion_lineas_estrategicas;
 
         $proyecto_formulario_6_linea_82->video                                             = null;
         $proyecto_formulario_6_linea_82->justificacion_industria_4                         = null;

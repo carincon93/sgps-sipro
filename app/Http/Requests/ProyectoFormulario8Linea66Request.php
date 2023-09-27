@@ -34,7 +34,7 @@ class ProyectoFormulario8Linea66Request extends FormRequest
                 'linea_investigacion_id'                            => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_investigacion,id'],
                 'red_conocimiento_id'                               => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:redes_conocimiento,id'],
                 'disciplina_subarea_conocimiento_id'                => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:disciplinas_subarea_conocimiento,id'],
-                'tematica_estrategica_id'                           => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tematicas_estrategicas,id'],
+                'tematica_estrategica_id'                           => ['nullable', 'min:0', 'max:2147483647', 'integer', 'exists:tematicas_estrategicas,id'],
                 'actividad_economica_id'                            => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:actividades_economicas,id'],
                 'grupo_investigacion_eni_id'                        => ['nullable', 'integer', 'exists:grupos_investigacion,id'],
                 'video'                                             => ['nullable', 'string', 'url'],
@@ -84,7 +84,7 @@ class ProyectoFormulario8Linea66Request extends FormRequest
                 'centro_formacion_id'                       => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
                 'linea_investigacion_id'                    => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_investigacion,id'],
                 'disciplina_subarea_conocimiento_id'        => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:disciplinas_subarea_conocimiento,id'],
-                'tematica_estrategica_id'                   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tematicas_estrategicas,id'],
+                'tematica_estrategica_id'                   => ['nullable', 'min:0', 'max:2147483647', 'integer', 'exists:tematicas_estrategicas,id'],
                 'red_conocimiento_id'                       => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:redes_conocimiento,id'],
                 'titulo'                                    => ['required', 'string', new MaxWords(20)],
                 'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
@@ -99,7 +99,6 @@ class ProyectoFormulario8Linea66Request extends FormRequest
                 'areas_cualificacion_mnc'                   => ['nullable', 'json'],
             ];
         }
-
     }
 
     /**

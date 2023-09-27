@@ -375,20 +375,58 @@ const Form = ({
                 </Grid>
 
                 <Grid item md={6}>
-                    <Label required labelFor="tematica_estrategica_id" className="mb-4" value="Temática estratégica SENA" />
+                    <Label labelFor="lineas_estrategicas_convocatoria" value="¿El proyecto se vincula con alguna de las líneas estrategicas de la convocatoria?" />
                 </Grid>
                 <Grid item md={6}>
-                    <Autocomplete
-                        id="tematica_estrategica_id"
-                        selectedValue={form.data.tematica_estrategica_id}
-                        onChange={(event, newValue) => form.setData('tematica_estrategica_id', newValue.value)}
+                    <SelectMultiple
+                        id="lineas_estrategicas_convocatoria"
+                        bdValues={form.data.lineas_estrategicas_convocatoria}
+                        options={lineas_estrategicas}
+                        onChange={(event, newValue) => {
+                            const selected_values = newValue.map((option) => option.value)
+                            form.setData((prevData) => ({
+                                ...prevData,
+                                lineas_estrategicas_convocatoria: selected_values,
+                            }))
+                        }}
                         disabled={!(proyecto_formulario_6_linea_82?.proyecto?.allowed?.to_update || allowed_to_create)}
-                        options={tematicas_estrategicas}
-                        error={form.errors.tematica_estrategica_id}
-                        onBlur={() => syncColumnLong('tematica_estrategica_id', form)}
-                        required
+                        error={form.errors.lineas_estrategicas_convocatoria}
+                        label="Seleccione las líneas estrategicas"
+                        onBlur={() => syncColumnLong('lineas_estrategicas_convocatoria', form)}
+                    />
+
+                    <Textarea
+                        className="!mt-4"
+                        label="Si no se vincula con alguna línea, por favor justifique el porqué"
+                        id="justificacion_lineas_estrategicas"
+                        onChange={(e) => form.setData('justificacion_lineas_estrategicas', e.target.value)}
+                        disabled={!(proyecto_formulario_6_linea_82?.proyecto?.allowed?.to_update || allowed_to_create)}
+                        error={form.errors.justificacion_lineas_estrategicas}
+                        value={form.data.justificacion_lineas_estrategicas}
+                        required={form.data.lineas_estrategicas_convocatoria?.length == 0}
+                        onBlur={() => syncColumnLong('justificacion_lineas_estrategicas', form)}
                     />
                 </Grid>
+
+                {convocatoria.campos_convocatoria.filter((item) => item.campo == 'tematica_estrategica_id').find((item) => item.convocatoria_id == convocatoria.id) && (
+                    <>
+                        <Grid item md={6}>
+                            <Label required labelFor="tematica_estrategica_id" className="mb-4" value="Temática estratégica SENA" />
+                        </Grid>
+                        <Grid item md={6}>
+                            <Autocomplete
+                                id="tematica_estrategica_id"
+                                selectedValue={form.data.tematica_estrategica_id}
+                                onChange={(event, newValue) => form.setData('tematica_estrategica_id', newValue.value)}
+                                disabled={!(proyecto_formulario_6_linea_82?.proyecto?.allowed?.to_update || allowed_to_create)}
+                                options={tematicas_estrategicas}
+                                error={form.errors.tematica_estrategica_id}
+                                onBlur={() => syncColumnLong('tematica_estrategica_id', form)}
+                                required
+                            />
+                        </Grid>
+                    </>
+                )}
 
                 {method == 'POST' && (
                     <>
@@ -526,41 +564,7 @@ const Form = ({
                                 />
                             )}
                         </Grid>
-                        <Grid item md={6}>
-                            <Label labelFor="lineas_estrategicas_convocatoria" value="¿El proyecto se vincula con alguna de las líneas estrategicas de la convocatoria?" />
-                        </Grid>
-                        <Grid item md={6}>
-                            <SelectMultiple
-                                id="lineas_estrategicas_convocatoria"
-                                bdValues={form.data.lineas_estrategicas_convocatoria}
-                                options={lineas_estrategicas}
-                                onChange={(event, newValue) => {
-                                    const selected_values = newValue.map((option) => option.value)
-                                    form.setData((prevData) => ({
-                                        ...prevData,
-                                        lineas_estrategicas_convocatoria: selected_values,
-                                    }))
-                                }}
-                                disabled={!proyecto_formulario_6_linea_82?.proyecto?.allowed?.to_update}
-                                error={form.errors.lineas_estrategicas_convocatoria}
-                                label="Seleccione las líneas estrategicas"
-                                onBlur={() => syncColumnLong('lineas_estrategicas_convocatoria', form)}
-                            />
 
-                            {form.data.lineas_estrategicas_convocatoria == 4 && (
-                                <Textarea
-                                    className="!mt-4"
-                                    label="Justificación"
-                                    id="justificacion_lineas_estrategicas"
-                                    onChange={(e) => form.setData('justificacion_lineas_estrategicas', e.target.value)}
-                                    disabled={!proyecto_formulario_6_linea_82?.proyecto?.allowed?.to_update}
-                                    error={form.errors.justificacion_lineas_estrategicas}
-                                    value={form.data.justificacion_lineas_estrategicas}
-                                    required
-                                    onBlur={() => syncColumnLong('justificacion_lineas_estrategicas', form)}
-                                />
-                            )}
-                        </Grid>
                         <Grid item md={6}>
                             <Label required labelFor="impacto_regional" value="¿El proyecto tendrá impacto regional?" />
                         </Grid>

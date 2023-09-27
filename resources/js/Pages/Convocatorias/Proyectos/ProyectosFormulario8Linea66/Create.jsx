@@ -20,6 +20,7 @@ const Create = ({
     lineas_investigacion_eni,
     areas_tematicas_eni,
     areas_cualificacion_mnc,
+    lineas_estrategicas,
     roles_sennova,
     allowed_to_create,
 }) => {
@@ -43,6 +44,7 @@ const Create = ({
                 lineas_investigacion_eni={lineas_investigacion_eni}
                 areas_tematicas_eni={areas_tematicas_eni}
                 areas_cualificacion_mnc={areas_cualificacion_mnc}
+                lineas_estrategicas={lineas_estrategicas}
                 roles_sennova={roles_sennova}
                 allowed_to_create={allowed_to_create}
             />
