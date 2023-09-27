@@ -53,7 +53,7 @@ const ConvocatoriaRolesSennova = ({ auth, convocatoria, convocatoria_roles_senno
                         formuladores de las modificaciones realizadas.
                         <br />
                     </AlertMui>
-                    <TableMui rows={['Nombre', 'Nivel académico', 'Asignación mensual ' + convocatoria.year, 'Estado', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui rows={['Nombre', 'Nivel académico', 'Asignación mensual ' + convocatoria.year, 'Meses de apoyo (Máx)', 'Estado', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         <TableRow
                             onClick={() => (setDialogStatus(true), setMethod('POST'), setConvocatoriaRolSennova(null))}
                             variant="raised"
@@ -74,9 +74,13 @@ const ConvocatoriaRolesSennova = ({ auth, convocatoria, convocatoria_roles_senno
                                             : 'Sin información registrada'}
                                     </p>
                                 </TableCell>
+
                                 <TableCell>
                                     <div>${new Intl.NumberFormat('de-DE').format(convocatoria_rol_sennova.asignacion_mensual)} COP</div>
                                 </TableCell>
+
+                                <TableCell>{convocatoria_rol_sennova.meses_maximos}</TableCell>
+
                                 <TableCell>
                                     <Chip
                                         onClick={() =>

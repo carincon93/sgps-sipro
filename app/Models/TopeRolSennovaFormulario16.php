@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TopeRolSennovaHubInnovacion extends Model
+class TopeRolSennovaFormulario16 extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class TopeRolSennovaHubInnovacion extends Model
      *
      * @var string
      */
-    protected $table = 'topes_roles_hubs_innovacion';
+    protected $table = 'topes_roles_formulario_16';
 
     /**
      * The attributes that are mass assignable.
@@ -22,20 +22,20 @@ class TopeRolSennovaHubInnovacion extends Model
      * @var array
      */
     protected $fillable = [
-        'hub_innovacion_id',
+        'centro_formacion_id',
         'convocatoria_rol_sennova_id',
         'cantidad_maxima',
         'meses_maximos'
     ];
 
     /**
-     * Relationship with HubInnovacion
+     * Relationship with CentroFormacion
      *
      * @return object
      */
-    public function hubInnovacion()
+    public function centroFormacion()
     {
-        return $this->belongsTo(HubInnovacion::class);
+        return $this->belongsTo(CentroFormacion::class);
     }
 
     /**

@@ -132,6 +132,16 @@ class ConvocatoriaRolSennova extends Model
     }
 
     /**
+     * Relationship with TopeRolSennovaFormulario16
+     *
+     * @return object
+     */
+    public function topesRolesSennovaFormulario16()
+    {
+        return $this->hasMany(TopeRolSennovaFormulario16::class);
+    }
+
+    /**
      * Filtrar registros
      *
      * @param  mixed $query

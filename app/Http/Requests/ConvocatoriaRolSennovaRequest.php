@@ -42,6 +42,8 @@ class ConvocatoriaRolSennovaRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        //
+        $this->merge([
+            'asignacion_mensual' => (int) ($this->asignacion_mensual),
+        ]);
     }
 }

@@ -39,13 +39,13 @@ const ConvocatoriaTopesRolesSennovaFormulario13 = ({ auth, convocatoria, topes_r
                 <Grid item md={12}>
                     <TableMui
                         className="mt-20"
-                        rows={['Centro de formación', 'Rol SENNOVA', 'Nivel académico', 'Cantidad máxima / Honorarios ' + convocatoria.year, 'Acciones']}
+                        rows={['Centro de formación', 'Rol SENNOVA', 'Nivel académico', 'Cantidad máxima / Honorarios ' + convocatoria.year, 'Meses de apoyo (Máx)', 'Acciones']}
                         sxCellThead={{ width: '320px' }}>
                         <TableRow
                             onClick={() => (setDialogStatus(true), setMethod('POST'), setTopeRolSennovaFormulario13(null))}
                             variant="raised"
                             className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
-                            <TableCell colSpan={5}>
+                            <TableCell colSpan={6}>
                                 <ButtonMui>
                                     <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar tope
                                 </ButtonMui>
@@ -66,6 +66,8 @@ const ConvocatoriaTopesRolesSennovaFormulario13 = ({ auth, convocatoria, topes_r
                                     {tope_rol_sennova_formulario_13.cantidad_maxima} / $
                                     {new Intl.NumberFormat('de-DE').format(tope_rol_sennova_formulario_13.convocatoria_rol_sennova.asignacion_mensual)} COP
                                 </TableCell>
+
+                                <TableCell>{tope_rol_sennova_formulario_13.meses_maximos ?? tope_rol_sennova_formulario_13.convocatoria_rol_sennova.meses_maximos}</TableCell>
 
                                 <TableCell>
                                     <MenuMui text={<MoreVertIcon />}>

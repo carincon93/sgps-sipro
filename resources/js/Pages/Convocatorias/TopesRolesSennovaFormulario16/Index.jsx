@@ -16,16 +16,15 @@ import { useState } from 'react'
 
 import Form from './Form'
 
-const ConvocatoriaTopesRolesSennovaHubInnovacion = ({ auth, convocatoria, topes_roles_sennova, hubs_innovacion, roles_sennova, niveles_academicos }) => {
+const ConvocatoriaTopesRolesSennovaFormulario16 = ({ auth, convocatoria, topes_roles_sennova, centros_formacion, roles_sennova, niveles_academicos }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
     const [dialog_status, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
-    const [tope_rol_sennova_hub_innovacion_to_destroy, setTopeRolSennovaHubInnovacionToDestroy] = useState(null)
-    const [tope_rol_sennova_hub_innovacion, setTopeRolSennovaHubInnovacion] = useState(null)
+    const [tope_rol_sennova_formulario_16_to_destroy, setTopeRolSennovaFormulario16ToDestroy] = useState(null)
+    const [tope_rol_sennova_formulario_16, setTopeRolSennovaFormulario16] = useState(null)
 
-    console.log(topes_roles_sennova)
     return (
         <AuthenticatedLayout>
             <Head title={`Convocatoria ${convocatoria.year} - Topes Roles SENNOVA`} />
@@ -33,17 +32,17 @@ const ConvocatoriaTopesRolesSennovaHubInnovacion = ({ auth, convocatoria, topes_
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                     <Grid item md={12}>
-                        <TabsConvocatoria value="4" convocatoria={convocatoria} tipo_formulario_convocatoria_id={10} />
+                        <TabsConvocatoria value="4" convocatoria={convocatoria} tipo_formulario_convocatoria_id={16} />
                     </Grid>
                 )}
 
                 <Grid item md={12}>
                     <TableMui
                         className="mt-20"
-                        rows={['Nombre del hub', 'Rol SENNOVA', 'Nivel académico', 'Cantidad máxima / Honorarios ' + convocatoria.year, 'Meses de apoyo (Máx)', 'Acciones']}
+                        rows={['Centro de formación', 'Rol SENNOVA', 'Nivel académico', 'Cantidad máxima / Honorarios ' + convocatoria.year, 'Meses de apoyo (Máx)', 'Acciones']}
                         sxCellThead={{ width: '320px' }}>
                         <TableRow
-                            onClick={() => (setDialogStatus(true), setMethod('POST'), setTopeRolSennovaHubInnovacion(null))}
+                            onClick={() => (setDialogStatus(true), setMethod('POST'), setTopeRolSennovaFormulario16(null))}
                             variant="raised"
                             className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={6}>
@@ -52,31 +51,32 @@ const ConvocatoriaTopesRolesSennovaHubInnovacion = ({ auth, convocatoria, topes_
                                 </ButtonMui>
                             </TableCell>
                         </TableRow>
-                        {topes_roles_sennova.map((tope_rol_sennova_hub_innovacion, i) => (
+                        {topes_roles_sennova.map((tope_rol_sennova_formulario_16, i) => (
                             <TableRow key={i}>
                                 <TableCell>
-                                    <p className="first-letter:uppercase">{tope_rol_sennova_hub_innovacion.hub_innovacion.nombre}</p>
+                                    <p className="first-letter:uppercase">{tope_rol_sennova_formulario_16.centro_formacion.nombre}</p>
                                 </TableCell>
-                                <TableCell>{tope_rol_sennova_hub_innovacion.convocatoria_rol_sennova.rol_sennova.nombre}</TableCell>
+                                <TableCell>{tope_rol_sennova_formulario_16.convocatoria_rol_sennova.rol_sennova.nombre}</TableCell>
                                 <TableCell>
                                     <p className="first-letter:uppercase">
-                                        {niveles_academicos.find((item) => item.value == tope_rol_sennova_hub_innovacion.convocatoria_rol_sennova.nivel_academico)?.label}
+                                        {niveles_academicos.find((item) => item.value == tope_rol_sennova_formulario_16.convocatoria_rol_sennova.nivel_academico)?.label}
                                     </p>
                                 </TableCell>
                                 <TableCell>
-                                    {tope_rol_sennova_hub_innovacion.cantidad_maxima} / $
-                                    {new Intl.NumberFormat('de-DE').format(tope_rol_sennova_hub_innovacion.convocatoria_rol_sennova.asignacion_mensual)} COP
+                                    {tope_rol_sennova_formulario_16.cantidad_maxima} / $
+                                    {new Intl.NumberFormat('de-DE').format(tope_rol_sennova_formulario_16.convocatoria_rol_sennova.asignacion_mensual)} COP
                                 </TableCell>
-                                <TableCell>{tope_rol_sennova_hub_innovacion.meses_maximos ?? tope_rol_sennova_hub_innovacion.convocatoria_rol_sennova.meses_maximos}</TableCell>
+
+                                <TableCell>{tope_rol_sennova_formulario_16.meses_maximos ?? tope_rol_sennova_formulario_16.convocatoria_rol_sennova.meses_maximos}</TableCell>
                                 <TableCell>
                                     <MenuMui text={<MoreVertIcon />}>
-                                        {tope_rol_sennova_hub_innovacion.id !== tope_rol_sennova_hub_innovacion_to_destroy ? (
+                                        {tope_rol_sennova_formulario_16.id !== tope_rol_sennova_formulario_16_to_destroy ? (
                                             <div>
-                                                <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setTopeRolSennovaHubInnovacion(tope_rol_sennova_hub_innovacion))}>Editar</MenuItem>
+                                                <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setTopeRolSennovaFormulario16(tope_rol_sennova_formulario_16))}>Editar</MenuItem>
 
                                                 <MenuItem
                                                     onClick={() => {
-                                                        setTopeRolSennovaHubInnovacionToDestroy(tope_rol_sennova_hub_innovacion.id)
+                                                        setTopeRolSennovaFormulario16ToDestroy(tope_rol_sennova_formulario_16.id)
                                                     }}>
                                                     Eliminar
                                                 </MenuItem>
@@ -85,7 +85,7 @@ const ConvocatoriaTopesRolesSennovaHubInnovacion = ({ auth, convocatoria, topes_
                                             <div>
                                                 <MenuItem
                                                     onClick={(e) => {
-                                                        setTopeRolSennovaHubInnovacionToDestroy(null)
+                                                        setTopeRolSennovaFormulario16ToDestroy(null)
                                                     }}>
                                                     Cancelar
                                                 </MenuItem>
@@ -93,7 +93,7 @@ const ConvocatoriaTopesRolesSennovaHubInnovacion = ({ auth, convocatoria, topes_
                                                     sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
                                                     onClick={(e) => {
                                                         e.stopPropagation()
-                                                        router.delete(route('convocatorias.topes-roles-sennova-hubs-innovacion.destroy', [convocatoria.id, tope_rol_sennova_hub_innovacion.id]), {
+                                                        router.delete(route('convocatorias.topes-roles-sennova-formulario-16.destroy', [convocatoria.id, tope_rol_sennova_formulario_16.id]), {
                                                             preserveScroll: true,
                                                         })
                                                     }}>
@@ -118,8 +118,8 @@ const ConvocatoriaTopesRolesSennovaHubInnovacion = ({ auth, convocatoria, topes_
                                 setDialogStatus={setDialogStatus}
                                 method={method}
                                 convocatoria={convocatoria}
-                                tope_rol_sennova_hub_innovacion={tope_rol_sennova_hub_innovacion}
-                                hubs_innovacion={hubs_innovacion}
+                                tope_rol_sennova_formulario_16={tope_rol_sennova_formulario_16}
+                                centros_formacion={centros_formacion}
                                 roles_sennova={roles_sennova}
                             />
                         }
@@ -130,4 +130,4 @@ const ConvocatoriaTopesRolesSennovaHubInnovacion = ({ auth, convocatoria, topes_
     )
 }
 
-export default ConvocatoriaTopesRolesSennovaHubInnovacion
+export default ConvocatoriaTopesRolesSennovaFormulario16

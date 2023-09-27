@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react'
 const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_rol_sennova, convocatoria_roles_sennova, niveles_academicos, actividades }) => {
     const roles_sennova_incompletos = convocatoria_roles_sennova.some((item) => item.label === null)
     const [meses_maximos, setMesesMaximo] = useState(proyecto.diff_meses)
+    const [cantidad_maxima, setCantidadMaxima] = useState(0)
 
     const form = useForm({
         proyecto_id: proyecto.id,
@@ -49,9 +50,11 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
 
         if (form.data.convocatoria_rol_sennova_id) {
             setTimeout(() => {
-                const { meses_maximos } = proyecto_rol_sennova?.convocatoria_rol_sennova ?? convocatoria_roles_sennova.find((item) => item.value == form.data.convocatoria_rol_sennova_id)
+                const { meses_maximos, meses_maximos_por_centro, cantidad_maxima } =
+                    proyecto_rol_sennova?.convocatoria_rol_sennova ?? convocatoria_roles_sennova.find((item) => item.value == form.data.convocatoria_rol_sennova_id)
 
-                setMesesMaximo(meses_maximos)
+                setMesesMaximo(meses_maximos_por_centro ?? meses_maximos)
+                setCantidadMaxima(cantidad_maxima)
             }, 500)
         }
     }, [form.data.convocatoria_rol_sennova_id])
@@ -197,7 +200,9 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                     required
                                 />
 
-                                <AlertMui>El rol seleccionado no puede superar los {meses_maximos ?? proyecto.diff_meses} meses de vinculación</AlertMui>
+                                <AlertMui>
+                                    El rol seleccionado no puede superar los <strong>{meses_maximos ?? proyecto.diff_meses}</strong> meses de vinculación
+                                </AlertMui>
                             </Grid>
 
                             <Grid item md={12}>
@@ -207,6 +212,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                     type="number"
                                     inputProps={{
                                         min: 1,
+                                        max: cantidad_maxima,
                                     }}
                                     error={form.errors.numero_roles}
                                     value={form.data.numero_roles}
@@ -216,6 +222,11 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                     disabled={!proyecto?.allowed?.to_update}
                                     required
                                 />
+                                {cantidad_maxima > 0 && (
+                                    <AlertMui>
+                                        El número de personas para el rol seleccionado no puede superar el máximo de <strong>{cantidad_maxima}</strong>
+                                    </AlertMui>
+                                )}
                             </Grid>
 
                             <Grid item md={12}>

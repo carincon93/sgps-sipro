@@ -6,22 +6,22 @@ import TextInput from '@/Components/TextInput'
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', setDialogStatus, convocatoria, tope_rol_sennova_formulario_13, centros_formacion, roles_sennova, ...props }) => {
+const Form = ({ method = '', setDialogStatus, convocatoria, tope_rol_sennova_formulario_16, centros_formacion, roles_sennova, ...props }) => {
     const form = useForm({
-        centro_formacion_id: tope_rol_sennova_formulario_13?.centro_formacion_id,
-        convocatoria_rol_sennova_id: tope_rol_sennova_formulario_13?.convocatoria_rol_sennova_id,
-        cantidad_maxima: tope_rol_sennova_formulario_13?.cantidad_maxima,
-        meses_maximos: tope_rol_sennova_formulario_13?.meses_maximos,
+        centro_formacion_id: tope_rol_sennova_formulario_16?.centro_formacion_id,
+        convocatoria_rol_sennova_id: tope_rol_sennova_formulario_16?.convocatoria_rol_sennova_id,
+        cantidad_maxima: tope_rol_sennova_formulario_16?.cantidad_maxima,
+        meses_maximos: tope_rol_sennova_formulario_16?.meses_maximos,
     })
 
     const submit = (e) => {
         e.preventDefault()
         method == 'POST'
-            ? form.post(route('convocatorias.topes-roles-sennova-formulario-13.store', [convocatoria.id]), {
+            ? form.post(route('convocatorias.topes-roles-sennova-formulario-16.store', [convocatoria.id]), {
                   onSuccess: () => setDialogStatus(false),
                   preserveScroll: true,
               })
-            : form.put(route('convocatorias.topes-roles-sennova-formulario-13.update', [convocatoria.id, tope_rol_sennova_formulario_13.id]), {
+            : form.put(route('convocatorias.topes-roles-sennova-formulario-16.update', [convocatoria.id, tope_rol_sennova_formulario_16.id]), {
                   onSuccess: () => setDialogStatus(false),
                   preserveScroll: true,
               })

@@ -24,7 +24,8 @@ class TopeRolSennovaFormulario13 extends Model
     protected $fillable = [
         'centro_formacion_id',
         'convocatoria_rol_sennova_id',
-        'cantidad_maxima'
+        'cantidad_maxima',
+        'meses_maximos'
     ];
 
     /**

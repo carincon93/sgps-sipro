@@ -11,6 +11,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, tope_rol_sennova_hub
         hub_innovacion_id: tope_rol_sennova_hub_innovacion?.hub_innovacion_id,
         convocatoria_rol_sennova_id: tope_rol_sennova_hub_innovacion?.convocatoria_rol_sennova_id,
         cantidad_maxima: tope_rol_sennova_hub_innovacion?.cantidad_maxima,
+        meses_maximos: tope_rol_sennova_hub_innovacion?.meses_maximos,
     })
 
     const submit = (e) => {
@@ -73,6 +74,21 @@ const Form = ({ method = '', setDialogStatus, convocatoria, tope_rol_sennova_hub
                                         value={form.data.cantidad_maxima}
                                         onChange={(e) => form.setData('cantidad_maxima', e.target.value)}
                                         error={form.errors.cantidad_maxima}
+                                    />
+                                </Grid>
+
+                                <Grid item md={12}>
+                                    <TextInput
+                                        type="number"
+                                        id="meses_maximos"
+                                        inputProps={{
+                                            step: 0.1,
+                                            min: 1,
+                                            max: 12,
+                                        }}
+                                        value={form.data.meses_maximos}
+                                        onChange={(e) => form.setData('meses_maximos', e.target.value)}
+                                        label="Número máximo de meses de vinculación"
                                     />
                                 </Grid>
                             </Grid>

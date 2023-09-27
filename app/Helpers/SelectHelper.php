@@ -577,22 +577,31 @@ class SelectHelper
                         END as label");
 
         if ($tipo_formulario_convocatoria_id == 13 && $proyecto) {
-            $query->join('topes_roles_formulario_13', 'convocatoria_rol_sennova.id', 'topes_roles_formulario_13.convocatoria_rol_sennova_id');
-            $query->where('topes_roles_formulario_13.centro_formacion_id', $proyecto->centro_formacion_id);
+            $query->join('topes_roles_formulario_13 as topes', 'convocatoria_rol_sennova.id', 'topes.convocatoria_rol_sennova_id');
+            $query->addSelect('topes.meses_maximos as meses_maximos_por_centro', 'topes.cantidad_maxima');
+            $query->where('topes.centro_formacion_id', $proyecto->centro_formacion_id);
+        }
+
+        if ($tipo_formulario_convocatoria_id == 16 && $proyecto) {
+            $query->join('topes_roles_formulario_16 as topes', 'convocatoria_rol_sennova.id', 'topes.convocatoria_rol_sennova_id');
+            $query->addSelect('topes.meses_maximos as meses_maximos_por_centro', 'topes.cantidad_maxima');
+            $query->where('topes.centro_formacion_id', $proyecto->centro_formacion_id);
         }
 
         if ($tipo_formulario_convocatoria_id == 10 && $proyecto) {
             $hub_innovacion = $proyecto->proyectoFormulario10Linea69->hubInnovacion()->first();
 
-            $query->join('topes_roles_hubs_innovacion', 'convocatoria_rol_sennova.id', 'topes_roles_hubs_innovacion.convocatoria_rol_sennova_id');
-            $query->where('topes_roles_hubs_innovacion.hub_innovacion_id', $hub_innovacion->id);
+            $query->join('topes_roles_hubs_innovacion as topes', 'convocatoria_rol_sennova.id', 'topes.convocatoria_rol_sennova_id');
+            $query->addSelect('topes.meses_maximos as meses_maximos_por_centro', 'topes.cantidad_maxima');
+            $query->where('topes.hub_innovacion_id', $hub_innovacion->id);
         }
 
         if ($tipo_formulario_convocatoria_id == 17 && $proyecto) {
             $nodo_tecnoparque = $proyecto->proyectoFormulario17Linea69->nodoTecnoparque()->first();
 
-            $query->join('topes_roles_nodos_tecnoparque', 'convocatoria_rol_sennova.id', 'topes_roles_nodos_tecnoparque.convocatoria_rol_sennova_id');
-            $query->where('topes_roles_nodos_tecnoparque.nodo_tecnoparque_id', $nodo_tecnoparque->id);
+            $query->join('topes_roles_nodos_tecnoparque as topes', 'convocatoria_rol_sennova.id', 'topes.convocatoria_rol_sennova_id');
+            $query->addSelect('topes.meses_maximos as meses_maximos_por_centro', 'topes.cantidad_maxima');
+            $query->where('topes.nodo_tecnoparque_id', $nodo_tecnoparque->id);
         }
 
         $query->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id');

@@ -39,13 +39,13 @@ const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_ro
                 <Grid item md={12}>
                     <TableMui
                         className="mt-20"
-                        rows={['Nombre del nodo', 'Rol SENNOVA', 'Nivel académico', 'Cantidad máxima / Honorarios ' + convocatoria.year, 'Acciones']}
+                        rows={['Nombre del nodo', 'Rol SENNOVA', 'Nivel académico', 'Cantidad máxima / Honorarios ' + convocatoria.year, 'Meses de apoyo (Máx)', 'Acciones']}
                         sxCellThead={{ width: '320px' }}>
                         <TableRow
                             onClick={() => (setDialogStatus(true), setMethod('POST'), setTopeRolSennovaTecnoparque(null))}
                             variant="raised"
                             className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
-                            <TableCell colSpan={5}>
+                            <TableCell colSpan={6}>
                                 <ButtonMui>
                                     <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar tope
                                 </ButtonMui>
@@ -67,6 +67,8 @@ const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_ro
                                     COP
                                 </TableCell>
 
+                                <TableCell>{tope_rol_sennova_tecnoparque.meses_maximos ?? tope_rol_sennova_tecnoparque.convocatoria_rol_sennova.meses_maximos}</TableCell>
+                                
                                 <TableCell>
                                     <MenuMui text={<MoreVertIcon />}>
                                         {tope_rol_sennova_tecnoparque.id !== tope_rol_sennova_tecnoparque_to_destroy ? (

@@ -24,7 +24,8 @@ class TopeRolSennovaTecnoparque extends Model
     protected $fillable = [
         'nodo_tecnoparque_id',
         'convocatoria_rol_sennova_id',
-        'cantidad_maxima'
+        'cantidad_maxima',
+        'meses_maximos'
     ];
 
     /**
@@ -47,4 +48,3 @@ class TopeRolSennovaTecnoparque extends Model
         return $this->belongsTo(ConvocatoriaRolSennova::class);
     }
 }
-
