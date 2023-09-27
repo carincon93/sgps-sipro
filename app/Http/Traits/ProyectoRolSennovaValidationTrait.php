@@ -103,6 +103,20 @@ trait ProyectoRolSennovaValidationTrait
         return true;
     }
 
+    public static function topesRolesSennovaFormulario13Validation($convocatoria, $proyecto)
+    {
+        foreach ($proyecto->proyectoRolesSennova as $proyecto_rol_sennova) {
+            if ($proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaFormulario13()->exists()) {
+
+                if ($proyecto_rol_sennova->numero_roles > $proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaFormulario13()->where('centro_formacion_id', $proyecto->centro_formacion_id)->first()->cantidad_maxima) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     /**
      * totalRolesSennova
      *

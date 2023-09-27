@@ -49,7 +49,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
 
         if (form.data.convocatoria_rol_sennova_id) {
             setTimeout(() => {
-                const { meses_maximos } = convocatoria_roles_sennova.find((item) => item.value == form.data.convocatoria_rol_sennova_id)
+                const { meses_maximos } = proyecto_rol_sennova?.convocatoria_rol_sennova ?? convocatoria_roles_sennova.find((item) => item.value == form.data.convocatoria_rol_sennova_id)
 
                 setMesesMaximo(meses_maximos)
             }, 500)
@@ -186,7 +186,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                     inputProps={{
                                         step: 0.1,
                                         min: 1,
-                                        max: meses_maximos,
+                                        max: meses_maximos ?? proyecto.diff_meses,
                                     }}
                                     error={form.errors.numero_meses}
                                     value={form.data.numero_meses}
@@ -197,7 +197,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                     required
                                 />
 
-                                <AlertMui>El rol seleccionado no puede superar los {meses_maximos} meses de vinculación</AlertMui>
+                                <AlertMui>El rol seleccionado no puede superar los {meses_maximos ?? proyecto.diff_meses} meses de vinculación</AlertMui>
                             </Grid>
 
                             <Grid item md={12}>
@@ -238,7 +238,8 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                 />
                                 {actividades.length === 0 && (
                                     <AlertMui error={true}>
-                                        <strong>Importante:</strong> Debe completar la información de Objetivos, resultados, impactos y actividades. De lo contrario, no puede relacionar las actividades.
+                                        <strong>Importante:</strong> Debe completar la información de Objetivos, resultados, impactos y actividades. De lo contrario, no puede relacionar las
+                                        actividades.
                                     </AlertMui>
                                 )}
                             </Grid>

@@ -37,6 +37,7 @@ const ResumenFinal = ({
     topes_presupuestales_tecnoparque,
     topes_por_nodo,
     topes_roles_sennova_hub_innovacion,
+    topes_roles_sennova_formulario_13,
     edt,
 }) => {
     const ul_ref = useRef(null)
@@ -137,6 +138,11 @@ const ResumenFinal = ({
                             {!anexos && <li>No se han cargado todos los anexos obligatorios</li>}
                             {!soportesEstudioMercado && <li>Hay estudios de mercado con menos de dos soportes</li>}
                             {!estudiosMercadoArchivo && <li>Hay rubros presupuestales que no tienen el estudio de mercado cargado</li>}
+                            {!topes_roles_sennova_formulario_13 && proyecto.tipo_formulario_convocatoria_id == 13 && (
+                                <li>
+                                    Ha superado el número máximo de uno o varios roles que ha asociado al proyecto. Por favor revise en los lineamientos los roles máximos para su Centro de Formación.
+                                </li>
+                            )}
                             {!topes_roles_sennova_hub_innovacion && proyecto.tipo_formulario_convocatoria_id == 10 && (
                                 <li>
                                     Ha superado el número máximo de uno o varios roles que ha asociado al proyecto. Por favor revise en los lineamientos los roles máximos para su Hub de Innovación.

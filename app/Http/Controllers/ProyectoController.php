@@ -679,6 +679,7 @@ class ProyectoController extends Controller
             'actividades'                           => ProyectoValidationTrait::actividades($proyecto),
             'impactos'                              => ProyectoValidationTrait::impactos($proyecto),
             'edt'                                   => ProyectoValidationTrait::edt($proyecto),
+            'topes_roles_sennova_formulario_13'     => $proyecto->proyectoFormulario13Linea65()->exists() ? ProyectoRolSennovaValidationTrait::topesRolesSennovaFormulario13Validation($convocatoria, $proyecto) : null,
             'topes_roles_sennova_hub_innovacion'    => $proyecto->proyectoFormulario10Linea69()->exists() ? ProyectoRolSennovaValidationTrait::topesRolesSennovaHubInnovacionValidation($convocatoria, $proyecto) : null,
             'topes_por_nodo'                        => $proyecto->proyectoFormulario17Linea69()->exists() ? TopePresupuestalNodoTecnoparque::select('topes_presupuestales_nodos_tecnoparque.*')->with('nodoTecnoparque', 'segundoGrupoPresupuestal')->where('topes_presupuestales_nodos_tecnoparque.convocatoria_id', $convocatoria->id)->where('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id', $proyecto->proyectoFormulario17Linea69->nodo_tecnoparque_id)->orderBy('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id')->get() : null,
             'topes_roles_sennova_tecnoparque'       => $proyecto->proyectoFormulario17Linea69()->exists() ? ProyectoRolSennovaValidationTrait::topesRolesSennovaTecnoparqueValidation($convocatoria, $proyecto) : null,

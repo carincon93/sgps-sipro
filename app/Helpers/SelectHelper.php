@@ -576,11 +576,9 @@ class SelectHelper
                             WHEN '9' THEN   CONCAT(roles_sennova.nombre, ' (Tecnólogo con especialización)', chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
                         END as label");
 
-        if ($tipo_formulario_convocatoria_id == 17 && $proyecto) {
-            $nodo_tecnoparque = $proyecto->proyectoFormulario17Linea69->nodoTecnoparque()->first();
-
-            $query->join('topes_roles_nodos_tecnoparque', 'convocatoria_rol_sennova.id', 'topes_roles_nodos_tecnoparque.convocatoria_rol_sennova_id');
-            $query->where('topes_roles_nodos_tecnoparque.nodo_tecnoparque_id', $nodo_tecnoparque->id);
+        if ($tipo_formulario_convocatoria_id == 13 && $proyecto) {
+            $query->join('topes_roles_formulario_13', 'convocatoria_rol_sennova.id', 'topes_roles_formulario_13.convocatoria_rol_sennova_id');
+            $query->where('topes_roles_formulario_13.centro_formacion_id', $proyecto->centro_formacion_id);
         }
 
         if ($tipo_formulario_convocatoria_id == 10 && $proyecto) {
@@ -588,6 +586,13 @@ class SelectHelper
 
             $query->join('topes_roles_hubs_innovacion', 'convocatoria_rol_sennova.id', 'topes_roles_hubs_innovacion.convocatoria_rol_sennova_id');
             $query->where('topes_roles_hubs_innovacion.hub_innovacion_id', $hub_innovacion->id);
+        }
+
+        if ($tipo_formulario_convocatoria_id == 17 && $proyecto) {
+            $nodo_tecnoparque = $proyecto->proyectoFormulario17Linea69->nodoTecnoparque()->first();
+
+            $query->join('topes_roles_nodos_tecnoparque', 'convocatoria_rol_sennova.id', 'topes_roles_nodos_tecnoparque.convocatoria_rol_sennova_id');
+            $query->where('topes_roles_nodos_tecnoparque.nodo_tecnoparque_id', $nodo_tecnoparque->id);
         }
 
         $query->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id');
