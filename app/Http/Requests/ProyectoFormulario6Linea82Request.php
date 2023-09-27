@@ -81,20 +81,22 @@ class ProyectoFormulario6Linea82Request extends FormRequest
             ];
         } else {
             return [
-                'centro_formacion_id'                       => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
-                'linea_investigacion_id'                    => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_investigacion,id'],
-                'disciplina_subarea_conocimiento_id'        => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:disciplinas_subarea_conocimiento,id'],
-                'tematica_estrategica_id'                   => ['nullable', 'min:0', 'max:2147483647', 'integer', 'exists:tematicas_estrategicas,id'],
-                'red_conocimiento_id'                       => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:redes_conocimiento,id'],
-                'titulo'                                    => ['required', 'string', new MaxWords(20)],
-                'fecha_inicio'                              => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
-                'fecha_finalizacion'                        => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
-                'max_meses_ejecucion'                       => ['required', 'numeric', 'min:1', 'max:12'],
-                'actividad_economica_id'                    => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:actividades_economicas,id'],
-                'rol_sennova'                               => ['required', 'min:0', 'max:2147483647', 'integer'],
-                'cantidad_horas'                            => ['required', 'numeric', 'min:1', 'max:168'],
-                'cantidad_meses'                            => ['required', 'numeric', 'min:1', 'max:12'],
-                'areas_cualificacion_mnc'                   => ['nullable', 'json'],
+                'centro_formacion_id'                               => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
+                'linea_investigacion_id'                            => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:lineas_investigacion,id'],
+                'disciplina_subarea_conocimiento_id'                => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:disciplinas_subarea_conocimiento,id'],
+                'tematica_estrategica_id'                           => ['nullable', 'min:0', 'max:2147483647', 'integer', 'exists:tematicas_estrategicas,id'],
+                'red_conocimiento_id'                               => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:redes_conocimiento,id'],
+                'titulo'                                            => ['required', 'string', new MaxWords(20)],
+                'fecha_inicio'                                      => ['required', 'date', 'date_format:Y-m-d', 'before:fecha_finalizacion'],
+                'fecha_finalizacion'                                => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_inicio'],
+                'max_meses_ejecucion'                               => ['required', 'numeric', 'min:1', 'max:12'],
+                'actividad_economica_id'                            => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:actividades_economicas,id'],
+                'rol_sennova'                                       => ['required', 'min:0', 'max:2147483647', 'integer'],
+                'cantidad_horas'                                    => ['required', 'numeric', 'min:1', 'max:168'],
+                'cantidad_meses'                                    => ['required', 'numeric', 'min:1', 'max:12'],
+                'areas_cualificacion_mnc'                           => ['nullable', 'json'],
+                'lineas_estrategicas_beneficiadas'                  => ['nullable', 'json'],
+                'justificacion_lineas_estrategicas_beneficiadas'    => ['nullable', 'string'],
             ];
         }
     }

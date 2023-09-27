@@ -100,8 +100,8 @@ class ProyectoFormulario8Linea66Controller extends Controller
         $proyecto_formulario_8_linea_66->proyecto_investigacion_pedagogica                 = $request->proyecto_investigacion_pedagogica;
         $proyecto_formulario_8_linea_66->articulacion_eni                                  = $request->articulacion_eni;
         $proyecto_formulario_8_linea_66->areas_cualificacion_mnc                           = $request->areas_cualificacion_mnc;
-        $proyecto_formulario_8_linea_66->lineas_estrategicas_convocatoria                  = $request->lineas_estrategicas_convocatoria;
-        $proyecto_formulario_8_linea_66->justificacion_lineas_estrategicas                 = $request->justificacion_lineas_estrategicas;
+        $proyecto_formulario_8_linea_66->lineas_estrategicas_beneficiadas                  = $request->lineas_estrategicas_beneficiadas;
+        $proyecto_formulario_8_linea_66->justificacion_lineas_estrategicas_beneficiadas    = $request->justificacion_lineas_estrategicas_beneficiadas;
 
         $proyecto_formulario_8_linea_66->video                                             = null;
         $proyecto_formulario_8_linea_66->justificacion_industria_4                         = null;

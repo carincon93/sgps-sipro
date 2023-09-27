@@ -93,8 +93,8 @@ class ProyectoFormulario6Linea82Controller extends Controller
         $proyecto_formulario_6_linea_82->fecha_finalizacion                                = $request->fecha_finalizacion;
         $proyecto_formulario_6_linea_82->max_meses_ejecucion                               = $request->max_meses_ejecucion;
         $proyecto_formulario_6_linea_82->areas_cualificacion_mnc                           = $request->areas_cualificacion_mnc;
-        $proyecto_formulario_6_linea_82->lineas_estrategicas_convocatoria                  = $request->lineas_estrategicas_convocatoria;
-        $proyecto_formulario_6_linea_82->justificacion_lineas_estrategicas                 = $request->justificacion_lineas_estrategicas;
+        $proyecto_formulario_6_linea_82->lineas_estrategicas_beneficiadas                  = $request->lineas_estrategicas_beneficiadas;
+        $proyecto_formulario_6_linea_82->justificacion_lineas_estrategicas_beneficiadas    = $request->justificacion_lineas_estrategicas_beneficiadas;
 
         $proyecto_formulario_6_linea_82->video                                             = null;
         $proyecto_formulario_6_linea_82->justificacion_industria_4                         = null;
