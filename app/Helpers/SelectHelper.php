@@ -576,6 +576,22 @@ class SelectHelper
                             WHEN '9' THEN   CONCAT(roles_sennova.nombre, ' (Tecnólogo con especialización)', chr(10), 'Experiencia: ', convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
                         END as label");
 
+        if ($tipo_formulario_convocatoria_id == 4 && $proyecto) {
+            $tecnoacademia = $proyecto->proyectoFormulario4Linea70->tecnoacademia()->first();
+
+            $query->join('topes_roles_tecnoacademias as topes', 'convocatoria_rol_sennova.id', 'topes.convocatoria_rol_sennova_id');
+            $query->addSelect('topes.meses_maximos as meses_maximos_por_centro', 'topes.cantidad_maxima');
+            $query->where('topes.tecnoacademia_id', $tecnoacademia->id);
+        }
+
+        if ($tipo_formulario_convocatoria_id == 10 && $proyecto) {
+            $hub_innovacion = $proyecto->proyectoFormulario10Linea69->hubInnovacion()->first();
+
+            $query->join('topes_roles_hubs_innovacion as topes', 'convocatoria_rol_sennova.id', 'topes.convocatoria_rol_sennova_id');
+            $query->addSelect('topes.meses_maximos as meses_maximos_por_centro', 'topes.cantidad_maxima');
+            $query->where('topes.hub_innovacion_id', $hub_innovacion->id);
+        }
+
         if ($tipo_formulario_convocatoria_id == 13 && $proyecto) {
             $query->join('topes_roles_formulario_13 as topes', 'convocatoria_rol_sennova.id', 'topes.convocatoria_rol_sennova_id');
             $query->addSelect('topes.meses_maximos as meses_maximos_por_centro', 'topes.cantidad_maxima');
@@ -592,14 +608,6 @@ class SelectHelper
             $query->join('topes_roles_formulario_16 as topes', 'convocatoria_rol_sennova.id', 'topes.convocatoria_rol_sennova_id');
             $query->addSelect('topes.meses_maximos as meses_maximos_por_centro', 'topes.cantidad_maxima');
             $query->where('topes.centro_formacion_id', $proyecto->centro_formacion_id);
-        }
-
-        if ($tipo_formulario_convocatoria_id == 10 && $proyecto) {
-            $hub_innovacion = $proyecto->proyectoFormulario10Linea69->hubInnovacion()->first();
-
-            $query->join('topes_roles_hubs_innovacion as topes', 'convocatoria_rol_sennova.id', 'topes.convocatoria_rol_sennova_id');
-            $query->addSelect('topes.meses_maximos as meses_maximos_por_centro', 'topes.cantidad_maxima');
-            $query->where('topes.hub_innovacion_id', $hub_innovacion->id);
         }
 
         if ($tipo_formulario_convocatoria_id == 17 && $proyecto) {

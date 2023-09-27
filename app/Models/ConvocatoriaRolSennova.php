@@ -122,6 +122,16 @@ class ConvocatoriaRolSennova extends Model
     }
 
     /**
+     * Relationship with TopeRolSennovaTecnoacademia
+     *
+     * @return object
+     */
+    public function topesRolesSennovaTecnoacademia()
+    {
+        return $this->hasMany(TopeRolSennovaTecnoacademia::class);
+    }
+
+    /**
      * Relationship with TopeRolSennovaFormulario13
      *
      * @return object

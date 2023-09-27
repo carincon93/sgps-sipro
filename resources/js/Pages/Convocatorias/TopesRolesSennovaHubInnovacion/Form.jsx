@@ -74,6 +74,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, tope_rol_sennova_hub
                                         value={form.data.cantidad_maxima}
                                         onChange={(e) => form.setData('cantidad_maxima', e.target.value)}
                                         error={form.errors.cantidad_maxima}
+                                        required
                                     />
                                 </Grid>
 

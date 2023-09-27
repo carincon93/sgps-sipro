@@ -110,6 +110,16 @@ class Tecnoacademia extends Model
     }
 
     /**
+     * Relationship with TopeRolSennovaTecnoacademia
+     *
+     * @return object
+     */
+    public function topesRolesSennovaTecnoacademia()
+    {
+        return $this->hasMany(TopeRolSennovaTecnoacademia::class);
+    }
+
+    /**
      * Filtrar registros
      *
      * @param  mixed $query

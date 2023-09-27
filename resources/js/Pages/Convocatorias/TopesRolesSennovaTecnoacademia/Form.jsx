@@ -6,22 +6,22 @@ import TextInput from '@/Components/TextInput'
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 
-const Form = ({ method = '', setDialogStatus, convocatoria, tope_rol_sennova_tecnoparque, nodos_tecnoparque, roles_sennova, ...props }) => {
+const Form = ({ method = '', setDialogStatus, convocatoria, tope_rol_sennova_tecnoacademia, tecnoacademias, roles_sennova, ...props }) => {
     const form = useForm({
-        nodo_tecnoparque_id: tope_rol_sennova_tecnoparque?.nodo_tecnoparque_id,
-        convocatoria_rol_sennova_id: tope_rol_sennova_tecnoparque?.convocatoria_rol_sennova_id,
-        cantidad_maxima: tope_rol_sennova_tecnoparque?.cantidad_maxima,
-        meses_maximos: tope_rol_sennova_tecnoparque?.meses_maximos,
+        tecnoacademia_id: tope_rol_sennova_tecnoacademia?.tecnoacademia_id,
+        convocatoria_rol_sennova_id: tope_rol_sennova_tecnoacademia?.convocatoria_rol_sennova_id,
+        cantidad_maxima: tope_rol_sennova_tecnoacademia?.cantidad_maxima,
+        meses_maximos: tope_rol_sennova_tecnoacademia?.meses_maximos,
     })
 
     const submit = (e) => {
         e.preventDefault()
         method == 'POST'
-            ? form.post(route('convocatorias.topes-roles-sennova-tecnoparques.store', [convocatoria.id]), {
+            ? form.post(route('convocatorias.topes-roles-sennova-tecnoacademias.store', [convocatoria.id]), {
                   onSuccess: () => setDialogStatus(false),
                   preserveScroll: true,
               })
-            : form.put(route('convocatorias.topes-roles-sennova-tecnoparques.update', [convocatoria.id, tope_rol_sennova_tecnoparque.id]), {
+            : form.put(route('convocatorias.topes-roles-sennova-tecnoacademias.update', [convocatoria.id, tope_rol_sennova_tecnoacademia.id]), {
                   onSuccess: () => setDialogStatus(false),
                   preserveScroll: true,
               })
@@ -40,12 +40,12 @@ const Form = ({ method = '', setDialogStatus, convocatoria, tope_rol_sennova_tec
                             <Grid container rowSpacing={8}>
                                 <Grid item md={12}>
                                     <Autocomplete
-                                        id="nodo_tecnoparque_id"
-                                        options={nodos_tecnoparque}
-                                        selectedValue={form.data.nodo_tecnoparque_id}
-                                        onChange={(event, newValue) => form.setData('nodo_tecnoparque_id', newValue.value)}
-                                        error={form.errors.nodo_tecnoparque_id}
-                                        label="Nodo Tecnoparque"
+                                        id="tecnoacademia_id"
+                                        options={tecnoacademias}
+                                        selectedValue={form.data.tecnoacademia_id}
+                                        onChange={(event, newValue) => form.setData('tecnoacademia_id', newValue.value)}
+                                        error={form.errors.tecnoacademia_id}
+                                        label="TecnoAcademia"
                                         required
                                     />
                                 </Grid>

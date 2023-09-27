@@ -80,6 +80,7 @@ use App\Http\Controllers\TopeRolSennovaFormulario13Controller;
 use App\Http\Controllers\TopeRolSennovaFormulario15Controller;
 use App\Http\Controllers\TopeRolSennovaFormulario16Controller;
 use App\Http\Controllers\TopeRolSennovaHubInnovacionController;
+use App\Http\Controllers\TopeRolSennovaTecnoacademiaController;
 use App\Http\Controllers\TopeRolSennovaTecnoparqueController;
 use App\Models\AulaMovil;
 use App\Models\Convocatoria;
@@ -520,6 +521,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('convocatorias.topes-roles-sennova-formulario-13', TopeRolSennovaFormulario13Controller::class)->parameters(['convocatorias' => 'convocatoria', 'topes-roles-sennova-formulario-13' => 'tope-rol-formulario-13'])->except(['show']);
     Route::resource('convocatorias.topes-roles-sennova-formulario-15', TopeRolSennovaFormulario15Controller::class)->parameters(['convocatorias' => 'convocatoria', 'topes-roles-sennova-formulario-15' => 'tope-rol-formulario-15'])->except(['show']);
     Route::resource('convocatorias.topes-roles-sennova-formulario-16', TopeRolSennovaFormulario16Controller::class)->parameters(['convocatorias' => 'convocatoria', 'topes-roles-sennova-formulario-16' => 'tope-rol-formulario-16'])->except(['show']);
+    Route::resource('convocatorias.topes-roles-sennova-tecnoacademias', TopeRolSennovaTecnoacademiaController::class)->parameters(['convocatorias' => 'convocatoria', 'topes-roles-sennova-tecnoacademias' => 'tope-rol-tecnoacademia'])->except(['show']);
     Route::resource('convocatorias.topes-roles-sennova-hubs-innovacion', TopeRolSennovaHubInnovacionController::class)->parameters(['convocatorias' => 'convocatoria', 'topes-roles-sennova-hubs-innovacion' => 'tope-rol-hub-innovacion'])->except(['show']);
     Route::resource('convocatorias.topes-roles-sennova-tecnoparques', TopeRolSennovaTecnoparqueController::class)->parameters(['convocatorias' => 'convocatoria', 'topes-roles-sennova-tecnoparques' => 'tope-rol-sennova-tecnoparque'])->except(['show']);
     Route::resource('convocatorias.topes-presupuestales-tecnoparque', TopePresupuestalNodoTecnoparqueController::class)->parameters(['convocatorias' => 'convocatoria', 'topes-presupuestales-tecnoparque' => 'tope-presupuestal-tecnoparque'])->except(['show']);
