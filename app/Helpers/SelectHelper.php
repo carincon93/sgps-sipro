@@ -582,6 +582,12 @@ class SelectHelper
             $query->where('topes.centro_formacion_id', $proyecto->centro_formacion_id);
         }
 
+        if ($tipo_formulario_convocatoria_id == 15 && $proyecto) {
+            $query->join('topes_roles_formulario_15 as topes', 'convocatoria_rol_sennova.id', 'topes.convocatoria_rol_sennova_id');
+            $query->addSelect('topes.meses_maximos as meses_maximos_por_centro', 'topes.cantidad_maxima');
+            $query->where('topes.centro_formacion_id', $proyecto->centro_formacion_id);
+        }
+
         if ($tipo_formulario_convocatoria_id == 16 && $proyecto) {
             $query->join('topes_roles_formulario_16 as topes', 'convocatoria_rol_sennova.id', 'topes.convocatoria_rol_sennova_id');
             $query->addSelect('topes.meses_maximos as meses_maximos_por_centro', 'topes.cantidad_maxima');
