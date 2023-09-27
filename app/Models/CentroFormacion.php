@@ -188,6 +188,16 @@ class CentroFormacion extends Model
     }
 
     /**
+     * Relationship with TopeRolSennovaFormulario15
+     *
+     * @return object
+     */
+    public function topesRolesSennovaFormulario15()
+    {
+        return $this->hasMany(TopeRolSennovaFormulario15::class);
+    }
+
+    /**
      * Relationship with TopeRolSennovaFormulario16
      *
      * @return object

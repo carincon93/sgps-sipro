@@ -34,9 +34,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_16_linea_65, allowed_t
                 )}
 
                 <Grid item md={12} className="!mt-20">
-                    <h1 className="text-3xl text-center">
-                        Formulario 16: Gestión de la propiedad intelectual - Apropiación de la ciencia y la tecnología y cultura de la innovación y la competitividad - Línea 65
-                    </h1>
+                    <h1 className="text-3xl text-center">Formulario 16: Protección y Transferencia de Conocimiento y Tecnología (Unidad de Propiedad Intelectual) - Línea 65</h1>
                 </Grid>
 
                 <Grid item md={12}>
