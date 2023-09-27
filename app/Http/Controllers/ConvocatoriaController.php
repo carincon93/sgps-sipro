@@ -183,57 +183,57 @@ class ConvocatoriaController extends Controller
             }
         }
 
-        $rubros_convocatoria_por_formulario     = ConvocatoriaPresupuesto::selectRaw('DISTINCT(tipo_formulario_convocatoria_id)')->where('convocatoria_id', $convocatoria->id)->pluck('tipo_formulario_convocatoria_id')->toArray();
+        // $rubros_convocatoria_por_formulario     = ConvocatoriaPresupuesto::selectRaw('DISTINCT(tipo_formulario_convocatoria_id)')->where('convocatoria_id', $convocatoria->id)->pluck('tipo_formulario_convocatoria_id')->toArray();
 
-        $rubro_formulario_fuera_convocatoria    = array_diff($request->tipos_formulario_convocatoria, $rubros_convocatoria_por_formulario);
+        // $rubro_formulario_fuera_convocatoria    = array_diff($request->tipos_formulario_convocatoria, $rubros_convocatoria_por_formulario);
 
-        if (count($rubro_formulario_fuera_convocatoria) > 0) {
-            foreach ($rubro_formulario_fuera_convocatoria as $value) {
-                $rubros_a_agregar = RubroPresupuestal::all();
+        // if (count($rubro_formulario_fuera_convocatoria) > 0) {
+        //     foreach ($rubro_formulario_fuera_convocatoria as $value) {
+        //         $rubros_a_agregar = RubroPresupuestal::all();
 
-                $insert_data = $rubros_a_agregar->map(function ($rubro) use ($value, $convocatoria) {
-                    return [
-                        'convocatoria_id'                   => $convocatoria->id,
-                        'rubro_presupuestal_id'             => $rubro->id,
-                        'tipo_formulario_convocatoria_id'   => $value,
-                        'sumar_al_presupuesto'              => true,
-                        'requiere_estudio_mercado'          => true,
-                        'habilitado'                        => true,
-                    ];
-                });
+        //         $insert_data = $rubros_a_agregar->map(function ($rubro) use ($value, $convocatoria) {
+        //             return [
+        //                 'convocatoria_id'                   => $convocatoria->id,
+        //                 'rubro_presupuestal_id'             => $rubro->id,
+        //                 'tipo_formulario_convocatoria_id'   => $value,
+        //                 'sumar_al_presupuesto'              => true,
+        //                 'requiere_estudio_mercado'          => true,
+        //                 'habilitado'                        => true,
+        //             ];
+        //         });
 
-                ConvocatoriaPresupuesto::insert($insert_data->toArray());
-            }
-        }
+        //         ConvocatoriaPresupuesto::insert($insert_data->toArray());
+        //     }
+        // }
 
-        $roles_convocatoria_por_formulario = ConvocatoriaRolSennova::selectRaw('DISTINCT(tipo_formulario_convocatoria_id)')->where('convocatoria_id', $convocatoria->id)->pluck('tipo_formulario_convocatoria_id')->toArray();
-
-
-        $rol_formulario_fuera_convocatoria = array_diff($request->tipos_formulario_convocatoria, $roles_convocatoria_por_formulario);
+        // $roles_convocatoria_por_formulario = ConvocatoriaRolSennova::selectRaw('DISTINCT(tipo_formulario_convocatoria_id)')->where('convocatoria_id', $convocatoria->id)->pluck('tipo_formulario_convocatoria_id')->toArray();
 
 
-        if (count($rol_formulario_fuera_convocatoria) > 0) {
-            foreach ($rol_formulario_fuera_convocatoria as $value) {
-                $roles_a_agregar = RolSennova::all();
+        // $rol_formulario_fuera_convocatoria = array_diff($request->tipos_formulario_convocatoria, $roles_convocatoria_por_formulario);
 
-                $insert_data = $roles_a_agregar->map(function ($rol) use ($value, $convocatoria) {
-                    return [
-                        'tipo_formulario_convocatoria_id'   => $value,
-                        'convocatoria_id'                   => $convocatoria->id,
-                        'rol_sennova_id'                    => $rol->id,
-                        'asignacion_mensual'                => null,
-                        'experiencia'                       => null,
-                        'nivel_academico'                   => null,
-                        'perfil'                            => null,
-                        'mensaje'                           => null,
-                        'sumar_al_presupuesto'              => true,
-                        'habilitado'                        => true,
-                    ];
-                });
 
-                ConvocatoriaRolSennova::insert($insert_data->toArray());
-            }
-        }
+        // if (count($rol_formulario_fuera_convocatoria) > 0) {
+        //     foreach ($rol_formulario_fuera_convocatoria as $value) {
+        //         $roles_a_agregar = RolSennova::all();
+
+        //         $insert_data = $roles_a_agregar->map(function ($rol) use ($value, $convocatoria) {
+        //             return [
+        //                 'tipo_formulario_convocatoria_id'   => $value,
+        //                 'convocatoria_id'                   => $convocatoria->id,
+        //                 'rol_sennova_id'                    => $rol->id,
+        //                 'asignacion_mensual'                => null,
+        //                 'experiencia'                       => null,
+        //                 'nivel_academico'                   => null,
+        //                 'perfil'                            => null,
+        //                 'mensaje'                           => null,
+        //                 'sumar_al_presupuesto'              => true,
+        //                 'habilitado'                        => true,
+        //             ];
+        //         });
+
+        //         ConvocatoriaRolSennova::insert($insert_data->toArray());
+        //     }
+        // }
 
         if ($request->mostrar_recomendaciones == true) {
             $convocatoria->proyectos()->update(['mostrar_recomendaciones' => true]);
