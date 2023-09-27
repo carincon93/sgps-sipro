@@ -58,11 +58,12 @@ class ProyectoFormulario4Linea70Controller extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario4Linea70/Create', [
-            'convocatoria'           => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
-            'tecnoacademias'         => $tecnoacademias,
-            'lineas_tecnoacademia'   => SelectHelper::lineasTecnoacademia(),
-            'roles_sennova'          => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'allowed_to_create'      => Gate::inspect('formular-proyecto', [5, $convocatoria])->allowed()
+            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
+            'tecnoacademias'                    => $tecnoacademias,
+            'lineas_tecnoacademia'              => SelectHelper::lineasTecnoacademia(),
+            'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'infraestructura_tecnoacademia'     => json_decode(Storage::get('json/infraestructura-tecnoacademia.json'), true),
+            'allowed_to_create'                 => Gate::inspect('formular-proyecto', [5, $convocatoria])->allowed()
         ]);
     }
 
@@ -373,12 +374,13 @@ class ProyectoFormulario4Linea70Controller extends Controller
     {
         if ($proyecto_formulario_4_linea_70) {
             $clone = $proyecto_formulario_4_linea_70->replicate()->fill([
-                'id'                    => $proyecto->id,
-                'fecha_inicio'          => $request->fecha_inicio,
-                'fecha_finalizacion'    => $request->fecha_finalizacion,
-                'max_meses_ejecucion'   => $request->max_meses_ejecucion,
-                'tecnoacademia_id'      => $request->tecnoacademia_id,
-                'proyecto_base'         => false
+                'id'                            => $proyecto->id,
+                'fecha_inicio'                  => $request->fecha_inicio,
+                'fecha_finalizacion'            => $request->fecha_finalizacion,
+                'max_meses_ejecucion'           => $request->max_meses_ejecucion,
+                'tecnoacademia_id'              => $request->tecnoacademia_id,
+                'infraestructura_tecnoacademia' => $request->infraestructura_tecnoacademia,
+                'proyecto_base'                 => false
             ]);
             $clone->push();
 

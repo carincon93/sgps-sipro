@@ -213,10 +213,9 @@ const Form = ({
                         options={infraestructura_tecnoacademia}
                         inputBackground="#fff"
                         selectedValue={form.data.infraestructura_tecnoacademia}
-                        onChange={(event, newValue) => form.setData('infraestructura_tecnoacademia', newValue.value)}
-                        disabled={!proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update}
+                        onChange={(event, newValue) => (form.setData('infraestructura_tecnoacademia', newValue.value), syncColumnLong('infraestructura_tecnoacademia', form))}
+                        disabled={!(proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update || allowed_to_create)}
                         error={form.errors.infraestructura_tecnoacademia}
-                        onBlur={() => syncColumnLong('infraestructura_tecnoacademia', form)}
                         required
                     />
                 </Grid>
