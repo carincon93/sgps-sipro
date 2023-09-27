@@ -169,10 +169,12 @@ class ProyectoFormulario13Linea65Controller extends Controller
         $proyecto_formulario_13_linea_65->mostrar_recomendaciones             = $proyecto_formulario_13_linea_65->proyecto->mostrar_recomendaciones;
         $proyecto_formulario_13_linea_65->mostrar_requiere_subsanacion        = $proyecto_formulario_13_linea_65->proyecto->mostrar_requiere_subsanacion;
 
+        $centros_formacion_ids = TopeRolSennovaFormulario13::select('topes_roles_formulario_13.centro_formacion_id')->join('convocatoria_rol_sennova', 'topes_roles_formulario_13.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')->where('convocatoria_rol_sennova.convocatoria_id', $convocatoria->id)->get()->pluck('centro_formacion_id')->flatten();
+
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario13Linea65/Edit', [
             'convocatoria'                                  => $convocatoria,
             'proyecto_formulario_13_linea_65'               => $proyecto_formulario_13_linea_65,
-            'centros_formacion'                             => SelectHelper::centrosFormacion(),
+            'centros_formacion'                             => SelectHelper::centrosFormacion()->whereIn('value', $centros_formacion_ids)->values()->all(),
             'evaluacion'                                    => EvaluacionProyectoFormulario13Linea65::find(request()->evaluacion_id),
             'tecnoacademia'                                 => $proyecto_formulario_13_linea_65->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_formulario_13_linea_65->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
             'mesas_sectoriales'                             => MesaSectorial::select('id as value', 'nombre as label')->get('id'),
