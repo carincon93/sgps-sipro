@@ -63,6 +63,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Evaluacion\EvaluacionController;
 use App\Http\Controllers\HubInnovacionController;
 use App\Http\Controllers\LaboratorioServicioTecnologicoController;
+use App\Http\Controllers\MontoMaximoFormulario1RegionalController;
 use App\Http\Controllers\Perfil\EstudioAcademicoController;
 use App\Http\Controllers\Perfil\FormacionAcademicaSenaController;
 use App\Http\Controllers\Perfil\ParticipacionGrupoInvestigacionSenaController;
@@ -518,6 +519,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('convocatorias/{convocatoria}/tipos-formulario-convocatoria/{tipo_formulario_convocatoria}', [ConvocatoriaController::class, 'proyectosPorTipoFormulario'])->name('convocatorias.tipos-formulario-convocatoria.proyectos');
     Route::get('convocatorias/{convocatoria}/tipos-formulario-convocatoria', [ConvocatoriaController::class, 'tiposFormularioConvocatoria'])->name('convocatorias.tipos-formulario-convocatoria');
 
+    Route::resource('convocatorias.montos-maximos-formulario1-regional', MontoMaximoFormulario1RegionalController::class)->parameters(['convocatorias' => 'convocatoria', 'montos-maximos-formulario1-regional' => 'monto-maximo-regional'])->except(['show']);
     Route::resource('convocatorias.topes-roles-sennova-formulario-13', TopeRolSennovaFormulario13Controller::class)->parameters(['convocatorias' => 'convocatoria', 'topes-roles-sennova-formulario-13' => 'tope-rol-formulario-13'])->except(['show']);
     Route::resource('convocatorias.topes-roles-sennova-formulario-15', TopeRolSennovaFormulario15Controller::class)->parameters(['convocatorias' => 'convocatoria', 'topes-roles-sennova-formulario-15' => 'tope-rol-formulario-15'])->except(['show']);
     Route::resource('convocatorias.topes-roles-sennova-formulario-16', TopeRolSennovaFormulario16Controller::class)->parameters(['convocatorias' => 'convocatoria', 'topes-roles-sennova-formulario-16' => 'tope-rol-formulario-16'])->except(['show']);

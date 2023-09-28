@@ -88,6 +88,16 @@ class Regional extends Model
     }
 
     /**
+     * Relationship with MontoMaximoFormulario1Regional
+     *
+     * @return object
+     */
+    public function montosMaximosFormulario1()
+    {
+        return $this->hasMany(MontoMaximoFormulario1Regional::class);
+    }
+
+    /**
      * Relationship with ProyectoFormulario5Linea69
      *
      * @return object

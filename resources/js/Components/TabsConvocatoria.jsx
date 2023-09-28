@@ -39,6 +39,17 @@ const TabsConvocatoria = ({ convocatoria, tipo_formulario_convocatoria_id, value
                 value="3"
             />
 
+            {tipo_formulario_convocatoria_id == 1 && (
+                <Tab
+                    component="a"
+                    onClick={() => {
+                        router.visit(route('convocatorias.montos-maximos-formulario1-regional.index', [convocatoria.id, { tipo_formulario_convocatoria_id: tipo_formulario_convocatoria_id }]))
+                    }}
+                    label="Montos máximos por regional"
+                    value="4"
+                />
+            )}
+
             {tipo_formulario_convocatoria_id == 4 && (
                 <Tab
                     component="a"

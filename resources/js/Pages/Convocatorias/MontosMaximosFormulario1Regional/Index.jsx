@@ -16,14 +16,14 @@ import { useState } from 'react'
 
 import Form from './Form'
 
-const ConvocatoriaTopesRolesSennovaTecnoacademia = ({ auth, convocatoria, topes_roles_sennova, tecnoacademias, roles_sennova, niveles_academicos }) => {
+const ConvocatoriaTopesRolesSennovaTecnoacademia = ({ auth, convocatoria, montos_maximos_por_regional, regionales }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
     const [dialog_status, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
-    const [tope_rol_sennova_tecnoacademia_to_destroy, setTopeRolSennovaTecnoacademiaToDestroy] = useState(null)
-    const [tope_rol_sennova_tecnoacademia, setTopeRolSennovaTecnoacademia] = useState(null)
+    const [monto_maximo_por_regional_to_destroy, setMontoMaximoFormulario1RegionalToDestroy] = useState(null)
+    const [monto_maximo_por_regional, setMontoMaximoFormulario1Regional] = useState(null)
 
     return (
         <AuthenticatedLayout>
@@ -32,50 +32,37 @@ const ConvocatoriaTopesRolesSennovaTecnoacademia = ({ auth, convocatoria, topes_
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                     <Grid item md={12}>
-                        <TabsConvocatoria value="4" convocatoria={convocatoria} tipo_formulario_convocatoria_id={4} />
+                        <TabsConvocatoria value="4" convocatoria={convocatoria} tipo_formulario_convocatoria_id={1} />
                     </Grid>
                 )}
 
                 <Grid item md={12}>
-                    <TableMui
-                        className="mt-20"
-                        rows={['Nombre de la TecnoAcademia', 'Rol SENNOVA', 'Nivel académico', 'Cantidad máxima / Honorarios ' + convocatoria.year, 'Meses de apoyo (Máx)', 'Acciones']}
-                        sxCellThead={{ width: '320px' }}>
+                    <TableMui className="mt-20" rows={['Regional', 'Monto máximo ' + convocatoria.year, 'Acciones']} sxCellThead={{ width: '320px' }}>
                         <TableRow
-                            onClick={() => (setDialogStatus(true), setMethod('POST'), setTopeRolSennovaTecnoacademia(null))}
+                            onClick={() => (setDialogStatus(true), setMethod('POST'), setMontoMaximoFormulario1Regional(null))}
                             variant="raised"
                             className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={6}>
                                 <ButtonMui>
-                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar tope
+                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar monto
                                 </ButtonMui>
                             </TableCell>
                         </TableRow>
-                        {topes_roles_sennova.map((tope_rol_sennova_tecnoacademia, i) => (
+                        {montos_maximos_por_regional.map((monto_maximo_por_regional, i) => (
                             <TableRow key={i}>
                                 <TableCell>
-                                    <p className="first-letter:uppercase">{tope_rol_sennova_tecnoacademia.tecnoacademia.nombre}</p>
+                                    <p className="first-letter:uppercase">{monto_maximo_por_regional.regional.nombre}</p>
                                 </TableCell>
-                                <TableCell>{tope_rol_sennova_tecnoacademia.convocatoria_rol_sennova.rol_sennova.nombre}</TableCell>
-                                <TableCell>
-                                    <p className="first-letter:uppercase">
-                                        {niveles_academicos.find((item) => item.value == tope_rol_sennova_tecnoacademia.convocatoria_rol_sennova.nivel_academico)?.label}
-                                    </p>
-                                </TableCell>
-                                <TableCell>
-                                    {tope_rol_sennova_tecnoacademia.cantidad_maxima} / $
-                                    {new Intl.NumberFormat('de-DE').format(tope_rol_sennova_tecnoacademia.convocatoria_rol_sennova.asignacion_mensual)} COP
-                                </TableCell>
-                                <TableCell>{tope_rol_sennova_tecnoacademia.meses_maximos ?? tope_rol_sennova_tecnoacademia.convocatoria_rol_sennova.meses_maximos}</TableCell>
+                                <TableCell>${new Intl.NumberFormat('de-DE').format(monto_maximo_por_regional.monto_maximo)} COP</TableCell>
                                 <TableCell>
                                     <MenuMui text={<MoreVertIcon />}>
-                                        {tope_rol_sennova_tecnoacademia.id !== tope_rol_sennova_tecnoacademia_to_destroy ? (
+                                        {monto_maximo_por_regional.id !== monto_maximo_por_regional_to_destroy ? (
                                             <div>
-                                                <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setTopeRolSennovaTecnoacademia(tope_rol_sennova_tecnoacademia))}>Editar</MenuItem>
+                                                <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setMontoMaximoFormulario1Regional(monto_maximo_por_regional))}>Editar</MenuItem>
 
                                                 <MenuItem
                                                     onClick={() => {
-                                                        setTopeRolSennovaTecnoacademiaToDestroy(tope_rol_sennova_tecnoacademia.id)
+                                                        setMontoMaximoFormulario1RegionalToDestroy(monto_maximo_por_regional.id)
                                                     }}>
                                                     Eliminar
                                                 </MenuItem>
@@ -84,7 +71,7 @@ const ConvocatoriaTopesRolesSennovaTecnoacademia = ({ auth, convocatoria, topes_
                                             <div>
                                                 <MenuItem
                                                     onClick={(e) => {
-                                                        setTopeRolSennovaTecnoacademiaToDestroy(null)
+                                                        setMontoMaximoFormulario1RegionalToDestroy(null)
                                                     }}>
                                                     Cancelar
                                                 </MenuItem>
@@ -92,7 +79,7 @@ const ConvocatoriaTopesRolesSennovaTecnoacademia = ({ auth, convocatoria, topes_
                                                     sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
                                                     onClick={(e) => {
                                                         e.stopPropagation()
-                                                        router.delete(route('convocatorias.topes-roles-sennova-tecnoacademias.destroy', [convocatoria.id, tope_rol_sennova_tecnoacademia.id]), {
+                                                        router.delete(route('convocatorias.montos-maximos-formulario-1-regional.destroy', [convocatoria.id, monto_maximo_por_regional.id]), {
                                                             preserveScroll: true,
                                                         })
                                                     }}>
@@ -117,9 +104,8 @@ const ConvocatoriaTopesRolesSennovaTecnoacademia = ({ auth, convocatoria, topes_
                                 setDialogStatus={setDialogStatus}
                                 method={method}
                                 convocatoria={convocatoria}
-                                tope_rol_sennova_tecnoacademia={tope_rol_sennova_tecnoacademia}
-                                tecnoacademias={tecnoacademias}
-                                roles_sennova={roles_sennova}
+                                monto_maximo_por_regional={monto_maximo_por_regional}
+                                regionales={regionales}
                             />
                         }
                     />
