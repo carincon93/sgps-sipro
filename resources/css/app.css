@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* @import 'animate.css'; */
+
 :root {
     --mdc-theme-primary: #429f84;
     --mdc-theme-secondary: #285d4f;

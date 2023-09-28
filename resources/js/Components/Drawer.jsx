@@ -12,7 +12,6 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import MailIcon from '@mui/icons-material/Mail'
 import ApplicationLogo from './ApplicationLogo'
 
 import { styled } from '@mui/material/styles'
@@ -108,7 +107,6 @@ export default function MiniDrawer({ user, children }) {
                             {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                         </IconButton>
                     )}
-
                     {!open && (
                         <IconButton onClick={handleDrawerOpen} className="!absolute left-[42px] !bg-white !rounded-full">
                             {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
