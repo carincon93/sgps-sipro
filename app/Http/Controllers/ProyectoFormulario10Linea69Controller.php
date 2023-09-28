@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FunctionsHelper;
 use App\Helpers\SharepointHelper;
 use App\Helpers\SelectHelper;
 use App\Models\Convocatoria;
@@ -393,6 +394,16 @@ class ProyectoFormulario10Linea69Controller extends Controller
     public function updateLongColumn(ProyectoFormulario10Linea69ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario10Linea69 $proyecto_formulario_10_linea_69, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_10_linea_69->proyecto]);
+
+        if ($column == 'fecha_inicio') {
+            $proyecto_formulario_10_linea_69->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($request->fecha_inicio, $proyecto_formulario_10_linea_69->fecha_finalizacion)
+            ]);
+        } elseif ($column == 'fecha_finalizacion') {
+            $proyecto_formulario_10_linea_69->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($proyecto_formulario_10_linea_69->fecha_inicio, $request->fecha_finalizacion)
+            ]);
+        }
 
         if ($column == 'centro_formacion_id') {
             $proyecto_formulario_10_linea_69->proyecto->update($request->only($column));

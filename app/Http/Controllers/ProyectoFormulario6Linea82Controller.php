@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FunctionsHelper;
 use App\Helpers\SelectHelper;
 use App\Http\Requests\Evaluacion\EvaluacionProyectoFormulario6Linea82Request;
 use App\Http\Requests\ProyectoFormulario6Linea82ColumnRequest;
@@ -302,6 +303,16 @@ class ProyectoFormulario6Linea82Controller extends Controller
     public function updateLongColumn(ProyectoFormulario6Linea82ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario6Linea82 $proyecto_formulario_6_linea_82, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_6_linea_82->proyecto]);
+
+        if ($column == 'fecha_inicio') {
+            $proyecto_formulario_6_linea_82->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($request->fecha_inicio, $proyecto_formulario_6_linea_82->fecha_finalizacion)
+            ]);
+        } elseif ($column == 'fecha_finalizacion') {
+            $proyecto_formulario_6_linea_82->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($proyecto_formulario_6_linea_82->fecha_inicio, $request->fecha_finalizacion)
+            ]);
+        }
 
         if ($column == 'centro_formacion_id') {
             $proyecto_formulario_6_linea_82->proyecto->update($request->only($column));

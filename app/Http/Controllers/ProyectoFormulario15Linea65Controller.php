@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FunctionsHelper;
 use App\Helpers\SelectHelper;
 use App\Models\Proyecto;
 use App\Models\ProyectoFormulario15Linea65;
@@ -281,6 +282,16 @@ class ProyectoFormulario15Linea65Controller extends Controller
     public function updateLongColumn(ProyectoFormulario15Linea65ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario15Linea65 $proyecto_formulario_15_linea_65, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_15_linea_65->proyecto]);
+
+        if ($column == 'fecha_inicio') {
+            $proyecto_formulario_15_linea_65->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($request->fecha_inicio, $proyecto_formulario_15_linea_65->fecha_finalizacion)
+            ]);
+        } elseif ($column == 'fecha_finalizacion') {
+            $proyecto_formulario_15_linea_65->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($proyecto_formulario_15_linea_65->fecha_inicio, $request->fecha_finalizacion)
+            ]);
+        }
 
         if ($column == 'centro_formacion_id') {
             $proyecto_formulario_15_linea_65->proyecto->update($request->only($column));

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FunctionsHelper;
 use App\Helpers\SelectHelper;
 use App\Models\ProyectoFormulario12Linea68;
 use App\Http\Controllers\Controller;
@@ -259,14 +260,22 @@ class ProyectoFormulario12Linea68Controller extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_12_linea_68->proyecto]);
 
+        if ($column == 'fecha_inicio') {
+            $proyecto_formulario_12_linea_68->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($request->fecha_inicio, $proyecto_formulario_12_linea_68->fecha_finalizacion)
+            ]);
+        } elseif ($column == 'fecha_finalizacion') {
+            $proyecto_formulario_12_linea_68->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($proyecto_formulario_12_linea_68->fecha_inicio, $request->fecha_finalizacion)
+            ]);
+        }
+
         $array_programas_formacion = [];
         if ($column == 'programas_formacion_relacionados') {
             $array_programas_formacion = array_merge($proyecto_formulario_12_linea_68->proyecto->programasFormacion()->where('registro_calificado', true)->get()->pluck('id')->toArray(), $request->programas_formacion_relacionados);
         } else if ($column == 'programas_formacion') {
             $array_programas_formacion = array_merge($proyecto_formulario_12_linea_68->proyecto->programasFormacion()->where('registro_calificado', false)->get()->pluck('id')->toArray(), $request->programas_formacion);
         }
-
-        // dd($array_programas_formacion);
 
         if ($column == 'programas_formacion' || $column == 'programas_formacion_relacionados') {
             $proyecto_formulario_12_linea_68->proyecto->programasFormacion()->sync($array_programas_formacion);

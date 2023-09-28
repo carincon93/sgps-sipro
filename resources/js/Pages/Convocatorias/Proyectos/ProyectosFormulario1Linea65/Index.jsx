@@ -2,8 +2,10 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import AlertMui from '@/Components/Alert'
 import ButtonMui from '@/Components/Button'
+import DialogMui from '@/Components/Dialog'
 import MenuMui from '@/Components/Menu'
 import PaginationMui from '@/Components/Pagination'
+import SenaLogo from '@/Components/SenaLogo'
 import TableMui from '@/Components/Table'
 import TabsConvocatoria from '@/Components/TabsConvocatoria'
 
@@ -15,8 +17,6 @@ import { useState } from 'react'
 import { Head, router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
-import DialogMui from '@/Components/Dialog'
-import SenaLogo from '@/Components/SenaLogo'
 
 const Index = ({ auth, convocatoria, proyectos_formulario_1_linea_65, monto_maximo_por_regional, allowed_to_create }) => {
     const auth_user = auth.user
