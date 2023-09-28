@@ -99,7 +99,7 @@ trait ProyectoRolSennovaValidationTrait
             }
 
             if ($proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaTecnoacademia()->exists()) {
-                $tecnoacademia   = $proyecto->proyectoFormulario4Linea70->hubInnovacion()->first();
+                $tecnoacademia   = $proyecto->proyectoFormulario4Linea70->tecnoacademia()->first();
                 $tope_rol_sennova = $proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaTecnoacademia()->where('tecnoacademia_id', $tecnoacademia->id)->first();
             }
 

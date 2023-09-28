@@ -10,7 +10,18 @@ import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 import { useEffect, useState } from 'react'
 
-const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_rol_sennova, convocatoria_roles_sennova, convocatoria_roles_sin_filtrar, niveles_academicos, actividades }) => {
+const Form = ({
+    method = '',
+    is_super_admin,
+    convocatoria,
+    proyecto,
+    setDialogStatus,
+    proyecto_rol_sennova,
+    convocatoria_roles_sennova,
+    convocatoria_roles_sin_filtrar,
+    niveles_academicos,
+    actividades,
+}) => {
     const roles_sennova_incompletos = convocatoria_roles_sennova.some((item) => item.label === null)
     const [meses_maximos, setMesesMaximo] = useState(proyecto.diff_meses)
     const [cantidad_maxima, setCantidadMaxima] = useState(0)
@@ -190,7 +201,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                     inputProps={{
                                         step: 0.1,
                                         min: 1,
-                                        max: meses_maximos ?? proyecto.diff_meses,
+                                        max: is_super_admin ? null : meses_maximos ?? proyecto.diff_meses,
                                     }}
                                     error={form.errors.numero_meses}
                                     value={form.data.numero_meses}
@@ -213,7 +224,7 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                     type="number"
                                     inputProps={{
                                         min: 1,
-                                        max: cantidad_maxima,
+                                        max: is_super_admin ? null : cantidad_maxima,
                                     }}
                                     error={form.errors.numero_roles}
                                     value={form.data.numero_roles}
