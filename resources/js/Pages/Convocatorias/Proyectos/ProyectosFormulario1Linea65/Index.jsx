@@ -15,12 +15,15 @@ import { useState } from 'react'
 import { Head, router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
+import DialogMui from '@/Components/Dialog'
+import SenaLogo from '@/Components/SenaLogo'
 
-const Index = ({ auth, convocatoria, proyectos_formulario_1_linea_65, allowed_to_create }) => {
+const Index = ({ auth, convocatoria, proyectos_formulario_1_linea_65, monto_maximo_por_regional, allowed_to_create }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
     const [proyecto_linea_65_to_destroy, setProyectoFormulario1Linea65ToDestroy] = useState(null)
+    const [dialog_status, setDialogStatus] = useState(true)
 
     return (
         <AuthenticatedLayout>
@@ -173,6 +176,57 @@ const Index = ({ auth, convocatoria, proyectos_formulario_1_linea_65, allowed_to
                     </TableMui>
 
                     <PaginationMui links={proyectos_formulario_1_linea_65.links} className="mt-6" />
+
+                    <DialogMui
+                        fullWidth={true}
+                        maxWidth="md"
+                        blurEnabled={true}
+                        open={dialog_status}
+                        enableGradient={true}
+                        dialogContent={
+                            <div className="text-white">
+                                <span className="pointer-events-none place-items-center gap-2 flex py-2" href="/">
+                                    SENNOVA | <SenaLogo className="w-10" />
+                                </span>
+
+                                <div className="mb-6">
+                                    <strong>Información importante:</strong>
+                                    <br />
+                                    <br />
+                                    Tenga en cuenta los siguientes topes máximos para la formulación de proyectos en el{' '}
+                                    <strong>Formulario 1: Evento de Divulgación - Apropiación de la ciencia y la tecnología y cultura de la innovación y la competitividad - Línea 65:</strong>
+                                </div>
+
+                                <TableMui rows={['Regional', 'Monto máximo ' + convocatoria.year, 'Cantidad máxima de proyectos ' + convocatoria.year]} sxCellThead={{ width: '320px' }}>
+                                    <TableRow></TableRow>
+                                    {monto_maximo_por_regional ? (
+                                        <>
+                                            <TableRow>
+                                                <TableCell>{monto_maximo_por_regional.regional.nombre}</TableCell>
+                                                <TableCell>${new Intl.NumberFormat('de-DE').format(monto_maximo_por_regional.monto_maximo)} COP</TableCell>
+                                                <TableCell>{monto_maximo_por_regional.maximo_proyectos}</TableCell>
+                                            </TableRow>
+                                            <TableRow></TableRow>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <TableRow>
+                                                <TableCell colSpan={3}>Sin información registrada para su regional</TableCell>
+                                            </TableRow>
+                                            <TableRow></TableRow>
+                                        </>
+                                    )}
+                                </TableMui>
+                            </div>
+                        }
+                        dialogActions={
+                            <>
+                                <ButtonMui onClick={() => setDialogStatus(false)} className="!mr-4">
+                                    Entendido
+                                </ButtonMui>
+                            </>
+                        }
+                    />
                 </Grid>
             </Grid>
         </AuthenticatedLayout>

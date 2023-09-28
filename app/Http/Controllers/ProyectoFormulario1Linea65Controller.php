@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Evaluacion\EvaluacionProyectoFormulario1Linea65;
+use App\Models\MontoMaximoFormulario1Regional;
 use App\Models\RolSennova;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -28,9 +29,13 @@ class ProyectoFormulario1Linea65Controller extends Controller
      */
     public function index(Convocatoria $convocatoria)
     {
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario1Linea65/Index', [
             'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
-            'proyectos_formulario_1_linea_65'   => ProyectoFormulario1Linea65::getProyectosPorRol($convocatoria)->appends(['search' => request()->search, 'estructuracion_proyectos' => request()->estructuracion_proyectos]),
+            'proyectos_formulario_1_linea_65'   => ProyectoFormulario1Linea65::getProyectosPorRol($convocatoria)->appends(['search' => request()->search]),
+            'monto_maximo_por_regional'         => MontoMaximoFormulario1Regional::with('regional')->join('convocatoria_tipos_formularios', 'monto_maximo_formulario_1_regional.convocatoria_tipo_formulario_id', 'convocatoria_tipos_formularios.id')->where('convocatoria_tipos_formularios.convocatoria_id', $convocatoria->id)->where('monto_maximo_formulario_1_regional.regional_id', $auth_user->centroFormacion->regional_id)->first(),
             'allowed_to_create'                 => Gate::inspect('formular-proyecto', [9, $convocatoria])->allowed()
         ]);
     }
