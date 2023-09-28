@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,13 +18,83 @@
         h1 {
             font-size: 1.4rem;
             text-align: center;
+            text-transform: uppercase;
         }
 
         p {
             text-align: justify;
             text-align-last: left;
             white-space: pre-wrap;
+
+
         }
+        h4{
+            text-transform: uppercase;
+        }
+
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      border: 1px solid #e2e8f0; /* Borde de la tabla */
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f0f4f8; /* Color de fondo del encabezado */
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    /* Estilo para las celdas impares */
+    tr:nth-child(odd) {
+      background-color: #f8fafc; /* Color de fondo de filas impares */
+    }
+
+    /* Estilo para la lista sin viñetas */
+    ul {
+      list-style: none;
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+    /* Estilo para los elementos de lista */
+    ul li {
+      margin-left: 0;
+      padding-left: 0;
+      margin-bottom: 5px;
+    }
+    .separador{
+        width: 100%;
+        margin-top: 200px;
+    }
+    .participantes th{
+        text-align: center;
+    }
+
+    .datos h2{
+        font-size: 1.2rem;
+        text-transform: uppercase;
+    }
+    .datos h3{
+        font-size: 1.0rem;
+        text-transform: uppercase;
+    }
+
+    .datos p{
+        font-size: 0.9rem;
+        line-height: 40px;
+    }
+    .productos td, .analisis td, .rubros td{
+        text-align: justify;
+    }
+
+
     </style>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,6 +102,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@normal&display=swap" rel="stylesheet">
 </head>
 <body>
+
     <table width="100%" border="1" cellspacing="0" cellpadding="10" style="font-size: 12px;">
         <tr>
             <td rowspan="2" valign="middle" align="center" width="20%">
@@ -53,11 +124,13 @@
     <h1 style="text-align: center; margin: 15rem 0 6rem 0;">{{ $datos->titulo }}</h1>
 
     <p style="text-align: right; margin: 18rem 0;">{{ $proyecto->participantes()->where('es_formulador', true)->first()  ? ucwords($proyecto->participantes()->where('es_formulador', true)->first()->nombre) : 'Sin autor/a principal asignado'}}</p>
+<div>
 
     <table width="100%" border="1" cellspacing="0" cellpadding="3" style="font-size: 12px;">
+
         <tr>
             <td align="left">
-                <p style="font-weight: bold;">Centro de formación</p>
+                <p style="font-weight: bold;text-transform: uppercase;">Centro de formación</p>
             </td>
             <td align="left">
                 {{ $proyecto->centroFormacion->nombre }}
@@ -66,7 +139,7 @@
 
         <tr>
             <td align="left">
-                <p style="font-weight: bold;">Fechas de ejecución del proyecto</p>
+                <p style="font-weight: bold;text-transform: uppercase;">Fechas de ejecución del proyecto</p>
             </td>
             <td align="left">
                 <p style="white-space: pre-wrap">{{ $proyecto->fecha_inicio .' - '. $proyecto->fecha_finalizacion }}</p>
@@ -75,7 +148,7 @@
 
         <tr>
             <td align="left">
-                <p style="font-weight: bold;">Línea de investigación</p>
+                <p style="font-weight: bold;text-transform: uppercase;">Línea de investigación</p>
             </td>
             <td align="left">
                 <p style="white-space: pre-wrap">{{ $datos->lineaInvestigacion->nombre }} </p>
@@ -84,7 +157,7 @@
 
         <tr>
             <td align="left">
-                <p style="font-weight: bold;">Eje SENNOVA</p>
+                <p style="font-weight: bold;text-transform: uppercase;">Eje SENNOVA</p>
             </td>
             <td align="left">
                 <p style="white-space: pre-wrap">{{ $ejes_sennova->firstWhere('value', $datos->eje_sennova) ? $ejes_sennova->firstWhere('value', $datos->eje_sennova)['label'] : 'Sin información registrada' }} </p>
@@ -93,7 +166,7 @@
 
         <tr>
             <td align="left">
-                <p style="font-weight: bold;">Código dependencia presupuestal (SIIF)</p>
+                <p style="font-weight: bold;text-transform: uppercase;">Código dependencia presupuestal (SIIF)</p>
             </td>
             <td align="left">
                 <p style="white-space: pre-wrap">Linea programatica: {{ $proyecto->tipoFormularioConvocatoria->lineaProgramatica->codigo }} - {{ $proyecto->tipoFormularioConvocatoria->lineaProgramatica->nombre }}</p>
@@ -102,13 +175,14 @@
 
         <tr>
             <td align="left">
-                <p style="font-weight: bold;">Temáticas según el Marco Nacional de Cualificación de los proyectos a acompañar</p>
+                <p style="font-weight: bold;text-transform: uppercase;">Temáticas según el Marco Nacional de Cualificación de los proyectos a acompañar</p>
             </td>
             <td align="left">
                <ul>
+
                     @if ($datos->areas_cualificacion_mnc)
                         @foreach ($datos->areas_cualificacion_mnc as $area_cualificacion)
-                            <li>{{ $areas_cualificacion_mnc->firstWhere('value', $area_cualificacion)['label'] }}</li>
+                            <li style="list-style: none; ">{{ $areas_cualificacion_mnc->firstWhere('value', $area_cualificacion)['label'] }}</li>
                         @endforeach
                     @else
                         <li>Sin información registrada</li>
@@ -119,7 +193,7 @@
 
         <tr>
             <td align="left">
-                <p style="font-weight: bold;">Tipo de evento</p>
+                <p style="font-weight: bold;text-transform: uppercase;">Tipo de evento</p>
             </td>
             <td align="left">
                 <p style="white-space: pre-wrap">{{ $tipos_eventos->firstWhere('value', $datos->tipos_eventos) ? $tipos_eventos->firstWhere('value', $datos->tipos_eventos)['label'] : 'Sin información registrada' }} </p>
@@ -128,7 +202,7 @@
 
         <tr>
             <td align="left">
-                <p style="font-weight: bold;">Alcance del evento</p>
+                <p style="font-weight: bold;text-transform: uppercase;">Alcance del evento</p>
             </td>
             <td align="left">
                 <p style="white-space: pre-wrap">{{ $datos->alcance_evento == 1 ? 'Regional' : ($datos->alcance_evento == 2 ? 'Centro de formación' : 'Sin información registrada') }} </p>
@@ -137,7 +211,7 @@
 
         <tr>
             <td align="left">
-                <p style="font-weight: bold;">Área de conocimiento</p>
+                <p style="font-weight: bold;text-transform: uppercase;">Área de conocimiento</p>
             </td>
             <td align="left">
                 <p style="white-space: pre-wrap">{{ $datos->areaConocimiento->nombre }} </p>
@@ -146,7 +220,7 @@
 
         <tr>
             <td align="left">
-                <p style="font-weight: bold;">¿En cuál de estas actividades económicas se puede aplicar el proyecto?</p>
+                <p style="font-weight: bold;text-transform: uppercase;">¿En cuál de estas actividades económicas se puede aplicar el proyecto?</p>
             </td>
             <td align="left">
                 <p style="white-space: pre-wrap">{{ $datos->actividadEconomica->nombre }} </p>
@@ -155,7 +229,7 @@
 
         <tr>
             <td align="left">
-                <p style="font-weight: bold;">Temática estratégica SENA</p>
+                <p style="font-weight: bold;text-transform: uppercase;">Temática estratégica SENA</p>
             </td>
             <td align="left">
                 <p style="white-space: pre-wrap">{{ $datos->tematicaEstrategica->nombre }} </p>
@@ -163,14 +237,18 @@
         </tr>
 
     </table>
-
+    <br>
+    <br>
+    <br>
     <hr style="margin: 4rem 0">
-
+    <br>
+    <br>
+    <br>
     <div class="border page_break">
-        <h4>Participantes</h4>
-        <table width="100%" border="1" cellspacing="0" cellpadding="3" style="border-top: none; font-size: 10px;">
+        <h2>Participantes</h2>
+        <table width="100%" border="1" cellspacing="0" cellpadding="3" style="border-top: none; font-size: 12px; ">
             <thead slot="thead">
-                <tr>
+                <tr class="participantes">
                     <th>Nombre</th>
                     <th>Correo electrónico</th>
                     <th>Centro de formación</th>
@@ -184,56 +262,73 @@
                 @foreach ($proyecto->participantes as $participante)
                     <tr>
                         <td>
-                            <p style="white-space: pre-wrap">{{ ucwords($participante->nombre) }}</p>
+                            <p style="white-space: pre-wrap;text-align: center;text-transform: capitalize;">{{ ucwords($participante->nombre) }}</p>
                         </td>
                         <td>
-                            <p style="white-space: pre-wrap">{{ $participante->email }}</p>
+                            <p style="white-space: pre-wrap;text-align: center;text-transform: lowercase;">{{ $participante->email }}</p>
                         </td>
                         <td>
-                            <p style="white-space: pre-wrap">{{ ucfirst($participante->centroFormacion->nombre) }}</p>
+                            <p style="white-space: pre-wrap;text-align: center;text-transform: capitalize;">{{ ucfirst($participante->centroFormacion->nombre) }}</p>
                         </td>
                         <td>
-                            <p style="white-space: pre-wrap">{{ ucfirst($participante->centroFormacion->regional->nombre) }}</p>
+                            <p style="white-space: pre-wrap;text-align: center;text-transform: capitalize;">{{ ucfirst($participante->centroFormacion->regional->nombre) }}</p>
                         </td>
                         <td>
                             @if ($participante->pivot && $participante->pivot->rol_sennova)
-                                <p style="white-space: pre-wrap">{{ $roles_sennova->where('value', $participante->pivot->rol_sennova)->first() ? $roles_sennova->where('value', $participante->pivot->rol_sennova)->first()['label'] : 'Sin información registrada' }}</p>
+                                <p style="white-space: pre-wrap;text-align: center;text-transform: capitalize;">{{ $roles_sennova->where('value', $participante->pivot->rol_sennova)->first() ? $roles_sennova->where('value', $participante->pivot->rol_sennova)->first()['label'] : 'Sin información registrada' }}</p>
                             @else
-                                <p style="white-space: pre-wrap">Sin información registrada</p>
+                                <p style="white-space: pre-wrap;text-align: center;text-transform: capitalize;">Sin información registrada</p>
                             @endif
                         </td>
                         <td>
-                            <p style="white-space: pre-wrap">{{ $participante->pivot->cantidad_meses }}</p>
+                            <p style="white-space: pre-wrap;text-align: center;text-transform: capitalize;">{{ $participante->pivot->cantidad_meses }}</p>
                         </td>
                         <td>
-                            <p style="white-space: pre-wrap">{{ $participante->pivot->cantidad_horas }}</p>
+                            <p style="white-space: pre-wrap;text-align: center;text-transform: capitalize;">{{ $participante->pivot->cantidad_horas }}</p>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-    </div>
 
-    <hr style="margin: 4rem 0">
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="datos page_break">
+
 
     <h2>Resumen del proyecto</h2>
     <p style="white-space: pre-wrap">{{ $datos->resumen }}</p>
+<br>
 
     <h2>Antecedentes</h2>
     <p style="white-space: pre-wrap">{{ $datos->antecedentes }}</p>
+<br>
 
     <h2>Marco conceptual</h2>
     <p style="white-space: pre-wrap">{{ $datos->marco_conceptual }}</p>
 
-    <hr style="margin: 4rem 0">
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
-    <h4>Número de aprendices que se beneficiarán en la ejecución del proyecto</h4>
+    <h2>Número de aprendices que se beneficiarán en la ejecución del proyecto</h2>
     <p style="white-space: pre-wrap">{{ $datos->numero_aprendices }}</p>
 
-     <hr style="margin: 4rem 0">
-
+     <hr style="margin: 2rem 0">
     @if ($proyecto->municipios->count() > 0)
-        <table width="100%" border="1" cellspacing="0" cellpadding="3" style="margin-top: 4rem;">
+        <table width="100%" border="1" cellspacing="0" cellpadding="3">
             <tr>
                 <th width="100%" style="font-weight: bold;">Municipios beneficiados</th>
             </tr>
@@ -244,12 +339,12 @@
             </tr>
         </table>
     @endif
-
-    <h4>Descripción del beneficio en los municipios</h4>
+<br>
+    <h2>Descripción del beneficio en los municipios</h2>
     <p style="white-space: pre-wrap">{{ $datos->impacto_municipios }}</p>
 
     @if ( $proyecto->programasFormacion()->where('registro_calificado', false)->count() > 0 )
-        <h4>Nombre de los programas de formación con los que se relaciona el proyecto</h4>
+        <h2>Nombre de los programas de formación con los que se relaciona el proyecto</h2>
         <ul>
             <li>
                 @foreach ($proyecto->programasFormacion()->where('registro_calificado', false)->get() as $programa_formacion)
@@ -258,9 +353,9 @@
             </li>
         </ul>
     @endif
-
+<br>
     @if ( $proyecto->programasFormacion()->where('registro_calificado', true)->count() > 0 )
-        <h4>Nombre de los programas de formación con registro calificado a impactar</h4>
+        <h2>Nombre de los programas de formación con registro calificado a impactar</h2>
         <ul>
             <li>
                 @foreach ($proyecto->programasFormacion()->where('registro_calificado', true)->get() as $programa_formacion)
@@ -269,8 +364,8 @@
             </li>
         </ul>
     @endif
-
-    <h4>Impacto en el centro de formación</h4>
+<br>
+    <h2>Impacto en el centro de formación</h2>
     <p style="white-space: pre-wrap">{{ $datos->impacto_centro_formacion }}</p>
 
     @if ($datos->video)
@@ -278,64 +373,68 @@
         <a target="_blank" href="{{ $datos->video }}">{{ $datos->video }}</a>
     @endif
 
-    <hr style="margin: 4rem 0">
+<br>
+<br>
+<br>
+<br>
+<br>
 
-    <h5>¿El proyecto aporta a la divulgación y apropiación del conocimiento relacionado con los retos que incorpora la línea estratégica transversal de campesena, tendientes a generar y articular mecanismos de atención diferencial, integral e incluyente, para los campesinos, de acuerdo con sus particularidades sociales, culturales, económicas y territoriales?</h5>
+    <h3 style="text-align: justify;">¿El proyecto aporta a la divulgación y apropiación del conocimiento relacionado con los retos que incorpora la línea estratégica transversal de campesena, tendientes a generar y articular mecanismos de atención diferencial, integral e incluyente, para los campesinos, de acuerdo con sus particularidades sociales, culturales, económicas y territoriales?</h3>
     @if ($datos->aportacion_linea_transeversal_campesena)
         <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->aportacion_linea_transeversal_campesena }}</p>
     @else
         <p style="white-space: pre-wrap; overflow-wrap: break-word">No</p>
     @endif
-
-    <h5>¿El proyecto aporta a alguna de las líneas estratégicas del SENA?</h5>
+<br>
+    <h3>¿El proyecto aporta a alguna de las líneas estratégicas del SENA?</h3>
     @if ($datos->lineas_estrategicas_sena)
         <ul>
             @foreach ($datos->lineas_estrategicas_sena as $linea_estrategica_sena)
                 <li>{{ $lineas_estrategicas_sena->firstWhere('value', $linea_estrategica_sena)['label'] }}</li>
             @endforeach
         </ul>
-
+<br>
         <h5>Justificación</h5>
         <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->justificacion_aportes_lineas_estrategicas }}</p>
     @else
         <p style="white-space: pre-wrap; overflow-wrap: break-word">No</p>
     @endif
-
-    <h5>¿El proyecto está relacionado con la industria 4.0?</h5>
+<br>
+    <h3>¿El proyecto está relacionado con la industria 4.0?</h3>
     @if ($datos->justificacion_industria_4)
         <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->justificacion_industria_4 }}</p>
     @else
         <p style="white-space: pre-wrap; overflow-wrap: break-word">No</p>
     @endif
-
-    <h5>¿El proyecto tendrá un impacto en el sector agrícola?</h5>
+<br>
+    <h3>¿El proyecto tendrá un impacto en el sector agrícola?</h3>
     @if ($datos->impacto_sector_agricola)
         <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->impacto_sector_agricola }}</p>
     @else
         <p style="white-space: pre-wrap; overflow-wrap: break-word">No</p>
     @endif
-
-    <h5>¿El proyecto aporta a la Política Institucional para Atención de las Personas con discapacidad?</h5>
+<br>
+    <h3>¿El proyecto aporta a la Política Institucional para Atención de las Personas con discapacidad?</h3>
     @if ($datos->justificacion_politica_discapacidad)
         <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->justificacion_politica_discapacidad }}</p>
     @else
         <p style="white-space: pre-wrap; overflow-wrap: break-word">No</p>
     @endif
-
-    <h5>¿El proyecto aporta a la Política Institucional de Atención con Enfoque Pluralista y Diferencial (acuerdo 0010 de 2016)?</h5>
+<br>
+    <h3>¿El proyecto aporta a la Política Institucional de Atención con Enfoque Pluralista y Diferencial (acuerdo 0010 de 2016)?</h3>
     @if ($datos->atencion_pluralista_diferencial)
         <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->atencion_pluralista_diferencial }}</p>
     @else
         <p style="white-space: pre-wrap; overflow-wrap: break-word">No</p>
     @endif
-
-    <h5>¿El proyecto se alinea con el plan tecnológico desarrollado por el centro de formación?</h5>
+<br>
+    <h3>¿El proyecto se alinea con el plan tecnológico desarrollado por el centro de formación?</h3>
     <p style="white-space: pre-wrap; overflow-wrap: break-word">@if ($datos->relacionado_plan_tecnologico) Si @else No @endif</p>
-
-    <h5>¿El proyecto se alinea con las Agendas Departamentales de Competitividad e Innovación?</h5>
+<br>
+    <h3>¿El proyecto se alinea con las Agendas Departamentales de Competitividad e Innovación?</h3>
     <p style="white-space: pre-wrap; overflow-wrap: break-word">@if ($datos->relacionado_agendas_competitividad) Si @else No @endif</p>
-
-    <h5>¿El proyecto se alinea con las Mesas Sectoriales?</h5>
+<br>
+    <h3>¿El proyecto se alinea con las Mesas Sectoriales?</h3>
     @if ($proyecto->mesasSectoriales()->exists())
         <ul>
             @foreach ($proyecto->mesasSectoriales as $mesa_sectorial)
@@ -345,8 +444,8 @@
     @else
         <p style="white-space: pre-wrap; overflow-wrap: break-word">No</p>
     @endif
-
-    <h5>¿El proyecto tiene en cuenta la participación de diferentes líneas programáticas del ecosistema SENNOVA?</h5>
+<br>
+    <h3>¿El proyecto tiene en cuenta la participación de diferentes líneas programáticas del ecosistema SENNOVA?</h3>
     @if ($datos->lineas_programaticas_sennova)
         <ul>
             @foreach ($datos->lineas_programaticas_sennova as $linea_programatica)
@@ -357,7 +456,7 @@
         <p style="white-space: pre-wrap; overflow-wrap: break-word">No</p>
     @endif
 
-    <h5>Tecnoparques con que se relaciona o que aportan al desarrollo del proyecto</h5>
+    <h3>Tecnoparques con que se relaciona o que aportan al desarrollo del proyecto</h3>
     @if ($datos->lineas_programaticas_sennova)
         <ul>
             @foreach ($datos->tecnoparques_relacionados as $tecnoparque)
@@ -368,7 +467,7 @@
         <p style="white-space: pre-wrap; overflow-wrap: break-word">Sin información registrada</p>
     @endif
 
-    <h5>TecnoAcademias con que se relaciona o que aportan al desarrollo del proyecto</h5>
+    <h3>TecnoAcademias con que se relaciona o que aportan al desarrollo del proyecto</h3>
     @if ($datos->lineas_programaticas_sennova)
         <ul>
             @foreach ($datos->tecnoacademias_relacionadas as $tecnoacademia)
@@ -379,7 +478,7 @@
         <p style="white-space: pre-wrap; overflow-wrap: break-word">Sin información registrada</p>
     @endif
 
-    <h5>Hubs de innovación con que se relaciona o que aportan al desarrollo del proyecto</h5>
+    <h3>Hubs de innovación con que se relaciona o que aportan al desarrollo del proyecto</h3>
     @if ($datos->lineas_programaticas_sennova)
         <ul>
             @foreach ($datos->hubs_innovacion_relacionados as $hub_innovacion)
@@ -390,7 +489,7 @@
         <p style="white-space: pre-wrap; overflow-wrap: break-word">Sin información registrada</p>
     @endif
 
-    <h5>Laboratorios de ST con que se relaciona o que aportan al desarrollo del proyecto</h5>
+    <h3>Laboratorios de ST con que se relaciona o que aportan al desarrollo del proyecto</h3>
     @if ($datos->lineas_programaticas_sennova)
         <ul>
             @foreach ($datos->laboratorios_st_relacionados as $laboratorio_st)
@@ -401,7 +500,7 @@
         <p style="white-space: pre-wrap; overflow-wrap: break-word">Sin información registrada</p>
     @endif
 
-    <h5>¿El proyecto se formuló en conjunto con la tecnoacademia?</h5>
+    <h3>¿El proyecto se formuló en conjunto con la tecnoacademia?</h3>
     @if ($proyecto->tecnoacademiaLineasTecnoacademia()->exists())
         <ul>
              @foreach ($proyecto->tecnoacademiaLineasTecnoacademia as $tecnoacademiaLineaTecnoacademia)
@@ -411,9 +510,14 @@
     @else
         <p style="white-space: pre-wrap; overflow-wrap: break-word">No</p>
     @endif
-
-    <h4>Bibliografía</h4>
-    <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->bibliografia }}</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    <h6>Bibliografía</h6>
+    <p style="white-space: pre-wrap; overflow-wrap: break-word; font-size: 0.8rem;">{{ $datos->bibliografia }}</p>
 
     <hr style="margin: 4rem 0">
 
@@ -422,7 +526,10 @@
     <div style="background-color: rgb(190, 190, 190); padding: 20px; color: rgba(39, 39, 39, 0.912); font-weight: bolder; text-align: center;">
         <p style="white-space: pre-wrap">{{ $datos->problema_central }}</p>
     </div>
-
+<br>
+<br>
+<br>
+<br>
     @if (!empty($datos->planteamiento_problema))
         <h4>Planteamiento del problema</h4>
         <p style="white-space: pre-wrap">{{ $datos->planteamiento_problema }}</p>
@@ -431,7 +538,7 @@
         <h4>Justificación del problema</h4>
         <p style="white-space: pre-wrap">{{ $datos->justificacion_problema }}</p>
     @endif
-
+<br>
     @if (!empty($datos->identificacion_problema))
         <h4>Identificación y descripción del problema</h4>
         <p style="white-space: pre-wrap">{{ $datos->identificacion_problema }}</p>
@@ -441,72 +548,91 @@
         <h4>Pregunta de formulación del problema</h4>
         <p style="white-space: pre-wrap">{{ $datos->pregunta_formulacion_problema }}</p>
     @endif
-
+<br>
+<br>
     <h1>Objetivo general</h1>
     <div style="background-color: rgb(190, 190, 190); padding: 20px; color: rgba(39, 39, 39, 0.912); font-weight: bolder; text-align: center;">
         <p style="white-space: pre-wrap">{{ $datos->objetivo_general }}</p>
     </div>
+<br>
+<br>
+    <h3 style="text-align: center;">Efectos directos e indirectos | Restulados e impactos</h3>
 
-    <hr style="margin: 4rem 0">
-
-    <h1>Efectos directos e indirectos | Restulados e impactos</h1>
+<br>
+<br>
+<br>
+<br>
     @foreach ($proyecto->efectosDirectos as $j => $efecto_directo)
 
-        <div style="margin-top: 2rem; font-size: 12px;">
+        <div style="font-size: 12px;">
+<br>
             <h1>{{ $j + 1 }}. Efecto directo </h1>
-            <p style="text-align: center;">{{ $efecto_directo->descripcion }}</p>
+            <p style="text-align: justify;">{{ $efecto_directo->descripcion }}</p>
 
+<br>
             <h1>Resultado asociado </h1>
-            <p style="text-align: center;">{{ $efecto_directo->resultado->descripcion }}</p>
+            <p style="text-align: justify;">{{ $efecto_directo->resultado->descripcion }}</p>
+<br>
 
 
-            <div style="margin-top: 20px;">
+            <div>
                 @foreach ($efecto_directo->efectosindirectos as $k => $efecto_indirecto)
                     <table width="100%" style="font-size: 12px;">
                         <tr>
                             <td width="50%">
-                                <div style="background-color: rgb(120, 15, 169); height: 4rem; padding: 20px; color: white;">
-                                    <p style="margin: 0px; font-size: 10px;">{{ ($j + 1) .'.'. ($k + 1) }} Efecto indirecto</p>
+                                <div style="background-color: rgb(120, 15, 169); height: 10rem; padding: 20px; color: white; text-align: justify; line-height: 30px; ">
+                                    <p style="margin: 0px;  ">{{ ($j + 1) .'.'. ($k + 1) }} Efecto indirecto</p>
                                     {{ $efecto_indirecto->descripcion }}
                                 </div>
                             </td>
                             <td width="50%">
-                                <div style="background-color: rgb(152, 61, 194); height: 4rem; padding: 20px; color: white;" >
-                                    <p style="margin: 0px; font-size: 10px;">{{ ($j + 1) .'.'. ($k + 1) }} {{ $tipos_impacto->firstWhere('value', $efecto_indirecto->impacto->tipo) ? $tipos_impacto->firstWhere('value', $efecto_indirecto->impacto->tipo)['label'] : 'Sin información registrada' }}</p>
+                                <div style="background-color: rgb(152, 61, 194); height: 10rem; padding: 20px; color: white;  text-align: justify; line-height: 30px;" >
+                                    <p style="margin: 0px;  ">{{ ($j + 1) .'.'. ($k + 1) }} {{ $tipos_impacto->firstWhere('value', $efecto_indirecto->impacto->tipo) ? $tipos_impacto->firstWhere('value', $efecto_indirecto->impacto->tipo)['label'] : 'Sin información registrada' }}</p>
                                     {{ $efecto_indirecto->impacto->descripcion }}
                                 </div>
                             </td>
                         </tr>
                     </table>
+
+
                 @endforeach
             </div>
         </div>
     @endforeach
 
-    <hr style="margin: 4rem 0">
-
-    <h1>Causas directas e indirectas | Objetivos específicos y actividades</h1>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    <h3 style="text-align: center;">Causas directas e indirectas | Objetivos específicos y actividades</h3>
 
     @foreach ($proyecto->causasDirectas as $j => $causa_directa)
         <div style="margin-top: 2rem; font-size: 12px;">
             <h1>{{ $j + 1 }}. Causa directa </h1>
-            <p style="text-align: center;">{{ $causa_directa->descripcion }}</p>
-
+            <p style="text-align: justify;">{{ $causa_directa->descripcion }}</p>
+<br>
             <h1>Objetivo específico asociado </h1>
-            <p style="text-align: center;">{{ $causa_directa->objetivoEspecifico->descripcion }}</p>
+            <p style="text-align: justify;">{{ $causa_directa->objetivoEspecifico->descripcion }}</p>
 
             <div style="margin-top: 20px;">
                 @foreach ($causa_directa->causasIndirectas as $k => $causa_indirecta)
                     <table width="100%" style="font-size: 12px;">
                         <tr>
                             <td width="50%">
-                                <div style="background-color: rgb(29, 110, 156); height: 4rem; padding: 20px; color: white;">
+                                <div style="background-color: rgb(29, 110, 156); height: 10rem; padding: 20px; color: white; text-align: justify; line-height: 30px;">
                                     <p style="margin: 0px; font-size: 10px;">{{ ($j + 1) .'.'. ($k + 1) }} Causa indirecta</p>
                                     {{ $causa_indirecta->descripcion }}
                                 </div>
                             </td>
                             <td width="50%">
-                                <div style="background-color: rgb(43, 148, 209); height: 4rem; padding: 20px; color: white;" >
+                                <div style="background-color: rgb(43, 148, 209); height: 10rem; padding: 20px; color: white;  text-align: justify; line-height: 30px;" >
                                     <p style="margin: 0px; font-size: 10px;">{{ ($j + 1) .'.'. ($k + 1) }} Actividad</p>
                                     {{ $causa_indirecta->actividad->descripcion }}
                                 </div>
@@ -520,7 +646,7 @@
 
     <hr style="margin: 4rem 0">
 
-    <h1>Metodología</h1>
+    <h2>Metodología</h2>
     <p style="white-space: pre-wrap">{{ $datos->metodologia }}</p>
 
     @if ($datos->metodologia_local)
@@ -553,15 +679,15 @@
         <h2>Propuesta de sostenibilidad financiera</h2>
         <p style="white-space: pre-wrap">{{ $datos->propuesta_sostenibilidad_financiera }}</p>
     @endif
-
+</div>
     <hr style="margin: 4rem 0">
 
-    <div class="border page_break">
-        <h2 style="text-align:center">Productos</h2>
+    <div class="productos border page_break">
+        <h1 style="text-align:center">Productos</h1>
 
         @foreach ($proyecto->efectosDirectos as $efecto_directo)
             @foreach ($efecto_directo->resultado->productos as $producto)
-                <table width="100%" border="1" cellspacing="0" cellpadding="3" style="margin-top: 3rem; font-size: 10px;">
+                <table width="100%" border="1" cellspacing="0" cellpadding="3" style="margin-top: 3rem; font-size: 10px; ">
                     <tbody slot="thead">
                         <tr>
                             <th align="left" width="15%">Producto</th>
@@ -602,13 +728,23 @@
                     </tbody>
                 </table>
             @endforeach
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
         @endforeach
     </div>
-
-    <hr style="margin: 4rem 0">
-
-    <div class="border page_break">
-        <h2 style="text-align:center">Análisis de riesgos</h2>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    <div class="analisis border page_break">
+        <h1 style="text-align:center">Análisis de riesgos</h1>
 
         @foreach ($proyecto->analisisRiesgos as $riesgo)
             <table width="100%" border="1" cellspacing="0" cellpadding="3" style="margin-top: 3rem; font-size: 10px;">
@@ -643,10 +779,19 @@
     </div>
 
     <hr style="margin: 4rem 0">
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    <div class="rubros page_break">
 
-    <div class="page_break">
-
-        <h2 style="text-align: center;">Rubros presupuestales</h2>
+        <h1 style="text-align: center;">Rubros presupuestales</h1>
 
         @foreach ($proyecto->proyectoPresupuesto as $presupuesto)
             @foreach ($presupuesto->convocatoriaProyectoRubrosPresupuestales as $convocatoria_rubro_presupuestal)
@@ -770,6 +915,11 @@
     </div>
 
     @if (!empty($proyecto->proyectoRolesSennova))
+<br>
+<br>
+<br>
+<br>
+<br>
         <div class="page_break">
             <h2 style="text-align: center;">Roles SENNOVA ${{ number_format($proyecto->total_roles_sennova, 0, ',', '.') }} COP</h2>
 			@foreach ($proyecto->proyectoRolesSennova as $rolSENNOVA)
