@@ -229,7 +229,7 @@ class ProyectoFormulario9Linea23Controller extends Controller
         $proyecto_formulario_9_linea_23->proyecto->municipios()->sync($request->municipios);
         $proyecto_formulario_9_linea_23->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 
-        $request->relacionado_mesas_sectoriales == 1 ? $proyecto_formulario_9_linea_23->proyecto->mesasSectoriales()->sync($request->mesa_sectorial_id) : $proyecto_formulario_9_linea_23->mesasSectoriales()->detach();
+        $request->relacionado_mesas_sectoriales == 1 ? $proyecto_formulario_9_linea_23->proyecto->mesasSectoriales()->sync($request->mesa_sectorial_id) : $proyecto_formulario_9_linea_23->proyecto->mesasSectoriales()->detach();
         $request->relacionado_tecnoacademia == 1 ? $proyecto_formulario_9_linea_23->proyecto->tecnoacademiaLineasTecnoacademia()->sync($request->linea_tecnologica_id) : $proyecto_formulario_9_linea_23->proyecto->tecnoacademiaLineasTecnoacademia()->detach();
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');

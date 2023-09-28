@@ -98,25 +98,43 @@ const Form = ({
                                                 required
                                             />
                                         ) : (
-                                            <>
-                                                <p>{proyecto_rol_sennova.convocatoria_rol_sennova.rol_sennova.nombre}</p>
+                                            <Grid container>
+                                                <Grid item md={3}>
+                                                    <strong>Rol:</strong>
+                                                </Grid>
+                                                <Grid item md={9}>
+                                                    <p className="first-letter:uppercase">{proyecto_rol_sennova.convocatoria_rol_sennova.rol_sennova.nombre}</p>
+                                                </Grid>
 
-                                                <p className="first-letter:uppercase text-gray-00 my-4">
-                                                    {niveles_academicos.find((item) => item.value == proyecto_rol_sennova?.convocatoria_rol_sennova?.nivel_academico).label}
-                                                </p>
+                                                <Grid item md={3}>
+                                                    <strong>Nivel académico:</strong>{' '}
+                                                </Grid>
+                                                <Grid item md={9}>
+                                                    <p className="first-letter:uppercase">
+                                                        {niveles_academicos.find((item) => item.value == proyecto_rol_sennova?.convocatoria_rol_sennova?.nivel_academico).label}
+                                                    </p>
+                                                </Grid>
 
-                                                <p className="text-gray-600 my-4 whitespace-pre-wrap">
-                                                    Experiencia / Perfil
-                                                    <br />
-                                                    {proyecto_rol_sennova.convocatoria_rol_sennova.experiencia}
-                                                </p>
-                                            </>
+                                                <Grid item md={3}>
+                                                    <strong>Experiencia / Perfil:</strong>
+                                                </Grid>
+                                                <Grid item md={9}>
+                                                    <p className="text-gray-600 whitespace-pre-wrap">{proyecto_rol_sennova.convocatoria_rol_sennova.experiencia}</p>
+                                                </Grid>
+                                            </Grid>
                                         )}
                                     </>
                                 ) : (
                                     <AlertMui severity="error">
                                         Aún no se ha completado la información de los roles, por favor revise los canales de ayuda e informe al respectivo activador(a) para que actualice la
                                         información.
+                                    </AlertMui>
+                                )}
+
+                                {parseInt(meses_maximos) > parseInt(proyecto.diff_meses) && (
+                                    <AlertMui error={true} className="mt-10">
+                                        El tiempo máximo del rol seleccionado <strong>({meses_maximos})</strong> supera el número de meses <strong>({proyecto.diff_meses})</strong> de ejecución del
+                                        proyecto. Por favor modifique las fechas del proyecto. (Debe ser un valor igual o superior).
                                     </AlertMui>
                                 )}
                             </Grid>
@@ -268,14 +286,16 @@ const Form = ({
                             </Grid>
                         </Grid>
                         {proyecto_rol_sennova && <small className="flex items-center my-10 text-app-700">{proyecto_rol_sennova.updated_at}</small>}
+
                         <div className="flex items-center justify-between mt-8 py-4">
-                            {proyecto?.allowed?.to_update ? (
+                            {proyecto?.allowed?.to_update && parseInt(meses_maximos) <= parseInt(proyecto.diff_meses) ? (
                                 <PrimaryButton disabled={form.processing || roles_sennova_incompletos || !form.isDirty || actividades.length === 0} className="mr-2 ml-auto" type="submit">
                                     {method == 'POST' ? 'Agregar' : 'Modificar'} rol SENNOVA
                                 </PrimaryButton>
                             ) : (
                                 <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
                             )}
+
                             <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
                                 Cancelar
                             </ButtonMui>

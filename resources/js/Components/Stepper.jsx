@@ -7,6 +7,7 @@ import { styled } from '@mui/material/styles'
 import { makeStyles } from '@mui/styles'
 
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined'
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import Check from '@mui/icons-material/Check'
 import GroupAddIcon from '@mui/icons-material/GroupAdd'
 import SettingsIcon from '@mui/icons-material/Settings'
@@ -211,7 +212,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                     </small>
                 </div>
                 |
-                <div className="ml-6">
+                <div className="mx-6">
                     <a
                         href={route(`convocatorias.proyectos.pdf-formulario${proyecto.tipo_formulario_convocatoria_id}-linea${proyecto.tipo_formulario_convocatoria.linea_programatica.codigo}`, [
                             convocatoria.id,
@@ -222,6 +223,11 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                         <FileTypeIcon fileType="pdf" className="w-6 mr-4" />
                         <small>PDF del proyecto</small>
                     </a>
+                </div>
+                |
+                <div className="ml-6">
+                    <CalendarMonthIcon className="w-6 mr-2 text-gray-500" />
+                    <small>Ejecución del proyecto: {proyecto.diff_meses} meses</small>
                 </div>
             </div>
             <Stepper alternativeLabel connector={<ColorlibConnector />}>
