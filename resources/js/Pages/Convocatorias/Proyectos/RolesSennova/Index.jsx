@@ -23,7 +23,18 @@ import { checkRole } from '@/Utils'
 import Form from './Form'
 import Evaluacion from './Evaluacion'
 
-const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles_sennova, convocatoria_roles_sennova, actividades, lineas_tecnologicas, niveles_academicos }) => {
+const RolesSennova = ({
+    auth,
+    convocatoria,
+    proyecto,
+    evaluacion,
+    proyecto_roles_sennova,
+    convocatoria_roles_sennova,
+    convocatoria_roles_sin_filtrar,
+    actividades,
+    lineas_tecnologicas,
+    niveles_academicos,
+}) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -183,6 +194,7 @@ const RolesSennova = ({ auth, convocatoria, proyecto, evaluacion, proyecto_roles
                             proyecto={proyecto}
                             proyecto_rol_sennova={proyecto_rol_sennova}
                             convocatoria_roles_sennova={convocatoria_roles_sennova}
+                            convocatoria_roles_sin_filtrar={convocatoria_roles_sin_filtrar}
                             actividades={actividades}
                             niveles_academicos={niveles_academicos}
                         />

@@ -561,7 +561,7 @@ class SelectHelper
         return $query->get();
     }
 
-    public static function convocatoriaRolesSennova($convocatoria_id, $tipo_formulario_convocatoria_id, $proyecto = null)
+    public static function convocatoriaRolesSennova($convocatoria_id, $tipo_formulario_convocatoria_id, $proyecto = null, $filtrar_roles = true)
     {
         $query =    ConvocatoriaRolSennova::selectRaw("convocatoria_rol_sennova.meses_maximos, convocatoria_rol_sennova.id as value,
                         CASE nivel_academico
@@ -620,7 +620,7 @@ class SelectHelper
 
         $query->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id');
 
-        if ($proyecto) {
+        if ($proyecto && $filtrar_roles) {
             $query->whereNotIn('convocatoria_rol_sennova.id', $proyecto->proyectoRolesSennova()->pluck('convocatoria_rol_sennova_id')->toArray());
         }
 

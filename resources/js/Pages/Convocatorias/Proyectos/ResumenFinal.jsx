@@ -2,13 +2,13 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import AlertMui from '@/Components/Alert'
 import Checkbox from '@/Components/Checkbox'
+import CircularProgressMui from '@/Components/CircularProgress'
 import StepperMui from '@/Components/Stepper'
 
 import { Grid } from '@mui/material'
 import { useEffect, useState, useRef } from 'react'
 import { Head, router } from '@inertiajs/react'
 import React from 'react'
-import CircularProgressMui from '@/Components/CircularProgress'
 
 const ResumenFinal = ({
     convocatoria,
@@ -34,13 +34,9 @@ const ResumenFinal = ({
     articulacionSennova,
     soportesEstudioMercado,
     estudiosMercadoArchivo,
-    topes_roles_sennova_tecnoparque,
     topes_presupuestales_tecnoparque,
     topes_por_nodo,
-    topes_roles_sennova_hub_innovacion,
-    topes_roles_sennova_formulario_13,
-    topes_roles_sennova_formulario_15,
-    topes_roles_sennova_formulario_16,
+    topes_roles_sennova,
     edt,
 }) => {
     const ul_ref = useRef(null)
@@ -142,34 +138,10 @@ const ResumenFinal = ({
                             {!anexos && <li>No se han cargado todos los anexos obligatorios</li>}
                             {!soportesEstudioMercado && <li>Hay estudios de mercado con menos de dos soportes</li>}
                             {!estudiosMercadoArchivo && <li>Hay rubros presupuestales que no tienen el estudio de mercado cargado</li>}
-                            {!topes_roles_sennova_formulario_13 && proyecto.tipo_formulario_convocatoria_id == 13 && (
+                            {!topes_roles_sennova && (
                                 <li>
                                     Ha superado el número máximo, ya sea de cantidad o meses de vinculación, de uno o varios roles que ha asociado al proyecto. Por favor, revise en los lineamientos
-                                    los valores máximos para su Centro de Formación.
-                                </li>
-                            )}
-                            {!topes_roles_sennova_formulario_15 && proyecto.tipo_formulario_convocatoria_id == 15 && (
-                                <li>
-                                    Ha superado el número máximo, ya sea de cantidad o meses de vinculación, de uno o varios roles que ha asociado al proyecto. Por favor, revise en los lineamientos
-                                    los valores máximos para su Centro de Formación.
-                                </li>
-                            )}
-                            {!topes_roles_sennova_formulario_16 && proyecto.tipo_formulario_convocatoria_id == 16 && (
-                                <li>
-                                    Ha superado el número máximo, ya sea de cantidad o meses de vinculación, de uno o varios roles que ha asociado al proyecto. Por favor, revise en los lineamientos
-                                    los valores máximos para su Centro de Formación.
-                                </li>
-                            )}
-                            {!topes_roles_sennova_hub_innovacion && proyecto.tipo_formulario_convocatoria_id == 10 && (
-                                <li>
-                                    Ha superado el número máximo, ya sea de cantidad o meses de vinculación, de uno o varios roles que ha asociado al proyecto. Por favor, revise en los lineamientos
-                                    los valores máximos para su Hub de Innovación.
-                                </li>
-                            )}
-                            {!topes_roles_sennova_tecnoparque && proyecto.tipo_formulario_convocatoria_id == 17 && (
-                                <li>
-                                    Ha superado el número máximo, ya sea de cantidad o meses de vinculación, de uno o varios roles que ha asociado al proyecto. Por favor, revise en los lineamientos
-                                    los valores máximos para su nodo.
+                                    los valores máximos.
                                 </li>
                             )}
                             {!topes_presupuestales_tecnoparque && proyecto.tipo_formulario_convocatoria_id == 17 && (

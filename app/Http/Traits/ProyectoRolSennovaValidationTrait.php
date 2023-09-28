@@ -71,90 +71,42 @@ trait ProyectoRolSennovaValidationTrait
         return false;
     }
 
-    public static function topesRolesSennovaTecnoparqueValidation($convocatoria, $proyecto)
-    {
-        $nodo_tecnoparque = $proyecto->proyectoFormulario17Linea69->nodoTecnoparque()->first();
-
-        foreach ($proyecto->proyectoRolesSennova as $proyecto_rol_sennova) {
-            $tope_rol_sennova_tecnoparque = $proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaTecnoparque()->where('nodo_tecnoparque_id', $nodo_tecnoparque->id)->first();
-
-            $meses_maximos = $tope_rol_sennova_tecnoparque->meses_maximos ?? $tope_rol_sennova_tecnoparque->convocatoriaRolSennova->meses_maximos ?? $proyecto->diff_meses;
-
-            if ($tope_rol_sennova_tecnoparque && $proyecto_rol_sennova->numero_roles > $tope_rol_sennova_tecnoparque->cantidad_maxima || $proyecto_rol_sennova->numero_meses > $meses_maximos) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public static function topesRolesSennovaHubInnovacionValidation($convocatoria, $proyecto)
-    {
-        $hub_innovacion = $proyecto->proyectoFormulario10Linea69->hubInnovacion()->first();
-
-        foreach ($proyecto->proyectoRolesSennova as $proyecto_rol_sennova) {
-            if ($proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaHubInnovacion()->exists()) {
-                $tope_rol_sennova_hub = $proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaHubInnovacion()->where('hub_innovacion_id', $hub_innovacion->id)->first();
-
-                $meses_maximos = $tope_rol_sennova_hub->meses_maximos ?? $tope_rol_sennova_hub->convocatoriaRolSennova->meses_maximos ?? $proyecto->diff_meses;
-
-                if ($tope_rol_sennova_hub && $proyecto_rol_sennova->numero_roles > $tope_rol_sennova_hub->cantidad_maxima || $proyecto_rol_sennova->numero_meses > $meses_maximos) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    public static function topesRolesSennovaFormulario13Validation($convocatoria, $proyecto)
+    public static function topesRolesSennovaValidation($convocatoria, $proyecto)
     {
         foreach ($proyecto->proyectoRolesSennova as $proyecto_rol_sennova) {
+            $tope_rol_sennova = $proyecto_rol_sennova->convocatoriaRolSennova;
+
             if ($proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaFormulario13()->exists()) {
-
-                $tope_rol_sennova_formulario13 = $proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaFormulario13()->where('centro_formacion_id', $proyecto->centro_formacion_id)->first();
-
-                $meses_maximos = $tope_rol_sennova_formulario13->meses_maximos ?? $tope_rol_sennova_formulario13->convocatoriaRolSennova->meses_maximos ?? $proyecto->diff_meses;
-
-                if ($tope_rol_sennova_formulario13 && $proyecto_rol_sennova->numero_roles > $tope_rol_sennova_formulario13->cantidad_maxima || $proyecto_rol_sennova->numero_meses > $meses_maximos) {
-                    return false;
-                }
+                $tope_rol_sennova = $proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaFormulario13()->where('centro_formacion_id', $proyecto->centro_formacion_id)->first();
             }
-        }
 
-        return true;
-    }
-
-    public static function topesRolesSennovaFormulario15Validation($convocatoria, $proyecto)
-    {
-        foreach ($proyecto->proyectoRolesSennova as $proyecto_rol_sennova) {
             if ($proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaFormulario15()->exists()) {
-
-                $tope_rol_sennova_formulario15 = $proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaFormulario15()->where('centro_formacion_id', $proyecto->centro_formacion_id)->first();
-
-                $meses_maximos = $tope_rol_sennova_formulario15->meses_maximos ?? $tope_rol_sennova_formulario15->convocatoriaRolSennova->meses_maximos ?? $proyecto->diff_meses;
-
-                if ($tope_rol_sennova_formulario15 && $proyecto_rol_sennova->numero_roles > $tope_rol_sennova_formulario15->cantidad_maxima || $proyecto_rol_sennova->numero_meses > $meses_maximos) {
-                    return false;
-                }
+                $tope_rol_sennova = $proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaFormulario15()->where('centro_formacion_id', $proyecto->centro_formacion_id)->first();
             }
-        }
 
-        return true;
-    }
-
-    public static function topesRolesSennovaFormulario16Validation($convocatoria, $proyecto)
-    {
-        foreach ($proyecto->proyectoRolesSennova as $proyecto_rol_sennova) {
             if ($proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaFormulario16()->exists()) {
+                $tope_rol_sennova = $proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaFormulario16()->where('centro_formacion_id', $proyecto->centro_formacion_id)->first();
+            }
 
-                $tope_rol_sennova_formulario16 = $proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaFormulario16()->where('centro_formacion_id', $proyecto->centro_formacion_id)->first();
+            if ($proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaTecnoparque()->exists()) {
+                $nodo_tecnoparque = $proyecto->proyectoFormulario17Linea69->nodoTecnoparque()->first();
+                $tope_rol_sennova = $proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaTecnoparque()->where('nodo_tecnoparque_id', $nodo_tecnoparque->id)->first();
+            }
 
-                $meses_maximos = $tope_rol_sennova_formulario16->meses_maximos ?? $tope_rol_sennova_formulario16->convocatoriaRolSennova->meses_maximos ?? $proyecto->diff_meses;
+            if ($proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaHubInnovacion()->exists()) {
+                $hub_innovacion   = $proyecto->proyectoFormulario10Linea69->hubInnovacion()->first();
+                $tope_rol_sennova = $proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaHubInnovacion()->where('hub_innovacion_id', $hub_innovacion->id)->first();
+            }
 
-                if ($tope_rol_sennova_formulario16 && $proyecto_rol_sennova->numero_roles > $tope_rol_sennova_formulario16->cantidad_maxima || $proyecto_rol_sennova->numero_meses > $meses_maximos) {
-                    return false;
-                }
+            if ($proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaTecnoacademia()->exists()) {
+                $tecnoacademia   = $proyecto->proyectoFormulario4Linea70->hubInnovacion()->first();
+                $tope_rol_sennova = $proyecto_rol_sennova->convocatoriaRolSennova->topesRolesSennovaTecnoacademia()->where('tecnoacademia_id', $tecnoacademia->id)->first();
+            }
+
+            $meses_maximos = $tope_rol_sennova->meses_maximos ?? $tope_rol_sennova->convocatoriaRolSennova->meses_maximos ?? $proyecto->diff_meses;
+
+            if ($tope_rol_sennova && $proyecto_rol_sennova->numero_roles > $tope_rol_sennova->cantidad_maxima || $proyecto_rol_sennova->numero_meses > $meses_maximos) {
+                return false;
             }
         }
 

@@ -10,7 +10,7 @@ import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 import { useEffect, useState } from 'react'
 
-const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_rol_sennova, convocatoria_roles_sennova, niveles_academicos, actividades }) => {
+const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_rol_sennova, convocatoria_roles_sennova, convocatoria_roles_sin_filtrar, niveles_academicos, actividades }) => {
     const roles_sennova_incompletos = convocatoria_roles_sennova.some((item) => item.label === null)
     const [meses_maximos, setMesesMaximo] = useState(proyecto.diff_meses)
     const [cantidad_maxima, setCantidadMaxima] = useState(0)
@@ -51,7 +51,8 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
         if (form.data.convocatoria_rol_sennova_id) {
             setTimeout(() => {
                 const { meses_maximos, meses_maximos_por_centro, cantidad_maxima } =
-                    proyecto_rol_sennova?.convocatoria_rol_sennova ?? convocatoria_roles_sennova.find((item) => item.value == form.data.convocatoria_rol_sennova_id)
+                    convocatoria_roles_sennova.find((item) => item.value == form.data.convocatoria_rol_sennova_id) ??
+                    convocatoria_roles_sin_filtrar.find((item) => item.value == proyecto_rol_sennova?.convocatoria_rol_sennova.id)
 
                 setMesesMaximo(meses_maximos_por_centro ?? meses_maximos)
                 setCantidadMaxima(cantidad_maxima)
