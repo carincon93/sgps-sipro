@@ -37,7 +37,10 @@ const ConvocatoriaTopesRolesSennovaTecnoacademia = ({ auth, convocatoria, montos
                 )}
 
                 <Grid item md={12}>
-                    <TableMui className="mt-20" rows={['Regional', 'Monto máximo ' + convocatoria.year, 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui
+                        className="mt-20"
+                        rows={['Regional', 'Monto máximo ' + convocatoria.year, 'Cantidad máxima de proyectos ' + convocatoria.year, 'Acciones']}
+                        sxCellThead={{ width: '320px' }}>
                         <TableRow
                             onClick={() => (setDialogStatus(true), setMethod('POST'), setMontoMaximoFormulario1Regional(null))}
                             variant="raised"
@@ -54,6 +57,7 @@ const ConvocatoriaTopesRolesSennovaTecnoacademia = ({ auth, convocatoria, montos
                                     <p className="first-letter:uppercase">{monto_maximo_por_regional.regional.nombre}</p>
                                 </TableCell>
                                 <TableCell>${new Intl.NumberFormat('de-DE').format(monto_maximo_por_regional.monto_maximo)} COP</TableCell>
+                                <TableCell>{monto_maximo_por_regional.maximo_proyectos}</TableCell>
                                 <TableCell>
                                     <MenuMui text={<MoreVertIcon />}>
                                         {monto_maximo_por_regional.id !== monto_maximo_por_regional_to_destroy ? (

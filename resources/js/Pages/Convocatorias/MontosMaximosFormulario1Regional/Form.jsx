@@ -13,6 +13,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, monto_maximo_por_reg
         regional_id: monto_maximo_por_regional?.regional_id,
         convocatoria_rol_sennova_id: monto_maximo_por_regional?.convocatoria_rol_sennova_id,
         monto_maximo: monto_maximo_por_regional?.monto_maximo,
+        maximo_proyectos: monto_maximo_por_regional?.maximo_proyectos,
         tipo_formulario_convocatoria_id: page_props.ziggy.query.tipo_formulario_convocatoria_id,
     })
 
@@ -65,6 +66,22 @@ const Form = ({ method = '', setDialogStatus, convocatoria, monto_maximo_por_reg
                                         value={form.data.monto_maximo}
                                         onChange={(e) => form.setData('monto_maximo', e.target.value)}
                                         error={form.errors.monto_maximo}
+                                        required
+                                    />
+                                </Grid>
+
+                                <Grid item md={12}>
+                                    <TextInput
+                                        id="maximo_proyectos"
+                                        name="maximo_proyectos"
+                                        label="Cantidad máxima de proyectos"
+                                        type="number"
+                                        inputProps={{
+                                            min: 0,
+                                        }}
+                                        value={form.data.maximo_proyectos}
+                                        onChange={(e) => form.setData('maximo_proyectos', e.target.value)}
+                                        error={form.errors.maximo_proyectos}
                                         required
                                     />
                                 </Grid>

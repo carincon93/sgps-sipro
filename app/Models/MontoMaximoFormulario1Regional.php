@@ -25,6 +25,7 @@ class MontoMaximoFormulario1Regional extends Model
         'regional_id',
         'convocatoria_tipo_formulario_id',
         'monto_maximo',
+        'maximo_proyectos'
     ];
 
     /**
