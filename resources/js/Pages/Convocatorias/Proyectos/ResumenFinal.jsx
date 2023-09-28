@@ -8,6 +8,7 @@ import { Grid } from '@mui/material'
 import { useEffect, useState, useRef } from 'react'
 import { Head, router } from '@inertiajs/react'
 import React from 'react'
+import CircularProgressMui from '@/Components/CircularProgress'
 
 const ResumenFinal = ({
     convocatoria,
@@ -38,17 +39,24 @@ const ResumenFinal = ({
     topes_por_nodo,
     topes_roles_sennova_hub_innovacion,
     topes_roles_sennova_formulario_13,
+    topes_roles_sennova_formulario_15,
+    topes_roles_sennova_formulario_16,
     edt,
 }) => {
     const ul_ref = useRef(null)
 
     const [list_item_count, setListItemCount] = useState(0)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         if (ul_ref.current) {
             const li_elements = ul_ref.current.querySelectorAll('li')
             setListItemCount(li_elements.length)
         }
+
+        setTimeout(() => {
+            setLoading(false)
+        }, 500)
     }, [])
 
     return (
@@ -59,15 +67,11 @@ const ResumenFinal = ({
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
-            <Grid item md={12}>
+            <Grid item md={12} className="mt-10">
                 {proyecto.finalizado == false && (
-                    <AlertMui severity={list_item_count > 0 ? 'error' : 'info'}>
+                    <AlertMui severity="error">
                         <p>
-                            <strong>
-                                {list_item_count > 0
-                                    ? 'La información del proyecto está incompleta. Para poder finalizar el proyecto debe completar / corregir los siguientes ítems:'
-                                    : 'El proyecto ha sido diligenciado correctamente.'}
-                            </strong>
+                            <strong>La información del proyecto está incompleta. Para poder finalizar el proyecto debe completar / corregir los siguientes ítems:</strong>
                         </p>
                         <ul className="list-decimal p-4" ref={ul_ref}>
                             {!generalidades && <li>Generalidades</li>}
@@ -140,16 +144,33 @@ const ResumenFinal = ({
                             {!estudiosMercadoArchivo && <li>Hay rubros presupuestales que no tienen el estudio de mercado cargado</li>}
                             {!topes_roles_sennova_formulario_13 && proyecto.tipo_formulario_convocatoria_id == 13 && (
                                 <li>
-                                    Ha superado el número máximo de uno o varios roles que ha asociado al proyecto. Por favor revise en los lineamientos los roles máximos para su Centro de Formación.
+                                    Ha superado el número máximo, ya sea de cantidad o meses de vinculación, de uno o varios roles que ha asociado al proyecto. Por favor, revise en los lineamientos
+                                    los valores máximos para su Centro de Formación.
+                                </li>
+                            )}
+                            {!topes_roles_sennova_formulario_15 && proyecto.tipo_formulario_convocatoria_id == 15 && (
+                                <li>
+                                    Ha superado el número máximo, ya sea de cantidad o meses de vinculación, de uno o varios roles que ha asociado al proyecto. Por favor, revise en los lineamientos
+                                    los valores máximos para su Centro de Formación.
+                                </li>
+                            )}
+                            {!topes_roles_sennova_formulario_16 && proyecto.tipo_formulario_convocatoria_id == 16 && (
+                                <li>
+                                    Ha superado el número máximo, ya sea de cantidad o meses de vinculación, de uno o varios roles que ha asociado al proyecto. Por favor, revise en los lineamientos
+                                    los valores máximos para su Centro de Formación.
                                 </li>
                             )}
                             {!topes_roles_sennova_hub_innovacion && proyecto.tipo_formulario_convocatoria_id == 10 && (
                                 <li>
-                                    Ha superado el número máximo de uno o varios roles que ha asociado al proyecto. Por favor revise en los lineamientos los roles máximos para su Hub de Innovación.
+                                    Ha superado el número máximo, ya sea de cantidad o meses de vinculación, de uno o varios roles que ha asociado al proyecto. Por favor, revise en los lineamientos
+                                    los valores máximos para su Hub de Innovación.
                                 </li>
                             )}
                             {!topes_roles_sennova_tecnoparque && proyecto.tipo_formulario_convocatoria_id == 17 && (
-                                <li>Ha superado el número máximo de uno o varios roles que ha asociado al proyecto. Por favor revise en los lineamientos los roles máximos para su nodo.</li>
+                                <li>
+                                    Ha superado el número máximo, ya sea de cantidad o meses de vinculación, de uno o varios roles que ha asociado al proyecto. Por favor, revise en los lineamientos
+                                    los valores máximos para su nodo.
+                                </li>
                             )}
                             {!topes_presupuestales_tecnoparque && proyecto.tipo_formulario_convocatoria_id == 17 && (
                                 <li>
@@ -176,50 +197,51 @@ const ResumenFinal = ({
                         </ul>
                     </AlertMui>
                 )}
-                {list_item_count == 0 && proyecto?.allowed?.to_update && (
-                    <>
-                        <AlertMui className="mt-10">
-                            {proyecto?.finalizado
-                                ? 'Si desea seguir modificando el proyecto de clic en la casilla "Modificar"'
-                                : 'Por favor habilite la casilla para confirmar que ha finalizado el proyecto'}
-                            <br />
-                            <Checkbox
-                                name="default_password"
-                                className="mt-3"
-                                checked={!proyecto.finalizado}
-                                onChange={(e) =>
-                                    router.put(
-                                        route('convocatorias.proyectos.finalizar', [convocatoria.id, proyecto.id]),
-                                        {
-                                            modificar: e.target.checked,
-                                        },
-                                        {
-                                            preserveScroll: true,
-                                        },
-                                    )
-                                }
-                                label="Modificar proyecto"
-                            />
 
-                            <Checkbox
-                                name="default_password"
-                                className="mt-3"
-                                checked={proyecto.finalizado}
-                                onChange={(e) =>
-                                    router.put(
-                                        route('convocatorias.proyectos.finalizar', [convocatoria.id, proyecto.id]),
-                                        {
-                                            finalizado: e.target.checked,
-                                        },
-                                        {
-                                            preserveScroll: true,
-                                        },
-                                    )
-                                }
-                                label="Proyecto finalizado"
-                            />
-                        </AlertMui>
-                    </>
+                {list_item_count == 0 && proyecto?.allowed?.to_update && !loading ? (
+                    <AlertMui>
+                        <strong className="block mb-8">El proyecto ha sido diligenciado correctamente.</strong>
+                        {proyecto?.finalizado
+                            ? 'Si desea seguir modificando el proyecto de clic en la casilla "Modificar"'
+                            : 'Por favor habilite la casilla para confirmar que ha finalizado el proyecto'}
+                        <br />
+                        <Checkbox
+                            name="default_password"
+                            className="mt-3"
+                            checked={!proyecto.finalizado}
+                            onChange={(e) =>
+                                router.put(
+                                    route('convocatorias.proyectos.finalizar', [convocatoria.id, proyecto.id]),
+                                    {
+                                        modificar: e.target.checked,
+                                    },
+                                    {
+                                        preserveScroll: true,
+                                    },
+                                )
+                            }
+                            label="Modificar proyecto"
+                        />
+                        <Checkbox
+                            name="default_password"
+                            className="mt-3"
+                            checked={proyecto.finalizado}
+                            onChange={(e) =>
+                                router.put(
+                                    route('convocatorias.proyectos.finalizar', [convocatoria.id, proyecto.id]),
+                                    {
+                                        finalizado: e.target.checked,
+                                    },
+                                    {
+                                        preserveScroll: true,
+                                    },
+                                )
+                            }
+                            label="Proyecto finalizado"
+                        />
+                    </AlertMui>
+                ) : (
+                    list_item_count == 0 && <CircularProgressMui />
                 )}
             </Grid>
         </AuthenticatedLayout>
