@@ -127,6 +127,16 @@ class Evaluacion extends Model
     }
 
     /**
+     * Relationship with EvaluacionProyectoFormulario6Linea82
+     *
+     * @return object
+     */
+    public function evaluacionProyectoFormulario6Linea82()
+    {
+        return $this->hasOne(EvaluacionProyectoFormulario6Linea82::class, 'id');
+    }
+
+    /**
      * Relationship with EvaluacionProyectoFormulario12Linea68
      *
      * @return object

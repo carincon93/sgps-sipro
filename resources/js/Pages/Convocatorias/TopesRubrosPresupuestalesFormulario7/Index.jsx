@@ -16,14 +16,14 @@ import { useState } from 'react'
 
 import Form from './Form'
 
-const ConvocatoriaTopesRubrosPresupuestalesNodosTecnoparque = ({ auth, convocatoria, topes_presupuestales_nodos_tecnoparque, nodos_tecnoparque, segundo_grupo_presupuestal }) => {
+const ConvocatoriaTopesRubrosPresupuestalesFormulario7 = ({ auth, convocatoria, topes_presupuestales_formulario_7, segundo_grupo_presupuestal }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
     const [dialog_status, setDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
-    const [tope_presupuestal_tecnoparque_to_destroy, setTopePresupuestalTecnoparqueToDestroy] = useState(null)
-    const [tope_presupuestal_tecnoparque, setTopePresupuestalTecnoparque] = useState(null)
+    const [tope_presupuestal_formulario_7_to_destroy, setTopePresupuestalFormulario7ToDestroy] = useState(null)
+    const [tope_presupuestal_formulario_7, setTopePresupuestalFormulario7] = useState(null)
 
     return (
         <AuthenticatedLayout>
@@ -32,48 +32,40 @@ const ConvocatoriaTopesRubrosPresupuestalesNodosTecnoparque = ({ auth, convocato
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                     <Grid item md={12}>
-                        <TabsConvocatoria value="5" convocatoria={convocatoria} tipo_formulario_convocatoria_id={17} />
+                        <TabsConvocatoria value="4" convocatoria={convocatoria} tipo_formulario_convocatoria_id={7} />
                     </Grid>
                 )}
 
                 <Grid item md={12}>
-                    <TableMui className="mt-20" rows={['Nombre del nodo', 'Concepto interno SENA', 'Valor', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui className="mt-20" rows={['Concepto interno SENA', 'Valor', 'Porcentaje', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         <TableRow
-                            onClick={() => (setDialogStatus(true), setMethod('POST'), setTopePresupuestalTecnoparque(null))}
+                            onClick={() => (setDialogStatus(true), setMethod('POST'), setTopePresupuestalFormulario7(null))}
                             variant="raised"
                             className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
-                            <TableCell colSpan={5}>
+                            <TableCell colSpan={4}>
                                 <ButtonMui>
                                     <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar tope
                                 </ButtonMui>
                             </TableCell>
                         </TableRow>
-                        {topes_presupuestales_nodos_tecnoparque.map((tope_presupuestal_tecnoparque, i) => (
+                        {topes_presupuestales_formulario_7.map((tope_presupuestal_formulario_7, i) => (
                             <TableRow key={i}>
                                 <TableCell>
-                                    <p className="first-letter:uppercase">Red {tope_presupuestal_tecnoparque.nodo_tecnoparque.nombre}</p>
-                                </TableCell>
-                                <TableCell>
-                                    <ul className="list-disc">
-                                        {tope_presupuestal_tecnoparque.segundo_grupo_presupuestal.map((concepto_interno_sena, i) => (
-                                            <li key={i}>
-                                                <p className="first-letter:uppercase">{concepto_interno_sena.nombre}</p>
-                                            </li>
-                                        ))}
-                                    </ul>
+                                    <p className="first-letter:uppercase">{tope_presupuestal_formulario_7?.segundo_grupo_presupuestal.nombre}</p>
                                 </TableCell>
 
-                                <TableCell>${new Intl.NumberFormat('de-DE').format(tope_presupuestal_tecnoparque.valor)} COP</TableCell>
+                                <TableCell>${new Intl.NumberFormat('de-DE').format(tope_presupuestal_formulario_7.valor)} COP</TableCell>
+                                <TableCell>{tope_presupuestal_formulario_7.porcentaje} %</TableCell>
 
                                 <TableCell>
                                     <MenuMui text={<MoreVertIcon />}>
-                                        {tope_presupuestal_tecnoparque.id !== tope_presupuestal_tecnoparque_to_destroy ? (
+                                        {tope_presupuestal_formulario_7.id !== tope_presupuestal_formulario_7_to_destroy ? (
                                             <div>
-                                                <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setTopePresupuestalTecnoparque(tope_presupuestal_tecnoparque))}>Editar</MenuItem>
+                                                <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setTopePresupuestalFormulario7(tope_presupuestal_formulario_7))}>Editar</MenuItem>
 
                                                 <MenuItem
                                                     onClick={() => {
-                                                        setTopePresupuestalTecnoparqueToDestroy(tope_presupuestal_tecnoparque.id)
+                                                        setTopePresupuestalFormulario7ToDestroy(tope_presupuestal_formulario_7.id)
                                                     }}>
                                                     Eliminar
                                                 </MenuItem>
@@ -82,7 +74,7 @@ const ConvocatoriaTopesRubrosPresupuestalesNodosTecnoparque = ({ auth, convocato
                                             <div>
                                                 <MenuItem
                                                     onClick={(e) => {
-                                                        setTopePresupuestalTecnoparqueToDestroy(null)
+                                                        setTopePresupuestalFormulario7ToDestroy(null)
                                                     }}>
                                                     Cancelar
                                                 </MenuItem>
@@ -90,7 +82,7 @@ const ConvocatoriaTopesRubrosPresupuestalesNodosTecnoparque = ({ auth, convocato
                                                     sx={{ backgroundColor: 'rgba(0, 0, 0, 0.04)' }}
                                                     onClick={(e) => {
                                                         e.stopPropagation()
-                                                        router.delete(route('convocatorias.topes-presupuestales-tecnoparque.destroy', [convocatoria.id, tope_presupuestal_tecnoparque.id]), {
+                                                        router.delete(route('convocatorias.topes-presupuestales-formulario-7.destroy', [convocatoria.id, tope_presupuestal_formulario_7.id]), {
                                                             preserveScroll: true,
                                                         })
                                                     }}>
@@ -115,8 +107,7 @@ const ConvocatoriaTopesRubrosPresupuestalesNodosTecnoparque = ({ auth, convocato
                                 setDialogStatus={setDialogStatus}
                                 method={method}
                                 convocatoria={convocatoria}
-                                tope_presupuestal_tecnoparque={tope_presupuestal_tecnoparque}
-                                nodos_tecnoparque={nodos_tecnoparque}
+                                tope_presupuestal_formulario_7={tope_presupuestal_formulario_7}
                                 segundo_grupo_presupuestal={segundo_grupo_presupuestal}
                             />
                         }
@@ -127,4 +118,4 @@ const ConvocatoriaTopesRubrosPresupuestalesNodosTecnoparque = ({ auth, convocato
     )
 }
 
-export default ConvocatoriaTopesRubrosPresupuestalesNodosTecnoparque
+export default ConvocatoriaTopesRubrosPresupuestalesFormulario7

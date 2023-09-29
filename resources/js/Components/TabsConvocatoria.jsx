@@ -61,6 +61,17 @@ const TabsConvocatoria = ({ convocatoria, tipo_formulario_convocatoria_id, value
                 />
             )}
 
+            {tipo_formulario_convocatoria_id == 7 && (
+                <Tab
+                    component="a"
+                    onClick={() => {
+                        router.visit(route('convocatorias.topes-presupuestales-formulario-7.index', [convocatoria.id, { tipo_formulario_convocatoria_id: tipo_formulario_convocatoria_id }]))
+                    }}
+                    label="Topes - presupuestales"
+                    value="4"
+                />
+            )}
+
             {tipo_formulario_convocatoria_id == 13 && (
                 <Tab
                     component="a"

@@ -127,7 +127,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_6_linea_82, allowed_to
                                                     </a>
                                                 </MenuItem>
                                                 <Divider />
-                                                {proyecto.evaluaciones.map((evaluacion, i) => (
+                                                {/* {proyecto.evaluaciones.map((evaluacion, i) => (
                                                     <MenuItem
                                                         key={i}
                                                         onClick={() =>
@@ -136,7 +136,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_6_linea_82, allowed_to
                                                         isabled={!is_super_admin}>
                                                         Evaluacion #{evaluacion.id}
                                                     </MenuItem>
-                                                ))}
+                                                ))} */}
                                                 <MenuItem
                                                     onClick={() => {
                                                         setProyectoFormulario6Linea82ToDestroy(proyecto.id)

@@ -45,6 +45,7 @@ const Edit = ({
 
     const [evaluacion_index, setEvaluacionIndex] = useState(0)
     const [dialog_status, setDialogStatus] = useState(true)
+    const [dialog_evaluacion_status, setDialogEvaluacionStatus] = useState(false)
 
     const comentarios_evaluaciones =
         proyecto_formulario_6_linea_82?.proyecto?.evaluaciones?.length > 0
@@ -59,7 +60,7 @@ const Edit = ({
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto_formulario_6_linea_82?.proyecto} evaluacion={evaluacion} />
             </Grid>
 
-            {/* {!evaluacion && (
+            {!evaluacion && (
                 <>
                     <Grid item md={4}>
                         Evaluación
@@ -67,13 +68,13 @@ const Edit = ({
                     <Grid item md={8}>
                         {comentarios_evaluaciones && (
                             <>
-                                <ButtonMui onClick={() => setDialogStatus(true)} primary={true}>
+                                <ButtonMui onClick={() => setDialogEvaluacionStatus(true)} primary={true}>
                                     Revisar evaluaciones
                                 </ButtonMui>
                                 <DialogMui
                                     fullWidth={true}
                                     maxWidth="lg"
-                                    open={dialog_status}
+                                    open={dialog_evaluacion_status}
                                     dialogContent={
                                         <>
                                             {proyecto_formulario_6_linea_82?.proyecto.evaluaciones.map((evaluacion, i) => (
@@ -91,7 +92,8 @@ const Edit = ({
                                                                     <p className="first-letter:uppercase">{field.replace(/_comentario/g, '').replace(/_/g, ' ')}</p>
                                                                 </TableCell>
                                                                 <TableCell>
-                                                                    {proyecto_formulario_6_linea_82?.proyecto.evaluaciones[evaluacion_index]?.evaluacion_proyecto_formulario6_linea82[field] ?? 'Sin comentarios'}
+                                                                    {proyecto_formulario_6_linea_82?.proyecto.evaluaciones[evaluacion_index]?.evaluacion_proyecto_formulario6_linea82[field] ??
+                                                                        'Sin comentarios'}
                                                                 </TableCell>
                                                             </TableRow>
                                                         ))}
@@ -99,7 +101,7 @@ const Edit = ({
                                         </>
                                     }
                                     dialogActions={
-                                        <ButtonMui onClick={() => setDialogStatus(false)} primary={true} className="!mr-6">
+                                        <ButtonMui onClick={() => setDialogEvaluacionStatus(false)} primary={true} className="!mr-6">
                                             Cerrar
                                         </ButtonMui>
                                     }
@@ -110,33 +112,28 @@ const Edit = ({
                 </>
             )}
 
-            <Grid item md={4}>
-                Evaluación
-            </Grid>
-            <Grid item md={8}>
-                {evaluacion && (
-                    <>
-                        <ButtonMui onClick={() => setDialogStatus(true)} primary={true}>
-                            Evaluar
-                        </ButtonMui>
-                        <DialogMui
-                            fullWidth={true}
-                            maxWidth="lg"
-                            open={dialog_status}
-                            dialogContent={
-                                <>
-                                    <Evaluacion evaluacion={evaluacion} />
-                                </>
-                            }
-                            dialogActions={
-                                <ButtonMui onClick={() => setDialogStatus(false)} primary={true} className="!mr-6">
-                                    Cerrar
-                                </ButtonMui>
-                            }
-                        />
-                    </>
-                )}
-            </Grid> */}
+            {evaluacion && (
+                <>
+                    <ButtonMui onClick={() => setDialogEvaluacionStatus(true)} primary={true} className="!fixed bottom-10 right-10 z-[99]">
+                        Evaluar
+                    </ButtonMui>
+                    <DialogMui
+                        fullWidth={true}
+                        maxWidth="lg"
+                        open={dialog_evaluacion_status}
+                        dialogContent={
+                            <>
+                                <Evaluacion evaluacion={evaluacion} />
+                            </>
+                        }
+                        dialogActions={
+                            <ButtonMui onClick={() => setDialogEvaluacionStatus(false)} primary={true} className="!mr-6">
+                                Cerrar
+                            </ButtonMui>
+                        }
+                    />
+                </>
+            )}
 
             <Grid item md={12}>
                 <Form
