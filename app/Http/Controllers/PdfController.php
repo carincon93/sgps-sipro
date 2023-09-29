@@ -63,7 +63,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -152,7 +152,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -236,7 +236,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -319,7 +319,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -404,7 +404,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -484,11 +484,12 @@ class PdfController extends Controller
             'tipos_licencia'                    => collect(json_decode(Storage::get('json/tipos-licencia-software.json'), true)),
             'tipos_software'                    => collect(json_decode(Storage::get('json/tipos-software.json'), true)),
             'lineas_estrategicas'               => collect(json_decode(Storage::get('json/lineas-estrategicas.json'), true)),
+            'areas_cualificacion_mnc'           => collect(json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true)),
         ]);
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -572,7 +573,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -656,7 +657,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -739,7 +740,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -822,7 +823,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -903,7 +904,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -992,7 +993,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -1081,7 +1082,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -1170,7 +1171,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -1253,7 +1254,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
