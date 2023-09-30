@@ -16,7 +16,7 @@ import { useState } from 'react'
 
 import Form from './Form'
 
-const ConvocatoriaTopesRubrosPresupuestalesFormulario7 = ({ auth, convocatoria, topes_presupuestales_formulario_7, segundo_grupo_presupuestal }) => {
+const ConvocatoriaTopesRubrosPresupuestalesFormulario7 = ({ auth, convocatoria, topes_presupuestales_formulario_7, segundo_grupo_presupuestal, conceptos_internos_sena }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -37,7 +37,7 @@ const ConvocatoriaTopesRubrosPresupuestalesFormulario7 = ({ auth, convocatoria, 
                 )}
 
                 <Grid item md={12}>
-                    <TableMui className="mt-20" rows={['Concepto interno SENA', 'Valor', 'Porcentaje', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui className="mt-20" rows={['Concepto interno SENA', 'Tope máximo ($)', 'Tope máximo (%)', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         <TableRow
                             onClick={() => (setDialogStatus(true), setMethod('POST'), setTopePresupuestalFormulario7(null))}
                             variant="raised"
@@ -55,7 +55,7 @@ const ConvocatoriaTopesRubrosPresupuestalesFormulario7 = ({ auth, convocatoria, 
                                 </TableCell>
 
                                 <TableCell>${new Intl.NumberFormat('de-DE').format(tope_presupuestal_formulario_7.valor)} COP</TableCell>
-                                <TableCell>{tope_presupuestal_formulario_7.porcentaje} %</TableCell>
+                                <TableCell>{tope_presupuestal_formulario_7.porcentaje ? tope_presupuestal_formulario_7.porcentaje : 0} % del valor total del proyecto</TableCell>
 
                                 <TableCell>
                                     <MenuMui text={<MoreVertIcon />}>
@@ -109,6 +109,7 @@ const ConvocatoriaTopesRubrosPresupuestalesFormulario7 = ({ auth, convocatoria, 
                                 convocatoria={convocatoria}
                                 tope_presupuestal_formulario_7={tope_presupuestal_formulario_7}
                                 segundo_grupo_presupuestal={segundo_grupo_presupuestal}
+                                conceptos_internos_sena={conceptos_internos_sena}
                             />
                         }
                     />

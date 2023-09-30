@@ -7,7 +7,7 @@ import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
 import { useEffect } from 'react'
 
-const Form = ({ method = '', setDialogStatus, convocatoria, tope_presupuestal_formulario_7, segundo_grupo_presupuestal, ...props }) => {
+const Form = ({ method = '', setDialogStatus, convocatoria, tope_presupuestal_formulario_7, segundo_grupo_presupuestal, conceptos_internos_sena, ...props }) => {
     const form = useForm({
         convocatoria_id: convocatoria?.id,
         segundo_grupo_presupuestal_id: tope_presupuestal_formulario_7?.segundo_grupo_presupuestal_id,
@@ -52,15 +52,19 @@ const Form = ({ method = '', setDialogStatus, convocatoria, tope_presupuestal_fo
                         <fieldset>
                             <Grid container rowSpacing={8}>
                                 <Grid item md={12}>
-                                    <Autocomplete
-                                        id="segundo_grupo_presupuestal_id"
-                                        options={segundo_grupo_presupuestal}
-                                        selectedValue={form.data.segundo_grupo_presupuestal_id}
-                                        onChange={(event, newValue) => form.setData('segundo_grupo_presupuestal_id', newValue.value)}
-                                        error={form.errors.segundo_grupo_presupuestal_id}
-                                        label="Concepto interno SENA"
-                                        required
-                                    />
+                                    {method == 'POST' ? (
+                                        <Autocomplete
+                                            id="segundo_grupo_presupuestal_id"
+                                            options={segundo_grupo_presupuestal}
+                                            selectedValue={form.data.segundo_grupo_presupuestal_id}
+                                            onChange={(event, newValue) => form.setData('segundo_grupo_presupuestal_id', newValue.value)}
+                                            error={form.errors.segundo_grupo_presupuestal_id}
+                                            label="Concepto interno SENA"
+                                            required
+                                        />
+                                    ) : (
+                                        <p className="first-letter:uppercase">{conceptos_internos_sena.find((item) => item.value == form.data.segundo_grupo_presupuestal_id)?.label}</p>
+                                    )}
                                 </Grid>
 
                                 <Grid item md={12}>

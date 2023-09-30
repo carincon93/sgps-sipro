@@ -72,7 +72,7 @@ const Form = ({ method = '', setDialogStatus, anexo, mime_types, ...props }) => 
                                         }))
                                     }}
                                     error={form.errors.mime_type}
-                                    label="Seleccione una o varios tipos de archivos"
+                                    label="Seleccione uno o varios tipos de archivos"
                                     required
                                 />
                             </Grid>

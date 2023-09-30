@@ -35,6 +35,7 @@ const ResumenFinal = ({
     soportesEstudioMercado,
     estudiosMercadoArchivo,
     topes_presupuestales_tecnoparque,
+    topes_presupuestales_formulario7,
     topes_por_nodo,
     topes_roles_sennova,
     edt,
@@ -144,6 +145,7 @@ const ResumenFinal = ({
                                     los valores máximos.
                                 </li>
                             )}
+                            {topes_presupuestales_formulario7 != null && <li>{topes_presupuestales_formulario7}</li>}
                             {!topes_presupuestales_tecnoparque && proyecto.tipo_formulario_convocatoria_id == 17 && (
                                 <li>
                                     Ha superado los valores máximos de algún tope presupuestal asignado a su nodo. Se recomienda revisar los lineamientos. A continuación, se listan los valores

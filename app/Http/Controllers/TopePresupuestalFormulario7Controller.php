@@ -18,10 +18,13 @@ class TopePresupuestalFormulario7Controller extends Controller
     {
         $this->authorize('viewAny', [TopePresupuestalFormulario7::class]);
 
+        $topes_presupuestales_formulario_7 = TopePresupuestalFormulario7::select('topes_presupuestales_formulario_7_concepto_sena.*', 'segundo_grupo_presupuestal.codigo')->with('convocatoria', 'segundoGrupoPresupuestal')->join('segundo_grupo_presupuestal', 'topes_presupuestales_formulario_7_concepto_sena.segundo_grupo_presupuestal_id', 'segundo_grupo_presupuestal.id')->where('topes_presupuestales_formulario_7_concepto_sena.convocatoria_id', $convocatoria->id)->orderBy('topes_presupuestales_formulario_7_concepto_sena.segundo_grupo_presupuestal_id')->get();
+
         return Inertia::render('Convocatorias/TopesRubrosPresupuestalesFormulario7/Index', [
             'convocatoria'                              => $convocatoria,
-            'topes_presupuestales_formulario_7'         => TopePresupuestalFormulario7::select('topes_presupuestales_formulario_7_concepto_sena.*')->with('convocatoria', 'segundoGrupoPresupuestal')->where('topes_presupuestales_formulario_7_concepto_sena.convocatoria_id', $convocatoria->id)->orderBy('topes_presupuestales_formulario_7_concepto_sena.segundo_grupo_presupuestal_id')->get(),
-            'segundo_grupo_presupuestal'                => SelectHelper::segundoGrupoPresupuestal($convocatoria->id, 7),
+            'topes_presupuestales_formulario_7'         => $topes_presupuestales_formulario_7,
+            'segundo_grupo_presupuestal'                => SelectHelper::segundoGrupoPresupuestal($convocatoria->id, 7)->whereNotIn('codigo', $topes_presupuestales_formulario_7->pluck('codigo'))->values()->all(),
+            'conceptos_internos_sena'                   => SelectHelper::segundoGrupoPresupuestal($convocatoria->id, 7)
         ]);
     }
 
