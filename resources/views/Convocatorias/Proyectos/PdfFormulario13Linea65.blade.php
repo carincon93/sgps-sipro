@@ -121,7 +121,7 @@
 
         <tr>
             <td align="left">
-                <p style="font-weight: bold;">Área de conocimiento</p>
+                <p style="font-weight: bold;">Disciplina de conocimiento</p>
             </td>
             <td align="left">
                 <p style="white-space: pre-wrap">{{ $datos->disciplinaSubareaConocimiento->nombre }} </p>
