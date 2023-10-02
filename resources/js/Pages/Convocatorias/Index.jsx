@@ -41,7 +41,7 @@ export default function Dashboard({ auth, convocatorias }) {
                 </Grid>
             )}
 
-            {is_super_admin || checkRole(auth_user, [11]) || checkPermission(auth_user, [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18, 19, 14, 15, 16, 20, 21]) ? (
+            {is_super_admin || checkRole(auth_user, [11, 33]) || checkPermission(auth_user, [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18, 19, 14, 15, 16, 20, 21]) ? (
                 <Grid container rowSpacing={2} className="!mt-10">
                     {convocatorias.data.map((convocatoria) =>
                         convocatoria.visible || is_super_admin || checkRole(auth_user, [5, 17, 18, 19, 20]) ? (
