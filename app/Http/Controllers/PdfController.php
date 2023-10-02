@@ -569,6 +569,7 @@ class PdfController extends Controller
             'tipos_licencia'                    => collect(json_decode(Storage::get('json/tipos-licencia-software.json'), true)),
             'tipos_software'                    => collect(json_decode(Storage::get('json/tipos-software.json'), true)),
             'lineas_estrategicas'               => collect(json_decode(Storage::get('json/lineas-estrategicas.json'), true)),
+            'areas_cualificacion_mnc'           => collect(json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true)),
         ]);
 
         return $pdf->stream();
