@@ -131,9 +131,9 @@ const Form = ({
                                     </AlertMui>
                                 )}
 
-                                {parseInt(meses_maximos) > parseInt(proyecto.diff_meses) && (
+                                {form.data.numero_meses > parseFloat(meses_maximos) && (
                                     <AlertMui error={true} className="mt-10">
-                                        El tiempo máximo del rol seleccionado <strong>({meses_maximos})</strong> supera el número de meses <strong>({proyecto.diff_meses})</strong> de ejecución del
+                                        El tiempo máximo del rol seleccionado <strong>({meses_maximos})</strong> supera el número de meses <strong>({form.data.numero_meses})</strong> de ejecución del
                                         proyecto. Por favor modifique las fechas del proyecto. (Debe ser un valor igual o superior).
                                     </AlertMui>
                                 )}
@@ -219,7 +219,7 @@ const Form = ({
                                     inputProps={{
                                         step: 0.1,
                                         min: 1,
-                                        max: is_super_admin ? null : meses_maximos ?? proyecto.diff_meses,
+                                        max: is_super_admin ? null : meses_maximos ? (proyecto.diff_meses > meses_maximos ? meses_maximos : proyecto.diff_meses) : proyecto.diff_meses,
                                     }}
                                     error={form.errors.numero_meses}
                                     value={form.data.numero_meses}
@@ -231,7 +231,8 @@ const Form = ({
                                 />
 
                                 <AlertMui>
-                                    El rol seleccionado no puede superar los <strong>{meses_maximos ?? proyecto.diff_meses}</strong> meses de vinculación
+                                    El rol seleccionado no puede superar los{' '}
+                                    <strong>{meses_maximos ? (proyecto.diff_meses > meses_maximos ? meses_maximos : proyecto.diff_meses) : proyecto.diff_meses}</strong> meses de vinculación
                                 </AlertMui>
                             </Grid>
 
@@ -288,7 +289,7 @@ const Form = ({
                         {proyecto_rol_sennova && <small className="flex items-center my-10 text-app-700">{proyecto_rol_sennova.updated_at}</small>}
 
                         <div className="flex items-center justify-between mt-8 py-4">
-                            {proyecto?.allowed?.to_update && parseInt(meses_maximos) <= parseInt(proyecto.diff_meses) ? (
+                            {proyecto?.allowed?.to_update && parseFloat(meses_maximos) <= parseFloat(proyecto.diff_meses) ? (
                                 <PrimaryButton disabled={form.processing || roles_sennova_incompletos || !form.isDirty || actividades.length === 0} className="mr-2 ml-auto" type="submit">
                                     {method == 'POST' ? 'Agregar' : 'Modificar'} rol SENNOVA
                                 </PrimaryButton>
