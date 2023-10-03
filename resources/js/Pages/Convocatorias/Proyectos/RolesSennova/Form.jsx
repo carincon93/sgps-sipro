@@ -289,7 +289,10 @@ const Form = ({
                         {proyecto_rol_sennova && <small className="flex items-center my-10 text-app-700">{proyecto_rol_sennova.updated_at}</small>}
 
                         <div className="flex items-center justify-between mt-8 py-4">
-                            {proyecto?.allowed?.to_update && parseFloat(meses_maximos) <= parseFloat(proyecto.diff_meses) ? (
+                            {proyecto?.allowed?.to_update &&
+                            form.data.numero_meses <= parseFloat(meses_maximos) &&
+                            proyecto?.allowed?.to_update &&
+                            form.data.numero_meses <= parseFloat(proyecto.diff_meses) ? (
                                 <PrimaryButton disabled={form.processing || roles_sennova_incompletos || !form.isDirty || actividades.length === 0} className="mr-2 ml-auto" type="submit">
                                     {method == 'POST' ? 'Agregar' : 'Modificar'} rol SENNOVA
                                 </PrimaryButton>
