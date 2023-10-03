@@ -255,7 +255,8 @@ const Form = ({
                                 />
                                 {cantidad_maxima > 0 && (
                                     <AlertMui>
-                                        El número de personas para el rol seleccionado no puede superar el máximo de <strong>{cantidad_maxima}</strong>
+                                        Tenga en cuenta que el sistema suma todos los valores de personas requeridas para el rol{' '}
+                                        <strong>{proyecto_rol_sennova.convocatoria_rol_sennova.rol_sennova.nombre}</strong> y no puede superar el máximo de <strong>{cantidad_maxima}.</strong>
                                     </AlertMui>
                                 )}
                             </Grid>

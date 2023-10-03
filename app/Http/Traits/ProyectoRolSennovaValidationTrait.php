@@ -105,7 +105,11 @@ trait ProyectoRolSennovaValidationTrait
 
             $meses_maximos = $tope_rol_sennova->meses_maximos ?? $tope_rol_sennova->convocatoriaRolSennova->meses_maximos ?? $proyecto->diff_meses;
 
-            if ($tope_rol_sennova && $proyecto_rol_sennova->numero_roles > $tope_rol_sennova->cantidad_maxima || $proyecto_rol_sennova->numero_meses > $meses_maximos) {
+            if ($proyecto_rol_sennova->numero_meses > $meses_maximos) {
+                return false;
+            }
+
+            if ($tope_rol_sennova && $tope_rol_sennova->cantidad_maxima && $proyecto->proyectoRolesSennova()->where('proyecto_rol_sennova.convocatoria_rol_sennova_id', $proyecto_rol_sennova->convocatoria_rol_sennova_id)->sum('proyecto_rol_sennova.numero_roles') > $tope_rol_sennova->cantidad_maxima) {
                 return false;
             }
         }
