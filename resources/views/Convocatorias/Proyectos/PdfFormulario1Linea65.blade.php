@@ -37,7 +37,7 @@
       width: 100%;
       border-collapse: collapse;
       font-size: 14px;
-      border: 1px solid #e2e8f0; /* Borde de la tabla */
+      border: 1px solid #e2e8f0; 
     }
 
     th, td {
@@ -46,24 +46,23 @@
     }
 
     th {
-      background-color: #f0f4f8; /* Color de fondo del encabezado */
+      background-color: #f0f4f8; 
       font-weight: bold;
       text-transform: uppercase;
     }
 
-    /* Estilo para las celdas impares */
+    
     tr:nth-child(odd) {
-      background-color: #f8fafc; /* Color de fondo de filas impares */
+      background-color: #f8fafc; 
     }
 
-    /* Estilo para la lista sin viñetas */
     ul {
       list-style: none;
       margin-left: 0;
       padding-left: 0;
     }
 
-    /* Estilo para los elementos de lista */
+ 
     ul li {
       margin-left: 0;
       padding-left: 0;

@@ -18,13 +18,78 @@
         h1 {
             font-size: 1.4rem;
             text-align: center;
+            text-transform: uppercase;
         }
-
-        p {
+        p{
             text-align: justify;
+            font-size: 0.9rem;   
             text-align-last: left;
             white-space: pre-wrap;
         }
+       
+        h4{
+            text-transform: uppercase;
+        }
+
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      border: 1px solid #e2e8f0; 
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f0f4f8;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+
+    tr:nth-child(odd) {
+      background-color: #f8fafc; 
+    }
+
+    ul {
+      list-style: none;
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+
+    ul li {
+      margin-left: 0;
+      padding-left: 0;
+      margin-bottom: 5px;
+    }
+
+    .productos td, .analisis td, .rubros td{
+        text-align: justify;
+    }
+    .bibliografia{
+       display: flex;
+       width: 100%;
+       align-items: center;
+       justify-content: center;
+       background-color: red;
+       word-wrap: break-word;
+    }
+    .bibliografia p{
+        display: block;
+        text-align: left;
+        line-height: 28px;
+        
+    }
+
+    .rolessennova tr > td > p{
+        text-align: left;
+    }
+
     </style>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -159,7 +224,13 @@
     </div>
 
     <hr style="margin: 4rem 0">
-
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
     <h2>Resumen del proyecto</h2>
     <p style="white-space: pre-wrap">{{ $datos->resumen }}</p>
 
@@ -174,7 +245,16 @@
 
     <h2>Justificación</h2>
     <p style="white-space: pre-wrap">{{ $datos->justificacion_problema }}</p>
-
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
     <h2>Logros de la vigencia {{ $convocatoria->year - 1 }} en la implementación del programa de TecnoAcademia</h2>
     <p style="white-space: pre-wrap">{{ $datos->logros_vigencia_anterior }}</p>
 
@@ -230,9 +310,10 @@
         </ul>
     @endif
 
+<div class="bibliografia">
     <h4>Bibliografía</h4>
-    <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->bibliografia }}</p>
-
+    <p>{{ $datos->bibliografia }}</p>
+</div>
     <h1>Articulación</h1>
 
     <h4>Líneas de Investigación en las cuales se están ejecutando iniciativas o proyectos de la TecnoAcademia</h4>
@@ -408,6 +489,11 @@
 
     @foreach ($proyecto->causasDirectas as $j => $causa_directa)
         <div style="margin-top: 2rem; font-size: 12px;">
+<br>
+<br>
+<br>
+<br>
+
             <h1>{{ $j + 1 }}. Causa directa </h1>
             <p style="text-align: center;">{{ $causa_directa->descripcion }}</p>
 
@@ -438,7 +524,16 @@
     @endforeach
 
     <hr style="margin: 4rem 0">
-
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
     <h1>Metodología</h1>
     <p style="white-space: pre-wrap">{{ $datos->metodologia }}</p>
 
@@ -565,6 +660,16 @@
     <hr style="margin: 4rem 0">
 
     <div class="border page_break">
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
         <h2 style="text-align:center">Productos</h2>
 
         @foreach ($proyecto->efectosDirectos as $efecto_directo)
@@ -609,13 +714,19 @@
                         @endif
                     </tbody>
                 </table>
+                
+<br>
+
             @endforeach
+
         @endforeach
     </div>
 
     <hr style="margin: 4rem 0">
 
     <div class="border page_break">
+    <br>
+    <br>
         <h2 style="text-align:center">Análisis de riesgos</h2>
 
         @foreach ($proyecto->analisisRiesgos as $riesgo)
@@ -647,6 +758,7 @@
                     </tr>
                 </tbody>
             </table>
+<br>
         @endforeach
     </div>
 
@@ -719,7 +831,11 @@
     @endif
 
     <hr style="margin: 4rem 0">
-
+<br>
+<br>
+<br>
+<br>
+<br>
     @if ($datos->edt()->exists())
         <h2 style="text-align:center">Eventos de Divulgación Tecnológica</h2>
         <table width="100%" border="1" cellspacing="0" cellpadding="3" style="margin-top:20px; font-size: 10px;">
@@ -856,7 +972,13 @@
     <hr style="margin: 4rem 0">
 
     <div class="page_break">
-
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
         <h2 style="text-align: center;">Rubros presupuestales</h2>
 
         @foreach ($proyecto->proyectoPresupuesto as $presupuesto)
@@ -981,7 +1103,7 @@
     </div>
 
     @if (!empty($proyecto->proyectoRolesSennova))
-        <div class="page_break">
+        <div class="page_break rolessennova">
             <h2 style="text-align: center;">Roles SENNOVA ${{ number_format($proyecto->total_roles_sennova, 0, ',', '.') }} COP</h2>
 			@foreach ($proyecto->proyectoRolesSennova as $rolSENNOVA)
 				<table width="100%" border="1" cellspacing="0" cellpadding="3" style="margin-top: 20px; font-size: 10px;">
