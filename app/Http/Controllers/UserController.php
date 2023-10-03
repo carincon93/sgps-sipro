@@ -290,6 +290,33 @@ class UserController extends Controller
         return back()->with('success', 'Se han asignado los roles correctamente.');
     }
 
+    public function registrarEvaluador(Request $request)
+    {
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
+        if ($request->evaluador_interno) {
+            $auth_user->assignRole([11]);
+        }
+
+        if ($request->evaluador_externo) {
+            $auth_user->assignRole([33]);
+        }
+
+        return back()->with('success', 'Postulación registrada correctamente.');
+    }
+
+    public function eliminarEvaluador(Request $request)
+    {
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
+        $auth_user->removeRole(11);
+        $auth_user->removeRole(33);
+
+        return back()->with('success', 'Se ha eliminado la postulación como evaluador/a.');
+    }
+
     public function habilitarUsuario(Request $request)
     {
         $user = User::find($request->user_id)->update(['habilitado' => $request->habilitado]);

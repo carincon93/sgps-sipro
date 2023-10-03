@@ -772,6 +772,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/users/perfil', [UserController::class, 'showPerfil'])->name('users.perfil');
     Route::put('/users/cambiar-password', [UserController::class, 'cambiarPassword'])->name('users.cambiar-password');
+    Route::put('/users/evaluador', [UserController::class, 'registrarEvaluador'])->name('users.evaluador');
+    Route::put('/users/eliminar-evaluador', [UserController::class, 'eliminarEvaluador'])->name('users.eliminar-evaluador');
     Route::put('/users/asignacion-roles', [UserController::class, 'asignacionRoles'])->name('users.asignacion-roles');
     Route::put('/users/informacion-completa', [UserController::class, 'informacionUsuarioCompleta'])->name('users.informacion-completa');
     Route::put('/users/habilitar-usuario', [UserController::class, 'habilitarUsuario'])->name('users.habilitar-usuario');
