@@ -133,7 +133,7 @@ export default function MiniDrawer({ user, children }) {
                         </Dropdown.Trigger>
 
                         <Dropdown.Content>
-                            <Dropdown.Link href={route('users.perfil')}>Perfil</Dropdown.Link>
+                            <Dropdown.Link href={route('users.perfil', checkRole(user, [33]) ? { rol: 'evaluador_externo' } : null)}>Perfil</Dropdown.Link>
                             <Dropdown.Link href={route('logout')} method="post" as="button">
                                 Cerrar sesión
                             </Dropdown.Link>
