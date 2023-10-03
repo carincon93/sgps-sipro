@@ -626,6 +626,7 @@ class SelectHelper
 
         $query->where('convocatoria_rol_sennova.tipo_formulario_convocatoria_id', $tipo_formulario_convocatoria_id);
         $query->where('convocatoria_rol_sennova.convocatoria_id', $convocatoria_id);
+        $query->where('convocatoria_rol_sennova.habilitado', true);
 
         return $query->orderBy('roles_sennova.nombre')->get();
     }
