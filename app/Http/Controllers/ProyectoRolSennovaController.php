@@ -48,7 +48,7 @@ class ProyectoRolSennovaController extends Controller
             'proyecto'                          => $proyecto,
             'evaluacion'                        => Evaluacion::find(request()->evaluacion_id),
             'proyecto_roles_sennova'            => ProyectoRolSennova::where('proyecto_id', $proyecto->id)->filterProyectoRolSennova(request()->only('search'))->with('convocatoriaRolSennova.rolSennova', 'proyectoRolesEvaluaciones.evaluacion', 'actividades', 'lineasTecnoacademia', 'lineasTecnoparque')->orderBy('proyecto_rol_sennova.id')->paginate(),
-            'convocatoria_roles_sennova'        => SelectHelper::convocatoriaRolesSennova($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id, $proyecto, false),
+            'convocatoria_roles_sennova'        => SelectHelper::convocatoriaRolesSennova($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id, $proyecto),
             'convocatoria_roles_sin_filtrar'    => SelectHelper::convocatoriaRolesSennova($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id, $proyecto, false),
             'actividades'                       => Actividad::select('id as value', 'descripcion as label')->whereIn(
                 'objetivo_especifico_id',
