@@ -52,6 +52,8 @@ const Actividades = ({
     const [actividad_to_destroy, setActividadToDestroy] = useState(null)
     const [dialog_status, setDialogStatus] = useState(false)
     const [dialog_rubro_presupuestal_status, setDialogRubroPresupuestalStatus] = useState(false)
+    const [dialog_tutorial_status, setDialogTutorialStatus] = useState(true)
+
     const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
     const [method, setMethod] = useState('')
     const [actividad, setActividad] = useState(null)
@@ -252,29 +254,6 @@ const Actividades = ({
                     {proyecto.evaluaciones.length === 0 ? <p className="whitespace-pre-line mt-4 text-xs">El proyecto no ha sido evaluado aún.</p> : null}
                 </>
             ) : null} */}
-
-            <Grid item md={12}>
-                <AlertMui className="my-20">
-                    <h1 className="text-3xl mt-10 text-center">¿Cómo diligenciar la metodología y las actividades?</h1>
-
-                    <div className="my-10">
-                        <p>1. Ubique las pestañas de METODOLOGÍA - ACTIVIDADES.</p>
-
-                        <figure className="my-10">
-                            <img src="/images/metodologia-actividades.png" alt="" className="shadow" />
-                        </figure>
-
-                        <p>
-                            2. Diligencie toda la información de la pestaña <strong>METODOLOGÍA</strong>.
-                        </p>
-                        <p>
-                            3. Una vez la información de la METODOLOGÍA este completa, diríjase a la pestaña <strong>ACTIVIDADES</strong>, luego de clic en el menú de acciones y{' '}
-                            <strong>Editar</strong>. A continuación, complete la información sobre el resultado y roles SENNOVA asociados a cada actividad. Posteriormente, asigne los rubros
-                            presupuestales correspondientes desde el botón <strong>'Asociar rubros presupuestales'</strong>.
-                        </p>
-                    </div>
-                </AlertMui>
-            </Grid>
 
             <Grid item md={12}>
                 <TabsMui tabs={tabs}>
@@ -514,6 +493,40 @@ const Actividades = ({
                     </div>
                 </TabsMui>
             </Grid>
+
+            <DialogMui
+                open={dialog_tutorial_status}
+                fullWidth={true}
+                maxWidth="lg"
+                blurEnabled={true}
+                dialogContent={
+                    <>
+                        <h1 className="text-3xl mt-10 text-center">¿Cómo diligenciar la metodología y las actividades?</h1>
+
+                        <div className="my-10">
+                            <p>1. Ubique las pestañas de METODOLOGÍA - ACTIVIDADES.</p>
+
+                            <figure className="my-10">
+                                <img src="/images/metodologia-actividades.png" alt="" className="shadow" />
+                            </figure>
+
+                            <p>
+                                2. Diligencie toda la información de la pestaña <strong>METODOLOGÍA</strong>.
+                            </p>
+                            <p>
+                                3. Una vez la información de la METODOLOGÍA este completa, diríjase a la pestaña <strong>ACTIVIDADES</strong>, luego de clic en el menú de acciones y{' '}
+                                <strong>Editar</strong>. A continuación, complete la información sobre el resultado y roles SENNOVA asociados a cada actividad. Posteriormente, asigne los rubros
+                                presupuestales correspondientes desde el botón <strong>'Asociar rubros presupuestales'</strong>.
+                            </p>
+                        </div>
+                    </>
+                }
+                dialogActions={
+                    <ButtonMui onClick={() => setDialogTutorialStatus(false)} primary={true} className="!mr-6">
+                        Entendido
+                    </ButtonMui>
+                }
+            />
         </AuthenticatedLayout>
     )
 }

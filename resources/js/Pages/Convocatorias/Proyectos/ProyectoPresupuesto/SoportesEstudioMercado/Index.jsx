@@ -34,6 +34,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
     const [soporte_to_destroy, setSoporteToDestroy] = useState(null)
     const [soporte, setSoporte] = useState(null)
     const [dialog_status, setDialogStatus] = useState(false)
+    const [dialog_tutorial_status, setDialogTutorialStatus] = useState(true)
     const [dialog_status_l68, setDialogSoportel68Status] = useState(true)
     const [dialog_archivo_status, setDialogSoporteStatus] = useState(false)
     const [method, setMethod] = useState('')
@@ -115,58 +116,6 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
             <Grid item md={12}>
                 <TabsMui tabs={[{ label: 'Estudio de mercado' }, { label: 'Empresas / Soportes' }]}>
                     <div>
-                        <AlertMui className="mt-24">
-                            <h1 className="text-3xl my-10 text-center">¿Cómo se diligencia?</h1>
-
-                            <Grid container className="mt-10" rowSpacing={5}>
-                                <Grid item md={1}>
-                                    <span className="text-3xl font-black">1.</span>
-                                </Grid>
-
-                                <Grid item md={11}>
-                                    <a href="/storage/documentos-descarga/Formato%20_guia_4_Estudio_de_mercado.xlsx" className="my-4 inline-block underline" target="_blank">
-                                        <DownloadIcon />
-                                        <strong>De clic aquí para descargar el Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>
-                                    </a>
-                                    <br />
-                                    <div>
-                                        A continuación, diligencie el <strong>Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>. Debe incluir ítems que pertenezcan a los usos
-                                        presupuestales:
-                                        <ul className="list-disc ml-4">
-                                            {proyecto_presupuesto.convocatoria_proyecto_rubros_presupuestales.map((convocatoria_rubro_presupuestal, i) => (
-                                                <li key={i}>
-                                                    <p className="first-letter:uppercase mb-2 font-black">{convocatoria_rubro_presupuestal.rubro_presupuestal.uso_presupuestal.descripcion}</p>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                </Grid>
-
-                                <Grid item md={1}>
-                                    <span className="text-3xl font-black">2.</span>
-                                </Grid>
-
-                                <Grid item md={11}>
-                                    <p>
-                                        Copie el valor total que arrojó el <strong>Excel de Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>
-                                    </p>
-                                    <figure className="mt-2">
-                                        <img src="/images/estudio-mercado.jpg" alt="" className="shadow" />
-                                    </figure>
-                                </Grid>
-
-                                <Grid item md={1}>
-                                    <span className="text-3xl font-black">3.</span>
-                                </Grid>
-
-                                <Grid item md={11}>
-                                    <p>
-                                        Diríjase a la pestaña <strong>Empresas / Soportes</strong> y cargue la información correspondiente.
-                                    </p>
-                                </Grid>
-                            </Grid>
-                        </AlertMui>
-
                         <form className="mt-32" onSubmit={submitEstudioMercado}>
                             <Grid container>
                                 <Grid item md={4}>
@@ -407,54 +356,119 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                 </TableRow>
                             ))}
                         </TableMui>
-
-                        <DialogMui
-                            open={dialog_status}
-                            fullWidth={true}
-                            maxWidth="lg"
-                            blurEnabled={true}
-                            dialogContent={
-                                <Form
-                                    is_super_admin={is_super_admin}
-                                    setDialogStatus={setDialogStatus}
-                                    method={method}
-                                    proyecto={proyecto}
-                                    convocatoria={convocatoria}
-                                    proyecto_presupuesto={proyecto_presupuesto}
-                                    soporte={soporte}
-                                />
-                            }
-                        />
-
-                        <DialogMui
-                            open={dialog_archivo_status}
-                            fullWidth={true}
-                            maxWidth="lg"
-                            blurEnabled={true}
-                            dialogContent={
-                                <form onSubmit={submitSoporte}>
-                                    <FileInput
-                                        id="soporte"
-                                        value={formSoporte.data.soporte}
-                                        label="Soporte / Cotización"
-                                        accept=".zip,application/pdf"
-                                        onChange={(e) => formSoporte.setData('soporte', e)}
-                                        error={formSoporte.errors.soporte}
-                                    />
-                                    <div className="flex items-center justify-between mt-14 py-4">
-                                        <PrimaryButton disabled={formSoporte.processing || !formSoporte.isDirty} className="ml-auto" type="submit">
-                                            Cargar soporte
-                                        </PrimaryButton>
-                                        <ButtonMui type="button" primary={false} onClick={() => setDialogSoporteStatus(false)} className="!ml-2 !bg-transparent">
-                                            Cancelar
-                                        </ButtonMui>
-                                    </div>
-                                </form>
-                            }
-                        />
                     </div>
                 </TabsMui>
             </Grid>
+
+            <DialogMui
+                open={dialog_status}
+                fullWidth={true}
+                maxWidth="lg"
+                blurEnabled={true}
+                dialogContent={
+                    <Form
+                        is_super_admin={is_super_admin}
+                        setDialogStatus={setDialogStatus}
+                        method={method}
+                        proyecto={proyecto}
+                        convocatoria={convocatoria}
+                        proyecto_presupuesto={proyecto_presupuesto}
+                        soporte={soporte}
+                    />
+                }
+            />
+
+            <DialogMui
+                open={dialog_archivo_status}
+                fullWidth={true}
+                maxWidth="lg"
+                blurEnabled={true}
+                dialogContent={
+                    <form onSubmit={submitSoporte}>
+                        <FileInput
+                            id="soporte"
+                            value={formSoporte.data.soporte}
+                            label="Soporte / Cotización"
+                            accept=".zip,application/pdf"
+                            onChange={(e) => formSoporte.setData('soporte', e)}
+                            error={formSoporte.errors.soporte}
+                        />
+                        <div className="flex items-center justify-between mt-14 py-4">
+                            <PrimaryButton disabled={formSoporte.processing || !formSoporte.isDirty} className="ml-auto" type="submit">
+                                Cargar soporte
+                            </PrimaryButton>
+                            <ButtonMui type="button" primary={false} onClick={() => setDialogSoporteStatus(false)} className="!ml-2 !bg-transparent">
+                                Cancelar
+                            </ButtonMui>
+                        </div>
+                    </form>
+                }
+            />
+
+            <DialogMui
+                open={dialog_tutorial_status}
+                fullWidth={true}
+                maxWidth="lg"
+                blurEnabled={true}
+                dialogContent={
+                    <>
+                        <h1 className="text-3xl my-10 text-center">¿Cómo se diligencia?</h1>
+
+                        <Grid container className="mt-10" rowSpacing={5}>
+                            <Grid item md={1}>
+                                <span className="text-3xl font-black">1.</span>
+                            </Grid>
+
+                            <Grid item md={11}>
+                                <a href="/storage/documentos-descarga/Formato%20_guia_4_Estudio_de_mercado.xlsx" className="my-4 inline-block underline" target="_blank">
+                                    <DownloadIcon />
+                                    <strong>De clic aquí para descargar el Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>
+                                </a>
+                                <br />
+                                <div>
+                                    A continuación, diligencie el <strong>Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>. Debe incluir ítems que pertenezcan a los siguientes
+                                    usos presupuestales:
+                                    <ul className="list-disc ml-4">
+                                        {proyecto_presupuesto.convocatoria_proyecto_rubros_presupuestales.map((convocatoria_rubro_presupuestal, i) => (
+                                            <li key={i}>
+                                                <p className="first-letter:uppercase mb-2 font-black">{convocatoria_rubro_presupuestal.rubro_presupuestal.uso_presupuestal.descripcion}</p>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </Grid>
+
+                            <Grid item md={1}>
+                                <span className="text-3xl font-black">2.</span>
+                            </Grid>
+
+                            <Grid item md={11}>
+                                <p>
+                                    Copie el valor total que arrojó el <strong>Excel de Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>
+                                </p>
+                                <figure className="mt-2">
+                                    <img src="/images/estudio-mercado.png" alt="" className="shadow" />
+                                </figure>
+                            </Grid>
+
+                            <Grid item md={1}>
+                                <span className="text-3xl font-black">3.</span>
+                            </Grid>
+
+                            <Grid item md={11}>
+                                <p>
+                                    Finalmente, diríjase a la pestaña <strong>Empresas / Soportes</strong> y cargue la información correspondiente.
+                                </p>
+                            </Grid>
+                        </Grid>
+                    </>
+                }
+                dialogActions={
+                    <ButtonMui onClick={() => setDialogTutorialStatus(false)} primary={true} className="!mr-6">
+                        Entendido
+                    </ButtonMui>
+                }
+            />
         </AuthenticatedLayout>
     )
 }
