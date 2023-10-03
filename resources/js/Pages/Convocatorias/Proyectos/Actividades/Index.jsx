@@ -267,7 +267,6 @@ const Actividades = ({
                         <p>
                             2. Diligencie toda la información de la pestaña <strong>METODOLOGÍA</strong>.
                         </p>
-777777777
                         <p>
                             3. Una vez la información de la METODOLOGÍA este completa, diríjase a la pestaña <strong>ACTIVIDADES</strong>, luego de clic en el menú de acciones y{' '}
                             <strong>Editar</strong>. A continuación, complete la información sobre el resultado y roles SENNOVA asociados a cada actividad. Posteriormente, asigne los rubros

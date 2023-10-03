@@ -129,7 +129,7 @@ const EditComponent = ({
                                         </span>
                                         <h1 className="text-white text-4xl">Evaluación de proyectos I+D+i</h1>
                                         <p className="text-white mb-10">
-                                            Si tienes experiencia evaluando proyectos bajo la metodología de marco lógico podrás participar haciendo clic en el siguiente botón:
+                                            ¡Hola {usuario.nombre}! Si tienes experiencia evaluando proyectos bajo la metodología de marco lógico podrás participar haciendo clic en el siguiente botón:
                                         </p>
 
                                         <MenuMui text={checkRole(usuario, [11, 33]) ? 'Ya no quiero participar como evaluador/a' : 'Quiero participar como evaluador/a'}>
@@ -153,7 +153,7 @@ const EditComponent = ({
                                                     onClick={(e) => {
                                                         submitEliminarEvaluador(e)
                                                     }}>
-                                                    Eliminar registro como evaluador/a
+                                                    Confirmo que quiero eliminar mi postulación como evaluador/a
                                                 </MenuItem>
                                             )}
                                         </MenuMui>
