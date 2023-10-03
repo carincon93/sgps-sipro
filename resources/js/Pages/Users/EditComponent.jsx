@@ -1,7 +1,9 @@
 import AlertMui from '@/Components/Alert'
 import Checkbox from '@/Components/Checkbox'
+import MenuMui from '@/Components/Menu'
 import PasswordInput from '@/Components/PasswordInput'
 import PrimaryButton from '@/Components/PrimaryButton'
+import SenaLogo from '@/Components/SenaLogo'
 import TabsMui from '@/Components/TabsMui'
 
 import { Chip, Grid, MenuItem, Paper } from '@mui/material'
@@ -16,11 +18,7 @@ import ParticipacionesProyectosSENNOVA from './Perfil/ParticipacionesProyectosSe
 import { checkRole } from '@/Utils'
 import { router, useForm } from '@inertiajs/react'
 
-import React from 'react'
-import SenaLogo from '@/Components/SenaLogo'
-import ButtonMui from '@/Components/Button'
-import { useState } from 'react'
-import MenuMui from '@/Components/Menu'
+import React, { useState } from 'react'
 
 const EditComponent = ({
     auth_user,
@@ -49,6 +47,8 @@ const EditComponent = ({
     participaciones_proyectos_sennova,
     roles_sistema,
 }) => {
+    const component = router.page?.component
+
     const form_cambio_password = useForm({
         user_id: usuario?.id,
         default_password: false,
@@ -114,54 +114,56 @@ const EditComponent = ({
             ]}>
             <div>
                 <Grid container rowSpacing={10} className="!mt-4">
-                    <Grid item md={12}>
-                        <div className="bg-gradient-to-r from-gray-700 via-gray-900 to-black rounded shadow p-10">
-                            <Grid container>
-                                <Grid item md={4}>
-                                    <figure>
-                                        <img src="/images/evaluadores.png" alt="" className="w-60" />
-                                    </figure>
-                                </Grid>
-                                <Grid item md={8}>
-                                    <span className="text-white pointer-events-none place-items-center gap-2 flex py-2" href="/">
-                                        SENNOVA | <SenaLogo className="w-10" />
-                                    </span>
-                                    <h1 className="text-white text-4xl">Evaluación de proyectos I+D+i</h1>
-                                    <p className="text-white mb-10">
-                                        Si tienes experiencia evaluando proyectos bajo la metología de marco lógico podrás participar haciendo clic en el siguiente botón:
-                                    </p>
+                    {component == 'Users/Perfil' && (
+                        <Grid item md={12}>
+                            <div className="bg-gradient-to-r from-gray-700 via-gray-900 to-black rounded shadow p-10">
+                                <Grid container>
+                                    <Grid item md={4}>
+                                        <figure>
+                                            <img src="/images/evaluadores.png" alt="" className="w-60" />
+                                        </figure>
+                                    </Grid>
+                                    <Grid item md={8}>
+                                        <span className="text-white pointer-events-none place-items-center gap-2 flex py-2" href="/">
+                                            SENNOVA | <SenaLogo className="w-10" />
+                                        </span>
+                                        <h1 className="text-white text-4xl">Evaluación de proyectos I+D+i</h1>
+                                        <p className="text-white mb-10">
+                                            Si tienes experiencia evaluando proyectos bajo la metología de marco lógico podrás participar haciendo clic en el siguiente botón:
+                                        </p>
 
-                                    <MenuMui text={checkRole(usuario, [11, 33]) ? 'Ya no quiero participar como evaluador/a' : 'Quiero participar como evaluador/a'}>
-                                        {!checkRole(usuario, [11, 33]) ? (
-                                            <div>
+                                        <MenuMui text={checkRole(usuario, [11, 33]) ? 'Ya no quiero participar como evaluador/a' : 'Quiero participar como evaluador/a'}>
+                                            {!checkRole(usuario, [11, 33]) ? (
+                                                <div>
+                                                    <MenuItem
+                                                        onClick={(e) => {
+                                                            submitEvaluadorInterno(e)
+                                                        }}>
+                                                        Pertenezco a SENNOVA
+                                                    </MenuItem>
+                                                    <MenuItem
+                                                        onClick={(e) => {
+                                                            submitEvaluadorExterno(e)
+                                                        }}>
+                                                        No hago parte de SENNOVA
+                                                    </MenuItem>
+                                                </div>
+                                            ) : (
                                                 <MenuItem
                                                     onClick={(e) => {
-                                                        submitEvaluadorInterno(e)
+                                                        submitEliminarEvaluador(e)
                                                     }}>
-                                                    Pertenezco a SENNOVA
+                                                    Eliminar registro como evaluador/a
                                                 </MenuItem>
-                                                <MenuItem
-                                                    onClick={(e) => {
-                                                        submitEvaluadorExterno(e)
-                                                    }}>
-                                                    No hago parte de SENNOVA
-                                                </MenuItem>
-                                            </div>
-                                        ) : (
-                                            <MenuItem
-                                                onClick={(e) => {
-                                                    submitEliminarEvaluador(e)
-                                                }}>
-                                                Eliminar registro como evaluador/a
-                                            </MenuItem>
-                                        )}
-                                    </MenuMui>
+                                            )}
+                                        </MenuMui>
 
-                                    {checkRole(usuario, [11, 33]) && !usuario.informacion_completa && <AlertMui className="mt-14">Recuerde completar el CENSO.</AlertMui>}
+                                        {checkRole(usuario, [11, 33]) && !usuario.informacion_completa && <AlertMui className="mt-14">Recuerde completar el CENSO.</AlertMui>}
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </div>
-                    </Grid>
+                            </div>
+                        </Grid>
+                    )}
                     <Grid item md={4}>
                         <AlertMui>
                             Por favor diligencie la siguiente información:
