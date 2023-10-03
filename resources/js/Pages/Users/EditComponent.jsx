@@ -234,7 +234,7 @@ const EditComponent = ({
                                     <Chip label={rol.name} size="small" className="bg-app-200 mt-4 mb-10 mr-2 px-2 uppercase" />
                                 </React.Fragment>
                             ))}
-                            <FormRoles usuario={usuario} roles_sistema={roles_sistema} />
+                            <FormRoles auth_user={auth_user} usuario={usuario} roles_sistema={roles_sistema} />
                         </Paper>
                     </Grid>
 

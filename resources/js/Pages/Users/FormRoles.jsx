@@ -7,7 +7,7 @@ import { useForm } from '@inertiajs/react'
 
 import { FormControlLabel, FormGroup } from '@mui/material'
 
-const FormRoles = ({ usuario, roles_sistema, ...props }) => {
+const FormRoles = ({ auth_user, usuario, roles_sistema, ...props }) => {
     const form = useForm({
         user_id: usuario?.id,
         roles: usuario?.roles.map((item) => item.id),
@@ -37,7 +37,7 @@ const FormRoles = ({ usuario, roles_sistema, ...props }) => {
     return (
         <form onSubmit={submit} {...props}>
             <fieldset>
-                {checkRole(usuario, [1, 2, 3, 4, 21, 18, 19, 5, 17]) && (
+                {checkRole(auth_user, [1, 2, 3, 4, 21, 18, 19, 5, 17]) && (
                     <>
                         <AlertMui className="mb-4">
                             <strong>Si el usuario es subdirector/a, líder de grupo de investigación o líder de semilleros, por favor seleccione la casilla correspondiente.</strong>

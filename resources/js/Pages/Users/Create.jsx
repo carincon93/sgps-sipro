@@ -71,7 +71,7 @@ const Crear = ({
                 </Grid>
                 <Grid item md={8} className="drop-shadow-lg">
                     <Paper elevation={0} sx={{ padding: 6 }}>
-                        <FormRoles roles_sistema={roles_sistema} />
+                        <FormRoles auth_user={auth_user} roles_sistema={roles_sistema} />
                     </Paper>
                 </Grid>
             </Grid>

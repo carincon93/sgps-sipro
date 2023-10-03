@@ -94,7 +94,7 @@ const Edit = ({
                                 <li>3. Seleccione los respectivos roles de sistema de la siguiente lista:.</li>
                             </ul>
                         </AlertMui>
-                        <FormRoles usuario={usuario} roles_sistema={roles_sistema} className="mt-10" />
+                        <FormRoles auth_user={auth_user} usuario={usuario} roles_sistema={roles_sistema} className="mt-10" />
                     </>
                 }
                 dialogActions={
