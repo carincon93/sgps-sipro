@@ -130,13 +130,6 @@ const Form = ({
                                         información.
                                     </AlertMui>
                                 )}
-
-                                {form.data.numero_meses > parseFloat(meses_maximos) && (
-                                    <AlertMui error={true} className="mt-10">
-                                        El tiempo máximo del rol seleccionado <strong>({meses_maximos})</strong> supera el número de meses <strong>({form.data.numero_meses})</strong> de ejecución del
-                                        proyecto. Por favor modifique las fechas del proyecto. (Debe ser un valor igual o superior).
-                                    </AlertMui>
-                                )}
                             </Grid>
 
                             {proyecto.tipo_formulario_convocatoria_id != 12 ? (
@@ -230,10 +223,17 @@ const Form = ({
                                     required
                                 />
 
-                                <AlertMui>
-                                    El rol seleccionado no puede superar los{' '}
-                                    <strong>{meses_maximos ? (proyecto.diff_meses > meses_maximos ? meses_maximos : proyecto.diff_meses) : proyecto.diff_meses}</strong> meses de vinculación
-                                </AlertMui>
+                                {form.data.numero_meses > parseFloat(meses_maximos) ? (
+                                    <AlertMui error={true}>
+                                        El tiempo máximo del rol seleccionado es de <strong>{meses_maximos} meses</strong> y el valor que usted solicita es de{' '}
+                                        <strong>{form.data.numero_meses} meses</strong>. Por favor modifique los valores de vinculación.
+                                    </AlertMui>
+                                ) : (
+                                    <AlertMui>
+                                        El rol seleccionado no puede superar los{' '}
+                                        <strong>{meses_maximos ? (proyecto.diff_meses > meses_maximos ? meses_maximos : proyecto.diff_meses) : proyecto.diff_meses}</strong> meses de vinculación
+                                    </AlertMui>
+                                )}
                             </Grid>
 
                             <Grid item md={12}>
