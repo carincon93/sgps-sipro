@@ -103,7 +103,7 @@ const Form = ({
                                                     <strong>Rol:</strong>
                                                 </Grid>
                                                 <Grid item md={9}>
-                                                    <p className="first-letter:uppercase">{proyecto_rol_sennova.convocatoria_rol_sennova.rol_sennova.nombre}</p>
+                                                    <p className="first-letter:uppercase">{proyecto_rol_sennova?.convocatoria_rol_sennova.rol_sennova.nombre}</p>
                                                 </Grid>
 
                                                 <Grid item md={3}>
@@ -119,7 +119,7 @@ const Form = ({
                                                     <strong>Experiencia / Perfil:</strong>
                                                 </Grid>
                                                 <Grid item md={9}>
-                                                    <p className="text-gray-600 whitespace-pre-wrap">{proyecto_rol_sennova.convocatoria_rol_sennova.experiencia}</p>
+                                                    <p className="text-gray-600 whitespace-pre-wrap">{proyecto_rol_sennova?.convocatoria_rol_sennova.experiencia}</p>
                                                 </Grid>
                                             </Grid>
                                         )}
@@ -256,7 +256,7 @@ const Form = ({
                                 {cantidad_maxima > 0 && (
                                     <AlertMui>
                                         Tenga en cuenta que el sistema suma todos los valores de personas requeridas para el rol{' '}
-                                        <strong>{proyecto_rol_sennova.convocatoria_rol_sennova.rol_sennova.nombre}</strong> y no puede superar el máximo de <strong>{cantidad_maxima}.</strong>
+                                        <strong>{proyecto_rol_sennova?.convocatoria_rol_sennova.rol_sennova.nombre}</strong> y no puede superar el máximo de <strong>{cantidad_maxima}.</strong>
                                     </AlertMui>
                                 )}
                             </Grid>

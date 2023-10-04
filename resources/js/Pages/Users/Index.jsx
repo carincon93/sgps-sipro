@@ -16,6 +16,7 @@ import { useState } from 'react'
 import { Head, router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
+import ToolTipMui from '@/Components/Tooltip'
 
 const Index = ({ auth, usuarios, dinamizadores_sennova, subdirectores_centro, allowed_to_create }) => {
     const auth_user = auth.user
@@ -49,8 +50,16 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, subdirectores_centro, al
                         {usuarios.data.map((usuario, i) => (
                             <TableRow key={i}>
                                 <TableCell>
-                                    <p className="first-letter:uppercase">{usuario.nombre}</p>
+                                    <div className="flex">
+                                        {usuario.habilitado && !usuario.informacion_completa && (
+                                            <ToolTipMui title="El usuario no ha completado el CENSO SENNOVA" className="text-red-400">
+                                                <InfoOutlinedIcon className="mr-1" />
+                                            </ToolTipMui>
+                                        )}
+                                        <p className="capitalize lowercase">{usuario.nombre}</p>
+                                    </div>
                                 </TableCell>
+
                                 <TableCell>{usuario.email}</TableCell>
                                 <TableCell>{usuario.centro_formacion?.nombre}</TableCell>
                                 <TableCell>{usuario.centro_formacion?.regional.nombre}</TableCell>
@@ -64,20 +73,6 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, subdirectores_centro, al
                                             </>
                                         }
                                     />
-
-                                    {usuario.habilitado && !usuario.informacion_completa && (
-                                        <>
-                                            <br />
-                                            <Chip
-                                                className="!bg-red-200 !text-red-500 mt-2 !py-6"
-                                                label={
-                                                    <div className="flex items-center">
-                                                        <InfoOutlinedIcon className="mr-1" /> El usuario no ha completado <br /> el CENSO SENNOVA
-                                                    </div>
-                                                }
-                                            />
-                                        </>
-                                    )}
                                 </TableCell>
 
                                 <TableCell>
@@ -152,7 +147,14 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, subdirectores_centro, al
                         {dinamizadores_sennova.map((dinamizador_sennova, i) => (
                             <TableRow key={i}>
                                 <TableCell>
-                                    <p className="first-letter:uppercase">{dinamizador_sennova.nombre}</p>
+                                    <div className="flex">
+                                        {dinamizador_sennova.habilitado && !dinamizador_sennova.informacion_completa && (
+                                            <ToolTipMui title="El usuario no ha completado el CENSO SENNOVA" className="text-red-400">
+                                                <InfoOutlinedIcon className="mr-1" />
+                                            </ToolTipMui>
+                                        )}
+                                        <p className="capitalize lowercase">{dinamizador_sennova.nombre}</p>
+                                    </div>
                                 </TableCell>
                                 <TableCell>
                                     {dinamizador_sennova.centro_formacion?.nombre} - Código: {dinamizador_sennova.centro_formacion?.codigo}
@@ -215,7 +217,7 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, subdirectores_centro, al
                         {subdirectores_centro.map((subdirector_centro, i) => (
                             <TableRow key={i}>
                                 <TableCell>
-                                    <p className="first-letter:uppercase">{subdirector_centro.nombre}</p>
+                                    <p className="capitalize lowercase">{subdirector_centro.nombre}</p>
                                 </TableCell>
                                 <TableCell>
                                     {subdirector_centro.centro_formacion?.nombre} - Código: {subdirector_centro.centro_formacion?.codigo}
