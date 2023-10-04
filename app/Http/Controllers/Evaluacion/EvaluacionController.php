@@ -24,7 +24,7 @@ class EvaluacionController extends Controller
         $this->authorize('viewAny', [Evaluacion::class]);
 
         return Inertia::render('Evaluaciones/Index', [
-            'evaluaciones'      => Evaluacion::with(
+            'evaluaciones'          => Evaluacion::with(
                 'proyecto.proyectoFormulario1Linea65:id,titulo,fecha_inicio,fecha_finalizacion',
                 'proyecto.proyectoFormulario3Linea61:id,titulo,fecha_inicio,fecha_finalizacion',
                 'proyecto.proyectoFormulario4Linea70:id,tecnoacademia_id,fecha_inicio,fecha_finalizacion',
@@ -48,7 +48,9 @@ class EvaluacionController extends Controller
                 ->orderBy('iniciado', 'ASC')
                 ->orderBy('proyecto_id', 'ASC')
                 ->filterEvaluacion(request()->only('search', 'estado'))->paginate()->appends(['search' => request()->search, 'estado' => request()->estado]),
-            'allowed_to_create'   => Gate::inspect('create', [Evaluacion::class])->allowed()
+            'proyectos'             => Proyecto::selectRaw("id as value, concat('SGPS-', id + 8000, '-SIPRO') as label")->orderBy('id', 'ASC')->get(),
+            'evaluadores'           => User::select('users.id as value', 'users.nombre as label')->join('model_has_roles', 'users.id', 'model_has_roles.model_id')->join('roles', 'model_has_roles.role_id', 'roles.id')->where('users.habilitado', true)->whereIn('roles.id', [11, 33])->orderBy('users.nombre', 'ASC')->get(),
+            'allowed_to_create'     => Gate::inspect('create', [Evaluacion::class])->allowed()
         ]);
     }
 
@@ -61,11 +63,7 @@ class EvaluacionController extends Controller
     {
         $this->authorize('create', [Evaluacion::class]);
 
-        return Inertia::render('Evaluaciones/Create', [
-            'proyectos'         => Proyecto::selectRaw("id as value, concat('SGPS-', id + 8000, '-SIPRO') as label")->with('proyectosFormulario8Linea66', 'proyectosFormulario4Linea70', 'proyectosFormulario5Linea69', 'proyectosFormulario12Linea68', 'proyectosFormulario1Linea65')->orderBy('id', 'ASC')->get(),
-            'evaluadores'       => User::select('users.id as value', 'users.nombre as label')->join('model_has_roles', 'users.id', 'model_has_roles.model_id')->join('roles', 'model_has_roles.role_id', 'roles.id')->where('roles.id', 11)->get(),
-            'allowed_to_create'   => Gate::inspect('create', [Evaluacion::class])->allowed()
-        ]);
+        // 
     }
 
     /**
@@ -79,12 +77,6 @@ class EvaluacionController extends Controller
         $this->authorize('create', [Evaluacion::class]);
 
         $proyecto = Proyecto::find($request->proyecto_id);
-
-        if (Evaluacion::where('proyecto_id', $request->proyecto_id)->where('habilitado', true)->count() == 2 && $request->habilitado && $proyecto->lineaProgramatica->codigo != 68) {
-            return redirect()->back()->with('error', 'Este proyecto ya tiene dos evaluaciones habilitadas. Debe modificar alguna evaluación.');
-        } else if (Evaluacion::where('proyecto_id', $request->proyecto_id)->where('habilitado', true)->count() == 3 && $request->habilitado && $proyecto->lineaProgramatica->codigo == 68) {
-            return redirect()->back()->with('error', 'Este proyecto ya tiene tres evaluaciones habilitadas. Debe modificar alguna evaluación.');
-        }
 
         $evaluacion = new Evaluacion();
         $evaluacion->habilitado         = $request->habilitado;
@@ -134,7 +126,7 @@ class EvaluacionController extends Controller
                 break;
         }
 
-        return redirect()->route('evaluaciones.index')->with('success', 'El recurso se ha creado correctamente.');
+        return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
     /**
@@ -146,6 +138,8 @@ class EvaluacionController extends Controller
     public function show(Evaluacion $evaluacion)
     {
         $this->authorize('view', [Evaluacion::class, $evaluacion]);
+
+        // 
     }
 
     /**
@@ -158,14 +152,7 @@ class EvaluacionController extends Controller
     {
         $this->authorize('update', [Evaluacion::class, $evaluacion]);
 
-        $evaluacion->proyecto->only('codigo');
-        $evaluacion->proyecto->convocatoria;
-
-        return Inertia::render('Evaluaciones/Edit', [
-            'evaluacion'    => $evaluacion,
-            'proyectos'     => Proyecto::selectRaw("id as value, concat('SGPS-', id + 8000, '-SIPRO') as label")->with('proyectosFormulario8Linea66', 'proyectosFormulario4Linea70', 'proyectosFormulario5Linea69', 'proyectosFormulario12Linea68', 'proyectosFormulario1Linea65')->orderBy('id', 'ASC')->get(),
-            'evaluadores'   => User::select('users.id as value', 'users.nombre as label')->join('model_has_roles', 'users.id', 'model_has_roles.model_id')->join('roles', 'model_has_roles.role_id', 'roles.id')->whereIn('roles.id', [11, 20, 18, 19, 5, 17])->get()
-        ]);
+        //    
     }
 
     /**
@@ -178,12 +165,6 @@ class EvaluacionController extends Controller
     public function update(EvaluacionRequest $request, Evaluacion $evaluacion)
     {
         $this->authorize('update', [Evaluacion::class, $evaluacion]);
-
-        if (Evaluacion::where('proyecto_id', $request->proyecto_id)->where('habilitado', true)->where('evaluaciones.id', '!=', $evaluacion->id)->count() == 2 && $request->habilitado && $evaluacion->proyecto->lineaProgramatica->codigo != 68) {
-            return redirect()->back()->with('error', 'Este proyecto ya tiene dos evaluaciones habilitadas. Debe modificar alguna evaluación.');
-        } else if (Evaluacion::where('proyecto_id', $request->proyecto_id)->where('habilitado', true)->where('evaluaciones.id', '!=', $evaluacion->id)->count() == 3 && $request->habilitado && $evaluacion->proyecto->lineaProgramatica->codigo == 68) {
-            return redirect()->back()->with('error', 'Este proyecto ya tiene tres evaluaciones habilitadas. Debe modificar alguna evaluación.');
-        }
 
         $evaluacion->habilitado  = $request->habilitado;
 
@@ -215,7 +196,7 @@ class EvaluacionController extends Controller
 
         $evaluacion->delete();
 
-        return redirect()->route('evaluaciones.index')->with('success', 'El recurso se ha eliminado correctamente.');
+        return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
     /**

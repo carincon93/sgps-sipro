@@ -1,22 +1,30 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
+import AlertMui from '@/Components/Alert'
+import ButtonMui from '@/Components/Button'
+import DialogMui from '@/Components/Dialog'
+import Form from './Form'
 import MenuMui from '@/Components/Menu'
 import PaginationMui from '@/Components/Pagination'
 import SearchBar from '@/Components/SearchBar'
 import TableMui from '@/Components/Table'
 
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
+import PublishIcon from '@mui/icons-material/Publish'
 
 import { checkRole } from '@/Utils'
 import { Head, router } from '@inertiajs/react'
 import { Chip, Divider, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 import { useState } from 'react'
-import AlertMui from '@/Components/Alert'
 
-const Index = ({ auth, evaluaciones, allowed_to_create }) => {
+const Index = ({ auth, evaluaciones, evaluadores, proyectos, allowed_to_create }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
+    const [dialog_status, setDialogStatus] = useState(false)
+    const [method, setMethod] = useState('')
+    const [evaluacion, setEvaluacion] = useState(null)
     const [evaluacion_to_destroy, setEvaluacionToDestroy] = useState(null)
 
     return (
@@ -25,12 +33,23 @@ const Index = ({ auth, evaluaciones, allowed_to_create }) => {
 
             <Grid container>
                 <Grid item md={12}>
+                    <ButtonMui className="!my-4">
+                        <PublishIcon className="mr-1" /> Importar CSV de evaluadores
+                    </ButtonMui>
+
                     <SearchBar className="mt-20" />
 
                     <TableMui
-                        className="mt-20"
+                        className="mt-16"
                         rows={['ID', 'Código', 'Título', 'Convocatoria', 'Evaluador/a', 'Estados evaluación', 'Estado del proyecto', 'Acciones']}
                         sxCellThead={{ width: '320px' }}>
+                        <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setEvaluacion(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
+                            <TableCell colSpan={8}>
+                                <ButtonMui>
+                                    <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar evaluacion
+                                </ButtonMui>
+                            </TableCell>
+                        </TableRow>
                         {evaluaciones.data.map((evaluacion, i) => (
                             <TableRow key={i}>
                                 <TableCell>{evaluacion.id}</TableCell>
@@ -123,10 +142,9 @@ const Index = ({ auth, evaluaciones, allowed_to_create }) => {
                                     <MenuMui text={<MoreVertIcon />}>
                                         {evaluacion.id !== evaluacion_to_destroy ? (
                                             <div>
-                                                <MenuItem disabled={true}>
-                                                    Ver evaluación
-                                                </MenuItem>
-                                                <MenuItem onClick={() => router.visit(route('evaluaciones.edit', [evaluacion.id]))} disabled={!is_super_admin}>
+                                                <MenuItem disabled={true}>Ver evaluación</MenuItem>
+
+                                                <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setEvaluacion(evaluacion))} disabled={!is_super_admin}>
                                                     Editar
                                                 </MenuItem>
 
@@ -187,6 +205,16 @@ const Index = ({ auth, evaluaciones, allowed_to_create }) => {
                     </TableMui>
 
                     <PaginationMui links={evaluaciones.links} className="mt-8" />
+
+                    <DialogMui
+                        open={dialog_status}
+                        fullWidth={true}
+                        maxWidth="lg"
+                        blurEnabled={true}
+                        dialogContent={
+                            <Form is_super_admin={is_super_admin} setDialogStatus={setDialogStatus} method={method} evaluacion={evaluacion} evaluadores={evaluadores} proyectos={proyectos} />
+                        }
+                    />
                 </Grid>
             </Grid>
         </AuthenticatedLayout>
