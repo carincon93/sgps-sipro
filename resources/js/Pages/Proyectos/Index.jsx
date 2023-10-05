@@ -93,8 +93,10 @@ const Index = ({ auth, proyectos, ods }) => {
                                     </p>
                                 </TableCell>
                                 <TableCell>
-                                    <img src={proyecto.imagen ? '/storage/imagenes-proyectos/' + proyecto.imagen : '/storage/imagenes-proyectos/default-image.png'} width="100" className="ml-7 mb-4" />
-                                    <ButtonMui onClick={() => (form.reset(), setDialogImagenStatus(true), setMethod('PUT'), setProyecto(proyecto))}>Cargar imagen</ButtonMui>
+                                    <img src={proyecto.imagen ? '/storage/imagenes-proyectos/' + proyecto.imagen : '/storage/imagenes-proyectos/default-image.png'} width="100%" className="" />
+                                    <ButtonMui className="!my-1 !text-left !normal-case w-full" onClick={() => (form.reset(), setDialogImagenStatus(true), setMethod('PUT'), setProyecto(proyecto))}>
+                                        Subir imagen
+                                    </ButtonMui>
                                 </TableCell>
 
                                 <TableCell>
