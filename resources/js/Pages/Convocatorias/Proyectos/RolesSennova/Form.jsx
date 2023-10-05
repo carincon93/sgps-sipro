@@ -65,7 +65,7 @@ const Form = ({
                     convocatoria_roles_sennova.find((item) => item.value == form.data.convocatoria_rol_sennova_id) ??
                     convocatoria_roles_sin_filtrar.find((item) => item.value == proyecto_rol_sennova?.convocatoria_rol_sennova.id)
 
-                setMesesMaximo(meses_maximos_por_centro ?? meses_maximos)
+                setMesesMaximo(meses_maximos_por_centro ?? meses_maximos ?? proyecto.diff_meses)
                 setCantidadMaxima(cantidad_maxima)
             }, 500)
         }
