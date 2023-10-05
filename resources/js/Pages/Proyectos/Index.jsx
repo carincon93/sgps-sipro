@@ -55,7 +55,7 @@ const Index = ({ auth, proyectos, ods }) => {
                                 <TableCell>
                                     {proyecto.codigo}
                                     <Divider />
-                                    Convocatoria {proyecto.convocatoria.year}
+                                    <small>Convocatoria {proyecto.convocatoria.year}</small>
                                 </TableCell>
                                 <TableCell>
                                     <p className="uppercase line-clamp-4">
@@ -238,7 +238,7 @@ const Index = ({ auth, proyectos, ods }) => {
                                         visualización y comprensión del proyecto.
                                     </AlertMui>
                                     <div className="flex items-center justify-between mt-14 py-4">
-                                        <PrimaryButton disabled={form.processing} className="ml-auto" type="submit">
+                                        <PrimaryButton disabled={form.processing || !form.isDirty} className="ml-auto" type="submit">
                                             Cargar imagen
                                         </PrimaryButton>
                                         <ButtonMui type="button" primary={false} onClick={() => setDialogImagenStatus(false)} className="!ml-2 !bg-transparent">
