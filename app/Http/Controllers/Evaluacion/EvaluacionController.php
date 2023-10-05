@@ -50,7 +50,7 @@ class EvaluacionController extends Controller
                 ->orderBy('habilitado', 'Desc')
                 ->orderBy('iniciado', 'ASC')
                 ->orderBy('proyecto_id', 'ASC')
-                ->filterEvaluacion(request()->only('search', 'estado'))->paginate(5)->appends(['search' => request()->search, 'estado' => request()->estado]),
+                ->filterEvaluacion(request()->only('search', 'estado'))->paginate(15)->appends(['search' => request()->search, 'estado' => request()->estado]),
             'proyectos'             => DB::table('proyectos')->selectRaw("id as value, concat('SGPS-', id + 8000, '-SIPRO') as label")->orderBy('id', 'ASC')->get(),
             'evaluadores'           => User::select('users.id as value', 'users.nombre as label')->join('model_has_roles', 'users.id', 'model_has_roles.model_id')->join('roles', 'model_has_roles.role_id', 'roles.id')->where('users.habilitado', true)->whereIn('roles.id', [11, 33])->orderBy('users.nombre', 'ASC')->get(),
             'allowed_to_create'     => Gate::inspect('create', [Evaluacion::class])->allowed()
