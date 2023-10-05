@@ -61,7 +61,7 @@ const EDT = ({ auth, convocatoria, proyecto, evaluacion, presupuesto, eventos, t
                 ) : null}
             </Grid> */}
             <Grid item md={12}>
-                <TableMui className="mt-20 mb-8" rows={['Descripción del evento', 'Fechas', 'Presupuesto', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui className="mt-20 mb-8" rows={['Descripción del evento', 'Fecha del evento', 'Presupuesto', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {proyecto.allowed.to_update ? (
                         <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setEdt(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={4}>
@@ -77,7 +77,7 @@ const EDT = ({ auth, convocatoria, proyecto, evaluacion, presupuesto, eventos, t
                             <TableCell>
                                 <p className="line-clamp-3">{evento.descripcion_evento}</p>
                             </TableCell>
-                            <TableCell>{evento.numero_asistentes}</TableCell>
+                            <TableCell>{evento.fecha_evento}</TableCell>
                             <TableCell>${new Intl.NumberFormat('de-DE').format(!isNaN(evento.proyecto_presupuesto.valor_total) ? evento.proyecto_presupuesto.valor_total : 0)}</TableCell>
 
                             <TableCell>

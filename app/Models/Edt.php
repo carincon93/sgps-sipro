@@ -23,7 +23,7 @@ class Edt extends Model
      * @var array
      */
     protected $fillable = [
-        'proyecto_linea_70_id',
+        'proyecto_formulario4_linea70_id',
         'proyecto_presupuesto_id',
         'tipo_evento',
         'descripcion_evento',
