@@ -79,6 +79,7 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, presupuest
                                 <DatePicker
                                     id="fecha_evento"
                                     className="w-full"
+                                    minDate={convocatoria.year + '-01-01'}
                                     value={form.data.fecha_evento}
                                     onChange={(e) => form.setData('fecha_evento', e.target.value)}
                                     disabled={!proyecto?.allowed?.to_update}
