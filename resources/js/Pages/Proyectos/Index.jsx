@@ -23,6 +23,7 @@ const Index = ({ auth, proyectos, ods }) => {
     const is_super_admin = checkRole(auth_user, [1])
 
     const [dialog_status, setDialogStatus] = useState(false)
+    const [dialog_info_status, setDialogInfoStatus] = useState(true)
     const [dialog_imagen_status, setDialogImagenStatus] = useState(false)
     const [method, setMethod] = useState('')
     const [proyecto, setProyecto] = useState(null)
@@ -49,7 +50,7 @@ const Index = ({ auth, proyectos, ods }) => {
                 <Grid item md={12}>
                     <SearchBar className="mt-20" />
 
-                    <TableMui className="mt-16" rows={['Código', 'Título convocatoria', 'Imagen', 'Nombre del proyecto', 'ODS', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui className="mt-16" rows={['Código', 'Título proyecto (Convocatoria)', 'Imagen', 'Nombre del proyecto', 'ODS', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         {proyectos.data.map((proyecto, i) => (
                             <TableRow key={i}>
                                 <TableCell>
@@ -209,6 +210,58 @@ const Index = ({ auth, proyectos, ods }) => {
                     </TableMui>
 
                     <PaginationMui links={proyectos.links} className="mt-8" />
+
+                    <DialogMui
+                        open={dialog_info_status}
+                        fullWidth={true}
+                        maxWidth="lg"
+                        blurEnabled={true}
+                        enableGradient={true}
+                        dialogContent={
+                            <div className="text-white">
+                                <h1 className="text-2xl font-bold mb-4">
+                                    Estamos trabajando en mejorar la divulgación de los proyectos registrados en la plataforma SGPS SIPRO y necesitamos de su ayuda.
+                                </h1>
+
+                                <p className="mb-10">Por favor, revise cada uno de los proyectos en los que participó y complete la siguiente información:</p>
+                                <Grid container rowSpacing={6}>
+                                    <Grid item md={3}>
+                                        <img src="/storage/imagenes-proyectos/imagen-dialog.png" className="rounded shadow" alt="" />
+                                    </Grid>
+                                    <Grid item md={9} className="flex items-center">
+                                        <p>
+                                            <strong>Foto o imagen: </strong>Debe cargar que represente de manera visual el proyecto o los productos más destacados. Esta funcionalidad facilitará la
+                                            visualización y comprensión del proyecto
+                                        </p>
+                                    </Grid>
+
+                                    <Grid item md={3}>
+                                        <img src="/storage/imagenes-proyectos/titulo.png" alt="" className="rounded shadow" width="100%" />
+                                    </Grid>
+                                    <Grid item md={9} className="flex items-center">
+                                        <p>
+                                            <strong>Nombre del proyecto: </strong> Asigne un nombre "comercial" o llamativo a su proyecto."
+                                        </p>
+                                    </Grid>
+
+                                    <Grid item md={3}>
+                                        <img src="/storage/imagenes-proyectos/ods.png" alt="" className="mt-1 rounded shadow" />
+                                    </Grid>
+                                    <Grid item md={9}>
+                                        <p>
+                                            <strong>Objetivos ODS: </strong>Seleccione uno o mas objetivos de desarrollo sostenible asociados con el proyecto SGPS. Esto apuntará a destacar la
+                                            contribución de su proyecto a los objetivos globales de sostenibilidad.
+                                        </p>
+                                    </Grid>
+                                </Grid>
+                            </div>
+                        }
+                        dialogActions={
+                            <ButtonMui onClick={() => setDialogInfoStatus(false)} type="button" className="!mr-3 !mb-3">
+                                Entendido
+                            </ButtonMui>
+                        }
+                    />
 
                     <DialogMui
                         open={dialog_status}
