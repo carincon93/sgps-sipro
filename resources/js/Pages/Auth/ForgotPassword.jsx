@@ -19,7 +19,7 @@ export default function ForgotPassword({ status, ...props }) {
     }
 
     if (form.errors.email == 'El campo correo electrónico seleccionado es inválido.') {
-        status = `El correo electrónico ${data.email} no ha sido registrado.`
+        status = `El correo electrónico ${form.data.email} no ha sido registrado.`
     }
 
     return (

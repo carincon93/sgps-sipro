@@ -139,7 +139,7 @@ const EditComponent = ({
                                             </AlertMui>
                                         )}
 
-                                        <MenuMui text={checkRole(usuario, [11, 33]) ? 'Retirar postulación como evaluador(a)' : 'Quiero participar como evaluador(a'}>
+                                        <MenuMui text={checkRole(usuario, [11, 33]) ? 'Retirar postulación como evaluador(a)' : 'Quiero participar como evaluador(a)'}>
                                             {!checkRole(usuario, [11, 33]) ? (
                                                 <div>
                                                     <MenuItem
