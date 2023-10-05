@@ -128,8 +128,9 @@ const EditComponent = ({
                                             SENNOVA | <SenaLogo className="w-10" />
                                         </span>
                                         <h1 className="text-white text-4xl">Evaluación de proyectos I+D+i</h1>
-                                        <p className="text-white mb-10">
-                                            ¡Hola {usuario.nombre}! Si tienes experiencia evaluando proyectos bajo la metodología de marco lógico podrás participar haciendo clic en el siguiente botón:
+                                        <p className="text-white mb-10 mt-4">
+                                            ¡Hola {usuario.nombre}! Si tienes experiencia evaluando proyectos bajo la metodología de marco lógico podrás participar en la convocatoria 2024 haciendo
+                                            clic en el siguiente botón:
                                         </p>
 
                                         <MenuMui text={checkRole(usuario, [11, 33]) ? 'Retirar postulación como evaluador/a' : 'Quiero participar como evaluador/a'}>

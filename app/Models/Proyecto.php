@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +26,7 @@ class Proyecto extends Model
      *
      * @var array
      */
-    protected $appends = ['codigo', 'diff_meses', 'precio_proyecto', 'total_roles_sennova', 'fecha_inicio', 'fecha_finalizacion', 'estado_evaluacion_proyecto_formulario_8_linea_66', 'estado_evaluacion_proyecto_formulario_1_linea_65', 'estado_evaluacion_proyecto_formulario_4_linea_70', 'estado_evaluacion_proyecto_formulario_5_linea_69', 'estado_evaluacion_proyecto_formulario_12_linea_68', 'cantidad_objetivos', 'total_proyecto_presupuesto_aprobado', 'total_roles_sennova_aprobado', 'precio_proyecto_aprobado', 'total_proyecto_presupuesto', 'all_files', 'allowed', 'resultados'];
+    protected $appends = ['codigo', 'diff_meses', 'precio_proyecto', 'total_roles_sennova', 'fecha_inicio', 'fecha_finalizacion', 'estado_evaluacion_proyecto_formulario_8_linea_66', 'estado_evaluacion_proyecto_formulario_1_linea_65', 'estado_evaluacion_proyecto_formulario_4_linea_70', 'estado_evaluacion_proyecto_formulario_5_linea_69', 'estado_evaluacion_proyecto_formulario_12_linea_68', 'cantidad_objetivos', 'total_proyecto_presupuesto_aprobado', 'total_roles_sennova_aprobado', 'precio_proyecto_aprobado', 'total_proyecto_presupuesto', 'all_files', 'allowed', 'resultados', 'filename', 'extension'];
 
     /**
      * The attributes that are mass assignable.
@@ -46,7 +47,11 @@ class Proyecto extends Model
         'mostrar_recomendaciones',
         'mostrar_requiere_subsanacion',
         'en_evaluacion',
-        'arboles_completos'
+        'arboles_completos',
+        'imagen',
+        'video',
+        'nuevo_titulo',
+        'ods',
     ];
 
     /**
@@ -489,6 +494,84 @@ class Proyecto extends Model
     public function getUpdatedAtAttribute($value)
     {
         return "Última modificación de este formulario: " . Carbon::parse($value, 'UTC')->timezone('America/Bogota')->timezone('America/Bogota')->locale('es')->isoFormat('DD [de] MMMM [de] YYYY [a las] HH:mm:ss');
+    }
+
+    /**
+     * getProyectosPorRol
+     *
+     * @return object
+     */
+    public static function getProyectosPorRol()
+    {
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
+        $proyectos = Proyecto::with(
+            'proyectoFormulario1Linea65:id,titulo,fecha_inicio,fecha_finalizacion',
+            'proyectoFormulario3Linea61:id,titulo,fecha_inicio,fecha_finalizacion',
+            'proyectoFormulario4Linea70:id,tecnoacademia_id,fecha_inicio,fecha_finalizacion',
+            'proyectoFormulario5Linea69:id,nodo_tecnoparque_id,fecha_inicio,fecha_finalizacion',
+            'proyectoFormulario6Linea82:id,titulo,fecha_inicio,fecha_finalizacion',
+            'proyectoFormulario7Linea23:id,titulo,fecha_inicio,fecha_finalizacion',
+            'proyectoFormulario8Linea66:id,titulo,fecha_inicio,fecha_finalizacion',
+            'proyectoFormulario9Linea23:id,titulo,fecha_inicio,fecha_finalizacion',
+            'proyectoFormulario10Linea69:id,hub_innovacion_id,fecha_inicio,fecha_finalizacion',
+            'proyectoFormulario11Linea83:id,titulo,fecha_inicio,fecha_finalizacion',
+            'proyectoFormulario12Linea68:id,titulo,fecha_inicio,fecha_finalizacion',
+            'proyectoFormulario13Linea65:id,titulo,fecha_inicio,fecha_finalizacion',
+            'proyectoFormulario15Linea65:id,titulo,fecha_inicio,fecha_finalizacion',
+            'proyectoFormulario16Linea65:id,titulo,fecha_inicio,fecha_finalizacion',
+            'proyectoFormulario17Linea69:id,nodo_tecnoparque_id,fecha_inicio,fecha_finalizacion',
+            'convocatoria',
+        )->whereHas(
+            'centroFormacion',
+            function ($query) use ($auth_user) {
+                if ($auth_user->hasRole([2]) && !$auth_user->hasRole([1])) {
+                    $query->where('centros_formacion.regional_id', $auth_user->centroFormacion->regional->id);
+                } else if ($auth_user->hasRole([3, 4, 21, 27]) && !$auth_user->hasRole([1])) {
+                    $query->join('proyecto_participantes', 'proyectos.id', 'proyecto_participantes.proyecto_id');
+
+                    $query->where('centros_formacion.id', $auth_user->centro_formacion_id);
+                    $query->orWhere('proyecto_participantes.user_id', $auth_user->id);
+                } else if ($auth_user->hasRole([1, 20, 23])) {
+                } else {
+                    $query->join('proyecto_participantes', 'proyectos.id', 'proyecto_participantes.proyecto_id');
+                    $query->where('proyecto_participantes.user_id', $auth_user->id);
+                }
+            }
+        )
+            ->distinct('proyectos.id')
+            ->orderBy('proyectos.id', 'ASC')
+            ->filterProyecto(request()->only('search'))
+            ->paginate();
+
+
+        $proyectos->load('evaluaciones');
+
+        return $proyectos;
+    }
+
+    public function getFilenameAttribute()
+    {
+        $imagen   = pathinfo($this->imagen);
+
+        $array_file_info = collect(['imagen_filename' =>  $imagen['filename'] ?? '']);
+
+        return $array_file_info ?? '';
+    }
+
+    public function getExtensionAttribute()
+    {
+        $imagen   = pathinfo($this->imagen);
+
+        $array_file_info = collect(['imagen_extension' => $imagen['extension'] ?? '']);
+
+        return $array_file_info ?? '';
+    }
+
+    public function getOdsAttribute($value)
+    {
+        return json_decode($value);
     }
 
     public static function getLog($proyecto_id)

@@ -23,7 +23,7 @@ class EvaluacionController extends Controller
     {
         $this->authorize('viewAny', [Evaluacion::class]);
 
-        return Inertia::render('Evaluaciones/Index', [
+        return Inertia::render('Index', [
             'evaluaciones'          => Evaluacion::with(
                 'proyecto.proyectoFormulario1Linea65:id,titulo,fecha_inicio,fecha_finalizacion',
                 'proyecto.proyectoFormulario3Linea61:id,titulo,fecha_inicio,fecha_finalizacion',
@@ -208,7 +208,7 @@ class EvaluacionController extends Controller
     {
         $this->authorize('viewAny', [Evaluacion::class]);
 
-        return Inertia::render('Evaluaciones/Activas', [
+        return Inertia::render('Activas', [
             'evaluaciones'  => Evaluacion::where('modificable', true)->with('proyecto.tecnoacademiaLineasTecnoacademia.tecnoacademia', 'proyecto.proyectoFormulario4Linea70:id,fecha_inicio,fecha_finalizacion', 'proyecto.proyectoFormulario8Linea66:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.proyectoFormulario5Linea69:id,nodo_tecnoparque_id,fecha_inicio,fecha_finalizacion', 'proyecto.proyectoFormulario1Linea65:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.proyectoFormulario12Linea68:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.centroFormacion', 'evaluador:id,nombre')->orderBy('proyecto_id', 'ASC')->paginate(),
         ]);
     }
@@ -305,7 +305,7 @@ class EvaluacionController extends Controller
     {
         $this->authorize('viewAny', [User::class]);
 
-        return Inertia::render('Evaluaciones/Evaluadores/Index', [
+        return Inertia::render('Evaluadores/Index', [
             'evaluadores'   =>  User::select('users.id', 'users.nombre', 'users.email', 'users.habilitado', 'users.informacion_completa', 'centro_formacion_id')->whereHas('roles', function ($query) {
                 $query->whereIn('id', [11, 33]);
             })->with('roles', 'centroFormacion.regional')->orderBy('habilitado', 'DESC')->orderBy('nombre', 'ASC')

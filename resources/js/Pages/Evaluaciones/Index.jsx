@@ -55,7 +55,7 @@ const Index = ({ auth, evaluaciones, evaluadores, proyectos, allowed_to_create }
                                 <TableCell>{evaluacion.id}</TableCell>
                                 <TableCell>{evaluacion.proyecto.codigo}</TableCell>
                                 <TableCell>
-                                    <p className="first-letter:uppercase lowercase line-clamp-4">
+                                    <p className="uppercase line-clamp-4">
                                         {evaluacion.proyecto?.proyecto_formulario7_linea23
                                             ? evaluacion.proyecto?.proyecto_formulario7_linea23.titulo
                                             : evaluacion.proyecto?.proyecto_formulario9_linea23

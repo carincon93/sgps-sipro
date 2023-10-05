@@ -24,6 +24,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ProyectoController extends Controller
@@ -36,9 +37,8 @@ class ProyectoController extends Controller
     public function index()
     {
         return Inertia::render('Proyectos/Index', [
-            'convocatorias' => SelectHelper::convocatorias(),
-            'proyectos'     => Proyecto::with('PdfVersiones', 'convocatoria')->orderBy('id', 'ASC')->filterProyecto(request()->only('search'))->paginate()->appends(['search' => request()->search]),
-            'proyectos_id'  => Proyecto::selectRaw("id + 8000 as codigo_only")->orderBy('id', 'ASC')->get()->pluck('codigo_only')->flatten('codigo_only')
+            'proyectos' => Proyecto::getProyectosPorRol(),
+            'ods'       => json_decode(Storage::get('json/ods.json'), true),
         ]);
     }
 
@@ -71,51 +71,71 @@ class ProyectoController extends Controller
      */
     public function update(Request $request, Proyecto $proyecto)
     {
-        if ($request->en_evaluacion == true && $request->subsanacion == true) {
-            return back()->with('error', 'Se ha producido un error por tener estado de subsanación y evaluación habilitados a la misma vez.');
+        if ($request->hasFile('imagen')) {
+            $uploaded_file  = $request->file('imagen');
+            $image_name     = $proyecto->codigo . '.' . $uploaded_file->getClientOriginalExtension();
+            $folder_path    = 'public/imagenes-proyectos';
+
+            $uploaded_file->storeAs($folder_path, $image_name);
+
+            $proyecto->update([
+                'imagen'  => $image_name
+            ]);
         }
 
-        if ($request->subsanacion == true) {
-            $proyecto->habilitado_para_evaluar  = false;
-            $proyecto->modificable              = true;
-            $proyecto->finalizado               = false;
-            $proyecto->mostrar_recomendaciones  = true;
-            $proyecto->evaluaciones()->update(['finalizado' => true, 'modificable' => false, 'iniciado' => false]);
-        } else {
-            $proyecto->habilitado_para_evaluar  = true;
-            $proyecto->modificable              = false;
-            $proyecto->finalizado               = true;
-            $proyecto->mostrar_recomendaciones  = $request->mostrar_recomendaciones;
+        if ($request->filled('ods') || $request->filled('nuevo_titulo')) {
+            $proyecto->update([
+                'ods'           => json_encode($request->ods),
+                'nuevo_titulo'  => $request->nuevo_titulo,
+            ]);
         }
 
-        $proyecto->en_evaluacion   = $request->en_evaluacion;
-        $proyecto->radicado        = $request->radicado;
 
-        $proyecto->save();
+        // if ($request->en_evaluacion == true && $request->subsanacion == true) {
+        //     return back()->with('error', 'Se ha producido un error por tener estado de subsanación y evaluación habilitados a la misma vez.');
+        // }
 
-        $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 ?? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
+        // if ($request->subsanacion == true) {
+        //     $proyecto->habilitado_para_evaluar  = false;
+        //     $proyecto->modificable              = true;
+        //     $proyecto->finalizado               = false;
+        //     $proyecto->mostrar_recomendaciones  = true;
+        //     $proyecto->evaluaciones()->update(['finalizado' => true, 'modificable' => false, 'iniciado' => false]);
+        // } else {
+        //     $proyecto->habilitado_para_evaluar  = true;
+        //     $proyecto->modificable              = false;
+        //     $proyecto->finalizado               = true;
+        //     $proyecto->mostrar_recomendaciones  = $request->mostrar_recomendaciones;
+        // }
 
-        if ($request->subsanacion == true) {
-            $request->merge(['subsanacion' => $request->subsanacion ? 'true' : 'false']);
-            $proyecto->update(['estado' => $proyecto->estado]);
-            sleep(2);
-            $proyecto->update(
-                [
-                    'estado' => DB::raw("estado::jsonb || '{\"requiereSubsanar\":$request->subsanacion}'")
-                ]
-            );
-        }
+        // $proyecto->en_evaluacion   = $request->en_evaluacion;
+        // $proyecto->radicado        = $request->radicado;
 
-        if ($request->estado_cord_sennova) {
-            $request->merge(['subsanacion' => $request->subsanacion ? 'true' : 'false']);
-            $proyecto->update(['estado_cord_sennova' => $proyecto->estado]);
-            sleep(2);
-            $proyecto->update(
-                [
-                    'estado_cord_sennova' => DB::raw("estado_cord_sennova::jsonb || '{\"requiereSubsanar\":$request->subsanacion, \"estado\": \"$request->estado_cord_sennova\"}'")
-                ]
-            );
-        }
+        // $proyecto->save();
+
+        // $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 ?? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
+
+        // if ($request->subsanacion == true) {
+        //     $request->merge(['subsanacion' => $request->subsanacion ? 'true' : 'false']);
+        //     $proyecto->update(['estado' => $proyecto->estado]);
+        //     sleep(2);
+        //     $proyecto->update(
+        //         [
+        //             'estado' => DB::raw("estado::jsonb || '{\"requiereSubsanar\":$request->subsanacion}'")
+        //         ]
+        //     );
+        // }
+
+        // if ($request->estado_cord_sennova) {
+        //     $request->merge(['subsanacion' => $request->subsanacion ? 'true' : 'false']);
+        //     $proyecto->update(['estado_cord_sennova' => $proyecto->estado]);
+        //     sleep(2);
+        //     $proyecto->update(
+        //         [
+        //             'estado_cord_sennova' => DB::raw("estado_cord_sennova::jsonb || '{\"requiereSubsanar\":$request->subsanacion, \"estado\": \"$request->estado_cord_sennova\"}'")
+        //         ]
+        //     );
+        // }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }

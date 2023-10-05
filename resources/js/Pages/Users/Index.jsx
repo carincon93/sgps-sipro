@@ -56,7 +56,7 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, subdirectores_centro, al
                                                 <InfoOutlinedIcon className="mr-1" />
                                             </ToolTipMui>
                                         )}
-                                        <p className="capitalize lowercase">{usuario.nombre}</p>
+                                        <p className="uppercase">{usuario.nombre}</p>
                                     </div>
                                 </TableCell>
 
@@ -153,7 +153,7 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, subdirectores_centro, al
                                                 <InfoOutlinedIcon className="mr-1" />
                                             </ToolTipMui>
                                         )}
-                                        <p className="capitalize lowercase">{dinamizador_sennova.nombre}</p>
+                                        <p className="uppercase">{dinamizador_sennova.nombre}</p>
                                     </div>
                                 </TableCell>
                                 <TableCell>
@@ -217,7 +217,7 @@ const Index = ({ auth, usuarios, dinamizadores_sennova, subdirectores_centro, al
                         {subdirectores_centro.map((subdirector_centro, i) => (
                             <TableRow key={i}>
                                 <TableCell>
-                                    <p className="capitalize lowercase">{subdirector_centro.nombre}</p>
+                                    <p className="uppercase">{subdirector_centro.nombre}</p>
                                 </TableCell>
                                 <TableCell>
                                     {subdirector_centro.centro_formacion?.nombre} - Código: {subdirector_centro.centro_formacion?.codigo}

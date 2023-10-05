@@ -39,7 +39,7 @@ const Index = ({ auth, evaluadores }) => {
                                                 <InfoOutlinedIcon className="mr-1" />
                                             </ToolTipMui>
                                         )}
-                                        <p className="capitalize lowercase">{evaluador.nombre}</p>
+                                        <p className="uppercase">{evaluador.nombre}</p>
                                     </div>
                                 </TableCell>
                                 <TableCell>{evaluador.email}</TableCell>

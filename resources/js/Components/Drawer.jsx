@@ -166,6 +166,23 @@ export default function MiniDrawer({ user, children }) {
                             <ListItemText primary="Convocatorias" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
 
+                        <ListItemButton
+                            sx={{
+                                borderRadius: '20px',
+                                minHeight: 48,
+                                justifyContent: open ? 'initial' : 'center',
+                                px: 2.5,
+                            }}
+                            onClick={() => router.visit(route('proyectos.index'))}>
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
+                                    justifyContent: 'center',
+                                }}></ListItemIcon>
+                            <ListItemText primary="Mis proyectos SGPS" sx={{ opacity: open ? 1 : 0 }} />
+                        </ListItemButton>
+
                         {checkRole(user, [1, 21, 18, 19, 5, 17]) && (
                             <ListItemButton
                                 sx={{
@@ -182,6 +199,25 @@ export default function MiniDrawer({ user, children }) {
                                         justifyContent: 'center',
                                     }}></ListItemIcon>
                                 <ListItemText primary="Evaluaciones" sx={{ opacity: open ? 1 : 0 }} />
+                            </ListItemButton>
+                        )}
+
+                        {checkRole(user, [1, 21, 18, 19, 5, 17]) && (
+                            <ListItemButton
+                                sx={{
+                                    borderRadius: '20px',
+                                    minHeight: 48,
+                                    justifyContent: open ? 'initial' : 'center',
+                                    px: 2.5,
+                                }}
+                                onClick={() => router.visit(route('evaluadores.index'))}>
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: open ? 3 : 'auto',
+                                        justifyContent: 'center',
+                                    }}></ListItemIcon>
+                                <ListItemText primary="Evaluadores" sx={{ opacity: open ? 1 : 0 }} />
                             </ListItemButton>
                         )}
 
