@@ -39,10 +39,7 @@ const Index = ({ auth, evaluaciones, evaluadores, proyectos, allowed_to_create }
 
                     <SearchBar className="mt-20" />
 
-                    <TableMui
-                        className="mt-16"
-                        rows={['ID', 'Código', 'Título', 'Convocatoria', 'Evaluador/a', 'Estados evaluación', 'Estado del proyecto', 'Acciones']}
-                        sxCellThead={{ width: '320px' }}>
+                    <TableMui className="mt-16" rows={['ID', 'Código', 'Título', 'Evaluador/a', 'Estados evaluación', 'Estado del proyecto', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         <TableRow onClick={() => (setDialogStatus(true), setMethod('POST'), setEvaluacion(null))} variant="raised" className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
                             <TableCell colSpan={8}>
                                 <ButtonMui>
@@ -53,7 +50,11 @@ const Index = ({ auth, evaluaciones, evaluadores, proyectos, allowed_to_create }
                         {evaluaciones.data.map((evaluacion, i) => (
                             <TableRow key={i}>
                                 <TableCell>{evaluacion.id}</TableCell>
-                                <TableCell>{evaluacion.proyecto.codigo}</TableCell>
+                                <TableCell>
+                                    {evaluacion.proyecto.codigo}
+                                    <Divider />
+                                    {evaluacion.proyecto.convocatoria.year}
+                                </TableCell>
                                 <TableCell>
                                     <p className="uppercase line-clamp-4">
                                         {evaluacion.proyecto?.proyecto_formulario7_linea23
@@ -89,7 +90,7 @@ const Index = ({ auth, evaluaciones, evaluadores, proyectos, allowed_to_create }
                                             : 'Sin información registrada'}
                                     </p>
                                 </TableCell>
-                                <TableCell>{evaluacion.proyecto.convocatoria.year}</TableCell>
+
                                 <TableCell>{evaluacion.evaluador.nombre}</TableCell>
                                 <TableCell>
                                     <Chip className="mr-2 mb-2" size="small" label={evaluacion.verificar_estado_evaluacion ? evaluacion.verificar_estado_evaluacion : 'Sin información'} />
