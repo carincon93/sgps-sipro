@@ -591,35 +591,35 @@ class Evaluacion extends Model
             }
         })->when($filters['estado'] ?? null, function ($query, $estado) {
             if ($estado == 'finalizados idi') {
-                $query->join('evaluaciones_proyectos_linea_66', 'evaluaciones.id', 'evaluaciones_proyectos_linea_66.id');
+                $query->join('evaluaciones_proyectos_formulario_8_linea_66', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_8_linea_66.id');
                 $query->where('evaluaciones.finalizado', true);
             } else if ($estado == 'finalizados cultira innovacion') {
-                $query->join('evaluaciones_proyectos_linea_65', 'evaluaciones.id', 'evaluaciones_proyectos_linea_65.id');
+                $query->join('evaluaciones_proyectos_formulario_1_linea_65', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_1_linea_65.id');
                 $query->where('evaluaciones.finalizado', true);
             } else if ($estado == 'finalizados ta') {
-                $query->join('evaluaciones_proyectos_linea_70', 'evaluaciones.id', 'evaluaciones_proyectos_linea_70.id');
+                $query->join('evaluaciones_proyectos_formulario_4_linea_70', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_4_linea_70.id');
                 $query->where('evaluaciones.finalizado', true);
             } else if ($estado == 'finalizados tp') {
-                $query->join('evaluaciones_proyectos_linea_69', 'evaluaciones.id', 'evaluaciones_proyectos_linea_69.id');
+                $query->join('evaluaciones_proyectos_formulario_5_linea_69', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_5_linea_69.id');
                 $query->where('evaluaciones.finalizado', true);
             } else if ($estado == 'finalizados st') {
-                $query->join('evaluaciones_proyectos_linea_68', 'evaluaciones.id', 'evaluaciones_proyectos_linea_68.id');
+                $query->join('evaluaciones_proyectos_formulario_12_linea_68', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_12_linea_68.id');
                 $query->where('evaluaciones.finalizado', true);
             } else if ($estado == 'sin evaluar idi') {
-                $query->join('evaluaciones_proyectos_linea_66', 'evaluaciones.id', 'evaluaciones_proyectos_linea_66.id');
-                $query->where('evaluaciones_proyectos_linea_66.updated_at', null);
+                $query->join('evaluaciones_proyectos_formulario_8_linea_66', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_8_linea_66.id');
+                $query->where('evaluaciones_proyectos_formulario_8_linea_66.updated_at', null);
             } else if ($estado == 'sin evaluar cultura innovacion') {
-                $query->join('evaluaciones_proyectos_linea_65', 'evaluaciones.id', 'evaluaciones_proyectos_linea_65.id');
-                $query->where('evaluaciones_proyectos_linea_65.updated_at', null);
+                $query->join('evaluaciones_proyectos_formulario_1_linea_65', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_1_linea_65.id');
+                $query->where('evaluaciones_proyectos_formulario_1_linea_65.updated_at', null);
             } else if ($estado == 'sin evaluar ta') {
-                $query->join('evaluaciones_proyectos_linea_70', 'evaluaciones.id', 'evaluaciones_proyectos_linea_70.id');
-                $query->where('evaluaciones_proyectos_linea_70.updated_at', null);
+                $query->join('evaluaciones_proyectos_formulario_4_linea_70', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_4_linea_70.id');
+                $query->where('evaluaciones_proyectos_formulario_4_linea_70.updated_at', null);
             } else if ($estado == 'sin evaluar tp') {
-                $query->join('evaluaciones_proyectos_linea_69', 'evaluaciones.id', 'evaluaciones_proyectos_linea_69.id');
-                $query->where('evaluaciones_proyectos_linea_69.updated_at', null);
+                $query->join('evaluaciones_proyectos_formulario_5_linea_69', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_5_linea_69.id');
+                $query->where('evaluaciones_proyectos_formulario_5_linea_69.updated_at', null);
             } else if ($estado == 'sin evaluar st') {
-                $query->join('evaluaciones_proyectos_linea_68', 'evaluaciones.id', 'evaluaciones_proyectos_linea_68.id');
-                $query->where('evaluaciones_proyectos_linea_68.updated_at', null);
+                $query->join('evaluaciones_proyectos_formulario_12_linea_68', 'evaluaciones.id', 'evaluaciones_proyectos_formulario_12_linea_68.id');
+                $query->where('evaluaciones_proyectos_formulario_12_linea_68.updated_at', null);
             }
         });
     }
