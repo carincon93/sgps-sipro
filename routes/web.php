@@ -806,6 +806,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('proyectos', [ProyectoController::class, 'index'])->name('proyectos.index');
     Route::get('proyectos/{proyecto}/editar', [ProyectoController::class, 'editProyecto'])->name('proyectos.edit');
     Route::put('proyectos/{proyecto}/editar', [ProyectoController::class, 'update'])->name('proyectos.update');
+    Route::delete('convocatorias/{convocatoria}/proyectos/{proyecto}', [ProyectoController::class, 'destroy'])->name('convocatorias.proyectos.destroy');
     Route::post('proyectos/actualizar-estados-proyectos', [ProyectoController::class, 'udpdateEstadosProyectos'])->name('proyectos.update.actualizar-estados-proyectos');
     Route::post('proyectos/actualizar-estados-todos-proyectos', [ProyectoController::class, 'actualizarEstadosTodosProyectos'])->name('proyectos.update.actualizar-estados-todos-proyectos');
 

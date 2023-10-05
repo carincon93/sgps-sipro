@@ -1,8 +1,12 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import AlertMui from '@/Components/Alert'
+import ButtonMui from '@/Components/Button'
+import DialogMui from '@/Components/Dialog'
+import FileInput from '@/Components/FileInput'
 import MenuMui from '@/Components/Menu'
 import PaginationMui from '@/Components/Pagination'
+import PrimaryButton from '@/Components/PrimaryButton'
 import SearchBar from '@/Components/SearchBar'
 import TableMui from '@/Components/Table'
 
@@ -12,11 +16,7 @@ import { checkRole } from '@/Utils'
 import { Head, router, useForm } from '@inertiajs/react'
 import { Divider, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 import { useState } from 'react'
-import DialogMui from '@/Components/Dialog'
 import Form from './Form'
-import FileInput from '@/Components/FileInput'
-import ButtonMui from '@/Components/Button'
-import PrimaryButton from '@/Components/PrimaryButton'
 
 const Index = ({ auth, proyectos, ods }) => {
     const auth_user = auth.user

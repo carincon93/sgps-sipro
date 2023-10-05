@@ -140,6 +140,13 @@ class ProyectoController extends Controller
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
+    public function destroy(Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        $proyecto->delete();
+
+        return back()->with('success', 'El recurso se ha eliminado correctamente.');
+    }
+
     /**
      * Display a listing of the resource.
      *
