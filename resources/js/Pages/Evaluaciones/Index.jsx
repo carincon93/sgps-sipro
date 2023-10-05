@@ -53,7 +53,7 @@ const Index = ({ auth, evaluaciones, evaluadores, proyectos, allowed_to_create }
                                 <TableCell>
                                     {evaluacion.proyecto.codigo}
                                     <Divider />
-                                    {evaluacion.proyecto.convocatoria.year}
+                                    <small>Convocatoria: {evaluacion.proyecto.convocatoria.year}</small>
                                 </TableCell>
                                 <TableCell>
                                     <p className="uppercase line-clamp-4">
