@@ -231,7 +231,7 @@ const Index = ({ auth, proyectos, ods }) => {
                                     <Grid item md={9} className="flex items-center">
                                         <p>
                                             <strong>Foto o imagen: </strong>Debe cargar una imagen/foto que represente de manera visual el proyecto o los productos más destacados. Esta funcionalidad
-                                            facilitará la visualización y comprensión del proyecto
+                                            facilitará la visualización y comprensión del proyecto.
                                         </p>
                                     </Grid>
 

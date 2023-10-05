@@ -131,8 +131,6 @@ class UserController extends Controller
 
         return Inertia::render('Users/Edit', [
             'usuario'                                       => $user,
-            // 'permisosRelacionados'  => $user->permissions()->pluck('id'),
-            // 'proyectos'             => $proyectos,
             'roles_sistema'                                 =>  Role::getRolesByRol(),
             'subareas_experiencia'                          =>  SubareaExperiencia::selectRaw("subareas_experiencia.id as value, CONCAT(subareas_experiencia.nombre,' - Área de experiencia: ', areas_experiencia.nombre) as label")->join('areas_experiencia', 'subareas_experiencia.area_experiencia_id', 'areas_experiencia.id')->orderBy('subareas_experiencia.nombre', 'ASC')->get(),
             'municipios'                                    =>  SelectHelper::municipios(),
