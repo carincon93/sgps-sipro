@@ -230,8 +230,8 @@ const Index = ({ auth, proyectos, ods }) => {
                                     </Grid>
                                     <Grid item md={9} className="flex items-center">
                                         <p>
-                                            <strong>Foto o imagen: </strong>Debe cargar que represente de manera visual el proyecto o los productos más destacados. Esta funcionalidad facilitará la
-                                            visualización y comprensión del proyecto
+                                            <strong>Foto o imagen: </strong>Debe cargar una imagen/foto que represente de manera visual el proyecto o los productos más destacados. Esta funcionalidad
+                                            facilitará la visualización y comprensión del proyecto
                                         </p>
                                     </Grid>
 
@@ -240,7 +240,7 @@ const Index = ({ auth, proyectos, ods }) => {
                                     </Grid>
                                     <Grid item md={9} className="flex items-center">
                                         <p>
-                                            <strong>Nombre del proyecto: </strong> Asigne un nombre "comercial" o llamativo a su proyecto."
+                                            <strong>Nombre del proyecto: </strong> Asigne un nombre "comercial" o llamativo a su proyecto.
                                         </p>
                                     </Grid>
 
