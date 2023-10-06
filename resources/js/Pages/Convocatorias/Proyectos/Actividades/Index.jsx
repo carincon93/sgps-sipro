@@ -514,7 +514,7 @@ const Actividades = ({
                                 2. Diligencie toda la información de la pestaña <strong>METODOLOGÍA</strong>.
                             </p>
                             <p>
-                                3. Una vez la información de la METODOLOGÍA este completa, diríjase a la pestaña <strong>ACTIVIDADES</strong>, luego de clic en el menú de acciones y{' '}
+                                3. Una vez la información de la METODOLOGÍA este completa, diríjase a la pestaña <strong>ACTIVIDADES</strong>, luego haga clic en el menú de acciones y{' '}
                                 <strong>Editar</strong>. A continuación, complete la información sobre el resultado y roles SENNOVA asociados a cada actividad. Posteriormente, asigne los rubros
                                 presupuestales correspondientes desde el botón <strong>'Asociar rubros presupuestales'</strong>.
                             </p>

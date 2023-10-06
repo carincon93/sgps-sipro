@@ -171,7 +171,7 @@ const Anexos = ({ auth, convocatoria, proyecto, evaluacion, proyecto_anexo, conv
                                                 download
                                                 href={route('anexos.download-file-sharepoint', [convocatoria_anexo.anexo.id])}
                                                 className="text-app-400 underline mt-4 mb-4 flex">
-                                                <DownloadIcon /> Descargar el formato para diligenciar. (De clic en este enlace).
+                                                <DownloadIcon /> Descargar el formato para diligenciar. (Haga clic en este enlace).
                                             </a>
 
                                             <span>Extensiones de anexos permitidas:</span>

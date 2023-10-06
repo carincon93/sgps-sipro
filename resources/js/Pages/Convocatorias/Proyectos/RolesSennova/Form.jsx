@@ -132,6 +132,63 @@ const Form = ({
                                 )}
                             </Grid>
 
+                            <Grid item md={12}>
+                                <TextInput
+                                    label="Número de meses que requiere el apoyo"
+                                    id="numero_meses"
+                                    type="number"
+                                    inputProps={{
+                                        step: 0.1,
+                                        min: 1,
+                                        max: is_super_admin ? null : meses_maximos ? (proyecto.diff_meses > meses_maximos ? meses_maximos : proyecto.diff_meses) : proyecto.diff_meses,
+                                    }}
+                                    error={form.errors.numero_meses}
+                                    value={form.data.numero_meses}
+                                    onChange={(e) => {
+                                        form.setData('numero_meses', e.target.value)
+                                    }}
+                                    disabled={!proyecto?.allowed?.to_update}
+                                    required
+                                />
+
+                                {form.data.numero_meses > parseFloat(meses_maximos) ? (
+                                    <AlertMui error={true}>
+                                        El tiempo máximo del rol seleccionado es de <strong>{meses_maximos} meses</strong> y el valor que usted solicita es de{' '}
+                                        <strong>{form.data.numero_meses} meses</strong>. Por favor modifique los valores de vinculación.
+                                    </AlertMui>
+                                ) : (
+                                    <AlertMui>
+                                        El rol seleccionado no puede superar los{' '}
+                                        <strong>{meses_maximos ? (proyecto.diff_meses > meses_maximos ? meses_maximos : proyecto.diff_meses) : proyecto.diff_meses}</strong> meses de vinculación
+                                    </AlertMui>
+                                )}
+                            </Grid>
+
+                            <Grid item md={12}>
+                                <TextInput
+                                    label="Número de personas requeridas"
+                                    id="numero_roles"
+                                    type="number"
+                                    inputProps={{
+                                        min: 1,
+                                        max: is_super_admin ? null : cantidad_maxima,
+                                    }}
+                                    error={form.errors.numero_roles}
+                                    value={form.data.numero_roles}
+                                    onChange={(e) => {
+                                        form.setData('numero_roles', e.target.value)
+                                    }}
+                                    disabled={!proyecto?.allowed?.to_update}
+                                    required
+                                />
+                                {cantidad_maxima > 0 && (
+                                    <AlertMui>
+                                        Tenga en cuenta que el sistema suma todos los valores de personas requeridas para el rol{' '}
+                                        <strong>{proyecto_rol_sennova?.convocatoria_rol_sennova.rol_sennova.nombre}</strong> y no puede superar el máximo de <strong>{cantidad_maxima}.</strong>
+                                    </AlertMui>
+                                )}
+                            </Grid>
+
                             {proyecto.tipo_formulario_convocatoria_id != 12 ? (
                                 <Grid item md={12}>
                                     <Textarea
@@ -203,63 +260,6 @@ const Form = ({
                                     </>
                                 )
                             )}
-
-                            <Grid item md={12}>
-                                <TextInput
-                                    label="Número de meses que requiere el apoyo"
-                                    id="numero_meses"
-                                    type="number"
-                                    inputProps={{
-                                        step: 0.1,
-                                        min: 1,
-                                        max: is_super_admin ? null : meses_maximos ? (proyecto.diff_meses > meses_maximos ? meses_maximos : proyecto.diff_meses) : proyecto.diff_meses,
-                                    }}
-                                    error={form.errors.numero_meses}
-                                    value={form.data.numero_meses}
-                                    onChange={(e) => {
-                                        form.setData('numero_meses', e.target.value)
-                                    }}
-                                    disabled={!proyecto?.allowed?.to_update}
-                                    required
-                                />
-
-                                {form.data.numero_meses > parseFloat(meses_maximos) ? (
-                                    <AlertMui error={true}>
-                                        El tiempo máximo del rol seleccionado es de <strong>{meses_maximos} meses</strong> y el valor que usted solicita es de{' '}
-                                        <strong>{form.data.numero_meses} meses</strong>. Por favor modifique los valores de vinculación.
-                                    </AlertMui>
-                                ) : (
-                                    <AlertMui>
-                                        El rol seleccionado no puede superar los{' '}
-                                        <strong>{meses_maximos ? (proyecto.diff_meses > meses_maximos ? meses_maximos : proyecto.diff_meses) : proyecto.diff_meses}</strong> meses de vinculación
-                                    </AlertMui>
-                                )}
-                            </Grid>
-
-                            <Grid item md={12}>
-                                <TextInput
-                                    label="Número de personas requeridas"
-                                    id="numero_roles"
-                                    type="number"
-                                    inputProps={{
-                                        min: 1,
-                                        max: is_super_admin ? null : cantidad_maxima,
-                                    }}
-                                    error={form.errors.numero_roles}
-                                    value={form.data.numero_roles}
-                                    onChange={(e) => {
-                                        form.setData('numero_roles', e.target.value)
-                                    }}
-                                    disabled={!proyecto?.allowed?.to_update}
-                                    required
-                                />
-                                {cantidad_maxima > 0 && (
-                                    <AlertMui>
-                                        Tenga en cuenta que el sistema suma todos los valores de personas requeridas para el rol{' '}
-                                        <strong>{proyecto_rol_sennova?.convocatoria_rol_sennova.rol_sennova.nombre}</strong> y no puede superar el máximo de <strong>{cantidad_maxima}.</strong>
-                                    </AlertMui>
-                                )}
-                            </Grid>
 
                             <Grid item md={12}>
                                 <h6 className="text-2xl mb-4">Actividades que deberá ejecutar el rol</h6>

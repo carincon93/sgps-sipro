@@ -27,7 +27,7 @@ const ConvocatoriaTiposFormulario = ({ auth, convocatoria, tipos_formulario_conv
             {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                 <Grid item md={12}>
                     <AlertMui className="mt-10">
-                        <p>Si desea modificar la convocatoria por favor de clic en el siguiente botón:</p>
+                        <p>Si desea modificar la convocatoria por favor haga clic en el siguiente botón:</p>
                         <Link href={route('convocatorias.edit', [convocatoria.id])} className="my-4 bg-app-800 text-white py-2 px-4 rounded inline-block">
                             Modificar convocatoria
                         </Link>

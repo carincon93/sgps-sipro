@@ -176,7 +176,7 @@ const ResumenFinal = ({
                     <AlertMui>
                         <strong className="block mb-8">El proyecto ha sido diligenciado correctamente.</strong>
                         {proyecto?.finalizado
-                            ? 'Si desea seguir modificando el proyecto de clic en la casilla "Modificar"'
+                            ? 'Si desea seguir modificando el proyecto haga clic en la casilla "Modificar"'
                             : 'Por favor habilite la casilla para confirmar que ha finalizado el proyecto'}
                         <br />
                         <Checkbox

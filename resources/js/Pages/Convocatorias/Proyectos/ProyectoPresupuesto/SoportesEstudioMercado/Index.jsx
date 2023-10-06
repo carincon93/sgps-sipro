@@ -422,7 +422,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                             <Grid item md={11}>
                                 <a href="/storage/documentos-descarga/Formato%20_guia_4_Estudio_de_mercado.xlsx" className="my-4 inline-block underline" target="_blank">
                                     <DownloadIcon />
-                                    <strong>De clic aquí para descargar el Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>
+                                    <strong>Haga clic aquí para descargar el Estudio de mercado - Convocatoria Sennova {convocatoria.year}</strong>
                                 </a>
                                 <br />
                                 <div>

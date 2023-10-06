@@ -33,7 +33,7 @@ export default function Dashboard({ auth, convocatorias }) {
             {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                 <Grid item md={12}>
                     <AlertMui className="mt-10">
-                        <p>A continuación, se listan todas las convocatorias, si desea crear una nueva de clic en el siguiente botón.</p>
+                        <p>A continuación, se listan todas las convocatorias, si desea crear una nueva haga clic en el siguiente botón.</p>
                         <Link href={route('convocatorias.create')} className="my-4 bg-app-800 text-white py-2 px-4 rounded inline-block">
                             Crear convocatoria
                         </Link>
