@@ -76,7 +76,7 @@
        width: 100%;
        align-items: center;
        justify-content: center;
-       background-color: red;
+
        word-wrap: break-word;
     }
     .bibliografia p{

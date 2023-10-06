@@ -16,15 +16,76 @@
         }
 
         h1 {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             text-align: center;
+            text-transform: uppercase;
         }
-
-        p {
+        p{
             text-align: justify;
+            /* font-size: 0.9rem;    */
             text-align-last: left;
             white-space: pre-wrap;
         }
+       
+        h4{
+            text-transform: uppercase;
+        }
+
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      border: 1px solid #e2e8f0; 
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f0f4f8;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+
+    tr:nth-child(odd) {
+      background-color: #f8fafc; 
+    }
+
+    ul {
+      list-style: none;
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+
+    ul li {
+      margin-left: 0;
+      padding-left: 0;
+      margin-bottom: 5px;
+    }
+
+    .rolessennova tr > td > p{
+        text-align: left;
+    }
+
+    .bibliografia{
+       display: flex;
+       width: 100%;
+       align-items: center;
+       justify-content: center;
+
+       word-wrap: break-word;
+    }
+    .bibliografia p{
+        display: block;
+        text-align: left;
+        line-height: 28px;
+        
+    }
     </style>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -176,10 +237,10 @@
 
     <h4>Plantee como las estrategias de la Línea de Extensionismo Tecnológico contribuyen al fortalecimiento de Proyectos de I + D + i tendientes a generar y articular mecanismos de atención diferencial, integral e incluyente, para los campesinos, de acuerdo con sus particularidades sociales, culturales, económicas y territoriales, que faciliten el acceso a los programas de formación y demás servicios de la Entidad.</h4>
     <p style="white-space: pre-wrap">{{ $datos->estrategias_articulacion_campesinos }}</p>
-
+<div class="bibliografia">
     <h4>Bibliografía</h4>
     <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->bibliografia }}</p>
-
+</div>
     <h1 className="text-center">Articulación</h1>
 
     <h4>Impacto de la impelmentación de acciones de la línea de Extensionismo Tecnológico  en el (los) centro(s) de formación y en la Formación Profesional</h4>
@@ -603,7 +664,7 @@
     </div>
 
     @if (!empty($proyecto->proyectoRolesSennova))
-        <div class="page_break">
+        <div class="page_break rolessennova">
             <h2 style="text-align: center;">Roles SENNOVA ${{ number_format($proyecto->total_roles_sennova, 0, ',', '.') }} COP</h2>
 			@foreach ($proyecto->proyectoRolesSennova as $rolSENNOVA)
 				<table width="100%" border="1" cellspacing="0" cellpadding="3" style="margin-top: 20px; font-size: 10px;">

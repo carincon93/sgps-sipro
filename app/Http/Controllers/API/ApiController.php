@@ -44,7 +44,7 @@ class ApiController extends Controller
         if ($validator->fails()) {
             return ['errors' => $validator->errors()];
         }
-
+ 
         $user = User::where(function ($query) use ($request) {
             if (!empty($request->email)) {
                 $query->where('email', $request->email);

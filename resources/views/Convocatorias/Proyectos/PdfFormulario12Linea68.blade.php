@@ -16,15 +16,76 @@
         }
 
         h1 {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             text-align: center;
+            text-transform: uppercase;
         }
-
-        p {
+        p{
             text-align: justify;
+            /* font-size: 0.9rem;    */
             text-align-last: left;
             white-space: pre-wrap;
         }
+       
+        h4{
+            text-transform: uppercase;
+        }
+
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      border: 1px solid #e2e8f0; 
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f0f4f8;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+
+    tr:nth-child(odd) {
+      background-color: #f8fafc; 
+    }
+
+    ul {
+      list-style: none;
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+
+    ul li {
+      margin-left: 0;
+      padding-left: 0;
+      margin-bottom: 5px;
+    }
+
+    .rolessennova tr > td > p{
+        text-align: left;
+    }
+
+    .bibliografia{
+       display: flex;
+       width: 100%;
+       align-items: center;
+       justify-content: center;
+
+       word-wrap: break-word;
+    }
+    .bibliografia p{
+        display: block;
+        text-align: left;
+        line-height: 28px;
+        
+    }
     </style>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -228,10 +289,10 @@
         <p style="font-weight: bold;">Enlace del video de las instalaciones donde se desarrollan las actividades de la línea servicios tecnológicos. (Youtube, Vídeo en Google Drive con visualización pública)</p>
         <a target="_blank" href="{{ $datos->video }}">{{ $datos->video }}</a>
     @endif
-
+<div class="bibliografia">
     <h4>Bibliografía</h4>
     <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->bibliografia }}</p>
-
+</div>
     <hr style="margin: 4rem 0">
 
     <h1>Problema central</h1>
@@ -587,7 +648,7 @@
     </div>
 
     @if (!empty($proyecto->proyectoRolesSennova))
-        <div class="page_break">
+        <div class="page_break rolessennova">
             <h2 style="text-align: center;">Roles SENNOVA ${{ number_format($proyecto->total_roles_sennova, 0, ',', '.') }} COP</h2>
 			@foreach ($proyecto->proyectoRolesSennova as $rolSENNOVA)
 				<table width="100%" border="1" cellspacing="0" cellpadding="3" style="margin-top: 20px; font-size: 10px;">

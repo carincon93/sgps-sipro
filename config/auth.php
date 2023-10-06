@@ -2,6 +2,19 @@
 
 return [
 
+
+
+    ////////////////////////////////////
+    // http://sennova.senaedu.edu.co:8080/v1/
+    // $token = $user->createToken('TokenName')->plainTextToken;
+    'guards' => [
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+        ],
+    ],
+    
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults

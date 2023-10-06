@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Models\Perfil\EstudioAcademico;
 use App\Models\Perfil\FormacionAcademicaSena;
 use App\Models\Perfil\ParticipacionGrupoInvestigacionSena;
@@ -20,7 +20,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -546,5 +546,15 @@ class User extends Authenticatable
         }
 
         return $count;
+    }
+////////////////////////////////////////////////////
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }
