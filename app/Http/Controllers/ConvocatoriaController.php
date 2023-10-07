@@ -30,7 +30,11 @@ class ConvocatoriaController extends Controller
      */
     public function index()
     {
-        $this->authorize('listar-convocatorias');
+        try {
+            $this->authorize('listar-convocatorias');
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return redirect()->route('users.perfil')->with('error', 'Error: No está autorizado(a) para ingresar a las convocatorias. En este formulario diríjase a la sección "Roles de sistema" y seleccione un rol de proponente.');
+        }
 
         return Inertia::render('Convocatorias/Index', [
             'convocatorias' => Convocatoria::orderBy('id', 'DESC')->filterConvocatoria(request()->only('search'))->paginate()->appends(['search' => request()->search]),
