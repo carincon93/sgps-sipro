@@ -28,7 +28,7 @@ class CulturaInnovacionEvaluacionesExport implements FromCollection, WithHeading
      */
     public function collection()
     {
-        return CulturaInnovacionEvaluacion::select('evaluaciones_proyectos_linea_65.*')->join('evaluaciones', 'evaluaciones_proyectos_linea_65.id', 'evaluaciones.id')->join('proyectos', 'evaluaciones.proyecto_id', 'proyectos.id')->where('proyectos.convocatoria_id', $this->convocatoria->id)->whereNotIn('proyectos.id', [1052, 1113])->get();
+        return CulturaInnovacionEvaluacion::select('evaluaciones_proyectos_formulario_1_linea_65..*')->join('evaluaciones', 'evaluaciones_proyectos_formulario_1_linea_65..id', 'evaluaciones.id')->join('proyectos', 'evaluaciones.proyecto_id', 'proyectos.id')->where('proyectos.convocatoria_id', $this->convocatoria->id)->whereNotIn('proyectos.id', [1052, 1113])->get();
     }
 
     /**
