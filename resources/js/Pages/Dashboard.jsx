@@ -108,7 +108,7 @@ export default function Dashboard({ auth, roles_sistema }) {
                     </Grid>
                 )}
 
-                {checkRole(auth_user, [1, 2, 3, 5, 17, 18, 19]) && (
+                {checkRole(auth_user, [1, 2, 4, 5, 17, 18, 19, 21]) && (
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"

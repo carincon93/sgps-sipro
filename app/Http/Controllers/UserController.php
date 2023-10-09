@@ -277,6 +277,18 @@ class UserController extends Controller
         return back()->with('success', 'La contraseña se ha actualizado correctamente.');
     }
 
+    public function updateCentroFormacion(Request $request, User $user)
+    {
+        if ($request->filled('centro_formacion_id')) {
+
+            $user->update([
+                'centro_formacion_id' => $request->centro_formacion_id
+            ]);
+        }
+
+        return back()->with('success', 'El centro de formación se ha actualizado correctamente.');
+    }
+
     public function asignacionRoles(Request $request)
     {
         $user = User::find($request->user_id);
