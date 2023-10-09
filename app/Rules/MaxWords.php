@@ -7,16 +7,16 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class MaxWords implements ValidationRule
 {
-    private $maxWords;
+    private $max_words;
 
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($maxWords)
+    public function __construct($max_words)
     {
-        $this->maxWords = $maxWords;
+        $this->max_words = $max_words;
     }
 
     /**
@@ -27,10 +27,10 @@ class MaxWords implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $words      = explode(' ', $value);
-        $nbWords    = count($words);
+        $nb_words   = count($words);
 
-        if (($nbWords >= 0 && $nbWords <= $this->maxWords) == false) {
-            $fail("Este campo debe tener máximo {$this->maxWords} palabras.");
+        if (($nb_words >= 0 && $nb_words <= $this->max_words) == false) {
+            $fail("Este campo debe tener máximo {$this->max_words} palabras.");
         }
     }
 }

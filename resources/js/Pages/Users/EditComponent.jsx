@@ -136,6 +136,12 @@ const EditComponent = ({
                                         {checkRole(usuario, [11, 33]) && (
                                             <AlertMui className="mb-4" severity="success">
                                                 ¡Postulación realizada, muchas gracias!.
+                                                {checkRole(usuario, [11, 33]) && !usuario.informacion_completa && (
+                                                    <>
+                                                        <br />
+                                                        <strong>Recuerde completar el CENSO.</strong>
+                                                    </>
+                                                )}
                                             </AlertMui>
                                         )}
 
@@ -164,8 +170,6 @@ const EditComponent = ({
                                                 </MenuItem>
                                             )}
                                         </MenuMui>
-
-                                        {checkRole(usuario, [11, 33]) && !usuario.informacion_completa && <AlertMui className="mt-14">Recuerde completar el CENSO.</AlertMui>}
                                     </Grid>
                                 </Grid>
                             </div>

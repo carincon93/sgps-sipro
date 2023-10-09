@@ -97,6 +97,8 @@ const Form = ({
         experiencia_metodos_ensayo: usuario?.experiencia_metodos_ensayo ? 1 : 2,
         experiencia_metodos_calibracion: usuario?.experiencia_metodos_calibracion ? 1 : 2,
         experiencia_minima_metodos: usuario?.experiencia_minima_metodos ? 1 : 2,
+
+        aprendiz: checkRole(usuario, [28]) ? 1 : 2,
     })
 
     const submit = (e) => {
@@ -123,6 +125,22 @@ const Form = ({
     return (
         <form onSubmit={submit} id="informacion-basica">
             <Grid container rowSpacing={8} padding={4}>
+                <Grid item md={12}>
+                    <Autocomplete
+                        id="aprendiz"
+                        options={[
+                            { value: 1, label: 'Si' },
+                            { value: 2, label: 'No' },
+                        ]}
+                        selectedValue={form.data.aprendiz}
+                        error={form.errors.aprendiz}
+                        onChange={(event, newValue) => {
+                            form.setData('aprendiz', newValue.value)
+                        }}
+                        label="¿Es aprendiz?"
+                        required
+                    />
+                </Grid>
                 <Grid item md={6}>
                     <TextInput
                         label="Nombre completo"
@@ -138,7 +156,7 @@ const Form = ({
 
                 <Grid item md={6}>
                     <TextInput
-                        label="Correo electrónico institucional"
+                        label={form.data.aprendiz == 1 ? 'Correo electrónico' : 'Correo electrónico institucional'}
                         id="email"
                         type="email"
                         value={form.data.email}
@@ -876,6 +894,7 @@ const Form = ({
                 <Grid item md={12}>
                     <AlertMui>
                         Los datos proporcionados serán tratados de acuerdo con la política de tratamiento de datos personales del SENA y a la ley 1581 de 2012 (Acuerdo No. 0009 del 2016)
+                        <br />
                         <Checkbox
                             className="mt-8"
                             name="autorizacion_datos"

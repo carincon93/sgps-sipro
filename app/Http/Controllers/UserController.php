@@ -99,6 +99,10 @@ class UserController extends Controller
 
         $user = User::create($request->all());
 
+        if ($request->aprendiz == 1) {
+            $user->assignRole([28]);
+        }
+
         return redirect()->route('users.edit', [$user->id, 'nuevo_usuario' => true])->with('success', 'El recurso se ha creado correctamente.');
     }
 
@@ -173,6 +177,12 @@ class UserController extends Controller
 
         $user->update($request->all());
         $user->save();
+
+        if ($request->aprendiz == 1) {
+            $user->assignRole([28]);
+        } else if ($request->aprendiz == 2) {
+            $user->removeRole(28);
+        }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }

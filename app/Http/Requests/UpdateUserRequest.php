@@ -30,7 +30,7 @@ class UpdateUserRequest extends FormRequest
             'user_id'                               => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:users,id'],
             'centro_formacion_id'                   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
             'nombre'                                => ['required', 'max:255', 'string'],
-            'email'                                 => ['required', 'max:255', new Email, 'email', 'unique:users,email,' . $this->route('user')->id . ',id'],
+            'email'                                 => ['required', 'max:255', new Email($this->aprendiz), 'email', 'unique:users,email,' . $this->route('user')->id . ',id'],
             'tipo_documento'                        => ['required', 'max:2'],
             'numero_documento'                      => ['required', 'min:0', 'min:0', 'max:2147483647', 'integer', 'unique:users,numero_documento,' . $this->route('user')->id . ',id'],
             'lugar_expedicion_id'                   => ['required', 'min:0', 'min:0', 'max:2147483647', 'integer', 'exists:municipios,id'],
