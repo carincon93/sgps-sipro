@@ -116,6 +116,14 @@ const EditComponent = ({
                 <Grid container rowSpacing={10} className="!mt-4">
                     {component == 'Users/Perfil' && (
                         <Grid item md={12}>
+                            {auth_user.roles.length > 0 && auth_user.check_soportes_titulo_obtenido > 0 && auth_user.check_certificados_formacion > 0 && (
+                                <>
+                                    <AlertMui severity="error" className="mb-10">
+                                        Tiene <strong>{auth_user.check_soportes_titulo_obtenido}</strong> soporte(s) de estudio académico y <strong>{auth_user.check_certificados_formacion}</strong>{' '}
+                                        certificado(s) de formación académica SENA sin cargar, por favor complete el CENSO SENNOVA.
+                                    </AlertMui>
+                                </>
+                            )}
                             <div className="bg-gradient-to-r from-gray-700 via-gray-900 to-black rounded shadow p-10">
                                 <Grid container>
                                     <Grid item md={4}>
@@ -166,7 +174,7 @@ const EditComponent = ({
                                                     onClick={(e) => {
                                                         submitEliminarEvaluador(e)
                                                     }}>
-                                                    Confirmo que quiero eliminar mi postulación como evaluador/a
+                                                    Confirmo que quiero eliminar mi postulación como evaluador(a)
                                                 </MenuItem>
                                             )}
                                         </MenuMui>

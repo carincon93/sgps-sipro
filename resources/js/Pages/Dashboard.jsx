@@ -3,17 +3,16 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import AlertMui from '@/Components/Alert'
 import ButtonMui from '@/Components/Button'
 import DialogMui from '@/Components/Dialog'
+import MenuMui from '@/Components/Menu'
 import SenaLogo from '@/Components/SenaLogo'
 
 import { route, checkRole, checkPermission } from '@/Utils'
 
-import { Head, Link, usePage } from '@inertiajs/react'
-import { Grid } from '@mui/material'
+import { Head, Link, router, usePage } from '@inertiajs/react'
+import { Grid, MenuItem } from '@mui/material'
 import { useState } from 'react'
 
 import FormRoles from './Users/FormRoles'
-
-import dayjs from 'dayjs'
 
 export default function Dashboard({ auth, roles_sistema }) {
     const { props: page_props } = usePage()
@@ -23,9 +22,47 @@ export default function Dashboard({ auth, roles_sistema }) {
     const auth_user = auth.user
 
     const is_super_admin = checkRole(auth_user, [1])
-    const [dialog_status, setDialogStatus] = useState(true)
+    const [dialog_status, setDialogStatus] = useState(checkRole(auth_user, [11, 33]) || (auth_user.roles.length == 0 && rol != 'evaluador_externo'))
 
-    const current_year = dayjs().year()
+    const submitEvaluadorInterno = (e) => {
+        e.preventDefault()
+        router.put(
+            route('users.evaluador'),
+            {
+                evaluador_interno: true,
+            },
+            {
+                onSuccess: () => setDialogStatus(false),
+                preserveScroll: true,
+            },
+        )
+    }
+
+    const submitEvaluadorExterno = (e) => {
+        e.preventDefault()
+        router.put(
+            route('users.evaluador'),
+            {
+                evaluador_externo: true,
+            },
+            {
+                onSuccess: () => setDialogStatus(false),
+                preserveScroll: true,
+            },
+        )
+    }
+
+    const submitEliminarEvaluador = (e) => {
+        e.preventDefault()
+        router.put(
+            route('users.eliminar-evaluador'),
+            {},
+            {
+                onSuccess: () => setDialogStatus(false),
+                preserveScroll: true,
+            },
+        )
+    }
 
     return (
         <AuthenticatedLayout>
@@ -246,31 +283,21 @@ export default function Dashboard({ auth, roles_sistema }) {
                                 <span className="text-white pointer-events-none place-items-center gap-2 flex py-2" href="/">
                                     SENNOVA | <SenaLogo className="w-10" />
                                 </span>
-                                {auth_user.roles.length == 0 && rol != 'evaluador_externo' && (
-                                    <AlertMui>
-                                        Por favor seleccione los roles de formulación según la línea en la que desea presentar proyectos. Si requiere otro rol por favor comuníquese con el
-                                        administrador del sistema.
-                                        <FormRoles usuario={auth_user} roles_sistema={roles_sistema} />
-                                    </AlertMui>
-                                )}
 
-                                {rol == 'evaluador_externo' && (
-                                    <AlertMui>
-                                        ¡Bienvenido/a! {auth_user.nombre} 👋🏻. Se le ha asignado el rol de <strong>Evaluador/a externo</strong>.
-                                    </AlertMui>
-                                )}
-
-                                {auth_user.roles.length > 0 && auth_user.check_soportes_titulo_obtenido === 0 && auth_user.check_certificados_formacion === 0 ? (
+                                {checkRole(auth_user, [11, 33]) ? (
                                     <>
-                                        <p className="mt-10">
-                                            El CENSO SENNOVA {current_year} está disponible. Por favor haga clic en <strong>'Ir al CENSO SENNOVA 2023'</strong> para diligenciarlo.
-                                        </p>
+                                        <h1 className="text-center text-2xl my-6">¡Hola {auth_user.nombre}!. Por favor confirme si desea participar como evaluador(a) de proyectos I+D+i 2024.</h1>
+                                        <figure>
+                                            <img src="/images/evaluadores.png" alt="" className="w-60 m-auto" />
+                                        </figure>
                                     </>
                                 ) : (
-                                    auth_user.roles.length > 0 && (
-                                        <AlertMui severity="error">
-                                            Tiene <strong>{auth_user.check_soportes_titulo_obtenido}</strong> soporte(s) de estudio académico y{' '}
-                                            <strong>{auth_user.check_certificados_formacion}</strong> certificado(s) de formación académica SENA sin cargar, por favor complete el CENSO SENNOVA.
+                                    auth_user.roles.length == 0 &&
+                                    rol != 'evaluador_externo' && (
+                                        <AlertMui>
+                                            Por favor seleccione los roles de formulación según la línea en la que desea presentar proyectos. Si requiere otro rol por favor comuníquese con el
+                                            administrador del sistema.
+                                            <FormRoles usuario={auth_user} roles_sistema={roles_sistema} />
                                         </AlertMui>
                                     )
                                 )}
@@ -279,20 +306,27 @@ export default function Dashboard({ auth, roles_sistema }) {
                     }
                     dialogActions={
                         <>
-                            {auth_user.roles.length > 0 || rol == 'evaluador_externo' ? (
-                                <div className="p-4 flex">
-                                    {auth_user.informacion_completa && auth_user.check_soportes_titulo_obtenido == 0 && auth_user.check_certificados_formacion == 0 && (
-                                        <ButtonMui primary={false} onClick={() => setDialogStatus(false)}>
-                                            {auth_user.informacion_completa && <>Haga clic en este botón, si ya completo el CENSO</>}
-                                        </ButtonMui>
-                                    )}
-                                    <Link
-                                        className="ml-2 overflow-hidden shadow-sm rounded px-6 py-2 bg-app-800 text-white flex justify-around items-center flex-col text-center"
-                                        href={route('users.perfil', { rol: rol })}>
-                                        Ir al CENSO SENNOVA 2023
-                                    </Link>
-                                </div>
-                            ) : null}
+                            <MenuMui text="Confirmar postulación como evaluador(a)">
+                                <MenuItem
+                                    onClick={(e) => {
+                                        submitEvaluadorInterno(e)
+                                    }}>
+                                    Pertenezco a SENNOVA
+                                </MenuItem>
+                                <MenuItem
+                                    onClick={(e) => {
+                                        submitEvaluadorExterno(e)
+                                    }}>
+                                    No hago parte de SENNOVA
+                                </MenuItem>
+                            </MenuMui>
+
+                            <ButtonMui
+                                onClick={(e) => {
+                                    submitEliminarEvaluador(e)
+                                }}>
+                                Quiero eliminar mi postulación como evaluador(a)
+                            </ButtonMui>
                         </>
                     }
                 />

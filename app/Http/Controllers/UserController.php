@@ -334,7 +334,7 @@ class UserController extends Controller
         $auth_user->removeRole(11);
         $auth_user->removeRole(33);
 
-        return back()->with('success', 'Se ha eliminado la postulación como evaluador/a.');
+        return back()->with('success', 'Se ha eliminado la postulación como evaluador(a).');
     }
 
     public function habilitarUsuario(Request $request)
