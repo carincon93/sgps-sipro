@@ -22,7 +22,7 @@ const ArbolObjetivos = ({ auth, convocatoria, proyecto, evaluacion, efectos_dire
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
-            <Grid item md={4}>
+            {/* <Grid item md={4}>
                 Evaluación
             </Grid>
             <Grid item md={8}>
@@ -48,7 +48,7 @@ const ArbolObjetivos = ({ auth, convocatoria, proyecto, evaluacion, efectos_dire
                         />
                     </>
                 )}
-            </Grid>
+            </Grid> */}
 
             <Grid item md={12} className="!mb-20">
                 <ArbolObjetivosComponent

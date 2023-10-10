@@ -695,6 +695,7 @@ class ProyectoController extends Controller
         return Inertia::render('Convocatorias/Proyectos/ResumenFinal', [
             'convocatoria'                          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
             'proyecto'                              => $proyecto,
+            'evaluacion'                            => Evaluacion::find(request()->evaluacion_id),
             'problemaCentral'                       => ProyectoValidationTrait::problemaCentral($proyecto),
             'efectosDirectos'                       => ProyectoValidationTrait::efectosDirectos($proyecto),
             'causasIndirectas'                      => ProyectoValidationTrait::causasIndirectas($proyecto),
@@ -1391,7 +1392,7 @@ class ProyectoController extends Controller
         return Inertia::render('Convocatorias/Proyectos/Indicadores/Index', [
             'convocatoria'  => $convocatoria,
             'proyecto'      => $proyecto,
-            // 'evaluacion'        => EvaluacionProyectoFormulario8Linea66::find(request()->evaluacion_id),
+            'evaluacion'    => Evaluacion::find(request()->evaluacion_id),
         ]);
     }
 

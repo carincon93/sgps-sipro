@@ -190,7 +190,6 @@ class ProyectoFormulario8Linea66Controller extends Controller
         $proyecto_formulario_8_linea_66->proyecto->municipios;
         $proyecto_formulario_8_linea_66->proyecto->tecnoacademiaLineasTecnoacademia;
 
-        // $proyecto_formulario_8_linea_66->proyecto->pdfVersiones;
         // $proyecto_formulario_8_linea_66->proyecto->all_files;
 
         $proyecto_formulario_8_linea_66->disciplinaSubareaConocimiento->subareaConocimiento->areaConocimiento;
@@ -205,7 +204,7 @@ class ProyectoFormulario8Linea66Controller extends Controller
             'convocatoria'                                      => $convocatoria,
             'proyecto_formulario_8_linea_66'                    => $proyecto_formulario_8_linea_66,
             'centros_formacion'                                 => SelectHelper::centrosFormacion(),
-            'evaluacion'                                        => EvaluacionProyectoFormulario8Linea66::find(request()->evaluacion_id),
+            'evaluacion'                                        => EvaluacionProyectoFormulario8Linea66::with('evaluacion.proyecto')->where('id', request()->evaluacion_id)->first(),
             'tecnoacademia'                                     => $proyecto_formulario_8_linea_66->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_formulario_8_linea_66->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
             'mesas_sectoriales'                                 => SelectHelper::mesasSectoriales(),
             'areas_conocimiento'                                => SelectHelper::areasConocimiento(),
@@ -288,28 +287,27 @@ class ProyectoFormulario8Linea66Controller extends Controller
             'clausula_confidencialidad' => $request->clausula_confidencialidad
         ]);
 
-        $evaluacion_proyecto_linea66->titulo_puntaje              = $request->titulo_puntaje;
-        $evaluacion_proyecto_linea66->titulo_comentario           = $request->titulo_requiere_comentario == false ? $request->titulo_comentario : null;
-        $evaluacion_proyecto_linea66->video_puntaje               = $request->video_puntaje;
-        $evaluacion_proyecto_linea66->video_comentario            = $request->video_requiere_comentario == false ? $request->video_comentario : null;
-        $evaluacion_proyecto_linea66->resumen_puntaje             = $request->resumen_puntaje;
-        $evaluacion_proyecto_linea66->resumen_comentario          = $request->resumen_requiere_comentario == false ? $request->resumen_comentario : null;
-        $evaluacion_proyecto_linea66->ortografia_puntaje          = $request->ortografia_puntaje;
-        $evaluacion_proyecto_linea66->ortografia_comentario       = $request->ortografia_requiere_comentario == false ? $request->ortografia_comentario : null;
-        $evaluacion_proyecto_linea66->redaccion_puntaje           = $request->redaccion_puntaje;
-        $evaluacion_proyecto_linea66->redaccion_comentario        = $request->redaccion_requiere_comentario == false ? $request->redaccion_comentario : null;
-        $evaluacion_proyecto_linea66->normas_apa_puntaje          = $request->normas_apa_puntaje;
-        $evaluacion_proyecto_linea66->normas_apa_comentario       = $request->normas_apa_requiere_comentario == false ? $request->normas_apa_comentario : null;
-
-        $evaluacion_proyecto_linea66->justificacion_economia_naranja_comentario = $request->justificacion_economia_naranja_requiere_comentario == false ? $request->justificacion_economia_naranja_comentario : null;
-        $evaluacion_proyecto_linea66->justificacion_industria_4_comentario = $request->justificacion_industria_4_requiere_comentario == false ? $request->justificacion_industria_4_comentario : null;
-        $evaluacion_proyecto_linea66->bibliografia_comentario = $request->bibliografia_requiere_comentario == false ? $request->bibliografia_comentario : null;
-        $evaluacion_proyecto_linea66->fechas_comentario = $request->fechas_requiere_comentario == false ? $request->fechas_comentario : null;
-        $evaluacion_proyecto_linea66->justificacion_politica_discapacidad_comentario = $request->justificacion_politica_discapacidad_requiere_comentario == false ? $request->justificacion_politica_discapacidad_comentario : null;
-        $evaluacion_proyecto_linea66->actividad_economica_comentario = $request->actividad_economica_requiere_comentario == false ? $request->actividad_economica_comentario : null;
-        $evaluacion_proyecto_linea66->disciplina_subarea_conocimiento_comentario = $request->disciplina_subarea_conocimiento_requiere_comentario == false ? $request->disciplina_subarea_conocimiento_comentario : null;
-        $evaluacion_proyecto_linea66->red_conocimiento_comentario = $request->red_conocimiento_requiere_comentario == false ? $request->red_conocimiento_comentario : null;
-        $evaluacion_proyecto_linea66->tematica_estrategica_comentario = $request->tematica_estrategica_requiere_comentario == false ? $request->tematica_estrategica_comentario : null;
+        $evaluacion_proyecto_linea66->titulo_puntaje                                    = $request->titulo_puntaje;
+        $evaluacion_proyecto_linea66->titulo_comentario                                 = $request->titulo_requiere_comentario                              == false ? $request->titulo_comentario : null;
+        $evaluacion_proyecto_linea66->video_puntaje                                     = $request->video_puntaje;
+        $evaluacion_proyecto_linea66->video_comentario                                  = $request->video_requiere_comentario                               == false ? $request->video_comentario : null;
+        $evaluacion_proyecto_linea66->resumen_puntaje                                   = $request->resumen_puntaje;
+        $evaluacion_proyecto_linea66->resumen_comentario                                = $request->resumen_requiere_comentario                             == false ? $request->resumen_comentario : null;
+        $evaluacion_proyecto_linea66->ortografia_puntaje                                = $request->ortografia_puntaje;
+        $evaluacion_proyecto_linea66->ortografia_comentario                             = $request->ortografia_requiere_comentario                          == false ? $request->ortografia_comentario : null;
+        $evaluacion_proyecto_linea66->redaccion_puntaje                                 = $request->redaccion_puntaje;
+        $evaluacion_proyecto_linea66->redaccion_comentario                              = $request->redaccion_requiere_comentario                           == false ? $request->redaccion_comentario : null;
+        $evaluacion_proyecto_linea66->normas_apa_puntaje                                = $request->normas_apa_puntaje;
+        $evaluacion_proyecto_linea66->normas_apa_comentario                             = $request->normas_apa_requiere_comentario                          == false ? $request->normas_apa_comentario : null;
+        $evaluacion_proyecto_linea66->justificacion_economia_naranja_comentario         = $request->justificacion_economia_naranja_requiere_comentario      == false ? $request->justificacion_economia_naranja_comentario : null;
+        $evaluacion_proyecto_linea66->justificacion_industria_4_comentario              = $request->justificacion_industria_4_requiere_comentario           == false ? $request->justificacion_industria_4_comentario : null;
+        $evaluacion_proyecto_linea66->bibliografia_comentario                           = $request->bibliografia_requiere_comentario                        == false ? $request->bibliografia_comentario : null;
+        $evaluacion_proyecto_linea66->fechas_comentario                                 = $request->fechas_requiere_comentario                              == false ? $request->fechas_comentario : null;
+        $evaluacion_proyecto_linea66->justificacion_politica_discapacidad_comentario    = $request->justificacion_politica_discapacidad_requiere_comentario == false ? $request->justificacion_politica_discapacidad_comentario : null;
+        $evaluacion_proyecto_linea66->actividad_economica_comentario                    = $request->actividad_economica_requiere_comentario                 == false ? $request->actividad_economica_comentario : null;
+        $evaluacion_proyecto_linea66->disciplina_subarea_conocimiento_comentario        = $request->disciplina_subarea_conocimiento_requiere_comentario     == false ? $request->disciplina_subarea_conocimiento_comentario : null;
+        $evaluacion_proyecto_linea66->red_conocimiento_comentario                       = $request->red_conocimiento_requiere_comentario                    == false ? $request->red_conocimiento_comentario : null;
+        $evaluacion_proyecto_linea66->tematica_estrategica_comentario                   = $request->tematica_estrategica_requiere_comentario                == false ? $request->tematica_estrategica_comentario : null;
 
         $evaluacion_proyecto_linea66->save();
 

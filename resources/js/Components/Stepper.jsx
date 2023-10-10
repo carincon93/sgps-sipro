@@ -1,8 +1,12 @@
 import PropTypes from 'prop-types'
 
+import ButtonMui from './Button'
+import DialogMui from './Dialog'
+
 import Stepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
+
 import { styled } from '@mui/material/styles'
 import { makeStyles } from '@mui/styles'
 
@@ -18,6 +22,10 @@ import { Link } from '@inertiajs/react'
 
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector'
 import FileTypeIcon from './FileTypeIcon'
+
+import { useState } from 'react'
+
+import EvaluacionProyectosFormulario8Linea66 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario8Linea66/Evaluacion'
 
 const useStyles = makeStyles({
     root: {
@@ -183,6 +191,7 @@ ColorlibStepIcon.propTypes = {
 
 export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evaluacion, ...props }) {
     const classes = useStyles()
+    const [dialog_evaluacion_status, setDialogEvaluacionStatus] = useState(false)
 
     const isActive =
         route().current('convocatorias.proyectos-formulario-3-linea-61.edit') ||
@@ -203,6 +212,34 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
 
     return (
         <>
+            {evaluacion && (
+                <>
+                    <ButtonMui className="!fixed bottom-32 left-6 z-[1200]" onClick={() => setDialogEvaluacionStatus(true)} primary={true}>
+                        Evaluar
+                    </ButtonMui>
+                    <DialogMui
+                        fullWidth={true}
+                        maxWidth="lg"
+                        open={dialog_evaluacion_status}
+                        dialogContent={
+                            <>
+                                {evaluacion.evaluacion_proyecto_formulario8_linea66 || evaluacion.evaluacion.proyecto.tipo_formulario_convocatoria_id == 8 ? (
+                                    <EvaluacionProyectosFormulario8Linea66
+                                        convocatoria={convocatoria}
+                                        allowed={evaluacion.allowed ?? evaluacion?.evaluacion?.allowed}
+                                        evaluacion={evaluacion.evaluacion_proyecto_formulario8_linea66 ?? evaluacion}
+                                    />
+                                ) : null}
+                            </>
+                        }
+                        dialogActions={
+                            <ButtonMui onClick={() => setDialogEvaluacionStatus(false)} primary={true} className="!mr-6">
+                                Cerrar
+                            </ButtonMui>
+                        }
+                    />
+                </>
+            )}
             <div className="flex items-center justify-center mb-10">
                 <div className="mr-6">
                     <small className=" bg-app-500 text-white py-1 px-3 rounded-full w-max text-center mx-auto">

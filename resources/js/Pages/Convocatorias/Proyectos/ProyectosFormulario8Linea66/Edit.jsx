@@ -7,7 +7,6 @@ import SenaLogo from '@/Components/SenaLogo'
 import StepperMui from '@/Components/Stepper'
 
 import Form from './Form'
-import Evaluacion from './Evaluacion'
 
 import { checkRole } from '@/Utils'
 import { Chip, Grid, TableCell, TableRow } from '@mui/material'
@@ -47,7 +46,6 @@ const Edit = ({
 
     const [evaluacion_index, setEvaluacionIndex] = useState(0)
     const [dialog_status, setDialogStatus] = useState(true)
-    const [dialog_evaluacion_status, setDialogEvaluacionStatus] = useState(false)
 
     const comentarios_evaluaciones =
         proyecto_formulario_8_linea_66?.proyecto?.evaluaciones?.length > 0
@@ -62,7 +60,7 @@ const Edit = ({
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto_formulario_8_linea_66?.proyecto} evaluacion={evaluacion} />
             </Grid>
 
-            {/* {!evaluacion && (
+            {!evaluacion && (
                 <>
                     <Grid item md={4}>
                         Evaluación
@@ -113,32 +111,6 @@ const Edit = ({
                     </Grid>
                 </>
             )}
-
-            <Grid item md={8}>
-                {evaluacion && (
-                    <>
-                        <ButtonMui className="!fixed bottom-32 left-6 z-[1200]" onClick={() => setDialogEvaluacionStatus(true)} primary={true}>
-                            Evaluar
-                        </ButtonMui>
-                        <DialogMui
-                            fullWidth={true}
-                            maxWidth="lg"
-                            open={dialog_evaluacion_status}
-                            dialogContent={
-                                <>
-                                    <Evaluacion evaluacion={evaluacion} />
-                                </>
-                            }
-                            dialogActions={
-                                <ButtonMui onClick={() => setDialogEvaluacionStatus(false)} primary={true} className="!mr-6">
-                                    Cerrar
-                                </ButtonMui>
-                            }
-                        />
-                    </>
-                )}
-            </Grid>
-             */}
 
             <Grid item md={12}>
                 <Form
