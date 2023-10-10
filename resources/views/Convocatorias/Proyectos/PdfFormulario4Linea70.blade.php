@@ -100,7 +100,7 @@
     <table width="100%" border="1" cellspacing="0" cellpadding="10" style="font-size: 12px;">
         <tr>
             <td rowspan="2" valign="middle" align="center" width="20%">
-                <div>
+                <div style="text-align: center;">
                     <img src="http://sennova.senaedu.edu.co:8080/images/Sena_Colombia_logo.png" width="100px" alt="Logo SENA">
                 </div>
             </td>
