@@ -14,7 +14,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { checkRole } from '@/Utils'
-import { router, usePage } from '@inertiajs/react'
+import { Head, router, usePage } from '@inertiajs/react'
 import { useState } from 'react'
 
 import Form from './Form'
@@ -31,7 +31,9 @@ const ConvocatoriaRolesSennova = ({ auth, convocatoria, convocatoria_roles_senno
     const [convocatoria_rol_sennova, setConvocatoriaRolSennova] = useState(null)
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Roles SENNOVA</h2>}>
+        <AuthenticatedLayout>
+            <Head title={`Convocatoria ${convocatoria.year} - Roles SENNOVA`} />
+
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                     <Grid item md={12}>
@@ -51,7 +53,7 @@ const ConvocatoriaRolesSennova = ({ auth, convocatoria, convocatoria_roles_senno
                         formuladores de las modificaciones realizadas.
                         <br />
                     </AlertMui>
-                    <TableMui rows={['Nombre', 'Nivel académico', 'Asignación mensual ' + convocatoria.year, 'Estado', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui rows={['Nombre', 'Nivel académico', 'Asignación mensual ' + convocatoria.year, 'Meses de apoyo (Máx)', 'Estado', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         <TableRow
                             onClick={() => (setDialogStatus(true), setMethod('POST'), setConvocatoriaRolSennova(null))}
                             variant="raised"
@@ -72,9 +74,13 @@ const ConvocatoriaRolesSennova = ({ auth, convocatoria, convocatoria_roles_senno
                                             : 'Sin información registrada'}
                                     </p>
                                 </TableCell>
+
                                 <TableCell>
                                     <div>${new Intl.NumberFormat('de-DE').format(convocatoria_rol_sennova.asignacion_mensual)} COP</div>
                                 </TableCell>
+
+                                <TableCell>{convocatoria_rol_sennova.meses_maximos}</TableCell>
+
                                 <TableCell>
                                     <Chip
                                         onClick={() =>

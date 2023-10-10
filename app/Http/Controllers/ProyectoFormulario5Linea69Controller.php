@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FunctionsHelper;
 use App\Helpers\SharepointHelper;
 use App\Helpers\SelectHelper;
 use App\Models\Convocatoria;
@@ -96,10 +97,10 @@ class ProyectoFormulario5Linea69Controller extends Controller
         }
 
         $proyecto_a_replicar = $convocatoria->proyectos()
-                                ->whereHas('proyectoFormulario5Linea69', function ($query) {
-                                    $query->where('proyecto_base', true);
-                                })
-                                ->first();
+            ->whereHas('proyectoFormulario5Linea69', function ($query) {
+                $query->where('proyecto_base', true);
+            })
+            ->first();
 
         $nuevo_proyecto_formulario_5_linea_69 = $this->replicateRow($request, $proyecto_a_replicar->proyectoFormulario5Linea69, $proyecto);
 
@@ -148,7 +149,7 @@ class ProyectoFormulario5Linea69Controller extends Controller
         $proyecto_formulario_5_linea_69->mostrar_recomendaciones        = $proyecto_formulario_5_linea_69->proyecto->mostrar_recomendaciones;
         $proyecto_formulario_5_linea_69->mostrar_requiere_subsanacion   = $proyecto_formulario_5_linea_69->proyecto->mostrar_requiere_subsanacion;
 
-          if ($auth_user->hasRole(16)) {
+        if ($auth_user->hasRole(16)) {
             $nodos_tecnoparque = SelectHelper::nodosTecnoparque()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
         } else {
             $nodos_tecnoparque = SelectHelper::nodosTecnoparque();
@@ -157,6 +158,7 @@ class ProyectoFormulario5Linea69Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario5Linea69/Edit', [
             'convocatoria'                      => $convocatoria,
             'proyecto_formulario_5_linea_69'    => $proyecto_formulario_5_linea_69,
+            'centros_formacion'                 => SelectHelper::centrosFormacion(),
             'evaluacion'                        => EvaluacionProyectoFormulario5Linea69::find(request()->evaluacion_id),
             'regionales'                        => SelectHelper::regionales(),
             'lineas_programaticas'              => LineaProgramatica::selectRaw('id as value, concat(nombre, \' ∙ \', codigo) as label, codigo')->where('lineas_programaticas.categoria_proyecto', 1)->get(),
@@ -342,7 +344,7 @@ class ProyectoFormulario5Linea69Controller extends Controller
 
             // re-sync productos->actividades
             foreach ($nuevos_productos as $nuevo_producto) {
-                if ( $nuevas_actividades->whereIn('descripcion_actividad', $productos->where('nombre', $nuevo_producto->nombre)->first()) ) {
+                if ($nuevas_actividades->whereIn('descripcion_actividad', $productos->where('nombre', $nuevo_producto->nombre)->first())) {
                     $nuevo_producto->actividades()->sync($nuevas_actividades->whereIn('descripcion_actividad', $productos->where('nombre', $nuevo_producto->nombre)->first()->actividades->pluck('descripcion')->toArray())->pluck('actividad_id')->toArray());
                 }
             }
@@ -400,6 +402,16 @@ class ProyectoFormulario5Linea69Controller extends Controller
     public function updateLongColumn(ProyectoFormulario5Linea69ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario5Linea69 $proyecto_formulario_5_linea_69, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_5_linea_69->proyecto]);
+
+        if ($column == 'fecha_inicio') {
+            $proyecto_formulario_5_linea_69->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($request->fecha_inicio, $proyecto_formulario_5_linea_69->fecha_finalizacion)
+            ]);
+        } elseif ($column == 'fecha_finalizacion') {
+            $proyecto_formulario_5_linea_69->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($proyecto_formulario_5_linea_69->fecha_inicio, $request->fecha_finalizacion)
+            ]);
+        }
 
         $proyecto_formulario_5_linea_69->update($request->only($column));
 

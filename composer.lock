@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "71f680d75362341b1dd28179ab601731",
+=======
+    "content-hash": "67efc8cb6735215a074040d89ce577eb",
+>>>>>>> main
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1767,6 +1771,7 @@
             "time": "2023-08-15T14:27:00+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "lcobucci/clock",
             "version": "2.3.0",
             "source": {
@@ -1916,6 +1921,17 @@
             },
             "dist": {
                 "type": "zip",
+=======
+            "name": "league/commonmark",
+            "version": "2.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/commonmark.git",
+                "reference": "3669d6d5f7a47a93c08ddff335e6d945481a1dd5"
+            },
+            "dist": {
+                "type": "zip",
+>>>>>>> main
                 "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/3669d6d5f7a47a93c08ddff335e6d945481a1dd5",
                 "reference": "3669d6d5f7a47a93c08ddff335e6d945481a1dd5",
                 "shasum": ""
@@ -4612,6 +4628,7 @@
             "time": "2023-04-28T07:47:42+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "stella-maris/clock",
             "version": "0.1.7",
             "source": {
@@ -4668,6 +4685,17 @@
             },
             "dist": {
                 "type": "zip",
+=======
+            "name": "symfony/console",
+            "version": "v6.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/console.git",
+                "reference": "eca495f2ee845130855ddf1cf18460c38966c8b6"
+            },
+            "dist": {
+                "type": "zip",
+>>>>>>> main
                 "url": "https://api.github.com/repos/symfony/console/zipball/eca495f2ee845130855ddf1cf18460c38966c8b6",
                 "reference": "eca495f2ee845130855ddf1cf18460c38966c8b6",
                 "shasum": ""
@@ -8064,6 +8092,7 @@
         },
         {
             "name": "phpunit/php-code-coverage",
+<<<<<<< HEAD
             "version": "10.1.6",
             "source": {
                 "type": "git",
@@ -8074,6 +8103,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/56f33548fe522c8d82da7ff3824b42829d324364",
                 "reference": "56f33548fe522c8d82da7ff3824b42829d324364",
+=======
+            "version": "10.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
+                "reference": "1df504e42a88044c27a90136910f0b3fe9e91939"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/1df504e42a88044c27a90136910f0b3fe9e91939",
+                "reference": "1df504e42a88044c27a90136910f0b3fe9e91939",
+>>>>>>> main
                 "shasum": ""
             },
             "require": {
@@ -8130,7 +8171,11 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
+<<<<<<< HEAD
                 "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/10.1.6"
+=======
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/10.1.5"
+>>>>>>> main
             },
             "funding": [
                 {
@@ -8138,7 +8183,11 @@
                     "type": "github"
                 }
             ],
+<<<<<<< HEAD
             "time": "2023-09-19T04:59:03+00:00"
+=======
+            "time": "2023-09-12T14:37:22+00:00"
+>>>>>>> main
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -8385,6 +8434,7 @@
         },
         {
             "name": "phpunit/phpunit",
+<<<<<<< HEAD
             "version": "10.3.5",
             "source": {
                 "type": "git",
@@ -8395,6 +8445,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/747c3b2038f1139e3dcd9886a3f5a948648b7503",
                 "reference": "747c3b2038f1139e3dcd9886a3f5a948648b7503",
+=======
+            "version": "10.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/phpunit.git",
+                "reference": "b8d59476f19115c9774b3b447f78131781c6c32b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b8d59476f19115c9774b3b447f78131781c6c32b",
+                "reference": "b8d59476f19115c9774b3b447f78131781c6c32b",
+>>>>>>> main
                 "shasum": ""
             },
             "require": {
@@ -8466,7 +8528,11 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
+<<<<<<< HEAD
                 "source": "https://github.com/sebastianbergmann/phpunit/tree/10.3.5"
+=======
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.3.4"
+>>>>>>> main
             },
             "funding": [
                 {
@@ -8482,7 +8548,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2023-09-19T05:42:37+00:00"
+=======
+            "time": "2023-09-12T14:42:28+00:00"
+>>>>>>> main
         },
         {
             "name": "sebastian/cli-parser",

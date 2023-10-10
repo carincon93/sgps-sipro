@@ -1,10 +1,12 @@
 import AlertMui from '@/Components/Alert'
 import Checkbox from '@/Components/Checkbox'
+import MenuMui from '@/Components/Menu'
 import PasswordInput from '@/Components/PasswordInput'
 import PrimaryButton from '@/Components/PrimaryButton'
+import SenaLogo from '@/Components/SenaLogo'
 import TabsMui from '@/Components/TabsMui'
 
-import { Chip, Grid, Paper } from '@mui/material'
+import { Chip, Grid, MenuItem, Paper } from '@mui/material'
 
 import Form from './Form'
 import FormRoles from './FormRoles'
@@ -16,7 +18,7 @@ import ParticipacionesProyectosSENNOVA from './Perfil/ParticipacionesProyectosSe
 import { checkRole } from '@/Utils'
 import { router, useForm } from '@inertiajs/react'
 
-import React from 'react'
+import React, { useState } from 'react'
 
 const EditComponent = ({
     auth_user,
@@ -45,6 +47,8 @@ const EditComponent = ({
     participaciones_proyectos_sennova,
     roles_sistema,
 }) => {
+    const component = router.page?.component
+
     const form_cambio_password = useForm({
         user_id: usuario?.id,
         default_password: false,
@@ -55,6 +59,46 @@ const EditComponent = ({
     const submitCambioPassword = (e) => {
         e.preventDefault()
         form_cambio_password.put(route('users.cambiar-password'), {
+            preserveScroll: true,
+        })
+    }
+
+    const [evaluador_interno, setEvaluadorInterno] = useState(checkRole(usuario, [11]))
+    const [evaluador_externo, setEvaluadorExterno] = useState(checkRole(usuario, [33]))
+
+    const submitEvaluadorInterno = (e) => {
+        e.preventDefault()
+        setEvaluadorInterno(!evaluador_interno)
+        router.put(
+            route('users.evaluador'),
+            {
+                evaluador_interno: true,
+            },
+            {
+                onSuccess: () => router.visit(route('users.perfil', { rol: 'evaluador_interno' })),
+                preserveScroll: true,
+            },
+        )
+    }
+
+    const submitEvaluadorExterno = (e) => {
+        e.preventDefault()
+        setEvaluadorExterno(!evaluador_externo)
+        router.put(
+            route('users.evaluador'),
+            {
+                evaluador_externo: true,
+            },
+            {
+                onSuccess: () => router.visit(route('users.perfil', { rol: 'evaluador_externo' })),
+                preserveScroll: true,
+            },
+        )
+    }
+
+    const submitEliminarEvaluador = (e) => {
+        e.preventDefault()
+        router.put(route('users.eliminar-evaluador'), {
             preserveScroll: true,
         })
     }
@@ -70,6 +114,75 @@ const EditComponent = ({
             ]}>
             <div>
                 <Grid container rowSpacing={10} className="!mt-4">
+                    {component == 'Users/Perfil' && (
+                        <Grid item md={12}>
+                            {auth_user.roles.length > 0 && auth_user.check_soportes_titulo_obtenido > 0 && auth_user.check_certificados_formacion > 0 && (
+                                <>
+                                    <AlertMui severity="error" className="mb-10">
+                                        Tiene <strong>{auth_user.check_soportes_titulo_obtenido}</strong> soporte(s) de estudio académico y <strong>{auth_user.check_certificados_formacion}</strong>{' '}
+                                        certificado(s) de formación académica SENA sin cargar, por favor complete el CENSO SENNOVA.
+                                    </AlertMui>
+                                </>
+                            )}
+                            <div className="bg-gradient-to-r from-gray-700 via-gray-900 to-black rounded shadow p-10">
+                                <Grid container>
+                                    <Grid item md={4}>
+                                        <figure>
+                                            <img src="/images/evaluadores.png" alt="" className="w-60" />
+                                        </figure>
+                                    </Grid>
+                                    <Grid item md={8}>
+                                        <span className="text-white pointer-events-none place-items-center gap-2 flex py-2" href="/">
+                                            SENNOVA | <SenaLogo className="w-10" />
+                                        </span>
+                                        <h1 className="text-white text-4xl">Evaluación de proyectos I+D+i</h1>
+                                        <p className="text-white mb-10 mt-4">
+                                            ¡Hola {usuario.nombre}! Si tienes experiencia evaluando proyectos bajo la metodología de marco lógico podrás participar en la convocatoria 2024 haciendo
+                                            clic en el siguiente botón:
+                                        </p>
+
+                                        {checkRole(usuario, [11, 33]) && (
+                                            <AlertMui className="mb-4" severity="success">
+                                                ¡Postulación realizada, muchas gracias!.
+                                                {checkRole(usuario, [11, 33]) && !usuario.informacion_completa && (
+                                                    <>
+                                                        <br />
+                                                        <strong>Recuerde completar el CENSO.</strong>
+                                                    </>
+                                                )}
+                                            </AlertMui>
+                                        )}
+
+                                        <MenuMui text={checkRole(usuario, [11, 33]) ? 'Retirar postulación como evaluador(a)' : 'Quiero participar como evaluador(a)'}>
+                                            {!checkRole(usuario, [11, 33]) ? (
+                                                <div>
+                                                    <MenuItem
+                                                        onClick={(e) => {
+                                                            submitEvaluadorInterno(e)
+                                                        }}>
+                                                        Pertenezco a SENNOVA
+                                                    </MenuItem>
+                                                    <MenuItem
+                                                        onClick={(e) => {
+                                                            submitEvaluadorExterno(e)
+                                                        }}>
+                                                        No hago parte de SENNOVA
+                                                    </MenuItem>
+                                                </div>
+                                            ) : (
+                                                <MenuItem
+                                                    onClick={(e) => {
+                                                        submitEliminarEvaluador(e)
+                                                    }}>
+                                                    Confirmo que quiero eliminar mi postulación como evaluador(a)
+                                                </MenuItem>
+                                            )}
+                                        </MenuMui>
+                                    </Grid>
+                                </Grid>
+                            </div>
+                        </Grid>
+                    )}
                     <Grid item md={4}>
                         <AlertMui>
                             Por favor diligencie la siguiente información:
@@ -134,12 +247,13 @@ const EditComponent = ({
                     </Grid>
                     <Grid item md={8} className="drop-shadow-lg">
                         <Paper elevation={0} sx={{ padding: 6 }}>
+                            <p>Roles principales: </p>
                             {usuario.roles.map((rol, i) => (
                                 <React.Fragment key={i}>
-                                    <Chip label={'Rol principal: ' + rol.name} size="small" className="bg-app-200 my-2 px-2" />
+                                    <Chip label={rol.name} size="small" className="bg-app-200 mt-4 mb-10 mr-2 px-2 uppercase" />
                                 </React.Fragment>
                             ))}
-                            <FormRoles usuario={usuario} roles_sistema={roles_sistema} />
+                            <FormRoles auth_user={auth_user} usuario={usuario} roles_sistema={roles_sistema} />
                         </Paper>
                     </Grid>
 

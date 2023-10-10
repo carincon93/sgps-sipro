@@ -63,7 +63,96 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
+
+        // Get the file content from the response
+        $fileContent = $pdf->setWarnings(false)->output();
+
+        // Set the filename
+        $filename = 'file.pdf';
+
+        // Create a temporary file
+        $tmp_file = tmpfile();
+
+        // Write the file content to the temporary file
+        fwrite($tmp_file, $fileContent);
+
+        // Create a new file object from the temporary file
+        $file = new \Illuminate\Http\UploadedFile(
+            stream_get_meta_data($tmp_file)['uri'],
+            $filename,
+            'application/pdf',
+            null,
+            true
+        );
+
+        $request = new Request();
+
+        // Set the file object in the request
+        $request->merge([
+            'pdf_proyecto' => $file,
+        ]);
+
+        $modulo = 'CONVOCATORIAS2023';
+        $centroFormacionSharePoint  = $proyecto->centroFormacion->nombre_carpeta_sharepoint;
+        $sharepoint_path            = "$modulo/$centroFormacionSharePoint/" . $proyecto->lineaProgramatica->codigo . "/$proyecto->codigo";
+
+        // $response = self::saveFilesSharepoint($request, 'CONVOCATORIA2023', $proyecto, $proyecto, 'pdf_proyecto');
+
+        $path = Storage::put($sharepoint_path . '/' . $proyecto->codigo . '.pdf', $fileContent);
+        // if (!empty($response['sharePointPath'])) {
+        //     ProyectoPdfVersion::create([
+        //         'proyecto_id'     => $proyecto->id,
+        //         'version'         => $response['nombreArchivo'],
+        //         'estado'          => 1
+        //     ]);
+
+        //     ProyectoPdfVersion::where('proyecto_id', $proyecto->id)->update(['estado' => 1]);
+        // }
+    }
+
+    static function generarPdfFormulario3Linea61(Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', -1);
+
+        $datos = null;
+        $datos = $proyecto->proyectoFormulario3Linea61;
+
+        $proyecto->load('efectosDirectos.resultado');
+
+        $pdf = PDF::setOption(['dpi' => 150, 'defaultFont' => 'Nunito'])->loadView('Convocatorias.Proyectos.PdfFormulario3Linea61', [
+            'convocatoria'                  => $convocatoria,
+            'proyecto'                      => $proyecto,
+            'datos'                         => $datos,
+            'municipios'                    => Municipio::all(),
+            'proyecto_anexo'                => $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('convocatoria_anexos', 'proyecto_anexo.convocatoria_anexo_id', 'convocatoria_anexos.id')->join('anexos', 'convocatoria_anexos.anexo_id', 'anexos.id')->get(),
+            'tipos_productos'               => collect(json_decode(Storage::get('json/tipos-producto.json'), true)),
+            'niveles_riesgo'                => collect(json_decode(Storage::get('json/niveles-riesgo.json'), true)),
+            'tipos_riesgo'                  => collect(json_decode(Storage::get('json/tipos-riesgo.json'), true)),
+            'probabilidades_riesgo'         => collect(json_decode(Storage::get('json/probabilidades-riesgo.json'), true)),
+            'impactos_riesgo'               => collect(json_decode(Storage::get('json/impactos-riesgo.json'), true)),
+            'roles_sennova'                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'tipos_impacto'                 => collect(json_decode(Storage::get('json/tipos-impacto.json'), true)),
+            'distancias_municipios'         => collect(json_decode(Storage::get('json/distancia-municipios.json'), true)),
+            'frecuencias_semanales'         => collect(json_decode(Storage::get('json/frecuencias-semanales-visita.json'), true)),
+            'opciones_servicios_edicion'    => collect(json_decode(Storage::get('json/opciones-servicios-edicion.json'), true)),
+            'ejes_sennova'                  => collect(json_decode(Storage::get('json/ejes-sennova.json'), true)),
+            'areas_cualificacion_mnc'       => collect(json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true)),
+            'tipos_eventos'                 => collect(json_decode(Storage::get('json/tipos-eventos-linea-65.json'), true)),
+            'lineas_estrategicas_sena'      => collect(json_decode(Storage::get('json/lineas-estrategicas.json'), true)),
+            'lineas_programaticas'          => SelectHelper::lineasProgramaticas(),
+            'nodos_tecnoparques'            => SelectHelper::nodosTecnoparque(),
+            'tecnoacademias'                => SelectHelper::tecnoacademias(),
+            'hubs_innovacion'               => SelectHelper::hubsInnovacion(),
+            'laboratorios_st'               => SelectHelper::laboratoriosServiciosTecnologicos(),
+            'tipos_licencia'                => collect(json_decode(Storage::get('json/tipos-licencia-software.json'), true)),
+            'tipos_software'                => collect(json_decode(Storage::get('json/tipos-software.json'), true))
+        ]);
+
+        return $pdf->stream();
+
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -147,7 +236,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -230,7 +319,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -315,7 +404,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -395,11 +484,12 @@ class PdfController extends Controller
             'tipos_licencia'                    => collect(json_decode(Storage::get('json/tipos-licencia-software.json'), true)),
             'tipos_software'                    => collect(json_decode(Storage::get('json/tipos-software.json'), true)),
             'lineas_estrategicas'               => collect(json_decode(Storage::get('json/lineas-estrategicas.json'), true)),
+            'areas_cualificacion_mnc'           => collect(json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true)),
         ]);
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -479,11 +569,12 @@ class PdfController extends Controller
             'tipos_licencia'                    => collect(json_decode(Storage::get('json/tipos-licencia-software.json'), true)),
             'tipos_software'                    => collect(json_decode(Storage::get('json/tipos-software.json'), true)),
             'lineas_estrategicas'               => collect(json_decode(Storage::get('json/lineas-estrategicas.json'), true)),
+            'areas_cualificacion_mnc'           => collect(json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true)),
         ]);
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -567,7 +658,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -650,7 +741,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -733,7 +824,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -814,7 +905,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -903,7 +994,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -992,7 +1083,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -1081,7 +1172,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();
@@ -1164,7 +1255,7 @@ class PdfController extends Controller
 
         return $pdf->stream();
 
-        return $pdf->download($proyecto->codigo.'.pdf');
+        return $pdf->download($proyecto->codigo . '.pdf');
 
         // Get the file content from the response
         $fileContent = $pdf->setWarnings(false)->output();

@@ -14,7 +14,7 @@ import { Grid } from '@mui/material'
 import { router, useForm } from '@inertiajs/react'
 import { useEffect, useState } from 'react'
 
-import { monthDiff } from '@/Utils'
+import { checkRole, monthDiff } from '@/Utils'
 
 const Form = ({
     auth_user,
@@ -44,6 +44,8 @@ const Form = ({
     allowed_to_create,
     ...props
 }) => {
+    const is_super_admin = checkRole(auth_user, [1])
+
     const [array_lineas_tecnoacademia, setArrayLineasTecnoacademia] = useState([])
 
     const [tiene_video, setTieneVideo] = useState(proyecto_formulario_9_linea_23?.video !== null)
@@ -117,7 +119,11 @@ const Form = ({
     }, [form.data.tecnoacademia_id])
 
     useEffect(() => {
-        setArrayLineasInvestigacion(lineas_investigacion.filter((obj) => obj.centro_formacion_id === form.data.centro_formacion_id))
+        setArrayLineasInvestigacion([])
+
+        setTimeout(() => {
+            setArrayLineasInvestigacion(lineas_investigacion.filter((obj) => obj.centro_formacion_id === form.data.centro_formacion_id))
+        }, 500)
     }, [form.data.centro_formacion_id])
 
     useEffect(() => {
@@ -239,11 +245,9 @@ const Form = ({
 
                 <Grid item md={6}>
                     <Label required labelFor="centro_formacion_id" className="mb-4" value="Centro de formación" />
-                    <br />
-                    <small> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </small>
                 </Grid>
                 <Grid item md={6}>
-                    {method == 'POST' ? (
+                    {method == 'POST' || is_super_admin ? (
                         <Autocomplete
                             id="centro_formacion_id"
                             selectedValue={form.data.centro_formacion_id}
@@ -258,6 +262,17 @@ const Form = ({
                         />
                     ) : (
                         <>{proyecto_formulario_9_linea_23.proyecto.centro_formacion.nombre}</>
+                    )}
+                    <AlertMui> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </AlertMui>
+                    {is_super_admin && (
+                        <AlertMui className="mt-10" severity="error">
+                            <strong className="mb-4 block">Importante:</strong>
+                            Recuerde que si cambia el centro de formación y el formulador ya ha cargado soportes / anexos debe cambiar la ruta tanto en el sharepoint como en la base datos. Esta debe
+                            ser la ruta asociada al proyecto:
+                            <strong className=" mt-4 uppercase block">
+                                /Convocatoria {convocatoria.year}/{proyecto_formulario_9_linea_23?.proyecto.centro_formacion.nombre_carpeta_sharepoint}
+                            </strong>
+                        </AlertMui>
                     )}
                 </Grid>
 
@@ -406,7 +421,7 @@ const Form = ({
                                         value={form.data.cantidad_meses}
                                         onChange={(e) => form.setData('cantidad_meses', e.target.value)}
                                         disabled={!(proyecto_formulario_9_linea_23?.proyecto?.allowed?.to_update || allowed_to_create)}
-                                        placeholder="Número de meses de vinculación"
+                                        label="Número de meses de vinculación"
                                         required
                                     />
                                     {monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion) && (

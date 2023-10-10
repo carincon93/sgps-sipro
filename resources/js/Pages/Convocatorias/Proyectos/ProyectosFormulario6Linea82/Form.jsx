@@ -12,10 +12,10 @@ import SwitchMui from '@/Components/Switch'
 
 import { Grid, RadioGroup } from '@mui/material'
 
-import { router, useForm, usePage } from '@inertiajs/react'
+import { router, useForm } from '@inertiajs/react'
 import { useEffect, useState } from 'react'
 
-import { monthDiff } from '@/Utils'
+import { checkRole, monthDiff } from '@/Utils'
 
 const Form = ({
     auth_user,
@@ -45,7 +45,7 @@ const Form = ({
     allowed_to_create,
     ...props
 }) => {
-    const { props: page_props } = usePage()
+    const is_super_admin = checkRole(auth_user, [1])
 
     const [array_lineas_tecnoacademia, setArrayLineasTecnoacademia] = useState([])
 
@@ -126,7 +126,11 @@ const Form = ({
     }, [form.data.tecnoacademia_id])
 
     useEffect(() => {
-        setArrayLineasInvestigacion(lineas_investigacion.filter((obj) => obj.centro_formacion_id === form.data.centro_formacion_id))
+        setArrayLineasInvestigacion([])
+
+        setTimeout(() => {
+            setArrayLineasInvestigacion(lineas_investigacion.filter((obj) => obj.centro_formacion_id === form.data.centro_formacion_id))
+        }, 500)
     }, [form.data.centro_formacion_id])
 
     useEffect(() => {
@@ -248,11 +252,9 @@ const Form = ({
 
                 <Grid item md={6}>
                     <Label required labelFor="centro_formacion_id" className="mb-4" value="Centro de formación" />
-                    <br />
-                    <small> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </small>
                 </Grid>
                 <Grid item md={6}>
-                    {method == 'POST' ? (
+                    {method == 'POST' || is_super_admin ? (
                         <Autocomplete
                             id="centro_formacion_id"
                             selectedValue={form.data.centro_formacion_id}
@@ -267,6 +269,17 @@ const Form = ({
                         />
                     ) : (
                         <>{proyecto_formulario_6_linea_82.proyecto.centro_formacion.nombre}</>
+                    )}
+                    <AlertMui> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </AlertMui>
+                    {is_super_admin && (
+                        <AlertMui className="mt-10" severity="error">
+                            <strong className="mb-4 block">Importante:</strong>
+                            Recuerde que si cambia el centro de formación y el formulador ya ha cargado soportes / anexos debe cambiar la ruta tanto en el sharepoint como en la base datos. Esta debe
+                            ser la ruta asociada al proyecto:
+                            <strong className=" mt-4 uppercase block">
+                                /Convocatoria {convocatoria.year}/{proyecto_formulario_6_linea_82?.proyecto.centro_formacion.nombre_carpeta_sharepoint}
+                            </strong>
+                        </AlertMui>
                     )}
                 </Grid>
 
@@ -362,20 +375,61 @@ const Form = ({
                 </Grid>
 
                 <Grid item md={6}>
-                    <Label required labelFor="tematica_estrategica_id" className="mb-4" value="Temática estratégica SENA" />
-                </Grid>
-                <Grid item md={6}>
-                    <Autocomplete
-                        id="tematica_estrategica_id"
-                        selectedValue={form.data.tematica_estrategica_id}
-                        onChange={(event, newValue) => form.setData('tematica_estrategica_id', newValue.value)}
-                        disabled={!(proyecto_formulario_6_linea_82?.proyecto?.allowed?.to_update || allowed_to_create)}
-                        options={tematicas_estrategicas}
-                        error={form.errors.tematica_estrategica_id}
-                        onBlur={() => syncColumnLong('tematica_estrategica_id', form)}
+                    <Label
                         required
+                        className="mb-4"
+                        labelFor="lineas_estrategicas_beneficiadas"
+                        value="¿El proyecto aporta a la divulgación y apropiación del conocimiento relacionado con los retos que incorporan las líneas estratégicas de la Convocatoria?"
                     />
                 </Grid>
+                <Grid item md={6}>
+                    <SelectMultiple
+                        className="mb-6"
+                        id="lineas_estrategicas_beneficiadas"
+                        bdValues={form.data.lineas_estrategicas_beneficiadas}
+                        options={lineas_estrategicas}
+                        onChange={(event, newValue) => {
+                            const selected_values = newValue.map((option) => option.value)
+                            form.setData((prevData) => ({
+                                ...prevData,
+                                lineas_estrategicas_beneficiadas: selected_values,
+                            }))
+                        }}
+                        disabled={!(proyecto_formulario_6_linea_82?.proyecto?.allowed?.to_update || allowed_to_create)}
+                        error={form.errors.lineas_estrategicas_beneficiadas}
+                        label="Seleccione las líneas estrategicas"
+                        onBlur={() => syncColumnLong('lineas_estrategicas_beneficiadas', form)}
+                    />
+
+                    <Textarea
+                        label="Justificación"
+                        id="justificacion_lineas_estrategicas_beneficiadas"
+                        value={form.data.justificacion_lineas_estrategicas_beneficiadas}
+                        onChange={(e) => form.setData('justificacion_lineas_estrategicas_beneficiadas', e.target.value)}
+                        disabled={!(proyecto_formulario_6_linea_82?.proyecto?.allowed?.to_update || allowed_to_create)}
+                        onBlur={() => syncColumnLong('justificacion_lineas_estrategicas_beneficiadas', form)}
+                    />
+                </Grid>
+
+                {convocatoria.campos_convocatoria.filter((item) => item.campo == 'tematica_estrategica_id').find((item) => item.convocatoria_id == convocatoria.id) && (
+                    <>
+                        <Grid item md={6}>
+                            <Label required labelFor="tematica_estrategica_id" className="mb-4" value="Temática estratégica SENA" />
+                        </Grid>
+                        <Grid item md={6}>
+                            <Autocomplete
+                                id="tematica_estrategica_id"
+                                selectedValue={form.data.tematica_estrategica_id}
+                                onChange={(event, newValue) => form.setData('tematica_estrategica_id', newValue.value)}
+                                disabled={!(proyecto_formulario_6_linea_82?.proyecto?.allowed?.to_update || allowed_to_create)}
+                                options={tematicas_estrategicas}
+                                error={form.errors.tematica_estrategica_id}
+                                onBlur={() => syncColumnLong('tematica_estrategica_id', form)}
+                                required
+                            />
+                        </Grid>
+                    </>
+                )}
 
                 {method == 'POST' && (
                     <>
@@ -415,7 +469,7 @@ const Form = ({
                                         value={form.data.cantidad_meses}
                                         onChange={(e) => form.setData('cantidad_meses', e.target.value)}
                                         disabled={!(proyecto_formulario_6_linea_82?.proyecto?.allowed?.to_update || allowed_to_create)}
-                                        placeholder="Número de meses de vinculación"
+                                        label="Número de meses de vinculación"
                                         required
                                     />
                                     {monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion) && (
@@ -451,17 +505,6 @@ const Form = ({
 
                 {method == 'PUT' && (
                     <>
-                        <Grid item md={6}>
-                            <Label required labelFor="aporta_a_campesena" value="¿El proyecto aporta a CAMPESENA?" />
-                        </Grid>
-                        <Grid item md={6}>
-                            <SwitchMui
-                                checked={form.data.aporta_a_campesena}
-                                onChange={(e) => form.setData('aporta_a_campesena', e.target.checked)}
-                                disabled={!proyecto_formulario_6_linea_82?.proyecto?.allowed?.to_update}
-                                onBlur={() => syncColumnLong('aporta_a_campesena', form)}
-                            />
-                        </Grid>
                         <Grid item md={6}>
                             <Label labelFor="video" value="¿El proyecto tiene video?" />
                             <AlertMui className="mt-2 mr-4">
@@ -513,41 +556,7 @@ const Form = ({
                                 />
                             )}
                         </Grid>
-                        <Grid item md={6}>
-                            <Label labelFor="lineas_estrategicas_convocatoria" value="¿El proyecto se vincula con alguna de las líneas estrategicas de la convocatoria?" />
-                        </Grid>
-                        <Grid item md={6}>
-                            <SelectMultiple
-                                id="lineas_estrategicas_convocatoria"
-                                bdValues={form.data.lineas_estrategicas_convocatoria}
-                                options={lineas_estrategicas}
-                                onChange={(event, newValue) => {
-                                    const selected_values = newValue.map((option) => option.value)
-                                    form.setData((prevData) => ({
-                                        ...prevData,
-                                        lineas_estrategicas_convocatoria: selected_values,
-                                    }))
-                                }}
-                                disabled={!proyecto_formulario_6_linea_82?.proyecto?.allowed?.to_update}
-                                error={form.errors.lineas_estrategicas_convocatoria}
-                                label="Seleccione las líneas estrategicas"
-                                onBlur={() => syncColumnLong('lineas_estrategicas_convocatoria', form)}
-                            />
 
-                            {form.data.lineas_estrategicas_convocatoria == 4 && (
-                                <Textarea
-                                    className="!mt-4"
-                                    label="Justificación"
-                                    id="justificacion_lineas_estrategicas"
-                                    onChange={(e) => form.setData('justificacion_lineas_estrategicas', e.target.value)}
-                                    disabled={!proyecto_formulario_6_linea_82?.proyecto?.allowed?.to_update}
-                                    error={form.errors.justificacion_lineas_estrategicas}
-                                    value={form.data.justificacion_lineas_estrategicas}
-                                    required
-                                    onBlur={() => syncColumnLong('justificacion_lineas_estrategicas', form)}
-                                />
-                            )}
-                        </Grid>
                         <Grid item md={6}>
                             <Label required labelFor="impacto_regional" value="¿El proyecto tendrá impacto regional?" />
                         </Grid>
@@ -1089,44 +1098,6 @@ const Form = ({
                                 </Grid>
                             </>
                         )}
-                        <Grid item md={6}>
-                            <Label
-                                required
-                                className="mb-4"
-                                labelFor="lineas_estrategicas_beneficiadas"
-                                value="¿El proyecto aporta a la divulgación y apropiación del conocimiento relacionado con los retos que incorporan las líneas estratégicas de la Convocatoria?"
-                            />
-                        </Grid>
-                        <Grid item md={6}>
-                            <SelectMultiple
-                                className="mb-6"
-                                id="lineas_estrategicas_beneficiadas"
-                                bdValues={form.data.lineas_estrategicas_beneficiadas}
-                                options={lineas_estrategicas}
-                                onChange={(event, newValue) => {
-                                    const selected_values = newValue.map((option) => option.value)
-                                    form.setData((prevData) => ({
-                                        ...prevData,
-                                        lineas_estrategicas_beneficiadas: selected_values,
-                                    }))
-                                }}
-                                disabled={!proyecto_formulario_6_linea_82?.proyecto?.allowed?.to_update}
-                                error={form.errors.lineas_estrategicas_beneficiadas}
-                                label="Seleccione las líneas estrategicas"
-                                required
-                                onBlur={() => syncColumnLong('lineas_estrategicas_beneficiadas', form)}
-                            />
-
-                            <Textarea
-                                label="Justificación"
-                                id="justificacion_lineas_estrategicas_beneficiadas"
-                                value={form.data.justificacion_lineas_estrategicas_beneficiadas}
-                                onChange={(e) => form.setData('justificacion_lineas_estrategicas_beneficiadas', e.target.value)}
-                                disabled={!proyecto_formulario_6_linea_82?.proyecto?.allowed?.to_update}
-                                required
-                                onBlur={() => syncColumnLong('justificacion_lineas_estrategicas_beneficiadas', form)}
-                            />
-                        </Grid>
 
                         <Grid item md={12}>
                             <Label required className="mb-4" labelFor="resumen" value="Resumen del proyecto" />

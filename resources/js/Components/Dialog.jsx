@@ -5,10 +5,11 @@ import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 
 import { makeStyles } from '@mui/styles'
+
 const useStyles = makeStyles((theme) => ({
     paper: {
         '&.MuiDialog-paper': {
-            backgroundColor: '#dcf2ff8f',
+            background: (props) => (props.backgroundGradient ? 'radial-gradient(at right bottom, rgb(45, 212, 191), rgb(16, 185, 129), rgb(63, 63, 70))' : '#dcf2ff8f'),
         },
     },
     root: {
@@ -18,8 +19,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function DialogMui({ open = false, blurEnabled = false, dialogTitle, dialogContent, dialogContentText, dialogActions, ...props }) {
-    const classes = useStyles()
+export default function DialogMui({ open = false, blurEnabled = false, enableGradient = false, dialogTitle, dialogContent, dialogContentText, dialogActions, ...props }) {
+    const classes = useStyles({ backgroundGradient: enableGradient })
 
     return (
         <div>

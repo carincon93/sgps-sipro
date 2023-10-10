@@ -27,7 +27,7 @@ class RegisteredUserRequest extends FormRequest
         return [
             'centro_formacion_id'   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
             'nombre'                => ['required', 'string', 'max:255'],
-            'email'                 => ['required', 'string', new Email, 'email', 'max:255', 'unique:users'],
+            'email'                 => ['required', 'string', new Email($this->aprendiz), 'email', 'max:255', 'unique:users'],
             'password'              => ['required', 'string', 'confirmed', 'min:8'],
             'tipo_documento'        => ['required', 'max:2'],
             'tipo_vinculacion'      => ['required', 'max:191'],

@@ -1,5 +1,6 @@
 import AlertMui from '@/Components/Alert'
 import Autocomplete from '@/Components/Autocomplete'
+import Checkbox from '@/Components/Checkbox'
 import DatePicker from '@/Components/DatePicker'
 import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
@@ -9,7 +10,7 @@ import Textarea from '@/Components/Textarea'
 import TextInput from '@/Components/TextInput'
 
 import { useForm } from '@inertiajs/react'
-import { Grid } from '@mui/material'
+import { Grid, FormControlLabel, FormGroup } from '@mui/material'
 
 const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, tipos_formulario_convocatoria, tipos_convocatoria, fases }) => {
     const form = useForm({
@@ -18,6 +19,7 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, tipos_
         fase: convocatoria?.fase,
         year: convocatoria?.year,
         tipos_formulario_convocatoria: convocatoria?.tipos_formulario_convocatoria.map((item) => item.id),
+        formularios_visibles: convocatoria?.tipos_formulario_convocatoria.filter((item) => item.pivot.visible).map((item) => item.id),
         visible: convocatoria?.visible ?? false,
         fecha_finalizacion_fase: convocatoria?.fecha_finalizacion_fase,
         hora_finalizacion_fase: convocatoria?.hora_finalizacion_fase,
@@ -36,7 +38,21 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, tipos_
               })
     }
 
-    const currentYear = new Date().getFullYear()
+    const handleCheckboxChange = (value) => {
+        if (form.data.formularios_visibles.includes(value)) {
+            form.setData((prevData) => ({
+                ...prevData,
+                formularios_visibles: prevData.formularios_visibles.filter((formulario_visible) => formulario_visible !== value),
+            }))
+        } else {
+            form.setData((prevData) => ({
+                ...prevData,
+                formularios_visibles: [...prevData.formularios_visibles, value],
+            }))
+        }
+    }
+
+    const current_year = new Date().getFullYear()
 
     return (
         <form onSubmit={submit}>
@@ -126,8 +142,8 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, tipos_
                         </>
                     )}
 
-                    <Grid item md={6}>
-                        <Label required labelFor="tipos_formulario_convocatoria" className="mb-4" value="Seleccione las líneas programáticas las cuales quiere activar" />
+                    {/* <Grid item md={6}>
+                        <Label required labelFor="tipos_formulario_convocatoria" className="mb-4" value="Seleccione los formularios correspondientes a la convococatoria" />
                     </Grid>
                     <Grid item md={6}>
                         <SelectMultiple
@@ -145,6 +161,28 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, tipos_
                             label="Seleccione las líneas programáticas"
                             required
                         />
+                    </Grid> */}
+
+                    <Grid item md={6}>
+                        <Label required labelFor="formularios_visibles" className="mb-4" value="Seleccione los formularios que serán visibles para todos los usuarios" />
+                    </Grid>
+                    <Grid item md={6}>
+                        <FormGroup>
+                            {convocatoria?.tipos_formulario_convocatoria.map((tipo_formulario_convocatoria, i) => (
+                                <FormControlLabel
+                                    key={i}
+                                    className="mb-10"
+                                    label={tipo_formulario_convocatoria.nombre}
+                                    control={
+                                        <Checkbox
+                                            checked={form.data.formularios_visibles?.includes(tipo_formulario_convocatoria.id)}
+                                            name={tipo_formulario_convocatoria.nombre}
+                                            onChange={() => handleCheckboxChange(tipo_formulario_convocatoria.id)}
+                                        />
+                                    }
+                                />
+                            ))}
+                        </FormGroup>
                     </Grid>
 
                     <Grid item md={6}>
@@ -159,7 +197,7 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, tipos_
                             onChange={(e) => form.setData('year', e.target.value)}
                             inputProps={{
                                 min: 2010,
-                                max: currentYear + 1,
+                                max: current_year + 1,
                             }}
                         />
                     </Grid>

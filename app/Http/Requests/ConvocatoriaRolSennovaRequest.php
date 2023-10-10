@@ -31,6 +31,7 @@ class ConvocatoriaRolSennovaRequest extends FormRequest
             'experiencia'                       => ['nullable', 'string'],
             'sumar_al_presupuesto'              => ['nullable', 'boolean'],
             'habilitado'                        => ['nullable', 'boolean'],
+            'meses_maximos'                     => ['nullable', 'numeric', 'min:1', 'max:12']
         ];
     }
 
@@ -41,6 +42,8 @@ class ConvocatoriaRolSennovaRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        //
+        $this->merge([
+            'asignacion_mensual' => (int) ($this->asignacion_mensual),
+        ]);
     }
 }

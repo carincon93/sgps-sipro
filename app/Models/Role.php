@@ -94,12 +94,12 @@ class Role extends SpatieRole
         $authUser = Auth::user();
 
         $roles = [];
-        if ($authUser->hasRole([28, 4, 22, 24, 2, 11, 10, 9, 7, 25, 21, 27, 14, 15, 13, 16, 12, 6])) {
-            $roles = Role::select('id', 'name')->where('name', 'ilike', '%proponente%')->whereNotIn('id', [1])->orderBy('name')->get('id');
+        if ($authUser->hasRole([1])) {
+            $roles = Role::select('id', 'name')->orderBy('name')->get('id');
         } else if ($authUser->hasRole([5, 17, 18, 19, 20])) {
             $roles = Role::select('id', 'name')->orderBy('name')->whereNotIn('id', [1])->get('id');
-        } else if ($authUser->hasRole([1])) {
-            $roles = Role::select('id', 'name')->orderBy('name')->get('id');
+        } else if ($authUser->hasRole([28, 4, 22, 24, 2, 11, 33, 10, 9, 7, 25, 21, 27, 14, 15, 13, 16, 12, 6])) {
+            $roles = Role::select('id', 'name')->where('name', 'ilike', '%proponente%')->orWhere('name', 'ilike', '%aprendiz%')->whereNotIn('id', [1])->orderBy('name')->get('id');
         }
 
         return $roles;

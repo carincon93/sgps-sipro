@@ -1,0 +1,19 @@
+[
+    { "value": 1, "label": "Fin de la pobreza" },
+    { "value": 2, "label": "Hambre cero" },
+    { "value": 3, "label": "Salud y bienestar" },
+    { "value": 4, "label": "Educación de calidad" },
+    { "value": 5, "label": "Igualdad de género" },
+    { "value": 6, "label": "Agua limpia y saneamiento" },
+    { "value": 7, "label": "Energía asequible y no contaminante" },
+    { "value": 8, "label": "Trabajo decente y crecimiento económico" },
+    { "value": 9, "label": "Industria, innovación e infraestructura" },
+    { "value": 10, "label": "Reducción de las desigualdades" },
+    { "value": 11, "label": "Ciudades y comunidades sostenibles" },
+    { "value": 12, "label": "Producción y consumo responsables" },
+    { "value": 13, "label": "Acción por el clima" },
+    { "value": 14, "label": "Vida submarina" },
+    { "value": 15, "label": "Vida de ecosistemas terrestres" },
+    { "value": 16, "label": "Paz, justicia e instituciones sólidas" },
+    { "value": 17, "label": "Alianzas para lograr los objetivos" }
+]

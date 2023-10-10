@@ -46,7 +46,7 @@ class EdtController extends Controller
             'evaluacion'            => Evaluacion::find(request()->evaluacion_id),
             'presupuesto'           => $presupuesto,
             'eventos'               => Edt::with('proyectoPresupuesto')->orderBy('descripcion_evento', 'ASC')->where('proyecto_formulario4_linea70_id', $proyecto->id)
-                                        ->filterEdt(request()->only('search'))->paginate(),
+                ->filterEdt(request()->only('search'))->paginate(),
             'tiposEvento'           => json_decode(Storage::get('json/tipos-edt.json'), true),
         ]);
     }
@@ -73,7 +73,7 @@ class EdtController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $request->merge(['proyecto_linea_70_id' => $proyecto->id, 'proyecto_presupuesto_id' => $presupuesto->id]);
+        $request->merge(['proyecto_formulario4_linea70_id' => $proyecto->id, 'proyecto_presupuesto_id' => $presupuesto->id]);
         $edt = Edt::create($request->all());
 
         return redirect()->route('convocatorias.proyectos.presupuesto.edt.index', [$convocatoria, $proyecto, $presupuesto])->with('success', 'El recurso se ha creado correctamente.');

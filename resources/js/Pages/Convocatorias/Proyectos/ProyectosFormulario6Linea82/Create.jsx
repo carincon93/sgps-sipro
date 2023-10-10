@@ -5,6 +5,7 @@ import Form from './Form'
 import { checkRole } from '@/Utils'
 
 import { useState } from 'react'
+import { Head } from '@inertiajs/react'
 
 const Create = ({
     auth,
@@ -17,13 +18,16 @@ const Create = ({
     redes_conocimiento,
     grupos_investigacion,
     areas_cualificacion_mnc,
+    lineas_estrategicas,
     roles_sennova,
     allowed_to_create,
 }) => {
     const [auth_user, setAuthUser] = useState(auth.user)
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Formular proyecto</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Formular proyecto" />
+
             <Form
                 auth_user={auth_user}
                 method="POST"
@@ -36,6 +40,7 @@ const Create = ({
                 redes_conocimiento={redes_conocimiento}
                 grupos_investigacion={grupos_investigacion}
                 areas_cualificacion_mnc={areas_cualificacion_mnc}
+                lineas_estrategicas={lineas_estrategicas}
                 roles_sennova={roles_sennova}
                 allowed_to_create={allowed_to_create}
             />

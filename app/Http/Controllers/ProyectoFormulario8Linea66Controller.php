@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FunctionsHelper;
 use App\Helpers\SelectHelper;
 use App\Http\Requests\Evaluacion\EvaluacionProyectoFormulario8Linea66Request;
 use App\Http\Requests\ProyectoFormulario8Linea66ColumnRequest;
@@ -41,19 +42,19 @@ class ProyectoFormulario8Linea66Controller extends Controller
      */
     public function create(Convocatoria $convocatoria)
     {
-        $this->authorize('formular-proyecto', [3, $convocatoria]);
+        $this->authorize('formular-proyecto', [1, $convocatoria]);
 
         /** @var \App\Models\User */
         $auth_user = Auth::user();
 
-        if ($auth_user->hasRole(6)) {
-            $centros_formacion = SelectHelper::centrosFormacion()->where('regional_id', $auth_user->centroFormacion->regional->id)->values()->all();
-        } else {
+        if ($auth_user->hasRole([1, 5, 17, 18, 19, 20])) {
             $centros_formacion = SelectHelper::centrosFormacion();
+        } else {
+            $centros_formacion = SelectHelper::centrosFormacion()->where('regional_id', $auth_user->centroFormacion->regional->id)->values()->all();
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario8Linea66/Create', [
-            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
+            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year', 'campos_convocatoria'),
             'centros_formacion'                 => $centros_formacion,
             'areas_conocimiento'                => SelectHelper::areasConocimiento(),
             'subareas_conocimiento'             => SelectHelper::subareasConocimiento(),
@@ -66,7 +67,7 @@ class ProyectoFormulario8Linea66Controller extends Controller
             'areas_tematicas_eni'               => SelectHelper::areasTematicasEni(),
             'lineas_investigacion_eni'          => SelectHelper::lineasInvestigacion()->where('grupo_investigacion_id', 126)->values()->all(),
             'areas_cualificacion_mnc'           => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),
-
+            'lineas_estrategicas'               => json_decode(Storage::get('json/lineas-estrategicas.json'), true),
             'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowed_to_create'                 => Gate::inspect('formular-proyecto', [3, $convocatoria])->allowed()
         ]);
@@ -100,6 +101,8 @@ class ProyectoFormulario8Linea66Controller extends Controller
         $proyecto_formulario_8_linea_66->proyecto_investigacion_pedagogica                 = $request->proyecto_investigacion_pedagogica;
         $proyecto_formulario_8_linea_66->articulacion_eni                                  = $request->articulacion_eni;
         $proyecto_formulario_8_linea_66->areas_cualificacion_mnc                           = $request->areas_cualificacion_mnc;
+        $proyecto_formulario_8_linea_66->lineas_estrategicas_beneficiadas                  = $request->lineas_estrategicas_beneficiadas;
+        $proyecto_formulario_8_linea_66->justificacion_lineas_estrategicas_beneficiadas    = $request->justificacion_lineas_estrategicas_beneficiadas;
 
         $proyecto_formulario_8_linea_66->video                                             = null;
         $proyecto_formulario_8_linea_66->justificacion_industria_4                         = null;
@@ -187,7 +190,6 @@ class ProyectoFormulario8Linea66Controller extends Controller
         $proyecto_formulario_8_linea_66->proyecto->municipios;
         $proyecto_formulario_8_linea_66->proyecto->tecnoacademiaLineasTecnoacademia;
 
-        // $proyecto_formulario_8_linea_66->proyecto->pdfVersiones;
         // $proyecto_formulario_8_linea_66->proyecto->all_files;
 
         $proyecto_formulario_8_linea_66->disciplinaSubareaConocimiento->subareaConocimiento->areaConocimiento;
@@ -201,7 +203,8 @@ class ProyectoFormulario8Linea66Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario8Linea66/Edit', [
             'convocatoria'                                      => $convocatoria,
             'proyecto_formulario_8_linea_66'                    => $proyecto_formulario_8_linea_66,
-            'evaluacion'                                        => EvaluacionProyectoFormulario8Linea66::find(request()->evaluacion_id),
+            'centros_formacion'                                 => SelectHelper::centrosFormacion(),
+            'evaluacion'                                        => EvaluacionProyectoFormulario8Linea66::with('evaluacion.proyecto')->where('id', request()->evaluacion_id)->first(),
             'tecnoacademia'                                     => $proyecto_formulario_8_linea_66->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_formulario_8_linea_66->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
             'mesas_sectoriales'                                 => SelectHelper::mesasSectoriales(),
             'areas_conocimiento'                                => SelectHelper::areasConocimiento(),
@@ -212,7 +215,7 @@ class ProyectoFormulario8Linea66Controller extends Controller
             'tematicas_estrategicas'                            => SelectHelper::tematicasEstrategicas(),
             'redes_conocimiento'                                => SelectHelper::redesConocimiento(),
             'lineas_tecnoacademia'                              => SelectHelper::lineasTecnoacademia(),
-            'lineas_investigacion'                              => SelectHelper::lineasInvestigacion()->where('centro_formacion_id', $proyecto_formulario_8_linea_66->proyecto->centro_formacion_id)->values()->all(),
+            'lineas_investigacion'                              => SelectHelper::lineasInvestigacion(),
             'tecnoacademias'                                    => SelectHelper::tecnoacademias(),
             'municipios'                                        => SelectHelper::municipios(),
             'grupos_investigacion'                              => SelectHelper::gruposInvestigacion()->where('value', 126)->values()->all(),
@@ -243,12 +246,13 @@ class ProyectoFormulario8Linea66Controller extends Controller
 
         $proyecto_formulario_8_linea_66->save();
 
+        $proyecto_formulario_8_linea_66->proyecto->centroFormacion()->associate($request->centro_formacion_id);
         $proyecto_formulario_8_linea_66->proyecto->municipios()->sync($request->municipios);
         $proyecto_formulario_8_linea_66->areasTematicasEni()->sync($request->area_tematica_eni_id);
         $proyecto_formulario_8_linea_66->lineasInvestigacionEni()->sync($request->linea_investigacion_eni_id);
         $proyecto_formulario_8_linea_66->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 
-        $request->relacionado_mesas_sectoriales == 1 ? $proyecto_formulario_8_linea_66->proyecto->mesasSectoriales()->sync($request->mesa_sectorial_id) : $proyecto_formulario_8_linea_66->mesasSectoriales()->detach();
+        $request->relacionado_mesas_sectoriales == 1 ? $proyecto_formulario_8_linea_66->proyecto->mesasSectoriales()->sync($request->mesa_sectorial_id) : $proyecto_formulario_8_linea_66->proyecto->mesasSectoriales()->detach();
         $request->relacionado_tecnoacademia == 1 ? $proyecto_formulario_8_linea_66->proyecto->tecnoacademiaLineasTecnoacademia()->sync($request->linea_tecnologica_id) : $proyecto_formulario_8_linea_66->proyecto->tecnoacademiaLineasTecnoacademia()->detach();
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
@@ -283,28 +287,27 @@ class ProyectoFormulario8Linea66Controller extends Controller
             'clausula_confidencialidad' => $request->clausula_confidencialidad
         ]);
 
-        $evaluacion_proyecto_linea66->titulo_puntaje              = $request->titulo_puntaje;
-        $evaluacion_proyecto_linea66->titulo_comentario           = $request->titulo_requiere_comentario == false ? $request->titulo_comentario : null;
-        $evaluacion_proyecto_linea66->video_puntaje               = $request->video_puntaje;
-        $evaluacion_proyecto_linea66->video_comentario            = $request->video_requiere_comentario == false ? $request->video_comentario : null;
-        $evaluacion_proyecto_linea66->resumen_puntaje             = $request->resumen_puntaje;
-        $evaluacion_proyecto_linea66->resumen_comentario          = $request->resumen_requiere_comentario == false ? $request->resumen_comentario : null;
-        $evaluacion_proyecto_linea66->ortografia_puntaje          = $request->ortografia_puntaje;
-        $evaluacion_proyecto_linea66->ortografia_comentario       = $request->ortografia_requiere_comentario == false ? $request->ortografia_comentario : null;
-        $evaluacion_proyecto_linea66->redaccion_puntaje           = $request->redaccion_puntaje;
-        $evaluacion_proyecto_linea66->redaccion_comentario        = $request->redaccion_requiere_comentario == false ? $request->redaccion_comentario : null;
-        $evaluacion_proyecto_linea66->normas_apa_puntaje          = $request->normas_apa_puntaje;
-        $evaluacion_proyecto_linea66->normas_apa_comentario       = $request->normas_apa_requiere_comentario == false ? $request->normas_apa_comentario : null;
-
-        $evaluacion_proyecto_linea66->justificacion_economia_naranja_comentario = $request->justificacion_economia_naranja_requiere_comentario == false ? $request->justificacion_economia_naranja_comentario : null;
-        $evaluacion_proyecto_linea66->justificacion_industria_4_comentario = $request->justificacion_industria_4_requiere_comentario == false ? $request->justificacion_industria_4_comentario : null;
-        $evaluacion_proyecto_linea66->bibliografia_comentario = $request->bibliografia_requiere_comentario == false ? $request->bibliografia_comentario : null;
-        $evaluacion_proyecto_linea66->fechas_comentario = $request->fechas_requiere_comentario == false ? $request->fechas_comentario : null;
-        $evaluacion_proyecto_linea66->justificacion_politica_discapacidad_comentario = $request->justificacion_politica_discapacidad_requiere_comentario == false ? $request->justificacion_politica_discapacidad_comentario : null;
-        $evaluacion_proyecto_linea66->actividad_economica_comentario = $request->actividad_economica_requiere_comentario == false ? $request->actividad_economica_comentario : null;
-        $evaluacion_proyecto_linea66->disciplina_subarea_conocimiento_comentario = $request->disciplina_subarea_conocimiento_requiere_comentario == false ? $request->disciplina_subarea_conocimiento_comentario : null;
-        $evaluacion_proyecto_linea66->red_conocimiento_comentario = $request->red_conocimiento_requiere_comentario == false ? $request->red_conocimiento_comentario : null;
-        $evaluacion_proyecto_linea66->tematica_estrategica_comentario = $request->tematica_estrategica_requiere_comentario == false ? $request->tematica_estrategica_comentario : null;
+        $evaluacion_proyecto_linea66->titulo_puntaje                                    = $request->titulo_puntaje;
+        $evaluacion_proyecto_linea66->titulo_comentario                                 = $request->titulo_requiere_comentario                              == false ? $request->titulo_comentario : null;
+        $evaluacion_proyecto_linea66->video_puntaje                                     = $request->video_puntaje;
+        $evaluacion_proyecto_linea66->video_comentario                                  = $request->video_requiere_comentario                               == false ? $request->video_comentario : null;
+        $evaluacion_proyecto_linea66->resumen_puntaje                                   = $request->resumen_puntaje;
+        $evaluacion_proyecto_linea66->resumen_comentario                                = $request->resumen_requiere_comentario                             == false ? $request->resumen_comentario : null;
+        $evaluacion_proyecto_linea66->ortografia_puntaje                                = $request->ortografia_puntaje;
+        $evaluacion_proyecto_linea66->ortografia_comentario                             = $request->ortografia_requiere_comentario                          == false ? $request->ortografia_comentario : null;
+        $evaluacion_proyecto_linea66->redaccion_puntaje                                 = $request->redaccion_puntaje;
+        $evaluacion_proyecto_linea66->redaccion_comentario                              = $request->redaccion_requiere_comentario                           == false ? $request->redaccion_comentario : null;
+        $evaluacion_proyecto_linea66->normas_apa_puntaje                                = $request->normas_apa_puntaje;
+        $evaluacion_proyecto_linea66->normas_apa_comentario                             = $request->normas_apa_requiere_comentario                          == false ? $request->normas_apa_comentario : null;
+        $evaluacion_proyecto_linea66->justificacion_economia_naranja_comentario         = $request->justificacion_economia_naranja_requiere_comentario      == false ? $request->justificacion_economia_naranja_comentario : null;
+        $evaluacion_proyecto_linea66->justificacion_industria_4_comentario              = $request->justificacion_industria_4_requiere_comentario           == false ? $request->justificacion_industria_4_comentario : null;
+        $evaluacion_proyecto_linea66->bibliografia_comentario                           = $request->bibliografia_requiere_comentario                        == false ? $request->bibliografia_comentario : null;
+        $evaluacion_proyecto_linea66->fechas_comentario                                 = $request->fechas_requiere_comentario                              == false ? $request->fechas_comentario : null;
+        $evaluacion_proyecto_linea66->justificacion_politica_discapacidad_comentario    = $request->justificacion_politica_discapacidad_requiere_comentario == false ? $request->justificacion_politica_discapacidad_comentario : null;
+        $evaluacion_proyecto_linea66->actividad_economica_comentario                    = $request->actividad_economica_requiere_comentario                 == false ? $request->actividad_economica_comentario : null;
+        $evaluacion_proyecto_linea66->disciplina_subarea_conocimiento_comentario        = $request->disciplina_subarea_conocimiento_requiere_comentario     == false ? $request->disciplina_subarea_conocimiento_comentario : null;
+        $evaluacion_proyecto_linea66->red_conocimiento_comentario                       = $request->red_conocimiento_requiere_comentario                    == false ? $request->red_conocimiento_comentario : null;
+        $evaluacion_proyecto_linea66->tematica_estrategica_comentario                   = $request->tematica_estrategica_requiere_comentario                == false ? $request->tematica_estrategica_comentario : null;
 
         $evaluacion_proyecto_linea66->save();
 
@@ -315,6 +318,21 @@ class ProyectoFormulario8Linea66Controller extends Controller
     public function updateLongColumn(ProyectoFormulario8Linea66ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario8Linea66 $proyecto_formulario_8_linea_66, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_8_linea_66->proyecto]);
+
+        if ($column == 'fecha_inicio') {
+            $proyecto_formulario_8_linea_66->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($request->fecha_inicio, $proyecto_formulario_8_linea_66->fecha_finalizacion)
+            ]);
+        } elseif ($column == 'fecha_finalizacion') {
+            $proyecto_formulario_8_linea_66->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($proyecto_formulario_8_linea_66->fecha_inicio, $request->fecha_finalizacion)
+            ]);
+        }
+
+        if ($column == 'centro_formacion_id') {
+            $proyecto_formulario_8_linea_66->proyecto->update($request->only($column));
+            return back();
+        }
 
         if ($column == 'programas_formacion' || $column == 'programas_formacion_articulados') {
             $proyecto_formulario_8_linea_66->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));

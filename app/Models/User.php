@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Models;
+
 use Tymon\JWTAuth\Contracts\JWTSubject;
+
+use App\Helpers\SharepointHelper;
 use App\Models\Perfil\EstudioAcademico;
 use App\Models\Perfil\FormacionAcademicaSena;
 use App\Models\Perfil\ParticipacionGrupoInvestigacionSena;
@@ -441,7 +444,7 @@ class User extends Authenticatable implements JWTSubject
         $auth_user = Auth::user();
 
         $users = [];
-        if ($auth_user->hasRole([1, 21, 17, 18, 20, 19, 5])) {
+        if ($auth_user->hasRole([1, 5, 17, 18, 20, 19])) {
             $users = User::select('users.id', 'users.nombre', 'users.email', 'users.habilitado', 'users.informacion_completa', 'centro_formacion_id')->with('roles', 'centroFormacion.regional')->orderBy('nombre', 'ASC')
                 ->filterUser(request()->only('search', 'roles'))->paginate();
         } else if ($auth_user->hasRole([3, 4, 21])) {
@@ -476,7 +479,10 @@ class User extends Authenticatable implements JWTSubject
 
     public function getNombreCarpetaSharepointAttribute()
     {
-        return trim(preg_replace('/[^A-Za-z0-9\-ÁÉÍÓÚáéíóúÑñ]/', ' ', mb_strtoupper($this->nombre)));
+        $cleaned = SharepointHelper::cleanWordsFromSpecialCharacters($this->nombre);
+
+        // Convert to uppercase
+        return strtoupper($cleaned);
     }
 
     public function getNombreAttribute($value)
@@ -506,12 +512,12 @@ class User extends Authenticatable implements JWTSubject
 
     public function getCursosDeEvaluacionRealizadosTextAttribute()
     {
-        return is_array(json_decode($this->cursos_de_evaluacion_realizados)) ? implode(',' , array_column(json_decode($this->cursos_de_evaluacion_realizados), 'value')) : null;
+        return is_array(json_decode($this->cursos_de_evaluacion_realizados)) ? implode(',', array_column(json_decode($this->cursos_de_evaluacion_realizados), 'value')) : null;
     }
 
     public function getRolesFueraSennovaTextAttribute()
     {
-        return is_array(json_decode($this->roles_fuera_sennova)) ? implode(',' , array_column(json_decode($this->roles_fuera_sennova), 'value')) : null;
+        return is_array(json_decode($this->roles_fuera_sennova)) ? implode(',', array_column(json_decode($this->roles_fuera_sennova), 'value')) : null;
     }
 
     public function getTiempoPorRolAttribute($value)
@@ -521,7 +527,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getTiempoPorRolTextAttribute()
     {
-        return is_array($this->tiempo_por_rol) ? implode(',' , array_column($this->tiempo_por_rol, 'value')) : null;
+        return is_array($this->tiempo_por_rol) ? implode(',', array_column($this->tiempo_por_rol, 'value')) : null;
     }
 
     public function getCheckSoportesTituloObtenidoAttribute()
@@ -547,7 +553,7 @@ class User extends Authenticatable implements JWTSubject
 
         return $count;
     }
-////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
     public function getJWTIdentifier()
     {
         return $this->getKey();

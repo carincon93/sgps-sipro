@@ -12,11 +12,10 @@ import TextInput from '@/Components/TextInput'
 import EditIcon from '@mui/icons-material/Edit'
 import UndoIcon from '@mui/icons-material/Undo'
 
-import { useForm, usePage } from '@inertiajs/react'
+import { router, useForm, usePage } from '@inertiajs/react'
 
-import { FormControlLabel, FormGroup, Grid } from '@mui/material'
-import { useState } from 'react'
-import { useEffect } from 'react'
+import { Grid } from '@mui/material'
+import { useState, useEffect } from 'react'
 import { checkRole } from '@/Utils'
 
 const Form = ({
@@ -97,6 +96,8 @@ const Form = ({
         experiencia_metodos_ensayo: usuario?.experiencia_metodos_ensayo ? 1 : 2,
         experiencia_metodos_calibracion: usuario?.experiencia_metodos_calibracion ? 1 : 2,
         experiencia_minima_metodos: usuario?.experiencia_minima_metodos ? 1 : 2,
+
+        aprendiz: checkRole(usuario, [28]) ? 1 : 2,
     })
 
     const submit = (e) => {
@@ -120,9 +121,43 @@ const Form = ({
         }
     }, [modificar_tiempos_roles, form.data.otros_roles_sennova, method == 'POST'])
 
+    const syncColumnLong = async (centro_formacion_id) => {
+        if (checkRole(auth_user, [1, 2, 4, 5, 17, 18, 19, 21])) {
+            try {
+                await router.put(
+                    route('users.update-centro-formacion', [usuario?.id]),
+                    { centro_formacion_id: centro_formacion_id },
+                    {
+                        onError: (resp) => console.log(resp),
+                        onFinish: () => console.log('Request finished'),
+                        preserveScroll: true,
+                    },
+                )
+            } catch (error) {
+                console.error('An error occurred:', error)
+            }
+        }
+    }
+
     return (
         <form onSubmit={submit} id="informacion-basica">
             <Grid container rowSpacing={8} padding={4}>
+                <Grid item md={12}>
+                    <Autocomplete
+                        id="aprendiz"
+                        options={[
+                            { value: 1, label: 'Si' },
+                            { value: 2, label: 'No' },
+                        ]}
+                        selectedValue={form.data.aprendiz}
+                        error={form.errors.aprendiz}
+                        onChange={(event, newValue) => {
+                            form.setData('aprendiz', newValue.value)
+                        }}
+                        label="¿Es aprendiz?"
+                        required
+                    />
+                </Grid>
                 <Grid item md={6}>
                     <TextInput
                         label="Nombre completo"
@@ -138,7 +173,7 @@ const Form = ({
 
                 <Grid item md={6}>
                     <TextInput
-                        label="Correo electrónico institucional"
+                        label={form.data.aprendiz == 1 ? 'Correo electrónico' : 'Correo electrónico institucional'}
                         id="email"
                         type="email"
                         value={form.data.email}
@@ -283,6 +318,7 @@ const Form = ({
                         disabled={(allowed_to_create == true && usuario?.allowed?.to_update == null) || usuario?.allowed?.to_update == true ? false : true}
                         error={form.errors.centro_formacion_id}
                         label="Centro de formación al cual está vinculado"
+                        onBlur={() => syncColumnLong(form.data.centro_formacion_id)}
                         required
                     />
                 </Grid>
@@ -876,6 +912,7 @@ const Form = ({
                 <Grid item md={12}>
                     <AlertMui>
                         Los datos proporcionados serán tratados de acuerdo con la política de tratamiento de datos personales del SENA y a la ley 1581 de 2012 (Acuerdo No. 0009 del 2016)
+                        <br />
                         <Checkbox
                             className="mt-8"
                             name="autorizacion_datos"

@@ -39,7 +39,8 @@ class ConvocatoriaRolSennova extends Model
         'sumar_al_presupuesto',
         'perfil',
         'mensaje',
-        'habilitado'
+        'habilitado',
+        'meses_maximos'
     ];
 
     /**
@@ -108,6 +109,56 @@ class ConvocatoriaRolSennova extends Model
     public function topesRolesSennovaTecnoparque()
     {
         return $this->hasMany(TopeRolSennovaTecnoparque::class);
+    }
+
+    /**
+     * Relationship with TopeRolSennovaHubInnovacion
+     *
+     * @return object
+     */
+    public function topesRolesSennovaHubInnovacion()
+    {
+        return $this->hasMany(TopeRolSennovaHubInnovacion::class);
+    }
+
+    /**
+     * Relationship with TopeRolSennovaTecnoacademia
+     *
+     * @return object
+     */
+    public function topesRolesSennovaTecnoacademia()
+    {
+        return $this->hasMany(TopeRolSennovaTecnoacademia::class);
+    }
+
+    /**
+     * Relationship with TopeRolSennovaFormulario13
+     *
+     * @return object
+     */
+    public function topesRolesSennovaFormulario13()
+    {
+        return $this->hasMany(TopeRolSennovaFormulario13::class);
+    }
+
+    /**
+     * Relationship with TopeRolSennovaFormulario15
+     *
+     * @return object
+     */
+    public function topesRolesSennovaFormulario15()
+    {
+        return $this->hasMany(TopeRolSennovaFormulario15::class);
+    }
+
+    /**
+     * Relationship with TopeRolSennovaFormulario16
+     *
+     * @return object
+     */
+    public function topesRolesSennovaFormulario16()
+    {
+        return $this->hasMany(TopeRolSennovaFormulario16::class);
     }
 
     /**

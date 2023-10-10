@@ -1,11 +1,13 @@
 import AlertMui from '@/Components/Alert'
 import Checkbox from '@/Components/Checkbox'
 import PrimaryButton from '@/Components/PrimaryButton'
+import { checkRole } from '@/Utils'
+
 import { useForm } from '@inertiajs/react'
 
 import { FormControlLabel, FormGroup } from '@mui/material'
 
-const FormRoles = ({ usuario, roles_sistema, ...props }) => {
+const FormRoles = ({ auth_user, usuario, roles_sistema, ...props }) => {
     const form = useForm({
         user_id: usuario?.id,
         roles: usuario?.roles.map((item) => item.id),
@@ -35,26 +37,30 @@ const FormRoles = ({ usuario, roles_sistema, ...props }) => {
     return (
         <form onSubmit={submit} {...props}>
             <fieldset>
-                <AlertMui className="mb-4">
-                    <strong>Si el usuario es subdirector/a, líder de grupo de investigación o líder de semilleros, por favor seleccione la casilla correspondiente.</strong>
-                </AlertMui>
-                <FormGroup className="!grid !grid-cols-2 mb-10">
-                    <FormControlLabel
-                        label="Subdirector/a"
-                        className={`py-2 px-4`}
-                        control={<Checkbox checked={form.data.roles?.includes(3)} onChange={() => handleCheckboxChange(3)} name="Subdirector/a" />}
-                    />
-                    <FormControlLabel
-                        label="Líder de Grupo de investigación"
-                        className={`py-2 px-4`}
-                        control={<Checkbox checked={form.data.roles?.includes(21)} onChange={() => handleCheckboxChange(21)} name="Líder de Grupo de investigación" />}
-                    />
-                    <FormControlLabel
-                        label="Líder de semilleros de investigación"
-                        className={`py-2 px-4`}
-                        control={<Checkbox checked={form.data.roles?.includes(27)} onChange={() => handleCheckboxChange(27)} name="Líder de semilleros de investigación" />}
-                    />
-                </FormGroup>
+                {checkRole(auth_user, [1, 2, 3, 4, 21, 18, 19, 5, 17]) && (
+                    <>
+                        <AlertMui className="mb-4">
+                            <strong>Si el usuario es subdirector/a, líder de grupo de investigación o líder de semilleros, por favor seleccione la casilla correspondiente.</strong>
+                        </AlertMui>
+                        <FormGroup className="!grid !grid-cols-2 mb-10">
+                            <FormControlLabel
+                                label="Subdirector/a"
+                                className={`py-2 px-4`}
+                                control={<Checkbox checked={form.data.roles?.includes(3)} onChange={() => handleCheckboxChange(3)} name="Subdirector/a" />}
+                            />
+                            <FormControlLabel
+                                label="Líder de Grupo de investigación"
+                                className={`py-2 px-4`}
+                                control={<Checkbox checked={form.data.roles?.includes(21)} onChange={() => handleCheckboxChange(21)} name="Líder de Grupo de investigación" />}
+                            />
+                            <FormControlLabel
+                                label="Líder de semilleros de investigación"
+                                className={`py-2 px-4`}
+                                control={<Checkbox checked={form.data.roles?.includes(27)} onChange={() => handleCheckboxChange(27)} name="Líder de semilleros de investigación" />}
+                            />
+                        </FormGroup>
+                    </>
+                )}
 
                 <FormGroup className="!grid !grid-cols-2">
                     {roles_sistema.map((rol, i) => (

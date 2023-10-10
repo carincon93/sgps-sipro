@@ -7,9 +7,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import { route, checkRole } from '@/Utils'
 
-import { Link, useForm } from '@inertiajs/react'
-import { Grid } from '@mui/material'
 import axios from 'axios'
+import { Head, Link, useForm } from '@inertiajs/react'
+import { Grid } from '@mui/material'
 import { useState } from 'react'
 
 export default function Reportes({ auth, centros_formacion }) {
@@ -50,14 +50,16 @@ export default function Reportes({ auth, centros_formacion }) {
             })
     }
 
-    const centros_formacion_filtrados = checkRole(auth_user, [3, 4])
+    const centros_formacion_filtrados = checkRole(auth_user, [3, 4, 21])
         ? [centros_formacion.find((item) => item.value == auth_user.centro_formacion_id)]
         : checkRole(auth_user, [2])
         ? [centros_formacion.filter((item) => item.regional_id == auth_user.regional_id)][0]
         : centros_formacion
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Reportes" />
+
             <Grid container rowSpacing={8}>
                 <Grid item md={12} className="bg-green-100/50 rounded-xl">
                     <div className="flex items-center justify-between  p-8 text-green-800">
@@ -80,7 +82,7 @@ export default function Reportes({ auth, centros_formacion }) {
                                     <h1>Censo SENNOVA</h1>
                                 </Grid>
                                 <Grid item md={8}>
-                                    {checkRole(auth_user, [1, 5, 17, 18, 19, 21]) && (
+                                    {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                                         <Checkbox
                                             className="mb-4"
                                             name="reporte_completo"

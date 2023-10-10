@@ -2,14 +2,17 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import ButtonMui from '@/Components/Button'
 import DialogMui from '@/Components/Dialog'
+import DownloadFile from '@/Components/DownloadFile'
+import FileInput from '@/Components/FileInput'
 import MenuMui from '@/Components/Menu'
 import PaginationMui from '@/Components/Pagination'
+import PrimaryButton from '@/Components/PrimaryButton'
 import TableMui from '@/Components/Table'
 import ToolTipMui from '@/Components/Tooltip'
 import StepperMui from '@/Components/Stepper'
 
 import { checkRole } from '@/Utils'
-import { Link, router, useForm } from '@inertiajs/react'
+import { Head, Link, router, useForm } from '@inertiajs/react'
 
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
@@ -21,9 +24,6 @@ import { useState } from 'react'
 
 import Form from './Form'
 import Evaluacion from './Evaluacion'
-import PrimaryButton from '@/Components/PrimaryButton'
-import FileInput from '@/Components/FileInput'
-import DownloadFile from '@/Components/DownloadFile'
 
 const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_aliadas, actividades, tipos_entidad_aliada, naturaleza_entidad_aliada, tipos_empresa, ...props }) => {
     const auth_user = auth.user
@@ -55,6 +55,8 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
 
     return (
         <AuthenticatedLayout>
+            <Head title="Entidades aliadas" />
+
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>

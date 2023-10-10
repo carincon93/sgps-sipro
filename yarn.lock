@@ -879,6 +879,11 @@
   resolved "https://registry.yarnpkg.com/@yaireo/tagify/-/tagify-4.2.0.tgz#ab1e732c1273292857531ce98eb6c06c734b0234"
   integrity sha512-/lx4BfpmD8gQhEWil7y8y53C7LoQD7FbFy1BcnotjqUybJDNc/sNpBoiy8L+3UCIQsSk4z8i9QZFxU2B4Q/Z3w==
 
+animate.css@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/animate.css/-/animate.css-4.1.1.tgz#614ec5a81131d7e4dc362a58143f7406abd68075"
+  integrity sha512-+mRmCTv6SbCmtYJCN4faJMNFVNN5EuCTTprDTAo7YzIGji2KADmakjVA3+8mVDkZ2Bf09vayB35lSQIex2+QaQ==
+
 ansi-styles@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-3.2.1.tgz#41fbb20243e50b12be0f04b8dedbf07520ce841d"

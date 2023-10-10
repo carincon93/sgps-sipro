@@ -16,7 +16,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Breadcrumbs, Grid, MenuItem, Tab, TableCell, TableRow, Tabs } from '@mui/material'
 
 import { useState } from 'react'
-import { Link, router, useForm } from '@inertiajs/react'
+import { Head, Link, router, useForm } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 
@@ -45,7 +45,7 @@ const Index = ({ auth, semilleros_investigacion, redes_conocimiento, allowed_to_
 
         form.post(
             route('grupos-investigacion.lineas-investigacion.semilleros-investigacion.upload-formato', [
-                semillero_investigacion.lineaInvestigacion.grupo_investigacion_id,
+                semillero_investigacion.linea_investigacion.grupo_investigacion_id,
                 semillero_investigacion.linea_investigacion_id,
                 semillero_investigacion.id,
             ]),
@@ -69,7 +69,9 @@ const Index = ({ auth, semilleros_investigacion, redes_conocimiento, allowed_to_
     }
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Semilleros de investigación</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Semilleros de investigación" />
+
             <Grid item md={12}>
                 <SearchBar />
 
@@ -101,7 +103,7 @@ const Index = ({ auth, semilleros_investigacion, redes_conocimiento, allowed_to_
                                             ? semillero_investigacion?.formato_gic_f_021.includes('http') == true || semillero_investigacion?.formato_gic_f_021.includes('http') == undefined
                                                 ? semillero_investigacion?.formato_gic_f_021
                                                 : route('grupos-investigacion.lineas-investigacion.semilleros-investigacion.download-file-sharepoint', [
-                                                      semillero_investigacion.lineaInvestigacion.grupo_investigacion_id,
+                                                      semillero_investigacion.linea_investigacion.grupo_investigacion_id,
                                                       semillero_investigacion.linea_investigacion_id,
                                                       semillero_investigacion.id,
                                                       'formato_gic_f_021',
@@ -109,6 +111,7 @@ const Index = ({ auth, semilleros_investigacion, redes_conocimiento, allowed_to_
                                             : null
                                     }
                                 />
+
                                 <ButtonMui
                                     onClick={() => (setDialogFormatoStatus(true), setSemilleroInvestigacion(semillero_investigacion), setTipoArchivo('formato_gic_f_021'))}
                                     className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white !text-[12px] hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full"
@@ -116,7 +119,6 @@ const Index = ({ auth, semilleros_investigacion, redes_conocimiento, allowed_to_
                                     <AutorenewIcon className="mr-2" />
                                     {semillero_investigacion?.filename.formato_gic_f_021_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 021
                                 </ButtonMui>
-
                                 <DownloadFile
                                     label="formato GIC F 032"
                                     className="mt-10 !p-2"
@@ -127,7 +129,7 @@ const Index = ({ auth, semilleros_investigacion, redes_conocimiento, allowed_to_
                                             ? semillero_investigacion?.formato_gic_f_032.includes('http') == true || semillero_investigacion?.formato_gic_f_032.includes('http') == undefined
                                                 ? semillero_investigacion?.formato_gic_f_032
                                                 : route('grupos-investigacion.lineas-investigacion.semilleros-investigacion.download-file-sharepoint', [
-                                                      semillero_investigacion.lineaInvestigacion.grupo_investigacion_id,
+                                                      semillero_investigacion.linea_investigacion.grupo_investigacion_id,
                                                       semillero_investigacion.linea_investigacion_id,
                                                       semillero_investigacion.id,
                                                       'formato_gic_f_032',
@@ -135,6 +137,7 @@ const Index = ({ auth, semilleros_investigacion, redes_conocimiento, allowed_to_
                                             : null
                                     }
                                 />
+
                                 <ButtonMui
                                     onClick={() => (setDialogFormatoStatus(true), setSemilleroInvestigacion(semillero_investigacion), setTipoArchivo('formato_gic_f_032'))}
                                     className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white !text-[12px] hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full"
@@ -153,7 +156,7 @@ const Index = ({ auth, semilleros_investigacion, redes_conocimiento, allowed_to_
                                             ? semillero_investigacion?.formato_aval_semillero.includes('http') == true || semillero_investigacion?.formato_aval_semillero.includes('http') == undefined
                                                 ? semillero_investigacion?.formato_aval_semillero
                                                 : route('grupos-investigacion.lineas-investigacion.semilleros-investigacion.download-file-sharepoint', [
-                                                      semillero_investigacion.lineaInvestigacion.grupo_investigacion_id,
+                                                      semillero_investigacion.linea_investigacion.grupo_investigacion_id,
                                                       semillero_investigacion.linea_investigacion_id,
                                                       semillero_investigacion.id,
                                                       'formato_aval_semillero',
@@ -161,6 +164,7 @@ const Index = ({ auth, semilleros_investigacion, redes_conocimiento, allowed_to_
                                             : null
                                     }
                                 />
+
                                 <ButtonMui
                                     onClick={() => (setDialogFormatoStatus(true), setSemilleroInvestigacion(semillero_investigacion), setTipoArchivo('formato_aval_semillero'))}
                                     className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white !text-[12px] hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full"
@@ -205,7 +209,7 @@ const Index = ({ auth, semilleros_investigacion, redes_conocimiento, allowed_to_
                                                     if (semillero_investigacion.allowed.to_update) {
                                                         router.delete(
                                                             route('grupos-investigacion.lineas-investigacion.semilleros-investigacion.destroy', [
-                                                                semillero_investigacion.lineaInvestigacion.grupo_investigacion_id,
+                                                                semillero_investigacion.linea_investigacion.grupo_investigacion_id,
                                                                 semillero_investigacion.linea_investigacion_id,
                                                                 semillero_investigacion.id,
                                                             ]),
@@ -238,8 +242,8 @@ const Index = ({ auth, semilleros_investigacion, redes_conocimiento, allowed_to_
                             setDialogStatus={setDialogStatus}
                             allowed_to_create={allowed_to_create}
                             method={method}
-                            grupo_investigacion={semillero_investigacion?.lineaInvestigacion?.grupoInvestigacion}
-                            linea_investigacion={semillero_investigacion?.lineaInvestigacion}
+                            grupo_investigacion={semillero_investigacion?.linea_investigacion?.grupoInvestigacion}
+                            linea_investigacion={semillero_investigacion?.linea_investigacion}
                             lineas_investigacion={lineas_investigacion_filtradas}
                             semillero_investigacion={semillero_investigacion}
                             redes_conocimiento={redes_conocimiento}

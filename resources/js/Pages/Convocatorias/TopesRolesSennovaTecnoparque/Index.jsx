@@ -11,7 +11,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 import { checkRole } from '@/Utils'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 import { useState } from 'react'
 
 import Form from './Form'
@@ -27,6 +27,8 @@ const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_ro
 
     return (
         <AuthenticatedLayout>
+            <Head title={`Convocatoria ${convocatoria.year} - Topes Roles SENNOVA`} />
+
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                     <Grid item md={12}>
@@ -35,12 +37,15 @@ const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_ro
                 )}
 
                 <Grid item md={12}>
-                    <TableMui className="mt-20" rows={['Nombre del nodo', 'Rol SENNOVA', 'Nivel académico', 'Cantidad máxima', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui
+                        className="mt-20"
+                        rows={['Nombre del nodo', 'Rol SENNOVA', 'Nivel académico', 'Cantidad máxima / Honorarios ' + convocatoria.year, 'Meses de apoyo (Máx)', 'Acciones']}
+                        sxCellThead={{ width: '320px' }}>
                         <TableRow
                             onClick={() => (setDialogStatus(true), setMethod('POST'), setTopeRolSennovaTecnoparque(null))}
                             variant="raised"
                             className="bg-app-100 hover:bg-app-50 hover:cursor-pointer">
-                            <TableCell colSpan={5}>
+                            <TableCell colSpan={6}>
                                 <ButtonMui>
                                     <AddCircleOutlineOutlinedIcon className="mr-1" /> Agregar tope
                                 </ButtonMui>
@@ -57,8 +62,13 @@ const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_ro
                                         {niveles_academicos.find((item) => item.value == tope_rol_sennova_tecnoparque.convocatoria_rol_sennova.nivel_academico)?.label}
                                     </p>
                                 </TableCell>
-                                <TableCell>{tope_rol_sennova_tecnoparque.cantidad_maxima}</TableCell>
+                                <TableCell>
+                                    {tope_rol_sennova_tecnoparque.cantidad_maxima} / ${new Intl.NumberFormat('de-DE').format(tope_rol_sennova_tecnoparque.convocatoria_rol_sennova.asignacion_mensual)}{' '}
+                                    COP
+                                </TableCell>
 
+                                <TableCell>{tope_rol_sennova_tecnoparque.meses_maximos ?? tope_rol_sennova_tecnoparque.convocatoria_rol_sennova.meses_maximos}</TableCell>
+                                
                                 <TableCell>
                                     <MenuMui text={<MoreVertIcon />}>
                                         {tope_rol_sennova_tecnoparque.id !== tope_rol_sennova_tecnoparque_to_destroy ? (

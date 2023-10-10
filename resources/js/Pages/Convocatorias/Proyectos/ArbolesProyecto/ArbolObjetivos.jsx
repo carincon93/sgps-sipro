@@ -9,17 +9,20 @@ import Evaluacion from './Evaluacion'
 
 import { Grid } from '@mui/material'
 import { useState } from 'react'
+import { Head } from '@inertiajs/react'
 
 const ArbolObjetivos = ({ auth, convocatoria, proyecto, evaluacion, efectos_directos, causas_directas, tipos_impacto, resultados, objetivos_especificos }) => {
     const [dialog_status, setDialogStatus] = useState(false)
 
     return (
         <AuthenticatedLayout>
+            <Head title="Objetivos, resultados, impactos y actividades" />
+
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
-            <Grid item md={4}>
+            {/* <Grid item md={4}>
                 Evaluación
             </Grid>
             <Grid item md={8}>
@@ -45,7 +48,7 @@ const ArbolObjetivos = ({ auth, convocatoria, proyecto, evaluacion, efectos_dire
                         />
                     </>
                 )}
-            </Grid>
+            </Grid> */}
 
             <Grid item md={12} className="!mb-20">
                 <ArbolObjetivosComponent

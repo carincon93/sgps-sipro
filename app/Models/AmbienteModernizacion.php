@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\SharepointHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
@@ -261,7 +262,10 @@ class AmbienteModernizacion extends Model
 
     public function getNombreCarpetaSharepointAttribute()
     {
-        return trim(preg_replace('/[^A-Za-z0-9\-ÁÉÍÓÚáéíóúÑñ]/', ' ', mb_strtoupper($this->seguimientoAmbienteModernizacion->codigo)));
+        $cleaned = SharepointHelper::cleanWordsFromSpecialCharacters($this->seguimientoAmbienteModernizacion->codigo);
+
+        // Convert to uppercase
+        return strtoupper($cleaned);
     }
 
     public function getRutaFinalSharepointAttribute()

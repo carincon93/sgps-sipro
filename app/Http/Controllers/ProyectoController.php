@@ -24,6 +24,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ProyectoController extends Controller
@@ -36,9 +37,8 @@ class ProyectoController extends Controller
     public function index()
     {
         return Inertia::render('Proyectos/Index', [
-            'convocatorias' => SelectHelper::convocatorias(),
-            'proyectos'     => Proyecto::with('PdfVersiones', 'convocatoria')->orderBy('id', 'ASC')->filterProyecto(request()->only('search'))->paginate()->appends(['search' => request()->search]),
-            'proyectos_id'  => Proyecto::selectRaw("id + 8000 as codigo_only")->orderBy('id', 'ASC')->get()->pluck('codigo_only')->flatten('codigo_only')
+            'proyectos' => Proyecto::getProyectosPorRol(),
+            'ods'       => json_decode(Storage::get('json/ods.json'), true),
         ]);
     }
 
@@ -71,53 +71,80 @@ class ProyectoController extends Controller
      */
     public function update(Request $request, Proyecto $proyecto)
     {
-        if ($request->en_evaluacion == true && $request->subsanacion == true) {
-            return back()->with('error', 'Se ha producido un error por tener estado de subsanación y evaluación habilitados a la misma vez.');
+        if ($request->hasFile('imagen')) {
+            $uploaded_file  = $request->file('imagen');
+            $image_name     = $proyecto->codigo . '.' . $uploaded_file->getClientOriginalExtension();
+            $folder_path    = 'public/imagenes-proyectos';
+
+            $uploaded_file->storeAs($folder_path, $image_name);
+
+            $proyecto->update([
+                'imagen'  => $image_name
+            ]);
         }
 
-        if ($request->subsanacion == true) {
-            $proyecto->habilitado_para_evaluar  = false;
-            $proyecto->modificable              = true;
-            $proyecto->finalizado               = false;
-            $proyecto->mostrar_recomendaciones  = true;
-            $proyecto->evaluaciones()->update(['finalizado' => true, 'modificable' => false, 'iniciado' => false]);
-        } else {
-            $proyecto->habilitado_para_evaluar  = true;
-            $proyecto->modificable              = false;
-            $proyecto->finalizado               = true;
-            $proyecto->mostrar_recomendaciones  = $request->mostrar_recomendaciones;
+        if ($request->filled('ods') || $request->filled('nuevo_titulo')) {
+            $proyecto->update([
+                'ods'           => json_encode($request->ods),
+                'nuevo_titulo'  => $request->nuevo_titulo,
+            ]);
         }
 
-        $proyecto->en_evaluacion   = $request->en_evaluacion;
-        $proyecto->radicado        = $request->radicado;
 
-        $proyecto->save();
+        // if ($request->en_evaluacion == true && $request->subsanacion == true) {
+        //     return back()->with('error', 'Se ha producido un error por tener estado de subsanación y evaluación habilitados a la misma vez.');
+        // }
 
-        $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 ?? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
+        // if ($request->subsanacion == true) {
+        //     $proyecto->habilitado_para_evaluar  = false;
+        //     $proyecto->modificable              = true;
+        //     $proyecto->finalizado               = false;
+        //     $proyecto->mostrar_recomendaciones  = true;
+        //     $proyecto->evaluaciones()->update(['finalizado' => true, 'modificable' => false, 'iniciado' => false]);
+        // } else {
+        //     $proyecto->habilitado_para_evaluar  = true;
+        //     $proyecto->modificable              = false;
+        //     $proyecto->finalizado               = true;
+        //     $proyecto->mostrar_recomendaciones  = $request->mostrar_recomendaciones;
+        // }
 
-        if ($request->subsanacion == true) {
-            $request->merge(['subsanacion' => $request->subsanacion ? 'true' : 'false']) ;
-            $proyecto->update(['estado' => $proyecto->estado]);
-            sleep(2);
-            $proyecto->update(
-                [
-                    'estado' => DB::raw("estado::jsonb || '{\"requiereSubsanar\":$request->subsanacion}'")
-                ]
-            );
-        }
+        // $proyecto->en_evaluacion   = $request->en_evaluacion;
+        // $proyecto->radicado        = $request->radicado;
 
-        if ($request->estado_cord_sennova) {
-            $request->merge(['subsanacion' => $request->subsanacion ? 'true' : 'false']) ;
-            $proyecto->update(['estado_cord_sennova' => $proyecto->estado]);
-            sleep(2);
-            $proyecto->update(
-                [
-                    'estado_cord_sennova' => DB::raw("estado_cord_sennova::jsonb || '{\"requiereSubsanar\":$request->subsanacion, \"estado\": \"$request->estado_cord_sennova\"}'")
-                ]
-            );
-        }
+        // $proyecto->save();
+
+        // $proyecto->update(['estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 ?? $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $proyecto->estado_evaluacion_ta ?? $proyecto->estado_evaluacion_tp ?? $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
+
+        // if ($request->subsanacion == true) {
+        //     $request->merge(['subsanacion' => $request->subsanacion ? 'true' : 'false']);
+        //     $proyecto->update(['estado' => $proyecto->estado]);
+        //     sleep(2);
+        //     $proyecto->update(
+        //         [
+        //             'estado' => DB::raw("estado::jsonb || '{\"requiereSubsanar\":$request->subsanacion}'")
+        //         ]
+        //     );
+        // }
+
+        // if ($request->estado_cord_sennova) {
+        //     $request->merge(['subsanacion' => $request->subsanacion ? 'true' : 'false']);
+        //     $proyecto->update(['estado_cord_sennova' => $proyecto->estado]);
+        //     sleep(2);
+        //     $proyecto->update(
+        //         [
+        //             'estado_cord_sennova' => DB::raw("estado_cord_sennova::jsonb || '{\"requiereSubsanar\":$request->subsanacion, \"estado\": \"$request->estado_cord_sennova\"}'")
+        //         ]
+        //     );
+        // }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
+    }
+
+    public function destroy(Convocatoria $convocatoria, Proyecto $proyecto)
+    {
+        $proyecto->delete();
+
+        return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
     /**
@@ -158,6 +185,11 @@ class ProyectoController extends Controller
                 $objetivo_general                   = $proyecto->proyectoFormulario1Linea65->objetivo_general;
                 $proyecto->propuesta_sostenibilidad = $proyecto->proyectoFormulario1Linea65->propuesta_sostenibilidad;
                 $proyecto->tipo_proyecto            = $proyecto->proyectoFormulario1Linea65->tipo_proyecto;
+                break;
+            case 3:
+                $objetivo_general                   = $proyecto->proyectoFormulario3Linea61->objetivo_general;
+                $proyecto->propuesta_sostenibilidad = $proyecto->proyectoFormulario3Linea61->propuesta_sostenibilidad;
+                $proyecto->tipo_proyecto            = $proyecto->proyectoFormulario3Linea61->tipo_proyecto;
                 break;
             case 4:
                 $objetivo_general = $proyecto->proyectoFormulario4Linea70->objetivo_general;
@@ -253,6 +285,9 @@ class ProyectoController extends Controller
         switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 1:
                 $proyecto->proyectoFormulario1Linea65()->update($request->only($column));
+                break;
+            case 3:
+                $proyecto->proyectoFormulario3Linea61()->update($request->only($column));
                 break;
             case 4:
                 $proyecto->proyectoFormulario4Linea70()->update($request->only($column));
@@ -374,6 +409,15 @@ class ProyectoController extends Controller
                 $proyecto_formulario_1_linea_65->propuesta_sostenibilidad    = $request->propuesta_sostenibilidad;
 
                 $proyecto_formulario_1_linea_65->save();
+                break;
+            case 3:
+                $request->validate([
+                    'propuesta_sostenibilidad' => 'required|string|max:40000',
+                ]);
+                $proyecto_formulario_3_linea_61                              = $proyecto->proyectoFormulario3Linea61;
+                $proyecto_formulario_3_linea_61->propuesta_sostenibilidad    = $request->propuesta_sostenibilidad;
+
+                $proyecto_formulario_3_linea_61->save();
                 break;
             case 4:
                 $request->validate([
@@ -512,6 +556,9 @@ class ProyectoController extends Controller
             case 1:
                 return redirect()->route('convocatorias.proyectos-formulario-1-linea-65.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => request()->tipo_formulario_convocatoria_id]);
                 break;
+            case 3:
+                return redirect()->route('convocatorias.proyectos-formulario-3-linea-61.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => request()->tipo_formulario_convocatoria_id]);
+                break;
             case 4:
                 return redirect()->route('convocatorias.proyectos-formulario-4-linea-70.index', [$convocatoria, 'tipo_formulario_convocatoria_id' => request()->tipo_formulario_convocatoria_id]);
                 break;
@@ -572,6 +619,9 @@ class ProyectoController extends Controller
         switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 1:
                 return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-formulario-1-linea-65.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-formulario-1-linea-65.edit', [$convocatoria, $proyecto]);
+                break;
+            case 3:
+                return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-formulario-3-linea-61.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-formulario-3-linea-61.edit', [$convocatoria, $proyecto]);
                 break;
             case 4:
                 return $request->evaluacion_id ? redirect()->route('convocatorias.proyectos-formulario-4-linea-70.edit', [$convocatoria, $proyecto, 'evaluacion_id' => $request->evaluacion_id]) : redirect()->route('convocatorias.proyectos-formulario-4-linea-70.edit', [$convocatoria, $proyecto]);
@@ -643,35 +693,37 @@ class ProyectoController extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/ResumenFinal', [
-            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
-            'proyecto'                          => $proyecto,
-            'problemaCentral'                   => ProyectoValidationTrait::problemaCentral($proyecto),
-            'efectosDirectos'                   => ProyectoValidationTrait::efectosDirectos($proyecto),
-            'causasIndirectas'                  => ProyectoValidationTrait::causasIndirectas($proyecto),
-            'causasDirectas'                    => ProyectoValidationTrait::causasDirectas($proyecto),
-            'efectosIndirectos'                 => ProyectoValidationTrait::efectosIndirectos($proyecto),
-            'objetivoGeneral'                   => ProyectoValidationTrait::objetivoGeneral($proyecto),
-            'resultados'                        => ProyectoValidationTrait::resultados($proyecto),
-            'objetivosEspecificos'              => ProyectoValidationTrait::objetivosEspecificos($proyecto),
-            'actividades'                       => ProyectoValidationTrait::actividades($proyecto),
-            'impactos'                          => ProyectoValidationTrait::impactos($proyecto),
-            'edt'                               => ProyectoValidationTrait::edt($proyecto),
-            'topes_por_nodo'                    => $proyecto->proyectoFormulario17Linea69()->exists() ? TopePresupuestalNodoTecnoparque::select('topes_presupuestales_nodos_tecnoparque.*')->with('nodoTecnoparque', 'segundoGrupoPresupuestal')->where('topes_presupuestales_nodos_tecnoparque.convocatoria_id', $convocatoria->id)->where('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id', $proyecto->proyectoFormulario17Linea69->nodo_tecnoparque_id)->orderBy('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id')->get() : null,
-            'topes_roles_sennova_tecnoparque'   => $proyecto->proyectoFormulario17Linea69()->exists() ? ProyectoRolSennovaValidationTrait::topesRolesSennovaTecnoparqueValidation($convocatoria, $proyecto) : null,
-            'topes_presupuestales_tecnoparque'  => $proyecto->proyectoFormulario17Linea69()->exists() ? ProyectoValidationTrait::topesPresupuestales($proyecto) : null,
+            'convocatoria'                          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
+            'proyecto'                              => $proyecto,
+            'evaluacion'                            => Evaluacion::find(request()->evaluacion_id),
+            'problemaCentral'                       => ProyectoValidationTrait::problemaCentral($proyecto),
+            'efectosDirectos'                       => ProyectoValidationTrait::efectosDirectos($proyecto),
+            'causasIndirectas'                      => ProyectoValidationTrait::causasIndirectas($proyecto),
+            'causasDirectas'                        => ProyectoValidationTrait::causasDirectas($proyecto),
+            'efectosIndirectos'                     => ProyectoValidationTrait::efectosIndirectos($proyecto),
+            'objetivoGeneral'                       => ProyectoValidationTrait::objetivoGeneral($proyecto),
+            'resultados'                            => ProyectoValidationTrait::resultados($proyecto),
+            'objetivosEspecificos'                  => ProyectoValidationTrait::objetivosEspecificos($proyecto),
+            'actividades'                           => ProyectoValidationTrait::actividades($proyecto),
+            'impactos'                              => ProyectoValidationTrait::impactos($proyecto),
+            'edt'                                   => ProyectoValidationTrait::edt($proyecto),
+            'topes_roles_sennova'                   => ProyectoRolSennovaValidationTrait::topesRolesSennovaValidation($convocatoria, $proyecto),
+            'topes_por_nodo'                        => $proyecto->proyectoFormulario17Linea69()->exists() ? TopePresupuestalNodoTecnoparque::select('topes_presupuestales_nodos_tecnoparque.*')->with('nodoTecnoparque', 'segundoGrupoPresupuestal')->where('topes_presupuestales_nodos_tecnoparque.convocatoria_id', $convocatoria->id)->where('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id', $proyecto->proyectoFormulario17Linea69->nodo_tecnoparque_id)->orderBy('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id')->get() : null,
+            'topes_presupuestales_tecnoparque'      => $proyecto->proyectoFormulario17Linea69()->exists() ? ProyectoValidationTrait::topesPresupuestales($proyecto) : null,
+            'topes_presupuestales_formulario7'      => $proyecto->proyectoFormulario7Linea23()->exists() ? ProyectoValidationTrait::topesPresupuestalesFormulario7($convocatoria, $proyecto) : null,
+            'resultadoProducto'                     => ProyectoValidationTrait::resultadoProducto($proyecto),
+            'analisisRiesgo'                        => ProyectoValidationTrait::analisisRiesgo($proyecto),
+            'anexos'                                => ProyectoValidationTrait::anexos($proyecto),
+            'generalidades'                         => ProyectoValidationTrait::generalidades($proyecto),
+            'metodologia'                           => ProyectoValidationTrait::metodologia($proyecto),
+            'propuestaSostenibilidad'               => ProyectoValidationTrait::propuestaSostenibilidad($proyecto),
+            'productosActividades'                  => ProyectoValidationTrait::productosActividades($proyecto),
+            'articulacionSennova'                   => ProyectoValidationTrait::articulacionSennova($proyecto),
+            'soportesEstudioMercado'                => ProyectoValidationTrait::soportesEstudioMercado($proyecto),
+            'estudiosMercadoArchivo'                => ProyectoValidationTrait::estudiosMercadoArchivo($proyecto),
+            'minInstructoresInvestigadores'         => ProyectoValidationTrait::minInstructoresInvestigadores($proyecto),
+            'minAprendicesEnSemilleros'             => ProyectoValidationTrait::minAprendicesEnSemilleros($proyecto),
             // 'actividadesPresupuesto'    => ProyectoValidationTrait::actividadesPresupuesto($proyecto),
-            'resultadoProducto'                 => ProyectoValidationTrait::resultadoProducto($proyecto),
-            'analisisRiesgo'                    => ProyectoValidationTrait::analisisRiesgo($proyecto),
-            'anexos'                            => ProyectoValidationTrait::anexos($proyecto),
-            'generalidades'                     => ProyectoValidationTrait::generalidades($proyecto),
-            'metodologia'                       => ProyectoValidationTrait::metodologia($proyecto),
-            'propuestaSostenibilidad'           => ProyectoValidationTrait::propuestaSostenibilidad($proyecto),
-            'productosActividades'              => ProyectoValidationTrait::productosActividades($proyecto),
-            'articulacionSennova'               => ProyectoValidationTrait::articulacionSennova($proyecto),
-            'soportesEstudioMercado'            => ProyectoValidationTrait::soportesEstudioMercado($proyecto),
-            'estudiosMercadoArchivo'            => ProyectoValidationTrait::estudiosMercadoArchivo($proyecto),
-            'minInstructoresInvestigadores'     => ProyectoValidationTrait::minInstructoresInvestigadores($proyecto),
-            'minAprendicesEnSemilleros'         => ProyectoValidationTrait::minAprendicesEnSemilleros($proyecto),
         ]);
     }
 
@@ -953,7 +1005,7 @@ class ProyectoController extends Controller
      * @param  mixed $proyecto
      * @return void
      */
-    public function unlinkParticipante( Convocatoria $convocatoria, Proyecto $proyecto, User $user)
+    public function unlinkParticipante(Convocatoria $convocatoria, Proyecto $proyecto, User $user)
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
@@ -1340,7 +1392,7 @@ class ProyectoController extends Controller
         return Inertia::render('Convocatorias/Proyectos/Indicadores/Index', [
             'convocatoria'  => $convocatoria,
             'proyecto'      => $proyecto,
-            // 'evaluacion'        => EvaluacionProyectoFormulario8Linea66::find(request()->evaluacion_id),
+            'evaluacion'    => Evaluacion::find(request()->evaluacion_id),
         ]);
     }
 

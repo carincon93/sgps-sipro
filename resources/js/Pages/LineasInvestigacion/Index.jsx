@@ -13,7 +13,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Breadcrumbs, Divider, Grid, MenuItem, Tab, TableCell, TableRow, Tabs } from '@mui/material'
 
 import { useState } from 'react'
-import { Link, router } from '@inertiajs/react'
+import { Head, Link, router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 
@@ -30,7 +30,9 @@ const Index = ({ auth, grupo_investigacion, lineas_investigacion, allowed_to_cre
     const [linea_investigacion_to_destroy, setLineaInvestigacionToDestroy] = useState(null)
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas de investigación</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Líneas de investigación" />
+
             <Grid item md={12} className="!mb-20">
                 <Tabs value="1" centered={true}>
                     <Tab

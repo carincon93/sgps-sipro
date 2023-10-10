@@ -38,7 +38,7 @@ class EntidadAliadaController extends Controller
         /**
          * Si el proyecto es de la línea programática 23 o 65 se prohibe el acceso. No requiere de entidades aliadas
          */
-        if ($proyecto->tipo_formulario_convocatoria_id == 7 || $proyecto->tipo_formulario_convocatoria_id == 9 || $proyecto->tipo_formulario_convocatoria_id == 1 || $proyecto->tipo_formulario_convocatoria_id == 13 || $proyecto->tipo_formulario_convocatoria_id == 15 ||  $proyecto->tipo_formulario_convocatoria_id == 16 || $proyecto->tipo_formulario_convocatoria_id == 12) {
+        if ($proyecto->tipo_formulario_convocatoria_id == 9 || $proyecto->tipo_formulario_convocatoria_id == 1 || $proyecto->tipo_formulario_convocatoria_id == 13 || $proyecto->tipo_formulario_convocatoria_id == 15 ||  $proyecto->tipo_formulario_convocatoria_id == 16 || $proyecto->tipo_formulario_convocatoria_id == 12) {
             return redirect()->route('convocatorias.proyectos.analisis-riesgos.index', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de entidades aliadas');
         }
 
@@ -47,13 +47,13 @@ class EntidadAliadaController extends Controller
             'proyecto'                      =>  $proyecto,
             'evaluacion'                    =>  Evaluacion::find(request()->evaluacion_id),
             'entidades_aliadas'             =>  EntidadAliada::where('proyecto_id', $proyecto->id)->orderBy('nombre', 'ASC')
-                                                    ->filterEntidadAliada(request()->only('search'))->with('actividades', 'actividades.objetivoEspecifico', 'miembrosEntidadAliada', 'entidadAliadaLinea66_82', 'entidadAliadaLinea69', 'entidadAliadaLinea70', 'entidadAliadaLinea83')->paginate(),
+                ->filterEntidadAliada(request()->only('search'))->with('actividades', 'actividades.objetivoEspecifico', 'miembrosEntidadAliada', 'entidadAliadaLinea66_82', 'entidadAliadaLinea69', 'entidadAliadaLinea70', 'entidadAliadaLinea83')->paginate(),
             'actividades'                   =>  Actividad::select('id as value', 'descripcion as label')->whereIn(
-                                                    'objetivo_especifico_id',
-                                                    $objetivo_especificos->map(function ($objetivo_especifico) {
-                                                        return $objetivo_especifico->id;
-                                                    })
-                                                )->orderBy('fecha_inicio', 'ASC')->get(),
+                'objetivo_especifico_id',
+                $objetivo_especificos->map(function ($objetivo_especifico) {
+                    return $objetivo_especifico->id;
+                })
+            )->orderBy('fecha_inicio', 'ASC')->get(),
             'tipos_entidad_aliada'          =>  json_decode(Storage::get('json/tipos-entidades-aliadas.json'), true),
             'naturaleza_entidad_aliada'     =>  json_decode(Storage::get('json/naturaleza-empresa.json'), true),
             'tipos_empresa'                 =>  json_decode(Storage::get('json/tipos-empresa.json'), true),
@@ -96,7 +96,7 @@ class EntidadAliadaController extends Controller
 
         switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 4:
-                 $request->validate([
+                $request->validate([
                     'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
                     'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
                 ]);
@@ -214,7 +214,7 @@ class EntidadAliadaController extends Controller
 
         switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 4:
-                 $request->validate([
+                $request->validate([
                     'fecha_inicio_convenio'         => 'required|date|date_format:Y-m-d|before:fecha_fin_convenio',
                     'fecha_fin_convenio'            => 'required|date|date_format:Y-m-d|after:fecha_inicio_convenio',
                 ]);

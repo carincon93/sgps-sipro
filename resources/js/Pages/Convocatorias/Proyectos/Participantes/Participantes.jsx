@@ -84,17 +84,12 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                 {proyecto.participantes.map((participante, i) => (
                     <TableRow key={i}>
                         <TableCell>
-                            {participante.id == autor_principal?.id && <Chip className="!bg-green-100 !text-xs mb-2" size="small" label="Autor(a) principal" />}
-                            <br />
                             {participante.nombre}
                             <br />
                             <Chip className="mt-2" label={participante.email} />
-
+                            {participante.id == autor_principal?.id && <Chip className="!bg-green-100 !text-xs ml-1 mt-2" size="small" label="Autor(a) principal" />}
                             <br />
-                            <br />
-                            {participante.centro_formacion ? participante.centro_formacion.nombre : ''}
-                            <br />
-                            <Chip className="mt-2" label={participante.centro_formacion ? participante.centro_formacion.regional.nombre : ''} />
+                            <br />• {participante.centro_formacion ? participante.centro_formacion.nombre : ''} - {participante.centro_formacion ? participante.centro_formacion.regional.nombre : ''}
                         </TableCell>
                         {participante.id == participante_a_modificar_id ? (
                             <>
@@ -230,12 +225,9 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                                     {nuevo_participante.nombre}
                                     <br />
                                     <Chip className="mt-2" label={nuevo_participante.email} />
-
                                     <br />
-                                    <br />
-                                    {nuevo_participante.centro_formacion ? nuevo_participante.centro_formacion.nombre : ''}
-                                    <br />
-                                    <Chip className="mt-2" label={nuevo_participante.centro_formacion ? nuevo_participante.centro_formacion.regional.nombre : ''} />
+                                    <br />• {nuevo_participante.centro_formacion ? nuevo_participante.centro_formacion.nombre : ''} -{' '}
+                                    {nuevo_participante.centro_formacion ? nuevo_participante.centro_formacion.regional.nombre : ''}
                                 </TableCell>
 
                                 <TableCell>
@@ -303,8 +295,16 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                 )}
                 <TableRow sx={{ backgroundColor: '#e5f6fd' }}>
                     <TableCell colSpan={6} className="!align-top">
-                        <p>Agregar participante</p>
-                        <AlertMui className="mt-5">1. Escriba el nombre, número de documento o el correo electrónico institucional del participante.</AlertMui>
+                        <p>
+                            <strong>Agregar participante</strong>
+                        </p>
+
+                        <AlertMui className="mt-6">
+                            Si no encuentra el participante por favor comparta el siguiente enlace para que pueda hacer el registro y diligenciar el respectivo CENSO SENNOVA:{' '}
+                            <strong className="underline">{route('register')}</strong>
+                        </AlertMui>
+
+                        <AlertMui className="mt-5">Escriba el nombre, número de documento o el correo electrónico institucional del participante.</AlertMui>
                         <SearchBar placeholder="Buscar participantes" inputBackground="white" routeParams={[convocatoria.id, proyecto.id]} />
                     </TableCell>
                 </TableRow>

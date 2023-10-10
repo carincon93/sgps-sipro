@@ -45,12 +45,12 @@ class ProyectoPresupuestoController extends Controller
             'proyecto'                              =>  $proyecto,
             'evaluacion'                            =>  Evaluacion::find(request()->evaluacion_id),
             'rubros_presupuestales'                 =>  ProyectoPresupuesto::select('proyecto_presupuesto.*')
-                                                        ->where('proyecto_id', $proyecto->id)
-                                                        ->filterProyectoPresupuesto(request()->only('search', 'presupuestos'))
-                                                        ->with('soportesEstudioMercado', 'convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.usoPresupuestal', 'convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.segundoGrupoPresupuestal', 'proyectoPresupuestosEvaluaciones.evaluacion', 'softwareInfo', 'nodoEditorialInfo')
-                                                        ->orderBy('proyecto_presupuesto.id', 'DESC')
-                                                        ->paginate()
-                                                        ->appends(['search' => request()->search, 'presupuestos' => request()->presupuestos]),
+                ->where('proyecto_id', $proyecto->id)
+                ->filterProyectoPresupuesto(request()->only('search', 'presupuestos'))
+                ->with('soportesEstudioMercado', 'convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.usoPresupuestal', 'convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.segundoGrupoPresupuestal', 'proyectoPresupuestosEvaluaciones.evaluacion', 'softwareInfo', 'nodoEditorialInfo')
+                ->orderBy('proyecto_presupuesto.id', 'DESC')
+                ->paginate()
+                ->appends(['search' => request()->search, 'presupuestos' => request()->presupuestos]),
             'segundo_grupo_presupuestal'            =>  SelectHelper::segundoGrupoPresupuestal($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id, $proyecto->proyectoFormulario17Linea69()->exists() ? $proyecto->proyectoFormulario17Linea69->nodo_tecnoparque_id : null),
             'tercer_grupo_presupuestal'             =>  SelectHelper::tercerGrupoPresupuestal($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id),
             'usos_presupuestales'                   =>  SelectHelper::usosPresupuestales($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id),
@@ -172,24 +172,26 @@ class ProyectoPresupuestoController extends Controller
         ]);
 
         SoftwareInfo::updateOrCreate(
-        ['id' => $presupuesto->softwareInfo()->exists() ? $presupuesto->softwareInfo->id : null],
-        [
-            'proyecto_presupuesto_id'   => $presupuesto->id,
-            'tipo_licencia'             => $request->tipo_licencia,
-            'tipo_software'             => $request->tipo_software,
-            'fecha_inicio'              => $request->fecha_inicio,
-            'fecha_finalizacion'        => $request->fecha_finalizacion
-        ]);
+            ['id' => $presupuesto->softwareInfo()->exists() ? $presupuesto->softwareInfo->id : null],
+            [
+                'proyecto_presupuesto_id'   => $presupuesto->id,
+                'tipo_licencia'             => $request->tipo_licencia,
+                'tipo_software'             => $request->tipo_software,
+                'fecha_inicio'              => $request->fecha_inicio,
+                'fecha_finalizacion'        => $request->fecha_finalizacion
+            ]
+        );
     }
 
     public function updateOrCreateNodoEditorialInfo(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto)
     {
         NodoEditorialInfo::updateOrCreate(
-        ['id' => $presupuesto->nodoEditorialInfo()->exists() ? $presupuesto->nodoEditorialInfo->id : null],
-        [
-            'proyecto_presupuesto_id'   => $presupuesto->id,
-            'info'                      => $request->info,
-        ]);
+            ['id' => $presupuesto->nodoEditorialInfo()->exists() ? $presupuesto->nodoEditorialInfo->id : null],
+            [
+                'proyecto_presupuesto_id'   => $presupuesto->id,
+                'info'                      => $request->info,
+            ]
+        );
     }
 
     public function storeEstudioMercado(Request $request, Convocatoria $convocatoria, Proyecto $proyecto, ProyectoPresupuesto $presupuesto)
@@ -302,9 +304,9 @@ class ProyectoPresupuestoController extends Controller
                                                     WHEN '8' THEN   concat(roles_sennova.nombre, chr(10), 'Nivel académico: Técnico con especialización', chr(10), convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
                                                     WHEN '9' THEN   concat(roles_sennova.nombre, chr(10), 'Nivel académico: Tecnólogo con especialización', chr(10), convocatoria_rol_sennova.experiencia, chr(10), 'Asignación mensual: ', convocatoria_rol_sennova.asignacion_mensual)
                                                 END as label")
-                                                ->join('convocatoria_rol_sennova', 'proyecto_rol_sennova.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')
-                                                ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
-                                                ->get()
+                ->join('convocatoria_rol_sennova', 'proyecto_rol_sennova.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')
+                ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
+                ->get()
         ]);
     }
 

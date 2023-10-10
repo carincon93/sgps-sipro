@@ -58,7 +58,7 @@ class SoporteEstudioMercado extends Model
      *
      * @return object
      */
-    public function ProyectoPresupuesto()
+    public function proyectoPresupuesto()
     {
         return $this->belongsTo(ProyectoPresupuesto::class);
     }

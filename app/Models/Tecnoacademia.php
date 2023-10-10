@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\SharepointHelper;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -109,6 +110,16 @@ class Tecnoacademia extends Model
     }
 
     /**
+     * Relationship with TopeRolSennovaTecnoacademia
+     *
+     * @return object
+     */
+    public function topesRolesSennovaTecnoacademia()
+    {
+        return $this->hasMany(TopeRolSennovaTecnoacademia::class);
+    }
+
+    /**
      * Filtrar registros
      *
      * @param  mixed $query
@@ -139,7 +150,10 @@ class Tecnoacademia extends Model
 
     public function getNombreCarpetaSharepointAttribute()
     {
-        return trim(preg_replace('/[^A-Za-z0-9\-ÁÉÍÓÚáéíóúÑñ]/', ' ', mb_strtoupper($this->nombre)));
+        $cleaned = SharepointHelper::cleanWordsFromSpecialCharacters($this->nombre);
+
+        // Convert to uppercase
+        return strtoupper($cleaned);
     }
 
     public function getAllowedAttribute()

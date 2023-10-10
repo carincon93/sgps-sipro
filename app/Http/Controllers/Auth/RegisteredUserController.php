@@ -60,16 +60,20 @@ class RegisteredUserController extends Controller
             'fecha_nacimiento'      => $request->fecha_nacimiento
         ]);
 
-        $user->syncRoles([33]);
-
         event(new Registered($user));
 
         Auth::login($user);
 
         $route = RouteServiceProvider::HOME;
 
-        if ($request->filled('rol')) {
-            $route = RouteServiceProvider::HOME . '?rol='.$request->rol;
+        if ($request->aprendiz == 1) {
+            $user->syncRoles([28]);
+        }
+
+        if ($request->filled('rol') && $request->rol == 'evaluador_externo') {
+            $user->syncRoles([33]);
+
+            $route = RouteServiceProvider::HOME . '?rol=' . $request->rol;
         }
 
         return redirect($route);

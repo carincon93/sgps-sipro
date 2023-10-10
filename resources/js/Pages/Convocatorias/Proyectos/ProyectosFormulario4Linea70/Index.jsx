@@ -12,7 +12,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Chip, Divider, Grid, MenuItem, Tab, TableCell, TableRow, Tabs } from '@mui/material'
 
 import { useState } from 'react'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 
@@ -23,7 +23,9 @@ const Index = ({ auth, convocatoria, proyectos_formulario_4_linea_70, allowed_to
     const [proyecto_formulario_4_linea_70_to_destroy, setProyectoLinea70ToDestroy] = useState(null)
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Lista de proyectos - Formulario 4 Línea 70" />
+
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                     <Grid item md={12}>
@@ -38,7 +40,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_4_linea_70, allowed_to
                 <Grid item md={12}>
                     <AlertMui className="mt-20">A continuación, se listan únicamente los proyectos que usted ha creado y también en los que está asociado.</AlertMui>
 
-                    <TableMui rows={['TecnoAcademia', 'Fecha de ejecución', 'Estado (Evaluación)', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                    <TableMui rows={['Tecnoacademia', 'Fecha de ejecución', 'Estado (Evaluación)', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         {allowed_to_create && (
                             <TableRow
                                 onClick={() => router.visit(route('convocatorias.proyectos-formulario-4-linea-70.create', [convocatoria.id]))}

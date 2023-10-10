@@ -1,7 +1,6 @@
 import AlertMui from '@/Components/Alert'
 import Autocomplete from '@/Components/Autocomplete'
 import ButtonMui from '@/Components/Button'
-import Label from '@/Components/Label'
 import PrimaryButton from '@/Components/PrimaryButton'
 import SelectMultiple from '@/Components/SelectMultiple'
 import TextInput from '@/Components/TextInput'
@@ -9,8 +8,24 @@ import Textarea from '@/Components/Textarea'
 
 import { useForm } from '@inertiajs/react'
 import { Grid, Paper } from '@mui/material'
+import { useEffect, useState } from 'react'
 
-const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_rol_sennova, convocatoria_roles_sennova, niveles_academicos, actividades }) => {
+const Form = ({
+    method = '',
+    is_super_admin,
+    convocatoria,
+    proyecto,
+    setDialogStatus,
+    proyecto_rol_sennova,
+    convocatoria_roles_sennova,
+    convocatoria_roles_sin_filtrar,
+    niveles_academicos,
+    actividades,
+}) => {
+    const roles_sennova_incompletos = convocatoria_roles_sennova.some((item) => item.label === null)
+    const [meses_maximos, setMesesMaximo] = useState(proyecto.diff_meses)
+    const [cantidad_maxima, setCantidadMaxima] = useState(0)
+
     const form = useForm({
         proyecto_id: proyecto.id,
         numero_meses: proyecto_rol_sennova?.numero_meses,
@@ -41,7 +56,20 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
         }
     }
 
-    const roles_sennova_incompletos = convocatoria_roles_sennova.some((item) => item.label === null)
+    useEffect(() => {
+        setMesesMaximo(proyecto.diff_meses)
+
+        if (form.data.convocatoria_rol_sennova_id) {
+            setTimeout(() => {
+                const { meses_maximos, meses_maximos_por_centro, cantidad_maxima } =
+                    convocatoria_roles_sennova.find((item) => item.value == form.data.convocatoria_rol_sennova_id) ??
+                    convocatoria_roles_sin_filtrar.find((item) => item.value == proyecto_rol_sennova?.convocatoria_rol_sennova.id)
+
+                setMesesMaximo(meses_maximos_por_centro ?? meses_maximos ?? proyecto.diff_meses)
+                setCantidadMaxima(cantidad_maxima)
+            }, 500)
+        }
+    }, [form.data.convocatoria_rol_sennova_id])
 
     return (
         <Grid container spacing={2}>
@@ -70,25 +98,93 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                                 required
                                             />
                                         ) : (
-                                            <>
-                                                <p>{proyecto_rol_sennova.convocatoria_rol_sennova.rol_sennova.nombre}</p>
+                                            <Grid container>
+                                                <Grid item md={3}>
+                                                    <strong>Rol:</strong>
+                                                </Grid>
+                                                <Grid item md={9}>
+                                                    <p className="first-letter:uppercase">{proyecto_rol_sennova?.convocatoria_rol_sennova.rol_sennova.nombre}</p>
+                                                </Grid>
 
-                                                <p className="first-letter:uppercase text-gray-00 my-4">
-                                                    {niveles_academicos.find((item) => item.value == proyecto_rol_sennova?.convocatoria_rol_sennova?.nivel_academico).label}
-                                                </p>
+                                                <Grid item md={3}>
+                                                    <strong>Nivel académico:</strong>{' '}
+                                                </Grid>
+                                                <Grid item md={9}>
+                                                    <p className="first-letter:uppercase">
+                                                        {niveles_academicos.find((item) => item.value == proyecto_rol_sennova?.convocatoria_rol_sennova?.nivel_academico).label}
+                                                    </p>
+                                                </Grid>
 
-                                                <p className="text-gray-600 my-4 whitespace-pre-wrap">
-                                                    Experiencia / Perfil
-                                                    <br />
-                                                    {proyecto_rol_sennova.convocatoria_rol_sennova.experiencia}
-                                                </p>
-                                            </>
+                                                <Grid item md={3}>
+                                                    <strong>Experiencia / Perfil:</strong>
+                                                </Grid>
+                                                <Grid item md={9}>
+                                                    <p className="text-gray-600 whitespace-pre-wrap">{proyecto_rol_sennova?.convocatoria_rol_sennova.experiencia}</p>
+                                                </Grid>
+                                            </Grid>
                                         )}
                                     </>
                                 ) : (
                                     <AlertMui severity="error">
                                         Aún no se ha completado la información de los roles, por favor revise los canales de ayuda e informe al respectivo activador(a) para que actualice la
                                         información.
+                                    </AlertMui>
+                                )}
+                            </Grid>
+
+                            <Grid item md={12}>
+                                <TextInput
+                                    label="Número de meses que requiere el apoyo"
+                                    id="numero_meses"
+                                    type="number"
+                                    inputProps={{
+                                        step: 0.1,
+                                        min: 1,
+                                        max: is_super_admin ? null : meses_maximos ? (proyecto.diff_meses > meses_maximos ? meses_maximos : proyecto.diff_meses) : proyecto.diff_meses,
+                                    }}
+                                    error={form.errors.numero_meses}
+                                    value={form.data.numero_meses}
+                                    onChange={(e) => {
+                                        form.setData('numero_meses', e.target.value)
+                                    }}
+                                    disabled={!proyecto?.allowed?.to_update}
+                                    required
+                                />
+
+                                {form.data.numero_meses > parseFloat(meses_maximos) ? (
+                                    <AlertMui error={true}>
+                                        El tiempo máximo del rol seleccionado es de <strong>{meses_maximos} meses</strong> y el valor que usted solicita es de{' '}
+                                        <strong>{form.data.numero_meses} meses</strong>. Por favor modifique los valores de vinculación.
+                                    </AlertMui>
+                                ) : (
+                                    <AlertMui>
+                                        El rol seleccionado no puede superar los{' '}
+                                        <strong>{meses_maximos ? (proyecto.diff_meses > meses_maximos ? meses_maximos : proyecto.diff_meses) : proyecto.diff_meses}</strong> meses de vinculación
+                                    </AlertMui>
+                                )}
+                            </Grid>
+
+                            <Grid item md={12}>
+                                <TextInput
+                                    label="Número de personas requeridas"
+                                    id="numero_roles"
+                                    type="number"
+                                    inputProps={{
+                                        min: 1,
+                                        max: is_super_admin ? null : cantidad_maxima,
+                                    }}
+                                    error={form.errors.numero_roles}
+                                    value={form.data.numero_roles}
+                                    onChange={(e) => {
+                                        form.setData('numero_roles', e.target.value)
+                                    }}
+                                    disabled={!proyecto?.allowed?.to_update}
+                                    required
+                                />
+                                {cantidad_maxima > 0 && (
+                                    <AlertMui>
+                                        Tenga en cuenta que el sistema suma todos los valores de personas requeridas para el rol{' '}
+                                        <strong>{proyecto_rol_sennova?.convocatoria_rol_sennova.rol_sennova.nombre}</strong> y no puede superar el máximo de <strong>{cantidad_maxima}.</strong>
                                     </AlertMui>
                                 )}
                             </Grid>
@@ -166,48 +262,6 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                             )}
 
                             <Grid item md={12}>
-                                <TextInput
-                                    label="Número de meses que requiere el apoyo"
-                                    id="numero_meses"
-                                    type="number"
-                                    inputProps={{
-                                        step: 0.1,
-                                        min: 1,
-                                        max: proyecto.diff_meses,
-                                    }}
-                                    error={form.errors.numero_meses}
-                                    value={form.data.numero_meses}
-                                    onChange={(e) => {
-                                        form.setData('numero_meses', e.target.value)
-                                    }}
-                                    disabled={!proyecto?.allowed?.to_update}
-                                    required
-                                />
-
-                                <AlertMui>
-                                    El proyecto se ejecutará entre {proyecto.fecha_inicio} y {proyecto.fecha_finalizacion}, por lo tanto el número de meses máximo es: {proyecto.diff_meses}
-                                </AlertMui>
-                            </Grid>
-
-                            <Grid item md={12}>
-                                <TextInput
-                                    label="Número de personas requeridas"
-                                    id="numero_roles"
-                                    type="number"
-                                    inputProps={{
-                                        min: 1,
-                                    }}
-                                    error={form.errors.numero_roles}
-                                    value={form.data.numero_roles}
-                                    onChange={(e) => {
-                                        form.setData('numero_roles', e.target.value)
-                                    }}
-                                    disabled={!proyecto?.allowed?.to_update}
-                                    required
-                                />
-                            </Grid>
-
-                            <Grid item md={12}>
                                 <h6 className="text-2xl mb-4">Actividades que deberá ejecutar el rol</h6>
                                 <SelectMultiple
                                     id="actividad_id"
@@ -227,20 +281,26 @@ const Form = ({ method = '', convocatoria, proyecto, setDialogStatus, proyecto_r
                                 />
                                 {actividades.length === 0 && (
                                     <AlertMui error={true}>
-                                        <strong>Importante:</strong> Debe completar la información de Objetivos, resultados, impactos y actividades
+                                        <strong>Importante:</strong> Debe completar la información de Objetivos, resultados, impactos y actividades. De lo contrario, no puede relacionar las
+                                        actividades.
                                     </AlertMui>
                                 )}
                             </Grid>
                         </Grid>
                         {proyecto_rol_sennova && <small className="flex items-center my-10 text-app-700">{proyecto_rol_sennova.updated_at}</small>}
+
                         <div className="flex items-center justify-between mt-8 py-4">
-                            {proyecto?.allowed?.to_update ? (
+                            {proyecto?.allowed?.to_update &&
+                            form.data.numero_meses <= parseFloat(meses_maximos) &&
+                            proyecto?.allowed?.to_update &&
+                            form.data.numero_meses <= parseFloat(proyecto.diff_meses) ? (
                                 <PrimaryButton disabled={form.processing || roles_sennova_incompletos || !form.isDirty || actividades.length === 0} className="mr-2 ml-auto" type="submit">
                                     {method == 'POST' ? 'Agregar' : 'Modificar'} rol SENNOVA
                                 </PrimaryButton>
                             ) : (
                                 <span className="inline-block ml-1.5"> El recurso no se puede crear/modificar </span>
                             )}
+
                             <ButtonMui type="button" primary={false} onClick={() => setDialogStatus(false)}>
                                 Cancelar
                             </ButtonMui>

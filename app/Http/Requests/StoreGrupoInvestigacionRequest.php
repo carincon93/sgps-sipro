@@ -26,8 +26,8 @@ class StoreGrupoInvestigacionRequest extends FormRequest
         return [
             'centro_formacion_id'                   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
             'nombre'                                => ['required', 'max:191', 'string'],
-            'acronimo'                              => ['required', 'max:191'],
-            'email'                                 => ['required', 'max:191', 'email', 'unique:grupos_investigacion,email'],
+            'acronimo'                              => ['nullable', 'max:191'],
+            'email'                                 => ['required', 'max:191', 'email'],
             'enlace_gruplac'                        => ['required', 'url', 'string'],
             'codigo_minciencias'                    => ['required', 'max:10', 'string', 'unique:grupos_investigacion,codigo_minciencias'],
             'categoria_minciencias'                 => ['required', 'max:16'],

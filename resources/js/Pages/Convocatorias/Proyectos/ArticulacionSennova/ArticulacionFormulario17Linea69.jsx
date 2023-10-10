@@ -310,7 +310,7 @@ const ArticulacionFormulario17Linea69 = ({ convocatoria, proyecto, semilleros_in
                         required
                         className="mb-4"
                         labelFor="proyeccion_articulacion_centros_empresariales"
-                        value={`¿Cómo proyecta la articulación en el ${convocatoria.year - 1}, el Tecnoparque con los centros de desarrollo empresarial de la Regional?`}
+                        value={`¿Cómo proyecta la articulación en el ${convocatoria.year}, el Tecnoparque con los centros de desarrollo empresarial de la Regional?`}
                     />
 
                     <Textarea

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FunctionsHelper;
 use App\Helpers\SharepointHelper;
 use App\Helpers\SelectHelper;
 use App\Models\Convocatoria;
@@ -48,9 +49,19 @@ class ProyectoFormulario10Linea69Controller extends Controller
     {
         $this->authorize('formular-proyecto', [4, $convocatoria]);
 
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
+        if ($auth_user->hasRole([1, 5, 17, 18, 19, 20])) {
+            $centros_formacion = SelectHelper::centrosFormacion();
+        } else {
+            $centros_formacion = SelectHelper::centrosFormacion()->where('regional_id', $auth_user->centroFormacion->regional->id)->values()->all();
+        }
+
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario10Linea69/Create', [
             'convocatoria'          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'hubs_innovacion'       => SelectHelper::hubsInnovacion(),
+            'centros_formacion'     => $centros_formacion,
             'roles_sennova'         => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'allowed_to_create'     => Gate::inspect('formular-proyecto', [4, $convocatoria])->allowed()
         ]);
@@ -66,11 +77,9 @@ class ProyectoFormulario10Linea69Controller extends Controller
     {
         $this->authorize('formular-proyecto', [4, $convocatoria]);
 
-        $nodo_tecnoparque = NodoTecnoparque::find($request->hub_innovacion_id);
-
         $proyecto = new Proyecto();
-        $proyecto->arboles_completos = true;
-        $proyecto->centroFormacion()->associate($nodo_tecnoparque->centro_formacion_id);
+        $proyecto->arboles_completos = false;
+        $proyecto->centroFormacion()->associate($request->centro_formacion_id);
         $proyecto->tipoFormularioConvocatoria()->associate(10);
         $proyecto->convocatoria()->associate($convocatoria);
         $proyecto->save();
@@ -85,29 +94,15 @@ class ProyectoFormulario10Linea69Controller extends Controller
             ]
         );
 
-        if ($convocatoria->proyectos()->whereHas('proyectoFormulario10Linea69')->count() == 0) {
-            $proyecto->proyectoFormulario10Linea69()->create([
-                'hub_innovacion_id'     => $request->hub_innovacion_id,
-                'fecha_inicio'          => $request->fecha_inicio,
-                'fecha_finalizacion'    => $request->fecha_finalizacion,
-                'proyecto_base'         => true
-            ]);
-            return redirect()->route('convocatorias.proyectos-formulario-10-linea-69.edit', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente. Este es el proyecto base, por favor defina los campos con información precargada.');
-        }
+        $proyecto->proyectoFormulario10Linea69()->create([
+            'hub_innovacion_id'     => $request->hub_innovacion_id,
+            'max_meses_ejecucion'   => $request->max_meses_ejecucion,
+            'fecha_inicio'          => $request->fecha_inicio,
+            'fecha_finalizacion'    => $request->fecha_finalizacion,
+            'proyecto_base'         => false
+        ]);
 
-        $proyecto_a_replicar = $convocatoria->proyectos()
-                                ->whereHas('proyectoFormulario10Linea69', function ($query) {
-                                    $query->where('proyecto_base', true);
-                                })
-                                ->first();
-
-        $nuevo_proyecto_formulario_10_linea_69 = $this->replicateRow($request, $proyecto_a_replicar->proyectoFormulario10Linea69, $proyecto);
-
-        if ($nuevo_proyecto_formulario_10_linea_69) {
-            return redirect()->route('convocatorias.proyectos-formulario-10-linea-69.edit', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
-        } else {
-            return back()->with('error', 'No hay un proyecto base generado. Por favor notifique al activador(a) de la línea.');
-        }
+        return redirect()->route('convocatorias.proyectos-formulario-10-linea-69.edit', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente. Por favor continue diligenciando la información.');
     }
 
     /**
@@ -151,6 +146,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario10Linea69/Edit', [
             'convocatoria'                      => $convocatoria,
             'proyecto_formulario_10_linea_69'   => $proyecto_formulario_10_linea_69,
+            'centros_formacion'                 => $centros_formacion = SelectHelper::centrosFormacion(),
             // 'evaluacion'            => EvaluacionProyectoFormulario10Linea69::find(request()->evaluacion_id),
             'regionales'                        => SelectHelper::regionales(),
             'nodos_tecnoparque'                 => SelectHelper::nodosTecnoparque()->where('centro_formacion_id', $proyecto_formulario_10_linea_69->proyecto->centroFormacion->id)->values()->all(),
@@ -191,6 +187,8 @@ class ProyectoFormulario10Linea69Controller extends Controller
         $proyecto_formulario_10_linea_69->acciones_estrategias_campesena                  = $request->acciones_estrategias_campesena;
         $proyecto_formulario_10_linea_69->bibliografia                                    = $request->bibliografia;
         $proyecto_formulario_10_linea_69->hubInnovacion()->associate($request->hub_innovacion_id);
+        $proyecto_formulario_10_linea_69->proyecto->centroFormacion()->associate($request->centro_formacion_id);
+
 
         $proyecto_formulario_10_linea_69->save();
 
@@ -284,7 +282,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
                     ]);
 
 
-                    $nuevas_actividades->push( [
+                    $nuevas_actividades->push([
                         'actividad_id'                  => $nueva_actividad->id,
                         'objetivo_especifico_id'        => $nueva_actividad->objetivo_especifico_id,
                         'resultado_antiguo'             => optional($causa_indirecta->actividad->resultado)->descripcion,
@@ -338,7 +336,7 @@ class ProyectoFormulario10Linea69Controller extends Controller
 
             // re-sync productos->actividades
             foreach ($nuevos_productos as $nuevo_producto) {
-                if ( $nuevas_actividades->whereIn('descripcion_actividad', $productos->where('nombre', $nuevo_producto->nombre)->first()) ) {
+                if ($nuevas_actividades->whereIn('descripcion_actividad', $productos->where('nombre', $nuevo_producto->nombre)->first())) {
                     $nuevo_producto->actividades()->sync($nuevas_actividades->whereIn('descripcion_actividad', $productos->where('nombre', $nuevo_producto->nombre)->first()->actividades->pluck('descripcion')->toArray())->pluck('actividad_id')->toArray());
                 }
             }
@@ -397,9 +395,23 @@ class ProyectoFormulario10Linea69Controller extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_10_linea_69->proyecto]);
 
+        if ($column == 'fecha_inicio') {
+            $proyecto_formulario_10_linea_69->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($request->fecha_inicio, $proyecto_formulario_10_linea_69->fecha_finalizacion)
+            ]);
+        } elseif ($column == 'fecha_finalizacion') {
+            $proyecto_formulario_10_linea_69->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($proyecto_formulario_10_linea_69->fecha_inicio, $request->fecha_finalizacion)
+            ]);
+        }
+
+        if ($column == 'centro_formacion_id') {
+            $proyecto_formulario_10_linea_69->proyecto->update($request->only($column));
+            return back();
+        }
+
         $proyecto_formulario_10_linea_69->update($request->only($column));
 
         return back();
     }
-
 }

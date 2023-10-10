@@ -21,8 +21,8 @@ class RolSennovaController extends Controller
 
         return Inertia::render('RolesSennova/Index', [
             'roles_sennova'         => RolSennova::orderBy('nombre', 'ASC')
-                                        ->with('lineaProgramatica')
-                                        ->filterRolSennova(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+                ->with('lineaProgramatica')
+                ->filterRolSennova(request()->only('search'))->paginate()->appends(['search' => request()->search]),
             'lineas_programaticas'  => LineaProgramatica::selectRaw("id as value, CONCAT(nombre, ' - ', codigo) as label")->orderBy('nombre', 'ASC')->get()
 
         ]);
@@ -109,6 +109,6 @@ class RolSennovaController extends Controller
 
         $rolSennova->delete();
 
-        return redirect()->route('roles-sennova.index')->with('success', 'El recurso se ha eliminado correctamente.');
+        return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 }

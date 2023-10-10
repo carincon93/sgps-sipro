@@ -40,17 +40,17 @@ class UserController extends Controller
         return Inertia::render('Users/Index', [
             'usuarios'              => User::getUsersByRol()->appends(['search' => request()->search, 'roles' => request()->roles]),
             'dinamizadores_sennova' => User::with('roles', 'centroFormacion', 'dinamizadorCentroFormacion')
-                                        ->whereHas('roles', function ($query)  {
-                                            $query->where('id', 4);
-                                        })
-                                        ->orderBy('users.nombre')
-                                        ->get(),
+                ->whereHas('roles', function ($query) {
+                    $query->where('id', 4);
+                })
+                ->orderBy('users.nombre')
+                ->get(),
             'subdirectores_centro'  => User::with('roles', 'centroFormacion', 'subdirectorCentroFormacion')
-                                        ->whereHas('roles', function ($query)  {
-                                            $query->where('id', 3);
-                                        })
-                                        ->orderBy('users.nombre')
-                                        ->get(),
+                ->whereHas('roles', function ($query) {
+                    $query->where('id', 3);
+                })
+                ->orderBy('users.nombre')
+                ->get(),
             'roles'                 => Role::orderBy('name', 'ASC')->get(),
             'allowed_to_create'     => Gate::inspect('create', [User::class])->allowed()
         ]);
@@ -99,6 +99,10 @@ class UserController extends Controller
 
         $user = User::create($request->all());
 
+        if ($request->aprendiz == 1) {
+            $user->assignRole([28]);
+        }
+
         return redirect()->route('users.edit', [$user->id, 'nuevo_usuario' => true])->with('success', 'El recurso se ha creado correctamente.');
     }
 
@@ -123,7 +127,7 @@ class UserController extends Controller
     {
         $this->authorize('view', [User::class, $user]);
 
-        $proyectos = $user->proyectos->load('proyectoFormulario1Linea65', 'proyectoFormulario8Linea66', 'proyectoFormulario12Linea68', 'proyectoFormulario5Linea69.nodoTecnoparque', 'tecnoacademiaLineasTecnoacademia.tecnoacademia', );
+        $proyectos = $user->proyectos->load('proyectoFormulario1Linea65', 'proyectoFormulario8Linea66', 'proyectoFormulario12Linea68', 'proyectoFormulario5Linea69.nodoTecnoparque', 'tecnoacademiaLineasTecnoacademia.tecnoacademia',);
 
         if ($user->hasRole([2, 3, 4, 21])) {
             $proyectos->where('centro_formacion_id', $user->centro_formacion_id);
@@ -131,8 +135,6 @@ class UserController extends Controller
 
         return Inertia::render('Users/Edit', [
             'usuario'                                       => $user,
-            // 'permisosRelacionados'  => $user->permissions()->pluck('id'),
-            // 'proyectos'             => $proyectos,
             'roles_sistema'                                 =>  Role::getRolesByRol(),
             'subareas_experiencia'                          =>  SubareaExperiencia::selectRaw("subareas_experiencia.id as value, CONCAT(subareas_experiencia.nombre,' - Área de experiencia: ', areas_experiencia.nombre) as label")->join('areas_experiencia', 'subareas_experiencia.area_experiencia_id', 'areas_experiencia.id')->orderBy('subareas_experiencia.nombre', 'ASC')->get(),
             'municipios'                                    =>  SelectHelper::municipios(),
@@ -175,6 +177,12 @@ class UserController extends Controller
 
         $user->update($request->all());
         $user->save();
+
+        if ($request->aprendiz == 1) {
+            $user->assignRole([28]);
+        } else if ($request->aprendiz == 2) {
+            $user->removeRole(28);
+        }
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
@@ -261,13 +269,24 @@ class UserController extends Controller
 
             $auth_user->password = Hash::make($request->get('password'));
             $auth_user->save();
-
         } else if ($request->default_password) {
             $user = User::find($request->user_id);
             $user->update(['password' => User::makePassword($user->numero_documento)]);
         }
 
         return back()->with('success', 'La contraseña se ha actualizado correctamente.');
+    }
+
+    public function updateCentroFormacion(Request $request, User $user)
+    {
+        if ($request->filled('centro_formacion_id')) {
+
+            $user->update([
+                'centro_formacion_id' => $request->centro_formacion_id
+            ]);
+        }
+
+        return back()->with('success', 'El centro de formación se ha actualizado correctamente.');
     }
 
     public function asignacionRoles(Request $request)
@@ -289,6 +308,33 @@ class UserController extends Controller
         $user = User::find($request->user_id)->update(['informacion_completa' => $request->informacion_completa]);
 
         return back()->with('success', 'Se han asignado los roles correctamente.');
+    }
+
+    public function registrarEvaluador(Request $request)
+    {
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
+        if ($request->evaluador_interno) {
+            $auth_user->assignRole([11]);
+        }
+
+        if ($request->evaluador_externo) {
+            $auth_user->assignRole([33]);
+        }
+
+        return back()->with('success', 'Postulación registrada correctamente.');
+    }
+
+    public function eliminarEvaluador(Request $request)
+    {
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
+        $auth_user->removeRole(11);
+        $auth_user->removeRole(33);
+
+        return back()->with('success', 'Se ha eliminado la postulación como evaluador(a).');
     }
 
     public function habilitarUsuario(Request $request)

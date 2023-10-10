@@ -45,6 +45,16 @@ class TematicaEstrategica extends Model
     ];
 
     /**
+     * Relationship with ProyectoFormulario3Linea61
+     *
+     * @return object
+     */
+    public function proyectoFormulario3Linea61()
+    {
+        return $this->hasMany(ProyectoFormulario3Linea61::class);
+    }
+
+    /**
      * Relationship with ProyectoFormulario8Linea66
      *
      * @return object

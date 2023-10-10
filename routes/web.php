@@ -63,6 +63,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Evaluacion\EvaluacionController;
 use App\Http\Controllers\HubInnovacionController;
 use App\Http\Controllers\LaboratorioServicioTecnologicoController;
+use App\Http\Controllers\MontoMaximoFormulario1RegionalController;
 use App\Http\Controllers\Perfil\EstudioAcademicoController;
 use App\Http\Controllers\Perfil\FormacionAcademicaSenaController;
 use App\Http\Controllers\Perfil\ParticipacionGrupoInvestigacionSenaController;
@@ -71,10 +72,17 @@ use App\Http\Controllers\ProyectoFormulario13Linea65Controller;
 use App\Http\Controllers\ProyectoFormulario15Linea65Controller;
 use App\Http\Controllers\ProyectoFormulario16Linea65Controller;
 use App\Http\Controllers\ProyectoFormulario17Linea69Controller;
+use App\Http\Controllers\ProyectoFormulario3Linea61Controller;
 use App\Http\Controllers\ProyectoFormulario6Linea82Controller;
 use App\Http\Controllers\ProyectoFormulario7Linea23Controller;
 use App\Http\Controllers\ProyectoFormulario9Linea23Controller;
+use App\Http\Controllers\TopePresupuestalFormulario7Controller;
 use App\Http\Controllers\TopePresupuestalNodoTecnoparqueController;
+use App\Http\Controllers\TopeRolSennovaFormulario13Controller;
+use App\Http\Controllers\TopeRolSennovaFormulario15Controller;
+use App\Http\Controllers\TopeRolSennovaFormulario16Controller;
+use App\Http\Controllers\TopeRolSennovaHubInnovacionController;
+use App\Http\Controllers\TopeRolSennovaTecnoacademiaController;
 use App\Http\Controllers\TopeRolSennovaTecnoparqueController;
 use App\Models\AulaMovil;
 use App\Models\Convocatoria;
@@ -96,6 +104,7 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 /**
  * Trae los centros de formación
  */
@@ -413,6 +422,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('convocatorias.proyectos-formulario-16-linea-65', ProyectoFormulario16Linea65Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-formulario-16-linea-65' => 'proyecto-formulario-16-linea-65'])->except(['show']);
 
     /**
+     * Línea programática 65 - Estrategia nacional
+     *
+     */
+    Route::put('convocatorias/{convocatoria}/proyectos-formulario-3-linea-61/{proyecto_formulario_3_linea_61}/column/{column}', [ProyectoFormulario3Linea61Controller::class, 'updateLongColumn'])->name('convocatorias.proyectos-formulario-3-linea-61.updateLongColumn');
+    Route::resource('convocatorias.proyectos-formulario-3-linea-61', ProyectoFormulario3Linea61Controller::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos-formulario-3-linea-61' => 'proyecto-formulario-3-linea-61'])->except(['show']);
+
+    /**
      * Línea programática 66 - Estrategia regional
      *
      */
@@ -504,8 +520,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('convocatorias/{convocatoria}/tipos-formulario-convocatoria/{tipo_formulario_convocatoria}', [ConvocatoriaController::class, 'proyectosPorTipoFormulario'])->name('convocatorias.tipos-formulario-convocatoria.proyectos');
     Route::get('convocatorias/{convocatoria}/tipos-formulario-convocatoria', [ConvocatoriaController::class, 'tiposFormularioConvocatoria'])->name('convocatorias.tipos-formulario-convocatoria');
 
+    Route::resource('convocatorias.montos-maximos-formulario1-regional', MontoMaximoFormulario1RegionalController::class)->parameters(['convocatorias' => 'convocatoria', 'montos-maximos-formulario1-regional' => 'monto-maximo-regional'])->except(['show']);
+    Route::resource('convocatorias.topes-roles-sennova-formulario-13', TopeRolSennovaFormulario13Controller::class)->parameters(['convocatorias' => 'convocatoria', 'topes-roles-sennova-formulario-13' => 'tope-rol-formulario-13'])->except(['show']);
+    Route::resource('convocatorias.topes-roles-sennova-formulario-15', TopeRolSennovaFormulario15Controller::class)->parameters(['convocatorias' => 'convocatoria', 'topes-roles-sennova-formulario-15' => 'tope-rol-formulario-15'])->except(['show']);
+    Route::resource('convocatorias.topes-roles-sennova-formulario-16', TopeRolSennovaFormulario16Controller::class)->parameters(['convocatorias' => 'convocatoria', 'topes-roles-sennova-formulario-16' => 'tope-rol-formulario-16'])->except(['show']);
+    Route::resource('convocatorias.topes-roles-sennova-tecnoacademias', TopeRolSennovaTecnoacademiaController::class)->parameters(['convocatorias' => 'convocatoria', 'topes-roles-sennova-tecnoacademias' => 'tope-rol-tecnoacademia'])->except(['show']);
+    Route::resource('convocatorias.topes-roles-sennova-hubs-innovacion', TopeRolSennovaHubInnovacionController::class)->parameters(['convocatorias' => 'convocatoria', 'topes-roles-sennova-hubs-innovacion' => 'tope-rol-hub-innovacion'])->except(['show']);
     Route::resource('convocatorias.topes-roles-sennova-tecnoparques', TopeRolSennovaTecnoparqueController::class)->parameters(['convocatorias' => 'convocatoria', 'topes-roles-sennova-tecnoparques' => 'tope-rol-sennova-tecnoparque'])->except(['show']);
     Route::resource('convocatorias.topes-presupuestales-tecnoparque', TopePresupuestalNodoTecnoparqueController::class)->parameters(['convocatorias' => 'convocatoria', 'topes-presupuestales-tecnoparque' => 'tope-presupuestal-tecnoparque'])->except(['show']);
+    Route::resource('convocatorias.topes-presupuestales-formulario-7', TopePresupuestalFormulario7Controller::class)->parameters(['convocatorias' => 'convocatoria', 'topes-presupuestales-formulario-7' => 'tope-presupuestal-formulario-7'])->except(['show']);
     Route::resource('convocatorias', ConvocatoriaController::class)->parameters(['convocatorias' => 'convocatoria'])->except(['show']);
 
     /**
@@ -583,6 +606,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Exporta resumen proyecto PDF
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario1-linea65', [PdfController::class, 'generarPdfFormulario1Linea65'])->name('convocatorias.proyectos.pdf-formulario1-linea65');
+    Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario3-linea61', [PdfController::class, 'generarPdfFormulario3Linea61'])->name('convocatorias.proyectos.pdf-formulario3-linea61');
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario4-linea70', [PdfController::class, 'generarPdfFormulario4Linea70'])->name('convocatorias.proyectos.pdf-formulario4-linea70');
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario5-linea69', [PdfController::class, 'generarPdfFormulario5Linea69'])->name('convocatorias.proyectos.pdf-formulario5-linea69');
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/pdf-formulario6-linea82', [PdfController::class, 'generarPdfFormulario6Linea82'])->name('convocatorias.proyectos.pdf-formulario6-linea82');
@@ -663,8 +687,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
      */
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/soportes/{soporte}/download-file-sharepoint/{tipo_archivo}', [SoporteEstudioMercadoController::class, 'downloadFileSharepoint'])->name('convocatorias.proyectos.presupuesto.soportes.download-file-sharepoint');
     Route::get('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/soportes/{soporte}/download/{formato}', [SoporteEstudioMercadoController::class, 'downloadServerFile'])->name('convocatorias.proyectos.presupuesto.soportes.download');
-    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/soporte-proyecto-linea-68', [SoporteEstudioMercadoController::class, 'soporteEstudioMercadoProyectoLinea68'])->name('convocatorias.proyectos.presupuesto.soportes-proyecto-linea-68.store');
     Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/soportes/{soporte}/upload-soporte', [SoporteEstudioMercadoController::class, 'uploadSoporte'])->name('convocatorias.proyectos.presupuesto.soportes.upload-soporte');
+    Route::post('convocatorias/{convocatoria}/proyectos/{proyecto}/presupuesto/{presupuesto}/soportes/upload-soporte-l68', [SoporteEstudioMercadoController::class, 'uploadSoporteL68'])->name('convocatorias.proyectos.presupuesto.soportes.upload-soporte-l68');
     Route::resource('convocatorias.proyectos.presupuesto.soportes', SoporteEstudioMercadoController::class)->parameters(['convocatorias' => 'convocatoria', 'proyectos' => 'proyecto', 'presupuesto' => 'presupuesto', 'soportes' => 'soporte'])->except(['show']);
 
     /**
@@ -748,6 +772,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/users/perfil', [UserController::class, 'showPerfil'])->name('users.perfil');
     Route::put('/users/cambiar-password', [UserController::class, 'cambiarPassword'])->name('users.cambiar-password');
+    Route::put('/users/{user}/update-centro-formacion', [UserController::class, 'updateCentroFormacion'])->name('users.update-centro-formacion');
+    Route::put('/users/evaluador', [UserController::class, 'registrarEvaluador'])->name('users.evaluador');
+    Route::put('/users/eliminar-evaluador', [UserController::class, 'eliminarEvaluador'])->name('users.eliminar-evaluador');
     Route::put('/users/asignacion-roles', [UserController::class, 'asignacionRoles'])->name('users.asignacion-roles');
     Route::put('/users/informacion-completa', [UserController::class, 'informacionUsuarioCompleta'])->name('users.informacion-completa');
     Route::put('/users/habilitar-usuario', [UserController::class, 'habilitarUsuario'])->name('users.habilitar-usuario');
@@ -780,6 +807,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('proyectos', [ProyectoController::class, 'index'])->name('proyectos.index');
     Route::get('proyectos/{proyecto}/editar', [ProyectoController::class, 'editProyecto'])->name('proyectos.edit');
     Route::put('proyectos/{proyecto}/editar', [ProyectoController::class, 'update'])->name('proyectos.update');
+    Route::delete('convocatorias/{convocatoria}/proyectos/{proyecto}', [ProyectoController::class, 'destroy'])->name('convocatorias.proyectos.destroy');
     Route::post('proyectos/actualizar-estados-proyectos', [ProyectoController::class, 'udpdateEstadosProyectos'])->name('proyectos.update.actualizar-estados-proyectos');
     Route::post('proyectos/actualizar-estados-todos-proyectos', [ProyectoController::class, 'actualizarEstadosTodosProyectos'])->name('proyectos.update.actualizar-estados-todos-proyectos');
 
@@ -826,6 +854,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Evaluación de proyectos de la línea 66
     Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/update-evaluacion', [ProyectoFormulario8Linea66Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-proyecto-linea-66.update');
 
+    Route::get('evaluadores', [EvaluacionController::class, 'evaluadores'])->name('evaluadores.index');
     Route::resource('evaluaciones', EvaluacionController::class)->parameters(['evaluaciones' => 'evaluacion'])->except(['show']);
 
     /**

@@ -44,17 +44,18 @@ class ProyectoRolSennovaController extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/RolesSennova/Index', [
-            'convocatoria'                  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
-            'proyecto'                      => $proyecto,
-            'evaluacion'                    => Evaluacion::find(request()->evaluacion_id),
-            'proyecto_roles_sennova'        => ProyectoRolSennova::where('proyecto_id', $proyecto->id)->filterProyectoRolSennova(request()->only('search'))->with('convocatoriaRolSennova.rolSennova', 'proyectoRolesEvaluaciones.evaluacion', 'actividades', 'lineasTecnoacademia', 'lineasTecnoparque')->orderBy('proyecto_rol_sennova.id')->paginate(),
-            'convocatoria_roles_sennova'    => SelectHelper::convocatoriaRolesSennova($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id, $proyecto),
-            'actividades'                   => Actividad::select('id as value', 'descripcion as label')->whereIn(
-                                                    'objetivo_especifico_id',
-                                                    $objetivos_especificos->map(function ($objetivoEspecifico) {
-                                                        return $objetivoEspecifico->id;
-                                                    })
-                                                )->orderBy('actividades.descripcion')->with('objetivoEspecifico')->get(),
+            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
+            'proyecto'                          => $proyecto,
+            'evaluacion'                        => Evaluacion::find(request()->evaluacion_id),
+            'proyecto_roles_sennova'            => ProyectoRolSennova::where('proyecto_id', $proyecto->id)->filterProyectoRolSennova(request()->only('search'))->with('convocatoriaRolSennova.rolSennova', 'proyectoRolesEvaluaciones.evaluacion', 'actividades', 'lineasTecnoacademia', 'lineasTecnoparque')->orderBy('proyecto_rol_sennova.id')->paginate(),
+            'convocatoria_roles_sennova'        => SelectHelper::convocatoriaRolesSennova($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id, $proyecto, false),
+            'convocatoria_roles_sin_filtrar'    => SelectHelper::convocatoriaRolesSennova($convocatoria->id, $proyecto->tipo_formulario_convocatoria_id, $proyecto, false),
+            'actividades'                       => Actividad::select('id as value', 'descripcion as label')->whereIn(
+                'objetivo_especifico_id',
+                $objetivos_especificos->map(function ($objetivoEspecifico) {
+                    return $objetivoEspecifico->id;
+                })
+            )->orderBy('actividades.descripcion')->with('objetivoEspecifico')->get(),
             'niveles_academicos'            => json_decode(Storage::get('json/niveles-academicos.json'), true)
         ]);
     }

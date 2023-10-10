@@ -12,7 +12,6 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import MailIcon from '@mui/icons-material/Mail'
 import ApplicationLogo from './ApplicationLogo'
 
 import { styled } from '@mui/material/styles'
@@ -108,7 +107,6 @@ export default function MiniDrawer({ user, children }) {
                             {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                         </IconButton>
                     )}
-
                     {!open && (
                         <IconButton onClick={handleDrawerOpen} className="!absolute left-[42px] !bg-white !rounded-full">
                             {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
@@ -135,7 +133,7 @@ export default function MiniDrawer({ user, children }) {
                         </Dropdown.Trigger>
 
                         <Dropdown.Content>
-                            <Dropdown.Link href={route('users.perfil')}>Perfil</Dropdown.Link>
+                            <Dropdown.Link href={route('users.perfil', checkRole(user, [33]) ? { rol: 'evaluador_externo' } : null)}>Perfil</Dropdown.Link>
                             <Dropdown.Link href={route('logout')} method="post" as="button">
                                 Cerrar sesión
                             </Dropdown.Link>
@@ -143,7 +141,7 @@ export default function MiniDrawer({ user, children }) {
                     </Dropdown>
                 </Toolbar>
             </AppBar>
-            <Drawer variant="permanent" open={open}>
+            <Drawer variant="permanent" open={open} className="drawer-parent">
                 <DrawerHeader>
                     <Link href="/">
                         <ApplicationLogo />
@@ -168,7 +166,62 @@ export default function MiniDrawer({ user, children }) {
                             <ListItemText primary="Convocatorias" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
 
-                        {checkRole(user, [1, 21, 18, 19, 5, 17]) && (
+                        <ListItemButton
+                            sx={{
+                                borderRadius: '20px',
+                                minHeight: 48,
+                                justifyContent: open ? 'initial' : 'center',
+                                px: 2.5,
+                            }}
+                            onClick={() => router.visit(route('proyectos.index'))}>
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
+                                    justifyContent: 'center',
+                                }}></ListItemIcon>
+                            <ListItemText primary="Mis proyectos SGPS" sx={{ opacity: open ? 1 : 0 }} />
+                        </ListItemButton>
+
+                        {checkRole(user, [1, 5, 17, 18, 19]) && (
+                            <ListItemButton
+                                sx={{
+                                    borderRadius: '20px',
+                                    minHeight: 48,
+                                    justifyContent: open ? 'initial' : 'center',
+                                    px: 2.5,
+                                }}
+                                onClick={() => router.visit(route('evaluaciones.index'))}>
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: open ? 3 : 'auto',
+                                        justifyContent: 'center',
+                                    }}></ListItemIcon>
+                                <ListItemText primary="Evaluaciones" sx={{ opacity: open ? 1 : 0 }} />
+                            </ListItemButton>
+                        )}
+
+                        {checkRole(user, [1, 5, 17, 18, 19]) && (
+                            <ListItemButton
+                                sx={{
+                                    borderRadius: '20px',
+                                    minHeight: 48,
+                                    justifyContent: open ? 'initial' : 'center',
+                                    px: 2.5,
+                                }}
+                                onClick={() => router.visit(route('evaluadores.index'))}>
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: open ? 3 : 'auto',
+                                        justifyContent: 'center',
+                                    }}></ListItemIcon>
+                                <ListItemText primary="Evaluadores" sx={{ opacity: open ? 1 : 0 }} />
+                            </ListItemButton>
+                        )}
+
+                        {checkRole(user, [1, 5, 17, 18, 19]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',
@@ -187,7 +240,7 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1, 5, 17, 18, 19]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',
@@ -206,7 +259,7 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 2, 4, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1, 2, 4, 5, 17, 18, 19, 21]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',
@@ -225,7 +278,7 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 2, 3, 4, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1, 2, 3, 4, 5, 17, 18, 19, 21, 27]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',
@@ -244,7 +297,7 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1, 5, 17, 18, 19]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',
@@ -263,7 +316,7 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1, 5, 17, 18, 19]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',
@@ -282,7 +335,7 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1, 5, 17, 18, 19]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',
@@ -301,7 +354,7 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1, 5, 17, 18, 19]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',
@@ -339,7 +392,7 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 2, 3, 4, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1, 2, 3, 4, 5, 17, 18, 19, 21]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',
@@ -358,7 +411,7 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1, 5, 17, 18, 19]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',
@@ -377,7 +430,7 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1, 5, 17, 18, 19]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',
@@ -396,7 +449,7 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1, 5, 17, 18, 19]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',
@@ -415,7 +468,7 @@ export default function MiniDrawer({ user, children }) {
                             </ListItemButton>
                         )}
 
-                        {checkRole(user, [1, 2, 3, 4, 21, 18, 19, 5, 17]) && (
+                        {checkRole(user, [1, 2, 3, 4, 5, 17, 18, 19, 21]) && (
                             <ListItemButton
                                 sx={{
                                     borderRadius: '20px',

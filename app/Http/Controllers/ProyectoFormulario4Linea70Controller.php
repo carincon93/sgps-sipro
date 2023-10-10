@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FunctionsHelper;
 use App\Helpers\SharepointHelper;
 use App\Helpers\SelectHelper;
 use App\Models\Convocatoria;
@@ -58,11 +59,12 @@ class ProyectoFormulario4Linea70Controller extends Controller
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario4Linea70/Create', [
-            'convocatoria'           => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
-            'tecnoacademias'         => $tecnoacademias,
-            'lineas_tecnoacademia'   => SelectHelper::lineasTecnoacademia(),
-            'roles_sennova'          => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'allowed_to_create'      => Gate::inspect('formular-proyecto', [5, $convocatoria])->allowed()
+            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
+            'tecnoacademias'                    => $tecnoacademias,
+            'lineas_tecnoacademia'              => SelectHelper::lineasTecnoacademia(),
+            'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'infraestructura_tecnoacademia'     => json_decode(Storage::get('json/infraestructura-tecnoacademia.json'), true),
+            'allowed_to_create'                 => Gate::inspect('formular-proyecto', [5, $convocatoria])->allowed()
         ]);
     }
 
@@ -108,10 +110,10 @@ class ProyectoFormulario4Linea70Controller extends Controller
         }
 
         $proyecto_a_replicar = $convocatoria->proyectos()
-                                ->whereHas('proyectoFormulario4Linea70', function ($query) {
-                                    $query->where('proyecto_base', true);
-                                })
-                                ->first();
+            ->whereHas('proyectoFormulario4Linea70', function ($query) {
+                $query->where('proyecto_base', true);
+            })
+            ->first();
 
         $nuevo_proyecto_formulario_4_linea_70 = $this->replicateRow($request, $proyecto_a_replicar->proyectoFormulario4Linea70, $proyecto);
 
@@ -161,9 +163,10 @@ class ProyectoFormulario4Linea70Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario4Linea70/Edit', [
             'convocatoria'                          => $convocatoria,
             'proyecto_formulario_4_linea_70'        => $proyecto_formulario_4_linea_70,
+            'centros_formacion'                     => SelectHelper::centrosFormacion(),
+            'evaluacion'                            => EvaluacionProyectoFormulario4Linea70::find(request()->evaluacion_id),
             'tecnoacademias'                        => SelectHelper::tecnoacademias(),
             'tecnoacademia'                         => $proyecto_formulario_4_linea_70->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_formulario_4_linea_70->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
-            'evaluacion'                            => EvaluacionProyectoFormulario4Linea70::find(request()->evaluacion_id),
             'lineas_programaticas'                  => SelectHelper::lineasProgramaticas(),
             'lineas_tecnoacademia'                  => SelectHelper::lineasTecnoacademia(),
             'roles_sennova'                         => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
@@ -265,6 +268,16 @@ class ProyectoFormulario4Linea70Controller extends Controller
     public function updateLongColumn(Request $request, Convocatoria $convocatoria, ProyectoFormulario4Linea70 $proyecto_formulario_4_linea_70, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_4_linea_70->proyecto]);
+
+        if ($column == 'fecha_inicio') {
+            $proyecto_formulario_4_linea_70->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($request->fecha_inicio, $proyecto_formulario_4_linea_70->fecha_finalizacion)
+            ]);
+        } elseif ($column == 'fecha_finalizacion') {
+            $proyecto_formulario_4_linea_70->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($proyecto_formulario_4_linea_70->fecha_inicio, $request->fecha_finalizacion)
+            ]);
+        }
 
         if ($column == 'tecnoacademia_linea_tecnoacademia_id') {
             $proyecto_formulario_4_linea_70->proyecto->tecnoacademiaLineasTecnoacademia()->sync($request->only($column)[$column]);
@@ -372,12 +385,13 @@ class ProyectoFormulario4Linea70Controller extends Controller
     {
         if ($proyecto_formulario_4_linea_70) {
             $clone = $proyecto_formulario_4_linea_70->replicate()->fill([
-                'id'                    => $proyecto->id,
-                'fecha_inicio'          => $request->fecha_inicio,
-                'fecha_finalizacion'    => $request->fecha_finalizacion,
-                'max_meses_ejecucion'   => $request->max_meses_ejecucion,
-                'tecnoacademia_id'      => $request->tecnoacademia_id,
-                'proyecto_base'         => false
+                'id'                            => $proyecto->id,
+                'fecha_inicio'                  => $request->fecha_inicio,
+                'fecha_finalizacion'            => $request->fecha_finalizacion,
+                'max_meses_ejecucion'           => $request->max_meses_ejecucion,
+                'tecnoacademia_id'              => $request->tecnoacademia_id,
+                'infraestructura_tecnoacademia' => $request->infraestructura_tecnoacademia,
+                'proyecto_base'                 => false
             ]);
             $clone->push();
 
@@ -464,7 +478,7 @@ class ProyectoFormulario4Linea70Controller extends Controller
 
             // re-sync productos->actividades
             foreach ($nuevos_productos as $nuevo_producto) {
-                if ( $nuevas_actividades->whereIn('descripcion_actividad', $productos->where('nombre', $nuevo_producto->nombre)->first()) ) {
+                if ($nuevas_actividades->whereIn('descripcion_actividad', $productos->where('nombre', $nuevo_producto->nombre)->first())) {
                     $nuevo_producto->actividades()->sync($nuevas_actividades->whereIn('descripcion_actividad', $productos->where('nombre', $nuevo_producto->nombre)->first()->actividades->pluck('descripcion')->toArray())->pluck('actividad_id')->toArray());
                 }
             }

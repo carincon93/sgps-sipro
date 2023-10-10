@@ -13,6 +13,8 @@ import { Grid } from '@mui/material'
 import { useEffect } from 'react'
 
 const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_linea_83, centros_formacion, roles_sennova, evaluacion, allowed_to_create, ...props }) => {
+    const is_super_admin = checkRole(auth_user, [1])
+
     const form = useForm({
         centro_formacion_id: proyecto_formulario_11_linea_83?.proyecto.centro_formacion_id ?? '',
         fecha_inicio: proyecto_formulario_11_linea_83?.fecha_inicio ?? '',
@@ -136,31 +138,38 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                     </>
                 )}
 
-                {method == 'POST' && (
-                    <>
-                        <Grid item md={6}>
-                            <Label required labelFor="centro_formacion_id" className="mb-4" value="Centro de formación" />
-                            <br />
-                            <small> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </small>
-                        </Grid>
-                        <Grid item md={6}>
-                            <Autocomplete
-                                id="centro_formacion_id"
-                                selectedValue={form.data.centro_formacion_id}
-                                onChange={(event, newValue) => form.setData('centro_formacion_id', newValue.value)}
-                                disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
-                                options={
-                                    centros_formacion ?? [
-                                        { value: proyecto_formulario_11_linea_83.proyecto.centro_formacion.id, label: proyecto_formulario_11_linea_83.proyecto.centro_formacion.nombre },
-                                    ]
-                                }
-                                error={form.errors.centro_formacion_id}
-                                required
-                                onBlur={() => syncColumnLong('centro_formacion_id', form)}
-                            />
-                        </Grid>
-                    </>
-                )}
+                <Grid item md={6}>
+                    <Label required labelFor="centro_formacion_id" className="mb-4" value="Centro de formación" />
+                </Grid>
+                <Grid item md={6}>
+                    {method == 'POST' || is_super_admin ? (
+                        <Autocomplete
+                            id="centro_formacion_id"
+                            selectedValue={form.data.centro_formacion_id}
+                            onChange={(event, newValue) => form.setData('centro_formacion_id', newValue.value)}
+                            disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
+                            options={
+                                centros_formacion ?? [{ value: proyecto_formulario_11_linea_83.proyecto.centro_formacion.id, label: proyecto_formulario_11_linea_83.proyecto.centro_formacion.nombre }]
+                            }
+                            error={form.errors.centro_formacion_id}
+                            onBlur={() => syncColumnLong('centro_formacion_id', form)}
+                            required
+                        />
+                    ) : (
+                        <>{proyecto_formulario_11_linea_83.proyecto.centro_formacion.nombre}</>
+                    )}
+                    <AlertMui> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </AlertMui>
+                    {is_super_admin && (
+                        <AlertMui className="mt-10" severity="error">
+                            <strong className="mb-4 block">Importante:</strong>
+                            Recuerde que si cambia el centro de formación y el formulador ya ha cargado soportes / anexos debe cambiar la ruta tanto en el sharepoint como en la base datos. Esta debe
+                            ser la ruta asociada al proyecto:
+                            <strong className=" mt-4 uppercase block">
+                                /Convocatoria {convocatoria.year}/{proyecto_formulario_11_linea_83?.proyecto.centro_formacion.nombre_carpeta_sharepoint}
+                            </strong>
+                        </AlertMui>
+                    )}
+                </Grid>
 
                 <Grid item md={6}>
                     <Label required labelFor="fecha_inicio" value="Fecha de inicio" />
@@ -236,7 +245,7 @@ const Form = ({ auth_user, method = '', convocatoria, proyecto_formulario_11_lin
                                         value={form.data.cantidad_meses}
                                         onChange={(e) => form.setData('cantidad_meses', e.target.value)}
                                         disabled={!(proyecto_formulario_11_linea_83?.proyecto?.allowed?.to_update || allowed_to_create)}
-                                        placeholder="Número de meses de vinculación"
+                                        label="Número de meses de vinculación"
                                         required
                                     />
                                     {monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion) && (

@@ -50,6 +50,7 @@ class ActividadController extends Controller
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
 
         $proyecto->proyectoFormulario1Linea65;
+        $proyecto->proyectoFormulario3Linea61;
         $proyecto->proyectoFormulario4Linea70;
         $proyecto->proyectoFormulario5Linea69;
         $proyecto->proyectoFormulario6Linea82;
@@ -208,6 +209,9 @@ class ActividadController extends Controller
             case 1:
                 $proyecto->proyectoFormulario1Linea65()->update($request->only('metodologia'));
                 break;
+            case 3:
+                $proyecto->proyectoFormulario3Linea61()->update($request->only('metodologia'));
+                break;
             case 6:
                 $proyecto->proyectoFormulario6Linea82()->update($request->only('metodologia'));
                 break;
@@ -312,6 +316,9 @@ class ActividadController extends Controller
         switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 1:
                 $proyecto->proyectoFormulario1Linea65()->update($request->only($column));
+                break;
+            case 3:
+                $proyecto->proyectoFormulario3Linea61()->update($request->only($column));
                 break;
             case 4:
                 if ($column == 'municipios_impactar') {

@@ -58,8 +58,6 @@ class AuthServiceProvider extends ServiceProvider
                     ($user->getAllPermissions()->where('id', 15)->first() ?  $user->getAllPermissions()->where('id', 15)->first()->exists() : null) ||
                     ($user->getAllPermissions()->where('id', 16)->first() ?  $user->getAllPermissions()->where('id', 16)->first()->exists() : null) ||
                     ($user->getAllPermissions()->where('id', 21)->first() ?  $user->getAllPermissions()->where('id', 21)->first()->exists() : null) ||
-                    ($user->getAllPermissions()->where('id', 14)->first() ?  $user->getAllPermissions()->where('id', 14)->first()->exists() : null) ||
-                    ($user->getAllPermissions()->where('id', 14)->first() ?  $user->getAllPermissions()->where('id', 14)->first()->exists() : null) ||
                     ($user->getAllPermissions()->where('id', 14)->first() ?  $user->getAllPermissions()->where('id', 14)->first()->exists() : null);
             }
 
@@ -118,11 +116,11 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('listar-convocatorias', function (User $user) {
-            return $user->hasRole(11) || $user->getAllPermissions()->whereIn('id', [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21])->count() > 0;
+            return $user->hasRole([11, 33]) || $user->getAllPermissions()->whereIn('id', [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21])->count() > 0;
         });
 
         Gate::define('descargar-reportes', function (User $user) {
-            return $user->hasRole([2, 3, 4, 20, 18, 19, 5, 17]);
+            return $user->hasRole([2, 3, 4, 5, 17, 18, 19, 20, 21]);
         });
     }
 

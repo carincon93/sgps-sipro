@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FunctionsHelper;
 use App\Helpers\SelectHelper;
 use App\Http\Requests\Evaluacion\EvaluacionProyectoFormulario9Linea23Request;
 use App\Http\Requests\ProyectoFormulario9Linea23ColumnRequest;
@@ -46,10 +47,10 @@ class ProyectoFormulario9Linea23Controller extends Controller
         /** @var \App\Models\User */
         $auth_user = Auth::user();
 
-        if ($auth_user->hasRole(6)) {
-            $centros_formacion = SelectHelper::centrosFormacion()->where('regional_id', $auth_user->centroFormacion->regional->id)->values()->all();
-        } else {
+        if ($auth_user->hasRole([1, 5, 17, 18, 19, 20])) {
             $centros_formacion = SelectHelper::centrosFormacion();
+        } else {
+            $centros_formacion = SelectHelper::centrosFormacion()->where('regional_id', $auth_user->centroFormacion->regional->id)->values()->all();
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario9Linea23/Create', [
@@ -184,6 +185,7 @@ class ProyectoFormulario9Linea23Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario9Linea23/Edit', [
             'convocatoria'                                      => $convocatoria,
             'proyecto_formulario_9_linea_23'                    => $proyecto_formulario_9_linea_23,
+            'centros_formacion'                                 => SelectHelper::centrosFormacion(),
             'evaluacion'                                        => EvaluacionProyectoFormulario9Linea23::find(request()->evaluacion_id),
             'tecnoacademia'                                     => $proyecto_formulario_9_linea_23->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_formulario_9_linea_23->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
             'mesas_sectoriales'                                 => SelectHelper::mesasSectoriales(),
@@ -195,7 +197,7 @@ class ProyectoFormulario9Linea23Controller extends Controller
             'tematicas_estrategicas'                            => SelectHelper::tematicasEstrategicas(),
             'redes_conocimiento'                                => SelectHelper::redesConocimiento(),
             'lineas_tecnoacademia'                              => SelectHelper::lineasTecnoacademia(),
-            'lineas_investigacion'                              => SelectHelper::lineasInvestigacion()->where('centro_formacion_id', $proyecto_formulario_9_linea_23->proyecto->centro_formacion_id)->values()->all(),
+            'lineas_investigacion'                              => SelectHelper::lineasInvestigacion(),
             'tecnoacademias'                                    => SelectHelper::tecnoacademias(),
             'municipios'                                        => SelectHelper::municipios(),
             'grupos_investigacion'                              => SelectHelper::gruposInvestigacion()->where('value', 126)->values()->all(),
@@ -224,10 +226,11 @@ class ProyectoFormulario9Linea23Controller extends Controller
 
         $proyecto_formulario_9_linea_23->save();
 
+        $proyecto_formulario_9_linea_23->proyecto->centroFormacion()->associate($request->centro_formacion_id);
         $proyecto_formulario_9_linea_23->proyecto->municipios()->sync($request->municipios);
         $proyecto_formulario_9_linea_23->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 
-        $request->relacionado_mesas_sectoriales == 1 ? $proyecto_formulario_9_linea_23->proyecto->mesasSectoriales()->sync($request->mesa_sectorial_id) : $proyecto_formulario_9_linea_23->mesasSectoriales()->detach();
+        $request->relacionado_mesas_sectoriales == 1 ? $proyecto_formulario_9_linea_23->proyecto->mesasSectoriales()->sync($request->mesa_sectorial_id) : $proyecto_formulario_9_linea_23->proyecto->mesasSectoriales()->detach();
         $request->relacionado_tecnoacademia == 1 ? $proyecto_formulario_9_linea_23->proyecto->tecnoacademiaLineasTecnoacademia()->sync($request->linea_tecnologica_id) : $proyecto_formulario_9_linea_23->proyecto->tecnoacademiaLineasTecnoacademia()->detach();
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
@@ -294,6 +297,21 @@ class ProyectoFormulario9Linea23Controller extends Controller
     public function updateLongColumn(ProyectoFormulario9Linea23ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario9Linea23 $proyecto_formulario_9_linea_23, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_9_linea_23->proyecto]);
+
+        if ($column == 'fecha_inicio') {
+            $proyecto_formulario_9_linea_23->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($request->fecha_inicio, $proyecto_formulario_9_linea_23->fecha_finalizacion)
+            ]);
+        } elseif ($column == 'fecha_finalizacion') {
+            $proyecto_formulario_9_linea_23->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($proyecto_formulario_9_linea_23->fecha_inicio, $request->fecha_finalizacion)
+            ]);
+        }
+
+        if ($column == 'centro_formacion_id') {
+            $proyecto_formulario_9_linea_23->proyecto->update($request->only($column));
+            return back();
+        }
 
         if ($column == 'programas_formacion' || $column == 'programas_formacion_articulados') {
             $proyecto_formulario_9_linea_23->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));

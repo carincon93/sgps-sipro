@@ -12,7 +12,7 @@ import { Grid } from '@mui/material'
 import { router, useForm } from '@inertiajs/react'
 import { useEffect, useState } from 'react'
 
-import { monthDiff } from '@/Utils'
+import { checkRole, monthDiff } from '@/Utils'
 import PrimaryButton from '@/Components/PrimaryButton'
 
 const Form = ({
@@ -38,6 +38,8 @@ const Form = ({
     allowed_to_create,
     ...props
 }) => {
+    const is_super_admin = checkRole(auth_user, [1])
+
     const [requiere_justificacion_politica_discapacidad, setRequiereJustificacionPoliticaDiscapacidad] = useState(proyecto_formulario_16_linea_65?.justificacion_politica_discapacidad !== null)
     const [requiere_justificacion_atencion_pluralista, setRequiereJustificacionAntencionPluralista] = useState(proyecto_formulario_16_linea_65?.atencion_pluralista_diferencial !== null)
 
@@ -65,6 +67,8 @@ const Form = ({
 
         mesa_sectorial_id: proyecto_formulario_16_linea_65?.proyecto.mesas_sectoriales?.map((item) => item.id),
 
+        justificacion_mesas_sectoriales: proyecto_formulario_16_linea_65?.justificacion_mesas_sectoriales ?? '',
+
         resumen: proyecto_formulario_16_linea_65?.resumen ?? '',
         antecedentes: proyecto_formulario_16_linea_65?.antecedentes ?? '',
         marco_conceptual: proyecto_formulario_16_linea_65?.marco_conceptual ?? '',
@@ -84,6 +88,14 @@ const Form = ({
         cantidad_horas: '',
         rol_sennova: null,
     })
+
+    useEffect(() => {
+        setArrayLineasInvestigacion([])
+
+        setTimeout(() => {
+            setArrayLineasInvestigacion(lineas_investigacion.filter((obj) => obj.centro_formacion_id === form.data.centro_formacion_id))
+        }, 500)
+    }, [form.data.centro_formacion_id])
 
     useEffect(() => {
         if (form.data.fecha_inicio && form.data.fecha_finalizacion) {
@@ -141,7 +153,7 @@ const Form = ({
                                     {proyecto_formulario_16_linea_65.proyecto.codigo}
                                 </>
                             ) : (
-                                <>Formulario 13: Gestión Editorial de Publicaciones Seriadas - Apropiación de la ciencia y la tecnología y cultura de la innovación y la competitividad - Línea 65</>
+                                <>Formulario 16: Gestión de la propiedad intelectual - Apropiación de la ciencia y la tecnología y cultura de la innovación y la competitividad - Línea 65</>
                             )}
                         </h1>
                     </div>
@@ -203,11 +215,9 @@ const Form = ({
 
                 <Grid item md={6}>
                     <Label required labelFor="centro_formacion_id" className="mb-4" value="Centro de formación" />
-                    <br />
-                    <small> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </small>
                 </Grid>
                 <Grid item md={6}>
-                    {method == 'POST' ? (
+                    {method == 'POST' || is_super_admin ? (
                         <Autocomplete
                             id="centro_formacion_id"
                             selectedValue={form.data.centro_formacion_id}
@@ -227,6 +237,17 @@ const Form = ({
                         />
                     ) : (
                         <>{proyecto_formulario_16_linea_65?.proyecto.centro_formacion.nombre}</>
+                    )}
+                    <AlertMui> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </AlertMui>
+                    {is_super_admin && (
+                        <AlertMui className="mt-10" severity="error">
+                            <strong className="mb-4 block">Importante:</strong>
+                            Recuerde que si cambia el centro de formación y el formulador ya ha cargado soportes / anexos debe cambiar la ruta tanto en el sharepoint como en la base datos. Esta debe
+                            ser la ruta asociada al proyecto:
+                            <strong className=" mt-4 uppercase block">
+                                /Convocatoria {convocatoria.year}/{proyecto_formulario_16_linea_65?.proyecto.centro_formacion.nombre_carpeta_sharepoint}
+                            </strong>
+                        </AlertMui>
                     )}
                 </Grid>
 
@@ -344,7 +365,7 @@ const Form = ({
                                         value={form.data.cantidad_meses}
                                         onChange={(e) => form.setData('cantidad_meses', e.target.value)}
                                         disabled={!(proyecto_formulario_16_linea_65?.proyecto?.allowed?.to_update || allowed_to_create)}
-                                        placeholder="Número de meses de vinculación"
+                                        label="Número de meses de vinculación"
                                         required
                                     />
                                     {monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion) && (
@@ -615,6 +636,18 @@ const Form = ({
                                         placeholder="Seleccione las mesas sectoriales"
                                         required
                                         onBlur={() => syncColumnLong('mesa_sectorial_id', form)}
+                                    />
+
+                                    <Textarea
+                                        label="Justificación"
+                                        className="!mt-10"
+                                        id="justificacion_mesas_sectoriales"
+                                        error={form.errors.justificacion_mesas_sectoriales}
+                                        value={form.data.justificacion_mesas_sectoriales}
+                                        onChange={(e) => form.setData('justificacion_mesas_sectoriales', e.target.value)}
+                                        disabled={!proyecto_formulario_16_linea_65?.proyecto?.allowed?.to_update}
+                                        required
+                                        onBlur={() => syncColumnLong('justificacion_mesas_sectoriales', form)}
                                     />
                                 </Grid>
                             </>

@@ -2,11 +2,12 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import AlertMui from '@/Components/Alert'
 import Checkbox from '@/Components/Checkbox'
+import CircularProgressMui from '@/Components/CircularProgress'
 import StepperMui from '@/Components/Stepper'
 
 import { Grid } from '@mui/material'
 import { useEffect, useState, useRef } from 'react'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 import React from 'react'
 
 const ResumenFinal = ({
@@ -33,37 +34,41 @@ const ResumenFinal = ({
     articulacionSennova,
     soportesEstudioMercado,
     estudiosMercadoArchivo,
-    topes_roles_sennova_tecnoparque,
     topes_presupuestales_tecnoparque,
+    topes_presupuestales_formulario7,
     topes_por_nodo,
+    topes_roles_sennova,
     edt,
 }) => {
     const ul_ref = useRef(null)
 
     const [list_item_count, setListItemCount] = useState(0)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         if (ul_ref.current) {
             const li_elements = ul_ref.current.querySelectorAll('li')
             setListItemCount(li_elements.length)
         }
+
+        setTimeout(() => {
+            setLoading(false)
+        }, 500)
     }, [])
 
     return (
         <AuthenticatedLayout>
+            <Head title="Resumen final" />
+
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
 
-            <Grid item md={12}>
+            <Grid item md={12} className="mt-10">
                 {proyecto.finalizado == false && (
-                    <AlertMui severity={list_item_count > 0 ? 'error' : 'info'}>
+                    <AlertMui severity="error">
                         <p>
-                            <strong>
-                                {list_item_count > 0
-                                    ? 'La información del proyecto está incompleta. Para poder finalizar el proyecto debe completar / corregir los siguientes ítems:'
-                                    : 'El proyecto ha sido diligenciado correctamente.'}
-                            </strong>
+                            <strong>La información del proyecto está incompleta. Para poder finalizar el proyecto debe completar / corregir los siguientes ítems:</strong>
                         </p>
                         <ul className="list-decimal p-4" ref={ul_ref}>
                             {!generalidades && <li>Generalidades</li>}
@@ -134,9 +139,13 @@ const ResumenFinal = ({
                             {!anexos && <li>No se han cargado todos los anexos obligatorios</li>}
                             {!soportesEstudioMercado && <li>Hay estudios de mercado con menos de dos soportes</li>}
                             {!estudiosMercadoArchivo && <li>Hay rubros presupuestales que no tienen el estudio de mercado cargado</li>}
-                            {!topes_roles_sennova_tecnoparque && proyecto.tipo_formulario_convocatoria_id == 17 && (
-                                <li>Ha superado el número máximo de uno o varios roles que ha asociado al proyecto. Por favor revise en los lineamientos los roles máximos para su nodo.</li>
+                            {!topes_roles_sennova && (
+                                <li>
+                                    Ha superado el número máximo, ya sea de cantidad o meses de vinculación, de uno o varios roles que ha asociado al proyecto. Por favor, revise en los lineamientos
+                                    los valores máximos.
+                                </li>
                             )}
+                            {topes_presupuestales_formulario7 != null && <li>{topes_presupuestales_formulario7}</li>}
                             {!topes_presupuestales_tecnoparque && proyecto.tipo_formulario_convocatoria_id == 17 && (
                                 <li>
                                     Ha superado los valores máximos de algún tope presupuestal asignado a su nodo. Se recomienda revisar los lineamientos. A continuación, se listan los valores
@@ -162,50 +171,51 @@ const ResumenFinal = ({
                         </ul>
                     </AlertMui>
                 )}
-                {list_item_count == 0 && proyecto?.allowed?.to_update && (
-                    <>
-                        <AlertMui className="mt-10">
-                            {proyecto?.finalizado
-                                ? 'Si desea seguir modificando el proyecto de clic en la casilla Modificar'
-                                : 'Por favor habilite la casilla para confirmar que ha finalizado el proyecto'}
-                            <br />
-                            <Checkbox
-                                name="default_password"
-                                className="mt-3"
-                                checked={!proyecto.finalizado}
-                                onChange={(e) =>
-                                    router.put(
-                                        route('convocatorias.proyectos.finalizar', [convocatoria.id, proyecto.id]),
-                                        {
-                                            modificar: e.target.checked,
-                                        },
-                                        {
-                                            preserveScroll: true,
-                                        },
-                                    )
-                                }
-                                label="Modificar proyecto"
-                            />
 
-                            <Checkbox
-                                name="default_password"
-                                className="mt-3"
-                                checked={proyecto.finalizado}
-                                onChange={(e) =>
-                                    router.put(
-                                        route('convocatorias.proyectos.finalizar', [convocatoria.id, proyecto.id]),
-                                        {
-                                            finalizado: e.target.checked,
-                                        },
-                                        {
-                                            preserveScroll: true,
-                                        },
-                                    )
-                                }
-                                label="Proyecto finalizado"
-                            />
-                        </AlertMui>
-                    </>
+                {list_item_count == 0 && proyecto?.allowed?.to_update && !loading ? (
+                    <AlertMui>
+                        <strong className="block mb-8">El proyecto ha sido diligenciado correctamente.</strong>
+                        {proyecto?.finalizado
+                            ? 'Si desea seguir modificando el proyecto haga clic en la casilla "Modificar"'
+                            : 'Por favor habilite la casilla para confirmar que ha finalizado el proyecto'}
+                        <br />
+                        <Checkbox
+                            name="default_password"
+                            className="mt-3"
+                            checked={!proyecto.finalizado}
+                            onChange={(e) =>
+                                router.put(
+                                    route('convocatorias.proyectos.finalizar', [convocatoria.id, proyecto.id]),
+                                    {
+                                        modificar: e.target.checked,
+                                    },
+                                    {
+                                        preserveScroll: true,
+                                    },
+                                )
+                            }
+                            label="Modificar proyecto"
+                        />
+                        <Checkbox
+                            name="default_password"
+                            className="mt-3"
+                            checked={proyecto.finalizado}
+                            onChange={(e) =>
+                                router.put(
+                                    route('convocatorias.proyectos.finalizar', [convocatoria.id, proyecto.id]),
+                                    {
+                                        finalizado: e.target.checked,
+                                    },
+                                    {
+                                        preserveScroll: true,
+                                    },
+                                )
+                            }
+                            label="Proyecto finalizado"
+                        />
+                    </AlertMui>
+                ) : (
+                    list_item_count == 0 && <CircularProgressMui />
                 )}
             </Grid>
         </AuthenticatedLayout>

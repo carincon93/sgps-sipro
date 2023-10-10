@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\SharepointHelper;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -90,7 +91,7 @@ class NodoTecnoparque extends Model
      */
     public function topesRolesSennovaTecnoparque()
     {
-        return $this->hasMany(TopeRolSennovaTecnoparque::class, 'id');
+        return $this->hasMany(TopeRolSennovaTecnoparque::class);
     }
 
     /**
@@ -132,7 +133,10 @@ class NodoTecnoparque extends Model
 
     public function getNombreCarpetaSharepointAttribute()
     {
-        return trim(preg_replace('/[^A-Za-z0-9\-ÁÉÍÓÚáéíóúÑñ]/', ' ', mb_strtoupper($this->nombre)));
+        $cleaned = SharepointHelper::cleanWordsFromSpecialCharacters($this->nombre);
+
+        // Convert to uppercase
+        return strtoupper($cleaned);
     }
 
     public function getNombreAttribute($value)

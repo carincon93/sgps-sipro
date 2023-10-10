@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FunctionsHelper;
 use App\Helpers\SelectHelper;
 use App\Models\Proyecto;
 use App\Models\ProyectoFormulario16Linea65;
@@ -19,6 +20,7 @@ use App\Models\CentroFormacion;
 use App\Models\DisciplinaSubareaConocimiento;
 use App\Models\Evaluacion\EvaluacionProyectoFormulario16Linea65;
 use App\Models\RolSennova;
+use App\Models\TopeRolSennovaFormulario16;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
@@ -47,7 +49,16 @@ class ProyectoFormulario16Linea65Controller extends Controller
     {
         $this->authorize('formular-proyecto', [9, $convocatoria]);
 
-        $centros_formacion = CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo) as label')->orderBy('centros_formacion.nombre', 'ASC')->get();
+        $centros_formacion_ids = TopeRolSennovaFormulario16::select('topes_roles_formulario_16.centro_formacion_id')->join('convocatoria_rol_sennova', 'topes_roles_formulario_16.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')->where('convocatoria_rol_sennova.convocatoria_id', $convocatoria->id)->get()->pluck('centro_formacion_id')->flatten();
+
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
+        if ($auth_user->hasRole([1, 5, 17, 18, 19, 20])) {
+            $centros_formacion = SelectHelper::centrosFormacion()->whereIn('value', $centros_formacion_ids)->values()->all();
+        } else {
+            $centros_formacion = SelectHelper::centrosFormacion()->where('regional_id', $auth_user->centroFormacion->regional->id)->whereIn('value', $centros_formacion_ids)->values()->all();
+        }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario16Linea65/Create', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year'),
@@ -155,10 +166,13 @@ class ProyectoFormulario16Linea65Controller extends Controller
         $proyecto_formulario_16_linea_65->mostrar_recomendaciones             = $proyecto_formulario_16_linea_65->proyecto->mostrar_recomendaciones;
         $proyecto_formulario_16_linea_65->mostrar_requiere_subsanacion        = $proyecto_formulario_16_linea_65->proyecto->mostrar_requiere_subsanacion;
 
+        $centros_formacion_ids = TopeRolSennovaFormulario16::select('topes_roles_formulario_16.centro_formacion_id')->join('convocatoria_rol_sennova', 'topes_roles_formulario_16.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')->where('convocatoria_rol_sennova.convocatoria_id', $convocatoria->id)->get()->pluck('centro_formacion_id')->flatten();
+
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario16Linea65/Edit', [
             'convocatoria'                                  => $convocatoria,
             'proyecto_formulario_16_linea_65'               => $proyecto_formulario_16_linea_65,
-            'evaluacion'                                    => EvaluacionProyectoFormulario16Linea65::find(request()->evaluacion_id),
+            'centros_formacion'                             => SelectHelper::centrosFormacion()->whereIn('value', $centros_formacion_ids)->values()->all(),
+            // 'evaluacion'                                    => EvaluacionProyectoFormulario16Linea65::find(request()->evaluacion_id),
             'mesas_sectoriales'                             => MesaSectorial::select('id as value', 'nombre as label')->get('id'),
             'lineas_programaticas'                          => SelectHelper::lineasProgramaticas(),
             'areas_cualificacion_mnc'                       => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),
@@ -186,6 +200,7 @@ class ProyectoFormulario16Linea65Controller extends Controller
 
         $proyecto_formulario_16_linea_65->save();
 
+        $proyecto_formulario_16_linea_65->proyecto->centroFormacion()->associate($request->centro_formacion_id);
         $proyecto_formulario_16_linea_65->proyecto->municipios()->sync($request->municipios);
         $proyecto_formulario_16_linea_65->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 
@@ -258,6 +273,21 @@ class ProyectoFormulario16Linea65Controller extends Controller
     public function updateLongColumn(ProyectoFormulario16Linea65ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario16Linea65 $proyecto_formulario_16_linea_65, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_16_linea_65->proyecto]);
+
+        if ($column == 'fecha_inicio') {
+            $proyecto_formulario_16_linea_65->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($request->fecha_inicio, $proyecto_formulario_16_linea_65->fecha_finalizacion)
+            ]);
+        } elseif ($column == 'fecha_finalizacion') {
+            $proyecto_formulario_16_linea_65->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($proyecto_formulario_16_linea_65->fecha_inicio, $request->fecha_finalizacion)
+            ]);
+        }
+
+        if ($column == 'centro_formacion_id') {
+            $proyecto_formulario_16_linea_65->proyecto->update($request->only($column));
+            return back();
+        }
 
         if ($column == 'programas_formacion' || $column == 'programas_formacion_articulados') {
             $proyecto_formulario_16_linea_65->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));

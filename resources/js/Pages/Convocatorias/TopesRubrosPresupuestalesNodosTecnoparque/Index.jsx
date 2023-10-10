@@ -11,12 +11,12 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import { Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 import { checkRole } from '@/Utils'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 import { useState } from 'react'
 
 import Form from './Form'
 
-const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_presupuestales_nodos_tecnoparque, nodos_tecnoparque, segundo_grupo_presupuestal }) => {
+const ConvocatoriaTopesRubrosPresupuestalesNodosTecnoparque = ({ auth, convocatoria, topes_presupuestales_nodos_tecnoparque, nodos_tecnoparque, segundo_grupo_presupuestal }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -27,6 +27,8 @@ const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_pr
 
     return (
         <AuthenticatedLayout>
+            <Head title={`Convocatoria ${convocatoria.year} - Topes Rubros Presupuestales`} />
+
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                     <Grid item md={12}>
@@ -125,4 +127,4 @@ const ConvocatoriaTopesRolesSennovaTecnoparque = ({ auth, convocatoria, topes_pr
     )
 }
 
-export default ConvocatoriaTopesRolesSennovaTecnoparque
+export default ConvocatoriaTopesRubrosPresupuestalesNodosTecnoparque

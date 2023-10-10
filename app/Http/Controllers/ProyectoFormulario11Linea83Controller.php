@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FunctionsHelper;
 use App\Helpers\SharepointHelper;
 use App\Helpers\SelectHelper;
 use App\Models\Convocatoria;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+
 class ProyectoFormulario11Linea83Controller extends Controller
 {
     /**
@@ -47,10 +49,10 @@ class ProyectoFormulario11Linea83Controller extends Controller
         /** @var \App\Models\User */
         $auth_user = Auth::user();
 
-        if ($auth_user->hasRole(6)) {
-            $centros_formacion = SelectHelper::centrosFormacion()->where('regional_id', $auth_user->centroFormacion->regional->id)->values()->all();
-        } else {
+        if ($auth_user->hasRole([1, 5, 17, 18, 19, 20])) {
             $centros_formacion = SelectHelper::centrosFormacion();
+        } else {
+            $centros_formacion = SelectHelper::centrosFormacion()->where('regional_id', $auth_user->centroFormacion->regional->id)->values()->all();
         }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario11Linea83/Create', [
@@ -92,10 +94,10 @@ class ProyectoFormulario11Linea83Controller extends Controller
             'titulo'                => $request->titulo,
             'fecha_inicio'          => $request->fecha_inicio,
             'fecha_finalizacion'    => $request->fecha_finalizacion,
+            'max_meses_ejecucion'   => $request->max_meses_ejecucion,
         ]);
 
         return redirect()->route('convocatorias.proyectos-formulario-11-linea-83.edit', [$convocatoria, $proyecto])->with('success', 'El recurso se ha creado correctamente.');
-
     }
 
     /**
@@ -136,7 +138,7 @@ class ProyectoFormulario11Linea83Controller extends Controller
         $proyecto_formulario_11_linea_83->mostrar_recomendaciones                 = $proyecto_formulario_11_linea_83->proyecto->mostrar_recomendaciones;
         $proyecto_formulario_11_linea_83->mostrar_requiere_subsanacion            = $proyecto_formulario_11_linea_83->proyecto->mostrar_requiere_subsanacion;
 
-          if ($auth_user->hasRole(16)) {
+        if ($auth_user->hasRole(16)) {
             $nodos_tecnoparque = SelectHelper::nodosTecnoparque()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
         } else {
             $nodos_tecnoparque = SelectHelper::nodosTecnoparque();
@@ -145,6 +147,7 @@ class ProyectoFormulario11Linea83Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario11Linea83/Edit', [
             'convocatoria'                      => $convocatoria,
             'proyecto_formulario_11_linea_83'   => $proyecto_formulario_11_linea_83,
+            'centros_formacion'                 => SelectHelper::centrosFormacion(),
             // 'evaluacion'            => EvaluacionProyectoFormulario11Linea83::find(request()->evaluacion_id),
             'regionales'                        => SelectHelper::regionales(),
             'lineas_programaticas'              => LineaProgramatica::selectRaw('id as value, concat(nombre, \' ∙ \', codigo) as label, codigo')->where('lineas_programaticas.categoria_proyecto', 1)->get(),
@@ -272,6 +275,21 @@ class ProyectoFormulario11Linea83Controller extends Controller
     public function updateLongColumn(ProyectoFormulario11Linea83ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario11Linea83 $proyecto_formulario_11_linea_83, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_11_linea_83->proyecto]);
+
+        if ($column == 'fecha_inicio') {
+            $proyecto_formulario_11_linea_83->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($request->fecha_inicio, $proyecto_formulario_11_linea_83->fecha_finalizacion)
+            ]);
+        } elseif ($column == 'fecha_finalizacion') {
+            $proyecto_formulario_11_linea_83->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($proyecto_formulario_11_linea_83->fecha_inicio, $request->fecha_finalizacion)
+            ]);
+        }
+
+        if ($column == 'centro_formacion_id') {
+            $proyecto_formulario_11_linea_83->proyecto->update($request->only($column));
+            return back();
+        }
 
         $proyecto_formulario_11_linea_83->update($request->only($column));
 

@@ -17,6 +17,7 @@ import ArticulacionFormulario5Linea69 from './ArticulacionFormulario5Linea69'
 import ArtituclacionFormulario10Linea69 from './ArticulacionFormulario10Linea69'
 import ArticulacionFormulario17Linea69 from './ArticulacionFormulario17Linea69'
 import ArticulacionFormulario11Linea83 from './ArticulacionFormulario11Linea83'
+import { Head } from '@inertiajs/react'
 
 const ArticulacionSennova = ({
     auth,
@@ -58,6 +59,8 @@ const ArticulacionSennova = ({
 
     return (
         <AuthenticatedLayout>
+            <Head title="Articulación" />
+
             <Grid container>
                 <Grid item md={12} className="!mb-20">
                     <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />

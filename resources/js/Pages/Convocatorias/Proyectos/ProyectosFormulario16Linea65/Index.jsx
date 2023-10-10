@@ -12,7 +12,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Chip, Divider, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 
@@ -23,7 +23,9 @@ const Index = ({ auth, convocatoria, proyectos_formulario_16_linea_65, allowed_t
     const [proyecto_linea_65_to_destroy, setProyectoFormulario16Linea65ToDestroy] = useState(null)
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Lista de proyectos - Formulario 16 Línea 65" />
+
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                     <Grid item md={12}>
@@ -32,9 +34,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_16_linea_65, allowed_t
                 )}
 
                 <Grid item md={12} className="!mt-20">
-                    <h1 className="text-3xl text-center">
-                        Formulario 16: Gestión de la propiedad intelectual - Apropiación de la ciencia y la tecnología y cultura de la innovación y la competitividad - Línea 65
-                    </h1>
+                    <h1 className="text-3xl text-center">Formulario 16: Protección y Transferencia de Conocimiento y Tecnología (Unidad de Propiedad Intelectual) - Línea 65</h1>
                 </Grid>
 
                 <Grid item md={12}>

@@ -67,6 +67,7 @@ class ProyectoFormulario16Linea65 extends Model
         'lineas_programaticas_sennova',
         'disciplinas_conocimiento',
         'actividades_economicas',
+        'justificacion_mesas_sectoriales'
     ];
 
     /**
@@ -222,5 +223,4 @@ class ProyectoFormulario16Linea65 extends Model
     {
         return json_decode($value);
     }
-
 }

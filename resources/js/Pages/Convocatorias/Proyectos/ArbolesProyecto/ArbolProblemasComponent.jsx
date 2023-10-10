@@ -194,7 +194,7 @@ const ArbolProblemasComponent = ({ auth, convocatoria, proyecto, fase_evaluacion
                                         descriptivos.
                                         <br />
                                         El objetivo general debe expresar el fin concreto del proyecto en correspondencia directa con el título del proyecto y la pregunta de la formulación del
-                                        problema, el cual debe ser claro, medible, alcanzable y consistente con el proyecto que está formulando. Debe responde al ¿Qué?, ¿Cómo? y el ¿Para qué?
+                                        problema, el cual debe ser claro, medible, alcanzable y consistente con el proyecto que está formulando. Debe responder al ¿Qué?, ¿Cómo? y el ¿Para qué?
                                     </AlertMui>
                                 ) : (
                                     <AlertMui>

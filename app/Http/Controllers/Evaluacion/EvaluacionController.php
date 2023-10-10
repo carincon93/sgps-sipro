@@ -9,6 +9,7 @@ use App\Models\Convocatoria;
 use App\Models\Proyecto;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
@@ -24,11 +25,35 @@ class EvaluacionController extends Controller
         $this->authorize('viewAny', [Evaluacion::class]);
 
         return Inertia::render('Evaluaciones/Index', [
-            'filters'           => request()->all('search'),
-            'proyectosId'       => Proyecto::selectRaw("id + 8000 as codigo_only")->orderBy('id', 'ASC')->get()->pluck('codigo_only')->flatten('codigo_only'),
-            'evaluaciones'      => Evaluacion::with('proyecto.tecnoacademiaLineasTecnoacademia.tecnoacademia', 'proyecto.proyectosFormulario4Linea70:id,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosFormulario8Linea66:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosFormulario5Linea69:id,nodo_tecnoparque_id,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosFormulario1Linea65:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosFormulario12Linea68:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.centroFormacion', 'evaluador:id,nombre')->orderBy('proyecto_id', 'ASC')
-                ->filterEvaluacion(request()->only('search', 'estado'))->paginate()->appends(['search' => request()->search, 'estado' => request()->estado]),
-            'allowed_to_create'   => Gate::inspect('create', [Evaluacion::class])->allowed()
+            'evaluaciones'          => Evaluacion::with(
+                [
+                    'proyecto.proyectoFormulario1Linea65:id,titulo,fecha_inicio,fecha_finalizacion',
+                    'proyecto.proyectoFormulario3Linea61:id,titulo,fecha_inicio,fecha_finalizacion',
+                    'proyecto.proyectoFormulario4Linea70:id,tecnoacademia_id,fecha_inicio,fecha_finalizacion',
+                    'proyecto.proyectoFormulario5Linea69:id,nodo_tecnoparque_id,fecha_inicio,fecha_finalizacion',
+                    'proyecto.proyectoFormulario6Linea82:id,titulo,fecha_inicio,fecha_finalizacion',
+                    'proyecto.proyectoFormulario7Linea23:id,titulo,fecha_inicio,fecha_finalizacion',
+                    'proyecto.proyectoFormulario8Linea66:id,titulo,fecha_inicio,fecha_finalizacion',
+                    'proyecto.proyectoFormulario9Linea23:id,titulo,fecha_inicio,fecha_finalizacion',
+                    'proyecto.proyectoFormulario10Linea69:id,hub_innovacion_id,fecha_inicio,fecha_finalizacion',
+                    'proyecto.proyectoFormulario11Linea83:id,titulo,fecha_inicio,fecha_finalizacion',
+                    'proyecto.proyectoFormulario12Linea68:id,titulo,fecha_inicio,fecha_finalizacion',
+                    'proyecto.proyectoFormulario13Linea65:id,titulo,fecha_inicio,fecha_finalizacion',
+                    'proyecto.proyectoFormulario15Linea65:id,titulo,fecha_inicio,fecha_finalizacion',
+                    'proyecto.proyectoFormulario16Linea65:id,titulo,fecha_inicio,fecha_finalizacion',
+                    'proyecto.proyectoFormulario17Linea69:id,nodo_tecnoparque_id,fecha_inicio,fecha_finalizacion',
+                    'proyecto.convocatoria',
+                    'proyecto.centroFormacion',
+                    'evaluador:id,nombre'
+                ]
+            )
+                ->orderBy('habilitado', 'Desc')
+                ->orderBy('iniciado', 'ASC')
+                ->orderBy('proyecto_id', 'ASC')
+                ->filterEvaluacion(request()->only('search', 'estado'))->paginate(15)->appends(['search' => request()->search, 'estado' => request()->estado]),
+            'proyectos'             => DB::table('proyectos')->selectRaw("id as value, concat('SGPS-', id + 8000, '-SIPRO') as label")->orderBy('id', 'ASC')->get(),
+            'evaluadores'           => User::select('users.id as value', 'users.nombre as label')->join('model_has_roles', 'users.id', 'model_has_roles.model_id')->join('roles', 'model_has_roles.role_id', 'roles.id')->where('users.habilitado', true)->whereIn('roles.id', [11, 33])->orderBy('users.nombre', 'ASC')->get(),
+            'allowed_to_create'     => Gate::inspect('create', [Evaluacion::class])->allowed()
         ]);
     }
 
@@ -41,11 +66,7 @@ class EvaluacionController extends Controller
     {
         $this->authorize('create', [Evaluacion::class]);
 
-        return Inertia::render('Evaluaciones/Create', [
-            'proyectos'         => Proyecto::selectRaw("id as value, concat('SGPS-', id + 8000, '-SIPRO') as label")->with('proyectosFormulario8Linea66', 'proyectosFormulario4Linea70', 'proyectosFormulario5Linea69', 'proyectosFormulario12Linea68', 'proyectosFormulario1Linea65')->orderBy('id', 'ASC')->get(),
-            'evaluadores'       => User::select('users.id as value', 'users.nombre as label')->join('model_has_roles', 'users.id', 'model_has_roles.model_id')->join('roles', 'model_has_roles.role_id', 'roles.id')->where('roles.id', 11)->get(),
-            'allowed_to_create'   => Gate::inspect('create', [Evaluacion::class])->allowed()
-        ]);
+        // 
     }
 
     /**
@@ -59,12 +80,6 @@ class EvaluacionController extends Controller
         $this->authorize('create', [Evaluacion::class]);
 
         $proyecto = Proyecto::find($request->proyecto_id);
-
-        if (Evaluacion::where('proyecto_id', $request->proyecto_id)->where('habilitado', true)->count() == 2 && $request->habilitado && $proyecto->lineaProgramatica->codigo != 68) {
-            return redirect()->back()->with('error', 'Este proyecto ya tiene dos evaluaciones habilitadas. Debe modificar alguna evaluación.');
-        } else if (Evaluacion::where('proyecto_id', $request->proyecto_id)->where('habilitado', true)->count() == 3 && $request->habilitado && $proyecto->lineaProgramatica->codigo == 68) {
-            return redirect()->back()->with('error', 'Este proyecto ya tiene tres evaluaciones habilitadas. Debe modificar alguna evaluación.');
-        }
 
         $evaluacion = new Evaluacion();
         $evaluacion->habilitado         = $request->habilitado;
@@ -114,7 +129,7 @@ class EvaluacionController extends Controller
                 break;
         }
 
-        return redirect()->route('evaluaciones.index')->with('success', 'El recurso se ha creado correctamente.');
+        return back()->with('success', 'El recurso se ha creado correctamente.');
     }
 
     /**
@@ -126,6 +141,8 @@ class EvaluacionController extends Controller
     public function show(Evaluacion $evaluacion)
     {
         $this->authorize('view', [Evaluacion::class, $evaluacion]);
+
+        // 
     }
 
     /**
@@ -138,14 +155,7 @@ class EvaluacionController extends Controller
     {
         $this->authorize('update', [Evaluacion::class, $evaluacion]);
 
-        $evaluacion->proyecto->only('codigo');
-        $evaluacion->proyecto->convocatoria;
-
-        return Inertia::render('Evaluaciones/Edit', [
-            'evaluacion'    => $evaluacion,
-            'proyectos'     => Proyecto::selectRaw("id as value, concat('SGPS-', id + 8000, '-SIPRO') as label")->with('proyectosFormulario8Linea66', 'proyectosFormulario4Linea70', 'proyectosFormulario5Linea69', 'proyectosFormulario12Linea68', 'proyectosFormulario1Linea65')->orderBy('id', 'ASC')->get(),
-            'evaluadores'   => User::select('users.id as value', 'users.nombre as label')->join('model_has_roles', 'users.id', 'model_has_roles.model_id')->join('roles', 'model_has_roles.role_id', 'roles.id')->whereIn('roles.id', [11, 20, 18, 19, 5, 17])->get()
-        ]);
+        //    
     }
 
     /**
@@ -158,12 +168,6 @@ class EvaluacionController extends Controller
     public function update(EvaluacionRequest $request, Evaluacion $evaluacion)
     {
         $this->authorize('update', [Evaluacion::class, $evaluacion]);
-
-        if (Evaluacion::where('proyecto_id', $request->proyecto_id)->where('habilitado', true)->where('evaluaciones.id', '!=', $evaluacion->id)->count() == 2 && $request->habilitado && $evaluacion->proyecto->lineaProgramatica->codigo != 68) {
-            return redirect()->back()->with('error', 'Este proyecto ya tiene dos evaluaciones habilitadas. Debe modificar alguna evaluación.');
-        } else if (Evaluacion::where('proyecto_id', $request->proyecto_id)->where('habilitado', true)->where('evaluaciones.id', '!=', $evaluacion->id)->count() == 3 && $request->habilitado && $evaluacion->proyecto->lineaProgramatica->codigo == 68) {
-            return redirect()->back()->with('error', 'Este proyecto ya tiene tres evaluaciones habilitadas. Debe modificar alguna evaluación.');
-        }
 
         $evaluacion->habilitado  = $request->habilitado;
 
@@ -195,7 +199,7 @@ class EvaluacionController extends Controller
 
         $evaluacion->delete();
 
-        return redirect()->route('evaluaciones.index')->with('success', 'El recurso se ha eliminado correctamente.');
+        return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
     /**
@@ -207,8 +211,8 @@ class EvaluacionController extends Controller
     {
         $this->authorize('viewAny', [Evaluacion::class]);
 
-        return Inertia::render('Evaluaciones/Activas', [
-            'evaluaciones'  => Evaluacion::where('modificable', true)->with('proyecto.tecnoacademiaLineasTecnoacademia.tecnoacademia', 'proyecto.proyectosFormulario4Linea70:id,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosFormulario8Linea66:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosFormulario5Linea69:id,nodo_tecnoparque_id,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosFormulario1Linea65:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.proyectosFormulario12Linea68:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.centroFormacion', 'evaluador:id,nombre')->orderBy('proyecto_id', 'ASC')->paginate(),
+        return Inertia::render('Activas', [
+            'evaluaciones'  => Evaluacion::where('modificable', true)->with('proyecto.tecnoacademiaLineasTecnoacademia.tecnoacademia', 'proyecto.proyectoFormulario4Linea70:id,fecha_inicio,fecha_finalizacion', 'proyecto.proyectoFormulario8Linea66:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.proyectoFormulario5Linea69:id,nodo_tecnoparque_id,fecha_inicio,fecha_finalizacion', 'proyecto.proyectoFormulario1Linea65:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.proyectoFormulario12Linea68:id,titulo,fecha_inicio,fecha_finalizacion', 'proyecto.centroFormacion', 'evaluador:id,nombre')->orderBy('proyecto_id', 'ASC')->paginate(),
         ]);
     }
 
@@ -298,5 +302,17 @@ class EvaluacionController extends Controller
         Evaluacion::whereIn('proyecto_id', $proyectosId)->update(['modificable' => $modificable, 'finalizado' => $finalizado]);
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
+    }
+
+    public function evaluadores()
+    {
+        $this->authorize('viewAny', [User::class]);
+
+        return Inertia::render('Evaluadores/Index', [
+            'evaluadores'   =>  User::select('users.id', 'users.nombre', 'users.email', 'users.habilitado', 'users.informacion_completa', 'centro_formacion_id')->whereHas('roles', function ($query) {
+                $query->whereIn('id', [11, 33]);
+            })->with('roles', 'centroFormacion.regional')->orderBy('habilitado', 'DESC')->orderBy('nombre', 'ASC')
+                ->filterUser(request()->only('search', 'roles'))->paginate()
+        ]);
     }
 }

@@ -24,6 +24,7 @@ const Form = ({
     centros_formacion,
     mesas_sectoriales,
     areas_conocimiento,
+    disciplinas_subarea_conocimiento,
     lineas_investigacion,
     lineas_programaticas,
     ejes_sennova,
@@ -32,6 +33,7 @@ const Form = ({
     lineas_tecnoacademia,
     actividades_economicas,
     tematicas_estrategicas,
+    redes_conocimiento,
     tecnoacademia,
     tecnoacademias,
     nodos_tecnoparques,
@@ -45,6 +47,8 @@ const Form = ({
     allowed_to_create,
     ...props
 }) => {
+    const is_super_admin = checkRole(auth_user, [1])
+
     const [array_lineas_tecnoacademia, setArrayLineasTecnoacademia] = useState([])
 
     const [tiene_video, setTieneVideo] = useState(proyecto_formulario_1_linea_65?.video !== null)
@@ -86,7 +90,10 @@ const Form = ({
         tecnoacademia_id: tecnoacademia?.id ?? '',
         linea_tecnologica_id: proyecto_formulario_1_linea_65?.proyecto.tecnoacademia_lineas_tecnoacademia?.map((item) => item.id),
         mesa_sectorial_id: proyecto_formulario_1_linea_65?.proyecto.mesas_sectoriales?.map((item) => item.id),
+        red_conocimiento_id: proyecto_formulario_1_linea_65?.proyecto.redes_conocimiento?.map((item) => item.id),
+        disciplina_subarea_conocimiento_id: proyecto_formulario_1_linea_65?.disciplina_subarea_conocimiento_id,
 
+        justificacion_mesas_sectoriales: proyecto_formulario_1_linea_65?.justificacion_mesas_sectoriales ?? '',
         resumen: proyecto_formulario_1_linea_65?.resumen ?? '',
         antecedentes: proyecto_formulario_1_linea_65?.antecedentes ?? '',
         marco_conceptual: proyecto_formulario_1_linea_65?.marco_conceptual ?? '',
@@ -125,7 +132,11 @@ const Form = ({
     }, [form.data.tecnoacademia_id])
 
     useEffect(() => {
-        setArrayLineasInvestigacion(lineas_investigacion.filter((obj) => obj.centro_formacion_id === form.data.centro_formacion_id))
+        setArrayLineasInvestigacion([])
+
+        setTimeout(() => {
+            setArrayLineasInvestigacion(lineas_investigacion.filter((obj) => obj.centro_formacion_id === form.data.centro_formacion_id))
+        }, 500)
     }, [form.data.centro_formacion_id])
 
     useEffect(() => {
@@ -246,11 +257,9 @@ const Form = ({
 
                 <Grid item md={6}>
                     <Label required labelFor="centro_formacion_id" className="mb-4" value="Centro de formación" />
-                    <br />
-                    <small> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </small>
                 </Grid>
                 <Grid item md={6}>
-                    {method == 'POST' ? (
+                    {method == 'POST' || is_super_admin ? (
                         <Autocomplete
                             id="centro_formacion_id"
                             selectedValue={form.data.centro_formacion_id}
@@ -270,6 +279,17 @@ const Form = ({
                         />
                     ) : (
                         <>{proyecto_formulario_1_linea_65?.proyecto.centro_formacion.nombre}</>
+                    )}
+                    <AlertMui> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </AlertMui>
+                    {is_super_admin && (
+                        <AlertMui className="mt-10" severity="error">
+                            <strong className="mb-4 block">Importante:</strong>
+                            Recuerde que si cambia el centro de formación y el formulador ya ha cargado soportes / anexos debe cambiar la ruta tanto en el sharepoint como en la base datos. Esta debe
+                            ser la ruta asociada al proyecto:
+                            <strong className=" mt-4 uppercase block">
+                                /Convocatoria {convocatoria.year}/{proyecto_formulario_1_linea_65?.proyecto.centro_formacion.nombre_carpeta_sharepoint}
+                            </strong>
+                        </AlertMui>
                     )}
                 </Grid>
 
@@ -342,6 +362,22 @@ const Form = ({
                 </Grid>
 
                 <Grid item md={6}>
+                    <Label required labelFor="red_conocimiento_id" className="mb-4" value="Red de conocimiento sectorial" />
+                </Grid>
+                <Grid item md={6}>
+                    <Autocomplete
+                        id="red_conocimiento_id"
+                        selectedValue={form.data.red_conocimiento_id}
+                        onChange={(event, newValue) => form.setData('red_conocimiento_id', newValue.value)}
+                        disabled={!(proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update || allowed_to_create)}
+                        options={redes_conocimiento}
+                        error={form.errors.red_conocimiento_id}
+                        onBlur={() => syncColumnLong('red_conocimiento_id', form)}
+                        required
+                    />
+                </Grid>
+
+                <Grid item md={6}>
                     <Label required className="mb-4" labelFor="tipo_evento" value="Tipo de evento" />
                 </Grid>
                 <Grid item md={6}>
@@ -405,19 +441,39 @@ const Form = ({
                     </>
                 )}
 
+                {convocatoria.campos_convocatoria.filter((item) => item.campo == 'area_conocimiento_id').find((item) => item.convocatoria_id == convocatoria.id) && (
+                    <>
+                        <Grid item md={6}>
+                            <Label required labelFor="area_conocimiento_id" className="mb-4" value="Área de conocimiento" />
+                        </Grid>
+                        <Grid item md={6}>
+                            <Autocomplete
+                                id="area_conocimiento_id"
+                                selectedValue={form.data.area_conocimiento_id}
+                                onChange={(event, newValue) => form.setData('area_conocimiento_id', newValue.value)}
+                                disabled={!(proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update || allowed_to_create)}
+                                options={areas_conocimiento}
+                                error={form.errors.area_conocimiento_id}
+                                required
+                                onBlur={() => syncColumnLong('area_conocimiento_id', form)}
+                            />
+                        </Grid>
+                    </>
+                )}
+
                 <Grid item md={6}>
-                    <Label required labelFor="area_conocimiento_id" className="mb-4" value="Área de conocimiento" />
+                    <Label required labelFor="disciplina_subarea_conocimiento_id" className="mb-4" value="Disciplina de conocimiento" />
                 </Grid>
                 <Grid item md={6}>
                     <Autocomplete
-                        id="area_conocimiento_id"
-                        selectedValue={form.data.area_conocimiento_id}
-                        onChange={(event, newValue) => form.setData('area_conocimiento_id', newValue.value)}
+                        id="disciplina_subarea_conocimiento_id"
+                        selectedValue={form.data.disciplina_subarea_conocimiento_id}
+                        onChange={(event, newValue) => form.setData('disciplina_subarea_conocimiento_id', newValue.value)}
                         disabled={!(proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update || allowed_to_create)}
-                        options={areas_conocimiento}
-                        error={form.errors.area_conocimiento_id}
+                        options={disciplinas_subarea_conocimiento}
+                        error={form.errors.disciplina_subarea_conocimiento_id}
                         required
-                        onBlur={() => syncColumnLong('area_conocimiento_id', form)}
+                        onBlur={() => syncColumnLong('disciplina_subarea_conocimiento_id', form)}
                     />
                 </Grid>
 
@@ -494,7 +550,7 @@ const Form = ({
                                         value={form.data.cantidad_meses}
                                         onChange={(e) => form.setData('cantidad_meses', e.target.value)}
                                         disabled={!(proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update || allowed_to_create)}
-                                        placeholder="Número de meses de vinculación"
+                                        label="Número de meses de vinculación"
                                         required
                                     />
                                     {monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion) && (
@@ -662,58 +718,66 @@ const Form = ({
                             </>
                         )}
 
-                        <Grid item md={6}>
-                            <Label labelFor="impacto_sector_agricola" value="¿El proyecto tendrá un impacto en el sector agrícola?" />
-                        </Grid>
-                        <Grid item md={6}>
-                            <SwitchMui
-                                className="mb-4"
-                                checked={requiere_justificacion_sector_agricola}
-                                disabled={!proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update}
-                                onChange={() => setRequiereJustificacionSectorAgricola(!requiere_justificacion_sector_agricola)}
-                            />
-                            {requiere_justificacion_sector_agricola && (
-                                <Textarea
-                                    label="Justificación"
-                                    id="impacto_sector_agricola"
-                                    onChange={(e) => form.setData('impacto_sector_agricola', e.target.value)}
-                                    disabled={!proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update}
-                                    error={form.errors.impacto_sector_agricola}
-                                    value={form.data.impacto_sector_agricola}
-                                    onBlur={() => syncColumnLong('impacto_sector_agricola', form)}
-                                />
-                            )}
-                        </Grid>
-
-                        <Grid item md={6}>
-                            <Label labelFor="justificacion_politica_discapacidad" value="¿El proyecto aporta a la Política Institucional para Atención de las Personas con discapacidad?" />
-                        </Grid>
-                        <Grid item md={6}>
-                            <SwitchMui
-                                className="mb-4"
-                                checked={requiere_justificacion_politica_discapacidad}
-                                onChange={() => setRequiereJustificacionPoliticaDiscapacidad(!requiere_justificacion_politica_discapacidad)}
-                                disabled={!proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update}
-                            />
-
-                            {requiere_justificacion_politica_discapacidad && (
-                                <>
-                                    <Textarea
-                                        label="Justificación"
-                                        id="justificacion_politica_discapacidad"
-                                        onChange={(e) => form.setData('justificacion_politica_discapacidad', e.target.value)}
+                        {convocatoria.campos_convocatoria.filter((item) => item.campo == 'impacto_sector_agricola').find((item) => item.convocatoria_id == convocatoria.id) && (
+                            <>
+                                <Grid item md={6}>
+                                    <Label labelFor="impacto_sector_agricola" value="¿El proyecto tendrá un impacto en el sector agrícola?" />
+                                </Grid>
+                                <Grid item md={6}>
+                                    <SwitchMui
+                                        className="mb-4"
+                                        checked={requiere_justificacion_sector_agricola}
                                         disabled={!proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update}
-                                        error={form.errors.justificacion_politica_discapacidad}
-                                        value={form.data.justificacion_politica_discapacidad}
-                                        onBlur={() => syncColumnLong('justificacion_politica_discapacidad', form)}
+                                        onChange={() => setRequiereJustificacionSectorAgricola(!requiere_justificacion_sector_agricola)}
                                     />
-                                    <AlertMui>
-                                        Si el proyecto aporta a la Política Institucional para Atención de las Personas con discapacidad por favor realice la justificación. RESOLUCIÓN 01726 DE 2014 -
-                                        Por la cual se adopta la Política Institucional para Atención de las Personas con discapacidad.
-                                    </AlertMui>
-                                </>
-                            )}
-                        </Grid>
+                                    {requiere_justificacion_sector_agricola && (
+                                        <Textarea
+                                            label="Justificación"
+                                            id="impacto_sector_agricola"
+                                            onChange={(e) => form.setData('impacto_sector_agricola', e.target.value)}
+                                            disabled={!proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update}
+                                            error={form.errors.impacto_sector_agricola}
+                                            value={form.data.impacto_sector_agricola}
+                                            onBlur={() => syncColumnLong('impacto_sector_agricola', form)}
+                                        />
+                                    )}
+                                </Grid>
+                            </>
+                        )}
+
+                        {convocatoria.campos_convocatoria.filter((item) => item.campo == 'justificacion_politica_discapacidad').find((item) => item.convocatoria_id == convocatoria.id) && (
+                            <>
+                                <Grid item md={6}>
+                                    <Label labelFor="justificacion_politica_discapacidad" value="¿El proyecto aporta a la Política Institucional para Atención de las Personas con discapacidad?" />
+                                </Grid>
+                                <Grid item md={6}>
+                                    <SwitchMui
+                                        className="mb-4"
+                                        checked={requiere_justificacion_politica_discapacidad}
+                                        onChange={() => setRequiereJustificacionPoliticaDiscapacidad(!requiere_justificacion_politica_discapacidad)}
+                                        disabled={!proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update}
+                                    />
+
+                                    {requiere_justificacion_politica_discapacidad && (
+                                        <>
+                                            <Textarea
+                                                label="Justificación"
+                                                id="justificacion_politica_discapacidad"
+                                                onChange={(e) => form.setData('justificacion_politica_discapacidad', e.target.value)}
+                                                disabled={!proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update}
+                                                error={form.errors.justificacion_politica_discapacidad}
+                                                value={form.data.justificacion_politica_discapacidad}
+                                                onBlur={() => syncColumnLong('justificacion_politica_discapacidad', form)}
+                                            />
+                                            <AlertMui>
+                                                Si el proyecto aporta a la Política Institucional para Atención de las Personas con discapacidad por favor realice la justificación. RESOLUCIÓN 01726 DE
+                                                2014 - Por la cual se adopta la Política Institucional para Atención de las Personas con discapacidad.
+                                            </AlertMui>
+                                        </>
+                                    )}
+                                </Grid>
+                            </>
+                        )}
 
                         <Grid item md={6}>
                             <Label
@@ -833,9 +897,21 @@ const Form = ({
                                         }}
                                         disabled={!proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update}
                                         error={form.errors.mesa_sectorial_id}
-                                        placeholder="Seleccione las mesas sectoriales"
+                                        label="Seleccione las mesas sectoriales"
                                         required
                                         onBlur={() => syncColumnLong('mesa_sectorial_id', form)}
+                                    />
+
+                                    <Textarea
+                                        label="Justificación"
+                                        className="!mt-10"
+                                        id="justificacion_mesas_sectoriales"
+                                        error={form.errors.justificacion_mesas_sectoriales}
+                                        value={form.data.justificacion_mesas_sectoriales}
+                                        onChange={(e) => form.setData('justificacion_mesas_sectoriales', e.target.value)}
+                                        disabled={!proyecto_formulario_1_linea_65?.proyecto?.allowed?.to_update}
+                                        required
+                                        onBlur={() => syncColumnLong('justificacion_mesas_sectoriales', form)}
                                     />
                                 </Grid>
                             </>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\SharepointHelper;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -297,7 +298,10 @@ class ProyectoIdiTecnoacademia extends Model
 
     public function getNombreCarpetaSharepointAttribute()
     {
-        return trim(preg_replace('/[^A-Za-z0-9\-ÁÉÍÓÚáéíóúÑñ]/', ' ', mb_strtoupper($this->codigo)));
+        $cleaned = SharepointHelper::cleanWordsFromSpecialCharacters($this->codigo);
+
+        // Convert to uppercase
+        return strtoupper($cleaned);
     }
 
     public function getRutaFinalSharepointAttribute()

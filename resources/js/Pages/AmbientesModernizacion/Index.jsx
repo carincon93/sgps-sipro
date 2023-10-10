@@ -14,7 +14,7 @@ import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturi
 import { Divider, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
-import { Link, router } from '@inertiajs/react'
+import { Head, Link, router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 
@@ -32,7 +32,9 @@ const Index = ({ auth, ambientes_modernizacion, codigos_sgps_faltantes }) => {
     const current_year = dayjs().year()
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Seguimiento post cierre - Ambientes de modernización SENNOVA</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Seguimiento post cierre - Ambientes de modernización SENNOVA" />
+
             <Grid item md={12}>
                 <AlertMui className="mb-20">
                     Este espacio está dispuesto para que cada Centro de Formación pueda realizar el registro permanente del seguimiento post cierre de los proyectos ejecutados en vigencias pasadas de
@@ -88,7 +90,7 @@ const Index = ({ auth, ambientes_modernizacion, codigos_sgps_faltantes }) => {
                                     href={route('equipos-ambiente-modernizacion.index', [ambiente_modernizacion.seguimiento_ambiente_modernizacion.id])}
                                     className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
                                     <PrecisionManufacturingIcon className="mr-2" />
-                                    Debe relacionar los equipos del ambiente
+                                    Relacionar los equipos del ambiente
                                 </Link>
                             </TableCell>
 

@@ -12,7 +12,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Chip, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 
@@ -28,7 +28,9 @@ const Index = ({ auth, programas_formacion, modalidades, niveles_formacion }) =>
     const [programa_formacion_to_destroy, setProgramaFormacionToDestroy] = useState(null)
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Programas de formación</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Programas de formación" />
+
             <Grid item md={12}>
                 <SearchBar />
 

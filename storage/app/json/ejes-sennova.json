@@ -1,1 +1,5 @@
-[{ "value": 1, "label": "65 - Cultura de la Innovación y la Competitividad" }]
+[
+    { "value": 1, "label": "Eje 1. Investigación Aplicada e Innovación" },
+    { "value": 2, "label": "Eje 2. Apropiación de la CTI y Gestión del  Conocimiento" },
+    { "value": 3, "label": "Eje 3. Servicios de  I+D+I" }
+]

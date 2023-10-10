@@ -12,7 +12,7 @@ const HelpDesk = () => {
 
     return (
         <>
-            <ButtonMui className="!fixed bottom-20 left-6 z-[9999]" onClick={() => setDialogStatus(true)} type="button">
+            <ButtonMui className="!fixed bottom-20 left-6 z-[1200]" onClick={() => setDialogStatus(true)} type="button">
                 <HelpOutlineOutlinedIcon className="mr-2" /> Ayuda
             </ButtonMui>
 
@@ -63,15 +63,15 @@ const HelpDesk = () => {
                                     <MailOutlineOutlinedIcon className="mr-2 text-gray-400" />
                                     <a href="mailto:ifhernandez@sena.edu.co">ifhernandez@sena.edu.co</a>
                                 </span>
-                                <span>(Línea 70)</span>
+                                <span>(Líneas - 69 - 70)</span>
                             </li>
                             <li className="flex items-center justify-between">
                                 <span>
-                                    Diana Marina Sarmiento Parra <br />
+                                    Giselle Marcela Daza Sarmiento <br />
                                     <MailOutlineOutlinedIcon className="mr-2 text-gray-400" />
-                                    <a href="mailto:dmsarmiento@sena.edu.co">dmsarmiento@sena.edu.co</a>
+                                    <a href="mailto:gmdaza@sena.edu.co">gmdaza@sena.edu.co</a>
                                 </span>
-                                <span>(Línea 69 - 83)</span>
+                                <span>(Línea 66)</span>
                             </li>
                             <li className="flex items-center justify-between">
                                 <span>
@@ -87,7 +87,7 @@ const HelpDesk = () => {
                                     <MailOutlineOutlinedIcon className="mr-2 text-gray-400" />
                                     <a href="mailto:rcgonzalez@sena.edu.co">rcgonzalez@sena.edu.co</a>
                                 </span>
-                                <span>(Línea 65)</span>
+                                <span>(Líneas 61 - 65 - Hubs de innovación)</span>
                             </li>
                             <li className="flex items-center justify-between">
                                 <span>

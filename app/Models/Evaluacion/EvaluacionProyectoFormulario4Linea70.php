@@ -14,7 +14,7 @@ class EvaluacionProyectoFormulario4Linea70 extends Model
      *
      * @var string
      */
-    protected $table = 'evaluaciones_proyectos_linea_70';
+    protected $table = 'evaluaciones_proyectos_formulario_4_linea_70';
 
     /**
      * The attributes that are mass assignable.

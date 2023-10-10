@@ -38,6 +38,7 @@ class ProyectoFormulario16Linea65Request extends FormRequest
                 'relacionado_agendas_competitividad'            => ['required', 'min:0', 'max:3', 'integer'],
                 'relacionado_mesas_sectoriales'                 => ['required', 'min:0', 'max:3', 'integer'],
                 'mesa_sectorial_id*'                            => ['required_if:relacionado_mesas_sectoriales,1', 'min:0', 'max:2147483647', 'exists:mesas_sectoriales,id'],
+                'justificacion_mesas_sectoriales'               => ['nullable', 'string'],
                 'resumen'                                       => ['required', 'max:40000', 'string'],
                 'antecedentes'                                  => ['required', 'max:40000', 'string'],
                 'marco_conceptual'                              => ['required', 'string'],
@@ -82,8 +83,6 @@ class ProyectoFormulario16Linea65Request extends FormRequest
             'areas_cualificacion_mnc'       => json_encode($this->areas_cualificacion_mnc),
             'lineas_estrategicas_sena'      => json_encode($this->lineas_estrategicas_sena),
             'lineas_programaticas_sennova'  => json_encode($this->lineas_programaticas_sennova),
-            'disciplinas_conocimiento'      => json_encode($this->disciplinas_conocimiento),
-            'actividades_economicas'        => json_encode($this->actividades_economicas),
         ]);
     }
 }

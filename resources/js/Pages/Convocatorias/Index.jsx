@@ -5,7 +5,7 @@ import ButtonMui from '@/Components/Button'
 import MenuMui from '@/Components/Menu'
 
 import { checkPermission, checkRole } from '@/Utils'
-import { Link, router } from '@inertiajs/react'
+import { Head, Link, router } from '@inertiajs/react'
 
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined'
 import { Divider, Grid, MenuItem } from '@mui/material'
@@ -18,7 +18,9 @@ export default function Dashboard({ auth, convocatorias }) {
     const [convocatoria_to_destroy, setConvocatoriaToDestroy] = useState(null)
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Lista de convocatorias</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Lista de convocatorias" />
+
             <Grid item md={6}>
                 <h1 className="font-bold text-5xl">Lista de convocatorias</h1>
             </Grid>
@@ -31,7 +33,7 @@ export default function Dashboard({ auth, convocatorias }) {
             {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                 <Grid item md={12}>
                     <AlertMui className="mt-10">
-                        <p>A continuación, se listan todas las convocatorias, si desea crear una nueva de clic en el siguiente botón.</p>
+                        <p>A continuación, se listan todas las convocatorias, si desea crear una nueva haga clic en el siguiente botón.</p>
                         <Link href={route('convocatorias.create')} className="my-4 bg-app-800 text-white py-2 px-4 rounded inline-block">
                             Crear convocatoria
                         </Link>
@@ -39,7 +41,7 @@ export default function Dashboard({ auth, convocatorias }) {
                 </Grid>
             )}
 
-            {is_super_admin || checkRole(auth_user, [11]) || checkPermission(auth_user, [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18, 19, 14, 15, 16, 20, 21]) ? (
+            {is_super_admin || checkRole(auth_user, [11, 33]) || checkPermission(auth_user, [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18, 19, 14, 15, 16, 20, 21]) ? (
                 <Grid container rowSpacing={2} className="!mt-10">
                     {convocatorias.data.map((convocatoria) =>
                         convocatoria.visible || is_super_admin || checkRole(auth_user, [5, 17, 18, 19, 20]) ? (

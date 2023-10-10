@@ -1,6 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import EditComponent from './EditComponent'
+import { Head } from '@inertiajs/react'
 
 const Perfil = ({
     auth,
@@ -31,7 +32,9 @@ const Perfil = ({
 }) => {
     const auth_user = auth.user
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Perfil</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Perfil" />
+
             <EditComponent
                 auth_user={auth_user}
                 usuario={usuario}

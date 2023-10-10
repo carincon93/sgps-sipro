@@ -69,7 +69,10 @@ class ProyectoFormulario13Linea65 extends Model
         'tecnoparques_relacionados',
         'tecnoacademias_relacionadas',
         'hubs_innovacion_relacionados',
-        'laboratorios_st_relacionados'
+        'laboratorios_st_relacionados',
+
+        'justificacion_mesas_sectoriales',
+        'disciplina_subarea_conocimiento_id',
     ];
 
     /**
@@ -159,6 +162,16 @@ class ProyectoFormulario13Linea65 extends Model
     public function lineaTecnica()
     {
         return $this->belongsTo(LineaTecnica::class);
+    }
+
+    /**
+     * Relationship with DisciplinaSubareaConocimiento
+     *
+     * @return object
+     */
+    public function disciplinaSubareaConocimiento()
+    {
+        return $this->belongsTo(DisciplinaSubareaConocimiento::class);
     }
 
     /**

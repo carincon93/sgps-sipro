@@ -108,6 +108,7 @@ class ArbolProyectoController extends Controller
         $proyecto_form_fields = [
             'proyectoFormulario7Linea23'    => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general'],
             'proyectoFormulario9Linea23'    => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general'],
+            'proyectoFormulario3Linea61'    => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general', 'tipo_proyecto'],
             'proyectoFormulario1Linea65'    => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general', 'tipo_proyecto'],
             'proyectoFormulario13Linea65'   => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general', 'tipo_proyecto'],
             'proyectoFormulario15Linea65'   => ['problema_central', 'justificacion_problema', 'identificacion_problema', 'objetivo_general', 'tipo_proyecto'],
@@ -197,6 +198,9 @@ class ArbolProyectoController extends Controller
                 'fields' => ['identificacion_problema', 'problema_central', 'justificacion_problema', 'objetivo_general'],
             ],
             'proyectoFormulario9Linea23' => [
+                'fields' => ['identificacion_problema', 'problema_central', 'justificacion_problema', 'objetivo_general'],
+            ],
+            'proyectoFormulario3Linea61' => [
                 'fields' => ['identificacion_problema', 'problema_central', 'justificacion_problema', 'objetivo_general'],
             ],
             'proyectoFormulario1Linea65' => [
@@ -863,6 +867,9 @@ class ArbolProyectoController extends Controller
         switch ($proyecto->tipo_formulario_convocatoria_id) {
             case 1:
                 $proyecto->proyectoFormulario1Linea65()->update($request->only($column));
+                break;
+            case 3:
+                $proyecto->proyectoFormulario3Linea61()->update($request->only($column));
                 break;
             case 4:
                 $proyecto->proyectoFormulario4Linea70()->update($request->only($column));

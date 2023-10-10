@@ -121,13 +121,25 @@ class Convocatoria extends Model
     }
 
     /**
+     * Relationship with TopePresupuestalFormulario7
+     *
+     * @return object
+     */
+    public function topesPresupuestalesFormulario7()
+    {
+        return $this->hasMany(TopePresupuestalFormulario7::class);
+    }
+
+    /**
      * Relationship with TipoFormularioConvocatoria
      *
      * @return object
      */
     public function tiposFormularioConvocatoria()
     {
-        return $this->belongsToMany(TipoFormularioConvocatoria::class, 'convocatoria_tipos_formularios', 'convocatoria_id', 'tipo_formulario_convocatoria_id');
+        return $this->belongsToMany(TipoFormularioConvocatoria::class, 'convocatoria_tipos_formularios', 'convocatoria_id', 'tipo_formulario_convocatoria_id')->withPivot([
+            'visible'
+        ]);
     }
 
     /**

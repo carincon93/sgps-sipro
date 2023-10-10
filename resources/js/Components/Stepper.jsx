@@ -1,12 +1,17 @@
 import PropTypes from 'prop-types'
 
+import ButtonMui from './Button'
+import DialogMui from './Dialog'
+
 import Stepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
+
 import { styled } from '@mui/material/styles'
 import { makeStyles } from '@mui/styles'
 
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined'
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import Check from '@mui/icons-material/Check'
 import GroupAddIcon from '@mui/icons-material/GroupAdd'
 import SettingsIcon from '@mui/icons-material/Settings'
@@ -17,6 +22,10 @@ import { Link } from '@inertiajs/react'
 
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector'
 import FileTypeIcon from './FileTypeIcon'
+
+import { useState } from 'react'
+
+import EvaluacionProyectosFormulario8Linea66 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario8Linea66/Evaluacion'
 
 const useStyles = makeStyles({
     root: {
@@ -182,8 +191,10 @@ ColorlibStepIcon.propTypes = {
 
 export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evaluacion, ...props }) {
     const classes = useStyles()
+    const [dialog_evaluacion_status, setDialogEvaluacionStatus] = useState(false)
 
     const isActive =
+        route().current('convocatorias.proyectos-formulario-3-linea-61.edit') ||
         route().current('convocatorias.proyectos-formulario-7-linea-23.edit') ||
         route().current('convocatorias.proyectos-formulario-9-linea-23.edit') ||
         route().current('convocatorias.proyectos-formulario-8-linea-66.edit') ||
@@ -201,6 +212,34 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
 
     return (
         <>
+            {evaluacion && (
+                <>
+                    <ButtonMui className="!fixed bottom-32 left-6 z-[1200]" onClick={() => setDialogEvaluacionStatus(true)} primary={true}>
+                        Evaluar
+                    </ButtonMui>
+                    <DialogMui
+                        fullWidth={true}
+                        maxWidth="lg"
+                        open={dialog_evaluacion_status}
+                        dialogContent={
+                            <>
+                                {evaluacion.evaluacion_proyecto_formulario8_linea66 || evaluacion.evaluacion.proyecto.tipo_formulario_convocatoria_id == 8 ? (
+                                    <EvaluacionProyectosFormulario8Linea66
+                                        convocatoria={convocatoria}
+                                        allowed={evaluacion.allowed ?? evaluacion?.evaluacion?.allowed}
+                                        evaluacion={evaluacion.evaluacion_proyecto_formulario8_linea66 ?? evaluacion}
+                                    />
+                                ) : null}
+                            </>
+                        }
+                        dialogActions={
+                            <ButtonMui onClick={() => setDialogEvaluacionStatus(false)} primary={true} className="!mr-6">
+                                Cerrar
+                            </ButtonMui>
+                        }
+                    />
+                </>
+            )}
             <div className="flex items-center justify-center mb-10">
                 <div className="mr-6">
                     <small className=" bg-app-500 text-white py-1 px-3 rounded-full w-max text-center mx-auto">
@@ -210,7 +249,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                     </small>
                 </div>
                 |
-                <div className="ml-6">
+                <div className="mx-6">
                     <a
                         href={route(`convocatorias.proyectos.pdf-formulario${proyecto.tipo_formulario_convocatoria_id}-linea${proyecto.tipo_formulario_convocatoria.linea_programatica.codigo}`, [
                             convocatoria.id,
@@ -221,6 +260,11 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                         <FileTypeIcon fileType="pdf" className="w-6 mr-4" />
                         <small>PDF del proyecto</small>
                     </a>
+                </div>
+                |
+                <div className="ml-6">
+                    <CalendarMonthIcon className="w-6 mr-2 text-gray-500" />
+                    <small>Ejecución del proyecto: {proyecto.diff_meses} meses</small>
                 </div>
             </div>
             <Stepper alternativeLabel connector={<ColorlibConnector />}>
@@ -322,6 +366,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                 {proyecto?.tipo_formulario_convocatoria_id == 4 ||
                 proyecto?.tipo_formulario_convocatoria_id == 5 ||
                 proyecto?.tipo_formulario_convocatoria_id == 6 ||
+                proyecto?.tipo_formulario_convocatoria_id == 7 ||
                 proyecto?.tipo_formulario_convocatoria_id == 8 ||
                 proyecto?.tipo_formulario_convocatoria_id == 11 ? (
                     <Step active={route().current('convocatorias.proyectos.entidades-aliadas.index') ? true : props.label == 'Miembros entidad aliada' ? true : false}>

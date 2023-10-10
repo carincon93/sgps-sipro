@@ -2,16 +2,19 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import StepperMui from '@/Components/Stepper'
 
-import { Grid } from '@mui/material'
-
 import Participantes from './Participantes'
 import SemillerosInvestigacion from './SemillerosInvestigacion'
+
+import { Head } from '@inertiajs/react'
+import { Grid } from '@mui/material'
 
 const Index = ({ auth, convocatoria, proyecto, evaluacion, nuevo_participante, nuevo_semillero_investigacion, roles_sennova, autor_principal }) => {
     const auth_user = auth.user
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Participantes" />
+
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>

@@ -30,7 +30,11 @@ class ConvocatoriaController extends Controller
      */
     public function index()
     {
-        $this->authorize('listar-convocatorias');
+        try {
+            $this->authorize('listar-convocatorias');
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return redirect()->route('users.perfil')->with('error', 'Error: No está autorizado(a) para ingresar a las convocatorias. En este formulario diríjase a la sección "Roles de sistema" y seleccione un rol de proponente.');
+        }
 
         return Inertia::render('Convocatorias/Index', [
             'convocatorias' => Convocatoria::orderBy('id', 'DESC')->filterConvocatoria(request()->only('search'))->paginate()->appends(['search' => request()->search]),
@@ -48,9 +52,9 @@ class ConvocatoriaController extends Controller
 
         return Inertia::render('Convocatorias/Create', [
             'tipos_formulario_convocatoria' => TipoFormularioConvocatoria::selectRaw("tipos_formulario_convocatoria.id as value, CONCAT(tipos_formulario_convocatoria.nombre, ' - Línea: ', lineas_programaticas.codigo) as label")
-                                                ->join('lineas_programaticas', 'tipos_formulario_convocatoria.linea_programatica_id', 'lineas_programaticas.id')
-                                                ->where('tipos_formulario_convocatoria.habilitado', true)
-                                                ->orderBy('tipos_formulario_convocatoria.id', 'ASC')->get(),
+                ->join('lineas_programaticas', 'tipos_formulario_convocatoria.linea_programatica_id', 'lineas_programaticas.id')
+                ->where('tipos_formulario_convocatoria.habilitado', true)
+                ->orderBy('tipos_formulario_convocatoria.id', 'ASC')->get(),
             'convocatorias'                 => SelectHelper::convocatorias(),
             'fases'                         => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
             'tipos_convocatoria'            => collect(json_decode(Storage::get('json/tipos-convocatoria.json'), true)),
@@ -153,9 +157,9 @@ class ConvocatoriaController extends Controller
         return Inertia::render('Convocatorias/Edit', [
             'convocatoria'                  => $convocatoria,
             'tipos_formulario_convocatoria' => TipoFormularioConvocatoria::selectRaw("tipos_formulario_convocatoria.id as value, CONCAT(tipos_formulario_convocatoria.nombre, ' - Línea: ', lineas_programaticas.codigo) as label")
-                                                ->join('lineas_programaticas', 'tipos_formulario_convocatoria.linea_programatica_id', 'lineas_programaticas.id')
-                                                ->where('tipos_formulario_convocatoria.habilitado', true)
-                                                ->orderBy('tipos_formulario_convocatoria.nombre', 'ASC')->get(),
+                ->join('lineas_programaticas', 'tipos_formulario_convocatoria.linea_programatica_id', 'lineas_programaticas.id')
+                ->where('tipos_formulario_convocatoria.habilitado', true)
+                ->orderBy('tipos_formulario_convocatoria.nombre', 'ASC')->get(),
             'fases'                         => collect(json_decode(Storage::get('json/fases-convocatoria.json'), true)),
         ]);
     }
@@ -175,57 +179,65 @@ class ConvocatoriaController extends Controller
 
         $convocatoria->tiposFormularioConvocatoria()->sync($request->tipos_formulario_convocatoria);
 
-        $rubros_convocatoria_por_formulario     = ConvocatoriaPresupuesto::selectRaw('DISTINCT(tipo_formulario_convocatoria_id)')->where('convocatoria_id', $convocatoria->id)->pluck('tipo_formulario_convocatoria_id')->toArray();
-
-        $rubro_formulario_fuera_convocatoria    = array_diff($request->tipos_formulario_convocatoria, $rubros_convocatoria_por_formulario);
-
-        if (count($rubro_formulario_fuera_convocatoria) > 0) {
-            foreach ($rubro_formulario_fuera_convocatoria as $value) {
-                $rubros_a_agregar = RubroPresupuestal::all();
-
-                $insert_data = $rubros_a_agregar->map(function ($rubro) use ($value, $convocatoria) {
-                    return [
-                        'convocatoria_id'                   => $convocatoria->id,
-                        'rubro_presupuestal_id'             => $rubro->id,
-                        'tipo_formulario_convocatoria_id'   => $value,
-                        'sumar_al_presupuesto'              => true,
-                        'requiere_estudio_mercado'          => true,
-                        'habilitado'                        => true,
-                    ];
-                });
-
-                ConvocatoriaPresupuesto::insert($insert_data->toArray());
+        foreach ($convocatoria->tiposFormularioConvocatoria as $tipo_formulario_convocatoria) {
+            if (in_array($tipo_formulario_convocatoria->id, $request->formularios_visibles)) {
+                $convocatoria->tiposFormularioConvocatoria()->updateExistingPivot($tipo_formulario_convocatoria->id, ['visible' => true]);
+            } else {
+                $convocatoria->tiposFormularioConvocatoria()->updateExistingPivot($tipo_formulario_convocatoria->id, ['visible' => false]);
             }
         }
 
-        $roles_convocatoria_por_formulario = ConvocatoriaRolSennova::selectRaw('DISTINCT(tipo_formulario_convocatoria_id)')->where('convocatoria_id', $convocatoria->id)->pluck('tipo_formulario_convocatoria_id')->toArray();
+        // $rubros_convocatoria_por_formulario     = ConvocatoriaPresupuesto::selectRaw('DISTINCT(tipo_formulario_convocatoria_id)')->where('convocatoria_id', $convocatoria->id)->pluck('tipo_formulario_convocatoria_id')->toArray();
+
+        // $rubro_formulario_fuera_convocatoria    = array_diff($request->tipos_formulario_convocatoria, $rubros_convocatoria_por_formulario);
+
+        // if (count($rubro_formulario_fuera_convocatoria) > 0) {
+        //     foreach ($rubro_formulario_fuera_convocatoria as $value) {
+        //         $rubros_a_agregar = RubroPresupuestal::all();
+
+        //         $insert_data = $rubros_a_agregar->map(function ($rubro) use ($value, $convocatoria) {
+        //             return [
+        //                 'convocatoria_id'                   => $convocatoria->id,
+        //                 'rubro_presupuestal_id'             => $rubro->id,
+        //                 'tipo_formulario_convocatoria_id'   => $value,
+        //                 'sumar_al_presupuesto'              => true,
+        //                 'requiere_estudio_mercado'          => true,
+        //                 'habilitado'                        => true,
+        //             ];
+        //         });
+
+        //         ConvocatoriaPresupuesto::insert($insert_data->toArray());
+        //     }
+        // }
+
+        // $roles_convocatoria_por_formulario = ConvocatoriaRolSennova::selectRaw('DISTINCT(tipo_formulario_convocatoria_id)')->where('convocatoria_id', $convocatoria->id)->pluck('tipo_formulario_convocatoria_id')->toArray();
 
 
-        $rol_formulario_fuera_convocatoria = array_diff($request->tipos_formulario_convocatoria, $roles_convocatoria_por_formulario);
+        // $rol_formulario_fuera_convocatoria = array_diff($request->tipos_formulario_convocatoria, $roles_convocatoria_por_formulario);
 
 
-        if (count($rol_formulario_fuera_convocatoria) > 0) {
-            foreach ($rol_formulario_fuera_convocatoria as $value) {
-                $roles_a_agregar = RolSennova::all();
+        // if (count($rol_formulario_fuera_convocatoria) > 0) {
+        //     foreach ($rol_formulario_fuera_convocatoria as $value) {
+        //         $roles_a_agregar = RolSennova::all();
 
-                $insert_data = $roles_a_agregar->map(function ($rol) use ($value, $convocatoria) {
-                    return [
-                        'tipo_formulario_convocatoria_id'   => $value,
-                        'convocatoria_id'                   => $convocatoria->id,
-                        'rol_sennova_id'                    => $rol->id,
-                        'asignacion_mensual'                => null,
-                        'experiencia'                       => null,
-                        'nivel_academico'                   => null,
-                        'perfil'                            => null,
-                        'mensaje'                           => null,
-                        'sumar_al_presupuesto'              => true,
-                        'habilitado'                        => true,
-                    ];
-                });
+        //         $insert_data = $roles_a_agregar->map(function ($rol) use ($value, $convocatoria) {
+        //             return [
+        //                 'tipo_formulario_convocatoria_id'   => $value,
+        //                 'convocatoria_id'                   => $convocatoria->id,
+        //                 'rol_sennova_id'                    => $rol->id,
+        //                 'asignacion_mensual'                => null,
+        //                 'experiencia'                       => null,
+        //                 'nivel_academico'                   => null,
+        //                 'perfil'                            => null,
+        //                 'mensaje'                           => null,
+        //                 'sumar_al_presupuesto'              => true,
+        //                 'habilitado'                        => true,
+        //             ];
+        //         });
 
-                ConvocatoriaRolSennova::insert($insert_data->toArray());
-            }
-        }
+        //         ConvocatoriaRolSennova::insert($insert_data->toArray());
+        //     }
+        // }
 
         if ($request->mostrar_recomendaciones == true) {
             $convocatoria->proyectos()->update(['mostrar_recomendaciones' => true]);
@@ -278,6 +290,9 @@ class ConvocatoriaController extends Controller
         switch ($tipo_formulario_convocatoria->id) {
             case 1:
                 return redirect()->route('convocatorias.proyectos-formulario-1-linea-65.index', [$convocatoria]);
+                break;
+            case 3:
+                return redirect()->route('convocatorias.proyectos-formulario-3-linea-61.index', [$convocatoria]);
                 break;
             case 4:
                 return redirect()->route('convocatorias.proyectos-formulario-4-linea-70.index', [$convocatoria]);

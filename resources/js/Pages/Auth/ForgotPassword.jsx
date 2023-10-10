@@ -19,7 +19,7 @@ export default function ForgotPassword({ status, ...props }) {
     }
 
     if (form.errors.email == 'El campo correo electrónico seleccionado es inválido.') {
-        status = `El correo electrónico ${data.email} no ha sido registrado.`
+        status = `El correo electrónico ${form.data.email} no ha sido registrado.`
     }
 
     return (
@@ -49,7 +49,6 @@ export default function ForgotPassword({ status, ...props }) {
                         error={form.errors.email}
                         className="mt-1 block w-full"
                         autoComplete="email"
-                        isFocused={true}
                         onChange={(e) => form.setData('email', e.target.value)}
                     />
                 </div>

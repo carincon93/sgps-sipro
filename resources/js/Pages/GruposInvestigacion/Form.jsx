@@ -90,7 +90,6 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, grupo_investigacio
                                     label="Acrónimo"
                                     onChange={(e) => form.setData('acronimo', e.target.value)}
                                     disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
-                                    required
                                 />
                             </Grid>
                             <Grid item md={12}>
@@ -102,7 +101,6 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, grupo_investigacio
                                     label="Correo electrónico"
                                     onChange={(e) => form.setData('email', e.target.value)}
                                     disabled={(allowed_to_create == true && grupo_investigacion?.allowed?.to_update == null) || grupo_investigacion?.allowed?.to_update == true ? false : true}
-                                    required
                                 />
                             </Grid>
                             <Grid item md={12}>

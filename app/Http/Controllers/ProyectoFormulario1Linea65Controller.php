@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FunctionsHelper;
 use App\Helpers\SelectHelper;
 use App\Models\Proyecto;
 use App\Models\ProyectoFormulario1Linea65;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Evaluacion\EvaluacionProyectoFormulario1Linea65;
+use App\Models\MontoMaximoFormulario1Regional;
 use App\Models\RolSennova;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -28,9 +30,13 @@ class ProyectoFormulario1Linea65Controller extends Controller
      */
     public function index(Convocatoria $convocatoria)
     {
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario1Linea65/Index', [
             'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
-            'proyectos_formulario_1_linea_65'   => ProyectoFormulario1Linea65::getProyectosPorRol($convocatoria)->appends(['search' => request()->search, 'estructuracion_proyectos' => request()->estructuracion_proyectos]),
+            'proyectos_formulario_1_linea_65'   => ProyectoFormulario1Linea65::getProyectosPorRol($convocatoria)->appends(['search' => request()->search]),
+            'monto_maximo_por_regional'         => MontoMaximoFormulario1Regional::with('regional')->join('convocatoria_tipos_formularios', 'monto_maximo_formulario_1_regional.convocatoria_tipo_formulario_id', 'convocatoria_tipos_formularios.id')->where('convocatoria_tipos_formularios.convocatoria_id', $convocatoria->id)->where('monto_maximo_formulario_1_regional.regional_id', $auth_user->centroFormacion->regional_id)->first(),
             'allowed_to_create'                 => Gate::inspect('formular-proyecto', [9, $convocatoria])->allowed()
         ]);
     }
@@ -44,19 +50,30 @@ class ProyectoFormulario1Linea65Controller extends Controller
     {
         $this->authorize('formular-proyecto', [9, $convocatoria]);
 
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
+        if ($auth_user->hasRole([1, 5, 17, 18, 19, 20])) {
+            $centros_formacion = SelectHelper::centrosFormacion()->values()->all();
+        } else {
+            $centros_formacion = SelectHelper::centrosFormacion()->where('regional_id', $auth_user->centroFormacion->regional->id)->values()->all();
+        }
+
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario1Linea65/Create', [
-            'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year'),
-            'centros_formacion'         => SelectHelper::centrosFormacion(),
-            'lineas_investigacion'      => SelectHelper::lineasInvestigacion(),
-            'areas_conocimiento'        => SelectHelper::areasConocimiento(),
-            'areas_cualificacion_mnc'   => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),
-            'lineas_estrategicas_sena'  => json_decode(Storage::get('json/lineas-estrategicas.json'), true),
-            'ejes_sennova'              => json_decode(Storage::get('json/ejes-sennova.json'), true),
-            'actividades_economicas'    => SelectHelper::actividadesEconomicas(),
-            'tematicas_estrategicas'    => SelectHelper::tematicasEstrategicas(),
-            'tipos_eventos'             => json_decode(Storage::get('json/tipos-eventos-linea-65.json'), true),
-            'roles_sennova'             => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
-            'allowed_to_create'         => Gate::inspect('formular-proyecto', [9, $convocatoria])->allowed()
+            'convocatoria'                      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year', 'campos_convocatoria'),
+            'centros_formacion'                 => $centros_formacion,
+            'lineas_investigacion'              => SelectHelper::lineasInvestigacion(),
+            'areas_conocimiento'                => SelectHelper::areasConocimiento(),
+            'disciplinas_subarea_conocimiento'  => SelectHelper::disciplinasSubareaConocimiento(),
+            'areas_cualificacion_mnc'           => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),
+            'lineas_estrategicas_sena'          => json_decode(Storage::get('json/lineas-estrategicas.json'), true),
+            'redes_conocimiento'                => SelectHelper::redesConocimiento(),
+            'ejes_sennova'                      => json_decode(Storage::get('json/ejes-sennova.json'), true),
+            'actividades_economicas'            => SelectHelper::actividadesEconomicas(),
+            'tematicas_estrategicas'            => SelectHelper::tematicasEstrategicas(),
+            'tipos_eventos'                     => json_decode(Storage::get('json/tipos-eventos-linea-65.json'), true),
+            'roles_sennova'                     => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
+            'allowed_to_create'                 => Gate::inspect('formular-proyecto', [9, $convocatoria])->allowed()
         ]);
     }
 
@@ -109,8 +126,11 @@ class ProyectoFormulario1Linea65Controller extends Controller
         $proyecto_formulario_1_linea_65->areaConocimiento()->associate($request->area_conocimiento_id);
         $proyecto_formulario_1_linea_65->tematicaEstrategica()->associate($request->tematica_estrategica_id);
         $proyecto_formulario_1_linea_65->actividadEconomica()->associate($request->actividad_economica_id);
+        $proyecto_formulario_1_linea_65->disciplinaSubareaConocimiento()->associate($request->disciplina_subarea_conocimiento_id);
 
         $proyecto->proyectoFormulario1Linea65()->save($proyecto_formulario_1_linea_65);
+
+        $proyecto_formulario_1_linea_65->proyecto->redesConocimiento()->sync($request->red_conocimiento_id);
 
         $proyecto->participantes()->attach(
             Auth::user()->id,
@@ -158,6 +178,7 @@ class ProyectoFormulario1Linea65Controller extends Controller
         $proyecto_formulario_1_linea_65->proyecto->programasFormacion;
         $proyecto_formulario_1_linea_65->proyecto->participantes;
         $proyecto_formulario_1_linea_65->proyecto->mesasSectoriales;
+        $proyecto_formulario_1_linea_65->proyecto->redesConocimiento;
         $proyecto_formulario_1_linea_65->proyecto->tecnoacademiaLineasTecnoacademia;
         $proyecto_formulario_1_linea_65->proyecto->tipoFormularioConvocatoria->lineaProgramatica;
 
@@ -167,14 +188,16 @@ class ProyectoFormulario1Linea65Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario1Linea65/Edit', [
             'convocatoria'                                  => $convocatoria,
             'proyecto_formulario_1_linea_65'                => $proyecto_formulario_1_linea_65,
-            'evaluacion'                                    => EvaluacionProyectoFormulario1Linea65::find(request()->evaluacion_id),
             'centros_formacion'                             => SelectHelper::centrosFormacion(),
+            'evaluacion'                                    => EvaluacionProyectoFormulario1Linea65::find(request()->evaluacion_id),
             'tecnoacademia'                                 => $proyecto_formulario_1_linea_65->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_formulario_1_linea_65->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
             'mesas_sectoriales'                             => MesaSectorial::select('id as value', 'nombre as label')->get('id'),
-            'lineas_investigacion'                          => SelectHelper::lineasInvestigacion()->where('centro_formacion_id', $proyecto_formulario_1_linea_65->proyecto->centro_formacion_id)->values()->all(),
+            'lineas_investigacion'                          => SelectHelper::lineasInvestigacion(),
             'areas_conocimiento'                            => SelectHelper::areasConocimiento(),
+            'disciplinas_subarea_conocimiento'              => SelectHelper::disciplinasSubareaConocimiento(),
             'areas_cualificacion_mnc'                       => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),
             'lineas_estrategicas_sena'                      => json_decode(Storage::get('json/lineas-estrategicas.json'), true),
+            'redes_conocimiento'                            => SelectHelper::redesConocimiento(),
             'ejes_sennova'                                  => json_decode(Storage::get('json/ejes-sennova.json'), true),
             'lineas_programaticas'                          => SelectHelper::lineasProgramaticas(),
             'actividades_economicas'                        => SelectHelper::actividadesEconomicas(),
@@ -205,9 +228,11 @@ class ProyectoFormulario1Linea65Controller extends Controller
 
         $proyecto_formulario_1_linea_65->update($request->validated());
 
+        $proyecto_formulario_1_linea_65->proyecto->centroFormacion()->associate($request->centro_formacion_id);
         $proyecto_formulario_1_linea_65->save();
 
         $proyecto_formulario_1_linea_65->proyecto->municipios()->sync($request->municipios);
+        $proyecto_formulario_1_linea_65->proyecto->redesConocimiento()->sync($request->red_conocimiento_id);
         $proyecto_formulario_1_linea_65->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 
         $request->relacionado_mesas_sectoriales == 1 ? $proyecto_formulario_1_linea_65->proyecto->mesasSectoriales()->sync($request->mesa_sectorial_id) : $proyecto_formulario_1_linea_65->proyecto->mesasSectoriales()->detach();
@@ -220,6 +245,21 @@ class ProyectoFormulario1Linea65Controller extends Controller
     public function updateLongColumn(ProyectoFormulario1Linea65ColumnRequest $request, Convocatoria $convocatoria, ProyectoFormulario1Linea65 $proyecto_formulario_1_linea_65, $column)
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_1_linea_65->proyecto]);
+
+        if ($column == 'fecha_inicio') {
+            $proyecto_formulario_1_linea_65->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($request->fecha_inicio, $proyecto_formulario_1_linea_65->fecha_finalizacion)
+            ]);
+        } elseif ($column == 'fecha_finalizacion') {
+            $proyecto_formulario_1_linea_65->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($proyecto_formulario_1_linea_65->fecha_inicio, $request->fecha_finalizacion)
+            ]);
+        }
+
+        if ($column == 'centro_formacion_id') {
+            $proyecto_formulario_1_linea_65->proyecto->update($request->only($column));
+            return back();
+        }
 
         if ($column == 'programas_formacion' || $column == 'programas_formacion_articulados') {
             $proyecto_formulario_1_linea_65->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
@@ -238,6 +278,11 @@ class ProyectoFormulario1Linea65Controller extends Controller
 
         if ($column == 'linea_tecnologica_id') {
             $proyecto_formulario_1_linea_65->proyecto->tecnoacademiaLineasTecnoacademia()->sync($request->only($column)[$column]);
+            return back();
+        }
+
+        if ($column == 'red_conocimiento_id') {
+            $proyecto_formulario_1_linea_65->proyecto->redesConocimiento()->sync($request->only($column)[$column]);
             return back();
         }
 

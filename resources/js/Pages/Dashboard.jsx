@@ -1,13 +1,17 @@
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
+
 import AlertMui from '@/Components/Alert'
 import ButtonMui from '@/Components/Button'
 import DialogMui from '@/Components/Dialog'
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
+import MenuMui from '@/Components/Menu'
+import SenaLogo from '@/Components/SenaLogo'
 
 import { route, checkRole, checkPermission } from '@/Utils'
 
-import { Link, usePage } from '@inertiajs/react'
-import { Grid } from '@mui/material'
+import { Head, Link, router, usePage } from '@inertiajs/react'
+import { Grid, MenuItem } from '@mui/material'
 import { useState } from 'react'
+
 import FormRoles from './Users/FormRoles'
 
 export default function Dashboard({ auth, roles_sistema }) {
@@ -18,10 +22,52 @@ export default function Dashboard({ auth, roles_sistema }) {
     const auth_user = auth.user
 
     const is_super_admin = checkRole(auth_user, [1])
-    const [dialog_status, setDialogStatus] = useState(true)
+    const [dialog_status, setDialogStatus] = useState(checkRole(auth_user, [11, 33]) || (auth_user.roles.length == 0 && rol != 'evaluador_externo'))
+
+    const submitEvaluadorInterno = (e) => {
+        e.preventDefault()
+        router.put(
+            route('users.evaluador'),
+            {
+                evaluador_interno: true,
+            },
+            {
+                onSuccess: () => setDialogStatus(false),
+                preserveScroll: true,
+            },
+        )
+    }
+
+    const submitEvaluadorExterno = (e) => {
+        e.preventDefault()
+        router.put(
+            route('users.evaluador'),
+            {
+                evaluador_externo: true,
+            },
+            {
+                onSuccess: () => setDialogStatus(false),
+                preserveScroll: true,
+            },
+        )
+    }
+
+    const submitEliminarEvaluador = (e) => {
+        e.preventDefault()
+        router.put(
+            route('users.eliminar-evaluador'),
+            {},
+            {
+                onSuccess: () => setDialogStatus(false),
+                preserveScroll: true,
+            },
+        )
+    }
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Panel principal" />
+
             <Grid container columnSpacing={2} rowSpacing={5}>
                 <Grid item md={12}>
                     <div className="flex items-center justify-between rounded-xl px-10 py-20 text-app-800 bg-app-300/50">
@@ -51,7 +97,35 @@ export default function Dashboard({ auth, roles_sistema }) {
                     </Link>
                 </Grid>
 
-                {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) && (
+                <Grid item md={4}>
+                    <Link
+                        className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
+                        href={route('proyectos.index')}>
+                        Mis proyectos SGPS
+                    </Link>
+                </Grid>
+
+                {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
+                    <Grid item md={4}>
+                        <Link
+                            className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
+                            href={route('evaluaciones.index')}>
+                            Evaluaciones
+                        </Link>
+                    </Grid>
+                )}
+
+                {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
+                    <Grid item md={4}>
+                        <Link
+                            className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
+                            href={route('evaluadores.index')}>
+                            Evaluaciones
+                        </Link>
+                    </Grid>
+                )}
+
+                {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
@@ -61,7 +135,7 @@ export default function Dashboard({ auth, roles_sistema }) {
                     </Grid>
                 )}
 
-                {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) && (
+                {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
@@ -71,7 +145,7 @@ export default function Dashboard({ auth, roles_sistema }) {
                     </Grid>
                 )}
 
-                {checkRole(auth_user, [1, 2, 3, 21, 18, 19, 5, 17]) && (
+                {checkRole(auth_user, [1, 2, 4, 5, 17, 18, 19, 21]) && (
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
@@ -81,7 +155,7 @@ export default function Dashboard({ auth, roles_sistema }) {
                     </Grid>
                 )}
 
-                {checkRole(auth_user, [1, 3, 4, 21, 18, 19, 5, 17]) && (
+                {checkRole(auth_user, [1, 3, 4, 5, 17, 18, 19, 21, 27]) && (
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
@@ -91,7 +165,7 @@ export default function Dashboard({ auth, roles_sistema }) {
                     </Grid>
                 )}
 
-                {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) && (
+                {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
@@ -101,7 +175,7 @@ export default function Dashboard({ auth, roles_sistema }) {
                     </Grid>
                 )}
 
-                {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) && (
+                {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
@@ -111,7 +185,7 @@ export default function Dashboard({ auth, roles_sistema }) {
                     </Grid>
                 )}
 
-                {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) && (
+                {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
@@ -141,7 +215,7 @@ export default function Dashboard({ auth, roles_sistema }) {
                     </Grid>
                 )}
 
-                {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) && (
+                {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
@@ -151,17 +225,17 @@ export default function Dashboard({ auth, roles_sistema }) {
                     </Grid>
                 )}
 
-                {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) && (
+                {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
                             href={route('semilleros-investigacion.nivel-nacional')}>
-                            Semillero de investigación
+                            Semilleros de investigación
                         </Link>
                     </Grid>
                 )}
 
-                {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) && (
+                {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
@@ -171,7 +245,7 @@ export default function Dashboard({ auth, roles_sistema }) {
                     </Grid>
                 )}
 
-                {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) && (
+                {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
                     <Grid item md={4}>
                         <Link
                             className="bg-white overflow-hidden rounded-lg px-6 py-2 hover:bg-app-800 hover:text-white h-[200px] shadow-md flex justify-around items-center flex-col"
@@ -199,40 +273,31 @@ export default function Dashboard({ auth, roles_sistema }) {
 
                 <DialogMui
                     open={dialog_status}
+                    enableGradient={true}
+                    fullWidth={true}
+                    blurEnabled={true}
+                    maxWidth="md"
                     dialogContent={
                         <>
-                            <hr className="mt-10 mb-10" />
-                            <div>
-                                {auth_user.roles.length == 0 && rol != 'evaluador_externo' && (
-                                    <AlertMui>
-                                        Por favor seleccione los roles de formulación según la línea en la que desea presentar proyectos. Si requiere otro rol por favor comuníquese con el
-                                        administrador del sistema.
-                                        <FormRoles usuario={auth_user} roles_sistema={roles_sistema} />
-                                    </AlertMui>
-                                )}
+                            <div className="text-white">
+                                <span className="text-white pointer-events-none place-items-center gap-2 flex py-2" href="/">
+                                    SENNOVA | <SenaLogo className="w-10" />
+                                </span>
 
-                                {rol == 'evaluador_externo' && (
-                                    <AlertMui>
-                                        ¡Bienvenido/a! {auth_user.nombre} 👋🏻. Se le ha asignado el rol de <strong>Evaluador/a externo</strong>.
-                                    </AlertMui>
-                                )}
-
-                                {auth_user.roles.length > 0 && auth_user.check_soportes_titulo_obtenido === 0 && auth_user.check_certificados_formacion === 0 ? (
+                                {checkRole(auth_user, [11, 33]) ? (
                                     <>
-                                        <p className="mt-10">
-                                            A continuación, diríjase al CENSO SENNOVA 2023. Por favor haga clic en <strong>'Ir al CENSO SENNOVA 2023'</strong> para diligenciarlo.
-                                        </p>
-                                        {auth_user.informacion_completa && (
-                                            <AlertMui className="mt-4">
-                                                Si ya diligenció el CENSO por favor de clic en <strong>'Ya he completado el CENSO'</strong>
-                                            </AlertMui>
-                                        )}
+                                        <h1 className="text-center text-2xl my-6">¡Hola {auth_user.nombre}!. Por favor confirme si desea participar como evaluador(a) de proyectos I+D+i 2024.</h1>
+                                        <figure>
+                                            <img src="/images/evaluadores.png" alt="" className="w-60 m-auto" />
+                                        </figure>
                                     </>
                                 ) : (
-                                    auth_user.roles.length > 0 && (
-                                        <AlertMui severity="error">
-                                            Tiene <strong>{auth_user.check_soportes_titulo_obtenido}</strong> soporte(s) de estudio académico y{' '}
-                                            <strong>{auth_user.check_certificados_formacion}</strong> certificado(s) de formación académica SENA sin cargar, por favor complete el CENSO SENNOVA.
+                                    auth_user.roles.length == 0 &&
+                                    rol != 'evaluador_externo' && (
+                                        <AlertMui>
+                                            Por favor seleccione los roles de formulación según la línea en la que desea presentar proyectos. Si requiere otro rol por favor comuníquese con el
+                                            administrador del sistema.
+                                            <FormRoles usuario={auth_user} roles_sistema={roles_sistema} />
                                         </AlertMui>
                                     )
                                 )}
@@ -241,18 +306,27 @@ export default function Dashboard({ auth, roles_sistema }) {
                     }
                     dialogActions={
                         <>
-                            {auth_user.roles.length > 0 || rol == 'evaluador_externo' ? (
-                                <div className="p-4 flex">
-                                    {auth_user.informacion_completa && auth_user.check_soportes_titulo_obtenido == 0 && auth_user.check_certificados_formacion == 0 && (
-                                        <ButtonMui onClick={() => setDialogStatus(false)}>Ya he completado el CENSO</ButtonMui>
-                                    )}
-                                    <Link
-                                        className="ml-2 overflow-hidden shadow-sm rounded px-6 py-2 bg-app-500 text-white flex justify-around items-center flex-col text-center"
-                                        href={route('users.perfil', { rol: rol })}>
-                                        Ir al CENSO SENNOVA 2023
-                                    </Link>
-                                </div>
-                            ) : null}
+                            <MenuMui text="Confirmar postulación como evaluador(a)">
+                                <MenuItem
+                                    onClick={(e) => {
+                                        submitEvaluadorInterno(e)
+                                    }}>
+                                    Pertenezco a SENNOVA
+                                </MenuItem>
+                                <MenuItem
+                                    onClick={(e) => {
+                                        submitEvaluadorExterno(e)
+                                    }}>
+                                    No hago parte de SENNOVA
+                                </MenuItem>
+                            </MenuMui>
+
+                            <ButtonMui
+                                onClick={(e) => {
+                                    submitEliminarEvaluador(e)
+                                }}>
+                                Quiero eliminar mi postulación como evaluador(a)
+                            </ButtonMui>
                         </>
                     }
                 />

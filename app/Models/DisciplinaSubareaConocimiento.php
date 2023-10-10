@@ -67,6 +67,26 @@ class DisciplinaSubareaConocimiento extends Model
     }
 
     /**
+     * Relationship with ProyectoFormulario1Linea65
+     *
+     * @return object
+     */
+    public function proyectosFormulario1Linea65()
+    {
+        return $this->hasMany(ProyectoFormulario1Linea65::class);
+    }
+
+    /**
+     * Relationship with ProyectoFormulario13Linea65
+     *
+     * @return object
+     */
+    public function proyectosFormulario13Linea65()
+    {
+        return $this->hasMany(ProyectoFormulario13Linea65::class);
+    }
+
+    /**
      * Relationship with AmbienteModernizacion
      *
      * @return object

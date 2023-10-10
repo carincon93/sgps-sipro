@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import { useState } from 'react'
-import { usePage } from '@inertiajs/react'
+import { Head, usePage } from '@inertiajs/react'
 import { checkRole } from '@/Utils'
 
 import Form from './Form'
@@ -26,7 +26,9 @@ const Edit = ({
     const is_super_admin = checkRole(auth_user, [1])
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Seguimiento post cierre - Ambientes de modernización SENNOVA</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Seguimiento post cierre - Ambientes de modernización SENNOVA" />
+
             <Form
                 auth_user={auth_user}
                 method="POST"

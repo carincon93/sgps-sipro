@@ -114,7 +114,7 @@ const Form = ({
                                     {proyecto_formulario_4_linea_70.proyecto.codigo}
                                 </>
                             ) : (
-                                <>TecnoAcademia - Línea 70</>
+                                <>Tecnoacademia - Línea 70</>
                             )}
                         </h1>
                     </div>
@@ -161,7 +161,7 @@ const Form = ({
                 {method == 'POST' && (
                     <>
                         <Grid item md={6}>
-                            <Label required labelFor="tecnoacademia_id" className="mb-4" value="TecnoAcademia" />
+                            <Label required labelFor="tecnoacademia_id" className="mb-4" value="Tecnoacademia" />
                         </Grid>
                         <Grid item md={6}>
                             <Autocomplete
@@ -170,7 +170,7 @@ const Form = ({
                                 onChange={(event, newValue) => form.setData('tecnoacademia_id', newValue.value)}
                                 disabled={!(proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update || allowed_to_create)}
                                 options={tecnoacademias}
-                                placeholder="Seleccione una TecnoAcademia"
+                                placeholder="Seleccione una Tecnoacademia"
                                 required
                             />
                         </Grid>
@@ -203,6 +203,22 @@ const Form = ({
                         </Grid>
                     </>
                 )}
+
+                <Grid item md={6}>
+                    <Label required className="mb-4" labelFor="tecnoacademia_id" value="La infraestructura donde opera la Tecnoacademia es:" />
+                </Grid>
+                <Grid item md={6}>
+                    <Autocomplete
+                        id="infraestructura_tecnoacademia"
+                        options={infraestructura_tecnoacademia}
+                        inputBackground="#fff"
+                        selectedValue={form.data.infraestructura_tecnoacademia}
+                        onChange={(event, newValue) => (form.setData('infraestructura_tecnoacademia', newValue.value), syncColumnLong('infraestructura_tecnoacademia', form))}
+                        disabled={!(proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update || allowed_to_create)}
+                        error={form.errors.infraestructura_tecnoacademia}
+                        required
+                    />
+                </Grid>
 
                 {method == 'POST' && (
                     <>
@@ -240,7 +256,7 @@ const Form = ({
                                         value={form.data.cantidad_meses}
                                         onChange={(e) => form.setData('cantidad_meses', e.target.value)}
                                         disabled={!(proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update || allowed_to_create)}
-                                        placeholder="Número de meses de vinculación"
+                                        label="Número de meses de vinculación"
                                         required
                                     />
                                     {monthDiff(form.data.fecha_inicio, form.data.fecha_finalizacion) && (
@@ -279,39 +295,22 @@ const Form = ({
                             <Label required className="mb-4" labelFor="linea_programatica_id" value="Código dependencia presupuestal (SIIF)" />
                         </Grid>
                         <Grid item md={6}>
-                            TecnoAcademia
+                            Tecnoacademia
                         </Grid>
 
                         <Grid item md={6}>
                             <Label required className="mb-4" labelFor="centro_formacion_id" value="Centro de formación" />
-                            <small> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </small>
                         </Grid>
                         <Grid item md={6}>
                             <p className="first-letter:uppercase">{proyecto_formulario_4_linea_70.proyecto.centro_formacion.nombre}</p>
+                            <AlertMui> Nota: El Centro de Formación relacionado es el ejecutor del proyecto </AlertMui>
                         </Grid>
 
                         <Grid item md={6}>
-                            <Label required className="mb-4" labelFor="tecnoacademia_id" value="TecnoAcademia" />
+                            <Label required className="mb-4" labelFor="tecnoacademia_id" value="Tecnoacademia" />
                         </Grid>
                         <Grid item md={6}>
                             <div>{proyecto_formulario_4_linea_70.titulo}</div>
-                        </Grid>
-
-                        <Grid item md={6}>
-                            <Label required className="mb-4" labelFor="tecnoacademia_id" value="La infraestructura donde opera la TecnoAcademia es:" />
-                        </Grid>
-                        <Grid item md={6}>
-                            <Autocomplete
-                                id="infraestructura_tecnoacademia"
-                                options={infraestructura_tecnoacademia}
-                                inputBackground="#fff"
-                                selectedValue={form.data.infraestructura_tecnoacademia}
-                                onChange={(event, newValue) => form.setData('infraestructura_tecnoacademia', newValue.value)}
-                                disabled={!proyecto_formulario_4_linea_70?.proyecto?.allowed?.to_update}
-                                error={form.errors.infraestructura_tecnoacademia}
-                                onBlur={() => syncColumnLong('infraestructura_tecnoacademia', form)}
-                                required
-                            />
                         </Grid>
 
                         <Grid item md={12}>
@@ -398,7 +397,7 @@ const Form = ({
                                 required
                                 className="mb-4"
                                 labelFor="logros_vigencia_anterior"
-                                value={`Logros de la vigencia ${convocatoria.year - 1} en la implementación del programa de TecnoAcademia`}
+                                value={`Logros de la vigencia ${convocatoria.year - 1} en la implementación del programa de Tecnoacademia`}
                             />
 
                             <Textarea
@@ -461,7 +460,7 @@ const Form = ({
                         </Grid>
 
                         <Grid item md={12}>
-                            <Label required className="mb-4" labelFor="lineas_tecnologicas_centro" value="Líneas tecnológicas del Centro con las que se articula la TecnoAcademia" />
+                            <Label required className="mb-4" labelFor="lineas_tecnologicas_centro" value="Líneas tecnológicas del Centro con las que se articula la Tecnoacademia" />
 
                             <Textarea
                                 id="lineas_tecnologicas_centro"

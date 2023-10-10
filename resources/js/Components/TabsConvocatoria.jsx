@@ -39,6 +39,83 @@ const TabsConvocatoria = ({ convocatoria, tipo_formulario_convocatoria_id, value
                 value="3"
             />
 
+            {tipo_formulario_convocatoria_id == 1 && (
+                <Tab
+                    component="a"
+                    onClick={() => {
+                        router.visit(route('convocatorias.montos-maximos-formulario1-regional.index', [convocatoria.id, { tipo_formulario_convocatoria_id: tipo_formulario_convocatoria_id }]))
+                    }}
+                    label="Montos máximos por regional"
+                    value="4"
+                />
+            )}
+
+            {tipo_formulario_convocatoria_id == 4 && (
+                <Tab
+                    component="a"
+                    onClick={() => {
+                        router.visit(route('convocatorias.topes-roles-sennova-tecnoacademias.index', [convocatoria.id, { tipo_formulario_convocatoria_id: tipo_formulario_convocatoria_id }]))
+                    }}
+                    label="Topes - Roles SENNOVA"
+                    value="4"
+                />
+            )}
+
+            {tipo_formulario_convocatoria_id == 7 && (
+                <Tab
+                    component="a"
+                    onClick={() => {
+                        router.visit(route('convocatorias.topes-presupuestales-formulario-7.index', [convocatoria.id, { tipo_formulario_convocatoria_id: tipo_formulario_convocatoria_id }]))
+                    }}
+                    label="Topes - presupuestales"
+                    value="4"
+                />
+            )}
+
+            {tipo_formulario_convocatoria_id == 13 && (
+                <Tab
+                    component="a"
+                    onClick={() => {
+                        router.visit(route('convocatorias.topes-roles-sennova-formulario-13.index', [convocatoria.id, { tipo_formulario_convocatoria_id: tipo_formulario_convocatoria_id }]))
+                    }}
+                    label="Topes - Roles SENNOVA"
+                    value="4"
+                />
+            )}
+
+            {tipo_formulario_convocatoria_id == 15 && (
+                <Tab
+                    component="a"
+                    onClick={() => {
+                        router.visit(route('convocatorias.topes-roles-sennova-formulario-15.index', [convocatoria.id, { tipo_formulario_convocatoria_id: tipo_formulario_convocatoria_id }]))
+                    }}
+                    label="Topes - Roles SENNOVA"
+                    value="4"
+                />
+            )}
+
+            {tipo_formulario_convocatoria_id == 16 && (
+                <Tab
+                    component="a"
+                    onClick={() => {
+                        router.visit(route('convocatorias.topes-roles-sennova-formulario-16.index', [convocatoria.id, { tipo_formulario_convocatoria_id: tipo_formulario_convocatoria_id }]))
+                    }}
+                    label="Topes - Roles SENNOVA"
+                    value="4"
+                />
+            )}
+
+            {tipo_formulario_convocatoria_id == 10 && (
+                <Tab
+                    component="a"
+                    onClick={() => {
+                        router.visit(route('convocatorias.topes-roles-sennova-hubs-innovacion.index', [convocatoria.id, { tipo_formulario_convocatoria_id: tipo_formulario_convocatoria_id }]))
+                    }}
+                    label="Topes - Roles SENNOVA"
+                    value="4"
+                />
+            )}
+
             {tipo_formulario_convocatoria_id == 17 && (
                 <Tab
                     component="a"

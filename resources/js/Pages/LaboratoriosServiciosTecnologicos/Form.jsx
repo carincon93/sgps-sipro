@@ -78,7 +78,7 @@ const Form = ({ method = '', setDialogStatus, laboratorio_st, tipologias_st, sub
                                     selectedValue={form.data.linea_tecnica_id}
                                     onChange={(event, newValue) => form.setData('linea_tecnica_id', newValue.value)}
                                     error={form.errors.linea_tecnica_id}
-                                    label="Seleccione la líena técnica"
+                                    label="Seleccione la línea técnica"
                                 />
                             </Grid>
                         </Grid>

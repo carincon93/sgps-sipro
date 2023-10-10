@@ -5,6 +5,7 @@ namespace App\Http\Traits;
 use App\Models\ConvocatoriaAnexo;
 use App\Models\Proyecto;
 use App\Models\SegundoGrupoPresupuestal;
+use App\Models\TopePresupuestalFormulario7;
 use App\Models\TopePresupuestalNodoTecnoparque;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -22,7 +23,7 @@ trait ProyectoValidationTrait
     public static function problemaCentral(Proyecto $proyecto)
     {
         switch ($proyecto) {
-             case $proyecto->proyectoFormulario1Linea65()->exists() && $proyecto->proyectoFormulario1Linea65->problema_central == '':
+            case $proyecto->proyectoFormulario1Linea65()->exists() && $proyecto->proyectoFormulario1Linea65->problema_central == '':
                 return false;
                 break;
             case $proyecto->proyectoFormulario8Linea66()->exists() && $proyecto->proyectoFormulario8Linea66->problema_central == '':
@@ -399,11 +400,11 @@ trait ProyectoValidationTrait
     public static function anexos(Proyecto $proyecto)
     {
         $convocatoria_anexos = ConvocatoriaAnexo::where('convocatoria_id', $proyecto->convocatoria_id)
-                    ->where('tipo_formulario_convocatoria_id', $proyecto->tipo_formulario_convocatoria_id)
-                    ->where('obligatorio', true)
-                    ->where('habilitado', true)
-                    ->with('anexo')
-                    ->get();
+            ->where('tipo_formulario_convocatoria_id', $proyecto->tipo_formulario_convocatoria_id)
+            ->where('obligatorio', true)
+            ->where('habilitado', true)
+            ->with('anexo')
+            ->get();
 
         $count = 0;
         foreach ($convocatoria_anexos as $convocatoria_anexo) {
@@ -412,7 +413,6 @@ trait ProyectoValidationTrait
                     $count++;
                 }
             }
-
         }
 
         return $count == count($convocatoria_anexos) ? true : false;
@@ -443,7 +443,7 @@ trait ProyectoValidationTrait
             case $proyecto->proyectoFormulario10Linea69()->exists() && $proyecto->proyectoFormulario10Linea69->bibliografia == '':
                 return false;
                 break;
-             case $proyecto->proyectoFormulario4Linea70()->exists() && $proyecto->proyectoFormulario4Linea70->bibliografia == '':
+            case $proyecto->proyectoFormulario4Linea70()->exists() && $proyecto->proyectoFormulario4Linea70->bibliografia == '':
                 return false;
                 break;
             case $proyecto->proyectoFormulario11Linea83()->exists() && $proyecto->proyectoFormulario11Linea83->bibliografia == '':
@@ -516,9 +516,9 @@ trait ProyectoValidationTrait
             case $proyecto->proyectoFormulario5Linea69()->exists() && $proyecto->proyectoFormulario5Linea69->propuesta_sostenibilidad == '':
                 return false;
                 break;
-            // case $proyecto->proyectoFormulario10Linea69()->exists() && $proyecto->proyectoFormulario10Linea69->propuesta_sostenibilidad == '':
-            //     return false;
-            //     break;
+                // case $proyecto->proyectoFormulario10Linea69()->exists() && $proyecto->proyectoFormulario10Linea69->propuesta_sostenibilidad == '':
+                //     return false;
+                //     break;
             case $proyecto->proyectoFormulario4Linea70()->exists() && $proyecto->proyectoFormulario4Linea70->propuesta_sostenibilidad_social == '':
                 return false;
                 break;
@@ -630,13 +630,13 @@ trait ProyectoValidationTrait
     public static function valorTotalPorConceptoInternoSena($proyecto)
     {
         return DB::table('convocatoria_proyecto_rubro_presupuestal')->selectRaw('segundo_grupo_presupuestal.nombre, segundo_grupo_presupuestal.codigo, SUM(proyecto_presupuesto.valor_total) AS total_valor')
-                                    ->join('proyecto_presupuesto', 'convocatoria_proyecto_rubro_presupuestal.proyecto_presupuesto_id', 'proyecto_presupuesto.id')
-                                    ->join('convocatoria_presupuesto', 'convocatoria_proyecto_rubro_presupuestal.convocatoria_presupuesto_id', 'convocatoria_presupuesto.id')
-                                    ->join('rubros_presupuestales', 'convocatoria_presupuesto.rubro_presupuestal_id', 'rubros_presupuestales.id')
-                                    ->join('segundo_grupo_presupuestal', 'rubros_presupuestales.segundo_grupo_presupuestal_id', 'segundo_grupo_presupuestal.id')
-                                    ->where('proyecto_presupuesto.proyecto_id',  $proyecto->id)
-                                    ->groupBy('segundo_grupo_presupuestal.nombre', 'segundo_grupo_presupuestal.codigo')
-                                    ->get();
+            ->join('proyecto_presupuesto', 'convocatoria_proyecto_rubro_presupuestal.proyecto_presupuesto_id', 'proyecto_presupuesto.id')
+            ->join('convocatoria_presupuesto', 'convocatoria_proyecto_rubro_presupuestal.convocatoria_presupuesto_id', 'convocatoria_presupuesto.id')
+            ->join('rubros_presupuestales', 'convocatoria_presupuesto.rubro_presupuestal_id', 'rubros_presupuestales.id')
+            ->join('segundo_grupo_presupuestal', 'rubros_presupuestales.segundo_grupo_presupuestal_id', 'segundo_grupo_presupuestal.id')
+            ->where('proyecto_presupuesto.proyecto_id',  $proyecto->id)
+            ->groupBy('segundo_grupo_presupuestal.nombre', 'segundo_grupo_presupuestal.codigo')
+            ->get();
     }
 
     public static function topesPresupuestales($proyecto)
@@ -667,7 +667,7 @@ trait ProyectoValidationTrait
             ->orderBy('topes_presupuestales_tecnoparque_conceptos_sena.tope_presupuestal_nodo_tecnoparque_id')
             ->get();
 
-        foreach($proyecto_presupuesto as $rubro_presupuestal) {
+        foreach ($proyecto_presupuesto as $rubro_presupuestal) {
             if (count($codes->where('codigo', $rubro_presupuestal->codigo)) > 0) {
                 $rubro_presupuestal->total_sum = $proyecto_presupuesto->whereIn('codigo', $codes->where('tope_presupuestal_nodo_tecnoparque_id', $codes->where('codigo', $rubro_presupuestal->codigo)->first()->tope_presupuestal_nodo_tecnoparque_id)->pluck('codigo'))->sum('total_valor');
             } else {
@@ -675,12 +675,12 @@ trait ProyectoValidationTrait
             }
 
             $tope_presupuestal = TopePresupuestalNodoTecnoparque::select('valor')
-                                    ->join('topes_presupuestales_tecnoparque_conceptos_sena', 'topes_presupuestales_nodos_tecnoparque.id', 'topes_presupuestales_tecnoparque_conceptos_sena.tope_presupuestal_nodo_tecnoparque_id')
-                                    ->join('segundo_grupo_presupuestal', 'topes_presupuestales_tecnoparque_conceptos_sena.segundo_grupo_presupuestal_id', 'segundo_grupo_presupuestal.id')
-                                    ->where('nodo_tecnoparque_id', $proyecto->proyectoFormulario17Linea69->nodo_tecnoparque_id)
-                                    ->where('convocatoria_id', $proyecto->convocatoria_id)
-                                    ->where('segundo_grupo_presupuestal.codigo', $rubro_presupuestal->codigo)
-                                    ->first();
+                ->join('topes_presupuestales_tecnoparque_conceptos_sena', 'topes_presupuestales_nodos_tecnoparque.id', 'topes_presupuestales_tecnoparque_conceptos_sena.tope_presupuestal_nodo_tecnoparque_id')
+                ->join('segundo_grupo_presupuestal', 'topes_presupuestales_tecnoparque_conceptos_sena.segundo_grupo_presupuestal_id', 'segundo_grupo_presupuestal.id')
+                ->where('nodo_tecnoparque_id', $proyecto->proyectoFormulario17Linea69->nodo_tecnoparque_id)
+                ->where('convocatoria_id', $proyecto->convocatoria_id)
+                ->where('segundo_grupo_presupuestal.codigo', $rubro_presupuestal->codigo)
+                ->first();
 
             if ($rubro_presupuestal->total_sum > $tope_presupuestal->valor) {
                 return false;
@@ -688,5 +688,36 @@ trait ProyectoValidationTrait
         }
 
         return true;
+    }
+
+    public static function topesPresupuestalesFormulario7($convocatoria, $proyecto)
+    {
+        $tope_presupuestal_formulario7  = TopePresupuestalFormulario7::select('topes_presupuestales_formulario_7_concepto_sena.valor', 'topes_presupuestales_formulario_7_concepto_sena.porcentaje', 'segundo_grupo_presupuestal.nombre', 'segundo_grupo_presupuestal.codigo')->where('convocatoria_id', $convocatoria->id)->join('segundo_grupo_presupuestal', 'topes_presupuestales_formulario_7_concepto_sena.segundo_grupo_presupuestal_id', 'segundo_grupo_presupuestal.id')->get();
+        $valores_totales_por_concepto   = self::valorTotalPorConceptoInternoSena($proyecto);
+
+        foreach ($valores_totales_por_concepto as $valor_total_por_concepto) {
+            $tope_filtrado = $tope_presupuestal_formulario7->where('codigo', $valor_total_por_concepto->codigo)->first();
+            if ($tope_filtrado && $tope_filtrado->porcentaje) {
+                foreach ($valores_totales_por_concepto->where('codigo', $tope_filtrado->codigo)->values()->all() as $valor_total_por_concepto_filtrado) {
+                    $porcentaje_total_proyecto = ($proyecto->total_proyecto_presupuesto * (int) $tope_filtrado->porcentaje / 100);
+                    if ($porcentaje_total_proyecto >= (int) $valor_total_por_concepto_filtrado->total_valor) {
+                        return null;
+                    } else {
+                        $tope_number_format = number_format($porcentaje_total_proyecto, 0, ',', '.');
+
+                        return "El valor del rubro presupuestal {$tope_filtrado->nombre} ha superado el monto máximo de $$tope_number_format ($tope_filtrado->porcentaje% del total del proyecto)";
+                    }
+                }
+            } else if ($tope_filtrado && $tope_filtrado->valor) {
+                foreach ($valores_totales_por_concepto->where('codigo', $tope_filtrado->codigo)->values()->all() as $valor_total_por_concepto_filtrado) {
+                    if ($tope_filtrado->valor >= (int) $valor_total_por_concepto_filtrado->total_valor) {
+                        return null;
+                    } else {
+                        $tope_number_format = number_format($tope_filtrado->valor, 0, ',', '.');
+                        return "El valor del rubro presupuestal {$tope_filtrado->nombre} ha superado el monto máximo de $$tope_number_format COP";
+                    }
+                }
+            }
+        }
     }
 }

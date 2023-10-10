@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FunctionsHelper;
 use App\Helpers\SelectHelper;
 use App\Models\Proyecto;
 use App\Models\ProyectoFormulario15Linea65;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\CentroFormacion;
 use App\Models\Evaluacion\EvaluacionProyectoFormulario15Linea65;
 use App\Models\RolSennova;
+use App\Models\TopeRolSennovaFormulario15;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
@@ -45,7 +47,16 @@ class ProyectoFormulario15Linea65Controller extends Controller
     {
         $this->authorize('formular-proyecto', [9, $convocatoria]);
 
-        $centros_formacion = CentroFormacion::selectRaw('centros_formacion.id as value, concat(centros_formacion.nombre, chr(10), \'∙ Código: \', centros_formacion.codigo) as label')->orderBy('centros_formacion.nombre', 'ASC')->get();
+        $centros_formacion_ids = TopeRolSennovaFormulario15::select('topes_roles_formulario_15.centro_formacion_id')->join('convocatoria_rol_sennova', 'topes_roles_formulario_15.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')->where('convocatoria_rol_sennova.convocatoria_id', $convocatoria->id)->get()->pluck('centro_formacion_id')->flatten();
+
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
+        if ($auth_user->hasRole([1, 5, 17, 18, 19, 20])) {
+            $centros_formacion = SelectHelper::centrosFormacion()->whereIn('value', $centros_formacion_ids)->values()->all();
+        } else {
+            $centros_formacion = SelectHelper::centrosFormacion()->where('regional_id', $auth_user->centroFormacion->regional->id)->whereIn('value', $centros_formacion_ids)->values()->all();
+        }
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario15Linea65/Create', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'year'),
@@ -159,12 +170,15 @@ class ProyectoFormulario15Linea65Controller extends Controller
         $proyecto_formulario_15_linea_65->mostrar_recomendaciones             = $proyecto_formulario_15_linea_65->proyecto->mostrar_recomendaciones;
         $proyecto_formulario_15_linea_65->mostrar_requiere_subsanacion        = $proyecto_formulario_15_linea_65->proyecto->mostrar_requiere_subsanacion;
 
+        $centros_formacion_ids = TopeRolSennovaFormulario15::select('topes_roles_formulario_15.centro_formacion_id')->join('convocatoria_rol_sennova', 'topes_roles_formulario_15.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')->where('convocatoria_rol_sennova.convocatoria_id', $convocatoria->id)->get()->pluck('centro_formacion_id')->flatten();
+
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario15Linea65/Edit', [
             'convocatoria'                                  => $convocatoria,
             'proyecto_formulario_15_linea_65'               => $proyecto_formulario_15_linea_65,
-            'evaluacion'                                    => EvaluacionProyectoFormulario15Linea65::find(request()->evaluacion_id),
+            'centros_formacion'                             => SelectHelper::centrosFormacion()->whereIn('value', $centros_formacion_ids)->values()->all(),
+            // 'evaluacion'                                    => EvaluacionProyectoFormulario15Linea65::find(request()->evaluacion_id),
             'mesas_sectoriales'                             => MesaSectorial::select('id as value', 'nombre as label')->get('id'),
-            'lineas_investigacion'                          => SelectHelper::lineasInvestigacion()->where('centro_formacion_id', $proyecto_formulario_15_linea_65->proyecto->centro_formacion_id)->values()->all(),
+            'lineas_investigacion'                          => SelectHelper::lineasInvestigacion(),
             'areas_conocimiento'                            => SelectHelper::areasConocimiento(),
             'lineas_programaticas'                          => SelectHelper::lineasProgramaticas(),
             'areas_cualificacion_mnc'                       => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),
@@ -191,11 +205,11 @@ class ProyectoFormulario15Linea65Controller extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_15_linea_65->proyecto]);
 
-
         $proyecto_formulario_15_linea_65->update($request->validated());
 
         $proyecto_formulario_15_linea_65->save();
 
+        $proyecto_formulario_15_linea_65->proyecto->centroFormacion()->associate($request->centro_formacion_id);
         $proyecto_formulario_15_linea_65->proyecto->municipios()->sync($request->municipios);
         $proyecto_formulario_15_linea_65->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
 
@@ -269,6 +283,21 @@ class ProyectoFormulario15Linea65Controller extends Controller
     {
         $this->authorize('modificar-proyecto-autor', [$proyecto_formulario_15_linea_65->proyecto]);
 
+        if ($column == 'fecha_inicio') {
+            $proyecto_formulario_15_linea_65->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($request->fecha_inicio, $proyecto_formulario_15_linea_65->fecha_finalizacion)
+            ]);
+        } elseif ($column == 'fecha_finalizacion') {
+            $proyecto_formulario_15_linea_65->update([
+                'max_meses_ejecucion' => FunctionsHelper::diffMonths($proyecto_formulario_15_linea_65->fecha_inicio, $request->fecha_finalizacion)
+            ]);
+        }
+
+        if ($column == 'centro_formacion_id') {
+            $proyecto_formulario_15_linea_65->proyecto->update($request->only($column));
+            return back();
+        }
+
         if ($column == 'programas_formacion' || $column == 'programas_formacion_articulados') {
             $proyecto_formulario_15_linea_65->proyecto->programasFormacion()->sync(array_merge($request->programas_formacion ? $request->programas_formacion : [], $request->programas_formacion_articulados ? $request->programas_formacion_articulados : []));
             return back();
@@ -288,5 +317,4 @@ class ProyectoFormulario15Linea65Controller extends Controller
 
         return back();
     }
-
 }

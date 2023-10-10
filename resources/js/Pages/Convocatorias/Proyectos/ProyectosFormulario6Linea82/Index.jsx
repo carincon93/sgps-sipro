@@ -12,7 +12,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Chip, Divider, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { useState } from 'react'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 
 import { route, checkRole } from '@/Utils'
 
@@ -23,7 +23,9 @@ const Index = ({ auth, convocatoria, proyectos_formulario_6_linea_82, allowed_to
     const [proyecto_formulario_6_linea_82_to_destroy, setProyectoFormulario6Linea82ToDestroy] = useState(null)
 
     return (
-        <AuthenticatedLayout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Líneas programáticas</h2>}>
+        <AuthenticatedLayout>
+            <Head title="Lista de proyectos - Formulario 6 Línea 82" />
+
             <Grid container>
                 {checkRole(auth_user, [1, 20, 18, 19, 5, 17]) && (
                     <Grid item md={12}>
@@ -125,7 +127,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_6_linea_82, allowed_to
                                                     </a>
                                                 </MenuItem>
                                                 <Divider />
-                                                {proyecto.evaluaciones.map((evaluacion, i) => (
+                                                {/* {proyecto.evaluaciones.map((evaluacion, i) => (
                                                     <MenuItem
                                                         key={i}
                                                         onClick={() =>
@@ -134,7 +136,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_6_linea_82, allowed_to
                                                         isabled={!is_super_admin}>
                                                         Evaluacion #{evaluacion.id}
                                                     </MenuItem>
-                                                ))}
+                                                ))} */}
                                                 <MenuItem
                                                     onClick={() => {
                                                         setProyectoFormulario6Linea82ToDestroy(proyecto.id)

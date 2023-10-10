@@ -9,6 +9,7 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import TextInput from '@/Components/TextInput'
 
 import { Head, Link, useForm, usePage } from '@inertiajs/react'
+
 export default function Login({ tipos_documento, tipos_vinculacion, roles, centros_formacion, municipios, opciones_genero, user, status, ...props }) {
     const { props: page_props } = usePage()
 
@@ -27,6 +28,7 @@ export default function Login({ tipos_documento, tipos_vinculacion, roles, centr
         numero_celular: user?.numero_celular,
         tipo_vinculacion: user?.tipo_vinculacion,
         centro_formacion_id: user?.centro_formacion_id,
+        aprendiz: 2,
         autorizacion_datos: user?.autorizacion_datos ?? false,
         rol: rol,
     })
@@ -55,6 +57,22 @@ export default function Login({ tipos_documento, tipos_vinculacion, roles, centr
             )}
             <form onSubmit={submit} className="mt-20 w-[22rem]">
                 <div>
+                    <Autocomplete
+                        id="aprendiz"
+                        options={[
+                            { value: 1, label: 'Si' },
+                            { value: 2, label: 'No' },
+                        ]}
+                        selectedValue={form.data.aprendiz}
+                        error={form.errors.aprendiz}
+                        onChange={(event, newValue) => {
+                            form.setData('aprendiz', newValue.value)
+                        }}
+                        label="¿Es aprendiz?"
+                        required
+                    />
+                </div>
+                <div className="mt-8 relative">
                     <TextInput
                         label="Nombre completo"
                         id="nombre"
@@ -69,7 +87,7 @@ export default function Login({ tipos_documento, tipos_vinculacion, roles, centr
 
                 <div className="mt-8 relative">
                     <TextInput
-                        label="Correo electrónico institucional"
+                        label={form.data.aprendiz == 1 ? 'Correo electrónico' : 'Correo electrónico institucional'}
                         id="email"
                         type="email"
                         className="mt-1 w-full"

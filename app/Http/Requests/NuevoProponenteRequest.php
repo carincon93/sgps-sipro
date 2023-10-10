@@ -27,7 +27,7 @@ class NuevoProponenteRequest extends FormRequest
         return [
             'centro_formacion_id'   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:centros_formacion,id'],
             'nombre'                => ['required', 'max:255', 'string'],
-            'email'                 => ['required', 'max:255', new Email, 'unique:users,email', 'email'],
+            'email'                 => ['required', 'max:255', new Email($this->aprendiz), 'unique:users,email', 'email'],
             'tipo_documento'        => ['required', 'max:2'],
             'numero_documento'      => ['required', 'min:0', 'unique:users,numero_documento', 'max:2147483647', 'integer'],
             'numero_celular'        => ['required', 'min:0', 'max:3999999999', 'integer'],

@@ -64,6 +64,7 @@ class ProyectoFormulario15Linea65 extends Model
         'lineas_estrategicas_sena',
         'justificacion_aportes_lineas_estrategicas',
         'lineas_programaticas_sennova',
+        'justificacion_mesas_sectoriales'
     ];
 
     /**

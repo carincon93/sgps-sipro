@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\SharepointHelper;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -174,6 +175,36 @@ class CentroFormacion extends Model
     public function codigosProyectosSgps()
     {
         return $this->hasMany(CodigoProyectoSgps::class);
+    }
+
+    /**
+     * Relationship with TopeRolSennovaFormulario13
+     *
+     * @return object
+     */
+    public function topesRolesSennovaFormulario13()
+    {
+        return $this->hasMany(TopeRolSennovaFormulario13::class);
+    }
+
+    /**
+     * Relationship with TopeRolSennovaFormulario15
+     *
+     * @return object
+     */
+    public function topesRolesSennovaFormulario15()
+    {
+        return $this->hasMany(TopeRolSennovaFormulario15::class);
+    }
+
+    /**
+     * Relationship with TopeRolSennovaFormulario16
+     *
+     * @return object
+     */
+    public function topesRolesSennovaFormulario16()
+    {
+        return $this->hasMany(TopeRolSennovaFormulario16::class);
     }
 
     /**
