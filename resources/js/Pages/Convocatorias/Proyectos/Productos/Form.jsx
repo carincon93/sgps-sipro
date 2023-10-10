@@ -97,7 +97,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                             <Autocomplete
                                                 id="tipo_producto"
                                                 options={[
-                                                    { value: 2, label: 'Producto CTI' },
+                                                    { value: 2, label: 'Producto CTeI' },
                                                     { value: 1, label: 'Indicadores de Gestión' },
                                                 ]}
                                                 selectedValue={tipo_producto}
