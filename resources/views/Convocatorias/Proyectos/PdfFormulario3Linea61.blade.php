@@ -676,7 +676,7 @@
                 @if ($presupuesto->actividades->count() > 0)
                 <tr>
                     <td colspan="3">
-                        <small style="display: block; font-weight: bold; maargin-left: 10px;">Actividades</small>
+                        <small style="display: block; font-weight: bold; margin-left: 10px;">Actividades</small>
                         <ul>
                             @foreach ($presupuesto->actividades as $actividad)
                             <li>{{ $actividad->descripcion }}</li>
@@ -771,7 +771,7 @@
                 @if ($rolSENNOVA->actividades->count() > 0)
                 <tr>
                     <td colspan="5">
-                        <small style="display: block; font-weight: bold; maargin-left: 10px;">Actividades</small>
+                        <small style="display: block; font-weight: bold; margin-left: 10px;">Actividades</small>
                         <ul>
                             @foreach ($rolSENNOVA->actividades as $actividad)
                             <li>{{ $actividad->descripcion }}</li>

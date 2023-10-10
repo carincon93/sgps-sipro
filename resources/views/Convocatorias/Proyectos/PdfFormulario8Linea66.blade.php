@@ -594,21 +594,13 @@
         <ul>
             @foreach ($proyecto->semillerosInvestigacion()->orderBy('nombre')->get() as $semillero_investigacion)
             <li>{{ ucfirst($semillero_investigacion->nombre) }}</li>
-            <<<<<<< HEAD @endforeach </ul>
-                <div class="bibliografia">
-                    <h4>Bibliografía</h4>
-                    <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->bibliografia }}</p>
-                </div>
-                <hr style="margin: 4rem 0">
-                =======
-                @endforeach
+            @endforeach
         </ul>
-
-        <h4>Bibliografía</h4>
-        <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->bibliografia }}</p>
-
+        <div class="bibliografia">
+            <h4>Bibliografía</h4>
+            <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->bibliografia }}</p>
+        </div>
         <hr style="margin: 4rem 0">
-        >>>>>>> main
 
         <h1>Problema central</h1>
 
@@ -1058,103 +1050,99 @@
             @endforeach
         </div>
 
-        <<<<<<< HEAD @if (!empty($proyecto->proyectoRolesSennova))
-            <div class="page_break rolessennova">
-                =======
-                @if (!empty($proyecto->proyectoRolesSennova))
-                <div class="page_break">
-                    >>>>>>> main
-                    <h2 style="text-align: center;">Roles SENNOVA ${{ number_format($proyecto->total_roles_sennova, 0, ',', '.') }} COP</h2>
-                    @foreach ($proyecto->proyectoRolesSennova as $rolSENNOVA)
-                    <table width="100%" border="1" cellspacing="0" cellpadding="3" style="margin-top: 20px; font-size: 10px;">
-                        <thead>
-                            <tr>
-                                <th width="30%">Rol</th>
-                                <th width="auto">Nivel académico</th>
-                                <th width="auto">Meses</th>
-                                <th width="auto">Número de personas</th>
-                                <th width="15%">Asignación mensual</th>
-                            </tr>
-                        </thead>
-                        <tbody slot="tbody">
-                            <tr>
-                                <td width="30%">{{ $rolSENNOVA->convocatoriaRolSennova->rolSennova->nombre }}</td>
-                                <td width="auto">
-                                    @switch ($rolSENNOVA->convocatoriaRolSennova->nivel_academico)
-                                    @case(1)
-                                    técnico
-                                    @break
+        @if (!empty($proyecto->proyectoRolesSennova))
+        <div class="page_break rolessennova">
+            <h2 style="text-align: center;">Roles SENNOVA ${{ number_format($proyecto->total_roles_sennova, 0, ',', '.') }} COP</h2>
+            @foreach ($proyecto->proyectoRolesSennova as $rolSENNOVA)
+            <table width="100%" border="1" cellspacing="0" cellpadding="3" style="margin-top: 20px; font-size: 10px;">
+                <thead>
+                    <tr>
+                        <th width="30%">Rol</th>
+                        <th width="auto">Nivel académico</th>
+                        <th width="auto">Meses</th>
+                        <th width="auto">Número de personas</th>
+                        <th width="15%">Asignación mensual</th>
+                    </tr>
+                </thead>
+                <tbody slot="tbody">
+                    <tr>
+                        <td width="30%">{{ $rolSENNOVA->convocatoriaRolSennova->rolSennova->nombre }}</td>
+                        <td width="auto">
+                            @switch ($rolSENNOVA->convocatoriaRolSennova->nivel_academico)
+                            @case(1)
+                            técnico
+                            @break
 
-                                    @case(2)
-                                    tecnólogo
-                                    @break
+                            @case(2)
+                            tecnólogo
+                            @break
 
-                                    @case(3)
-                                    pregrado
-                                    @break
+                            @case(3)
+                            pregrado
+                            @break
 
-                                    @case(4)
-                                    especalización
-                                    @break
+                            @case(4)
+                            especalización
+                            @break
 
-                                    @case(5)
-                                    maestría
-                                    @break
+                            @case(5)
+                            maestría
+                            @break
 
-                                    @case(6)
-                                    doctorado
-                                    @break
+                            @case(6)
+                            doctorado
+                            @break
 
-                                    @case(7)
-                                    ninguno
-                                    @break
+                            @case(7)
+                            ninguno
+                            @break
 
-                                    @case(8)
-                                    técnico con especialización
-                                    @break
+                            @case(8)
+                            técnico con especialización
+                            @break
 
-                                    @case(9)
-                                    tecnólogo con especialización
-                                    @break
+                            @case(9)
+                            tecnólogo con especialización
+                            @break
 
-                                    @default
-                                    ''
-                                    @endswitch
-                                </td>
-                                <th width="auto">{{ $rolSENNOVA->numero_meses }}</th>
-                                <th width="auto">{{ $rolSENNOVA->numero_roles }}</th>
-                                <td width="15%">${{ number_format($rolSENNOVA->convocatoriaRolSennova->asignacion_mensual, 0, ',', '.') }} COP</td>
-                            </tr>
-                            <tr>
-                                <td colspan="5">
-                                    <p style="font-weight: bold;">Descripción del perfil requerido</p>
-                                    <p style="white-space: pre-wrap">{{ $rolSENNOVA->descripcion }}</p>
-                                </td>
-                            </tr>
+                            @default
+                            ''
+                            @endswitch
+                        </td>
+                        <th width="auto">{{ $rolSENNOVA->numero_meses }}</th>
+                        <th width="auto">{{ $rolSENNOVA->numero_roles }}</th>
+                        <td width="15%">${{ number_format($rolSENNOVA->convocatoriaRolSennova->asignacion_mensual, 0, ',', '.') }} COP</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <p style="font-weight: bold;">Descripción del perfil requerido</p>
+                            <p style="white-space: pre-wrap">{{ $rolSENNOVA->descripcion }}</p>
+                        </td>
+                    </tr>
 
-                            @if ($rolSENNOVA->actividades->count() > 0)
-                            <tr>
-                                <td colspan="5">
-                                    <small style="display: block; font-weight: bold; margin-left: 10px;">Actividades</small>
-                                    <ul>
-                                        @foreach ($rolSENNOVA->actividades as $actividad)
-                                        <li>{{ $actividad->descripcion }}</li>
-                                        @endforeach
-                                    </ul>
-                                </td>
-                            </tr>
-                            @endif
-                            <tr>
-                                <td colspan="4"><b>Subtotal del costo del rol requerido:</b></td>
-                                <td width="30%">${{ number_format(($rolSENNOVA->numero_meses * $rolSENNOVA->convocatoriaRolSennova->asignacion_mensual) * $rolSENNOVA->numero_roles, 0, ',', '.') }} COP</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    @endforeach
-                </div>
-                @endif
+                    @if ($rolSENNOVA->actividades->count() > 0)
+                    <tr>
+                        <td colspan="5">
+                            <small style="display: block; font-weight: bold; margin-left: 10px;">Actividades</small>
+                            <ul>
+                                @foreach ($rolSENNOVA->actividades as $actividad)
+                                <li>{{ $actividad->descripcion }}</li>
+                                @endforeach
+                            </ul>
+                        </td>
+                    </tr>
+                    @endif
+                    <tr>
+                        <td colspan="4"><b>Subtotal del costo del rol requerido:</b></td>
+                        <td width="30%">${{ number_format(($rolSENNOVA->numero_meses * $rolSENNOVA->convocatoriaRolSennova->asignacion_mensual) * $rolSENNOVA->numero_roles, 0, ',', '.') }} COP</td>
+                    </tr>
+                </tbody>
+            </table>
+            @endforeach
+        </div>
+        @endif
 
-                <h4 style="text-align: center;">Precio total del proyecto ${{ number_format($proyecto->precio_proyecto, 0, ',', '.') }} COP</h4>
+        <h4 style="text-align: center;">Precio total del proyecto ${{ number_format($proyecto->precio_proyecto, 0, ',', '.') }} COP</h4>
 </body>
 
 </html>
