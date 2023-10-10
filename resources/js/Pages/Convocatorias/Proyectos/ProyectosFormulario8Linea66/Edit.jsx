@@ -47,6 +47,7 @@ const Edit = ({
 
     const [evaluacion_index, setEvaluacionIndex] = useState(0)
     const [dialog_status, setDialogStatus] = useState(true)
+    const [dialog_evaluacion_status, setDialogEvaluacionStatus] = useState(false)
 
     const comentarios_evaluaciones =
         proyecto_formulario_8_linea_66?.proyecto?.evaluaciones?.length > 0
@@ -93,7 +94,8 @@ const Edit = ({
                                                                     <p className="first-letter:uppercase">{field.replace(/_comentario/g, '').replace(/_/g, ' ')}</p>
                                                                 </TableCell>
                                                                 <TableCell>
-                                                                    {proyecto_formulario_8_linea_66?.proyecto.evaluaciones[evaluacion_index]?.evaluacion_proyecto_formulario8_linea66[field] ?? 'Sin comentarios'}
+                                                                    {proyecto_formulario_8_linea_66?.proyecto.evaluaciones[evaluacion_index]?.evaluacion_proyecto_formulario8_linea66[field] ??
+                                                                        'Sin comentarios'}
                                                                 </TableCell>
                                                             </TableRow>
                                                         ))}
@@ -112,33 +114,31 @@ const Edit = ({
                 </>
             )}
 
-            <Grid item md={4}>
-                Evaluación
-            </Grid>
             <Grid item md={8}>
                 {evaluacion && (
                     <>
-                        <ButtonMui onClick={() => setDialogStatus(true)} primary={true}>
+                        <ButtonMui className="!fixed bottom-32 left-6 z-[1200]" onClick={() => setDialogEvaluacionStatus(true)} primary={true}>
                             Evaluar
                         </ButtonMui>
                         <DialogMui
                             fullWidth={true}
                             maxWidth="lg"
-                            open={dialog_status}
+                            open={dialog_evaluacion_status}
                             dialogContent={
                                 <>
                                     <Evaluacion evaluacion={evaluacion} />
                                 </>
                             }
                             dialogActions={
-                                <ButtonMui onClick={() => setDialogStatus(false)} primary={true} className="!mr-6">
+                                <ButtonMui onClick={() => setDialogEvaluacionStatus(false)} primary={true} className="!mr-6">
                                     Cerrar
                                 </ButtonMui>
                             }
                         />
                     </>
                 )}
-            </Grid> */}
+            </Grid>
+             */}
 
             <Grid item md={12}>
                 <Form

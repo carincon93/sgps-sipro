@@ -12,7 +12,7 @@ const HelpDesk = () => {
 
     return (
         <>
-            <ButtonMui className="!fixed bottom-20 left-6 z-[9999]" onClick={() => setDialogStatus(true)} type="button">
+            <ButtonMui className="!fixed bottom-20 left-6 z-[1200]" onClick={() => setDialogStatus(true)} type="button">
                 <HelpOutlineOutlinedIcon className="mr-2" /> Ayuda
             </ButtonMui>
 

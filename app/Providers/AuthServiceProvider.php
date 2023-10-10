@@ -58,8 +58,6 @@ class AuthServiceProvider extends ServiceProvider
                     ($user->getAllPermissions()->where('id', 15)->first() ?  $user->getAllPermissions()->where('id', 15)->first()->exists() : null) ||
                     ($user->getAllPermissions()->where('id', 16)->first() ?  $user->getAllPermissions()->where('id', 16)->first()->exists() : null) ||
                     ($user->getAllPermissions()->where('id', 21)->first() ?  $user->getAllPermissions()->where('id', 21)->first()->exists() : null) ||
-                    ($user->getAllPermissions()->where('id', 14)->first() ?  $user->getAllPermissions()->where('id', 14)->first()->exists() : null) ||
-                    ($user->getAllPermissions()->where('id', 14)->first() ?  $user->getAllPermissions()->where('id', 14)->first()->exists() : null) ||
                     ($user->getAllPermissions()->where('id', 14)->first() ?  $user->getAllPermissions()->where('id', 14)->first()->exists() : null);
             }
 
