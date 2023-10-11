@@ -212,7 +212,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
 
     return (
         <>
-            {evaluacion && (
+            {evaluacion && isSuperAdmin && (
                 <>
                     <ButtonMui className="!fixed bottom-32 left-6 z-[1200]" onClick={() => setDialogEvaluacionStatus(true)} primary={true}>
                         Evaluar
