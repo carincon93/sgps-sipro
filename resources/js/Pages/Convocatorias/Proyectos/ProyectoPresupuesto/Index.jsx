@@ -24,7 +24,6 @@ import { useState } from 'react'
 
 import { route, checkRole } from '@/Utils'
 
-import Evaluacion from './Evaluacion'
 import Form from './Form'
 
 import React from 'react'
@@ -51,7 +50,6 @@ const RubrosPresupuestales = ({
     const [dialog_software_info_status, setDialogSoftwareInfoStatus] = useState(false)
     const [dialog_servicio_edicion_info_status, setDialogServicioEdicionInfoStatus] = useState(false)
     const [dialog_status, setDialogStatus] = useState(false)
-    const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
     const [proyecto_presupuesto_a_evaluar, setPresupuestoAEvaluar] = useState(null)
 
     const [method, setMethod] = useState('')
@@ -240,7 +238,6 @@ const RubrosPresupuestales = ({
                                             <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setRubroPresupuestal(presupuesto))} disabled={!proyecto?.allowed?.to_view}>
                                                 {proyecto?.allowed?.to_view && !proyecto?.allowed?.to_update ? 'Ver información' : 'Editar'}
                                             </MenuItem>
-                                            {evaluacion && <MenuItem onClick={() => (setPresupuestoAEvaluar(presupuesto), setEvaluacionDialogStatus(true))}>Evaluar</MenuItem>}
                                             <MenuItem
                                                 onClick={() => {
                                                     setRubroPresupuestalToDestroy(presupuesto.id)
@@ -278,22 +275,6 @@ const RubrosPresupuestales = ({
                 </TableMui>
 
                 <PaginationMui links={rubros_presupuestales.links} />
-
-                <DialogMui
-                    fullWidth={true}
-                    maxWidth="lg"
-                    open={evaluacion_dialog_status}
-                    dialogContent={
-                        <>
-                            <Evaluacion auth_user={auth_user} proyecto={proyecto} evaluacion={evaluacion} proyecto_presupuesto_a_evaluar={proyecto_presupuesto_a_evaluar} />
-                        </>
-                    }
-                    dialogActions={
-                        <ButtonMui onClick={() => setEvaluacionDialogStatus(false)} primary={true} className="!mr-6">
-                            Cerrar
-                        </ButtonMui>
-                    }
-                />
 
                 <DialogMui
                     open={dialog_status}

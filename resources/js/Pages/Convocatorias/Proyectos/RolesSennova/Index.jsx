@@ -21,7 +21,6 @@ import { Head, router, useForm } from '@inertiajs/react'
 import { checkRole } from '@/Utils'
 
 import Form from './Form'
-import Evaluacion from './Evaluacion'
 
 const RolesSennova = ({
     auth,
@@ -39,7 +38,6 @@ const RolesSennova = ({
     const is_super_admin = checkRole(auth_user, [1])
 
     const [dialog_status, setDialogStatus] = useState(false)
-    const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
     const [proyecto_rol_a_evaluar, setRolAEvaluar] = useState(null)
     const [method, setMethod] = useState('')
     const [proyecto_rol_sennova, setProyectoRolSennova] = useState(null)
@@ -129,7 +127,6 @@ const RolesSennova = ({
                                             <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setProyectoRolSennova(proyecto_rol_sennova))} disabled={!proyecto?.allowed?.to_view}>
                                                 {proyecto?.allowed?.to_view && !proyecto?.allowed?.to_update ? 'Ver información' : 'Editar'}
                                             </MenuItem>
-                                            {evaluacion && <MenuItem onClick={() => (setRolAEvaluar(proyecto_rol_sennova), setEvaluacionDialogStatus(true))}>Evaluar</MenuItem>}
 
                                             <MenuItem
                                                 onClick={() => {
@@ -168,22 +165,6 @@ const RolesSennova = ({
                 </TableMui>
 
                 <PaginationMui links={proyecto_roles_sennova.links} />
-
-                <DialogMui
-                    fullWidth={true}
-                    maxWidth="lg"
-                    open={evaluacion_dialog_status}
-                    dialogContent={
-                        <>
-                            <Evaluacion auth_user={auth_user} proyecto={proyecto} evaluacion={evaluacion} proyecto_rol_a_evaluar={proyecto_rol_a_evaluar} />
-                        </>
-                    }
-                    dialogActions={
-                        <ButtonMui onClick={() => setEvaluacionDialogStatus(false)} primary={true} className="!mr-6">
-                            Cerrar
-                        </ButtonMui>
-                    }
-                />
 
                 <DialogMui
                     open={dialog_status}
