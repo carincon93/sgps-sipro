@@ -26,6 +26,7 @@ import FileTypeIcon from './FileTypeIcon'
 import { useState } from 'react'
 
 import EvaluacionProyectosFormulario8Linea66 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario8Linea66/Evaluacion'
+import EvaluacionProyectosFormulario6Linea82 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario6Linea82/Evaluacion'
 
 const useStyles = makeStyles({
     root: {
@@ -212,7 +213,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
 
     return (
         <>
-            {evaluacion && isSuperAdmin && (
+            {evaluacion && (
                 <>
                     <ButtonMui className="!fixed bottom-32 left-6 z-[1200]" onClick={() => setDialogEvaluacionStatus(true)} primary={true}>
                         Evaluar
@@ -223,19 +224,33 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                         open={dialog_evaluacion_status}
                         dialogContent={
                             <>
-                                {evaluacion.evaluacion_proyecto_formulario8_linea66 || evaluacion.evaluacion.proyecto.tipo_formulario_convocatoria_id == 8 ? (
+                                {evaluacion.evaluacion_proyecto_formulario8_linea66 || evaluacion?.evaluacion?.proyecto.tipo_formulario_convocatoria_id == 8 ? (
                                     <EvaluacionProyectosFormulario8Linea66
                                         convocatoria={convocatoria}
                                         allowed={evaluacion.allowed ?? evaluacion?.evaluacion?.allowed}
-                                        evaluacion={evaluacion.evaluacion_proyecto_formulario8_linea66 ?? evaluacion}
+                                        evaluacion={evaluacion}
+                                        proyecto={proyecto}
+                                        setDialogEvaluacionStatus={setDialogEvaluacionStatus}
+                                    />
+                                ) : null}
+
+                                {evaluacion.evaluacion_proyecto_formulario6_linea82 || evaluacion?.evaluacion?.proyecto.tipo_formulario_convocatoria_id == 6 ? (
+                                    <EvaluacionProyectosFormulario6Linea82
+                                        convocatoria={convocatoria}
+                                        allowed={evaluacion.allowed ?? evaluacion?.evaluacion?.allowed}
+                                        evaluacion={evaluacion}
+                                        proyecto={proyecto}
+                                        setDialogEvaluacionStatus={setDialogEvaluacionStatus}
                                     />
                                 ) : null}
                             </>
                         }
                         dialogActions={
-                            <ButtonMui onClick={() => setDialogEvaluacionStatus(false)} primary={true} className="!mr-6">
-                                Cerrar
-                            </ButtonMui>
+                            <>
+                                <ButtonMui type="submit" form="form-evaluacion" className="!mr-8">
+                                    Guardar y cerrar
+                                </ButtonMui>
+                            </>
                         }
                     />
                 </>

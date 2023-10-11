@@ -29,6 +29,7 @@ class EdtController extends Controller
             return abort(404);
         }
 
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;

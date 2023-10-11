@@ -179,6 +179,7 @@ class ProyectoFormulario8Linea66Controller extends Controller
             return abort(404);
         }
 
+        $proyecto_formulario_8_linea_66->load('proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto_formulario_8_linea_66->load('proyecto.evaluaciones.evaluacionProyectoFormulario8Linea66');
 
         $proyecto_formulario_8_linea_66->proyecto->precio_proyecto = $proyecto_formulario_8_linea_66->proyecto->precioProyecto;
@@ -197,8 +198,8 @@ class ProyectoFormulario8Linea66Controller extends Controller
         $proyecto_formulario_8_linea_66->areasTematicasEni;
         $proyecto_formulario_8_linea_66->lineasInvestigacionEni;
 
-        $proyecto_formulario_8_linea_66->mostrar_recomendaciones = $proyecto_formulario_8_linea_66->proyecto->mostrar_recomendaciones;
-        $proyecto_formulario_8_linea_66->mostrar_requiere_subsanacion = $proyecto_formulario_8_linea_66->proyecto->mostrar_requiere_subsanacion;
+        $proyecto_formulario_8_linea_66->mostrar_recomendaciones        = $proyecto_formulario_8_linea_66->proyecto->mostrar_recomendaciones;
+        $proyecto_formulario_8_linea_66->mostrar_requiere_subsanacion   = $proyecto_formulario_8_linea_66->proyecto->mostrar_requiere_subsanacion;
 
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario8Linea66/Edit', [
             'convocatoria'                                      => $convocatoria,
@@ -278,12 +279,14 @@ class ProyectoFormulario8Linea66Controller extends Controller
         return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
-    public function updateEvaluacion(EvaluacionProyectoFormulario8Linea66Request $request, Convocatoria $convocatoria, EvaluacionProyectoFormulario8Linea66 $evaluacion_proyecto_linea66)
+    public function updateEvaluacion(EvaluacionProyectoFormulario8Linea66Request $request, Convocatoria $convocatoria)
     {
+        $evaluacion_proyecto_linea66 = EvaluacionProyectoFormulario8Linea66::find($request->evaluacion_id);
+
         $this->authorize('modificar-evaluacion-autor', $evaluacion_proyecto_linea66->evaluacion);
 
         $evaluacion_proyecto_linea66->evaluacion()->update([
-            'iniciado' => true,
+            'iniciado'                  => true,
             'clausula_confidencialidad' => $request->clausula_confidencialidad
         ]);
 

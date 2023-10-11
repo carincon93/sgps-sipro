@@ -79,7 +79,12 @@ const RolesSennova = ({
 
                     {proyecto_roles_sennova.data.map((proyecto_rol_sennova, i) => (
                         <TableRow key={i}>
-                            <TableCell>{proyecto_rol_sennova?.convocatoria_rol_sennova?.rol_sennova?.nombre}</TableCell>
+                            <TableCell>
+                                <Chip size="small" label={<>Código: #{proyecto_rol_sennova.id}</>} />
+                                <br />
+                                <br />
+                                {proyecto_rol_sennova?.convocatoria_rol_sennova?.rol_sennova?.nombre}
+                            </TableCell>
                             <TableCell>
                                 <p className="first-letter:uppercase">{niveles_academicos.find((item) => item.value == proyecto_rol_sennova?.convocatoria_rol_sennova?.nivel_academico).label}</p>
                             </TableCell>

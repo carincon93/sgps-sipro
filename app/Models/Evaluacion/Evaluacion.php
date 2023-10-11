@@ -206,6 +206,8 @@ class Evaluacion extends Model
         $estado = null;
         if ($this->evaluacionProyectoFormulario8Linea66 && $this->proyecto->proyectoFormulario8Linea66()->exists()) {
             $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario8Linea66->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
+        } else if ($this->evaluacionProyectoFormulario6Linea82 && $this->proyecto->proyectoFormulario6Linea82()->exists()) {
+            $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario6Linea82->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
         } else if ($this->evaluacionProyectoFormulario1Linea65 && $this->proyecto->proyectoFormulario1Linea65()->exists()) {
             $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario1Linea65->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
         } else if ($this->evaluacionProyectoFormulario4Linea70 && $this->proyecto->proyectoFormulario4Linea70()->exists()) {
@@ -549,6 +551,14 @@ class Evaluacion extends Model
                 $causal_rechazo = 'Rechazado - Por causal de rechazo';
             }
             return $this->proyecto->estadoEvaluacionProyectoFormulario8Linea66($this->total_evaluacion, $this->total_recomendaciones, null, $causal_rechazo);
+        } else if ($this->evaluacionProyectoFormulario6Linea82()->exists()) {
+            $causal_rechazo = null;
+            if ($this->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
+                $causal_rechazo = 'En revisión por Cord. SENNOVA';
+            } else if ($this->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
+                $causal_rechazo = 'Rechazado - Por causal de rechazo';
+            }
+            return $this->proyecto->estadoEvaluacionProyectoFormulario6Linea82($this->total_evaluacion, $this->total_recomendaciones, null, $causal_rechazo);
         } else if ($this->evaluacionProyectoFormulario12Linea68()->exists()) {
             return $this->proyecto->estadoEvaluacionProyectoFormulario12Linea68($this->total_evaluacion, $this->total_recomendaciones, null);
         } else if ($this->evaluacionProyectoFormulario1Linea65()->exists()) {

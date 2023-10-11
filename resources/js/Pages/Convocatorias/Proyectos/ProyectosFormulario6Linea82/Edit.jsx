@@ -52,6 +52,7 @@ const Edit = ({
             ? Object.keys(proyecto_formulario_6_linea_82?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_formulario6_linea82).filter((field) => field.endsWith('_comentario'))
             : null
 
+    console.log(evaluacion)
     return (
         <AuthenticatedLayout>
             <Head title={proyecto_formulario_6_linea_82.titulo} />
@@ -109,29 +110,6 @@ const Edit = ({
                             </>
                         )}
                     </Grid>
-                </>
-            )}
-
-            {evaluacion && (
-                <>
-                    <ButtonMui onClick={() => setDialogEvaluacionStatus(true)} primary={true} className="!fixed bottom-10 right-10 z-[99]">
-                        Evaluar
-                    </ButtonMui>
-                    <DialogMui
-                        fullWidth={true}
-                        maxWidth="lg"
-                        open={dialog_evaluacion_status}
-                        dialogContent={
-                            <>
-                                <Evaluacion evaluacion={evaluacion} />
-                            </>
-                        }
-                        dialogActions={
-                            <ButtonMui onClick={() => setDialogEvaluacionStatus(false)} primary={true} className="!mr-6">
-                                Cerrar
-                            </ButtonMui>
-                        }
-                    />
                 </>
             )}
 

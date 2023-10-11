@@ -30,6 +30,7 @@ class ProductoController extends Controller
             return abort(404);
         }
 
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
 
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
@@ -41,22 +42,22 @@ class ProductoController extends Controller
         return Inertia::render('Convocatorias/Proyectos/Productos/Index', [
             'convocatoria'              =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
             'proyecto'                  =>  $proyecto,
-            'evaluacion'                =>  Evaluacion::find(request()->evaluacion_id),
+            'evaluacion'                =>  Evaluacion::with('proyecto')->where('id', request()->evaluacion_id)->first(),
             'productos'                 =>  Producto::whereIn(
-                                                'resultado_id',
-                                                    $resultado->map(function ($resultado) {
-                                                        return $resultado->id;
-                                                    })
-                                                )->with('actividades', 'resultado.objetivoEspecifico', 'productoMinciencias')->orderBy('id', 'ASC')->get(),
+                'resultado_id',
+                $resultado->map(function ($resultado) {
+                    return $resultado->id;
+                })
+            )->with('actividades', 'resultado.objetivoEspecifico', 'productoMinciencias')->orderBy('id', 'ASC')->get(),
             'actividades_sin_resultado' => Actividad::whereIn(
-                                            'objetivo_especifico_id',
-                                                $objetivo_especifico->map(function ($objetivo_especifico) {
-                                                    return $objetivo_especifico->id;
-                                                })
-                                            )->where('resultado_id', null)->count(),
+                'objetivo_especifico_id',
+                $objetivo_especifico->map(function ($objetivo_especifico) {
+                    return $objetivo_especifico->id;
+                })
+            )->where('resultado_id', null)->count(),
             'resultados'                =>  Resultado::select('resultados.id as value', 'resultados.descripcion as label', 'resultados.id as id')->whereHas('efectoDirecto', function ($query) use ($proyecto) {
-                                                 $query->where('efectos_directos.proyecto_id', $proyecto->id);
-                                                })->where('resultados.descripcion', '!=', null)->with('actividades')->get(),
+                $query->where('efectos_directos.proyecto_id', $proyecto->id);
+            })->where('resultados.descripcion', '!=', null)->with('actividades')->get(),
             'subtipologias_minciencias' =>  SelectHelper::subtipologiasMinciencias(),
             'tipos_producto'            =>  json_decode(Storage::get('json/tipos-producto.json'), true),
 
@@ -85,7 +86,7 @@ class ProductoController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $producto = Producto::create($request->only('resultado_id' ,'nombre', 'fecha_inicio','fecha_finalizacion','unidad_indicador','meta_indicador','medio_verificacion', 'formula_indicador'));
+        $producto = Producto::create($request->only('resultado_id', 'nombre', 'fecha_inicio', 'fecha_finalizacion', 'unidad_indicador', 'meta_indicador', 'medio_verificacion', 'formula_indicador'));
 
         $producto->actividades()->attach($request->actividad_id);
 
@@ -142,7 +143,7 @@ class ProductoController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $producto->update($request->only('resultado_id' ,'nombre', 'fecha_inicio','fecha_finalizacion','unidad_indicador','meta_indicador','medio_verificacion', 'formula_indicador'));
+        $producto->update($request->only('resultado_id', 'nombre', 'fecha_inicio', 'fecha_finalizacion', 'unidad_indicador', 'meta_indicador', 'medio_verificacion', 'formula_indicador'));
         $producto->save();
 
         $producto->actividades()->sync($request->actividad_id);

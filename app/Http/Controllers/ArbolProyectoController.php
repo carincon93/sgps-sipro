@@ -100,6 +100,8 @@ class ArbolProyectoController extends Controller
 
         $this->generarArboles($proyecto);
 
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones');
+        $proyecto->load('proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
 
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
@@ -534,6 +536,7 @@ class ArbolProyectoController extends Controller
 
         $this->generarArboles($proyecto);
 
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
 
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
@@ -561,11 +564,11 @@ class ArbolProyectoController extends Controller
             'causas_directas'       =>  $causas_directas,
             'tipos_impacto'         =>  $tipos_impacto ?? [],
             'resultados'            =>  Resultado::select('id as value', 'descripcion as label', 'objetivo_especifico_id')->whereIn(
-                                        'objetivo_especifico_id',
-                                        $objetivo_especifico->map(function ($objetivo_especifico) {
-                                            return $objetivo_especifico->id;
-                                        })
-                                    )->get(),
+                'objetivo_especifico_id',
+                $objetivo_especifico->map(function ($objetivo_especifico) {
+                    return $objetivo_especifico->id;
+                })
+            )->get(),
             'objetivos_especificos' => $arr_objetivos_especificos,
         ]);
     }

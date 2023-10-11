@@ -36,6 +36,7 @@ class ArticulacionSennovaController extends Controller
         }
 
         $proyecto->load('participantes.centroFormacion.regional');
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
         if ($proyecto->tipo_formulario_convocatoria_id != 4 && $proyecto->tipo_formulario_convocatoria_id != 5 && $proyecto->tipo_formulario_convocatoria_id != 10 && $proyecto->tipo_formulario_convocatoria_id != 11 && $proyecto->tipo_formulario_convocatoria_id != 17) {

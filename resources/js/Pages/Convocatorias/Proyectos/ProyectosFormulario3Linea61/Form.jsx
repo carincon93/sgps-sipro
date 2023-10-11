@@ -182,7 +182,7 @@ const Form = ({
                         required
                         labelFor="titulo"
                         className="font-medium inline-block mb-10 text-center text-gray-700 text-sm w-full"
-                        value="Descripción llamativa que orienta el enfoque del proyecto, indica el cómo y el para qué. (Máximo 20 palabras)"
+                        value="Título: Descripción llamativa que orienta el enfoque del proyecto, indica el cómo y el para qué. (Máximo 20 palabras)"
                     />
                     <Textarea
                         id="titulo"

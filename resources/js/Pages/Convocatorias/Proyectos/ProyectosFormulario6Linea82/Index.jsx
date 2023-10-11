@@ -127,16 +127,20 @@ const Index = ({ auth, convocatoria, proyectos_formulario_6_linea_82, allowed_to
                                                     </a>
                                                 </MenuItem>
                                                 <Divider />
-                                                {/* {proyecto.evaluaciones.map((evaluacion, i) => (
-                                                    <MenuItem
-                                                        key={i}
-                                                        onClick={() =>
-                                                            router.visit(route('convocatorias.proyectos-formulario-6-linea-82.edit', [convocatoria.id, id, { evaluacion_id: evaluacion?.id }]))
-                                                        }
-                                                        isabled={!is_super_admin}>
-                                                        Evaluacion #{evaluacion.id}
-                                                    </MenuItem>
-                                                ))} */}
+                                                {is_super_admin && (
+                                                    <>
+                                                        {proyecto.evaluaciones.map((evaluacion, i) => (
+                                                            <MenuItem
+                                                                key={i}
+                                                                onClick={() =>
+                                                                    router.visit(route('convocatorias.proyectos-formulario-6-linea-82.edit', [convocatoria.id, id, { evaluacion_id: evaluacion?.id }]))
+                                                                }
+                                                                isabled={!is_super_admin}>
+                                                                Evaluacion #{evaluacion.id}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </>
+                                                )}
                                                 <MenuItem
                                                     onClick={() => {
                                                         setProyectoFormulario6Linea82ToDestroy(proyecto.id)

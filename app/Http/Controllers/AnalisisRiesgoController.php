@@ -26,6 +26,7 @@ class AnalisisRiesgoController extends Controller
             return abort(404);
         }
 
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
@@ -36,7 +37,7 @@ class AnalisisRiesgoController extends Controller
             'proyecto'               => $proyecto,
             'evaluacion'             => Evaluacion::find(request()->evaluacion_id),
             'analisis_riesgos'       => AnalisisRiesgo::where('proyecto_id', $proyecto->id)->orderBy('descripcion', 'ASC')
-                                            ->filterAnalisisRiesgo(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+                ->filterAnalisisRiesgo(request()->only('search'))->paginate()->appends(['search' => request()->search]),
             'niveles_riesgo'         => json_decode(Storage::get('json/niveles-riesgo.json'), true),
             'tipos_riesgo'           => json_decode(Storage::get('json/tipos-riesgo.json'), true),
             'probabilidades_riesgo'  => json_decode(Storage::get('json/probabilidades-riesgo.json'), true),

@@ -61,15 +61,12 @@ const RubrosPresupuestales = ({
     return (
         <AuthenticatedLayout>
             <Head title="Rubros presupuestales" />
-
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
-
             <Grid item md={12}>
                 <h1 className="mt-24 mb-8 text-center text-3xl">Rubros presupuestales</h1>
             </Grid>
-
             <Grid item md={12}>
                 <AlertMui className="mt-20">
                     <strong>Actualmente el total del costo de los productos o servicios requeridos es de:</strong> $
@@ -107,8 +104,8 @@ const RubrosPresupuestales = ({
                     {rubros_presupuestales.data.map((presupuesto, i) => (
                         <TableRow key={i}>
                             <TableCell>
-                                <div className="flex flex-col focus:text-app-500 px-6 py-4" id={`PRE-${presupuesto.id}`}>
-                                    <Chip size="small" label={<>Código: PRE-{presupuesto.id}</>} />
+                                <div className="flex flex-col focus:text-app-500 px-6 py-4" id={presupuesto.id}>
+                                    <Chip size="small" label={<>Código: #{presupuesto.id}</>} />
                                     <div className="mt-3">
                                         <p className="whitespace-pre-line line-clamp-6">{presupuesto.descripcion}</p>
                                     </div>

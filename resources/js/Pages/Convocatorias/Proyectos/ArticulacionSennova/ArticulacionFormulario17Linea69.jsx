@@ -60,9 +60,9 @@ const ArticulacionFormulario17Linea69 = ({ convocatoria, proyecto, semilleros_in
                         required
                         className="mb-4"
                         labelFor="contribucion_formacion_centro_regional"
-                        value={`Cuales fueron las principales acciones ejecutadas por el Tecnoparque en la vigencia ${
+                        value={`¿Cuáles fueron las principales acciones ejecutadas por el Tecnoparque en la vigencia ${
                             convocatoria.year - 1
-                        } para contribuir a la formación en el Centro y en la Regional`}
+                        } para contribuir a la formación en el Centro y en la Regional'`}
                     />
 
                     <Textarea
@@ -253,7 +253,7 @@ const ArticulacionFormulario17Linea69 = ({ convocatoria, proyecto, semilleros_in
                         className="mb-4"
                         labelFor="proyeccion_articulacion_linea_68"
                         value={`A partir de los resultados y las acciones realizadas por el Tecnoparque, ¿Cómo proyecta la articulación en el ${
-                            convocatoria.year - 1
+                            convocatoria.year
                         }, el Tecnoparque con la línea de Servicios Tecnológicos?`}
                     />
 
@@ -273,7 +273,7 @@ const ArticulacionFormulario17Linea69 = ({ convocatoria, proyecto, semilleros_in
                         className="mb-4"
                         labelFor="proyeccion_articulacion_linea_83"
                         value={`A partir de los resultados y las acciones realizadas por el Tecnoparque, ¿Cómo proyecta la articulación en el ${
-                            convocatoria.year - 1
+                            convocatoria.year
                         }, el Tecnoparque con la línea de Extensionismo Tecnológico?`}
                     />
 

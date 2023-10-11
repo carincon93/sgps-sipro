@@ -31,6 +31,7 @@ class ProyectoAnexoController extends Controller
             return abort(404);
         }
 
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
@@ -42,10 +43,10 @@ class ProyectoAnexoController extends Controller
             'evaluacion'            =>  Evaluacion::find(request()->evaluacion_id),
             'proyecto_anexo'        =>  $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('convocatoria_anexos', 'proyecto_anexo.convocatoria_anexo_id', 'convocatoria_anexos.id')->join('anexos', 'convocatoria_anexos.anexo_id', 'anexos.id')->get(),
             'convocatoria_anexos'   =>  ConvocatoriaAnexo::where('convocatoria_id', $convocatoria->id)
-                                        ->where('tipo_formulario_convocatoria_id', $proyecto->tipo_formulario_convocatoria_id)
-                                        ->where('habilitado', true)
-                                        ->with('anexo')
-                                        ->get(),
+                ->where('tipo_formulario_convocatoria_id', $proyecto->tipo_formulario_convocatoria_id)
+                ->where('habilitado', true)
+                ->with('anexo')
+                ->get(),
             'mime_types'            => json_decode(Storage::get('json/mime-types.json'), true),
         ]);
     }

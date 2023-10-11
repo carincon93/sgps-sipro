@@ -30,7 +30,7 @@ class MaxWords implements ValidationRule
         $nb_words   = count($words);
 
         if (($nb_words >= 0 && $nb_words <= $this->max_words) == false) {
-            $fail("Este campo debe tener máximo {$this->max_words} palabras.");
+            $fail("El {$attribute} debe tener máximo {$this->max_words} palabras.");
         }
     }
 }

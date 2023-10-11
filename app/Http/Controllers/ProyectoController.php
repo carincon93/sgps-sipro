@@ -174,6 +174,8 @@ class ProyectoController extends Controller
             return abort(404);
         }
 
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones');
+        $proyecto->load('proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
@@ -681,6 +683,9 @@ class ProyectoController extends Controller
             return abort(404);
         }
 
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones');
+        $proyecto->load('proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
+
         $proyecto->precio_proyecto = $proyecto->precioProyecto;
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
 
@@ -945,6 +950,11 @@ class ProyectoController extends Controller
             return abort(404);
         }
 
+        $proyecto->load('participantes.centroFormacion.regional');
+        $proyecto->load('semillerosInvestigacion.lineaInvestigacion.grupoInvestigacion');
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones');
+        $proyecto->load('proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
+
         $proyecto->participantes;
         $proyecto->programasFormacion;
         $proyecto->semillerosInvestigacion;
@@ -959,9 +969,6 @@ class ProyectoController extends Controller
         } else if ($proyecto->tipo_formulario_convocatoria_id == 17) {
             return redirect()->route('convocatorias.proyectos-formulario-17-linea-69.edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
         }
-
-        $proyecto->load('participantes.centroFormacion.regional');
-        $proyecto->load('semillerosInvestigacion.lineaInvestigacion.grupoInvestigacion');
 
         return Inertia::render('Convocatorias/Proyectos/Participantes/Index', [
             'convocatoria'                  => $convocatoria,
@@ -1379,6 +1386,8 @@ class ProyectoController extends Controller
         if ($proyecto->convocatoria_id != $convocatoria->id) {
             return abort(404);
         }
+
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
 
         $proyecto->precio_proyecto = $proyecto->precioProyecto;
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
