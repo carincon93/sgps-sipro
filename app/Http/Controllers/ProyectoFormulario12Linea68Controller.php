@@ -10,6 +10,7 @@ use App\Http\Requests\Evaluacion\EvaluacionProyectoFormulario12Linea68Request;
 use App\Http\Requests\ProyectoFormulario12Linea68ColumnRequest;
 use App\Http\Requests\ProyectoFormulario12Linea68Request;
 use App\Models\Convocatoria;
+use App\Models\Evaluacion\Evaluacion;
 use App\Models\Evaluacion\EvaluacionProyectoFormulario12Linea68;
 use App\Models\Proyecto;
 use App\Models\RolSennova;
@@ -142,6 +143,10 @@ class ProyectoFormulario12Linea68Controller extends Controller
 
         if ($proyecto_formulario_12_linea_68->proyecto->convocatoria_id != $convocatoria->id) {
             return abort(404);
+        }
+
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
         }
 
         // $proyecto_formulario_12_linea_68->load('proyecto.evaluaciones.evaluacionProyectoFormulario12Linea68');

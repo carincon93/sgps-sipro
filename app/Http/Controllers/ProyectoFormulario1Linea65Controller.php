@@ -11,6 +11,7 @@ use App\Models\MesaSectorial;
 use App\Http\Requests\Evaluacion\EvaluacionProyectoFormulario1Linea65Request;
 use App\Http\Requests\ProyectoFormulario1Linea65ColumnRequest;
 use App\Http\Requests\ProyectoFormulario1Linea65Request;
+use App\Models\Evaluacion\Evaluacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -168,6 +169,10 @@ class ProyectoFormulario1Linea65Controller extends Controller
 
         if ($proyecto_formulario_1_linea_65->proyecto->convocatoria_id != $convocatoria->id) {
             return abort(404);
+        }
+
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
         }
 
         // $proyecto_formulario_1_linea_65->load('proyecto.evaluaciones.evaluacionProyectoFormulario1Linea65');

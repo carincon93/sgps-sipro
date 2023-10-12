@@ -38,6 +38,10 @@ class ProyectoPresupuestoController extends Controller
             return abort(404);
         }
 
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+        }
+
         $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones');
         $proyecto->load('proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;

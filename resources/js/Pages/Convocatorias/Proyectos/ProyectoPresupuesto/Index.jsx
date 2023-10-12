@@ -135,7 +135,12 @@ const RubrosPresupuestales = ({
                                 <div>${new Intl.NumberFormat('de-DE').format(presupuesto.valor_total)} COP</div>
                                 {presupuesto.convocatoria_proyecto_rubros_presupuestales[0]?.requiere_estudio_mercado ? (
                                     <Link
-                                        href={route('convocatorias.proyectos.presupuesto.soportes.index', [convocatoria.id, proyecto.id, presupuesto.id])}
+                                        href={route('convocatorias.proyectos.presupuesto.soportes.index', [
+                                            convocatoria.id,
+                                            proyecto.id,
+                                            presupuesto.id,
+                                            evaluacion ? { evaluacion_id: evaluacion?.id } : null,
+                                        ])}
                                         className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
                                         <FolderSharedIcon className=" !mr-2" />
                                         {presupuesto.soportes_estudio_mercado.length < 2 ? (
@@ -158,7 +163,12 @@ const RubrosPresupuestales = ({
                                             .map((item) => item.codigo_uso_presupuestal)
                                             .includes('20202008005096') && (
                                             <Link
-                                                href={route('convocatorias.proyectos.presupuesto.edt.index', [convocatoria.id, proyecto.id, presupuesto.id])}
+                                                href={route('convocatorias.proyectos.presupuesto.edt.index', [
+                                                    convocatoria.id,
+                                                    proyecto.id,
+                                                    presupuesto.id,
+                                                    evaluacion ? { evaluacion_id: evaluacion?.id } : null,
+                                                ])}
                                                 className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
                                                 <strong>E D T : </strong>
                                                 Generar los respectivos EDTs
@@ -173,7 +183,12 @@ const RubrosPresupuestales = ({
                                         rubro_presupuestal.rubro_presupuestal.segundo_grupo_presupuestal.codigo === '2041104',
                                 ) && (
                                     <Link
-                                        href={route('convocatorias.proyectos.presupuesto.municipios.index', [convocatoria.id, proyecto.id, presupuesto.id])}
+                                        href={route('convocatorias.proyectos.presupuesto.municipios.index', [
+                                            convocatoria.id,
+                                            proyecto.id,
+                                            presupuesto.id,
+                                            evaluacion ? { evaluacion_id: evaluacion?.id } : null,
+                                        ])}
                                         className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
                                         <AirplaneTicketIcon className="mr-2" />
                                         Relacionar los municipios a visitar

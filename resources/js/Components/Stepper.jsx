@@ -247,9 +247,20 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                         }
                         dialogActions={
                             <>
-                                <ButtonMui type="submit" form="form-evaluacion" className="!mr-8">
-                                    Guardar y cerrar
-                                </ButtonMui>
+                                {!evaluacion.finalizado ? (
+                                    <ButtonMui type="submit" form="form-evaluacion" className="!mr-8">
+                                        Guardar y cerrar
+                                    </ButtonMui>
+                                ) : (
+                                    <ButtonMui
+                                        type="button"
+                                        onClick={() => {
+                                            setDialogEvaluacionStatus(false)
+                                        }}
+                                        className="!mr-8">
+                                        Cerrar
+                                    </ButtonMui>
+                                )}
                             </>
                         }
                     />

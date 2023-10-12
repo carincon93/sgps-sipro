@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Evaluacion\EvaluacionProyectoFormulario11Linea83Request;
 use App\Http\Requests\ProyectoFormulario11Linea83ColumnRequest;
 use App\Http\Requests\ProyectoFormulario11Linea83Request;
+use App\Models\Evaluacion\Evaluacion;
 use App\Models\Evaluacion\EvaluacionProyectoFormulario11Linea83;
 use App\Models\LineaProgramatica;
 use App\Models\ProyectoFormulario11Linea83;
@@ -121,12 +122,16 @@ class ProyectoFormulario11Linea83Controller extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', [$proyecto_formulario_11_linea_83->proyecto]);
 
-        /** @var \App\Models\User */
-        $auth_user = Auth::user();
-
         if ($proyecto_formulario_11_linea_83->proyecto->convocatoria_id != $convocatoria->id) {
             return abort(404);
         }
+
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+        }
+
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
 
         // $proyecto_formulario_11_linea_83->load('proyecto.evaluaciones.evaluacionProyectoFormulario11Linea83');
 

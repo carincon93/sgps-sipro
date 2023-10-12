@@ -12,6 +12,7 @@ use App\Http\Requests\Evaluacion\EvaluacionProyectoFormulario10Linea69Request;
 use App\Http\Requests\ProyectoFormulario10Linea69ColumnRequest;
 use App\Http\Requests\ProyectoFormulario10Linea69Request;
 use App\Models\Actividad;
+use App\Models\Evaluacion\Evaluacion;
 use App\Models\Evaluacion\EvaluacionProyectoFormulario10Linea69;
 use App\Models\LineaProgramatica;
 use App\Models\NodoTecnoparque;
@@ -126,12 +127,16 @@ class ProyectoFormulario10Linea69Controller extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', [$proyecto_formulario_10_linea_69->proyecto]);
 
-        /** @var \App\Models\User */
-        $auth_user = Auth::user();
-
         if ($proyecto_formulario_10_linea_69->proyecto->convocatoria_id != $convocatoria->id) {
             return abort(404);
         }
+
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+        }
+
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
 
         // $proyecto_formulario_10_linea_69->load('proyecto.evaluaciones.evaluacionProyectoFormulario10Linea69');
 

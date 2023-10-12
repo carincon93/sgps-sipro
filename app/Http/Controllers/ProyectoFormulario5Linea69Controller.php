@@ -12,6 +12,7 @@ use App\Http\Requests\Evaluacion\EvaluacionProyectoFormulario5Linea69Request;
 use App\Http\Requests\ProyectoFormulario5Linea69Request;
 use App\Http\Requests\ProyectoFormulario5Linea69ColumnRequest;
 use App\Models\Actividad;
+use App\Models\Evaluacion\Evaluacion;
 use App\Models\Evaluacion\EvaluacionProyectoFormulario5Linea69;
 use App\Models\LineaProgramatica;
 use App\Models\Municipio;
@@ -134,6 +135,10 @@ class ProyectoFormulario5Linea69Controller extends Controller
 
         if ($proyecto_formulario_5_linea_69->proyecto->convocatoria_id != $convocatoria->id) {
             return abort(404);
+        }
+
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
         }
 
         /** @var \App\Models\User */

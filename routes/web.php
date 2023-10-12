@@ -832,9 +832,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/causales-rechazo', [EvaluacionController::class, 'updateCausalRechazo'])->name('convocatorias.evaluaciones.update-causal-rechazo');
 
     // Evaluación de proyectos de la línea 66
-    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/update-evaluacion', [ProyectoFormulario8Linea66Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-proyecto-linea-66.update');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-8-linea-66', [ProyectoFormulario8Linea66Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-proyecto-linea-66.update');
     // Evaluación de proyectos de la línea 82
-    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/update-evaluacion', [ProyectoFormulario6Linea82Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-proyecto-linea-82.update');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-6-linea-82', [ProyectoFormulario6Linea82Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-proyecto-linea-82.update');
 
     Route::get('evaluadores', [EvaluacionController::class, 'evaluadores'])->name('evaluadores.index');
     Route::resource('evaluaciones', EvaluacionController::class)->parameters(['evaluaciones' => 'evaluacion'])->except(['show']);

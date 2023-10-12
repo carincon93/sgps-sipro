@@ -14,6 +14,7 @@ use App\Http\Requests\Evaluacion\EvaluacionProyectoFormulario4Linea70Request;
 use App\Http\Requests\ProyectoFormulario4Linea70Request;
 use App\Models\Actividad;
 use App\Models\AulaMovil;
+use App\Models\Evaluacion\Evaluacion;
 use App\Models\Evaluacion\EvaluacionProyectoFormulario4Linea70;
 use App\Models\ProyectoFormulario4Linea70;
 use App\Models\RolSennova;
@@ -147,6 +148,10 @@ class ProyectoFormulario4Linea70Controller extends Controller
 
         if ($proyecto_formulario_4_linea_70->proyecto->convocatoria_id != $convocatoria->id) {
             return abort(404);
+        }
+
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
         }
 
         // $proyecto_formulario_4_linea_70->load('proyecto.evaluaciones.evaluacionProyectoFormulario4Linea70');

@@ -10,6 +10,7 @@ use App\Models\Proyecto;
 use App\Models\ProyectoFormulario9Linea23;
 use App\Models\Convocatoria;
 use App\Http\Requests\ProyectoFormulario9Linea23Request;
+use App\Models\Evaluacion\Evaluacion;
 use App\Models\Evaluacion\EvaluacionProyectoFormulario9Linea23;
 use App\Models\RolSennova;
 use Illuminate\Http\Request;
@@ -163,6 +164,10 @@ class ProyectoFormulario9Linea23Controller extends Controller
 
         if ($proyecto_formulario_9_linea_23->proyecto->convocatoria_id != $convocatoria->id) {
             return abort(404);
+        }
+
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
         }
 
         // $proyecto_formulario_9_linea_23->load('proyecto.evaluaciones.evaluacionProyectoFormulario9Linea23');
@@ -351,6 +356,14 @@ class ProyectoFormulario9Linea23Controller extends Controller
     public function showIndicadores(Convocatoria $convocatoria, ProyectoFormulario9Linea23 $proyecto_formulario_9_linea_23)
     {
         $this->authorize('visualizar-proyecto-autor', [$proyecto_formulario_9_linea_23->proyecto]);
+
+        if ($proyecto_formulario_9_linea_23->proyecto->convocatoria_id != $convocatoria->id) {
+            return abort(404);
+        }
+
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+        }
 
         $proyecto_formulario_9_linea_23->proyecto->pdfVersiones;
 

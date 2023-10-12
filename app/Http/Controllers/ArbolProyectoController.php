@@ -98,6 +98,10 @@ class ArbolProyectoController extends Controller
             return abort(404);
         }
 
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+        }
+
         $this->generarArboles($proyecto);
 
         $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones');
@@ -489,6 +493,10 @@ class ArbolProyectoController extends Controller
 
         if ($proyecto->convocatoria_id != $convocatoria->id) {
             return abort(404);
+        }
+
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
         }
 
         $this->generarArboles($proyecto);

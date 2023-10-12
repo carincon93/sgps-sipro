@@ -222,6 +222,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                                                 type="text"
                                                                 value={form_soporte_l68.data.concepto}
                                                                 onChange={(e) => form_soporte_l68.setData('concepto', e.target.value)}
+                                                                disabled={!proyecto?.allowed?.to_update}
                                                                 error={form_soporte_l68.errors.concepto}
                                                                 required
                                                             />
@@ -232,6 +233,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                                                 label="Conceptos técnicos firmados"
                                                                 accept=".zip,application/pdf"
                                                                 onChange={(e) => form_soporte_l68.setData('soporte', e)}
+                                                                disabled={!proyecto?.allowed?.to_update}
                                                                 error={form_soporte_l68.errors.soporte}
                                                             />
                                                         </fieldset>
@@ -304,6 +306,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                                             }
                                         />
                                         <ButtonMui
+                                            disabled={!proyecto?.allowed?.to_update}
                                             onClick={() => (formSoporte.reset(), setDialogSoporteStatus(true), setSoporte(soporte))}
                                             className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
                                             <AutorenewIcon className="mr-2" />
@@ -391,6 +394,7 @@ const SoporteEstudioMercado = ({ auth, convocatoria, proyecto, evaluacion, proye
                             label="Soporte / Cotización"
                             accept=".zip,application/pdf"
                             onChange={(e) => formSoporte.setData('soporte', e)}
+                            disabled={!proyecto?.allowed?.to_update}
                             error={formSoporte.errors.soporte}
                         />
                         <div className="flex items-center justify-between mt-14 py-4">
