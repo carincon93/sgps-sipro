@@ -68,7 +68,7 @@ const ResumenFinal = ({
             </Grid>
 
             <Grid item md={12} className="mt-10">
-                {proyecto.finalizado == false && evaluacion.finalizado && (
+                {proyecto.finalizado == false && evaluacion?.finalizado && (
                     <AlertMui severity="error">
                         <p>
                             <strong>La información del proyecto está incompleta. Para poder finalizar el proyecto debe completar / corregir los siguientes ítems:</strong>
@@ -231,7 +231,7 @@ const ResumenFinal = ({
                             <Checkbox
                                 name="modificar_evaluacion"
                                 className="mt-3"
-                                checked={!evaluacion.finalizado}
+                                checked={!evaluacion?.finalizado}
                                 onChange={(e) =>
                                     router.put(
                                         route('convocatorias.evaluaciones.finalizar', [convocatoria.id, evaluacion.id]),
@@ -248,7 +248,7 @@ const ResumenFinal = ({
                             <Checkbox
                                 name="finalizar_evaluacion"
                                 className="mt-3"
-                                checked={evaluacion.finalizado}
+                                checked={evaluacion?.finalizado}
                                 onChange={(e) =>
                                     router.put(
                                         route('convocatorias.evaluaciones.finalizar', [convocatoria.id, evaluacion.id]),
