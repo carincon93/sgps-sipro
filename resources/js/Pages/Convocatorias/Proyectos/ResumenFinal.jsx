@@ -68,7 +68,7 @@ const ResumenFinal = ({
             </Grid>
 
             <Grid item md={12} className="mt-10">
-                {convocatoria.activa ? (
+                {convocatoria.esta_activa ? (
                     <>
                         {proyecto.finalizado == false && evaluacion?.finalizado && (
                             <AlertMui severity="error">
