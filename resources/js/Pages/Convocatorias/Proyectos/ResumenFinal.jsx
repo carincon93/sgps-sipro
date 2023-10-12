@@ -7,7 +7,7 @@ import StepperMui from '@/Components/Stepper'
 
 import { Grid } from '@mui/material'
 import { useEffect, useState, useRef } from 'react'
-import { Head, router } from '@inertiajs/react'
+import { Head, router, usePage } from '@inertiajs/react'
 import React from 'react'
 
 const ResumenFinal = ({
@@ -42,6 +42,9 @@ const ResumenFinal = ({
 }) => {
     const ul_ref = useRef(null)
 
+    const { props: page_props } = usePage()
+    console.log()
+
     const [list_item_count, setListItemCount] = useState(0)
     const [loading, setLoading] = useState(true)
 
@@ -65,7 +68,7 @@ const ResumenFinal = ({
             </Grid>
 
             <Grid item md={12} className="mt-10">
-                {proyecto.finalizado == false && (
+                {proyecto.finalizado == false && evaluacion.finalizado && (
                     <AlertMui severity="error">
                         <p>
                             <strong>La información del proyecto está incompleta. Para poder finalizar el proyecto debe completar / corregir los siguientes ítems:</strong>
@@ -172,50 +175,95 @@ const ResumenFinal = ({
                     </AlertMui>
                 )}
 
-                {list_item_count == 0 && proyecto?.allowed?.to_update && !loading ? (
-                    <AlertMui>
-                        <strong className="block mb-8">El proyecto ha sido diligenciado correctamente.</strong>
-                        {proyecto?.finalizado
-                            ? 'Si desea seguir modificando el proyecto haga clic en la casilla "Modificar"'
-                            : 'Por favor habilite la casilla para confirmar que ha finalizado el proyecto'}
-                        <br />
-                        <Checkbox
-                            name="default_password"
-                            className="mt-3"
-                            checked={!proyecto.finalizado}
-                            onChange={(e) =>
-                                router.put(
-                                    route('convocatorias.proyectos.finalizar', [convocatoria.id, proyecto.id]),
-                                    {
-                                        modificar: e.target.checked,
-                                    },
-                                    {
-                                        preserveScroll: true,
-                                    },
-                                )
-                            }
-                            label="Modificar proyecto"
-                        />
-                        <Checkbox
-                            name="default_password"
-                            className="mt-3"
-                            checked={proyecto.finalizado}
-                            onChange={(e) =>
-                                router.put(
-                                    route('convocatorias.proyectos.finalizar', [convocatoria.id, proyecto.id]),
-                                    {
-                                        finalizado: e.target.checked,
-                                    },
-                                    {
-                                        preserveScroll: true,
-                                    },
-                                )
-                            }
-                            label="Proyecto finalizado"
-                        />
-                    </AlertMui>
+                {page_props.ziggy.query.evaluacion_id == null ? (
+                    <>
+                        {list_item_count == 0 && proyecto?.allowed?.to_update && (
+                            <AlertMui>
+                                <strong className="block mb-8">El proyecto ha sido diligenciado correctamente.</strong>
+                                {proyecto?.finalizado
+                                    ? 'Si desea seguir modificando el proyecto haga clic en la casilla "Modificar"'
+                                    : 'Por favor habilite la casilla para confirmar que ha finalizado el proyecto'}
+                                <br />
+                                <Checkbox
+                                    name="modificar_proyecto"
+                                    className="mt-3"
+                                    checked={!proyecto.finalizado}
+                                    onChange={(e) =>
+                                        router.put(
+                                            route('convocatorias.proyectos.finalizar', [convocatoria.id, proyecto.id]),
+                                            {
+                                                modificar: e.target.checked,
+                                            },
+                                            {
+                                                preserveScroll: true,
+                                            },
+                                        )
+                                    }
+                                    label="Modificar proyecto"
+                                />
+                                <Checkbox
+                                    name="finalizar_proyecto"
+                                    className="mt-3"
+                                    checked={proyecto.finalizado}
+                                    onChange={(e) =>
+                                        router.put(
+                                            route('convocatorias.proyectos.finalizar', [convocatoria.id, proyecto.id]),
+                                            {
+                                                finalizado: e.target.checked,
+                                            },
+                                            {
+                                                preserveScroll: true,
+                                            },
+                                        )
+                                    }
+                                    label="Proyecto finalizado"
+                                />
+                            </AlertMui>
+                        )}
+                    </>
                 ) : (
-                    list_item_count == 0 && <CircularProgressMui />
+                    evaluacion && (
+                        <AlertMui>
+                            {evaluacion?.finalizado
+                                ? 'Si desea seguir modificando la evaluación haga clic en la casilla "Modificar"'
+                                : 'Por favor habilite la casilla para confirmar que ha finalizado la evaluación'}
+                            <br />
+                            <Checkbox
+                                name="modificar_evaluacion"
+                                className="mt-3"
+                                checked={!evaluacion.finalizado}
+                                onChange={(e) =>
+                                    router.put(
+                                        route('convocatorias.evaluaciones.finalizar', [convocatoria.id, evaluacion.id]),
+                                        {
+                                            modificar: e.target.checked,
+                                        },
+                                        {
+                                            preserveScroll: true,
+                                        },
+                                    )
+                                }
+                                label="Modificar evaluación"
+                            />
+                            <Checkbox
+                                name="finalizar_evaluacion"
+                                className="mt-3"
+                                checked={evaluacion.finalizado}
+                                onChange={(e) =>
+                                    router.put(
+                                        route('convocatorias.evaluaciones.finalizar', [convocatoria.id, evaluacion.id]),
+                                        {
+                                            finalizado: e.target.checked,
+                                        },
+                                        {
+                                            preserveScroll: true,
+                                        },
+                                    )
+                                }
+                                label="Evaluación finalizada"
+                            />
+                        </AlertMui>
+                    )
                 )}
             </Grid>
         </AuthenticatedLayout>

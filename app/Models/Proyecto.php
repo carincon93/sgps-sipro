@@ -1100,18 +1100,18 @@ class Proyecto extends Model
             $evaluaciones               = $this->evaluaciones()->where('habilitado', true)->get();
             $evaluaciones_finalizadas   = $this->evaluaciones()->where('habilitado', true)->where('finalizado', true)->count();
 
-            $puntaje_total = 0;
-            $total_recomendaciones = 0;
-            $estado_evaluacion = '';
-            $causal_rechazo  = null;
-            $requiere_subsanar = false;
-            $total_presupuestos_evaluados = 0;
+            $puntaje_total                  = 0;
+            $total_recomendaciones          = 0;
+            $estado_evaluacion              = '';
+            $causal_rechazo                 = null;
+            $requiere_subsanar              = false;
+            $total_presupuestos_evaluados   = 0;
 
             $estados = array(1, 2);
 
             foreach ($evaluaciones as $key => $evaluacion) {
-                $puntaje_total += $evaluacion->total_evaluacion;
-                $total_recomendaciones += $evaluacion->total_recomendaciones;
+                $puntaje_total          += $evaluacion->total_evaluacion;
+                $total_recomendaciones  += $evaluacion->total_recomendaciones;
 
                 array_push($estados, $this->estadoEvaluacionProyectoFormulario6Linea82($evaluacion->total_evaluacion, $total_recomendaciones, $requiere_subsanar, null)['id']);
 

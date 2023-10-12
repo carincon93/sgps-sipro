@@ -52,7 +52,6 @@ const Edit = ({
             ? Object.keys(proyecto_formulario_6_linea_82?.proyecto.evaluaciones[evaluacion_index].evaluacion_proyecto_formulario6_linea82).filter((field) => field.endsWith('_comentario'))
             : null
 
-    console.log(evaluacion)
     return (
         <AuthenticatedLayout>
             <Head title={proyecto_formulario_6_linea_82.titulo} />

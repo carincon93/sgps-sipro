@@ -161,28 +161,6 @@ class InventarioEquipoController extends Controller
     }
 
     /**
-     * updateInventarioEquiposEvaluacion
-     *
-     * @param  mixed $request
-     * @param  mixed $convocatoria
-     * @param  mixed $evaluacion
-     * @return void
-     */
-    public function updateInventarioEquiposEvaluacion(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion)
-    {
-        $this->authorize('modificar-evaluacion-autor', $evaluacion);
-
-        $evaluacion->evaluacionProyectoFormulario12Linea68()->update([
-            'inventario_equipos_comentario' => $request->inventario_equipos_requiere_comentario == false ? $request->inventario_equipos_comentario : null,
-        ]);
-
-
-        $evaluacion->save();
-
-        return back()->with('success', 'El recurso se ha actualizado correctamente.');
-    }
-
-    /**
      * inventarioEquiposExcel
      *
      * @param  mixed $proyecto

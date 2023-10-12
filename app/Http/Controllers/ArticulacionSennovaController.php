@@ -231,35 +231,6 @@ class ArticulacionSennovaController extends Controller
         return back()->with('success', 'El recurso se ha guardado correctamente.');
     }
 
-    /**
-     * updatedArticulacionSennovaEvaluacion
-     *
-     * @param  mixed $request
-     * @param  mixed $convocatoria
-     * @param  mixed $evaluacion
-     * @return void
-     */
-    public function updatedArticulacionSennovaEvaluacion(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion)
-    {
-        $this->authorize('modificar-evaluacion-autor', $evaluacion);
-
-        if ($evaluacion->evaluacionProyectoFormulario4Linea70()->exists()) {
-            $evaluacion->evaluacionProyectoFormulario4Linea70()->update([
-                'articulacion_sennova_comentario'       => $request->articulacion_sennova_requiere_comentario == false ? $request->articulacion_sennova_comentario : null,
-                'impacto_centro_formacion_comentario'   => $request->impacto_centro_formacion_requiere_comentario == false ? $request->impacto_centro_formacion_comentario : null,
-                'lineas_medulares_centro_comentario'    => $request->lineas_medulares_centro_requiere_comentario == false ? $request->lineas_medulares_centro_comentario : null,
-            ]);
-        } else if ($evaluacion->evaluacionProyectoFormulario5Linea69()->exists()) {
-
-            $evaluacion->evaluacionProyectoFormulario5Linea69()->update([
-                'articulacion_sennova_comentario'       => $request->articulacion_sennova_requiere_comentario == false ? $request->articulacion_sennova_comentario : null,
-                'impacto_centro_formacion_comentario'   => $request->impacto_centro_formacion_requiere_comentario == false ? $request->impacto_centro_formacion_comentario : null,
-            ]);
-        }
-
-        return back()->with('success', 'El recurso se ha actualizado correctamente.');
-    }
-
     public function updateLongColumn(ArticulacionSennovaColumnRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, $column)
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);

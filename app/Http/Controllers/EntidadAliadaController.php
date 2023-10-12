@@ -458,15 +458,4 @@ class EntidadAliadaController extends Controller
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
-
-    public function validarEntidadAliada(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion, EntidadAliada $entidad_aliada)
-    {
-        if ($evaluacion->evaluacionProyectoFormulario8Linea66()->exists()) {
-            $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
-                'entidad_aliada_verificada' => $request->entidad_aliada_verificada
-            ]);
-        }
-
-        return back()->with('success', 'El recurso se ha actualizado correctamente.');
-    }
 }

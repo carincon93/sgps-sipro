@@ -296,6 +296,24 @@ class ProyectoFormulario8Linea66Controller extends Controller
         $evaluacion_proyecto_linea66->video_comentario                                  = $request->video_requiere_comentario                               == false ? $request->video_comentario : null;
         $evaluacion_proyecto_linea66->resumen_puntaje                                   = $request->resumen_puntaje;
         $evaluacion_proyecto_linea66->resumen_comentario                                = $request->resumen_requiere_comentario                             == false ? $request->resumen_comentario : null;
+
+        $evaluacion_proyecto_linea66->entidad_aliada_puntaje                            = $request->entidad_aliada_puntaje;
+        $evaluacion_proyecto_linea66->entidad_aliada_comentario                         = $request->entidad_aliada_comentario                               == false ? $request->entidad_aliada_comentario : null;
+        $evaluacion_proyecto_linea66->problema_central_puntaje                          = $request->problema_central_puntaje;
+        $evaluacion_proyecto_linea66->problema_central_comentario                       = $request->problema_central_comentario                             == false ? $request->problema_central_comentario : null;
+        $evaluacion_proyecto_linea66->resultados_puntaje                                = $request->resultados_puntaje;
+        $evaluacion_proyecto_linea66->resultados_comentario                             = $request->resultados_comentario                                   == false ? $request->resultados_comentario : null;
+        $evaluacion_proyecto_linea66->objetivos_puntaje                                 = $request->objetivos_puntaje;
+        $evaluacion_proyecto_linea66->objetivos_comentario                              = $request->objetivos_comentario                                    == false ? $request->objetivos_comentario : null;
+        $evaluacion_proyecto_linea66->metodologia_puntaje                               = $request->metodologia_puntaje;
+        $evaluacion_proyecto_linea66->metodologia_comentario                            = $request->metodologia_comentario                                  == false ? $request->metodologia_comentario : null;
+        $evaluacion_proyecto_linea66->productos_puntaje                                 = $request->productos_puntaje;
+        $evaluacion_proyecto_linea66->productos_comentario                              = $request->productos_comentario                                    == false ? $request->productos_comentario : null;
+        $evaluacion_proyecto_linea66->cadena_valor_puntaje                              = $request->cadena_valor_puntaje;
+        $evaluacion_proyecto_linea66->cadena_valor_comentario                           = $request->cadena_valor_comentario                                 == false ? $request->cadena_valor_comentario : null;
+        $evaluacion_proyecto_linea66->analisis_riesgos_puntaje                          = $request->analisis_riesgos_puntaje;
+        $evaluacion_proyecto_linea66->analisis_riesgos_comentario                       = $request->analisis_riesgos_comentario                             == false ? $request->analisis_riesgos_comentario : null;
+
         $evaluacion_proyecto_linea66->ortografia_puntaje                                = $request->ortografia_puntaje;
         $evaluacion_proyecto_linea66->ortografia_comentario                             = $request->ortografia_requiere_comentario                          == false ? $request->ortografia_comentario : null;
         $evaluacion_proyecto_linea66->redaccion_puntaje                                 = $request->redaccion_puntaje;

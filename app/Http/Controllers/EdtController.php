@@ -133,23 +133,4 @@ class EdtController extends Controller
 
         return redirect()->route('convocatorias.proyectos.presupuesto.edt.index', [$convocatoria, $proyecto, $presupuesto])->with('success', 'El recurso se ha eliminado correctamente.');
     }
-
-    /**
-     * updateEdtEvaluacion
-     *
-     * @param  mixed $request
-     * @param  mixed $convocatoria
-     * @param  mixed $evaluacion
-     * @return void
-     */
-    public function updateEdtEvaluacion(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion)
-    {
-        $this->authorize('modificar-evaluacion-autor', $evaluacion);
-
-        $evaluacion->evaluacionProyectoFormulario4Linea70()->update([
-            'edt_comentario'   => $request->edt_requiere_comentario == false ? $request->edt_comentario : null
-        ]);
-
-        return back()->with('success', 'El recurso se ha actualizado correctamente.');
-    }
 }

@@ -442,7 +442,7 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
 
                 <Step active={route().current('convocatorias.proyectos.resumen-final')}>
                     <Link href={route('convocatorias.proyectos.resumen-final', [proyecto?.convocatoria_id, proyecto?.id, evaluacion ? { evaluacion_id: evaluacion?.id } : null])}>
-                        <StepLabel classes={{ root: classes.root }}>Finalizar proyecto</StepLabel>
+                        <StepLabel classes={{ root: classes.root }}>Finalizar {evaluacion ? 'evaluación' : 'proyecto'}</StepLabel>
                     </Link>
                 </Step>
             </Stepper>

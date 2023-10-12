@@ -142,49 +142,6 @@ class ArbolProyectoController extends Controller
     }
 
     /**
-     * updateArbolProblemasEvaluacion
-     *
-     * @param  mixed $request
-     * @param  mixed $convocatoria
-     * @param  mixed $evaluacion
-     * @return void
-     */
-    public function updateArbolProblemasEvaluacion(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion)
-    {
-        $this->authorize('modificar-evaluacion-autor', $evaluacion);
-
-        switch ($evaluacion) {
-            case $evaluacion->evaluacionProyectoFormulario8Linea66()->exists():
-                $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
-                    'problema_central_puntaje'      => $request->problema_central_puntaje,
-                    'problema_central_comentario'   => $request->problema_central_requiere_comentario == false ? $request->problema_central_comentario : null
-                ]);
-                break;
-            case $evaluacion->evaluacionProyectoFormulario1Linea65()->exists():
-                $evaluacion->evaluacionProyectoFormulario1Linea65()->update([
-                    'problema_central_puntaje'      => $request->problema_central_puntaje,
-                    'problema_central_comentario'   => $request->problema_central_requiere_comentario == false ? $request->problema_central_comentario : null
-                ]);
-                break;
-            case $evaluacion->evaluacionProyectoFormulario5Linea69()->exists():
-                $evaluacion->evaluacionProyectoFormulario5Linea69()->update([
-                    'arbol_problemas_comentario'   => $request->arbol_problemas_requiere_comentario == false ? $request->arbol_problemas_comentario : null
-                ]);
-                break;
-            case $evaluacion->evaluacionProyectoFormulario12Linea68()->exists():
-                $evaluacion->evaluacionProyectoFormulario12Linea68()->update([
-                    'arbol_problemas_puntaje'      => $request->arbol_problemas_puntaje,
-                    'arbol_problemas_comentario'   => $request->arbol_problemas_requiere_comentario == false ? $request->arbol_problemas_comentario : null
-                ]);
-                break;
-            default:
-                break;
-        }
-
-        return back()->with('success', 'El recurso se ha actualizado correctamente.');
-    }
-
-    /**
      * updateArbolProblemas
      *
      * @param  mixed $request
@@ -571,80 +528,6 @@ class ArbolProyectoController extends Controller
             )->get(),
             'objetivos_especificos' => $arr_objetivos_especificos,
         ]);
-    }
-
-    /**
-     * updateArbolObjetivosEvaluacion
-     *
-     * @param  mixed $request
-     * @param  mixed $convocatoria
-     * @param  mixed $evaluacion
-     * @return void
-     */
-    public function updateArbolObjetivosEvaluacion(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion)
-    {
-        $this->authorize('modificar-evaluacion-autor', $evaluacion);
-
-        switch ($evaluacion) {
-            case $evaluacion->evaluacionProyectoFormulario8Linea66()->exists():
-                $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
-                    'objetivos_puntaje'      => $request->objetivos_puntaje,
-                    'objetivos_comentario'   => $request->objetivos_requiere_comentario == false ? $request->objetivos_comentario : null,
-                    'resultados_puntaje'     => $request->resultados_puntaje,
-                    'resultados_comentario'  => $request->resultados_requiere_comentario == false ? $request->resultados_comentario : null
-                ]);
-                break;
-            case $evaluacion->evaluacionProyectoFormulario1Linea65()->exists():
-                $evaluacion->evaluacionProyectoFormulario1Linea65()->update([
-                    'objetivos_puntaje'      => $request->objetivos_puntaje,
-                    'objetivos_comentario'   => $request->objetivos_requiere_comentario == false ? $request->objetivos_comentario : null,
-                    'resultados_puntaje'     => $request->resultados_puntaje,
-                    'resultados_comentario'  => $request->resultados_requiere_comentario == false ? $request->resultados_comentario : null
-                ]);
-                break;
-            case $evaluacion->evaluacionProyectoFormulario5Linea69()->exists():
-                $evaluacion->evaluacionProyectoFormulario5Linea69()->update([
-                    'arbol_objetivos_comentario'   => $request->arbol_objetivos_requiere_comentario == false ? $request->arbol_objetivos_comentario : null,
-                ]);
-                break;
-
-            case $evaluacion->evaluacionProyectoFormulario12Linea68()->exists():
-                $evaluacion->evaluacionProyectoFormulario12Linea68()->update([
-                    'objetivo_general_puntaje'          => $request->objetivo_general_puntaje,
-                    'objetivo_general_comentario'       => $request->objetivo_general_requiere_comentario == false ? $request->objetivo_general_comentario : null,
-
-                    'primer_objetivo_puntaje'           => $request->primer_objetivo_puntaje,
-                    'primer_objetivo_comentario'        => $request->primer_objetivo_requiere_comentario == false ? $request->primer_objetivo_comentario : null,
-
-                    'segundo_objetivo_puntaje'          => $request->segundo_objetivo_puntaje,
-                    'segundo_objetivo_comentario'       => $request->segundo_objetivo_requiere_comentario == false ? $request->segundo_objetivo_comentario : null,
-
-                    'tercer_objetivo_puntaje'           => $request->tercer_objetivo_puntaje,
-                    'tercer_objetivo_comentario'        => $request->tercer_objetivo_requiere_comentario == false ? $request->tercer_objetivo_comentario : null,
-
-                    'cuarto_objetivo_puntaje'           => $request->cuarto_objetivo_puntaje,
-                    'cuarto_objetivo_comentario'        => $request->cuarto_objetivo_requiere_comentario == false ? $request->cuarto_objetivo_comentario : null,
-
-                    'resultados_primer_obj_puntaje'     => $request->resultados_primer_obj_puntaje,
-                    'resultados_primer_obj_comentario'  => $request->resultados_primer_obj_requiere_comentario == false ? $request->resultados_primer_obj_comentario : null,
-
-                    'resultados_segundo_obj_puntaje'    => $request->resultados_segundo_obj_puntaje,
-                    'resultados_segundo_obj_comentario' => $request->resultados_segundo_obj_requiere_comentario == false ? $request->resultados_segundo_obj_comentario : null,
-
-                    'resultados_tercer_obj_puntaje'     => $request->resultados_tercer_obj_puntaje,
-                    'resultados_tercer_obj_comentario'  => $request->resultados_tercer_obj_requiere_comentario == false ? $request->resultados_tercer_obj_comentario : null,
-
-                    'resultados_cuarto_obj_puntaje'     => $request->resultados_cuarto_obj_puntaje,
-                    'resultados_cuarto_obj_comentario'  => $request->resultados_cuarto_obj_requiere_comentario == false ? $request->resultados_cuarto_obj_comentario : null
-                ]);
-                break;
-            default:
-                break;
-        }
-
-        $evaluacion->save();
-
-        return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
     /**
