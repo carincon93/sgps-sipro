@@ -22,7 +22,7 @@ class EvaluacionController extends Controller
      */
     public function index()
     {
-        $this->authorize('viewAny', [Evaluacion::class]);
+        // $this->authorize('viewAny', [Evaluacion::class]);
 
         return Inertia::render('Evaluaciones/Index', [
             'evaluaciones'          => Evaluacion::getEvaluacionesPorRol()->appends(['search' => request()->search, 'estado' => request()->estado]),
