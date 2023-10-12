@@ -75,11 +75,15 @@ class ApiController extends Controller
             ->get();
             $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
             $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $imagen_proyecto = Proyecto::where('id', $IdProyecto)->pluck('imagen');
+            $ods_proyecto = Proyecto::where('id', $IdProyecto)->pluck('ods');
             $response = [
                 'proyectos' => $proyectos,
                 'participante' => $participante,
                 'nombre_participante' => $nombre_participante,
                 'entidades_aliadas' => $entidades_aliadas,
+                'imagen_proyecto' => $imagen_proyecto,
+                'ods_proyecto' => $ods_proyecto,
             ];
             return response()->json($response);
         } else {
@@ -98,11 +102,15 @@ class ApiController extends Controller
             ->get();
             $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
             $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $imagen_proyecto = Proyecto::where('id', $IdProyecto)->pluck('imagen');
+            $ods_proyecto = Proyecto::where('id', $IdProyecto)->pluck('ods');
             $response = [
                 'proyectos' => $proyectos,
                 'participante' => $participante,
                 'nombre_participante' => $nombre_participante,
                 'entidades_aliadas' => $entidades_aliadas,
+                'imagen_proyecto' => $imagen_proyecto,
+                'ods_proyecto' => $ods_proyecto,
             ];
             return response()->json($response);
         } else {
@@ -121,11 +129,15 @@ class ApiController extends Controller
             ->get();
             $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
             $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $imagen_proyecto = Proyecto::where('id', $IdProyecto)->pluck('imagen');
+            $ods_proyecto = Proyecto::where('id', $IdProyecto)->pluck('ods');
             $response = [
                 'proyectos' => $proyectos,
                 'participante' => $participante,
                 'nombre_participante' => $nombre_participante,
                 'entidades_aliadas' => $entidades_aliadas,
+                'imagen_proyecto' => $imagen_proyecto,
+                'ods_proyecto' => $ods_proyecto,
             ];
             return response()->json($response);
         } else {
@@ -144,11 +156,15 @@ class ApiController extends Controller
             ->get();
             $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
             $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $imagen_proyecto = Proyecto::where('id', $IdProyecto)->pluck('imagen');
+            $ods_proyecto = Proyecto::where('id', $IdProyecto)->pluck('ods');
             $response = [
                 'proyectos' => $proyectos,
                 'participante' => $participante,
                 'nombre_participante' => $nombre_participante,
                 'entidades_aliadas' => $entidades_aliadas,
+                'imagen_proyecto' => $imagen_proyecto,
+                'ods_proyecto' => $ods_proyecto,
             ];
             return response()->json($response);
         } else {
@@ -167,11 +183,15 @@ class ApiController extends Controller
             ->get();
             $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
             $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $imagen_proyecto = Proyecto::where('id', $IdProyecto)->pluck('imagen');
+            $ods_proyecto = Proyecto::where('id', $IdProyecto)->pluck('ods');
             $response = [
                 'proyectos' => $proyectos,
                 'participante' => $participante,
                 'nombre_participante' => $nombre_participante,
                 'entidades_aliadas' => $entidades_aliadas,
+                'imagen_proyecto' => $imagen_proyecto,
+                'ods_proyecto' => $ods_proyecto,
             ];
             return response()->json($response);
         } else {
@@ -190,11 +210,15 @@ class ApiController extends Controller
             ->get();
             $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
             $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $imagen_proyecto = Proyecto::where('id', $IdProyecto)->pluck('imagen');
+            $ods_proyecto = Proyecto::where('id', $IdProyecto)->pluck('ods');
             $response = [
                 'proyectos' => $proyectos,
                 'participante' => $participante,
                 'nombre_participante' => $nombre_participante,
                 'entidades_aliadas' => $entidades_aliadas,
+                'imagen_proyecto' => $imagen_proyecto,
+                'ods_proyecto' => $ods_proyecto,
             ];
             return response()->json($response);
         } else {
@@ -213,11 +237,15 @@ class ApiController extends Controller
             ->get();
             $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
             $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $imagen_proyecto = Proyecto::where('id', $IdProyecto)->pluck('imagen');
+            $ods_proyecto = Proyecto::where('id', $IdProyecto)->pluck('ods');
             $response = [
                 'proyectos' => $proyectos,
                 'participante' => $participante,
                 'nombre_participante' => $nombre_participante,
                 'entidades_aliadas' => $entidades_aliadas,
+                'imagen_proyecto' => $imagen_proyecto,
+                'ods_proyecto' => $ods_proyecto,
             ];
             return response()->json($response);
         } else {
@@ -236,11 +264,15 @@ class ApiController extends Controller
             ->get();
             $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
             $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $imagen_proyecto = Proyecto::where('id', $IdProyecto)->pluck('imagen');
+            $ods_proyecto = Proyecto::where('id', $IdProyecto)->pluck('ods');
             $response = [
                 'proyectos' => $proyectos,
                 'participante' => $participante,
                 'nombre_participante' => $nombre_participante,
                 'entidades_aliadas' => $entidades_aliadas,
+                'imagen_proyecto' => $imagen_proyecto,
+                'ods_proyecto' => $ods_proyecto,
             ];
             return response()->json($response);
         } else {
@@ -259,11 +291,15 @@ class ApiController extends Controller
             ->get();
             $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
             $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $imagen_proyecto = Proyecto::where('id', $IdProyecto)->pluck('imagen');
+            $ods_proyecto = Proyecto::where('id', $IdProyecto)->pluck('ods');
             $response = [
                 'proyectos' => $proyectos,
                 'participante' => $participante,
                 'nombre_participante' => $nombre_participante,
                 'entidades_aliadas' => $entidades_aliadas,
+                'imagen_proyecto' => $imagen_proyecto,
+                'ods_proyecto' => $ods_proyecto,
             ];
             return response()->json($response);
         } else {
@@ -282,11 +318,15 @@ class ApiController extends Controller
             ->get();
             $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
             $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $imagen_proyecto = Proyecto::where('id', $IdProyecto)->pluck('imagen');
+            $ods_proyecto = Proyecto::where('id', $IdProyecto)->pluck('ods');
             $response = [
                 'proyectos' => $proyectos,
                 'participante' => $participante,
                 'nombre_participante' => $nombre_participante,
                 'entidades_aliadas' => $entidades_aliadas,
+                'imagen_proyecto' => $imagen_proyecto,
+                'ods_proyecto' => $ods_proyecto,
             ];
             return response()->json($response);
         } else {
@@ -305,11 +345,15 @@ class ApiController extends Controller
             ->get();
             $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
             $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $imagen_proyecto = Proyecto::where('id', $IdProyecto)->pluck('imagen');
+            $ods_proyecto = Proyecto::where('id', $IdProyecto)->pluck('ods');
             $response = [
                 'proyectos' => $proyectos,
                 'participante' => $participante,
                 'nombre_participante' => $nombre_participante,
                 'entidades_aliadas' => $entidades_aliadas,
+                'imagen_proyecto' => $imagen_proyecto,
+                'ods_proyecto' => $ods_proyecto,
             ];
             return response()->json($response);
         } else {
@@ -328,11 +372,15 @@ class ApiController extends Controller
             ->get();
             $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
             $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $imagen_proyecto = Proyecto::where('id', $IdProyecto)->pluck('imagen');
+            $ods_proyecto = Proyecto::where('id', $IdProyecto)->pluck('ods');
             $response = [
                 'proyectos' => $proyectos,
                 'participante' => $participante,
                 'nombre_participante' => $nombre_participante,
                 'entidades_aliadas' => $entidades_aliadas,
+                'imagen_proyecto' => $imagen_proyecto,
+                'ods_proyecto' => $ods_proyecto,
             ];
             return response()->json($response);
         } else {
@@ -351,11 +399,15 @@ class ApiController extends Controller
             ->get();
             $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
             $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $imagen_proyecto = Proyecto::where('id', $IdProyecto)->pluck('imagen');
+            $ods_proyecto = Proyecto::where('id', $IdProyecto)->pluck('ods');
             $response = [
                 'proyectos' => $proyectos,
                 'participante' => $participante,
                 'nombre_participante' => $nombre_participante,
                 'entidades_aliadas' => $entidades_aliadas,
+                'imagen_proyecto' => $imagen_proyecto,
+                'ods_proyecto' => $ods_proyecto,
             ];
             return response()->json($response);
         } else {
@@ -374,11 +426,15 @@ class ApiController extends Controller
             ->get();
             $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
             $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $imagen_proyecto = Proyecto::where('id', $IdProyecto)->pluck('imagen');
+            $ods_proyecto = Proyecto::where('id', $IdProyecto)->pluck('ods');
             $response = [
                 'proyectos' => $proyectos,
                 'participante' => $participante,
                 'nombre_participante' => $nombre_participante,
                 'entidades_aliadas' => $entidades_aliadas,
+                'imagen_proyecto' => $imagen_proyecto,
+                'ods_proyecto' => $ods_proyecto,
             ];
             return response()->json($response);
         } else {
