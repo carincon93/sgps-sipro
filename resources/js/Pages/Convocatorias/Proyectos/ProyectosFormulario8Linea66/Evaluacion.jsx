@@ -122,14 +122,17 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
 
     useEffect(() => {
         if (evaluacion_rol_sennova) {
-            form_evaluacion_rol.setData({ correcto: evaluacion_rol_sennova.correcto, comentario: evaluacion_rol_sennova.comentario })
+            const evaluacion_rol_sennova_seleccionado = evaluacion_rol_sennova.proyecto_roles_evaluaciones.find((evaluacion_rol) => evaluacion_rol.evaluacion_id == evaluacion.id)
+            if (evaluacion_rol_sennova_seleccionado) {
+                form_evaluacion_rol.setData({ correcto: evaluacion_rol_sennova_seleccionado.correcto, comentario: evaluacion_rol_sennova_seleccionado.comentario })
+            }
         }
     }, [evaluacion_rol_sennova])
 
     const submitEvaluacionRol = (e) => {
         e.preventDefault()
 
-        form_evaluacion_rol.put(route('convocatorias.evaluaciones.proyecto-rol-sennova.update', [convocatoria.id, evaluacion.id, evaluacion_rol_sennova.proyecto_rol_sennova_id]), {
+        form_evaluacion_rol.put(route('convocatorias.evaluaciones.proyecto-rol-sennova.update', [convocatoria.id, evaluacion.id, evaluacion_rol_sennova.id]), {
             onSuccess: () => setDialogEvaluacionRolStatus(false),
             preserveScroll: true,
         })
@@ -144,14 +147,17 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
 
     useEffect(() => {
         if (evaluacion_rubro) {
-            form_evaluacion_rubro.setData({ correcto: evaluacion_rubro.correcto, comentario: evaluacion_rubro.comentario })
+            const evaluacion_rubro_seleccionado = evaluacion_rubro.proyecto_presupuestos_evaluaciones.find((evaluacion_rubro) => evaluacion_rubro.evaluacion_id == evaluacion.id)
+            if (evaluacion_rubro_seleccionado) {
+                form_evaluacion_rubro.setData({ correcto: evaluacion_rubro_seleccionado.correcto, comentario: evaluacion_rubro_seleccionado.comentario })
+            }
         }
     }, [evaluacion_rubro])
 
     const submitEvaluacionRubro = (e) => {
         e.preventDefault()
 
-        form_evaluacion_rubro.put(route('convocatorias.evaluaciones.presupuesto.update', [convocatoria.id, evaluacion.id, evaluacion_rubro.proyecto_presupuesto_id]), {
+        form_evaluacion_rubro.put(route('convocatorias.evaluaciones.presupuesto.update', [convocatoria.id, evaluacion.id, evaluacion_rubro.id]), {
             onSuccess: () => setDialogEvaluacionRubroStatus(false),
             preserveScroll: true,
         })
@@ -1167,13 +1173,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
             <Grid container>
                 {proyecto.proyecto_roles_sennova.map((rol_sennova, i) => (
                     <Grid item md={3} key={i}>
-                        <ButtonMui
-                            onClick={() => (
-                                setDialogEvaluacionRolStatus(true),
-                                setEvaluacionRolSennova(rol_sennova.proyecto_roles_evaluaciones.find((evaluacion_rol) => evaluacion_rol.evaluacion_id == evaluacion.id))
-                            )}>
-                            Evaluar rol con código {rol_sennova.id}
-                        </ButtonMui>
+                        <ButtonMui onClick={() => (setDialogEvaluacionRolStatus(true), setEvaluacionRolSennova(rol_sennova))}>Evaluar rol con código {rol_sennova.id}</ButtonMui>
                     </Grid>
                 ))}
             </Grid>
@@ -1182,13 +1182,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
             <Grid container>
                 {proyecto.proyecto_presupuesto.map((rubro, i) => (
                     <Grid item md={3} key={i}>
-                        <ButtonMui
-                            onClick={() => (
-                                setDialogEvaluacionRubroStatus(true),
-                                setEvaluacionRubro(rubro.proyecto_presupuestos_evaluaciones.find((evaluacion_rubro) => evaluacion_rubro.evaluacion_id == evaluacion.id))
-                            )}>
-                            Evaluar rubro presupuestal con código {rubro.id}
-                        </ButtonMui>
+                        <ButtonMui onClick={() => (setDialogEvaluacionRubroStatus(true), setEvaluacionRubro(rubro))}>Evaluar rubro presupuestal con código {rubro.id}</ButtonMui>
                     </Grid>
                 ))}
             </Grid>

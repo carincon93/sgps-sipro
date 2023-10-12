@@ -163,11 +163,7 @@ const Index = ({ auth, proyectos, ods }) => {
                                                 <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setProyecto(proyecto))}>
                                                     Completar información para divulgación del proyecto
                                                 </MenuItem>
-                                                <MenuItem
-                                                    onClick={() => router.visit(route('convocatorias.proyectos.edit', [proyecto.convocatoria_id, proyecto.id]))}
-                                                    disabled={!(proyecto.nuevo_titulo && proyecto.ods && proyecto.imagen) && !is_super_admin ? true : false}>
-                                                    Ir al proyecto
-                                                </MenuItem>
+                                                <MenuItem onClick={() => router.visit(route('convocatorias.proyectos.edit', [proyecto.convocatoria_id, proyecto.id]))}>Ir al proyecto</MenuItem>
 
                                                 {is_super_admin && (
                                                     <>
