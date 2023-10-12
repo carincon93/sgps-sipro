@@ -25,6 +25,9 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements JWTSubject
 {
+    public function user() {
+        return $this->belongsTo(User::class, 'user_id');
+    }
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**

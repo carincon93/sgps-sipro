@@ -12,8 +12,387 @@ use App\Models\CentroFormacion;
 use App\Models\Proyecto;
 use App\Models\User;
 
+
+use App\Models\ProyectoFormulario1Linea65;
+use App\Models\ProyectoFormulario3Linea61;
+use App\Models\ProyectoFormulario4Linea70;
+use App\Models\ProyectoFormulario5Linea69;
+use App\Models\ProyectoFormulario6Linea82;
+use App\Models\ProyectoFormulario7Linea23;
+use App\Models\ProyectoFormulario8Linea66;
+use App\Models\ProyectoFormulario9Linea23;
+use App\Models\ProyectoFormulario10Linea69;
+use App\Models\ProyectoFormulario11Linea83;
+use App\Models\ProyectoFormulario12Linea68;
+use App\Models\ProyectoFormulario13Linea65;
+use App\Models\ProyectoFormulario15Linea65;
+use App\Models\ProyectoFormulario16Linea65;
+use App\Models\ProyectoFormulario17Linea69;
+use App\Models\Participante;
+use App\Models\EntidadAliada;
+
+
+
 class ApiController extends Controller
 {
+    //CONSULTA DE LOS PROYECTOS
+
+    //Proyecto Formulario 1 Linea 65
+    public function ProyectoFormulario1Linea65(Request $request){
+
+        if($request->has('id')){
+            $IdProyecto = $request->input('id');
+            $proyectos = ProyectoFormulario1Linea65::where('id', $IdProyecto)->get();
+            $participante = Participante::where('proyecto_id', $IdProyecto)
+            ->where('es_formulador', true)            
+            ->get();
+            $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
+            $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $imagen_proyecto = Proyecto::where('id', $IdProyecto)->pluck('imagen');
+            $ods_proyecto = Proyecto::where('id', $IdProyecto)->pluck('ods');
+            $response = [
+                'proyectos' => $proyectos,
+                'participante' => $participante,
+                'nombre_participante' => $nombre_participante,
+                'entidades_aliadas' => $entidades_aliadas,
+                'imagen_proyecto' => $imagen_proyecto,
+                'ods_proyecto' => $ods_proyecto,
+            ];
+            return response()->json($response);
+        } else {
+//             $proyectos = ProyectoFormulario1Linea65::all();
+            // return response()->json($proyectos);
+        }
+    }
+    //Proyecto Formulario 3 Linea 61
+    public function ProyectoFormulario3Linea61(Request $request){
+
+        if($request->has('id')){
+            $IdProyecto = $request->input('id');
+            $proyectos = ProyectoFormulario3Linea61::where('id', $IdProyecto)->get();
+            $participante = Participante::where('proyecto_id', $IdProyecto)
+            ->where('es_formulador', true)            
+            ->get();
+            $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
+            $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $response = [
+                'proyectos' => $proyectos,
+                'participante' => $participante,
+                'nombre_participante' => $nombre_participante,
+                'entidades_aliadas' => $entidades_aliadas,
+            ];
+            return response()->json($response);
+        } else {
+            // $proyectos = ProyectoFormulario3Linea61::all();
+            // return response()->json($proyectos);
+        }
+    }
+    //Proyecto Formulario 4 Linea 70
+    public function ProyectoFormulario4Linea70(Request $request){
+
+        if($request->has('id')){
+            $IdProyecto = $request->input('id');
+            $proyectos = ProyectoFormulario4Linea70::where('id', $IdProyecto)->get();
+            $participante = Participante::where('proyecto_id', $IdProyecto)
+            ->where('es_formulador', true)            
+            ->get();
+            $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
+            $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $response = [
+                'proyectos' => $proyectos,
+                'participante' => $participante,
+                'nombre_participante' => $nombre_participante,
+                'entidades_aliadas' => $entidades_aliadas,
+            ];
+            return response()->json($response);
+        } else {
+            // $proyectos = ProyectoFormulario4Linea70::all();
+            // return response()->json($proyectos);
+        }
+    }
+    //Proyecto Formulario 5 Linea 69
+    public function ProyectoFormulario5Linea69(Request $request){
+
+        if($request->has('id')){
+            $IdProyecto = $request->input('id');
+            $proyectos = ProyectoFormulario5Linea69::where('id', $IdProyecto)->get();
+            $participante = Participante::where('proyecto_id', $IdProyecto)
+            ->where('es_formulador', true)            
+            ->get();
+            $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
+            $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $response = [
+                'proyectos' => $proyectos,
+                'participante' => $participante,
+                'nombre_participante' => $nombre_participante,
+                'entidades_aliadas' => $entidades_aliadas,
+            ];
+            return response()->json($response);
+        } else {
+            // $proyectos = ProyectoFormulario5Linea69::all();
+            // return response()->json($proyectos);
+        }
+    }
+    //Proyecto Formulario 6 Linea 82
+    public function ProyectoFormulario6Linea82(Request $request){
+
+        if($request->has('id')){
+            $IdProyecto = $request->input('id');
+            $proyectos = ProyectoFormulario6Linea82::where('id', $IdProyecto)->get();
+            $participante = Participante::where('proyecto_id', $IdProyecto)
+            ->where('es_formulador', true)            
+            ->get();
+            $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
+            $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $response = [
+                'proyectos' => $proyectos,
+                'participante' => $participante,
+                'nombre_participante' => $nombre_participante,
+                'entidades_aliadas' => $entidades_aliadas,
+            ];
+            return response()->json($response);
+        } else {
+            // $proyectos = ProyectoFormulario6Linea82::all();
+            // return response()->json($proyectos);
+        }
+    }
+    //Proyecto Formulario 7 Linea 23
+    public function ProyectoFormulario7Linea23(Request $request){
+
+        if($request->has('id')){
+            $IdProyecto = $request->input('id');
+            $proyectos = ProyectoFormulario7Linea23::where('id', $IdProyecto)->get();
+            $participante = Participante::where('proyecto_id', $IdProyecto)
+            ->where('es_formulador', true)            
+            ->get();
+            $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
+            $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $response = [
+                'proyectos' => $proyectos,
+                'participante' => $participante,
+                'nombre_participante' => $nombre_participante,
+                'entidades_aliadas' => $entidades_aliadas,
+            ];
+            return response()->json($response);
+        } else {
+            // $proyectos = ProyectoFormulario7Linea23::all();
+            // return response()->json($proyectos);
+        }
+    }
+    //Proyecto Formulario 8 Linea 66
+    public function ProyectoFormulario8Linea66(Request $request){
+
+        if($request->has('id')){
+            $IdProyecto = $request->input('id');
+            $proyectos = ProyectoFormulario8Linea66::where('id', $IdProyecto)->get();
+            $participante = Participante::where('proyecto_id', $IdProyecto)
+            ->where('es_formulador', true)            
+            ->get();
+            $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
+            $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $response = [
+                'proyectos' => $proyectos,
+                'participante' => $participante,
+                'nombre_participante' => $nombre_participante,
+                'entidades_aliadas' => $entidades_aliadas,
+            ];
+            return response()->json($response);
+        } else {
+            // $proyectos = ProyectoFormulario8Linea66::all();
+            // return response()->json($proyectos);
+        }
+    }
+    //Proyecto Formulario 9 Linea 23
+    public function ProyectoFormulario9Linea23(Request $request){
+
+        if($request->has('id')){
+            $IdProyecto = $request->input('id');
+            $proyectos = ProyectoFormulario9Linea23::where('id', $IdProyecto)->get();
+                        $participante = Participante::where('proyecto_id', $IdProyecto)
+            ->where('es_formulador', true)            
+            ->get();
+            $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
+            $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $response = [
+                'proyectos' => $proyectos,
+                'participante' => $participante,
+                'nombre_participante' => $nombre_participante,
+                'entidades_aliadas' => $entidades_aliadas,
+            ];
+            return response()->json($response);
+        } else {
+            // $proyectos = ProyectoFormulario9Linea23::all();
+            // return response()->json($proyectos);
+        }
+    }
+    //Proyecto Formulario 10 Linea 69
+    public function ProyectoFormulario10Linea69(Request $request){
+
+        if($request->has('id')){
+            $IdProyecto = $request->input('id');
+            $proyectos = ProyectoFormulario10Linea69::where('id', $IdProyecto)->get();
+            $participante = Participante::where('proyecto_id', $IdProyecto)
+            ->where('es_formulador', true)            
+            ->get();
+            $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
+            $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $response = [
+                'proyectos' => $proyectos,
+                'participante' => $participante,
+                'nombre_participante' => $nombre_participante,
+                'entidades_aliadas' => $entidades_aliadas,
+            ];
+            return response()->json($response);
+        } else {
+            // $proyectos = ProyectoFormulario10Linea69::all();
+            // return response()->json($proyectos);
+        }
+    }
+    //Proyecto Formulario 11 Linea 83
+    public function ProyectoFormulario11Linea83(Request $request){
+
+        if($request->has('id')){
+            $IdProyecto = $request->input('id');
+            $proyectos = ProyectoFormulario11Linea83::where('id', $IdProyecto)->get();
+                        $participante = Participante::where('proyecto_id', $IdProyecto)
+            ->where('es_formulador', true)            
+            ->get();
+            $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
+            $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $response = [
+                'proyectos' => $proyectos,
+                'participante' => $participante,
+                'nombre_participante' => $nombre_participante,
+                'entidades_aliadas' => $entidades_aliadas,
+            ];
+            return response()->json($response);
+        } else {
+            // $proyectos = ProyectoFormulario11Linea83::all();
+            // return response()->json($proyectos);
+        }
+    }
+    //Proyecto Formulario 12 Linea 68
+    public function ProyectoFormulario12Linea68(Request $request){
+
+        if($request->has('id')){
+            $IdProyecto = $request->input('id');
+            $proyectos = ProyectoFormulario12Linea68::where('id', $IdProyecto)->get();
+            $participante = Participante::where('proyecto_id', $IdProyecto)
+            ->where('es_formulador', true)            
+            ->get();
+            $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
+            $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $response = [
+                'proyectos' => $proyectos,
+                'participante' => $participante,
+                'nombre_participante' => $nombre_participante,
+                'entidades_aliadas' => $entidades_aliadas,
+            ];
+            return response()->json($response);
+        } else {
+            // $proyectos = ProyectoFormulario12Linea68::all();
+            // return response()->json($proyectos);
+        }
+    }
+    //Proyecto Formulario 13 Linea 65
+    public function ProyectoFormulario13Linea65(Request $request){
+
+        if($request->has('id')){
+            $IdProyecto = $request->input('id');
+            $proyectos = ProyectoFormulario13Linea65::where('id', $IdProyecto)->get();
+            $participante = Participante::where('proyecto_id', $IdProyecto)
+            ->where('es_formulador', true)            
+            ->get();
+            $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
+            $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $response = [
+                'proyectos' => $proyectos,
+                'participante' => $participante,
+                'nombre_participante' => $nombre_participante,
+                'entidades_aliadas' => $entidades_aliadas,
+            ];
+            return response()->json($response);
+        } else {
+            // $proyectos = ProyectoFormulario13Linea65::all();
+            // return response()->json($proyectos);
+        }
+    }
+    //Proyecto Formulario 15 Linea 65
+    public function ProyectoFormulario15Linea65(Request $request){
+
+        if($request->has('id')){
+            $IdProyecto = $request->input('id');
+            $proyectos = ProyectoFormulario15Linea65::where('id', $IdProyecto)->get();
+            $participante = Participante::where('proyecto_id', $IdProyecto)
+            ->where('es_formulador', true)            
+            ->get();
+            $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
+            $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $response = [
+                'proyectos' => $proyectos,
+                'participante' => $participante,
+                'nombre_participante' => $nombre_participante,
+                'entidades_aliadas' => $entidades_aliadas,
+            ];
+            return response()->json($response);
+        } else {
+            // $proyectos = ProyectoFormulario15Linea65::all();
+            // return response()->json($proyectos);
+        }
+    }
+    //Proyecto Formulario 16 Linea 65
+    public function ProyectoFormulario16Linea65(Request $request){
+
+        if($request->has('id')){
+            $IdProyecto = $request->input('id');
+            $proyectos = ProyectoFormulario16Linea65::where('id', $IdProyecto)->get();
+            $participante = Participante::where('proyecto_id', $IdProyecto)
+            ->where('es_formulador', true)            
+            ->get();
+            $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
+            $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $response = [
+                'proyectos' => $proyectos,
+                'participante' => $participante,
+                'nombre_participante' => $nombre_participante,
+                'entidades_aliadas' => $entidades_aliadas,
+            ];
+            return response()->json($response);
+        } else {
+            // $proyectos = ProyectoFormulario16Linea65::all();
+            // return response()->json($proyectos);
+        }
+    }
+    //Proyecto Formulario 17 Linea 69
+    public function ProyectoFormulario17Linea69(Request $request){
+
+        if($request->has('id')){
+            $IdProyecto = $request->input('id');
+            $proyectos = ProyectoFormulario17Linea69::where('id', $IdProyecto)->get();
+            $participante = Participante::where('proyecto_id', $IdProyecto)
+            ->where('es_formulador', true)            
+            ->get();
+            $nombre_participante = User::where('id', $participante->first()->user_id)->value('nombre');
+            $entidades_aliadas = EntidadAliada::where('proyecto_id', $IdProyecto)->get();
+            $response = [
+                'proyectos' => $proyectos,
+                'participante' => $participante,
+                'nombre_participante' => $nombre_participante,
+                'entidades_aliadas' => $entidades_aliadas,
+            ];
+            return response()->json($response);
+        } else {
+            // $proyectos = ProyectoFormulario17Linea69::all();
+            // return response()->json($proyectos);
+        }
+    }
+
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+    
     public function CreateToken(Request $request)
     {
         $token = $request->user()->createToken($request->token_name);
@@ -354,4 +733,6 @@ class ApiController extends Controller
         }
         return $mapParticipantes;
     }
+
+   
 }
