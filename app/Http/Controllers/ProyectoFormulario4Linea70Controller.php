@@ -154,6 +154,7 @@ class ProyectoFormulario4Linea70Controller extends Controller
             $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
         }
 
+        $proyecto_formulario_4_linea_70->load('proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto_formulario_4_linea_70->load('proyecto.evaluaciones.evaluacionProyectoFormulario4Linea70');
 
         $proyecto_formulario_4_linea_70->proyecto->precio_proyecto           = $proyecto_formulario_4_linea_70->proyecto->precioProyecto;
@@ -169,7 +170,7 @@ class ProyectoFormulario4Linea70Controller extends Controller
             'convocatoria'                          => $convocatoria,
             'proyecto_formulario_4_linea_70'        => $proyecto_formulario_4_linea_70,
             'centros_formacion'                     => SelectHelper::centrosFormacion(),
-            'evaluacion'                            => EvaluacionProyectoFormulario4Linea70::find(request()->evaluacion_id),
+            'evaluacion'                            => EvaluacionProyectoFormulario4Linea70::with('evaluacion.proyecto')->where('id', request()->evaluacion_id)->first(),
             'tecnoacademias'                        => SelectHelper::tecnoacademias(),
             'tecnoacademia'                         => $proyecto_formulario_4_linea_70->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_formulario_4_linea_70->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
             'lineas_programaticas'                  => SelectHelper::lineasProgramaticas(),
@@ -240,8 +241,10 @@ class ProyectoFormulario4Linea70Controller extends Controller
         return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
-    public function updateEvaluacion(EvaluacionProyectoFormulario4Linea70Request $request, Convocatoria $convocatoria, EvaluacionProyectoFormulario4Linea70 $evaluacion_proyecto_formulario_4_linea_70)
+    public function updateEvaluacion(EvaluacionProyectoFormulario4Linea70Request $request, Convocatoria $convocatoria)
     {
+        $evaluacion_proyecto_formulario_4_linea_70 = EvaluacionProyectoFormulario4Linea70::find($request->evaluacion_id);
+
         $this->authorize('modificar-evaluacion-autor', $evaluacion_proyecto_formulario_4_linea_70->evaluacion);
 
         $evaluacion_proyecto_formulario_4_linea_70->evaluacion()->update([
@@ -249,21 +252,30 @@ class ProyectoFormulario4Linea70Controller extends Controller
             'clausula_confidencialidad' => $request->clausula_confidencialidad
         ]);
 
-        $evaluacion_proyecto_formulario_4_linea_70->resumen_regional_comentario              = $request->resumen_regional_requiere_comentario == false ? $request->resumen_regional_comentario : null;
-        $evaluacion_proyecto_formulario_4_linea_70->antecedentes_tecnoacademia_comentario    = $request->antecedentes_tecnoacademia_requiere_comentario == false ? $request->antecedentes_tecnoacademia_comentario : null;
-        $evaluacion_proyecto_formulario_4_linea_70->retos_oportunidades_comentario           = $request->retos_oportunidades_requiere_comentario == false ? $request->retos_oportunidades_comentario : null;
-        $evaluacion_proyecto_formulario_4_linea_70->lineas_medulares_centro_comentario       = $request->lineas_medulares_centro_requiere_comentario == false ? $request->lineas_medulares_centro_comentario : null;
-        $evaluacion_proyecto_formulario_4_linea_70->lineas_tecnologicas_centro_comentario    = $request->lineas_tecnologicas_centro_requiere_comentario == false ? $request->lineas_tecnologicas_centro_comentario : null;
-        $evaluacion_proyecto_formulario_4_linea_70->municipios_comentario                    = $request->municipios_requiere_comentario == false ? $request->municipios_comentario : null;
-        $evaluacion_proyecto_formulario_4_linea_70->instituciones_comentario                 = $request->instituciones_requiere_comentario == false ? $request->instituciones_comentario : null;
-        $evaluacion_proyecto_formulario_4_linea_70->fecha_ejecucion_comentario               = $request->fecha_ejecucion_requiere_comentario == false ? $request->fecha_ejecucion_comentario : null;
-        $evaluacion_proyecto_formulario_4_linea_70->proyectos_macro_comentario               = $request->proyectos_macro_requiere_comentario == false ? $request->proyectos_macro_comentario : null;
-        $evaluacion_proyecto_formulario_4_linea_70->bibliografia_comentario                  = $request->bibliografia_requiere_comentario == false ? $request->bibliografia_comentario : null;
-        $evaluacion_proyecto_formulario_4_linea_70->articulacion_centro_formacion_comentario = $request->articulacion_centro_formacion_requiere_comentario == false ? $request->articulacion_centro_formacion_comentario : null;
-
-        $evaluacion_proyecto_formulario_4_linea_70->ortografia_comentario                    = $request->ortografia_requiere_comentario == false ? $request->ortografia_comentario : null;
-        $evaluacion_proyecto_formulario_4_linea_70->redaccion_comentario                     = $request->redaccion_requiere_comentario == false ? $request->redaccion_comentario : null;
-        $evaluacion_proyecto_formulario_4_linea_70->normas_apa_comentario                    = $request->normas_apa_requiere_comentario == false ? $request->normas_apa_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->resumen_regional_comentario                     = $request->filled('resumen_regional_comentario') ? $request->resumen_regional_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->antecedentes_tecnoacademia_comentario           = $request->filled('antecedentes_tecnoacademia_comentario') ? $request->antecedentes_tecnoacademia_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->retos_oportunidades_comentario                  = $request->filled('retos_oportunidades_comentario') ? $request->retos_oportunidades_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->metodologia_comentario                          = $request->filled('metodologia_comentario') ? $request->metodologia_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->lineas_medulares_centro_comentario              = $request->filled('lineas_medulares_centro_comentario') ? $request->lineas_medulares_centro_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->lineas_tecnologicas_centro_comentario           = $request->filled('lineas_tecnologicas_centro_comentario') ? $request->lineas_tecnologicas_centro_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->articulacion_sennova_comentario                 = $request->filled('articulacion_sennova_comentario') ? $request->articulacion_sennova_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->municipios_comentario                           = $request->filled('municipios_comentario') ? $request->municipios_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->instituciones_comentario                        = $request->filled('instituciones_comentario') ? $request->instituciones_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->fecha_ejecucion_comentario                      = $request->filled('fecha_ejecucion_comentario') ? $request->fecha_ejecucion_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->cadena_valor_comentario                         = $request->filled('cadena_valor_comentario') ? $request->cadena_valor_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->analisis_riesgos_comentario                     = $request->filled('analisis_riesgos_comentario') ? $request->analisis_riesgos_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->anexos_comentario                               = $request->filled('anexos_comentario') ? $request->anexos_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->proyectos_macro_comentario                      = $request->filled('proyectos_macro_comentario') ? $request->proyectos_macro_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->bibliografia_comentario                         = $request->filled('bibliografia_comentario') ? $request->bibliografia_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->productos_comentario                            = $request->filled('productos_comentario') ? $request->productos_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->entidad_aliada_comentario                       = $request->filled('entidad_aliada_comentario') ? $request->entidad_aliada_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->edt_comentario                                  = $request->filled('edt_comentario') ? $request->edt_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->articulacion_centro_formacion_comentario        = $request->filled('articulacion_centro_formacion_comentario') ? $request->articulacion_centro_formacion_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->proyecto_presupuesto_comentario                 = $request->filled('proyecto_presupuesto_comentario') ? $request->proyecto_presupuesto_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->ortografia_comentario                           = $request->filled('ortografia_comentario') ? $request->ortografia_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->redaccion_comentario                            = $request->filled('redaccion_comentario') ? $request->redaccion_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->normas_apa_comentario                           = $request->filled('normas_apa_comentario') ? $request->normas_apa_comentario : null;
+        $evaluacion_proyecto_formulario_4_linea_70->impacto_centro_formacion_comentario             = $request->filled('impacto_centro_formacion_comentario') ? $request->impacto_centro_formacion_comentario : null;
 
         $evaluacion_proyecto_formulario_4_linea_70->save();
 

@@ -10,9 +10,8 @@ import Textarea from '@/Components/Textarea'
 
 import { useForm } from '@inertiajs/react'
 import { Divider, Grid } from '@mui/material'
-import React from 'react'
-import { useEffect } from 'react'
-import { useState } from 'react'
+
+import React, { useEffect, useState } from 'react'
 
 const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEvaluacionStatus, ...props }) => {
     const evaluacion_proyecto_formulario6_line82 = evaluacion.evaluacion_proyecto_formulario6_linea82 ?? evaluacion
@@ -106,7 +105,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
         e.preventDefault()
 
         if (allowed.to_update) {
-            form.put(route('convocatorias.evaluaciones-proyecto-linea-82.update', [convocatoria.id, evaluacion.id]), {
+            form.put(route('convocatorias.evaluaciones-formulario-6-linea-82.update', [convocatoria.id, evaluacion.id]), {
                 onSuccess: () => setDialogEvaluacionStatus(false),
                 preserveScroll: true,
             })
@@ -1171,19 +1170,23 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
             </form>
 
             <Divider className="!my-20 font-black">ROLES</Divider>
-            <Grid container>
+            <Grid container rowSpacing={2}>
                 {proyecto.proyecto_roles_sennova.map((rol_sennova, i) => (
                     <Grid item md={3} key={i}>
-                        <ButtonMui onClick={() => (setDialogEvaluacionRolStatus(true), setEvaluacionRolSennova(rol_sennova))}>Evaluar rol con código #{rol_sennova.id}</ButtonMui>
+                        <ButtonMui onClick={() => (form_evaluacion_rol.reset(), setDialogEvaluacionRolStatus(true), setEvaluacionRolSennova(rol_sennova))}>
+                            Evaluar rol con código #{rol_sennova.id}
+                        </ButtonMui>
                     </Grid>
                 ))}
             </Grid>
 
             <Divider className="!my-20 font-black">RUBROS PRESUPUESTALES</Divider>
-            <Grid container>
+            <Grid container rowSpacing={2}>
                 {proyecto.proyecto_presupuesto.map((rubro, i) => (
                     <Grid item md={3} key={i}>
-                        <ButtonMui onClick={() => (setDialogEvaluacionRubroStatus(true), setEvaluacionRubro(rubro))}>Evaluar rubro presupuestal con código #{rubro.id}</ButtonMui>
+                        <ButtonMui onClick={() => (form_evaluacion_rubro.reset(), setDialogEvaluacionRubroStatus(true), setEvaluacionRubro(rubro))}>
+                            Evaluar rubro presupuestal con código #{rubro.id}
+                        </ButtonMui>
                     </Grid>
                 ))}
             </Grid>

@@ -14,98 +14,98 @@ import { Divider, Grid } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 
 const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEvaluacionStatus, ...props }) => {
-    const evaluacion_proyecto_formulario8_linea66 = evaluacion.evaluacion_proyecto_formulario8_linea66 ?? evaluacion
+    const evaluacion_proyecto_formulario1_linea65 = evaluacion.evaluacion_proyecto_formulario1_linea65 ?? evaluacion
 
     const form = useForm({
         evaluacion_id: evaluacion?.id,
         clausula_confidencialidad: evaluacion?.clausula_confidencialidad ?? evaluacion?.evaluacion?.clausula_confidencialidad,
-        titulo_puntaje: evaluacion_proyecto_formulario8_linea66?.titulo_puntaje,
-        titulo_comentario: evaluacion_proyecto_formulario8_linea66?.titulo_comentario ? evaluacion_proyecto_formulario8_linea66?.titulo_comentario : '',
-        titulo_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.titulo_comentario == null ? true : false,
-        entidad_aliada_puntaje: evaluacion_proyecto_formulario8_linea66?.entidad_aliada_puntaje,
-        video_puntaje: evaluacion_proyecto_formulario8_linea66?.video_puntaje,
-        video_comentario: evaluacion_proyecto_formulario8_linea66?.video_comentario ? evaluacion_proyecto_formulario8_linea66?.video_comentario : '',
-        video_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.video_comentario == null ? true : false,
+        titulo_puntaje: evaluacion_proyecto_formulario1_linea65?.titulo_puntaje,
+        titulo_comentario: evaluacion_proyecto_formulario1_linea65?.titulo_comentario ? evaluacion_proyecto_formulario1_linea65?.titulo_comentario : '',
+        titulo_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.titulo_comentario == null ? true : false,
+        entidad_aliada_puntaje: evaluacion_proyecto_formulario1_linea65?.entidad_aliada_puntaje,
+        video_puntaje: evaluacion_proyecto_formulario1_linea65?.video_puntaje,
+        video_comentario: evaluacion_proyecto_formulario1_linea65?.video_comentario ? evaluacion_proyecto_formulario1_linea65?.video_comentario : '',
+        video_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.video_comentario == null ? true : false,
 
-        entidad_aliada_comentario: evaluacion_proyecto_formulario8_linea66?.entidad_aliada_comentario ? evaluacion_proyecto_formulario8_linea66?.entidad_aliada_comentario : '',
-        entidad_aliada_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.entidad_aliada_comentario == null ? true : false,
+        entidad_aliada_comentario: evaluacion_proyecto_formulario1_linea65?.entidad_aliada_comentario ? evaluacion_proyecto_formulario1_linea65?.entidad_aliada_comentario : '',
+        entidad_aliada_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.entidad_aliada_comentario == null ? true : false,
 
-        resumen_puntaje: evaluacion_proyecto_formulario8_linea66?.resumen_puntaje,
-        resumen_comentario: evaluacion_proyecto_formulario8_linea66?.resumen_comentario ? evaluacion_proyecto_formulario8_linea66?.resumen_comentario : '',
-        resumen_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.resumen_comentario == null ? true : false,
-        problema_central_puntaje: evaluacion_proyecto_formulario8_linea66?.problema_central_puntaje,
-        problema_central_comentario: evaluacion_proyecto_formulario8_linea66?.problema_central_comentario ? evaluacion_proyecto_formulario8_linea66?.problema_central_comentario : '',
-        problema_central_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.problema_central_comentario == null ? true : false,
-        resultados_puntaje: evaluacion_proyecto_formulario8_linea66?.resultados_puntaje,
-        resultados_comentario: evaluacion_proyecto_formulario8_linea66?.resultados_comentario ? evaluacion_proyecto_formulario8_linea66?.resultados_comentario : '',
-        resultados_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.resultados_comentario == null ? true : false,
-        objetivos_puntaje: evaluacion_proyecto_formulario8_linea66?.objetivos_puntaje,
-        objetivos_comentario: evaluacion_proyecto_formulario8_linea66?.objetivos_comentario ? evaluacion_proyecto_formulario8_linea66?.objetivos_comentario : '',
-        objetivos_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.objetivos_comentario == null ? true : false,
-        metodologia_puntaje: evaluacion_proyecto_formulario8_linea66?.metodologia_puntaje,
-        metodologia_comentario: evaluacion_proyecto_formulario8_linea66?.metodologia_comentario ? evaluacion_proyecto_formulario8_linea66?.metodologia_comentario : '',
-        metodologia_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.metodologia_comentario == null ? true : false,
-        productos_puntaje: evaluacion_proyecto_formulario8_linea66?.productos_puntaje,
-        productos_comentario: evaluacion_proyecto_formulario8_linea66?.productos_comentario ? evaluacion_proyecto_formulario8_linea66?.productos_comentario : '',
-        productos_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.productos_comentario == null ? true : false,
-        cadena_valor_puntaje: evaluacion_proyecto_formulario8_linea66?.cadena_valor_puntaje,
-        cadena_valor_comentario: evaluacion_proyecto_formulario8_linea66?.cadena_valor_comentario ? evaluacion_proyecto_formulario8_linea66?.cadena_valor_comentario : '',
-        cadena_valor_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.cadena_valor_comentario == null ? true : false,
-        analisis_riesgos_puntaje: evaluacion_proyecto_formulario8_linea66?.analisis_riesgos_puntaje,
-        analisis_riesgos_comentario: evaluacion_proyecto_formulario8_linea66?.analisis_riesgos_comentario ? evaluacion_proyecto_formulario8_linea66?.analisis_riesgos_comentario : '',
-        analisis_riesgos_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.analisis_riesgos_comentario == null ? true : false,
+        resumen_puntaje: evaluacion_proyecto_formulario1_linea65?.resumen_puntaje,
+        resumen_comentario: evaluacion_proyecto_formulario1_linea65?.resumen_comentario ? evaluacion_proyecto_formulario1_linea65?.resumen_comentario : '',
+        resumen_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.resumen_comentario == null ? true : false,
+        problema_central_puntaje: evaluacion_proyecto_formulario1_linea65?.problema_central_puntaje,
+        problema_central_comentario: evaluacion_proyecto_formulario1_linea65?.problema_central_comentario ? evaluacion_proyecto_formulario1_linea65?.problema_central_comentario : '',
+        problema_central_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.problema_central_comentario == null ? true : false,
+        resultados_puntaje: evaluacion_proyecto_formulario1_linea65?.resultados_puntaje,
+        resultados_comentario: evaluacion_proyecto_formulario1_linea65?.resultados_comentario ? evaluacion_proyecto_formulario1_linea65?.resultados_comentario : '',
+        resultados_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.resultados_comentario == null ? true : false,
+        objetivos_puntaje: evaluacion_proyecto_formulario1_linea65?.objetivos_puntaje,
+        objetivos_comentario: evaluacion_proyecto_formulario1_linea65?.objetivos_comentario ? evaluacion_proyecto_formulario1_linea65?.objetivos_comentario : '',
+        objetivos_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.objetivos_comentario == null ? true : false,
+        metodologia_puntaje: evaluacion_proyecto_formulario1_linea65?.metodologia_puntaje,
+        metodologia_comentario: evaluacion_proyecto_formulario1_linea65?.metodologia_comentario ? evaluacion_proyecto_formulario1_linea65?.metodologia_comentario : '',
+        metodologia_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.metodologia_comentario == null ? true : false,
+        productos_puntaje: evaluacion_proyecto_formulario1_linea65?.productos_puntaje,
+        productos_comentario: evaluacion_proyecto_formulario1_linea65?.productos_comentario ? evaluacion_proyecto_formulario1_linea65?.productos_comentario : '',
+        productos_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.productos_comentario == null ? true : false,
+        cadena_valor_puntaje: evaluacion_proyecto_formulario1_linea65?.cadena_valor_puntaje,
+        cadena_valor_comentario: evaluacion_proyecto_formulario1_linea65?.cadena_valor_comentario ? evaluacion_proyecto_formulario1_linea65?.cadena_valor_comentario : '',
+        cadena_valor_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.cadena_valor_comentario == null ? true : false,
+        analisis_riesgos_puntaje: evaluacion_proyecto_formulario1_linea65?.analisis_riesgos_puntaje,
+        analisis_riesgos_comentario: evaluacion_proyecto_formulario1_linea65?.analisis_riesgos_comentario ? evaluacion_proyecto_formulario1_linea65?.analisis_riesgos_comentario : '',
+        analisis_riesgos_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.analisis_riesgos_comentario == null ? true : false,
 
-        ortografia_puntaje: evaluacion_proyecto_formulario8_linea66?.ortografia_puntaje,
-        ortografia_comentario: evaluacion_proyecto_formulario8_linea66?.ortografia_comentario ? evaluacion_proyecto_formulario8_linea66?.ortografia_comentario : '',
-        ortografia_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.ortografia_comentario == null ? true : false,
-        redaccion_puntaje: evaluacion_proyecto_formulario8_linea66?.redaccion_puntaje,
-        redaccion_comentario: evaluacion_proyecto_formulario8_linea66?.redaccion_comentario ? evaluacion_proyecto_formulario8_linea66?.redaccion_comentario : '',
-        redaccion_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.redaccion_comentario == null ? true : false,
-        normas_apa_puntaje: evaluacion_proyecto_formulario8_linea66?.normas_apa_puntaje,
-        normas_apa_comentario: evaluacion_proyecto_formulario8_linea66?.normas_apa_comentario ? evaluacion_proyecto_formulario8_linea66?.normas_apa_comentario : '',
-        normas_apa_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.normas_apa_comentario == null ? true : false,
+        ortografia_puntaje: evaluacion_proyecto_formulario1_linea65?.ortografia_puntaje,
+        ortografia_comentario: evaluacion_proyecto_formulario1_linea65?.ortografia_comentario ? evaluacion_proyecto_formulario1_linea65?.ortografia_comentario : '',
+        ortografia_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.ortografia_comentario == null ? true : false,
+        redaccion_puntaje: evaluacion_proyecto_formulario1_linea65?.redaccion_puntaje,
+        redaccion_comentario: evaluacion_proyecto_formulario1_linea65?.redaccion_comentario ? evaluacion_proyecto_formulario1_linea65?.redaccion_comentario : '',
+        redaccion_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.redaccion_comentario == null ? true : false,
+        normas_apa_puntaje: evaluacion_proyecto_formulario1_linea65?.normas_apa_puntaje,
+        normas_apa_comentario: evaluacion_proyecto_formulario1_linea65?.normas_apa_comentario ? evaluacion_proyecto_formulario1_linea65?.normas_apa_comentario : '',
+        normas_apa_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.normas_apa_comentario == null ? true : false,
 
-        justificacion_economia_naranja_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.justificacion_economia_naranja_comentario == null ? true : false,
-        justificacion_economia_naranja_comentario: evaluacion_proyecto_formulario8_linea66?.justificacion_economia_naranja_comentario
-            ? evaluacion_proyecto_formulario8_linea66?.justificacion_economia_naranja_comentario
+        justificacion_economia_naranja_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.justificacion_economia_naranja_comentario == null ? true : false,
+        justificacion_economia_naranja_comentario: evaluacion_proyecto_formulario1_linea65?.justificacion_economia_naranja_comentario
+            ? evaluacion_proyecto_formulario1_linea65?.justificacion_economia_naranja_comentario
             : '',
 
-        justificacion_industria_4_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.justificacion_industria_4_comentario == null ? true : false,
-        justificacion_industria_4_comentario: evaluacion_proyecto_formulario8_linea66?.justificacion_industria_4_comentario
-            ? evaluacion_proyecto_formulario8_linea66?.justificacion_industria_4_comentario
+        justificacion_industria_4_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.justificacion_industria_4_comentario == null ? true : false,
+        justificacion_industria_4_comentario: evaluacion_proyecto_formulario1_linea65?.justificacion_industria_4_comentario
+            ? evaluacion_proyecto_formulario1_linea65?.justificacion_industria_4_comentario
             : '',
 
-        bibliografia_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.bibliografia_comentario == null ? true : false,
-        bibliografia_comentario: evaluacion_proyecto_formulario8_linea66?.bibliografia_comentario ? evaluacion_proyecto_formulario8_linea66?.bibliografia_comentario : '',
+        bibliografia_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.bibliografia_comentario == null ? true : false,
+        bibliografia_comentario: evaluacion_proyecto_formulario1_linea65?.bibliografia_comentario ? evaluacion_proyecto_formulario1_linea65?.bibliografia_comentario : '',
 
-        fechas_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.fechas_comentario == null ? true : false,
-        fechas_comentario: evaluacion_proyecto_formulario8_linea66?.fechas_comentario ? evaluacion_proyecto_formulario8_linea66?.fechas_comentario : '',
+        fechas_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.fechas_comentario == null ? true : false,
+        fechas_comentario: evaluacion_proyecto_formulario1_linea65?.fechas_comentario ? evaluacion_proyecto_formulario1_linea65?.fechas_comentario : '',
 
-        justificacion_politica_discapacidad_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.justificacion_politica_discapacidad_comentario == null ? true : false,
-        justificacion_politica_discapacidad_comentario: evaluacion_proyecto_formulario8_linea66?.justificacion_politica_discapacidad_comentario
-            ? evaluacion_proyecto_formulario8_linea66?.justificacion_politica_discapacidad_comentario
+        justificacion_politica_discapacidad_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.justificacion_politica_discapacidad_comentario == null ? true : false,
+        justificacion_politica_discapacidad_comentario: evaluacion_proyecto_formulario1_linea65?.justificacion_politica_discapacidad_comentario
+            ? evaluacion_proyecto_formulario1_linea65?.justificacion_politica_discapacidad_comentario
             : '',
 
-        actividad_economica_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.actividad_economica_comentario == null ? true : false,
-        actividad_economica_comentario: evaluacion_proyecto_formulario8_linea66?.actividad_economica_comentario ? evaluacion_proyecto_formulario8_linea66?.actividad_economica_comentario : '',
+        actividad_economica_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.actividad_economica_comentario == null ? true : false,
+        actividad_economica_comentario: evaluacion_proyecto_formulario1_linea65?.actividad_economica_comentario ? evaluacion_proyecto_formulario1_linea65?.actividad_economica_comentario : '',
 
-        disciplina_subarea_conocimiento_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.disciplina_subarea_conocimiento_comentario == null ? true : false,
-        disciplina_subarea_conocimiento_comentario: evaluacion_proyecto_formulario8_linea66?.disciplina_subarea_conocimiento_comentario
-            ? evaluacion_proyecto_formulario8_linea66?.disciplina_subarea_conocimiento_comentario
+        disciplina_subarea_conocimiento_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.disciplina_subarea_conocimiento_comentario == null ? true : false,
+        disciplina_subarea_conocimiento_comentario: evaluacion_proyecto_formulario1_linea65?.disciplina_subarea_conocimiento_comentario
+            ? evaluacion_proyecto_formulario1_linea65?.disciplina_subarea_conocimiento_comentario
             : '',
 
-        red_conocimiento_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.red_conocimiento_comentario == null ? true : false,
-        red_conocimiento_comentario: evaluacion_proyecto_formulario8_linea66?.red_conocimiento_comentario ? evaluacion_proyecto_formulario8_linea66?.red_conocimiento_comentario : '',
+        red_conocimiento_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.red_conocimiento_comentario == null ? true : false,
+        red_conocimiento_comentario: evaluacion_proyecto_formulario1_linea65?.red_conocimiento_comentario ? evaluacion_proyecto_formulario1_linea65?.red_conocimiento_comentario : '',
 
-        tematica_estrategica_requiere_comentario: evaluacion_proyecto_formulario8_linea66?.tematica_estrategica_comentario == null ? true : false,
-        tematica_estrategica_comentario: evaluacion_proyecto_formulario8_linea66?.tematica_estrategica_comentario ? evaluacion_proyecto_formulario8_linea66?.tematica_estrategica_comentario : '',
+        tematica_estrategica_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.tematica_estrategica_comentario == null ? true : false,
+        tematica_estrategica_comentario: evaluacion_proyecto_formulario1_linea65?.tematica_estrategica_comentario ? evaluacion_proyecto_formulario1_linea65?.tematica_estrategica_comentario : '',
     })
 
     const submit = (e) => {
         e.preventDefault()
 
         if (allowed.to_update) {
-            form.put(route('convocatorias.evaluaciones-formulario-8-linea-66.update', [convocatoria.id, evaluacion.id]), {
+            form.put(route('convocatorias.evaluaciones-formulario-1-linea-65.update', [convocatoria.id, evaluacion.id]), {
                 onSuccess: () => setDialogEvaluacionStatus(false),
                 preserveScroll: true,
             })

@@ -149,6 +149,7 @@ class ProyectoFormulario12Linea68Controller extends Controller
             $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
         }
 
+        $proyecto_formulario_12_linea_68->load('proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto_formulario_12_linea_68->load('proyecto.evaluaciones.evaluacionProyectoFormulario12Linea68');
 
         $proyecto_formulario_12_linea_68->proyecto->precio_proyecto = $proyecto_formulario_12_linea_68->proyecto->precioProyecto;
@@ -172,7 +173,7 @@ class ProyectoFormulario12Linea68Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario12Linea68/Edit', [
             'convocatoria'                                  => $convocatoria,
             'proyecto_formulario_12_linea_68'               => $proyecto_formulario_12_linea_68,
-            'evaluacion'                                    => EvaluacionProyectoFormulario12Linea68::find(request()->evaluacion_id),
+            'evaluacion'                                    => EvaluacionProyectoFormulario12Linea68::with('evaluacion.proyecto')->where('id', request()->evaluacion_id)->first(),
             'lineas_programaticas'                          => SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 3)->values()->all(),
             'estados_sistema_gestion'                       => SelectHelper::estadosSistemaGestion(),
             'programas_formacion_sin_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),

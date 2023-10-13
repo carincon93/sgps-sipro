@@ -832,9 +832,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/causales-rechazo', [EvaluacionController::class, 'updateCausalRechazo'])->name('convocatorias.evaluaciones.update-causal-rechazo');
 
     // Evaluación de proyectos de la línea 66
-    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-8-linea-66', [ProyectoFormulario8Linea66Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-proyecto-linea-66.update');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-8-linea-66', [ProyectoFormulario8Linea66Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-8-linea-66.update');
     // Evaluación de proyectos de la línea 82
-    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-6-linea-82', [ProyectoFormulario6Linea82Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-proyecto-linea-82.update');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-6-linea-82', [ProyectoFormulario6Linea82Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-6-linea-82.update');
+    // Evaluación de proyectos de la línea 69
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-5-linea-69', [ProyectoFormulario5Linea69Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-5-linea-69.update');
+    // Evaluación de proyectos de la línea 70
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-4-linea-70', [ProyectoFormulario4Linea70Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-4-linea-70.update');
 
     Route::get('evaluadores', [EvaluacionController::class, 'evaluadores'])->name('evaluadores.index');
     Route::resource('evaluaciones', EvaluacionController::class)->parameters(['evaluaciones' => 'evaluacion'])->except(['show']);
