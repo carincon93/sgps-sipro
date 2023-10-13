@@ -669,17 +669,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                 <div>
                     <Divider className="!my-20 font-black">CADENA DE VALOR</Divider>
 
-                    <Label
-                        className="!mb-10"
-                        labelFor="cadena_valor_puntaje"
-                        value={`Puntaje (Máximo ${
-                            proyecto.tipo_formulario_convocatoria_id == 7 || proyecto.tipo_formulario_convocatoria_id == 1
-                                ? 25
-                                : proyecto.tipo_formulario_convocatoria_id == 8 || proyecto.tipo_formulario_convocatoria_id == 6
-                                ? 20
-                                : 0
-                        })`}
-                    />
+                    <Label className="!mb-10" labelFor="cadena_valor_puntaje" value={`Puntaje (Máximo 25)`} />
                     <TextInput
                         label="Diligencie el puntaje"
                         id="cadena_valor_puntaje"
@@ -688,12 +678,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         inputProps={{
                             step: 1,
                             min: 0,
-                            max:
-                                proyecto.tipo_formulario_convocatoria_id == 7 || proyecto.tipo_formulario_convocatoria_id == 1
-                                    ? 25
-                                    : proyecto.tipo_formulario_convocatoria_id == 8 || proyecto.tipo_formulario_convocatoria_id == 6
-                                    ? 20
-                                    : 0,
+                            max: 25,
                         }}
                         value={form.data.cadena_valor_puntaje}
                         placeholder="Puntaje"
@@ -704,37 +689,16 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         <h1>Criterios de evaluacion</h1>
                         <ul className="list-disc p-4">
                             <li>
-                                <strong>
-                                    {proyecto.tipo_formulario_convocatoria_id == 7 || proyecto.tipo_formulario_convocatoria_id == 1
-                                        ? '0 a 12'
-                                        : proyecto.tipo_formulario_convocatoria_id == 8 || proyecto.tipo_formulario_convocatoria_id == 6
-                                        ? '0 a 9'
-                                        : ''}
-                                </strong>{' '}
-                                El presupuesto esta sobre o subdimensionado y / o no está directamente relacionado con el desarrollo de las actividades para el logro de los objetivos propuestos. Los
-                                soportes que evidencian el costo del bien a adquirir no son pertinentes y tampoco confiables
+                                <strong>0 a 12</strong> El presupuesto esta sobre o subdimensionado y / o no está directamente relacionado con el desarrollo de las actividades para el logro de los
+                                objetivos propuestos. Los soportes que evidencian el costo del bien a adquirir no son pertinentes y tampoco confiables
                             </li>
                             <li>
-                                <strong>
-                                    {proyecto.tipo_formulario_convocatoria_id == 7 || proyecto.tipo_formulario_convocatoria_id == 1
-                                        ? '13 a 23'
-                                        : proyecto.tipo_formulario_convocatoria_id == 8 || proyecto.tipo_formulario_convocatoria_id == 6
-                                        ? '10 a 18'
-                                        : ''}
-                                </strong>{' '}
-                                El presupuesto es adecuado, pero es susceptible de ajustes frente a las las actividades a desarrollar que darán cumplimiento a los objetivos propuestos. Los soportes
+                                <strong>13 a 23</strong> El presupuesto es adecuado, pero es susceptible de ajustes frente a las las actividades a desarrollar que darán cumplimiento a los objetivos
+                                propuestos. Los soportes que evidencian el costo del bien a adquirir son pertinentes y confiables.
+                            </li>
+                            <li>
+                                <strong>24 a 25</strong> El presupuesto está bien definido y se relaciona directamente con el desarrollo de las actividades y los entregables del proyecto. Los soportes
                                 que evidencian el costo del bien a adquirir son pertinentes y confiables.
-                            </li>
-                            <li>
-                                <strong>
-                                    {proyecto.tipo_formulario_convocatoria_id == 7 || proyecto.tipo_formulario_convocatoria_id == 1
-                                        ? '24 a 25'
-                                        : proyecto.tipo_formulario_convocatoria_id == 8 || proyecto.tipo_formulario_convocatoria_id == 6
-                                        ? '19 a 20'
-                                        : ''}
-                                </strong>{' '}
-                                El presupuesto está bien definido y se relaciona directamente con el desarrollo de las actividades y los entregables del proyecto. Los soportes que evidencian el costo
-                                del bien a adquirir son pertinentes y confiables.
                             </li>
                         </ul>
                     </AlertMui>

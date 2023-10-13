@@ -54,6 +54,8 @@ const Index = ({ auth, evaluaciones, evaluadores, proyectos, allowed_to_create }
                                     {evaluacion.proyecto.codigo}
                                     <Divider />
                                     <small>Convocatoria: {evaluacion.proyecto.convocatoria.year}</small>
+                                    <Divider />
+                                    <small>Formulario: {evaluacion.proyecto.tipo_formulario_convocatoria_id}</small>
                                 </TableCell>
                                 <TableCell>
                                     <p className="uppercase line-clamp-4">

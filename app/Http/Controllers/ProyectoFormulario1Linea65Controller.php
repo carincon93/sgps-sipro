@@ -364,7 +364,6 @@ class ProyectoFormulario1Linea65Controller extends Controller
         $evaluacion_proyecto_linea65->fechas_comentario                                 = $request->filled('fechas_requiere_comentario')                              ? $request->fechas_comentario : null;
         $evaluacion_proyecto_linea65->justificacion_politica_discapacidad_comentario    = $request->filled('justificacion_politica_discapacidad_requiere_comentario') ? $request->justificacion_politica_discapacidad_comentario : null;
         $evaluacion_proyecto_linea65->actividad_economica_comentario                    = $request->filled('actividad_economica_requiere_comentario')                 ? $request->actividad_economica_comentario : null;
-        $evaluacion_proyecto_linea65->disciplina_subarea_conocimiento_comentario        = $request->filled('disciplina_subarea_conocimiento_requiere_comentario')     ? $request->disciplina_subarea_conocimiento_comentario : null;
         $evaluacion_proyecto_linea65->red_conocimiento_comentario                       = $request->filled('red_conocimiento_requiere_comentario')                    ? $request->red_conocimiento_comentario : null;
         $evaluacion_proyecto_linea65->tematica_estrategica_comentario                   = $request->filled('tematica_estrategica_requiere_comentario')                ? $request->tematica_estrategica_comentario : null;
 

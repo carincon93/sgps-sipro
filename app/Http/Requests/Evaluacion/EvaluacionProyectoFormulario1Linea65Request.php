@@ -32,7 +32,7 @@ class EvaluacionProyectoFormulario1Linea65Request extends FormRequest
             'resumen_comentario'                                => ['nullable', 'string'],
             'antecedentes_puntaje'                              => ['nullable', 'numeric', 'max:15'],
             'antecedentes_comentario'                           => ['nullable', 'string'],
-            'problema_central_puntaje'                          => ['nullable', 'numeric', 'max:0'],
+            'problema_central_puntaje'                          => ['nullable', 'numeric', 'max:15'],
             'problema_central_comentario'                       => ['nullable', 'string'],
             'ortografia_puntaje'                                => ['nullable', 'numeric'],
             'ortografia_comentario'                             => ['nullable', 'string'],

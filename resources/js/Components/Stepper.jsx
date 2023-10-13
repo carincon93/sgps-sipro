@@ -31,6 +31,7 @@ import EvaluacionProyectosFormulario4Linea70 from '@/Pages/Convocatorias/Proyect
 import EvaluacionProyectosFormulario5Linea69 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario5Linea69/Evaluacion'
 import EvaluacionProyectosFormulario1Linea65 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario1Linea65/Evaluacion'
 import EvaluacionProyectosFormulario7Linea23 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario7Linea23/Evaluacion'
+import EvaluacionProyectosFormulario9Linea23 from '@/Pages/Convocatorias/Proyectos/ProyectosFormulario9Linea23/Evaluacion'
 
 const useStyles = makeStyles({
     root: {
@@ -275,6 +276,15 @@ export default function StepperMui({ isSuperAdmin, convocatoria, proyecto, evalu
                                 ) : null}
                                 {evaluacion.evaluacion_proyecto_formulario7_linea23 || evaluacion?.evaluacion?.proyecto.tipo_formulario_convocatoria_id == 7 ? (
                                     <EvaluacionProyectosFormulario7Linea23
+                                        convocatoria={convocatoria}
+                                        allowed={evaluacion.allowed ?? evaluacion?.evaluacion?.allowed}
+                                        evaluacion={evaluacion}
+                                        proyecto={proyecto}
+                                        setDialogEvaluacionStatus={setDialogEvaluacionStatus}
+                                    />
+                                ) : null}
+                                {evaluacion.evaluacion_proyecto_formulario9_linea23 || evaluacion?.evaluacion?.proyecto.tipo_formulario_convocatoria_id == 9 ? (
+                                    <EvaluacionProyectosFormulario9Linea23
                                         convocatoria={convocatoria}
                                         allowed={evaluacion.allowed ?? evaluacion?.evaluacion?.allowed}
                                         evaluacion={evaluacion}
