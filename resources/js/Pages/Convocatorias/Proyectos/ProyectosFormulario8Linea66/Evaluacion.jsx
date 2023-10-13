@@ -1173,7 +1173,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
             <Grid container>
                 {proyecto.proyecto_roles_sennova.map((rol_sennova, i) => (
                     <Grid item md={3} key={i}>
-                        <ButtonMui onClick={() => (setDialogEvaluacionRolStatus(true), setEvaluacionRolSennova(rol_sennova))}>Evaluar rol con código {rol_sennova.id}</ButtonMui>
+                        <ButtonMui onClick={() => (setDialogEvaluacionRolStatus(true), setEvaluacionRolSennova(rol_sennova))}>Evaluar rol con código #{rol_sennova.id}</ButtonMui>
                     </Grid>
                 ))}
             </Grid>
@@ -1182,7 +1182,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
             <Grid container>
                 {proyecto.proyecto_presupuesto.map((rubro, i) => (
                     <Grid item md={3} key={i}>
-                        <ButtonMui onClick={() => (setDialogEvaluacionRubroStatus(true), setEvaluacionRubro(rubro))}>Evaluar rubro presupuestal con código {rubro.id}</ButtonMui>
+                        <ButtonMui onClick={() => (setDialogEvaluacionRubroStatus(true), setEvaluacionRubro(rubro))}>Evaluar rubro presupuestal con código #{rubro.id}</ButtonMui>
                     </Grid>
                 ))}
             </Grid>
@@ -1191,7 +1191,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                 open={dialog_evaluacion_rol_status}
                 dialogContent={
                     <form onSubmit={submitEvaluacionRol} id="test">
-                        <Divider className="!mb-20 font-black">ROL - CÓDIGO {evaluacion_rol_sennova?.proyecto_rol_sennova_id}</Divider>
+                        <Divider className="!mb-20 font-black">ROL - CÓDIGO #{evaluacion_rol_sennova?.id}</Divider>
 
                         <p>
                             ¿El rol es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
@@ -1215,7 +1215,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 Cerrar
                             </ButtonMui>
 
-                            <PrimaryButton disabled={form_evaluacion_rol.processing || !form_evaluacion_rol.isDirty} type="submit">
+                            <PrimaryButton disabled={form_evaluacion_rol.processing} type="submit">
                                 Guardar
                             </PrimaryButton>
                         </div>
@@ -1227,7 +1227,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                 open={dialog_evaluacion_rubro_status}
                 dialogContent={
                     <form onSubmit={submitEvaluacionRubro} id="test">
-                        <Divider className="!mb-20 font-black">RUBRO PRESUPUESTAL - CÓDIGO #{evaluacion_rubro?.proyecto_presupuesto_id}</Divider>
+                        <Divider className="!mb-20 font-black">RUBRO PRESUPUESTAL - CÓDIGO #{evaluacion_rubro?.id}</Divider>
 
                         <p>
                             ¿El rubro es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
@@ -1250,7 +1250,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             <ButtonMui onClick={() => setDialogEvaluacionRubroStatus(false)} className="!bg-transparent !text-app-700 !mr-2">
                                 Cerrar
                             </ButtonMui>
-                            <PrimaryButton disabled={form_evaluacion_rubro.processing || !form_evaluacion_rubro.isDirty} type="submit">
+                            <PrimaryButton disabled={form_evaluacion_rubro.processing} type="submit">
                                 Guardar
                             </PrimaryButton>
                         </div>

@@ -1174,7 +1174,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
             <Grid container>
                 {proyecto.proyecto_roles_sennova.map((rol_sennova, i) => (
                     <Grid item md={3} key={i}>
-                        <ButtonMui onClick={() => (setDialogEvaluacionRolStatus(true), setEvaluacionRolSennova(rol_sennova))}>Evaluar rol con código {rol_sennova.id}</ButtonMui>
+                        <ButtonMui onClick={() => (setDialogEvaluacionRolStatus(true), setEvaluacionRolSennova(rol_sennova))}>Evaluar rol con código #{rol_sennova.id}</ButtonMui>
                     </Grid>
                 ))}
             </Grid>
@@ -1183,7 +1183,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
             <Grid container>
                 {proyecto.proyecto_presupuesto.map((rubro, i) => (
                     <Grid item md={3} key={i}>
-                        <ButtonMui onClick={() => (setDialogEvaluacionRubroStatus(true), setEvaluacionRubro(rubro))}>Evaluar rubro presupuestal con código {rubro.id}</ButtonMui>
+                        <ButtonMui onClick={() => (setDialogEvaluacionRubroStatus(true), setEvaluacionRubro(rubro))}>Evaluar rubro presupuestal con código #{rubro.id}</ButtonMui>
                     </Grid>
                 ))}
             </Grid>
@@ -1192,7 +1192,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                 open={dialog_evaluacion_rol_status}
                 dialogContent={
                     <form onSubmit={submitEvaluacionRol} id="test">
-                        <Divider className="!mb-20 font-black">ROL - CÓDIGO {evaluacion_rol_sennova?.id}</Divider>
+                        <Divider className="!mb-20 font-black">ROL - CÓDIGO #{evaluacion_rol_sennova?.id}</Divider>
 
                         <p>
                             ¿El rol es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
