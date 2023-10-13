@@ -124,7 +124,7 @@ const EditComponent = ({
                                     </AlertMui>
                                 </>
                             )}
-                            <div className="bg-gradient-to-r from-gray-700 via-gray-900 to-black rounded shadow p-10">
+                            {/* <div className="bg-gradient-to-r from-gray-700 via-gray-900 to-black rounded shadow p-10">
                                 <Grid container>
                                     <Grid item md={4}>
                                         <figure>
@@ -180,7 +180,7 @@ const EditComponent = ({
                                         </MenuMui>
                                     </Grid>
                                 </Grid>
-                            </div>
+                            </div> */}
                         </Grid>
                     )}
                     <Grid item md={4}>

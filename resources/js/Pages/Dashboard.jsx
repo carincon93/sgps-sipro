@@ -270,7 +270,7 @@ export default function Dashboard({ auth, roles_sistema }) {
                         Los demás módulos están en revisión. Muy pronto se habilitarán.
                     </AlertMui>
                 </Grid>
-
+                {/* 
                 <DialogMui
                     open={dialog_status}
                     enableGradient={true}
@@ -329,7 +329,7 @@ export default function Dashboard({ auth, roles_sistema }) {
                             </ButtonMui>
                         </>
                     }
-                />
+                /> */}
             </Grid>
         </AuthenticatedLayout>
     )
