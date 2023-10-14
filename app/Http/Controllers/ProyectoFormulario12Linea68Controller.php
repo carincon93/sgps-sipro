@@ -251,7 +251,6 @@ class ProyectoFormulario12Linea68Controller extends Controller
         $evaluacion_proyecto_formulario_12_linea_68->identificacion_problema_puntaje                    = $request->identificacion_problema_puntaje;
         $evaluacion_proyecto_formulario_12_linea_68->arbol_problemas_comentario                         = $request->filled('arbol_problemas_comentario') ? $request->arbol_problemas_comentario : null;
         $evaluacion_proyecto_formulario_12_linea_68->arbol_problemas_puntaje                            = $request->arbol_problemas_puntaje;
-        $evaluacion_proyecto_formulario_12_linea_68->arbol_objetivos_comentario                         = $request->filled('arbol_objetivos_comentario') ? $request->arbol_objetivos_comentario : null;
         $evaluacion_proyecto_formulario_12_linea_68->impacto_ambiental_puntaje                          = $request->impacto_ambiental_puntaje;
         $evaluacion_proyecto_formulario_12_linea_68->impacto_ambiental_comentario                       = $request->filled('impacto_ambiental_comentario') ? $request->impacto_ambiental_comentario : null;
         $evaluacion_proyecto_formulario_12_linea_68->impacto_social_centro_puntaje                      = $request->impacto_social_centro_puntaje;

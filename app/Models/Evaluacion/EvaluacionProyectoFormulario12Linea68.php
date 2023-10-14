@@ -45,7 +45,6 @@ class EvaluacionProyectoFormulario12Linea68 extends Model
         'normas_apa_comentario',
         'arbol_problemas_comentario',
         'arbol_problemas_puntaje',
-        'arbol_objetivos_comentario',
         'impacto_ambiental_puntaje',
         'impacto_ambiental_comentario',
         'impacto_social_centro_puntaje',

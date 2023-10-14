@@ -139,6 +139,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             checked={form.data.clausula_confidencialidad}
                             error={form.errors.clausula_confidencialidad}
                             onChange={(e) => form.setData('clausula_confidencialidad', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                             label={form.data.clausula_confidencialidad ? 'He aceptado la cláusula de confidencialidad' : 'Acepto la cláusula de confidencialidad-'}
                         />
                     </AlertMui>
@@ -154,6 +155,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.resumen_regional_requiere_comentario}
                             onChange={(e) => form.setData('resumen_regional_requiere_comentario', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                         />
                         {form.data.resumen_regional_requiere_comentario == false && (
                             <Textarea
@@ -164,6 +166,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.resumen_regional_comentario}
                                 error={form.errors.resumen_regional_comentario}
                                 onChange={(e) => form.setData('resumen_regional_comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -181,6 +184,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.antecedentes_regional_requiere_comentario}
                             onChange={(e) => form.setData('antecedentes_regional_requiere_comentario', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                         />
                         {form.data.antecedentes_regional_requiere_comentario == false && (
                             <Textarea
@@ -191,6 +195,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.antecedentes_regional_comentario}
                                 error={form.errors.antecedentes_regional_comentario}
                                 onChange={(e) => form.setData('antecedentes_regional_comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -203,7 +208,12 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         <p>
                             ¿El municipios_comentario es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
                         </p>
-                        <SwitchMui className="!my-6" checked={form.data.municipios_requiere_comentario} onChange={(e) => form.setData('municipios_requiere_comentario', e.target.checked)} />
+                        <SwitchMui
+                            className="!my-6"
+                            checked={form.data.municipios_requiere_comentario}
+                            onChange={(e) => form.setData('municipios_requiere_comentario', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
+                        />
                         {form.data.municipios_requiere_comentario == false && (
                             <Textarea
                                 label="Comentario"
@@ -213,6 +223,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.municipios_comentario}
                                 error={form.errors.municipios_comentario}
                                 onChange={(e) => form.setData('municipios_comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -225,7 +236,12 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         <p>
                             ¿El fecha_ejecucion_comentario es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
                         </p>
-                        <SwitchMui className="!my-6" checked={form.data.fecha_ejecucion_requiere_comentario} onChange={(e) => form.setData('fecha_ejecucion_requiere_comentario', e.target.checked)} />
+                        <SwitchMui
+                            className="!my-6"
+                            checked={form.data.fecha_ejecucion_requiere_comentario}
+                            onChange={(e) => form.setData('fecha_ejecucion_requiere_comentario', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
+                        />
                         {form.data.fecha_ejecucion_requiere_comentario == false && (
                             <Textarea
                                 label="Comentario"
@@ -235,6 +251,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.fecha_ejecucion_comentario}
                                 error={form.errors.fecha_ejecucion_comentario}
                                 onChange={(e) => form.setData('fecha_ejecucion_comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -247,7 +264,12 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         <p>
                             ¿El cadena_valor_comentario es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
                         </p>
-                        <SwitchMui className="!my-6" checked={form.data.cadena_valor_requiere_comentario} onChange={(e) => form.setData('cadena_valor_requiere_comentario', e.target.checked)} />
+                        <SwitchMui
+                            className="!my-6"
+                            checked={form.data.cadena_valor_requiere_comentario}
+                            onChange={(e) => form.setData('cadena_valor_requiere_comentario', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
+                        />
                         {form.data.cadena_valor_requiere_comentario == false && (
                             <Textarea
                                 label="Comentario"
@@ -257,6 +279,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.cadena_valor_comentario}
                                 error={form.errors.cadena_valor_comentario}
                                 onChange={(e) => form.setData('cadena_valor_comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -274,6 +297,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.impacto_centro_formacion_requiere_comentario}
                             onChange={(e) => form.setData('impacto_centro_formacion_requiere_comentario', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                         />
                         {form.data.impacto_centro_formacion_requiere_comentario == false && (
                             <Textarea
@@ -284,6 +308,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.impacto_centro_formacion_comentario}
                                 error={form.errors.impacto_centro_formacion_comentario}
                                 onChange={(e) => form.setData('impacto_centro_formacion_comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -296,7 +321,12 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         <p>
                             ¿El bibliografia_comentario es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
                         </p>
-                        <SwitchMui className="!my-6" checked={form.data.bibliografia_requiere_comentario} onChange={(e) => form.setData('bibliografia_requiere_comentario', e.target.checked)} />
+                        <SwitchMui
+                            className="!my-6"
+                            checked={form.data.bibliografia_requiere_comentario}
+                            onChange={(e) => form.setData('bibliografia_requiere_comentario', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
+                        />
                         {form.data.bibliografia_requiere_comentario == false && (
                             <Textarea
                                 label="Comentario"
@@ -306,6 +336,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.bibliografia_comentario}
                                 error={form.errors.bibliografia_comentario}
                                 onChange={(e) => form.setData('bibliografia_comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -323,6 +354,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.retos_oportunidades_requiere_comentario}
                             onChange={(e) => form.setData('retos_oportunidades_requiere_comentario', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                         />
                         {form.data.retos_oportunidades_requiere_comentario == false && (
                             <Textarea
@@ -333,6 +365,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.retos_oportunidades_comentario}
                                 error={form.errors.retos_oportunidades_comentario}
                                 onChange={(e) => form.setData('retos_oportunidades_comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -350,6 +383,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.pertinencia_territorio_requiere_comentario}
                             onChange={(e) => form.setData('pertinencia_territorio_requiere_comentario', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                         />
                         {form.data.pertinencia_territorio_requiere_comentario == false && (
                             <Textarea
@@ -360,6 +394,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.pertinencia_territorio_comentario}
                                 error={form.errors.pertinencia_territorio_comentario}
                                 onChange={(e) => form.setData('pertinencia_territorio_comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -372,7 +407,12 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         <p>
                             ¿El metodologia_comentario es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
                         </p>
-                        <SwitchMui className="!my-6" checked={form.data.metodologia_requiere_comentario} onChange={(e) => form.setData('metodologia_requiere_comentario', e.target.checked)} />
+                        <SwitchMui
+                            className="!my-6"
+                            checked={form.data.metodologia_requiere_comentario}
+                            onChange={(e) => form.setData('metodologia_requiere_comentario', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
+                        />
                         {form.data.metodologia_requiere_comentario == false && (
                             <Textarea
                                 label="Comentario"
@@ -382,6 +422,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.metodologia_comentario}
                                 error={form.errors.metodologia_comentario}
                                 onChange={(e) => form.setData('metodologia_comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -398,6 +439,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.analisis_riesgos_requiere_comentario}
                             onChange={(e) => form.setData('analisis_riesgos_requiere_comentario', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                         />
                         {form.data.analisis_riesgos_requiere_comentario == false && (
                             <Textarea
@@ -408,6 +450,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.analisis_riesgos_comentario}
                                 error={form.errors.analisis_riesgos_comentario}
                                 onChange={(e) => form.setData('analisis_riesgos_comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -420,7 +463,12 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         <p>
                             ¿El anexos_comentario es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
                         </p>
-                        <SwitchMui className="!my-6" checked={form.data.anexos_requiere_comentario} onChange={(e) => form.setData('anexos_requiere_comentario', e.target.checked)} />
+                        <SwitchMui
+                            className="!my-6"
+                            checked={form.data.anexos_requiere_comentario}
+                            onChange={(e) => form.setData('anexos_requiere_comentario', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
+                        />
                         {form.data.anexos_requiere_comentario == false && (
                             <Textarea
                                 label="Comentario"
@@ -430,6 +478,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.anexos_comentario}
                                 error={form.errors.anexos_comentario}
                                 onChange={(e) => form.setData('anexos_comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -442,7 +491,12 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         <p>
                             ¿El productos_comentario es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
                         </p>
-                        <SwitchMui className="!my-6" checked={form.data.productos_requiere_comentario} onChange={(e) => form.setData('productos_requiere_comentario', e.target.checked)} />
+                        <SwitchMui
+                            className="!my-6"
+                            checked={form.data.productos_requiere_comentario}
+                            onChange={(e) => form.setData('productos_requiere_comentario', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
+                        />
                         {form.data.productos_requiere_comentario == false && (
                             <Textarea
                                 label="Comentario"
@@ -452,6 +506,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.productos_comentario}
                                 error={form.errors.productos_comentario}
                                 onChange={(e) => form.setData('productos_comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -464,7 +519,12 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         <p>
                             ¿El arbol_problemas_comentario es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
                         </p>
-                        <SwitchMui className="!my-6" checked={form.data.arbol_problemas_requiere_comentario} onChange={(e) => form.setData('arbol_problemas_requiere_comentario', e.target.checked)} />
+                        <SwitchMui
+                            className="!my-6"
+                            checked={form.data.arbol_problemas_requiere_comentario}
+                            onChange={(e) => form.setData('arbol_problemas_requiere_comentario', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
+                        />
                         {form.data.arbol_problemas_requiere_comentario == false && (
                             <Textarea
                                 label="Comentario"
@@ -474,6 +534,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.arbol_problemas_comentario}
                                 error={form.errors.arbol_problemas_comentario}
                                 onChange={(e) => form.setData('arbol_problemas_comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -486,7 +547,12 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         <p>
                             ¿El arbol_objetivos_comentario es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
                         </p>
-                        <SwitchMui className="!my-6" checked={form.data.arbol_objetivos_requiere_comentario} onChange={(e) => form.setData('arbol_objetivos_requiere_comentario', e.target.checked)} />
+                        <SwitchMui
+                            className="!my-6"
+                            checked={form.data.arbol_objetivos_requiere_comentario}
+                            onChange={(e) => form.setData('arbol_objetivos_requiere_comentario', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
+                        />
                         {form.data.arbol_objetivos_requiere_comentario == false && (
                             <Textarea
                                 label="Comentario"
@@ -496,6 +562,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.arbol_objetivos_comentario}
                                 error={form.errors.arbol_objetivos_comentario}
                                 onChange={(e) => form.setData('arbol_objetivos_comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -513,6 +580,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.articulacion_sennova_requiere_comentario}
                             onChange={(e) => form.setData('articulacion_sennova_requiere_comentario', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                         />
                         {form.data.articulacion_sennova_requiere_comentario == false && (
                             <Textarea
@@ -523,6 +591,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.articulacion_sennova_comentario}
                                 error={form.errors.articulacion_sennova_comentario}
                                 onChange={(e) => form.setData('articulacion_sennova_comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -541,6 +610,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.proyecto_presupuesto_requiere_comentario}
                             onChange={(e) => form.setData('proyecto_presupuesto_requiere_comentario', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                         />
                         {form.data.proyecto_presupuesto_requiere_comentario == false && (
                             <Textarea
@@ -551,6 +621,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.proyecto_presupuesto_comentario}
                                 error={form.errors.proyecto_presupuesto_comentario}
                                 onChange={(e) => form.setData('proyecto_presupuesto_comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -564,7 +635,12 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         <p>
                             ¿La ortografía es correcta? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
                         </p>
-                        <SwitchMui className="!my-6" checked={form.data.ortografia_requiere_comentario} onChange={(e) => form.setData('ortografia_requiere_comentario', e.target.checked)} />
+                        <SwitchMui
+                            className="!my-6"
+                            checked={form.data.ortografia_requiere_comentario}
+                            onChange={(e) => form.setData('ortografia_requiere_comentario', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
+                        />
                         {form.data.ortografia_requiere_comentario == false && (
                             <Textarea
                                 label="Comentario"
@@ -574,6 +650,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.ortografia_comentario}
                                 error={form.errors.ortografia_comentario}
                                 onChange={(e) => form.setData('ortografia_comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -585,7 +662,12 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         <p>
                             ¿La redacción es correcta? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
                         </p>
-                        <SwitchMui className="!my-6" checked={form.data.redaccion_requiere_comentario} onChange={(e) => form.setData('redaccion_requiere_comentario', e.target.checked)} />
+                        <SwitchMui
+                            className="!my-6"
+                            checked={form.data.redaccion_requiere_comentario}
+                            onChange={(e) => form.setData('redaccion_requiere_comentario', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
+                        />
                         {form.data.redaccion_requiere_comentario == false && (
                             <Textarea
                                 label="Comentario"
@@ -605,7 +687,12 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         <p>
                             ¿Las normas APA son correctas? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
                         </p>
-                        <SwitchMui className="!my-6" checked={form.data.normas_apa_requiere_comentario} onChange={(e) => form.setData('normas_apa_requiere_comentario', e.target.checked)} />
+                        <SwitchMui
+                            className="!my-6"
+                            checked={form.data.normas_apa_requiere_comentario}
+                            onChange={(e) => form.setData('normas_apa_requiere_comentario', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
+                        />
                         {form.data.normas_apa_requiere_comentario == false && (
                             <Textarea
                                 label="Comentario"
@@ -615,6 +702,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.normas_apa_comentario}
                                 error={form.errors.normas_apa_comentario}
                                 onChange={(e) => form.setData('normas_apa_comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -653,7 +741,12 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         <p>
                             ¿El rol es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
                         </p>
-                        <SwitchMui className="!my-6" checked={form_evaluacion_rol.data.correcto} onChange={(e) => form_evaluacion_rol.setData('correcto', e.target.checked)} />
+                        <SwitchMui
+                            className="!my-6"
+                            checked={form_evaluacion_rol.data.correcto}
+                            onChange={(e) => form_evaluacion_rol.setData('correcto', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
+                        />
                         {form_evaluacion_rol.data.correcto == false && (
                             <Textarea
                                 label="Comentario"
@@ -663,6 +756,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form_evaluacion_rol.data.comentario}
                                 error={form_evaluacion_rol.errors.comentario}
                                 onChange={(e) => form_evaluacion_rol.setData('comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -672,7 +766,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 Cerrar
                             </ButtonMui>
 
-                            <PrimaryButton disabled={form_evaluacion_rol.processing} type="submit">
+                            <PrimaryButton disabled={form_evaluacion_rol.processing || evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado} type="submit">
                                 Guardar
                             </PrimaryButton>
                         </div>
@@ -689,7 +783,12 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         <p>
                             ¿El rubro es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
                         </p>
-                        <SwitchMui className="!my-6" checked={form_evaluacion_rubro.data.correcto} onChange={(e) => form_evaluacion_rubro.setData('correcto', e.target.checked)} />
+                        <SwitchMui
+                            className="!my-6"
+                            checked={form_evaluacion_rubro.data.correcto}
+                            onChange={(e) => form_evaluacion_rubro.setData('correcto', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
+                        />
                         {form_evaluacion_rubro.data.correcto == false && (
                             <Textarea
                                 label="Comentario"
@@ -699,6 +798,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form_evaluacion_rubro.data.comentario}
                                 error={form_evaluacion_rubro.errors.comentario}
                                 onChange={(e) => form_evaluacion_rubro.setData('comentario', e.target.value)}
+                                disabled={evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -707,7 +807,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             <ButtonMui onClick={() => setDialogEvaluacionRubroStatus(false)} className="!bg-transparent !text-app-700 !mr-2">
                                 Cerrar
                             </ButtonMui>
-                            <PrimaryButton disabled={form_evaluacion_rubro.processing} type="submit">
+                            <PrimaryButton disabled={form_evaluacion_rubro.processing || evaluacion_proyecto_formulario5_linea69.evaluacion.finalizado} type="submit">
                                 Guardar
                             </PrimaryButton>
                         </div>

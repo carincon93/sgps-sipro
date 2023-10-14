@@ -9,8 +9,11 @@ import { Grid } from '@mui/material'
 import { useEffect, useState, useRef } from 'react'
 import { Head, router, usePage } from '@inertiajs/react'
 import React from 'react'
+import { checkRole } from '@/Utils'
 
 const ResumenFinal = ({
+    auth,
+
     convocatoria,
     proyecto,
     evaluacion,
@@ -40,10 +43,10 @@ const ResumenFinal = ({
     topes_roles_sennova,
     edt,
 }) => {
-    const ul_ref = useRef(null)
-
+    const auth_user = auth.user
     const { props: page_props } = usePage()
-    console.log()
+
+    const ul_ref = useRef(null)
 
     const [list_item_count, setListItemCount] = useState(0)
     const [loading, setLoading] = useState(true)
@@ -68,7 +71,7 @@ const ResumenFinal = ({
             </Grid>
 
             <Grid item md={12} className="mt-10">
-                {convocatoria.esta_activa ? (
+                {convocatoria.esta_activa || checkRole(auth_user, [1, 5, 17, 18, 19, 20]) ? (
                     <>
                         {proyecto.finalizado == false && evaluacion?.finalizado && (
                             <AlertMui severity="error">
