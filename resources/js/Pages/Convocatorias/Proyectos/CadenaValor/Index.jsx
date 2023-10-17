@@ -10,8 +10,6 @@ import ToolTipMui from '@/Components/Tooltip'
 
 import SwipeRightOutlinedIcon from '@mui/icons-material/SwipeRightOutlined'
 
-import Evaluacion from './Evaluacion'
-
 import ScrollBooster from 'scrollbooster'
 
 import { checkRole } from '@/Utils'

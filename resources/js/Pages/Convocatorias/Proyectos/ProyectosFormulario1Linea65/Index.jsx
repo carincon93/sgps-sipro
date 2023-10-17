@@ -61,7 +61,7 @@ const Index = ({ auth, convocatoria, proyectos_formulario_1_linea_65, monto_maxi
                                     <div>
                                         <Chip className="mb-4" label={proyecto?.codigo} />
 
-                                        <p className="first-letter:uppercase mb-4 line-clamp-3">{titulo}</p>
+                                        <p className="uppercase mb-4 line-clamp-3">{titulo}</p>
                                     </div>
                                 </TableCell>
                                 <TableCell>
