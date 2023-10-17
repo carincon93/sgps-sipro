@@ -178,6 +178,7 @@ class SemilleroInvestigacion extends Model
             $query->join('grupos_investigacion', 'lineas_investigacion.grupo_investigacion_id', 'grupos_investigacion.id');
             $query->join('centros_formacion', 'grupos_investigacion.centro_formacion_id', 'centros_formacion.id');
             $query->whereRaw("unaccent(semilleros_investigacion.nombre) ilike unaccent('%" . $search . "%')");
+            $query->orWhereRaw("unaccent(semilleros_investigacion.codigo) ilike unaccent('%" . $search . "%')");
             $query->orWhereRaw("unaccent(centros_formacion.nombre) ilike unaccent('%" . $search . "%')");
         });
     }
