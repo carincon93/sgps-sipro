@@ -74,7 +74,8 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
     // Uso presupuestal
     useEffect(() => {
         if (form.data.convocatoria_presupuesto_id) {
-            if (form.data.convocatoria_presupuesto_id.length >= 1) {
+            if (form.data.convocatoria_presupuesto_id.length > 1) {
+                console.log(array_usos_presupuestales.filter((item) => form.data.convocatoria_presupuesto_id?.includes(item.value)))
                 setSameValuesRequiereEstudioMercado(
                     array_usos_presupuestales
                         .filter((item) => form.data.convocatoria_presupuesto_id?.includes(item.value))
@@ -99,15 +100,23 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                 }
             } else if (form.data.convocatoria_presupuesto_id.length == 1) {
                 setSameValuesRequiereEstudioMercado(true)
-                setRequiereEstudioMercado(array_usos_presupuestales.find((item) => item.value == form.data.convocatoria_presupuesto_id)?.requiere_estudio_mercado)
+                if (
+                    array_usos_presupuestales.find((item) => item.value == form.data.convocatoria_presupuesto_id)?.requiere_estudio_mercado == false ||
+                    array_usos_presupuestales.find((item) => item.value == form.data.convocatoria_presupuesto_id)?.requiere_estudio_mercado == null
+                ) {
+                    setRequiereEstudioMercado(false)
+                }
             }
         }
     }, [form.data.convocatoria_presupuesto_id])
 
     useEffect(() => {
-        if (rubro_presupuestal && rubro_presupuestal.convocatoria_proyecto_rubros_presupuestales[0]?.requiere_estudio_mercado === true) {
+        if (rubro_presupuestal && rubro_presupuestal.convocatoria_proyecto_rubros_presupuestales[0]?.requiere_estudio_mercado == true) {
             setRequiereEstudioMercado(true)
-        } else if (rubro_presupuestal && rubro_presupuestal.convocatoria_proyecto_rubros_presupuestales[0]?.requiere_estudio_mercado === false) {
+        } else if (
+            (rubro_presupuestal && rubro_presupuestal.convocatoria_proyecto_rubros_presupuestales[0]?.requiere_estudio_mercado) == false ||
+            (rubro_presupuestal && rubro_presupuestal.convocatoria_proyecto_rubros_presupuestales[0]?.requiere_estudio_mercado) == null
+        ) {
             setRequiereEstudioMercado(false)
         }
 
