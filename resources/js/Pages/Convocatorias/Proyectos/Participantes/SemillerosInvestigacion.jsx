@@ -80,8 +80,8 @@ const SemillerosInvestigacion = ({ auth_user, convocatoria, proyecto, nuevo_semi
                         </p>
 
                         <AlertMui className="mt-6">
-                            En una nueva pestaña diríjase al módulo de semilleros de investigación y consulte el código del semillero (SGPS-SEM-XX) y luego en el siguiente buscador escriba el código y
-                            haga clic en <strong>Buscar</strong>
+                            En una nueva pestaña, diríjase al módulo de semilleros de investigación, consulte el código del semillero (SGPS-SEM-XX), luego en el siguiente campo de búsqueda escriba el
+                            código y haga clic en <strong>'Buscar'</strong>.
                         </AlertMui>
 
                         <AlertMui className="mt-5">Escriba el nombre del semillero. Es recomendable buscar por el código del semillero para que el resultado sea exacto.</AlertMui>
