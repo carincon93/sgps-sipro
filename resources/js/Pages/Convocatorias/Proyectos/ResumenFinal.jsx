@@ -185,7 +185,7 @@ const ResumenFinal = ({
 
                         {page_props.ziggy.query.evaluacion_id == null ? (
                             <>
-                                {list_item_count == 0 && proyecto?.allowed?.to_update && (
+                                {list_item_count == 0 && convocatoria.esta_activa && (
                                     <AlertMui>
                                         <strong className="block mb-8">El proyecto ha sido diligenciado correctamente.</strong>
                                         {proyecto?.finalizado
