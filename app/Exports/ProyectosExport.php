@@ -103,7 +103,7 @@ class ProyectosExport implements FromCollection, WithHeadings, WithMapping, With
             'Área Conocimiento',
             'Subareas conocimiento',
             'Disciplina',
-            'Objetivo General',
+            'Objetivo General',8
             'Total Presupuestos',
             'Total Roles',
             'Total Proyecto',

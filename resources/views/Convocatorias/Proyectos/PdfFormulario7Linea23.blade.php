@@ -133,7 +133,7 @@
                 <p style="font-weight: bold;">Temática estratégica SENA</p>
             </td>
             <td align="left">
-                <p style="white-space: pre-wrap">{{ $datos->tematicaEstrategica->nombre }} </p>
+                <p style="white-space: pre-wrap">{{ optional($datos->tematicaEstrategica)->nombre }} </p>
             </td>
         </tr>
 
