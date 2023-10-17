@@ -13,7 +13,7 @@ import TableMui from '@/Components/Table'
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { Breadcrumbs, Chip, Grid, MenuItem, Tab, TableCell, TableRow, Tabs } from '@mui/material'
+import { Breadcrumbs, Chip, Divider, Grid, MenuItem, Tab, TableCell, TableRow, Tabs } from '@mui/material'
 
 import { useState } from 'react'
 import { Head, Link, router, useForm } from '@inertiajs/react'
@@ -91,10 +91,11 @@ const Index = ({ auth, semilleros_investigacion, redes_conocimiento, allowed_to_
                     {semilleros_investigacion.data.map((semillero_investigacion, i) => (
                         <TableRow key={i}>
                             <TableCell>
-                                Código: <Chip label={semillero_investigacion.codigo} />
-                            </TableCell>
-                            <TableCell>
                                 <p className="uppercase">{semillero_investigacion.nombre}</p>
+                                <Divider className="!my-4" />
+                                <small>
+                                    Código: <Chip label={semillero_investigacion.codigo} />
+                                </small>
                             </TableCell>
                             <TableCell>
                                 {semillero_investigacion.linea_investigacion.grupo_investigacion.centro_formacion.nombre} - Código:{' '}
