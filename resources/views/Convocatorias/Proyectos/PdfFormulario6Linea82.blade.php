@@ -246,12 +246,12 @@
     <hr style="margin: 4rem 0">
 
     <h4>En la ejecución del proyecto se requiere la recolección de especímenes de especies silvestres de la diversidad biológica con fines de elaboración de estudios ambientales (entendiendo como recolección los procesos de remoción o extracción temporal o definitiva de una especie ya sea vegetal o animal del medio natural) Nota: este permiso no se requiere cuando las actividades de recolección se limiten a investigaciones científicas o con fines industriales, comerciales o de prospección biológica.</h4>
-    <p style="white-space: pre-wrap">{{ $datos->recoleccion_especimenes ? 'Si' : 'No' }}</p>
+    <p style="white-space: pre-wrap">{{ $datos->recoleccion_especimenes == 1 ? 'Si' : 'No' }}</p>
 
     @if ($datos->aporta_a_campesena)
     <hr style="margin: 4rem 0">
     <p style="font-weight: bold;">¿El proyecto aporta a CAMPESENA?</p>
-    <p style="white-space: pre-wrap">{{ $datos->aporta_a_campesena ? 'Si' : 'No' }}</p>
+    <p style="white-space: pre-wrap">{{ $datos->aporta_a_campesena == 1 ? 'Si' : 'No' }}</p>
     @endif
 
     @if ($datos->video)
@@ -284,7 +284,7 @@
     @if ($datos->aporta_a_campesena)
     <hr style="margin: 4rem 0">
     <p style="font-weight: bold;">¿El proyecto tendrá impacto regional?</p>
-    <p style="white-space: pre-wrap">{{ $datos->justificacion_impacto_regional ? 'Si' : 'No' }}</p>
+    <p style="white-space: pre-wrap">{{ $datos->justificacion_impacto_regional == 1 ? 'Si' : 'No' }}</p>
     @endif
 
     <hr style="margin: 4rem 0">

@@ -406,7 +406,7 @@
 
     @if (!empty($datos->proyeccion_nuevas_instituciones))
     <h4>¿Se proyecta incluir nuevas Instituciones Educativas en la nueva vigencia?</h4>
-    <p style="white-space: pre-wrap">{{ $datos->proyeccion_nuevas_instituciones ? 'Si' : 'No' }}</p>
+    <p style="white-space: pre-wrap">{{ $datos->proyeccion_nuevas_instituciones == 1 ? 'Si' : 'No' }}</p>
     @endif
 
     @if ($datos->proyeccion_nuevas_tecnoacademias == 1 && !empty($datos->nuevas_instituciones))

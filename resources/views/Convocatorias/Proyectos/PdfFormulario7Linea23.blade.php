@@ -246,7 +246,7 @@
     @if ($datos->aporta_a_campesena)
     <hr style="margin: 4rem 0">
     <p style="font-weight: bold;">¿El proyecto aporta a CAMPESENA?</p>
-    <p style="white-space: pre-wrap">{{ $datos->aporta_a_campesena ? 'Si' : 'No' }}</p>
+    <p style="white-space: pre-wrap">{{ $datos->aporta_a_campesena == 1 ? 'Si' : 'No' }}</p>
     @endif
 
     @if ($datos->video)
@@ -279,7 +279,7 @@
     @if ($datos->aporta_a_campesena)
     <hr style="margin: 4rem 0">
     <p style="font-weight: bold;">¿El proyecto tendrá impacto regional?</p>
-    <p style="white-space: pre-wrap">{{ $datos->justificacion_impacto_regional ? 'Si' : 'No' }}</p>
+    <p style="white-space: pre-wrap">{{ $datos->justificacion_impacto_regional == 1 ? 'Si' : 'No' }}</p>
     @endif
 
     <hr style="margin: 4rem 0">
