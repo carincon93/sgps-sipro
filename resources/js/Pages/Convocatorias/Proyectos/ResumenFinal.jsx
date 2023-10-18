@@ -144,7 +144,7 @@ const ResumenFinal = ({
                             </AlertMui>
                         ) : (
                             <>
-                                {convocatoria.esta_activa && !any_validation_is_false && (
+                                {convocatoria.esta_activa && (
                                     <AlertMui>
                                         <strong className="block mb-8">El proyecto ha sido diligenciado correctamente.</strong>
                                         {proyecto?.finalizado
