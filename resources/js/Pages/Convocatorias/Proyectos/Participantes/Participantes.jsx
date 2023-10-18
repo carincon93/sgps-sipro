@@ -164,7 +164,7 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                                             })
                                         }
                                         disabled={!proyecto.allowed.to_update}>
-                                        Convertir en autor principal
+                                        Convertir en autor(a) principal
                                     </MenuItem>
                                     <Divider />
                                     <MenuItem
