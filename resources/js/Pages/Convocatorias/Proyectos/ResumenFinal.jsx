@@ -73,7 +73,7 @@ const ResumenFinal = ({
             <Grid item md={12} className="mt-10">
                 {convocatoria.esta_activa || checkRole(auth_user, [1, 5, 17, 18, 19, 20]) ? (
                     <>
-                        {proyecto.finalizado == false && evaluacion?.finalizado && (
+                        {proyecto.finalizado == false && (
                             <AlertMui severity="error">
                                 <p>
                                     <strong>La información del proyecto está incompleta. Para poder finalizar el proyecto debe completar / corregir los siguientes ítems:</strong>
