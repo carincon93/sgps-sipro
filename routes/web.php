@@ -547,6 +547,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('proyectos/{proyecto}/impacto/{impacto}', [ArbolProyectoController::class, 'updateImpacto'])->name('proyectos.impacto');
     Route::delete('proyectos/{proyecto}/impacto/{impacto}/destroy', [ArbolProyectoController::class, 'destroyImpacto'])->name('proyectos.impacto.destroy');
     // Actualiza el impacto en el arbol de objetivos
+    Route::post('proyectos/{proyecto}/efecto-directo/{efecto_directo}/new-resultado', [ArbolProyectoController::class, 'newResultado'])->name('proyectos.new-resultado');
     Route::post('proyectos/{proyecto}/resultado/{resultado}', [ArbolProyectoController::class, 'updateResultado'])->name('proyectos.resultado');
     Route::delete('proyectos/{proyecto}/resultado/{resultado}/destroy', [ArbolProyectoController::class, 'destroyResultado'])->name('proyectos.resultado.destroy');
     // Actualiza el objetivo especifico en el arbol de objetivos

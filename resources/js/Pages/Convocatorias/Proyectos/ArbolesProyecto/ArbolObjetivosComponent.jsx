@@ -50,6 +50,21 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
         })
     }
 
+    const sorted_efectos_directos = [...efectos_directos]
+
+    sorted_efectos_directos.sort((a, b) => {
+        const idA = a.resultado?.objetivo_especifico_id
+        const idB = b.resultado?.objetivo_especifico_id
+
+        if (idA < idB) {
+            return -1
+        }
+        if (idA > idB) {
+            return 1
+        }
+        return 0
+    })
+
     const [show_efecto_indirecto_form, setShowEfectoIndirectoForm] = useState(false)
     const [efecto_indirecto_id, setEfectoIndirectoId] = useState(null)
 
@@ -404,14 +419,18 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
 
         if (!is_proyecto_disabled) {
             setShowResultadoForm(true)
-            setResultadoId(resultado.id)
+            if (resultado) {
+                setResultadoId(resultado.id)
+            }
         }
 
-        form_resultado.setData({
-            id: resultado.id,
-            descripcion: resultado.descripcion,
-            objetivo_especifico_id: resultado.objetivo_especifico_id,
-        })
+        if (resultado) {
+            form_resultado.setData({
+                id: resultado.id,
+                descripcion: resultado.descripcion,
+                objetivo_especifico_id: resultado.objetivo_especifico_id,
+            })
+        }
     }
 
     const submitResultado = (e) => {
@@ -1223,7 +1242,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                             <img src="/images/efectos-resultados.png" alt="" />
                         </figure>
                     </Grid>
-                    {efectos_directos.map((efecto_directo, i) => (
+                    {sorted_efectos_directos.map((efecto_directo, i) => (
                         <React.Fragment key={i}>
                             <Grid item md={6} className="!my-20 shadow p-2" style={{ backgroundColor: '#e0dddd30' }}>
                                 <small className="inline-block ml-2">Efecto directo #{i + 1}</small>
@@ -1436,8 +1455,10 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
 
                             {/* Resultados e impactos relacionados */}
                             <Grid item md={6} className="!my-20 shadow p-2 pb-[76px]" style={{ backgroundColor: '#e0dddd30' }}>
-                                <small className="inline-block ml-2 mb-4">Resultado del objetivo específico #{efecto_directo.resultado?.objetivo_especifico?.numero}</small>
-                                {resultado_id !== efecto_directo.resultado?.id && (
+                                <small className="inline-block ml-2 mb-4">
+                                    Resultado {efecto_directo.resultado?.objetivo_especifico?.numero ? `del objetivo específico #${efecto_directo.resultado?.objetivo_especifico?.numero}` : ''}
+                                </small>
+                                {efecto_directo.resultado && resultado_id !== efecto_directo.resultado?.id ? (
                                     <div
                                         className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] pr-14"
                                         onClick={() => setResultado(efecto_directo, efecto_directo.resultado)}>
@@ -1485,6 +1506,19 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                 )
                                             )}
                                         </div>
+                                    </div>
+                                ) : (
+                                    <div
+                                        className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] pr-14"
+                                        onClick={() =>
+                                            router.post(route('proyectos.new-resultado', [proyecto.id, efecto_directo.id]), [], {
+                                                preserveScroll: true,
+                                            })
+                                        }>
+                                        <span className="text-green-600 bg-green-100 p-1 rounded flex items-center hover:cursor-pointer">
+                                            <AddCircleOutlineOutlinedIcon className="mr-1" />
+                                            Crear resultado
+                                        </span>
                                     </div>
                                 )}
                                 {show_resultado_form && resultado_id === efecto_directo.resultado?.id && (

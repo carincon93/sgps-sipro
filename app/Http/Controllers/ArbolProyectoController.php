@@ -239,6 +239,17 @@ class ArbolProyectoController extends Controller
         return back()->with('success', 'El recurso se ha generado correctamente.');
     }
 
+    public function newResultado(Request $request, Proyecto $proyecto, EfectoDirecto $efecto_directo)
+    {
+        $this->authorize('modificar-proyecto-autor', $proyecto);
+
+        $efecto_directo->resultado()->create([
+            'descripcion' => null
+        ]);
+
+        return back()->with('success', 'El recurso se ha generado correctamente.');
+    }
+
     /**
      * updateEfectoDirecto
      *
@@ -501,6 +512,8 @@ class ArbolProyectoController extends Controller
 
         $this->generarArboles($proyecto);
 
+
+
         $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
 
@@ -514,7 +527,8 @@ class ArbolProyectoController extends Controller
         $causas_directas        = $proyecto->causasDirectas()->with('causasIndirectas.actividad', 'objetivoEspecifico')->get();
         $objetivo_especifico    = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
 
-        $objetivos_especificos  = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
+        $query_objetivo_especificos = $proyecto->causasDirectas()->with('objetivoEspecifico.resultados');
+        $objetivos_especificos      = $query_objetivo_especificos->get()->pluck('objetivoEspecifico')->flatten()->filter();
 
         $arr_objetivos_especificos = collect([]);
         $objetivos_especificos->map(function ($objetivo_especifico) use ($arr_objetivos_especificos) {
