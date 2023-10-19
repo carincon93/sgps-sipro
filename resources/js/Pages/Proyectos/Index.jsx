@@ -48,7 +48,7 @@ const Index = ({ auth, proyectos, ods }) => {
 
             <Grid container>
                 <Grid item md={12}>
-                    <SearchBar className="mt-20" />
+                    <SearchBar className="mt-20" placeholder="Código SGPS del proyecto" />
 
                     <TableMui className="mt-16" rows={['Código', 'Título proyecto (Convocatoria)', 'Imagen', 'Nombre del proyecto', 'ODS', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         {proyectos.data.map((proyecto, i) => (

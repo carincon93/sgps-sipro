@@ -479,10 +479,24 @@ class Proyecto extends Model
     public function scopeFilterProyecto($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
+            if (strpos($search, 'SGPS-') !== false) {
+                $parts = explode('-', $search);
+
+                $filteredParts = array_filter($parts, function ($part) {
+                    return $part !== 'SGPS' && $part !== '2022';
+                });
+
+                $search = (int) implode('-', $filteredParts);
+            }
+
+            $search = str_replace('-', "", $search);
             $search = str_replace('"', "", $search);
             $search = str_replace("'", "", $search);
             $search = str_replace(' ', '%%', $search);
-            $query->where('proyectos.id', $search - 8000);
+
+            if (preg_match('/^\d+$/', $search)) {
+                $query->where('proyectos.id', $search - 8000);
+            }
         });
     }
 
