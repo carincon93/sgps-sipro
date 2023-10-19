@@ -47,7 +47,7 @@ const Form = ({ convocatoria, proyecto, convocatoria_anexo, proyecto_anexo, ...p
                         label={convocatoria_anexo?.anexo.nombre}
                         downloadRoute={
                             archivo
-                                ? archivo?.archivo.includes('http') == true || archivo?.archivo.includes('http') == undefined
+                                ? archivo?.archivo?.includes('http') == true || archivo?.archivo?.includes('http') == undefined
                                     ? archivo?.archivo
                                     : route('convocatorias.proyectos.proyecto-anexos.download-file-sharepoint', [convocatoria.id, proyecto.id, archivo.id, 'archivo'])
                                 : null
