@@ -24,8 +24,6 @@ const ResumenFinal = ({
 
     const any_validation_is_false = Object.values(validaciones).includes(false)
 
-    console.log(validaciones)
-
     return (
         <AuthenticatedLayout>
             <Head title="Resumen final" />
@@ -37,6 +35,17 @@ const ResumenFinal = ({
             <Grid item md={12} className="mt-10">
                 {convocatoria.esta_activa || checkRole(auth_user, [1, 5, 17, 18, 19, 20]) ? (
                     <>
+                        {checkRole(auth_user, [4]) && (
+                            <AlertMui className="mb-10">
+                                <h1>¡Hola {auth_user.nombre}!</h1>
+                                <p className="mt-4">
+                                    <strong>Importante:</strong>
+                                    <br />
+                                    Este año no debe avalar ningún proyecto. Pero si es recomendable revisar cada uno de los proyectos de su centro, puede hacer modificaciones si así lo considera,
+                                    descargar el PDF y finalmente verificar que todos estén con el estado de <strong>finalizados</strong>.
+                                </p>
+                            </AlertMui>
+                        )}
                         {proyecto.finalizado == false && any_validation_is_false && page_props.ziggy.query.evaluacion_id == null ? (
                             <AlertMui severity="error">
                                 <p>
@@ -113,8 +122,16 @@ const ResumenFinal = ({
                                     {!validaciones?.anexos && <li>No se han cargado todos los anexos obligatorios</li>}
                                     {!validaciones?.soportesEstudioMercado && <li>Hay estudios de mercado con menos de dos soportes</li>}
                                     {!validaciones?.estudiosMercadoArchivo && <li>Hay rubros presupuestales que no tienen el estudio de mercado cargado</li>}
-                                    {!validaciones?.minAprendicesEnSemilleros && <li>Debe relacionar mínimo 2 aprendices con el rol de "Aprendiz en semillero de investigación"</li>}
-                                    {!validaciones?.minInstructoresInvestigadores && <li>Debe relacionar mínimo 1 instructor con el rol de "Instructor investigador"</li>}
+                                    {!validaciones?.minAprendicesEnSemilleros && (
+                                        <li>
+                                            En la sección de <strong>participantes</strong> debe relacionar mínimo 2 aprendices con el rol de "Aprendiz en semillero de investigación"
+                                        </li>
+                                    )}
+                                    {!validaciones?.minInstructoresInvestigadores && (
+                                        <li>
+                                            En la sección de <strong>participantes</strong> debe relacionar mínimo 1 instructor con el rol de "Instructor investigador"
+                                        </li>
+                                    )}
                                     {!validaciones?.topes_roles_sennova && (
                                         <li>
                                             Ha superado el número máximo, ya sea de cantidad o meses de vinculación, de uno o varios roles que ha asociado al proyecto. Por favor, revise en los
