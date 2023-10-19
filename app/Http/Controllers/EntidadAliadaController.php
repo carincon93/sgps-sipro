@@ -97,6 +97,9 @@ class EntidadAliadaController extends Controller
         $entidad_aliada->proyecto()->associate($proyecto);
 
         $entidad_aliada->save();
+
+        $entidad_aliada->actividades()->attach($request->actividad_id);
+
         $request->merge(['entidad_aliada_id' => $entidad_aliada->id]);
 
         switch ($proyecto->tipo_formulario_convocatoria_id) {
@@ -107,6 +110,9 @@ class EntidadAliadaController extends Controller
                 ]);
 
                 $entidad_aliada_linea_70 = $entidad_aliada->entidadAliadaLinea70()->create($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
+
+                $entidad_aliada->actividades()->attach($request->actividad_id);
+
                 return back()->with('success', 'El recurso se ha creado correctamente.');
                 break;
             case 5:
@@ -116,6 +122,7 @@ class EntidadAliadaController extends Controller
                 ]);
 
                 $entidad_aliada_linea_69 = $entidad_aliada->entidadAliadaLinea69()->create($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
+
                 return back()->with('success', 'El recurso se ha creado correctamente.');
                 break;
             case 6:
@@ -133,8 +140,6 @@ class EntidadAliadaController extends Controller
                 ]);
 
                 $entidad_aliada_linea_66_82 = $entidad_aliada->entidadAliadaLinea66_82()->create($request->only('descripcion_convenio', 'grupo_investigacion', 'codigo_gruplac', 'enlace_gruplac', 'actividades_transferencia_conocimiento', 'recursos_especie', 'descripcion_recursos_especie', 'recursos_dinero', 'descripcion_recursos_dinero'));
-
-                $entidad_aliada->actividades()->attach($request->actividad_id);
 
                 return back()->with('success', 'El recurso se ha creado correctamente.');
                 break;
@@ -154,8 +159,6 @@ class EntidadAliadaController extends Controller
 
                 $entidad_aliada_linea_66_82 = $entidad_aliada->entidadAliadaLinea66_82()->create($request->only('descripcion_convenio', 'grupo_investigacion', 'codigo_gruplac', 'enlace_gruplac', 'actividades_transferencia_conocimiento', 'recursos_especie', 'descripcion_recursos_especie', 'recursos_dinero', 'descripcion_recursos_dinero'));
 
-                $entidad_aliada->actividades()->attach($request->actividad_id);
-
                 return back()->with('success', 'El recurso se ha creado correctamente.');
                 break;
             case 11:
@@ -165,6 +168,7 @@ class EntidadAliadaController extends Controller
                 ]);
 
                 $entidad_aliada_linea_83 = $entidad_aliada->entidadAliadaLinea83()->create($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
+
                 return back()->with('success', 'El recurso se ha creado correctamente.');
                 break;
             default:
@@ -225,6 +229,7 @@ class EntidadAliadaController extends Controller
                 ]);
 
                 $entidad_aliada_linea_70 = $entidad_aliada->entidadAliadaLinea70()->update($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
+
                 return back()->with('success', 'El recurso se ha creado correctamente.');
                 break;
             case 5:
@@ -234,6 +239,7 @@ class EntidadAliadaController extends Controller
                 ]);
 
                 $entidad_aliada_linea_69 = $entidad_aliada->entidadAliadaLinea69()->update($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
+
                 return back()->with('success', 'El recurso se ha creado correctamente.');
                 break;
             case 6:
@@ -279,6 +285,7 @@ class EntidadAliadaController extends Controller
                 ]);
 
                 $entidad_aliada_linea_83 = $entidad_aliada->entidadAliadaLinea83()->update($request->only('fecha_inicio_convenio', 'fecha_fin_convenio'));
+
                 return back()->with('success', 'El recurso se ha creado correctamente.');
                 break;
             default:
