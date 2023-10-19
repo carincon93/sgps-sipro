@@ -24,6 +24,8 @@ const ResumenFinal = ({
 
     const any_validation_is_false = Object.values(validaciones).includes(false)
 
+    console.log(validaciones)
+
     return (
         <AuthenticatedLayout>
             <Head title="Resumen final" />
@@ -111,6 +113,8 @@ const ResumenFinal = ({
                                     {!validaciones?.anexos && <li>No se han cargado todos los anexos obligatorios</li>}
                                     {!validaciones?.soportesEstudioMercado && <li>Hay estudios de mercado con menos de dos soportes</li>}
                                     {!validaciones?.estudiosMercadoArchivo && <li>Hay rubros presupuestales que no tienen el estudio de mercado cargado</li>}
+                                    {!validaciones?.minAprendicesEnSemilleros && <li>Debe relacionar mínimo 2 aprendices con el rol de "Aprendiz en semillero de investigación"</li>}
+                                    {!validaciones?.minInstructoresInvestigadores && <li>Debe relacionar mínimo 1 instructor con el rol de "Instructor investigador"</li>}
                                     {!validaciones?.topes_roles_sennova && (
                                         <li>
                                             Ha superado el número máximo, ya sea de cantidad o meses de vinculación, de uno o varios roles que ha asociado al proyecto. Por favor, revise en los
