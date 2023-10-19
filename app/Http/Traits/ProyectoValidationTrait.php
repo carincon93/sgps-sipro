@@ -60,9 +60,17 @@ trait ProyectoValidationTrait
     {
         $numero = 0;
         switch ($proyecto) {
+            case $proyecto->proyectoFormulario6Linea82()->exists():
+                foreach ($proyecto->participantes as $participante) {
+                    if ($participante->pivot->rol_sennova == 72) {
+                        $numero++;
+                    }
+                }
+                return $numero < 1 ? false : true;
+                break;
             case $proyecto->proyectoFormulario8Linea66()->exists():
                 foreach ($proyecto->participantes as $participante) {
-                    if ($participante->pivot->rol_sennova == 3) {
+                    if ($participante->pivot->rol_sennova == 72) {
                         $numero++;
                     }
                 }
@@ -86,12 +94,22 @@ trait ProyectoValidationTrait
     {
         $numero = 0;
         switch ($proyecto) {
-            case $proyecto->proyectoFormulario8Linea66()->exists():
+            case $proyecto->proyectoFormulario6Linea82()->exists():
                 foreach ($proyecto->participantes as $participante) {
-                    if ($participante->pivot->rol_sennova == 4) {
+                    if ($participante->pivot->rol_sennova == 46) {
                         $numero++;
                     }
                 }
+
+                return $numero < 1 ? false : true;
+                break;
+            case $proyecto->proyectoFormulario8Linea66()->exists():
+                foreach ($proyecto->participantes as $participante) {
+                    if ($participante->pivot->rol_sennova == 46) {
+                        $numero++;
+                    }
+                }
+
                 return $numero < 1 ? false : true;
                 break;
             default:
