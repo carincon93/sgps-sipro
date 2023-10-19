@@ -16,12 +16,13 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import DeleteForeverOutlined from '@mui/icons-material/DeleteForeverOutlined'
+import DoubleArrowIcon from '@mui/icons-material/DoubleArrow'
 import EastOutlinedIcon from '@mui/icons-material/EastOutlined'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import ShortcutIcon from '@mui/icons-material/Shortcut'
 
 import React from 'react'
-import { Grid } from '@mui/material'
+import { Divider, Grid } from '@mui/material'
 
 const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directos, causas_directas, tipos_impacto, resultados, objetivos_especificos, fase_evaluacion = false }) => {
     const auth_user = auth.user
@@ -760,6 +761,8 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                             )}
                                         </p>
 
+                                        <DoubleArrowIcon className="absolute right-[-23px] top-[50%]" />
+
                                         <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                             {show_causa_directa_destroy_icon && causa_directa.id === causa_directa_id_to_destroy ? (
                                                 <>
@@ -798,7 +801,6 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         </div>
                                     </div>
                                 )}
-
                                 {show_causa_directa_form && causa_directa_id === causa_directa.id && (
                                     <form className="relative form-arbol-objetivos mt-4" onSubmit={submitCausaDirecta} id="causa-directa">
                                         <fieldset className="relative">
@@ -823,12 +825,9 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         </ButtonMui>
                                     </form>
                                 )}
-
-                                <small className="ml-2 mt-6 flex items-center">
-                                    Causas indirectas
-                                    <ShortcutIcon sx={{ transform: 'rotate(90deg)' }} />
-                                </small>
-
+                                <Divider>
+                                    <small>Causas indirectas</small>
+                                </Divider>
                                 {causa_directa.causas_indirectas.map((causa_indirecta, j) => (
                                     <React.Fragment key={j}>
                                         {causa_indirecta_id !== causa_indirecta.id && (
@@ -842,6 +841,8 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                         <span className="text-red-500 bg-red-100 p-1 rounded">Por favor diligencie esta causa indirecta.</span>
                                                     )}
                                                 </p>
+
+                                                <DoubleArrowIcon className="absolute right-[-23px] top-[50%]" />
 
                                                 <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                                     {show_causa_indirecta_destroy_icon && causa_indirecta.id === causa_indirecta_id_to_destroy ? (
@@ -912,13 +913,11 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         )}
                                     </React.Fragment>
                                 ))}
-
                                 {causa_directa.causas_indirectas.length == 0 && (
                                     <AlertMui severity="error" className="my-3">
                                         Debe generar una causa indirecta
                                     </AlertMui>
                                 )}
-
                                 <div className="flex items-center justify-end">
                                     <TooltipMui
                                         className="relative"
@@ -934,7 +933,6 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         </ButtonMui>
                                     </TooltipMui>
                                 </div>
-
                                 {show_nueva_causa_indirecta_form && causa_directa_id_nueva_indirecta === causa_directa.id && (
                                     <form className="relative form-arbol-objetivos mt-4" onSubmit={submitCausaIndirecta} id="causa-indirecta">
                                         <fieldset className="relative">
@@ -1059,10 +1057,9 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         </ButtonMui>
                                     </form>
                                 )}
-                                <small className="ml-2 mt-6 flex items-center">
-                                    Actividades
-                                    <ShortcutIcon sx={{ transform: 'rotate(90deg)' }} />
-                                </small>
+                                <Divider className="!mt-4">
+                                    <small>Actividades</small>
+                                </Divider>
 
                                 {causa_directa.causas_indirectas.map((causa_indirecta, j) => (
                                     <div key={j}>
@@ -1257,6 +1254,9 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                 <span className="text-red-500 bg-red-100 p-1 rounded">Por favor diligencie este efecto directo.</span>
                                             )}
                                         </p>
+
+                                        <DoubleArrowIcon className="absolute right-[-23px] top-[50%]" />
+
                                         <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                             {show_efecto_directo_destroy_icon && efecto_directo.id === efecto_directo_id_to_destroy ? (
                                                 <>
@@ -1319,10 +1319,9 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         </ButtonMui>
                                     </form>
                                 )}
-                                <small className="ml-2 mt-6 flex items-center">
-                                    Efectos indirectos
-                                    <ShortcutIcon sx={{ transform: 'rotate(90deg)' }} />
-                                </small>
+                                <Divider>
+                                    <small>Efectos indirectos</small>
+                                </Divider>
                                 {efecto_directo.efectos_indirectos.map((efecto_indirecto, j) => (
                                     <div key={j}>
                                         {efecto_indirecto_id !== efecto_indirecto.id && (
@@ -1336,6 +1335,9 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                         <span className="text-red-500 bg-red-100 p-1 rounded">Por favor diligencie este efecto indirecto.</span>
                                                     )}
                                                 </p>
+
+                                                <DoubleArrowIcon className="absolute right-[-23px] top-[50%]" />
+
                                                 <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                                     {show_efecto_indirecto_destroy_icon && efecto_indirecto.id === efecto_indirecto_id_to_destroy ? (
                                                         <>
@@ -1508,18 +1510,22 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         </div>
                                     </div>
                                 ) : (
-                                    <div
-                                        className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] pr-14"
-                                        onClick={() =>
-                                            router.post(route('proyectos.new-resultado', [proyecto.id, efecto_directo.id]), [], {
-                                                preserveScroll: true,
-                                            })
-                                        }>
-                                        <span className="text-green-600 bg-green-100 p-1 rounded flex items-center hover:cursor-pointer">
-                                            <AddCircleOutlineOutlinedIcon className="mr-1" />
-                                            Crear resultado
-                                        </span>
-                                    </div>
+                                    <>
+                                        {!show_resultado_form && (
+                                            <div
+                                                className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] pr-14"
+                                                onClick={() =>
+                                                    router.post(route('proyectos.new-resultado', [proyecto.id, efecto_directo.id]), [], {
+                                                        preserveScroll: true,
+                                                    })
+                                                }>
+                                                <span className="text-green-600 bg-green-100 p-1 rounded flex items-center hover:cursor-pointer">
+                                                    <AddCircleOutlineOutlinedIcon className="mr-1" />
+                                                    Crear resultado
+                                                </span>
+                                            </div>
+                                        )}
+                                    </>
                                 )}
                                 {show_resultado_form && resultado_id === efecto_directo.resultado?.id && (
                                     <form className="relative form-arbol-objetivos" onSubmit={submitResultado} id="resultado-form">
@@ -1575,10 +1581,9 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         </ButtonMui>
                                     </form>
                                 )}
-                                <small className="ml-2 mt-6 flex items-center">
-                                    Impactos
-                                    <ShortcutIcon sx={{ transform: 'rotate(90deg)' }} />
-                                </small>
+                                <Divider className="!mt-4">
+                                    <small>Impactos</small>
+                                </Divider>
 
                                 {efecto_directo.efectos_indirectos.map((efecto_indirecto, j) => (
                                     <div key={j}>
