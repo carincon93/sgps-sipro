@@ -25,6 +25,7 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, tipos_
         hora_finalizacion_fase: convocatoria?.hora_finalizacion_fase,
         convocatoria_id: convocatoria?.convocatoria_id,
         tipo_convocatoria: convocatoria?.tipo_convocatoria,
+        permitir_nuevos_proyectos: convocatoria?.permitir_nuevos_proyectos,
     })
 
     const submit = (e) => {
@@ -225,6 +226,13 @@ const Form = ({ is_super_admin, method = '', convocatoria, convocatorias, tipos_
                     </Grid>
                     <Grid item md={3}>
                         <SwitchMui className="!ml-4" checked={form.data.visible} onChange={(e) => form.setData('visible', e.target.checked)} />
+                    </Grid>
+
+                    <Grid item md={9}>
+                        <Label required labelFor="permitir_nuevos_proyectos" value="¿Se pueden crear nuevos proyectos?" className="inline-block text-justify mb-4" />
+                    </Grid>
+                    <Grid item md={3}>
+                        <SwitchMui className="!ml-4" checked={form.data.permitir_nuevos_proyectos} onChange={(e) => form.setData('permitir_nuevos_proyectos', e.target.checked)} />
                     </Grid>
                 </Grid>
             </fieldset>

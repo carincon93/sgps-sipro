@@ -31,6 +31,7 @@ class ConvocatoriaRequest extends FormRequest
                 'fase'                              => ['required', 'integer'],
                 // 'tipos_formulario_convocatoria.*'   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tipos_formulario_convocatoria,id'],
                 'visible'                           => ['nullable', 'boolean'],
+                'permitir_nuevos_proyectos'         => ['nullable', 'boolean'],
                 'fecha_finalizacion_fase'           => ['required', 'date'],
                 'hora_finalizacion_fase'            => ['required'],
             ];
@@ -42,13 +43,13 @@ class ConvocatoriaRequest extends FormRequest
                 'fase'                              => ['required', 'integer'],
                 // 'tipos_formulario_convocatoria.*'   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:tipos_formulario_convocatoria,id'],
                 'visible'                           => ['nullable', 'boolean'],
+                'permitir_nuevos_proyectos'         => ['nullable', 'boolean'],
                 'fecha_finalizacion_fase'           => ['required', 'date'],
                 'hora_finalizacion_fase'            => ['required'],
                 'tipo_convocatoria'                 => ['required', 'integer'],
                 'convocatoria_id'                   => ['required', 'min:0', 'max:2147483647', 'integer', 'exists:convocatorias,id'],
             ];
         }
-
     }
 
     /**

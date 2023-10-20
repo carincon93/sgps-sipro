@@ -124,7 +124,7 @@
                 <p style="font-weight: bold;">Tipo de evento</p>
             </td>
             <td align="left">
-                <p style="white-space: pre-wrap">{{ $tipos_eventos->firstWhere('value', $datos->tipos_eventos) ? $tipos_eventos->firstWhere('value', $datos->tipos_eventos)['label'] : 'Sin información registrada' }} </p>
+                <p style="white-space: pre-wrap">{{ $tipos_eventos->firstWhere('value', $datos->tipo_evento) ? $tipos_eventos->firstWhere('value', $datos->tipo_evento)['label'] : 'Sin información registrada' }} </p>
             </td>
         </tr>
 
@@ -305,32 +305,24 @@
     <p style="white-space: pre-wrap; overflow-wrap: break-word">No</p>
     @endif
 
-    <h5>¿El proyecto está relacionado con la industria 4.0?</h5>
     @if ($datos->justificacion_industria_4)
+    <h5>¿El proyecto está relacionado con la industria 4.0?</h5>
     <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->justificacion_industria_4 }}</p>
-    @else
-    <p style="white-space: pre-wrap; overflow-wrap: break-word">No</p>
     @endif
 
-    <h5>¿El proyecto tendrá un impacto en el sector agrícola?</h5>
     @if ($datos->impacto_sector_agricola)
+    <h5>¿El proyecto tendrá un impacto en el sector agrícola?</h5>
     <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->impacto_sector_agricola }}</p>
-    @else
-    <p style="white-space: pre-wrap; overflow-wrap: break-word">No</p>
     @endif
 
-    <h5>¿El proyecto aporta a la Política Institucional para Atención de las Personas con discapacidad?</h5>
     @if ($datos->justificacion_politica_discapacidad)
+    <h5>¿El proyecto aporta a la Política Institucional para Atención de las Personas con discapacidad?</h5>
     <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->justificacion_politica_discapacidad }}</p>
-    @else
-    <p style="white-space: pre-wrap; overflow-wrap: break-word">No</p>
     @endif
 
-    <h5>¿El proyecto aporta a la Política Institucional de Atención con Enfoque Pluralista y Diferencial (acuerdo 0010 de 2016)?</h5>
     @if ($datos->atencion_pluralista_diferencial)
+    <h5>¿El proyecto aporta a la Política Institucional de Atención con Enfoque Pluralista y Diferencial (acuerdo 0010 de 2016)?</h5>
     <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->atencion_pluralista_diferencial }}</p>
-    @else
-    <p style="white-space: pre-wrap; overflow-wrap: break-word">No</p>
     @endif
 
     <h5>¿El proyecto se alinea con el plan tecnológico desarrollado por el centro de formación?</h5>

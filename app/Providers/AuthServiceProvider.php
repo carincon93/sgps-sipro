@@ -36,6 +36,10 @@ class AuthServiceProvider extends ServiceProvider
                 return true;
             }
 
+            if (!$convocatoria->permitir_nuevos_proyectos) {
+                return false;
+            }
+
             if (!$convocatoria->esta_activa) {
                 return false;
             }

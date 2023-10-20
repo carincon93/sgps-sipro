@@ -91,7 +91,7 @@ const RolesSennova = ({
                                 {new Intl.NumberFormat('de-DE').format(
                                     !isNaN(proyecto_rol_sennova?.convocatoria_rol_sennova?.asignacion_mensual) ? proyecto_rol_sennova?.convocatoria_rol_sennova?.asignacion_mensual : 0,
                                 )}{' '}
-                                / Meses: {proyecto_rol_sennova.numero_meses} / Cantidad: {proyecto_rol_sennova.numero_roles}
+                                / Meses: {proyecto_rol_sennova.numero_meses} / <br /> Cantidad: {proyecto_rol_sennova.numero_roles}
                                 {!proyecto_rol_sennova.convocatoria_rol_sennova.sumar_al_presupuesto && (
                                     <>
                                         <br />
