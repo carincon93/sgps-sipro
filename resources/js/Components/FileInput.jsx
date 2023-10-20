@@ -64,10 +64,7 @@ const FileInput = ({
                         {label}
                     </>
                 ) : (
-                    <Chip
-                        className={disabled ? '!bg-red-100 shadow !text-red-600' : '!bg-green-100 shadow !text-green-600'}
-                        label={disabled ? 'No se puede cargar el anexo' : 'Pendiente de ser cargado'}
-                    />
+                    <Chip className={disabled ? '!bg-red-100 shadow !text-red-600' : '!bg-green-100 shadow !text-green-600'} label={disabled ? '' : 'Pendiente de ser cargado'} />
                 )}
             </label>
 

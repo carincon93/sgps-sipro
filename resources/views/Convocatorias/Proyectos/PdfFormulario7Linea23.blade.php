@@ -279,7 +279,8 @@
     @if ($datos->aporta_a_campesena)
     <hr style="margin: 4rem 0">
     <p style="font-weight: bold;">¿El proyecto tendrá impacto regional?</p>
-    <p style="white-space: pre-wrap">{{ $datos->justificacion_impacto_regional == 1 ? 'Si' : 'No' }}</p>
+    <p style="white-space: pre-wrap">{{ $datos->justificacion_impacto_regional ? 'Si' : 'No' }}</p>
+    <p style="white-space: pre-wrap">{{ $datos->justificacion_impacto_regional }}</p>
     @endif
 
     <hr style="margin: 4rem 0">
