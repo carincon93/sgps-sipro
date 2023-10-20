@@ -137,6 +137,7 @@
             </td>
         </tr>
 
+        @if ($datos->areaConocimiento)
         <tr>
             <td align="left">
                 <p style="font-weight: bold;">Área de conocimiento</p>
@@ -145,6 +146,7 @@
                 <p style="white-space: pre-wrap">{{ $datos->areaConocimiento->nombre }} </p>
             </td>
         </tr>
+        @endif
 
         <tr>
             <td align="left">
@@ -360,7 +362,7 @@
     @endif
 
     <h5>Tecnoparques con que se relaciona o que aportan al desarrollo del proyecto</h5>
-    @if ($datos->lineas_programaticas_sennova)
+    @if ($datos->tecnoparques_relacionados)
     <ul>
         @foreach ($datos->tecnoparques_relacionados as $tecnoparque)
         <li>{{ ucfirst($nodos_tecnoparques->firstWhere('value', $tecnoparque)['label']) }}</li>
@@ -371,7 +373,7 @@
     @endif
 
     <h5>TecnoAcademias con que se relaciona o que aportan al desarrollo del proyecto</h5>
-    @if ($datos->lineas_programaticas_sennova)
+    @if ($datos->tecnoacademias_relacionadas)
     <ul>
         @foreach ($datos->tecnoacademias_relacionadas as $tecnoacademia)
         <li>{{ $tecnoacademias->firstWhere('value', $tecnoacademia)['label'] }}</li>
@@ -382,7 +384,7 @@
     @endif
 
     <h5>Hubs de innovación con que se relaciona o que aportan al desarrollo del proyecto</h5>
-    @if ($datos->lineas_programaticas_sennova)
+    @if ($datos->hubs_innovacion_relacionados)
     <ul>
         @foreach ($datos->hubs_innovacion_relacionados as $hub_innovacion)
         <li>{{ $hubs_innovacion->firstWhere('value', $hub_innovacion)['label'] }}</li>
@@ -393,7 +395,7 @@
     @endif
 
     <h5>Laboratorios de ST con que se relaciona o que aportan al desarrollo del proyecto</h5>
-    @if ($datos->lineas_programaticas_sennova)
+    @if ($datos->laboratorios_st_relacionados)
     <ul>
         @foreach ($datos->laboratorios_st_relacionados as $laboratorio_st)
         <li>{{ $laboratorios_st->firstWhere('value', $laboratorio_st)['label'] }}</li>
