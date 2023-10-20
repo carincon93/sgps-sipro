@@ -555,7 +555,7 @@ class Proyecto extends Model
             }
         )
             ->distinct('proyectos.id')
-            ->orderBy('proyectos.id', 'ASC')
+            ->orderBy('proyectos.id', 'DESC')
             ->filterProyecto(request()->only('search'))
             ->paginate();
 

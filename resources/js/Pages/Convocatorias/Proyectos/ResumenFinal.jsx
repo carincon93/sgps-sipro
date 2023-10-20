@@ -139,7 +139,7 @@ const ResumenFinal = ({
                                         </li>
                                     )}
                                     {validaciones?.topes_presupuestales_formulario7 != null && <li>{validaciones.topes_presupuestales_formulario7}</li>}
-                                    {proyecto.tipo_formulario_convocatoria_id == 17 && !validaciones?.topes_presupuestales_tecnoparque && (
+                                    {/* {proyecto.tipo_formulario_convocatoria_id == 17 && !validaciones?.topes_presupuestales_tecnoparque && (
                                         <li>
                                             Ha superado los valores máximos de algún tope presupuestal asignado a su nodo. Se recomienda revisar los lineamientos. A continuación, se listan los valores
                                             asignados:
@@ -160,7 +160,7 @@ const ResumenFinal = ({
                                                 ))}
                                             </ul>
                                         </li>
-                                    )}
+                                    )}*/}
                                 </ul>
                             </AlertMui>
                         ) : (

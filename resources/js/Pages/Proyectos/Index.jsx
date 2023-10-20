@@ -13,12 +13,12 @@ import TableMui from '@/Components/Table'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 import { checkRole } from '@/Utils'
-import { Head, router, useForm } from '@inertiajs/react'
+import { Head, Link, router, useForm } from '@inertiajs/react'
 import { Divider, Grid, MenuItem, TableCell, TableRow } from '@mui/material'
 import { useState } from 'react'
 import Form from './Form'
 
-const Index = ({ auth, proyectos, ods }) => {
+const Index = ({ auth, proyectos, ods, proyectos_sin_autores }) => {
     const auth_user = auth.user
     const is_super_admin = checkRole(auth_user, [1])
 
@@ -42,12 +42,68 @@ const Index = ({ auth, proyectos, ods }) => {
         })
     }
 
+    console.log(proyectos_sin_autores)
+
     return (
         <AuthenticatedLayout>
             <Head title="Proyectos" />
 
             <Grid container>
                 <Grid item md={12}>
+                    {proyectos_sin_autores.length > 0 && (
+                        <AlertMui severity="error">
+                            <h1 className="font-black text-2xl">
+                                Importante: Hay proyectos sin un(a) autor(a) principal. Por favor, diríjase al paso de Participantes y, asigne un autor. Si es un proyecto de prueba, solicite la
+                                eliminación
+                            </h1>
+                            <p className="my-10">Lista de proyectos:</p>
+                            <ul className="!list-disc">
+                                {proyectos_sin_autores.map((proyecto, i) => (
+                                    <li key={i} className="mt-4">
+                                        <Link href={route('convocatorias.proyectos.edit', [proyecto.convocatoria_id, proyecto.id])}>
+                                            #{i + 1} -{' '}
+                                            <strong>
+                                                {proyecto.codigo} (Convocatoria {proyecto.year})
+                                            </strong>{' '}
+                                            -{' '}
+                                            {proyecto.proyecto_formulario7_linea23
+                                                ? proyecto.proyecto_formulario7_linea23.titulo
+                                                : proyecto.proyecto_formulario9_linea23
+                                                ? proyecto.proyecto_formulario9_linea23.titulo
+                                                : proyecto.proyecto_formulario3_linea61
+                                                ? proyecto.proyecto_formulario3_linea61.titulo
+                                                : proyecto.proyecto_formulario1_linea65
+                                                ? proyecto.proyecto_formulario1_linea65.titulo
+                                                : proyecto.proyecto_formulario13_linea65
+                                                ? proyecto.proyecto_formulario13_linea65.titulo
+                                                : proyecto.proyecto_formulario15_linea65
+                                                ? proyecto.proyecto_formulario15_linea65.titulo
+                                                : proyecto.proyecto_formulario16_linea65
+                                                ? proyecto.proyecto_formulario16_linea65.titulo
+                                                : proyecto.proyecto_formulario8_linea66
+                                                ? proyecto.proyecto_formulario8_linea66.titulo
+                                                : proyecto.proyecto_formulario12_linea68
+                                                ? proyecto.proyecto_formulario12_linea68.titulo
+                                                : proyecto.proyecto_formulario5_linea69
+                                                ? proyecto.proyecto_formulario5_linea69.titulo
+                                                : proyecto.proyecto_formulario10_linea69
+                                                ? proyecto.proyecto_formulario10_linea69.titulo
+                                                : proyecto.proyecto_formulario17_linea69
+                                                ? proyecto.proyecto_formulario17_linea69.titulo
+                                                : proyecto.proyecto_formulario4_linea70
+                                                ? proyecto.proyecto_formulario4_linea70.titulo
+                                                : proyecto.proyecto_formulario6_linea82
+                                                ? proyecto.proyecto_formulario6_linea82.titulo
+                                                : proyecto.proyecto_formulario11_linea83
+                                                ? proyecto.proyecto_formulario11_linea83.titulo
+                                                : 'Sin información registrada'}
+                                            <strong>{' - '} Ir al proyecto</strong>
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </AlertMui>
+                    )}
                     <SearchBar className="mt-20" placeholder="Código SGPS del proyecto" />
 
                     <TableMui className="mt-16" rows={['Código', 'Título proyecto (Convocatoria)', 'Imagen', 'Nombre del proyecto', 'ODS', 'Acciones']} sxCellThead={{ width: '320px' }}>

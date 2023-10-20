@@ -36,9 +36,23 @@ class ProyectoController extends Controller
      */
     public function index()
     {
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
+        $query = Proyecto::select('proyecto_participantes.user_id', 'proyectos.*', 'convocatorias.year');
+        $query->join('convocatorias', 'proyectos.convocatoria_id', '=', 'convocatorias.id');
+        $query->leftJoin('proyecto_participantes', 'proyectos.id', '=', 'proyecto_participantes.proyecto_id');
+        $query->where('proyecto_participantes.user_id', NULL);
+        if ($auth_user->hasRole([4])) {
+            $query->where('proyectos.centro_formacion_id', $auth_user->centro_formacion_id);
+        }
+        $query->orderBy('proyectos.id', 'DESC');
+        $proyectos_sin_autores = $query->get();
+
         return Inertia::render('Proyectos/Index', [
-            'proyectos' => Proyecto::getProyectosPorRol(),
-            'ods'       => json_decode(Storage::get('json/ods.json'), true),
+            'proyectos'                 => Proyecto::getProyectosPorRol(),
+            'ods'                       => json_decode(Storage::get('json/ods.json'), true),
+            'proyectos_sin_autores'     => $proyectos_sin_autores,
         ]);
     }
 

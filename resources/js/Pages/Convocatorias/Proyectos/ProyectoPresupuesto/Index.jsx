@@ -69,7 +69,7 @@ const RubrosPresupuestales = ({
                 <AlertMui className="mt-20">
                     <strong>Actualmente el total del costo de los productos o servicios requeridos es de:</strong> $
                     {new Intl.NumberFormat('de-DE').format(!isNaN(proyecto.total_proyecto_presupuesto) ? proyecto.total_proyecto_presupuesto : 0)} COP
-                    <br />
+                    {/* <br />
                     <br />
                     <p className="mb-4">A continuación, los valores totales por CONCEPTO INTERNO SENA:</p>
                     <ul className="list-disc">
@@ -83,7 +83,7 @@ const RubrosPresupuestales = ({
                         ))}
 
                         {valor_total_por_concepto_interno_sena.length == 0 && <li>Sin información registrada.</li>}
-                    </ul>
+                    </ul> */}
                 </AlertMui>
                 <TableMui
                     className="mb-8"
