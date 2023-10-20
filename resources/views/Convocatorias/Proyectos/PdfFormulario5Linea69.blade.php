@@ -683,9 +683,13 @@
 
                         @foreach ($presupuesto->viaticosMunicipio as $viatico)
                         <ul>
+                            @if ($viatico->municipios)
                             @foreach ($viatico->municipios as $municipio)
                             <li>{{ $municipios->firstWhere('id', $municipio)->nombre }}</li>
                             @endforeach
+                            @else
+                            <li>No se ha seleccionado ningún municipio
+                                @endif
                         </ul>
 
                         <p><strong>Distancia aprox. municipios:</strong> {{ $distancias_municipios->firstWhere('value', $viatico->distancia_municipio)['label'] }}</p>
