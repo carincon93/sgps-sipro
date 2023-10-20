@@ -50,7 +50,7 @@ const Index = ({ auth, proyectos, ods, proyectos_sin_autores }) => {
 
             <Grid container>
                 <Grid item md={12}>
-                    {proyectos_sin_autores.length > 0 && (
+                    {/* {proyectos_sin_autores.length > 0 && (
                         <AlertMui severity="error">
                             <h1 className="font-black text-2xl">
                                 Importante: Hay proyectos sin un(a) autor(a) principal. Por favor, diríjase al paso de Participantes y, asigne un autor. Si es un proyecto de prueba, solicite la
@@ -103,7 +103,7 @@ const Index = ({ auth, proyectos, ods, proyectos_sin_autores }) => {
                                 ))}
                             </ul>
                         </AlertMui>
-                    )}
+                    )} */}
                     <SearchBar className="mt-20" placeholder="Código SGPS del proyecto" />
 
                     <TableMui className="mt-16" rows={['Código', 'Título proyecto (Convocatoria)', 'Imagen', 'Nombre del proyecto', 'ODS', 'Acciones']} sxCellThead={{ width: '320px' }}>
