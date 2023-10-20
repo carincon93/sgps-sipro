@@ -181,19 +181,22 @@ const RubrosPresupuestales = ({
                                         rubro_presupuestal.rubro_presupuestal.segundo_grupo_presupuestal.codigo === '2041102' ||
                                         rubro_presupuestal.rubro_presupuestal.segundo_grupo_presupuestal.codigo === '2041101' ||
                                         rubro_presupuestal.rubro_presupuestal.segundo_grupo_presupuestal.codigo === '2041104',
-                                ) && (
-                                    <Link
-                                        href={route('convocatorias.proyectos.presupuesto.municipios.index', [
-                                            convocatoria.id,
-                                            proyecto.id,
-                                            presupuesto.id,
-                                            evaluacion ? { evaluacion_id: evaluacion?.id } : null,
-                                        ])}
-                                        className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
-                                        <AirplaneTicketIcon className="mr-2" />
-                                        Relacionar los municipios a visitar
-                                    </Link>
-                                )}
+                                ) &&
+                                    proyecto.tipo_formulario_convocatoria_id == 1 &&
+                                    proyecto.tipo_formulario_convocatoria_id == 7 &&
+                                    proyecto.tipo_formulario_convocatoria_id == 9 && (
+                                        <Link
+                                            href={route('convocatorias.proyectos.presupuesto.municipios.index', [
+                                                convocatoria.id,
+                                                proyecto.id,
+                                                presupuesto.id,
+                                                evaluacion ? { evaluacion_id: evaluacion?.id } : null,
+                                            ])}
+                                            className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                            <AirplaneTicketIcon className="mr-2" />
+                                            Relacionar los municipios a visitar
+                                        </Link>
+                                    )}
                                 {presupuesto.convocatoria_proyecto_rubros_presupuestales.some(
                                     (rubro_presupuestal) => rubro_presupuestal.rubro_presupuestal.uso_presupuestal.codigo === '2020200800901',
                                 ) && (
