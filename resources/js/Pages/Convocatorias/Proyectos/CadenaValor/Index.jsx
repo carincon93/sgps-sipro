@@ -82,14 +82,14 @@ const CadenaValor = ({ auth, convocatoria, proyecto, evaluacion, objetivos, obje
             data.addRows([
                 [
                     {
-                        v: 'Objetivo específico ' + objetivo.numero,
+                        v: 'Objetivo específico #' + objetivo.numero,
                         f:
                             '<strong>Objetivo específico ' + objetivo.numero + '</strong><div>' + objetivo.descripcion
                                 ? objetivo.descripcion?.substring(0, 250) + '...'
                                 : 'Sin descripción registrada aún' + '</div>',
                     },
                     'Objetivo general',
-                    'Objetivo específico ' + objetivo.numero,
+                    'Objetivo específico #' + objetivo.numero,
                 ],
             ])
         })

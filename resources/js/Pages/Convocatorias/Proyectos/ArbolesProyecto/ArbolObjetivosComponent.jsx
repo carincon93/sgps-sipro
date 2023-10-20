@@ -134,6 +134,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                     proyecto: proyecto.id,
                 }),
                 {
+                    onSuccess: () => (window.location.hash = 'efectos-directos'),
                     preserveScroll: true,
                 },
             )
@@ -1235,7 +1236,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                             </span>
                         </div>
 
-                        <figure className="flex w-full items-center justify-center mt-20">
+                        <figure className="flex w-full items-center justify-center mt-20" id="efectos-directos">
                             <img src="/images/efectos-resultados.png" alt="" />
                         </figure>
                     </Grid>
