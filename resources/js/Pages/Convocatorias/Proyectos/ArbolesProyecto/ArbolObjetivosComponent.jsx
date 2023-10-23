@@ -13,16 +13,16 @@ import TooltipMui from '@/Components/Tooltip'
 import Textarea from '@/Components/Textarea'
 
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined'
-import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined'
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import DeleteForeverOutlined from '@mui/icons-material/DeleteForeverOutlined'
+import DoubleArrowIcon from '@mui/icons-material/DoubleArrow'
 import EastOutlinedIcon from '@mui/icons-material/EastOutlined'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import ShortcutIcon from '@mui/icons-material/Shortcut'
 
 import React from 'react'
-import ToolTipMui from '@/Components/Tooltip'
-import { Grid } from '@mui/material'
+import { Divider, Grid } from '@mui/material'
 
 const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directos, causas_directas, tipos_impacto, resultados, objetivos_especificos, fase_evaluacion = false }) => {
     const auth_user = auth.user
@@ -50,6 +50,21 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
             descripcion: '',
         })
     }
+
+    const sorted_efectos_directos = [...efectos_directos]
+
+    sorted_efectos_directos.sort((a, b) => {
+        const idA = a.resultado?.objetivo_especifico_id
+        const idB = b.resultado?.objetivo_especifico_id
+
+        if (idA < idB) {
+            return -1
+        }
+        if (idA > idB) {
+            return 1
+        }
+        return 0
+    })
 
     const [show_efecto_indirecto_form, setShowEfectoIndirectoForm] = useState(false)
     const [efecto_indirecto_id, setEfectoIndirectoId] = useState(null)
@@ -119,6 +134,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                     proyecto: proyecto.id,
                 }),
                 {
+                    onSuccess: () => (window.location.hash = 'efectos-directos'),
                     preserveScroll: true,
                 },
             )
@@ -405,14 +421,18 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
 
         if (!is_proyecto_disabled) {
             setShowResultadoForm(true)
-            setResultadoId(resultado.id)
+            if (resultado) {
+                setResultadoId(resultado.id)
+            }
         }
 
-        form_resultado.setData({
-            id: resultado.id,
-            descripcion: resultado.descripcion,
-            objetivo_especifico_id: resultado.objetivo_especifico_id,
-        })
+        if (resultado) {
+            form_resultado.setData({
+                id: resultado.id,
+                descripcion: resultado.descripcion,
+                objetivo_especifico_id: resultado.objetivo_especifico_id,
+            })
+        }
     }
 
     const submitResultado = (e) => {
@@ -742,17 +762,21 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                             )}
                                         </p>
 
+                                        <DoubleArrowIcon className="absolute right-[-23px] top-[50%]" />
+
                                         <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                             {show_causa_directa_destroy_icon && causa_directa.id === causa_directa_id_to_destroy ? (
                                                 <>
-                                                    <CheckOutlinedIcon
-                                                        className="w-5 h-5 hover:cursor-pointer"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation()
-                                                            destroyCausaDirecta(causa_directa)
-                                                        }}
-                                                    />
-                                                    <ClearOutlinedIcon
+                                                    <TooltipMui className="relative" title="Confirmar la eliminación del ítem">
+                                                        <DeleteForeverOutlined
+                                                            className="w-5 h-5 hover:cursor-pointer"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation()
+                                                                destroyCausaDirecta(causa_directa)
+                                                            }}
+                                                        />
+                                                    </TooltipMui>
+                                                    <ArrowRightAltIcon
                                                         className="ml-2 w-5 h-5 hover:cursor-pointer"
                                                         onClick={(e) => {
                                                             e.stopPropagation()
@@ -764,7 +788,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                 !is_proyecto_disabled && (
                                                     <>
                                                         <EditOutlinedIcon className="w-5 h-5 hover:cursor-pointer" onClick={() => setCausaDirecta(causa_directa)} />
-                                                        <DeleteForeverOutlinedIcon
+                                                        <DeleteOutlineIcon
                                                             className="ml-2 w-5 h-5 hover:cursor-pointer"
                                                             onClick={(e) => {
                                                                 e.stopPropagation()
@@ -778,7 +802,6 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         </div>
                                     </div>
                                 )}
-
                                 {show_causa_directa_form && causa_directa_id === causa_directa.id && (
                                     <form className="relative form-arbol-objetivos mt-4" onSubmit={submitCausaDirecta} id="causa-directa">
                                         <fieldset className="relative">
@@ -803,12 +826,9 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         </ButtonMui>
                                     </form>
                                 )}
-
-                                <small className="ml-2 mt-6 flex items-center">
-                                    Causas indirectas
-                                    <ShortcutIcon sx={{ transform: 'rotate(90deg)' }} />
-                                </small>
-
+                                <Divider>
+                                    <small>Causas indirectas</small>
+                                </Divider>
                                 {causa_directa.causas_indirectas.map((causa_indirecta, j) => (
                                     <React.Fragment key={j}>
                                         {causa_indirecta_id !== causa_indirecta.id && (
@@ -823,17 +843,22 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                     )}
                                                 </p>
 
+                                                <DoubleArrowIcon className="absolute right-[-23px] top-[50%]" />
+
                                                 <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                                     {show_causa_indirecta_destroy_icon && causa_indirecta.id === causa_indirecta_id_to_destroy ? (
                                                         <>
-                                                            <CheckOutlinedIcon
-                                                                className="w-5 h-5 hover:cursor-pointer"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation()
-                                                                    destroyCausaIndirecta(causa_indirecta)
-                                                                }}
-                                                            />
-                                                            <ClearOutlinedIcon
+                                                            <TooltipMui className="relative" title="Confirmar la eliminación del ítem">
+                                                                <DeleteForeverOutlined
+                                                                    className="w-5 h-5 hover:cursor-pointer"
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation()
+                                                                        destroyCausaIndirecta(causa_indirecta)
+                                                                    }}
+                                                                />
+                                                            </TooltipMui>
+
+                                                            <ArrowRightAltIcon
                                                                 className="ml-2 w-5 h-5 hover:cursor-pointer"
                                                                 onClick={(e) => {
                                                                     e.stopPropagation()
@@ -845,7 +870,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                         !is_proyecto_disabled && (
                                                             <>
                                                                 <EditOutlinedIcon className="w-5 h-5 hover:cursor-pointer" onClick={() => setCausaIndirecta(causa_directa, causa_indirecta)} />
-                                                                <DeleteForeverOutlinedIcon
+                                                                <DeleteOutlineIcon
                                                                     className="ml-2 w-5 h-5 hover:cursor-pointer"
                                                                     onClick={(e) => {
                                                                         e.stopPropagation()
@@ -889,13 +914,11 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         )}
                                     </React.Fragment>
                                 ))}
-
                                 {causa_directa.causas_indirectas.length == 0 && (
                                     <AlertMui severity="error" className="my-3">
                                         Debe generar una causa indirecta
                                     </AlertMui>
                                 )}
-
                                 <div className="flex items-center justify-end">
                                     <TooltipMui
                                         className="relative"
@@ -911,7 +934,6 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         </ButtonMui>
                                     </TooltipMui>
                                 </div>
-
                                 {show_nueva_causa_indirecta_form && causa_directa_id_nueva_indirecta === causa_directa.id && (
                                     <form className="relative form-arbol-objetivos mt-4" onSubmit={submitCausaIndirecta} id="causa-indirecta">
                                         <fieldset className="relative">
@@ -959,14 +981,17 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                             {show_objetivo_especifico_destroy_icon && causa_directa.objetivo_especifico?.id === objetivo_especifico_id_to_destroy ? (
                                                 <>
-                                                    <CheckOutlinedIcon
-                                                        className="w-5 h-5 hover:cursor-pointer"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation()
-                                                            destroyObjetivoEspecifico(causa_directa.objetivo_especifico)
-                                                        }}
-                                                    />
-                                                    <ClearOutlinedIcon
+                                                    <TooltipMui className="relative" title="Confirmar la eliminación del ítem">
+                                                        <DeleteForeverOutlined
+                                                            className="w-5 h-5 hover:cursor-pointer"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation()
+                                                                destroyObjetivoEspecifico(causa_directa.objetivo_especifico)
+                                                            }}
+                                                        />
+                                                    </TooltipMui>
+
+                                                    <ArrowRightAltIcon
                                                         className="ml-2 w-5 h-5 hover:cursor-pointer"
                                                         onClick={(e) => {
                                                             e.stopPropagation()
@@ -981,7 +1006,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                             className="w-5 h-5 hover:cursor-pointer"
                                                             onClick={() => setObjetivoEspecifico(causa_directa, causa_directa.objetivo_especifico, i + 1)}
                                                         />
-                                                        <DeleteForeverOutlinedIcon
+                                                        <DeleteOutlineIcon
                                                             className="ml-2 w-5 h-5 hover:cursor-pointer"
                                                             onClick={(e) => {
                                                                 e.stopPropagation()
@@ -1033,10 +1058,9 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         </ButtonMui>
                                     </form>
                                 )}
-                                <small className="ml-2 mt-6 flex items-center">
-                                    Actividades
-                                    <ShortcutIcon sx={{ transform: 'rotate(90deg)' }} />
-                                </small>
+                                <Divider className="!mt-4">
+                                    <small>Actividades</small>
+                                </Divider>
 
                                 {causa_directa.causas_indirectas.map((causa_indirecta, j) => (
                                     <div key={j}>
@@ -1054,14 +1078,17 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                 <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                                     {show_actividad_destroy_icon && causa_indirecta.actividad?.id === actividad_id_to_destroy ? (
                                                         <>
-                                                            <CheckOutlinedIcon
-                                                                className="w-5 h-5 hover:cursor-pointer"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation()
-                                                                    destroyActividad(causa_indirecta.actividad)
-                                                                }}
-                                                            />
-                                                            <ClearOutlinedIcon
+                                                            <TooltipMui className="relative" title="Confirmar la eliminación del ítem">
+                                                                <DeleteForeverOutlined
+                                                                    className="w-5 h-5 hover:cursor-pointer"
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation()
+                                                                        destroyActividad(causa_indirecta.actividad)
+                                                                    }}
+                                                                />
+                                                            </TooltipMui>
+
+                                                            <ArrowRightAltIcon
                                                                 className="ml-2 w-5 h-5 hover:cursor-pointer"
                                                                 onClick={(e) => {
                                                                     e.stopPropagation()
@@ -1076,7 +1103,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                                     className="w-5 h-5 hover:cursor-pointer"
                                                                     onClick={() => setActividad(causa_directa, causa_indirecta, causa_indirecta.actividad)}
                                                                 />
-                                                                <DeleteForeverOutlinedIcon
+                                                                <DeleteOutlineIcon
                                                                     className="ml-2 w-5 h-5 hover:cursor-pointer"
                                                                     onClick={(e) => {
                                                                         e.stopPropagation()
@@ -1209,11 +1236,11 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                             </span>
                         </div>
 
-                        <figure className="flex w-full items-center justify-center mt-20">
+                        <figure className="flex w-full items-center justify-center mt-20" id="efectos-directos">
                             <img src="/images/efectos-resultados.png" alt="" />
                         </figure>
                     </Grid>
-                    {efectos_directos.map((efecto_directo, i) => (
+                    {sorted_efectos_directos.map((efecto_directo, i) => (
                         <React.Fragment key={i}>
                             <Grid item md={6} className="!my-20 shadow p-2" style={{ backgroundColor: '#e0dddd30' }}>
                                 <small className="inline-block ml-2">Efecto directo #{i + 1}</small>
@@ -1228,17 +1255,23 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                 <span className="text-red-500 bg-red-100 p-1 rounded">Por favor diligencie este efecto directo.</span>
                                             )}
                                         </p>
+
+                                        <DoubleArrowIcon className="absolute right-[-23px] top-[50%]" />
+
                                         <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                             {show_efecto_directo_destroy_icon && efecto_directo.id === efecto_directo_id_to_destroy ? (
                                                 <>
-                                                    <CheckOutlinedIcon
-                                                        className="w-5 h-5 hover:cursor-pointer"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation()
-                                                            destroyEfectoDirecto(efecto_directo)
-                                                        }}
-                                                    />
-                                                    <ClearOutlinedIcon
+                                                    <TooltipMui className="relative" title="Confirmar la eliminación del ítem">
+                                                        <DeleteForeverOutlined
+                                                            className="w-5 h-5 hover:cursor-pointer"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation()
+                                                                destroyEfectoDirecto(efecto_directo)
+                                                            }}
+                                                        />
+                                                    </TooltipMui>
+
+                                                    <ArrowRightAltIcon
                                                         className="ml-2 w-5 h-5 hover:cursor-pointer"
                                                         onClick={(e) => {
                                                             e.stopPropagation()
@@ -1250,7 +1283,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                 !is_proyecto_disabled && (
                                                     <>
                                                         <EditOutlinedIcon className="w-5 h-5 hover:cursor-pointer" onClick={() => setEfectoDirecto(efecto_directo)} />
-                                                        <DeleteForeverOutlinedIcon
+                                                        <DeleteOutlineIcon
                                                             className="ml-2 w-5 h-5 hover:cursor-pointer"
                                                             onClick={(e) => {
                                                                 e.stopPropagation()
@@ -1287,10 +1320,9 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         </ButtonMui>
                                     </form>
                                 )}
-                                <small className="ml-2 mt-6 flex items-center">
-                                    Efectos indirectos
-                                    <ShortcutIcon sx={{ transform: 'rotate(90deg)' }} />
-                                </small>
+                                <Divider>
+                                    <small>Efectos indirectos</small>
+                                </Divider>
                                 {efecto_directo.efectos_indirectos.map((efecto_indirecto, j) => (
                                     <div key={j}>
                                         {efecto_indirecto_id !== efecto_indirecto.id && (
@@ -1304,17 +1336,23 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                         <span className="text-red-500 bg-red-100 p-1 rounded">Por favor diligencie este efecto indirecto.</span>
                                                     )}
                                                 </p>
+
+                                                <DoubleArrowIcon className="absolute right-[-23px] top-[50%]" />
+
                                                 <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                                     {show_efecto_indirecto_destroy_icon && efecto_indirecto.id === efecto_indirecto_id_to_destroy ? (
                                                         <>
-                                                            <CheckOutlinedIcon
-                                                                className="w-5 h-5 hover:cursor-pointer"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation()
-                                                                    destroyEfectoIndirecto(efecto_indirecto)
-                                                                }}
-                                                            />
-                                                            <ClearOutlinedIcon
+                                                            <TooltipMui className="relative" title="Confirmar la eliminación del ítem">
+                                                                <DeleteForeverOutlined
+                                                                    className="w-5 h-5 hover:cursor-pointer"
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation()
+                                                                        destroyEfectoIndirecto(efecto_indirecto)
+                                                                    }}
+                                                                />
+                                                            </TooltipMui>
+
+                                                            <ArrowRightAltIcon
                                                                 className="ml-2 w-5 h-5 hover:cursor-pointer"
                                                                 onClick={(e) => {
                                                                     e.stopPropagation()
@@ -1326,7 +1364,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                         !is_proyecto_disabled && (
                                                             <>
                                                                 <EditOutlinedIcon className="w-5 h-5 hover:cursor-pointer" onClick={() => setEfectoIndirecto(efecto_directo, efecto_indirecto)} />
-                                                                <DeleteForeverOutlinedIcon
+                                                                <DeleteOutlineIcon
                                                                     className="ml-2 w-5 h-5 hover:cursor-pointer"
                                                                     onClick={(e) => {
                                                                         e.stopPropagation()
@@ -1420,8 +1458,10 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
 
                             {/* Resultados e impactos relacionados */}
                             <Grid item md={6} className="!my-20 shadow p-2 pb-[76px]" style={{ backgroundColor: '#e0dddd30' }}>
-                                <small className="inline-block ml-2 mb-4">Resultado del objetivo específico #{efecto_directo.resultado?.objetivo_especifico?.numero}</small>
-                                {resultado_id !== efecto_directo.resultado?.id && (
+                                <small className="inline-block ml-2 mb-4">
+                                    Resultado {efecto_directo.resultado?.objetivo_especifico?.numero ? `del objetivo específico #${efecto_directo.resultado?.objetivo_especifico?.numero}` : ''}
+                                </small>
+                                {efecto_directo.resultado && resultado_id !== efecto_directo.resultado?.id ? (
                                     <div
                                         className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] pr-14"
                                         onClick={() => setResultado(efecto_directo, efecto_directo.resultado)}>
@@ -1435,14 +1475,17 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         <div className="absolute flex top-[40%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                             {show_resultado_destroy_icon && efecto_directo.resultado?.id === resultado_id_to_destroy ? (
                                                 <>
-                                                    <CheckOutlinedIcon
-                                                        className="w-5 h-5 hover:cursor-pointer"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation()
-                                                            destroyResultado(efecto_directo.resultado)
-                                                        }}
-                                                    />
-                                                    <ClearOutlinedIcon
+                                                    <TooltipMui className="relative" title="Confirmar la eliminación del ítem">
+                                                        <DeleteForeverOutlined
+                                                            className="w-5 h-5 hover:cursor-pointer"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation()
+                                                                destroyResultado(efecto_directo.resultado)
+                                                            }}
+                                                        />
+                                                    </TooltipMui>
+
+                                                    <ArrowRightAltIcon
                                                         className="ml-2 w-5 h-5 hover:cursor-pointer"
                                                         onClick={(e) => {
                                                             e.stopPropagation()
@@ -1454,7 +1497,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                 !is_proyecto_disabled && (
                                                     <>
                                                         <EditOutlinedIcon className="w-5 h-5 hover:cursor-pointer" onClick={() => setResultado(efecto_directo, efecto_directo.resultado)} />
-                                                        <DeleteForeverOutlinedIcon
+                                                        <DeleteOutlineIcon
                                                             className="ml-2 w-5 h-5 hover:cursor-pointer"
                                                             onClick={(e) => {
                                                                 e.stopPropagation()
@@ -1467,6 +1510,23 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                             )}
                                         </div>
                                     </div>
+                                ) : (
+                                    <>
+                                        {!show_resultado_form && (
+                                            <div
+                                                className="bg-white p-4 relative rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] pr-14"
+                                                onClick={() =>
+                                                    router.post(route('proyectos.new-resultado', [proyecto.id, efecto_directo.id]), [], {
+                                                        preserveScroll: true,
+                                                    })
+                                                }>
+                                                <span className="text-green-600 bg-green-100 p-1 rounded flex items-center hover:cursor-pointer">
+                                                    <AddCircleOutlineOutlinedIcon className="mr-1" />
+                                                    Crear resultado
+                                                </span>
+                                            </div>
+                                        )}
+                                    </>
                                 )}
                                 {show_resultado_form && resultado_id === efecto_directo.resultado?.id && (
                                     <form className="relative form-arbol-objetivos" onSubmit={submitResultado} id="resultado-form">
@@ -1522,10 +1582,9 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         </ButtonMui>
                                     </form>
                                 )}
-                                <small className="ml-2 mt-6 flex items-center">
-                                    Impactos
-                                    <ShortcutIcon sx={{ transform: 'rotate(90deg)' }} />
-                                </small>
+                                <Divider className="!mt-4">
+                                    <small>Impactos</small>
+                                </Divider>
 
                                 {efecto_directo.efectos_indirectos.map((efecto_indirecto, j) => (
                                     <div key={j}>
@@ -1543,14 +1602,17 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                 <div className="absolute flex top-[40%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
                                                     {show_impacto_destroy_icon && efecto_indirecto.impacto?.id === impacto_id_to_destroy ? (
                                                         <>
-                                                            <CheckOutlinedIcon
-                                                                className="w-5 h-5 hover:cursor-pointer"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation()
-                                                                    destroyImpacto(efecto_indirecto.impacto)
-                                                                }}
-                                                            />
-                                                            <ClearOutlinedIcon
+                                                            <TooltipMui className="relative" title="Confirmar la eliminación del ítem">
+                                                                <DeleteForeverOutlined
+                                                                    className="w-5 h-5 hover:cursor-pointer"
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation()
+                                                                        destroyImpacto(efecto_indirecto.impacto)
+                                                                    }}
+                                                                />
+                                                            </TooltipMui>
+
+                                                            <ArrowRightAltIcon
                                                                 className="ml-2 w-5 h-5 hover:cursor-pointer"
                                                                 onClick={(e) => {
                                                                     e.stopPropagation()
@@ -1562,7 +1624,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                         !is_proyecto_disabled && (
                                                             <>
                                                                 <EditOutlinedIcon className="w-5 h-5 hover:cursor-pointer" onClick={() => setImpacto(efecto_indirecto, efecto_indirecto.impacto)} />
-                                                                <DeleteForeverOutlinedIcon
+                                                                <DeleteOutlineIcon
                                                                     className="ml-2 w-5 h-5 hover:cursor-pointer"
                                                                     onClick={(e) => {
                                                                         e.stopPropagation()

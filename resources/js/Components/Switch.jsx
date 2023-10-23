@@ -36,5 +36,5 @@ const Android12Switch = styled(Switch)(({ theme }) => ({
 }))
 
 export default function SwitchMui({ checked = false, setData, disabled = false, onMessage = 'Si', offMessage = 'No', ...props }) {
-    return <FormControlLabel control={<Android12Switch checked={checked} />} label={checked ? 'Si' : 'No'} disabled={disabled} {...props} />
+    return <FormControlLabel sx={{ marginLeft: '-8px !important' }} control={<Android12Switch checked={checked} />} label={checked ? 'Si' : 'No'} disabled={disabled} {...props} />
 }

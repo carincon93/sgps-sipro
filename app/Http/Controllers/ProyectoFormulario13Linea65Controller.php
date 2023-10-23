@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\CentroFormacion;
+use App\Models\Evaluacion\Evaluacion;
 use App\Models\Evaluacion\EvaluacionProyectoFormulario13Linea65;
 use App\Models\RolSennova;
 use App\Models\TopeRolSennovaFormulario13;
@@ -161,6 +162,10 @@ class ProyectoFormulario13Linea65Controller extends Controller
 
         if ($proyecto_formulario_13_linea_65->proyecto->convocatoria_id != $convocatoria->id) {
             return abort(404);
+        }
+
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
         }
 
         // $proyecto_formulario_13_linea_65->load('proyecto.evaluaciones.evaluacionProyectoFormulario13Linea65');

@@ -29,9 +29,9 @@ class SemilleroInvestigacionController extends Controller
             'grupo_investigacion'       => $grupo_investigacion,
             'linea_investigacion'       => $linea_investigacion,
             'semilleros_investigacion'  => $linea_investigacion->semillerosInvestigacion()->select('semilleros_investigacion.*')
-                                                ->with('redesConocimiento', 'lineasInvestigacionArticulados')
-                                                ->filterSemilleroInvestigacion(request()->only('search'))
-                                                ->orderBy('semilleros_investigacion.nombre', 'ASC')->paginate(),
+                ->with('redesConocimiento', 'lineasInvestigacionArticulados')
+                ->filterSemilleroInvestigacion(request()->only('search'))
+                ->orderBy('semilleros_investigacion.nombre', 'ASC')->paginate(),
             'lineas_investigacion'      => $grupo_investigacion->lineasInvestigacion()->select('lineas_investigacion.id as value', 'lineas_investigacion.nombre as label')->get()->toArray(),
             'redes_conocimiento'        => SelectHelper::redesConocimiento(),
             'allowed_to_create'         => Gate::inspect('create', [SemilleroInvestigacion::class])->allowed(),
@@ -135,9 +135,9 @@ class SemilleroInvestigacionController extends Controller
         $this->authorize('viewAny', [SemilleroInvestigacion::class]);
 
         return Inertia::render('SemillerosInvestigacion/SemillerosNivelNacional', [
-            'semilleros_investigacion'  =>  SemilleroInvestigacion::with('redesConocimiento', 'lineaInvestigacion.grupoInvestigacion.lineasInvestigacion', 'lineasInvestigacionArticulados')
-                                                ->filterSemilleroInvestigacion(request()->only('search'))
-                                                ->orderBy('semilleros_investigacion.nombre', 'ASC')->paginate(),
+            'semilleros_investigacion'  =>  SemilleroInvestigacion::select('semilleros_investigacion.*')->with('redesConocimiento', 'lineaInvestigacion.grupoInvestigacion.lineasInvestigacion', 'lineasInvestigacionArticulados')
+                ->filterSemilleroInvestigacion(request()->only('search'))
+                ->orderBy('semilleros_investigacion.nombre', 'ASC')->paginate(),
             'redes_conocimiento'        =>  SelectHelper::redesConocimiento(),
         ]);
     }
@@ -176,7 +176,7 @@ class SemilleroInvestigacionController extends Controller
     {
         $semillero_investigacion = $modelo;
 
-        $sharepoint_semillero_investigacion = $semillero_investigacion->LineaInvestigacion->grupoInvestigacion->centroFormacion->nombre_carpeta_sharepoint .'/'. mb_strtoupper($semillero_investigacion->LineaInvestigacion->grupoInvestigacion->nombre) . '/SEMILLEROS/' . mb_strtoupper($semillero_investigacion->nombre);
+        $sharepoint_semillero_investigacion = $semillero_investigacion->LineaInvestigacion->grupoInvestigacion->centroFormacion->nombre_carpeta_sharepoint . '/' . mb_strtoupper($semillero_investigacion->LineaInvestigacion->grupoInvestigacion->nombre) . '/SEMILLEROS/' . mb_strtoupper($semillero_investigacion->nombre);
 
         $sharepoint_path                    = "$modulo/$sharepoint_semillero_investigacion";
 

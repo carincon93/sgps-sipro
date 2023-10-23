@@ -28,6 +28,10 @@ class SoporteEstudioMercadoController extends Controller
             return abort(404);
         }
 
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+        }
+
         /**
          * Denega el acceso si el rubro no requiere de estudio de mercado.
          */
@@ -44,14 +48,16 @@ class SoporteEstudioMercadoController extends Controller
             return redirect()->route('convocatorias.proyectos.presupuesto.index', [$convocatoria, $proyecto]);
         }
 
+        $presupuesto->load('convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.segundoGrupoPresupuestal', 'convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.usoPresupuestal');
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
+
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
         $presupuesto->rubroPresupuestalProyectoLinea68;
-        $presupuesto->load('convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.segundoGrupoPresupuestal', 'convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.usoPresupuestal');
 
         return Inertia::render('Convocatorias/Proyectos/ProyectoPresupuesto/SoportesEstudioMercado/Index', [
             'convocatoria'              => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'year'),
             'proyecto'                  => $proyecto,
-            'evaluacion'                => Evaluacion::find(request()->evaluacion_id),
+            'evaluacion'                =>  Evaluacion::find(request()->evaluacion_id),
             'proyecto_presupuesto'      => $presupuesto,
             'soportes_estudio_mercado'  => $presupuesto->soportesEstudioMercado,
         ]);

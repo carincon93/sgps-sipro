@@ -30,18 +30,23 @@ class ActividadController extends Controller
             return abort(404);
         }
 
-        // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
-        // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+        }
 
         $objetivo_especifico = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
 
         $resultados = $proyecto->efectosDirectos()->whereHas('resultado', function ($query) {
-                        $query->where('descripcion', '!=', null);
-                    })->with('resultado')->get()->pluck('resultado')->flatten();
+            $query->where('descripcion', '!=', null);
+        })->with('resultado')->get()->pluck('resultado')->flatten();
 
         $productos  = $resultados->map(function ($resultado) {
-                        return $resultado->productos;
-                    })->flatten();
+            return $resultado->productos;
+        })->flatten();
+
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
+        // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
+        // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
         $proyecto->municipios;
         $proyecto->municipiosAImpactar;
@@ -70,18 +75,18 @@ class ActividadController extends Controller
             'proyecto'                  => $proyecto,
             'evaluacion'                => Evaluacion::find(request()->evaluacion_id),
             'actividades'               => Actividad::whereIn(
-                                            'objetivo_especifico_id',
-                                                $objetivo_especifico->map(function ($objetivo_especifico) {
-                                                    return $objetivo_especifico->id;
-                                                })
-                                            )->with('productos', 'proyectoPresupuesto', 'proyectoRolesSennova', 'objetivoEspecifico', 'objetivoEspecifico.resultados')->orderBy('id', 'DESC')
-                                            ->filterActividad(request()->only('search'))->get(),
+                'objetivo_especifico_id',
+                $objetivo_especifico->map(function ($objetivo_especifico) {
+                    return $objetivo_especifico->id;
+                })
+            )->with('productos', 'proyectoPresupuesto', 'proyectoRolesSennova', 'objetivoEspecifico', 'objetivoEspecifico.resultados')->orderBy('id', 'DESC')
+                ->filterActividad(request()->only('search'))->get(),
             'actividades_gantt'         =>  Actividad::whereIn(
-                                            'objetivo_especifico_id',
-                                                $objetivo_especifico->map(function ($objetivo_especifico) {
-                                                    return $objetivo_especifico->id;
-                                                })
-                                            )->where('fecha_inicio', '<>', null)->orderBy('fecha_inicio', 'ASC')->get(),
+                'objetivo_especifico_id',
+                $objetivo_especifico->map(function ($objetivo_especifico) {
+                    return $objetivo_especifico->id;
+                })
+            )->where('fecha_inicio', '<>', null)->orderBy('fecha_inicio', 'ASC')->get(),
             'programas_formacion'       => $programas_formacion ?? [],
             'modalidades'               => $modalidades ?? [],
             'niveles_formacion'         => $niveles_formacion ?? [],
@@ -90,9 +95,9 @@ class ActividadController extends Controller
             'disenos_curriculares'      => SelectHelper::disenoCurriculares()->where('habilitado_convocatoria', true)->values()->all(),
             'proyecto_presupuesto'      => ProyectoPresupuesto::select('proyecto_presupuesto.id as value', 'proyecto_presupuesto.descripcion as label')->where('proyecto_presupuesto.proyecto_id', $proyecto->id)->with('convocatoriaProyectoRubrosPresupuestales.rubroPresupuestal.usoPresupuestal')->get(),
             'proyecto_roles'            => ProyectoRolSennova::select('proyecto_rol_sennova.id as value', 'roles_sennova.nombre as label')
-                                            ->join('convocatoria_rol_sennova', 'proyecto_rol_sennova.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')
-                                            ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
-                                            ->where('proyecto_rol_sennova.proyecto_id', $proyecto->id)->with('convocatoriaRolSennova.rolSennova:id,nombre')->get(),
+                ->join('convocatoria_rol_sennova', 'proyecto_rol_sennova.convocatoria_rol_sennova_id', 'convocatoria_rol_sennova.id')
+                ->join('roles_sennova', 'convocatoria_rol_sennova.rol_sennova_id', 'roles_sennova.id')
+                ->where('proyecto_rol_sennova.proyecto_id', $proyecto->id)->with('convocatoriaRolSennova.rolSennova:id,nombre')->get(),
             'productos'                 => $productos,
             'areas_cualificacion_mnc'   => json_decode(Storage::get('json/areas-cualificacion-mnc.json'), true),
 
@@ -240,73 +245,6 @@ class ActividadController extends Controller
                 break;
         }
         return back()->with('success', 'El recurso se ha guardado correctamente.');
-    }
-
-    /**
-     * updateMetodologiaEvaluacion
-     *
-     * @param  mixed $request
-     * @param  mixed $convocatoria
-     * @param  mixed $evaluacion
-     * @return void
-     */
-    public function updateMetodologiaEvaluacion(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion)
-    {
-        $this->authorize('modificar-evaluacion-autor', $evaluacion);
-
-        switch ($evaluacion) {
-            case $evaluacion->evaluacionProyectoFormulario8Linea66()->exists():
-                $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
-                    'metodologia_puntaje'                   => $request->metodologia_puntaje,
-                    'metodologia_comentario'                => $request->metodologia_requiere_comentario == false ? $request->metodologia_comentario : null
-                ]);
-                break;
-            case $evaluacion->evaluacionProyectoFormulario1Linea65()->exists():
-                $evaluacion->evaluacionProyectoFormulario1Linea65()->update([
-                    'metodologia_puntaje'                   => $request->metodologia_puntaje,
-                    'metodologia_comentario'                => $request->metodologia_requiere_comentario == false ? $request->metodologia_comentario : null
-                ]);
-                break;
-            case $evaluacion->evaluacionProyectoFormulario4Linea70()->exists():
-                $evaluacion->evaluacionProyectoFormulario4Linea70()->update([
-                    'metodologia_comentario'                => $request->metodologia_requiere_comentario == false ? $request->metodologia_comentario : null,
-                    'municipios_comentario'                 => $request->municipios_requiere_comentario == false ? $request->municipios_comentario : null,
-                    'instituciones_comentario'              => $request->instituciones_requiere_comentario == false ? $request->instituciones_comentario : null,
-                    'proyectos_macro_comentario'            => $request->proyectos_macro_requiere_comentario == false ? $request->proyectos_macro_comentario : null
-                ]);
-                break;
-            case $evaluacion->evaluacionProyectoFormulario5Linea69()->exists():
-                $evaluacion->evaluacionProyectoFormulario5Linea69()->update([
-                    'metodologia_comentario'                => $request->metodologia_requiere_comentario == false ? $request->metodologia_comentario : null,
-                    'municipios_comentario'                 => $request->municipios_requiere_comentario == false ? $request->municipios_comentario : null
-                ]);
-                break;
-
-            case $evaluacion->evaluacionProyectoFormulario12Linea68()->exists():
-                $evaluacion->evaluacionProyectoFormulario12Linea68()->update([
-                    'metodologia_puntaje'                   => $request->metodologia_puntaje,
-                    'metodologia_comentario'                => $request->metodologia_requiere_comentario == false ? $request->metodologia_comentario : null,
-
-                    'actividades_primer_obj_puntaje'        => $request->actividades_primer_obj_puntaje,
-                    'actividades_primer_obj_comentario'     => $request->actividades_primer_obj_requiere_comentario == false ? $request->actividades_primer_obj_comentario : null,
-
-                    'actividades_segundo_obj_puntaje'       => $request->actividades_segundo_obj_puntaje,
-                    'actividades_segundo_obj_comentario'    => $request->actividades_segundo_obj_requiere_comentario == false ? $request->actividades_segundo_obj_comentario : null,
-
-                    'actividades_tercer_obj_puntaje'        => $request->actividades_tercer_obj_puntaje,
-                    'actividades_tercer_obj_comentario'     => $request->actividades_tercer_obj_requiere_comentario == false ? $request->actividades_tercer_obj_comentario : null,
-
-                    'actividades_cuarto_obj_puntaje'        => $request->actividades_cuarto_obj_puntaje,
-                    'actividades_cuarto_obj_comentario'     => $request->actividades_cuarto_obj_requiere_comentario == false ? $request->actividades_cuarto_obj_comentario : null,
-                ]);
-                break;
-            default:
-                break;
-        }
-
-        $evaluacion->save();
-
-        return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
     public function updateLongColumn(MetodologiaColumnRequest $request, Convocatoria $convocatoria, Proyecto $proyecto, $column)

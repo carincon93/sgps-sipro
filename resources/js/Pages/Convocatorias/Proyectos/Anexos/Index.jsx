@@ -7,7 +7,6 @@ import StepperMui from '@/Components/Stepper'
 import TableMui from '@/Components/Table'
 import ToolTipMui from '@/Components/Tooltip'
 
-import Evaluacion from './Evaluacion'
 import Form from './Form'
 
 import { checkRole } from '@/Utils'

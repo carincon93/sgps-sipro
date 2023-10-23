@@ -39,7 +39,8 @@ class Convocatoria extends Model
         'mostrar_recomendaciones',
         'hora_finalizacion_fase',
         'tipo_convocatoria',
-        'year'
+        'year',
+        'permitir_nuevos_proyectos'
     ];
 
     /**

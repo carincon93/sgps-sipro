@@ -24,7 +24,6 @@ import { useState } from 'react'
 
 import { route, checkRole } from '@/Utils'
 
-import Evaluacion from './Evaluacion'
 import Form from './Form'
 
 import React from 'react'
@@ -51,7 +50,6 @@ const RubrosPresupuestales = ({
     const [dialog_software_info_status, setDialogSoftwareInfoStatus] = useState(false)
     const [dialog_servicio_edicion_info_status, setDialogServicioEdicionInfoStatus] = useState(false)
     const [dialog_status, setDialogStatus] = useState(false)
-    const [evaluacion_dialog_status, setEvaluacionDialogStatus] = useState(false)
     const [proyecto_presupuesto_a_evaluar, setPresupuestoAEvaluar] = useState(null)
 
     const [method, setMethod] = useState('')
@@ -61,20 +59,17 @@ const RubrosPresupuestales = ({
     return (
         <AuthenticatedLayout>
             <Head title="Rubros presupuestales" />
-
             <Grid item md={12} className="!mb-20">
                 <StepperMui convocatoria={convocatoria} proyecto={proyecto} evaluacion={evaluacion} />
             </Grid>
-
             <Grid item md={12}>
                 <h1 className="mt-24 mb-8 text-center text-3xl">Rubros presupuestales</h1>
             </Grid>
-
             <Grid item md={12}>
                 <AlertMui className="mt-20">
                     <strong>Actualmente el total del costo de los productos o servicios requeridos es de:</strong> $
                     {new Intl.NumberFormat('de-DE').format(!isNaN(proyecto.total_proyecto_presupuesto) ? proyecto.total_proyecto_presupuesto : 0)} COP
-                    <br />
+                    {/* <br />
                     <br />
                     <p className="mb-4">A continuación, los valores totales por CONCEPTO INTERNO SENA:</p>
                     <ul className="list-disc">
@@ -88,7 +83,7 @@ const RubrosPresupuestales = ({
                         ))}
 
                         {valor_total_por_concepto_interno_sena.length == 0 && <li>Sin información registrada.</li>}
-                    </ul>
+                    </ul> */}
                 </AlertMui>
                 <TableMui
                     className="mb-8"
@@ -107,8 +102,8 @@ const RubrosPresupuestales = ({
                     {rubros_presupuestales.data.map((presupuesto, i) => (
                         <TableRow key={i}>
                             <TableCell>
-                                <div className="flex flex-col focus:text-app-500 px-6 py-4" id={`PRE-${presupuesto.id}`}>
-                                    <Chip size="small" label={<>Código: PRE-{presupuesto.id}</>} />
+                                <div className="flex flex-col focus:text-app-500 px-6 py-4" id={presupuesto.id}>
+                                    <Chip size="small" label={<>Código: #{presupuesto.id}</>} />
                                     <div className="mt-3">
                                         <p className="whitespace-pre-line line-clamp-6">{presupuesto.descripcion}</p>
                                     </div>
@@ -140,7 +135,12 @@ const RubrosPresupuestales = ({
                                 <div>${new Intl.NumberFormat('de-DE').format(presupuesto.valor_total)} COP</div>
                                 {presupuesto.convocatoria_proyecto_rubros_presupuestales[0]?.requiere_estudio_mercado ? (
                                     <Link
-                                        href={route('convocatorias.proyectos.presupuesto.soportes.index', [convocatoria.id, proyecto.id, presupuesto.id])}
+                                        href={route('convocatorias.proyectos.presupuesto.soportes.index', [
+                                            convocatoria.id,
+                                            proyecto.id,
+                                            presupuesto.id,
+                                            evaluacion ? { evaluacion_id: evaluacion?.id } : null,
+                                        ])}
                                         className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
                                         <FolderSharedIcon className=" !mr-2" />
                                         {presupuesto.soportes_estudio_mercado.length < 2 ? (
@@ -163,7 +163,12 @@ const RubrosPresupuestales = ({
                                             .map((item) => item.codigo_uso_presupuestal)
                                             .includes('20202008005096') && (
                                             <Link
-                                                href={route('convocatorias.proyectos.presupuesto.edt.index', [convocatoria.id, proyecto.id, presupuesto.id])}
+                                                href={route('convocatorias.proyectos.presupuesto.edt.index', [
+                                                    convocatoria.id,
+                                                    proyecto.id,
+                                                    presupuesto.id,
+                                                    evaluacion ? { evaluacion_id: evaluacion?.id } : null,
+                                                ])}
                                                 className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
                                                 <strong>E D T : </strong>
                                                 Generar los respectivos EDTs
@@ -176,14 +181,22 @@ const RubrosPresupuestales = ({
                                         rubro_presupuestal.rubro_presupuestal.segundo_grupo_presupuestal.codigo === '2041102' ||
                                         rubro_presupuestal.rubro_presupuestal.segundo_grupo_presupuestal.codigo === '2041101' ||
                                         rubro_presupuestal.rubro_presupuestal.segundo_grupo_presupuestal.codigo === '2041104',
-                                ) && (
-                                    <Link
-                                        href={route('convocatorias.proyectos.presupuesto.municipios.index', [convocatoria.id, proyecto.id, presupuesto.id])}
-                                        className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
-                                        <AirplaneTicketIcon className="mr-2" />
-                                        Relacionar los municipios a visitar
-                                    </Link>
-                                )}
+                                ) &&
+                                    proyecto.tipo_formulario_convocatoria_id == 1 &&
+                                    proyecto.tipo_formulario_convocatoria_id == 7 &&
+                                    proyecto.tipo_formulario_convocatoria_id == 9 && (
+                                        <Link
+                                            href={route('convocatorias.proyectos.presupuesto.municipios.index', [
+                                                convocatoria.id,
+                                                proyecto.id,
+                                                presupuesto.id,
+                                                evaluacion ? { evaluacion_id: evaluacion?.id } : null,
+                                            ])}
+                                            className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
+                                            <AirplaneTicketIcon className="mr-2" />
+                                            Relacionar los municipios a visitar
+                                        </Link>
+                                    )}
                                 {presupuesto.convocatoria_proyecto_rubros_presupuestales.some(
                                     (rubro_presupuestal) => rubro_presupuestal.rubro_presupuestal.uso_presupuestal.codigo === '2020200800901',
                                 ) && (
@@ -243,7 +256,6 @@ const RubrosPresupuestales = ({
                                             <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setRubroPresupuestal(presupuesto))} disabled={!proyecto?.allowed?.to_view}>
                                                 {proyecto?.allowed?.to_view && !proyecto?.allowed?.to_update ? 'Ver información' : 'Editar'}
                                             </MenuItem>
-                                            {evaluacion && <MenuItem onClick={() => (setPresupuestoAEvaluar(presupuesto), setEvaluacionDialogStatus(true))}>Evaluar</MenuItem>}
                                             <MenuItem
                                                 onClick={() => {
                                                     setRubroPresupuestalToDestroy(presupuesto.id)
@@ -281,22 +293,6 @@ const RubrosPresupuestales = ({
                 </TableMui>
 
                 <PaginationMui links={rubros_presupuestales.links} />
-
-                <DialogMui
-                    fullWidth={true}
-                    maxWidth="lg"
-                    open={evaluacion_dialog_status}
-                    dialogContent={
-                        <>
-                            <Evaluacion auth_user={auth_user} proyecto={proyecto} evaluacion={evaluacion} proyecto_presupuesto_a_evaluar={proyecto_presupuesto_a_evaluar} />
-                        </>
-                    }
-                    dialogActions={
-                        <ButtonMui onClick={() => setEvaluacionDialogStatus(false)} primary={true} className="!mr-6">
-                            Cerrar
-                        </ButtonMui>
-                    }
-                />
 
                 <DialogMui
                     open={dialog_status}

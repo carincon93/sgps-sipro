@@ -109,12 +109,12 @@ class EvaluacionesExport implements FromCollection, WithHeadings, WithMapping, W
 
         foreach ($participantes as $participante) {
             array_push($mapParticipantes, [
-                'nombre' => strtr(utf8_decode($participante->nombre), utf8_decode('àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ'), 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY'),
-                'documento' => $participante->numero_documento,
-                'correo' => $participante->email,
-                'vinculacion' => $participante->tipo_vinculacion_text,
-                'meses' => $participante->pivot->cantidad_meses,
-                'horas' => $participante->pivot->cantidad_horas,
+                'nombre'        => strtr(utf8_decode($participante->nombre), utf8_decode('àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ'), 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY'),
+                'documento'     => $participante->numero_documento,
+                'correo'        => $participante->email,
+                'vinculacion'   => $participante->tipo_vinculacion_text,
+                'meses'         => $participante->pivot->cantidad_meses,
+                'horas'         => $participante->pivot->cantidad_horas,
             ]);
         }
         return $mapParticipantes;

@@ -49,7 +49,7 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
         })
     }
 
-    const tabs = checkRole(auth_user, [1, 21, 18, 19, 5, 17])
+    const tabs = checkRole(auth_user, [1, 5, 17, 18, 19])
         ? [{ label: 'Grupos de investigación - Nivel Nacional' }, { label: 'Grupos de investigación: ' + centros_formacion.find((item) => item.value == auth_user.centro_formacion_id).label }]
         : [{ label: 'Grupos de investigación del ' + centros_formacion.find((item) => item.value == auth_user.centro_formacion_id).label }]
 
@@ -58,7 +58,7 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
             <Head title="Grupos de investigación" />
 
             <TabsMui tabs={tabs}>
-                {checkRole(auth_user, [1, 21, 18, 19, 5, 17]) ? (
+                {checkRole(auth_user, [1, 5, 17, 18, 19]) ? (
                     <div>
                         <SearchBar className="mt-20" />
 
@@ -85,45 +85,49 @@ const Index = ({ auth, grupos_investigacion, grupos_investigacion_centro_formaci
                                     <TableCell>{grupo_investigacion.centro_formacion?.regional?.nombre}</TableCell>
 
                                     <TableCell>
-                                        <DownloadFile
-                                            label="formato GIC F 020"
-                                            className="!p-2"
-                                            filename={grupo_investigacion?.filename.formato_gic_f_020_filename}
-                                            extension={grupo_investigacion?.extension.formato_gic_f_020_extension}
-                                            downloadRoute={
-                                                grupo_investigacion?.formato_gic_f_020
-                                                    ? grupo_investigacion?.formato_gic_f_020.includes('http') == true || grupo_investigacion?.formato_gic_f_020.includes('http') == undefined
-                                                        ? grupo_investigacion?.formato_gic_f_020
-                                                        : route('grupos-investigacion.download-file-sharepoint', [grupo_investigacion.id, 'formato_gic_f_020'])
-                                                    : null
-                                            }
-                                        />
-                                        <ButtonMui
-                                            onClick={() => (form.reset(), setDialogFormatoStatus(true), setGrupoInvestigacion(grupo_investigacion), setTipoArchivo('formato_gic_f_020'))}
-                                            className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
-                                            <AutorenewIcon className="mr-2" />
-                                            {grupo_investigacion?.filename.formato_gic_f_020_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 020
-                                        </ButtonMui>
+                                        {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
+                                            <>
+                                                <DownloadFile
+                                                    label="formato GIC F 020"
+                                                    className="!p-2"
+                                                    filename={grupo_investigacion?.filename.formato_gic_f_020_filename}
+                                                    extension={grupo_investigacion?.extension.formato_gic_f_020_extension}
+                                                    downloadRoute={
+                                                        grupo_investigacion?.formato_gic_f_020
+                                                            ? grupo_investigacion?.formato_gic_f_020.includes('http') == true || grupo_investigacion?.formato_gic_f_020.includes('http') == undefined
+                                                                ? grupo_investigacion?.formato_gic_f_020
+                                                                : route('grupos-investigacion.download-file-sharepoint', [grupo_investigacion.id, 'formato_gic_f_020'])
+                                                            : null
+                                                    }
+                                                />
+                                                <ButtonMui
+                                                    onClick={() => (form.reset(), setDialogFormatoStatus(true), setGrupoInvestigacion(grupo_investigacion), setTipoArchivo('formato_gic_f_020'))}
+                                                    className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                                    <AutorenewIcon className="mr-2" />
+                                                    {grupo_investigacion?.filename.formato_gic_f_020_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 020
+                                                </ButtonMui>
 
-                                        <DownloadFile
-                                            label="formato GIC F 032"
-                                            className="mt-10 !p-2"
-                                            filename={grupo_investigacion?.filename.formato_gic_f_032_filename}
-                                            extension={grupo_investigacion?.extension.formato_gic_f_032_extension}
-                                            downloadRoute={
-                                                grupo_investigacion?.formato_gic_f_032
-                                                    ? grupo_investigacion?.formato_gic_f_032.includes('http') == true || grupo_investigacion?.formato_gic_f_032.includes('http') == undefined
-                                                        ? grupo_investigacion?.formato_gic_f_032
-                                                        : route('grupos-investigacion.download-file-sharepoint', [grupo_investigacion.id, 'formato_gic_f_032'])
-                                                    : null
-                                            }
-                                        />
-                                        <ButtonMui
-                                            onClick={() => (form.reset(), setDialogFormatoStatus(true), setGrupoInvestigacion(grupo_investigacion), setTipoArchivo('formato_gic_f_032'))}
-                                            className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
-                                            <AutorenewIcon className="mr-2" />
-                                            {grupo_investigacion?.filename.formato_gic_f_032_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 032
-                                        </ButtonMui>
+                                                <DownloadFile
+                                                    label="formato GIC F 032"
+                                                    className="mt-10 !p-2"
+                                                    filename={grupo_investigacion?.filename.formato_gic_f_032_filename}
+                                                    extension={grupo_investigacion?.extension.formato_gic_f_032_extension}
+                                                    downloadRoute={
+                                                        grupo_investigacion?.formato_gic_f_032
+                                                            ? grupo_investigacion?.formato_gic_f_032.includes('http') == true || grupo_investigacion?.formato_gic_f_032.includes('http') == undefined
+                                                                ? grupo_investigacion?.formato_gic_f_032
+                                                                : route('grupos-investigacion.download-file-sharepoint', [grupo_investigacion.id, 'formato_gic_f_032'])
+                                                            : null
+                                                    }
+                                                />
+                                                <ButtonMui
+                                                    onClick={() => (form.reset(), setDialogFormatoStatus(true), setGrupoInvestigacion(grupo_investigacion), setTipoArchivo('formato_gic_f_032'))}
+                                                    className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
+                                                    <AutorenewIcon className="mr-2" />
+                                                    {grupo_investigacion?.filename.formato_gic_f_032_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 032
+                                                </ButtonMui>
+                                            </>
+                                        )}
                                     </TableCell>
 
                                     <TableCell>

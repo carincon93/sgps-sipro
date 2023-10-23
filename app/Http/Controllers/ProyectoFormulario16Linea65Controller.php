@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\CentroFormacion;
 use App\Models\DisciplinaSubareaConocimiento;
+use App\Models\Evaluacion\Evaluacion;
 use App\Models\Evaluacion\EvaluacionProyectoFormulario16Linea65;
 use App\Models\RolSennova;
 use App\Models\TopeRolSennovaFormulario16;
@@ -151,6 +152,10 @@ class ProyectoFormulario16Linea65Controller extends Controller
 
         if ($proyecto_formulario_16_linea_65->proyecto->convocatoria_id != $convocatoria->id) {
             return abort(404);
+        }
+
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
         }
 
         // $proyecto_formulario_16_linea_65->load('proyecto.evaluaciones.evaluacion_proyecto_formulario_16_linea_65');

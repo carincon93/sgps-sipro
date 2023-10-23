@@ -11,6 +11,7 @@ use App\Models\MesaSectorial;
 use App\Http\Requests\Evaluacion\EvaluacionProyectoFormulario1Linea65Request;
 use App\Http\Requests\ProyectoFormulario1Linea65ColumnRequest;
 use App\Http\Requests\ProyectoFormulario1Linea65Request;
+use App\Models\Evaluacion\Evaluacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -170,6 +171,11 @@ class ProyectoFormulario1Linea65Controller extends Controller
             return abort(404);
         }
 
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+        }
+
+        $proyecto_formulario_1_linea_65->load('proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto_formulario_1_linea_65->load('proyecto.evaluaciones.evaluacionProyectoFormulario1Linea65');
 
         $proyecto_formulario_1_linea_65->proyecto->precio_proyecto           = $proyecto_formulario_1_linea_65->proyecto->precioProyecto;
@@ -189,7 +195,7 @@ class ProyectoFormulario1Linea65Controller extends Controller
             'convocatoria'                                  => $convocatoria,
             'proyecto_formulario_1_linea_65'                => $proyecto_formulario_1_linea_65,
             'centros_formacion'                             => SelectHelper::centrosFormacion(),
-            'evaluacion'                                    => EvaluacionProyectoFormulario1Linea65::find(request()->evaluacion_id),
+            'evaluacion'                                    => EvaluacionProyectoFormulario1Linea65::with('evaluacion.proyecto')->where('id', request()->evaluacion_id)->first(),
             'tecnoacademia'                                 => $proyecto_formulario_1_linea_65->proyecto->tecnoacademiaLineasTecnoacademia()->first() ? $proyecto_formulario_1_linea_65->proyecto->tecnoacademiaLineasTecnoacademia()->first()->tecnoacademia->only('id', 'nombre') : null,
             'mesas_sectoriales'                             => MesaSectorial::select('id as value', 'nombre as label')->get('id'),
             'lineas_investigacion'                          => SelectHelper::lineasInvestigacion(),
@@ -311,43 +317,57 @@ class ProyectoFormulario1Linea65Controller extends Controller
         return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
-    public function updateEvaluacion(EvaluacionProyectoFormulario1Linea65Request $request, Convocatoria $convocatoria, EvaluacionProyectoFormulario1Linea65 $evaluacionProyectoFormulario1Linea65)
+    public function updateEvaluacion(EvaluacionProyectoFormulario1Linea65Request $request, Convocatoria $convocatoria)
     {
-        $this->authorize('modificar-evaluacion-autor', $evaluacionProyectoFormulario1Linea65->evaluacion);
+        $evaluacion_proyecto_linea65 = EvaluacionProyectoFormulario1Linea65::find($request->evaluacion_id);
 
-        $evaluacionProyectoFormulario1Linea65->evaluacion()->update([
-            'iniciado' => true,
+        $this->authorize('modificar-evaluacion-autor', $evaluacion_proyecto_linea65->evaluacion);
+
+        $evaluacion_proyecto_linea65->evaluacion()->update([
+            'iniciado'                  => true,
             'clausula_confidencialidad' => $request->clausula_confidencialidad
-
         ]);
 
-        $evaluacionProyectoFormulario1Linea65->titulo_puntaje                                      = $request->titulo_puntaje;
-        $evaluacionProyectoFormulario1Linea65->titulo_comentario                                   = $request->titulo_requiere_comentario == false ? $request->titulo_comentario : null;
-        $evaluacionProyectoFormulario1Linea65->video_puntaje                                       = $request->video_puntaje;
-        $evaluacionProyectoFormulario1Linea65->video_comentario                                    = $request->video_requiere_comentario == false ? $request->video_comentario : null;
+        $evaluacion_proyecto_linea65->titulo_puntaje                                    = $request->titulo_puntaje;
+        $evaluacion_proyecto_linea65->titulo_comentario                                 = $request->filled('titulo_requiere_comentario')                              ? $request->titulo_comentario : null;
+        $evaluacion_proyecto_linea65->video_puntaje                                     = $request->video_puntaje;
+        $evaluacion_proyecto_linea65->video_comentario                                  = $request->filled('video_requiere_comentario')                               ? $request->video_comentario : null;
+        $evaluacion_proyecto_linea65->resumen_puntaje                                   = $request->resumen_puntaje;
+        $evaluacion_proyecto_linea65->resumen_comentario                                = $request->filled('resumen_requiere_comentario')                             ? $request->resumen_comentario : null;
 
-        $evaluacionProyectoFormulario1Linea65->antecedentes_puntaje                                = $request->antecedentes_puntaje;
-        $evaluacionProyectoFormulario1Linea65->antecedentes_comentario                             = $request->antecedentes_requiere_comentario == false ? $request->antecedentes_comentario : null;
+        $evaluacion_proyecto_linea65->entidad_aliada_puntaje                            = $request->entidad_aliada_puntaje;
+        $evaluacion_proyecto_linea65->entidad_aliada_comentario                         = $request->filled('entidad_aliada_comentario')                               ? $request->entidad_aliada_comentario : null;
+        $evaluacion_proyecto_linea65->problema_central_puntaje                          = $request->problema_central_puntaje;
+        $evaluacion_proyecto_linea65->problema_central_comentario                       = $request->filled('problema_central_comentario')                             ? $request->problema_central_comentario : null;
+        $evaluacion_proyecto_linea65->resultados_puntaje                                = $request->resultados_puntaje;
+        $evaluacion_proyecto_linea65->resultados_comentario                             = $request->filled('resultados_comentario')                                   ? $request->resultados_comentario : null;
+        $evaluacion_proyecto_linea65->objetivos_puntaje                                 = $request->objetivos_puntaje;
+        $evaluacion_proyecto_linea65->objetivos_comentario                              = $request->filled('objetivos_comentario')                                    ? $request->objetivos_comentario : null;
+        $evaluacion_proyecto_linea65->metodologia_puntaje                               = $request->metodologia_puntaje;
+        $evaluacion_proyecto_linea65->metodologia_comentario                            = $request->filled('metodologia_comentario')                                  ? $request->metodologia_comentario : null;
+        $evaluacion_proyecto_linea65->productos_puntaje                                 = $request->productos_puntaje;
+        $evaluacion_proyecto_linea65->productos_comentario                              = $request->filled('productos_comentario')                                    ? $request->productos_comentario : null;
+        $evaluacion_proyecto_linea65->cadena_valor_puntaje                              = $request->cadena_valor_puntaje;
+        $evaluacion_proyecto_linea65->cadena_valor_comentario                           = $request->filled('cadena_valor_comentario')                                 ? $request->cadena_valor_comentario : null;
+        $evaluacion_proyecto_linea65->analisis_riesgos_puntaje                          = $request->analisis_riesgos_puntaje;
+        $evaluacion_proyecto_linea65->analisis_riesgos_comentario                       = $request->filled('analisis_riesgos_comentario')                             ? $request->analisis_riesgos_comentario : null;
 
-        $evaluacionProyectoFormulario1Linea65->resumen_puntaje                                     = $request->resumen_puntaje;
-        $evaluacionProyectoFormulario1Linea65->resumen_comentario                                  = $request->resumen_requiere_comentario == false ? $request->resumen_comentario : null;
-        $evaluacionProyectoFormulario1Linea65->ortografia_puntaje                                  = $request->ortografia_puntaje;
-        $evaluacionProyectoFormulario1Linea65->ortografia_comentario                               = $request->ortografia_requiere_comentario == false ? $request->ortografia_comentario : null;
-        $evaluacionProyectoFormulario1Linea65->redaccion_puntaje                                   = $request->redaccion_puntaje;
-        $evaluacionProyectoFormulario1Linea65->redaccion_comentario                                = $request->redaccion_requiere_comentario == false ? $request->redaccion_comentario : null;
-        $evaluacionProyectoFormulario1Linea65->normas_apa_puntaje                                  = $request->normas_apa_puntaje;
-        $evaluacionProyectoFormulario1Linea65->normas_apa_comentario                               = $request->normas_apa_requiere_comentario == false ? $request->normas_apa_comentario : null;
+        $evaluacion_proyecto_linea65->ortografia_puntaje                                = $request->ortografia_puntaje;
+        $evaluacion_proyecto_linea65->ortografia_comentario                             = $request->filled('ortografia_requiere_comentario')                          ? $request->ortografia_comentario : null;
+        $evaluacion_proyecto_linea65->redaccion_puntaje                                 = $request->redaccion_puntaje;
+        $evaluacion_proyecto_linea65->redaccion_comentario                              = $request->filled('redaccion_requiere_comentario')                           ? $request->redaccion_comentario : null;
+        $evaluacion_proyecto_linea65->normas_apa_puntaje                                = $request->normas_apa_puntaje;
+        $evaluacion_proyecto_linea65->normas_apa_comentario                             = $request->filled('normas_apa_requiere_comentario')                          ? $request->normas_apa_comentario : null;
+        $evaluacion_proyecto_linea65->justificacion_economia_naranja_comentario         = $request->filled('justificacion_economia_naranja_requiere_comentario')      ? $request->justificacion_economia_naranja_comentario : null;
+        $evaluacion_proyecto_linea65->justificacion_industria_4_comentario              = $request->filled('justificacion_industria_4_requiere_comentario')           ? $request->justificacion_industria_4_comentario : null;
+        $evaluacion_proyecto_linea65->bibliografia_comentario                           = $request->filled('bibliografia_requiere_comentario')                        ? $request->bibliografia_comentario : null;
+        $evaluacion_proyecto_linea65->fechas_comentario                                 = $request->filled('fechas_requiere_comentario')                              ? $request->fechas_comentario : null;
+        $evaluacion_proyecto_linea65->justificacion_politica_discapacidad_comentario    = $request->filled('justificacion_politica_discapacidad_requiere_comentario') ? $request->justificacion_politica_discapacidad_comentario : null;
+        $evaluacion_proyecto_linea65->actividad_economica_comentario                    = $request->filled('actividad_economica_requiere_comentario')                 ? $request->actividad_economica_comentario : null;
+        $evaluacion_proyecto_linea65->red_conocimiento_comentario                       = $request->filled('red_conocimiento_requiere_comentario')                    ? $request->red_conocimiento_comentario : null;
+        $evaluacion_proyecto_linea65->tematica_estrategica_comentario                   = $request->filled('tematica_estrategica_requiere_comentario')                ? $request->tematica_estrategica_comentario : null;
 
-        $evaluacionProyectoFormulario1Linea65->justificacion_economia_naranja_comentario           = $request->justificacion_economia_naranja_requiere_comentario == false ? $request->justificacion_economia_naranja_comentario : null;
-        $evaluacionProyectoFormulario1Linea65->justificacion_industria_4_comentario                = $request->justificacion_industria_4_requiere_comentario == false ? $request->justificacion_industria_4_comentario : null;
-        $evaluacionProyectoFormulario1Linea65->bibliografia_comentario                             = $request->bibliografia_requiere_comentario == false ? $request->bibliografia_comentario : null;
-        $evaluacionProyectoFormulario1Linea65->fechas_comentario                                   = $request->fechas_requiere_comentario == false ? $request->fechas_comentario : null;
-        $evaluacionProyectoFormulario1Linea65->justificacion_politica_discapacidad_comentario      = $request->justificacion_politica_discapacidad_requiere_comentario == false ? $request->justificacion_politica_discapacidad_comentario : null;
-        $evaluacionProyectoFormulario1Linea65->actividad_economica_comentario                      = $request->actividad_economica_requiere_comentario == false ? $request->actividad_economica_comentario : null;
-        $evaluacionProyectoFormulario1Linea65->area_conocimiento_comentario                        = $request->area_conocimiento_requiere_comentario == false ? $request->area_conocimiento_comentario : null;
-        $evaluacionProyectoFormulario1Linea65->tematica_estrategica_comentario                     = $request->tematica_estrategica_requiere_comentario == false ? $request->tematica_estrategica_comentario : null;
-
-        $evaluacionProyectoFormulario1Linea65->save();
+        $evaluacion_proyecto_linea65->save();
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }

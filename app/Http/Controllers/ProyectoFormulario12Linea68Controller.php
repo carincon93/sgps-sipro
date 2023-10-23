@@ -10,6 +10,7 @@ use App\Http\Requests\Evaluacion\EvaluacionProyectoFormulario12Linea68Request;
 use App\Http\Requests\ProyectoFormulario12Linea68ColumnRequest;
 use App\Http\Requests\ProyectoFormulario12Linea68Request;
 use App\Models\Convocatoria;
+use App\Models\Evaluacion\Evaluacion;
 use App\Models\Evaluacion\EvaluacionProyectoFormulario12Linea68;
 use App\Models\Proyecto;
 use App\Models\RolSennova;
@@ -144,6 +145,11 @@ class ProyectoFormulario12Linea68Controller extends Controller
             return abort(404);
         }
 
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+        }
+
+        $proyecto_formulario_12_linea_68->load('proyecto.proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyecto.proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto_formulario_12_linea_68->load('proyecto.evaluaciones.evaluacionProyectoFormulario12Linea68');
 
         $proyecto_formulario_12_linea_68->proyecto->precio_proyecto = $proyecto_formulario_12_linea_68->proyecto->precioProyecto;
@@ -167,7 +173,7 @@ class ProyectoFormulario12Linea68Controller extends Controller
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario12Linea68/Edit', [
             'convocatoria'                                  => $convocatoria,
             'proyecto_formulario_12_linea_68'               => $proyecto_formulario_12_linea_68,
-            'evaluacion'                                    => EvaluacionProyectoFormulario12Linea68::find(request()->evaluacion_id),
+            'evaluacion'                                    => EvaluacionProyectoFormulario12Linea68::with('evaluacion.proyecto')->where('id', request()->evaluacion_id)->first(),
             'lineas_programaticas'                          => SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 3)->values()->all(),
             'estados_sistema_gestion'                       => SelectHelper::estadosSistemaGestion(),
             'programas_formacion_sin_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),
@@ -218,8 +224,10 @@ class ProyectoFormulario12Linea68Controller extends Controller
         return back()->with('success', 'El recurso se ha eliminado correctamente.');
     }
 
-    public function updateEvaluacion(EvaluacionProyectoFormulario12Linea68Request $request, Convocatoria $convocatoria, EvaluacionProyectoFormulario12Linea68 $evaluacion_proyecto_formulario_12_linea_68)
+    public function updateEvaluacion(EvaluacionProyectoFormulario12Linea68Request $request, Convocatoria $convocatoria)
     {
+        $evaluacion_proyecto_formulario_12_linea_68 = EvaluacionProyectoFormulario12Linea68::find($request->evaluacion_id);
+
         $this->authorize('modificar-evaluacion-autor', $evaluacion_proyecto_formulario_12_linea_68->evaluacion);
 
         $evaluacion_proyecto_formulario_12_linea_68->evaluacion()->update([
@@ -227,29 +235,58 @@ class ProyectoFormulario12Linea68Controller extends Controller
             'clausula_confidencialidad' => $request->clausula_confidencialidad
         ]);
 
-        $evaluacion_proyecto_formulario_12_linea_68->fecha_ejecucion_comentario                  = $request->fechas_requiere_comentario == false ? $request->fecha_ejecucion_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->titulo_comentario                                  = $request->filled('titulo_comentario') ? $request->titulo_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->titulo_puntaje                                     = $request->titulo_puntaje;
+        $evaluacion_proyecto_formulario_12_linea_68->resumen_comentario                                 = $request->filled('resumen_comentario') ? $request->resumen_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->resumen_puntaje                                    = $request->resumen_puntaje;
+        $evaluacion_proyecto_formulario_12_linea_68->antecedentes_comentario                            = $request->filled('antecedentes_comentario') ? $request->antecedentes_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->antecedentes_puntaje                               = $request->antecedentes_puntaje;
+        $evaluacion_proyecto_formulario_12_linea_68->justificacion_problema_comentario                  = $request->filled('justificacion_problema_comentario') ? $request->justificacion_problema_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->justificacion_problema_puntaje                     = $request->justificacion_problema_puntaje;
+        $evaluacion_proyecto_formulario_12_linea_68->pregunta_formulacion_problema_comentario           = $request->filled('pregunta_formulacion_problema_comentario') ? $request->pregunta_formulacion_problema_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->pregunta_formulacion_problema_puntaje              = $request->pregunta_formulacion_problema_puntaje;
+        $evaluacion_proyecto_formulario_12_linea_68->propuesta_sostenibilidad_comentario                = $request->filled('propuesta_sostenibilidad_comentario') ? $request->propuesta_sostenibilidad_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->propuesta_sostenibilidad_puntaje                   = $request->propuesta_sostenibilidad_puntaje;
+        $evaluacion_proyecto_formulario_12_linea_68->identificacion_problema_comentario                 = $request->filled('identificacion_problema_comentario') ? $request->identificacion_problema_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->identificacion_problema_puntaje                    = $request->identificacion_problema_puntaje;
+        $evaluacion_proyecto_formulario_12_linea_68->arbol_problemas_comentario                         = $request->filled('arbol_problemas_comentario') ? $request->arbol_problemas_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->arbol_problemas_puntaje                            = $request->arbol_problemas_puntaje;
+        $evaluacion_proyecto_formulario_12_linea_68->impacto_ambiental_puntaje                          = $request->impacto_ambiental_puntaje;
+        $evaluacion_proyecto_formulario_12_linea_68->impacto_ambiental_comentario                       = $request->filled('impacto_ambiental_comentario') ? $request->impacto_ambiental_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->impacto_social_centro_puntaje                      = $request->impacto_social_centro_puntaje;
+        $evaluacion_proyecto_formulario_12_linea_68->impacto_social_centro_comentario                   = $request->filled('impacto_social_centro_comentario') ? $request->impacto_social_centro_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->impacto_social_productivo_puntaje                  = $request->impacto_social_productivo_puntaje;
+        $evaluacion_proyecto_formulario_12_linea_68->impacto_social_productivo_comentario               = $request->filled('impacto_social_productivo_comentario') ? $request->impacto_social_productivo_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->impacto_tecnologico_puntaje                        = $request->impacto_tecnologico_puntaje;
+        $evaluacion_proyecto_formulario_12_linea_68->impacto_tecnologico_comentario                     = $request->filled('impacto_tecnologico_comentario') ? $request->impacto_tecnologico_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->riesgos_objetivo_general_puntaje                   = $request->riesgos_objetivo_general_puntaje;
+        $evaluacion_proyecto_formulario_12_linea_68->riesgos_objetivo_general_comentario                = $request->filled('riesgos_objetivo_general_comentario') ? $request->riesgos_objetivo_general_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->riesgos_productos_puntaje                          = $request->riesgos_productos_puntaje;
+        $evaluacion_proyecto_formulario_12_linea_68->riesgos_productos_comentario                       = $request->filled('riesgos_productos_comentario') ? $request->riesgos_productos_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->riesgos_actividades_puntaje                        = $request->riesgos_actividades_puntaje;
+        $evaluacion_proyecto_formulario_12_linea_68->riesgos_actividades_comentario                     = $request->filled('riesgos_actividades_comentario') ? $request->riesgos_actividades_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->objetivo_general_puntaje                           = $request->objetivo_general_puntaje;
+        $evaluacion_proyecto_formulario_12_linea_68->metodologia_puntaje                                = $request->metodologia_puntaje;
+        $evaluacion_proyecto_formulario_12_linea_68->metodologia_comentario                             = $request->filled('metodologia_comentario') ? $request->metodologia_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->resultados_comentario                              = $request->filled('resultados_comentario') ? $request->resultados_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->resultados_puntaje                                 = $request->resultados_puntaje;
+        $evaluacion_proyecto_formulario_12_linea_68->actividades_comentario                             = $request->filled('actividades_comentario') ? $request->actividades_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->actividades_puntaje                                = $request->actividades_puntaje;
+        $evaluacion_proyecto_formulario_12_linea_68->productos_comentario                               = $request->filled('productos_comentario') ? $request->productos_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->productos_puntaje                                  = $request->productos_puntaje;
+        $evaluacion_proyecto_formulario_12_linea_68->objetivos_especificos_comentario                   = $request->filled('objetivos_especificos_comentario') ? $request->objetivos_especificos_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->objetivos_especificos_puntaje                      = $request->objetivos_especificos_puntaje;
 
-        $evaluacion_proyecto_formulario_12_linea_68->titulo_puntaje                              = $request->titulo_puntaje;
-        $evaluacion_proyecto_formulario_12_linea_68->titulo_comentario                           = $request->titulo_requiere_comentario == false ? $request->titulo_comentario : null;
-        $evaluacion_proyecto_formulario_12_linea_68->resumen_puntaje                             = $request->resumen_puntaje;
-        $evaluacion_proyecto_formulario_12_linea_68->resumen_comentario                          = $request->resumen_requiere_comentario == false ? $request->resumen_comentario : null;
-        $evaluacion_proyecto_formulario_12_linea_68->antecedentes_puntaje                        = $request->antecedentes_puntaje;
-        $evaluacion_proyecto_formulario_12_linea_68->antecedentes_comentario                     = $request->antecedentes_requiere_comentario == false ? $request->antecedentes_comentario : null;
-
-        $evaluacion_proyecto_formulario_12_linea_68->identificacion_problema_puntaje             = $request->identificacion_problema_puntaje;
-        $evaluacion_proyecto_formulario_12_linea_68->identificacion_problema_comentario          = $request->identificacion_problema_requiere_comentario == false ? $request->identificacion_problema_comentario : null;
-
-        $evaluacion_proyecto_formulario_12_linea_68->pregunta_formulacion_problema_puntaje       = $request->pregunta_formulacion_problema_puntaje;
-        $evaluacion_proyecto_formulario_12_linea_68->pregunta_formulacion_problema_comentario    = $request->pregunta_formulacion_problema_requiere_comentario == false ? $request->pregunta_formulacion_problema_comentario : null;
-
-        $evaluacion_proyecto_formulario_12_linea_68->justificacion_problema_puntaje              = $request->justificacion_problema_puntaje;
-        $evaluacion_proyecto_formulario_12_linea_68->justificacion_problema_comentario           = $request->justificacion_problema_requiere_comentario == false ? $request->justificacion_problema_comentario : null;
-
-        $evaluacion_proyecto_formulario_12_linea_68->bibliografia_comentario                     = $request->bibliografia_requiere_comentario == false ? $request->bibliografia_comentario : null;
-
-        $evaluacion_proyecto_formulario_12_linea_68->ortografia_comentario                       = $request->ortografia_requiere_comentario == false ? $request->ortografia_comentario : null;
-        $evaluacion_proyecto_formulario_12_linea_68->redaccion_comentario                        = $request->redaccion_requiere_comentario == false ? $request->redaccion_comentario : null;
-        $evaluacion_proyecto_formulario_12_linea_68->normas_apa_comentario                       = $request->normas_apa_requiere_comentario == false ? $request->normas_apa_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->video_comentario                                   = $request->filled('video_comentario') ? $request->video_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->especificaciones_area_comentario                   = $request->filled('especificaciones_area_comentario') ? $request->especificaciones_area_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->ortografia_comentario                              = $request->filled('ortografia_comentario') ? $request->ortografia_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->redaccion_comentario                               = $request->filled('redaccion_comentario') ? $request->redaccion_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->normas_apa_comentario                              = $request->filled('normas_apa_comentario') ? $request->normas_apa_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->anexos_comentario                                  = $request->filled('anexos_comentario') ? $request->anexos_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->bibliografia_comentario                            = $request->filled('bibliografia_comentario') ? $request->bibliografia_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->inventario_equipos_comentario                      = $request->filled('inventario_equipos_comentario') ? $request->inventario_equipos_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->objetivo_general_comentario                        = $request->filled('objetivo_general_comentario') ? $request->objetivo_general_comentario : null;
+        $evaluacion_proyecto_formulario_12_linea_68->fecha_ejecucion_comentario                         = $request->filled('fecha_ejecucion_comentario') ? $request->fecha_ejecucion_comentario : null;
 
         $evaluacion_proyecto_formulario_12_linea_68->save();
 

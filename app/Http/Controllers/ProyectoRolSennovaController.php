@@ -32,6 +32,11 @@ class ProyectoRolSennovaController extends Controller
             return abort(404);
         }
 
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+        }
+
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
 
         $objetivos_especificos = $proyecto->causasDirectas()->with('objetivoEspecifico')->get()->pluck('objetivoEspecifico')->flatten()->filter();
@@ -174,8 +179,8 @@ class ProyectoRolSennovaController extends Controller
         $this->authorize('modificar-evaluacion-autor', $evaluacion);
 
         ProyectoRolEvaluacion::updateOrCreate(
-            ['evaluacion_id' => $evaluacion->id, 'proyecto_rol_sennova_id' => $proyecto_rol_sennova->id],
-            ['correcto' => $request->correcto, 'comentario' => $request->correcto == false ? $request->comentario : null]
+            ['evaluacion_id'    => $evaluacion->id, 'proyecto_rol_sennova_id' => $proyecto_rol_sennova->id],
+            ['correcto'         => $request->correcto, 'comentario' => $request->correcto == false ? $request->comentario : null]
         );
 
         return back()->with('success', 'El recurso se ha actualizado correctamente.');

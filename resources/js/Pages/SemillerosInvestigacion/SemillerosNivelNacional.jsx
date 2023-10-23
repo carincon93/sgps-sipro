@@ -13,7 +13,7 @@ import TableMui from '@/Components/Table'
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { Breadcrumbs, Grid, MenuItem, Tab, TableCell, TableRow, Tabs } from '@mui/material'
+import { Breadcrumbs, Chip, Divider, Grid, MenuItem, Tab, TableCell, TableRow, Tabs } from '@mui/material'
 
 import { useState } from 'react'
 import { Head, Link, router, useForm } from '@inertiajs/react'
@@ -75,7 +75,7 @@ const Index = ({ auth, semilleros_investigacion, redes_conocimiento, allowed_to_
             <Grid item md={12}>
                 <SearchBar />
 
-                <TableMui className="mt-20" rows={['Nombre', 'Centro Código', 'Formatos', 'Acciones']} sxCellThead={{ width: '320px' }}>
+                <TableMui className="mt-20" rows={['Nombre', 'Centro de formación', 'Formatos', 'Acciones']} sxCellThead={{ width: '320px' }}>
                     {/* {allowed_to_create ? (
                         <TableRow
                             onClick={() => (setDialogStatus(true), setMethod('POST'), setSemilleroInvestigacion(null))}
@@ -90,88 +90,102 @@ const Index = ({ auth, semilleros_investigacion, redes_conocimiento, allowed_to_
                     ) : null} */}
                     {semilleros_investigacion.data.map((semillero_investigacion, i) => (
                         <TableRow key={i}>
-                            <TableCell>{semillero_investigacion.nombre}</TableCell>
-                            <TableCell>{semillero_investigacion.codigo}</TableCell>
                             <TableCell>
-                                <DownloadFile
-                                    label="formato GIC F 021"
-                                    className="!p-2"
-                                    filename={semillero_investigacion?.filename.formato_gic_f_021_filename}
-                                    extension={semillero_investigacion?.extension.formato_gic_f_021_extension}
-                                    downloadRoute={
-                                        semillero_investigacion?.formato_gic_f_021
-                                            ? semillero_investigacion?.formato_gic_f_021.includes('http') == true || semillero_investigacion?.formato_gic_f_021.includes('http') == undefined
-                                                ? semillero_investigacion?.formato_gic_f_021
-                                                : route('grupos-investigacion.lineas-investigacion.semilleros-investigacion.download-file-sharepoint', [
-                                                      semillero_investigacion.linea_investigacion.grupo_investigacion_id,
-                                                      semillero_investigacion.linea_investigacion_id,
-                                                      semillero_investigacion.id,
-                                                      'formato_gic_f_021',
-                                                  ])
-                                            : null
-                                    }
-                                />
+                                <p className="uppercase">{semillero_investigacion.nombre}</p>
+                                <Divider className="!my-4" />
+                                <small>
+                                    Código: <Chip label={semillero_investigacion.codigo} />
+                                </small>
+                            </TableCell>
+                            <TableCell>
+                                {semillero_investigacion.linea_investigacion.grupo_investigacion.centro_formacion.nombre} - Código:{' '}
+                                {semillero_investigacion.linea_investigacion.grupo_investigacion.centro_formacion.codigo}
+                            </TableCell>
+                            <TableCell>
+                                {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
+                                    <>
+                                        <DownloadFile
+                                            label="formato GIC F 021"
+                                            className="!p-2"
+                                            filename={semillero_investigacion?.filename.formato_gic_f_021_filename}
+                                            extension={semillero_investigacion?.extension.formato_gic_f_021_extension}
+                                            downloadRoute={
+                                                semillero_investigacion?.formato_gic_f_021
+                                                    ? semillero_investigacion?.formato_gic_f_021.includes('http') == true || semillero_investigacion?.formato_gic_f_021.includes('http') == undefined
+                                                        ? semillero_investigacion?.formato_gic_f_021
+                                                        : route('grupos-investigacion.lineas-investigacion.semilleros-investigacion.download-file-sharepoint', [
+                                                              semillero_investigacion.linea_investigacion.grupo_investigacion_id,
+                                                              semillero_investigacion.linea_investigacion_id,
+                                                              semillero_investigacion.id,
+                                                              'formato_gic_f_021',
+                                                          ])
+                                                    : null
+                                            }
+                                        />
 
-                                <ButtonMui
-                                    onClick={() => (setDialogFormatoStatus(true), setSemilleroInvestigacion(semillero_investigacion), setTipoArchivo('formato_gic_f_021'))}
-                                    className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white !text-[12px] hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full"
-                                    disabled={!semillero_investigacion?.allowed?.to_update}>
-                                    <AutorenewIcon className="mr-2" />
-                                    {semillero_investigacion?.filename.formato_gic_f_021_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 021
-                                </ButtonMui>
-                                <DownloadFile
-                                    label="formato GIC F 032"
-                                    className="mt-10 !p-2"
-                                    filename={semillero_investigacion?.filename.formato_gic_f_032_filename}
-                                    extension={semillero_investigacion?.extension.formato_gic_f_032_extension}
-                                    downloadRoute={
-                                        semillero_investigacion?.formato_gic_f_032
-                                            ? semillero_investigacion?.formato_gic_f_032.includes('http') == true || semillero_investigacion?.formato_gic_f_032.includes('http') == undefined
-                                                ? semillero_investigacion?.formato_gic_f_032
-                                                : route('grupos-investigacion.lineas-investigacion.semilleros-investigacion.download-file-sharepoint', [
-                                                      semillero_investigacion.linea_investigacion.grupo_investigacion_id,
-                                                      semillero_investigacion.linea_investigacion_id,
-                                                      semillero_investigacion.id,
-                                                      'formato_gic_f_032',
-                                                  ])
-                                            : null
-                                    }
-                                />
+                                        <ButtonMui
+                                            onClick={() => (setDialogFormatoStatus(true), setSemilleroInvestigacion(semillero_investigacion), setTipoArchivo('formato_gic_f_021'))}
+                                            className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white !text-[12px] hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full"
+                                            disabled={!semillero_investigacion?.allowed?.to_update}>
+                                            <AutorenewIcon className="mr-2" />
+                                            {semillero_investigacion?.filename.formato_gic_f_021_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 021
+                                        </ButtonMui>
+                                        <DownloadFile
+                                            label="formato GIC F 032"
+                                            className="mt-10 !p-2"
+                                            filename={semillero_investigacion?.filename.formato_gic_f_032_filename}
+                                            extension={semillero_investigacion?.extension.formato_gic_f_032_extension}
+                                            downloadRoute={
+                                                semillero_investigacion?.formato_gic_f_032
+                                                    ? semillero_investigacion?.formato_gic_f_032.includes('http') == true || semillero_investigacion?.formato_gic_f_032.includes('http') == undefined
+                                                        ? semillero_investigacion?.formato_gic_f_032
+                                                        : route('grupos-investigacion.lineas-investigacion.semilleros-investigacion.download-file-sharepoint', [
+                                                              semillero_investigacion.linea_investigacion.grupo_investigacion_id,
+                                                              semillero_investigacion.linea_investigacion_id,
+                                                              semillero_investigacion.id,
+                                                              'formato_gic_f_032',
+                                                          ])
+                                                    : null
+                                            }
+                                        />
 
-                                <ButtonMui
-                                    onClick={() => (setDialogFormatoStatus(true), setSemilleroInvestigacion(semillero_investigacion), setTipoArchivo('formato_gic_f_032'))}
-                                    className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white !text-[12px] hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full"
-                                    disabled={!semillero_investigacion?.allowed?.to_update}>
-                                    <AutorenewIcon className="mr-2" />
-                                    {semillero_investigacion?.filename.formato_gic_f_032_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 032
-                                </ButtonMui>
+                                        <ButtonMui
+                                            onClick={() => (setDialogFormatoStatus(true), setSemilleroInvestigacion(semillero_investigacion), setTipoArchivo('formato_gic_f_032'))}
+                                            className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white !text-[12px] hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full"
+                                            disabled={!semillero_investigacion?.allowed?.to_update}>
+                                            <AutorenewIcon className="mr-2" />
+                                            {semillero_investigacion?.filename.formato_gic_f_032_filename ? 'Reemplazar' : 'Cargar'} formato GIC F 032
+                                        </ButtonMui>
 
-                                <DownloadFile
-                                    label="aval del semillero"
-                                    className="mt-10 !p-2"
-                                    filename={semillero_investigacion?.filename.formato_aval_semillero_filename}
-                                    extension={semillero_investigacion?.extension.formato_aval_semillero_extension}
-                                    downloadRoute={
-                                        semillero_investigacion?.formato_aval_semillero
-                                            ? semillero_investigacion?.formato_aval_semillero.includes('http') == true || semillero_investigacion?.formato_aval_semillero.includes('http') == undefined
-                                                ? semillero_investigacion?.formato_aval_semillero
-                                                : route('grupos-investigacion.lineas-investigacion.semilleros-investigacion.download-file-sharepoint', [
-                                                      semillero_investigacion.linea_investigacion.grupo_investigacion_id,
-                                                      semillero_investigacion.linea_investigacion_id,
-                                                      semillero_investigacion.id,
-                                                      'formato_aval_semillero',
-                                                  ])
-                                            : null
-                                    }
-                                />
+                                        <DownloadFile
+                                            label="aval del semillero"
+                                            className="mt-10 !p-2"
+                                            filename={semillero_investigacion?.filename.formato_aval_semillero_filename}
+                                            extension={semillero_investigacion?.extension.formato_aval_semillero_extension}
+                                            downloadRoute={
+                                                semillero_investigacion?.formato_aval_semillero
+                                                    ? semillero_investigacion?.formato_aval_semillero.includes('http') == true ||
+                                                      semillero_investigacion?.formato_aval_semillero.includes('http') == undefined
+                                                        ? semillero_investigacion?.formato_aval_semillero
+                                                        : route('grupos-investigacion.lineas-investigacion.semilleros-investigacion.download-file-sharepoint', [
+                                                              semillero_investigacion.linea_investigacion.grupo_investigacion_id,
+                                                              semillero_investigacion.linea_investigacion_id,
+                                                              semillero_investigacion.id,
+                                                              'formato_aval_semillero',
+                                                          ])
+                                                    : null
+                                            }
+                                        />
 
-                                <ButtonMui
-                                    onClick={() => (setDialogFormatoStatus(true), setSemilleroInvestigacion(semillero_investigacion), setTipoArchivo('formato_aval_semillero'))}
-                                    className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white !text-[12px] hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full"
-                                    disabled={!semillero_investigacion?.allowed?.to_update}>
-                                    <AutorenewIcon className="mr-2" />
-                                    {semillero_investigacion?.filename.formato_aval_semillero_filename ? 'Reemplazar' : 'Cargar'} aval del semillero
-                                </ButtonMui>
+                                        <ButtonMui
+                                            onClick={() => (setDialogFormatoStatus(true), setSemilleroInvestigacion(semillero_investigacion), setTipoArchivo('formato_aval_semillero'))}
+                                            className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white !text-[12px] hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full"
+                                            disabled={!semillero_investigacion?.allowed?.to_update}>
+                                            <AutorenewIcon className="mr-2" />
+                                            {semillero_investigacion?.filename.formato_aval_semillero_filename ? 'Reemplazar' : 'Cargar'} aval del semillero
+                                        </ButtonMui>
+                                    </>
+                                )}
                             </TableCell>
 
                             <TableCell>

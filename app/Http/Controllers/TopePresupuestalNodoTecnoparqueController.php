@@ -72,7 +72,6 @@ class TopePresupuestalNodoTecnoparqueController extends Controller
         $tope_presupuestal_tecnoparque->segundoGrupoPresupuestal()->sync($request->segundo_grupo_presupuestal_id);
 
         return back()->with('success', 'El recurso se ha modificado correctamente.');
-
     }
 
     /**

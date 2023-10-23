@@ -80,6 +80,7 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) =>
                                 }
                             />
                             <ButtonMui
+                                disabled={!proyecto?.allowed?.to_update}
                                 onClick={() => (setDialogArchivoStatus(true), setAulaMovil(aula_movil), setTipoArchivo('soat'))}
                                 className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
                                 <AutorenewIcon className="mr-2" />
@@ -100,6 +101,7 @@ const AulaMovil = ({ auth, convocatoria, proyecto, aulas_moviles, ...props }) =>
                                 }
                             />
                             <ButtonMui
+                                disabled={!proyecto?.allowed?.to_update}
                                 onClick={() => (setDialogArchivoStatus(true), setAulaMovil(aula_movil), setTipoArchivo('tecnicomecanica'))}
                                 className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
                                 <AutorenewIcon className="mr-2" />

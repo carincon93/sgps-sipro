@@ -547,6 +547,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('proyectos/{proyecto}/impacto/{impacto}', [ArbolProyectoController::class, 'updateImpacto'])->name('proyectos.impacto');
     Route::delete('proyectos/{proyecto}/impacto/{impacto}/destroy', [ArbolProyectoController::class, 'destroyImpacto'])->name('proyectos.impacto.destroy');
     // Actualiza el impacto en el arbol de objetivos
+    Route::post('proyectos/{proyecto}/efecto-directo/{efecto_directo}/new-resultado', [ArbolProyectoController::class, 'newResultado'])->name('proyectos.new-resultado');
     Route::post('proyectos/{proyecto}/resultado/{resultado}', [ArbolProyectoController::class, 'updateResultado'])->name('proyectos.resultado');
     Route::delete('proyectos/{proyecto}/resultado/{resultado}/destroy', [ArbolProyectoController::class, 'destroyResultado'])->name('proyectos.resultado.destroy');
     // Actualiza el objetivo especifico en el arbol de objetivos
@@ -815,44 +816,40 @@ Route::middleware(['auth', 'verified'])->group(function () {
      * Evaluaciones
      *
      */
+
     Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/proyecto-rol-sennova/{proyecto_rol_sennova}', [ProyectoRolSennovaController::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones.proyecto-rol-sennova.update');
-
-    Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/articulacion', [ArticulacionSennovaController::class, 'updatedArticulacionSennovaEvaluacion'])->name('convocatorias.evaluaciones.articulacion-sennova.guardar-evaluacion');
-
     Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/presupuesto', [ProyectoPresupuestoController::class, 'updatedProyectoPresupuestoEvaluacion'])->name('convocatorias.evaluaciones.proyecto-presupuesto.guardar-evaluacion');
     Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/presupuesto/{presupuesto}', [ProyectoPresupuestoController::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones.presupuesto.update');
 
-    Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/edt', [EdtController::class, 'updateEdtEvaluacion'])->name('convocatorias.evaluaciones.edt.guardar-evaluacion');
+    // Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/entidades-aliadas', [EntidadAliadaController::class, 'updateEntidadAliadaEvaluacion'])->name('convocatorias.evaluaciones.entidades-aliadas.guardar-evaluacion');
 
-    Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/inventario-equipos', [InventarioEquipoController::class, 'updateInventarioEquiposEvaluacion'])->name('convocatorias.evaluaciones.inventario-equipos.guardar-evaluacion');
-
-    Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/anexos', [ProyectoAnexoController::class, 'updateAnexosEvaluacion'])->name('convocatorias.evaluaciones.anexos.guardar-evaluacion');
-
-    Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/entidades-aliadas/verificar', [EntidadAliadaController::class, 'validarEntidadAliada'])->name('convocatorias.evaluaciones.entidades-aliadas.verificar');
-    Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/entidades-aliadas', [EntidadAliadaController::class, 'updateEntidadAliadaEvaluacion'])->name('convocatorias.evaluaciones.entidades-aliadas.guardar-evaluacion');
-
-    Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/actividades', [ActividadController::class, 'updateMetodologiaEvaluacion'])->name('convocatorias.evaluaciones.actividades.guardar-evaluacion');
-
-    Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/productos', [ProductoController::class, 'updateProductosEvaluacion'])->name('convocatorias.evaluaciones.productos.guardar-evaluacion');
-
-    Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/analisis-riesgos', [AnalisisRiesgoController::class, 'updateAnalisisRiesgosEvaluacion'])->name('convocatorias.evaluaciones.analisis-riesgos.guardar-evaluacion');
-
-    Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/arbol-problemas', [ArbolProyectoController::class, 'updateArbolProblemasEvaluacion'])->name('convocatorias.evaluaciones.arbol-problemas.guardar-evaluacion');
-    Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/arbol-objetivos', [ArbolProyectoController::class, 'updateArbolObjetivosEvaluacion'])->name('convocatorias.evaluaciones.arbol-objetivos.guardar-evaluacion');
-
-    Route::get('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/finalizar-evaluacion', [ProyectoController::class, 'summaryEvaluacion'])->name('convocatorias.evaluaciones.summary');
-    Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/cadena-valor', [ProyectoController::class, 'updateCadenaValorEvaluacion'])->name('convocatorias.evaluaciones.cadena-valor.guardar-evaluacion');
-    Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/finalizar-evaluacion', [ProyectoController::class, 'finalizarEvaluacion'])->name('convocatorias.evaluaciones.finish');
+    Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/finalizar-evaluacion', [ProyectoController::class, 'finalizarEvaluacion'])->name('convocatorias.evaluaciones.finalizar');
     Route::put('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/preguntas-finales', [ProyectoController::class, 'preguntasFinales'])->name('convocatorias.evaluaciones.preguntas-finales');
 
-    Route::get('evaluaciones/activas', [EvaluacionController::class, 'activas'])->name('evaluaciones.activas');
+    // Route::get('evaluaciones/activas', [EvaluacionController::class, 'activas'])->name('evaluaciones.activas');
     Route::post('evaluaciones/actualizar-estados-evaluaciones', [EvaluacionController::class, 'udpdateEstadosEvaluaciones'])->name('evaluaciones.update.actualizar-estados-evaluaciones');
     Route::post('convocatorias/evaluaciones/deshabilitar-evaluaciones', [EvaluacionController::class, 'deshabilitarEvaluacionesNoIniciadas'])->name('convocatorias.evaluaciones.deshabilitar');
     Route::post('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/comentarios-generales', [EvaluacionController::class, 'udpdateComentariosGenerales'])->name('convocatorias.evaluaciones.update-comentarios-generales');
     Route::post('convocatorias/{convocatoria}/evaluaciones/{evaluacion}/causales-rechazo', [EvaluacionController::class, 'updateCausalRechazo'])->name('convocatorias.evaluaciones.update-causal-rechazo');
 
+
+    // Evaluación de proyectos de la línea 23
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-7-linea-23', [ProyectoFormulario7Linea23Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-7-linea-23.update');
+    // Evaluación de proyectos de la línea 23
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-9-linea-23', [ProyectoFormulario9Linea23Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-9-linea-23.update');
+    // Evaluación de proyectos de la línea 65
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-1-linea-65', [ProyectoFormulario1Linea65Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-1-linea-65.update');
     // Evaluación de proyectos de la línea 66
-    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/update-evaluacion', [ProyectoFormulario8Linea66Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-proyecto-linea-66.update');
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-8-linea-66', [ProyectoFormulario8Linea66Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-8-linea-66.update');
+    // Evaluación de proyectos de la línea 82
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-6-linea-82', [ProyectoFormulario6Linea82Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-6-linea-82.update');
+    // Evaluación de proyectos de la línea 68
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-12-linea-68', [ProyectoFormulario12Linea68Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-12-linea-68.update');
+    // Evaluación de proyectos de la línea 69
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-5-linea-69', [ProyectoFormulario5Linea69Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-5-linea-69.update');
+    // Evaluación de proyectos de la línea 70
+    Route::put('convocatorias/{convocatoria}/proyectos/{proyecto}/evaluacion-formulario-4-linea-70', [ProyectoFormulario4Linea70Controller::class, 'updateEvaluacion'])->name('convocatorias.evaluaciones-formulario-4-linea-70.update');
+
 
     Route::get('evaluadores', [EvaluacionController::class, 'evaluadores'])->name('evaluadores.index');
     Route::resource('evaluaciones', EvaluacionController::class)->parameters(['evaluaciones' => 'evaluacion'])->except(['show']);

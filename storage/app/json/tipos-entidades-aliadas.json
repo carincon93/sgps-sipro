@@ -2,6 +2,8 @@
     { "value": 1, "label": "Empresa" },
     { "value": 2, "label": "Universidad" },
     { "value": 3, "label": "Entidades sin ánimo de lucro" },
-    { "value": 4, "label": "Otros de Centros de Formación SENA - Articulación Regional" },
-    { "value": 5, "label": "Otra" }
+    { "value": 4, "label": "Otros Centros de Formación SENA - Articulación Regional" },
+    { "value": 5, "label": "Otra" },
+    { "value": 6, "label": "Unidad productiva rural" },
+    { "value": 7, "label": "Institución educativa de media" }
 ]

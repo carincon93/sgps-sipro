@@ -310,12 +310,12 @@
     <hr style="margin: 4rem 0">
 
     <h4>En la ejecución del proyecto se requiere la recolección de especímenes de especies silvestres de la diversidad biológica con fines de elaboración de estudios ambientales (entendiendo como recolección los procesos de remoción o extracción temporal o definitiva de una especie ya sea vegetal o animal del medio natural) Nota: este permiso no se requiere cuando las actividades de recolección se limiten a investigaciones científicas o con fines industriales, comerciales o de prospección biológica.</h4>
-    <p style="white-space: pre-wrap">{{ $datos->recoleccion_especimenes ? 'Si' : 'No' }}</p>
+    <p style="white-space: pre-wrap">{{ $datos->recoleccion_especimenes == 1 ? 'Si' : 'No' }}</p>
 
     @if ($datos->aporta_a_campesena)
     <hr style="margin: 4rem 0">
     <p style="font-weight: bold;">¿El proyecto aporta a CAMPESENA?</p>
-    <p style="white-space: pre-wrap">{{ $datos->aporta_a_campesena ? 'Si' : 'No' }}</p>
+    <p style="white-space: pre-wrap">{{ $datos->aporta_a_campesena == 1 ? 'Si' : 'No' }}</p>
     @endif
 
     @if ($datos->video)
@@ -349,6 +349,7 @@
     <hr style="margin: 4rem 0">
     <p style="font-weight: bold;">¿El proyecto tendrá impacto regional?</p>
     <p style="white-space: pre-wrap">{{ $datos->justificacion_impacto_regional ? 'Si' : 'No' }}</p>
+    <p style="white-space: pre-wrap">{{ $datos->justificacion_impacto_regional }}</p>
     @endif
 
     <hr style="margin: 4rem 0">
@@ -709,6 +710,37 @@
 
         <hr style="margin: 4rem 0">
 
+        <h1>Indicadores</h1>
+
+        <p style="font-weight: bold;">a) Productividad y competitividad del (los) beneficiario(s) final(es) del proyecto</p>
+        <p style="white-space: pre-wrap">{{ $datos->productividad_beneficiaros ? $datos->productividad_beneficiaros : 'Sin información registrada' }}</p>
+
+        <p style="font-weight: bold;">b) Generación o mantenimiento de empleo por parte del (los) beneficiario(s) del proyecto</p>
+        <p style="white-space: pre-wrap">{{ $datos->generacion_empleo_beneficiarios ? $datos->generacion_empleo_beneficiarios : 'Sin información registrada' }}</p>
+
+        <p style="font-weight: bold;">c) Creación de nuevas empresas y diseño y desarrollo de nuevos productos, procesos o servicios</p>
+        <p style="white-space: pre-wrap">{{ $datos->creacion_nuevos_desarrollos ? $datos->creacion_nuevos_desarrollos : 'Sin información registrada' }}</p>
+
+        <p style="font-weight: bold;">d) Incorporación de nuevos conocimientos y competencias laborales en el talento humano en la(s) empresa(s) beneficiaria(s) del proyecto</p>
+        <p style="white-space: pre-wrap">{{ $datos->generacion_conocimientos_beneficiarios ? $datos->generacion_conocimientos_beneficiarios : 'Sin información registrada' }}</p>
+
+        <p style="font-weight: bold;">e) Generación de valor agregado en la(s) entidad(es) beneficiaria(s) del proyecto</p>
+        <p style="white-space: pre-wrap">{{ $datos->generacion_valor_beneficiarios ? $datos->generacion_valor_beneficiarios : 'Sin información registrada' }}</p>
+
+        <p style="font-weight: bold;">f) Fortalecimiento de programas de formación del Sena</p>
+        <p style="white-space: pre-wrap">{{ $datos->fortalecimiento_programas_formacion ? $datos->fortalecimiento_programas_formacion : 'Sin información registrada' }}</p>
+
+        <p style="font-weight: bold;">g) Transferencia de tecnologías al Sena y a los sectores productivos relacionados</p>
+        <p style="white-space: pre-wrap">{{ $datos->transferencia_tecnologias ? $datos->transferencia_tecnologias : 'Sin información registrada' }}</p>
+
+        <p style="font-weight: bold;"> h) Cobertura, calidad y pertinencia de la formación</p>
+        <p style="white-space: pre-wrap">{{ $datos->calidad_formacion ? $datos->calidad_formacion : 'Sin información registrada' }}</p>
+
+        <p style="font-weight: bold;">i)Impacto ambiental de Proyectos de Innovación e investigación aplicada</p>
+        <p style="white-space: pre-wrap">{{ $datos->impacto_ambiental_proyectos ? $datos->impacto_ambiental_proyectos : 'Sin información registrada' }}</p>
+
+        <hr style="margin: 4rem 0">
+
         <div class="border page_break">
             <h2 style="text-align:center">Productos</h2>
 
@@ -978,9 +1010,13 @@
 
                             @foreach ($presupuesto->viaticosMunicipio as $viatico)
                             <ul>
+                                @if ($viatico->municipios)
                                 @foreach ($viatico->municipios as $municipio)
                                 <li>{{ $municipios->firstWhere('id', $municipio)->nombre }}</li>
                                 @endforeach
+                                @else
+                                <li>No se ha seleccionado ningún municipio
+                                    @endif
                             </ul>
 
                             <p><strong>Distancia aprox. municipios:</strong> {{ $distancias_municipios->firstWhere('value', $viatico->distancia_municipio)['label'] }}</p>

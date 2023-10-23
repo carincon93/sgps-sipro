@@ -90,7 +90,6 @@ const Form = ({ method = '', setDialogStatus, convocatoria, tope_rol_sennova_for
                                         value={form.data.meses_maximos}
                                         onChange={(e) => form.setData('meses_maximos', e.target.value)}
                                         label="Número máximo de meses de vinculación"
-                                        required
                                     />
                                 </Grid>
                             </Grid>

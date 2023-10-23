@@ -114,7 +114,7 @@ class SelectHelper
         $query->where('convocatoria_presupuesto.convocatoria_id', $convocatoria_id);
         $query->where('convocatoria_presupuesto.tipo_formulario_convocatoria_id', $tipo_formulario_convocatoria_id);
 
-        if ($tipo_formulario_convocatoria_id == 17) {
+        if ($tipo_formulario_convocatoria_id == 17 && $nodo_tecnoparque_id) {
             $ids = DB::table('topes_presupuestales_tecnoparque_conceptos_sena')->select('topes_presupuestales_tecnoparque_conceptos_sena.segundo_grupo_presupuestal_id')
                 ->join('topes_presupuestales_nodos_tecnoparque', 'topes_presupuestales_tecnoparque_conceptos_sena.tope_presupuestal_nodo_tecnoparque_id', 'topes_presupuestales_nodos_tecnoparque.id')
                 ->where('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id', $nodo_tecnoparque_id)

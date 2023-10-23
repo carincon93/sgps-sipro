@@ -54,6 +54,8 @@ const Index = ({ auth, evaluaciones, evaluadores, proyectos, allowed_to_create }
                                     {evaluacion.proyecto.codigo}
                                     <Divider />
                                     <small>Convocatoria: {evaluacion.proyecto.convocatoria.year}</small>
+                                    <Divider />
+                                    <small>Formulario: {evaluacion.proyecto.tipo_formulario_convocatoria_id}</small>
                                 </TableCell>
                                 <TableCell>
                                     <p className="uppercase line-clamp-4">
@@ -143,30 +145,38 @@ const Index = ({ auth, evaluaciones, evaluadores, proyectos, allowed_to_create }
                                     <MenuMui text={<MoreVertIcon />}>
                                         {evaluacion.id !== evaluacion_to_destroy ? (
                                             <div>
-                                                <MenuItem disabled={true}>Ver evaluación</MenuItem>
-
-                                                <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setEvaluacion(evaluacion))} disabled={!is_super_admin}>
-                                                    Editar
-                                                </MenuItem>
-
                                                 <MenuItem
-                                                    onClick={(e) =>
-                                                        router.put(
-                                                            route('evaluaciones.habilitar-evaluacion'),
-                                                            {
-                                                                user_id: evaluacion?.id,
-                                                                habilitado: !evaluacion.habilitado,
-                                                            },
-                                                            {
-                                                                preserveScroll: true,
-                                                            },
+                                                    onClick={() =>
+                                                        router.visit(
+                                                            route('convocatorias.proyectos.edit', [evaluacion.proyecto.convocatoria_id, evaluacion.proyecto_id, { evaluacion_id: evaluacion?.id }]),
                                                         )
-                                                    }>
-                                                    {evaluacion.habilitado ? 'Deshabilitar' : 'Habilitar'}
+                                                    }
+                                                    // disabled={!is_super_admin}
+                                                >
+                                                    {evaluacion.finalizado ? 'Ver evaluación' : 'Evaluar'}
                                                 </MenuItem>
 
                                                 {is_super_admin && (
                                                     <>
+                                                        <MenuItem onClick={() => (setDialogStatus(true), setMethod('PUT'), setEvaluacion(evaluacion))} disabled={!is_super_admin}>
+                                                            Editar asignación y estado
+                                                        </MenuItem>
+
+                                                        <MenuItem
+                                                            onClick={(e) =>
+                                                                router.put(
+                                                                    route('convocatorias.evaluaciones.finalizar', [evaluacion.proyecto.convocatoria_id, evaluacion.id]),
+                                                                    {
+                                                                        habilitado: !evaluacion.habilitado,
+                                                                    },
+                                                                    {
+                                                                        preserveScroll: true,
+                                                                    },
+                                                                )
+                                                            }>
+                                                            {evaluacion.habilitado ? 'Deshabilitar' : 'Habilitar'}
+                                                        </MenuItem>
+
                                                         <Divider />
                                                         <MenuItem
                                                             onClick={() => {

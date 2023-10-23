@@ -25,14 +25,14 @@ class EvaluacionRequest extends FormRequest
     {
         if ($this->isMethod('PUT')) {
             return [
-                'user_id'       => ['required', 'integer', 'min:0', 'max:2147483647', 'exists:users,id'],
+                'user_id'       => ['required', 'numeric', 'min:0', 'max:2147483647', 'exists:users,id'],
                 'habilitado'    => ['required', 'boolean'],
                 // 'finalizado'    => ['required', 'boolean'],
             ];
         } else {
             return [
-                'proyecto_id'   => ['required', 'integer', 'min:0', 'max:2147483647', 'exists:proyectos,id'],
-                'user_id'       => ['required', 'integer', 'min:0', 'max:2147483647', 'exists:users,id'],
+                'proyecto_id'   => ['required', 'numeric', 'min:0', 'max:2147483647', 'exists:proyectos,id'],
+                'user_id'       => ['required', 'numeric', 'min:0', 'max:2147483647', 'exists:users,id'],
                 'habilitado'    => ['required', 'boolean'],
                 // 'finalizado'    => ['required', 'boolean'],
             ];

@@ -14,6 +14,7 @@ import TextInput from '@/Components/TextInput'
 import { router, useForm, usePage } from '@inertiajs/react'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import { checkRole } from '@/Utils'
 
 const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo_participante, autor_principal }) => {
     const { props: page_props } = usePage()
@@ -38,7 +39,7 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
     })
 
     const submitNuevoParticipante = () => {
-        if (proyecto.allowed.to_update) {
+        if (proyecto.allowed.to_update || checkRole(auth_user, [1, 4, 5, 17, 18, 19])) {
             form_nuevo_participante.post(
                 route('convocatorias.proyectos.participantes.users.link', {
                     proyecto: proyecto.id,
@@ -163,8 +164,8 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                                                 preserveScroll: true,
                                             })
                                         }
-                                        disabled={!proyecto.allowed.to_update}>
-                                        Convertir en autor principal
+                                        disabled={!proyecto.allowed.to_update && !checkRole(auth_user, [1, 4, 5, 17, 18, 19])}>
+                                        Convertir en autor(a) principal
                                     </MenuItem>
                                     <Divider />
                                     <MenuItem
@@ -178,7 +179,7 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                                             })
                                             setParticipanteAModificarId(participante.id)
                                         }}
-                                        disabled={!proyecto.allowed.to_update}>
+                                        disabled={!proyecto.allowed.to_update && !checkRole(auth_user, [1, 4, 5, 17, 18, 19])}>
                                         Editar
                                     </MenuItem>
                                     <MenuItem
@@ -192,7 +193,11 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                                                 { preserveScroll: true },
                                             )
                                         }
-                                        disabled={(!proyecto.allowed.to_update && auth_user.id != participante.id) || (!proyecto.allowed.to_update && !participante.formulador)}>
+                                        disabled={
+                                            (!proyecto.allowed.to_update && auth_user.id != participante.id) ||
+                                            (!proyecto.allowed.to_update && !participante.formulador) ||
+                                            !checkRole(auth_user, [1, 4, 5, 17, 18, 19])
+                                        }>
                                         Quitar
                                     </MenuItem>
                                 </MenuMui>
@@ -285,7 +290,7 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                                         onClick={() => {
                                             form_nuevo_participante.setData('user_id', nuevo_participante.id)
                                         }}
-                                        disabled={form_nuevo_participante.processing || !proyecto.allowed.to_update}>
+                                        disabled={form_nuevo_participante.processing || (!proyecto.allowed.to_update && !checkRole(auth_user, [1, 4, 5, 17, 18, 19]))}>
                                         Vincular
                                     </PrimaryButton>
                                 </TableCell>

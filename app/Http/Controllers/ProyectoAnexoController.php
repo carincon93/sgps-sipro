@@ -31,6 +31,11 @@ class ProyectoAnexoController extends Controller
             return abort(404);
         }
 
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+        }
+
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
@@ -42,10 +47,10 @@ class ProyectoAnexoController extends Controller
             'evaluacion'            =>  Evaluacion::find(request()->evaluacion_id),
             'proyecto_anexo'        =>  $proyecto->proyectoAnexo()->select('proyecto_anexo.*', 'anexos.nombre')->join('convocatoria_anexos', 'proyecto_anexo.convocatoria_anexo_id', 'convocatoria_anexos.id')->join('anexos', 'convocatoria_anexos.anexo_id', 'anexos.id')->get(),
             'convocatoria_anexos'   =>  ConvocatoriaAnexo::where('convocatoria_id', $convocatoria->id)
-                                        ->where('tipo_formulario_convocatoria_id', $proyecto->tipo_formulario_convocatoria_id)
-                                        ->where('habilitado', true)
-                                        ->with('anexo')
-                                        ->get(),
+                ->where('tipo_formulario_convocatoria_id', $proyecto->tipo_formulario_convocatoria_id)
+                ->where('habilitado', true)
+                ->with('anexo')
+                ->get(),
             'mime_types'            => json_decode(Storage::get('json/mime-types.json'), true),
         ]);
     }
@@ -158,54 +163,5 @@ class ProyectoAnexoController extends Controller
         $sharepoint_path = $proyecto_anexo[$tipo_archivo];
 
         return SharepointHelper::downloadFile($sharepoint_path);
-    }
-
-    /**
-     * updateAnexosEvaluacion
-     *
-     * @param  mixed $request
-     * @param  mixed $convocatoria
-     * @param  mixed $evaluacion
-     * @return void
-     */
-    public function updateAnexosEvaluacion(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion)
-    {
-        $this->authorize('modificar-evaluacion-autor', $evaluacion);
-
-        switch ($evaluacion) {
-            case $evaluacion->evaluacionProyectoFormulario8Linea66()->exists():
-                $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
-                    'anexos_comentario'   => $request->anexos_requiere_comentario == false ? $request->anexos_comentario : null
-                ]);
-                break;
-            case $evaluacion->evaluacionProyectoFormulario1Linea65()->exists():
-                $evaluacion->evaluacionProyectoFormulario1Linea65()->update([
-                    'anexos_comentario'   => $request->anexos_requiere_comentario == false ? $request->anexos_comentario : null
-                ]);
-                break;
-            case $evaluacion->evaluacionProyectoFormulario4Linea70()->exists():
-                $evaluacion->evaluacionProyectoFormulario4Linea70()->update([
-                    'anexos_comentario'   => $request->anexos_requiere_comentario == false ? $request->anexos_comentario : null
-                ]);
-                break;
-            case $evaluacion->evaluacionProyectoFormulario5Linea69()->exists():
-                $evaluacion->evaluacionProyectoFormulario5Linea69()->update([
-                    'anexos_comentario'   => $request->anexos_requiere_comentario == false ? $request->anexos_comentario : null
-                ]);
-                break;
-            case $evaluacion->evaluacionProyectoFormulario12Linea68()->exists():
-                $evaluacion->evaluacionProyectoFormulario12Linea68()->update([
-                    'anexos_comentario'                     => $request->anexos_requiere_comentario == false ? $request->anexos_comentario : null,
-                    'video_comentario'                      => $request->video_requiere_comentario == false ? $request->video_comentario : null,
-                    'especificaciones_area_comentario'      => $request->especificaciones_area_requiere_comentario == false ? $request->especificaciones_area_comentario : null,
-                ]);
-                break;
-            default:
-                break;
-        }
-
-        $evaluacion->save();
-
-        return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 }

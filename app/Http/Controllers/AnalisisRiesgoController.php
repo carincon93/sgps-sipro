@@ -26,6 +26,11 @@ class AnalisisRiesgoController extends Controller
             return abort(404);
         }
 
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+        }
+
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
@@ -36,7 +41,7 @@ class AnalisisRiesgoController extends Controller
             'proyecto'               => $proyecto,
             'evaluacion'             => Evaluacion::find(request()->evaluacion_id),
             'analisis_riesgos'       => AnalisisRiesgo::where('proyecto_id', $proyecto->id)->orderBy('descripcion', 'ASC')
-                                            ->filterAnalisisRiesgo(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+                ->filterAnalisisRiesgo(request()->only('search'))->paginate()->appends(['search' => request()->search]),
             'niveles_riesgo'         => json_decode(Storage::get('json/niveles-riesgo.json'), true),
             'tipos_riesgo'           => json_decode(Storage::get('json/tipos-riesgo.json'), true),
             'probabilidades_riesgo'  => json_decode(Storage::get('json/probabilidades-riesgo.json'), true),
@@ -145,63 +150,5 @@ class AnalisisRiesgoController extends Controller
         $analisis_riesgo->delete();
 
         return redirect()->route('convocatorias.proyectos.analisis-riesgos.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha eliminado correctamente.');
-    }
-
-    /**
-     * updateAnalisisRiesgosEvaluacion
-     *
-     * @param  mixed $request
-     * @param  mixed $convocatoria
-     * @param  mixed $evaluacion
-     * @return void
-     */
-    public function updateAnalisisRiesgosEvaluacion(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion)
-    {
-        $this->authorize('modificar-evaluacion-autor', $evaluacion);
-
-        switch ($evaluacion) {
-            case $evaluacion->evaluacionProyectoFormulario8Linea66()->exists():
-                $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
-                    'analisis_riesgos_puntaje'      => $request->analisis_riesgos_puntaje,
-                    'analisis_riesgos_comentario'   => $request->analisis_riesgos_requiere_comentario == false ? $request->analisis_riesgos_comentario : null
-                ]);
-                break;
-            case $evaluacion->evaluacionProyectoFormulario1Linea65()->exists():
-                $evaluacion->evaluacionProyectoFormulario1Linea65()->update([
-                    'analisis_riesgos_puntaje'      => $request->analisis_riesgos_puntaje,
-                    'analisis_riesgos_comentario'   => $request->analisis_riesgos_requiere_comentario == false ? $request->analisis_riesgos_comentario : null
-                ]);
-                break;
-
-            case $evaluacion->evaluacionProyectoFormulario4Linea70()->exists():
-                $evaluacion->evaluacionProyectoFormulario4Linea70()->update([
-                    'analisis_riesgos_comentario'   => $request->analisis_riesgos_requiere_comentario == false ? $request->analisis_riesgos_comentario : null
-                ]);
-                break;
-            case $evaluacion->evaluacionProyectoFormulario5Linea69()->exists():
-                $evaluacion->evaluacionProyectoFormulario5Linea69()->update([
-                    'analisis_riesgos_comentario'   => $request->analisis_riesgos_requiere_comentario == false ? $request->analisis_riesgos_comentario : null
-                ]);
-                break;
-
-            case $evaluacion->evaluacionProyectoFormulario12Linea68()->exists():
-                $evaluacion->evaluacionProyectoFormulario12Linea68()->update([
-                    'riesgos_objetivo_general_puntaje'      => $request->riesgos_objetivo_general_puntaje,
-                    'riesgos_objetivo_general_comentario'   => $request->riesgos_objetivo_general_requiere_comentario == false ? $request->riesgos_objetivo_general_comentario : null,
-
-                    'riesgos_productos_puntaje'             => $request->riesgos_productos_puntaje,
-                    'riesgos_productos_comentario'          => $request->riesgos_productos_requiere_comentario == false ? $request->riesgos_productos_comentario : null,
-
-                    'riesgos_actividades_puntaje'           => $request->riesgos_actividades_puntaje,
-                    'riesgos_actividades_comentario'        => $request->riesgos_actividades_requiere_comentario == false ? $request->riesgos_actividades_comentario : null,
-                ]);
-                break;
-            default:
-                break;
-        }
-
-        $evaluacion->save();
-
-        return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 }

@@ -22,37 +22,12 @@ class EvaluacionController extends Controller
      */
     public function index()
     {
-        $this->authorize('viewAny', [Evaluacion::class]);
+        // $this->authorize('viewAny', [Evaluacion::class]);
 
         return Inertia::render('Evaluaciones/Index', [
-            'evaluaciones'          => Evaluacion::with(
-                [
-                    'proyecto.proyectoFormulario1Linea65:id,titulo,fecha_inicio,fecha_finalizacion',
-                    'proyecto.proyectoFormulario3Linea61:id,titulo,fecha_inicio,fecha_finalizacion',
-                    'proyecto.proyectoFormulario4Linea70:id,tecnoacademia_id,fecha_inicio,fecha_finalizacion',
-                    'proyecto.proyectoFormulario5Linea69:id,nodo_tecnoparque_id,fecha_inicio,fecha_finalizacion',
-                    'proyecto.proyectoFormulario6Linea82:id,titulo,fecha_inicio,fecha_finalizacion',
-                    'proyecto.proyectoFormulario7Linea23:id,titulo,fecha_inicio,fecha_finalizacion',
-                    'proyecto.proyectoFormulario8Linea66:id,titulo,fecha_inicio,fecha_finalizacion',
-                    'proyecto.proyectoFormulario9Linea23:id,titulo,fecha_inicio,fecha_finalizacion',
-                    'proyecto.proyectoFormulario10Linea69:id,hub_innovacion_id,fecha_inicio,fecha_finalizacion',
-                    'proyecto.proyectoFormulario11Linea83:id,titulo,fecha_inicio,fecha_finalizacion',
-                    'proyecto.proyectoFormulario12Linea68:id,titulo,fecha_inicio,fecha_finalizacion',
-                    'proyecto.proyectoFormulario13Linea65:id,titulo,fecha_inicio,fecha_finalizacion',
-                    'proyecto.proyectoFormulario15Linea65:id,titulo,fecha_inicio,fecha_finalizacion',
-                    'proyecto.proyectoFormulario16Linea65:id,titulo,fecha_inicio,fecha_finalizacion',
-                    'proyecto.proyectoFormulario17Linea69:id,nodo_tecnoparque_id,fecha_inicio,fecha_finalizacion',
-                    'proyecto.convocatoria',
-                    'proyecto.centroFormacion',
-                    'evaluador:id,nombre'
-                ]
-            )
-                ->orderBy('habilitado', 'Desc')
-                ->orderBy('iniciado', 'ASC')
-                ->orderBy('proyecto_id', 'ASC')
-                ->filterEvaluacion(request()->only('search', 'estado'))->paginate(15)->appends(['search' => request()->search, 'estado' => request()->estado]),
+            'evaluaciones'          => Evaluacion::getEvaluacionesPorRol()->appends(['search' => request()->search, 'estado' => request()->estado]),
             'proyectos'             => DB::table('proyectos')->selectRaw("id as value, concat('SGPS-', id + 8000, '-SIPRO') as label")->orderBy('id', 'ASC')->get(),
-            'evaluadores'           => User::select('users.id as value', 'users.nombre as label')->join('model_has_roles', 'users.id', 'model_has_roles.model_id')->join('roles', 'model_has_roles.role_id', 'roles.id')->where('users.habilitado', true)->whereIn('roles.id', [11, 33])->orderBy('users.nombre', 'ASC')->get(),
+            'evaluadores'           => User::select('users.id as value', 'users.nombre as label')->join('model_has_roles', 'users.id', 'model_has_roles.model_id')->join('roles', 'model_has_roles.role_id', 'roles.id')->where('users.habilitado', true)->whereIn('roles.id', [11, 33])->distinct('users.id', 'users.nombre')->orderBy('users.nombre', 'ASC')->get(),
             'allowed_to_create'     => Gate::inspect('create', [Evaluacion::class])->allowed()
         ]);
     }
@@ -92,19 +67,16 @@ class EvaluacionController extends Controller
 
         $evaluacion->save();
 
-        $proyecto->finalizado = true;
+        $proyecto->finalizado  = true;
         $proyecto->modificable = false;
         if ($evaluacion->modificable) {
             $proyecto->en_evaluacion = true;
         }
+
         $proyecto->save();
 
         switch ($proyecto) {
-            case $proyecto->proyectoFormulario8Linea66()->exists():
-                $evaluacion->evaluacionProyectoFormulario8Linea66()->create([
-                    'id' => $evaluacion->id
-                ]);
-                break;
+
             case $proyecto->proyectoFormulario4Linea70()->exists():
                 $evaluacion->evaluacionProyectoFormulario4Linea70()->create([
                     'id' => $evaluacion->id
@@ -112,6 +84,16 @@ class EvaluacionController extends Controller
                 break;
             case $proyecto->proyectoFormulario5Linea69()->exists():
                 $evaluacion->evaluacionProyectoFormulario5Linea69()->create([
+                    'id' => $evaluacion->id
+                ]);
+                break;
+            case $proyecto->proyectoFormulario6Linea82()->exists():
+                $evaluacion->evaluacionProyectoFormulario6Linea82()->create([
+                    'id' => $evaluacion->id
+                ]);
+                break;
+            case $proyecto->proyectoFormulario8Linea66()->exists():
+                $evaluacion->evaluacionProyectoFormulario8Linea66()->create([
                     'id' => $evaluacion->id
                 ]);
                 break;
@@ -171,7 +153,7 @@ class EvaluacionController extends Controller
 
         $evaluacion->habilitado  = $request->habilitado;
 
-        if ($request->modificable) {
+        if ($request->filled('modificable')) {
             $evaluacion->proyecto()->update(['modificable' => false, 'finalizado' => true, 'habilitado_para_evaluar' => true, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
             $evaluacion->modificable = $request->modificable;
             $evaluacion->finalizado  = false;

@@ -357,8 +357,11 @@ const Actividades = ({
                                         <p className="line-clamp-3">{actividad.objetivo_especifico != null ? actividad.objetivo_especifico.descripcion : 'Aún no ha registrado la descripción'}</p>
 
                                         {actividad.resultado_id == null && (
-                                            <AlertMui className="mt-2" severity="error">
-                                                La actividad no tiene un resultado asociado. Por favor, edítela y, complete la información.
+                                            <AlertMui className="mt-4" severity="error">
+                                                Por favor, asocie el resultado.{' '}
+                                                <small className="leading-4 mt-2 block">
+                                                    <strong>¿Cómo se hace?</strong> Clic en <strong>Acciones {'>'} Editar</strong> y, complete la información.
+                                                </small>
                                             </AlertMui>
                                         )}
                                     </TableCell>

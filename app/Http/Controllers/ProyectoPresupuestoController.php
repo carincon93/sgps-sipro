@@ -38,6 +38,12 @@ class ProyectoPresupuestoController extends Controller
             return abort(404);
         }
 
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+        }
+
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones');
+        $proyecto->load('proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
 
         return Inertia::render('Convocatorias/Proyectos/ProyectoPresupuesto/Index', [
@@ -281,6 +287,7 @@ class ProyectoPresupuestoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
 
         return Inertia::render('Convocatorias/Proyectos/Municipios/Index', [

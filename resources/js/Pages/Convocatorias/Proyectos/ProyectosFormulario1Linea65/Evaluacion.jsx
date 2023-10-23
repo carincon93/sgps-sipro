@@ -14,98 +14,93 @@ import { Divider, Grid } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 
 const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEvaluacionStatus, ...props }) => {
-    const evaluacion_proyecto_formulario6_line82 = evaluacion.evaluacion_proyecto_formulario6_linea82 ?? evaluacion
+    const evaluacion_proyecto_formulario1_linea65 = evaluacion.evaluacion_proyecto_formulario1_linea65 ?? evaluacion
 
     const form = useForm({
         evaluacion_id: evaluacion?.id,
         clausula_confidencialidad: evaluacion?.clausula_confidencialidad ?? evaluacion?.evaluacion?.clausula_confidencialidad,
-        titulo_puntaje: evaluacion_proyecto_formulario6_line82?.titulo_puntaje,
-        titulo_comentario: evaluacion_proyecto_formulario6_line82?.titulo_comentario ? evaluacion_proyecto_formulario6_line82?.titulo_comentario : '',
-        titulo_requiere_comentario: evaluacion_proyecto_formulario6_line82?.titulo_comentario == null ? true : false,
-        entidad_aliada_puntaje: evaluacion_proyecto_formulario6_line82?.entidad_aliada_puntaje,
-        video_puntaje: evaluacion_proyecto_formulario6_line82?.video_puntaje,
-        video_comentario: evaluacion_proyecto_formulario6_line82?.video_comentario ? evaluacion_proyecto_formulario6_line82?.video_comentario : '',
-        video_requiere_comentario: evaluacion_proyecto_formulario6_line82?.video_comentario == null ? true : false,
+        titulo_puntaje: evaluacion_proyecto_formulario1_linea65?.titulo_puntaje,
+        titulo_comentario: evaluacion_proyecto_formulario1_linea65?.titulo_comentario ? evaluacion_proyecto_formulario1_linea65?.titulo_comentario : '',
+        titulo_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.titulo_comentario == null ? true : false,
+        entidad_aliada_puntaje: evaluacion_proyecto_formulario1_linea65?.entidad_aliada_puntaje,
+        video_puntaje: evaluacion_proyecto_formulario1_linea65?.video_puntaje,
+        video_comentario: evaluacion_proyecto_formulario1_linea65?.video_comentario ? evaluacion_proyecto_formulario1_linea65?.video_comentario : '',
+        video_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.video_comentario == null ? true : false,
 
-        entidad_aliada_comentario: evaluacion_proyecto_formulario6_line82?.entidad_aliada_comentario ? evaluacion_proyecto_formulario6_line82?.entidad_aliada_comentario : '',
-        entidad_aliada_requiere_comentario: evaluacion_proyecto_formulario6_line82?.entidad_aliada_comentario == null ? true : false,
+        entidad_aliada_comentario: evaluacion_proyecto_formulario1_linea65?.entidad_aliada_comentario ? evaluacion_proyecto_formulario1_linea65?.entidad_aliada_comentario : '',
+        entidad_aliada_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.entidad_aliada_comentario == null ? true : false,
 
-        resumen_puntaje: evaluacion_proyecto_formulario6_line82?.resumen_puntaje,
-        resumen_comentario: evaluacion_proyecto_formulario6_line82?.resumen_comentario ? evaluacion_proyecto_formulario6_line82?.resumen_comentario : '',
-        resumen_requiere_comentario: evaluacion_proyecto_formulario6_line82?.resumen_comentario == null ? true : false,
-        problema_central_puntaje: evaluacion_proyecto_formulario6_line82?.problema_central_puntaje,
-        problema_central_comentario: evaluacion_proyecto_formulario6_line82?.problema_central_comentario ? evaluacion_proyecto_formulario6_line82?.problema_central_comentario : '',
-        problema_central_requiere_comentario: evaluacion_proyecto_formulario6_line82?.problema_central_comentario == null ? true : false,
-        resultados_puntaje: evaluacion_proyecto_formulario6_line82?.resultados_puntaje,
-        resultados_comentario: evaluacion_proyecto_formulario6_line82?.resultados_comentario ? evaluacion_proyecto_formulario6_line82?.resultados_comentario : '',
-        resultados_requiere_comentario: evaluacion_proyecto_formulario6_line82?.resultados_comentario == null ? true : false,
-        objetivos_puntaje: evaluacion_proyecto_formulario6_line82?.objetivos_puntaje,
-        objetivos_comentario: evaluacion_proyecto_formulario6_line82?.objetivos_comentario ? evaluacion_proyecto_formulario6_line82?.objetivos_comentario : '',
-        objetivos_requiere_comentario: evaluacion_proyecto_formulario6_line82?.objetivos_comentario == null ? true : false,
-        metodologia_puntaje: evaluacion_proyecto_formulario6_line82?.metodologia_puntaje,
-        metodologia_comentario: evaluacion_proyecto_formulario6_line82?.metodologia_comentario ? evaluacion_proyecto_formulario6_line82?.metodologia_comentario : '',
-        metodologia_requiere_comentario: evaluacion_proyecto_formulario6_line82?.metodologia_comentario == null ? true : false,
-        productos_puntaje: evaluacion_proyecto_formulario6_line82?.productos_puntaje,
-        productos_comentario: evaluacion_proyecto_formulario6_line82?.productos_comentario ? evaluacion_proyecto_formulario6_line82?.productos_comentario : '',
-        productos_requiere_comentario: evaluacion_proyecto_formulario6_line82?.productos_comentario == null ? true : false,
-        cadena_valor_puntaje: evaluacion_proyecto_formulario6_line82?.cadena_valor_puntaje,
-        cadena_valor_comentario: evaluacion_proyecto_formulario6_line82?.cadena_valor_comentario ? evaluacion_proyecto_formulario6_line82?.cadena_valor_comentario : '',
-        cadena_valor_requiere_comentario: evaluacion_proyecto_formulario6_line82?.cadena_valor_comentario == null ? true : false,
-        analisis_riesgos_puntaje: evaluacion_proyecto_formulario6_line82?.analisis_riesgos_puntaje,
-        analisis_riesgos_comentario: evaluacion_proyecto_formulario6_line82?.analisis_riesgos_comentario ? evaluacion_proyecto_formulario6_line82?.analisis_riesgos_comentario : '',
-        analisis_riesgos_requiere_comentario: evaluacion_proyecto_formulario6_line82?.analisis_riesgos_comentario == null ? true : false,
+        resumen_puntaje: evaluacion_proyecto_formulario1_linea65?.resumen_puntaje,
+        resumen_comentario: evaluacion_proyecto_formulario1_linea65?.resumen_comentario ? evaluacion_proyecto_formulario1_linea65?.resumen_comentario : '',
+        resumen_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.resumen_comentario == null ? true : false,
+        problema_central_puntaje: evaluacion_proyecto_formulario1_linea65?.problema_central_puntaje,
+        problema_central_comentario: evaluacion_proyecto_formulario1_linea65?.problema_central_comentario ? evaluacion_proyecto_formulario1_linea65?.problema_central_comentario : '',
+        problema_central_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.problema_central_comentario == null ? true : false,
+        resultados_puntaje: evaluacion_proyecto_formulario1_linea65?.resultados_puntaje,
+        resultados_comentario: evaluacion_proyecto_formulario1_linea65?.resultados_comentario ? evaluacion_proyecto_formulario1_linea65?.resultados_comentario : '',
+        resultados_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.resultados_comentario == null ? true : false,
+        objetivos_puntaje: evaluacion_proyecto_formulario1_linea65?.objetivos_puntaje,
+        objetivos_comentario: evaluacion_proyecto_formulario1_linea65?.objetivos_comentario ? evaluacion_proyecto_formulario1_linea65?.objetivos_comentario : '',
+        objetivos_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.objetivos_comentario == null ? true : false,
+        metodologia_puntaje: evaluacion_proyecto_formulario1_linea65?.metodologia_puntaje,
+        metodologia_comentario: evaluacion_proyecto_formulario1_linea65?.metodologia_comentario ? evaluacion_proyecto_formulario1_linea65?.metodologia_comentario : '',
+        metodologia_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.metodologia_comentario == null ? true : false,
+        productos_puntaje: evaluacion_proyecto_formulario1_linea65?.productos_puntaje,
+        productos_comentario: evaluacion_proyecto_formulario1_linea65?.productos_comentario ? evaluacion_proyecto_formulario1_linea65?.productos_comentario : '',
+        productos_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.productos_comentario == null ? true : false,
+        cadena_valor_puntaje: evaluacion_proyecto_formulario1_linea65?.cadena_valor_puntaje,
+        cadena_valor_comentario: evaluacion_proyecto_formulario1_linea65?.cadena_valor_comentario ? evaluacion_proyecto_formulario1_linea65?.cadena_valor_comentario : '',
+        cadena_valor_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.cadena_valor_comentario == null ? true : false,
+        analisis_riesgos_puntaje: evaluacion_proyecto_formulario1_linea65?.analisis_riesgos_puntaje,
+        analisis_riesgos_comentario: evaluacion_proyecto_formulario1_linea65?.analisis_riesgos_comentario ? evaluacion_proyecto_formulario1_linea65?.analisis_riesgos_comentario : '',
+        analisis_riesgos_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.analisis_riesgos_comentario == null ? true : false,
 
-        ortografia_puntaje: evaluacion_proyecto_formulario6_line82?.ortografia_puntaje,
-        ortografia_comentario: evaluacion_proyecto_formulario6_line82?.ortografia_comentario ? evaluacion_proyecto_formulario6_line82?.ortografia_comentario : '',
-        ortografia_requiere_comentario: evaluacion_proyecto_formulario6_line82?.ortografia_comentario == null ? true : false,
-        redaccion_puntaje: evaluacion_proyecto_formulario6_line82?.redaccion_puntaje,
-        redaccion_comentario: evaluacion_proyecto_formulario6_line82?.redaccion_comentario ? evaluacion_proyecto_formulario6_line82?.redaccion_comentario : '',
-        redaccion_requiere_comentario: evaluacion_proyecto_formulario6_line82?.redaccion_comentario == null ? true : false,
-        normas_apa_puntaje: evaluacion_proyecto_formulario6_line82?.normas_apa_puntaje,
-        normas_apa_comentario: evaluacion_proyecto_formulario6_line82?.normas_apa_comentario ? evaluacion_proyecto_formulario6_line82?.normas_apa_comentario : '',
-        normas_apa_requiere_comentario: evaluacion_proyecto_formulario6_line82?.normas_apa_comentario == null ? true : false,
+        ortografia_puntaje: evaluacion_proyecto_formulario1_linea65?.ortografia_puntaje,
+        ortografia_comentario: evaluacion_proyecto_formulario1_linea65?.ortografia_comentario ? evaluacion_proyecto_formulario1_linea65?.ortografia_comentario : '',
+        ortografia_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.ortografia_comentario == null ? true : false,
+        redaccion_puntaje: evaluacion_proyecto_formulario1_linea65?.redaccion_puntaje,
+        redaccion_comentario: evaluacion_proyecto_formulario1_linea65?.redaccion_comentario ? evaluacion_proyecto_formulario1_linea65?.redaccion_comentario : '',
+        redaccion_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.redaccion_comentario == null ? true : false,
+        normas_apa_puntaje: evaluacion_proyecto_formulario1_linea65?.normas_apa_puntaje,
+        normas_apa_comentario: evaluacion_proyecto_formulario1_linea65?.normas_apa_comentario ? evaluacion_proyecto_formulario1_linea65?.normas_apa_comentario : '',
+        normas_apa_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.normas_apa_comentario == null ? true : false,
 
-        justificacion_economia_naranja_requiere_comentario: evaluacion_proyecto_formulario6_line82?.justificacion_economia_naranja_comentario == null ? true : false,
-        justificacion_economia_naranja_comentario: evaluacion_proyecto_formulario6_line82?.justificacion_economia_naranja_comentario
-            ? evaluacion_proyecto_formulario6_line82?.justificacion_economia_naranja_comentario
+        justificacion_economia_naranja_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.justificacion_economia_naranja_comentario == null ? true : false,
+        justificacion_economia_naranja_comentario: evaluacion_proyecto_formulario1_linea65?.justificacion_economia_naranja_comentario
+            ? evaluacion_proyecto_formulario1_linea65?.justificacion_economia_naranja_comentario
             : '',
 
-        justificacion_industria_4_requiere_comentario: evaluacion_proyecto_formulario6_line82?.justificacion_industria_4_comentario == null ? true : false,
-        justificacion_industria_4_comentario: evaluacion_proyecto_formulario6_line82?.justificacion_industria_4_comentario
-            ? evaluacion_proyecto_formulario6_line82?.justificacion_industria_4_comentario
+        justificacion_industria_4_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.justificacion_industria_4_comentario == null ? true : false,
+        justificacion_industria_4_comentario: evaluacion_proyecto_formulario1_linea65?.justificacion_industria_4_comentario
+            ? evaluacion_proyecto_formulario1_linea65?.justificacion_industria_4_comentario
             : '',
 
-        bibliografia_requiere_comentario: evaluacion_proyecto_formulario6_line82?.bibliografia_comentario == null ? true : false,
-        bibliografia_comentario: evaluacion_proyecto_formulario6_line82?.bibliografia_comentario ? evaluacion_proyecto_formulario6_line82?.bibliografia_comentario : '',
+        bibliografia_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.bibliografia_comentario == null ? true : false,
+        bibliografia_comentario: evaluacion_proyecto_formulario1_linea65?.bibliografia_comentario ? evaluacion_proyecto_formulario1_linea65?.bibliografia_comentario : '',
 
-        fechas_requiere_comentario: evaluacion_proyecto_formulario6_line82?.fechas_comentario == null ? true : false,
-        fechas_comentario: evaluacion_proyecto_formulario6_line82?.fechas_comentario ? evaluacion_proyecto_formulario6_line82?.fechas_comentario : '',
+        fechas_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.fechas_comentario == null ? true : false,
+        fechas_comentario: evaluacion_proyecto_formulario1_linea65?.fechas_comentario ? evaluacion_proyecto_formulario1_linea65?.fechas_comentario : '',
 
-        justificacion_politica_discapacidad_requiere_comentario: evaluacion_proyecto_formulario6_line82?.justificacion_politica_discapacidad_comentario == null ? true : false,
-        justificacion_politica_discapacidad_comentario: evaluacion_proyecto_formulario6_line82?.justificacion_politica_discapacidad_comentario
-            ? evaluacion_proyecto_formulario6_line82?.justificacion_politica_discapacidad_comentario
+        justificacion_politica_discapacidad_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.justificacion_politica_discapacidad_comentario == null ? true : false,
+        justificacion_politica_discapacidad_comentario: evaluacion_proyecto_formulario1_linea65?.justificacion_politica_discapacidad_comentario
+            ? evaluacion_proyecto_formulario1_linea65?.justificacion_politica_discapacidad_comentario
             : '',
 
-        actividad_economica_requiere_comentario: evaluacion_proyecto_formulario6_line82?.actividad_economica_comentario == null ? true : false,
-        actividad_economica_comentario: evaluacion_proyecto_formulario6_line82?.actividad_economica_comentario ? evaluacion_proyecto_formulario6_line82?.actividad_economica_comentario : '',
+        actividad_economica_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.actividad_economica_comentario == null ? true : false,
+        actividad_economica_comentario: evaluacion_proyecto_formulario1_linea65?.actividad_economica_comentario ? evaluacion_proyecto_formulario1_linea65?.actividad_economica_comentario : '',
 
-        disciplina_subarea_conocimiento_requiere_comentario: evaluacion_proyecto_formulario6_line82?.disciplina_subarea_conocimiento_comentario == null ? true : false,
-        disciplina_subarea_conocimiento_comentario: evaluacion_proyecto_formulario6_line82?.disciplina_subarea_conocimiento_comentario
-            ? evaluacion_proyecto_formulario6_line82?.disciplina_subarea_conocimiento_comentario
-            : '',
+        red_conocimiento_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.red_conocimiento_comentario == null ? true : false,
+        red_conocimiento_comentario: evaluacion_proyecto_formulario1_linea65?.red_conocimiento_comentario ? evaluacion_proyecto_formulario1_linea65?.red_conocimiento_comentario : '',
 
-        red_conocimiento_requiere_comentario: evaluacion_proyecto_formulario6_line82?.red_conocimiento_comentario == null ? true : false,
-        red_conocimiento_comentario: evaluacion_proyecto_formulario6_line82?.red_conocimiento_comentario ? evaluacion_proyecto_formulario6_line82?.red_conocimiento_comentario : '',
-
-        tematica_estrategica_requiere_comentario: evaluacion_proyecto_formulario6_line82?.tematica_estrategica_comentario == null ? true : false,
-        tematica_estrategica_comentario: evaluacion_proyecto_formulario6_line82?.tematica_estrategica_comentario ? evaluacion_proyecto_formulario6_line82?.tematica_estrategica_comentario : '',
+        tematica_estrategica_requiere_comentario: evaluacion_proyecto_formulario1_linea65?.tematica_estrategica_comentario == null ? true : false,
+        tematica_estrategica_comentario: evaluacion_proyecto_formulario1_linea65?.tematica_estrategica_comentario ? evaluacion_proyecto_formulario1_linea65?.tematica_estrategica_comentario : '',
     })
 
     const submit = (e) => {
         e.preventDefault()
 
         if (allowed.to_update) {
-            form.put(route('convocatorias.evaluaciones-formulario-6-linea-82.update', [convocatoria.id, evaluacion.id]), {
+            form.put(route('convocatorias.evaluaciones-formulario-1-linea-65.update', [convocatoria.id, evaluacion.id]), {
                 onSuccess: () => setDialogEvaluacionStatus(false),
                 preserveScroll: true,
             })
@@ -122,9 +117,8 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
     useEffect(() => {
         if (evaluacion_rol_sennova) {
             const evaluacion_rol_sennova_seleccionado = evaluacion_rol_sennova.proyecto_roles_evaluaciones.find((evaluacion_rol) => evaluacion_rol.evaluacion_id == evaluacion.id)
-
             if (evaluacion_rol_sennova_seleccionado) {
-                form_evaluacion_rol.setData({ correcto: evaluacion_rol_sennova_seleccionado?.correcto, comentario: evaluacion_rol_sennova_seleccionado?.comentario })
+                form_evaluacion_rol.setData({ correcto: evaluacion_rol_sennova_seleccionado.correcto, comentario: evaluacion_rol_sennova_seleccionado.comentario })
             }
         }
     }, [evaluacion_rol_sennova])
@@ -149,7 +143,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
         if (evaluacion_rubro) {
             const evaluacion_rubro_seleccionado = evaluacion_rubro.proyecto_presupuestos_evaluaciones.find((evaluacion_rubro) => evaluacion_rubro.evaluacion_id == evaluacion.id)
             if (evaluacion_rubro_seleccionado) {
-                form_evaluacion_rubro.setData({ correcto: evaluacion_rubro_seleccionado?.correcto, comentario: evaluacion_rubro_seleccionado?.comentario })
+                form_evaluacion_rubro.setData({ correcto: evaluacion_rubro_seleccionado.correcto, comentario: evaluacion_rubro_seleccionado.comentario })
             }
         }
     }, [evaluacion_rubro])
@@ -178,7 +172,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             checked={form.data.clausula_confidencialidad}
                             error={form.errors.clausula_confidencialidad}
                             onChange={(e) => form.setData('clausula_confidencialidad', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                             label={form.data.clausula_confidencialidad ? 'He aceptado la cláusula de confidencialidad' : 'Acepto la cláusula de confidencialidad-'}
                         />
                     </AlertMui>
@@ -200,7 +194,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         }}
                         value={form.data.titulo_puntaje}
                         onChange={(e) => form.setData('titulo_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                         placeholder="Puntaje"
                         error={form.errors.titulo_puntaje}
                     />
@@ -224,7 +218,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.titulo_requiere_comentario}
                             onChange={(e) => form.setData('titulo_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                         />
                         {form.data.titulo_requiere_comentario == false && (
                             <Textarea
@@ -235,7 +229,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.titulo_comentario}
                                 error={form.errors.titulo_comentario}
                                 onChange={(e) => form.setData('titulo_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                                disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -260,7 +254,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         placeholder="Puntaje"
                         error={form.errors.resumen_puntaje}
                         onChange={(e) => form.setData('resumen_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                     />
                     <AlertMui>
                         <h1>Criterios de evaluacion</h1>
@@ -284,7 +278,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.resumen_requiere_comentario}
                             onChange={(e) => form.setData('resumen_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                         />
                         {form.data.resumen_requiere_comentario == false && (
                             <Textarea
@@ -295,7 +289,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.resumen_comentario}
                                 error={form.errors.resumen_comentario}
                                 onChange={(e) => form.setData('resumen_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                                disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -320,7 +314,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         placeholder="Puntaje"
                         error={form.errors.video_puntaje}
                         onChange={(e) => form.setData('video_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                     />
                     <AlertMui>
                         <h1>Criterios de evaluacion</h1>
@@ -344,7 +338,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.video_requiere_comentario}
                             onChange={(e) => form.setData('video_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                         />
                         {form.data.video_requiere_comentario == false && (
                             <Textarea
@@ -355,7 +349,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.video_comentario}
                                 error={form.errors.video_comentario}
                                 onChange={(e) => form.setData('video_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                                disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -376,7 +370,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.entidad_aliada_requiere_comentario}
                             onChange={(e) => form.setData('entidad_aliada_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                         />
                         {form.data.entidad_aliada_requiere_comentario == false && (
                             <Textarea
@@ -387,7 +381,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.entidad_aliada_comentario}
                                 error={form.errors.entidad_aliada_comentario}
                                 onChange={(e) => form.setData('entidad_aliada_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                                disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -412,7 +406,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         placeholder="Puntaje"
                         error={form.errors.problema_central_puntaje}
                         onChange={(e) => form.setData('problema_central_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                     />
                     <AlertMui>
                         <h1>Criterios de evaluacion</h1>
@@ -443,7 +437,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.problema_central_requiere_comentario}
                             onChange={(e) => form.setData('problema_central_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                         />
                         {form.data.problema_central_requiere_comentario == false && (
                             <Textarea
@@ -454,7 +448,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.problema_central_comentario}
                                 error={form.errors.problema_central_comentario}
                                 onChange={(e) => form.setData('problema_central_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                                disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -479,7 +473,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         placeholder="Puntaje"
                         error={form.errors.resultados_puntaje}
                         onChange={(e) => form.setData('resultados_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                     />
                     <AlertMui>
                         <h1>Criterios de evaluacion</h1>
@@ -508,7 +502,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.resultados_requiere_comentario}
                             onChange={(e) => form.setData('resultados_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                         />
                         {form.data.resultados_requiere_comentario == false && (
                             <Textarea
@@ -519,7 +513,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.resultados_comentario}
                                 error={form.errors.resultados_comentario}
                                 onChange={(e) => form.setData('resultados_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                                disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -544,7 +538,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         placeholder="Puntaje"
                         error={form.errors.objetivos_puntaje}
                         onChange={(e) => form.setData('objetivos_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                     />
                     <AlertMui>
                         <h1>Criterios de evaluacion</h1>
@@ -574,7 +568,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.objetivos_requiere_comentario}
                             onChange={(e) => form.setData('objetivos_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                         />
                         {form.data.objetivos_requiere_comentario == false && (
                             <Textarea
@@ -585,7 +579,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.objetivos_comentario}
                                 error={form.errors.objetivos_comentario}
                                 onChange={(e) => form.setData('objetivos_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                                disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -610,7 +604,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         placeholder="Puntaje"
                         error={form.errors.metodologia_puntaje}
                         onChange={(e) => form.setData('metodologia_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                     />
                     <AlertMui>
                         <h1>Criterios de evaluacion</h1>
@@ -643,7 +637,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.metodologia_requiere_comentario}
                             onChange={(e) => form.setData('metodologia_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                         />
                         {form.data.metodologia_requiere_comentario == false && (
                             <Textarea
@@ -654,7 +648,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.metodologia_comentario}
                                 error={form.errors.metodologia_comentario}
                                 onChange={(e) => form.setData('metodologia_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                                disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -679,7 +673,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         placeholder="Puntaje"
                         error={form.errors.productos_puntaje}
                         onChange={(e) => form.setData('productos_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                     />
                     <AlertMui>
                         <h1>Criterios de evaluacion</h1>
@@ -708,7 +702,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.productos_requiere_comentario}
                             onChange={(e) => form.setData('productos_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                         />
                         {form.data.productos_requiere_comentario == false && (
                             <Textarea
@@ -719,7 +713,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.productos_comentario}
                                 error={form.errors.productos_comentario}
                                 onChange={(e) => form.setData('productos_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                                disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -729,7 +723,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                 <div>
                     <Divider className="!my-20 font-black">CADENA DE VALOR</Divider>
 
-                    <Label className="!mb-10" labelFor="cadena_valor_puntaje" value={`Puntaje (Máximo 20)`} />
+                    <Label className="!mb-10" labelFor="cadena_valor_puntaje" value={`Puntaje (Máximo 25)`} />
                     <TextInput
                         label="Diligencie el puntaje"
                         id="cadena_valor_puntaje"
@@ -738,27 +732,27 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         inputProps={{
                             step: 1,
                             min: 0,
-                            max: 20,
+                            max: 25,
                         }}
                         value={form.data.cadena_valor_puntaje}
                         placeholder="Puntaje"
                         error={form.errors.cadena_valor_puntaje}
                         onChange={(e) => form.setData('cadena_valor_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                     />
                     <AlertMui>
                         <h1>Criterios de evaluacion</h1>
                         <ul className="list-disc p-4">
                             <li>
-                                <strong>0 a 9</strong> El presupuesto esta sobre o subdimensionado y / o no está directamente relacionado con el desarrollo de las actividades para el logro de los
+                                <strong>0 a 12</strong> El presupuesto esta sobre o subdimensionado y / o no está directamente relacionado con el desarrollo de las actividades para el logro de los
                                 objetivos propuestos. Los soportes que evidencian el costo del bien a adquirir no son pertinentes y tampoco confiables
                             </li>
                             <li>
-                                <strong>10 a 18</strong> El presupuesto es adecuado, pero es susceptible de ajustes frente a las las actividades a desarrollar que darán cumplimiento a los objetivos
+                                <strong>13 a 23</strong> El presupuesto es adecuado, pero es susceptible de ajustes frente a las las actividades a desarrollar que darán cumplimiento a los objetivos
                                 propuestos. Los soportes que evidencian el costo del bien a adquirir son pertinentes y confiables.
                             </li>
                             <li>
-                                <strong>19 a 20</strong> El presupuesto está bien definido y se relaciona directamente con el desarrollo de las actividades y los entregables del proyecto. Los soportes
+                                <strong>24 a 25</strong> El presupuesto está bien definido y se relaciona directamente con el desarrollo de las actividades y los entregables del proyecto. Los soportes
                                 que evidencian el costo del bien a adquirir son pertinentes y confiables.
                             </li>
                         </ul>
@@ -772,7 +766,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.cadena_valor_requiere_comentario}
                             onChange={(e) => form.setData('cadena_valor_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                         />
                         {form.data.cadena_valor_requiere_comentario == false && (
                             <Textarea
@@ -783,7 +777,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.cadena_valor_comentario}
                                 error={form.errors.cadena_valor_comentario}
                                 onChange={(e) => form.setData('cadena_valor_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                                disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -808,7 +802,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         placeholder="Puntaje"
                         error={form.errors.analisis_riesgos_puntaje}
                         onChange={(e) => form.setData('analisis_riesgos_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                     />
                     <AlertMui>
                         <h1>Criterios de evaluacion</h1>
@@ -836,7 +830,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.analisis_riesgos_requiere_comentario}
                             onChange={(e) => form.setData('analisis_riesgos_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                         />
                         {form.data.analisis_riesgos_requiere_comentario == false && (
                             <Textarea
@@ -847,7 +841,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.analisis_riesgos_comentario}
                                 error={form.errors.analisis_riesgos_comentario}
                                 onChange={(e) => form.setData('analisis_riesgos_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                                disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -872,7 +866,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         placeholder="Puntaje"
                         error={form.errors.ortografia_puntaje}
                         onChange={(e) => form.setData('ortografia_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                     />
                     <AlertMui>
                         <h1>Criterios de evaluacion</h1>
@@ -891,7 +885,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.ortografia_requiere_comentario}
                             onChange={(e) => form.setData('ortografia_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                         />
                         {form.data.ortografia_requiere_comentario == false && (
                             <Textarea
@@ -902,7 +896,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.ortografia_comentario}
                                 error={form.errors.ortografia_comentario}
                                 onChange={(e) => form.setData('ortografia_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                                disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -925,7 +919,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         placeholder="Puntaje"
                         error={form.errors.redaccion_puntaje}
                         onChange={(e) => form.setData('redaccion_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                     />
                     <AlertMui>
                         <h1>Criterios de evaluacion</h1>
@@ -944,7 +938,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.redaccion_requiere_comentario}
                             onChange={(e) => form.setData('redaccion_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                         />
                         {form.data.redaccion_requiere_comentario == false && (
                             <Textarea
@@ -955,7 +949,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.redaccion_comentario}
                                 error={form.errors.redaccion_comentario}
                                 onChange={(e) => form.setData('redaccion_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                                disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                             />
                         )}
                     </div>
@@ -977,7 +971,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         placeholder="Puntaje"
                         error={form.errors.normas_apa_puntaje}
                         onChange={(e) => form.setData('normas_apa_puntaje', e.target.value)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                     />
                     <AlertMui>
                         <h1>Criterios de evaluacion</h1>
@@ -996,7 +990,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form.data.normas_apa_requiere_comentario}
                             onChange={(e) => form.setData('normas_apa_requiere_comentario', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                         />
                         {form.data.normas_apa_requiere_comentario == false && (
                             <Textarea
@@ -1007,7 +1001,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form.data.normas_apa_comentario}
                                 error={form.errors.normas_apa_comentario}
                                 onChange={(e) => form.setData('normas_apa_comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                                disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -1024,7 +1018,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         className="!my-6"
                         checked={form.data.fechas_requiere_comentario}
                         onChange={(e) => form.setData('fechas_requiere_comentario', e.target.checked)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                     />
                     {form.data.fechas_requiere_comentario == false && (
                         <Textarea
@@ -1035,7 +1029,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             value={form.data.fechas_comentario}
                             error={form.errors.fechas_comentario}
                             onChange={(e) => form.setData('fechas_comentario', e.target.value)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                             required
                         />
                     )}
@@ -1050,7 +1044,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         className="!my-6"
                         checked={form.data.red_conocimiento_requiere_comentario}
                         onChange={(e) => form.setData('red_conocimiento_requiere_comentario', e.target.checked)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                     />
                     {form.data.red_conocimiento_requiere_comentario == false && (
                         <Textarea
@@ -1061,38 +1055,12 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             value={form.data.red_conocimiento_comentario}
                             error={form.errors.red_conocimiento_comentario}
                             onChange={(e) => form.setData('red_conocimiento_comentario', e.target.value)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                             required
                         />
                     )}
                 </div>
-                <div>
-                    <Divider className="!my-20 font-black">DISCIPLINA DE CONOCIMIENTO</Divider>
 
-                    <p>
-                        ¿La disciplina de la subárea de conocimiento es correcta? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva
-                        recomendación.
-                    </p>
-                    <SwitchMui
-                        className="!my-6"
-                        checked={form.data.disciplina_subarea_conocimiento_requiere_comentario}
-                        onChange={(e) => form.setData('disciplina_subarea_conocimiento_requiere_comentario', e.target.checked)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
-                    />
-                    {form.data.disciplina_subarea_conocimiento_requiere_comentario == false && (
-                        <Textarea
-                            label="Comentario"
-                            className="mt-4"
-                            inputBackground="#fff"
-                            id="disciplina_subarea_conocimiento_comentario"
-                            value={form.data.disciplina_subarea_conocimiento_comentario}
-                            error={form.errors.disciplina_subarea_conocimiento_comentario}
-                            onChange={(e) => form.setData('disciplina_subarea_conocimiento_comentario', e.target.value)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
-                            required
-                        />
-                    )}
-                </div>
                 <div>
                     <Divider className="!my-20 font-black">ACTIVIDAD ECONÓMICA</Divider>
 
@@ -1103,7 +1071,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         className="!my-6"
                         checked={form.data.actividad_economica_requiere_comentario}
                         onChange={(e) => form.setData('actividad_economica_requiere_comentario', e.target.checked)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                     />
                     {form.data.actividad_economica_requiere_comentario == false && (
                         <Textarea
@@ -1114,7 +1082,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             value={form.data.actividad_economica_comentario}
                             error={form.errors.actividad_economica_comentario}
                             onChange={(e) => form.setData('actividad_economica_comentario', e.target.value)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                             required
                         />
                     )}
@@ -1129,7 +1097,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         className="!my-6"
                         checked={form.data.tematica_estrategica_requiere_comentario}
                         onChange={(e) => form.setData('tematica_estrategica_requiere_comentario', e.target.checked)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                     />
                     {form.data.tematica_estrategica_requiere_comentario == false && (
                         <Textarea
@@ -1140,7 +1108,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             value={form.data.tematica_estrategica_comentario}
                             error={form.errors.tematica_estrategica_comentario}
                             onChange={(e) => form.setData('tematica_estrategica_comentario', e.target.value)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                             required
                         />
                     )}
@@ -1156,7 +1124,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         className="!my-6"
                         checked={form.data.justificacion_industria_4_requiere_comentario}
                         onChange={(e) => form.setData('justificacion_industria_4_requiere_comentario', e.target.checked)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                     />
                     {form.data.justificacion_industria_4_requiere_comentario == false && (
                         <Textarea
@@ -1167,7 +1135,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             value={form.data.justificacion_industria_4_comentario}
                             error={form.errors.justificacion_industria_4_comentario}
                             onChange={(e) => form.setData('justificacion_industria_4_comentario', e.target.value)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                             required
                         />
                     )}
@@ -1182,7 +1150,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         className="!my-6"
                         checked={form.data.justificacion_economia_naranja_requiere_comentario}
                         onChange={(e) => form.setData('justificacion_economia_naranja_requiere_comentario', e.target.checked)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                     />
                     {form.data.justificacion_economia_naranja_requiere_comentario == false && (
                         <Textarea
@@ -1193,7 +1161,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             value={form.data.justificacion_economia_naranja_comentario}
                             error={form.errors.justificacion_economia_naranja_comentario}
                             onChange={(e) => form.setData('justificacion_economia_naranja_comentario', e.target.value)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                             required
                         />
                     )}
@@ -1208,7 +1176,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         className="!my-6"
                         checked={form.data.justificacion_politica_discapacidad_requiere_comentario}
                         onChange={(e) => form.setData('justificacion_politica_discapacidad_requiere_comentario', e.target.checked)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                     />
                     {form.data.justificacion_politica_discapacidad_requiere_comentario == false && (
                         <Textarea
@@ -1219,7 +1187,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             value={form.data.justificacion_politica_discapacidad_comentario}
                             error={form.errors.justificacion_politica_discapacidad_comentario}
                             onChange={(e) => form.setData('justificacion_politica_discapacidad_comentario', e.target.value)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                             required
                         />
                     )}
@@ -1235,7 +1203,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         className="!my-6"
                         checked={form.data.bibliografia_requiere_comentario}
                         onChange={(e) => form.setData('bibliografia_requiere_comentario', e.target.checked)}
-                        disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                        disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                     />
                     {form.data.bibliografia_requiere_comentario == false && (
                         <Textarea
@@ -1246,7 +1214,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             value={form.data.bibliografia_comentario}
                             error={form.errors.bibliografia_comentario}
                             onChange={(e) => form.setData('bibliografia_comentario', e.target.value)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                             required
                         />
                     )}
@@ -1288,7 +1256,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             className="!my-6"
                             checked={form_evaluacion_rol.data.correcto}
                             onChange={(e) => form_evaluacion_rol.setData('correcto', e.target.checked)}
-                            disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                         />
                         {form_evaluacion_rol.data.correcto == false && (
                             <Textarea
@@ -1299,7 +1267,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form_evaluacion_rol.data.comentario}
                                 error={form_evaluacion_rol.errors.comentario}
                                 onChange={(e) => form_evaluacion_rol.setData('comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                                disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -1309,7 +1277,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 Cerrar
                             </ButtonMui>
 
-                            <PrimaryButton disabled={form_evaluacion_rol.processing || evaluacion_proyecto_formulario6_line82.evaluacion.finalizado} type="submit">
+                            <PrimaryButton disabled={form_evaluacion_rol.processing || evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado} type="submit">
                                 Guardar
                             </PrimaryButton>
                         </div>
@@ -1326,7 +1294,12 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                         <p>
                             ¿El rubro es correcto? Si considera que la información puede mejorarse, por favor seleccione <strong>NO</strong> y haga la respectiva recomendación.
                         </p>
-                        <SwitchMui className="!my-6" checked={form_evaluacion_rubro.data.correcto} onChange={(e) => form_evaluacion_rubro.setData('correcto', e.target.checked)} />
+                        <SwitchMui
+                            className="!my-6"
+                            checked={form_evaluacion_rubro.data.correcto}
+                            onChange={(e) => form_evaluacion_rubro.setData('correcto', e.target.checked)}
+                            disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
+                        />
                         {form_evaluacion_rubro.data.correcto == false && (
                             <Textarea
                                 label="Comentario"
@@ -1336,7 +1309,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                                 value={form_evaluacion_rubro.data.comentario}
                                 error={form_evaluacion_rubro.errors.comentario}
                                 onChange={(e) => form_evaluacion_rubro.setData('comentario', e.target.value)}
-                                disabled={evaluacion_proyecto_formulario6_line82.evaluacion.finalizado}
+                                disabled={evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado}
                                 required
                             />
                         )}
@@ -1345,7 +1318,7 @@ const Evaluacion = ({ convocatoria, evaluacion, allowed, proyecto, setDialogEval
                             <ButtonMui onClick={() => setDialogEvaluacionRubroStatus(false)} className="!bg-transparent !text-app-700 !mr-2">
                                 Cerrar
                             </ButtonMui>
-                            <PrimaryButton disabled={form_evaluacion_rubro.processing || evaluacion_proyecto_formulario6_line82.evaluacion.finalizado} type="submit">
+                            <PrimaryButton disabled={form_evaluacion_rubro.processing || evaluacion_proyecto_formulario1_linea65.evaluacion.finalizado} type="submit">
                                 Guardar
                             </PrimaryButton>
                         </div>

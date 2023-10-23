@@ -27,6 +27,11 @@ class MiembroEntidadAliadaController extends Controller
             return abort(404);
         }
 
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+        }
+
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
 
         return Inertia::render('Convocatorias/Proyectos/EntidadesAliadas/MiembrosEntidadAliada/Index', [
@@ -35,7 +40,7 @@ class MiembroEntidadAliadaController extends Controller
             'evaluacion'                => Evaluacion::find(request()->evaluacion_id),
             'entidad_aliada'            => $entidad_aliada,
             'miembros_entidad_aliada'   => MiembroEntidadAliada::where('entidad_aliada_id', $entidad_aliada->id)->orderBy('nombre', 'ASC')
-                                            ->filterMiembroEntidadAliada(request()->only('search'))->paginate()->appends(['search' => request()->search]),
+                ->filterMiembroEntidadAliada(request()->only('search'))->paginate()->appends(['search' => request()->search]),
             'tipos_documento'           => json_decode(Storage::get('json/tipos-documento.json'), true),
 
         ]);

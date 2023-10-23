@@ -30,6 +30,7 @@ class ProductoController extends Controller
             return abort(404);
         }
 
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
 
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
@@ -41,22 +42,22 @@ class ProductoController extends Controller
         return Inertia::render('Convocatorias/Proyectos/Productos/Index', [
             'convocatoria'              =>  $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'mostrar_recomendaciones'),
             'proyecto'                  =>  $proyecto,
-            'evaluacion'                =>  Evaluacion::find(request()->evaluacion_id),
+            'evaluacion'                =>  Evaluacion::with('proyecto')->where('id', request()->evaluacion_id)->first(),
             'productos'                 =>  Producto::whereIn(
-                                                'resultado_id',
-                                                    $resultado->map(function ($resultado) {
-                                                        return $resultado->id;
-                                                    })
-                                                )->with('actividades', 'resultado.objetivoEspecifico', 'productoMinciencias')->orderBy('id', 'ASC')->get(),
+                'resultado_id',
+                $resultado->map(function ($resultado) {
+                    return $resultado->id;
+                })
+            )->with('actividades', 'resultado.objetivoEspecifico', 'productoMinciencias')->orderBy('id', 'ASC')->get(),
             'actividades_sin_resultado' => Actividad::whereIn(
-                                            'objetivo_especifico_id',
-                                                $objetivo_especifico->map(function ($objetivo_especifico) {
-                                                    return $objetivo_especifico->id;
-                                                })
-                                            )->where('resultado_id', null)->count(),
+                'objetivo_especifico_id',
+                $objetivo_especifico->map(function ($objetivo_especifico) {
+                    return $objetivo_especifico->id;
+                })
+            )->where('resultado_id', null)->count(),
             'resultados'                =>  Resultado::select('resultados.id as value', 'resultados.descripcion as label', 'resultados.id as id')->whereHas('efectoDirecto', function ($query) use ($proyecto) {
-                                                 $query->where('efectos_directos.proyecto_id', $proyecto->id);
-                                                })->where('resultados.descripcion', '!=', null)->with('actividades')->get(),
+                $query->where('efectos_directos.proyecto_id', $proyecto->id);
+            })->where('resultados.descripcion', '!=', null)->with('actividades')->get(),
             'subtipologias_minciencias' =>  SelectHelper::subtipologiasMinciencias(),
             'tipos_producto'            =>  json_decode(Storage::get('json/tipos-producto.json'), true),
 
@@ -85,7 +86,7 @@ class ProductoController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $producto = Producto::create($request->only('resultado_id' ,'nombre', 'fecha_inicio','fecha_finalizacion','unidad_indicador','meta_indicador','medio_verificacion', 'formula_indicador'));
+        $producto = Producto::create($request->only('resultado_id', 'nombre', 'fecha_inicio', 'fecha_finalizacion', 'unidad_indicador', 'meta_indicador', 'medio_verificacion', 'formula_indicador'));
 
         $producto->actividades()->attach($request->actividad_id);
 
@@ -142,7 +143,7 @@ class ProductoController extends Controller
     {
         $this->authorize('modificar-proyecto-autor', $proyecto);
 
-        $producto->update($request->only('resultado_id' ,'nombre', 'fecha_inicio','fecha_finalizacion','unidad_indicador','meta_indicador','medio_verificacion', 'formula_indicador'));
+        $producto->update($request->only('resultado_id', 'nombre', 'fecha_inicio', 'fecha_finalizacion', 'unidad_indicador', 'meta_indicador', 'medio_verificacion', 'formula_indicador'));
         $producto->save();
 
         $producto->actividades()->sync($request->actividad_id);
@@ -172,66 +173,5 @@ class ProductoController extends Controller
         $producto->delete();
 
         return redirect()->route('convocatorias.proyectos.productos.index', [$convocatoria, $proyecto])->with('success', 'El recurso se ha eliminado correctamente.');
-    }
-
-    /**
-     * updateProductosEvaluacion
-     *
-     * @param  mixed $request
-     * @param  mixed $convocatoria
-     * @param  mixed $evaluacion
-     * @return void
-     */
-    public function updateProductosEvaluacion(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion)
-    {
-        $this->authorize('modificar-evaluacion-autor', $evaluacion);
-
-        switch ($evaluacion) {
-            case $evaluacion->evaluacionProyectoFormulario8Linea66()->exists():
-                $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
-                    'productos_puntaje'      => $request->productos_puntaje,
-                    'productos_comentario'   => $request->productos_requiere_comentario == false ? $request->productos_comentario : null
-                ]);
-                break;
-            case $evaluacion->evaluacionProyectoFormulario1Linea65()->exists():
-                $evaluacion->evaluacionProyectoFormulario1Linea65()->update([
-                    'productos_puntaje'      => $request->productos_puntaje,
-                    'productos_comentario'   => $request->productos_requiere_comentario == false ? $request->productos_comentario : null
-                ]);
-                break;
-
-            case $evaluacion->evaluacionProyectoFormulario4Linea70()->exists():
-                $evaluacion->evaluacionProyectoFormulario4Linea70()->update([
-                    'productos_comentario'  => $request->productos_requiere_comentario == false ? $request->productos_comentario : null
-                ]);
-                break;
-            case $evaluacion->evaluacionProyectoFormulario5Linea69()->exists():
-                $evaluacion->evaluacionProyectoFormulario5Linea69()->update([
-                    'productos_comentario'  => $request->productos_requiere_comentario == false ? $request->productos_comentario : null
-                ]);
-                break;
-
-            case $evaluacion->evaluacionProyectoFormulario12Linea68()->exists():
-                $evaluacion->evaluacionProyectoFormulario12Linea68()->update([
-                    'productos_primer_obj_puntaje'      => $request->productos_primer_obj_puntaje,
-                    'productos_primer_obj_comentario'   => $request->productos_primer_obj_requiere_comentario == false ? $request->productos_primer_obj_comentario : null,
-
-                    'productos_segundo_obj_puntaje'     => $request->productos_segundo_obj_puntaje,
-                    'productos_segundo_obj_comentario'  => $request->productos_segundo_obj_requiere_comentario == false ? $request->productos_segundo_obj_comentario : null,
-
-                    'productos_tercer_obj_puntaje'      => $request->productos_tercer_obj_puntaje,
-                    'productos_tercer_obj_comentario'   => $request->productos_tercer_obj_requiere_comentario == false ? $request->productos_tercer_obj_comentario : null,
-
-                    'productos_cuarto_obj_puntaje'      => $request->productos_cuarto_obj_puntaje,
-                    'productos_cuarto_obj_comentario'   => $request->productos_cuarto_obj_requiere_comentario == false ? $request->productos_cuarto_obj_comentario : null,
-                ]);
-                break;
-            default:
-                break;
-        }
-
-        $evaluacion->save();
-
-        return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 }

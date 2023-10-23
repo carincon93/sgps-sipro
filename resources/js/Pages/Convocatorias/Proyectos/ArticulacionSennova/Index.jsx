@@ -9,7 +9,6 @@ import { useState } from 'react'
 import { Grid } from '@mui/material'
 
 import Participantes from '../Participantes/Participantes'
-import Evaluacion from './Evaluacion'
 import TabsMui from '@/Components/TabsMui'
 import AulaMovil from '../AulasMoviles/Index'
 import ArticulacionFormulario4Linea70 from './ArticulacionFormulario4Linea70'

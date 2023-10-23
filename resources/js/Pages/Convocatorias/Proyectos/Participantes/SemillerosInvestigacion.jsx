@@ -5,7 +5,7 @@ import SearchBar from '@/Components/SearchBar'
 import TableMui from '@/Components/Table'
 
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { MenuItem, TableCell, TableRow } from '@mui/material'
+import { Chip, MenuItem, TableCell, TableRow } from '@mui/material'
 
 import { router } from '@inertiajs/react'
 import { route } from '@/Utils'
@@ -46,7 +46,10 @@ const SemillerosInvestigacion = ({ auth_user, convocatoria, proyecto, nuevo_semi
 
                 {nuevo_semillero_investigacion && (
                     <TableRow sx={{ backgroundColor: '#e5f6fd' }}>
-                        <TableCell>{nuevo_semillero_investigacion.nombre}</TableCell>
+                        <TableCell>
+                            <p className="uppercase">{nuevo_semillero_investigacion.nombre}</p>
+                            <Chip label={nuevo_semillero_investigacion.codigo} />
+                        </TableCell>
                         <TableCell>{nuevo_semillero_investigacion.linea_investigacion.nombre}</TableCell>
                         <TableCell>
                             {nuevo_semillero_investigacion.linea_investigacion.grupo_investigacion.nombre} - {nuevo_semillero_investigacion.linea_investigacion.grupo_investigacion.acronimo}
@@ -72,9 +75,17 @@ const SemillerosInvestigacion = ({ auth_user, convocatoria, proyecto, nuevo_semi
                 )}
                 <TableRow sx={{ backgroundColor: '#e5f6fd' }}>
                     <TableCell colSpan={6} className="!align-top">
-                        <p>Agregar semillero de investigación</p>
-                        <AlertMui className="mt-5">1. Escriba el nombre del semillero de investigación.</AlertMui>
-                        <SearchBar placeholder="Buscar semillero de investigación" inputBackground="white" routeParams={[convocatoria.id, proyecto.id]} />
+                        <p>
+                            <strong>Agregar semillero</strong>
+                        </p>
+
+                        <AlertMui className="mt-6">
+                            En una nueva pestaña, diríjase al módulo de semilleros de investigación, consulte el código del semillero (SGPS-SEM-XX), luego en el siguiente campo de búsqueda escriba el
+                            código y haga clic en <strong>'Buscar'</strong>.
+                        </AlertMui>
+
+                        <AlertMui className="mt-5">Escriba el nombre del semillero. Es recomendable buscar por el código del semillero para que el resultado sea exacto.</AlertMui>
+                        <SearchBar placeholder="Buscar semillero de investigación (SGPS-SEM-XX)" inputBackground="white" routeParams={[convocatoria.id, proyecto.id]} />
                     </TableCell>
                 </TableRow>
             </TableMui>

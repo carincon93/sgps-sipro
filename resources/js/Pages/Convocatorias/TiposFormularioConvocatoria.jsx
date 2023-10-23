@@ -94,14 +94,7 @@ const ConvocatoriaTiposFormulario = ({ auth, convocatoria, tipos_formulario_conv
                                 </a>
                             </li>
                         </ul>
-                        <h6 className="text-white mt-6">Dudas sobre la convocatoria</h6>
-                        <ul className="text-white list-disc ml-4">
-                            <li>
-                                <a href="mailto:convocatoriasennova@sena.edu.co" target="_blank" className="underline">
-                                    convocatoriasennova@sena.edu.co
-                                </a>
-                            </li>
-                        </ul>
+
                         <h6 className="text-white mt-6">Activadores</h6>
                         <ul className="text-white list-disc ml-4">
                             <li>

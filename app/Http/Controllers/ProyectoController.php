@@ -36,9 +36,23 @@ class ProyectoController extends Controller
      */
     public function index()
     {
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
+        $query = Proyecto::select('proyecto_participantes.user_id', 'proyectos.*', 'convocatorias.year');
+        $query->join('convocatorias', 'proyectos.convocatoria_id', '=', 'convocatorias.id');
+        $query->leftJoin('proyecto_participantes', 'proyectos.id', '=', 'proyecto_participantes.proyecto_id');
+        $query->where('proyecto_participantes.user_id', NULL);
+        if ($auth_user->hasRole([4])) {
+            $query->where('proyectos.centro_formacion_id', $auth_user->centro_formacion_id);
+        }
+        $query->orderBy('proyectos.id', 'DESC');
+        $proyectos_sin_autores = $query->get();
+
         return Inertia::render('Proyectos/Index', [
-            'proyectos' => Proyecto::getProyectosPorRol(),
-            'ods'       => json_decode(Storage::get('json/ods.json'), true),
+            'proyectos'                 => Proyecto::getProyectosPorRol(),
+            'ods'                       => json_decode(Storage::get('json/ods.json'), true),
+            'proyectos_sin_autores'     => $proyectos_sin_autores,
         ]);
     }
 
@@ -174,6 +188,12 @@ class ProyectoController extends Controller
             return abort(404);
         }
 
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+        }
+
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones');
+        $proyecto->load('proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario8Linea66');
         // $proyecto->load('evaluaciones.evaluacionProyectoFormulario4Linea70');
 
@@ -331,69 +351,6 @@ class ProyectoController extends Controller
             default:
                 break;
         }
-    }
-
-    /**
-     * updateCadenaValorEvaluacion
-     *
-     * @param  mixed $request
-     * @param  mixed $convocatoria
-     * @param  mixed $evaluacion
-     * @return void
-     */
-    public function updateCadenaValorEvaluacion(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion)
-    {
-        $this->authorize('modificar-evaluacion-autor', $evaluacion);
-
-        switch ($evaluacion) {
-            case $evaluacion->evaluacionProyectoFormulario8Linea66()->exists():
-                $evaluacion->evaluacionProyectoFormulario8Linea66()->update([
-                    'cadena_valor_puntaje'      => $request->cadena_valor_puntaje,
-                    'cadena_valor_comentario'   => $request->cadena_valor_requiere_comentario == false ? $request->cadena_valor_comentario : null
-                ]);
-                break;
-            case $evaluacion->evaluacionProyectoFormulario1Linea65()->exists():
-                $evaluacion->evaluacionProyectoFormulario1Linea65()->update([
-                    'cadena_valor_puntaje'      => $request->cadena_valor_puntaje,
-                    'cadena_valor_comentario'   => $request->cadena_valor_requiere_comentario == false ? $request->cadena_valor_comentario : null
-                ]);
-                break;
-            case $evaluacion->evaluacionProyectoFormulario4Linea70()->exists():
-                $evaluacion->evaluacionProyectoFormulario4Linea70()->update([
-                    'cadena_valor_comentario'   => $request->cadena_valor_requiere_comentario == false ? $request->cadena_valor_comentario : null
-                ]);
-                break;
-            case $evaluacion->evaluacionProyectoFormulario5Linea69()->exists():
-                $evaluacion->evaluacionProyectoFormulario5Linea69()->update([
-                    'cadena_valor_comentario'   => $request->cadena_valor_requiere_comentario == false ? $request->cadena_valor_comentario : null
-                ]);
-                break;
-
-            case $evaluacion->evaluacionProyectoFormulario12Linea68()->exists():
-                $evaluacion->evaluacionProyectoFormulario12Linea68()->update([
-                    'propuesta_sostenibilidad_puntaje'      => $request->propuesta_sostenibilidad_puntaje,
-                    'propuesta_sostenibilidad_comentario'   => $request->propuesta_sostenibilidad_requiere_comentario == false ? $request->propuesta_sostenibilidad_comentario : null,
-
-                    'impacto_ambiental_puntaje'             => $request->impacto_ambiental_puntaje,
-                    'impacto_ambiental_comentario'          => $request->impacto_ambiental_requiere_comentario == false ? $request->impacto_ambiental_comentario : null,
-
-                    'impacto_social_centro_puntaje'         => $request->impacto_social_centro_puntaje,
-                    'impacto_social_centro_comentario'      => $request->impacto_social_centro_requiere_comentario == false ? $request->impacto_social_centro_comentario : null,
-
-                    'impacto_social_productivo_puntaje'     => $request->impacto_social_productivo_puntaje,
-                    'impacto_social_productivo_comentario'  => $request->impacto_social_productivo_requiere_comentario == false ? $request->impacto_social_productivo_comentario : null,
-
-                    'impacto_tecnologico_puntaje'           => $request->impacto_tecnologico_puntaje,
-                    'impacto_tecnologico_comentario'        => $request->impacto_social_productivo_requiere_comentario == false ? $request->impacto_tecnologico_comentario : null,
-                ]);
-                break;
-            default:
-                break;
-        }
-
-        $evaluacion->save();
-
-        return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
     public function updatePropuestaSostenibilidad(Request $request, Convocatoria $convocatoria, Proyecto $proyecto)
@@ -681,6 +638,13 @@ class ProyectoController extends Controller
             return abort(404);
         }
 
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+        }
+
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones');
+        $proyecto->load('proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
+
         $proyecto->precio_proyecto = $proyecto->precioProyecto;
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;
 
@@ -692,38 +656,40 @@ class ProyectoController extends Controller
             $proyecto->proyectoFormulario17Linea69->nodoTecnoparque->topesPresupuestalesNodosTecnoparque->load('segundoGrupoPresupuestal');
         }
 
+        $validaciones = [
+            'problemaCentral' => ProyectoValidationTrait::problemaCentral($proyecto),
+            'efectosDirectos' => ProyectoValidationTrait::efectosDirectos($proyecto),
+            'causasIndirectas' => ProyectoValidationTrait::causasIndirectas($proyecto),
+            'causasDirectas' => ProyectoValidationTrait::causasDirectas($proyecto),
+            'efectosIndirectos' => ProyectoValidationTrait::efectosIndirectos($proyecto),
+            'objetivoGeneral' => ProyectoValidationTrait::objetivoGeneral($proyecto),
+            'resultados' => ProyectoValidationTrait::resultados($proyecto),
+            'objetivosEspecificos' => ProyectoValidationTrait::objetivosEspecificos($proyecto),
+            'actividades' => ProyectoValidationTrait::actividades($proyecto),
+            'impactos' => ProyectoValidationTrait::impactos($proyecto),
+            'edt' => ProyectoValidationTrait::edt($proyecto),
+            'topes_roles_sennova' => ProyectoRolSennovaValidationTrait::topesRolesSennovaValidation($convocatoria, $proyecto),
+            'topes_por_nodo' => $proyecto->proyectoFormulario17Linea69()->exists() ? TopePresupuestalNodoTecnoparque::select('topes_presupuestales_nodos_tecnoparque.*')->with('nodoTecnoparque', 'segundoGrupoPresupuestal')->where('topes_presupuestales_nodos_tecnoparque.convocatoria_id', $convocatoria->id)->where('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id', $proyecto->proyectoFormulario17Linea69->nodo_tecnoparque_id)->orderBy('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id')->get() : null,
+            'topes_presupuestales_tecnoparque' => $proyecto->proyectoFormulario17Linea69()->exists() ? ProyectoValidationTrait::topesPresupuestales($proyecto) : null,
+            'topes_presupuestales_formulario7' => $proyecto->proyectoFormulario7Linea23()->exists() ? ProyectoValidationTrait::topesPresupuestalesFormulario7($convocatoria, $proyecto) : null,
+            'resultadoProducto' => ProyectoValidationTrait::resultadoProducto($proyecto),
+            'analisisRiesgo' => ProyectoValidationTrait::analisisRiesgo($proyecto),
+            'anexos' => ProyectoValidationTrait::anexos($proyecto),
+            'generalidades' => ProyectoValidationTrait::generalidades($proyecto),
+            'metodologia' => ProyectoValidationTrait::metodologia($proyecto),
+            'propuestaSostenibilidad' => ProyectoValidationTrait::propuestaSostenibilidad($proyecto),
+            'productosActividades' => ProyectoValidationTrait::productosActividades($proyecto),
+            'soportesEstudioMercado' => ProyectoValidationTrait::soportesEstudioMercado($proyecto),
+            'estudiosMercadoArchivo' => ProyectoValidationTrait::estudiosMercadoArchivo($proyecto),
+            'minInstructoresInvestigadores' => ProyectoValidationTrait::minInstructoresInvestigadores($proyecto),
+            'minAprendicesEnSemilleros' => ProyectoValidationTrait::minAprendicesEnSemilleros($proyecto),
+        ];
+
         return Inertia::render('Convocatorias/Proyectos/ResumenFinal', [
-            'convocatoria'                          => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
-            'proyecto'                              => $proyecto,
-            'evaluacion'                            => Evaluacion::find(request()->evaluacion_id),
-            'problemaCentral'                       => ProyectoValidationTrait::problemaCentral($proyecto),
-            'efectosDirectos'                       => ProyectoValidationTrait::efectosDirectos($proyecto),
-            'causasIndirectas'                      => ProyectoValidationTrait::causasIndirectas($proyecto),
-            'causasDirectas'                        => ProyectoValidationTrait::causasDirectas($proyecto),
-            'efectosIndirectos'                     => ProyectoValidationTrait::efectosIndirectos($proyecto),
-            'objetivoGeneral'                       => ProyectoValidationTrait::objetivoGeneral($proyecto),
-            'resultados'                            => ProyectoValidationTrait::resultados($proyecto),
-            'objetivosEspecificos'                  => ProyectoValidationTrait::objetivosEspecificos($proyecto),
-            'actividades'                           => ProyectoValidationTrait::actividades($proyecto),
-            'impactos'                              => ProyectoValidationTrait::impactos($proyecto),
-            'edt'                                   => ProyectoValidationTrait::edt($proyecto),
-            'topes_roles_sennova'                   => ProyectoRolSennovaValidationTrait::topesRolesSennovaValidation($convocatoria, $proyecto),
-            'topes_por_nodo'                        => $proyecto->proyectoFormulario17Linea69()->exists() ? TopePresupuestalNodoTecnoparque::select('topes_presupuestales_nodos_tecnoparque.*')->with('nodoTecnoparque', 'segundoGrupoPresupuestal')->where('topes_presupuestales_nodos_tecnoparque.convocatoria_id', $convocatoria->id)->where('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id', $proyecto->proyectoFormulario17Linea69->nodo_tecnoparque_id)->orderBy('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id')->get() : null,
-            'topes_presupuestales_tecnoparque'      => $proyecto->proyectoFormulario17Linea69()->exists() ? ProyectoValidationTrait::topesPresupuestales($proyecto) : null,
-            'topes_presupuestales_formulario7'      => $proyecto->proyectoFormulario7Linea23()->exists() ? ProyectoValidationTrait::topesPresupuestalesFormulario7($convocatoria, $proyecto) : null,
-            'resultadoProducto'                     => ProyectoValidationTrait::resultadoProducto($proyecto),
-            'analisisRiesgo'                        => ProyectoValidationTrait::analisisRiesgo($proyecto),
-            'anexos'                                => ProyectoValidationTrait::anexos($proyecto),
-            'generalidades'                         => ProyectoValidationTrait::generalidades($proyecto),
-            'metodologia'                           => ProyectoValidationTrait::metodologia($proyecto),
-            'propuestaSostenibilidad'               => ProyectoValidationTrait::propuestaSostenibilidad($proyecto),
-            'productosActividades'                  => ProyectoValidationTrait::productosActividades($proyecto),
-            'articulacionSennova'                   => ProyectoValidationTrait::articulacionSennova($proyecto),
-            'soportesEstudioMercado'                => ProyectoValidationTrait::soportesEstudioMercado($proyecto),
-            'estudiosMercadoArchivo'                => ProyectoValidationTrait::estudiosMercadoArchivo($proyecto),
-            'minInstructoresInvestigadores'         => ProyectoValidationTrait::minInstructoresInvestigadores($proyecto),
-            'minAprendicesEnSemilleros'             => ProyectoValidationTrait::minAprendicesEnSemilleros($proyecto),
-            // 'actividadesPresupuesto'    => ProyectoValidationTrait::actividadesPresupuesto($proyecto),
+            'convocatoria'  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
+            'proyecto'      => $proyecto,
+            'evaluacion'    => Evaluacion::find(request()->evaluacion_id),
+            'validaciones'  => $validaciones
         ]);
     }
 
@@ -776,40 +742,39 @@ class ProyectoController extends Controller
                 $evaluacion->normas_apa_puntaje         = $evaluacion->evaluacionProyectoFormulario1Linea65->normas_apa_puntaje;
                 break;
             case $evaluacion->evaluacionProyectoFormulario12Linea68()->exists():
-                $evaluacion->titulo_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->titulo_puntaje;
-                $evaluacion->resumen_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->resumen_puntaje;
-                $evaluacion->antecedentes_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->antecedentes_puntaje;
-                $evaluacion->justificacion_problema_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->justificacion_problema_puntaje;
-                $evaluacion->pregunta_formulacion_problema_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->pregunta_formulacion_problema_puntaje;
-                $evaluacion->propuesta_sostenibilidad_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->propuesta_sostenibilidad_puntaje;
-                $evaluacion->identificacion_problema_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->identificacion_problema_puntaje;
-                $evaluacion->arbol_problemas_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->arbol_problemas_puntaje;
-                $evaluacion->impacto_ambiental_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->impacto_ambiental_puntaje;
-                $evaluacion->impacto_social_centro_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->impacto_social_centro_puntaje;
-                $evaluacion->impacto_social_productivo_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->impacto_social_productivo_puntaje;
-                $evaluacion->impacto_tecnologico_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->impacto_tecnologico_puntaje;
-                $evaluacion->objetivo_general_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->objetivo_general_puntaje;
-                $evaluacion->primer_objetivo_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->primer_objetivo_puntaje;
-                $evaluacion->segundo_objetivo_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->segundo_objetivo_puntaje;
-                $evaluacion->tercer_objetivo_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->tercer_objetivo_puntaje;
-                $evaluacion->cuarto_objetivo_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->cuarto_objetivo_puntaje;
-                $evaluacion->resultados_primer_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->resultados_primer_obj_puntaje;
-                $evaluacion->resultados_segundo_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->resultados_segundo_obj_puntaje;
-                $evaluacion->resultados_tercer_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->resultados_tercer_obj_puntaje;
-                $evaluacion->resultados_cuarto_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->resultados_cuarto_obj_puntaje;
-                $evaluacion->metodologia_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->metodologia_puntaje;
-                $evaluacion->actividades_primer_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->actividades_primer_obj_puntaje;
-                $evaluacion->actividades_segundo_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->actividades_segundo_obj_puntaje;
-                $evaluacion->actividades_tercer_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->actividades_tercer_obj_puntaje;
-                $evaluacion->actividades_cuarto_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->actividades_cuarto_obj_puntaje;
-                $evaluacion->productos_primer_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->productos_primer_obj_puntaje;
-                $evaluacion->productos_segundo_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->productos_segundo_obj_puntaje;
-                $evaluacion->productos_tercer_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->productos_tercer_obj_puntaje;
-                $evaluacion->productos_cuarto_obj_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->productos_cuarto_obj_puntaje;
-
-                $evaluacion->riesgos_objetivo_general_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->riesgos_objetivo_general_puntaje;
-                $evaluacion->riesgos_productos_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->riesgos_productos_puntaje;
-                $evaluacion->riesgos_actividades_puntaje = $evaluacion->evaluacionProyectoFormulario12Linea68->riesgos_actividades_puntaje;
+                $evaluacion->titulo_puntaje                         = $evaluacion->evaluacionProyectoFormulario12Linea68->titulo_puntaje;
+                $evaluacion->resumen_puntaje                        = $evaluacion->evaluacionProyectoFormulario12Linea68->resumen_puntaje;
+                $evaluacion->antecedentes_puntaje                   = $evaluacion->evaluacionProyectoFormulario12Linea68->antecedentes_puntaje;
+                $evaluacion->justificacion_problema_puntaje         = $evaluacion->evaluacionProyectoFormulario12Linea68->justificacion_problema_puntaje;
+                $evaluacion->pregunta_formulacion_problema_puntaje  = $evaluacion->evaluacionProyectoFormulario12Linea68->pregunta_formulacion_problema_puntaje;
+                $evaluacion->propuesta_sostenibilidad_puntaje       = $evaluacion->evaluacionProyectoFormulario12Linea68->propuesta_sostenibilidad_puntaje;
+                $evaluacion->identificacion_problema_puntaje        = $evaluacion->evaluacionProyectoFormulario12Linea68->identificacion_problema_puntaje;
+                $evaluacion->arbol_problemas_puntaje                = $evaluacion->evaluacionProyectoFormulario12Linea68->arbol_problemas_puntaje;
+                $evaluacion->impacto_ambiental_puntaje              = $evaluacion->evaluacionProyectoFormulario12Linea68->impacto_ambiental_puntaje;
+                $evaluacion->impacto_social_centro_puntaje          = $evaluacion->evaluacionProyectoFormulario12Linea68->impacto_social_centro_puntaje;
+                $evaluacion->impacto_social_productivo_puntaje      = $evaluacion->evaluacionProyectoFormulario12Linea68->impacto_social_productivo_puntaje;
+                $evaluacion->impacto_tecnologico_puntaje            = $evaluacion->evaluacionProyectoFormulario12Linea68->impacto_tecnologico_puntaje;
+                $evaluacion->objetivo_general_puntaje               = $evaluacion->evaluacionProyectoFormulario12Linea68->objetivo_general_puntaje;
+                $evaluacion->primer_objetivo_puntaje                = $evaluacion->evaluacionProyectoFormulario12Linea68->primer_objetivo_puntaje;
+                $evaluacion->segundo_objetivo_puntaje               = $evaluacion->evaluacionProyectoFormulario12Linea68->segundo_objetivo_puntaje;
+                $evaluacion->tercer_objetivo_puntaje                = $evaluacion->evaluacionProyectoFormulario12Linea68->tercer_objetivo_puntaje;
+                $evaluacion->cuarto_objetivo_puntaje                = $evaluacion->evaluacionProyectoFormulario12Linea68->cuarto_objetivo_puntaje;
+                $evaluacion->resultados_primer_obj_puntaje          = $evaluacion->evaluacionProyectoFormulario12Linea68->resultados_primer_obj_puntaje;
+                $evaluacion->resultados_segundo_obj_puntaje         = $evaluacion->evaluacionProyectoFormulario12Linea68->resultados_segundo_obj_puntaje;
+                $evaluacion->resultados_tercer_obj_puntaje          = $evaluacion->evaluacionProyectoFormulario12Linea68->resultados_tercer_obj_puntaje;
+                $evaluacion->resultados_cuarto_obj_puntaje          = $evaluacion->evaluacionProyectoFormulario12Linea68->resultados_cuarto_obj_puntaje;
+                $evaluacion->metodologia_puntaje                    = $evaluacion->evaluacionProyectoFormulario12Linea68->metodologia_puntaje;
+                $evaluacion->actividades_primer_obj_puntaje         = $evaluacion->evaluacionProyectoFormulario12Linea68->actividades_primer_obj_puntaje;
+                $evaluacion->actividades_segundo_obj_puntaje        = $evaluacion->evaluacionProyectoFormulario12Linea68->actividades_segundo_obj_puntaje;
+                $evaluacion->actividades_tercer_obj_puntaje         = $evaluacion->evaluacionProyectoFormulario12Linea68->actividades_tercer_obj_puntaje;
+                $evaluacion->actividades_cuarto_obj_puntaje         = $evaluacion->evaluacionProyectoFormulario12Linea68->actividades_cuarto_obj_puntaje;
+                $evaluacion->productos_primer_obj_puntaje           = $evaluacion->evaluacionProyectoFormulario12Linea68->productos_primer_obj_puntaje;
+                $evaluacion->productos_segundo_obj_puntaje          = $evaluacion->evaluacionProyectoFormulario12Linea68->productos_segundo_obj_puntaje;
+                $evaluacion->productos_tercer_obj_puntaje           = $evaluacion->evaluacionProyectoFormulario12Linea68->productos_tercer_obj_puntaje;
+                $evaluacion->productos_cuarto_obj_puntaje           = $evaluacion->evaluacionProyectoFormulario12Linea68->productos_cuarto_obj_puntaje;
+                $evaluacion->riesgos_objetivo_general_puntaje       = $evaluacion->evaluacionProyectoFormulario12Linea68->riesgos_objetivo_general_puntaje;
+                $evaluacion->riesgos_productos_puntaje              = $evaluacion->evaluacionProyectoFormulario12Linea68->riesgos_productos_puntaje;
+                $evaluacion->riesgos_actividades_puntaje            = $evaluacion->evaluacionProyectoFormulario12Linea68->riesgos_actividades_puntaje;
 
                 break;
             default:
@@ -832,24 +797,41 @@ class ProyectoController extends Controller
      */
     public function finalizarEvaluacion(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion)
     {
-        /** @var \App\Models\User */
-        $auth_user = Auth::user();
-
-        if (!Hash::check($request->password, $auth_user->password)) {
-            return back()
-                ->withErrors(['password' => __('The password is incorrect.')]);
+        if ($request->filled('habilitado')) {
+            if ($request->habilitado) {
+                $evaluacion->update([
+                    'habilitado'  => true,
+                ]);
+            } else {
+                $evaluacion->update([
+                    'habilitado'  => false, 'finalizado'  => true,
+                ]);
+            }
         }
 
-        $evaluacion->iniciado = false;
-        $evaluacion->finalizado = true;
-        $evaluacion->modificable = false;
-        $evaluacion->save();
+        if ($request->finalizado) {
+            $evaluacion->update([
+                'iniciado'    => false,
+                'finalizado'  => true,
+                'modificable' => false,
+            ]);
+        } else if ($request->modificar) {
+            $evaluacion->update([
+                'iniciado'    => true,
+                'finalizado'  => false,
+                'modificable' => true,
+            ]);
+        }
 
-        $evaluacion->proyecto()->update(['estado' => $evaluacion->proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 ?? $evaluacion->proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 ?? $evaluacion->proyecto->estado_evaluacion_ta ?? $evaluacion->proyecto->estado_evaluacion_tp ?? $evaluacion->proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
+        if ($evaluacion->proyecto->evaluaciones()->where('evaluaciones.habilitado', true)->count() == $evaluacion->proyecto->evaluaciones()->where('evaluaciones.finalizado', true)->where('evaluaciones.habilitado', true)->count()) {
+            $proyecto = $evaluacion->proyecto;
 
-        $auth_user->notify(new EvaluacionFinalizada($convocatoria, $evaluacion->proyecto));
+            $proyecto->update([
+                'estado' => $evaluacion->proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 ?? $evaluacion->proyecto->estado_evaluacion_proyecto_formulario_6_linea_82
+            ]);
+        }
 
-        return back()->with('success', 'La evaluación ha sido finalizada correctamente.');
+        return back()->with('success', 'El estado de la evaluación ha cambiado correctamente.');
     }
 
     public function preguntasFinales(Request $request, Convocatoria $convocatoria, Evaluacion $evaluacion)
@@ -876,8 +858,8 @@ class ProyectoController extends Controller
     {
         $this->authorize('visualizar-proyecto-autor', $proyecto);
 
-        /** @var \App\Models\User */
-        $auth_user = Auth::user();
+        // /** @var \App\Models\User */
+        // $auth_user = Auth::user();
 
         // if (!Hash::check($request->password, $auth_user->password)) {
         //     return back()
@@ -945,6 +927,15 @@ class ProyectoController extends Controller
             return abort(404);
         }
 
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+        }
+
+        $proyecto->load('participantes.centroFormacion.regional');
+        $proyecto->load('semillerosInvestigacion.lineaInvestigacion.grupoInvestigacion');
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones');
+        $proyecto->load('proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
+
         $proyecto->participantes;
         $proyecto->programasFormacion;
         $proyecto->semillerosInvestigacion;
@@ -960,16 +951,13 @@ class ProyectoController extends Controller
             return redirect()->route('convocatorias.proyectos-formulario-17-linea-69.edit', [$convocatoria, $proyecto])->with('error', 'Esta línea programática no requiere de participantes');
         }
 
-        $proyecto->load('participantes.centroFormacion.regional');
-        $proyecto->load('semillerosInvestigacion.lineaInvestigacion.grupoInvestigacion');
-
         return Inertia::render('Convocatorias/Proyectos/Participantes/Index', [
             'convocatoria'                  => $convocatoria,
             'proyecto'                      => $proyecto,
             'evaluacion'                    => Evaluacion::find(request()->evaluacion_id),
             'roles_sennova'                 => RolSennova::select('id as value', 'nombre as label')->orderBy('nombre', 'ASC')->get(),
             'nuevo_participante'            => User::select('users.id', 'users.nombre', 'users.email', 'users.centro_formacion_id')->with('centroFormacion', 'centroFormacion.regional')->orderBy('users.nombre', 'ASC')->filterUser(request()->only('search'))->first(),
-            'nuevo_semillero_investigacion' => SemilleroInvestigacion::select('semilleros_investigacion.id', 'semilleros_investigacion.nombre', 'semilleros_investigacion.linea_investigacion_id')->with('lineaInvestigacion', 'lineaInvestigacion.grupoInvestigacion')->orderBy('semilleros_investigacion.nombre', 'ASC')->filterSemilleroInvestigacion(request()->only('search'))->first(),
+            'nuevo_semillero_investigacion' => SemilleroInvestigacion::select('semilleros_investigacion.id', 'semilleros_investigacion.nombre', 'semilleros_investigacion.codigo', 'semilleros_investigacion.linea_investigacion_id')->with('lineaInvestigacion', 'lineaInvestigacion.grupoInvestigacion')->orderBy('semilleros_investigacion.nombre', 'ASC')->filterSemilleroInvestigacion(request()->only('search'))->first(),
             'centros_formacion'             => SelectHelper::centrosFormacion(),
             'autor_principal'               => $proyecto->participantes()->where('proyecto_participantes.es_formulador', true)->first(),
         ]);
@@ -1379,6 +1367,12 @@ class ProyectoController extends Controller
         if ($proyecto->convocatoria_id != $convocatoria->id) {
             return abort(404);
         }
+
+        if (request()->filled('evaluacion_id')) {
+            $this->authorize('modificar-evaluacion-autor', [Evaluacion::find(request()->evaluacion_id)]);
+        }
+
+        $proyecto->load('proyectoRolesSennova.proyectoRolesEvaluaciones', 'proyectoPresupuesto.proyectoPresupuestosEvaluaciones');
 
         $proyecto->precio_proyecto = $proyecto->precioProyecto;
         $proyecto->tipoFormularioConvocatoria->lineaProgramatica;

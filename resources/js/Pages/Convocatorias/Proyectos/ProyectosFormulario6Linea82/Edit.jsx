@@ -112,29 +112,6 @@ const Edit = ({
                 </>
             )}
 
-            {evaluacion && (
-                <>
-                    <ButtonMui onClick={() => setDialogEvaluacionStatus(true)} primary={true} className="!fixed bottom-10 right-10 z-[99]">
-                        Evaluar
-                    </ButtonMui>
-                    <DialogMui
-                        fullWidth={true}
-                        maxWidth="lg"
-                        open={dialog_evaluacion_status}
-                        dialogContent={
-                            <>
-                                <Evaluacion evaluacion={evaluacion} />
-                            </>
-                        }
-                        dialogActions={
-                            <ButtonMui onClick={() => setDialogEvaluacionStatus(false)} primary={true} className="!mr-6">
-                                Cerrar
-                            </ButtonMui>
-                        }
-                    />
-                </>
-            )}
-
             <Grid item md={12}>
                 <Form
                     auth_user={auth_user}

@@ -162,6 +162,7 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                                             }
                                         />
                                         <ButtonMui
+                                            disabled={!proyecto?.allowed?.to_update}
                                             onClick={() => (setDialogFormatoStatus(true), setEntidadAliada(entidad_aliada), setTipoArchivo('carta_intencion'))}
                                             className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
                                             <AutorenewIcon className="mr-2" />
@@ -187,6 +188,7 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                                             }
                                         />
                                         <ButtonMui
+                                            disabled={!proyecto?.allowed?.to_update}
                                             onClick={() => (setDialogFormatoStatus(true), setEntidadAliada(entidad_aliada), setTipoArchivo('carta_propiedad_intelectual'))}
                                             className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
                                             <AutorenewIcon className="mr-2" />
@@ -211,6 +213,7 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                                             }
                                         />
                                         <ButtonMui
+                                            disabled={!proyecto?.allowed?.to_update}
                                             onClick={() => (setDialogFormatoStatus(true), setEntidadAliada(entidad_aliada), setTipoArchivo('soporte_convenio'))}
                                             className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
                                             {entidad_aliada?.entidad_aliada_linea69.filename ? 'Reemplazar' : 'Cargar'} convenio
@@ -234,6 +237,7 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                                             }
                                         />
                                         <ButtonMui
+                                            disabled={!proyecto?.allowed?.to_update}
                                             onClick={() => (setDialogFormatoStatus(true), setEntidadAliada(entidad_aliada), setTipoArchivo('soporte_convenio'))}
                                             className="!bg-app-800 !mt-1 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
                                             <AutorenewIcon className="mr-2" />
@@ -258,6 +262,7 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                                             }
                                         />
                                         <ButtonMui
+                                            disabled={!proyecto?.allowed?.to_update}
                                             onClick={() => (setDialogFormatoStatus(true), setEntidadAliada(entidad_aliada), setTipoArchivo('soporte_convenio'))}
                                             className="!bg-app-800 hover:!bg-app-50 !text-left !normal-case !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer w-full">
                                             <AutorenewIcon className="mr-2" />
@@ -268,7 +273,12 @@ const EntidadesAliadas = ({ auth, convocatoria, proyecto, evaluacion, entidades_
                             </TableCell>
                             <TableCell>
                                 <Link
-                                    href={route('convocatorias.proyectos.entidades-aliadas.miembros-entidad-aliada.index', [convocatoria.id, proyecto.id, entidad_aliada.id])}
+                                    href={route('convocatorias.proyectos.entidades-aliadas.miembros-entidad-aliada.index', [
+                                        convocatoria.id,
+                                        proyecto.id,
+                                        entidad_aliada.id,
+                                        evaluacion ? { evaluacion_id: evaluacion?.id } : null,
+                                    ])}
                                     className="!bg-app-800 hover:!bg-app-50 !text-white hover:!text-app-800 rounded-md my-4 p-2 block hover:cursor-pointer">
                                     <GroupAddIcon className="mr-2" /> Agregar miembros de la entidad
                                 </Link>

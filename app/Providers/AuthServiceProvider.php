@@ -36,6 +36,10 @@ class AuthServiceProvider extends ServiceProvider
                 return true;
             }
 
+            if (!$convocatoria->permitir_nuevos_proyectos) {
+                return false;
+            }
+
             if (!$convocatoria->esta_activa) {
                 return false;
             }
@@ -50,7 +54,7 @@ class AuthServiceProvider extends ServiceProvider
             }
 
             // Puede ser visualizado por el Director regional / Subdirector de centro / Dinamizador SENNOVA / Líder de grupo de investigación
-            if ($user->hasRole(2) && $user->directorRegional && $proyecto->centroFormacion->id == $user->directorRegional->id || $user->hasRole(3) && $proyecto->centroFormacion->id == $user->subdirectorCentroFormacion->id || $user->hasRole(4) && $user->dinamizadorCentroFormacion && $proyecto->centroFormacion->id == $user->dinamizadorCentroFormacion->id || $user->hasRole(21) && $proyecto->centroFormacion->id == $user->centroFormacion->id) {
+            if ($user->hasRole(2) && $user->directorRegional && $proyecto->centroFormacion->id == $user->directorRegional->id || $user->hasRole(3) && $user->subdirectorCentroFormacion && $proyecto->centroFormacion->id == $user->subdirectorCentroFormacion->id || $user->hasRole(4) && $user->dinamizadorCentroFormacion && $proyecto->centroFormacion->id == $user->dinamizadorCentroFormacion->id || $user->hasRole(21) && $proyecto->centroFormacion->id == $user->centroFormacion->id) {
                 return true;
             } else {
                 // Puede ser visualizado por roles con permisos específicos de visualización
@@ -108,7 +112,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('modificar-evaluacion-autor', function (User $user, Evaluacion $evaluacion) {
-            if ($user->hasRole([20, 18, 19, 5, 17]) || $user->hasRole([11]) && $evaluacion->modificable == true && $evaluacion->user_id == $user->id) {
+            if ($user->hasRole([5, 17, 18, 19, 20]) || $user->hasRole([11]) && $evaluacion->user_id == $user->id) {
                 return true;
             }
 

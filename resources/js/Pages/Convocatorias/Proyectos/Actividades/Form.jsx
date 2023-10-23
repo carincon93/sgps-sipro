@@ -109,8 +109,9 @@ const Form = ({ is_super_admin, method = '', setDialogStatus, convocatoria, proy
                                         </Grid>
                                     </>
                                 ) : (
-                                    <AlertMui severity="error">
-                                        Por favor complete la información de los resultados en el paso de <strong>Objetivos, resultados, impactos y actividades</strong>
+                                    <AlertMui className="mt-5" severity="error">
+                                        No puede completar la información de las actividades hasta que no estén todos los resultados con la información completa. Por favor complete la información de
+                                        los resultados en el paso de <strong>Objetivos, resultados, impactos y actividades.</strong>
                                     </AlertMui>
                                 )}
                                 <Grid item md={12}>

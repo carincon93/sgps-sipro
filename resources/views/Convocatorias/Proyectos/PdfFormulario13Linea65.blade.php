@@ -349,32 +349,24 @@
     <p style="white-space: pre-wrap; overflow-wrap: break-word">No</p>
     @endif
 
-    <h5>¿El proyecto está relacionado con la industria 4.0?</h5>
     @if ($datos->justificacion_industria_4)
+    <h5>¿El proyecto está relacionado con la industria 4.0?</h5>
     <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->justificacion_industria_4 }}</p>
-    @else
-    <p style="white-space: pre-wrap; overflow-wrap: break-word">No</p>
     @endif
 
-    <h5>¿El proyecto tendrá un impacto en el sector agrícola?</h5>
     @if ($datos->impacto_sector_agricola)
+    <h5>¿El proyecto tendrá un impacto en el sector agrícola?</h5>
     <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->impacto_sector_agricola }}</p>
-    @else
-    <p style="white-space: pre-wrap; overflow-wrap: break-word">No</p>
     @endif
 
-    <h5>¿El proyecto aporta a la Política Institucional para Atención de las Personas con discapacidad?</h5>
     @if ($datos->justificacion_politica_discapacidad)
+    <h5>¿El proyecto aporta a la Política Institucional para Atención de las Personas con discapacidad?</h5>
     <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->justificacion_politica_discapacidad }}</p>
-    @else
-    <p style="white-space: pre-wrap; overflow-wrap: break-word">No</p>
     @endif
 
-    <h5>¿El proyecto aporta a la Política Institucional de Atención con Enfoque Pluralista y Diferencial (acuerdo 0010 de 2016)?</h5>
     @if ($datos->atencion_pluralista_diferencial)
+    <h5>¿El proyecto aporta a la Política Institucional de Atención con Enfoque Pluralista y Diferencial (acuerdo 0010 de 2016)?</h5>
     <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->atencion_pluralista_diferencial }}</p>
-    @else
-    <p style="white-space: pre-wrap; overflow-wrap: break-word">No</p>
     @endif
 
     <h5>¿El proyecto se alinea con el plan tecnológico desarrollado por el centro de formación?</h5>
@@ -747,9 +739,13 @@
 
                         @foreach ($presupuesto->viaticosMunicipio as $viatico)
                         <ul>
+                            @if ($viatico->municipios)
                             @foreach ($viatico->municipios as $municipio)
                             <li>{{ $municipios->firstWhere('id', $municipio)->nombre }}</li>
                             @endforeach
+                            @else
+                            <li>No se ha seleccionado ningún municipio
+                                @endif
                         </ul>
 
                         <p><strong>Distancia aprox. municipios:</strong> {{ $distancias_municipios->firstWhere('value', $viatico->distancia_municipio)['label'] }}</p>

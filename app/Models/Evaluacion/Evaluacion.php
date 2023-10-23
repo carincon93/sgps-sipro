@@ -6,6 +6,7 @@ use App\Models\Convocatoria;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class Evaluacion extends Model
@@ -197,6 +198,50 @@ class Evaluacion extends Model
     }
 
     /**
+     * getProyectosPorRol
+     *
+     * @return object
+     */
+    public static function getEvaluacionesPorRol()
+    {
+        /** @var \App\Models\User */
+        $auth_user = Auth::user();
+
+        $query = Evaluacion::with(
+            [
+                'proyecto.proyectoFormulario1Linea65:id,titulo,fecha_inicio,fecha_finalizacion',
+                'proyecto.proyectoFormulario3Linea61:id,titulo,fecha_inicio,fecha_finalizacion',
+                'proyecto.proyectoFormulario4Linea70:id,tecnoacademia_id,fecha_inicio,fecha_finalizacion',
+                'proyecto.proyectoFormulario5Linea69:id,nodo_tecnoparque_id,fecha_inicio,fecha_finalizacion',
+                'proyecto.proyectoFormulario6Linea82:id,titulo,fecha_inicio,fecha_finalizacion',
+                'proyecto.proyectoFormulario7Linea23:id,titulo,fecha_inicio,fecha_finalizacion',
+                'proyecto.proyectoFormulario8Linea66:id,titulo,fecha_inicio,fecha_finalizacion',
+                'proyecto.proyectoFormulario9Linea23:id,titulo,fecha_inicio,fecha_finalizacion',
+                'proyecto.proyectoFormulario10Linea69:id,hub_innovacion_id,fecha_inicio,fecha_finalizacion',
+                'proyecto.proyectoFormulario11Linea83:id,titulo,fecha_inicio,fecha_finalizacion',
+                'proyecto.proyectoFormulario12Linea68:id,titulo,fecha_inicio,fecha_finalizacion',
+                'proyecto.proyectoFormulario13Linea65:id,titulo,fecha_inicio,fecha_finalizacion',
+                'proyecto.proyectoFormulario15Linea65:id,titulo,fecha_inicio,fecha_finalizacion',
+                'proyecto.proyectoFormulario16Linea65:id,titulo,fecha_inicio,fecha_finalizacion',
+                'proyecto.proyectoFormulario17Linea69:id,nodo_tecnoparque_id,fecha_inicio,fecha_finalizacion',
+                'proyecto.convocatoria',
+                'proyecto.centroFormacion',
+                'evaluador:id,nombre'
+            ]
+        );
+        if ($auth_user->hasRole([11, 33]) && !$auth_user->hasRole([1, 5, 17, 18, 19])) {
+            $query->where('user_id', $auth_user->id);
+        }
+        $query->orderBy('id', 'DESC');
+        $query->orderBy('iniciado', 'ASC');
+        $query->orderBy('habilitado', 'DESC');
+        $query->filterEvaluacion(request()->only('search', 'estado'));
+        $query->paginate();
+
+        return $query->paginate();
+    }
+
+    /**
      * getVerificarEstadoEvaluacionAttribute
      *
      * @return void
@@ -206,6 +251,8 @@ class Evaluacion extends Model
         $estado = null;
         if ($this->evaluacionProyectoFormulario8Linea66 && $this->proyecto->proyectoFormulario8Linea66()->exists()) {
             $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario8Linea66->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
+        } else if ($this->evaluacionProyectoFormulario6Linea82 && $this->proyecto->proyectoFormulario6Linea82()->exists()) {
+            $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario6Linea82->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
         } else if ($this->evaluacionProyectoFormulario1Linea65 && $this->proyecto->proyectoFormulario1Linea65()->exists()) {
             $estado = $this->finalizado ? 'Finalizado' : ($this->evaluacionProyectoFormulario1Linea65->updated_at == null ? 'Sin evaluar' : 'Evaluación iniciada');
         } else if ($this->evaluacionProyectoFormulario4Linea70 && $this->proyecto->proyectoFormulario4Linea70()->exists()) {
@@ -219,89 +266,90 @@ class Evaluacion extends Model
         return $estado;
     }
 
-    /**
-     * getTotalEvaluacionAttribute
-     *
-     * @return void
-     */
     public function getTotalEvaluacionAttribute()
     {
+        $nombres_formularios = [
+            'Formulario1Linea65',
+            'Formulario6Linea82',
+            'Formulario8Linea66',
+            'Formulario12Linea68',
+        ];
+
         $total = 0;
-        if ($this->evaluacionProyectoFormulario8Linea66 && $this->proyecto->proyectoFormulario8Linea66()->exists()) {
-            $total = $this->evaluacionProyectoFormulario8Linea66->titulo_puntaje +
-                $this->evaluacionProyectoFormulario8Linea66->video_puntaje +
-                $this->evaluacionProyectoFormulario8Linea66->resumen_puntaje +
-                $this->evaluacionProyectoFormulario8Linea66->problema_central_puntaje +
-                $this->evaluacionProyectoFormulario8Linea66->objetivos_puntaje +
-                $this->evaluacionProyectoFormulario8Linea66->metodologia_puntaje +
-                $this->evaluacionProyectoFormulario8Linea66->entidad_aliada_puntaje +
-                $this->evaluacionProyectoFormulario8Linea66->resultados_puntaje +
-                $this->evaluacionProyectoFormulario8Linea66->productos_puntaje +
-                $this->evaluacionProyectoFormulario8Linea66->cadena_valor_puntaje +
-                $this->evaluacionProyectoFormulario8Linea66->analisis_riesgos_puntaje +
-                $this->evaluacionProyectoFormulario8Linea66->ortografia_puntaje +
-                $this->evaluacionProyectoFormulario8Linea66->redaccion_puntaje +
-                $this->evaluacionProyectoFormulario8Linea66->normas_apa_puntaje;
-        } else if ($this->evaluacionProyectoFormulario1Linea65 && $this->proyecto->proyectoFormulario1Linea65()->exists()) {
-            $total = $this->evaluacionProyectoFormulario1Linea65->titulo_puntaje +
-                $this->evaluacionProyectoFormulario1Linea65->video_puntaje +
-                $this->evaluacionProyectoFormulario1Linea65->resumen_puntaje +
-                $this->evaluacionProyectoFormulario1Linea65->problema_central_puntaje +
-                $this->evaluacionProyectoFormulario1Linea65->objetivos_puntaje +
-                $this->evaluacionProyectoFormulario1Linea65->metodologia_puntaje +
-                $this->evaluacionProyectoFormulario1Linea65->entidad_aliada_puntaje +
-                $this->evaluacionProyectoFormulario1Linea65->resultados_puntaje +
-                $this->evaluacionProyectoFormulario1Linea65->productos_puntaje +
-                $this->evaluacionProyectoFormulario1Linea65->cadena_valor_puntaje +
-                $this->evaluacionProyectoFormulario1Linea65->analisis_riesgos_puntaje +
-                $this->evaluacionProyectoFormulario1Linea65->ortografia_puntaje +
-                $this->evaluacionProyectoFormulario1Linea65->redaccion_puntaje +
-                $this->evaluacionProyectoFormulario1Linea65->normas_apa_puntaje;
-        } else if ($this->evaluacionProyectoFormulario12Linea68 && $this->proyecto->proyectoFormulario12Linea68()->exists()) {
-            $total = $this->evaluacionProyectoFormulario12Linea68->titulo_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->resumen_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->antecedentes_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->problema_central_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->justificacion_problema_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->pregunta_formulacion_problema_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->identificacion_problema_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->arbol_problemas_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->propuesta_sostenibilidad_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->impacto_ambiental_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->impacto_social_centro_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->impacto_social_productivo_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->impacto_tecnologico_puntaje +
 
-                $this->evaluacionProyectoFormulario12Linea68->riesgos_objetivo_general_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->riesgos_productos_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->riesgos_actividades_puntaje +
+        foreach ($nombres_formularios as $nombre_formulario) {
+            $evaluacion = $this->getEvaluacion($nombre_formulario);
 
-                $this->evaluacionProyectoFormulario12Linea68->objetivo_general_puntaje +
-
-                $this->evaluacionProyectoFormulario12Linea68->primer_objetivo_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->segundo_objetivo_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->tercer_objetivo_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->cuarto_objetivo_puntaje +
-
-                $this->evaluacionProyectoFormulario12Linea68->resultados_primer_obj_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->resultados_segundo_obj_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->resultados_tercer_obj_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->resultados_cuarto_obj_puntaje +
-
-                $this->evaluacionProyectoFormulario12Linea68->metodologia_puntaje +
-
-                $this->evaluacionProyectoFormulario12Linea68->actividades_primer_obj_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->actividades_segundo_obj_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->actividades_tercer_obj_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->actividades_cuarto_obj_puntaje +
-
-                $this->evaluacionProyectoFormulario12Linea68->productos_primer_obj_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->productos_segundo_obj_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->productos_tercer_obj_puntaje +
-                $this->evaluacionProyectoFormulario12Linea68->productos_cuarto_obj_puntaje;
+            if ($evaluacion) {
+                $total += $this->getFormPuntaje($evaluacion);
+            }
         }
 
         return round($total, 2);
+    }
+
+    protected function getEvaluacion($nombre_form)
+    {
+        $nombre_relacion = 'evaluacionProyecto' . $nombre_form;
+
+        return $this->evaluacionExists($nombre_relacion) ? $this->$nombre_relacion : null;
+    }
+
+    protected function evaluacionExists($nombre_relacion)
+    {
+        return $this->$nombre_relacion && $this->$nombre_relacion()->exists();
+    }
+
+    protected function getFormPuntaje($evaluacion)
+    {
+        $puntaje_campos = [
+            'titulo_puntaje',
+            'video_puntaje',
+            'resumen_puntaje',
+            'problema_central_puntaje',
+            'objetivos_puntaje',
+            'metodologia_puntaje',
+            'entidad_aliada_puntaje',
+            'resultados_puntaje',
+            'productos_puntaje',
+            'cadena_valor_puntaje',
+            'analisis_riesgos_puntaje',
+            'ortografia_puntaje',
+            'redaccion_puntaje',
+            'normas_apa_puntaje',
+            'antecedentes_puntaje',
+            'justificacion_problema_puntaje',
+            'pregunta_formulacion_problema_puntaje',
+            'identificacion_problema_puntaje',
+            'arbol_problemas_puntaje',
+            'propuesta_sostenibilidad_puntaje',
+            'impacto_ambiental_puntaje',
+            'impacto_social_centro_puntaje',
+            'impacto_social_productivo_puntaje',
+            'impacto_tecnologico_puntaje',
+            'riesgos_objetivo_general_puntaje',
+            'riesgos_productos_puntaje',
+            'riesgos_actividades_puntaje',
+            'objetivo_general_puntaje',
+            'primer_objetivo_puntaje',
+            'segundo_objetivo_puntaje',
+            'tercer_objetivo_puntaje',
+            'cuarto_objetivo_puntaje',
+            'resultados_primer_obj_puntaje',
+            'resultados_segundo_obj_puntaje',
+            'resultados_tercer_obj_puntaje',
+            'resultados_cuarto_obj_puntaje',
+            'actividades_primer_obj_puntaje',
+            'actividades_segundo_obj_puntaje',
+            'actividades_tercer_obj_puntaje',
+            'actividades_cuarto_obj_puntaje',
+            'productos_primer_obj_puntaje',
+            'productos_segundo_obj_puntaje',
+            'productos_tercer_obj_puntaje',
+            'productos_cuarto_obj_puntaje',
+        ];
+
+        return collect($puntaje_campos)->sum(fn ($field) => $evaluacion->$field);
     }
 
     public function getTotalRecomendacionesAttribute()
@@ -549,6 +597,14 @@ class Evaluacion extends Model
                 $causal_rechazo = 'Rechazado - Por causal de rechazo';
             }
             return $this->proyecto->estadoEvaluacionProyectoFormulario8Linea66($this->total_evaluacion, $this->total_recomendaciones, null, $causal_rechazo);
+        } else if ($this->evaluacionProyectoFormulario6Linea82()->exists()) {
+            $causal_rechazo = null;
+            if ($this->evaluacionCausalesRechazo()->where('causal_rechazo', '=', 4)->first()) {
+                $causal_rechazo = 'En revisión por Cord. SENNOVA';
+            } else if ($this->evaluacionCausalesRechazo()->whereIn('causal_rechazo', [1, 2, 3])->first()) {
+                $causal_rechazo = 'Rechazado - Por causal de rechazo';
+            }
+            return $this->proyecto->estadoEvaluacionProyectoFormulario6Linea82($this->total_evaluacion, $this->total_recomendaciones, null, $causal_rechazo);
         } else if ($this->evaluacionProyectoFormulario12Linea68()->exists()) {
             return $this->proyecto->estadoEvaluacionProyectoFormulario12Linea68($this->total_evaluacion, $this->total_recomendaciones, null);
         } else if ($this->evaluacionProyectoFormulario1Linea65()->exists()) {
