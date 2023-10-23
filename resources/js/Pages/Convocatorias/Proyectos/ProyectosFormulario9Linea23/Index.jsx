@@ -4,6 +4,7 @@ import AlertMui from '@/Components/Alert'
 import ButtonMui from '@/Components/Button'
 import MenuMui from '@/Components/Menu'
 import PaginationMui from '@/Components/Pagination'
+import SearchBar from '@/Components/SearchBar'
 import TableMui from '@/Components/Table'
 import TabsConvocatoria from '@/Components/TabsConvocatoria'
 
@@ -41,6 +42,8 @@ const Index = ({ auth, convocatoria, proyectos_formulario_9_linea_23, allowed_to
 
                 <Grid item md={12}>
                     <AlertMui className="mt-20">A continuación, se listan únicamente los proyectos que usted ha creado y también en los que está asociado.</AlertMui>
+
+                    <SearchBar inputBackground="white" routeParams={[convocatoria.id]} className="my-10" />
 
                     <TableMui rows={['Título', 'Fecha de ejecución', 'Estado (Evaluación)', 'Acciones']} sxCellThead={{ width: '320px' }}>
                         {allowed_to_create && (

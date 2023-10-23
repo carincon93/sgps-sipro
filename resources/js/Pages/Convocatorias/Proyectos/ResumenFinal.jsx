@@ -103,14 +103,13 @@ const ResumenFinal = ({
                                     )}
                                     {!validaciones?.productosActividades && (
                                         <li>
-                                            Hay productos sin actividades relacionadas (Debe revisar cada producto en el numeral <strong>Productos</strong> y asegúrese que tengan actividades
+                                            Hay productos sin actividades relacionadas (Debe revisar cada producto en el paso <strong>Productos</strong> y asegúrese que tengan actividades
                                             relacionadas)
                                         </li>
                                     )}
                                     {!validaciones?.resultadoProducto && (
                                         <li>
-                                            Hay resultados sin productos relacionados (Debe revisar cada producto en el numeral <strong>Productos</strong> y asegúrese que tenga algún resultado
-                                            asociado)
+                                            Hay resultados sin productos relacionados (Debe revisar cada producto en el paso <strong>Productos</strong> y asegúrese que tenga algún resultado asociado)
                                         </li>
                                     )}
                                     {!validaciones?.analisisRiesgo && (

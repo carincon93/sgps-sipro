@@ -317,7 +317,7 @@ const Form = ({ method = '', setDialogStatus, is_super_admin, convocatoria, proy
                                                 />
                                             ) : (
                                                 <AlertMui severity="error">
-                                                    El resultado seleccionado no tiene actividades asociadas. Debe completar la información de cada actividad en el numeral de{' '}
+                                                    El resultado seleccionado no tiene actividades asociadas. Debe completar la información de cada actividad en el paso de{' '}
                                                     <strong>Metodología y actividades</strong>. Para ello diríjase a la parte inferior de la ventanta, haga clic en los tres puntos de cada actividad |
                                                     Ver detalles. En el formulario que visualiza deberá completar el resto de información.
                                                 </AlertMui>
