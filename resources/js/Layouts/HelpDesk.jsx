@@ -37,15 +37,6 @@ const HelpDesk = () => {
                             </li>
                         </ul>
 
-                        <h1 className="font-black mt-10">Dudas sobre la convocatoria</h1>
-
-                        <ul>
-                            <li className="mt-2">
-                                <MailOutlineOutlinedIcon className="mr-2 text-gray-400" />
-                                <a href="mailto:convocatoriasennova@sena.edu.co">convocatoriasennova@sena.edu.co</a>
-                            </li>
-                        </ul>
-
                         <h1 className="font-black mt-10 mb-4">Activadores</h1>
 
                         <ul className="space-y-6">
