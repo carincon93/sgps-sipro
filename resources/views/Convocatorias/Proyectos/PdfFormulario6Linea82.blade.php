@@ -969,15 +969,16 @@
             <h2 style="text-align: center;">Rubros presupuestales</h2>
 
             @foreach ($proyecto->proyectoPresupuesto as $presupuesto)
-            @foreach ($presupuesto->convocatoriaProyectoRubrosPresupuestales as $convocatoria_rubro_presupuestal)
             <table width="100%" border="1" cellspacing="0" cellpadding="3" style="margin-top: 20px; font-size: 10px;">
                 <tbody slot="tbody">
                     <tr>
                         <th colspan="3" class="px-6 pt-6 pb-4 sticky top-0 z-10 w-full">
                             Información
-                            <span style="display: inline; font-size: 8px; padding: 0.5rem 1rem; font-weight: bolder; border-radius: 100%;">PRE-{{ $presupuesto->id }}</span>
+                            <span style="display: inline; font-size: 8px; padding: 0.5rem 1rem; font-weight: bolder; border-radius: 100%;">#{{ $presupuesto->id }}</span>
                         </th>
                     </tr>
+
+                    @foreach ($presupuesto->convocatoriaProyectoRubrosPresupuestales as $convocatoria_rubro_presupuestal)
                     <tr>
                         <td align="left">
                             <small style="font-weight: bold;">Concepto interno SENA</small>
@@ -998,17 +999,18 @@
                             </div>
                         </td>
                     </tr>
+                    @endforeach
 
                     <tr>
                         <td colspan="3">
                             <p style="font-weight: bold;">Descripción</p>
-                            <p style="white-space: pre-wrap">{{ $presupuesto->descripcion }}</p>
+                            <p style="white-space: pre-wrap; text-align: left;">{{ $presupuesto->descripcion }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="3">
                             <p style="font-weight: bold;">Justificación</p>
-                            <p style="white-space: pre-wrap">{{ $presupuesto->justificacion }}</p>
+                            <p style="white-space: pre-wrap; text-align: left;">{{ $presupuesto->justificacion }}</p>
                         </td>
                     </tr>
 
@@ -1091,7 +1093,6 @@
                     </tr>
                 </tbody>
             </table>
-            @endforeach
             @endforeach
         </div>
 

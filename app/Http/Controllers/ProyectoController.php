@@ -670,7 +670,7 @@ class ProyectoController extends Controller
             'edt' => ProyectoValidationTrait::edt($proyecto),
             'topes_roles_sennova' => ProyectoRolSennovaValidationTrait::topesRolesSennovaValidation($convocatoria, $proyecto),
             'topes_por_nodo' => $proyecto->proyectoFormulario17Linea69()->exists() ? TopePresupuestalNodoTecnoparque::select('topes_presupuestales_nodos_tecnoparque.*')->with('nodoTecnoparque', 'segundoGrupoPresupuestal')->where('topes_presupuestales_nodos_tecnoparque.convocatoria_id', $convocatoria->id)->where('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id', $proyecto->proyectoFormulario17Linea69->nodo_tecnoparque_id)->orderBy('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id')->get() : null,
-            'topes_presupuestales_tecnoparque' => $proyecto->proyectoFormulario17Linea69()->exists() ? ProyectoValidationTrait::topesPresupuestales($proyecto) : null,
+            // 'topes_presupuestales_tecnoparque' => $proyecto->proyectoFormulario17Linea69()->exists() ? ProyectoValidationTrait::topesPresupuestales($proyecto) : null,
             'topes_presupuestales_formulario7' => $proyecto->proyectoFormulario7Linea23()->exists() ? ProyectoValidationTrait::topesPresupuestalesFormulario7($convocatoria, $proyecto) : null,
             'resultadoProducto' => ProyectoValidationTrait::resultadoProducto($proyecto),
             'analisisRiesgo' => ProyectoValidationTrait::analisisRiesgo($proyecto),

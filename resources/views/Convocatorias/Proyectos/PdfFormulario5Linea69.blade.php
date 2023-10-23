@@ -731,13 +731,13 @@
                 <tr>
                     <td colspan="3">
                         <p style="font-weight: bold;">Descripción</p>
-                        <p style="white-space: pre-wrap">{{ $presupuesto->descripcion }}</p>
+                        <p style="white-space: pre-wrap; text-align: left;">{{ $presupuesto->descripcion }}</p>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3">
                         <p style="font-weight: bold;">Justificación</p>
-                        <p style="white-space: pre-wrap">{{ $presupuesto->justificacion }}</p>
+                        <p style="white-space: pre-wrap; text-align: left;">{{ $presupuesto->justificacion }}</p>
                     </td>
                 </tr>
 

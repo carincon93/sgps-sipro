@@ -46,6 +46,29 @@ const ResumenFinal = ({
                                 </p>
                             </AlertMui>
                         )}
+
+                        {proyecto.tipo_formulario_convocatoria_id == 17 && (
+                            <AlertMui severity="warning" className="my-10">
+                                Antes de finalizar el proyecto asegúrese que no ha superado los valores máximos de algún tope presupuestal asignado a su nodo. Se recomienda revisar los lineamientos. A
+                                continuación, se listan los valores asignados:
+                                <br />
+                                <ul className="ml-4 mt-2 list-disc">
+                                    {validaciones?.topes_por_nodo.map((tope_presupuestal, i) => (
+                                        <React.Fragment key={i}>
+                                            {tope_presupuestal.segundo_grupo_presupuestal.map((concepto_interno_sena, j) => (
+                                                <li key={j}>
+                                                    <p className="first-letter:uppercase">{concepto_interno_sena.nombre}</p>
+                                                </li>
+                                            ))}
+
+                                            <li className="list-none mb-4">
+                                                <strong>${new Intl.NumberFormat('de-DE').format(tope_presupuestal.valor)} COP</strong>
+                                            </li>
+                                        </React.Fragment>
+                                    ))}
+                                </ul>
+                            </AlertMui>
+                        )}
                         {proyecto.finalizado == false && any_validation_is_false && page_props.ziggy.query.evaluacion_id == null ? (
                             <AlertMui severity="error">
                                 <p>
@@ -138,28 +161,6 @@ const ResumenFinal = ({
                                         </li>
                                     )}
                                     {validaciones?.topes_presupuestales_formulario7 != null && <li>{validaciones.topes_presupuestales_formulario7}</li>}
-                                    {proyecto.tipo_formulario_convocatoria_id == 17 && !validaciones?.topes_presupuestales_tecnoparque && (
-                                        <li>
-                                            Ha superado los valores máximos de algún tope presupuestal asignado a su nodo. Se recomienda revisar los lineamientos. A continuación, se listan los valores
-                                            asignados:
-                                            <br />
-                                            <ul className="ml-4 mt-2 list-disc">
-                                                {validaciones?.topes_por_nodo.map((tope_presupuestal, i) => (
-                                                    <React.Fragment key={i}>
-                                                        {tope_presupuestal.segundo_grupo_presupuestal.map((concepto_interno_sena, j) => (
-                                                            <li key={j}>
-                                                                <p className="first-letter:uppercase">{concepto_interno_sena.nombre}</p>
-                                                            </li>
-                                                        ))}
-
-                                                        <li className="list-none mb-4">
-                                                            <strong>${new Intl.NumberFormat('de-DE').format(tope_presupuestal.valor)} COP</strong>
-                                                        </li>
-                                                    </React.Fragment>
-                                                ))}
-                                            </ul>
-                                        </li>
-                                    )}
                                 </ul>
                             </AlertMui>
                         ) : (
