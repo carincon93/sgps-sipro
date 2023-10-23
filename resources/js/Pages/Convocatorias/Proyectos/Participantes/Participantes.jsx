@@ -39,7 +39,7 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
     })
 
     const submitNuevoParticipante = () => {
-        if (proyecto.allowed.to_update && !checkRole(auth_user, [1, 4, 5, 17, 18, 19])) {
+        if (proyecto.allowed.to_update || checkRole(auth_user, [1, 4, 5, 17, 18, 19])) {
             form_nuevo_participante.post(
                 route('convocatorias.proyectos.participantes.users.link', {
                     proyecto: proyecto.id,
