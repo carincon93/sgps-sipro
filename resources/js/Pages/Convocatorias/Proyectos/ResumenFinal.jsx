@@ -2,11 +2,10 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import AlertMui from '@/Components/Alert'
 import Checkbox from '@/Components/Checkbox'
-import CircularProgressMui from '@/Components/CircularProgress'
 import StepperMui from '@/Components/Stepper'
 
 import { Grid } from '@mui/material'
-import { useEffect, useState, useRef } from 'react'
+
 import { Head, router, usePage } from '@inertiajs/react'
 import React from 'react'
 import { checkRole } from '@/Utils'
@@ -18,6 +17,7 @@ const ResumenFinal = ({
     proyecto,
     evaluacion,
     validaciones,
+    topes_por_nodo,
 }) => {
     const auth_user = auth.user
     const { props: page_props } = usePage()
@@ -53,7 +53,7 @@ const ResumenFinal = ({
                                 continuación, se listan los valores asignados:
                                 <br />
                                 <ul className="ml-4 mt-2 list-disc">
-                                    {validaciones?.topes_por_nodo.map((tope_presupuestal, i) => (
+                                    {topes_por_nodo.map((tope_presupuestal, i) => (
                                         <React.Fragment key={i}>
                                             {tope_presupuestal.segundo_grupo_presupuestal.map((concepto_interno_sena, j) => (
                                                 <li key={j}>

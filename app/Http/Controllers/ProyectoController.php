@@ -669,7 +669,6 @@ class ProyectoController extends Controller
             'impactos' => ProyectoValidationTrait::impactos($proyecto),
             'edt' => ProyectoValidationTrait::edt($proyecto),
             'topes_roles_sennova' => ProyectoRolSennovaValidationTrait::topesRolesSennovaValidation($convocatoria, $proyecto),
-            'topes_por_nodo' => $proyecto->proyectoFormulario17Linea69()->exists() ? TopePresupuestalNodoTecnoparque::select('topes_presupuestales_nodos_tecnoparque.*')->with('nodoTecnoparque', 'segundoGrupoPresupuestal')->where('topes_presupuestales_nodos_tecnoparque.convocatoria_id', $convocatoria->id)->where('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id', $proyecto->proyectoFormulario17Linea69->nodo_tecnoparque_id)->orderBy('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id')->get() : null,
             // 'topes_presupuestales_tecnoparque' => $proyecto->proyectoFormulario17Linea69()->exists() ? ProyectoValidationTrait::topesPresupuestales($proyecto) : null,
             'topes_presupuestales_formulario7' => $proyecto->proyectoFormulario7Linea23()->exists() ? ProyectoValidationTrait::topesPresupuestalesFormulario7($convocatoria, $proyecto) : null,
             'resultadoProducto' => ProyectoValidationTrait::resultadoProducto($proyecto),
@@ -686,10 +685,11 @@ class ProyectoController extends Controller
         ];
 
         return Inertia::render('Convocatorias/Proyectos/ResumenFinal', [
-            'convocatoria'  => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
-            'proyecto'      => $proyecto,
-            'evaluacion'    => Evaluacion::find(request()->evaluacion_id),
-            'validaciones'  => $validaciones
+            'convocatoria'      => $convocatoria->only('id', 'esta_activa', 'fase_formateada', 'fase', 'tipo_convocatoria', 'min_fecha_inicio_proyectos', 'max_fecha_finalizacion_proyectos'),
+            'proyecto'          => $proyecto,
+            'evaluacion'        => Evaluacion::find(request()->evaluacion_id),
+            'validaciones'      => $validaciones,
+            'topes_por_nodo'    => $proyecto->proyectoFormulario17Linea69()->exists() ? TopePresupuestalNodoTecnoparque::select('topes_presupuestales_nodos_tecnoparque.*')->with('nodoTecnoparque', 'segundoGrupoPresupuestal')->where('topes_presupuestales_nodos_tecnoparque.convocatoria_id', $convocatoria->id)->where('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id', $proyecto->proyectoFormulario17Linea69->nodo_tecnoparque_id)->orderBy('topes_presupuestales_nodos_tecnoparque.nodo_tecnoparque_id')->get() : null,
         ]);
     }
 
