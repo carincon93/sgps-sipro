@@ -596,21 +596,13 @@
         <ul>
             @foreach ($proyecto->semillerosInvestigacion()->orderBy('nombre')->get() as $semillero_investigacion)
             <li>{{ ucfirst($semillero_investigacion->nombre) }}</li>
-            <<<<<<< HEAD @endforeach </ul>
-                <div class="bibliografia">
-                    <h4>Bibliografía</h4>
-                    <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->bibliografia }}</p>
-                </div>
-                <hr style="margin: 4rem 0">
-                =======
-                @endforeach
+            @endforeach
         </ul>
 
         <h4>Bibliografía</h4>
         <p style="white-space: pre-wrap; overflow-wrap: break-word">{{ $datos->bibliografia }}</p>
 
         <hr style="margin: 4rem 0">
-        >>>>>>> main
 
         <h1>Problema central</h1>
 
