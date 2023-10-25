@@ -170,10 +170,17 @@ class ProyectoFormulario12Linea68Controller extends Controller
             $tipo_proyecto_formulario_12_linea_68 = SelectHelper::laboratoriosServiciosTecnologicos();
         }
 
+        if ($auth_user->hasRole([1, 5, 17, 18, 19, 20])) {
+            $tipo_proyecto_linea_68 = SelectHelper::laboratoriosServiciosTecnologicos();
+        } else {
+            $tipo_proyecto_linea_68 = SelectHelper::laboratoriosServiciosTecnologicos()->where('regional_id', $auth_user->centroFormacion->regional_id)->values()->all();
+        }
+
         return Inertia::render('Convocatorias/Proyectos/ProyectosFormulario12Linea68/Edit', [
             'convocatoria'                                  => $convocatoria,
             'proyecto_formulario_12_linea_68'               => $proyecto_formulario_12_linea_68,
             'evaluacion'                                    => EvaluacionProyectoFormulario12Linea68::with('evaluacion.proyecto')->where('id', request()->evaluacion_id)->first(),
+            'tipos_proyecto_linea_68'                       => $tipo_proyecto_linea_68,
             'lineas_programaticas'                          => SelectHelper::lineasProgramaticas()->where('categoria_proyecto', 3)->values()->all(),
             'estados_sistema_gestion'                       => SelectHelper::estadosSistemaGestion(),
             'programas_formacion_sin_registro_calificado'   => SelectHelper::programasFormacion()->where('registro_calificado', false)->values()->all(),

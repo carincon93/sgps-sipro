@@ -210,7 +210,7 @@ class SelectHelper
                     WHEN '5' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), ' Fabricación especial', chr(10), ' Línea técnica: ', lineas_tecnicas.nombre)
                     WHEN '6' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), ' Seguridad y salud en el trabajo', chr(10), ' Línea técnica: ', lineas_tecnicas.nombre)
                     WHEN '7' THEN	CONCAT(centros_formacion.nombre, ' - ', centros_formacion.codigo,chr(10), ' Servicios de salud', chr(10), ' Línea técnica: ', lineas_tecnicas.nombre)
-                END as label, centros_formacion.regional_id as regional_id")
+                END as label, centros_formacion.id as centro_formacion_id, centros_formacion.regional_id as regional_id")
             ->join('centros_formacion', 'tipos_proyecto_linea_68.centro_formacion_id', 'centros_formacion.id')
             ->join('lineas_tecnicas', 'tipos_proyecto_linea_68.linea_tecnica_id', 'lineas_tecnicas.id')->get();
     }

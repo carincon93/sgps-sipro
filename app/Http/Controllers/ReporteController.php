@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Exports\CensoSennovaExport;
 use App\Exports\ComentariosEvaluacionesExport;
+use App\Exports\ConvocatoriaProyectosExport;
 use App\Exports\PresupuestoRolesSennovaExport;
 use App\Exports\EvaluacionesExport;
 use App\Exports\EvaluacionesProyectosPresupuestoExport;
 use App\Exports\GruposInvestigacionExport;
 use App\Exports\InfoGruposLineasSemillerosExport;
 use App\Exports\InfoProyectosCapacidadInstaladaExport;
-use App\Exports\InfoProyectosExport;
 use App\Exports\InfoProyectosIdiExport;
 use App\Exports\InfoProyectosStExport;
 use App\Exports\InfoProyectosCulturaInnovacionExport;
@@ -87,7 +87,7 @@ class ReporteController extends Controller
     {
         $this->authorize('descargar-reportes', [User::class]);
 
-        return Excel::download(new InfoProyectosExport($convocatoria), 'proyectos-' . time() . '.xlsx');
+        return Excel::download(new ConvocatoriaProyectosExport($convocatoria), 'proyectos-' . time() . '.xlsx');
     }
 
     /**
@@ -172,7 +172,7 @@ class ReporteController extends Controller
      */
     public function proyectosStExport(Convocatoria $convocatoria)
     {
-        return Excel::download(new InfoProyectosStExport($convocatoria), 'proyectos-st' . time() . '.xlsx');
+        // return Excel::download(new InfoProyectosStExport($convocatoria), 'proyectos-st' . time() . '.xlsx');
     }
 
     /** proyectosCulturaInnovacionExport

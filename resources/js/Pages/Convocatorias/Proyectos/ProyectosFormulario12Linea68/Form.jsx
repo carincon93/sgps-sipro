@@ -205,7 +205,7 @@ const Form = ({
                             required
                         />
                     ) : (
-                        <>{proyecto_formulario_12_linea_68.proyecto.centro_formacion.nombre}</>
+                        <p className="whitespace-pre-line">{tipos_proyecto_linea_68.find((item) => item.centro_formacion_id == proyecto_formulario_12_linea_68.proyecto.centro_formacion.id).label}</p>
                     )}
                 </Grid>
 

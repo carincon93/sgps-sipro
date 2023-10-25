@@ -13,11 +13,10 @@ use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithProperties;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class ProyectosExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithProperties, WithColumnFormatting, ShouldAutoSize
+class ProyectosExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithColumnFormatting, ShouldAutoSize, WithTitle
 {
-    protected $datos;
     protected $convocatoria;
 
     public function __construct(Convocatoria $convocatoria)
@@ -32,125 +31,107 @@ class ProyectosExport implements FromCollection, WithHeadings, WithMapping, With
     {
         return $this->convocatoria->proyectos()->get();
     }
+
     /**
      * @var Invoice $proyecto
      */
     public function map($proyecto): array
     {
-        $redes_conocimiento         = '';
-        $disciplina_conocimiento    = '';
-        $subarea_conocimiento       = '';
-        $area_conocimiento          = '';
-        $titulo                     = '';
-        $objetivo_general           = '';
-
-        if ($proyecto->proyectoFormulario1Linea65()->exists()) {
-            $redes_conocimiento         = $proyecto->redesConocimiento->implode(', ');
-            $disciplina_conocimiento    = optional($proyecto->proyectoFormulario1Linea65->disciplinaSubareaConocimiento)->nombre;
-            $subarea_conocimiento       = optional(optional($proyecto->proyectoFormulario1Linea65->disciplinaSubareaConocimiento)->subareaConocimiento)->nombre;
-            $area_conocimiento          = optional(optional(optional($proyecto->proyectoFormulario1Linea65->disciplinaSubareaConocimiento)->subareaConocimiento)->areaConocimiento)->nombre;
-            $redes_conocimiento         = $proyecto->redesConocimiento->implode(', ');
-            $titulo                     = $proyecto->proyectoFormulario1Linea65->titulo;
-            $objetivo_general           = $proyecto->proyectoFormulario1Linea65->objetivo_general;
-        }
-
-        if ($proyecto->proyectoFormulario3Linea61()->exists()) {
-            $titulo                     = $proyecto->proyectoFormulario3Linea61->titulo;
-            $objetivo_general           = $proyecto->proyectoFormulario3Linea61->objetivo_general;
-        }
-
-        if ($proyecto->proyectoFormulario4Linea70()->exists()) {
-            $disciplina_conocimiento    = $proyecto->proyectoFormulario4Linea70->disciplinasSubareaConocimiento()->get()->pluck('nombre')->implode(', ');
-            $titulo                     = $proyecto->proyectoFormulario4Linea70->titulo;
-            $objetivo_general           = $proyecto->proyectoFormulario4Linea70->objetivo_general;
-        }
-
-        if ($proyecto->proyectoFormulario5Linea69()->exists()) {
-            $titulo                     = $proyecto->proyectoFormulario5Linea69->titulo;
-            $objetivo_general           = $proyecto->proyectoFormulario5Linea69->objetivo_general;
-        }
-
-        if ($proyecto->proyectoFormulario6Linea82()->exists()) {
-            $redes_conocimiento = $proyecto->proyectoFormulario6Linea82->redConocimiento->nombre;
-            $disciplina_conocimiento    = optional($proyecto->proyectoFormulario6Linea82->disciplinaSubareaConocimiento)->nombre;
-            $subarea_conocimiento       = optional(optional($proyecto->proyectoFormulario6Linea82->disciplinaSubareaConocimiento)->subareaConocimiento)->nombre;
-            $area_conocimiento          = optional(optional(optional($proyecto->proyectoFormulario6Linea82->disciplinaSubareaConocimiento)->subareaConocimiento)->areaConocimiento)->nombre;
-            $titulo                     = $proyecto->proyectoFormulario6Linea82->titulo;
-            $objetivo_general           = $proyecto->proyectoFormulario6Linea82->objetivo_general;
-        }
-
-        if ($proyecto->proyectoFormulario7Linea23()->exists()) {
-            $titulo                     = $proyecto->proyectoFormulario7Linea23->titulo;
-            $objetivo_general           = $proyecto->proyectoFormulario7Linea23->objetivo_general;
-        }
-
-        if ($proyecto->proyectoFormulario8Linea66()->exists()) {
-            $redes_conocimiento         = $proyecto->proyectoFormulario8Linea66->redConocimiento->nombre;
-            $disciplina_conocimiento    = optional($proyecto->proyectoFormulario8Linea66->disciplinaSubareaConocimiento)->nombre;
-            $subarea_conocimiento       = optional(optional($proyecto->proyectoFormulario8Linea66->disciplinaSubareaConocimiento)->subareaConocimiento)->nombre;
-            $area_conocimiento          = optional(optional(optional($proyecto->proyectoFormulario8Linea66->disciplinaSubareaConocimiento)->subareaConocimiento)->areaConocimiento)->nombre;
-            $titulo                     = $proyecto->proyectoFormulario8Linea66->titulo;
-            $objetivo_general           = $proyecto->proyectoFormulario8Linea66->objetivo_general;
-        }
-
-        if ($proyecto->proyectoFormulario9Linea23()->exists()) {
-            $titulo                     = $proyecto->proyectoFormulario9Linea23->titulo;
-            $objetivo_general           = $proyecto->proyectoFormulario9Linea23->objetivo_general;
-        }
-
-        if ($proyecto->proyectoFormulario10Linea69()->exists()) {
-            $titulo                     = $proyecto->proyectoFormulario10Linea69->titulo;
-            $objetivo_general           = $proyecto->proyectoFormulario10Linea69->objetivo_general;
-        }
-
-        // if ($proyecto->proyectosFormulario13Linea65()->exists()) {
-        //     $disciplina_conocimiento = $proyecto->proyectosFormulario13Linea65->disciplinaSubareaConocimiento->nombre;
-        // }
-
-        if ($proyecto->proyectoFormulario12Linea68()->exists()) {
-            $titulo                     = $proyecto->proyectoFormulario12Linea68->titulo;
-            $objetivo_general           = $proyecto->proyectoFormulario12Linea68->objetivo_general;
-        }
-
-        if ($proyecto->proyectoFormulario13Linea65()->exists()) {
-            $titulo                     = $proyecto->proyectoFormulario13Linea65->titulo;
-            $objetivo_general           = $proyecto->proyectoFormulario13Linea65->objetivo_general;
-        }
-
-        if ($proyecto->proyectoFormulario15Linea65()->exists()) {
-            $titulo                     = $proyecto->proyectoFormulario15Linea65->titulo;
-            $objetivo_general           = $proyecto->proyectoFormulario15Linea65->objetivo_general;
-        }
-
-        if ($proyecto->proyectoFormulario16Linea65()->exists()) {
-            $titulo                     = $proyecto->proyectoFormulario16Linea65->titulo;
-            $objetivo_general           = $proyecto->proyectoFormulario16Linea65->objetivo_general;
-        }
-
-        if ($proyecto->proyectoFormulario17Linea69()->exists()) {
-            $titulo                     = $proyecto->proyectoFormulario17Linea69->titulo;
-            $objetivo_general           = $proyecto->proyectoFormulario17Linea69->objetivo_general;
-        }
-
-        return [
+        $informacion_celdas = [
             $this->convocatoria->descripcion . ' ' . $this->convocatoria->year,
             $proyecto->codigo,
             $proyecto->centroFormacion->regional->nombre,
             $proyecto->centroFormacion->codigo,
             $proyecto->centroFormacion->nombre,
             $proyecto->tipoFormularioConvocatoria->nombre,
-            mb_strtoupper($titulo),
-            $redes_conocimiento,
-            $area_conocimiento ?? 'N/A',
-            $subarea_conocimiento ?? 'N/A',
-            $disciplina_conocimiento ?? 'N/A',
-            $objetivo_general,
+            'N/A', // Default value for $titulo
+            'N/A', // Default value for $redes_conocimiento
+            'N/A', // Default value for $area_conocimiento
+            'N/A', // Default value for $subarea_conocimiento
+            'N/A', // Default value for $disciplina_conocimiento
+            '',    // Default value for $objetivo_general
             $proyecto->total_proyecto_presupuesto,
             $proyecto->total_roles_sennova,
             $proyecto->total_proyecto_presupuesto + $proyecto->total_roles_sennova,
-            ($proyecto->finalizado) ? 'SI' : 'NO',
+            $proyecto->finalizado ? 'SI' : 'NO',
             $proyecto->participantes()->firstWhere('es_formulador', true) ? mb_strtoupper($proyecto->participantes()->firstWhere('es_formulador', true)->nombre) : 'Sin información registrada',
         ];
+
+        $this->setRedesConocimiento($proyecto, $informacion_celdas);
+        $this->setTituloYObjetivoGeneral($proyecto, $informacion_celdas);
+        $this->setDisciplinaSubareaAreaConocimiento($proyecto, $informacion_celdas);
+
+        return $informacion_celdas;
+    }
+
+    private function setRedesConocimiento($proyecto, &$informacion_celdas)
+    {
+        if ($proyecto->proyectoFormulario1Linea65()->exists()) {
+            $informacion_celdas[7] = $proyecto->redesConocimiento->implode(', ');
+        } elseif ($proyecto->proyectoFormulario6Linea82()->exists()) {
+            $informacion_celdas[7] = $proyecto->proyectoFormulario6Linea82->redConocimiento->nombre;
+        } elseif ($proyecto->proyectoFormulario8Linea66()->exists()) {
+            $informacion_celdas[7] = $proyecto->proyectoFormulario8Linea66->redConocimiento->nombre;
+        }
+    }
+
+    private function setTituloYObjetivoGeneral($proyecto, &$informacion_celdas)
+    {
+        $formularios = [
+            ['formd_id' => 1, 'linea' => 65],
+            ['formd_id' => 3, 'linea' => 61],
+            ['formd_id' => 4, 'linea' => 70],
+            ['formd_id' => 5, 'linea' => 69],
+            ['formd_id' => 6, 'linea' => 82],
+            ['formd_id' => 7, 'linea' => 23],
+            ['formd_id' => 8, 'linea' => 66],
+            ['formd_id' => 9, 'linea' => 23],
+            ['formd_id' => 10, 'linea' => 69],
+            ['formd_id' => 12, 'linea' => 68],
+            ['formd_id' => 13, 'linea' => 65],
+            ['formd_id' => 15, 'linea' => 65],
+            ['formd_id' => 16, 'linea' => 65],
+            ['formd_id' => 17, 'linea' => 69],
+        ];
+
+        foreach ($formularios as $formulario) {
+            $formd_id   = $formulario['formd_id'];
+            $linea      = $formulario['linea'];
+
+            $formulario_method = "proyectoFormulario{$formd_id}Linea{$linea}";
+
+            if ($proyecto->$formulario_method()->exists()) {
+                $informacion_celdas[6]   = $proyecto->$formulario_method->titulo;
+                $informacion_celdas[11]  = $proyecto->$formulario_method->objetivo_general;
+                break;
+            }
+        }
+    }
+
+    private function setDisciplinaSubareaAreaConocimiento($proyecto, &$informacion_celdas)
+    {
+        $formularios = [
+            ['formd_id' => 1, 'linea' => 65],
+            ['formd_id' => 4, 'linea' => 70],
+            ['formd_id' => 6, 'linea' => 82],
+            ['formd_id' => 8, 'linea' => 66],
+            ['formd_id' => 13, 'linea' => 65],
+        ];
+
+        foreach ($formularios as $formulario) {
+            $formd_id   = $formulario['formd_id'];
+            $linea      = $formulario['linea'];
+
+            $formulario_method = "proyectoFormulario{$formd_id}Linea{$linea}";
+
+            if ($proyecto->$formulario_method()->exists()) {
+                $disciplinaSubarea  = $proyecto->$formulario_method->disciplinaSubareaConocimiento;
+                $informacion_celdas[8]       = optional(optional(optional($disciplinaSubarea)->subareaConocimiento)->areaConocimiento)->nombre;
+                $informacion_celdas[9]       = optional(optional($disciplinaSubarea)->subareaConocimiento)->nombre;
+                $informacion_celdas[10]      = optional($disciplinaSubarea)->nombre;
+                break;
+            }
+        }
     }
 
     public function headings(): array
@@ -185,11 +166,12 @@ class ProyectosExport implements FromCollection, WithHeadings, WithMapping, With
         ];
     }
 
-    public function properties(): array
+    /**
+     * @return string
+     */
+    public function title(): string
     {
-        return [
-            'title' => 'Resumen proyectos ' . $this->convocatoria->descripcion,
-        ];
+        return  $this->convocatoria->descripcion . ' '  . $this->convocatoria->year;
     }
 
     public function styles(Worksheet $sheet)
