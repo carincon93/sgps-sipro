@@ -45,7 +45,7 @@ const SemillerosInvestigacion = ({ auth_user, convocatoria, proyecto, nuevo_semi
                 ))}
 
                 {nuevo_semillero_investigacion && (
-                    <TableRow sx={{ backgroundColor: '#e5f6fd' }}>
+                    <TableRow sx={{ backgroundColor: '#edf7ed' }}>
                         <TableCell>
                             <p className="uppercase">{nuevo_semillero_investigacion.nombre}</p>
                             <Chip label={nuevo_semillero_investigacion.codigo} />

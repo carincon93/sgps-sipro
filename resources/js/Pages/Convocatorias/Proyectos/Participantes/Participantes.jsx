@@ -225,7 +225,7 @@ const Participantes = ({ auth_user, convocatoria, proyecto, roles_sennova, nuevo
                 {nuevo_participante && (
                     <>
                         {search_param && (
-                            <TableRow sx={{ backgroundColor: '#e5f6fd' }}>
+                            <TableRow sx={{ backgroundColor: '#edf7ed' }}>
                                 <TableCell>
                                     {nuevo_participante.nombre}
                                     <br />
