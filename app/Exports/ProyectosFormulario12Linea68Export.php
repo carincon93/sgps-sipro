@@ -57,12 +57,12 @@ class ProyectosFormulario12Linea68Export implements WithTitle, FromCollection, W
 
         return [
             $this->convocatoria->descripcion . ' ' . $this->convocatoria->year,
+            $proyecto->tipoFormularioConvocatoria->nombre,
             $proyecto->codigo,
             $proyecto->centroFormacion->regional->nombre,
             $proyecto->centroFormacion->codigo,
             $proyecto->centroFormacion->nombre,
             mb_strtoupper($proyecto->proyectoFormulario12Linea68->tipoProyectoLinea68->lineaTecnica->nombre),
-            $proyecto->tipoFormularioConvocatoria->nombre,
             mb_strtoupper($titulo),
             $nombre_area_tecnica,
             $objetivo_general,
@@ -79,12 +79,12 @@ class ProyectosFormulario12Linea68Export implements WithTitle, FromCollection, W
     {
         return [
             'Convocatoria',
+            'Formulario',
             'Código SGPS',
             'Regional',
             'Código del centro formación',
             'Centro de formación',
             'Línea técnica',
-            'Formulario',
             'Título',
             'Nombre del área técnica',
             'Objetivo general',

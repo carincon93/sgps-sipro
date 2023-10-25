@@ -39,11 +39,11 @@ class ProyectosExport implements FromCollection, WithHeadings, WithMapping, With
     {
         $informacion_celdas = [
             $this->convocatoria->descripcion . ' ' . $this->convocatoria->year,
+            $proyecto->tipoFormularioConvocatoria->nombre,
             $proyecto->codigo,
             $proyecto->centroFormacion->regional->nombre,
             $proyecto->centroFormacion->codigo,
             $proyecto->centroFormacion->nombre,
-            $proyecto->tipoFormularioConvocatoria->nombre,
             'N/A', // Default value for $titulo
             'N/A', // Default value for $redes_conocimiento
             'N/A', // Default value for $area_conocimiento
@@ -112,7 +112,6 @@ class ProyectosExport implements FromCollection, WithHeadings, WithMapping, With
     {
         $formularios = [
             ['formd_id' => 1, 'linea' => 65],
-            ['formd_id' => 4, 'linea' => 70],
             ['formd_id' => 6, 'linea' => 82],
             ['formd_id' => 8, 'linea' => 66],
             ['formd_id' => 13, 'linea' => 65],
@@ -131,6 +130,11 @@ class ProyectosExport implements FromCollection, WithHeadings, WithMapping, With
                 $informacion_celdas[10]      = optional($disciplinaSubarea)->nombre;
                 break;
             }
+
+            if ($proyecto->proyectoFormulario4Linea70()->exists()) {
+                $informacion_celdas[10]    = $proyecto->proyectoFormulario4Linea70->disciplinasSubareaConocimiento()->get()->pluck('nombre')->implode(', ');
+                break;
+            }
         }
     }
 
@@ -138,11 +142,11 @@ class ProyectosExport implements FromCollection, WithHeadings, WithMapping, With
     {
         return [
             'Convocatoria',
+            'Formulario',
             'Código SGPS',
             'Regional',
             'Código del centro formación',
             'Centro de formación',
-            'Formulario',
             'Título',
             'Red de conocimiento',
             'Área de conocimiento',
