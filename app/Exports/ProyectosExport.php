@@ -101,7 +101,7 @@ class ProyectosExport implements FromCollection, WithHeadings, WithMapping, With
             $formulario_method = "proyectoFormulario{$formd_id}Linea{$linea}";
 
             if ($proyecto->$formulario_method()->exists()) {
-                $informacion_celdas[6]   = $proyecto->$formulario_method->titulo;
+                $informacion_celdas[6]   = mb_strtoupper($proyecto->$formulario_method->titulo);
                 $informacion_celdas[11]  = $proyecto->$formulario_method->objetivo_general;
                 break;
             }
