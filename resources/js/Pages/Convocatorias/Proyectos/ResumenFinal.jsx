@@ -79,46 +79,47 @@ const ResumenFinal = ({
                                     {!validaciones?.problemaCentral && <li>Problema central</li>}
                                     {!validaciones?.efectosDirectos && (
                                         <li>
-                                            Efectos directos (Asegúrese que no hayan casillas en el paso de definición del problema con el mensaje{' '}
+                                            Efectos directos. (Asegúrese que no hayan casillas en el paso de definición del problema con el mensaje{' '}
                                             <strong>Debe diligenciar este efecto directo'.</strong>
                                         </li>
                                     )}
                                     {!validaciones?.efectosIndirectos && (
                                         <li>
-                                            Efectos indirectos (Asegúrese que no hayan casillas en el paso de definición del problema con el mensaje{' '}
+                                            Efectos indirectos. (Asegúrese que no hayan casillas en el paso de definición del problema con el mensaje{' '}
                                             <strong>Debe diligenciar este efecto indirecto'.</strong>
                                         </li>
                                     )}
                                     {!validaciones?.causasDirectas && (
                                         <li>
-                                            Causas directas (Asegúrese que no hayan casillas en el paso de definición del problema con el mensaje <strong>Debe diligenciar esta causa directa'.</strong>
+                                            Causas directas. (Asegúrese que no hayan casillas en el paso de definición del problema con el mensaje{' '}
+                                            <strong>Debe diligenciar esta causa directa'.</strong>
                                         </li>
                                     )}
                                     {!validaciones?.causasIndirectas && (
                                         <li>
-                                            Causas indirectas (Asegúrese que no hayan casillas en el paso de definición del problema con el mensaje{' '}
+                                            Causas indirectas. (Asegúrese que no hayan casillas en el paso de definición del problema con el mensaje{' '}
                                             <strong>Debe diligenciar esta causa indirecta'.</strong>
                                         </li>
                                     )}
                                     {!validaciones?.objetivoGeneral && <li>Objetivo general</li>}
                                     {!validaciones?.resultados && (
                                         <li>
-                                            Resultados (Asegúrese que no hayan casillas en el paso de objetivos con el mensaje <strong>Debe diligenciar este resultado'.</strong>
+                                            Resultados. (Asegúrese que no hayan casillas en el paso de objetivos con el mensaje <strong>Debe diligenciar este resultado'.</strong>
                                         </li>
                                     )}
                                     {!validaciones?.objetivosEspecificos && (
                                         <li>
-                                            Objetivos específicos (Asegúrese que no hayan casillas en el paso de objetivos con el mensaje <strong>Debe diligenciar este objetivo específico'.</strong>
+                                            Objetivos específicos. (Asegúrese que no hayan casillas en el paso de objetivos con el mensaje <strong>Debe diligenciar este objetivo específico'.</strong>
                                         </li>
                                     )}
                                     {!validaciones?.actividades && (
                                         <li>
-                                            Actividades (Asegúrese que no hayan casillas en el paso de objetivos con el mensaje <strong>Debe diligenciar esta actividad'.</strong>
+                                            Actividades. (Asegúrese que no hayan casillas en el paso de objetivos con el mensaje <strong>Debe diligenciar esta actividad'.</strong>
                                         </li>
                                     )}
                                     {!validaciones?.impactos && (
                                         <li>
-                                            Impactos (Asegúrese que no hayan casillas en el paso de objetivos con el mensaje <strong>Debe diligenciar este impacto'.</strong>
+                                            Impactos. (Asegúrese que no hayan casillas en el paso de objetivos con el mensaje <strong>Debe diligenciar este impacto'.</strong>
                                         </li>
                                     )}
                                     {!validaciones?.metodologia && <li>Metodología (Metodología y actividades)</li>}
@@ -128,18 +129,19 @@ const ResumenFinal = ({
                                     )}
                                     {!validaciones?.productosActividades && (
                                         <li>
-                                            Hay productos sin actividades relacionadas (Debe revisar cada producto en el paso <strong>Productos</strong> y asegúrese que tengan actividades
+                                            Hay productos sin actividades relacionadas. (Debe revisar cada producto en el paso <strong>Productos</strong> y asegúrese que tengan actividades
                                             relacionadas)
                                         </li>
                                     )}
                                     {!validaciones?.resultadoProducto && (
                                         <li>
-                                            Hay resultados sin productos relacionados (Debe revisar cada producto en el paso <strong>Productos</strong> y asegúrese que tenga algún resultado asociado)
+                                            Hay resultados sin productos relacionados. Todos los resultados deben generar al menos un producto. (En el paso <strong>Productos</strong> genere mínimo un
+                                            producto por resultado)
                                         </li>
                                     )}
                                     {!validaciones?.analisisRiesgo && (
                                         <li>
-                                            Faltan análisis de riesgos (Asegúrese que ha generado análisis de riesgo en los siguientes niveles: A nivel del objetivo general - A nivel de actividades -
+                                            Faltan análisis de riesgos. (Asegúrese que ha generado análisis de riesgo en los siguientes niveles: A nivel del objetivo general - A nivel de actividades -
                                             A nivel de productos)
                                         </li>
                                     )}
@@ -148,12 +150,12 @@ const ResumenFinal = ({
                                     {!validaciones?.estudiosMercadoArchivo && <li>Hay rubros presupuestales que no tienen el estudio de mercado cargado</li>}
                                     {!validaciones?.minAprendicesEnSemilleros && (
                                         <li>
-                                            En la sección de <strong>participantes</strong> debe relacionar mínimo 2 aprendices con el rol de "Aprendiz en semillero de investigación"
+                                            En el paso de <strong>participantes</strong> debe relacionar mínimo 2 aprendices con el rol de "Aprendiz en semillero de investigación"
                                         </li>
                                     )}
                                     {!validaciones?.minInstructoresInvestigadores && (
                                         <li>
-                                            En la sección de <strong>participantes</strong> debe relacionar mínimo 1 instructor con el rol de "Instructor investigador"
+                                            En el paso de <strong>participantes</strong> debe relacionar mínimo 1 instructor con el rol de "Instructor investigador"
                                         </li>
                                     )}
                                     {!validaciones?.topes_roles_sennova && (
