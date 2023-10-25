@@ -59,8 +59,6 @@ class ConvocatoriaRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        $this->merge([
-            'fase' => 1,
-        ]);
+        // 
     }
 }

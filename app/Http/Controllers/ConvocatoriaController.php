@@ -179,6 +179,10 @@ class ConvocatoriaController extends Controller
 
         $convocatoria->tiposFormularioConvocatoria()->sync($request->tipos_formulario_convocatoria);
 
+        if ($request->filled('fase')) {
+            self::updateFase($request, $convocatoria);
+        }
+
         foreach ($convocatoria->tiposFormularioConvocatoria as $tipo_formulario_convocatoria) {
             if (in_array($tipo_formulario_convocatoria->id, $request->formularios_visibles)) {
                 $convocatoria->tiposFormularioConvocatoria()->updateExistingPivot($tipo_formulario_convocatoria->id, ['visible' => true]);
@@ -346,121 +350,117 @@ class ConvocatoriaController extends Controller
      * @param  mixed $convocatoria
      * @return void
      */
-    public function updateFase(Request $request, Convocatoria $convocatoria)
+    public static function updateFase(Request $request, Convocatoria $convocatoria)
     {
-        foreach ($convocatoria->evaluaciones()->get() as $evaluacion) {
-            $evaluacion->update(['estado' => $evaluacion->verificar_estado_evaluacion]);
-        }
-
-        $convocatoria->fase                     = $request->fase;
-        $convocatoria->fecha_finalizacion_fase  = $request->fecha_finalizacion_fase;
-        $convocatoria->hora_finalizacion_fase   = $request->hora_finalizacion_fase;
-        $convocatoria->year                     = date('Y', strtotime($request->year));
-        $convocatoria->save();
+        // foreach ($convocatoria->evaluaciones()->get() as $evaluacion) {
+        //     $evaluacion->update(['estado' => $evaluacion->verificar_estado_evaluacion]);
+        // }
 
         if ($request->fase == 1) { // Formulación
             $convocatoria->proyectos()->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false]);
-            $convocatoria->evaluaciones()->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
+            // $convocatoria->evaluaciones()->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
         } else if ($request->fase == 2) { // Primera evaluación
-            $convocatoria->proyectos()->update(['modificable' => false, 'habilitado_para_evaluar' => true, 'radicado' => true]);
-        } else if ($request->fase == 3) { // Subsanación
-
-            foreach ($convocatoria->proyectos()->get() as $proyecto) {
-                switch ($proyecto) {
-                    case $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 != null:
-                        if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_8_linea_66)->requiereSubsanar) {
-                            $proyecto->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66, 'mostrar_recomendaciones' => true]);
-                        } else {
-                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66]);
-                        }
-                        break;
-
-                    case $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 != null:
-                        if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_1_linea_65)->requiereSubsanar) {
-                            $proyecto->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65, 'mostrar_recomendaciones' => true]);
-                        } else {
-                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65]);
-                        }
-                        break;
-
-                    case $proyecto->estado_evaluacion_proyecto_formulario_5_linea_70 != null:
-                        if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_5_linea_70)->requiereSubsanar) {
-                            $proyecto->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_5_linea_70, 'mostrar_recomendaciones' => true]);
-                        } else {
-                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_5_linea_70]);
-                        }
-                        break;
-
-                    case $proyecto->estado_evaluacion_proyecto_formulario_4_linea_69 != null:
-                        if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_4_linea_69)->requiereSubsanar) {
-                            $proyecto->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_4_linea_69, 'mostrar_recomendaciones' => true]);
-                        } else {
-                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_4_linea_69]);
-                        }
-                        break;
-
-                    case $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68 != null:
-                        if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_12_linea_68)->requiereSubsanar) {
-                            $proyecto->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68, 'mostrar_recomendaciones' => true]);
-                        } else {
-                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
-                        }
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-            $convocatoria->evaluaciones()->where('clausula_confidencialidad', true)->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
-        } else if ($request->fase == 4) { // Segunda evaluación
-
-            foreach ($convocatoria->proyectos()->get() as $proyecto) {
-                switch ($proyecto) {
-                    case $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 != null:
-                        if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_8_linea_66)->requiereSubsanar) {
-                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => true, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
-                        }
-                        break;
-
-                    case $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 != null:
-                        if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_1_linea_65)->requiereSubsanar) {
-                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => true, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
-                        }
-                        break;
-
-                    case $proyecto->estado_evaluacion_proyecto_formulario_5_linea_70 != null:
-                        if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_5_linea_70)->requiereSubsanar) {
-                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => true, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_5_linea_70, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
-                        }
-                        break;
-
-                    case $proyecto->estado_evaluacion_proyecto_formulario_4_linea_69 != null:
-                        if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_4_linea_69)->requiereSubsanar) {
-                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => true, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_4_linea_69, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
-                        }
-                        break;
-
-                    case $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68 != null:
-                        if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_12_linea_68)->requiereSubsanar) {
-                            $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => true, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
-                        }
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-            $convocatoria->evaluaciones()->where('clausula_confidencialidad', true)->update(['modificable' => true, 'finalizado' => false, 'iniciado' => false]);
-        } else if ($request->fase == 5) { // Finalizar convocatoria
-            $convocatoria->proyectos()->update(['modificable' => false]);
-            $convocatoria->evaluaciones()->where('clausula_confidencialidad', true)->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
+            $convocatoria->proyectos()->update(['modificable' => false, 'habilitado_para_evaluar' => true, 'finalizado' => true]);
         }
 
-        $convocatoria->evaluaciones()->where('estado', 'LIKE', 'Sin evaluar')->update(['habilitado' => false]);
+        // else if ($request->fase == 3) { // Subsanación
 
-        return back()->with('success', 'El recurso se ha actualizado correctamente.');
+        //     foreach ($convocatoria->proyectos()->get() as $proyecto) {
+        //         switch ($proyecto) {
+        //             case $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 != null:
+        //                 if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_8_linea_66)->requiereSubsanar) {
+        //                     $proyecto->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66, 'mostrar_recomendaciones' => true]);
+        //                 } else {
+        //                     $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66]);
+        //                 }
+        //                 break;
+
+        //             case $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 != null:
+        //                 if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_1_linea_65)->requiereSubsanar) {
+        //                     $proyecto->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65, 'mostrar_recomendaciones' => true]);
+        //                 } else {
+        //                     $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65]);
+        //                 }
+        //                 break;
+
+        //             case $proyecto->estado_evaluacion_proyecto_formulario_5_linea_70 != null:
+        //                 if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_5_linea_70)->requiereSubsanar) {
+        //                     $proyecto->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_5_linea_70, 'mostrar_recomendaciones' => true]);
+        //                 } else {
+        //                     $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_5_linea_70]);
+        //                 }
+        //                 break;
+
+        //             case $proyecto->estado_evaluacion_proyecto_formulario_4_linea_69 != null:
+        //                 if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_4_linea_69)->requiereSubsanar) {
+        //                     $proyecto->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_4_linea_69, 'mostrar_recomendaciones' => true]);
+        //                 } else {
+        //                     $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_4_linea_69]);
+        //                 }
+        //                 break;
+
+        //             case $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68 != null:
+        //                 if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_12_linea_68)->requiereSubsanar) {
+        //                     $proyecto->update(['finalizado' => false, 'modificable' => true, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68, 'mostrar_recomendaciones' => true]);
+        //                 } else {
+        //                     $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => false, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68]);
+        //                 }
+        //                 break;
+
+        //             default:
+        //                 break;
+        //         }
+        //     }
+
+        //     $convocatoria->evaluaciones()->where('clausula_confidencialidad', true)->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
+        // } else if ($request->fase == 4) { // Segunda evaluación
+
+        //     foreach ($convocatoria->proyectos()->get() as $proyecto) {
+        //         switch ($proyecto) {
+        //             case $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66 != null:
+        //                 if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_8_linea_66)->requiereSubsanar) {
+        //                     $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => true, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_8_linea_66, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
+        //                 }
+        //                 break;
+
+        //             case $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65 != null:
+        //                 if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_1_linea_65)->requiereSubsanar) {
+        //                     $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => true, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_1_linea_65, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
+        //                 }
+        //                 break;
+
+        //             case $proyecto->estado_evaluacion_proyecto_formulario_5_linea_70 != null:
+        //                 if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_5_linea_70)->requiereSubsanar) {
+        //                     $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => true, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_5_linea_70, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
+        //                 }
+        //                 break;
+
+        //             case $proyecto->estado_evaluacion_proyecto_formulario_4_linea_69 != null:
+        //                 if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_4_linea_69)->requiereSubsanar) {
+        //                     $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => true, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_4_linea_69, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
+        //                 }
+        //                 break;
+
+        //             case $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68 != null:
+        //                 if (json_decode($proyecto->estado_evaluacion_proyecto_formulario_12_linea_68)->requiereSubsanar) {
+        //                     $proyecto->update(['finalizado' => true, 'modificable' => false, 'habilitado_para_evaluar' => true, 'estado' => $proyecto->estado_evaluacion_proyecto_formulario_12_linea_68, 'mostrar_recomendaciones' => false, 'en_evaluacion' => true]);
+        //                 }
+        //                 break;
+
+        //             default:
+        //                 break;
+        //         }
+        //     }
+
+        //     $convocatoria->evaluaciones()->where('clausula_confidencialidad', true)->update(['modificable' => true, 'finalizado' => false, 'iniciado' => false]);
+        // } else if ($request->fase == 5) { // Finalizar convocatoria
+        //     $convocatoria->proyectos()->update(['modificable' => false]);
+        //     $convocatoria->evaluaciones()->where('clausula_confidencialidad', true)->update(['modificable' => false, 'finalizado' => true, 'iniciado' => false]);
+        // }
+
+        // $convocatoria->evaluaciones()->where('estado', 'LIKE', 'Sin evaluar')->update(['habilitado' => false]);
+
+        // return back()->with('success', 'El recurso se ha actualizado correctamente.');
     }
 
     public function nuevosProyectosTaTp()
