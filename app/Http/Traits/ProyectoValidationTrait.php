@@ -247,7 +247,7 @@ trait ProyectoValidationTrait
         $count_resultado = 0;
 
         foreach ($proyecto->efectosDirectos as $efecto_directo) {
-            if ($efecto_directo->descripcion != '' && $efecto_directo->resultado->descripcion == '') {
+            if ($efecto_directo->descripcion != '' && $efecto_directo->resultado && $efecto_directo->resultado->descripcion == '') {
                 $count_resultado++;
             }
         }
