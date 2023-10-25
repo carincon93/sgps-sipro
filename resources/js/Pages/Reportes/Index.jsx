@@ -11,8 +11,9 @@ import axios from 'axios'
 import { Head, Link, useForm } from '@inertiajs/react'
 import { Grid } from '@mui/material'
 import { useState } from 'react'
+import Autocomplete from '@/Components/Autocomplete'
 
-export default function Reportes({ auth, centros_formacion }) {
+export default function Reportes({ auth, centros_formacion, convocatorias }) {
     const auth_user = auth.user
 
     const is_super_admin = checkRole(auth_user, [1])
@@ -21,6 +22,7 @@ export default function Reportes({ auth, centros_formacion }) {
     const form = useForm({
         centro_formacion_id: null,
         reporte_completo: false,
+        convocatoria_id: null,
     })
 
     const submit = (e) => {
@@ -53,7 +55,7 @@ export default function Reportes({ auth, centros_formacion }) {
     const centros_formacion_filtrados = checkRole(auth_user, [3, 4, 21])
         ? [centros_formacion.find((item) => item.value == auth_user.centro_formacion_id)]
         : checkRole(auth_user, [2])
-        ? [centros_formacion.filter((item) => item.regional_id == auth_user.regional_id)][0]
+        ? [centros_formacion.filter((item) => item.convocatoria_id == auth_user.convocatoria_id)][0]
         : centros_formacion
 
     return (
@@ -137,6 +139,33 @@ export default function Reportes({ auth, centros_formacion }) {
                         </Grid>
                     </Grid>
                 </Grid>
+
+                {checkRole(auth_user, [1, 5, 17, 18, 19]) && (
+                    <Grid item md={12} className="bg-white overflow-hidden !my-10 rounded-lg px-6 pb-12 shadow-md">
+                        <Grid container alignItems="center">
+                            <Grid item md={4}>
+                                <h1>Proyectos de convocatoria</h1>
+                            </Grid>
+                            <Grid item md={8}>
+                                <Autocomplete
+                                    id="convocatoria_id"
+                                    options={convocatorias}
+                                    selectedValue={form.data.convocatoria_id}
+                                    onChange={(event, newValue) => form.setData('convocatoria_id', newValue.value)}
+                                    error={form.errors.convocatoria_id}
+                                    label="Seleccione una convocatoria"
+                                    required
+                                />
+                                {form.data.convocatoria_id && (
+                                    <a target="_blank" href={route('reportes.resumen-proyectos', [form.data.convocatoria_id])} className="flex mt-10 items-center underline">
+                                        <FileTypeIcon fileType="xlsx" className="w-6 mr-4" />
+                                        Descargar reporte
+                                    </a>
+                                )}
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                )}
             </Grid>
         </AuthenticatedLayout>
     )

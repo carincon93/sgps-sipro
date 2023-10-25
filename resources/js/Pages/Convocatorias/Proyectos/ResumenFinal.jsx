@@ -79,44 +79,46 @@ const ResumenFinal = ({
                                     {!validaciones?.problemaCentral && <li>Problema central</li>}
                                     {!validaciones?.efectosDirectos && (
                                         <li>
-                                            Efectos directos (Asegúrese que no hayan casillas en el árbol de problemas con el mensaje <strong>'Por favor diligencie este efecto directo'.</strong>
+                                            Efectos directos (Asegúrese que no hayan casillas en el paso de definición del problema con el mensaje{' '}
+                                            <strong>Debe diligenciar este efecto directo'.</strong>
                                         </li>
                                     )}
                                     {!validaciones?.efectosIndirectos && (
                                         <li>
-                                            Efectos indirectos (Asegúrese que no hayan casillas en el árbol de problemas con el mensaje <strong>'Por favor diligencie este efecto indirecto'.</strong>
+                                            Efectos indirectos (Asegúrese que no hayan casillas en el paso de definición del problema con el mensaje{' '}
+                                            <strong>Debe diligenciar este efecto indirecto'.</strong>
                                         </li>
                                     )}
                                     {!validaciones?.causasDirectas && (
                                         <li>
-                                            Causas directas (Asegúrese que no hayan casillas en el árbol de problemas con el mensaje <strong>'Por favor diligencie esta causa directa'.</strong>
+                                            Causas directas (Asegúrese que no hayan casillas en el paso de definición del problema con el mensaje <strong>Debe diligenciar esta causa directa'.</strong>
                                         </li>
                                     )}
                                     {!validaciones?.causasIndirectas && (
                                         <li>
-                                            Causas indirectas (Asegúrese que no hayan casillas en el árbol de problemas con el mensaje <strong>'Por favor diligencie esta causa indirecta'.</strong>
+                                            Causas indirectas (Asegúrese que no hayan casillas en el paso de definición del problema con el mensaje{' '}
+                                            <strong>Debe diligenciar esta causa indirecta'.</strong>
                                         </li>
                                     )}
                                     {!validaciones?.objetivoGeneral && <li>Objetivo general</li>}
                                     {!validaciones?.resultados && (
                                         <li>
-                                            Resultados (Asegúrese que no hayan casillas en el árbol de objetivos con el mensaje <strong>'Por favor diligencie este resultado'.</strong>
+                                            Resultados (Asegúrese que no hayan casillas en el paso de objetivos con el mensaje <strong>Debe diligenciar este resultado'.</strong>
                                         </li>
                                     )}
                                     {!validaciones?.objetivosEspecificos && (
                                         <li>
-                                            Objetivos específicos (Asegúrese que no hayan casillas en el árbol de objetivos con el mensaje{' '}
-                                            <strong>'Por favor diligencie este objetivo específico'.</strong>
+                                            Objetivos específicos (Asegúrese que no hayan casillas en el paso de objetivos con el mensaje <strong>Debe diligenciar este objetivo específico'.</strong>
                                         </li>
                                     )}
                                     {!validaciones?.actividades && (
                                         <li>
-                                            Actividades (Asegúrese que no hayan casillas en el árbol de objetivos con el mensaje <strong>'Por favor diligencie esta actividad'.</strong>
+                                            Actividades (Asegúrese que no hayan casillas en el paso de objetivos con el mensaje <strong>Debe diligenciar esta actividad'.</strong>
                                         </li>
                                     )}
                                     {!validaciones?.impactos && (
                                         <li>
-                                            Impactos (Asegúrese que no hayan casillas en el árbol de objetivos con el mensaje <strong>'Por favor diligencie este impacto'.</strong>
+                                            Impactos (Asegúrese que no hayan casillas en el paso de objetivos con el mensaje <strong>Debe diligenciar este impacto'.</strong>
                                         </li>
                                     )}
                                     {!validaciones?.metodologia && <li>Metodología (Metodología y actividades)</li>}

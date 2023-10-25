@@ -755,11 +755,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                         className="bg-white relative p-4 rounded-md parent-actions hover:cursor-text min-h-[108px] max-h-[108px] my-4 pr-14"
                                         onClick={() => setCausaDirecta(causa_directa)}>
                                         <p className="line-clamp-3">
-                                            {causa_directa.descripcion ? (
-                                                causa_directa.descripcion
-                                            ) : (
-                                                <span className="text-red-500 bg-red-100 p-1 rounded">Por favor diligencie esta causa directa</span>
-                                            )}
+                                            {causa_directa.descripcion ? causa_directa.descripcion : <span className="text-red-500 bg-red-100 p-1 rounded">Debe diligenciar esta causa directa</span>}
                                         </p>
 
                                         <DoubleArrowIcon className="absolute right-[-23px] top-[50%]" />
@@ -839,7 +835,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                     {causa_indirecta.descripcion ? (
                                                         causa_indirecta.descripcion
                                                     ) : (
-                                                        <span className="text-red-500 bg-red-100 p-1 rounded">Por favor diligencie esta causa indirecta.</span>
+                                                        <span className="text-red-500 bg-red-100 p-1 rounded">Debe diligenciar esta causa indirecta.</span>
                                                     )}
                                                 </p>
 
@@ -975,7 +971,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                             {causa_directa.objetivo_especifico?.descripcion ? (
                                                 causa_directa.objetivo_especifico?.descripcion
                                             ) : (
-                                                <span className="text-red-500 bg-red-100 p-1 rounded">Por favor diligencie este objetivo específico.</span>
+                                                <span className="text-red-500 bg-red-100 p-1 rounded">Debe diligenciar este objetivo específico.</span>
                                             )}
                                         </p>
                                         <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
@@ -1072,7 +1068,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                     {causa_indirecta.actividad?.descripcion ? (
                                                         causa_indirecta.actividad?.descripcion
                                                     ) : (
-                                                        <span className="text-red-500 bg-red-100 p-1 rounded">Por favor diligencie esta actividad.</span>
+                                                        <span className="text-red-500 bg-red-100 p-1 rounded">Debe diligenciar esta actividad.</span>
                                                     )}
                                                 </p>
                                                 <div className="absolute flex top-[45%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
@@ -1252,7 +1248,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                             {efecto_directo.descripcion ? (
                                                 efecto_directo.descripcion
                                             ) : (
-                                                <span className="text-red-500 bg-red-100 p-1 rounded">Por favor diligencie este efecto directo.</span>
+                                                <span className="text-red-500 bg-red-100 p-1 rounded">Debe diligenciar este efecto directo.</span>
                                             )}
                                         </p>
 
@@ -1333,7 +1329,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                     {efecto_indirecto.descripcion ? (
                                                         efecto_indirecto.descripcion
                                                     ) : (
-                                                        <span className="text-red-500 bg-red-100 p-1 rounded">Por favor diligencie este efecto indirecto.</span>
+                                                        <span className="text-red-500 bg-red-100 p-1 rounded">Debe diligenciar este efecto indirecto.</span>
                                                     )}
                                                 </p>
 
@@ -1469,7 +1465,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                             {efecto_directo.resultado?.descripcion ? (
                                                 efecto_directo.resultado?.descripcion
                                             ) : (
-                                                <span className="text-red-500 bg-red-100 p-1 rounded">Por favor diligencie este resultado.</span>
+                                                <span className="text-red-500 bg-red-100 p-1 rounded">Debe diligenciar este resultado.</span>
                                             )}
                                         </p>
                                         <div className="absolute flex top-[40%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
@@ -1596,7 +1592,7 @@ const ArbolObjetivosComponent = ({ auth, convocatoria, proyecto, efectos_directo
                                                     {efecto_indirecto.impacto?.descripcion ? (
                                                         efecto_indirecto.impacto?.descripcion
                                                     ) : (
-                                                        <span className="text-red-500 bg-red-100 p-1 rounded">Por favor diligencie este impacto.</span>
+                                                        <span className="text-red-500 bg-red-100 p-1 rounded">Debe diligenciar este impacto.</span>
                                                     )}
                                                 </p>
                                                 <div className="absolute flex top-[40%] right-2 z-10 opacity-0 ease-in duration-100 hover:opacity-100 child-actions">
