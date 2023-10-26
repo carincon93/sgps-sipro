@@ -565,36 +565,6 @@ trait ProyectoValidationTrait
 
     /**
      *
-     * Valida que cada estudio de mercado tengan al menos dos soportes
-     *
-     * @param  mixed $proyecto
-     * @return bool
-     */
-    public static function soportesEstudioMercado(Proyecto $proyecto)
-    {
-        $rubros_requieren_estudio_mercado = true;
-
-        $count_soportes = 0;
-        foreach ($proyecto->proyectoPresupuesto as $presupuesto) {
-            $data = $presupuesto->convocatoriaProyectoRubrosPresupuestales()->select('convocatoria_presupuesto.id', 'convocatoria_presupuesto.requiere_estudio_mercado')->get()->pluck(['requiere_estudio_mercado']);
-
-            foreach ($data as $item) {
-                if (!$item) {
-                    $rubros_requieren_estudio_mercado = false;
-                    break;
-                }
-            }
-
-            if ($rubros_requieren_estudio_mercado && $presupuesto->soportesEstudioMercado()->count() < 2) {
-                $count_soportes++;
-            }
-        }
-
-        return $count_soportes > 0 ? false : true;
-    }
-
-    /**
-     *
      * Valida que el formato de estudio de mercado este cargado
      *
      * @param  mixed $proyecto
@@ -602,24 +572,45 @@ trait ProyectoValidationTrait
      */
     public static function estudiosMercadoArchivo(Proyecto $proyecto)
     {
-        $rubros_requieren_estudio_mercado = true;
-        $count_soportes = 0;
         foreach ($proyecto->proyectoPresupuesto as $presupuesto) {
-            $data = $presupuesto->convocatoriaProyectoRubrosPresupuestales()->select('convocatoria_presupuesto.id', 'convocatoria_presupuesto.requiere_estudio_mercado')->get();
+            $requiere_estudio_mercado_array = $presupuesto->convocatoriaProyectoRubrosPresupuestales()->select('convocatoria_presupuesto.id', 'convocatoria_presupuesto.requiere_estudio_mercado')->get()->pluck(['requiere_estudio_mercado']);;
 
-            foreach ($data as $item) {
-                if (!$item) {
-                    $rubros_requieren_estudio_mercado = false;
+            foreach ($requiere_estudio_mercado_array as $item) {
+                if ($item) {
+                    if ($presupuesto->formato_estudio_mercado == null) {
+                        return false;
+                    }
                     break;
                 }
             }
+        }
 
-            if (!$rubros_requieren_estudio_mercado && $presupuesto->formato_estudio_mercado == null) {
-                $count_soportes++;
+        return true;
+    }
+
+    /**
+     *
+     * Valida que cada estudio de mercado tengan al menos dos soportes
+     *
+     * @param  mixed $proyecto
+     * @return bool
+     */
+    public static function soportesEstudioMercado(Proyecto $proyecto)
+    {
+        foreach ($proyecto->proyectoPresupuesto as $presupuesto) {
+            $requiere_estudio_mercado_array = $presupuesto->convocatoriaProyectoRubrosPresupuestales()->select('convocatoria_presupuesto.id', 'convocatoria_presupuesto.requiere_estudio_mercado')->get()->pluck(['requiere_estudio_mercado']);
+
+            foreach ($requiere_estudio_mercado_array as $item) {
+                if ($item) {
+                    if ($presupuesto->soportesEstudioMercado()->count() < 2) {
+                        return false;
+                    }
+                    break;
+                }
             }
         }
 
-        return $count_soportes > 0 ? false : true;
+        return true;
     }
 
     /**

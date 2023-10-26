@@ -129,14 +129,23 @@ const Form = ({ method = '', setDialogStatus, convocatoria, proyecto, entidad_al
                                 </Grid>
 
                                 <Grid item md={12}>
-                                    <TextInput label="NIT" id="nit" type="text" value={form.data.nit} onChange={(e) => form.setData('nit', e.target.value)} error={form.errors.nit} required />
+                                    <TextInput
+                                        label="NIT"
+                                        id="nit"
+                                        type="text"
+                                        value={form.data.nit}
+                                        onChange={(e) => form.setData('nit', e.target.value)}
+                                        disabled={!proyecto?.allowed?.to_update}
+                                        error={form.errors.nit}
+                                        required
+                                    />
                                 </Grid>
 
                                 {proyecto.tipo_formulario_convocatoria_id == 8 || proyecto.tipo_formulario_convocatoria_id == 6 ? (
                                     <>
                                         <Grid item md={12}>
                                             <p>¿Hay convenio?</p>
-                                            <SwitchMui checked={form.data.tiene_convenio} onChange={(e) => form.setData('tiene_convenio', e.target.checked)} />
+                                            <SwitchMui checked={form.data.tiene_convenio} onChange={(e) => form.setData('tiene_convenio', e.target.checked)} disabled={!proyecto?.allowed?.to_update} />
                                         </Grid>
                                         {form.data.tiene_convenio == 1 && (
                                             <Grid item md={12}>
