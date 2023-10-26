@@ -1682,7 +1682,7 @@ class Proyecto extends Model
 
         foreach ($this->proyectoPresupuesto()->get() as $presupuesto) {
             if ($presupuesto->formato_estudio_mercado) {
-                $collect->push(['id' => $presupuesto->id, 'tipo_archivo' => 'formato_estudio_mercado', 'modulo' => 'Estudio de mercado', 'path' => $presupuesto->formato_estudio_mercado, 'filename' => pathinfo($presupuesto->formato_estudio_mercado)['filename'], 'extension' => pathinfo($presupuesto->formato_estudio_mercado)['extension']]);
+                $collect->push(['id' => $presupuesto->id, 'tipo_archivo' => 'formato_estudio_mercado', 'modulo' => 'Estudio de mercado #' . $presupuesto->id, 'path' => $presupuesto->formato_estudio_mercado, 'filename' => pathinfo($presupuesto->formato_estudio_mercado)['filename'], 'extension' => pathinfo($presupuesto->formato_estudio_mercado)['extension']]);
             }
 
             foreach ($presupuesto->soportesEstudioMercado()->get() as $estudio_mercado) {
@@ -1711,6 +1711,20 @@ class Proyecto extends Model
         foreach ($this->proyectoAnexo()->with('convocatoriaAnexo')->get() as $proyecto_anexo) {
             if ($proyecto_anexo) {
                 $collect->push(['id' => $proyecto_anexo->id, 'tipo_archivo' => 'archivo', 'modulo' => 'Anexo', 'nombre' => $proyecto_anexo->convocatoriaAnexo->anexo->nombre, 'path' => $proyecto_anexo->archivo, 'filename' => pathinfo($proyecto_anexo->archivo)['filename'], 'extension' => pathinfo($proyecto_anexo->archivo)['extension']]);
+            }
+        }
+
+        if ($this->proyectoFormulario4Linea70()->exists()) {
+            foreach ($this->proyectoFormulario4Linea70->aulasMoviles as $aula_movil) {
+                if ($aula_movil) {
+                    if ($aula_movil->soat) {
+                        $collect->push(['id' => $aula_movil->id, 'tipo_archivo' => 'SOAT', 'modulo' => 'Aula móvil', 'nombre' => 'Placa: ' . $aula_movil->placa, 'path' => $aula_movil->soat, 'filename' => pathinfo($aula_movil->soat)['filename'], 'extension' => pathinfo($aula_movil->soat)['extension']]);
+                    }
+
+                    if ($aula_movil->tecnicomecanica) {
+                        $collect->push(['id' => $aula_movil->id, 'tipo_archivo' => 'Técnico mecánica', 'modulo' => 'Aula móvil', 'nombre' => 'Placa: ' . $aula_movil->placa, 'path' => $aula_movil->tecnicomecanica, 'filename' => pathinfo($aula_movil->tecnicomecanica)['filename'], 'extension' => pathinfo($aula_movil->tecnicomecanica)['extension']]);
+                    }
+                }
             }
         }
 
